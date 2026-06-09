@@ -1709,3 +1709,64 @@ def test_build_remix_continuation_context_block_renders_story_quality_eval_audit
     assert "style_axis_diversity_fingerprint: inspect voice, rhythm, POV" in block
     assert "event_outline_history_compression: align compressed history" in block
     assert "agentic_story_world_simulation: keep simulated character choices" in block
+
+def test_build_remix_continuation_context_block_renders_reader_market_feedback_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Reader Market Desk",
+        bible={
+            "character_cards": [{"name": "Mira", "goal": "keep the city from panic"}],
+            "timeline": [{"event": "Mira exposed the false prophet", "chapter_number": 12}],
+        },
+        plan={"summary": "Increase turn-page pressure without breaking canon."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "reader_rating_signal_model"},
+                {"name": "review_spoiler_sentiment_corpus"},
+                {"name": "beta_reader_archetype_panel"},
+                {"name": "comp_title_market_positioning"},
+                {"name": "local_reader_experience_editor"},
+            ]
+        },
+    )
+
+    assert "Reader market feedback audit" in block
+    assert "reader_rating_signal_model: use ratings, shelves, tags" in block
+    assert "review_spoiler_sentiment_corpus: cluster praise, complaints" in block
+    assert "beta_reader_archetype_panel: collect genre-fan" in block
+    assert "comp_title_market_positioning: calibrate promise" in block
+    assert "local_reader_experience_editor: audit micro-tension" in block
+
+
+def test_build_remix_inspired_context_block_renders_reader_market_feedback_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Inspired Reader Fit",
+        style_content=(
+            "\u4f60\u6b63\u5728\u57fa\u4e8e\u300a\u6e90\u4e66\u300b\u505a\u540c\u7c7b\u578b\u521b\u4f5c\uff0c\u800c\u4e0d\u662f\u5fe0\u5b9e\u7eed\u5199\u3002\n"
+            "\u3010\u540c\u7c7b\u578b\u521b\u4f5c\u603b\u539f\u5219\u3011\n"
+            "- \u53ea\u5b66\u4e60\u8bfb\u8005\u671f\u5f85\u3001\u8282\u594f\u548c\u60c5\u7eea\u6ee1\u8db3\uff0c\u4e0d\u590d\u5236\u6e90\u4e66\u4e8b\u5b9e\u3002\n"
+            "\u3010\u6e90\u4e66\u8bed\u6c14\u6837\u672c\u3011\n"
+            "[\u6837\u672c1] The door stayed open. Nobody called it mercy.\n"
+            "\u3010\u6e90\u4e66\u663e\u6027\u5143\u7d20\u7981\u7528\u6e05\u5355\u3011\n"
+            "- \u6e90\u4e66\u4e3b\u89d2\u3001\u7ec4\u7ec7\u3001\u5730\u70b9\u548c\u4e8b\u4ef6\u987a\u5e8f\u90fd\u4e0d\u5f97\u6cbf\u7528\u3002\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "reader_rating_signal_model"},
+                {"name": "review_spoiler_sentiment_corpus"},
+                {"name": "beta_reader_archetype_panel"},
+                {"name": "comp_title_market_positioning"},
+                {"name": "local_reader_experience_editor"},
+            ],
+            "inspired_mapping_targets": ["reader_signal_remap", "comp_title_positioning_remap"],
+            "inspired_prompt_hints": ["Reader signals calibrate market feel only."],
+            "inspired_transformation_hints": ["Convert comp similarities into transformed differences."],
+            "inspired_copy_risk_hints": ["Reject copied review wording and comp hook sequence."],
+        },
+    )
+
+    assert "Reader market feedback audit" in block
+    assert "reader_rating_signal_model" in block
+    assert "beta_reader_archetype_panel" in block
+    assert "comp_title_market_positioning" in block
+    assert "Inspired transformation audit" in block
+    assert "reader_signal_remap, comp_title_positioning_remap" in block

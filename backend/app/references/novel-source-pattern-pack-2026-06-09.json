@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-09T23:20:00+08:00",
-  "source_candidate_count": 75,
+  "generated_at": "2026-06-09T23:40:00+08:00",
+  "source_candidate_count": 80,
   "source_titles": [
     "loreum-app/loreum",
     "olivierkes/manuskript",
@@ -76,7 +76,12 @@
     "aikohanasaki/SillyTavern-MemoryBooks",
     "kaigani/codeywood",
     "lechmazur/writing",
-    "Theltn/AICreativityJudge"
+    "Theltn/AICreativityJudge",
+    "zygmuntz/goodbooks-10k",
+    "MengtingWan/goodreads",
+    "maria-antoniak/goodreads-scraper",
+    "Ckokoski/authorclaw",
+    "f5alcon/The-Novelists-Atelier"
   ],
   "workflow_patterns": [
     {
@@ -2004,6 +2009,54 @@
       ]
     },
     {
+      "name": "beta_reader_archetype_panel",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/Ckokoski/authorclaw",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "docker"
+      ],
+      "trust_flags": [
+        "license_declared"
+      ],
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/Ckokoski/authorclaw",
+          "title": "Ckokoski/authorclaw",
+          "summary": "AuthorClaw author agent with AI beta readers, reader intelligence, market research, comp titles, deep revision, and book-launch copy.",
+          "stars": 70,
+          "license": "MIT",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 83,
+          "posture_hint": "defer-trust-review",
+          "trust_flags": [
+            "license_declared"
+          ]
+        },
+        {
+          "source": "github",
+          "url": "https://github.com/f5alcon/The-Novelists-Atelier",
+          "title": "f5alcon/The-Novelists-Atelier",
+          "summary": "Local-browser novel assistant with reader curiosity tracker, chapter hook, cliffhanger audit, micro-tension prompts, style DNA, context scopes, local analysis, and token breakdown.",
+          "stars": 11,
+          "license": "Apache-2.0",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 74,
+          "posture_hint": "metadata-triage",
+          "trust_flags": [
+            "license_declared"
+          ]
+        }
+      ]
+    },
+    {
       "name": "reader_retention_review_gate",
       "candidate_count": 2,
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
@@ -2863,6 +2916,34 @@
       ]
     },
     {
+      "name": "local_reader_experience_editor",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/f5alcon/The-Novelists-Atelier",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "license_declared"
+      ],
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/f5alcon/The-Novelists-Atelier",
+          "title": "f5alcon/The-Novelists-Atelier",
+          "summary": "Local-browser novel assistant with reader curiosity tracker, chapter hook, cliffhanger audit, micro-tension prompts, style DNA, context scopes, local analysis, and token breakdown.",
+          "stars": 11,
+          "license": "Apache-2.0",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 74,
+          "posture_hint": "metadata-triage",
+          "trust_flags": [
+            "license_declared"
+          ]
+        }
+      ]
+    },
+    {
       "name": "anti_repetition_prompt_rules",
       "candidate_count": 1,
       "top_source_url": "https://github.com/jncchds/abook",
@@ -3036,6 +3117,68 @@
       ]
     },
     {
+      "name": "reader_rating_signal_model",
+      "candidate_count": 3,
+      "top_source_url": "https://github.com/zygmuntz/goodbooks-10k",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "trust_flags": [
+        "license_declared"
+      ],
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/zygmuntz/goodbooks-10k",
+          "title": "zygmuntz/goodbooks-10k",
+          "summary": "Goodbooks-10k book dataset with ten thousand popular fiction books, six million ratings, to-read signals, metadata, and user tags/shelves/genres.",
+          "stars": 894,
+          "license": "NOASSERTION",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 77,
+          "posture_hint": "metadata-triage",
+          "trust_flags": []
+        },
+        {
+          "source": "github",
+          "url": "https://github.com/MengtingWan/goodreads",
+          "title": "MengtingWan/goodreads",
+          "summary": "Goodreads dataset code samples for fiction book reviews, recommendation behavior chains, review statistics, and fine-grained spoiler detection.",
+          "stars": 309,
+          "license": "Apache-2.0",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 75,
+          "posture_hint": "metadata-triage",
+          "trust_flags": [
+            "license_declared"
+          ]
+        },
+        {
+          "source": "github",
+          "url": "https://github.com/maria-antoniak/goodreads-scraper",
+          "title": "maria-antoniak/goodreads-scraper",
+          "summary": "Goodreads classics scraper and computational reader-review study; README documents metadata/review fields and warns scraper is unmaintained after site changes.",
+          "stars": 306,
+          "license": "GPL-3.0",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 66,
+          "posture_hint": "defer-trust-review",
+          "trust_flags": [
+            "license_declared"
+          ]
+        }
+      ]
+    },
+    {
       "name": "pairwise_story_comparison_ranking",
       "candidate_count": 1,
       "top_source_url": "https://github.com/lechmazur/writing",
@@ -3147,6 +3290,73 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 84
+        }
+      ]
+    },
+    {
+      "name": "review_spoiler_sentiment_corpus",
+      "candidate_count": 3,
+      "top_source_url": "https://github.com/Ckokoski/authorclaw",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "shell_script",
+        "docker"
+      ],
+      "trust_flags": [
+        "license_declared"
+      ],
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/Ckokoski/authorclaw",
+          "title": "Ckokoski/authorclaw",
+          "summary": "AuthorClaw author agent with AI beta readers, reader intelligence, market research, comp titles, deep revision, and book-launch copy.",
+          "stars": 70,
+          "license": "MIT",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 83,
+          "posture_hint": "defer-trust-review",
+          "trust_flags": [
+            "license_declared"
+          ]
+        },
+        {
+          "source": "github",
+          "url": "https://github.com/MengtingWan/goodreads",
+          "title": "MengtingWan/goodreads",
+          "summary": "Goodreads dataset code samples for fiction book reviews, recommendation behavior chains, review statistics, and fine-grained spoiler detection.",
+          "stars": 309,
+          "license": "Apache-2.0",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 75,
+          "posture_hint": "metadata-triage",
+          "trust_flags": [
+            "license_declared"
+          ]
+        },
+        {
+          "source": "github",
+          "url": "https://github.com/maria-antoniak/goodreads-scraper",
+          "title": "maria-antoniak/goodreads-scraper",
+          "summary": "Goodreads classics scraper and computational reader-review study; README documents metadata/review fields and warns scraper is unmaintained after site changes.",
+          "stars": 306,
+          "license": "GPL-3.0",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 66,
+          "posture_hint": "defer-trust-review",
+          "trust_flags": [
+            "license_declared"
+          ]
         }
       ]
     },
@@ -3839,6 +4049,38 @@
           ],
           "trust_flags": [],
           "score": 86
+        }
+      ]
+    },
+    {
+      "name": "comp_title_market_positioning",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/Ckokoski/authorclaw",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "docker"
+      ],
+      "trust_flags": [
+        "license_declared"
+      ],
+      "sources": [
+        {
+          "source": "github",
+          "url": "https://github.com/Ckokoski/authorclaw",
+          "title": "Ckokoski/authorclaw",
+          "summary": "AuthorClaw author agent with AI beta readers, reader intelligence, market research, comp titles, deep revision, and book-launch copy.",
+          "stars": 70,
+          "license": "MIT",
+          "family": "novel-automation",
+          "posture": "pattern-only",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 83,
+          "posture_hint": "defer-trust-review",
+          "trust_flags": [
+            "license_declared"
+          ]
         }
       ]
     },
@@ -7345,7 +7587,29 @@
     "story_world_evolution_log",
     "emotional_arc",
     "emotion_curve",
-    "source_state_snapshot"
+    "source_state_snapshot",
+    "reader_rating_matrix",
+    "to_read_intent_signals",
+    "shelf_tag_expectation_map",
+    "aggregate_preference_notes",
+    "review_signal_clusters",
+    "spoiler_risk_flags",
+    "sentiment_timeline",
+    "common_praise_complaint_map",
+    "beta_reader_archetypes",
+    "chapter_want_to_continue_scores",
+    "confusion_flags",
+    "favorite_moments",
+    "stumble_points",
+    "comp_title_matrix",
+    "reader_expectation_profile",
+    "genre_gap_statement",
+    "positioning_copy_constraints",
+    "micro_tension_findings",
+    "reader_curiosity_threads",
+    "chapter_hook_cliffhanger_audit",
+    "style_dna_context_fit",
+    "token_breakdown_notes"
   ],
   "bible_enrichment_targets": [
     "world_rules",
@@ -7454,7 +7718,17 @@
     "conflicts",
     "story_arcs",
     "foreshadows",
-    "chapter_change_packages"
+    "chapter_change_packages",
+    "reader_rating_signal_map",
+    "shelf_tag_expectation_profile",
+    "spoiler_sensitive_review_signals",
+    "review_sentiment_clusters",
+    "beta_reader_archetypes",
+    "want_to_continue_thresholds",
+    "comp_title_positioning",
+    "market_gap_statement",
+    "reader_experience_prompts",
+    "micro_tension_hook_rules"
   ],
   "continuation_prompt_hints": [
     "续写前先读取圣经草稿中的世界观、时间线、人物卡、组织关系、冲突与伏笔。",
@@ -7526,7 +7800,12 @@
     "改写已有长篇时先检索相关正文片段和剧情纲要，只改命中的片段，并同步写出纲要增量。",
     "生成前保存意图、选入上下文、规则栈和追踪信息，便于复盘为什么本章这样写。",
     "LLM 产出的状态增量必须过 schema 校验；坏数据拒绝写入，避免连续性错误滚雪球。",
-    "复杂写作任务按递归规划拆成检索、推理、构思和成文子任务，并允许根据上下文动态重规划。"
+    "复杂写作任务按递归规划拆成检索、推理、构思和成文子任务，并允许根据上下文动态重规划。",
+    "Use rating/shelf/to-read signals only as aggregate reader-expectation hints; they must not override accepted canon or author direction.",
+    "When using review-like feedback, separate spoiler-sensitive complaints, praise clusters, and sentiment drift from canon facts.",
+    "Run a beta-reader panel on important chapters: genre fan, casual reader, critical reader, and sensitivity reader each produce confusion and turn-page notes.",
+    "Use comp titles to calibrate promise, tone, trope expectation, and market gap; do not copy their premise, cast, title language, or review wording.",
+    "Before acceptance, audit micro-tension, reader curiosity, chapter hook, cliffhanger, paragraph rhythm, and scene opening/ending strength."
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -7596,7 +7875,12 @@
     "Store each required constraint, satisfaction evidence, and coherence tradeoff so highly specific prompts remain auditable.",
     "Persist style-axis fingerprints per chapter to detect voice narrowing, rhythm drift, or unplanned POV changes across batches.",
     "Keep compressed history tied to the current event and chapter plan so omitted history can be inspected when continuity breaks.",
-    "Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically."
+    "Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically.",
+    "Persist aggregate reader signals as external calibration metadata: rating bucket, shelf/tag expectation, to-read intent, and source/date.",
+    "Store review clusters by opaque ids and aggregate labels; never keep reviewer identity or verbatim review text in drafting context.",
+    "Attach beta-reader reports to chapter state with archetype, tension, pacing, want-to-continue, confusion, favorite moment, and stumble point.",
+    "Keep comp-title matrices as market-position artifacts, not canon; expire them when genre target, audience, or premise changes.",
+    "Persist reader-experience findings as review tasks tied to chapter ids so hook, curiosity, and rhythm fixes can be verified after rewrite."
   ],
   "style_signature_hints": [
     "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
@@ -8070,7 +8354,9 @@
   ],
   "reader_retention_review_gate_hints": [
     "Review each chapter for consistency, continuity, OOC, pleasure-point delivery, rhythm, and reader-retention hook before acceptance.",
-    "Retention findings should become concrete revision tasks; do not accept a fluent chapter that has no pressure, payoff, or next-chapter pull."
+    "Retention findings should become concrete revision tasks; do not accept a fluent chapter that has no pressure, payoff, or next-chapter pull.",
+    "Fold beta-reader confusion and want-to-continue findings into retention revision tasks before acceptance.",
+    "Treat micro-tension, curiosity, hook, and cliffhanger findings as reader-retention evidence, not optional polish."
   ],
   "draft_stage_revision_ladder_hints": [
     "Use a staged ladder: chapter blueprint -> key-information file -> task card -> Draft A -> Draft B -> Draft C -> continuity handoff.",
@@ -8185,7 +8471,14 @@
     "constraint_specificity_remap",
     "style_axis_remap",
     "event_outline_remap",
-    "agent_world_simulation_remap"
+    "agent_world_simulation_remap",
+    "reader_signal_remap",
+    "shelf_tag_expectation_remap",
+    "review_cluster_remap",
+    "spoiler_boundary_remap",
+    "beta_reader_panel_remap",
+    "comp_title_positioning_remap",
+    "reader_experience_hook_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -8239,7 +8532,12 @@
     "Use specific constraints for the new story's premise, not for recreating source event details.",
     "Transform style axes into new voice, rhythm, POV, pacing, imagery, and closure targets without copying phrases.",
     "Build a fresh event outline and compressed history for the transformed premise before drafting.",
-    "Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence."
+    "Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence.",
+    "Reader rating and shelf signals can calibrate market feel, but the new story needs independent promise, stakes, cast, and causality.",
+    "Use review clusters as abstract reader desire and complaint signals; do not reuse review wording or spoiler examples as story facts.",
+    "Run the transformed draft through beta-reader archetypes for hook, confusion, and turn-page pull after copy-risk checks.",
+    "Comp titles guide positioning and audience promise only; rebuild premise, scene order, and hook language from scratch.",
+    "Optimize micro-tension and curiosity in the transformed story without copying a source chapter's cliffhanger shape or ending cadence."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -8285,7 +8583,12 @@
     "Raise constraint specificity with new names, settings, objects, costs, and ending targets rather than source details.",
     "Use style-axis fingerprints to shape surface craft while changing concrete motifs, metaphors, and dialogue tics.",
     "Compress only the transformed event history; source event outlines remain comparison material, not context.",
-    "Transform the agent world by changing roles, social graph, environment rules, and conflict incentives before simulation."
+    "Transform the agent world by changing roles, social graph, environment rules, and conflict incentives before simulation.",
+    "Convert shelf/tag signals into a new expectation profile before building characters, setting, and conflict.",
+    "Rewrite review-derived complaints into abstract revision goals; keep spoilers and quoted review text out of draft context.",
+    "Transform beta-reader objections into chapter-specific fixes rather than importing the reader persona's preferred plot solution.",
+    "Map each comp-title similarity to a transformed difference: new protagonist pressure, new obstacle, new setting, and new payoff cost.",
+    "Rebuild hooks and cliffhangers from the new chapter's active conflict, not from source set-piece timing."
   ],
   "inspired_copy_risk_hints": [
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
@@ -8333,7 +8636,12 @@
     "Reject constraint sets that encode source-specific clues, objects, locations, or payoff windows.",
     "Reject style fingerprints that preserve source catchphrases, metaphor clusters, or recognizable closure cadence.",
     "Reject compressed histories that import source events as if they happened in the transformed story.",
-    "Reject simulated outcomes that reproduce source character decisions or social graph under renamed labels."
+    "Reject simulated outcomes that reproduce source character decisions or social graph under renamed labels.",
+    "Reject plans that treat high-rated books, shelves, or tags as permission to copy their premise, cast, or event chain.",
+    "Reject prompts or copy that paste verbatim reader reviews, reviewer identities, spoiler examples, or quoted complaint language.",
+    "Reject beta-reader fixes that force the new story back toward a comp/source plot route instead of solving the local issue.",
+    "Reject comp-title positioning that reuses title phrasing, blurb beats, named tropes as labels, or recognizable hook sequence.",
+    "Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence."
   ],
   "self_review_policy_hints": [
     "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
@@ -8357,5 +8665,30 @@
     "本次只使用 public metadata、README 静态摘录、LICENSE/root-file 静态信息和 git ls-remote HEAD 证据；没有安装、克隆、运行或调用外部项目。",
     "故事质量评估与多智能体推演来源默认沉淀为 pattern-only；不导入外部代码、数据集、模型权重、脚本或评测输出长表。",
     "包含 shell、provider config、模型评测或仿真 runtime 的项目继续停留在静态参考层。"
+  ],
+  "reader_rating_signal_model_hints": [
+    "Treat ratings, to-read markers, shelves, and tags as aggregate reader-expectation signals, not as creative truth or canon.",
+    "Use shelf/tag clusters to infer promise, subgenre, mood, and audience expectation before same-type planning or chapter acceptance.",
+    "Keep popularity calibration separate from prose quality so a niche-but-canon chapter is not rejected only for low market similarity."
+  ],
+  "review_spoiler_sentiment_corpus_hints": [
+    "Cluster review-like feedback into praise, complaint, trope request, comp suggestion, and spoiler-sensitive issue before turning it into revisions.",
+    "Never paste verbatim review text into prompts or marketing copy; cite opaque ids and aggregate labels only.",
+    "Separate spoiler risk from ordinary sentiment so late-book revelations are not spoiled inside early-chapter planning context."
+  ],
+  "beta_reader_archetype_panel_hints": [
+    "Simulate distinct beta-reader archetypes: genre fan, casual reader, critical reader, and sensitivity reader; each reports hook, confusion, pull, and stop point.",
+    "Record tension, pacing, want-to-continue percentage, favorite moment, stumble point, and emotions per chapter before accepting high-impact drafts.",
+    "Use simulated beta readers as early warning only; final publication-facing claims still need real human judgment or author approval."
+  ],
+  "comp_title_market_positioning_hints": [
+    "Build a comp-title matrix by genre, subgenre, tone, protagonist promise, market proof, freshness, and reader expectation gap.",
+    "For same-type creation, transform comp signals into a new premise, cast, setting, conflict, and hook promise instead of copying comp plot routes.",
+    "Marketing outputs such as blurbs, descriptions, keywords, and social copy are derived artifacts; they must not mutate story canon."
+  ],
+  "local_reader_experience_editor_hints": [
+    "Run reader-experience edits at chapter and scene level: micro-tension, curiosity thread, hook, cliffhanger, opening, ending, paragraph rhythm, and clarity.",
+    "Use series/book/chapter context scopes so broad context does not drown the current reader-experience question.",
+    "Expose token/context breakdown and local analysis notes before expensive full-manuscript review passes."
   ]
 }

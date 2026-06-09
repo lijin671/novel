@@ -3328,3 +3328,163 @@ def test_default_discovery_sources_include_story_quality_eval_projects():
     assert any("story theory" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("constraint specificity" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("style fingerprints" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+def test_reader_market_feedback_projects_are_classified_as_feedback_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "zygmuntz/goodbooks-10k",
+                "html_url": "https://github.com/zygmuntz/goodbooks-10k",
+                "description": "Ten thousand fiction books, six million ratings, to-read signals, tags/shelves/genres and book recommendation data from Goodreads for novel reader preference modeling.",
+                "stargazers_count": 894,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["books", "fiction", "novel", "goodreads", "ratings", "recommendations", "recommender-systems"],
+                "updated_at": "2023-05-17T18:52:16Z",
+                "root_files": ["README.md", "ratings.csv", "to_read.csv", "books.csv", "tags.csv"],
+            },
+            {
+                "full_name": "MengtingWan/goodreads",
+                "html_url": "https://github.com/MengtingWan/goodreads",
+                "description": "Goodreads datasets code samples for fiction book reviews, review statistics, fine-grained spoiler detection, recommendation behavior chains and interaction data.",
+                "stargazers_count": 309,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["book-reviews", "fiction", "novel", "dataset", "recommendation-system", "spoilers"],
+                "updated_at": "2025-02-04T06:20:31Z",
+                "root_files": ["README.md", "reviews.ipynb", "statistics.ipynb"],
+            },
+            {
+                "full_name": "Ckokoski/authorclaw",
+                "html_url": "https://github.com/Ckokoski/authorclaw",
+                "description": "Autonomous AI writing agent with deep revision, AI beta readers, reader intelligence, comp titles, market positioning, genre trends and reader expectation analysis.",
+                "stargazers_count": 70,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["author", "writing", "agent"],
+                "updated_at": "2026-05-01T16:51:18Z",
+                "root_files": ["README.md", "package.json", "Dockerfile", "skills/author/beta-reader/SKILL.md"],
+            },
+            {
+                "full_name": "f5alcon/The-Novelists-Atelier",
+                "html_url": "https://github.com/f5alcon/The-Novelists-Atelier",
+                "description": "Local browser novel writing assistant with micro-tension, reader curiosity tracker, chapter hook, cliffhanger audit, style DNA, token breakdown and local context scopes.",
+                "stargazers_count": 11,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "writing"],
+                "updated_at": "2026-05-28T17:34:14Z",
+                "root_files": ["README.md", "index.html", "security.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T02:30:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "reader_rating_signal_model" in by_title["zygmuntz/goodbooks-10k"]["absorbed_patterns"]
+    assert "review_spoiler_sentiment_corpus" in by_title["MengtingWan/goodreads"]["absorbed_patterns"]
+    assert "beta_reader_archetype_panel" in by_title["Ckokoski/authorclaw"]["absorbed_patterns"]
+    assert "comp_title_market_positioning" in by_title["Ckokoski/authorclaw"]["absorbed_patterns"]
+    assert "local_reader_experience_editor" in by_title["f5alcon/The-Novelists-Atelier"]["absorbed_patterns"]
+    assert "docker" in by_title["Ckokoski/authorclaw"]["risk_flags"]
+
+
+def test_reader_market_feedback_pattern_pack_exposes_reader_and_market_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T02:45:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/zygmuntz/goodbooks-10k",
+                "title": "zygmuntz/goodbooks-10k",
+                "summary": "Goodreads ratings, to-read, shelves and tags for reader preference modeling.",
+                "stars": 894,
+                "license": "NOASSERTION",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["reader_rating_signal_model", "same_type_creation", "style_signature"],
+                "score": 77,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/MengtingWan/goodreads",
+                "title": "MengtingWan/goodreads",
+                "summary": "Goodreads book reviews, spoiler detection and review statistics.",
+                "stars": 309,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["review_spoiler_sentiment_corpus"],
+                "score": 70,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Ckokoski/authorclaw",
+                "title": "Ckokoski/authorclaw",
+                "summary": "AI beta readers, comp titles, market positioning and reader intelligence.",
+                "stars": 70,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker"],
+                "absorbed_patterns": ["beta_reader_archetype_panel", "comp_title_market_positioning"],
+                "score": 83,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/f5alcon/The-Novelists-Atelier",
+                "title": "f5alcon/The-Novelists-Atelier",
+                "summary": "Reader curiosity tracker, chapter hook, cliffhanger audit and micro-tension prompts.",
+                "stars": 11,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["local_reader_experience_editor"],
+                "score": 74,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "reader_rating_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "review_signal_clusters" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_want_to_continue_scores" in pattern_pack["whole_book_analysis_targets"]
+    assert "comp_title_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "micro_tension_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "reader_rating_signal_map" in pattern_pack["bible_enrichment_targets"]
+    assert "beta_reader_archetypes" in pattern_pack["bible_enrichment_targets"]
+    assert "reader_rating_signal_model_hints" in pattern_pack
+    assert "review_spoiler_sentiment_corpus_hints" in pattern_pack
+    assert "beta_reader_archetype_panel_hints" in pattern_pack
+    assert "comp_title_market_positioning_hints" in pattern_pack
+    assert "local_reader_experience_editor_hints" in pattern_pack
+    assert "reader_signal_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "review_cluster_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "beta_reader_panel_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "comp_title_positioning_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reader_experience_hook_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "reader_rating_signal_model_hints" in digest
+    assert "review_spoiler_sentiment_corpus_hints" in digest
+    assert "beta_reader_archetype_panel_hints" in digest
+    assert "comp_title_market_positioning_hints" in digest
+    assert "local_reader_experience_editor_hints" in digest
+
+
+def test_default_discovery_sources_include_reader_market_feedback_projects():
+    assert "https://github.com/zygmuntz/goodbooks-10k" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/MengtingWan/goodreads" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/maria-antoniak/goodreads-scraper" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Ckokoski/authorclaw" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/f5alcon/The-Novelists-Atelier" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("goodreads" in query.lower() and "ratings" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("spoiler detection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("beta reader" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("comp title" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("micro-tension" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

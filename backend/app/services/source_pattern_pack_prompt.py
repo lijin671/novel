@@ -289,6 +289,11 @@ def render_source_pattern_pack_digest(
         "style_axis_diversity_fingerprint_hints",
         "event_outline_history_compression_hints",
         "agentic_story_world_simulation_hints",
+        "reader_rating_signal_model_hints",
+        "review_spoiler_sentiment_corpus_hints",
+        "beta_reader_archetype_panel_hints",
+        "comp_title_market_positioning_hints",
+        "local_reader_experience_editor_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

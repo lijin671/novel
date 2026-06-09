@@ -106,6 +106,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_reader_market_feedback_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -352,6 +356,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_story_quality_evaluation_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_reader_market_feedback_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1399,6 +1407,37 @@ def _append_story_quality_evaluation_audit_section(
         lines.append("- agentic_story_world_simulation: keep simulated character choices and social interactions as proposals until canon acceptance")
 
 
+def _append_reader_market_feedback_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render reader-signal, beta-reader, market-position, and engagement gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "reader_rating_signal_model",
+        "review_spoiler_sentiment_corpus",
+        "beta_reader_archetype_panel",
+        "comp_title_market_positioning",
+        "local_reader_experience_editor",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Reader market feedback audit:")
+    if "reader_rating_signal_model" in pattern_names:
+        lines.append("- reader_rating_signal_model: use ratings, shelves, tags, and to-read signals as aggregate expectation metadata only")
+    if "review_spoiler_sentiment_corpus" in pattern_names:
+        lines.append("- review_spoiler_sentiment_corpus: cluster praise, complaints, trope requests, and spoiler-sensitive issues without verbatim review text")
+    if "beta_reader_archetype_panel" in pattern_names:
+        lines.append("- beta_reader_archetype_panel: collect genre-fan, casual-reader, critical-reader, and sensitivity-reader hook/confusion/turn-page notes")
+    if "comp_title_market_positioning" in pattern_names:
+        lines.append("- comp_title_market_positioning: calibrate promise, tone, audience, and market gap without copying comp premise or blurb beats")
+    if "local_reader_experience_editor" in pattern_names:
+        lines.append("- local_reader_experience_editor: audit micro-tension, curiosity thread, hook, cliffhanger, opening/ending, rhythm, and context fit")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1540,6 +1579,11 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "style_axis_diversity_fingerprint_hints": "style_axis_diversity_fingerprint",
         "event_outline_history_compression_hints": "event_outline_history_compression",
         "agentic_story_world_simulation_hints": "agentic_story_world_simulation",
+        "reader_rating_signal_model_hints": "reader_rating_signal_model",
+        "review_spoiler_sentiment_corpus_hints": "review_spoiler_sentiment_corpus",
+        "beta_reader_archetype_panel_hints": "beta_reader_archetype_panel",
+        "comp_title_market_positioning_hints": "comp_title_market_positioning",
+        "local_reader_experience_editor_hints": "local_reader_experience_editor",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

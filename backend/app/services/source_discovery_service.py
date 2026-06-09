@@ -82,6 +82,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("story theory" OR "beat interpolation" OR "beat revision" OR "Save the Cat") ("LLM" OR "story generation") in:name,description,readme',
     '("constraint specificity" OR "constraint satisfaction" OR "CS4") ("story generation" OR "creativity") in:name,description,readme',
     '("style fingerprints" OR "within-model diversity" OR "style axes") ("flash fiction" OR "creative writing") in:name,description,readme',
+    '("goodreads" OR "ratings" OR "shelves" OR "to read") ("book" OR "reader" OR "recommendation") in:name,description,readme',
+    '("spoiler detection" OR "book reviews" OR "reader reviews" OR "review corpus") ("goodreads" OR "fiction") in:name,description,readme',
+    '("beta reader" OR "reader feedback" OR "want to continue" OR "stumble point") ("novel" OR "manuscript" OR "author") in:name,description,readme',
+    '("comp title" OR "market positioning" OR "genre trends" OR "reader expectations") ("author" OR "novel" OR "book") in:name,description,readme',
+    '("micro-tension" OR "reader curiosity" OR "chapter hook" OR "cliffhanger audit") ("novel" OR "manuscript") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -168,6 +173,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/clchinkc/story-bench",
     "https://github.com/THU-KEG/StoryWriter",
     "https://github.com/ZJU-LLMs/OpenStory",
+    "https://github.com/zygmuntz/goodbooks-10k",
+    "https://github.com/MengtingWan/goodreads",
+    "https://github.com/maria-antoniak/goodreads-scraper",
+    "https://github.com/Ckokoski/authorclaw",
+    "https://github.com/f5alcon/The-Novelists-Atelier",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -332,6 +342,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_theory_beat_evaluation", ("story theory", "hero's journey", "save the cat", "beat interpolation", "beat revision", "multi-beat synthesis", "theory conversion", "constrained continuation", "beat execution", "narrative criteria")),
     ("event_outline_history_compression", ("outline agent", "planning agent", "writing agent", "event-based outlines", "chapter-wise plans", "dynamically compresses the story history", "story history", "current event", "inter-event relationships")),
     ("agentic_story_world_simulation", ("story-world simulation", "story world simulation", "multi-agent inference", "multi-agent simulation", "dynamic agents", "dynamically adding and removing agents", "character behavior", "social interaction", "story evolution")),
+    ("reader_rating_signal_model", ("goodbooks", "goodreads", "six million ratings", "ratings.csv", "to_read.csv", "average rating", "rating distribution", "tags/shelves/genres", "book recommendation", "recommender system", "reader preference", "reader ratings", "book shelves", "to-read intent")),
+    ("review_spoiler_sentiment_corpus", ("book reviews", "reader reviews", "review corpus", "fine-grained spoiler detection", "spoiler detection", "sentiment timeline", "review datasets", "amateur criticism", "reviews analyzed", "review corpus", "spoiler-aware feedback", "sentiment drift")),
+    ("beta_reader_archetype_panel", ("beta reader", "simulated reader", "reader perspectives", "genre fan", "casual reader", "critical reader", "sensitivity reader", "wanttocontinue", "want to continue", "stumble point", "favorite moment", "confusion flags", "ai beta readers", "beta reader panel", "reader trial feedback")),
+    ("comp_title_market_positioning", ("comp title", "comparable titles", "market positioning", "genre trends", "reader expectations", "bestseller patterns", "trope requested", "common complaints", "if you liked", "blurb", "amazon description", "keywords", "comp title", "market position", "reader expectation")),
+    ("local_reader_experience_editor", ("micro-tension", "reader curiosity tracker", "chapter hook", "cliffhanger audit", "tension & engagement", "scene openings", "scene endings", "white space", "paragraph rhythm", "style dna", "token breakdown", "smart context auto-toggling", "reader experience", "reader curiosity", "chapter hook")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -639,6 +654,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "zju-llms/openstory": (
         "OpenStory multi-agent story-world simulation framework. Public README describes dynamic agent addition/removal, character behavior, social interaction, "
         "story evolution, and Dream of the Red Chamber simulation. Runtime requires provider/config setup and remains out of scope."
+    ),
+    "zygmuntz/goodbooks-10k": (
+        "Goodbooks-10k book dataset with ten thousand popular books, six million ratings, to-read signals, metadata, and user tags/shelves/genres. "
+        "Pattern-only value is aggregate reader preference modeling, market-adjacent rating signals, and shelf/tag expectation maps; dataset import is not performed."
+    ),
+    "mengtingwan/goodreads": (
+        "Goodreads dataset code samples for academic-use review and interaction data, including recommendation behavior chains, review statistics, "
+        "fine-grained spoiler detection, and exploration notebooks. Pattern-only value is review-signal and spoiler-aware feedback design; no dataset download is performed."
+    ),
+    "maria-antoniak/goodreads-scraper": (
+        "Goodreads classics scraper project and computational reader-review study. Public README describes review/metadata fields, rating distribution, top shelves, lists, "
+        "full review collection, Selenium/browser dependency, and a 2025 unmaintained/broken warning. Absorb only review metadata schema and safety warnings."
+    ),
+    "ckokoski/authorclaw": (
+        "AuthorClaw autonomous author agent with pipeline planning, deep revision, AI beta readers, market research, comp titles, reader intelligence, book launch copy, "
+        "reader archetype feedback, tension/pacing/want-to-continue/confusion/favorite-moment/stumble-point reports, and review-cluster safety rails. Runtime is not imported."
+    ),
+    "f5alcon/the-novelists-atelier": (
+        "The Novelist's Atelier local-browser writing assistant with series/book/chapter context, developmental editing, tension and engagement prompts, reader curiosity tracker, "
+        "chapter hook and cliffhanger audits, style DNA, smart context auto-toggling, local text analysis, token breakdown, local storage, backups, and security notes."
     ),
 }
 
@@ -1035,6 +1070,11 @@ class NovelSourceDiscoveryService:
             "style_axis_diversity_fingerprint_hints": self._build_style_axis_diversity_fingerprint_hints(available_patterns),
             "event_outline_history_compression_hints": self._build_event_outline_history_compression_hints(available_patterns),
             "agentic_story_world_simulation_hints": self._build_agentic_story_world_simulation_hints(available_patterns),
+            "reader_rating_signal_model_hints": self._build_reader_rating_signal_model_hints(available_patterns),
+            "review_spoiler_sentiment_corpus_hints": self._build_review_spoiler_sentiment_corpus_hints(available_patterns),
+            "beta_reader_archetype_panel_hints": self._build_beta_reader_archetype_panel_hints(available_patterns),
+            "comp_title_market_positioning_hints": self._build_comp_title_market_positioning_hints(available_patterns),
+            "local_reader_experience_editor_hints": self._build_local_reader_experience_editor_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1569,6 +1609,11 @@ class NovelSourceDiscoveryService:
             "style_axis_diversity_fingerprint": 55,
             "event_outline_history_compression": 60,
             "agentic_story_world_simulation": 49,
+            "reader_rating_signal_model": 58,
+            "review_spoiler_sentiment_corpus": 57,
+            "beta_reader_archetype_panel": 62,
+            "comp_title_market_positioning": 54,
+            "local_reader_experience_editor": 59,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1653,6 +1698,21 @@ class NovelSourceDiscoveryService:
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_library")
             targets.append("reader_expectation_profile")
+        if "reader_rating_signal_model" in patterns:
+            targets.append("reader_rating_signal_map")
+            targets.append("shelf_tag_expectation_profile")
+        if "review_spoiler_sentiment_corpus" in patterns:
+            targets.append("spoiler_sensitive_review_signals")
+            targets.append("review_sentiment_clusters")
+        if "beta_reader_archetype_panel" in patterns:
+            targets.append("beta_reader_archetypes")
+            targets.append("want_to_continue_thresholds")
+        if "comp_title_market_positioning" in patterns:
+            targets.append("comp_title_positioning")
+            targets.append("market_gap_statement")
+        if "local_reader_experience_editor" in patterns:
+            targets.append("reader_experience_prompts")
+            targets.append("micro_tension_hook_rules")
         if "anti_ai_tone_polish" in patterns:
             targets.append("anti_ai_tone_rules")
         if "preference_memory" in patterns:
@@ -1988,6 +2048,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["event_outline_graph", "chapter_plan_events", "compressed_history_for_current_event"])
         if "agentic_story_world_simulation" in patterns:
             targets.extend(["simulated_agent_interactions", "character_behavior_state", "story_world_evolution_log"])
+        if "reader_rating_signal_model" in patterns:
+            targets.extend(["reader_rating_matrix", "to_read_intent_signals", "shelf_tag_expectation_map", "aggregate_preference_notes"])
+        if "review_spoiler_sentiment_corpus" in patterns:
+            targets.extend(["review_signal_clusters", "spoiler_risk_flags", "sentiment_timeline", "common_praise_complaint_map"])
+        if "beta_reader_archetype_panel" in patterns:
+            targets.extend(["beta_reader_archetypes", "chapter_want_to_continue_scores", "confusion_flags", "favorite_moments", "stumble_points"])
+        if "comp_title_market_positioning" in patterns:
+            targets.extend(["comp_title_matrix", "reader_expectation_profile", "genre_gap_statement", "positioning_copy_constraints"])
+        if "local_reader_experience_editor" in patterns:
+            targets.extend(["micro_tension_findings", "reader_curiosity_threads", "chapter_hook_cliffhanger_audit", "style_dna_context_fit", "token_breakdown_notes"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -2059,6 +2129,16 @@ class NovelSourceDiscoveryService:
             hints.append("Review at scene, chapter, and batch levels so local fixes do not hide cross-chapter drift or repeated weak beats.")
         if "editor_notes_feedback_loop" in patterns:
             hints.append("Carry unresolved editor notes into the next chapter context and close each note only with chapter evidence.")
+        if "reader_rating_signal_model" in patterns:
+            hints.append("Use rating/shelf/to-read signals only as aggregate reader-expectation hints; they must not override accepted canon or author direction.")
+        if "review_spoiler_sentiment_corpus" in patterns:
+            hints.append("When using review-like feedback, separate spoiler-sensitive complaints, praise clusters, and sentiment drift from canon facts.")
+        if "beta_reader_archetype_panel" in patterns:
+            hints.append("Run a beta-reader panel on important chapters: genre fan, casual reader, critical reader, and sensitivity reader each produce confusion and turn-page notes.")
+        if "comp_title_market_positioning" in patterns:
+            hints.append("Use comp titles to calibrate promise, tone, trope expectation, and market gap; do not copy their premise, cast, title language, or review wording.")
+        if "local_reader_experience_editor" in patterns:
+            hints.append("Before acceptance, audit micro-tension, reader curiosity, chapter hook, cliffhanger, paragraph rhythm, and scene opening/ending strength.")
         if "semantic_long_context_search" in patterns:
             hints.append("Use semantic long-context search for chapter-specific recall, but cite the selected sourcebook or knowledge-base refs instead of silently injecting them.")
         if "contradiction_taxonomy_checker" in patterns:
@@ -2198,6 +2278,16 @@ class NovelSourceDiscoveryService:
             hints.append("Every long run should keep a resumable checkpoint: current phase, chapter, scene, accepted artifact, and next action.")
         if "auto_validation_rewrite" in patterns:
             hints.append("Record validation pass/fail status, rewrite count, and remaining retry budget before moving to the next chapter.")
+        if "reader_rating_signal_model" in patterns:
+            hints.append("Persist aggregate reader signals as external calibration metadata: rating bucket, shelf/tag expectation, to-read intent, and source/date.")
+        if "review_spoiler_sentiment_corpus" in patterns:
+            hints.append("Store review clusters by opaque ids and aggregate labels; never keep reviewer identity or verbatim review text in drafting context.")
+        if "beta_reader_archetype_panel" in patterns:
+            hints.append("Attach beta-reader reports to chapter state with archetype, tension, pacing, want-to-continue, confusion, favorite moment, and stumble point.")
+        if "comp_title_market_positioning" in patterns:
+            hints.append("Keep comp-title matrices as market-position artifacts, not canon; expire them when genre target, audience, or premise changes.")
+        if "local_reader_experience_editor" in patterns:
+            hints.append("Persist reader-experience findings as review tasks tied to chapter ids so hook, curiosity, and rhythm fixes can be verified after rewrite.")
         if "sourcebook_author_workbench" in patterns:
             hints.append("Persist sourcebook entries as author-owned state; Writing Partner suggestions remain proposals until accepted.")
         if "semantic_long_context_search" in patterns:
@@ -3176,10 +3266,15 @@ class NovelSourceDiscoveryService:
     def _build_reader_retention_review_gate_hints(self, patterns: set[str]) -> list[str]:
         if "reader_retention_review_gate" not in patterns:
             return []
-        return [
+        hints = [
             "Review each chapter for consistency, continuity, OOC, pleasure-point delivery, rhythm, and reader-retention hook before acceptance.",
             "Retention findings should become concrete revision tasks; do not accept a fluent chapter that has no pressure, payoff, or next-chapter pull.",
         ]
+        if "beta_reader_archetype_panel" in patterns:
+            hints.append("Fold beta-reader confusion and want-to-continue findings into retention revision tasks before acceptance.")
+        if "local_reader_experience_editor" in patterns:
+            hints.append("Treat micro-tension, curiosity, hook, and cliffhanger findings as reader-retention evidence, not optional polish.")
+        return hints
 
     def _build_draft_stage_revision_ladder_hints(self, patterns: set[str]) -> list[str]:
         if "draft_stage_revision_ladder" not in patterns:
@@ -3251,6 +3346,51 @@ class NovelSourceDiscoveryService:
         return [
             "Use multi-agent story-world simulation as a proposal generator for character behavior, social interaction, and world evolution.",
             "Simulated outcomes must be reviewed against canon and author direction before they become continuation facts.",
+        ]
+
+    def _build_reader_rating_signal_model_hints(self, patterns: set[str]) -> list[str]:
+        if "reader_rating_signal_model" not in patterns:
+            return []
+        return [
+            "Treat ratings, to-read markers, shelves, and tags as aggregate reader-expectation signals, not as creative truth or canon.",
+            "Use shelf/tag clusters to infer promise, subgenre, mood, and audience expectation before same-type planning or chapter acceptance.",
+            "Keep popularity calibration separate from prose quality so a niche-but-canon chapter is not rejected only for low market similarity.",
+        ]
+
+    def _build_review_spoiler_sentiment_corpus_hints(self, patterns: set[str]) -> list[str]:
+        if "review_spoiler_sentiment_corpus" not in patterns:
+            return []
+        return [
+            "Cluster review-like feedback into praise, complaint, trope request, comp suggestion, and spoiler-sensitive issue before turning it into revisions.",
+            "Never paste verbatim review text into prompts or marketing copy; cite opaque ids and aggregate labels only.",
+            "Separate spoiler risk from ordinary sentiment so late-book revelations are not spoiled inside early-chapter planning context.",
+        ]
+
+    def _build_beta_reader_archetype_panel_hints(self, patterns: set[str]) -> list[str]:
+        if "beta_reader_archetype_panel" not in patterns:
+            return []
+        return [
+            "Simulate distinct beta-reader archetypes: genre fan, casual reader, critical reader, and sensitivity reader; each reports hook, confusion, pull, and stop point.",
+            "Record tension, pacing, want-to-continue percentage, favorite moment, stumble point, and emotions per chapter before accepting high-impact drafts.",
+            "Use simulated beta readers as early warning only; final publication-facing claims still need real human judgment or author approval.",
+        ]
+
+    def _build_comp_title_market_positioning_hints(self, patterns: set[str]) -> list[str]:
+        if "comp_title_market_positioning" not in patterns:
+            return []
+        return [
+            "Build a comp-title matrix by genre, subgenre, tone, protagonist promise, market proof, freshness, and reader expectation gap.",
+            "For same-type creation, transform comp signals into a new premise, cast, setting, conflict, and hook promise instead of copying comp plot routes.",
+            "Marketing outputs such as blurbs, descriptions, keywords, and social copy are derived artifacts; they must not mutate story canon.",
+        ]
+
+    def _build_local_reader_experience_editor_hints(self, patterns: set[str]) -> list[str]:
+        if "local_reader_experience_editor" not in patterns:
+            return []
+        return [
+            "Run reader-experience edits at chapter and scene level: micro-tension, curiosity thread, hook, cliffhanger, opening, ending, paragraph rhythm, and clarity.",
+            "Use series/book/chapter context scopes so broad context does not drown the current reader-experience question.",
+            "Expose token/context breakdown and local analysis notes before expensive full-manuscript review passes.",
         ]
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
@@ -3389,6 +3529,18 @@ class NovelSourceDiscoveryService:
             targets.append("foreshadowing_debt_remap")
         if "reader_retention_review_gate" in patterns:
             targets.append("retention_hook_remap")
+        if "reader_rating_signal_model" in patterns:
+            targets.append("reader_signal_remap")
+            targets.append("shelf_tag_expectation_remap")
+        if "review_spoiler_sentiment_corpus" in patterns:
+            targets.append("review_cluster_remap")
+            targets.append("spoiler_boundary_remap")
+        if "beta_reader_archetype_panel" in patterns:
+            targets.append("beta_reader_panel_remap")
+        if "comp_title_market_positioning" in patterns:
+            targets.append("comp_title_positioning_remap")
+        if "local_reader_experience_editor" in patterns:
+            targets.append("reader_experience_hook_remap")
         if "draft_stage_revision_ladder" in patterns:
             targets.append("draft_stage_remap")
         if "rolling_summary_context_trim" in patterns:
@@ -3442,6 +3594,16 @@ class NovelSourceDiscoveryService:
             hints.append("Create a fresh reveal budget so genre secrets unfold independently from the source book.")
         if "trend_deconstruction_pipeline" in patterns:
             hints.append("Use trend/deconstruction notes only as module shapes for reader expectation and payoff; rebuild premise, cast, and event chain.")
+        if "reader_rating_signal_model" in patterns:
+            hints.append("Reader rating and shelf signals can calibrate market feel, but the new story needs independent promise, stakes, cast, and causality.")
+        if "review_spoiler_sentiment_corpus" in patterns:
+            hints.append("Use review clusters as abstract reader desire and complaint signals; do not reuse review wording or spoiler examples as story facts.")
+        if "beta_reader_archetype_panel" in patterns:
+            hints.append("Run the transformed draft through beta-reader archetypes for hook, confusion, and turn-page pull after copy-risk checks.")
+        if "comp_title_market_positioning" in patterns:
+            hints.append("Comp titles guide positioning and audience promise only; rebuild premise, scene order, and hook language from scratch.")
+        if "local_reader_experience_editor" in patterns:
+            hints.append("Optimize micro-tension and curiosity in the transformed story without copying a source chapter's cliffhanger shape or ending cadence.")
         if "context_pack_preview" in patterns:
             hints.append("The new story's context pack must cite transformed canon only; source deconstruction may appear as craft notes, not facts.")
         if "critic_verifier_loop" in patterns:
@@ -3547,6 +3709,16 @@ class NovelSourceDiscoveryService:
             hints.append("Use branch divergence as a design tool for independent causality, not as a renamed source route.")
         if "trend_deconstruction_pipeline" in patterns:
             hints.append("Transform trope modules by changing desire, obstacle, cost, payoff timing, and reader-facing promise.")
+        if "reader_rating_signal_model" in patterns:
+            hints.append("Convert shelf/tag signals into a new expectation profile before building characters, setting, and conflict.")
+        if "review_spoiler_sentiment_corpus" in patterns:
+            hints.append("Rewrite review-derived complaints into abstract revision goals; keep spoilers and quoted review text out of draft context.")
+        if "beta_reader_archetype_panel" in patterns:
+            hints.append("Transform beta-reader objections into chapter-specific fixes rather than importing the reader persona's preferred plot solution.")
+        if "comp_title_market_positioning" in patterns:
+            hints.append("Map each comp-title similarity to a transformed difference: new protagonist pressure, new obstacle, new setting, and new payoff cost.")
+        if "local_reader_experience_editor" in patterns:
+            hints.append("Rebuild hooks and cliffhangers from the new chapter's active conflict, not from source set-piece timing.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -3636,6 +3808,16 @@ class NovelSourceDiscoveryService:
             hints.append("Do not import source WorldPkg facts as new-story canon; exports are analysis artifacts only.")
         if "trend_deconstruction_pipeline" in patterns:
             hints.append("Reject drafts whose trope module library preserves source plot order, named gimmicks, or signature set-piece sequence.")
+        if "reader_rating_signal_model" in patterns:
+            hints.append("Reject plans that treat high-rated books, shelves, or tags as permission to copy their premise, cast, or event chain.")
+        if "review_spoiler_sentiment_corpus" in patterns:
+            hints.append("Reject prompts or copy that paste verbatim reader reviews, reviewer identities, spoiler examples, or quoted complaint language.")
+        if "beta_reader_archetype_panel" in patterns:
+            hints.append("Reject beta-reader fixes that force the new story back toward a comp/source plot route instead of solving the local issue.")
+        if "comp_title_market_positioning" in patterns:
+            hints.append("Reject comp-title positioning that reuses title phrasing, blurb beats, named tropes as labels, or recognizable hook sequence.")
+        if "local_reader_experience_editor" in patterns:
+            hints.append("Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence.")
         if "context_pack_preview" in patterns:
             hints.append("Reject context packs that cite source analysis artifacts as new-story facts.")
         if "top_down_story_planning" in patterns:
@@ -3771,6 +3953,11 @@ class NovelSourceDiscoveryService:
                 "style_axis_diversity_fingerprint",
                 "event_outline_history_compression",
                 "agentic_story_world_simulation",
+                "reader_rating_signal_model",
+                "review_spoiler_sentiment_corpus",
+                "beta_reader_archetype_panel",
+                "comp_title_market_positioning",
+                "local_reader_experience_editor",
             }
         ) and (
             "style_signature" in patterns
@@ -3824,6 +4011,11 @@ class NovelSourceDiscoveryService:
                 or "quality_score_loop" in patterns
                 or "voice_fingerprint" in patterns
                 or "anti_slop_audit" in patterns
+                or "reader_rating_signal_model" in patterns
+                or "review_spoiler_sentiment_corpus" in patterns
+                or "beta_reader_archetype_panel" in patterns
+                or "comp_title_market_positioning" in patterns
+                or "local_reader_experience_editor" in patterns
             )
         )
 
