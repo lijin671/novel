@@ -138,6 +138,72 @@ def render_source_pattern_pack_digest(
         for hint in memory_snapshot_versioning_hints[:6]:
             lines.append(f"  - {hint}")
 
+    local_first_workspace_hints = _as_note_list(source_pattern_pack.get("local_first_workspace_hints"))
+    if local_first_workspace_hints:
+        lines.append("- local_first_workspace_hints:")
+        for hint in local_first_workspace_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    prompt_library_hints = _as_note_list(source_pattern_pack.get("prompt_library_hints"))
+    if prompt_library_hints:
+        lines.append("- prompt_library_hints:")
+        for hint in prompt_library_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    style_guide_layering_hints = _as_note_list(source_pattern_pack.get("style_guide_layering_hints"))
+    if style_guide_layering_hints:
+        lines.append("- style_guide_layering_hints:")
+        for hint in style_guide_layering_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    review_queue_staging_hints = _as_note_list(source_pattern_pack.get("review_queue_staging_hints"))
+    if review_queue_staging_hints:
+        lines.append("- review_queue_staging_hints:")
+        for hint in review_queue_staging_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    entity_schema_custom_fields_hints = _as_note_list(source_pattern_pack.get("entity_schema_custom_fields_hints"))
+    if entity_schema_custom_fields_hints:
+        lines.append("- entity_schema_custom_fields_hints:")
+        for hint in entity_schema_custom_fields_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    scene_level_generation_hints = _as_note_list(source_pattern_pack.get("scene_level_generation_hints"))
+    if scene_level_generation_hints:
+        lines.append("- scene_level_generation_hints:")
+        for hint in scene_level_generation_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    content_ref_externalization_hints = _as_note_list(source_pattern_pack.get("content_ref_externalization_hints"))
+    if content_ref_externalization_hints:
+        lines.append("- content_ref_externalization_hints:")
+        for hint in content_ref_externalization_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    graph_healing_hints = _as_note_list(source_pattern_pack.get("graph_healing_hints"))
+    if graph_healing_hints:
+        lines.append("- graph_healing_hints:")
+        for hint in graph_healing_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    contradiction_detection_hints = _as_note_list(source_pattern_pack.get("contradiction_detection_hints"))
+    if contradiction_detection_hints:
+        lines.append("- contradiction_detection_hints:")
+        for hint in contradiction_detection_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    graph_branching_atomicity_hints = _as_note_list(source_pattern_pack.get("graph_branching_atomicity_hints"))
+    if graph_branching_atomicity_hints:
+        lines.append("- graph_branching_atomicity_hints:")
+        for hint in graph_branching_atomicity_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    query_lint_contract_hints = _as_note_list(source_pattern_pack.get("query_lint_contract_hints"))
+    if query_lint_contract_hints:
+        lines.append("- query_lint_contract_hints:")
+        for hint in query_lint_contract_hints[:6]:
+            lines.append(f"  - {hint}")
+
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:

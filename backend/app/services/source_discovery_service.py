@@ -28,6 +28,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("writing assistant" OR "style analysis" OR "same type creation") in:name,description,readme',
     '("world info" OR "lorebook" OR "author note" OR "memory book") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("snapshot" OR "branch" OR "rollback") ("memory" OR "context") ("agent" OR "story") in:name,description,readme',
+    '("local-first" OR "IndexedDB" OR "workspace") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("review queue" OR "PendingChange" OR "staging area") ("novel" OR "fiction" OR "worldbuilding") in:name,description,readme',
+    '("style guide" OR "character voice" OR "scene override") ("novel" OR "fiction" OR "worldbuilding") in:name,description,readme',
+    '("ContentRef" OR "graph healing" OR "contradiction detection") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
     '("json schema" OR "schema-first" OR "structured generation") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("card" OR "cards" OR "context injection" OR "knowledge graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("workflow agent" OR "workflow studio" OR "progress recovery") ("novel" OR "fiction" OR "story") in:name,description,readme',
@@ -54,6 +58,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/mrigankad/Novel-OS",
     "https://github.com/aikohanasaki/SillyTavern-MemoryBooks",
     "https://github.com/bal-spec/sillytavern-character-memory",
+    "https://github.com/MangoLion/plotbunni",
+    "https://github.com/loreum-app/loreum",
+    "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+    "https://github.com/Lanerra/saga",
+    "https://github.com/ModernRelay/omnigraph",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -123,6 +132,17 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("author_note_layer", ("author's note", "authors note", "author note", "insertion frequency", "in-chat", "chat memory", "作者注释", "作者备注", "提示词层")),
     ("world_state_tracking", ("solo tabletop game master", "players, locations, regions, and items", "world state", "story state", "persistent state", "central state", "state parser", "event memory", "event memories", "fact memory", "fact memories", "emotional memory", "emotional memories", "relationship memory", "relationship memories", "scene log", "review logs", "structured prompts", "世界状态", "实体状态", "场景日志")),
     ("memory_snapshot_versioning", ("git for ai agent memory", "snapshot", "branch", "merge", "rollback", "memory versioning", "memory branch", "compaction", "consolidation", "memory rollup", "memory rollups", "multi-tier memory", "记忆快照", "记忆分支", "回滚")),
+    ("local_first_novel_workspace", ("local-first", "local first", "offline access", "indexeddb", "multi-novel", "active novel", "workspace", "local data persistence", "novel workspace", "本地优先", "离线访问", "多小说工作区")),
+    ("prompt_library", ("prompt manager", "prompt library", "task-specific prompt", "task prompts", "system prompt", "reset prompts", "prompt template", "提示词库", "提示词管理", "任务提示词")),
+    ("scene_level_generation", ("scene-level generation", "scene level generation", "scene-by-scene", "scene drafts", "plan scenes", "draft scene", "scene text writing", "generate prose for each scene", "场景级生成", "逐场景生成")),
+    ("review_queue_staging", ("review queue", "pendingchange", "pending change", "staging area", "diff view", "accept edit reject", "accept all", "staged not applied", "审查队列", "暂存区", "待审核变更")),
+    ("style_guide_layering", ("style guide", "base style guide", "scene override", "scene overrides", "character voice", "character voices", "voicenotes", "voice notes", "pov conventions", "dialogue rules", "风格指南", "场景覆写", "角色语音")),
+    ("entity_schema_custom_fields", ("custom entity types", "custom entity type", "custom fields", "custom field schemas", "fieldschema", "field schema", "entity types", "field schemas", "自定义实体", "自定义字段", "字段模式")),
+    ("content_ref_externalization", ("contentref", "content ref", "content externalization", "externalized content", "large text blobs", ".saga/content", "lightweight checkpoints", "外置内容", "内容引用")),
+    ("graph_healing", ("graph healing", "quality assurance", "merge duplicate entities", "duplicate entities", "enrich provisional nodes", "graph consistency", "图谱修复", "图谱清理")),
+    ("contradiction_detection", ("contradiction detection", "contradiction analysis", "contradiction", "contradictions", "consistency checks", "timeline issues", "relationship evolution", "abrupt relationship changes", "trait consistency", "矛盾检测", "一致性检查")),
+    ("graph_branching_atomicity", ("git-style versioning", "branching", "branch merge", "snapshot isolation", "atomic", "manifest", "multi-table publish", "commit dag", "three-way", "row-level merge", "图分支", "原子提交")),
+    ("query_lint_contract", ("query lint", "schema lint", "linter", "typed ir", "query language", ".gq", ".pg", "strict validation", "查询检查", "模式检查")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -164,6 +184,27 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "bal-spec/sillytavern-character-memory": (
         "SillyTavern character memory extension that extracts structured relationship, event, fact, and emotional memories "
         "into editable markdown Data Bank files with vector retrieval, injection viewer, token breakdown, health checks, and undoable memory control."
+    ),
+    "mangolion/plotbunni": (
+        "Novel writing workspace with local-first IndexedDB multi-novel storage, Act / Chapter / Scene hierarchy, "
+        "Concept Cache, task-specific Prompt Manager, AI Novel Writer, token-aware context sizing, and sequential scene-level generation."
+    ),
+    "loreum-app/loreum": (
+        "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, "
+        "storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, "
+        "MCP write staging through PendingChange Review Queue, and contradiction analysis."
+    ),
+    "explosivecoderflome/ai-novel-writing-assistant": (
+        "Chinese AI novel writing assistant with book decomposition, director workflow, fact ledger, chapter tasks, "
+        "quality guardrails, genre/style management, and long-form production pipeline patterns."
+    ),
+    "lanerra/saga": (
+        "Long-form fiction engine using checkpointed LangGraph and a Neo4j canon graph. Public docs describe scene-level generation, "
+        "scene-based extraction, ContentRef externalization for large text artifacts, contradiction detection, revision loops, and graph healing."
+    ),
+    "modernrelay/omnigraph": (
+        "Versioned graph engine useful as a pattern source for novel canon graphs: Git-style snapshots and branches, "
+        "atomic graph-level commits, row-level merge conflicts, schema/query linting, and branch-safe mutation contracts."
     ),
 }
 
@@ -465,6 +506,17 @@ class NovelSourceDiscoveryService:
             "author_note_layer_hints": self._build_author_note_layer_hints(available_patterns),
             "world_state_tracking_hints": self._build_world_state_tracking_hints(available_patterns),
             "memory_snapshot_versioning_hints": self._build_memory_snapshot_versioning_hints(available_patterns),
+            "local_first_workspace_hints": self._build_local_first_workspace_hints(available_patterns),
+            "prompt_library_hints": self._build_prompt_library_hints(available_patterns),
+            "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
+            "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
+            "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
+            "scene_level_generation_hints": self._build_scene_level_generation_hints(available_patterns),
+            "content_ref_externalization_hints": self._build_content_ref_externalization_hints(available_patterns),
+            "graph_healing_hints": self._build_graph_healing_hints(available_patterns),
+            "contradiction_detection_hints": self._build_contradiction_detection_hints(available_patterns),
+            "graph_branching_atomicity_hints": self._build_graph_branching_atomicity_hints(available_patterns),
+            "query_lint_contract_hints": self._build_query_lint_contract_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -904,6 +956,17 @@ class NovelSourceDiscoveryService:
             "author_note_layer": 32,
             "world_state_tracking": 45,
             "memory_snapshot_versioning": 37,
+            "local_first_novel_workspace": 53,
+            "prompt_library": 41,
+            "scene_level_generation": 58,
+            "review_queue_staging": 52,
+            "style_guide_layering": 57,
+            "entity_schema_custom_fields": 51,
+            "content_ref_externalization": 49,
+            "graph_healing": 47,
+            "contradiction_detection": 62,
+            "graph_branching_atomicity": 43,
+            "query_lint_contract": 39,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -923,6 +986,33 @@ class NovelSourceDiscoveryService:
             targets.append("lorebook_entries")
             targets.append("activation_keywords")
             targets.append("context_insertion_rules")
+        if "local_first_novel_workspace" in patterns:
+            targets.append("workspace_scope")
+            targets.append("project_local_state")
+        if "prompt_library" in patterns:
+            targets.append("task_prompt_templates")
+        if "style_guide_layering" in patterns:
+            targets.append("style_layers")
+            targets.append("character_voice_notes")
+            targets.append("scene_style_overrides")
+        if "review_queue_staging" in patterns:
+            targets.append("pending_change_review_queue")
+        if "entity_schema_custom_fields" in patterns:
+            targets.append("genre_custom_fields")
+            targets.append("entity_field_schema")
+        if "scene_level_generation" in patterns:
+            targets.append("scene_plan")
+            targets.append("scene_draft_units")
+        if "content_ref_externalization" in patterns:
+            targets.append("external_content_refs")
+        if "graph_healing" in patterns:
+            targets.append("graph_healing_actions")
+        if "contradiction_detection" in patterns:
+            targets.append("contradiction_findings")
+        if "graph_branching_atomicity" in patterns:
+            targets.append("canon_branch_snapshots")
+        if "query_lint_contract" in patterns:
+            targets.append("query_lint_rules")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -971,6 +1061,28 @@ class NovelSourceDiscoveryService:
             targets.extend(["world_state_entities", "location_state", "inventory_state", "scene_logs"])
         if "memory_snapshot_versioning" in patterns:
             targets.extend(["memory_snapshots", "state_branches", "rollback_points", "merge_conflicts"])
+        if "local_first_novel_workspace" in patterns:
+            targets.extend(["local_workspace_scope", "active_project_state", "workspace_metadata"])
+        if "prompt_library" in patterns:
+            targets.extend(["task_prompt_library", "prompt_template_versions", "prompt_scope"])
+        if "style_guide_layering" in patterns:
+            targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
+        if "review_queue_staging" in patterns:
+            targets.extend(["pending_change_review_queue", "staged_ai_outputs", "accept_reject_decisions"])
+        if "entity_schema_custom_fields" in patterns:
+            targets.extend(["entity_field_schema", "genre_custom_fields", "field_validation_rules"])
+        if "scene_level_generation" in patterns:
+            targets.extend(["scene_plan", "scene_drafts", "scene_context_slices", "scene_extraction_results"])
+        if "content_ref_externalization" in patterns:
+            targets.extend(["external_content_refs", "content_ref_checksums", "large_artifact_index"])
+        if "graph_healing" in patterns:
+            targets.extend(["graph_healing_actions", "duplicate_entity_candidates", "orphan_state_cleanup"])
+        if "contradiction_detection" in patterns:
+            targets.extend(["contradiction_findings", "timeline_conflicts", "relationship_drift"])
+        if "graph_branching_atomicity" in patterns:
+            targets.extend(["canon_branch_snapshots", "branch_merge_conflicts", "atomic_state_publish"])
+        if "query_lint_contract" in patterns:
+            targets.extend(["query_lint_findings", "schema_lint_findings", "mutation_contract_checks"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1004,6 +1116,10 @@ class NovelSourceDiscoveryService:
             hints.append("Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.")
         if "workflow_agent_pipeline" in patterns:
             hints.append("把拆书、建卡、生成、评审、回写拆成可恢复工作流节点，失败后从最近 checkpoint 继续。")
+        if "scene_level_generation" in patterns:
+            hints.append("先规划场景列表，再逐场景生成；每个场景只注入本场需要的人物、地点、伏笔和前文切片。")
+        if "contradiction_detection" in patterns:
+            hints.append("章节进入正史前先检查时间线、人物状态、关系演化和设定规则是否互相冲突。")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -1031,6 +1147,10 @@ class NovelSourceDiscoveryService:
             hints.append("Create rollback points before major bible, plan, or chapter-state rewrites so rejected continuations can be reverted.")
         if "workflow_agent_pipeline" in patterns:
             hints.append("Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context.")
+        if "content_ref_externalization" in patterns:
+            hints.append("Store large drafts, scene plans, and extraction payloads as external content refs with size and checksum instead of bloating the live state.")
+        if "graph_branching_atomicity" in patterns:
+            hints.append("Use a branch/snapshot boundary for risky multi-step canon updates; merge only after all state slices pass review.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -1046,6 +1166,8 @@ class NovelSourceDiscoveryService:
             hints.append("把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。")
         if "scene_asset_pipeline" in patterns:
             hints.append("用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。")
+        if "style_guide_layering" in patterns:
+            hints.append("按全书基础风格、当前场景覆写、出场角色声纹三层组织风格约束。")
         return hints
 
     def _build_style_fidelity_hints(self, patterns: set[str]) -> list[str]:
@@ -1061,6 +1183,8 @@ class NovelSourceDiscoveryService:
             hints.append("Measure fidelity from structured style fields before accepting a chapter draft.")
         if "scene_asset_pipeline" in patterns:
             hints.append("Preserve scene rhythm by matching conflict entry, beat escalation, and exit timing rather than copying wording.")
+        if "style_guide_layering" in patterns:
+            hints.append("Apply base style first, then scene overrides, then character voice notes for dialogue-heavy scenes.")
         return hints
 
     def _build_structured_generation_hints(self, patterns: set[str]) -> list[str]:
@@ -1078,6 +1202,10 @@ class NovelSourceDiscoveryService:
             hints.append("Every generated field should declare which local context, card, chapter, or pattern-pack item supports it.")
         if "workflow_agent_pipeline" in patterns:
             hints.append("Workflow nodes should pass typed artifacts instead of free-form summaries between analysis, drafting, review, and write-back.")
+        if "entity_schema_custom_fields" in patterns:
+            hints.append("Genre-specific entity fields should be explicit schema slots so wuxia, sci-fi, fantasy, or urban stories can track different canon facts.")
+        if "query_lint_contract" in patterns:
+            hints.append("Lint schema and mutation contracts before accepting generated state updates.")
         return self._dedupe_texts(hints)
 
     def _build_card_workbench_hints(self, patterns: set[str]) -> list[str]:
@@ -1191,6 +1319,108 @@ class NovelSourceDiscoveryService:
             "When two branches are merged, surface conflicts in canon facts, timeline, relationship state, and unresolved hooks.",
         ]
 
+    def _build_local_first_workspace_hints(self, patterns: set[str]) -> list[str]:
+        if "local_first_novel_workspace" not in patterns:
+            return []
+        return [
+            "Scope remix analysis, continuation plans, style seeds, prompt choices, and draft state to the active novel/project workspace.",
+            "Keep each project workspace independently reloadable so scratch intake, source canon, and generated continuation state do not leak across books.",
+            "Record workspace metadata such as source title, genre, POV, tone, and last modified time as prompt selection signals.",
+        ]
+
+    def _build_prompt_library_hints(self, patterns: set[str]) -> list[str]:
+        if "prompt_library" not in patterns:
+            return []
+        return [
+            "Register task prompts by purpose: book decomposition, scene planning, continuation drafting, style imitation, review, and state write-back.",
+            "Version prompt templates and record which template produced each accepted chapter or card update.",
+            "Separate global system guidance from task-specific prompts so same-type creation and continuation do not reuse the wrong instruction layer.",
+        ]
+
+    def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
+        if "style_guide_layering" not in patterns:
+            return []
+        return [
+            "Compose style context as base style guide → scene override → character voice notes.",
+            "Scene overrides should be local and temporary: tense, POV, pacing, dialogue density, and emotional temperature for the current scene only.",
+            "Character voice notes apply to dialogue and interiority without overriding world rules or continuation canon.",
+        ]
+
+    def _build_review_queue_staging_hints(self, patterns: set[str]) -> list[str]:
+        if "review_queue_staging" not in patterns:
+            return []
+        return [
+            "Stage AI-proposed bible, card, style, and chapter changes as pending changes before applying them to canon.",
+            "Each pending change should keep proposed data, previous data, source task, batch id, and accept/edit/reject status.",
+            "Batch review related AI changes together so a character card, relationship edge, and scene draft can be accepted in dependency order.",
+        ]
+
+    def _build_entity_schema_custom_fields_hints(self, patterns: set[str]) -> list[str]:
+        if "entity_schema_custom_fields" not in patterns:
+            return []
+        return [
+            "Let genre-specific entity schemas add fields beyond the base card: sect, ability, rank, taboo, technology, faction role, or item rule.",
+            "Validate custom fields before they enter prompts so missing genre facts are caught during analysis instead of after drafting.",
+            "Use custom fields in same-type creation to transform genre mechanics without copying source names or proprietary labels.",
+        ]
+
+    def _build_scene_level_generation_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_level_generation" not in patterns:
+            return []
+        hints = [
+            "Plan chapters as ordered scene units before drafting; each scene carries goal, cast, location, pressure, reveal, and exit hook.",
+            "Generate and review one scene at a time with a focused context slice, then assemble the accepted scene drafts into a chapter.",
+            "Extract state changes at scene granularity so relationship shifts, location moves, and clue reveals stay attributable.",
+        ]
+        if "content_ref_externalization" in patterns:
+            hints.append("Store large scene drafts externally and keep only lightweight refs in the continuation state.")
+        return hints
+
+    def _build_content_ref_externalization_hints(self, patterns: set[str]) -> list[str]:
+        if "content_ref_externalization" not in patterns:
+            return []
+        return [
+            "Externalize large outlines, drafts, scene lists, extraction payloads, and review reports behind content refs.",
+            "Each content ref should include type, path or artifact id, size, checksum, and source chapter so replay can verify integrity.",
+            "Keep prompts fed by summarized refs unless the current task requires opening the full artifact.",
+        ]
+
+    def _build_graph_healing_hints(self, patterns: set[str]) -> list[str]:
+        if "graph_healing" not in patterns:
+            return []
+        return [
+            "After extraction, detect duplicate entities, orphan lore, stale relationship edges, and provisional nodes.",
+            "Treat graph healing candidates as reviewable changes; auto-merge only low-risk duplicates with clear evidence.",
+            "Record graph healing history so future contradictions can be traced back to a merge, rename, or cleanup decision.",
+        ]
+
+    def _build_contradiction_detection_hints(self, patterns: set[str]) -> list[str]:
+        if "contradiction_detection" not in patterns:
+            return []
+        return [
+            "Check timeline order, location presence, relationship evolution, trait consistency, faction membership, and unresolved hook state before accepting drafts.",
+            "Every contradiction should name the conflicting canon facts and the scene or chapter that introduced the drift.",
+            "Revision guidance should fix concrete contradictions, then rerun extraction and validation before write-back.",
+        ]
+
+    def _build_graph_branching_atomicity_hints(self, patterns: set[str]) -> list[str]:
+        if "graph_branching_atomicity" not in patterns:
+            return []
+        return [
+            "Apply multi-step canon mutations through a branch-like workspace, then publish atomically after validation.",
+            "Use snapshots before bulk bible merges or alternate continuation branches so rejected work can roll back state and prose together.",
+            "Surface merge conflicts in timeline, entity fields, relationship edges, hooks, and style cards instead of silently overwriting canon.",
+        ]
+
+    def _build_query_lint_contract_hints(self, patterns: set[str]) -> list[str]:
+        if "query_lint_contract" not in patterns:
+            return []
+        return [
+            "Lint generated state mutations before applying them: required fields, allowed relationship types, nullable fields, and delete/update separation.",
+            "Keep stable lint codes or categories so review UI can group recurring canon-graph failures.",
+            "Fail closed when a generated update cannot prove which entity, chapter, or relationship it intends to mutate.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -1208,6 +1438,16 @@ class NovelSourceDiscoveryService:
             targets.append("context_reference_remap")
         if "scene_asset_pipeline" in patterns:
             targets.append("scene_asset_remap")
+        if "scene_level_generation" in patterns:
+            targets.append("scene_plan_remap")
+        if "style_guide_layering" in patterns:
+            targets.append("style_layer_remap")
+        if "entity_schema_custom_fields" in patterns:
+            targets.append("custom_field_remap")
+        if "review_queue_staging" in patterns:
+            targets.append("review_queue_gate")
+        if "graph_branching_atomicity" in patterns:
+            targets.append("branch_snapshot_remap")
         if "quality_score_loop" in patterns:
             targets.append("quality_gate_remap")
         if "voice_fingerprint" in patterns:
@@ -1298,6 +1538,13 @@ class NovelSourceDiscoveryService:
             "style_signature" in patterns
             or "structured_generation_schema" in patterns
             or "card_workbench" in patterns
+        ):
+            return True
+        if "scene_level_generation" in patterns and (
+            "style_guide_layering" in patterns
+            or "entity_schema_custom_fields" in patterns
+            or "review_queue_staging" in patterns
+            or "contradiction_detection" in patterns
         ):
             return True
         return (

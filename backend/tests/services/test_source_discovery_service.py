@@ -1399,3 +1399,176 @@ def test_refresh_pattern_pack_if_needed_discovers_and_persists_when_missing(tmp_
     assert Path(result["written_pattern_pack_path"]).name == "novel-source-pattern-pack-2026-05-31.json"
     assert service.calls[0]["github_queries"] == ["ai novel writing stars:>50"]
     assert service.calls[0]["linux_do_rss_urls"] == ["https://linux.do/tag/444-tag/444.rss"]
+
+
+def test_graph_memory_workspace_sources_map_to_new_book_remix_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "MangoLion/plotbunni",
+                "html_url": "https://github.com/MangoLion/plotbunni",
+                "description": "",
+                "stargazers_count": 412,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "fiction", "writing"],
+                "updated_at": "2026-06-09T00:00:00Z",
+            },
+            {
+                "full_name": "loreum-app/loreum",
+                "html_url": "https://github.com/loreum-app/loreum",
+                "description": "",
+                "stargazers_count": 1640,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["worldbuilding", "fiction", "mcp"],
+                "updated_at": "2026-06-09T00:00:00Z",
+            },
+            {
+                "full_name": "Lanerra/saga",
+                "html_url": "https://github.com/Lanerra/saga",
+                "description": "",
+                "stargazers_count": 210,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "knowledge-graph", "langgraph"],
+                "updated_at": "2026-06-09T00:00:00Z",
+            },
+            {
+                "full_name": "ModernRelay/omnigraph",
+                "html_url": "https://github.com/ModernRelay/omnigraph",
+                "description": "",
+                "stargazers_count": 98,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["graph", "branching", "query-language"],
+                "updated_at": "2026-06-09T00:00:00Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T12:00:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert result["candidate_count"] == 4
+    assert {
+        "local_first_novel_workspace",
+        "prompt_library",
+        "scene_level_generation",
+    }.issubset(by_title["MangoLion/plotbunni"]["absorbed_patterns"])
+    assert {
+        "style_guide_layering",
+        "review_queue_staging",
+        "entity_schema_custom_fields",
+        "contradiction_detection",
+    }.issubset(by_title["loreum-app/loreum"]["absorbed_patterns"])
+    assert {
+        "scene_level_generation",
+        "content_ref_externalization",
+        "graph_healing",
+        "contradiction_detection",
+    }.issubset(by_title["Lanerra/saga"]["absorbed_patterns"])
+    assert {
+        "graph_branching_atomicity",
+        "query_lint_contract",
+        "memory_snapshot_versioning",
+    }.issubset(by_title["ModernRelay/omnigraph"]["absorbed_patterns"])
+
+
+def test_graph_memory_workspace_pattern_pack_exposes_prompt_digest_hints():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-09T12:30:00+08:00",
+        "candidate_count": 3,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/MangoLion/plotbunni",
+                "title": "MangoLion/plotbunni",
+                "summary": "Local-first novel workspace with prompt manager and scene-level AI writer.",
+                "stars": 412,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": [
+                    "local_first_novel_workspace",
+                    "prompt_library",
+                    "scene_level_generation",
+                ],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/loreum-app/loreum",
+                "title": "loreum-app/loreum",
+                "summary": "World database with style guide layering, custom entity fields, and review queue.",
+                "stars": 1640,
+                "license": "AGPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["mcp_server"],
+                "absorbed_patterns": [
+                    "style_guide_layering",
+                    "review_queue_staging",
+                    "entity_schema_custom_fields",
+                    "contradiction_detection",
+                ],
+                "score": 112,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Lanerra/saga",
+                "title": "Lanerra/saga",
+                "summary": "Scene-level generation with ContentRef, graph healing, and contradiction detection.",
+                "stars": 210,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker"],
+                "absorbed_patterns": [
+                    "content_ref_externalization",
+                    "graph_healing",
+                    "graph_branching_atomicity",
+                    "query_lint_contract",
+                ],
+                "score": 96,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "local_workspace_scope" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_layers" in pattern_pack["bible_enrichment_targets"]
+    assert "pending_change_review_queue" in pattern_pack["whole_book_analysis_targets"]
+    assert "external_content_refs" in pattern_pack["whole_book_analysis_targets"]
+    assert "graph_healing_actions" in pattern_pack["whole_book_analysis_targets"]
+    assert "query_lint_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "local_first_workspace_hints" in pattern_pack
+    assert "prompt_library_hints" in pattern_pack
+    assert "style_guide_layering_hints" in pattern_pack
+    assert "review_queue_staging_hints" in pattern_pack
+    assert "entity_schema_custom_fields_hints" in pattern_pack
+    assert "scene_level_generation_hints" in pattern_pack
+    assert "content_ref_externalization_hints" in pattern_pack
+    assert "graph_healing_hints" in pattern_pack
+    assert "contradiction_detection_hints" in pattern_pack
+    assert "graph_branching_atomicity_hints" in pattern_pack
+    assert "query_lint_contract_hints" in pattern_pack
+    assert "scene_plan_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "style_layer_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "custom_field_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "review_queue_gate" in pattern_pack["inspired_mapping_targets"]
+    assert "branch_snapshot_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "local_first_workspace_hints" in digest
+    assert "prompt_library_hints" in digest
+    assert "style_guide_layering_hints" in digest
+    assert "review_queue_staging_hints" in digest
+    assert "entity_schema_custom_fields_hints" in digest
+    assert "scene_level_generation_hints" in digest
+    assert "content_ref_externalization_hints" in digest
+    assert "graph_healing_hints" in digest
+    assert "contradiction_detection_hints" in digest
+    assert "graph_branching_atomicity_hints" in digest
+    assert "query_lint_contract_hints" in digest

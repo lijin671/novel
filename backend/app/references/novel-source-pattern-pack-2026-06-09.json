@@ -23,6 +23,22 @@
     "lorebook_entries",
     "activation_keywords",
     "context_insertion_rules",
+    "workspace_scope",
+    "project_local_state",
+    "task_prompt_templates",
+    "style_layers",
+    "character_voice_notes",
+    "scene_style_overrides",
+    "pending_change_review_queue",
+    "genre_custom_fields",
+    "entity_field_schema",
+    "scene_plan",
+    "scene_draft_units",
+    "external_content_refs",
+    "graph_healing_actions",
+    "contradiction_findings",
+    "canon_branch_snapshots",
+    "query_lint_rules",
     "organizations",
     "conflicts",
     "story_arcs",
@@ -39,6 +55,11 @@
     "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
     "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
     "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "content_ref_externalization_hints": [
+    "Externalize large outlines, drafts, scene lists, extraction payloads, and review reports behind content refs.",
+    "Each content ref should include type, path or artifact id, size, checksum, and source chapter so replay can verify integrity.",
+    "Keep prompts fed by summarized refs unless the current task requires opening the full artifact."
   ],
   "context_reference_hints": [
     "Build prompts from explicit context references: selected cards, recent chapter deltas, unresolved hooks, and relevant source-pattern notes.",
@@ -58,7 +79,9 @@
     "显式列出本章引用的上下文来源，避免把未检索或未确认的信息写入续写正史。",
     "Activate lorebook entries by chapter goal and keywords; inject only the entries needed by the current scene.",
     "Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.",
-    "把拆书、建卡、生成、评审、回写拆成可恢复工作流节点，失败后从最近 checkpoint 继续。"
+    "把拆书、建卡、生成、评审、回写拆成可恢复工作流节点，失败后从最近 checkpoint 继续。",
+    "先规划场景列表，再逐场景生成；每个场景只注入本场需要的人物、地点、伏笔和前文切片。",
+    "章节进入正史前先检查时间线、人物状态、关系演化和设定规则是否互相冲突。"
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -72,9 +95,31 @@
     "Persist which lorebook entries were activated, why they were selected, and how many context tokens they consumed.",
     "Track state by entity and location after each scene so long continuations can update only the affected slice.",
     "Create rollback points before major bible, plan, or chapter-state rewrites so rejected continuations can be reverted.",
-    "Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context."
+    "Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context.",
+    "Store large drafts, scene plans, and extraction payloads as external content refs with size and checksum instead of bloating the live state.",
+    "Use a branch/snapshot boundary for risky multi-step canon updates; merge only after all state slices pass review."
   ],
-  "generated_at": "2026-06-09T13:00:00+08:00",
+  "contradiction_detection_hints": [
+    "Check timeline order, location presence, relationship evolution, trait consistency, faction membership, and unresolved hook state before accepting drafts.",
+    "Every contradiction should name the conflicting canon facts and the scene or chapter that introduced the drift.",
+    "Revision guidance should fix concrete contradictions, then rerun extraction and validation before write-back."
+  ],
+  "entity_schema_custom_fields_hints": [
+    "Let genre-specific entity schemas add fields beyond the base card: sect, ability, rank, taboo, technology, faction role, or item rule.",
+    "Validate custom fields before they enter prompts so missing genre facts are caught during analysis instead of after drafting.",
+    "Use custom fields in same-type creation to transform genre mechanics without copying source names or proprietary labels."
+  ],
+  "generated_at": "2026-06-09T18:30:00+08:00",
+  "graph_branching_atomicity_hints": [
+    "Apply multi-step canon mutations through a branch-like workspace, then publish atomically after validation.",
+    "Use snapshots before bulk bible merges or alternate continuation branches so rejected work can roll back state and prose together.",
+    "Surface merge conflicts in timeline, entity fields, relationship edges, hooks, and style cards instead of silently overwriting canon."
+  ],
+  "graph_healing_hints": [
+    "After extraction, detect duplicate entities, orphan lore, stale relationship edges, and provisional nodes.",
+    "Treat graph healing candidates as reviewable changes; auto-merge only low-risk duplicates with clear evidence.",
+    "Record graph healing history so future contradictions can be traced back to a merge, rename, or cleanup decision."
+  ],
   "inspired_copy_risk_hints": [
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
     "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
@@ -93,6 +138,11 @@
     "schema_field_remap",
     "context_reference_remap",
     "scene_asset_remap",
+    "scene_plan_remap",
+    "style_layer_remap",
+    "custom_field_remap",
+    "review_queue_gate",
+    "branch_snapshot_remap",
     "quality_gate_remap",
     "voice_fingerprint",
     "anti_slop_rules",
@@ -124,6 +174,11 @@
     "Keep/discard decisions should evaluate transformed-story quality and independence together.",
     "Translate source voice functions into new voice guardrails, not into reused sentence templates."
   ],
+  "local_first_workspace_hints": [
+    "Scope remix analysis, continuation plans, style seeds, prompt choices, and draft state to the active novel/project workspace.",
+    "Keep each project workspace independently reloadable so scratch intake, source canon, and generated continuation state do not leak across books.",
+    "Record workspace metadata such as source title, genre, POV, tone, and last modified time as prompt selection signals."
+  ],
   "lorebook_context_hints": [
     "Store lorebook entries as compact fact cards with activation keywords, priority, insertion depth, and token budget.",
     "Use recursive activation only for directly related lore; broad always-on entries should stay short and high priority.",
@@ -135,6 +190,11 @@
     "Treat rollback as a first-class operation: rejected drafts should revert state as well as prose.",
     "When two branches are merged, surface conflicts in canon facts, timeline, relationship state, and unresolved hooks."
   ],
+  "prompt_library_hints": [
+    "Register task prompts by purpose: book decomposition, scene planning, continuation drafting, style imitation, review, and state write-back.",
+    "Version prompt templates and record which template produced each accepted chapter or card update.",
+    "Separate global system guidance from task-specific prompts so same-type creation and continuation do not reuse the wrong instruction layer."
+  ],
   "publication_pipeline_hints": [
     "Keep export as a downstream pipeline stage: manuscript, review report, ePub/TXT/PDF, audiobook script, and landing copy are derived artifacts.",
     "Do not let publication artifacts mutate canon; canon changes must flow through bible/state/chapter change packages first."
@@ -144,6 +204,16 @@
     "Separate foundation scoring from chapter scoring so weak world/character/outline setup does not leak into every chapter.",
     "Use plateau detection to stop revision loops when scores stabilize and no major actionable issue remains.",
     "Persist loop status per workflow node: attempt count, latest score, accepted artifact, and next retry reason."
+  ],
+  "query_lint_contract_hints": [
+    "Lint generated state mutations before applying them: required fields, allowed relationship types, nullable fields, and delete/update separation.",
+    "Keep stable lint codes or categories so review UI can group recurring canon-graph failures.",
+    "Fail closed when a generated update cannot prove which entity, chapter, or relationship it intends to mutate."
+  ],
+  "review_queue_staging_hints": [
+    "Stage AI-proposed bible, card, style, and chapter changes as pending changes before applying them to canon.",
+    "Each pending change should keep proposed data, previous data, source task, batch id, and accept/edit/reject status.",
+    "Batch review related AI changes together so a character card, relationship edge, and scene draft can be accepted in dependency order."
   ],
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
@@ -158,6 +228,12 @@
     "For same-type imitation, borrow the production pipeline shape—idea, outline, scene list, beat assets, review—not the original scene content.",
     "Use scene assets as review units when chapter-level feedback is too coarse to locate pacing or continuity failures."
   ],
+  "scene_level_generation_hints": [
+    "Plan chapters as ordered scene units before drafting; each scene carries goal, cast, location, pressure, reveal, and exit hook.",
+    "Generate and review one scene at a time with a focused context slice, then assemble the accepted scene drafts into a chapter.",
+    "Extract state changes at scene granularity so relationship shifts, location moves, and clue reveals stay attributable.",
+    "Store large scene drafts externally and keep only lightweight refs in the continuation state."
+  ],
   "self_review_gate_hints": [
     "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
     "Every revision must explain which canon risk was fixed and which story state was preserved.",
@@ -168,17 +244,30 @@
     "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
     "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
   ],
-  "source_candidate_count": 11,
+  "source_candidate_count": 16,
+  "source_intake_notes": [
+    "MangoLion/plotbunni HEAD 5620cd091c7074365980f457dfce95f02e5fa45f; MIT; static local clone review only.",
+    "loreum-app/loreum HEAD c38ade12a664790d10ff3ae847ce2529845f299c; AGPL-3.0; pattern-only static review.",
+    "ExplosiveCoderflome/AI-Novel-Writing-Assistant HEAD f0469671e0c971325bb8491a6eb1cc43ffb1e88a; dual/nonstandard license text; pattern-only static review.",
+    "Lanerra/saga HEAD 865a3912f17b09af9927c0358f9f026020f51673; Apache-2.0; pattern-only static review.",
+    "ModernRelay/omnigraph HEAD 5eead8d29eb6a4e7dfb453603aa0efd8e6851c47; MIT; graph transaction pattern-only static review.",
+    "No external project install, package manager, script, Docker, MCP server, browser extension, native binary, provider call, credential, or runtime trial was executed."
+  ],
   "source_titles": [
+    "loreum-app/loreum",
     "NousResearch/autonovel",
     "voocel/ainovel-cli",
     "RhythmicWave/NovelForge",
     "mrigankad/Novel-OS",
+    "ModernRelay/omnigraph",
+    "MangoLion/plotbunni",
     "KoboldAI/KoboldAI-Client",
+    "Lanerra/saga",
     "SillyTavern/SillyTavern",
     "matrixorigin/Memoria",
     "bal-spec/sillytavern-character-memory",
     "envy-ai/ai_rpg",
+    "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "aikohanasaki/SillyTavern-MemoryBooks",
     "kaigani/codeywood"
   ],
@@ -187,7 +276,9 @@
     "Treat schema validation failure as a drafting blocker; repair missing or inconsistent fields before continuing.",
     "Generate and revise at field/card granularity so one bad field can be regenerated without discarding the whole artifact.",
     "Every generated field should declare which local context, card, chapter, or pattern-pack item supports it.",
-    "Workflow nodes should pass typed artifacts instead of free-form summaries between analysis, drafting, review, and write-back."
+    "Workflow nodes should pass typed artifacts instead of free-form summaries between analysis, drafting, review, and write-back.",
+    "Genre-specific entity fields should be explicit schema slots so wuxia, sci-fi, fantasy, or urban stories can track different canon facts.",
+    "Lint schema and mutation contracts before accepting generated state updates."
   ],
   "style_fidelity_hints": [
     "Preserve the original voice, cadence, and narrative temperature; style preservation is a hard constraint, not a loose suggestion.",
@@ -195,7 +286,13 @@
     "Use the style signature as a guardrail that constrains the rewrite, not as a generic inspiration note.",
     "Compare each accepted draft against the voice fingerprint before it can update canon or downstream chapter state.",
     "Measure fidelity from structured style fields before accepting a chapter draft.",
-    "Preserve scene rhythm by matching conflict entry, beat escalation, and exit timing rather than copying wording."
+    "Preserve scene rhythm by matching conflict entry, beat escalation, and exit timing rather than copying wording.",
+    "Apply base style first, then scene overrides, then character voice notes for dialogue-heavy scenes."
+  ],
+  "style_guide_layering_hints": [
+    "Compose style context as base style guide → scene override → character voice notes.",
+    "Scene overrides should be local and temporary: tense, POV, pacing, dialogue density, and emotional temperature for the current scene only.",
+    "Character voice notes apply to dialogue and interiority without overriding world rules or continuation canon."
   ],
   "style_signature_hints": [
     "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
@@ -203,7 +300,8 @@
     "把风格签名作为硬约束写入续写提示词，而不是只写成泛化风格建议。",
     "维护 voice fingerprint：分离固定风格护栏和本书生成过程中发现的具体语气、节奏、比喻习惯。",
     "把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。",
-    "用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。"
+    "用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。",
+    "按全书基础风格、当前场景覆写、出场角色声纹三层组织风格约束。"
   ],
   "voice_fingerprint_hints": [
     "Keep a voice fingerprint separate from the general style card: immutable guardrails plus discovered per-book voice traits.",
@@ -258,6 +356,40 @@
     "state_branches",
     "rollback_points",
     "merge_conflicts",
+    "local_workspace_scope",
+    "active_project_state",
+    "workspace_metadata",
+    "task_prompt_library",
+    "prompt_template_versions",
+    "prompt_scope",
+    "style_layers",
+    "scene_style_overrides",
+    "character_voice_notes",
+    "pending_change_review_queue",
+    "staged_ai_outputs",
+    "accept_reject_decisions",
+    "entity_field_schema",
+    "genre_custom_fields",
+    "field_validation_rules",
+    "scene_plan",
+    "scene_drafts",
+    "scene_context_slices",
+    "scene_extraction_results",
+    "external_content_refs",
+    "content_ref_checksums",
+    "large_artifact_index",
+    "graph_healing_actions",
+    "duplicate_entity_candidates",
+    "orphan_state_cleanup",
+    "contradiction_findings",
+    "timeline_conflicts",
+    "relationship_drift",
+    "canon_branch_snapshots",
+    "branch_merge_conflicts",
+    "atomic_state_publish",
+    "query_lint_findings",
+    "schema_lint_findings",
+    "mutation_contract_checks",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
@@ -306,11 +438,32 @@
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 5,
       "name": "book_decomposition",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
       "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -340,6 +493,23 @@
           "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 48,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese AI novel writing assistant with book decomposition, director workflow, fact ledger, chapter tasks, quality guardrails, genre/style management, and long-form production pipeline patterns.",
+          "title": "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -355,9 +525,10 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/voocel/ainovel-cli",
+      "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
         "zero-issues-high-stars",
+        "license:noassertion",
         "license:missing"
       ]
     },
@@ -417,11 +588,32 @@
       ]
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "worldbuilding",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
       "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -481,149 +673,39 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/voocel/ainovel-cli",
+      "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "timeline",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 104,
-          "source": "github",
-          "stars": 1280,
-          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
-          "title": "voocel/ainovel-cli",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/voocel/ainovel-cli"
-        },
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 102,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 35,
-          "source": "github",
-          "stars": 21,
-          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
-          "title": "kaigani/codeywood",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/kaigani/codeywood"
-        }
-      ],
-      "top_source_url": "https://github.com/voocel/ainovel-cli",
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 4,
-      "name": "character_cards",
-      "posture_hint": "metadata-triage",
       "risk_flags": [
-        "browser_extension"
+        "docker",
+        "mcp_server"
       ],
       "sources": [
         {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 104,
-          "source": "github",
-          "stars": 1280,
-          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
-          "title": "voocel/ainovel-cli",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/voocel/ainovel-cli"
-        },
-        {
           "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 102,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
-          "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [
-            "browser_extension"
+            "docker",
+            "mcp_server"
           ],
-          "score": 71,
+          "score": 196,
           "source": "github",
-          "stars": 58,
-          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
-          "title": "bal-spec/sillytavern-character-memory",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
           "trust_flags": [
-            "license:missing"
+            "zero-issues-high-stars"
           ],
-          "url": "https://github.com/bal-spec/sillytavern-character-memory"
+          "url": "https://github.com/loreum-app/loreum"
         },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 35,
-          "source": "github",
-          "stars": 21,
-          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
-          "title": "kaigani/codeywood",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/kaigani/codeywood"
-        }
-      ],
-      "top_source_url": "https://github.com/voocel/ainovel-cli",
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 3,
-      "name": "organization_graph",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -668,144 +750,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/voocel/ainovel-cli",
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 4,
-      "name": "emotion_arc",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "browser_extension"
-      ],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 104,
-          "source": "github",
-          "stars": 1280,
-          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
-          "title": "voocel/ainovel-cli",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/voocel/ainovel-cli"
-        },
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 102,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "browser_extension"
-          ],
-          "score": 71,
-          "source": "github",
-          "stars": 58,
-          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
-          "title": "bal-spec/sillytavern-character-memory",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/bal-spec/sillytavern-character-memory"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 35,
-          "source": "github",
-          "stars": 21,
-          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
-          "title": "kaigani/codeywood",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/kaigani/codeywood"
-        }
-      ],
-      "top_source_url": "https://github.com/voocel/ainovel-cli",
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 3,
-      "name": "style_signature",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "browser_extension"
-      ],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 140,
-          "source": "github",
-          "stars": 1400,
-          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
-          "title": "NousResearch/autonovel",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/NousResearch/autonovel"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 104,
-          "source": "github",
-          "stars": 1280,
-          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
-          "title": "voocel/ainovel-cli",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/voocel/ainovel-cli"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "browser_extension"
-          ],
-          "score": 71,
-          "source": "github",
-          "stars": 58,
-          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
-          "title": "bal-spec/sillytavern-character-memory",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/bal-spec/sillytavern-character-memory"
-        }
-      ],
-      "top_source_url": "https://github.com/NousResearch/autonovel",
+      "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
@@ -813,10 +758,625 @@
     },
     {
       "candidate_count": 5,
-      "name": "self_review",
+      "name": "character_cards",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server",
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 71,
+          "source": "github",
+          "stars": 58,
+          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
+          "title": "bal-spec/sillytavern-character-memory",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/bal-spec/sillytavern-character-memory"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 4,
+      "name": "organization_graph",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "contradiction_detection",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server",
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 74,
+          "source": "github",
+          "stars": 210,
+          "summary": "Long-form fiction engine using checkpointed LangGraph and a Neo4j canon graph. Public docs describe scene-level generation, scene-based extraction, ContentRef externalization for large text artifacts, contradiction detection, revision loops, and graph healing.",
+          "title": "Lanerra/saga",
+          "trust_flags": [],
+          "url": "https://github.com/Lanerra/saga"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 5,
+      "name": "emotion_arc",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server",
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 71,
+          "source": "github",
+          "stars": 58,
+          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
+          "title": "bal-spec/sillytavern-character-memory",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/bal-spec/sillytavern-character-memory"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "scene_level_generation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 412,
+          "summary": "Novel writing workspace with local-first IndexedDB multi-novel storage, Act / Chapter / Scene hierarchy, Concept Cache, task-specific Prompt Manager, AI Novel Writer, token-aware context sizing, and sequential scene-level generation.",
+          "title": "MangoLion/plotbunni",
+          "trust_flags": [],
+          "url": "https://github.com/MangoLion/plotbunni"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 74,
+          "source": "github",
+          "stars": 210,
+          "summary": "Long-form fiction engine using checkpointed LangGraph and a Neo4j canon graph. Public docs describe scene-level generation, scene-based extraction, ContentRef externalization for large text artifacts, contradiction detection, revision loops, and graph healing.",
+          "title": "Lanerra/saga",
+          "trust_flags": [],
+          "url": "https://github.com/Lanerra/saga"
+        }
+      ],
+      "top_source_url": "https://github.com/MangoLion/plotbunni",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "style_guide_layering",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 6,
+      "name": "style_signature",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server",
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 98,
+          "summary": "Versioned graph engine useful as a pattern source for novel canon graphs: Git-style snapshots and branches, atomic graph-level commits, row-level merge conflicts, schema/query linting, and branch-safe mutation contracts.",
+          "title": "ModernRelay/omnigraph",
+          "trust_flags": [],
+          "url": "https://github.com/ModernRelay/omnigraph"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 71,
+          "source": "github",
+          "stars": 58,
+          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
+          "title": "bal-spec/sillytavern-character-memory",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/bal-spec/sillytavern-character-memory"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 48,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese AI novel writing assistant with book decomposition, director workflow, fact ledger, chapter tasks, quality guardrails, genre/style management, and long-form production pipeline patterns.",
+          "title": "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing",
+        "license:noassertion"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "local_first_novel_workspace",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 412,
+          "summary": "Novel writing workspace with local-first IndexedDB multi-novel storage, Act / Chapter / Scene hierarchy, Concept Cache, task-specific Prompt Manager, AI Novel Writer, token-aware context sizing, and sequential scene-level generation.",
+          "title": "MangoLion/plotbunni",
+          "trust_flags": [],
+          "url": "https://github.com/MangoLion/plotbunni"
+        }
+      ],
+      "top_source_url": "https://github.com/MangoLion/plotbunni",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "review_queue_staging",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "entity_schema_custom_fields",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 6,
+      "name": "self_review",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -891,7 +1451,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/NousResearch/autonovel",
+      "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
@@ -899,6 +1459,35 @@
     },
     {
       "candidate_count": 1,
+      "name": "content_ref_externalization",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 74,
+          "source": "github",
+          "stars": 210,
+          "summary": "Long-form fiction engine using checkpointed LangGraph and a Neo4j canon graph. Public docs describe scene-level generation, scene-based extraction, ContentRef externalization for large text artifacts, contradiction detection, revision loops, and graph healing.",
+          "title": "Lanerra/saga",
+          "trust_flags": [],
+          "url": "https://github.com/Lanerra/saga"
+        }
+      ],
+      "top_source_url": "https://github.com/Lanerra/saga",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
       "name": "structured_generation_schema",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -915,6 +1504,19 @@
           "title": "RhythmicWave/NovelForge",
           "trust_flags": [],
           "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 98,
+          "summary": "Versioned graph engine useful as a pattern source for novel canon graphs: Git-style snapshots and branches, atomic graph-level commits, row-level merge conflicts, schema/query linting, and branch-safe mutation contracts.",
+          "title": "ModernRelay/omnigraph",
+          "trust_flags": [],
+          "url": "https://github.com/ModernRelay/omnigraph"
         }
       ],
       "top_source_url": "https://github.com/RhythmicWave/NovelForge",
@@ -980,6 +1582,35 @@
         "zero-issues-high-stars",
         "default-branch:nonstandard"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "graph_healing",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 74,
+          "source": "github",
+          "stars": 210,
+          "summary": "Long-form fiction engine using checkpointed LangGraph and a Neo4j canon graph. Public docs describe scene-level generation, scene-based extraction, ContentRef externalization for large text artifacts, contradiction detection, revision loops, and graph healing.",
+          "title": "Lanerra/saga",
+          "trust_flags": [],
+          "url": "https://github.com/Lanerra/saga"
+        }
+      ],
+      "top_source_url": "https://github.com/Lanerra/saga",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -1129,6 +1760,29 @@
       ]
     },
     {
+      "candidate_count": 1,
+      "name": "graph_branching_atomicity",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 98,
+          "summary": "Versioned graph engine useful as a pattern source for novel canon graphs: Git-style snapshots and branches, atomic graph-level commits, row-level merge conflicts, schema/query linting, and branch-safe mutation contracts.",
+          "title": "ModernRelay/omnigraph",
+          "trust_flags": [],
+          "url": "https://github.com/ModernRelay/omnigraph"
+        }
+      ],
+      "top_source_url": "https://github.com/ModernRelay/omnigraph",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 2,
       "name": "workflow_agent_pipeline",
       "posture_hint": "metadata-triage",
@@ -1170,10 +1824,54 @@
     },
     {
       "candidate_count": 1,
-      "name": "scene_asset_pipeline",
+      "name": "prompt_library",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 412,
+          "summary": "Novel writing workspace with local-first IndexedDB multi-novel storage, Act / Chapter / Scene hierarchy, Concept Cache, task-specific Prompt Manager, AI Novel Writer, token-aware context sizing, and sequential scene-level generation.",
+          "title": "MangoLion/plotbunni",
+          "trust_flags": [],
+          "url": "https://github.com/MangoLion/plotbunni"
+        }
+      ],
+      "top_source_url": "https://github.com/MangoLion/plotbunni",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "scene_asset_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -1190,10 +1888,34 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/kaigani/codeywood",
+      "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
+        "zero-issues-high-stars",
         "license:missing"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "query_lint_contract",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 98,
+          "summary": "Versioned graph engine useful as a pattern source for novel canon graphs: Git-style snapshots and branches, atomic graph-level commits, row-level merge conflicts, schema/query linting, and branch-safe mutation contracts.",
+          "title": "ModernRelay/omnigraph",
+          "trust_flags": [],
+          "url": "https://github.com/ModernRelay/omnigraph"
+        }
+      ],
+      "top_source_url": "https://github.com/ModernRelay/omnigraph",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -1239,7 +1961,7 @@
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "memory_snapshot_versioning",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1260,6 +1982,19 @@
             "default-branch:nonstandard"
           ],
           "url": "https://github.com/mrigankad/Novel-OS"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 98,
+          "summary": "Versioned graph engine useful as a pattern source for novel canon graphs: Git-style snapshots and branches, atomic graph-level commits, row-level merge conflicts, schema/query linting, and branch-safe mutation contracts.",
+          "title": "ModernRelay/omnigraph",
+          "trust_flags": [],
+          "url": "https://github.com/ModernRelay/omnigraph"
         },
         {
           "license": "Apache-2.0",

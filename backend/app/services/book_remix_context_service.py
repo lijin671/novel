@@ -66,6 +66,10 @@ def build_remix_continuation_context_block(
         plan=plan,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_scene_graph_review_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -911,6 +915,49 @@ def _append_context_activation_audit_section(
         lines.append("- Rejected drafts must revert prose plus timeline, character, organization, hook, and plan-progress state.")
 
 
+def _append_scene_graph_review_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render graph/workspace gates learned from static source intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "scene_level_generation",
+        "content_ref_externalization",
+        "review_queue_staging",
+        "style_guide_layering",
+        "entity_schema_custom_fields",
+        "graph_healing",
+        "contradiction_detection",
+        "graph_branching_atomicity",
+        "query_lint_contract",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Scene graph review audit:")
+    if "scene_level_generation" in pattern_names:
+        lines.append("- scene_generation_units: plan scene goal, cast, location, pressure, reveal, and exit hook before drafting")
+    if "content_ref_externalization" in pattern_names:
+        lines.append("- external_content_refs: store large scene plans, drafts, extraction payloads, and review reports as refs with integrity metadata")
+    if "review_queue_staging" in pattern_names:
+        lines.append("- pending_change_queue: stage AI-proposed canon/style/card/chapter changes before applying them")
+    if "style_guide_layering" in pattern_names:
+        lines.append("- style_layer_stack: base style guide -> scene override -> character voice notes")
+    if "entity_schema_custom_fields" in pattern_names:
+        lines.append("- entity_custom_fields: validate genre-specific fields before prompt injection or canon write-back")
+    if "graph_healing" in pattern_names:
+        lines.append("- graph_healing_review: surface duplicate entities, orphan lore, and stale edges as reviewable candidates")
+    if "contradiction_detection" in pattern_names:
+        lines.append("- contradiction_gate: block acceptance on timeline, relationship, location, trait, or hook conflicts")
+    if "graph_branching_atomicity" in pattern_names:
+        lines.append("- branch_atomicity: publish multi-slice canon updates only after branch/snapshot validation passes")
+    if "query_lint_contract" in pattern_names:
+        lines.append("- query_lint_contract: lint generated mutations for target entity, relationship type, required fields, and delete/update separation")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -957,6 +1004,17 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "world_state_tracking_hints": "world_state_tracking",
         "memory_snapshot_versioning_hints": "memory_snapshot_versioning",
         "author_note_layer_hints": "author_note_layer",
+        "local_first_workspace_hints": "local_first_novel_workspace",
+        "prompt_library_hints": "prompt_library",
+        "style_guide_layering_hints": "style_guide_layering",
+        "review_queue_staging_hints": "review_queue_staging",
+        "entity_schema_custom_fields_hints": "entity_schema_custom_fields",
+        "scene_level_generation_hints": "scene_level_generation",
+        "content_ref_externalization_hints": "content_ref_externalization",
+        "graph_healing_hints": "graph_healing",
+        "contradiction_detection_hints": "contradiction_detection",
+        "graph_branching_atomicity_hints": "graph_branching_atomicity",
+        "query_lint_contract_hints": "query_lint_contract",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

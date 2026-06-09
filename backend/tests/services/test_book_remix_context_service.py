@@ -1109,6 +1109,66 @@ def test_build_remix_continuation_context_block_renders_context_activation_audit
     assert "snapshot before risky rewrite" in block
 
 
+def test_build_remix_continuation_context_block_renders_scene_graph_review_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Track the archive witness"}],
+            "organizations": [{"name": "Archive Office", "role": "controls sealed files"}],
+            "timeline": [
+                {
+                    "event": "Inspector Lin recovered ledger",
+                    "chapter_number": 19,
+                    "source": "chapter_analysis",
+                },
+            ],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Witness",
+                    "summary": "Inspector Lin questioned the archive witness.",
+                    "timeline_delta": [{"event": "Archive witness revealed a sealed file"}],
+                },
+            ],
+            "style_signature": {"voice": "tense restraint"},
+        },
+        plan={
+            "summary": "Follow the sealed file lead next.",
+            "beats": [{"beat": "Follow city hall file", "status": "pending"}],
+            "priority_hooks": [{"hook": "Archive witness hesitates", "status": "pending"}],
+            "guardrails": [{"rule": "No repeated ledger recovery"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "scene_level_generation"},
+                {"name": "content_ref_externalization"},
+                {"name": "review_queue_staging"},
+                {"name": "style_guide_layering"},
+                {"name": "entity_schema_custom_fields"},
+                {"name": "graph_healing"},
+                {"name": "contradiction_detection"},
+                {"name": "graph_branching_atomicity"},
+                {"name": "query_lint_contract"},
+            ],
+            "scene_level_generation_hints": ["Plan chapters as ordered scene units before drafting."],
+            "review_queue_staging_hints": ["Stage AI-proposed bible, card, style, and chapter changes as pending changes before applying them to canon."],
+        },
+    )
+
+    assert "Scene graph review audit" in block
+    assert "scene_generation_units: plan scene goal, cast, location, pressure, reveal, and exit hook before drafting" in block
+    assert "external_content_refs: store large scene plans, drafts, extraction payloads, and review reports as refs with integrity metadata" in block
+    assert "pending_change_queue: stage AI-proposed canon/style/card/chapter changes before applying them" in block
+    assert "style_layer_stack: base style guide -> scene override -> character voice notes" in block
+    assert "entity_custom_fields: validate genre-specific fields before prompt injection or canon write-back" in block
+    assert "graph_healing_review: surface duplicate entities, orphan lore, and stale edges as reviewable candidates" in block
+    assert "contradiction_gate: block acceptance on timeline, relationship, location, trait, or hook conflicts" in block
+    assert "branch_atomicity: publish multi-slice canon updates only after branch/snapshot validation passes" in block
+    assert "query_lint_contract: lint generated mutations for target entity, relationship type, required fields, and delete/update separation" in block
+
+
 def test_build_remix_continuation_progress_summary_deduplicates_legacy_generation_and_analysis_packages():
     summary = build_remix_continuation_progress_summary(
         packages=[
