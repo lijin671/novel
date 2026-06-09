@@ -2383,3 +2383,65 @@ def test_build_remix_inspired_context_block_renders_source_import_extraction_aud
     assert "ocr_scanned_page_import_gate" in block
     assert "Inspired transformation audit" in block
     assert "source_import_structure_remap, pdf_layout_evidence_remap" in block
+
+
+def test_build_remix_continuation_context_block_renders_literary_event_graph_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Event Graph Continuation Desk",
+        bible={"character_cards": [{"name": "Ira", "voice": "observant"}]},
+        plan={"summary": "Continue after deconstructing event and relationship arcs."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "literary_event_entity_annotation_gate"},
+                {"name": "narrative_event_evolution_graph_gate"},
+                {"name": "sentiment_arc_emotion_trajectory_gate"},
+                {"name": "cross_context_coreference_gate"},
+                {"name": "character_interaction_network_gate"},
+            ],
+            "literary_event_entity_annotation_gate_hints": ["Separate source-book literary entities and events."],
+            "sentiment_arc_emotion_trajectory_gate_hints": ["Track emotion turning points with reasons."],
+        },
+    )
+
+    assert "Literary event graph audit" in block
+    assert "literary_event_entity_annotation_gate: separate source entities" in block
+    assert "narrative_event_evolution_graph_gate: review temporal, causal" in block
+    assert "sentiment_arc_emotion_trajectory_gate: track global and character emotion curves" in block
+    assert "cross_context_coreference_gate: keep ambiguous cross-chapter/source mention clusters" in block
+    assert "character_interaction_network_gate: audit interaction frequency" in block
+    assert "Separate source-book literary entities and events." in block
+
+
+def test_build_remix_inspired_context_block_renders_literary_event_graph_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Event Graph Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Preserve only event pressure and emotion shape after remapping.\n"
+            "source voice\n"
+            "- Alternating intimacy and distrust.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "literary_event_entity_annotation_gate"},
+                {"name": "narrative_event_evolution_graph_gate"},
+                {"name": "sentiment_arc_emotion_trajectory_gate"},
+                {"name": "cross_context_coreference_gate"},
+                {"name": "character_interaction_network_gate"},
+            ],
+            "inspired_mapping_targets": [
+                "literary_annotation_role_remap",
+                "event_chain_causality_remap",
+                "sentiment_arc_emotion_remap",
+                "cross_context_coreference_remap",
+                "character_network_relationship_remap",
+            ],
+            "inspired_copy_risk_hints": ["Reject source-like event graph and relationship topology."],
+        },
+    )
+
+    assert "Literary event graph audit" in block
+    assert "narrative_event_evolution_graph_gate" in block
+    assert "character_interaction_network_gate" in block
+    assert "Inspired transformation audit" in block
+    assert "literary_annotation_role_remap, event_chain_causality_remap" in block

@@ -5695,3 +5695,235 @@ def test_default_discovery_sources_include_source_import_ocr_projects():
     assert any("pdf text extraction" in query.lower() and "layout analysis" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("ocr" in query.lower() and "tesseract" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("document partition" in query.lower() and "partition_pdf" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_narrative_event_emotion_sources_classify_into_graph_arc_and_network_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "dbamman/litbank",
+                "html_url": "https://github.com/dbamman/litbank",
+                "description": "Annotated dataset of 100 works of fiction with literary entities, literary event detection, and coreference in English literature.",
+                "stargazers_count": 376,
+                "license": None,
+                "topics": ["litbank", "fiction", "literary-entities"],
+                "updated_at": "2026-06-05T16:42:27Z",
+                "root_files": ["README.md", "entities", "events", "coref"],
+            },
+            {
+                "full_name": "eecrazy/ConstructingNEEG_IJCAI_2018",
+                "html_url": "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018",
+                "description": "Constructing Narrative Event Evolutionary Graph for Script Event Prediction with narrative event chains and event graph modeling.",
+                "stargazers_count": 165,
+                "license": None,
+                "topics": ["narrative-event", "event-graph"],
+                "updated_at": "2025-11-19T11:12:54Z",
+                "root_files": ["README.md", "code", "data"],
+            },
+            {
+                "full_name": "doug919/narrative_graph_emnlp2020",
+                "html_url": "https://github.com/doug919/narrative_graph_emnlp2020",
+                "description": "Weakly-supervised modeling of contextualized event embedding for discourse relations and narrative graph event relation modeling.",
+                "stargazers_count": 6,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["event-embedding", "discourse-relations"],
+                "updated_at": "2022-10-06T06:40:45Z",
+                "root_files": ["README.md", "requirements.txt"],
+            },
+            {
+                "full_name": "mjockers/syuzhet",
+                "html_url": "https://github.com/mjockers/syuzhet",
+                "description": "An R package for the extraction of sentiment and sentiment-based plot arcs from text.",
+                "stargazers_count": 350,
+                "license": None,
+                "topics": ["sentiment", "plot-arcs"],
+                "updated_at": "2026-06-09T14:07:41Z",
+                "root_files": ["README.md", "DESCRIPTION"],
+            },
+            {
+                "full_name": "jon-chun/sentimentarcs_notebooks",
+                "html_url": "https://github.com/jon-chun/sentimentarcs_notebooks",
+                "description": "SentimentArcs is a large ensemble of sentiment analysis models to analyze emotion in text over time.",
+                "stargazers_count": 43,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["sentiment-arcs", "emotion"],
+                "updated_at": "2026-04-07T10:17:09Z",
+                "root_files": ["README.md", "notebooks"],
+            },
+            {
+                "full_name": "SapienzaNLP/xcore",
+                "html_url": "https://github.com/SapienzaNLP/xcore",
+                "description": "xCoRe is an all-in-one model for cross-context coreference resolution across short, long and multiple contexts.",
+                "stargazers_count": 11,
+                "license": None,
+                "topics": ["coreference", "cross-context"],
+                "updated_at": "2026-04-02T11:34:03Z",
+                "root_files": ["README.md", "requirements.txt"],
+            },
+            {
+                "full_name": "anastasia-zhukova/XCoref",
+                "html_url": "https://github.com/anastasia-zhukova/XCoref",
+                "description": "XCoref is a cross-document coreference resolution system for entity, event, and abstract concepts.",
+                "stargazers_count": 3,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["coreference", "cross-document"],
+                "updated_at": "2026-03-05T17:41:07Z",
+                "root_files": ["README.md", "setup.py"],
+            },
+            {
+                "full_name": "hzjken/character-network",
+                "html_url": "https://github.com/hzjken/character-network",
+                "description": "Using network graph, NLP entity recognition and sentiment analysis to analyse relationships among characters in a novel.",
+                "stargazers_count": 62,
+                "license": None,
+                "topics": ["character-network", "novel"],
+                "updated_at": "2026-05-13T02:10:18Z",
+                "root_files": ["README.md", "notebooks"],
+            },
+            {
+                "full_name": "devbret/character-interactions",
+                "html_url": "https://github.com/devbret/character-interactions",
+                "description": "Extract characters, infer relationships using linguistic signals and visualize literary character interactions as a network graph.",
+                "stargazers_count": 4,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["character-interactions", "literary-network"],
+                "updated_at": "2026-05-09T05:18:09Z",
+                "root_files": ["README.md", "package.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T01:30:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["dbamman/litbank"]["family"] == "novel-automation"
+    assert "literary_event_entity_annotation_gate" in by_title["dbamman/litbank"]["absorbed_patterns"]
+    assert "narrative_event_evolution_graph_gate" in by_title["eecrazy/ConstructingNEEG_IJCAI_2018"]["absorbed_patterns"]
+    assert "narrative_event_evolution_graph_gate" in by_title["doug919/narrative_graph_emnlp2020"]["absorbed_patterns"]
+    assert "sentiment_arc_emotion_trajectory_gate" in by_title["mjockers/syuzhet"]["absorbed_patterns"]
+    assert "sentiment_arc_emotion_trajectory_gate" in by_title["jon-chun/sentimentarcs_notebooks"]["absorbed_patterns"]
+    assert "cross_context_coreference_gate" in by_title["SapienzaNLP/xcore"]["absorbed_patterns"]
+    assert "cross_context_coreference_gate" in by_title["anastasia-zhukova/XCoref"]["absorbed_patterns"]
+    assert "character_interaction_network_gate" in by_title["hzjken/character-network"]["absorbed_patterns"]
+    assert "character_interaction_network_gate" in by_title["devbret/character-interactions"]["absorbed_patterns"]
+
+
+def test_narrative_event_emotion_pattern_pack_exposes_graph_arc_and_network_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-11T01:35:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/dbamman/litbank",
+                "title": "dbamman/litbank",
+                "summary": "Literary entity and event annotation for source-book deconstruction.",
+                "stars": 376,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["literary_event_entity_annotation_gate"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018",
+                "title": "eecrazy/ConstructingNEEG_IJCAI_2018",
+                "summary": "Narrative event evolutionary graph and event-chain review.",
+                "stars": 165,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["narrative_event_evolution_graph_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/mjockers/syuzhet",
+                "title": "mjockers/syuzhet",
+                "summary": "Sentiment-based plot arcs and emotion trajectories.",
+                "stars": 350,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["sentiment_arc_emotion_trajectory_gate"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/SapienzaNLP/xcore",
+                "title": "SapienzaNLP/xcore",
+                "summary": "Cross-context coreference and mention cluster stability.",
+                "stars": 11,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["cross_context_coreference_gate"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/hzjken/character-network",
+                "title": "hzjken/character-network",
+                "summary": "Character interaction network and relationship polarity review.",
+                "stars": 62,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["character_interaction_network_gate"],
+                "score": 80,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "literary_entity_event_annotation_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "narrative_event_chain_graph" in pattern_pack["bible_enrichment_targets"]
+    assert "sentiment_arc_baseline" in pattern_pack["bible_enrichment_targets"]
+    assert "cross_context_coreference_ledger" in pattern_pack["bible_enrichment_targets"]
+    assert "character_interaction_network" in pattern_pack["bible_enrichment_targets"]
+    assert "literary_entity_event_annotation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "narrative_event_chain_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "sentiment_arc_emotion_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "cross_context_coreference_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "character_interaction_network_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "literary_annotation_role_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "event_chain_causality_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "sentiment_arc_emotion_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "cross_context_coreference_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "character_network_relationship_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "literary_event_entity_annotation_gate_hints" in digest
+    assert "narrative_event_evolution_graph_gate_hints" in digest
+    assert "sentiment_arc_emotion_trajectory_gate_hints" in digest
+    assert "cross_context_coreference_gate_hints" in digest
+    assert "character_interaction_network_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_narrative_event_emotion_projects():
+    assert "https://github.com/dbamman/litbank" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/acolas1/EventNarrative" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/doug919/narrative_graph_emnlp2020" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mjockers/syuzhet" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jon-chun/sentimentarcs_notebooks" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/SapienzaNLP/xcore" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/anastasia-zhukova/XCoref" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/hzjken/character-network" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/devbret/character-interactions" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("litbank" in query.lower() and "literary event detection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("narrative event evolutionary graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("sentiment arcs" in query.lower() and "emotion in text over time" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("cross-context coreference" in query.lower() and "xcoref" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("character network" in query.lower() and "character interactions" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

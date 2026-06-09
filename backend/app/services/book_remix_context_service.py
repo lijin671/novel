@@ -138,6 +138,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_literary_event_graph_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_segmentation_summary_topic_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -440,6 +444,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_source_import_extraction_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_literary_event_graph_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1442,6 +1450,37 @@ def _append_source_import_extraction_audit_section(
         lines.append("- import_provenance_checksum_gate: keep original, extracted, normalized, and accepted text artifacts linked by checksum, parser version, and settings")
 
 
+def _append_literary_event_graph_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render literary annotation, event graph, emotion arc, and character-network gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "literary_event_entity_annotation_gate",
+        "narrative_event_evolution_graph_gate",
+        "sentiment_arc_emotion_trajectory_gate",
+        "cross_context_coreference_gate",
+        "character_interaction_network_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Literary event graph audit:")
+    if "literary_event_entity_annotation_gate" in pattern_names:
+        lines.append("- literary_event_entity_annotation_gate: separate source entities, events, participant roles, and mention spans before canon or summary write-back")
+    if "narrative_event_evolution_graph_gate" in pattern_names:
+        lines.append("- narrative_event_evolution_graph_gate: review temporal, causal, discourse, blocker, and payoff edges before using source event chains")
+    if "sentiment_arc_emotion_trajectory_gate" in pattern_names:
+        lines.append("- sentiment_arc_emotion_trajectory_gate: track global and character emotion curves with turning-point reasons, not as automatic quality scores")
+    if "cross_context_coreference_gate" in pattern_names:
+        lines.append("- cross_context_coreference_gate: keep ambiguous cross-chapter/source mention clusters out of accepted canon until reviewed")
+    if "character_interaction_network_gate" in pattern_names:
+        lines.append("- character_interaction_network_gate: audit interaction frequency, centrality, relationship polarity, and timing before accepting relationship canon")
+
+
 def _append_segmentation_summary_topic_audit_section(
     *,
     lines: list[str],
@@ -2113,6 +2152,11 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "ocr_scanned_page_import_gate_hints": "ocr_scanned_page_import_gate",
         "document_partition_chapter_detection_gate_hints": "document_partition_chapter_detection_gate",
         "import_provenance_checksum_gate_hints": "import_provenance_checksum_gate",
+        "literary_event_entity_annotation_gate_hints": "literary_event_entity_annotation_gate",
+        "narrative_event_evolution_graph_gate_hints": "narrative_event_evolution_graph_gate",
+        "sentiment_arc_emotion_trajectory_gate_hints": "sentiment_arc_emotion_trajectory_gate",
+        "cross_context_coreference_gate_hints": "cross_context_coreference_gate",
+        "character_interaction_network_gate_hints": "character_interaction_network_gate",
         "semantic_chunk_boundary_map_hints": "semantic_chunk_boundary_map",
         "chapter_summary_anchor_gate_hints": "chapter_summary_anchor_gate",
         "topic_drift_map_hints": "topic_drift_map",

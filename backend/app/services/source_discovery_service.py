@@ -110,6 +110,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("OCR" OR "scanned PDF" OR "hOCR" OR "Tesseract") ("book" OR "novel" OR "manuscript") in:name,description,readme',
     '("document partition" OR "partition_pdf" OR "partition_epub" OR "document elements") ("book" OR "chapter" OR "manuscript") in:name,description,readme',
     '("Pandoc" OR "format conversion" OR "metadata" OR "checksum") ("manuscript" OR "book" OR "chapter import") in:name,description,readme',
+    '("LitBank" OR "literary event detection" OR "literary entities") ("fiction" OR "literature" OR "novel") in:name,description,readme',
+    '("narrative event evolutionary graph" OR "narrative event chain" OR "script event prediction") ("story" OR "event graph") in:name,description,readme',
+    '("sentiment arcs" OR "sentiment-based plot arcs" OR "emotion in text over time") ("fiction" OR "novel" OR "text") in:name,description,readme',
+    '("cross-context coreference" OR "cross-document coreference" OR "XCoref") ("entity" OR "event" OR "literature") in:name,description,readme',
+    '("character network" OR "fictional character network" OR "character interactions") ("novel" OR "literary" OR "fiction") in:name,description,readme',
     '("keyphrase extraction" OR "keyword extraction" OR "motif extraction") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
     '("semantic chunk" OR "text splitter" OR "recursive character splitter") ("novel" OR "chapter" OR "long text") in:name,description,readme',
     '("summarization" OR "extractive summarizer" OR "chapter summary") ("novel" OR "book" OR "long text") in:name,description,readme',
@@ -259,6 +264,16 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/tesseract-ocr/tesseract",
     "https://github.com/Unstructured-IO/unstructured",
     "https://github.com/jgm/pandoc",
+    "https://github.com/dbamman/litbank",
+    "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018",
+    "https://github.com/acolas1/EventNarrative",
+    "https://github.com/doug919/narrative_graph_emnlp2020",
+    "https://github.com/mjockers/syuzhet",
+    "https://github.com/jon-chun/sentimentarcs_notebooks",
+    "https://github.com/SapienzaNLP/xcore",
+    "https://github.com/anastasia-zhukova/XCoref",
+    "https://github.com/hzjken/character-network",
+    "https://github.com/devbret/character-interactions",
     "https://github.com/LSYS/LexicalRichness",
     "https://github.com/HLasse/TextDescriptives",
     "https://github.com/boudinfl/pke",
@@ -496,6 +511,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("ocr_scanned_page_import_gate", ("ocr", "ocrmypdf", "tesseract", "scanned pdf", "scanned page", "hocr", "ocr confidence", "deskew", "page image", "image text", "\u626b\u63cf", "\u56fe\u50cf\u8bc6\u522b", "\u8bc6\u522b\u7f6e\u4fe1\u5ea6")),
     ("document_partition_chapter_detection_gate", ("unstructured", "document partition", "partition_pdf", "partition_epub", "document elements", "title element", "heading detection", "section detection", "chapter detection", "layout element", "\u7ae0\u8282\u68c0\u6d4b", "\u6807\u9898\u8bc6\u522b")),
     ("import_provenance_checksum_gate", ("checksum", "hash", "source file", "file provenance", "import manifest", "page range", "extraction settings", "parser version", "input artifact", "conversion log", "\u6821\u9a8c\u548c", "\u6765\u6e90\u8ffd\u6eaf", "\u5bfc\u5165\u6e05\u5355")),
+    ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
+    ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
+    ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
+    ("cross_context_coreference_gate", ("cross-context coreference", "cross context coreference", "cross-document coreference", "cross document coreference", "xcore", "xcoref", "entity, event, and abstract concepts", "multiple contexts", "multiple documents", "mention cluster", "\u8de8\u6587\u6863\u5171\u6307", "\u5171\u6307\u6d88\u89e3")),
+    ("character_interaction_network_gate", ("character network", "character-network", "character networks", "fictional characters", "social networks of fictional characters", "character interactions", "relationship network", "temporal signed character networks", "character social relationship", "\u4eba\u7269\u5173\u7cfb\u7f51", "\u89d2\u8272\u4e92\u52a8")),
     ("semantic_chunk_boundary_map", ("semantic text splitter", "semantic chunk", "semantic chunking", "text splitter", "text splitting", "recursive character text splitter", "recursive character splitter", "chunk capacity", "chunk boundary", "boundary preservation")),
     ("chapter_summary_anchor_gate", ("automatic text summarizer", "extractive summarizer", "extractive summarization", "summarization chains", "lsa", "lexrank", "textrank", "representative sentences", "chapter summary", "summary anchor")),
     ("topic_drift_map", ("topic modeling", "bertopic", "dynamic topic modeling", "dynamic topics", "topic representation", "c-tf-idf", "topic drift", "topic clusters")),
@@ -976,6 +996,46 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "jgm/pandoc": (
         "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. "
         "Absorb format conversion provenance patterns only; GPL runtime is not installed."
+    ),
+    "dbamman/litbank": (
+        "LitBank is an annotated dataset of 100 works of fiction covering literary entities, literary events, and coreference in English literature. "
+        "Absorb entity/event/coreference annotation gates only; dataset files and models are not imported."
+    ),
+    "eecrazy/constructingneeg_ijcai_2018": (
+        "ConstructingNEEG studies narrative event evolutionary graphs for script event prediction. "
+        "Absorb event-chain/evolution graph review patterns only; external data, PyTorch runtime, and old dependencies are not executed."
+    ),
+    "acolas1/eventnarrative": (
+        "EventNarrative is an event-centric knowledge-graph-to-text dataset and resource. "
+        "Absorb event graph linearization and provenance separation patterns only; dataset/runtime assets are not downloaded."
+    ),
+    "doug919/narrative_graph_emnlp2020": (
+        "Narrative graph EMNLP 2020 models contextualized event embeddings for discourse relations. "
+        "Absorb discourse/event relation evidence patterns only; trained models and Java/Python runtime are not executed."
+    ),
+    "mjockers/syuzhet": (
+        "Syuzhet extracts sentiment and sentiment-based plot arcs from text. "
+        "Absorb emotion-arc review and pacing-trajectory patterns only; R package runtime is not installed."
+    ),
+    "jon-chun/sentimentarcs_notebooks": (
+        "SentimentArcs notebooks compare many sentiment models to analyze emotion in text over time. "
+        "Absorb ensemble emotion-arc audit patterns only; notebooks and model dependencies are not executed."
+    ),
+    "sapienzanlp/xcore": (
+        "xCoRe is an all-in-one cross-context coreference model for short, long, and multiple contexts. "
+        "Absorb cross-context mention-cluster stability gates only; model weights and runtime are not downloaded."
+    ),
+    "anastasia-zhukova/xcoref": (
+        "XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. "
+        "Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed."
+    ),
+    "hzjken/character-network": (
+        "Character-network analyzes relationships among novel characters with graph, entity-recognition, and sentiment techniques. "
+        "Absorb character interaction network gates only; example corpus and notebooks are not executed."
+    ),
+    "devbret/character-interactions": (
+        "Character-interactions extracts characters, infers relationships, and visualizes literary interaction networks. "
+        "Absorb character relationship evidence and network review patterns only; web/D3 runtime is not launched."
     ),
     "lsys/lexicalrichness": (
         "LexicalRichness is an MIT module for lexical richness and diversity metrics such as MTLD, HD-D, and type-token variants. "
@@ -1558,6 +1618,11 @@ class NovelSourceDiscoveryService:
             "ocr_scanned_page_import_gate_hints": self._build_ocr_scanned_page_import_gate_hints(available_patterns),
             "document_partition_chapter_detection_gate_hints": self._build_document_partition_chapter_detection_gate_hints(available_patterns),
             "import_provenance_checksum_gate_hints": self._build_import_provenance_checksum_gate_hints(available_patterns),
+            "literary_event_entity_annotation_gate_hints": self._build_literary_event_entity_annotation_gate_hints(available_patterns),
+            "narrative_event_evolution_graph_gate_hints": self._build_narrative_event_evolution_graph_gate_hints(available_patterns),
+            "sentiment_arc_emotion_trajectory_gate_hints": self._build_sentiment_arc_emotion_trajectory_gate_hints(available_patterns),
+            "cross_context_coreference_gate_hints": self._build_cross_context_coreference_gate_hints(available_patterns),
+            "character_interaction_network_gate_hints": self._build_character_interaction_network_gate_hints(available_patterns),
             "semantic_chunk_boundary_map_hints": self._build_semantic_chunk_boundary_map_hints(available_patterns),
             "chapter_summary_anchor_gate_hints": self._build_chapter_summary_anchor_gate_hints(available_patterns),
             "topic_drift_map_hints": self._build_topic_drift_map_hints(available_patterns),
@@ -2156,6 +2221,11 @@ class NovelSourceDiscoveryService:
             "ocr_scanned_page_import_gate": 61,
             "document_partition_chapter_detection_gate": 64,
             "import_provenance_checksum_gate": 62,
+            "literary_event_entity_annotation_gate": 66,
+            "narrative_event_evolution_graph_gate": 65,
+            "sentiment_arc_emotion_trajectory_gate": 62,
+            "cross_context_coreference_gate": 64,
+            "character_interaction_network_gate": 63,
             "semantic_chunk_boundary_map": 62,
             "chapter_summary_anchor_gate": 61,
             "topic_drift_map": 60,
@@ -2390,6 +2460,21 @@ class NovelSourceDiscoveryService:
         if "import_provenance_checksum_gate" in patterns:
             targets.append("source_file_checksum_manifest")
             targets.append("import_parser_version_ledger")
+        if "literary_event_entity_annotation_gate" in patterns:
+            targets.append("literary_entity_event_annotation_schema")
+            targets.append("event_participant_role_ledger")
+        if "narrative_event_evolution_graph_gate" in patterns:
+            targets.append("narrative_event_chain_graph")
+            targets.append("event_causality_discourse_edges")
+        if "sentiment_arc_emotion_trajectory_gate" in patterns:
+            targets.append("sentiment_arc_baseline")
+            targets.append("character_emotion_trajectory")
+        if "cross_context_coreference_gate" in patterns:
+            targets.append("cross_context_coreference_ledger")
+            targets.append("mention_cluster_boundary_rules")
+        if "character_interaction_network_gate" in patterns:
+            targets.append("character_interaction_network")
+            targets.append("relationship_polarity_timeline")
         if "semantic_chunk_boundary_map" in patterns:
             targets.append("semantic_chunk_boundary_manifest")
             targets.append("chunk_inclusion_rules")
@@ -2735,6 +2820,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["document_partition_report", "chapter_heading_detection_report", "element_type_sequence"])
         if "import_provenance_checksum_gate" in patterns:
             targets.extend(["import_checksum_report", "parser_setting_manifest", "source_artifact_provenance"])
+        if "literary_event_entity_annotation_gate" in patterns:
+            targets.extend(["literary_entity_event_annotation_report", "event_participant_role_conflicts", "source_event_annotation_gaps"])
+        if "narrative_event_evolution_graph_gate" in patterns:
+            targets.extend(["narrative_event_chain_report", "causal_discourse_edge_findings", "event_order_dependency_gaps"])
+        if "sentiment_arc_emotion_trajectory_gate" in patterns:
+            targets.extend(["sentiment_arc_emotion_report", "character_emotion_trajectory_report", "emotion_turning_point_findings"])
+        if "cross_context_coreference_gate" in patterns:
+            targets.extend(["cross_context_coreference_report", "mention_cluster_conflicts", "entity_event_identity_gaps"])
+        if "character_interaction_network_gate" in patterns:
+            targets.extend(["character_interaction_network_report", "relationship_polarity_drift", "centrality_role_shift_findings"])
         if "semantic_chunk_boundary_map" in patterns:
             targets.extend(["semantic_chunk_boundary_report", "chunk_overlap_manifest", "context_boundary_findings"])
         if "chapter_summary_anchor_gate" in patterns:
@@ -4493,6 +4588,51 @@ class NovelSourceDiscoveryService:
             "Keep original, extracted, normalized, and accepted text as separate artifacts with explicit lineage.",
         ]
 
+    def _build_literary_event_entity_annotation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "literary_event_entity_annotation_gate" not in patterns:
+            return []
+        return [
+            "Separate source-book literary entities, events, participant roles, and mention spans before turning them into canon cards or summaries.",
+            "Treat event/entity annotations as review evidence; unresolved event labels or participant slots stay out of continuation context.",
+            "For same-type creation, remap roles and event functions before any source annotation can influence the new outline.",
+        ]
+
+    def _build_narrative_event_evolution_graph_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "narrative_event_evolution_graph_gate" not in patterns:
+            return []
+        return [
+            "Build event-chain graphs with explicit temporal, causal, discourse, blocker, and payoff edges before deconstruction conclusions.",
+            "Do not treat next-event predictions or script-like event chains as canon unless a reviewer accepts the event dependency.",
+            "For same-type creation, change causal edges and event order instead of preserving source narrative evolution under renamed actors.",
+        ]
+
+    def _build_sentiment_arc_emotion_trajectory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "sentiment_arc_emotion_trajectory_gate" not in patterns:
+            return []
+        return [
+            "Track global sentiment arcs and character-specific emotion trajectories with chapter/scene anchors and turning-point reasons.",
+            "Use sentiment and emotion curves as review signals, not automatic quality scores, because model/lexicon disagreement needs triage.",
+            "For same-type creation, rebuild triggers and payoffs so the new book does not clone the source emotional curve.",
+        ]
+
+    def _build_cross_context_coreference_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "cross_context_coreference_gate" not in patterns:
+            return []
+        return [
+            "Maintain cross-chapter and cross-document mention clusters for people, places, events, and abstract concepts before context reuse.",
+            "Flag ambiguous or drifting clusters instead of writing them back into canon, especially across imported source and generated chapters.",
+            "For same-type creation, regenerate aliases and cluster boundaries around the transformed cast and event set.",
+        ]
+
+    def _build_character_interaction_network_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "character_interaction_network_gate" not in patterns:
+            return []
+        return [
+            "Extract character interaction networks with evidence for co-occurrence, dialogue, sentiment/polarity, faction, and time window.",
+            "Review centrality, bridge characters, alliance/conflict polarity, and relationship timing before accepting relationship canon.",
+            "For same-type creation, alter graph topology and relationship timing so renamed characters do not preserve the source network.",
+        ]
+
     def _build_semantic_chunk_boundary_map_hints(self, patterns: set[str]) -> list[str]:
         if "semantic_chunk_boundary_map" not in patterns:
             return []
@@ -5001,6 +5141,16 @@ class NovelSourceDiscoveryService:
             targets.append("chapter_partition_structure_remap")
         if "import_provenance_checksum_gate" in patterns:
             targets.append("import_provenance_lineage_remap")
+        if "literary_event_entity_annotation_gate" in patterns:
+            targets.append("literary_annotation_role_remap")
+        if "narrative_event_evolution_graph_gate" in patterns:
+            targets.append("event_chain_causality_remap")
+        if "sentiment_arc_emotion_trajectory_gate" in patterns:
+            targets.append("sentiment_arc_emotion_remap")
+        if "cross_context_coreference_gate" in patterns:
+            targets.append("cross_context_coreference_remap")
+        if "character_interaction_network_gate" in patterns:
+            targets.append("character_network_relationship_remap")
         if "semantic_chunk_boundary_map" in patterns:
             targets.append("chunk_boundary_remap")
         if "chapter_summary_anchor_gate" in patterns:
@@ -5202,6 +5352,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform source element partitions into new scene/section functions, not copied headings or section boundaries.")
         if "import_provenance_checksum_gate" in patterns:
             hints.append("Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts.")
+        if "literary_event_entity_annotation_gate" in patterns:
+            hints.append("Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.")
+        if "narrative_event_evolution_graph_gate" in patterns:
+            hints.append("Remap event chains by changing causes, blockers, decision points, and payoff edges instead of preserving source chronology.")
+        if "sentiment_arc_emotion_trajectory_gate" in patterns:
+            hints.append("Use emotion arcs as pressure-shape evidence only; rebuild turning points, valence shifts, and character triggers for the new story.")
+        if "cross_context_coreference_gate" in patterns:
+            hints.append("Rebuild mention clusters around the transformed cast so source entities and events cannot leak across context packs.")
+        if "character_interaction_network_gate" in patterns:
+            hints.append("Transform character networks by changing centrality, alliance, conflict polarity, and relationship timing before prose expansion.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Use source chunk boundaries as analysis evidence only; rebuild transformed chapter chunks around the new event chain.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -5421,6 +5581,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform document element sequences into new chapter functions before drafting.")
         if "import_provenance_checksum_gate" in patterns:
             hints.append("Transform provenance links so source artifacts never masquerade as accepted new-story chapters.")
+        if "literary_event_entity_annotation_gate" in patterns:
+            hints.append("Transform annotation schemas by replacing source event labels, participant roles, and mention evidence with new-story equivalents.")
+        if "narrative_event_evolution_graph_gate" in patterns:
+            hints.append("Transform event-evolution graphs by altering edge type, event order, actor intent, and consequence scope.")
+        if "sentiment_arc_emotion_trajectory_gate" in patterns:
+            hints.append("Transform emotion trajectories by changing who feels the shift, why it turns, and which scene pays it off.")
+        if "cross_context_coreference_gate" in patterns:
+            hints.append("Transform coreference ledgers so old source aliases and event mentions never resolve to new-story entities.")
+        if "character_interaction_network_gate" in patterns:
+            hints.append("Transform relationship graphs by changing interaction frequency, polarity, faction membership, and bridge characters.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Transform chunk boundaries by changing chapter segmentation, included evidence, and transition logic.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -5646,6 +5816,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject chapter maps that keep source heading text, partition sequence, or section boundary cadence.")
         if "import_provenance_checksum_gate" in patterns:
             hints.append("Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage.")
+        if "literary_event_entity_annotation_gate" in patterns:
+            hints.append("Reject drafts whose event/entity annotation ledger preserves source participant roles, event labels, or mention order under renamed surface text.")
+        if "narrative_event_evolution_graph_gate" in patterns:
+            hints.append("Reject transformed outlines whose causal/event graph keeps source event order, dependency edges, or script-like next-event predictions.")
+        if "sentiment_arc_emotion_trajectory_gate" in patterns:
+            hints.append("Reject emotion arcs that mirror source turning-point sequence, valence curve, or character-trigger mapping too closely.")
+        if "cross_context_coreference_gate" in patterns:
+            hints.append("Reject coreference ledgers that allow source aliases, events, or abstract concepts to resolve into transformed canon.")
+        if "character_interaction_network_gate" in patterns:
+            hints.append("Reject relationship networks that preserve source central characters, alliance/conflict polarity, or interaction timing under new names.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Reject transformed context packs that preserve source chunk order, boundary labels, or inclusion sequence under new names.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -5740,6 +5920,11 @@ class NovelSourceDiscoveryService:
                 "ocr_scanned_page_import_gate",
                 "document_partition_chapter_detection_gate",
                 "import_provenance_checksum_gate",
+                "literary_event_entity_annotation_gate",
+                "narrative_event_evolution_graph_gate",
+                "sentiment_arc_emotion_trajectory_gate",
+                "cross_context_coreference_gate",
+                "character_interaction_network_gate",
                 "semantic_chunk_boundary_map",
                 "chapter_summary_anchor_gate",
                 "topic_drift_map",
@@ -6201,6 +6386,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_source_import_signal(haystack):
             return "novel-automation"
+        if self._has_literary_structure_signal(haystack):
+            return "novel-automation"
         if self._has_segmentation_summary_topic_signal(haystack):
             return "novel-automation"
         if self._has_eval_observability_signal(haystack):
@@ -6316,6 +6503,31 @@ class NovelSourceDiscoveryService:
             "chapter detection",
             "checksum",
             "import manifest",
+        )
+        return any(term in haystack for term in terms)
+
+    def _has_literary_structure_signal(self, haystack: str) -> bool:
+        terms = (
+            "litbank",
+            "literary entities",
+            "literary event detection",
+            "coreference in english literature",
+            "narrative event evolutionary graph",
+            "narrative event chain",
+            "narrative graph",
+            "script event prediction",
+            "event-centric dataset",
+            "event embedding",
+            "discourse relations",
+            "sentiment arcs",
+            "sentiment-based plot arcs",
+            "emotion in text over time",
+            "cross-context coreference",
+            "cross-document coreference",
+            "character network",
+            "fictional characters",
+            "character interactions",
+            "relationship network",
         )
         return any(term in haystack for term in terms)
 

@@ -290,7 +290,17 @@
     "document_element_partition_map",
     "chapter_heading_detection_rules",
     "source_file_checksum_manifest",
-    "import_parser_version_ledger"
+    "import_parser_version_ledger",
+    "literary_entity_event_annotation_schema",
+    "event_participant_role_ledger",
+    "narrative_event_chain_graph",
+    "event_causality_discourse_edges",
+    "sentiment_arc_baseline",
+    "character_emotion_trajectory",
+    "cross_context_coreference_ledger",
+    "mention_cluster_boundary_rules",
+    "character_interaction_network",
+    "relationship_polarity_timeline"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -331,6 +341,11 @@
     "Store character voice as evidence-backed tone, personality, relationship pressure, and plot-chat boundaries.",
     "Use dialogue evidence to preserve voice and role behavior without copying source lines or protected role IP.",
     "For same-type creation, transform persona memory into new characters with distinct names, facts, relationships, and verbal signatures."
+  ],
+  "character_interaction_network_gate_hints": [
+    "Extract character interaction networks with evidence for co-occurrence, dialogue, sentiment/polarity, faction, and time window.",
+    "Review centrality, bridge characters, alliance/conflict polarity, and relationship timing before accepting relationship canon.",
+    "For same-type creation, alter graph topology and relationship timing so renamed characters do not preserve the source network."
   ],
   "character_quote_attribution_map_hints": [
     "Build a character mention, alias, speaker, and quote-attribution map before judging voice consistency or relationship pressure.",
@@ -585,6 +600,11 @@
     "Count repeated scene structures, weak causality bridges, flat dialogue patterns, and over-regular prose across the whole manuscript.",
     "Batch revision should fix recurring cross-chapter patterns without disturbing accepted continuity state."
   ],
+  "cross_context_coreference_gate_hints": [
+    "Maintain cross-chapter and cross-document mention clusters for people, places, events, and abstract concepts before context reuse.",
+    "Flag ambiguous or drifting clusters instead of writing them back into canon, especially across imported source and generated chapters.",
+    "For same-type creation, regenerate aliases and cluster boundaries around the transformed cast and event set."
+  ],
   "delivery_manuscript_assembly_hints": [],
   "diff_span_copy_review_hints": [
     "Inspect diff spans between source exemplars and draft output; copied spans, sentence order, and semantic-cleanup matches require rewrite.",
@@ -659,7 +679,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-11T00:45:00+08:00",
+  "generated_at": "2026-06-11T01:40:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -834,7 +854,12 @@
     "Reject drafts that copy source page-span rhythm, header/footer artifacts, or layout-driven section order.",
     "Reject generations based on unreviewed low-confidence OCR spans or hallucinated fixes to unreadable pages.",
     "Reject chapter maps that keep source heading text, partition sequence, or section boundary cadence.",
-    "Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage."
+    "Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage.",
+    "Reject drafts whose event/entity annotation ledger preserves source participant roles, event labels, or mention order under renamed surface text.",
+    "Reject transformed outlines whose causal/event graph keeps source event order, dependency edges, or script-like next-event predictions.",
+    "Reject emotion arcs that mirror source turning-point sequence, valence curve, or character-trigger mapping too closely.",
+    "Reject coreference ledgers that allow source aliases, events, or abstract concepts to resolve into transformed canon.",
+    "Reject relationship networks that preserve source central characters, alliance/conflict polarity, or interaction timing under new names."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -975,7 +1000,12 @@
     "pdf_layout_evidence_remap",
     "ocr_uncertainty_review_remap",
     "chapter_partition_structure_remap",
-    "import_provenance_lineage_remap"
+    "import_provenance_lineage_remap",
+    "literary_annotation_role_remap",
+    "event_chain_causality_remap",
+    "sentiment_arc_emotion_remap",
+    "cross_context_coreference_remap",
+    "character_network_relationship_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1066,7 +1096,12 @@
     "Transform layout-derived pacing into new scene density; source page spans are not outline anchors.",
     "Transform OCR-derived uncertainty into review tasks, not generation context.",
     "Transform document element sequences into new chapter functions before drafting.",
-    "Transform provenance links so source artifacts never masquerade as accepted new-story chapters."
+    "Transform provenance links so source artifacts never masquerade as accepted new-story chapters.",
+    "Transform annotation schemas by replacing source event labels, participant roles, and mention evidence with new-story equivalents.",
+    "Transform event-evolution graphs by altering edge type, event order, actor intent, and consequence scope.",
+    "Transform emotion trajectories by changing who feels the shift, why it turns, and which scene pays it off.",
+    "Transform coreference ledgers so old source aliases and event mentions never resolve to new-story entities.",
+    "Transform relationship graphs by changing interaction frequency, polarity, faction membership, and bridge characters."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1172,7 +1207,12 @@
     "Use PDF page/layout evidence to understand source pacing, then rebuild section boundaries for the new story.",
     "Keep OCR uncertainty out of new-story canon; only reviewed source evidence may influence transformation choices.",
     "Transform source element partitions into new scene/section functions, not copied headings or section boundaries.",
-    "Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts."
+    "Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts.",
+    "Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.",
+    "Remap event chains by changing causes, blockers, decision points, and payoff edges instead of preserving source chronology.",
+    "Use emotion arcs as pressure-shape evidence only; rebuild turning points, valence shifts, and character triggers for the new story.",
+    "Rebuild mention clusters around the transformed cast so source entities and events cannot leak across context packs.",
+    "Transform character networks by changing centrality, alliance, conflict polarity, and relationship timing before prose expansion."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1203,6 +1243,11 @@
     "Measure lexical diversity and repeated-vocabulary drift by chapter, narrator, and major speaker before accepting style-sensitive drafts.",
     "Low diversity, sudden MTLD/HD-D jumps, or repeated word clusters should become targeted voice-review notes.",
     "Same-type creation may borrow diversity range but must replace source catchphrases, metaphor clusters, and signature diction."
+  ],
+  "literary_event_entity_annotation_gate_hints": [
+    "Separate source-book literary entities, events, participant roles, and mention spans before turning them into canon cards or summaries.",
+    "Treat event/entity annotations as review evidence; unresolved event labels or participant slots stay out of continuation context.",
+    "For same-type creation, remap roles and event functions before any source annotation can influence the new outline."
   ],
   "local_first_workspace_hints": [
     "Scope remix analysis, continuation plans, style seeds, prompt choices, and draft state to the active novel/project workspace.",
@@ -1265,6 +1310,11 @@
   "narrative_arc_template_control_hints": [
     "Select genre, story style, author-style target, narrative arc, and scenario blueprint before same-type drafting.",
     "Arc templates guide pressure and payoff timing; they must be transformed into new cast, setting, conflict, and event chain."
+  ],
+  "narrative_event_evolution_graph_gate_hints": [
+    "Build event-chain graphs with explicit temporal, causal, discourse, blocker, and payoff edges before deconstruction conclusions.",
+    "Do not treat next-event predictions or script-like event chains as canon unless a reviewer accepts the event dependency.",
+    "For same-type creation, change causal edges and event order instead of preserving source narrative evolution under renamed actors."
   ],
   "narrative_strand_mapping_hints": [
     "Map premise, fabula, narrative strands, and geographic/temporal/social setting context before accepting arc changes.",
@@ -1466,7 +1516,9 @@
     "Chinese NLP projects remain pattern-only until a runtime safety contract names a local checker, model/download boundary, and manuscript privacy scope.",
     "Do not download NLP models, build native tokenizers, call external services, or run correction tools during source intake.",
     "Source import/OCR intake is static only: no OCR binary, parser runtime, conversion command, model, or language-data download is launched.",
-    "AGPL/GPL/MPL document-tool sources remain pattern-only; no external runtime code or long documentation is imported."
+    "AGPL/GPL/MPL document-tool sources remain pattern-only; no external runtime code or long documentation is imported.",
+    "Narrative event/emotion graph intake is static only: no datasets, notebooks, model weights, graph pipelines, Java/R/Python runtimes, or visualization servers are launched.",
+    "Literary annotation and character-network sources are pattern-only; source character names, event labels, and relationship topology must be transformed before same-type creation."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1522,6 +1574,11 @@
     "Use semantic search to retrieve long-range context, but require an inclusion reason and source artifact id for every injected hit.",
     "Fallback retrieval should prefer accepted chapters, sourcebook entries, and knowledge-base refs over raw draft buffers."
   ],
+  "sentiment_arc_emotion_trajectory_gate_hints": [
+    "Track global sentiment arcs and character-specific emotion trajectories with chapter/scene anchors and turning-point reasons.",
+    "Use sentiment and emotion curves as review signals, not automatic quality scores, because model/lexicon disagreement needs triage.",
+    "For same-type creation, rebuild triggers and payoffs so the new book does not clone the source emotional curve."
+  ],
   "setup_payoff_tracking_hints": [
     "Record every setup with source chapter, promised effect, expected payoff window, and current payoff status.",
     "Payoff acceptance requires a matching setup edge and a visible consequence in character, plot, or world state.",
@@ -1532,7 +1589,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 144,
+  "source_candidate_count": 154,
   "source_format_import_manifest_hints": [
     "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
     "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
@@ -1543,7 +1600,9 @@
     "No clone, install, package hook, language server, browser extension, grammar server, or external checking service was launched.",
     "2026-06-11 Chinese text-processing intake used git ls-remote HEAD and raw LICENSE static checks; no clone/install/runtime/model download was performed.",
     "2026-06-11 source-import/OCR pass added EbookLib, pdfminer.six, PyMuPDF, OCRmyPDF, Tesseract, Unstructured, and Pandoc as static pattern-only references.",
-    "Import artifacts must keep format, TOC/spine, page spans, OCR confidence, document partitions, parser settings, and checksums separate from accepted canon."
+    "Import artifacts must keep format, TOC/spine, page spans, OCR confidence, document partitions, parser settings, and checksums separate from accepted canon.",
+    "2026-06-11 narrative event/emotion graph pass added LitBank, NEEG, EventNarrative, narrative_graph_emnlp2020, Syuzhet, SentimentArcs, xCoRe, XCoref, and character-network sources as static pattern-only references.",
+    "?? outputs should separate entity/event annotations, event-chain edges, emotion arcs, cross-context coreference, and character relationship networks before canon write-back or same-type remapping."
   ],
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
@@ -1694,7 +1753,17 @@
     "ocrmypdf/OCRmyPDF",
     "tesseract-ocr/tesseract",
     "Unstructured-IO/unstructured",
-    "jgm/pandoc"
+    "jgm/pandoc",
+    "dbamman/litbank",
+    "eecrazy/ConstructingNEEG_IJCAI_2018",
+    "acolas1/EventNarrative",
+    "doug919/narrative_graph_emnlp2020",
+    "mjockers/syuzhet",
+    "jon-chun/sentimentarcs_notebooks",
+    "SapienzaNLP/xcore",
+    "anastasia-zhukova/XCoref",
+    "hzjken/character-network",
+    "devbret/character-interactions"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2318,7 +2387,22 @@
     "element_type_sequence",
     "import_checksum_report",
     "parser_setting_manifest",
-    "source_artifact_provenance"
+    "source_artifact_provenance",
+    "literary_entity_event_annotation_report",
+    "event_participant_role_conflicts",
+    "source_event_annotation_gaps",
+    "narrative_event_chain_report",
+    "causal_discourse_edge_findings",
+    "event_order_dependency_gaps",
+    "sentiment_arc_emotion_report",
+    "character_emotion_trajectory_report",
+    "emotion_turning_point_findings",
+    "cross_context_coreference_report",
+    "mention_cluster_conflicts",
+    "entity_event_identity_gaps",
+    "character_interaction_network_report",
+    "relationship_polarity_drift",
+    "centrality_role_shift_findings"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -11199,6 +11283,227 @@
       ],
       "top_source_url": "https://github.com/aerkalov/ebooklib",
       "trust_flags": [
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "literary_event_entity_annotation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 376,
+          "summary": "LitBank provides fiction-specific annotations for literary entities, literary events, and coreference. Absorb annotation gates only; dataset files and models are not imported. HEAD 3e50db0ffc033d7ccbb94f4d88f6b99210328ed8.",
+          "title": "dbamman/litbank",
+          "trust_flags": [
+            "license:missing",
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/dbamman/litbank"
+        }
+      ],
+      "top_source_url": "https://github.com/dbamman/litbank",
+      "trust_flags": [
+        "license:missing",
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "narrative_event_evolution_graph_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 165,
+          "summary": "ConstructingNEEG models narrative event evolutionary graphs for script event prediction. Absorb event-chain graph review only; external data and old PyTorch runtime are not executed. HEAD 97b133685fbca89ce908977857e056481a9deadf.",
+          "title": "eecrazy/ConstructingNEEG_IJCAI_2018",
+          "trust_flags": [
+            "license:missing",
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 75,
+          "source": "github",
+          "stars": 7,
+          "summary": "EventNarrative is an event-centric knowledge-graph-to-text dataset. Absorb event graph linearization and provenance-separation patterns only; data/runtime assets are not downloaded. HEAD a6e2b06e998ac2709cce36ff25ae8ffaa3d9b425.",
+          "title": "acolas1/EventNarrative",
+          "trust_flags": [
+            "license:missing",
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/acolas1/EventNarrative"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 74,
+          "source": "github",
+          "stars": 6,
+          "summary": "Narrative graph EMNLP 2020 models contextualized event embeddings for discourse relations. Absorb event/discourse relation evidence only; trained models and Java/Python runtime are not executed. HEAD f63a17ff7ef0d2d71630230e3c1af7a26894fdb3.",
+          "title": "doug919/narrative_graph_emnlp2020",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/doug919/narrative_graph_emnlp2020"
+        }
+      ],
+      "top_source_url": "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018",
+      "trust_flags": [
+        "license:missing",
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "sentiment_arc_emotion_trajectory_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": 350,
+          "summary": "Syuzhet extracts sentiment and sentiment-based plot arcs from text. Absorb emotion-arc review and pacing-trajectory patterns only; R package runtime is not installed. HEAD 73ec7d852e1f368661069e1b75e6c8c12a9f2133.",
+          "title": "mjockers/syuzhet",
+          "trust_flags": [
+            "license:missing",
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/mjockers/syuzhet"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs compares sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks and dependencies are not executed. HEAD f427bedd93b712d9574ae1d0cd60345cd3a342a9.",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
+        }
+      ],
+      "top_source_url": "https://github.com/mjockers/syuzhet",
+      "trust_flags": [
+        "license:missing",
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "cross_context_coreference_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 11,
+          "summary": "xCoRe is a cross-context coreference model for short, long, and multiple contexts. Absorb mention-cluster stability gates only; model weights and runtime are not downloaded. HEAD 9a5713b210abaaa6ded158966b200740ea1bfbfc.",
+          "title": "SapienzaNLP/xcore",
+          "trust_flags": [
+            "license:missing",
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/SapienzaNLP/xcore"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document identity review only; pipeline runtime is not executed. HEAD f62e9ddbe63290228cdc4cbd49f8c94105b1cf15.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        }
+      ],
+      "top_source_url": "https://github.com/SapienzaNLP/xcore",
+      "trust_flags": [
+        "license:missing",
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "character_interaction_network_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 62,
+          "summary": "Character-network analyzes relationships among novel characters with graph, entity-recognition, and sentiment techniques. Absorb character interaction network gates only; notebooks are not executed. HEAD 3f48c059b7aadc9fe9492961a54fcc0fa226b2d5.",
+          "title": "hzjken/character-network",
+          "trust_flags": [
+            "license:missing",
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/hzjken/character-network"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 4,
+          "summary": "Character-interactions extracts characters, infers relationships, and visualizes literary interaction networks. Absorb relationship evidence and network review only; web runtime is not launched. HEAD 68e1b8c88029a77e04007f73adc82da268fa377f.",
+          "title": "devbret/character-interactions",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/devbret/character-interactions"
+        }
+      ],
+      "top_source_url": "https://github.com/hzjken/character-network",
+      "trust_flags": [
+        "license:missing",
         "head-via-git-ls-remote"
       ]
     }
