@@ -2448,3 +2448,183 @@ def test_default_discovery_sources_include_production_review_projects():
     assert any("yaml frontmatter" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("anti-hallucination" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("voice calibration" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+
+def test_consistency_sourcebook_projects_map_to_retrieval_audit_and_stylometry_patterns():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "StableLlamaAI/AugmentedQuill",
+                "html_url": "https://github.com/StableLlamaAI/AugmentedQuill",
+                "description": "Local-first AI writing assistant with story structure chatbot, Writing Partner, sourcebook entries, project-based story authoring, multi-chapter and multi-book structure, author in the driver seat.",
+                "stargazers_count": 77,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "writing", "sourcebook"],
+                "updated_at": "2026-06-09T22:20:00Z",
+            },
+            {
+                "full_name": "AutoFiction-AI/AutoFiction",
+                "html_url": "https://github.com/AutoFiction-AI/AutoFiction",
+                "description": "Long-form AI novel pipeline with premise, outline, parallel chapter drafting, chapter reviews, full-book review, cross-chapter audit, aggregate findings, revision cycles, weak causality and cross-chapter redundancy checks.",
+                "stargazers_count": 902,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "fiction", "agentic"],
+                "updated_at": "2026-06-09T22:21:00Z",
+            },
+            {
+                "full_name": "YILING0013/AI_NovelGenerator",
+                "html_url": "https://github.com/YILING0013/AI_NovelGenerator",
+                "description": "Novel generator with semantic search engine, vector-based long-term context consistency, knowledge base integration, state tracking, foreshadowing, automatic proofreading, plot contradictions and logical conflicts.",
+                "stargazers_count": 1860,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel", "rag", "writing"],
+                "updated_at": "2026-06-09T22:22:00Z",
+            },
+            {
+                "full_name": "Picrew/ConStory-Bench",
+                "html_url": "https://github.com/Picrew/ConStory-Bench",
+                "description": "Long story narrative consistency benchmark and ConStory-Checker for consistency errors: characterization, factual detail, narrative style, timeline & plot, world-building & setting, causality violations and abandoned plots.",
+                "stargazers_count": 410,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-generation", "benchmark", "consistency"],
+                "updated_at": "2026-06-09T22:23:00Z",
+            },
+            {
+                "full_name": "harshaneel/humanize",
+                "html_url": "https://github.com/harshaneel/humanize",
+                "description": "Static AI text humanization skill using perplexity, burstiness, stylometry, discourse, watermarking, nine humanization levers, specificity insertion, AI-transition removal and factual guardrails.",
+                "stargazers_count": 215,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "humanize", "ai-detection"],
+                "updated_at": "2026-06-09T22:24:00Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T22:25:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+
+    assert "sourcebook_author_workbench" in patterns_by_title["StableLlamaAI/AugmentedQuill"]
+    assert "author_control_boundary" in patterns_by_title["StableLlamaAI/AugmentedQuill"]
+    assert "parallel_agent_chapter_pipeline" in patterns_by_title["AutoFiction-AI/AutoFiction"]
+    assert "cross_chapter_redundancy_audit" in patterns_by_title["AutoFiction-AI/AutoFiction"]
+    assert "semantic_long_context_search" in patterns_by_title["YILING0013/AI_NovelGenerator"]
+    assert "contradiction_taxonomy_checker" in patterns_by_title["YILING0013/AI_NovelGenerator"]
+    assert "contradiction_taxonomy_checker" in patterns_by_title["Picrew/ConStory-Bench"]
+    assert "humanization_stylometry_levers" in patterns_by_title["harshaneel/humanize"]
+
+
+def test_consistency_sourcebook_pattern_pack_exposes_audit_and_context_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-09T22:30:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/StableLlamaAI/AugmentedQuill",
+                "title": "StableLlamaAI/AugmentedQuill",
+                "summary": "Sourcebook entries, Writing Partner and author-in-the-driver-seat boundary.",
+                "stars": 77,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["postinstall"],
+                "absorbed_patterns": ["sourcebook_author_workbench", "author_control_boundary", "local_first_novel_workspace"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/AutoFiction-AI/AutoFiction",
+                "title": "AutoFiction-AI/AutoFiction",
+                "summary": "Parallel chapter drafting, full-book review, cross-chapter audit, aggregate findings and revision cycles.",
+                "stars": 902,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["parallel_agent_chapter_pipeline", "cross_chapter_redundancy_audit", "workflow_agent_pipeline"],
+                "score": 92,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/YILING0013/AI_NovelGenerator",
+                "title": "YILING0013/AI_NovelGenerator",
+                "summary": "Semantic search, vector long-term context consistency, knowledge base refs and automatic proofreading of contradictions.",
+                "stars": 1860,
+                "license": "AGPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["shell_script"],
+                "absorbed_patterns": ["semantic_long_context_search", "contradiction_taxonomy_checker", "context_reference"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Picrew/ConStory-Bench",
+                "title": "Picrew/ConStory-Bench",
+                "summary": "ConStory Checker detects narrative consistency bugs across characterization, factual detail, narrative style, timeline/plot, and world rules.",
+                "stars": 410,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["contradiction_taxonomy_checker", "collapse_prevention"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/harshaneel/humanize",
+                "title": "harshaneel/humanize",
+                "summary": "Perplexity, burstiness, stylometry, discourse and nine humanization levers for static AI text humanization.",
+                "stars": 215,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["shell_script"],
+                "absorbed_patterns": ["humanization_stylometry_levers", "anti_ai_tone_polish", "prose_preflight_voice_calibration"],
+                "score": 82,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "sourcebook_entries" in pattern_pack["whole_book_analysis_targets"]
+    assert "semantic_context_hits" in pattern_pack["whole_book_analysis_targets"]
+    assert "consistency_bug_taxonomy" in pattern_pack["whole_book_analysis_targets"]
+    assert "parallel_chapter_jobs" in pattern_pack["whole_book_analysis_targets"]
+    assert "cross_chapter_redundancy_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "stylometry_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "sourcebook_author_workbench_hints" in pattern_pack
+    assert "semantic_long_context_search_hints" in pattern_pack
+    assert "contradiction_taxonomy_checker_hints" in pattern_pack
+    assert "parallel_agent_chapter_pipeline_hints" in pattern_pack
+    assert "cross_chapter_redundancy_audit_hints" in pattern_pack
+    assert "humanization_stylometry_levers_hints" in pattern_pack
+    assert "sourcebook_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "semantic_context_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "sourcebook_author_workbench_hints" in digest
+    assert "contradiction_taxonomy_checker_hints" in digest
+    assert "cross_chapter_redundancy_audit_hints" in digest
+    assert "humanization_stylometry_levers_hints" in digest
+
+
+def test_default_discovery_sources_include_consistency_sourcebook_projects():
+    assert "https://github.com/StableLlamaAI/AugmentedQuill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/AutoFiction-AI/AutoFiction" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/YILING0013/AI_NovelGenerator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Picrew/ConStory-Bench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/harshaneel/humanize" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("sourcebook" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("narrative consistency" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("cross-chapter redundancy" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("perplexity" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

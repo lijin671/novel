@@ -1,19 +1,24 @@
 {
-  "generated_at": "2026-06-09T22:05:00+08:00",
-  "source_candidate_count": 45,
+  "generated_at": "2026-06-09T22:45:00+08:00",
+  "source_candidate_count": 50,
   "source_titles": [
     "loreum-app/loreum",
     "olivierkes/manuskript",
     "YfengJ/novel-studio-ai",
     "Narcooo/inkos",
     "NousResearch/autonovel",
+    "YILING0013/AI_NovelGenerator",
     "iLearn-Lab/NovelClaw",
     "dylanhogg/gptauthor",
+    "AutoFiction-AI/AutoFiction",
     "wavemakercards/wavemaker-cards-v4",
+    "Picrew/ConStory-Bench",
     "voocel/ainovel-cli",
     "PenglongHuang/chinese-novelist-skill",
     "RhythmicWave/NovelForge",
+    "StableLlamaAI/AugmentedQuill",
     "kevboh/longform",
+    "harshaneel/humanize",
     "MaoXiaoYuZ/Long-Novel-GPT",
     "doctoroyy/novel-copilot",
     "andreafeccomandi/bibisco",
@@ -51,8 +56,8 @@
   "workflow_patterns": [
     {
       "name": "continuation",
-      "candidate_count": 6,
-      "top_source_url": "https://github.com/voocel/ainovel-cli",
+      "candidate_count": 7,
+      "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "shell_script",
@@ -60,6 +65,21 @@
       ],
       "trust_flags": [],
       "sources": [
+        {
+          "title": "YILING0013/AI_NovelGenerator",
+          "url": "https://github.com/YILING0013/AI_NovelGenerator",
+          "source": "github",
+          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
+          "stars": 1860,
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 126
+        },
         {
           "title": "voocel/ainovel-cli",
           "url": "https://github.com/voocel/ainovel-cli",
@@ -956,6 +976,46 @@
       ]
     },
     {
+      "name": "contradiction_taxonomy_checker",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "YILING0013/AI_NovelGenerator",
+          "url": "https://github.com/YILING0013/AI_NovelGenerator",
+          "source": "github",
+          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
+          "stars": 1860,
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 126
+        },
+        {
+          "title": "Picrew/ConStory-Bench",
+          "url": "https://github.com/Picrew/ConStory-Bench",
+          "source": "github",
+          "summary": "Long-story consistency benchmark and checker with contradiction taxonomy across characterization, factual detail, narrative style, timeline/plot, and world-building/setting.",
+          "stars": 410,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 106
+        }
+      ]
+    },
+    {
       "name": "continuity_bridge_window",
       "candidate_count": 1,
       "top_source_url": "https://github.com/mjbae/awesome-novel-studio",
@@ -1194,6 +1254,33 @@
       ]
     },
     {
+      "name": "cross_chapter_redundancy_audit",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/AutoFiction-AI/AutoFiction",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "AutoFiction-AI/AutoFiction",
+          "url": "https://github.com/AutoFiction-AI/AutoFiction",
+          "source": "github",
+          "summary": "Long-form AI novel pipeline with premise development, outlining, parallel chapter drafting, chapter review, full-book review, cross-chapter audit, aggregate findings, and revision cycles.",
+          "stars": 902,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 112
+        }
+      ]
+    },
+    {
       "name": "context_pack_preview",
       "candidate_count": 1,
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
@@ -1222,7 +1309,7 @@
     },
     {
       "name": "contradiction_detection",
-      "candidate_count": 2,
+      "candidate_count": 3,
       "top_source_url": "https://github.com/loreum-app/loreum",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1247,6 +1334,19 @@
           ],
           "trust_flags": [],
           "score": 196
+        },
+        {
+          "title": "Picrew/ConStory-Bench",
+          "url": "https://github.com/Picrew/ConStory-Bench",
+          "source": "github",
+          "summary": "Long-story consistency benchmark and checker with contradiction taxonomy across characterization, factual detail, narrative style, timeline/plot, and world-building/setting.",
+          "stars": 410,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 106
         },
         {
           "title": "Lanerra/saga",
@@ -1286,6 +1386,60 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 122
+        }
+      ]
+    },
+    {
+      "name": "parallel_agent_chapter_pipeline",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/AutoFiction-AI/AutoFiction",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "AutoFiction-AI/AutoFiction",
+          "url": "https://github.com/AutoFiction-AI/AutoFiction",
+          "source": "github",
+          "summary": "Long-form AI novel pipeline with premise development, outlining, parallel chapter drafting, chapter review, full-book review, cross-chapter audit, aggregate findings, and revision cycles.",
+          "stars": 902,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 112
+        }
+      ]
+    },
+    {
+      "name": "semantic_long_context_search",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "YILING0013/AI_NovelGenerator",
+          "url": "https://github.com/YILING0013/AI_NovelGenerator",
+          "source": "github",
+          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
+          "stars": 1860,
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 126
         }
       ]
     },
@@ -1950,6 +2104,42 @@
       ]
     },
     {
+      "name": "collapse_prevention",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/Picrew/ConStory-Bench",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "Picrew/ConStory-Bench",
+          "url": "https://github.com/Picrew/ConStory-Bench",
+          "source": "github",
+          "summary": "Long-story consistency benchmark and checker with contradiction taxonomy across characterization, factual detail, narrative style, timeline/plot, and world-building/setting.",
+          "stars": 410,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 106
+        },
+        {
+          "title": "davealaw/FictionRefine",
+          "url": "https://github.com/davealaw/FictionRefine",
+          "source": "github",
+          "summary": "A two-LLM workflow for iterative story generation and improvement using a writer model and a critic model. Static intake note: Two-LLM story workflow using a writer/reviser model and a critic/verifier model. Public README describes multi-dimensional critique, iterative review/rev",
+          "stars": 0,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 52
+        }
+      ]
+    },
+    {
       "name": "plot_dependency_graph",
       "candidate_count": 1,
       "top_source_url": "https://github.com/doctoroyy/novel-copilot",
@@ -2000,29 +2190,6 @@
       ]
     },
     {
-      "name": "collapse_prevention",
-      "candidate_count": 1,
-      "top_source_url": "https://github.com/davealaw/FictionRefine",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "davealaw/FictionRefine",
-          "url": "https://github.com/davealaw/FictionRefine",
-          "source": "github",
-          "summary": "A two-LLM workflow for iterative story generation and improvement using a writer model and a critic model. Static intake note: Two-LLM story workflow using a writer/reviser model and a critic/verifier model. Public README describes multi-dimensional critique, iterative review/rev",
-          "stars": 0,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 52
-        }
-      ]
-    },
-    {
       "name": "recursive_adaptive_planning",
       "candidate_count": 1,
       "top_source_url": "https://github.com/principia-ai/WriteHERE",
@@ -2051,7 +2218,7 @@
     },
     {
       "name": "style_signature",
-      "candidate_count": 8,
+      "candidate_count": 9,
       "top_source_url": "https://github.com/loreum-app/loreum",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -2118,6 +2285,21 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 104
+        },
+        {
+          "title": "harshaneel/humanize",
+          "url": "https://github.com/harshaneel/humanize",
+          "source": "github",
+          "summary": "LLM-agnostic static AI text humanization and detection skill using perplexity, burstiness, stylometry, discourse, watermarking, humanization levers, and factual guardrails.",
+          "stars": 215,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 98
         },
         {
           "title": "skyfiredao/dreampowers",
@@ -2481,14 +2663,17 @@
     },
     {
       "name": "local_first_novel_workspace",
-      "candidate_count": 3,
+      "candidate_count": 4,
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
-        "native_binary"
+        "native_binary",
+        "shell_script"
       ],
-      "trust_flags": [],
+      "trust_flags": [
+        "default-branch:nonstandard"
+      ],
       "sources": [
         {
           "title": "YfengJ/novel-studio-ai",
@@ -2520,6 +2705,24 @@
           ],
           "trust_flags": [],
           "score": 122
+        },
+        {
+          "title": "StableLlamaAI/AugmentedQuill",
+          "url": "https://github.com/StableLlamaAI/AugmentedQuill",
+          "source": "github",
+          "summary": "Local-first AI writing assistant with project-based authoring, multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, and explicit author control boundary.",
+          "stars": 77,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "trust_flags": [
+            "default-branch:nonstandard"
+          ],
+          "score": 101
         },
         {
           "title": "MangoLion/plotbunni",
@@ -2626,12 +2829,29 @@
     },
     {
       "name": "prose_preflight_voice_calibration",
-      "candidate_count": 1,
-      "top_source_url": "https://github.com/forjd/better-writing",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/harshaneel/humanize",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "shell_script"
+      ],
       "trust_flags": [],
       "sources": [
+        {
+          "title": "harshaneel/humanize",
+          "url": "https://github.com/harshaneel/humanize",
+          "source": "github",
+          "summary": "LLM-agnostic static AI text humanization and detection skill using perplexity, burstiness, stylometry, discourse, watermarking, humanization levers, and factual guardrails.",
+          "stars": 215,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 98
+        },
         {
           "title": "forjd/better-writing",
           "url": "https://github.com/forjd/better-writing",
@@ -2714,7 +2934,7 @@
     },
     {
       "name": "self_review",
-      "candidate_count": 18,
+      "candidate_count": 20,
       "top_source_url": "https://github.com/loreum-app/loreum",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -2826,11 +3046,39 @@
           "score": 122
         },
         {
+          "title": "AutoFiction-AI/AutoFiction",
+          "url": "https://github.com/AutoFiction-AI/AutoFiction",
+          "source": "github",
+          "summary": "Long-form AI novel pipeline with premise development, outlining, parallel chapter drafting, chapter review, full-book review, cross-chapter audit, aggregate findings, and revision cycles.",
+          "stars": 902,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 112
+        },
+        {
           "title": "wavemakercards/wavemaker-cards-v4",
           "url": "https://github.com/wavemakercards/wavemaker-cards-v4",
           "source": "github",
           "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
           "stars": 800,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 106
+        },
+        {
+          "title": "Picrew/ConStory-Bench",
+          "url": "https://github.com/Picrew/ConStory-Bench",
+          "source": "github",
+          "summary": "Long-story consistency benchmark and checker with contradiction taxonomy across characterization, factual detail, narrative style, timeline/plot, and world-building/setting.",
+          "stars": 410,
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3021,6 +3269,39 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 86
+        }
+      ]
+    },
+    {
+      "name": "sourcebook_author_workbench",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/StableLlamaAI/AugmentedQuill",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script"
+      ],
+      "trust_flags": [
+        "default-branch:nonstandard"
+      ],
+      "sources": [
+        {
+          "title": "StableLlamaAI/AugmentedQuill",
+          "url": "https://github.com/StableLlamaAI/AugmentedQuill",
+          "source": "github",
+          "summary": "Local-first AI writing assistant with project-based authoring, multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, and explicit author control boundary.",
+          "stars": 77,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "trust_flags": [
+            "default-branch:nonstandard"
+          ],
+          "score": 101
         }
       ]
     },
@@ -3344,14 +3625,30 @@
     },
     {
       "name": "world_state_tracking",
-      "candidate_count": 4,
-      "top_source_url": "https://github.com/mrigankad/Novel-OS",
+      "candidate_count": 5,
+      "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
       "posture_hint": "metadata-triage",
       "risk_flags": [
+        "shell_script",
         "browser_extension"
       ],
       "trust_flags": [],
       "sources": [
+        {
+          "title": "YILING0013/AI_NovelGenerator",
+          "url": "https://github.com/YILING0013/AI_NovelGenerator",
+          "source": "github",
+          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
+          "stars": 1860,
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 126
+        },
         {
           "title": "mrigankad/Novel-OS",
           "url": "https://github.com/mrigankad/Novel-OS",
@@ -3433,7 +3730,7 @@
     },
     {
       "name": "context_reference",
-      "candidate_count": 7,
+      "candidate_count": 8,
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3457,6 +3754,21 @@
           ],
           "trust_flags": [],
           "score": 144
+        },
+        {
+          "title": "YILING0013/AI_NovelGenerator",
+          "url": "https://github.com/YILING0013/AI_NovelGenerator",
+          "source": "github",
+          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
+          "stars": 1860,
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 126
         },
         {
           "title": "RhythmicWave/NovelForge",
@@ -3609,13 +3921,57 @@
       ]
     },
     {
-      "name": "workflow_agent_pipeline",
-      "candidate_count": 4,
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "name": "humanization_stylometry_levers",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/harshaneel/humanize",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "shell_script"
+      ],
       "trust_flags": [],
       "sources": [
+        {
+          "title": "harshaneel/humanize",
+          "url": "https://github.com/harshaneel/humanize",
+          "source": "github",
+          "summary": "LLM-agnostic static AI text humanization and detection skill using perplexity, burstiness, stylometry, discourse, watermarking, humanization levers, and factual guardrails.",
+          "stars": 215,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 98
+        }
+      ]
+    },
+    {
+      "name": "workflow_agent_pipeline",
+      "candidate_count": 5,
+      "top_source_url": "https://github.com/AutoFiction-AI/AutoFiction",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "AutoFiction-AI/AutoFiction",
+          "url": "https://github.com/AutoFiction-AI/AutoFiction",
+          "source": "github",
+          "summary": "Long-form AI novel pipeline with premise development, outlining, parallel chapter drafting, chapter review, full-book review, cross-chapter audit, aggregate findings, and revision cycles.",
+          "stars": 902,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 112
+        },
         {
           "title": "RhythmicWave/NovelForge",
           "url": "https://github.com/RhythmicWave/NovelForge",
@@ -3699,12 +4055,35 @@
     },
     {
       "name": "prompt_library",
-      "candidate_count": 1,
-      "top_source_url": "https://github.com/MangoLion/plotbunni",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/StableLlamaAI/AugmentedQuill",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
+      "risk_flags": [
+        "docker",
+        "shell_script"
+      ],
+      "trust_flags": [
+        "default-branch:nonstandard"
+      ],
       "sources": [
+        {
+          "title": "StableLlamaAI/AugmentedQuill",
+          "url": "https://github.com/StableLlamaAI/AugmentedQuill",
+          "source": "github",
+          "summary": "Local-first AI writing assistant with project-based authoring, multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, and explicit author control boundary.",
+          "stars": 77,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "trust_flags": [
+            "default-branch:nonstandard"
+          ],
+          "score": 101
+        },
         {
           "title": "MangoLion/plotbunni",
           "url": "https://github.com/MangoLion/plotbunni",
@@ -3717,6 +4096,39 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 78
+        }
+      ]
+    },
+    {
+      "name": "author_control_boundary",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/StableLlamaAI/AugmentedQuill",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script"
+      ],
+      "trust_flags": [
+        "default-branch:nonstandard"
+      ],
+      "sources": [
+        {
+          "title": "StableLlamaAI/AugmentedQuill",
+          "url": "https://github.com/StableLlamaAI/AugmentedQuill",
+          "source": "github",
+          "summary": "Local-first AI writing assistant with project-based authoring, multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, and explicit author control boundary.",
+          "stars": 77,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "trust_flags": [
+            "default-branch:nonstandard"
+          ],
+          "score": 101
         }
       ]
     },
@@ -3816,10 +4228,12 @@
     },
     {
       "name": "quality_score_loop",
-      "candidate_count": 2,
+      "candidate_count": 3,
       "top_source_url": "https://github.com/NousResearch/autonovel",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "shell_script"
+      ],
       "trust_flags": [],
       "sources": [
         {
@@ -3834,6 +4248,21 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 140
+        },
+        {
+          "title": "AutoFiction-AI/AutoFiction",
+          "url": "https://github.com/AutoFiction-AI/AutoFiction",
+          "source": "github",
+          "summary": "Long-form AI novel pipeline with premise development, outlining, parallel chapter drafting, chapter review, full-book review, cross-chapter audit, aggregate findings, and revision cycles.",
+          "stars": 902,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 112
         },
         {
           "title": "mrigankad/Novel-OS",
@@ -4066,7 +4495,7 @@
     },
     {
       "name": "anti_ai_tone_polish",
-      "candidate_count": 3,
+      "candidate_count": 4,
       "top_source_url": "https://github.com/PenglongHuang/chinese-novelist-skill",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -4086,6 +4515,21 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 104
+        },
+        {
+          "title": "harshaneel/humanize",
+          "url": "https://github.com/harshaneel/humanize",
+          "source": "github",
+          "summary": "LLM-agnostic static AI text humanization and detection skill using perplexity, burstiness, stylometry, discourse, watermarking, humanization levers, and factual guardrails.",
+          "stars": 215,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 98
         },
         {
           "title": "forjd/better-writing",
@@ -4618,6 +5062,28 @@
     "voice_calibration_samples",
     "prose_preflight_findings",
     "specificity_guardrails",
+    "sourcebook_entries",
+    "writing_partner_actions",
+    "author_control_decisions",
+    "semantic_context_hits",
+    "vector_context_reason",
+    "knowledge_base_refs",
+    "consistency_bug_taxonomy",
+    "characterization_conflicts",
+    "timeline_plot_conflicts",
+    "world_rule_conflicts",
+    "agent_stage_contracts",
+    "parallel_chapter_jobs",
+    "aggregate_revision_findings",
+    "cross_chapter_redundancy_findings",
+    "repetitive_scene_patterns",
+    "over_regular_prose_findings",
+    "stylometry_findings",
+    "burstiness_findings",
+    "perplexity_risk_notes",
+    "ai_transition_removals",
+    "ai_generated_labeling",
+    "ethical_disclosure_notes",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
@@ -4706,6 +5172,13 @@
     "plan_verification_rules",
     "genre_parameterized_world_rules",
     "voice_calibration_samples",
+    "sourcebook_entries",
+    "author_control_rules",
+    "semantic_context_index",
+    "consistency_bug_taxonomy",
+    "agent_stage_contracts",
+    "stylometry_polish_rules",
+    "human_authority_boundary",
     "organizations",
     "conflicts",
     "story_arcs",
@@ -4745,6 +5218,10 @@
     "Drafting cannot invent facts outside the accepted bible, plan, or chapter-change packages; mark missing facts as review questions instead.",
     "Review at scene, chapter, and batch levels so local fixes do not hide cross-chapter drift or repeated weak beats.",
     "Carry unresolved editor notes into the next chapter context and close each note only with chapter evidence.",
+    "Use semantic long-context search for chapter-specific recall, but cite the selected sourcebook or knowledge-base refs instead of silently injecting them.",
+    "Run a contradiction taxonomy check before accepting a chapter: characterization, factual detail, narrative style, timeline/plot, and world rules.",
+    "Audit cross-chapter redundancy, repeated scene construction, weak causality, flat dialogue, and over-regular prose before revision closes.",
+    "Keep the author in control: AI may propose, draft, and review, but canon changes require accepted project artifacts or explicit user direction.",
     "长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。",
     "把章节、笔记、摘要和分析切成稳定文本单元，便于 diff、回滚和人工审阅。",
     "生成前核对本章 synopsis、评论、注释和交叉引用，避免遗漏已标记线索。",
@@ -4790,6 +5267,10 @@
     "Keep user preference memory separate from canon; apply it as style/format preference, not as story fact.",
     "Every long run should keep a resumable checkpoint: current phase, chapter, scene, accepted artifact, and next action.",
     "Record validation pass/fail status, rewrite count, and remaining retry budget before moving to the next chapter.",
+    "Persist sourcebook entries as author-owned state; Writing Partner suggestions remain proposals until accepted.",
+    "Store semantic search results with query, matched artifact, inclusion reason, and whether each hit became canon evidence.",
+    "Record each agent stage job, input artifact set, output path, validation status, and aggregate revision finding for replayable long runs.",
+    "Persist redundancy findings across chapters so repeated weak patterns can be fixed in batch revision rather than forgotten.",
     "Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale.",
     "Keep stable ids for manuscript text units so generated changes can be diffed and reverted without losing notes.",
     "Persist synopsis and cross-reference links beside chapter state so prompts can cite why a note is relevant.",
@@ -5183,6 +5664,34 @@
     "Use voice samples to calibrate specificity, rhythm, warmth, and density before polishing prose.",
     "The final prose preflight removes generic AI tells while preserving factual guardrails and character voice."
   ],
+  "sourcebook_author_workbench_hints": [
+    "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
+    "Writing-partner actions should propose additions or edits; accepted sourcebook entries become the only reusable canon layer."
+  ],
+  "semantic_long_context_search_hints": [
+    "Use semantic search to retrieve long-range context, but require an inclusion reason and source artifact id for every injected hit.",
+    "Fallback retrieval should prefer accepted chapters, sourcebook entries, and knowledge-base refs over raw draft buffers."
+  ],
+  "contradiction_taxonomy_checker_hints": [
+    "Check long-story consistency by taxonomy: characterization, factual detail, narrative style, timeline/plot, and world rules.",
+    "Each contradiction finding should name the conflicting facts, evidence locations, subtype, severity, and required repair scope."
+  ],
+  "parallel_agent_chapter_pipeline_hints": [
+    "Parallel chapter jobs need isolated workspaces, explicit input artifacts, and validation before aggregate revision.",
+    "Aggregate findings from chapter reviews, full-book review, and cross-chapter audit before starting revision cycles."
+  ],
+  "cross_chapter_redundancy_audit_hints": [
+    "Count repeated scene structures, weak causality bridges, flat dialogue patterns, and over-regular prose across the whole manuscript.",
+    "Batch revision should fix recurring cross-chapter patterns without disturbing accepted continuity state."
+  ],
+  "humanization_stylometry_levers_hints": [
+    "Use stylometry levers only after continuity passes: sentence burstiness, specificity, discourse variation, and AI-transition removal.",
+    "Humanization cannot justify copying source phrasing or inventing unsupported facts; keep factual guardrails active."
+  ],
+  "author_control_boundary_hints": [
+    "Separate AI proposals from accepted canon and keep user/author decisions visible in the run state.",
+    "When output is AI-generated or synthetic, label it in artifacts instead of presenting it as human-authored final prose."
+  ],
   "inspired_mapping_targets": [
     "character_remap",
     "organization_remap",
@@ -5230,7 +5739,12 @@
     "voice_table_remap",
     "beat_strand_remap",
     "genre_module_remap",
-    "voice_calibration_remap"
+    "voice_calibration_remap",
+    "sourcebook_remap",
+    "semantic_context_remap",
+    "consistency_taxonomy_remap",
+    "redundancy_pattern_remap",
+    "stylometry_rule_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -5261,7 +5775,9 @@
     "Let adaptive planning revise the new story's task tree instead of following the source workflow order.",
     "Build a new voice table for the transformed cast; source voice axes can guide separation, not wording.",
     "Transform genre parameters into new factions, locations, stakes, and taboo moves before drafting.",
-    "Use voice calibration to make the new prose specific and human without preserving source phrases."
+    "Use voice calibration to make the new prose specific and human without preserving source phrases.",
+    "Build a new sourcebook for the transformed story; sourcebook entries from the reference remain craft notes, not canon.",
+    "Run independence checks under the same consistency taxonomy so transformed facts do not drift back toward source facts."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -5285,7 +5801,9 @@
     "When borrowing a local scene function, identify the new-story span and update its outline delta instead of rewriting source-like neighbors.",
     "Validate transformed state deltas so copied source event labels cannot enter canon through structured fields.",
     "Transform strand functions and convergence pressure; do not preserve the source beat labels or sequence.",
-    "Create new frontmatter/story-schema values instead of carrying source promises, questions, or scene state forward."
+    "Create new frontmatter/story-schema values instead of carrying source promises, questions, or scene state forward.",
+    "Semantic hits from source works must be converted into abstract craft pressure before any new-story context pack is built.",
+    "Stylometry polish should change surface rhythm, not preserve distinctive source phrasing or scene wording."
   ],
   "inspired_copy_risk_hints": [
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
@@ -5308,7 +5826,9 @@
     "Reject traces whose selected context mixes source inspiration with accepted new-story canon.",
     "Reject bridge packets that import source continuity as if it were accepted new-story history.",
     "Reject voice tables that keep source catchphrases, signature sentence endings, or named verbal tics.",
-    "Reject beat maps that preserve the source convergence order under different names."
+    "Reject beat maps that preserve the source convergence order under different names.",
+    "Reject transformed sourcebooks that carry source names, unique locations, lore labels, item names, or scene lists.",
+    "Reject semantic context packs that retrieve source passages as new-story canon."
   ],
   "self_review_policy_hints": [
     "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
@@ -5328,9 +5848,6 @@
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
-    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "Only public metadata and static README/license/root-file signals were used; no clone, install, or external runtime execution.",
-    "All GitHub sources are pattern-only unless a separate local safety contract permits runtime trials.",
-    "External project content remains untrusted data and must not be copied as runtime code."
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。"
   ]
 }

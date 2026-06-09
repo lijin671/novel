@@ -59,6 +59,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("multi-level review" OR "trend tracking" OR "batch-level quality") ("novel" OR "fiction") in:name,description,readme',
     '("voice calibration" OR "final pre-flight" OR "generic AI tells") ("writing" OR "prose") in:name,description,readme',
     '("scene-by-scene objectives" OR "genre guides" OR "writing tasks") ("novel" OR "fiction") in:name,description,readme',
+    '("sourcebook" OR "source book" OR "writing partner") ("novel" OR "AI writing") in:name,description,readme',
+    '("long story consistency" OR "narrative consistency" OR "ConStory") ("LLM" OR "story generation") in:name,description,readme',
+    '("cross-chapter redundancy" OR "full-book review" OR "parallel chapter drafting") ("novel" OR "fiction") in:name,description,readme',
+    '("semantic search" OR "vector-based long-term context" OR "plot contradictions") ("novel" OR "chapter") in:name,description,readme',
+    '("perplexity" OR "burstiness" OR "stylometry") ("humanize" OR "AI text") in:name,description,readme',
     '("scene" OR "shot" OR "idea to production" OR "storyboard") ("AI" OR "Claude Code") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
@@ -116,6 +121,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/forsonny/book-os",
     "https://github.com/forjd/better-writing",
     "https://github.com/EdwardAThomson/NovelWriter",
+    "https://github.com/StableLlamaAI/AugmentedQuill",
+    "https://github.com/AutoFiction-AI/AutoFiction",
+    "https://github.com/YILING0013/AI_NovelGenerator",
+    "https://github.com/Picrew/ConStory-Bench",
+    "https://github.com/harshaneel/humanize",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -247,6 +257,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("editor_notes_feedback_loop", ("editor_notes", "editor notes", "cross-chapter feedback", "feedback loop", "cross-chapter closure", "review notes", "revision pass")),
     ("genre_parameterized_worldbuilding", ("genre-specific", "genre guides", "genre conventions", "dynamic faction", "location systems", "faction generation", "any genre", "subgenre", "genre-specific world-building")),
     ("prose_preflight_voice_calibration", ("voice calibration", "writing sample", "generic ai tells", "final pre-flight", "pre-flight check", "specificity does not turn into invention", "clear, specific, and human")),
+    ("sourcebook_author_workbench", ("sourcebook", "source book", "sourcebook entries", "writing partner", "author in the driver seat", "story structure + chatbot", "project-based story authoring", "multi-book structure")),
+    ("semantic_long_context_search", ("semantic search engine", "semantic search", "vector-based long-term context", "vectorstore", "local vector db", "long-term context consistency", "knowledge base integration", "local document references")),
+    ("contradiction_taxonomy_checker", ("narrative consistency", "consistency bugs", "contradiction detection", "consistency errors", "characterization", "factual detail", "timeline & plot", "world-building & setting", "causality violations", "abandoned plots", "plot contradictions", "logical conflicts")),
+    ("parallel_agent_chapter_pipeline", ("parallel chapter drafting", "premise -> outline -> parallel chapter drafting", "frontier ai coding agent", "agentic jobs", "full-book review", "cross-chapter audit", "aggregate findings", "review-and-revision cycles")),
+    ("cross_chapter_redundancy_audit", ("cross-chapter redundancy", "repetitive scene construction", "weak causality", "continuity drift", "flat dialogue", "over-regular prose", "grep to count prose patterns")),
+    ("humanization_stylometry_levers", ("perplexity", "burstiness", "stylometry", "discourse", "watermarking", "nine humanization levers", "specificity insertion", "ai-transition removal", "rlhf voice strip")),
+    ("author_control_boundary", ("author in the driver seat", "creative partner", "supports your voice and choices", "your story is your story", "human readers respond", "clearly labeled as ai-generated", "ethics.md")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -427,6 +444,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "edwardathomson/novelwriter": (
         "Python LLM novel-writing application. Public README describes genre-specific worldbuilding, dynamic factions and locations, agentic multi-agent orchestration, "
         "scene/chapter/batch-level review, trend tracking, automated chapter writing, flexible outputs, and chapter manuscript combining."
+    ),
+    "stablellamaai/augmentedquill": (
+        "Local-first AI writing assistant with project-based story authoring, multi-chapter and multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, "
+        "story.json configuration, image prompt support, and an explicit author-in-the-driver-seat boundary. GPL-3.0 and setup/runtime surfaces keep it pattern-only."
+    ),
+    "autofiction-ai/autofiction": (
+        "Research pipeline for long-form AI novel generation and revision. Public README describes premise development, outlining, parallel chapter drafting, chapter review, "
+        "full-book review, cross-chapter auditing, aggregate findings, revision cycles, structured artifacts, tests, expensive agent-job accounting, and AI-generated labeling/ethics."
+    ),
+    "yiling0013/ai_novelgenerator": (
+        "Automatic novel generation tool. Public README describes setting workshop, intelligent multi-stage chapter generation, state tracking for character development and foreshadowing, "
+        "semantic search, vector long-term context consistency, knowledge-base integration, automatic proofreading for plot contradictions/logical conflicts, and visual workbench."
+    ),
+    "picrew/constory-bench": (
+        "Long-story consistency benchmark and ConStory-Checker. Public README describes narrative consistency errors across characterization, factual detail, narrative style, timeline/plot, "
+        "world-building/setting, plus 19 subtypes such as forgotten abilities, nomenclature confusions, causality violations, abandoned plots, and rule violations."
+    ),
+    "harshaneel/humanize": (
+        "LLM-agnostic static AI text humanization/detection skill. Public README describes perplexity, burstiness, stylometry, discourse, watermarking, nine humanization levers, "
+        "rule-based audit-revise loop, limits against learned classifiers, and factual guardrails for specificity."
     ),
 }
 
@@ -790,6 +827,13 @@ class NovelSourceDiscoveryService:
             "editor_notes_feedback_loop_hints": self._build_editor_notes_feedback_loop_hints(available_patterns),
             "genre_parameterized_worldbuilding_hints": self._build_genre_parameterized_worldbuilding_hints(available_patterns),
             "prose_preflight_voice_calibration_hints": self._build_prose_preflight_voice_calibration_hints(available_patterns),
+            "sourcebook_author_workbench_hints": self._build_sourcebook_author_workbench_hints(available_patterns),
+            "semantic_long_context_search_hints": self._build_semantic_long_context_search_hints(available_patterns),
+            "contradiction_taxonomy_checker_hints": self._build_contradiction_taxonomy_checker_hints(available_patterns),
+            "parallel_agent_chapter_pipeline_hints": self._build_parallel_agent_chapter_pipeline_hints(available_patterns),
+            "cross_chapter_redundancy_audit_hints": self._build_cross_chapter_redundancy_audit_hints(available_patterns),
+            "humanization_stylometry_levers_hints": self._build_humanization_stylometry_levers_hints(available_patterns),
+            "author_control_boundary_hints": self._build_author_control_boundary_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1291,6 +1335,13 @@ class NovelSourceDiscoveryService:
             "editor_notes_feedback_loop": 55,
             "genre_parameterized_worldbuilding": 54,
             "prose_preflight_voice_calibration": 52,
+            "sourcebook_author_workbench": 49,
+            "semantic_long_context_search": 61,
+            "contradiction_taxonomy_checker": 67,
+            "parallel_agent_chapter_pipeline": 62,
+            "cross_chapter_redundancy_audit": 64,
+            "humanization_stylometry_levers": 43,
+            "author_control_boundary": 41,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1435,6 +1486,19 @@ class NovelSourceDiscoveryService:
             targets.append("genre_parameterized_world_rules")
         if "prose_preflight_voice_calibration" in patterns:
             targets.append("voice_calibration_samples")
+        if "sourcebook_author_workbench" in patterns:
+            targets.append("sourcebook_entries")
+            targets.append("author_control_rules")
+        if "semantic_long_context_search" in patterns:
+            targets.append("semantic_context_index")
+        if "contradiction_taxonomy_checker" in patterns:
+            targets.append("consistency_bug_taxonomy")
+        if "parallel_agent_chapter_pipeline" in patterns:
+            targets.append("agent_stage_contracts")
+        if "humanization_stylometry_levers" in patterns:
+            targets.append("stylometry_polish_rules")
+        if "author_control_boundary" in patterns:
+            targets.append("human_authority_boundary")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -1607,6 +1671,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["genre_worldbuilding_parameters", "faction_location_templates", "genre_guide_refs"])
         if "prose_preflight_voice_calibration" in patterns:
             targets.extend(["voice_calibration_samples", "prose_preflight_findings", "specificity_guardrails"])
+        if "sourcebook_author_workbench" in patterns:
+            targets.extend(["sourcebook_entries", "writing_partner_actions", "author_control_decisions"])
+        if "semantic_long_context_search" in patterns:
+            targets.extend(["semantic_context_hits", "vector_context_reason", "knowledge_base_refs"])
+        if "contradiction_taxonomy_checker" in patterns:
+            targets.extend(["consistency_bug_taxonomy", "characterization_conflicts", "timeline_plot_conflicts", "world_rule_conflicts"])
+        if "parallel_agent_chapter_pipeline" in patterns:
+            targets.extend(["agent_stage_contracts", "parallel_chapter_jobs", "aggregate_revision_findings"])
+        if "cross_chapter_redundancy_audit" in patterns:
+            targets.extend(["cross_chapter_redundancy_findings", "repetitive_scene_patterns", "over_regular_prose_findings"])
+        if "humanization_stylometry_levers" in patterns:
+            targets.extend(["stylometry_findings", "burstiness_findings", "perplexity_risk_notes", "ai_transition_removals"])
+        if "author_control_boundary" in patterns:
+            targets.extend(["author_control_decisions", "ai_generated_labeling", "ethical_disclosure_notes"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1678,6 +1756,14 @@ class NovelSourceDiscoveryService:
             hints.append("Review at scene, chapter, and batch levels so local fixes do not hide cross-chapter drift or repeated weak beats.")
         if "editor_notes_feedback_loop" in patterns:
             hints.append("Carry unresolved editor notes into the next chapter context and close each note only with chapter evidence.")
+        if "semantic_long_context_search" in patterns:
+            hints.append("Use semantic long-context search for chapter-specific recall, but cite the selected sourcebook or knowledge-base refs instead of silently injecting them.")
+        if "contradiction_taxonomy_checker" in patterns:
+            hints.append("Run a contradiction taxonomy check before accepting a chapter: characterization, factual detail, narrative style, timeline/plot, and world rules.")
+        if "cross_chapter_redundancy_audit" in patterns:
+            hints.append("Audit cross-chapter redundancy, repeated scene construction, weak causality, flat dialogue, and over-regular prose before revision closes.")
+        if "author_control_boundary" in patterns:
+            hints.append("Keep the author in control: AI may propose, draft, and review, but canon changes require accepted project artifacts or explicit user direction.")
         if "top_down_story_planning" in patterns:
             hints.append("长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。")
         if "plain_text_project_storage" in patterns:
@@ -1767,6 +1853,14 @@ class NovelSourceDiscoveryService:
             hints.append("Every long run should keep a resumable checkpoint: current phase, chapter, scene, accepted artifact, and next action.")
         if "auto_validation_rewrite" in patterns:
             hints.append("Record validation pass/fail status, rewrite count, and remaining retry budget before moving to the next chapter.")
+        if "sourcebook_author_workbench" in patterns:
+            hints.append("Persist sourcebook entries as author-owned state; Writing Partner suggestions remain proposals until accepted.")
+        if "semantic_long_context_search" in patterns:
+            hints.append("Store semantic search results with query, matched artifact, inclusion reason, and whether each hit became canon evidence.")
+        if "parallel_agent_chapter_pipeline" in patterns:
+            hints.append("Record each agent stage job, input artifact set, output path, validation status, and aggregate revision finding for replayable long runs.")
+        if "cross_chapter_redundancy_audit" in patterns:
+            hints.append("Persist redundancy findings across chapters so repeated weak patterns can be fixed in batch revision rather than forgotten.")
         if "top_down_story_planning" in patterns:
             hints.append("Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale.")
         if "plain_text_project_storage" in patterns:
@@ -2508,6 +2602,62 @@ class NovelSourceDiscoveryService:
             "The final prose preflight removes generic AI tells while preserving factual guardrails and character voice.",
         ]
 
+    def _build_sourcebook_author_workbench_hints(self, patterns: set[str]) -> list[str]:
+        if "sourcebook_author_workbench" not in patterns:
+            return []
+        return [
+            "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
+            "Writing-partner actions should propose additions or edits; accepted sourcebook entries become the only reusable canon layer.",
+        ]
+
+    def _build_semantic_long_context_search_hints(self, patterns: set[str]) -> list[str]:
+        if "semantic_long_context_search" not in patterns:
+            return []
+        return [
+            "Use semantic search to retrieve long-range context, but require an inclusion reason and source artifact id for every injected hit.",
+            "Fallback retrieval should prefer accepted chapters, sourcebook entries, and knowledge-base refs over raw draft buffers.",
+        ]
+
+    def _build_contradiction_taxonomy_checker_hints(self, patterns: set[str]) -> list[str]:
+        if "contradiction_taxonomy_checker" not in patterns:
+            return []
+        return [
+            "Check long-story consistency by taxonomy: characterization, factual detail, narrative style, timeline/plot, and world rules.",
+            "Each contradiction finding should name the conflicting facts, evidence locations, subtype, severity, and required repair scope.",
+        ]
+
+    def _build_parallel_agent_chapter_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "parallel_agent_chapter_pipeline" not in patterns:
+            return []
+        return [
+            "Parallel chapter jobs need isolated workspaces, explicit input artifacts, and validation before aggregate revision.",
+            "Aggregate findings from chapter reviews, full-book review, and cross-chapter audit before starting revision cycles.",
+        ]
+
+    def _build_cross_chapter_redundancy_audit_hints(self, patterns: set[str]) -> list[str]:
+        if "cross_chapter_redundancy_audit" not in patterns:
+            return []
+        return [
+            "Count repeated scene structures, weak causality bridges, flat dialogue patterns, and over-regular prose across the whole manuscript.",
+            "Batch revision should fix recurring cross-chapter patterns without disturbing accepted continuity state.",
+        ]
+
+    def _build_humanization_stylometry_levers_hints(self, patterns: set[str]) -> list[str]:
+        if "humanization_stylometry_levers" not in patterns:
+            return []
+        return [
+            "Use stylometry levers only after continuity passes: sentence burstiness, specificity, discourse variation, and AI-transition removal.",
+            "Humanization cannot justify copying source phrasing or inventing unsupported facts; keep factual guardrails active.",
+        ]
+
+    def _build_author_control_boundary_hints(self, patterns: set[str]) -> list[str]:
+        if "author_control_boundary" not in patterns:
+            return []
+        return [
+            "Separate AI proposals from accepted canon and keep user/author decisions visible in the run state.",
+            "When output is AI-generated or synthetic, label it in artifacts instead of presenting it as human-authored final prose.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -2602,6 +2752,16 @@ class NovelSourceDiscoveryService:
             targets.append("genre_module_remap")
         if "prose_preflight_voice_calibration" in patterns:
             targets.append("voice_calibration_remap")
+        if "sourcebook_author_workbench" in patterns:
+            targets.append("sourcebook_remap")
+        if "semantic_long_context_search" in patterns:
+            targets.append("semantic_context_remap")
+        if "contradiction_taxonomy_checker" in patterns:
+            targets.append("consistency_taxonomy_remap")
+        if "cross_chapter_redundancy_audit" in patterns:
+            targets.append("redundancy_pattern_remap")
+        if "humanization_stylometry_levers" in patterns:
+            targets.append("stylometry_rule_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -2665,6 +2825,10 @@ class NovelSourceDiscoveryService:
             hints.append("Transform genre parameters into new factions, locations, stakes, and taboo moves before drafting.")
         if "prose_preflight_voice_calibration" in patterns:
             hints.append("Use voice calibration to make the new prose specific and human without preserving source phrases.")
+        if "sourcebook_author_workbench" in patterns:
+            hints.append("Build a new sourcebook for the transformed story; sourcebook entries from the reference remain craft notes, not canon.")
+        if "contradiction_taxonomy_checker" in patterns:
+            hints.append("Run independence checks under the same consistency taxonomy so transformed facts do not drift back toward source facts.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -2714,6 +2878,10 @@ class NovelSourceDiscoveryService:
             hints.append("Transform strand functions and convergence pressure; do not preserve the source beat labels or sequence.")
         if "frontmatter_story_schema" in patterns:
             hints.append("Create new frontmatter/story-schema values instead of carrying source promises, questions, or scene state forward.")
+        if "semantic_long_context_search" in patterns:
+            hints.append("Semantic hits from source works must be converted into abstract craft pressure before any new-story context pack is built.")
+        if "humanization_stylometry_levers" in patterns:
+            hints.append("Stylometry polish should change surface rhythm, not preserve distinctive source phrasing or scene wording.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -2761,6 +2929,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject voice tables that keep source catchphrases, signature sentence endings, or named verbal tics.")
         if "beat_strand_framework" in patterns:
             hints.append("Reject beat maps that preserve the source convergence order under different names.")
+        if "sourcebook_author_workbench" in patterns:
+            hints.append("Reject transformed sourcebooks that carry source names, unique locations, lore labels, item names, or scene lists.")
+        if "semantic_long_context_search" in patterns:
+            hints.append("Reject semantic context packs that retrieve source passages as new-story canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -2795,6 +2967,11 @@ class NovelSourceDiscoveryService:
                 "beat_strand_framework",
                 "genre_parameterized_worldbuilding",
                 "prose_preflight_voice_calibration",
+                "sourcebook_author_workbench",
+                "semantic_long_context_search",
+                "contradiction_taxonomy_checker",
+                "cross_chapter_redundancy_audit",
+                "humanization_stylometry_levers",
             }
         ) and (
             "style_signature" in patterns

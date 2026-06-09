@@ -256,6 +256,13 @@ def render_source_pattern_pack_digest(
         "editor_notes_feedback_loop_hints",
         "genre_parameterized_worldbuilding_hints",
         "prose_preflight_voice_calibration_hints",
+        "sourcebook_author_workbench_hints",
+        "semantic_long_context_search_hints",
+        "contradiction_taxonomy_checker_hints",
+        "parallel_agent_chapter_pipeline_hints",
+        "cross_chapter_redundancy_audit_hints",
+        "humanization_stylometry_levers_hints",
+        "author_control_boundary_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

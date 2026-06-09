@@ -1566,3 +1566,31 @@ def test_build_remix_continuation_context_block_renders_production_review_audit(
     assert "editor_notes_feedback_loop: carry open editor notes forward" in block
     assert "genre_parameterized_worldbuilding: parameterize factions" in block
     assert "prose_preflight_voice_calibration: use voice samples" in block
+
+
+def test_build_remix_continuation_context_block_renders_consistency_style_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Consistency Sourcebook Novel",
+        bible={"world_rules": {"rule": "keep accepted canon"}},
+        plan={"summary": "Continue from accepted sourcebook state."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "sourcebook_author_workbench"},
+                {"name": "semantic_long_context_search"},
+                {"name": "contradiction_taxonomy_checker"},
+                {"name": "parallel_agent_chapter_pipeline"},
+                {"name": "cross_chapter_redundancy_audit"},
+                {"name": "humanization_stylometry_levers"},
+                {"name": "author_control_boundary"},
+            ],
+        },
+    )
+
+    assert "Consistency and style audit:" in block
+    assert "sourcebook_author_workbench: sourcebook entries are author-owned canon candidates" in block
+    assert "semantic_long_context_search: cite query, matched artifact" in block
+    assert "contradiction_taxonomy_checker: check characterization, factual detail" in block
+    assert "parallel_agent_chapter_pipeline: isolate chapter jobs" in block
+    assert "cross_chapter_redundancy_audit: count repeated scene shapes" in block
+    assert "humanization_stylometry_levers: apply burstiness, specificity" in block
+    assert "author_control_boundary: keep AI proposals, accepted canon" in block

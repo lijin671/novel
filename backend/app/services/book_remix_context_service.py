@@ -90,6 +90,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_consistency_style_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1211,6 +1215,43 @@ def _append_production_review_audit_section(
         lines.append("- prose_preflight_voice_calibration: use voice samples to remove generic AI tells without inventing unsupported facts")
 
 
+def _append_consistency_style_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render sourcebook, semantic-retrieval, consistency, and stylometry gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "sourcebook_author_workbench",
+        "semantic_long_context_search",
+        "contradiction_taxonomy_checker",
+        "parallel_agent_chapter_pipeline",
+        "cross_chapter_redundancy_audit",
+        "humanization_stylometry_levers",
+        "author_control_boundary",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Consistency and style audit:")
+    if "sourcebook_author_workbench" in pattern_names:
+        lines.append("- sourcebook_author_workbench: sourcebook entries are author-owned canon candidates; AI suggestions need acceptance before reuse")
+    if "semantic_long_context_search" in pattern_names:
+        lines.append("- semantic_long_context_search: cite query, matched artifact, inclusion reason, and canon status for each long-context hit")
+    if "contradiction_taxonomy_checker" in pattern_names:
+        lines.append("- contradiction_taxonomy_checker: check characterization, factual detail, narrative style, timeline/plot, and world-rule conflicts")
+    if "parallel_agent_chapter_pipeline" in pattern_names:
+        lines.append("- parallel_agent_chapter_pipeline: isolate chapter jobs and aggregate reviews before revision cycles")
+    if "cross_chapter_redundancy_audit" in pattern_names:
+        lines.append("- cross_chapter_redundancy_audit: count repeated scene shapes, weak causality, flat dialogue, and over-regular prose across chapters")
+    if "humanization_stylometry_levers" in pattern_names:
+        lines.append("- humanization_stylometry_levers: apply burstiness, specificity, discourse variation, and AI-transition cleanup only after canon checks")
+    if "author_control_boundary" in pattern_names:
+        lines.append("- author_control_boundary: keep AI proposals, accepted canon, and disclosure/labeling decisions separate")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1319,6 +1360,13 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "editor_notes_feedback_loop_hints": "editor_notes_feedback_loop",
         "genre_parameterized_worldbuilding_hints": "genre_parameterized_worldbuilding",
         "prose_preflight_voice_calibration_hints": "prose_preflight_voice_calibration",
+        "sourcebook_author_workbench_hints": "sourcebook_author_workbench",
+        "semantic_long_context_search_hints": "semantic_long_context_search",
+        "contradiction_taxonomy_checker_hints": "contradiction_taxonomy_checker",
+        "parallel_agent_chapter_pipeline_hints": "parallel_agent_chapter_pipeline",
+        "cross_chapter_redundancy_audit_hints": "cross_chapter_redundancy_audit",
+        "humanization_stylometry_levers_hints": "humanization_stylometry_levers",
+        "author_control_boundary_hints": "author_control_boundary",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):
