@@ -1632,3 +1632,46 @@ def test_build_remix_continuation_context_block_renders_research_multimodal_expe
     assert "nrd_task_tree_pipeline: track arcs -> chapters -> scenes" in block
     assert "sampling_parameter_quality_sweep: promote parameter defaults" in block
     assert "story_structure_rag_planning: map Hero's Journey/Freytag" in block
+
+
+
+def test_build_remix_continuation_context_block_renders_serialized_continuity_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Serialized Desk",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Track the archive witness"}],
+            "timeline": [{"event": "Inspector Lin recovered ledger", "chapter_number": 19}],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 20,
+                    "summary": "Inspector Lin questioned the archive witness.",
+                }
+            ],
+        },
+        plan={"summary": "Follow the sealed file lead next."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "story_contract_commit_chain"},
+                {"name": "fact_snapshot_delta_gate"},
+                {"name": "projection_sync_observability"},
+                {"name": "foreshadowing_debt_budget"},
+                {"name": "reader_retention_review_gate"},
+                {"name": "draft_stage_revision_ladder"},
+                {"name": "rolling_summary_context_trim"},
+            ],
+            "story_contract_commit_chain_hints": ["Treat contracts as canonical commit chain."],
+            "fact_snapshot_delta_gate_hints": ["Validate deltas before write-back."],
+            "rolling_summary_context_trim_hints": ["Track dropped context."],
+        },
+    )
+
+    assert "Serialized continuity audit" in block
+    assert "story_contract_commit_chain: contracts are canon" in block
+    assert "fact_snapshot_delta_gate: validate fact snapshots" in block
+    assert "projection_sync_observability: state/index/summary/memory/vector/dashboard views" in block
+    assert "foreshadowing_debt_budget: reserve context for high-debt hooks" in block
+    assert "reader_retention_review_gate: review consistency, OOC, rhythm" in block
+    assert "draft_stage_revision_ladder: blueprint -> key info -> task card -> Draft A/B/C" in block
+    assert "rolling_summary_context_trim: selected rolling summary" in block

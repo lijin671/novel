@@ -98,6 +98,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_serialized_continuity_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -336,6 +340,10 @@ def build_remix_inspired_context_block(
         include_inspired_guidance=True,
     )
     _append_inspired_transformation_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_serialized_continuity_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1308,6 +1316,43 @@ def _append_research_multimodal_experiment_audit_section(
         lines.append("- story_structure_rag_planning: map Hero's Journey/Freytag or style-RAG samples to accepted story facts before prose")
 
 
+
+def _append_serialized_continuity_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render serialized webnovel contract, snapshot, projection, and review gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "story_contract_commit_chain",
+        "fact_snapshot_delta_gate",
+        "projection_sync_observability",
+        "foreshadowing_debt_budget",
+        "reader_retention_review_gate",
+        "draft_stage_revision_ladder",
+        "rolling_summary_context_trim",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Serialized continuity audit:")
+    if "story_contract_commit_chain" in pattern_names:
+        lines.append("- story_contract_commit_chain: contracts are canon; drafts become reusable state only through accepted chapter commits")
+    if "fact_snapshot_delta_gate" in pattern_names:
+        lines.append("- fact_snapshot_delta_gate: validate fact snapshots, change declarations, and after-state before writing canon")
+    if "projection_sync_observability" in pattern_names:
+        lines.append("- projection_sync_observability: state/index/summary/memory/vector/dashboard views must trace to accepted commits")
+    if "foreshadowing_debt_budget" in pattern_names:
+        lines.append("- foreshadowing_debt_budget: reserve context for high-debt hooks and cite setup/payoff windows before reveal")
+    if "reader_retention_review_gate" in pattern_names:
+        lines.append("- reader_retention_review_gate: review consistency, OOC, rhythm, pleasure point, and next-chapter pull together")
+    if "draft_stage_revision_ladder" in pattern_names:
+        lines.append("- draft_stage_revision_ladder: blueprint -> key info -> task card -> Draft A/B/C -> continuity handoff")
+    if "rolling_summary_context_trim" in pattern_names:
+        lines.append("- rolling_summary_context_trim: selected rolling summary, character state, timeline events, and dropped context need a manifest")
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1435,6 +1480,13 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "nrd_task_tree_pipeline_hints": "nrd_task_tree_pipeline",
         "sampling_parameter_quality_sweep_hints": "sampling_parameter_quality_sweep",
         "story_structure_rag_planning_hints": "story_structure_rag_planning",
+        "story_contract_commit_chain_hints": "story_contract_commit_chain",
+        "fact_snapshot_delta_gate_hints": "fact_snapshot_delta_gate",
+        "projection_sync_observability_hints": "projection_sync_observability",
+        "foreshadowing_debt_budget_hints": "foreshadowing_debt_budget",
+        "reader_retention_review_gate_hints": "reader_retention_review_gate",
+        "draft_stage_revision_ladder_hints": "draft_stage_revision_ladder",
+        "rolling_summary_context_trim_hints": "rolling_summary_context_trim",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

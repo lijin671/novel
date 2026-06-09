@@ -2880,3 +2880,214 @@ def test_default_discovery_sources_include_research_multimodal_experiment_projec
     assert any("narrative arc" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("prompt recipes" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("hero journey" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+
+def test_serialized_webnovel_projects_are_classified_as_continuity_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "lingfengQAQ/webnovel-writer",
+                "html_url": "https://github.com/lingfengQAQ/webnovel-writer",
+                "description": "Serialized webnovel writer with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections.",
+                "stargazers_count": 4897,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["webnovel", "ai-writing", "claude-code"],
+                "updated_at": "2026-06-09T13:16:34Z",
+                "root_files": ["README.md", "package.json", "scripts"],
+            },
+            {
+                "full_name": "zy-zmc/tianming-novel-ai-writer",
+                "html_url": "https://github.com/zy-zmc/tianming-novel-ai-writer",
+                "description": "AI novel writing system with 15-dimensional fact snapshots, 12 change declaration classes, 6 generation gates, long-distance recall, unified validation and per-chapter state write-back.",
+                "stargazers_count": 303,
+                "license": None,
+                "topics": ["novel", "webnovel", "semantic-search"],
+                "updated_at": "2026-06-09T11:58:15Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "starMagic/webnovel-writer-hermes",
+                "html_url": "https://github.com/starMagic/webnovel-writer-hermes",
+                "description": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["webnovel", "hermes-agent", "rag"],
+                "updated_at": "2026-06-05T10:31:40Z",
+                "root_files": ["README.md", "scripts", "agents"],
+            },
+            {
+                "full_name": "HZ-KMNO/web-novel-writing-guidance-skill",
+                "html_url": "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill",
+                "description": "Web novel writing guidance skill with chapter blueprint, key-information file, chapter task card, Draft A, Draft B, Draft C de-AI final pass, continuity record and next-chapter handoff.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["web-novel", "skill", "writing"],
+                "updated_at": "2026-06-09T07:20:01Z",
+                "root_files": ["README.md", "SKILL.md"],
+            },
+            {
+                "full_name": "DuckTraDo/Novel",
+                "html_url": "https://github.com/DuckTraDo/Novel",
+                "description": "Local-first AI novel pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, events.jsonl, timeline.jsonl, chapter_summaries.jsonl, relationship graph, consistency checks, and memory update after each chapter.",
+                "stargazers_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "continuity", "local-first"],
+                "updated_at": "2026-06-03T07:47:48Z",
+                "root_files": ["README.md", "pyproject.toml"],
+            },
+            {
+                "full_name": "makieali/longform-ai",
+                "html_url": "https://github.com/makieali/longform-ai",
+                "description": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore.",
+                "stargazers_count": 6,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["long-form", "novel", "continuity"],
+                "updated_at": "2026-06-09T13:14:46Z",
+                "root_files": ["README.md", "package.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T00:10:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+
+    assert "story_contract_commit_chain" in patterns_by_title["lingfengQAQ/webnovel-writer"]
+    assert "projection_sync_observability" in patterns_by_title["lingfengQAQ/webnovel-writer"]
+    assert "reader_retention_review_gate" in patterns_by_title["lingfengQAQ/webnovel-writer"]
+    assert "fact_snapshot_delta_gate" in patterns_by_title["zy-zmc/tianming-novel-ai-writer"]
+    assert "foreshadowing_debt_budget" in patterns_by_title["starMagic/webnovel-writer-hermes"]
+    assert "draft_stage_revision_ladder" in patterns_by_title["HZ-KMNO/web-novel-writing-guidance-skill"]
+    assert "rolling_summary_context_trim" in patterns_by_title["DuckTraDo/Novel"]
+    assert "rolling_summary_context_trim" in patterns_by_title["makieali/longform-ai"]
+
+
+def test_serialized_webnovel_pattern_pack_exposes_contract_and_review_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T00:15:00+08:00",
+        "candidate_count": 6,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/lingfengQAQ/webnovel-writer",
+                "title": "lingfengQAQ/webnovel-writer",
+                "summary": "Story contracts, accepted CHAPTER_COMMIT, projection logs, dashboard, doctor, RAG reviewer, OOC, rhythm and reader retention review.",
+                "stars": 4897,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["runtime_surface"],
+                "absorbed_patterns": [
+                    "story_contract_commit_chain",
+                    "projection_sync_observability",
+                    "reader_retention_review_gate",
+                    "continuation",
+                    "chapter_generation",
+                ],
+                "score": 98,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/zy-zmc/tianming-novel-ai-writer",
+                "title": "zy-zmc/tianming-novel-ai-writer",
+                "summary": "15-dimensional fact snapshots, 12 change declaration classes, six generation gates and state write-back.",
+                "stars": 303,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["fact_snapshot_delta_gate", "semantic_long_context_search"],
+                "score": 91,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/starMagic/webnovel-writer-hermes",
+                "title": "starMagic/webnovel-writer-hermes",
+                "summary": "Three-tier memory, foreshadowing DebtTracker, dynamic context-budget reservation and six-dimensional review.",
+                "stars": 1,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["foreshadowing_debt_budget", "layered_memory_model", "reader_retention_review_gate"],
+                "score": 89,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill",
+                "title": "HZ-KMNO/web-novel-writing-guidance-skill",
+                "summary": "Chapter blueprint, key-information file, task card, Draft A/B/C ladder and continuity handoff.",
+                "stars": 1,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["draft_stage_revision_ladder", "anti_ai_tone_polish"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/makieali/longform-ai",
+                "title": "makieali/longform-ai",
+                "summary": "Rolling summary, character state, timeline events, relevant passages, token-budget context trimming and session restore.",
+                "stars": 6,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["postinstall"],
+                "absorbed_patterns": ["rolling_summary_context_trim", "accepted_chapter_memory"],
+                "score": 84,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "story_contracts" in pattern_pack["whole_book_analysis_targets"]
+    assert "accepted_chapter_commits" in pattern_pack["whole_book_analysis_targets"]
+    assert "fact_snapshot_dimensions" in pattern_pack["whole_book_analysis_targets"]
+    assert "generation_gate_results" in pattern_pack["whole_book_analysis_targets"]
+    assert "projection_sync_log" in pattern_pack["whole_book_analysis_targets"]
+    assert "foreshadowing_debt_items" in pattern_pack["whole_book_analysis_targets"]
+    assert "reader_retention_score" in pattern_pack["whole_book_analysis_targets"]
+    assert "draft_stage_status" in pattern_pack["whole_book_analysis_targets"]
+    assert "rolling_summary" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_contract_commit_chain_hints" in pattern_pack
+    assert "fact_snapshot_delta_gate_hints" in pattern_pack
+    assert "projection_sync_observability_hints" in pattern_pack
+    assert "foreshadowing_debt_budget_hints" in pattern_pack
+    assert "reader_retention_review_gate_hints" in pattern_pack
+    assert "draft_stage_revision_ladder_hints" in pattern_pack
+    assert "rolling_summary_context_trim_hints" in pattern_pack
+    assert "commit_chain_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "fact_delta_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "retention_hook_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "story_contract_commit_chain_hints" in digest
+    assert "fact_snapshot_delta_gate_hints" in digest
+    assert "rolling_summary_context_trim_hints" in digest
+
+
+def test_default_discovery_sources_include_serialized_webnovel_projects():
+    assert "https://github.com/lingfengQAQ/webnovel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/zy-zmc/tianming-novel-ai-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lujih/webnovel-writer-opencode" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/starMagic/webnovel-writer-hermes" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jinmawang/claude-novel-writeFlow" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/DuckTraDo/Novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/makieali/longform-ai" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/guchendesigndog/GC-Writer-Assistant" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("story contract" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("fact write-back" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("foreshadowing debt" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("draft a" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("rolling summary" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

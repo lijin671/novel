@@ -72,6 +72,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("novel to video" OR "script to scene" OR "character reference") ("AI" OR "film production") in:name,description,readme',
     '("NRD" OR "task tree" OR "revision passes") ("novel" OR "writing") in:name,description,readme',
     '("scene" OR "shot" OR "idea to production" OR "storyboard") ("AI" OR "Claude Code") in:name,description,readme',
+    '("story contract" OR "chapter commit" OR "fact snapshot") ("webnovel" OR "novel" OR "long-form") in:name,description,readme',
+    '("fact write-back" OR "state write-back" OR "generation gates") ("web novel" OR "novel writing") in:name,description,readme',
+    '("foreshadowing debt" OR "follow-up rate" OR "reader retention") ("webnovel" OR "novel") in:name,description,readme',
+    '("Draft A" OR "Draft B" OR "Draft C" OR "chapter blueprint") ("web novel" OR "fiction writing") in:name,description,readme',
+    '("rolling summary" OR "character state tracking" OR "context trimming") ("long-form" OR "novel") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -141,6 +146,15 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/brianlmerritt/explore_writing",
     "https://github.com/forsonny/novel-master-ai",
     "https://github.com/arian-emami/NovelDreamer",
+    "https://github.com/lingfengQAQ/webnovel-writer",
+    "https://github.com/zy-zmc/tianming-novel-ai-writer",
+    "https://github.com/lujih/webnovel-writer-opencode",
+    "https://github.com/starMagic/webnovel-writer-hermes",
+    "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill",
+    "https://github.com/jinmawang/claude-novel-writeFlow",
+    "https://github.com/DuckTraDo/Novel",
+    "https://github.com/makieali/longform-ai",
+    "https://github.com/guchendesigndog/GC-Writer-Assistant",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -291,6 +305,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("nrd_task_tree_pipeline", ("nrd", "arcs/chapters/scenes", "revision passes", "tagged workflow", "continuity reporting", "task tree", "novel master")),
     ("sampling_parameter_quality_sweep", ("sampling grid", "temperature", "top_p", "top-k", "sampling parameter", "quality sweep", "parameter sweep")),
     ("story_structure_rag_planning", ("wikiquote", "hero's journey", "freytag", "story structure rag", "style/thematic samples", "acts/chapters pre-planning", "thematic samples")),
+    ("story_contract_commit_chain", ("story contract", "story contracts", "chapter_commit", "chapter commit", "合同", "提交链", "故事合同", "唯一的事实源头", "主链", "accepted chapter_commit")),
+    ("fact_snapshot_delta_gate", ("fact snapshot", "事实快照", "15维事实快照", "12类变更声明", "state write-back", "fact write-back", "状态回写", "事实回写", "变更声明", "generation gates", "生成门禁", "统一校验")),
+    ("projection_sync_observability", ("projection_log", "projection log", "state/index/summary/memory/vector", "投影", "派生视图", "只读视图", "dashboard", "doctor", "preflight", "项目体检", "可视化面板")),
+    ("foreshadowing_debt_budget", ("foreshadowing debt", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
+    ("reader_retention_review_gate", ("reader retention", "follow-up rate", "追读力", "爽点", "ooc", "节奏", "6 维", "six-dimensional", "reader promise", "读者承诺")),
+    ("draft_stage_revision_ladder", ("draft a", "draft b", "draft c", "chapter blueprint", "key-information file", "chapter task card", "初稿", "定向修改", "去ai", "连续性记录", "drafting, revision, and final polish")),
+    ("rolling_summary_context_trim", ("rolling summary", "compressed plot summary", "context trimmed", "token budget", "character state tracking", "timeline events", "relevant passages", "session progress", "context trimming", "chapter_summaries", "chapter summaries", "events.jsonl", "timeline.jsonl", "relationship graph", "memory update after each chapter")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -524,6 +545,48 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "arian-emami/noveldreamer": (
         "Research novel generator using style/thematic retrieval. Public README describes RAG from Wikiquote samples, Hero's Journey and Freytag structure, "
         "and act/chapter pre-planning before generation."
+    ),
+    "lingfengqaq/webnovel-writer": (
+        "Chinese long-form webnovel writing system for Claude Code with eight skill commands, Story System contracts as the single source of truth, "
+        "accepted CHAPTER_COMMIT write-back, state/index/summary/memory/vector projections, projection logs, read-only dashboard, doctor/preflight checks, "
+        "context/reviewer/data/deconstruction agents, RAG, anti-AI final checks, and review dimensions for consistency, OOC, pacing, and reader retention."
+    ),
+    "zy-zmc/tianming-novel-ai-writer": (
+        "AI novel writing system centered on 15-dimensional fact snapshots, 12 change declaration classes, six generation gates, closed-loop chapter writing, "
+        "long-distance recall, unified validation, local semantic search, and per-chapter state write-back for thousands of chapters."
+    ),
+    "lujih/webnovel-writer-opencode": (
+        "OpenCode adaptation of webnovel-writer with long-form serialized writing flow, context preparation, review, anti-AI polish, fact extraction, "
+        "and accepted chapter commit projection patterns. Treat as sibling pattern evidence, not a separate runtime dependency."
+    ),
+    "starmagic/webnovel-writer-hermes": (
+        "Hermes Agent adaptation of the webnovel writer flow with story contracts, layered RAG, three-tier memory, foreshadowing DebtTracker, "
+        "dynamic context-budget reservation, entity-graph RAG, time-sliced character-state queries, six-dimensional parallel review, "
+        "context/reviewer/data/deconstruction agents, health self-check, graceful fallback, and read-only dashboard."
+    ),
+    "hz-kmno/web-novel-writing-guidance-skill": (
+        "Web novel writing guidance skill that turns ideas into story-engine design, chapter blueprints, key-information files, chapter task cards, "
+        "Draft A/B/C revision ladder, de-AI final pass, continuity records, next-chapter handoff, independent character goals, information boundaries, "
+        "mistaken beliefs, and foreshadowing tracking."
+    ),
+    "jinmawang/claude-novel-writeflow": (
+        "Claude Code novel workflow plugin with style definition before outline, four-way brainstorm, structured chapter outlines, Writer Agent, "
+        "Style Reviewer, Continuity Reviewer, ±2 chapter context window, bounded review loops, context extraction for existing chapters, "
+        "plain-text outline/context/chapter storage, and safe single-chapter rewrites."
+    ),
+    "ducktrado/novel": (
+        "Local-first AI novel writing pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, style_bank.jsonl, "
+        "events/timeline/chapter_summaries ledgers, relationship graph, consistency checks, memory update after each chapter, "
+        "chapter reset boundaries, desktop memory workbench, and LoRA style adapter posture."
+    ),
+    "makieali/longform-ai": (
+        "LongForm AI long-form generation engine for novels, docs, courses, and screenplays with provider roles, interactive sessions, book outline and chapter schemas, "
+        "chapter status, edit-cycle records, automatic retry/expand/edit/rewrite/continuity loop, rolling summary, character state, timeline events, world state, "
+        "relevant-passage retrieval, token-budget context trimming, cost tracking, and session restore."
+    ),
+    "guchendesigndog/gc-writer-assistant": (
+        "Chinese web-novel local writing assistant for chapter management, outline extraction, AI polishing, continuation, themed workspaces, and user-facing AI interface setup. "
+        "Pattern-only value is lightweight chapter/outline workspace integration rather than runtime scripts."
     ),
 }
 
@@ -906,6 +969,13 @@ class NovelSourceDiscoveryService:
             "nrd_task_tree_pipeline_hints": self._build_nrd_task_tree_pipeline_hints(available_patterns),
             "sampling_parameter_quality_sweep_hints": self._build_sampling_parameter_quality_sweep_hints(available_patterns),
             "story_structure_rag_planning_hints": self._build_story_structure_rag_planning_hints(available_patterns),
+            "story_contract_commit_chain_hints": self._build_story_contract_commit_chain_hints(available_patterns),
+            "fact_snapshot_delta_gate_hints": self._build_fact_snapshot_delta_gate_hints(available_patterns),
+            "projection_sync_observability_hints": self._build_projection_sync_observability_hints(available_patterns),
+            "foreshadowing_debt_budget_hints": self._build_foreshadowing_debt_budget_hints(available_patterns),
+            "reader_retention_review_gate_hints": self._build_reader_retention_review_gate_hints(available_patterns),
+            "draft_stage_revision_ladder_hints": self._build_draft_stage_revision_ladder_hints(available_patterns),
+            "rolling_summary_context_trim_hints": self._build_rolling_summary_context_trim_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1426,6 +1496,13 @@ class NovelSourceDiscoveryService:
             "nrd_task_tree_pipeline": 59,
             "sampling_parameter_quality_sweep": 37,
             "story_structure_rag_planning": 52,
+            "story_contract_commit_chain": 68,
+            "fact_snapshot_delta_gate": 67,
+            "projection_sync_observability": 60,
+            "foreshadowing_debt_budget": 62,
+            "reader_retention_review_gate": 61,
+            "draft_stage_revision_ladder": 56,
+            "rolling_summary_context_trim": 59,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1817,6 +1894,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["sampling_parameter_grid", "quality_sweep_results", "temperature_top_p_findings"])
         if "story_structure_rag_planning" in patterns:
             targets.extend(["hero_journey_beats", "freytag_structure_points", "style_thematic_rag_samples"])
+        if "story_contract_commit_chain" in patterns:
+            targets.extend(["story_contracts", "accepted_chapter_commits", "canon_commit_chain"])
+        if "fact_snapshot_delta_gate" in patterns:
+            targets.extend(["fact_snapshot_dimensions", "change_declaration_types", "generation_gate_results", "state_writeback_log"])
+        if "projection_sync_observability" in patterns:
+            targets.extend(["projection_views", "projection_sync_log", "doctor_preflight_results", "dashboard_read_model"])
+        if "foreshadowing_debt_budget" in patterns:
+            targets.extend(["foreshadowing_debt_items", "context_budget_reservations", "unresolved_hook_pressure"])
+        if "reader_retention_review_gate" in patterns:
+            targets.extend(["reader_retention_score", "pleasure_point_checks", "ooc_rhythm_review", "chapter_hook_strength"])
+        if "draft_stage_revision_ladder" in patterns:
+            targets.extend(["chapter_blueprint", "key_information_file", "draft_stage_status", "next_chapter_handoff"])
+        if "rolling_summary_context_trim" in patterns:
+            targets.extend(["rolling_summary", "character_state_snapshot", "timeline_event_log", "context_trim_manifest"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1910,6 +2001,20 @@ class NovelSourceDiscoveryService:
             hints.append("Drive continuation from an NRD-style task tree: arcs -> chapters -> scenes -> revision passes, with continuity reporting after each level.")
         if "story_structure_rag_planning" in patterns:
             hints.append("Use story-structure references as planning scaffolds only; map Hero's Journey/Freytag beats to this book's accepted facts before prose.")
+        if "story_contract_commit_chain" in patterns:
+            hints.append("续写必须从故事合同和 accepted CHAPTER_COMMIT 主链取事实；草稿未提交前不能进入可复用状态。")
+        if "fact_snapshot_delta_gate" in patterns:
+            hints.append("写前组装事实快照，写后提交类型化变更声明；只有通过生成门禁的状态回写才能成为新事实。")
+        if "projection_sync_observability" in patterns:
+            hints.append("每次承接前检查 state/index/summary/memory/vector 等派生视图是否已同步到最新 accepted commit。")
+        if "foreshadowing_debt_budget" in patterns:
+            hints.append("优先召回高债务伏笔，预留上下文预算，并在揭示前标明铺垫、回收窗口和当前状态。")
+        if "reader_retention_review_gate" in patterns:
+            hints.append("章节验收同时检查一致性、OOC、节奏、爽点兑现和下一章拉力；流畅但无追读压力不能接受。")
+        if "draft_stage_revision_ladder" in patterns:
+            hints.append("按章节蓝图、关键信息、任务卡到 Draft A/B/C 逐级修订；Draft C 只做去 AI 味和语言收束，不改事实。")
+        if "rolling_summary_context_trim" in patterns:
+            hints.append("用 rolling summary、人物状态、时间线事件和裁剪清单控制长上下文，只注入与当前章节有关的片段。")
         if "top_down_story_planning" in patterns:
             hints.append("长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。")
         if "plain_text_project_storage" in patterns:
@@ -2049,6 +2154,18 @@ class NovelSourceDiscoveryService:
             hints.append("Record session word-count goals and actual accepted-word counts without letting numeric goals override continuity.")
         if "inspectable_run_workspace" in patterns:
             hints.append("Expose session, storyboard, manuscript surface, and memory-bank refs so reviewers can inspect a run without hidden state.")
+        if "story_contract_commit_chain" in patterns:
+            hints.append("Persist story contracts and accepted chapter commits as the canonical chain; every derived state should trace back to a commit id.")
+        if "fact_snapshot_delta_gate" in patterns:
+            hints.append("Store before-state, proposed delta, validation result, and after-state for every accepted chapter fact update.")
+        if "projection_sync_observability" in patterns:
+            hints.append("Keep projection logs for state/index/summary/memory/vector updates so stale read models are visible before the next prompt.")
+        if "foreshadowing_debt_budget" in patterns:
+            hints.append("Track foreshadowing debt with status, expected payoff window, context-budget reservation, and last chapter touched.")
+        if "draft_stage_revision_ladder" in patterns:
+            hints.append("Persist Draft A/B/C status and the next-chapter handoff separately from the final accepted prose.")
+        if "rolling_summary_context_trim" in patterns:
+            hints.append("Store rolling summaries, context trim manifests, and selected relevant passages beside the chapter run for restore and review.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -2914,6 +3031,64 @@ class NovelSourceDiscoveryService:
             "Structure references are not canon; map each beat to accepted story facts before prose generation.",
         ]
 
+
+
+    def _build_story_contract_commit_chain_hints(self, patterns: set[str]) -> list[str]:
+        if "story_contract_commit_chain" not in patterns:
+            return []
+        return [
+            "Treat story contracts as the single source of truth for serialized continuation; drafts become canon only through accepted chapter commits.",
+            "Each chapter commit should record input contract version, accepted prose id, extracted facts, review status, and projection targets.",
+        ]
+
+    def _build_fact_snapshot_delta_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "fact_snapshot_delta_gate" not in patterns:
+            return []
+        return [
+            "Before prose, assemble fact snapshots; after prose, emit typed change declarations and validate them through generation gates.",
+            "Reject chapter state write-back when snapshot fields are missing, deltas conflict, or validation cannot explain the after-state.",
+        ]
+
+    def _build_projection_sync_observability_hints(self, patterns: set[str]) -> list[str]:
+        if "projection_sync_observability" not in patterns:
+            return []
+        return [
+            "Keep read models such as state, index, summaries, memory, vectors, and dashboard views derived from accepted commits.",
+            "Projection logs should name which derived view synced, failed, or went stale so the next chapter does not read inconsistent state.",
+        ]
+
+    def _build_foreshadowing_debt_budget_hints(self, patterns: set[str]) -> list[str]:
+        if "foreshadowing_debt_budget" not in patterns:
+            return []
+        return [
+            "Score open foreshadowing as debt and reserve context budget for high-debt hooks before drafting related chapters.",
+            "A payoff attempt must cite its setup, expected payoff window, current debt status, and whether the hook remains open or resolved.",
+        ]
+
+    def _build_reader_retention_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "reader_retention_review_gate" not in patterns:
+            return []
+        return [
+            "Review each chapter for consistency, continuity, OOC, pleasure-point delivery, rhythm, and reader-retention hook before acceptance.",
+            "Retention findings should become concrete revision tasks; do not accept a fluent chapter that has no pressure, payoff, or next-chapter pull.",
+        ]
+
+    def _build_draft_stage_revision_ladder_hints(self, patterns: set[str]) -> list[str]:
+        if "draft_stage_revision_ladder" not in patterns:
+            return []
+        return [
+            "Use a staged ladder: chapter blueprint -> key-information file -> task card -> Draft A -> Draft B -> Draft C -> continuity handoff.",
+            "Draft B preserves approved parts while applying directed changes; Draft C removes AI tone without changing canon or source-copy boundaries.",
+        ]
+
+    def _build_rolling_summary_context_trim_hints(self, patterns: set[str]) -> list[str]:
+        if "rolling_summary_context_trim" not in patterns:
+            return []
+        return [
+            "Maintain a rolling summary plus character states, timeline events, world state, and relevant passages for each chapter.",
+            "When context is trimmed, record dropped items and keep enough evidence to explain why the selected context supports the next beat.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -3042,6 +3217,18 @@ class NovelSourceDiscoveryService:
             targets.append("sampling_quality_remap")
         if "story_structure_rag_planning" in patterns:
             targets.append("structure_scaffold_remap")
+        if "story_contract_commit_chain" in patterns:
+            targets.append("commit_chain_remap")
+        if "fact_snapshot_delta_gate" in patterns:
+            targets.append("fact_delta_remap")
+        if "foreshadowing_debt_budget" in patterns:
+            targets.append("foreshadowing_debt_remap")
+        if "reader_retention_review_gate" in patterns:
+            targets.append("retention_hook_remap")
+        if "draft_stage_revision_ladder" in patterns:
+            targets.append("draft_stage_remap")
+        if "rolling_summary_context_trim" in patterns:
+            targets.append("rolling_context_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -3125,6 +3312,18 @@ class NovelSourceDiscoveryService:
             hints.append("Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.")
         if "story_structure_rag_planning" in patterns:
             hints.append("Use structure scaffolds like Hero's Journey or Freytag as abstract pressure maps, not as source event order.")
+        if "story_contract_commit_chain" in patterns:
+            hints.append("For same-type creation, create a new contract and commit chain; source contracts may guide artifact shape only.")
+        if "fact_snapshot_delta_gate" in patterns:
+            hints.append("Transform fact snapshot dimensions and delta gates into new-story state fields before drafting.")
+        if "foreshadowing_debt_budget" in patterns:
+            hints.append("Rebuild foreshadowing debt from new hooks and payoff windows instead of copying source mysteries.")
+        if "reader_retention_review_gate" in patterns:
+            hints.append("Map reader-retention pressure to new hooks, pleasure points, rhythm, and cliffhangers; do not reuse source set pieces.")
+        if "draft_stage_revision_ladder" in patterns:
+            hints.append("Use Draft A/B/C stages to improve transformed prose while preserving independence and canon boundaries.")
+        if "rolling_summary_context_trim" in patterns:
+            hints.append("Build rolling summaries from transformed accepted chapters only; source summaries remain craft references.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -3192,6 +3391,18 @@ class NovelSourceDiscoveryService:
             hints.append("Rebuild the NRD task tree from new arcs to scenes so revision passes repair the new story, not the source workflow.")
         if "story_structure_rag_planning" in patterns:
             hints.append("Map structure-RAG samples to abstract beat purpose, then replace character, setting, event, and language before drafting.")
+        if "story_contract_commit_chain" in patterns:
+            hints.append("Transform the commit chain by changing the contract premise, accepted-fact categories, and chapter-causality ledger.")
+        if "fact_snapshot_delta_gate" in patterns:
+            hints.append("Define new fact snapshots and change declarations so transformed canon cannot inherit source labels through state fields.")
+        if "foreshadowing_debt_budget" in patterns:
+            hints.append("Create new foreshadowing debts with different clues, promises, costs, and payoff timing.")
+        if "reader_retention_review_gate" in patterns:
+            hints.append("Transform retention mechanics into new chapter-end pull, emotional pressure, and reader promise.")
+        if "draft_stage_revision_ladder" in patterns:
+            hints.append("Run staged revision on the transformed chapter, not on source text or source-like paraphrase.")
+        if "rolling_summary_context_trim" in patterns:
+            hints.append("Rewrite rolling summaries around the transformed story's accepted events before using them for continuation.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -3263,6 +3474,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject NRD task trees whose arc/chapter/scene hierarchy mirrors the source route.")
         if "story_structure_rag_planning" in patterns:
             hints.append("Reject structure scaffolds that smuggle source quotes, named examples, or event ordering into canon.")
+        if "story_contract_commit_chain" in patterns:
+            hints.append("Reject transformed drafts whose contract or commit chain preserves source chapter-causality order under renamed labels.")
+        if "fact_snapshot_delta_gate" in patterns:
+            hints.append("Reject state deltas that keep source proper nouns, unique facts, abilities, clues, or relationship labels.")
+        if "foreshadowing_debt_budget" in patterns:
+            hints.append("Reject payoff plans that preserve the same clue, debt, and reveal window from the source work.")
+        if "reader_retention_review_gate" in patterns:
+            hints.append("Reject chapters whose retention score depends on recognizable source set pieces or hook sequence.")
+        if "draft_stage_revision_ladder" in patterns:
+            hints.append("Reject Draft B/C polish that merely paraphrases source wording or restores source scene order.")
+        if "rolling_summary_context_trim" in patterns:
+            hints.append("Reject context packs that use source rolling summaries as new-story canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -3314,6 +3537,13 @@ class NovelSourceDiscoveryService:
                 "nrd_task_tree_pipeline",
                 "sampling_parameter_quality_sweep",
                 "story_structure_rag_planning",
+                "story_contract_commit_chain",
+                "fact_snapshot_delta_gate",
+                "projection_sync_observability",
+                "foreshadowing_debt_budget",
+                "reader_retention_review_gate",
+                "draft_stage_revision_ladder",
+                "rolling_summary_context_trim",
             }
         ) and (
             "style_signature" in patterns

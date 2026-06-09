@@ -275,6 +275,13 @@ def render_source_pattern_pack_digest(
         "nrd_task_tree_pipeline_hints",
         "sampling_parameter_quality_sweep_hints",
         "story_structure_rag_planning_hints",
+        "story_contract_commit_chain_hints",
+        "fact_snapshot_delta_gate_hints",
+        "projection_sync_observability_hints",
+        "foreshadowing_debt_budget_hints",
+        "reader_retention_review_gate_hints",
+        "draft_stage_revision_ladder_hints",
+        "rolling_summary_context_trim_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:
