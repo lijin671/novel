@@ -114,6 +114,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_interactive_narrative_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -364,6 +368,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_reader_market_feedback_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_interactive_narrative_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1180,6 +1188,34 @@ def _append_delivery_packaging_audit_section(
         lines.append("- cover_kdp_metadata_boundary: keep cover and KDP metadata as publication artifacts; never let them mutate canon or chapter text")
 
 
+def _append_interactive_narrative_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render branching narrative, dialogue-node, passage-link, and choice-state gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "branching_choice_graph",
+        "node_dialogue_state_machine",
+        "passage_link_navigation_map",
+        "choice_stats_consequence_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Interactive narrative audit:")
+    if "branching_choice_graph" in pattern_names:
+        lines.append("- branching_choice_graph: model choices as branch edges with source node, option intent, consequence scope, and merge/reject decision")
+    if "node_dialogue_state_machine" in pattern_names:
+        lines.append("- node_dialogue_state_machine: dialogue nodes declare entry conditions, speaker state, available options, commands, and exit deltas")
+    if "passage_link_navigation_map" in pattern_names:
+        lines.append("- passage_link_navigation_map: passage links need reachable path checks, intentional merge points, and no accidental dead ends")
+    if "choice_stats_consequence_gate" in pattern_names:
+        lines.append("- choice_stats_consequence_gate: every choice-stat mutation needs visible consequence, trigger record, stat delta, and payoff window")
+
+
 def _append_inspectable_rewrite_audit_section(
     *,
     lines: list[str],
@@ -1620,6 +1656,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "export_format_fidelity_audit_hints": "export_format_fidelity_audit",
         "preview_toc_packaging_hints": "preview_toc_packaging",
         "cover_kdp_metadata_boundary_hints": "cover_kdp_metadata_boundary",
+        "branching_choice_graph_hints": "branching_choice_graph",
+        "node_dialogue_state_machine_hints": "node_dialogue_state_machine",
+        "passage_link_navigation_map_hints": "passage_link_navigation_map",
+        "choice_stats_consequence_gate_hints": "choice_stats_consequence_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

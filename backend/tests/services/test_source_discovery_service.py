@@ -3626,3 +3626,159 @@ def test_default_discovery_sources_include_delivery_packaging_projects():
     assert "https://github.com/arupmaity1/book-writer-mcp" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("docx" in query.lower() and "table of contents" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("kdp" in query.lower() and "cover" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_interactive_narrative_sources_are_classified_as_branch_dialogue_state_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "inkle/ink",
+                "html_url": "https://github.com/inkle/ink",
+                "description": (
+                    "Open source scripting language for writing interactive narrative with highly branching stories, "
+                    "choices, knots, stitches, diverts, variables, and weave structure."
+                ),
+                "stargazers_count": 4795,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["interactive-fiction", "narrative", "branching-story", "ink"],
+                "updated_at": "2026-06-08T22:44:09Z",
+                "root_files": ["README.md", "Documentation", "ink-engine-runtime"],
+            },
+            {
+                "full_name": "YarnSpinnerTool/YarnSpinner",
+                "html_url": "https://github.com/YarnSpinnerTool/YarnSpinner",
+                "description": (
+                    "Dialogue tool for writing interactive conversations with lines, options, commands, variables, "
+                    "nodes, and branching dialogue scripts."
+                ),
+                "stargazers_count": 2800,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["dialogue", "narrative", "game-development", "unity"],
+                "updated_at": "2026-06-09T12:09:26Z",
+                "root_files": ["README.md", "YarnSpinner.Compiler", "YarnSpinner"],
+            },
+            {
+                "full_name": "klembot/twinejs",
+                "html_url": "https://github.com/klembot/twinejs",
+                "description": "Twine is a tool for telling interactive, nonlinear stories with passages, links, variables, and story formats.",
+                "stargazers_count": 2775,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["interactive-fiction", "nonlinear-story", "twine"],
+                "updated_at": "2026-06-09T08:05:36Z",
+                "root_files": ["package.json", "src", "public"],
+            },
+            {
+                "full_name": "dfabulich/choicescript",
+                "html_url": "https://github.com/dfabulich/choicescript",
+                "description": "ChoiceScript is a language for developing multiple-choice games with choices, stats, variables, and achievements.",
+                "stargazers_count": 453,
+                "license": None,
+                "topics": ["interactive-fiction", "choice-games"],
+                "updated_at": "2026-05-29T07:35:56Z",
+                "root_files": ["web", "package.json", "tests"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T04:20:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "branching_choice_graph" in by_title["inkle/ink"]["absorbed_patterns"]
+    assert "node_dialogue_state_machine" in by_title["YarnSpinnerTool/YarnSpinner"]["absorbed_patterns"]
+    assert "passage_link_navigation_map" in by_title["klembot/twinejs"]["absorbed_patterns"]
+    assert "choice_stats_consequence_gate" in by_title["dfabulich/choicescript"]["absorbed_patterns"]
+    assert "branching_choice_graph" in by_title["dfabulich/choicescript"]["absorbed_patterns"]
+    assert "license:missing" in by_title["dfabulich/choicescript"]["trust_review"]["flags"]
+
+
+def test_interactive_narrative_pattern_pack_exposes_branch_dialogue_state_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T04:25:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/inkle/ink",
+                "title": "inkle/ink",
+                "summary": "Interactive narrative scripting with branching stories, knots, stitches, choices, diverts and variables.",
+                "stars": 4795,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["branching_choice_graph", "passage_link_navigation_map"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/YarnSpinnerTool/YarnSpinner",
+                "title": "YarnSpinnerTool/YarnSpinner",
+                "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
+                "stars": 2800,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["node_dialogue_state_machine", "choice_stats_consequence_gate"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/klembot/twinejs",
+                "title": "klembot/twinejs",
+                "summary": "Interactive nonlinear stories with passages, links, variables, and story formats.",
+                "stars": 2775,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["passage_link_navigation_map", "branching_choice_graph"],
+                "score": 80,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/dfabulich/choicescript",
+                "title": "dfabulich/choicescript",
+                "summary": "ChoiceScript multiple-choice games with choices, stats, variables, and achievements.",
+                "stars": 453,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["choice_stats_consequence_gate", "branching_choice_graph"],
+                "score": 76,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "choice_branch_graph" in pattern_pack["whole_book_analysis_targets"]
+    assert "dialogue_node_state_machine" in pattern_pack["whole_book_analysis_targets"]
+    assert "passage_link_navigation_map" in pattern_pack["whole_book_analysis_targets"]
+    assert "choice_stats_consequence_ledger" in pattern_pack["whole_book_analysis_targets"]
+    assert "branching_choice_graph_hints" in pattern_pack
+    assert "node_dialogue_state_machine_hints" in pattern_pack
+    assert "passage_link_navigation_map_hints" in pattern_pack
+    assert "choice_stats_consequence_gate_hints" in pattern_pack
+    assert "choice_branch_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "dialogue_node_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "branching_choice_graph_hints" in digest
+    assert "node_dialogue_state_machine_hints" in digest
+    assert "passage_link_navigation_map_hints" in digest
+    assert "choice_stats_consequence_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_interactive_narrative_projects():
+    assert "https://github.com/inkle/ink" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/YarnSpinnerTool/YarnSpinner" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/klembot/twinejs" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dfabulich/choicescript" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("interactive narrative" in query.lower() and "branching" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("dialogue" in query.lower() and "variables" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

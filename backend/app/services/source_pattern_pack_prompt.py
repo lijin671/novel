@@ -298,6 +298,10 @@ def render_source_pattern_pack_digest(
         "export_format_fidelity_audit_hints",
         "preview_toc_packaging_hints",
         "cover_kdp_metadata_boundary_hints",
+        "branching_choice_graph_hints",
+        "node_dialogue_state_machine_hints",
+        "passage_link_navigation_map_hints",
+        "choice_stats_consequence_gate_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

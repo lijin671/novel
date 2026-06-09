@@ -89,6 +89,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("micro-tension" OR "reader curiosity" OR "chapter hook" OR "cliffhanger audit") ("novel" OR "manuscript") in:name,description,readme',
     '("docx" OR "markdown export" OR "table of contents" OR "title page") ("book" OR "manuscript" OR "novel") in:name,description,readme',
     '("KDP" OR "cover specs" OR "cover design" OR "page numbers") ("book" OR "manuscript" OR "novel") in:name,description,readme',
+    '("interactive narrative" OR "branching story" OR "choice graph") ("fiction" OR "story" OR "narrative") in:name,description,readme',
+    '("dialogue" OR "options" OR "commands" OR "variables") ("interactive fiction" OR "narrative") in:name,description,readme',
+    '("passages" OR "links" OR "nonlinear stories" OR "multiple-choice games") ("fiction" OR "story") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -181,6 +184,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Ckokoski/authorclaw",
     "https://github.com/f5alcon/The-Novelists-Atelier",
     "https://github.com/arupmaity1/book-writer-mcp",
+    "https://github.com/inkle/ink",
+    "https://github.com/YarnSpinnerTool/YarnSpinner",
+    "https://github.com/klembot/twinejs",
+    "https://github.com/dfabulich/choicescript",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -198,6 +205,12 @@ NOVEL_KEYWORDS = (
     "worldbuilding",
     "story bible",
     "continuation",
+    "interactive narrative",
+    "interactive fiction",
+    "branching story",
+    "nonlinear story",
+    "dialogue",
+    "choice",
     "续写",
     "小说",
     "拆书",
@@ -354,6 +367,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("export_format_fidelity_audit", ("markdown/docx export", "markdown export", "docx export", "pdf, docx, or txt", "export novel in pdf", "formatted .docx", "title page", "page numbers", "configurable fonts", "export format", "clean markdown", "derived manuscript artifacts")),
     ("preview_toc_packaging", ("html preview", "built-in html preview", "preview server", "table of contents", "toc", "book typography", "auto-refreshes", "drop caps", "ornamental dividers")),
     ("cover_kdp_metadata_boundary", ("kdp", "cover specs", "kdp-compliant", "cover design", "cover metadata", "cover prompt", "color palettes", "typography", "book launch copy")),
+    ("branching_choice_graph", ("interactive narrative", "branching story", "highly branching stories", "choice graph", "choices", "knots", "stitches", "diverts", "weave structure", "nonlinear stories", "multiple-choice games", "choice-driven", "branch edges")),
+    ("node_dialogue_state_machine", ("dialogue system", "interactive conversations", "dialogue tool", "lines", "options", "commands", "dialogue scripts", "nodes", "node-based", "entry state", "exit deltas")),
+    ("passage_link_navigation_map", ("passages", "links", "passage links", "story formats", "nonlinear stories", "reachable path", "dead-end", "navigation map", "twine")),
+    ("choice_stats_consequence_gate", ("stats", "variables", "choice stats", "stat mutation", "achievements", "commands", "visible consequence", "delayed consequence", "choice consequences")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -686,6 +703,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Book Writer MCP for AI-assisted manuscript work. Public README describes story bible, style guide, continuity checker, chapter create/read/update/list/reorder, "
         "manuscript-wide statistics, HTML preview, clean Markdown and formatted DOCX export with title page, table of contents, page numbers, fonts/spacing, cover design, and KDP cover specs. "
         "Absorb delivery packaging and export-audit patterns only; MCP runtime is not started."
+    ),
+    "inkle/ink": (
+        "Inkle ink is an MIT interactive narrative scripting language. Public README describes highly branching stories, choices, knots, stitches, diverts, variables, and weave structure. "
+        "Absorb branch graph and passage navigation patterns only; compiler/editor/runtime is not executed."
+    ),
+    "yarnspinnertool/yarnspinner": (
+        "Yarn Spinner is an MIT dialogue tool. Public README describes interactive conversations with dialogue lines, player options, commands, variables, and node-based scripts. "
+        "Absorb dialogue state machine and choice consequence patterns only; engine packages are not installed."
+    ),
+    "klembot/twinejs": (
+        "Twine is a GPL-3.0 tool for interactive nonlinear stories. Public metadata describes passages, links, variables, story formats, and nonlinear story navigation. "
+        "Absorb passage-link navigation and branch-map patterns only; app/runtime code is not imported."
+    ),
+    "dfabulich/choicescript": (
+        "ChoiceScript is a language for multiple-choice games. Public metadata describes choices, stats, variables, achievements, and consequence-driven story state. "
+        "Absorb choice-stat consequence gates only; no runtime code or license-unclear files are imported."
     ),
 }
 
@@ -1091,6 +1124,10 @@ class NovelSourceDiscoveryService:
             "export_format_fidelity_audit_hints": self._build_export_format_fidelity_audit_hints(available_patterns),
             "preview_toc_packaging_hints": self._build_preview_toc_packaging_hints(available_patterns),
             "cover_kdp_metadata_boundary_hints": self._build_cover_kdp_metadata_boundary_hints(available_patterns),
+            "branching_choice_graph_hints": self._build_branching_choice_graph_hints(available_patterns),
+            "node_dialogue_state_machine_hints": self._build_node_dialogue_state_machine_hints(available_patterns),
+            "passage_link_navigation_map_hints": self._build_passage_link_navigation_map_hints(available_patterns),
+            "choice_stats_consequence_gate_hints": self._build_choice_stats_consequence_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1634,6 +1671,10 @@ class NovelSourceDiscoveryService:
             "export_format_fidelity_audit": 55,
             "preview_toc_packaging": 48,
             "cover_kdp_metadata_boundary": 34,
+            "branching_choice_graph": 57,
+            "node_dialogue_state_machine": 56,
+            "passage_link_navigation_map": 49,
+            "choice_stats_consequence_gate": 58,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1769,6 +1810,16 @@ class NovelSourceDiscoveryService:
             targets.append("preview_toc_rules")
         if "cover_kdp_metadata_boundary" in patterns:
             targets.append("cover_kdp_metadata")
+        if "branching_choice_graph" in patterns:
+            targets.append("choice_branch_graph")
+            targets.append("branch_decision_points")
+        if "node_dialogue_state_machine" in patterns:
+            targets.append("dialogue_node_state_machine")
+            targets.append("dialogue_entry_exit_deltas")
+        if "passage_link_navigation_map" in patterns:
+            targets.append("passage_link_navigation_map")
+        if "choice_stats_consequence_gate" in patterns:
+            targets.append("choice_stats_consequence_ledger")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -1977,6 +2028,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["toc_preview_heading_map", "html_preview_checks", "reader_navigation_audit"])
         if "cover_kdp_metadata_boundary" in patterns:
             targets.extend(["cover_kdp_metadata_spec", "cover_asset_prompt_boundary", "publication_metadata_review"])
+        if "branching_choice_graph" in patterns:
+            targets.extend(["choice_branch_graph", "branch_decision_points", "branch_merge_reject_notes"])
+        if "node_dialogue_state_machine" in patterns:
+            targets.extend(["dialogue_node_state_machine", "dialogue_entry_conditions", "dialogue_exit_state_deltas"])
+        if "passage_link_navigation_map" in patterns:
+            targets.extend(["passage_link_navigation_map", "dead_end_passage_findings", "reachable_path_checks"])
+        if "choice_stats_consequence_gate" in patterns:
+            targets.extend(["choice_stats_consequence_ledger", "visible_delayed_consequence_checks"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -3464,6 +3523,42 @@ class NovelSourceDiscoveryService:
             "Review cover and metadata for genre promise, title consistency, spoiler safety, and asset provenance before export packaging.",
         ]
 
+    def _build_branching_choice_graph_hints(self, patterns: set[str]) -> list[str]:
+        if "branching_choice_graph" not in patterns:
+            return []
+        return [
+            "Model choices as explicit branch edges with source node, selected option, consequence scope, and merge/reject decision.",
+            "Faithful continuation keeps optional branches outside main canon unless a branch edge is explicitly accepted.",
+            "For same-type creation, rebuild branch pressure and option intent without copying source option text or branch order.",
+        ]
+
+    def _build_node_dialogue_state_machine_hints(self, patterns: set[str]) -> list[str]:
+        if "node_dialogue_state_machine" not in patterns:
+            return []
+        return [
+            "Represent dialogue as nodes with entry conditions, active speaker state, available options, command hooks, and exit state deltas.",
+            "Continuation prompts should cite which dialogue node is active and which state changes are allowed before drafting dialogue.",
+            "For same-type creation, remap conversation pressure and state transitions while replacing source lines, option labels, and command names.",
+        ]
+
+    def _build_passage_link_navigation_map_hints(self, patterns: set[str]) -> list[str]:
+        if "passage_link_navigation_map" not in patterns:
+            return []
+        return [
+            "Track passages as reachable nodes with visible links, hidden link conditions, dead-end checks, and intentional merge points.",
+            "Before accepting a branching chapter, verify every promoted route has a reachable path and no accidental duplicate hidden route.",
+            "For same-type creation, rebuild passage navigation from the new premise instead of preserving source passage order or link labels.",
+        ]
+
+    def _build_choice_stats_consequence_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "choice_stats_consequence_gate" not in patterns:
+            return []
+        return [
+            "Every choice-stat mutation needs a visible immediate or delayed consequence, plus a ledger entry naming trigger, stat delta, and payoff window.",
+            "Reject hidden variable drift: no branch may change canon, relationship, or world state without an explicit consequence record.",
+            "For same-type creation, transform stat categories and consequence timing so source achievements, variables, and thresholds do not copy across.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -3638,6 +3733,14 @@ class NovelSourceDiscoveryService:
             targets.append("preview_toc_remap")
         if "cover_kdp_metadata_boundary" in patterns:
             targets.append("publication_metadata_remap")
+        if "branching_choice_graph" in patterns:
+            targets.append("choice_branch_remap")
+        if "node_dialogue_state_machine" in patterns:
+            targets.append("dialogue_node_remap")
+        if "passage_link_navigation_map" in patterns:
+            targets.append("passage_navigation_remap")
+        if "choice_stats_consequence_gate" in patterns:
+            targets.append("choice_stat_consequence_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -3735,6 +3838,14 @@ class NovelSourceDiscoveryService:
             hints.append("Preview and table-of-contents maps should be generated from transformed chapters only, not from source navigation.")
         if "cover_kdp_metadata_boundary" in patterns:
             hints.append("Publication metadata can borrow market promise shape, but titles, cover concepts, blurbs, and keywords must be newly written.")
+        if "branching_choice_graph" in patterns:
+            hints.append("Carry over interactive choice pressure only as abstract branch design; create new options, consequences, and merge/reject decisions.")
+        if "node_dialogue_state_machine" in patterns:
+            hints.append("Use node-based dialogue planning for the new cast, with fresh entry conditions, option wording, command hooks, and exit deltas.")
+        if "passage_link_navigation_map" in patterns:
+            hints.append("Build a new passage/link map from the transformed premise; source passage order and link labels remain analysis evidence only.")
+        if "choice_stats_consequence_gate" in patterns:
+            hints.append("Define new stat categories and consequence gates so choice mechanics support the new story rather than copying source variables.")
         if "nrd_task_tree_pipeline" in patterns:
             hints.append("Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.")
         if "story_structure_rag_planning" in patterns:
@@ -3876,6 +3987,14 @@ class NovelSourceDiscoveryService:
             hints.append("Regenerate preview navigation and table of contents from the transformed outline after copy-risk checks.")
         if "cover_kdp_metadata_boundary" in patterns:
             hints.append("Create publication metadata from the transformed market position; source cover or KDP specs remain format examples only.")
+        if "branching_choice_graph" in patterns:
+            hints.append("Transform branch edges by changing decision cause, option intent, consequence scope, and merge policy before drafting.")
+        if "node_dialogue_state_machine" in patterns:
+            hints.append("Transform dialogue nodes around new speaker states and new exit deltas; do not preserve source line/order scaffolds.")
+        if "passage_link_navigation_map" in patterns:
+            hints.append("Transform navigation by rebuilding reachable paths, hidden gates, and dead-end checks around the new story topology.")
+        if "choice_stats_consequence_gate" in patterns:
+            hints.append("Transform stat consequences by changing the tracked values, trigger thresholds, delayed payoff, and achievement labels.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -3991,10 +4110,27 @@ class NovelSourceDiscoveryService:
             hints.append("Reject TOC or preview navigation that preserves source chapter-name sequence or source section hierarchy.")
         if "cover_kdp_metadata_boundary" in patterns:
             hints.append("Reject cover, blurb, keyword, or KDP metadata that reuses source title phrasing, tagline, or recognizable hook language.")
+        if "branching_choice_graph" in patterns:
+            hints.append("Reject copied choice text, option order, branch topology, or consequence labels that make the new route recognizable as the source.")
+        if "node_dialogue_state_machine" in patterns:
+            hints.append("Reject dialogue nodes that preserve source lines, option labels, command names, or speaker-state order under renamed characters.")
+        if "passage_link_navigation_map" in patterns:
+            hints.append("Reject passage maps whose visible links, hidden routes, dead ends, or merge sequence mirror the source navigation.")
+        if "choice_stats_consequence_gate" in patterns:
+            hints.append("Reject stat ledgers that keep source variable names, achievement labels, thresholds, or delayed consequence cadence.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
         if "same_type_creation" in patterns:
+            return True
+        if patterns.intersection(
+            {
+                "branching_choice_graph",
+                "node_dialogue_state_machine",
+                "passage_link_navigation_map",
+                "choice_stats_consequence_gate",
+            }
+        ):
             return True
         if patterns.intersection(
             {
@@ -4126,6 +4262,10 @@ class NovelSourceDiscoveryService:
                 or "delivery_manuscript_assembly" in patterns
                 or "export_format_fidelity_audit" in patterns
                 or "preview_toc_packaging" in patterns
+                or "branching_choice_graph" in patterns
+                or "node_dialogue_state_machine" in patterns
+                or "passage_link_navigation_map" in patterns
+                or "choice_stats_consequence_gate" in patterns
             )
         )
 

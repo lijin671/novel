@@ -1797,3 +1797,58 @@ def test_build_remix_continuation_context_block_renders_delivery_packaging_audit
     assert "export_format_fidelity_audit: verify chapter order, headings" in block
     assert "preview_toc_packaging: generate preview and table-of-contents" in block
     assert "cover_kdp_metadata_boundary: keep cover and KDP metadata" in block
+
+
+def test_build_remix_continuation_context_block_renders_interactive_narrative_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Branch Desk",
+        bible={
+            "character_cards": [{"name": "Rin", "goal": "choose without breaking canon"}],
+            "timeline": [{"event": "Rin accepted a branch consequence", "chapter_number": 34}],
+        },
+        plan={"summary": "Continue the faithful canon while tracking optional choice branches."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "branching_choice_graph"},
+                {"name": "node_dialogue_state_machine"},
+                {"name": "passage_link_navigation_map"},
+                {"name": "choice_stats_consequence_gate"},
+            ],
+            "branching_choice_graph_hints": ["Track choices as branch edges, not hidden canon changes."],
+            "node_dialogue_state_machine_hints": ["Dialogue nodes must declare entry state and exit deltas."],
+        },
+    )
+
+    assert "Interactive narrative audit" in block
+    assert "branching_choice_graph: model choices as branch edges" in block
+    assert "node_dialogue_state_machine: dialogue nodes declare entry conditions" in block
+    assert "passage_link_navigation_map: passage links need reachable path" in block
+    assert "choice_stats_consequence_gate: every choice-stat mutation needs visible consequence" in block
+
+
+def test_build_remix_inspired_context_block_renders_interactive_narrative_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Inspired Branch Desk",
+        style_content=(
+            "【同类型创作总原则】\n"
+            "- 保留互动分支的选择压力。\n"
+            "【源书语气样本】\n"
+            "- 冷静、留白、短句。\n"
+            "【源书显性元素禁用清单】\n"
+            "- 禁止复用源书角色名。"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "branching_choice_graph"},
+                {"name": "node_dialogue_state_machine"},
+                {"name": "choice_stats_consequence_gate"},
+            ],
+            "inspired_mapping_targets": ["choice_branch_remap", "dialogue_node_remap"],
+            "inspired_copy_risk_hints": ["Reject copied choice text and branch order."],
+        },
+    )
+
+    assert "Interactive narrative audit" in block
+    assert "branching_choice_graph" in block
+    assert "Inspired transformation audit" in block
+    assert "choice_branch_remap, dialogue_node_remap" in block
