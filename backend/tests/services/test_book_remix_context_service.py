@@ -2204,3 +2204,182 @@ def test_build_remix_inspired_context_block_renders_eval_observability_audit():
     assert "context_faithfulness_eval_gate" in block
     assert "Inspired transformation audit" in block
     assert "faithfulness_eval_remap, retrieval_trace_remap, prompt_regression_remap" in block
+
+
+
+def test_build_remix_continuation_context_block_renders_copyedit_prose_lint_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Copyedit Continuation Desk",
+        bible={"character_cards": [{"name": "Lin", "voice": "dry short replies"}]},
+        plan={"summary": "Polish the accepted next chapter without flattening voice."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "prose_lint_style_rule_gate"},
+                {"name": "grammar_spelling_copyedit_gate"},
+                {"name": "copyedit_diagnostic_triage_queue"},
+            ],
+            "prose_lint_style_rule_gate_hints": ["Keep prose lint rules project-local."],
+            "grammar_spelling_copyedit_gate_hints": ["Run grammar and spelling checks after canon review."],
+            "copyedit_diagnostic_triage_queue_hints": ["Triage diagnostics before acceptance."],
+        },
+    )
+
+    assert "Copyedit and prose lint audit" in block
+    assert "prose_lint_style_rule_gate: apply project-local house style rules" in block
+    assert "grammar_spelling_copyedit_gate: check grammar, spelling" in block
+    assert "copyedit_diagnostic_triage_queue: classify diagnostics" in block
+    assert "Keep prose lint rules project-local." in block
+
+
+def test_build_remix_inspired_context_block_renders_copyedit_prose_lint_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Copyedit Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Keep the clipped source rhythm but rebuild all facts.\n"
+            "source voice\n"
+            "- Short direct sentences with dry understatement.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "prose_lint_style_rule_gate"},
+                {"name": "grammar_spelling_copyedit_gate"},
+                {"name": "copyedit_diagnostic_triage_queue"},
+            ],
+            "inspired_mapping_targets": [
+                "prose_lint_rule_remap",
+                "grammar_copyedit_exception_remap",
+                "copyedit_triage_policy_remap",
+            ],
+            "inspired_copy_risk_hints": ["Reject source-like lint-clean rewrites."],
+        },
+    )
+
+    assert "Copyedit and prose lint audit" in block
+    assert "prose_lint_style_rule_gate" in block
+    assert "grammar_spelling_copyedit_gate" in block
+    assert "copyedit_diagnostic_triage_queue" in block
+    assert "Inspired transformation audit" in block
+    assert "prose_lint_rule_remap, grammar_copyedit_exception_remap, copyedit_triage_policy_remap" in block
+
+
+
+def test_build_remix_continuation_context_block_renders_chinese_text_processing_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Chinese Continuation Desk",
+        bible={"character_cards": [{"name": "??", "voice": "????"}]},
+        plan={"summary": "???????????????????"},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "chinese_segmentation_keyword_gate"},
+                {"name": "chinese_ner_alias_consistency_gate"},
+                {"name": "chinese_text_normalization_gate"},
+                {"name": "chinese_error_correction_review_gate"},
+            ],
+            "chinese_segmentation_keyword_gate_hints": ["Use Chinese segmentation with a project dictionary."],
+            "chinese_ner_alias_consistency_gate_hints": ["Map aliases before canon write-back."],
+        },
+    )
+
+    assert "Chinese text processing audit" in block
+    assert "chinese_segmentation_keyword_gate: use a project dictionary" in block
+    assert "chinese_ner_alias_consistency_gate: audit character" in block
+    assert "chinese_text_normalization_gate: normalize Simplified/Traditional" in block
+    assert "chinese_error_correction_review_gate: triage typo/correction" in block
+    assert "Use Chinese segmentation with a project dictionary." in block
+
+
+def test_build_remix_inspired_context_block_renders_chinese_text_processing_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Chinese Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Keep compressed Chinese rhythm while replacing names and factions.\n"
+            "source voice\n"
+            "- ???????\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "chinese_segmentation_keyword_gate"},
+                {"name": "chinese_ner_alias_consistency_gate"},
+                {"name": "chinese_text_normalization_gate"},
+                {"name": "chinese_error_correction_review_gate"},
+            ],
+            "inspired_mapping_targets": [
+                "chinese_segmentation_dictionary_remap",
+                "chinese_entity_alias_remap",
+                "chinese_normalization_policy_remap",
+                "chinese_correction_exception_remap",
+            ],
+            "inspired_copy_risk_hints": ["Reject copied Chinese names and motif compounds."],
+        },
+    )
+
+    assert "Chinese text processing audit" in block
+    assert "chinese_segmentation_keyword_gate" in block
+    assert "chinese_ner_alias_consistency_gate" in block
+    assert "Inspired transformation audit" in block
+    assert "chinese_segmentation_dictionary_remap, chinese_entity_alias_remap" in block
+
+
+def test_build_remix_continuation_context_block_renders_source_import_extraction_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Source Import Continuation Desk",
+        bible={"character_cards": [{"name": "Mara", "voice": "precise clipped notes"}]},
+        plan={"summary": "Continue after importing a scanned source book."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "source_format_import_manifest"},
+                {"name": "pdf_layout_text_extraction_gate"},
+                {"name": "ocr_scanned_page_import_gate"},
+                {"name": "document_partition_chapter_detection_gate"},
+                {"name": "import_provenance_checksum_gate"},
+            ],
+            "source_format_import_manifest_hints": ["Record source format, metadata, TOC and spine."],
+            "ocr_scanned_page_import_gate_hints": ["Route low-confidence OCR text to manual review."],
+        },
+    )
+
+    assert "Source import extraction audit" in block
+    assert "source_format_import_manifest: record source format" in block
+    assert "pdf_layout_text_extraction_gate: review PDF page spans" in block
+    assert "ocr_scanned_page_import_gate: route scanned-page OCR confidence gaps" in block
+    assert "document_partition_chapter_detection_gate: keep typed document elements" in block
+    assert "import_provenance_checksum_gate: keep original, extracted, normalized" in block
+    assert "Record source format, metadata, TOC and spine." in block
+
+
+def test_build_remix_inspired_context_block_renders_source_import_extraction_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Source Import Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Study imported PDF pacing without keeping page order.\n"
+            "source voice\n"
+            "- Dense chapter openings with marginal notes.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "source_format_import_manifest"},
+                {"name": "pdf_layout_text_extraction_gate"},
+                {"name": "ocr_scanned_page_import_gate"},
+                {"name": "document_partition_chapter_detection_gate"},
+                {"name": "import_provenance_checksum_gate"},
+            ],
+            "inspired_mapping_targets": [
+                "source_import_structure_remap",
+                "pdf_layout_evidence_remap",
+                "ocr_uncertainty_review_remap",
+                "chapter_partition_structure_remap",
+                "import_provenance_lineage_remap",
+            ],
+            "inspired_copy_risk_hints": ["Reject source TOC and OCR uncertainty leakage."],
+        },
+    )
+
+    assert "Source import extraction audit" in block
+    assert "source_format_import_manifest" in block
+    assert "pdf_layout_text_extraction_gate" in block
+    assert "ocr_scanned_page_import_gate" in block
+    assert "Inspired transformation audit" in block
+    assert "source_import_structure_remap, pdf_layout_evidence_remap" in block

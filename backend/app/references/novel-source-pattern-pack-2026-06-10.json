@@ -266,7 +266,31 @@
     "conflicts",
     "story_arcs",
     "foreshadows",
-    "chapter_change_packages"
+    "chapter_change_packages",
+    "prose_lint_rule_profile",
+    "house_style_rule_exceptions",
+    "grammar_spelling_boundary_rules",
+    "dialogue_dialect_exception_policy",
+    "copyedit_diagnostic_queue",
+    "accepted_ignored_diagnostic_ledger",
+    "chinese_segmentation_dictionary",
+    "keyword_motif_extraction_profile",
+    "chinese_entity_alias_ledger",
+    "character_location_org_name_rules",
+    "chinese_text_normalization_policy",
+    "simplified_traditional_variant_map",
+    "chinese_correction_review_queue",
+    "confusion_set_exception_policy",
+    "source_import_manifest",
+    "source_toc_spine_map",
+    "pdf_page_span_map",
+    "layout_reading_order_rules",
+    "ocr_page_confidence_report",
+    "scanned_page_review_queue",
+    "document_element_partition_map",
+    "chapter_heading_detection_rules",
+    "source_file_checksum_manifest",
+    "import_parser_version_ledger"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -312,6 +336,26 @@
     "Build a character mention, alias, speaker, and quote-attribution map before judging voice consistency or relationship pressure.",
     "For continuation, verify new dialogue belongs to the current speaker state and does not swap aliases, titles, or pronouns across characters.",
     "For same-type creation, preserve only quote-distribution function and conflict pressure; rebuild speakers, aliases, and dialogue content."
+  ],
+  "chinese_error_correction_review_gate_hints": [
+    "Treat Chinese typo/correction suggestions as review queue items with accept, ignore, or author-review status.",
+    "Protect character names, invented terms, dialect, honorifics, and genre vocabulary with explicit correction exceptions.",
+    "Run correction review after canon checks so a fluent correction cannot hide a continuity or source-copy problem."
+  ],
+  "chinese_ner_alias_consistency_gate_hints": [
+    "Map Chinese names, aliases, locations, organizations, and titles into a review ledger before accepting chapter state updates.",
+    "Flag entity merges/splits when a character alias, sect name, place name, or translated label changes across chapters.",
+    "For same-type creation, source entity clusters are transformation evidence only and cannot become new-story canon names."
+  ],
+  "chinese_segmentation_keyword_gate_hints": [
+    "Use Chinese segmentation with a project dictionary before keyword, motif, and style analysis; names and invented terms must be dictionary entries.",
+    "Record segmentation mode, custom terms, and keyword extraction method before comparing source, continuation, or same-type drafts.",
+    "Do not let tokenizer output rewrite prose; it is evidence for review and context packing only."
+  ],
+  "chinese_text_normalization_gate_hints": [
+    "Declare Simplified/Traditional, punctuation-width, numeral, and variant-character policy before source deconstruction or final export.",
+    "Normalize for comparison and retrieval, but keep the author-approved manuscript surface unchanged unless a change is accepted.",
+    "Store normalization differences as review findings so same-type drafts do not inherit source-specific orthography by accident."
   ],
   "choice_stats_consequence_gate_hints": [
     "Every choice-stat mutation needs a visible immediate or delayed consequence, plus a ledger entry naming trigger, stat delta, and payoff window.",
@@ -522,6 +566,11 @@
     "Check long-story consistency by taxonomy: characterization, factual detail, narrative style, timeline/plot, and world rules.",
     "Each contradiction finding should name the conflicting facts, evidence locations, subtype, severity, and required repair scope."
   ],
+  "copyedit_diagnostic_triage_queue_hints": [
+    "Convert lint and grammar diagnostics into a triage queue with accept, ignore, rewrite, and needs-author-review states.",
+    "Persist ignored diagnostics with reasons so repeated warnings do not hide new copyedit defects across chapters.",
+    "Batch diagnostics by chapter and rule id before final manuscript assembly or same-type draft acceptance."
+  ],
   "cover_kdp_metadata_boundary_hints": [],
   "craft_role_pipeline_hints": [
     "Separate craft roles: architecture, character, prose, continuity, review, editing, and export should produce distinct artifacts.",
@@ -546,6 +595,11 @@
     "Name the choice or premise change that causes divergence before drafting a branch scene.",
     "Map each divergence to immediate consequence, delayed consequence, and canon facts that stay fixed.",
     "For same-type creation, use divergence guidance to create independent causality rather than source-order replay."
+  ],
+  "document_partition_chapter_detection_gate_hints": [
+    "Partition imported documents into typed elements before chapter detection: title, narrative text, list, table, image, note, and footer.",
+    "Detect chapter headings with evidence: element type, normalized heading text, page/span, TOC match, and neighboring section boundaries.",
+    "Keep uncertain headings as review candidates so bad partitioning cannot corrupt chapter order or source summaries."
   ],
   "draft_stage_revision_ladder_hints": [
     "Use a staged ladder: chapter blueprint -> key-information file -> task card -> Draft A -> Draft B -> Draft C -> continuity handoff.",
@@ -605,7 +659,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T19:45:00+08:00",
+  "generated_at": "2026-06-11T00:45:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -614,6 +668,11 @@
     "Use a reveal budget: visible facts can enter the chapter, hidden facts stay out unless action/dialogue exposes them.",
     "Track iceberg annotations so worldbuilding depth exists without dumping it into the next scene.",
     "Review each chapter for over-explaining lore, premature secret exposure, and missing reader-facing clues."
+  ],
+  "grammar_spelling_copyedit_gate_hints": [
+    "Run grammar, spelling, and copyedit checks after canon/continuity review, because grammatical polish must not legitimize unsupported facts.",
+    "Keep dialogue, dialect, invented terms, names, and genre vocabulary in an explicit exception policy before accepting grammar fixes.",
+    "Prefer local/offline review surfaces unless a future runtime safety contract explicitly allows external grammar services."
   ],
   "graph_branching_atomicity_hints": [
     "Apply multi-step canon mutations through a branch-like workspace, then publish atomically after validation.",
@@ -653,6 +712,11 @@
     "Use rubric scores first, then compare close candidate drafts pairwise; pairwise wins should explain margin, not just choose a favorite.",
     "Keep pairwise comparisons against neighboring drafts or variants so the judge discriminates real chapter improvements.",
     "Do not promote a draft from pairwise ranking alone when the local rubric shows canon, logic, or style failure."
+  ],
+  "import_provenance_checksum_gate_hints": [
+    "Attach checksum, file size, source path, parser/version, settings, and import timestamp to every source-text extraction artifact.",
+    "When a parser or setting changes, invalidate derived summaries, glossary entries, and style fingerprints until re-reviewed.",
+    "Keep original, extracted, normalized, and accepted text as separate artifacts with explicit lineage."
   ],
   "inline_author_edit_markup_versioning_hints": [
     "Allow inline author notes for POV, timeline, mood, active threads, and research context while keeping edit notes as a separate revision queue.",
@@ -758,7 +822,19 @@
     "Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.",
     "Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.",
     "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
-    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon."
+    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.",
+    "Reject lint-clean drafts when the rule fixes preserve source paragraph rhythm, catchphrases, or signature sentence closures.",
+    "Reject copyedit fixes that normalize the new voice toward source diction or remove deliberate dialogue/register differences.",
+    "Reject accepted diagnostic batches that silently apply source-like rewrites without author-visible triage reasons.",
+    "Reject drafts whose segmented keyword list keeps source-specific names, terms, or motif compounds under surface changes.",
+    "Reject transformed entity ledgers that keep source aliases, sect/place names, title systems, or relationship labels as canon.",
+    "Reject normalization diffs that hide copied source phrasing behind Simplified/Traditional or punctuation-only changes.",
+    "Reject correction batches that normalize character voice toward source diction or silently rewrite invented terms.",
+    "Reject transformed outlines that preserve source TOC, spine order, metadata titles, or chapter grouping under new labels.",
+    "Reject drafts that copy source page-span rhythm, header/footer artifacts, or layout-driven section order.",
+    "Reject generations based on unreviewed low-confidence OCR spans or hallucinated fixes to unreadable pages.",
+    "Reject chapter maps that keep source heading text, partition sequence, or section boundary cadence.",
+    "Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -887,7 +963,19 @@
     "author_preference_memory_remap",
     "source_community_graph_remap",
     "graph_vector_retrieval_remap",
-    "schema_guided_graph_remap"
+    "schema_guided_graph_remap",
+    "prose_lint_rule_remap",
+    "grammar_copyedit_exception_remap",
+    "copyedit_triage_policy_remap",
+    "chinese_segmentation_dictionary_remap",
+    "chinese_entity_alias_remap",
+    "chinese_normalization_policy_remap",
+    "chinese_correction_exception_remap",
+    "source_import_structure_remap",
+    "pdf_layout_evidence_remap",
+    "ocr_uncertainty_review_remap",
+    "chapter_partition_structure_remap",
+    "import_provenance_lineage_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -973,7 +1061,12 @@
     "Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.",
     "Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.",
     "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
-    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon."
+    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon.",
+    "Transform source import manifests by changing TOC hierarchy, chapter grouping, metadata use, and skipped-section policy.",
+    "Transform layout-derived pacing into new scene density; source page spans are not outline anchors.",
+    "Transform OCR-derived uncertainty into review tasks, not generation context.",
+    "Transform document element sequences into new chapter functions before drafting.",
+    "Transform provenance links so source artifacts never masquerade as accepted new-story chapters."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1067,7 +1160,19 @@
     "Transform author preferences into project-local style decisions without recording source-book facts as preferences.",
     "Transform source communities into new-story communities with different members, labels, causal pressures, and cross-community edges.",
     "Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.",
-    "Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents."
+    "Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents.",
+    "Transform source prose-rule findings into new-book house style rules; do not inherit source lint exceptions, catchphrases, or cadence.",
+    "Rebuild grammar and copyedit exceptions around the new cast, invented terms, dialogue register, and genre vocabulary.",
+    "Triage copyedit diagnostics as local revision tasks; source-derived diagnostics are evidence, not final wording.",
+    "Rebuild custom dictionaries and keyword profiles for the transformed story so source names and invented terms are not carried over.",
+    "Transform Chinese entity clusters by replacing names, aliases, sects, places, and relationship labels before context reuse.",
+    "Normalize only for comparison; regenerate visible orthography and punctuation policy for the new manuscript.",
+    "Treat Chinese correction suggestions as local review tasks, not automatic rewrites toward source diction.",
+    "Transform imported TOC/spine evidence into a new outline structure instead of preserving source chapter order.",
+    "Use PDF page/layout evidence to understand source pacing, then rebuild section boundaries for the new story.",
+    "Keep OCR uncertainty out of new-story canon; only reviewed source evidence may influence transformation choices.",
+    "Transform source element partitions into new scene/section functions, not copied headings or section boundaries.",
+    "Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1179,6 +1284,11 @@
     "Represent long-form planning as an NRD task tree from arcs to chapters to scenes and revision passes.",
     "Each task node needs tag/status, accepted input artifacts, generated output, review finding, and continuity-report result."
   ],
+  "ocr_scanned_page_import_gate_hints": [
+    "For scanned pages, record OCR engine/language, confidence, page image range, and low-confidence spans before deconstruction.",
+    "Route low-confidence OCR text to manual review instead of feeding it directly into canon, glossary, or style extraction.",
+    "OCR is a deferred runtime lane; source intake may record the gate but must not launch OCR binaries or download language data."
+  ],
   "outliner_index_cards_hints": [
     "Represent chapters and scenes as reorderable outline/index cards with goal, conflict, hook, status, and dependencies.",
     "When a card moves, re-check timeline, setup/payoff, character state, and narrative strand dependencies.",
@@ -1196,6 +1306,11 @@
     "Track passages as reachable nodes with visible links, hidden link conditions, dead-end checks, and intentional merge points.",
     "Before accepting a branching chapter, verify every promoted route has a reachable path and no accidental duplicate hidden route.",
     "For same-type creation, rebuild passage navigation from the new premise instead of preserving source passage order or link labels."
+  ],
+  "pdf_layout_text_extraction_gate_hints": [
+    "Store page number, text span, block order, coordinates when available, and extraction gaps for every PDF-derived chapter segment.",
+    "Flag headers, footers, page numbers, footnotes, two-column order, and missing text before summaries or style analysis use PDF text.",
+    "Do not accept PDF extraction as faithful source text without a reading-order and gap review."
   ],
   "plain_text_project_storage_hints": [
     "Keep chapters, notes, summaries, and analysis as stable human-readable text units with durable ids.",
@@ -1249,6 +1364,11 @@
     "Keep golden continuation and same-type cases for prompt changes: input state, expected guardrail findings, accepted outputs, and failure diffs.",
     "Run prompt regression checks before accepting prompt-pack changes that affect context selection, copy-risk gates, or canon write-back.",
     "Regression cases should include adversarial source-like inputs to prove the prompt rejects copied route, wording, and source-canon leakage."
+  ],
+  "prose_lint_style_rule_gate_hints": [
+    "Treat prose lint rules as project-local house style, not universal truth; every warning needs chapter, speaker, and scene context.",
+    "Separate blocking violations from optional style nudges so lint output cannot flatten a deliberate narrator or character voice.",
+    "For same-type creation, rebuild rule profiles around the new book's voice instead of copying the source style sheet."
   ],
   "prose_preflight_voice_calibration_hints": [
     "Use voice samples to calibrate specificity, rhythm, warmth, and density before polishing prose.",
@@ -1340,7 +1460,13 @@
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
-    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。"
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
+    "Prose lint, grammar, and copyedit projects remain pattern-only until a separate local runtime safety contract allows a specific checker.",
+    "Do not send manuscripts, source books, drafts, tokens, cookies, or private text to external grammar/checking services during source intake.",
+    "Chinese NLP projects remain pattern-only until a runtime safety contract names a local checker, model/download boundary, and manuscript privacy scope.",
+    "Do not download NLP models, build native tokenizers, call external services, or run correction tools during source intake.",
+    "Source import/OCR intake is static only: no OCR binary, parser runtime, conversion command, model, or language-data download is launched.",
+    "AGPL/GPL/MPL document-tool sources remain pattern-only; no external runtime code or long documentation is imported."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1406,7 +1532,19 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 125,
+  "source_candidate_count": 144,
+  "source_format_import_manifest_hints": [
+    "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
+    "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
+    "For same-type creation, never reuse source TOC/spine order as the new outline without a transformation step."
+  ],
+  "source_intake_notes": [
+    "2026-06-10 prose/copyedit intake used git ls-remote HEAD plus raw LICENSE static checks; GitHub REST API metadata calls returned unauthenticated 403 rate-limit errors.",
+    "No clone, install, package hook, language server, browser extension, grammar server, or external checking service was launched.",
+    "2026-06-11 Chinese text-processing intake used git ls-remote HEAD and raw LICENSE static checks; no clone/install/runtime/model download was performed.",
+    "2026-06-11 source-import/OCR pass added EbookLib, pdfminer.six, PyMuPDF, OCRmyPDF, Tesseract, Unstructured, and Pandoc as static pattern-only references.",
+    "Import artifacts must keep format, TOC/spine, page spans, OCR confidence, document partitions, parser settings, and checksums separate from accepted canon."
+  ],
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
     "Keep fingerprint thresholds separate for names, set-piece labels, long phrases, and structural scene order to reduce false positives.",
@@ -1537,7 +1675,26 @@
     "mem0ai/mem0",
     "microsoft/graphrag",
     "HKUDS/LightRAG",
-    "neo4j-labs/llm-graph-builder"
+    "neo4j-labs/llm-graph-builder",
+    "vale-cli/vale",
+    "textlint/textlint",
+    "amperser/proselint",
+    "Automattic/harper",
+    "languagetool-org/languagetool",
+    "btford/write-good",
+    "fxsjy/jieba",
+    "messense/jieba-rs",
+    "hankcs/HanLP",
+    "HIT-SCIR/ltp",
+    "BYVoid/OpenCC",
+    "shibing624/pycorrector",
+    "aerkalov/ebooklib",
+    "pdfminer/pdfminer.six",
+    "pymupdf/PyMuPDF",
+    "ocrmypdf/OCRmyPDF",
+    "tesseract-ocr/tesseract",
+    "Unstructured-IO/unstructured",
+    "jgm/pandoc"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2125,7 +2282,43 @@
     "token_breakdown_notes",
     "emotional_arc",
     "emotion_curve",
-    "source_state_snapshot"
+    "source_state_snapshot",
+    "prose_lint_report",
+    "house_style_violation_map",
+    "rule_exception_notes",
+    "grammar_spelling_report",
+    "copyedit_blocker_findings",
+    "dialogue_exception_findings",
+    "copyedit_diagnostic_triage_report",
+    "accepted_ignored_lint_ledger",
+    "revision_task_queue",
+    "chinese_segmentation_report",
+    "custom_dictionary_hits",
+    "keyword_motif_salience",
+    "chinese_entity_alias_report",
+    "character_location_org_consistency",
+    "alias_conflict_findings",
+    "chinese_text_normalization_report",
+    "simplified_traditional_variant_findings",
+    "punctuation_width_findings",
+    "chinese_error_correction_report",
+    "confusion_set_review_findings",
+    "accepted_ignored_correction_ledger",
+    "source_import_manifest_report",
+    "toc_spine_chapter_map",
+    "source_metadata_findings",
+    "pdf_layout_extraction_report",
+    "page_span_reading_order",
+    "pdf_text_gap_findings",
+    "ocr_confidence_report",
+    "scanned_page_text_gap_findings",
+    "ocr_manual_review_items",
+    "document_partition_report",
+    "chapter_heading_detection_report",
+    "element_type_sequence",
+    "import_checksum_report",
+    "parser_setting_manifest",
+    "source_artifact_provenance"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -4581,6 +4774,50 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "chinese_ner_alias_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 93,
+          "source": "github",
+          "stars": 36500,
+          "summary": "Chinese tokenization, named entity recognition, dependency and semantic analysis. Absorb entity/alias consistency gates only; models were not downloaded.",
+          "title": "hankcs/HanLP",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/hankcs/HanLP"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 7800,
+          "summary": "Chinese NLP toolkit for segmentation, NER, dependency and semantic roles. License not confirmed via raw LICENSE; absorb pattern only.",
+          "title": "HIT-SCIR/ltp",
+          "trust_flags": [
+            "license:raw-not-found",
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/HIT-SCIR/ltp"
+        }
+      ],
+      "top_source_url": "https://github.com/hankcs/HanLP",
+      "trust_flags": [
+        "head-via-git-ls-remote",
+        "license:raw-not-found"
+      ]
+    },
+    {
       "candidate_count": 1,
       "name": "long_context_reward_dimension_gate",
       "posture_hint": "metadata-triage",
@@ -4888,6 +5125,84 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 4,
+      "name": "chinese_segmentation_keyword_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "native_binary"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 94,
+          "source": "github",
+          "stars": 33500,
+          "summary": "Chinese word segmentation with custom dictionaries and keyword extraction. Static intake only; package runtime was not imported.",
+          "title": "fxsjy/jieba",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/fxsjy/jieba"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "native_binary"
+          ],
+          "score": 88,
+          "source": "github",
+          "stars": 2100,
+          "summary": "Rust implementation of Jieba-style Chinese tokenization for deterministic segmentation boundaries. Static intake only; native code was not built.",
+          "title": "messense/jieba-rs",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/messense/jieba-rs"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 93,
+          "source": "github",
+          "stars": 36500,
+          "summary": "Chinese tokenization, named entity recognition, dependency and semantic analysis. Absorb entity/alias consistency gates only; models were not downloaded.",
+          "title": "hankcs/HanLP",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/hankcs/HanLP"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 7800,
+          "summary": "Chinese NLP toolkit for segmentation, NER, dependency and semantic roles. License not confirmed via raw LICENSE; absorb pattern only.",
+          "title": "HIT-SCIR/ltp",
+          "trust_flags": [
+            "license:raw-not-found",
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/HIT-SCIR/ltp"
+        }
+      ],
+      "top_source_url": "https://github.com/fxsjy/jieba",
+      "trust_flags": [
+        "head-via-git-ls-remote",
+        "license:raw-not-found"
+      ]
+    },
+    {
       "candidate_count": 2,
       "name": "beta_reader_archetype_panel",
       "posture_hint": "defer-trust-review",
@@ -5179,6 +5494,78 @@
       ],
       "top_source_url": "https://github.com/doctoroyy/novel-copilot",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 4,
+      "name": "prose_lint_style_rule_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 90,
+          "source": "github",
+          "stars": 18000,
+          "summary": "Prose linter for configurable house-style rules, Markdown-aware style checks, and diagnostic reports. Static intake only; CLI was not installed or executed.",
+          "title": "vale-cli/vale",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/vale-cli/vale"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 11000,
+          "summary": "Pluggable natural language linter for Markdown/text with rule packages, diagnostics, and suppressions. Static intake only; Node packages were not installed.",
+          "title": "textlint/textlint",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/textlint/textlint"
+        },
+        {
+          "license": "BSD-style",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 4300,
+          "summary": "Prose style checker for cliches, jargon, redundancy, passive voice, and copyedit warnings. Absorb warning taxonomy only; package runtime was not imported.",
+          "title": "amperser/proselint",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/amperser/proselint"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 85,
+          "source": "github",
+          "stars": 5600,
+          "summary": "Lightweight prose style checker for passive voice, weasel words, adverbs, cliches, and hard-to-read text. Absorb warning categories only; package runtime was not imported.",
+          "title": "btford/write-good",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/btford/write-good"
+        }
+      ],
+      "top_source_url": "https://github.com/vale-cli/vale",
+      "trust_flags": [
+        "rest-api:rate-limit; head-via-git-ls-remote"
+      ]
     },
     {
       "candidate_count": 2,
@@ -5688,6 +6075,75 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "chinese_error_correction_review_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 90,
+          "source": "github",
+          "stars": 8400,
+          "summary": "Chinese text correction with confusion-set and model-based correction modes. Absorb correction review queue patterns only; models were not downloaded.",
+          "title": "shibing624/pycorrector",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/shibing624/pycorrector"
+        }
+      ],
+      "top_source_url": "https://github.com/shibing624/pycorrector",
+      "trust_flags": [
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "grammar_spelling_copyedit_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 89,
+          "source": "github",
+          "stars": 8500,
+          "summary": "Offline grammar checker and language-server surface for prose spelling, grammar, and copyedit diagnostics. Static intake only; no editor integration or extension was installed.",
+          "title": "Automattic/harper",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/Automattic/harper"
+        },
+        {
+          "license": "LGPL-2.1",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 87,
+          "source": "github",
+          "stars": 13000,
+          "summary": "Multilingual grammar, spell, and style checking surface. Absorb grammar/spelling gate taxonomy only; no server, extension, or external checking service was launched.",
+          "title": "languagetool-org/languagetool",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/languagetool-org/languagetool"
+        }
+      ],
+      "top_source_url": "https://github.com/Automattic/harper",
+      "trust_flags": [
+        "rest-api:rate-limit; head-via-git-ls-remote"
+      ]
+    },
+    {
       "candidate_count": 2,
       "name": "multi_level_review_trend",
       "posture_hint": "metadata-triage",
@@ -5969,6 +6425,78 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 4,
+      "name": "copyedit_diagnostic_triage_queue",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 11000,
+          "summary": "Pluggable natural language linter for Markdown/text with rule packages, diagnostics, and suppressions. Static intake only; Node packages were not installed.",
+          "title": "textlint/textlint",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/textlint/textlint"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 90,
+          "source": "github",
+          "stars": 18000,
+          "summary": "Prose linter for configurable house-style rules, Markdown-aware style checks, and diagnostic reports. Static intake only; CLI was not installed or executed.",
+          "title": "vale-cli/vale",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/vale-cli/vale"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 85,
+          "source": "github",
+          "stars": 5600,
+          "summary": "Lightweight prose style checker for passive voice, weasel words, adverbs, cliches, and hard-to-read text. Absorb warning categories only; package runtime was not imported.",
+          "title": "btford/write-good",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/btford/write-good"
+        },
+        {
+          "license": "BSD-style",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 4300,
+          "summary": "Prose style checker for cliches, jargon, redundancy, passive voice, and copyedit warnings. Absorb warning taxonomy only; package runtime was not imported.",
+          "title": "amperser/proselint",
+          "trust_flags": [
+            "rest-api:rate-limit; head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/amperser/proselint"
+        }
+      ],
+      "top_source_url": "https://github.com/textlint/textlint",
+      "trust_flags": [
+        "rest-api:rate-limit; head-via-git-ls-remote"
+      ]
+    },
+    {
       "candidate_count": 1,
       "name": "voice_table_polish_axis",
       "posture_hint": "metadata-triage",
@@ -6141,6 +6669,37 @@
       ],
       "top_source_url": "https://github.com/howells/fiction",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "chinese_text_normalization_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "native_binary"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "native_binary"
+          ],
+          "score": 89,
+          "source": "github",
+          "stars": 9600,
+          "summary": "Simplified/Traditional Chinese conversion and variant normalization. Static intake only; conversion runtime was not installed.",
+          "title": "BYVoid/OpenCC",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/BYVoid/OpenCC"
+        }
+      ],
+      "top_source_url": "https://github.com/BYVoid/OpenCC",
+      "trust_flags": [
+        "head-via-git-ls-remote"
+      ]
     },
     {
       "candidate_count": 5,
@@ -10417,6 +10976,231 @@
       ],
       "top_source_url": "https://github.com/Theltn/AICreativityJudge",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 4,
+      "name": "source_format_import_manifest",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 108,
+          "source": "github",
+          "stars": 2300,
+          "summary": "EbookLib handles EPUB reading/writing with OPF metadata, spine, and table-of-contents surfaces. Absorb EPUB import manifests only; AGPL runtime code is not imported. HEAD a50289fb9d4039224d54bf7d92698eb03cd68254.",
+          "title": "aerkalov/ebooklib",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/aerkalov/ebooklib"
+        },
+        {
+          "license": "GPL-2.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 39000,
+          "summary": "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. Absorb conversion provenance patterns only; GPL runtime is not installed. HEAD 912bfa5e2e3f5c74eb125dfc19404f67c61ca58b.",
+          "title": "jgm/pandoc",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/jgm/pandoc"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": 12000,
+          "summary": "Unstructured partitions PDFs, EPUBs, DOCX, HTML, and other documents into typed elements. Absorb element partition and chapter-heading detection patterns only; runtime is not imported. HEAD 19857c193657b5f1b0ca922562a3015b38cc6fb8.",
+          "title": "Unstructured-IO/unstructured",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/Unstructured-IO/unstructured"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 44,
+          "source": "github",
+          "stars": 6000,
+          "summary": "PyMuPDF exposes PDF page text blocks, coordinates, images, and metadata. Absorb layout-aware import checks only; AGPL/commercial runtime is not imported. HEAD d981d87e87924962f7975dc2ed746e6c627e6cf6.",
+          "title": "pymupdf/PyMuPDF",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/pymupdf/PyMuPDF"
+        }
+      ],
+      "top_source_url": "https://github.com/aerkalov/ebooklib",
+      "trust_flags": [
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "pdf_layout_text_extraction_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT-like",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 6700,
+          "summary": "Pdfminer.six extracts PDF text, layout information, page spans, and reading-order evidence. Absorb layout review gates only; package runtime is not imported. HEAD a18de2a9c479b4c847538500017b449ddaec177e.",
+          "title": "pdfminer/pdfminer.six",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/pdfminer/pdfminer.six"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 44,
+          "source": "github",
+          "stars": 6000,
+          "summary": "PyMuPDF exposes PDF page text blocks, coordinates, images, and metadata. Absorb layout-aware import checks only; AGPL/commercial runtime is not imported. HEAD d981d87e87924962f7975dc2ed746e6c627e6cf6.",
+          "title": "pymupdf/PyMuPDF",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/pymupdf/PyMuPDF"
+        }
+      ],
+      "top_source_url": "https://github.com/pdfminer/pdfminer.six",
+      "trust_flags": [
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "ocr_scanned_page_import_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MPL-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 3300,
+          "summary": "OCRmyPDF adds OCR text layers to scanned PDFs and records OCR pipeline behavior. Absorb scanned-page confidence gates only; no OCR runtime is launched. HEAD 5cb5d7a682095700aa28eb592a94c0fe28e94fd0.",
+          "title": "ocrmypdf/OCRmyPDF",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/ocrmypdf/OCRmyPDF"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 44,
+          "source": "github",
+          "stars": 69000,
+          "summary": "Tesseract is an OCR engine for image text recognition. Absorb language/confidence/page-image review gates only; native OCR runtime and language data are not downloaded. HEAD f4afb2cc9545f622a07812b09e1b72fc78f85a64.",
+          "title": "tesseract-ocr/tesseract",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/tesseract-ocr/tesseract"
+        }
+      ],
+      "top_source_url": "https://github.com/ocrmypdf/OCRmyPDF",
+      "trust_flags": [
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "document_partition_chapter_detection_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": 12000,
+          "summary": "Unstructured partitions PDFs, EPUBs, DOCX, HTML, and other documents into typed elements. Absorb element partition and chapter-heading detection patterns only; runtime is not imported. HEAD 19857c193657b5f1b0ca922562a3015b38cc6fb8.",
+          "title": "Unstructured-IO/unstructured",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/Unstructured-IO/unstructured"
+        }
+      ],
+      "top_source_url": "https://github.com/Unstructured-IO/unstructured",
+      "trust_flags": [
+        "head-via-git-ls-remote"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "import_provenance_checksum_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 108,
+          "source": "github",
+          "stars": 2300,
+          "summary": "EbookLib handles EPUB reading/writing with OPF metadata, spine, and table-of-contents surfaces. Absorb EPUB import manifests only; AGPL runtime code is not imported. HEAD a50289fb9d4039224d54bf7d92698eb03cd68254.",
+          "title": "aerkalov/ebooklib",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/aerkalov/ebooklib"
+        },
+        {
+          "license": "GPL-2.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 39000,
+          "summary": "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. Absorb conversion provenance patterns only; GPL runtime is not installed. HEAD 912bfa5e2e3f5c74eb125dfc19404f67c61ca58b.",
+          "title": "jgm/pandoc",
+          "trust_flags": [
+            "head-via-git-ls-remote"
+          ],
+          "url": "https://github.com/jgm/pandoc"
+        }
+      ],
+      "top_source_url": "https://github.com/aerkalov/ebooklib",
+      "trust_flags": [
+        "head-via-git-ls-remote"
+      ]
     }
   ],
   "world_state_tracking_hints": [

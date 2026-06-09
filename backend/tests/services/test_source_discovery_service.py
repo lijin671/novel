@@ -5149,3 +5149,549 @@ def test_default_discovery_sources_include_graph_memory_rag_projects():
     assert any("long-term memory" in query.lower() and "personalized ai" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("graphrag" in query.lower() and "community summaries" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("dual-level architecture" in query.lower() and "lightrag" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+
+def test_prose_copyedit_sources_classify_into_lint_grammar_and_triage_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "vale-cli/vale",
+                "html_url": "https://github.com/vale-cli/vale",
+                "description": "Vale is a prose linter and style linter with style guide rules, Markdown checks, lint diagnostics, and house style profiles for manuscript copyedit.",
+                "stargazers_count": 18000,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["prose", "linter", "markdown", "writing"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "go.mod", "styles"],
+            },
+            {
+                "full_name": "textlint/textlint",
+                "html_url": "https://github.com/textlint/textlint",
+                "description": "Textlint is a pluggable natural language linter and text linter for Markdown with configurable rule packages, rule violations and suppression comments.",
+                "stargazers_count": 11000,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["lint", "natural-language", "markdown"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["package.json", "packages", "README.md"],
+                "package_scripts": {"test": "pnpm test"},
+            },
+            {
+                "full_name": "amperser/proselint",
+                "html_url": "https://github.com/amperser/proselint",
+                "description": "Proselint checks prose for cliches, jargon, passive voice, redundancy and copyedit suggestions that should become revision queue diagnostics.",
+                "stargazers_count": 4300,
+                "license": {"spdx_id": "BSD-3-Clause"},
+                "topics": ["prose", "style", "lint"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "setup.py", "proselint"],
+            },
+            {
+                "full_name": "Automattic/harper",
+                "html_url": "https://github.com/Automattic/harper",
+                "description": "Harper is an offline grammar checker with spelling and grammar diagnostics, copyedit suggestions, language server support and proofreading for prose.",
+                "stargazers_count": 8500,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["grammar", "spellcheck", "lsp", "writing"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "Cargo.toml", "packages"],
+            },
+            {
+                "full_name": "languagetool-org/languagetool",
+                "html_url": "https://github.com/languagetool-org/languagetool",
+                "description": "LanguageTool provides multilingual grammar checker, spell checker, proofreading, style and copyediting rules with server and client surfaces.",
+                "stargazers_count": 13000,
+                "license": {"spdx_id": "LGPL-2.1"},
+                "topics": ["grammar", "spell-checker", "proofreading"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "pom.xml", "languagetool-core"],
+            },
+            {
+                "full_name": "btford/write-good",
+                "html_url": "https://github.com/btford/write-good",
+                "description": "Write-good is a prose style checker for passive voice, weasel words, adverbs, cliches, hard-to-read text, suggestions and lint diagnostics.",
+                "stargazers_count": 5600,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "style", "prose"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "package.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T23:30:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["vale-cli/vale"]["family"] == "novel-automation"
+    assert "prose_lint_style_rule_gate" in by_title["vale-cli/vale"]["absorbed_patterns"]
+    assert "copyedit_diagnostic_triage_queue" in by_title["textlint/textlint"]["absorbed_patterns"]
+    assert "prose_lint_style_rule_gate" in by_title["amperser/proselint"]["absorbed_patterns"]
+    assert "grammar_spelling_copyedit_gate" in by_title["Automattic/harper"]["absorbed_patterns"]
+    assert "grammar_spelling_copyedit_gate" in by_title["languagetool-org/languagetool"]["absorbed_patterns"]
+    assert "copyedit_diagnostic_triage_queue" in by_title["btford/write-good"]["absorbed_patterns"]
+
+
+def test_prose_copyedit_pattern_pack_exposes_lint_grammar_and_triage_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T23:35:00+08:00",
+        "candidate_count": 3,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/vale-cli/vale",
+                "title": "vale-cli/vale",
+                "summary": "Prose lint house-style rule gate for Markdown manuscripts.",
+                "stars": 18000,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["prose_lint_style_rule_gate"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Automattic/harper",
+                "title": "Automattic/harper",
+                "summary": "Offline grammar and spelling copyedit gate.",
+                "stars": 8500,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["grammar_spelling_copyedit_gate"],
+                "score": 89,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/textlint/textlint",
+                "title": "textlint/textlint",
+                "summary": "Lint diagnostic triage queue with accepted ignored rule decisions.",
+                "stars": 11000,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["copyedit_diagnostic_triage_queue"],
+                "score": 88,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "prose_lint_rule_profile" in pattern_pack["bible_enrichment_targets"]
+    assert "grammar_spelling_boundary_rules" in pattern_pack["bible_enrichment_targets"]
+    assert "copyedit_diagnostic_queue" in pattern_pack["bible_enrichment_targets"]
+    assert "prose_lint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "grammar_spelling_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "copyedit_diagnostic_triage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "prose_lint_rule_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "grammar_copyedit_exception_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "copyedit_triage_policy_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "prose_lint_style_rule_gate_hints" in digest
+    assert "grammar_spelling_copyedit_gate_hints" in digest
+    assert "copyedit_diagnostic_triage_queue_hints" in digest
+
+
+def test_default_discovery_sources_include_prose_copyedit_projects():
+    assert "https://github.com/vale-cli/vale" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/textlint/textlint" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/amperser/proselint" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Automattic/harper" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/languagetool-org/languagetool" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/btford/write-good" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("prose lint" in query.lower() and "copyedit" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("grammar checker" in query.lower() and "proofreading" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("natural language linter" in query.lower() and "write-good" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+
+def test_chinese_text_processing_sources_classify_into_segmentation_entity_normalization_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "fxsjy/jieba",
+                "html_url": "https://github.com/fxsjy/jieba",
+                "description": "Jieba provides Chinese word segmentation, custom dictionary support, TF-IDF and TextRank keyword extraction for Chinese manuscript text analysis.",
+                "stargazers_count": 33500,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["chinese", "word-segmentation", "keyword-extraction"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "jieba", "setup.py"],
+            },
+            {
+                "full_name": "hankcs/HanLP",
+                "html_url": "https://github.com/hankcs/HanLP",
+                "description": "HanLP supports Chinese word segmentation, Chinese NER, named entity recognition, aliases, person name, location name and organization name analysis.",
+                "stargazers_count": 36500,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["nlp", "chinese", "ner"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "plugins", "hanlp"],
+            },
+            {
+                "full_name": "HIT-SCIR/ltp",
+                "html_url": "https://github.com/HIT-SCIR/ltp",
+                "description": "LTP is a Chinese NLP toolkit with segmentation, POS, Chinese NER, entity recognition, dependency and semantic role analysis.",
+                "stargazers_count": 7800,
+                "license": None,
+                "topics": ["chinese", "nlp", "ner"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "ltp", "pyproject.toml"],
+            },
+            {
+                "full_name": "BYVoid/OpenCC",
+                "html_url": "https://github.com/BYVoid/OpenCC",
+                "description": "OpenCC provides Simplified Chinese and Traditional Chinese conversion, Chinese conversion and text normalization for variants.",
+                "stargazers_count": 9600,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["opencc", "chinese", "normalization"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "CMakeLists.txt", "data"],
+            },
+            {
+                "full_name": "shibing624/pycorrector",
+                "html_url": "https://github.com/shibing624/pycorrector",
+                "description": "PyCorrector provides Chinese spelling correction, Chinese text correction, confusion set review and proofreading workflows.",
+                "stargazers_count": 8400,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["chinese", "correction", "proofreading"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "pycorrector", "requirements.txt"],
+            },
+            {
+                "full_name": "messense/jieba-rs",
+                "html_url": "https://github.com/messense/jieba-rs",
+                "description": "Jieba-rs is a Rust Chinese tokenizer for Chinese word segmentation with deterministic dictionary behavior.",
+                "stargazers_count": 2100,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["jieba", "rust", "chinese"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "Cargo.toml", "src"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T00:10:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["fxsjy/jieba"]["family"] == "novel-automation"
+    assert "chinese_segmentation_keyword_gate" in by_title["fxsjy/jieba"]["absorbed_patterns"]
+    assert "chinese_segmentation_keyword_gate" in by_title["messense/jieba-rs"]["absorbed_patterns"]
+    assert "chinese_ner_alias_consistency_gate" in by_title["hankcs/HanLP"]["absorbed_patterns"]
+    assert "chinese_ner_alias_consistency_gate" in by_title["HIT-SCIR/ltp"]["absorbed_patterns"]
+    assert "chinese_text_normalization_gate" in by_title["BYVoid/OpenCC"]["absorbed_patterns"]
+    assert "chinese_error_correction_review_gate" in by_title["shibing624/pycorrector"]["absorbed_patterns"]
+
+
+def test_chinese_text_processing_pattern_pack_exposes_review_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-11T00:15:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/fxsjy/jieba",
+                "title": "fxsjy/jieba",
+                "summary": "Chinese segmentation and keyword extraction profile.",
+                "stars": 33500,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["chinese_segmentation_keyword_gate"],
+                "score": 94,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/hankcs/HanLP",
+                "title": "hankcs/HanLP",
+                "summary": "Chinese NER and alias consistency review.",
+                "stars": 36500,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["chinese_ner_alias_consistency_gate"],
+                "score": 93,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/BYVoid/OpenCC",
+                "title": "BYVoid/OpenCC",
+                "summary": "Chinese text normalization for Simplified and Traditional variants.",
+                "stars": 9600,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["chinese_text_normalization_gate"],
+                "score": 92,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/shibing624/pycorrector",
+                "title": "shibing624/pycorrector",
+                "summary": "Chinese correction review and confusion set exceptions.",
+                "stars": 8400,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["chinese_error_correction_review_gate"],
+                "score": 91,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "chinese_segmentation_dictionary" in pattern_pack["bible_enrichment_targets"]
+    assert "chinese_entity_alias_ledger" in pattern_pack["bible_enrichment_targets"]
+    assert "chinese_text_normalization_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chinese_correction_review_queue" in pattern_pack["bible_enrichment_targets"]
+    assert "chinese_segmentation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chinese_entity_alias_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chinese_text_normalization_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chinese_error_correction_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chinese_segmentation_dictionary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chinese_entity_alias_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chinese_normalization_policy_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chinese_correction_exception_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "chinese_segmentation_keyword_gate_hints" in digest
+    assert "chinese_ner_alias_consistency_gate_hints" in digest
+    assert "chinese_text_normalization_gate_hints" in digest
+    assert "chinese_error_correction_review_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_chinese_text_processing_projects():
+    assert "https://github.com/fxsjy/jieba" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/messense/jieba-rs" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/hankcs/HanLP" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/HIT-SCIR/ltp" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/BYVoid/OpenCC" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/shibing624/pycorrector" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("chinese word segmentation" in query.lower() and "jieba" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chinese ner" in query.lower() and "alias" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("opencc" in query.lower() and "simplified chinese" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    assert any("chinese spelling correction" in query.lower() and "pycorrector" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_source_import_ocr_sources_classify_into_import_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "aerkalov/ebooklib",
+                "html_url": "https://github.com/aerkalov/ebooklib",
+                "description": "EbookLib handles EPUB ebook reading and writing with OPF metadata, spine, table of contents, TOC and source import manifests.",
+                "stargazers_count": 2300,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["epub", "ebook", "opf"],
+                "updated_at": "2026-06-11T00:30:00Z",
+                "root_files": ["README.md", "setup.py", "ebooklib"],
+            },
+            {
+                "full_name": "pdfminer/pdfminer.six",
+                "html_url": "https://github.com/pdfminer/pdfminer.six",
+                "description": "Pdfminer.six performs PDF text extraction, layout analysis, page coordinates, reading order and text blocks for PDF pages.",
+                "stargazers_count": 6700,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["pdf", "text-extraction", "layout-analysis"],
+                "updated_at": "2026-06-11T00:30:00Z",
+                "root_files": ["README.md", "pyproject.toml", "pdfminer"],
+            },
+            {
+                "full_name": "pymupdf/PyMuPDF",
+                "html_url": "https://github.com/pymupdf/PyMuPDF",
+                "description": "PyMuPDF exposes PDF page text blocks, coordinates, images, metadata and PDF text extraction layout surfaces.",
+                "stargazers_count": 6000,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["pdf", "mupdf", "text-extraction"],
+                "updated_at": "2026-06-11T00:30:00Z",
+                "root_files": ["README.md", "pyproject.toml", "src"],
+            },
+            {
+                "full_name": "ocrmypdf/OCRmyPDF",
+                "html_url": "https://github.com/ocrmypdf/OCRmyPDF",
+                "description": "OCRmyPDF adds OCR text layers to scanned PDF files with hOCR, Tesseract, OCR confidence review and scanned page import behavior.",
+                "stargazers_count": 3300,
+                "license": {"spdx_id": "MPL-2.0"},
+                "topics": ["ocr", "pdf", "tesseract"],
+                "updated_at": "2026-06-11T00:30:00Z",
+                "root_files": ["README.md", "pyproject.toml", "src"],
+            },
+            {
+                "full_name": "tesseract-ocr/tesseract",
+                "html_url": "https://github.com/tesseract-ocr/tesseract",
+                "description": "Tesseract is an OCR engine for image text recognition, scanned pages, OCR confidence and language models.",
+                "stargazers_count": 69000,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["ocr", "tesseract", "image-text"],
+                "updated_at": "2026-06-11T00:30:00Z",
+                "root_files": ["README.md", "CMakeLists.txt", "src"],
+            },
+            {
+                "full_name": "Unstructured-IO/unstructured",
+                "html_url": "https://github.com/Unstructured-IO/unstructured",
+                "description": "Unstructured partitions PDFs, EPUBs, DOCX and HTML into document elements with partition_pdf, partition_epub, title elements and chapter detection.",
+                "stargazers_count": 12000,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["document-partition", "pdf", "epub"],
+                "updated_at": "2026-06-11T00:30:00Z",
+                "root_files": ["README.md", "pyproject.toml", "unstructured"],
+            },
+            {
+                "full_name": "jgm/pandoc",
+                "html_url": "https://github.com/jgm/pandoc",
+                "description": "Pandoc converts document formats with metadata, table of contents, markdown, docx, epub and format conversion logs for source import provenance.",
+                "stargazers_count": 39000,
+                "license": {"spdx_id": "GPL-2.0-or-later"},
+                "topics": ["pandoc", "document-conversion", "markdown"],
+                "updated_at": "2026-06-11T00:30:00Z",
+                "root_files": ["README.md", "pandoc.cabal", "src"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T00:35:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["aerkalov/ebooklib"]["family"] == "novel-automation"
+    assert "source_format_import_manifest" in by_title["aerkalov/ebooklib"]["absorbed_patterns"]
+    assert "import_provenance_checksum_gate" in by_title["jgm/pandoc"]["absorbed_patterns"]
+    assert "pdf_layout_text_extraction_gate" in by_title["pdfminer/pdfminer.six"]["absorbed_patterns"]
+    assert "pdf_layout_text_extraction_gate" in by_title["pymupdf/PyMuPDF"]["absorbed_patterns"]
+    assert "ocr_scanned_page_import_gate" in by_title["ocrmypdf/OCRmyPDF"]["absorbed_patterns"]
+    assert "ocr_scanned_page_import_gate" in by_title["tesseract-ocr/tesseract"]["absorbed_patterns"]
+    assert "document_partition_chapter_detection_gate" in by_title["Unstructured-IO/unstructured"]["absorbed_patterns"]
+
+
+def test_source_import_ocr_pattern_pack_exposes_import_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-11T00:40:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/aerkalov/ebooklib",
+                "title": "aerkalov/ebooklib",
+                "summary": "EPUB source import manifest with TOC, spine and metadata.",
+                "stars": 2300,
+                "license": "AGPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["source_format_import_manifest"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/pdfminer/pdfminer.six",
+                "title": "pdfminer/pdfminer.six",
+                "summary": "PDF layout text extraction with page spans and reading order.",
+                "stars": 6700,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["pdf_layout_text_extraction_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/ocrmypdf/OCRmyPDF",
+                "title": "ocrmypdf/OCRmyPDF",
+                "summary": "Scanned-page OCR confidence review before source deconstruction.",
+                "stars": 3300,
+                "license": "MPL-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["ocr_scanned_page_import_gate"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Unstructured-IO/unstructured",
+                "title": "Unstructured-IO/unstructured",
+                "summary": "Document partition into typed elements and chapter headings.",
+                "stars": 12000,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["document_partition_chapter_detection_gate"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/jgm/pandoc",
+                "title": "jgm/pandoc",
+                "summary": "Format conversion provenance, parser settings and checksums.",
+                "stars": 39000,
+                "license": "GPL-2.0-or-later",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["import_provenance_checksum_gate"],
+                "score": 80,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "source_import_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "pdf_page_span_map" in pattern_pack["bible_enrichment_targets"]
+    assert "ocr_page_confidence_report" in pattern_pack["bible_enrichment_targets"]
+    assert "document_element_partition_map" in pattern_pack["bible_enrichment_targets"]
+    assert "source_file_checksum_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "source_import_manifest_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "pdf_layout_extraction_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ocr_confidence_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "document_partition_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "import_checksum_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "source_import_structure_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "pdf_layout_evidence_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "ocr_uncertainty_review_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_partition_structure_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "import_provenance_lineage_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "source_format_import_manifest_hints" in digest
+    assert "pdf_layout_text_extraction_gate_hints" in digest
+    assert "ocr_scanned_page_import_gate_hints" in digest
+    assert "document_partition_chapter_detection_gate_hints" in digest
+    assert "import_provenance_checksum_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_source_import_ocr_projects():
+    assert "https://github.com/aerkalov/ebooklib" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/pdfminer/pdfminer.six" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/pymupdf/PyMuPDF" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ocrmypdf/OCRmyPDF" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/tesseract-ocr/tesseract" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Unstructured-IO/unstructured" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jgm/pandoc" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("epub" in query.lower() and "spine" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("pdf text extraction" in query.lower() and "layout analysis" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ocr" in query.lower() and "tesseract" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("document partition" in query.lower() and "partition_pdf" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

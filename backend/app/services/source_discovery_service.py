@@ -97,6 +97,19 @@ DEFAULT_GITHUB_QUERIES = (
     '("diff match patch" OR "semantic cleanup" OR "copied spans") ("text" OR "copy" OR "similarity") in:name,description,readme',
     '("quote attribution" OR "character coreference" OR "speaker attribution") ("book" OR "novel" OR "fiction") in:name,description,readme',
     '("readability" OR "sentence length" OR "lexical diversity" OR "lexical richness") ("novel" OR "fiction" OR "text analysis") in:name,description,readme',
+    '("prose lint" OR "prose linter" OR "style linter" OR "copyedit") ("novel" OR "fiction" OR "manuscript" OR "markdown") in:name,description,readme',
+    '("grammar checker" OR "spell checker" OR "spelling and grammar" OR "proofreading") ("markdown" OR "manuscript" OR "fiction") in:name,description,readme',
+    '("natural language linter" OR "text linter" OR "write-good" OR "proselint") ("prose" OR "writing" OR "markdown") in:name,description,readme',
+    '("lint diagnostics" OR "style diagnostics" OR "copyedit suggestions" OR "accepted ignored") ("writing" OR "prose" OR "manuscript") in:name,description,readme',
+    '("Chinese word segmentation" OR "jieba" OR "HanLP" OR "LTP") ("novel" OR "fiction" OR "text analysis") in:name,description,readme',
+    '("Chinese NER" OR "named entity recognition" OR "alias" OR "entity linking") ("novel" OR "fiction" OR "Chinese text") in:name,description,readme',
+    '("OpenCC" OR "Simplified Chinese" OR "Traditional Chinese" OR "Chinese conversion") ("novel" OR "manuscript" OR "text normalization") in:name,description,readme',
+    '("Chinese spelling correction" OR "Chinese text correction" OR "pycorrector" OR "confusion set") ("novel" OR "manuscript" OR "proofreading") in:name,description,readme',
+    '("EPUB" OR "ebook" OR "table of contents" OR "spine") ("novel" OR "manuscript" OR "chapter extraction") in:name,description,readme',
+    '("PDF text extraction" OR "layout analysis" OR "text blocks" OR "page coordinates") ("book" OR "novel" OR "manuscript") in:name,description,readme',
+    '("OCR" OR "scanned PDF" OR "hOCR" OR "Tesseract") ("book" OR "novel" OR "manuscript") in:name,description,readme',
+    '("document partition" OR "partition_pdf" OR "partition_epub" OR "document elements") ("book" OR "chapter" OR "manuscript") in:name,description,readme',
+    '("Pandoc" OR "format conversion" OR "metadata" OR "checksum") ("manuscript" OR "book" OR "chapter import") in:name,description,readme',
     '("keyphrase extraction" OR "keyword extraction" OR "motif extraction") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
     '("semantic chunk" OR "text splitter" OR "recursive character splitter") ("novel" OR "chapter" OR "long text") in:name,description,readme',
     '("summarization" OR "extractive summarizer" OR "chapter summary") ("novel" OR "book" OR "long text") in:name,description,readme',
@@ -227,6 +240,25 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/agranya99/MOSS-winnowing-seqMatcher",
     "https://github.com/booknlp/booknlp",
     "https://github.com/textstat/textstat",
+    "https://github.com/vale-cli/vale",
+    "https://github.com/textlint/textlint",
+    "https://github.com/amperser/proselint",
+    "https://github.com/Automattic/harper",
+    "https://github.com/languagetool-org/languagetool",
+    "https://github.com/btford/write-good",
+    "https://github.com/fxsjy/jieba",
+    "https://github.com/messense/jieba-rs",
+    "https://github.com/hankcs/HanLP",
+    "https://github.com/HIT-SCIR/ltp",
+    "https://github.com/BYVoid/OpenCC",
+    "https://github.com/shibing624/pycorrector",
+    "https://github.com/aerkalov/ebooklib",
+    "https://github.com/pdfminer/pdfminer.six",
+    "https://github.com/pymupdf/PyMuPDF",
+    "https://github.com/ocrmypdf/OCRmyPDF",
+    "https://github.com/tesseract-ocr/tesseract",
+    "https://github.com/Unstructured-IO/unstructured",
+    "https://github.com/jgm/pandoc",
     "https://github.com/LSYS/LexicalRichness",
     "https://github.com/HLasse/TextDescriptives",
     "https://github.com/boudinfl/pke",
@@ -450,8 +482,20 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("diff_span_copy_review", ("diff match patch", "diff, match and patch", "semantic cleanup", "copied spans", "diff spans", "patch library", "diff_span")),
     ("character_quote_attribution_map", ("booknlp", "book-length documents", "character coreference", "character mentions", "quote attribution", "speaker attribution", "entity tokens", "quote speaker", "speaker map")),
     ("readability_pacing_metric_gate", ("readability", "readability statistics", "sentence length", "paragraph length", "flesch", "gunning fog", "smog index", "text statistics")),
+    ("prose_lint_style_rule_gate", ("prose lint", "prose linter", "style linter", "natural language linter", "text linter", "vale", "textlint", "proselint", "write-good", "write good", "weasel words", "passive voice", "cliches", "style guide rules", "house style", "lint prose", "\u6587\u7a3f\u6821\u5bf9", "\u98ce\u683c\u89c4\u5219", "\u6563\u6587\u68c0\u67e5")),
+    ("grammar_spelling_copyedit_gate", ("grammar checker", "spelling and grammar", "spell checker", "spellcheck", "spelling", "languagetool", "harper", "proofreading", "copyedit", "copyediting", "grammar engine", "offline grammar", "\u8bed\u6cd5\u68c0\u67e5", "\u62fc\u5199\u68c0\u67e5", "\u6821\u5bf9")),
+    ("copyedit_diagnostic_triage_queue", ("lint diagnostics", "style diagnostics", "copyedit suggestions", "diagnostics", "suggestions", "rule violations", "ignore rules", "suppression", "accepted ignored", "triage", "diagnostic queue", "revision queue", "\u6821\u5bf9\u961f\u5217", "\u8bca\u65ad\u961f\u5217", "\u91c7\u7eb3\u5ffd\u7565")),
     ("lexical_diversity_voice_audit", ("lexical richness", "lexical diversity", "mtld", "hd-d", "hdd", "type-token", "type token ratio", "vocabulary diversity")),
     ("keyphrase_motif_extraction", ("keyphrase extraction", "keyword extraction", "keyphrase candidates", "candidate weighting", "motif extraction", "motif drift", "topic salience")),
+    ("chinese_segmentation_keyword_gate", ("chinese word segmentation", "jieba", "hanlp", "ltp", "tokenization", "tokenizer", "segmentation", "word segment", "keyword extraction", "tf-idf", "textrank", "custom dictionary", "user dictionary", "\u4e2d\u6587\u5206\u8bcd", "\u5173\u952e\u8bcd\u63d0\u53d6", "\u81ea\u5b9a\u4e49\u8bcd\u5178")),
+    ("chinese_ner_alias_consistency_gate", ("chinese ner", "named entity recognition", "ner", "hanlp", "ltp", "entity recognition", "person name", "location name", "organization name", "alias", "coreference", "entity linking", "\u5b9e\u4f53\u8bc6\u522b", "\u4eba\u540d", "\u5730\u540d", "\u7ec4\u7ec7\u540d", "\u522b\u540d")),
+    ("chinese_text_normalization_gate", ("opencc", "simplified chinese", "traditional chinese", "chinese conversion", "text normalization", "normalization", "punctuation normalization", "fullwidth", "halfwidth", "variant characters", "\u7b80\u7e41\u8f6c\u6362", "\u6587\u672c\u89c4\u8303\u5316", "\u5168\u89d2", "\u534a\u89d2")),
+    ("chinese_error_correction_review_gate", ("chinese spelling correction", "chinese text correction", "pycorrector", "confusion set", "error correction", "spelling correction", "grammar correction", "proofreading", "bert correction", "\u4e2d\u6587\u7ea0\u9519", "\u9519\u522b\u5b57", "\u6df7\u6dc6\u96c6")),
+    ("source_format_import_manifest", ("epub", "ebook", "ebooklib", "pandoc", "format conversion", "mobi", "azw3", "docx", "opf", "spine", "table of contents", "toc", "metadata", "chapter import", "source import", "\u7535\u5b50\u4e66", "\u76ee\u5f55", "\u7ae0\u8282\u5bfc\u5165")),
+    ("pdf_layout_text_extraction_gate", ("pdfminer", "pymupdf", "pdf text extraction", "layout analysis", "text blocks", "page coordinates", "reading order", "page spans", "pdf pages", "\u7248\u9762", "\u9875\u7801", "\u6587\u672c\u5757")),
+    ("ocr_scanned_page_import_gate", ("ocr", "ocrmypdf", "tesseract", "scanned pdf", "scanned page", "hocr", "ocr confidence", "deskew", "page image", "image text", "\u626b\u63cf", "\u56fe\u50cf\u8bc6\u522b", "\u8bc6\u522b\u7f6e\u4fe1\u5ea6")),
+    ("document_partition_chapter_detection_gate", ("unstructured", "document partition", "partition_pdf", "partition_epub", "document elements", "title element", "heading detection", "section detection", "chapter detection", "layout element", "\u7ae0\u8282\u68c0\u6d4b", "\u6807\u9898\u8bc6\u522b")),
+    ("import_provenance_checksum_gate", ("checksum", "hash", "source file", "file provenance", "import manifest", "page range", "extraction settings", "parser version", "input artifact", "conversion log", "\u6821\u9a8c\u548c", "\u6765\u6e90\u8ffd\u6eaf", "\u5bfc\u5165\u6e05\u5355")),
     ("semantic_chunk_boundary_map", ("semantic text splitter", "semantic chunk", "semantic chunking", "text splitter", "text splitting", "recursive character text splitter", "recursive character splitter", "chunk capacity", "chunk boundary", "boundary preservation")),
     ("chapter_summary_anchor_gate", ("automatic text summarizer", "extractive summarizer", "extractive summarization", "summarization chains", "lsa", "lexrank", "textrank", "representative sentences", "chapter summary", "summary anchor")),
     ("topic_drift_map", ("topic modeling", "bertopic", "dynamic topic modeling", "dynamic topics", "topic representation", "c-tf-idf", "topic drift", "topic clusters")),
@@ -856,6 +900,82 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "textstat/textstat": (
         "Textstat is an MIT Python library for readability statistics over text, paragraphs, and sentences. "
         "Absorb readability and sentence/paragraph pacing metric gates only; package runtime is not imported."
+    ),
+    "vale-cli/vale": (
+        "Vale is a prose linter with configurable style rules and syntax-aware checks for markup such as Markdown. "
+        "Absorb project-local house-style rule gates and diagnostic reporting only; the CLI is not installed or executed."
+    ),
+    "textlint/textlint": (
+        "Textlint is a pluggable natural language linter for Markdown and text with configurable rule packages. "
+        "Absorb manuscript lint profile, exception, and rule-pack layering patterns only; Node packages are not installed."
+    ),
+    "amperser/proselint": (
+        "Proselint checks prose for style issues such as cliches, jargon, redundancy, and passive phrasing. "
+        "Absorb copyedit warning categories as optional review diagnostics, not automatic rewrites."
+    ),
+    "automattic/harper": (
+        "Harper is an offline grammar checker and language server for developers writing prose. "
+        "Absorb local-first grammar/spelling review and dialect exception boundaries only; browser/editor integrations are not installed."
+    ),
+    "languagetool-org/languagetool": (
+        "LanguageTool is a multilingual grammar, style, and spell checker with server/client surfaces. "
+        "Absorb grammar/spelling/copyedit gate taxonomy only; no server, extension, or external checking service is launched."
+    ),
+    "btford/write-good": (
+        "Write-good is a MIT prose style checker that flags passive voice, weasel words, adverbs, cliches, and hard-to-read text. "
+        "Absorb lightweight prose-warning categories and author-review triage patterns only; package runtime is not imported."
+    ),
+    "fxsjy/jieba": (
+        "Jieba is a MIT Chinese word segmentation toolkit with dictionary-based segmentation and keyword extraction. "
+        "Absorb custom-dictionary segmentation and keyword gates for Chinese manuscript analysis only; package runtime is not imported."
+    ),
+    "messense/jieba-rs": (
+        "Jieba-rs is a MIT Rust implementation of Jieba-style Chinese tokenization. "
+        "Absorb tokenizer runtime-boundary and deterministic segmentation ideas only; native/runtime code is not built."
+    ),
+    "hankcs/hanlp": (
+        "HanLP is an Apache-2.0 multilingual NLP toolkit with Chinese tokenization, NER, dependency parsing, and semantic analysis surfaces. "
+        "Absorb entity/alias consistency and Chinese text analysis gates only; models are not downloaded."
+    ),
+    "hit-scir/ltp": (
+        "LTP is a Chinese NLP toolkit from HIT-SCIR with segmentation, POS, NER, dependency, and semantic role capabilities. "
+        "Absorb Chinese entity/role extraction review patterns only; license was not confirmed via raw LICENSE in this static pass."
+    ),
+    "byvoid/opencc": (
+        "OpenCC converts between Simplified and Traditional Chinese variants. "
+        "Absorb explicit text-normalization gates for source/deck/manuscript consistency only; conversion runtime is not installed."
+    ),
+    "shibing624/pycorrector": (
+        "PyCorrector is an Apache-2.0 Chinese text error correction toolkit with confusion-set and model-based correction modes. "
+        "Absorb Chinese typo/confusion review queues only; models and package runtime are not imported."
+    ),
+    "aerkalov/ebooklib": (
+        "EbookLib handles EPUB reading/writing with OPF metadata, spine, and table-of-contents surfaces. "
+        "Absorb EPUB source-import manifest and chapter-spine mapping patterns only; AGPL runtime code is not imported."
+    ),
+    "pdfminer/pdfminer.six": (
+        "Pdfminer.six extracts text and layout information from PDF files. "
+        "Absorb page/span/layout extraction gates for source deconstruction only; package runtime is not imported."
+    ),
+    "pymupdf/pymupdf": (
+        "PyMuPDF exposes PDF page text blocks, coordinates, images, and metadata. "
+        "Absorb layout-aware PDF import checks only; AGPL/commercial runtime is not imported."
+    ),
+    "ocrmypdf/ocrmypdf": (
+        "OCRmyPDF adds OCR text layers to scanned PDFs and records OCR pipeline behavior. "
+        "Absorb scanned-page OCR admission and confidence review patterns only; no OCR runtime or external binary is launched."
+    ),
+    "tesseract-ocr/tesseract": (
+        "Tesseract is an OCR engine for image text recognition. "
+        "Absorb language/confidence/page-image review gates only; native OCR runtime and language data are not downloaded."
+    ),
+    "unstructured-io/unstructured": (
+        "Unstructured partitions PDFs, EPUBs, HTML, DOCX, and other documents into typed elements. "
+        "Absorb document-element partition and chapter-heading detection patterns only; package runtime is not imported."
+    ),
+    "jgm/pandoc": (
+        "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. "
+        "Absorb format conversion provenance patterns only; GPL runtime is not installed."
     ),
     "lsys/lexicalrichness": (
         "LexicalRichness is an MIT module for lexical richness and diversity metrics such as MTLD, HD-D, and type-token variants. "
@@ -1424,8 +1544,20 @@ class NovelSourceDiscoveryService:
             "diff_span_copy_review_hints": self._build_diff_span_copy_review_hints(available_patterns),
             "character_quote_attribution_map_hints": self._build_character_quote_attribution_map_hints(available_patterns),
             "readability_pacing_metric_gate_hints": self._build_readability_pacing_metric_gate_hints(available_patterns),
+            "prose_lint_style_rule_gate_hints": self._build_prose_lint_style_rule_gate_hints(available_patterns),
+            "grammar_spelling_copyedit_gate_hints": self._build_grammar_spelling_copyedit_gate_hints(available_patterns),
+            "copyedit_diagnostic_triage_queue_hints": self._build_copyedit_diagnostic_triage_queue_hints(available_patterns),
             "lexical_diversity_voice_audit_hints": self._build_lexical_diversity_voice_audit_hints(available_patterns),
             "keyphrase_motif_extraction_hints": self._build_keyphrase_motif_extraction_hints(available_patterns),
+            "chinese_segmentation_keyword_gate_hints": self._build_chinese_segmentation_keyword_gate_hints(available_patterns),
+            "chinese_ner_alias_consistency_gate_hints": self._build_chinese_ner_alias_consistency_gate_hints(available_patterns),
+            "chinese_text_normalization_gate_hints": self._build_chinese_text_normalization_gate_hints(available_patterns),
+            "chinese_error_correction_review_gate_hints": self._build_chinese_error_correction_review_gate_hints(available_patterns),
+            "source_format_import_manifest_hints": self._build_source_format_import_manifest_hints(available_patterns),
+            "pdf_layout_text_extraction_gate_hints": self._build_pdf_layout_text_extraction_gate_hints(available_patterns),
+            "ocr_scanned_page_import_gate_hints": self._build_ocr_scanned_page_import_gate_hints(available_patterns),
+            "document_partition_chapter_detection_gate_hints": self._build_document_partition_chapter_detection_gate_hints(available_patterns),
+            "import_provenance_checksum_gate_hints": self._build_import_provenance_checksum_gate_hints(available_patterns),
             "semantic_chunk_boundary_map_hints": self._build_semantic_chunk_boundary_map_hints(available_patterns),
             "chapter_summary_anchor_gate_hints": self._build_chapter_summary_anchor_gate_hints(available_patterns),
             "topic_drift_map_hints": self._build_topic_drift_map_hints(available_patterns),
@@ -2010,8 +2142,20 @@ class NovelSourceDiscoveryService:
             "diff_span_copy_review": 61,
             "character_quote_attribution_map": 66,
             "readability_pacing_metric_gate": 60,
+            "prose_lint_style_rule_gate": 61,
+            "grammar_spelling_copyedit_gate": 60,
+            "copyedit_diagnostic_triage_queue": 59,
             "lexical_diversity_voice_audit": 59,
             "keyphrase_motif_extraction": 58,
+            "chinese_segmentation_keyword_gate": 62,
+            "chinese_ner_alias_consistency_gate": 63,
+            "chinese_text_normalization_gate": 58,
+            "chinese_error_correction_review_gate": 60,
+            "source_format_import_manifest": 64,
+            "pdf_layout_text_extraction_gate": 63,
+            "ocr_scanned_page_import_gate": 61,
+            "document_partition_chapter_detection_gate": 64,
+            "import_provenance_checksum_gate": 62,
             "semantic_chunk_boundary_map": 62,
             "chapter_summary_anchor_gate": 61,
             "topic_drift_map": 60,
@@ -2204,12 +2348,48 @@ class NovelSourceDiscoveryService:
         if "readability_pacing_metric_gate" in patterns:
             targets.append("readability_pacing_thresholds")
             targets.append("sentence_paragraph_curve")
+        if "prose_lint_style_rule_gate" in patterns:
+            targets.append("prose_lint_rule_profile")
+            targets.append("house_style_rule_exceptions")
+        if "grammar_spelling_copyedit_gate" in patterns:
+            targets.append("grammar_spelling_boundary_rules")
+            targets.append("dialogue_dialect_exception_policy")
+        if "copyedit_diagnostic_triage_queue" in patterns:
+            targets.append("copyedit_diagnostic_queue")
+            targets.append("accepted_ignored_diagnostic_ledger")
         if "lexical_diversity_voice_audit" in patterns:
             targets.append("lexical_diversity_voice_baseline")
             targets.append("vocabulary_drift_rules")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_ledger")
             targets.append("motif_topic_drift_rules")
+        if "chinese_segmentation_keyword_gate" in patterns:
+            targets.append("chinese_segmentation_dictionary")
+            targets.append("keyword_motif_extraction_profile")
+        if "chinese_ner_alias_consistency_gate" in patterns:
+            targets.append("chinese_entity_alias_ledger")
+            targets.append("character_location_org_name_rules")
+        if "chinese_text_normalization_gate" in patterns:
+            targets.append("chinese_text_normalization_policy")
+            targets.append("simplified_traditional_variant_map")
+        if "chinese_error_correction_review_gate" in patterns:
+            targets.append("chinese_correction_review_queue")
+            targets.append("confusion_set_exception_policy")
+        if "source_format_import_manifest" in patterns:
+            targets.append("source_import_manifest")
+            targets.append("source_toc_spine_map")
+        if "pdf_layout_text_extraction_gate" in patterns:
+            targets.append("pdf_page_span_map")
+            targets.append("layout_reading_order_rules")
+        if "ocr_scanned_page_import_gate" in patterns:
+            targets.append("ocr_page_confidence_report")
+            targets.append("scanned_page_review_queue")
+        if "document_partition_chapter_detection_gate" in patterns:
+            targets.append("document_element_partition_map")
+            targets.append("chapter_heading_detection_rules")
+        if "import_provenance_checksum_gate" in patterns:
+            targets.append("source_file_checksum_manifest")
+            targets.append("import_parser_version_ledger")
         if "semantic_chunk_boundary_map" in patterns:
             targets.append("semantic_chunk_boundary_manifest")
             targets.append("chunk_inclusion_rules")
@@ -2527,10 +2707,34 @@ class NovelSourceDiscoveryService:
             targets.extend(["character_quote_attribution_report", "speaker_alias_map", "quote_voice_distribution"])
         if "readability_pacing_metric_gate" in patterns:
             targets.extend(["readability_pacing_curve", "sentence_length_variance_report", "paragraph_density_report"])
+        if "prose_lint_style_rule_gate" in patterns:
+            targets.extend(["prose_lint_report", "house_style_violation_map", "rule_exception_notes"])
+        if "grammar_spelling_copyedit_gate" in patterns:
+            targets.extend(["grammar_spelling_report", "copyedit_blocker_findings", "dialogue_exception_findings"])
+        if "copyedit_diagnostic_triage_queue" in patterns:
+            targets.extend(["copyedit_diagnostic_triage_report", "accepted_ignored_lint_ledger", "revision_task_queue"])
         if "lexical_diversity_voice_audit" in patterns:
             targets.extend(["lexical_diversity_voice_report", "mtld_hdd_voice_baseline", "repeated_vocabulary_findings"])
         if "keyphrase_motif_extraction" in patterns:
             targets.extend(["keyphrase_motif_map", "motif_drift_findings", "topic_keyword_salience"])
+        if "chinese_segmentation_keyword_gate" in patterns:
+            targets.extend(["chinese_segmentation_report", "custom_dictionary_hits", "keyword_motif_salience"])
+        if "chinese_ner_alias_consistency_gate" in patterns:
+            targets.extend(["chinese_entity_alias_report", "character_location_org_consistency", "alias_conflict_findings"])
+        if "chinese_text_normalization_gate" in patterns:
+            targets.extend(["chinese_text_normalization_report", "simplified_traditional_variant_findings", "punctuation_width_findings"])
+        if "chinese_error_correction_review_gate" in patterns:
+            targets.extend(["chinese_error_correction_report", "confusion_set_review_findings", "accepted_ignored_correction_ledger"])
+        if "source_format_import_manifest" in patterns:
+            targets.extend(["source_import_manifest_report", "toc_spine_chapter_map", "source_metadata_findings"])
+        if "pdf_layout_text_extraction_gate" in patterns:
+            targets.extend(["pdf_layout_extraction_report", "page_span_reading_order", "pdf_text_gap_findings"])
+        if "ocr_scanned_page_import_gate" in patterns:
+            targets.extend(["ocr_confidence_report", "scanned_page_text_gap_findings", "ocr_manual_review_items"])
+        if "document_partition_chapter_detection_gate" in patterns:
+            targets.extend(["document_partition_report", "chapter_heading_detection_report", "element_type_sequence"])
+        if "import_provenance_checksum_gate" in patterns:
+            targets.extend(["import_checksum_report", "parser_setting_manifest", "source_artifact_provenance"])
         if "semantic_chunk_boundary_map" in patterns:
             targets.extend(["semantic_chunk_boundary_report", "chunk_overlap_manifest", "context_boundary_findings"])
         if "chapter_summary_anchor_gate" in patterns:
@@ -4163,6 +4367,33 @@ class NovelSourceDiscoveryService:
             "For same-type creation, match broad reading rhythm while changing scene order, objects, stakes, and source wording.",
         ]
 
+    def _build_prose_lint_style_rule_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "prose_lint_style_rule_gate" not in patterns:
+            return []
+        return [
+            "Treat prose lint rules as project-local house style, not universal truth; every warning needs chapter, speaker, and scene context.",
+            "Separate blocking violations from optional style nudges so lint output cannot flatten a deliberate narrator or character voice.",
+            "For same-type creation, rebuild rule profiles around the new book's voice instead of copying the source style sheet.",
+        ]
+
+    def _build_grammar_spelling_copyedit_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "grammar_spelling_copyedit_gate" not in patterns:
+            return []
+        return [
+            "Run grammar, spelling, and copyedit checks after canon/continuity review, because grammatical polish must not legitimize unsupported facts.",
+            "Keep dialogue, dialect, invented terms, names, and genre vocabulary in an explicit exception policy before accepting grammar fixes.",
+            "Prefer local/offline review surfaces unless a future runtime safety contract explicitly allows external grammar services.",
+        ]
+
+    def _build_copyedit_diagnostic_triage_queue_hints(self, patterns: set[str]) -> list[str]:
+        if "copyedit_diagnostic_triage_queue" not in patterns:
+            return []
+        return [
+            "Convert lint and grammar diagnostics into a triage queue with accept, ignore, rewrite, and needs-author-review states.",
+            "Persist ignored diagnostics with reasons so repeated warnings do not hide new copyedit defects across chapters.",
+            "Batch diagnostics by chapter and rule id before final manuscript assembly or same-type draft acceptance.",
+        ]
+
     def _build_lexical_diversity_voice_audit_hints(self, patterns: set[str]) -> list[str]:
         if "lexical_diversity_voice_audit" not in patterns:
             return []
@@ -4179,6 +4410,87 @@ class NovelSourceDiscoveryService:
             "Extract keyphrases and motif keywords from source, outline, and draft to reveal topic drift, missing promises, and repeated thematic anchors.",
             "Continuation review should compare keyphrase salience against active arcs, foreshadows, and chapter goals before canon write-back.",
             "Same-type creation should transform motif functions into new objects, places, taboos, and stakes rather than reusing source keywords.",
+        ]
+
+    def _build_chinese_segmentation_keyword_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chinese_segmentation_keyword_gate" not in patterns:
+            return []
+        return [
+            "Use Chinese segmentation with a project dictionary before keyword, motif, and style analysis; names and invented terms must be dictionary entries.",
+            "Record segmentation mode, custom terms, and keyword extraction method before comparing source, continuation, or same-type drafts.",
+            "Do not let tokenizer output rewrite prose; it is evidence for review and context packing only.",
+        ]
+
+    def _build_chinese_ner_alias_consistency_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chinese_ner_alias_consistency_gate" not in patterns:
+            return []
+        return [
+            "Map Chinese names, aliases, locations, organizations, and titles into a review ledger before accepting chapter state updates.",
+            "Flag entity merges/splits when a character alias, sect name, place name, or translated label changes across chapters.",
+            "For same-type creation, source entity clusters are transformation evidence only and cannot become new-story canon names.",
+        ]
+
+    def _build_chinese_text_normalization_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chinese_text_normalization_gate" not in patterns:
+            return []
+        return [
+            "Declare Simplified/Traditional, punctuation-width, numeral, and variant-character policy before source deconstruction or final export.",
+            "Normalize for comparison and retrieval, but keep the author-approved manuscript surface unchanged unless a change is accepted.",
+            "Store normalization differences as review findings so same-type drafts do not inherit source-specific orthography by accident.",
+        ]
+
+    def _build_chinese_error_correction_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chinese_error_correction_review_gate" not in patterns:
+            return []
+        return [
+            "Treat Chinese typo/correction suggestions as review queue items with accept, ignore, or author-review status.",
+            "Protect character names, invented terms, dialect, honorifics, and genre vocabulary with explicit correction exceptions.",
+            "Run correction review after canon checks so a fluent correction cannot hide a continuity or source-copy problem.",
+        ]
+
+    def _build_source_format_import_manifest_hints(self, patterns: set[str]) -> list[str]:
+        if "source_format_import_manifest" not in patterns:
+            return []
+        return [
+            "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
+            "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
+            "For same-type creation, never reuse source TOC/spine order as the new outline without a transformation step.",
+        ]
+
+    def _build_pdf_layout_text_extraction_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "pdf_layout_text_extraction_gate" not in patterns:
+            return []
+        return [
+            "Store page number, text span, block order, coordinates when available, and extraction gaps for every PDF-derived chapter segment.",
+            "Flag headers, footers, page numbers, footnotes, two-column order, and missing text before summaries or style analysis use PDF text.",
+            "Do not accept PDF extraction as faithful source text without a reading-order and gap review.",
+        ]
+
+    def _build_ocr_scanned_page_import_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ocr_scanned_page_import_gate" not in patterns:
+            return []
+        return [
+            "For scanned pages, record OCR engine/language, confidence, page image range, and low-confidence spans before deconstruction.",
+            "Route low-confidence OCR text to manual review instead of feeding it directly into canon, glossary, or style extraction.",
+            "OCR is a deferred runtime lane; source intake may record the gate but must not launch OCR binaries or download language data.",
+        ]
+
+    def _build_document_partition_chapter_detection_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "document_partition_chapter_detection_gate" not in patterns:
+            return []
+        return [
+            "Partition imported documents into typed elements before chapter detection: title, narrative text, list, table, image, note, and footer.",
+            "Detect chapter headings with evidence: element type, normalized heading text, page/span, TOC match, and neighboring section boundaries.",
+            "Keep uncertain headings as review candidates so bad partitioning cannot corrupt chapter order or source summaries.",
+        ]
+
+    def _build_import_provenance_checksum_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "import_provenance_checksum_gate" not in patterns:
+            return []
+        return [
+            "Attach checksum, file size, source path, parser/version, settings, and import timestamp to every source-text extraction artifact.",
+            "When a parser or setting changes, invalidate derived summaries, glossary entries, and style fingerprints until re-reviewed.",
+            "Keep original, extracted, normalized, and accepted text as separate artifacts with explicit lineage.",
         ]
 
     def _build_semantic_chunk_boundary_map_hints(self, patterns: set[str]) -> list[str]:
@@ -4661,10 +4973,34 @@ class NovelSourceDiscoveryService:
             targets.append("quote_speaker_remap")
         if "readability_pacing_metric_gate" in patterns:
             targets.append("readability_curve_remap")
+        if "prose_lint_style_rule_gate" in patterns:
+            targets.append("prose_lint_rule_remap")
+        if "grammar_spelling_copyedit_gate" in patterns:
+            targets.append("grammar_copyedit_exception_remap")
+        if "copyedit_diagnostic_triage_queue" in patterns:
+            targets.append("copyedit_triage_policy_remap")
         if "lexical_diversity_voice_audit" in patterns:
             targets.append("lexical_diversity_remap")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_remap")
+        if "chinese_segmentation_keyword_gate" in patterns:
+            targets.append("chinese_segmentation_dictionary_remap")
+        if "chinese_ner_alias_consistency_gate" in patterns:
+            targets.append("chinese_entity_alias_remap")
+        if "chinese_text_normalization_gate" in patterns:
+            targets.append("chinese_normalization_policy_remap")
+        if "chinese_error_correction_review_gate" in patterns:
+            targets.append("chinese_correction_exception_remap")
+        if "source_format_import_manifest" in patterns:
+            targets.append("source_import_structure_remap")
+        if "pdf_layout_text_extraction_gate" in patterns:
+            targets.append("pdf_layout_evidence_remap")
+        if "ocr_scanned_page_import_gate" in patterns:
+            targets.append("ocr_uncertainty_review_remap")
+        if "document_partition_chapter_detection_gate" in patterns:
+            targets.append("chapter_partition_structure_remap")
+        if "import_provenance_checksum_gate" in patterns:
+            targets.append("import_provenance_lineage_remap")
         if "semantic_chunk_boundary_map" in patterns:
             targets.append("chunk_boundary_remap")
         if "chapter_summary_anchor_gate" in patterns:
@@ -4848,6 +5184,24 @@ class NovelSourceDiscoveryService:
             hints.append("Carry over only broad lexical diversity range; replace source catchphrases, image clusters, and signature diction.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.")
+        if "chinese_segmentation_keyword_gate" in patterns:
+            hints.append("Rebuild custom dictionaries and keyword profiles for the transformed story so source names and invented terms are not carried over.")
+        if "chinese_ner_alias_consistency_gate" in patterns:
+            hints.append("Transform Chinese entity clusters by replacing names, aliases, sects, places, and relationship labels before context reuse.")
+        if "chinese_text_normalization_gate" in patterns:
+            hints.append("Normalize only for comparison; regenerate visible orthography and punctuation policy for the new manuscript.")
+        if "chinese_error_correction_review_gate" in patterns:
+            hints.append("Treat Chinese correction suggestions as local review tasks, not automatic rewrites toward source diction.")
+        if "source_format_import_manifest" in patterns:
+            hints.append("Transform imported TOC/spine evidence into a new outline structure instead of preserving source chapter order.")
+        if "pdf_layout_text_extraction_gate" in patterns:
+            hints.append("Use PDF page/layout evidence to understand source pacing, then rebuild section boundaries for the new story.")
+        if "ocr_scanned_page_import_gate" in patterns:
+            hints.append("Keep OCR uncertainty out of new-story canon; only reviewed source evidence may influence transformation choices.")
+        if "document_partition_chapter_detection_gate" in patterns:
+            hints.append("Transform source element partitions into new scene/section functions, not copied headings or section boundaries.")
+        if "import_provenance_checksum_gate" in patterns:
+            hints.append("Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Use source chunk boundaries as analysis evidence only; rebuild transformed chapter chunks around the new event chain.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -5039,10 +5393,34 @@ class NovelSourceDiscoveryService:
             hints.append("Transform quote attribution by assigning new speakers, aliases, relationship pressure, and dialogue goals before drafting.")
         if "readability_pacing_metric_gate" in patterns:
             hints.append("Transform pacing metrics into a new readability curve for the new chapter sequence, not a source chapter-order clone.")
+        if "prose_lint_style_rule_gate" in patterns:
+            hints.append("Transform source prose-rule findings into new-book house style rules; do not inherit source lint exceptions, catchphrases, or cadence.")
+        if "grammar_spelling_copyedit_gate" in patterns:
+            hints.append("Rebuild grammar and copyedit exceptions around the new cast, invented terms, dialogue register, and genre vocabulary.")
+        if "copyedit_diagnostic_triage_queue" in patterns:
+            hints.append("Triage copyedit diagnostics as local revision tasks; source-derived diagnostics are evidence, not final wording.")
         if "lexical_diversity_voice_audit" in patterns:
             hints.append("Transform lexical voice baselines into new narrator and speaker vocabularies before prose expansion.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.")
+        if "chinese_segmentation_keyword_gate" in patterns:
+            hints.append("Transform segmentation dictionaries before generating or retrieving context, especially names, skills, sects, places, and invented compounds.")
+        if "chinese_ner_alias_consistency_gate" in patterns:
+            hints.append("Transform entity aliases and title systems before any same-type draft becomes canon.")
+        if "chinese_text_normalization_gate" in patterns:
+            hints.append("Transform normalization policy into a new manuscript style guide instead of using source orthography as default.")
+        if "chinese_error_correction_review_gate" in patterns:
+            hints.append("Transform correction exceptions around the new cast, dialect, invented terms, and genre vocabulary.")
+        if "source_format_import_manifest" in patterns:
+            hints.append("Transform source import manifests by changing TOC hierarchy, chapter grouping, metadata use, and skipped-section policy.")
+        if "pdf_layout_text_extraction_gate" in patterns:
+            hints.append("Transform layout-derived pacing into new scene density; source page spans are not outline anchors.")
+        if "ocr_scanned_page_import_gate" in patterns:
+            hints.append("Transform OCR-derived uncertainty into review tasks, not generation context.")
+        if "document_partition_chapter_detection_gate" in patterns:
+            hints.append("Transform document element sequences into new chapter functions before drafting.")
+        if "import_provenance_checksum_gate" in patterns:
+            hints.append("Transform provenance links so source artifacts never masquerade as accepted new-story chapters.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Transform chunk boundaries by changing chapter segmentation, included evidence, and transition logic.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -5240,10 +5618,34 @@ class NovelSourceDiscoveryService:
             hints.append("Reject copied speaker quote distribution, alias clusters, or dialogue-turn ownership that makes the new cast trace back to the source.")
         if "readability_pacing_metric_gate" in patterns:
             hints.append("Reject transformed chapters that match source readability curves because they also preserve source scene order or payoff cadence.")
+        if "prose_lint_style_rule_gate" in patterns:
+            hints.append("Reject lint-clean drafts when the rule fixes preserve source paragraph rhythm, catchphrases, or signature sentence closures.")
+        if "grammar_spelling_copyedit_gate" in patterns:
+            hints.append("Reject copyedit fixes that normalize the new voice toward source diction or remove deliberate dialogue/register differences.")
+        if "copyedit_diagnostic_triage_queue" in patterns:
+            hints.append("Reject accepted diagnostic batches that silently apply source-like rewrites without author-visible triage reasons.")
         if "lexical_diversity_voice_audit" in patterns:
             hints.append("Reject voice audits that keep source catchphrases, repeated vocabulary clusters, or signature metaphor families.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.")
+        if "chinese_segmentation_keyword_gate" in patterns:
+            hints.append("Reject drafts whose segmented keyword list keeps source-specific names, terms, or motif compounds under surface changes.")
+        if "chinese_ner_alias_consistency_gate" in patterns:
+            hints.append("Reject transformed entity ledgers that keep source aliases, sect/place names, title systems, or relationship labels as canon.")
+        if "chinese_text_normalization_gate" in patterns:
+            hints.append("Reject normalization diffs that hide copied source phrasing behind Simplified/Traditional or punctuation-only changes.")
+        if "chinese_error_correction_review_gate" in patterns:
+            hints.append("Reject correction batches that normalize character voice toward source diction or silently rewrite invented terms.")
+        if "source_format_import_manifest" in patterns:
+            hints.append("Reject transformed outlines that preserve source TOC, spine order, metadata titles, or chapter grouping under new labels.")
+        if "pdf_layout_text_extraction_gate" in patterns:
+            hints.append("Reject drafts that copy source page-span rhythm, header/footer artifacts, or layout-driven section order.")
+        if "ocr_scanned_page_import_gate" in patterns:
+            hints.append("Reject generations based on unreviewed low-confidence OCR spans or hallucinated fixes to unreadable pages.")
+        if "document_partition_chapter_detection_gate" in patterns:
+            hints.append("Reject chapter maps that keep source heading text, partition sequence, or section boundary cadence.")
+        if "import_provenance_checksum_gate" in patterns:
+            hints.append("Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Reject transformed context packs that preserve source chunk order, boundary labels, or inclusion sequence under new names.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -5324,8 +5726,20 @@ class NovelSourceDiscoveryService:
                 "diff_span_copy_review",
                 "character_quote_attribution_map",
                 "readability_pacing_metric_gate",
+                "prose_lint_style_rule_gate",
+                "grammar_spelling_copyedit_gate",
+                "copyedit_diagnostic_triage_queue",
                 "lexical_diversity_voice_audit",
                 "keyphrase_motif_extraction",
+                "chinese_segmentation_keyword_gate",
+                "chinese_ner_alias_consistency_gate",
+                "chinese_text_normalization_gate",
+                "chinese_error_correction_review_gate",
+                "source_format_import_manifest",
+                "pdf_layout_text_extraction_gate",
+                "ocr_scanned_page_import_gate",
+                "document_partition_chapter_detection_gate",
+                "import_provenance_checksum_gate",
                 "semantic_chunk_boundary_map",
                 "chapter_summary_anchor_gate",
                 "topic_drift_map",
@@ -5433,6 +5847,9 @@ class NovelSourceDiscoveryService:
                 "source_text_fingerprint_gate",
                 "fuzzy_phrase_similarity_gate",
                 "diff_span_copy_review",
+                "prose_lint_style_rule_gate",
+                "grammar_spelling_copyedit_gate",
+                "copyedit_diagnostic_triage_queue",
             }
         ) and (
             "style_signature" in patterns
@@ -5501,6 +5918,9 @@ class NovelSourceDiscoveryService:
                 or "source_text_fingerprint_gate" in patterns
                 or "fuzzy_phrase_similarity_gate" in patterns
                 or "diff_span_copy_review" in patterns
+                or "prose_lint_style_rule_gate" in patterns
+                or "grammar_spelling_copyedit_gate" in patterns
+                or "copyedit_diagnostic_triage_queue" in patterns
             )
         )
 
@@ -5775,6 +6195,12 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_text_analysis_signal(haystack):
             return "novel-automation"
+        if self._has_prose_quality_signal(haystack):
+            return "novel-automation"
+        if self._has_chinese_text_processing_signal(haystack):
+            return "novel-automation"
+        if self._has_source_import_signal(haystack):
+            return "novel-automation"
         if self._has_segmentation_summary_topic_signal(haystack):
             return "novel-automation"
         if self._has_eval_observability_signal(haystack):
@@ -5819,6 +6245,79 @@ class NovelSourceDiscoveryService:
             "motif extraction",
         )
         return any(term in haystack for term in text_analysis_terms)
+
+    def _has_prose_quality_signal(self, haystack: str) -> bool:
+        terms = (
+            "prose lint",
+            "prose linter",
+            "style linter",
+            "natural language linter",
+            "text linter",
+            "vale",
+            "textlint",
+            "proselint",
+            "write-good",
+            "write good",
+            "grammar checker",
+            "spelling and grammar",
+            "spell checker",
+            "languagetool",
+            "harper",
+            "copyedit",
+            "copyediting",
+            "proofreading",
+            "style diagnostics",
+            "lint diagnostics",
+        )
+        return any(term in haystack for term in terms)
+
+    def _has_chinese_text_processing_signal(self, haystack: str) -> bool:
+        terms = (
+            "chinese word segmentation",
+            "jieba",
+            "hanlp",
+            "ltp",
+            "opencc",
+            "pycorrector",
+            "chinese ner",
+            "chinese text correction",
+            "chinese spelling correction",
+            "simplified chinese",
+            "traditional chinese",
+            "chinese conversion",
+            "custom dictionary",
+            "confusion set",
+            "\u4e2d\u6587\u5206\u8bcd",
+            "\u5b9e\u4f53\u8bc6\u522b",
+            "\u7b80\u7e41\u8f6c\u6362",
+            "\u4e2d\u6587\u7ea0\u9519",
+        )
+        return any(term in haystack for term in terms)
+
+    def _has_source_import_signal(self, haystack: str) -> bool:
+        terms = (
+            "epub",
+            "ebooklib",
+            "pdfminer",
+            "pymupdf",
+            "ocrmypdf",
+            "tesseract",
+            "unstructured",
+            "pandoc",
+            "table of contents",
+            "spine",
+            "pdf text extraction",
+            "layout analysis",
+            "ocr",
+            "scanned pdf",
+            "document partition",
+            "partition_pdf",
+            "partition_epub",
+            "chapter detection",
+            "checksum",
+            "import manifest",
+        )
+        return any(term in haystack for term in terms)
 
     def _has_segmentation_summary_topic_signal(self, haystack: str) -> bool:
         terms = (

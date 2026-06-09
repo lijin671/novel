@@ -126,6 +126,18 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_copyedit_prose_lint_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_chinese_text_processing_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_source_import_extraction_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_segmentation_summary_topic_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -416,6 +428,18 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_text_analysis_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_copyedit_prose_lint_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_chinese_text_processing_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_source_import_extraction_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1334,6 +1358,90 @@ def _append_text_analysis_audit_section(
         lines.append("- keyphrase_motif_extraction: extract keyphrases and motif terms to audit promise coverage, topic drift, and copied source-specific anchors")
 
 
+def _append_copyedit_prose_lint_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render prose lint, grammar, and diagnostic triage gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "prose_lint_style_rule_gate",
+        "grammar_spelling_copyedit_gate",
+        "copyedit_diagnostic_triage_queue",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Copyedit and prose lint audit:")
+    if "prose_lint_style_rule_gate" in pattern_names:
+        lines.append("- prose_lint_style_rule_gate: apply project-local house style rules with speaker, scene, and deliberate-voice exceptions")
+    if "grammar_spelling_copyedit_gate" in pattern_names:
+        lines.append("- grammar_spelling_copyedit_gate: check grammar, spelling, and copyedit blockers after canon review, while preserving dialogue/register exceptions")
+    if "copyedit_diagnostic_triage_queue" in pattern_names:
+        lines.append("- copyedit_diagnostic_triage_queue: classify diagnostics as accept, ignore, rewrite, or needs-author-review before chapter acceptance")
+
+
+def _append_chinese_text_processing_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render Chinese segmentation, NER/alias, normalization, and correction gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "chinese_segmentation_keyword_gate",
+        "chinese_ner_alias_consistency_gate",
+        "chinese_text_normalization_gate",
+        "chinese_error_correction_review_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Chinese text processing audit:")
+    if "chinese_segmentation_keyword_gate" in pattern_names:
+        lines.append("- chinese_segmentation_keyword_gate: use a project dictionary before Chinese keyword, motif, and retrieval analysis")
+    if "chinese_ner_alias_consistency_gate" in pattern_names:
+        lines.append("- chinese_ner_alias_consistency_gate: audit character, alias, location, organization, and title consistency before canon write-back")
+    if "chinese_text_normalization_gate" in pattern_names:
+        lines.append("- chinese_text_normalization_gate: normalize Simplified/Traditional, punctuation width, and variants only as review evidence unless accepted")
+    if "chinese_error_correction_review_gate" in pattern_names:
+        lines.append("- chinese_error_correction_review_gate: triage typo/correction suggestions while protecting names, dialect, and invented terms")
+
+
+def _append_source_import_extraction_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render source-format import, PDF/OCR, partition, and provenance gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "source_format_import_manifest",
+        "pdf_layout_text_extraction_gate",
+        "ocr_scanned_page_import_gate",
+        "document_partition_chapter_detection_gate",
+        "import_provenance_checksum_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Source import extraction audit:")
+    if "source_format_import_manifest" in pattern_names:
+        lines.append("- source_format_import_manifest: record source format, metadata, TOC/spine order, detected chapters, and skipped sections before deconstruction")
+    if "pdf_layout_text_extraction_gate" in pattern_names:
+        lines.append("- pdf_layout_text_extraction_gate: review PDF page spans, text blocks, reading order, headers/footers, and extraction gaps before analysis")
+    if "ocr_scanned_page_import_gate" in pattern_names:
+        lines.append("- ocr_scanned_page_import_gate: route scanned-page OCR confidence gaps and low-confidence spans to manual review before canon or style extraction")
+    if "document_partition_chapter_detection_gate" in pattern_names:
+        lines.append("- document_partition_chapter_detection_gate: keep typed document elements and uncertain chapter headings separate until accepted")
+    if "import_provenance_checksum_gate" in pattern_names:
+        lines.append("- import_provenance_checksum_gate: keep original, extracted, normalized, and accepted text artifacts linked by checksum, parser version, and settings")
+
+
 def _append_segmentation_summary_topic_audit_section(
     *,
     lines: list[str],
@@ -1991,8 +2099,20 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "diff_span_copy_review_hints": "diff_span_copy_review",
         "character_quote_attribution_map_hints": "character_quote_attribution_map",
         "readability_pacing_metric_gate_hints": "readability_pacing_metric_gate",
+        "prose_lint_style_rule_gate_hints": "prose_lint_style_rule_gate",
+        "grammar_spelling_copyedit_gate_hints": "grammar_spelling_copyedit_gate",
+        "copyedit_diagnostic_triage_queue_hints": "copyedit_diagnostic_triage_queue",
         "lexical_diversity_voice_audit_hints": "lexical_diversity_voice_audit",
         "keyphrase_motif_extraction_hints": "keyphrase_motif_extraction",
+        "chinese_segmentation_keyword_gate_hints": "chinese_segmentation_keyword_gate",
+        "chinese_ner_alias_consistency_gate_hints": "chinese_ner_alias_consistency_gate",
+        "chinese_text_normalization_gate_hints": "chinese_text_normalization_gate",
+        "chinese_error_correction_review_gate_hints": "chinese_error_correction_review_gate",
+        "source_format_import_manifest_hints": "source_format_import_manifest",
+        "pdf_layout_text_extraction_gate_hints": "pdf_layout_text_extraction_gate",
+        "ocr_scanned_page_import_gate_hints": "ocr_scanned_page_import_gate",
+        "document_partition_chapter_detection_gate_hints": "document_partition_chapter_detection_gate",
+        "import_provenance_checksum_gate_hints": "import_provenance_checksum_gate",
         "semantic_chunk_boundary_map_hints": "semantic_chunk_boundary_map",
         "chapter_summary_anchor_gate_hints": "chapter_summary_anchor_gate",
         "topic_drift_map_hints": "topic_drift_map",
