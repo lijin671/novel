@@ -300,7 +300,17 @@
     "cross_context_coreference_ledger",
     "mention_cluster_boundary_rules",
     "character_interaction_network",
-    "relationship_polarity_timeline"
+    "relationship_polarity_timeline",
+    "stylometric_author_fingerprint_baseline",
+    "style_profile_version_manifest",
+    "function_word_syntax_style_baseline",
+    "punctuation_sentence_rhythm_rules",
+    "authorship_similarity_thresholds",
+    "source_author_distance_policy",
+    "style_overfit_regression_cases",
+    "style_drift_window_thresholds",
+    "paraphrase_independence_review_policy",
+    "style_transfer_boundary_rules"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -679,7 +689,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-11T01:40:00+08:00",
+  "generated_at": "2026-06-10T12:30:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -859,7 +869,12 @@
     "Reject transformed outlines whose causal/event graph keeps source event order, dependency edges, or script-like next-event predictions.",
     "Reject emotion arcs that mirror source turning-point sequence, valence curve, or character-trigger mapping too closely.",
     "Reject coreference ledgers that allow source aliases, events, or abstract concepts to resolve into transformed canon.",
-    "Reject relationship networks that preserve source central characters, alliance/conflict polarity, or interaction timing under new names."
+    "Reject relationship networks that preserve source central characters, alliance/conflict polarity, or interaction timing under new names.",
+    "Reject fingerprints that make the transformed draft intentionally attributable to the source author or source corpus.",
+    "Reject drafts whose function-word, punctuation, or sentence-rhythm windows recreate source-author signatures too closely.",
+    "Reject same-type drafts when attribution/similarity checks rank the source author or source text as the nearest neighbor.",
+    "Reject prompt or polish changes that improve style resemblance while increasing source-voice leakage in regression windows.",
+    "Reject paraphrases that pass surface-copy checks but keep source phrase families, cadence, or author-mimicry constraints."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -1005,7 +1020,12 @@
     "event_chain_causality_remap",
     "sentiment_arc_emotion_remap",
     "cross_context_coreference_remap",
-    "character_network_relationship_remap"
+    "character_network_relationship_remap",
+    "stylometric_fingerprint_remap",
+    "function_word_syntax_remap",
+    "authorship_similarity_threshold_remap",
+    "style_overfit_regression_remap",
+    "paraphrase_independence_policy_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1101,7 +1121,12 @@
     "Transform event-evolution graphs by altering edge type, event order, actor intent, and consequence scope.",
     "Transform emotion trajectories by changing who feels the shift, why it turns, and which scene pays it off.",
     "Transform coreference ledgers so old source aliases and event mentions never resolve to new-story entities.",
-    "Transform relationship graphs by changing interaction frequency, polarity, faction membership, and bridge characters."
+    "Transform relationship graphs by changing interaction frequency, polarity, faction membership, and bridge characters.",
+    "Use stylometric fingerprints as bounded calibration, then verify the new story has its own approved voice profile.",
+    "Translate function-word and syntax ranges into new narrator/speaker style rules instead of copying the source author's exact rhythm.",
+    "Treat high source-author similarity as a failure signal for same-type drafts, even when the prose sounds fluent.",
+    "Run style-overfit regression after paraphrase and polish passes so source voice leakage cannot survive renamed entities.",
+    "Require paraphrase-independence evidence before accepting inspired prose, not only surface renaming or grammar cleanup."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1212,7 +1237,12 @@
     "Remap event chains by changing causes, blockers, decision points, and payoff edges instead of preserving source chronology.",
     "Use emotion arcs as pressure-shape evidence only; rebuild turning points, valence shifts, and character triggers for the new story.",
     "Rebuild mention clusters around the transformed cast so source entities and events cannot leak across context packs.",
-    "Transform character networks by changing centrality, alliance, conflict polarity, and relationship timing before prose expansion."
+    "Transform character networks by changing centrality, alliance, conflict polarity, and relationship timing before prose expansion.",
+    "Transform style fingerprints by creating a new profile id, feature ranges, and approved exceptions for the new narrator and cast.",
+    "Transform function-word, punctuation, and syntax features into local house-style ranges before drafting.",
+    "Transform attribution checks into distance thresholds that prefer the new style baseline over the source author baseline.",
+    "Transform style-change test windows into regression fixtures that catch source voice leakage after every major prompt change.",
+    "Transform style-transfer prompts by separating allowed abstract voice goals from blocked phrase families, tics, and scene-order cues."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1589,7 +1619,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 154,
+  "source_candidate_count": 165,
   "source_format_import_manifest_hints": [
     "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
     "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
@@ -1763,7 +1793,18 @@
     "SapienzaNLP/xcore",
     "anastasia-zhukova/XCoref",
     "hzjken/character-network",
-    "devbret/character-interactions"
+    "devbret/character-interactions",
+    "computationalstylistics/stylo",
+    "pan-webis-de/pan-code",
+    "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+    "fastdatascience/faststylometry",
+    "mullerpeter/authorstyle",
+    "michaeleby1/stylometric-analysis-project-gutenberg",
+    "ivannikov-lab/style-change-analysis",
+    "sam0jones0/pyantistylometry",
+    "ngpepin/stylometric-transfer",
+    "llm-authorship/survey",
+    "ContextLab/llm-stylometry"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2402,7 +2443,22 @@
     "entity_event_identity_gaps",
     "character_interaction_network_report",
     "relationship_polarity_drift",
-    "centrality_role_shift_findings"
+    "centrality_role_shift_findings",
+    "stylometric_author_fingerprint_report",
+    "style_profile_distance_matrix",
+    "voice_fingerprint_version_diff",
+    "function_word_syntax_report",
+    "punctuation_sentence_rhythm_curve",
+    "style_feature_outlier_windows",
+    "authorship_similarity_report",
+    "source_author_distance_findings",
+    "same_type_similarity_threshold_decisions",
+    "style_overfit_regression_report",
+    "style_change_window_findings",
+    "source_voice_leakage_failures",
+    "paraphrase_independence_report",
+    "style_transfer_boundary_findings",
+    "author_voice_mimicry_risk_notes"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -11506,6 +11562,341 @@
         "license:missing",
         "head-via-git-ls-remote"
       ]
+    },
+    {
+      "name": "style_overfit_regression_gate",
+      "candidate_count": 5,
+      "top_source_url": "https://github.com/pan-webis-de/pan-code",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "prompt_model_provider"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "pan-webis-de/pan-code",
+          "url": "https://github.com/pan-webis-de/pan-code",
+          "source": "github",
+          "summary": "PAN baselines and evaluation code for authorship attribution, profiling, style change and style breach tasks.",
+          "stars": 200,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 88
+        },
+        {
+          "title": "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+          "url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+          "source": "github",
+          "summary": "Windowed writing-style classification with sentence length, readability, vocabulary richness and frequencies.",
+          "stars": 115,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 88
+        },
+        {
+          "title": "ivannikov-lab/style-change-analysis",
+          "url": "https://github.com/ivannikov-lab/style-change-analysis",
+          "source": "github",
+          "summary": "Style change and style breach detection with paragraph windows, clustering, and statistical comparison.",
+          "stars": 6,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 82
+        },
+        {
+          "title": "ngpepin/stylometric-transfer",
+          "url": "https://github.com/ngpepin/stylometric-transfer",
+          "source": "github",
+          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
+          "stars": 18,
+          "license": "PolyForm-Noncommercial-1.0.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "prompt_model_provider"
+          ],
+          "trust_flags": [],
+          "score": 80
+        },
+        {
+          "title": "llm-authorship/survey",
+          "url": "https://github.com/llm-authorship/survey",
+          "source": "github",
+          "summary": "LLM-era authorship attribution taxonomy for human, model, and human-LLM coauthored text.",
+          "stars": 120,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 78
+        }
+      ]
+    },
+    {
+      "name": "paraphrase_independence_review_gate",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/sam0jones0/pyantistylometry",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "prompt_model_provider"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "sam0jones0/pyantistylometry",
+          "url": "https://github.com/sam0jones0/pyantistylometry",
+          "source": "github",
+          "summary": "Anti-stylometry research notes for reducing identifiable writing-style signals.",
+          "stars": 30,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 80
+        },
+        {
+          "title": "ngpepin/stylometric-transfer",
+          "url": "https://github.com/ngpepin/stylometric-transfer",
+          "source": "github",
+          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
+          "stars": 18,
+          "license": "PolyForm-Noncommercial-1.0.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "prompt_model_provider"
+          ],
+          "trust_flags": [],
+          "score": 80
+        }
+      ]
+    },
+    {
+      "name": "authorship_attribution_similarity_gate",
+      "candidate_count": 7,
+      "top_source_url": "https://github.com/computationalstylistics/stylo",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "computationalstylistics/stylo",
+          "url": "https://github.com/computationalstylistics/stylo",
+          "source": "github",
+          "summary": "Computational stylistics and authorship attribution for explicit style fingerprints.",
+          "stars": 624,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 90
+        },
+        {
+          "title": "pan-webis-de/pan-code",
+          "url": "https://github.com/pan-webis-de/pan-code",
+          "source": "github",
+          "summary": "PAN baselines and evaluation code for authorship attribution, profiling, style change and style breach tasks.",
+          "stars": 200,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 88
+        },
+        {
+          "title": "fastdatascience/faststylometry",
+          "url": "https://github.com/fastdatascience/faststylometry",
+          "source": "github",
+          "summary": "Burrows Delta and style similarity for authorship attribution distance checks.",
+          "stars": 65,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 86
+        },
+        {
+          "title": "mullerpeter/authorstyle",
+          "url": "https://github.com/mullerpeter/authorstyle",
+          "source": "github",
+          "summary": "PAN corpora handling and stylometric feature extraction for text documents.",
+          "stars": 20,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 84
+        },
+        {
+          "title": "michaeleby1/stylometric-analysis-project-gutenberg",
+          "url": "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg",
+          "source": "github",
+          "summary": "Project Gutenberg style metrics, cosine similarity between titles, and stylistic clusters.",
+          "stars": 12,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 82
+        },
+        {
+          "title": "llm-authorship/survey",
+          "url": "https://github.com/llm-authorship/survey",
+          "source": "github",
+          "summary": "LLM-era authorship attribution taxonomy for human, model, and human-LLM coauthored text.",
+          "stars": 120,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 78
+        },
+        {
+          "title": "ContextLab/llm-stylometry",
+          "url": "https://github.com/ContextLab/llm-stylometry",
+          "source": "github",
+          "summary": "LLM stylometry with author-trained language models and cross-entropy style comparisons.",
+          "stars": 11,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 78
+        }
+      ]
+    },
+    {
+      "name": "stylometric_author_fingerprint_gate",
+      "candidate_count": 5,
+      "top_source_url": "https://github.com/computationalstylistics/stylo",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "prompt_model_provider"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "computationalstylistics/stylo",
+          "url": "https://github.com/computationalstylistics/stylo",
+          "source": "github",
+          "summary": "Computational stylistics and authorship attribution for explicit style fingerprints.",
+          "stars": 624,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 90
+        },
+        {
+          "title": "fastdatascience/faststylometry",
+          "url": "https://github.com/fastdatascience/faststylometry",
+          "source": "github",
+          "summary": "Burrows Delta and style similarity for authorship attribution distance checks.",
+          "stars": 65,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 86
+        },
+        {
+          "title": "michaeleby1/stylometric-analysis-project-gutenberg",
+          "url": "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg",
+          "source": "github",
+          "summary": "Project Gutenberg style metrics, cosine similarity between titles, and stylistic clusters.",
+          "stars": 12,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 82
+        },
+        {
+          "title": "ngpepin/stylometric-transfer",
+          "url": "https://github.com/ngpepin/stylometric-transfer",
+          "source": "github",
+          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
+          "stars": 18,
+          "license": "PolyForm-Noncommercial-1.0.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "prompt_model_provider"
+          ],
+          "trust_flags": [],
+          "score": 80
+        },
+        {
+          "title": "ContextLab/llm-stylometry",
+          "url": "https://github.com/ContextLab/llm-stylometry",
+          "source": "github",
+          "summary": "LLM stylometry with author-trained language models and cross-entropy style comparisons.",
+          "stars": 11,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 78
+        }
+      ]
+    },
+    {
+      "name": "function_word_syntax_style_gate",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+          "url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+          "source": "github",
+          "summary": "Windowed writing-style classification with sentence length, readability, vocabulary richness and frequencies.",
+          "stars": 115,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 88
+        },
+        {
+          "title": "mullerpeter/authorstyle",
+          "url": "https://github.com/mullerpeter/authorstyle",
+          "source": "github",
+          "summary": "PAN corpora handling and stylometric feature extraction for text documents.",
+          "stars": 20,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 84
+        }
+      ]
     }
   ],
   "world_state_tracking_hints": [
@@ -11521,5 +11912,30 @@
   "writing_session_goal_tracking_hints": [
     "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
     "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates."
+  ],
+  "stylometric_author_fingerprint_gate_hints": [
+    "Build an inspectable author/style fingerprint from stable metrics before using source style as guidance.",
+    "Version each fingerprint with source scope, feature family, extraction settings, and human approval status.",
+    "Same-type creation may borrow broad fingerprint targets but must not preserve source catchphrases, named imagery, or paragraph-level cadence."
+  ],
+  "function_word_syntax_style_gate_hints": [
+    "Track function words, punctuation, sentence length, word length, readability, and syntax feature windows as style evidence.",
+    "Treat feature outliers as review tasks instead of automatic rewrites, especially for dialogue, dialect, and deliberate register shifts.",
+    "For same-type creation, transform feature ranges into a new house style and speaker-specific exceptions."
+  ],
+  "authorship_attribution_similarity_gate_hints": [
+    "Use authorship-style similarity as a risk and calibration signal, not as a goal to maximize.",
+    "Record source-vs-draft distance thresholds, false-positive notes, and reviewer decisions before accepting same-type prose.",
+    "If the transformed draft becomes closer to the source author than to its own approved style baseline, route it to rewrite review."
+  ],
+  "style_overfit_regression_gate_hints": [
+    "Run windowed style-change checks across source, outline, draft, and revised prose to catch source-voice leakage.",
+    "Regression cases should include paraphrased, renamed, and polished drafts because overfit often survives surface substitutions.",
+    "Do not accept a draft that passes grammar/copyedit gates while failing style-overfit or source-distance gates."
+  ],
+  "paraphrase_independence_review_gate_hints": [
+    "Review same-type drafts for paraphrase independence after entity remap, style polish, and humanization passes.",
+    "Separate allowed voice targets from blocked author-mimicry: no source-specific phrase families, scene order, or stylistic tics as required constraints.",
+    "Humanization or style-transfer prompts must include copy-risk rejection, provenance, and author-visible accept/ignore decisions."
   ]
 }

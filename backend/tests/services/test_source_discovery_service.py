@@ -5927,3 +5927,193 @@ def test_default_discovery_sources_include_narrative_event_emotion_projects():
     assert any("sentiment arcs" in query.lower() and "emotion in text over time" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("cross-context coreference" in query.lower() and "xcoref" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("character network" in query.lower() and "character interactions" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+
+def test_stylometry_style_overfit_sources_classify_into_author_similarity_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "computationalstylistics/stylo",
+                "html_url": "https://github.com/computationalstylistics/stylo",
+                "description": "R package for computational stylistics, stylometric analyses, and authorship attribution.",
+                "stargazers_count": 624,
+                "license": None,
+                "topics": ["stylometry", "authorship-attribution", "computational-stylistics"],
+                "updated_at": "2026-05-29T12:00:00Z",
+                "root_files": ["README.md", "DESCRIPTION"],
+            },
+            {
+                "full_name": "fastdatascience/faststylometry",
+                "html_url": "https://github.com/fastdatascience/faststylometry",
+                "description": "Fast Stylometry Python library with Burrows Delta and style similarity for authorship attribution.",
+                "stargazers_count": 65,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["stylometry", "burrows-delta"],
+                "updated_at": "2026-03-11T09:00:00Z",
+                "root_files": ["README.md", "pyproject.toml"],
+            },
+            {
+                "full_name": "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+                "html_url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+                "description": "Classifies different writing styles in a document with sentence length, readability scores, vocabulary richness and frequencies.",
+                "stargazers_count": 115,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["style-change", "stylometry"],
+                "updated_at": "2025-12-02T09:00:00Z",
+                "root_files": ["README.md", "notebooks"],
+            },
+            {
+                "full_name": "pan-webis-de/pan-code",
+                "html_url": "https://github.com/pan-webis-de/pan-code",
+                "description": "Code used for evaluation and baselines in PAN shared tasks including authorship attribution and style change detection.",
+                "stargazers_count": 200,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["pan", "authorship-attribution", "style-change-detection"],
+                "updated_at": "2026-01-17T09:00:00Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+            {
+                "full_name": "ngpepin/stylometric-transfer",
+                "html_url": "https://github.com/ngpepin/stylometric-transfer",
+                "description": "Stylometric profiling plus controllable author-style transfer using explicit JSON style fingerprints, similarity methods and style constraints.",
+                "stargazers_count": 18,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["stylometric-transfer", "style-fingerprint"],
+                "updated_at": "2026-06-03T09:00:00Z",
+                "root_files": ["README.md", "prompts.json", "fingerprint_api.py"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T12:00:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["computationalstylistics/stylo"]["family"] == "novel-automation"
+    assert "stylometric_author_fingerprint_gate" in by_title["computationalstylistics/stylo"]["absorbed_patterns"]
+    assert "authorship_attribution_similarity_gate" in by_title["fastdatascience/faststylometry"]["absorbed_patterns"]
+    assert "function_word_syntax_style_gate" in by_title["Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis"]["absorbed_patterns"]
+    assert "style_overfit_regression_gate" in by_title["pan-webis-de/pan-code"]["absorbed_patterns"]
+    assert "paraphrase_independence_review_gate" in by_title["ngpepin/stylometric-transfer"]["absorbed_patterns"]
+
+
+def test_stylometry_style_overfit_pattern_pack_exposes_author_similarity_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T12:10:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/computationalstylistics/stylo",
+                "title": "computationalstylistics/stylo",
+                "summary": "Computational stylistics and authorship attribution for explicit style fingerprints.",
+                "stars": 624,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["stylometric_author_fingerprint_gate"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/mullerpeter/authorstyle",
+                "title": "mullerpeter/authorstyle",
+                "summary": "PAN corpora and stylometric features such as function-word and syntax style ledgers.",
+                "stars": 20,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["function_word_syntax_style_gate"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/fastdatascience/faststylometry",
+                "title": "fastdatascience/faststylometry",
+                "summary": "Burrows Delta and style similarity for authorship attribution distance checks.",
+                "stars": 65,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["authorship_attribution_similarity_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/ivannikov-lab/style-change-analysis",
+                "title": "ivannikov-lab/style-change-analysis",
+                "summary": "Style change detection and style breach windows for style-overfit regression.",
+                "stars": 6,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["style_overfit_regression_gate"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/ngpepin/stylometric-transfer",
+                "title": "ngpepin/stylometric-transfer",
+                "summary": "Author-style transfer with style fingerprint and similarity methods requires paraphrase independence review.",
+                "stars": 18,
+                "license": "PolyForm-Noncommercial-1.0.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["prompt_model_provider"],
+                "absorbed_patterns": ["paraphrase_independence_review_gate"],
+                "score": 80,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "stylometric_author_fingerprint_baseline" in pattern_pack["bible_enrichment_targets"]
+    assert "function_word_syntax_style_baseline" in pattern_pack["bible_enrichment_targets"]
+    assert "authorship_similarity_thresholds" in pattern_pack["bible_enrichment_targets"]
+    assert "style_overfit_regression_cases" in pattern_pack["bible_enrichment_targets"]
+    assert "paraphrase_independence_review_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "stylometric_author_fingerprint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "function_word_syntax_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "authorship_similarity_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_overfit_regression_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "paraphrase_independence_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "stylometric_fingerprint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "function_word_syntax_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "authorship_similarity_threshold_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "style_overfit_regression_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "paraphrase_independence_policy_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "stylometric_author_fingerprint_gate_hints" in digest
+    assert "function_word_syntax_style_gate_hints" in digest
+    assert "authorship_attribution_similarity_gate_hints" in digest
+    assert "style_overfit_regression_gate_hints" in digest
+    assert "paraphrase_independence_review_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_stylometry_style_overfit_projects():
+    assert "https://github.com/computationalstylistics/stylo" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/fastdatascience/faststylometry" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/pan-webis-de/pan-code" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mullerpeter/authorstyle" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ivannikov-lab/style-change-analysis" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/sam0jones0/pyantistylometry" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ngpepin/stylometric-transfer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ContextLab/llm-stylometry" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/llm-authorship/survey" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("stylometry" in query.lower() and "authorship attribution" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("function words" in query.lower() and "stylometry" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("style change detection" in query.lower() and "pan" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("stylometric transfer" in query.lower() and "style fingerprint" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("anti-stylometry" in query.lower() and "paraphrase independence" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

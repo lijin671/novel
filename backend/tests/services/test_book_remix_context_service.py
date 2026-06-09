@@ -2445,3 +2445,66 @@ def test_build_remix_inspired_context_block_renders_literary_event_graph_audit()
     assert "character_interaction_network_gate" in block
     assert "Inspired transformation audit" in block
     assert "literary_annotation_role_remap, event_chain_causality_remap" in block
+
+
+
+def test_build_remix_continuation_context_block_renders_stylometry_style_overfit_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Stylometry Continuation Desk",
+        bible={"character_cards": [{"name": "Mara", "voice": "spare, guarded"}]},
+        plan={"summary": "Continue after source style fingerprint analysis."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "stylometric_author_fingerprint_gate"},
+                {"name": "function_word_syntax_style_gate"},
+                {"name": "authorship_attribution_similarity_gate"},
+                {"name": "style_overfit_regression_gate"},
+                {"name": "paraphrase_independence_review_gate"},
+            ],
+            "stylometric_author_fingerprint_gate_hints": ["Build explicit style fingerprints before same-type drafting."],
+            "style_overfit_regression_gate_hints": ["Run regression after paraphrase and polish."],
+        },
+    )
+
+    assert "Stylometry and style-overfit audit" in block
+    assert "stylometric_author_fingerprint_gate: version explicit style fingerprints" in block
+    assert "function_word_syntax_style_gate: review function words" in block
+    assert "authorship_attribution_similarity_gate: treat high source-author similarity" in block
+    assert "style_overfit_regression_gate: run windowed regression" in block
+    assert "paraphrase_independence_review_gate: require independence evidence" in block
+    assert "Build explicit style fingerprints before same-type drafting." in block
+
+
+def test_build_remix_inspired_context_block_renders_stylometry_style_overfit_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Stylometry Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Keep terse pressure but rebuild the cast and event chain.\n"
+            "source voice\n"
+            "- Low explanation, high implication.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "stylometric_author_fingerprint_gate"},
+                {"name": "function_word_syntax_style_gate"},
+                {"name": "authorship_attribution_similarity_gate"},
+                {"name": "style_overfit_regression_gate"},
+                {"name": "paraphrase_independence_review_gate"},
+            ],
+            "inspired_mapping_targets": [
+                "stylometric_fingerprint_remap",
+                "function_word_syntax_remap",
+                "authorship_similarity_threshold_remap",
+                "style_overfit_regression_remap",
+                "paraphrase_independence_policy_remap",
+            ],
+            "inspired_copy_risk_hints": ["Reject source-author nearest-neighbor drafts."],
+        },
+    )
+
+    assert "Stylometry and style-overfit audit" in block
+    assert "authorship_attribution_similarity_gate" in block
+    assert "paraphrase_independence_review_gate" in block
+    assert "Inspired transformation audit" in block
+    assert "stylometric_fingerprint_remap, function_word_syntax_remap" in block

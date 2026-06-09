@@ -126,6 +126,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_stylometry_style_overfit_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_copyedit_prose_lint_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -432,6 +436,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_text_analysis_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_stylometry_style_overfit_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1364,6 +1372,37 @@ def _append_text_analysis_audit_section(
         lines.append("- lexical_diversity_voice_audit: monitor lexical diversity, repeated vocabulary clusters, MTLD/HD-D drift, and speaker-specific diction")
     if "keyphrase_motif_extraction" in pattern_names:
         lines.append("- keyphrase_motif_extraction: extract keyphrases and motif terms to audit promise coverage, topic drift, and copied source-specific anchors")
+
+
+def _append_stylometry_style_overfit_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render stylometry, authorship similarity, and style-overfit gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "stylometric_author_fingerprint_gate",
+        "function_word_syntax_style_gate",
+        "authorship_attribution_similarity_gate",
+        "style_overfit_regression_gate",
+        "paraphrase_independence_review_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Stylometry and style-overfit audit:")
+    if "stylometric_author_fingerprint_gate" in pattern_names:
+        lines.append("- stylometric_author_fingerprint_gate: version explicit style fingerprints and keep source-author profiles separate from new-story voice")
+    if "function_word_syntax_style_gate" in pattern_names:
+        lines.append("- function_word_syntax_style_gate: review function words, punctuation, sentence length, and syntax windows as evidence, not automatic rewrites")
+    if "authorship_attribution_similarity_gate" in pattern_names:
+        lines.append("- authorship_attribution_similarity_gate: treat high source-author similarity as a copy-risk signal rather than a style target")
+    if "style_overfit_regression_gate" in pattern_names:
+        lines.append("- style_overfit_regression_gate: run windowed regression after paraphrase, polish, and entity remap to catch source-voice leakage")
+    if "paraphrase_independence_review_gate" in pattern_names:
+        lines.append("- paraphrase_independence_review_gate: require independence evidence before accepting humanized, transferred, or same-type prose")
 
 
 def _append_copyedit_prose_lint_audit_section(

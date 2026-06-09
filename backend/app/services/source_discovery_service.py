@@ -115,6 +115,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("sentiment arcs" OR "sentiment-based plot arcs" OR "emotion in text over time") ("fiction" OR "novel" OR "text") in:name,description,readme',
     '("cross-context coreference" OR "cross-document coreference" OR "XCoref") ("entity" OR "event" OR "literature") in:name,description,readme',
     '("character network" OR "fictional character network" OR "character interactions") ("novel" OR "literary" OR "fiction") in:name,description,readme',
+    '("stylometry" OR "computational stylistics" OR "Burrows Delta") ("authorship attribution" OR "author style" OR "fiction") in:name,description,readme',
+    '("function words" OR "syntactic features" OR "lexical richness") ("authorship attribution" OR "writing style" OR "stylometry") in:name,description,readme',
+    '("style change detection" OR "style breach detection" OR "intrinsic plagiarism") ("stylometry" OR "PAN") in:name,description,readme',
+    '("stylometric transfer" OR "author-style transfer" OR "style fingerprint") ("LLM" OR "writing" OR "text") in:name,description,readme',
+    '("anti-stylometry" OR "style anonymization" OR "paraphrase independence") ("text" OR "writing") in:name,description,readme',
     '("keyphrase extraction" OR "keyword extraction" OR "motif extraction") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
     '("semantic chunk" OR "text splitter" OR "recursive character splitter") ("novel" OR "chapter" OR "long text") in:name,description,readme',
     '("summarization" OR "extractive summarizer" OR "chapter summary") ("novel" OR "book" OR "long text") in:name,description,readme',
@@ -274,6 +279,17 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/anastasia-zhukova/XCoref",
     "https://github.com/hzjken/character-network",
     "https://github.com/devbret/character-interactions",
+    "https://github.com/computationalstylistics/stylo",
+    "https://github.com/fastdatascience/faststylometry",
+    "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+    "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg",
+    "https://github.com/pan-webis-de/pan-code",
+    "https://github.com/mullerpeter/authorstyle",
+    "https://github.com/ivannikov-lab/style-change-analysis",
+    "https://github.com/sam0jones0/pyantistylometry",
+    "https://github.com/ngpepin/stylometric-transfer",
+    "https://github.com/ContextLab/llm-stylometry",
+    "https://github.com/llm-authorship/survey",
     "https://github.com/LSYS/LexicalRichness",
     "https://github.com/HLasse/TextDescriptives",
     "https://github.com/boudinfl/pke",
@@ -501,6 +517,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("grammar_spelling_copyedit_gate", ("grammar checker", "spelling and grammar", "spell checker", "spellcheck", "spelling", "languagetool", "harper", "proofreading", "copyedit", "copyediting", "grammar engine", "offline grammar", "\u8bed\u6cd5\u68c0\u67e5", "\u62fc\u5199\u68c0\u67e5", "\u6821\u5bf9")),
     ("copyedit_diagnostic_triage_queue", ("lint diagnostics", "style diagnostics", "copyedit suggestions", "diagnostics", "suggestions", "rule violations", "ignore rules", "suppression", "accepted ignored", "triage", "diagnostic queue", "revision queue", "\u6821\u5bf9\u961f\u5217", "\u8bca\u65ad\u961f\u5217", "\u91c7\u7eb3\u5ffd\u7565")),
     ("lexical_diversity_voice_audit", ("lexical richness", "lexical diversity", "mtld", "hd-d", "hdd", "type-token", "type token ratio", "vocabulary diversity")),
+    ("stylometric_author_fingerprint_gate", ("stylometry", "computational stylistics", "stylometric analyses", "stylometric analysis", "style fingerprint", "stylometric profile", "author fingerprint", "author-style transfer", "stylometric transfer", "authorship attribution", "burrows delta", "distance metrics", "style model")),
+    ("function_word_syntax_style_gate", ("function words", "most frequent words", "mfw", "sentence length", "word length", "punctuation frequency", "pos tags", "syntactic features", "readability scores", "vocabulary richness", "style metrics", "stylometric features", "character n-grams")),
+    ("authorship_attribution_similarity_gate", ("authorship attribution", "author identification", "author verification", "author profiling", "style similarity", "cosine similarity between titles", "pan corpora", "pan shared tasks", "burrows delta", "cross-entropy", "llm stylometry")),
+    ("style_overfit_regression_gate", ("style change detection", "style breach detection", "intrinsic plagiarism", "style change", "style breach", "detecting exact indices", "neighboring paragraphs", "cluster change", "style differences", "overfit", "overfitting", "style leakage")),
+    ("paraphrase_independence_review_gate", ("anti-stylometry", "style anonymization", "stylometric transfer", "author-style transfer", "humanization", "similarity methods", "style constraints", "style transfer", "paraphrase", "paraphrase independence", "copy-risk", "author voice mimicry")),
     ("keyphrase_motif_extraction", ("keyphrase extraction", "keyword extraction", "keyphrase candidates", "candidate weighting", "motif extraction", "motif drift", "topic salience")),
     ("chinese_segmentation_keyword_gate", ("chinese word segmentation", "jieba", "hanlp", "ltp", "tokenization", "tokenizer", "segmentation", "word segment", "keyword extraction", "tf-idf", "textrank", "custom dictionary", "user dictionary", "\u4e2d\u6587\u5206\u8bcd", "\u5173\u952e\u8bcd\u63d0\u53d6", "\u81ea\u5b9a\u4e49\u8bcd\u5178")),
     ("chinese_ner_alias_consistency_gate", ("chinese ner", "named entity recognition", "ner", "hanlp", "ltp", "entity recognition", "person name", "location name", "organization name", "alias", "coreference", "entity linking", "\u5b9e\u4f53\u8bc6\u522b", "\u4eba\u540d", "\u5730\u540d", "\u7ec4\u7ec7\u540d", "\u522b\u540d")),
@@ -1036,6 +1057,50 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "devbret/character-interactions": (
         "Character-interactions extracts characters, infers relationships, and visualizes literary interaction networks. "
         "Absorb character relationship evidence and network review patterns only; web/D3 runtime is not launched."
+    ),
+    "computationalstylistics/stylo": (
+        "Stylo is an R package for computational stylistics and authorship attribution with distance and classification style analyses. "
+        "Absorb author fingerprint and function-word style gates only; GPL code and GUI/runtime are not imported."
+    ),
+    "fastdatascience/faststylometry": (
+        "FastStylometry is a Python NLP library for fast stylometric authorship and style-similarity analysis. "
+        "Absorb Burrows-Delta/style-distance review gates only; package runtime is not installed."
+    ),
+    "hassaan-elahi/writing-styles-classification-using-stylometric-analysis": (
+        "This stylometric analysis project classifies style shifts inside one document using sentence length, readability, vocabulary richness, and frequencies. "
+        "Absorb style-change and overfit-regression gates only; examples and notebooks are not executed."
+    ),
+    "michaeleby1/stylometric-analysis-project-gutenberg": (
+        "Project Gutenberg stylometric analysis builds numerical style metrics, cosine-similarity recommendations, and style clusters for books. "
+        "Absorb book-level style similarity baselines only; Gutenberg scraping code and data are not run."
+    ),
+    "pan-webis-de/pan-code": (
+        "PAN code contains shared-task baselines and evaluation code for authorship attribution, style change, and related text forensics tasks. "
+        "Absorb attribution/evaluation-gate patterns only; task data and runtime baselines are not imported."
+    ),
+    "mullerpeter/authorstyle": (
+        "Authorstyle handles PAN corpora and extracts stylometric features from text documents. "
+        "Absorb explicit feature-ledger patterns for authorship similarity only; package runtime is not installed."
+    ),
+    "ivannikov-lab/style-change-analysis": (
+        "Style-change-analysis studies PAN-style style change and style breach detection with paragraph windows, clustering, and statistical comparison. "
+        "Absorb style-overfit regression and windowed style drift gates only; datasets/models are not executed."
+    ),
+    "sam0jones0/pyantistylometry": (
+        "PyAntiStylometry records anti-stylometry research for changing identifiable writing-style signals. "
+        "Absorb paraphrase-independence risk checks only; no code or automation is imported."
+    ),
+    "ngpepin/stylometric-transfer": (
+        "Stylometric-transfer builds explicit JSON style fingerprints and applies controllable author-style transfer with similarity checks. "
+        "Absorb inspectable style-profile and overfit-risk gates only; PolyForm Noncommercial code, HTTP API, prompts, and scripts are not imported or run."
+    ),
+    "contextlab/llm-stylometry": (
+        "LLM-stylometry studies author-trained language models and stylometric signals, including cross-entropy style comparisons. "
+        "Absorb LLM-era style similarity and author-fingerprint risk gates only; models and scripts are not downloaded or run."
+    ),
+    "llm-authorship/survey": (
+        "Authorship Attribution in the Era of LLMs is a paper list covering human author attribution, LLM detection, model attribution, and human-LLM coauthoring. "
+        "Absorb taxonomy and independence-review gates only; survey index content stays pattern-only."
     ),
     "lsys/lexicalrichness": (
         "LexicalRichness is an MIT module for lexical richness and diversity metrics such as MTLD, HD-D, and type-token variants. "
@@ -1608,6 +1673,11 @@ class NovelSourceDiscoveryService:
             "grammar_spelling_copyedit_gate_hints": self._build_grammar_spelling_copyedit_gate_hints(available_patterns),
             "copyedit_diagnostic_triage_queue_hints": self._build_copyedit_diagnostic_triage_queue_hints(available_patterns),
             "lexical_diversity_voice_audit_hints": self._build_lexical_diversity_voice_audit_hints(available_patterns),
+            "stylometric_author_fingerprint_gate_hints": self._build_stylometric_author_fingerprint_gate_hints(available_patterns),
+            "function_word_syntax_style_gate_hints": self._build_function_word_syntax_style_gate_hints(available_patterns),
+            "authorship_attribution_similarity_gate_hints": self._build_authorship_attribution_similarity_gate_hints(available_patterns),
+            "style_overfit_regression_gate_hints": self._build_style_overfit_regression_gate_hints(available_patterns),
+            "paraphrase_independence_review_gate_hints": self._build_paraphrase_independence_review_gate_hints(available_patterns),
             "keyphrase_motif_extraction_hints": self._build_keyphrase_motif_extraction_hints(available_patterns),
             "chinese_segmentation_keyword_gate_hints": self._build_chinese_segmentation_keyword_gate_hints(available_patterns),
             "chinese_ner_alias_consistency_gate_hints": self._build_chinese_ner_alias_consistency_gate_hints(available_patterns),
@@ -2211,6 +2281,11 @@ class NovelSourceDiscoveryService:
             "grammar_spelling_copyedit_gate": 60,
             "copyedit_diagnostic_triage_queue": 59,
             "lexical_diversity_voice_audit": 59,
+            "stylometric_author_fingerprint_gate": 66,
+            "function_word_syntax_style_gate": 64,
+            "authorship_attribution_similarity_gate": 66,
+            "style_overfit_regression_gate": 67,
+            "paraphrase_independence_review_gate": 67,
             "keyphrase_motif_extraction": 58,
             "chinese_segmentation_keyword_gate": 62,
             "chinese_ner_alias_consistency_gate": 63,
@@ -2430,6 +2505,21 @@ class NovelSourceDiscoveryService:
         if "lexical_diversity_voice_audit" in patterns:
             targets.append("lexical_diversity_voice_baseline")
             targets.append("vocabulary_drift_rules")
+        if "stylometric_author_fingerprint_gate" in patterns:
+            targets.append("stylometric_author_fingerprint_baseline")
+            targets.append("style_profile_version_manifest")
+        if "function_word_syntax_style_gate" in patterns:
+            targets.append("function_word_syntax_style_baseline")
+            targets.append("punctuation_sentence_rhythm_rules")
+        if "authorship_attribution_similarity_gate" in patterns:
+            targets.append("authorship_similarity_thresholds")
+            targets.append("source_author_distance_policy")
+        if "style_overfit_regression_gate" in patterns:
+            targets.append("style_overfit_regression_cases")
+            targets.append("style_drift_window_thresholds")
+        if "paraphrase_independence_review_gate" in patterns:
+            targets.append("paraphrase_independence_review_policy")
+            targets.append("style_transfer_boundary_rules")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_ledger")
             targets.append("motif_topic_drift_rules")
@@ -2800,6 +2890,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["copyedit_diagnostic_triage_report", "accepted_ignored_lint_ledger", "revision_task_queue"])
         if "lexical_diversity_voice_audit" in patterns:
             targets.extend(["lexical_diversity_voice_report", "mtld_hdd_voice_baseline", "repeated_vocabulary_findings"])
+        if "stylometric_author_fingerprint_gate" in patterns:
+            targets.extend(["stylometric_author_fingerprint_report", "style_profile_distance_matrix", "voice_fingerprint_version_diff"])
+        if "function_word_syntax_style_gate" in patterns:
+            targets.extend(["function_word_syntax_report", "punctuation_sentence_rhythm_curve", "style_feature_outlier_windows"])
+        if "authorship_attribution_similarity_gate" in patterns:
+            targets.extend(["authorship_similarity_report", "source_author_distance_findings", "same_type_similarity_threshold_decisions"])
+        if "style_overfit_regression_gate" in patterns:
+            targets.extend(["style_overfit_regression_report", "style_change_window_findings", "source_voice_leakage_failures"])
+        if "paraphrase_independence_review_gate" in patterns:
+            targets.extend(["paraphrase_independence_report", "style_transfer_boundary_findings", "author_voice_mimicry_risk_notes"])
         if "keyphrase_motif_extraction" in patterns:
             targets.extend(["keyphrase_motif_map", "motif_drift_findings", "topic_keyword_salience"])
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -4498,6 +4598,51 @@ class NovelSourceDiscoveryService:
             "Same-type creation may borrow diversity range but must replace source catchphrases, metaphor clusters, and signature diction.",
         ]
 
+    def _build_stylometric_author_fingerprint_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "stylometric_author_fingerprint_gate" not in patterns:
+            return []
+        return [
+            "Build an inspectable author/style fingerprint from stable metrics before using source style as guidance.",
+            "Version each fingerprint with source scope, feature family, extraction settings, and human approval status.",
+            "Same-type creation may borrow broad fingerprint targets but must not preserve source catchphrases, named imagery, or paragraph-level cadence.",
+        ]
+
+    def _build_function_word_syntax_style_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "function_word_syntax_style_gate" not in patterns:
+            return []
+        return [
+            "Track function words, punctuation, sentence length, word length, readability, and syntax feature windows as style evidence.",
+            "Treat feature outliers as review tasks instead of automatic rewrites, especially for dialogue, dialect, and deliberate register shifts.",
+            "For same-type creation, transform feature ranges into a new house style and speaker-specific exceptions.",
+        ]
+
+    def _build_authorship_attribution_similarity_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "authorship_attribution_similarity_gate" not in patterns:
+            return []
+        return [
+            "Use authorship-style similarity as a risk and calibration signal, not as a goal to maximize.",
+            "Record source-vs-draft distance thresholds, false-positive notes, and reviewer decisions before accepting same-type prose.",
+            "If the transformed draft becomes closer to the source author than to its own approved style baseline, route it to rewrite review.",
+        ]
+
+    def _build_style_overfit_regression_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "style_overfit_regression_gate" not in patterns:
+            return []
+        return [
+            "Run windowed style-change checks across source, outline, draft, and revised prose to catch source-voice leakage.",
+            "Regression cases should include paraphrased, renamed, and polished drafts because overfit often survives surface substitutions.",
+            "Do not accept a draft that passes grammar/copyedit gates while failing style-overfit or source-distance gates.",
+        ]
+
+    def _build_paraphrase_independence_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "paraphrase_independence_review_gate" not in patterns:
+            return []
+        return [
+            "Review same-type drafts for paraphrase independence after entity remap, style polish, and humanization passes.",
+            "Separate allowed voice targets from blocked author-mimicry: no source-specific phrase families, scene order, or stylistic tics as required constraints.",
+            "Humanization or style-transfer prompts must include copy-risk rejection, provenance, and author-visible accept/ignore decisions.",
+        ]
+
     def _build_keyphrase_motif_extraction_hints(self, patterns: set[str]) -> list[str]:
         if "keyphrase_motif_extraction" not in patterns:
             return []
@@ -5121,6 +5266,16 @@ class NovelSourceDiscoveryService:
             targets.append("copyedit_triage_policy_remap")
         if "lexical_diversity_voice_audit" in patterns:
             targets.append("lexical_diversity_remap")
+        if "stylometric_author_fingerprint_gate" in patterns:
+            targets.append("stylometric_fingerprint_remap")
+        if "function_word_syntax_style_gate" in patterns:
+            targets.append("function_word_syntax_remap")
+        if "authorship_attribution_similarity_gate" in patterns:
+            targets.append("authorship_similarity_threshold_remap")
+        if "style_overfit_regression_gate" in patterns:
+            targets.append("style_overfit_regression_remap")
+        if "paraphrase_independence_review_gate" in patterns:
+            targets.append("paraphrase_independence_policy_remap")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_remap")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -5332,6 +5487,16 @@ class NovelSourceDiscoveryService:
             hints.append("Use readability and sentence-length curves as rhythm guidance while rebuilding chapter events and scene exits.")
         if "lexical_diversity_voice_audit" in patterns:
             hints.append("Carry over only broad lexical diversity range; replace source catchphrases, image clusters, and signature diction.")
+        if "stylometric_author_fingerprint_gate" in patterns:
+            hints.append("Use stylometric fingerprints as bounded calibration, then verify the new story has its own approved voice profile.")
+        if "function_word_syntax_style_gate" in patterns:
+            hints.append("Translate function-word and syntax ranges into new narrator/speaker style rules instead of copying the source author's exact rhythm.")
+        if "authorship_attribution_similarity_gate" in patterns:
+            hints.append("Treat high source-author similarity as a failure signal for same-type drafts, even when the prose sounds fluent.")
+        if "style_overfit_regression_gate" in patterns:
+            hints.append("Run style-overfit regression after paraphrase and polish passes so source voice leakage cannot survive renamed entities.")
+        if "paraphrase_independence_review_gate" in patterns:
+            hints.append("Require paraphrase-independence evidence before accepting inspired prose, not only surface renaming or grammar cleanup.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -5561,6 +5726,16 @@ class NovelSourceDiscoveryService:
             hints.append("Triage copyedit diagnostics as local revision tasks; source-derived diagnostics are evidence, not final wording.")
         if "lexical_diversity_voice_audit" in patterns:
             hints.append("Transform lexical voice baselines into new narrator and speaker vocabularies before prose expansion.")
+        if "stylometric_author_fingerprint_gate" in patterns:
+            hints.append("Transform style fingerprints by creating a new profile id, feature ranges, and approved exceptions for the new narrator and cast.")
+        if "function_word_syntax_style_gate" in patterns:
+            hints.append("Transform function-word, punctuation, and syntax features into local house-style ranges before drafting.")
+        if "authorship_attribution_similarity_gate" in patterns:
+            hints.append("Transform attribution checks into distance thresholds that prefer the new style baseline over the source author baseline.")
+        if "style_overfit_regression_gate" in patterns:
+            hints.append("Transform style-change test windows into regression fixtures that catch source voice leakage after every major prompt change.")
+        if "paraphrase_independence_review_gate" in patterns:
+            hints.append("Transform style-transfer prompts by separating allowed abstract voice goals from blocked phrase families, tics, and scene-order cues.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -5796,6 +5971,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject accepted diagnostic batches that silently apply source-like rewrites without author-visible triage reasons.")
         if "lexical_diversity_voice_audit" in patterns:
             hints.append("Reject voice audits that keep source catchphrases, repeated vocabulary clusters, or signature metaphor families.")
+        if "stylometric_author_fingerprint_gate" in patterns:
+            hints.append("Reject fingerprints that make the transformed draft intentionally attributable to the source author or source corpus.")
+        if "function_word_syntax_style_gate" in patterns:
+            hints.append("Reject drafts whose function-word, punctuation, or sentence-rhythm windows recreate source-author signatures too closely.")
+        if "authorship_attribution_similarity_gate" in patterns:
+            hints.append("Reject same-type drafts when attribution/similarity checks rank the source author or source text as the nearest neighbor.")
+        if "style_overfit_regression_gate" in patterns:
+            hints.append("Reject prompt or polish changes that improve style resemblance while increasing source-voice leakage in regression windows.")
+        if "paraphrase_independence_review_gate" in patterns:
+            hints.append("Reject paraphrases that pass surface-copy checks but keep source phrase families, cadence, or author-mimicry constraints.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -5910,6 +6095,11 @@ class NovelSourceDiscoveryService:
                 "grammar_spelling_copyedit_gate",
                 "copyedit_diagnostic_triage_queue",
                 "lexical_diversity_voice_audit",
+                "stylometric_author_fingerprint_gate",
+                "function_word_syntax_style_gate",
+                "authorship_attribution_similarity_gate",
+                "style_overfit_regression_gate",
+                "paraphrase_independence_review_gate",
                 "keyphrase_motif_extraction",
                 "chinese_segmentation_keyword_gate",
                 "chinese_ner_alias_consistency_gate",
@@ -6380,6 +6570,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_text_analysis_signal(haystack):
             return "novel-automation"
+        if self._has_stylometry_signal(haystack):
+            return "novel-automation"
         if self._has_prose_quality_signal(haystack):
             return "novel-automation"
         if self._has_chinese_text_processing_signal(haystack):
@@ -6432,6 +6624,27 @@ class NovelSourceDiscoveryService:
             "motif extraction",
         )
         return any(term in haystack for term in text_analysis_terms)
+
+    def _has_stylometry_signal(self, haystack: str) -> bool:
+        terms = (
+            "stylometry",
+            "stylometric",
+            "computational stylistics",
+            "authorship attribution",
+            "author identification",
+            "author verification",
+            "author profiling",
+            "burrows delta",
+            "function words",
+            "style change detection",
+            "style breach detection",
+            "intrinsic plagiarism",
+            "stylometric transfer",
+            "anti-stylometry",
+            "style fingerprint",
+            "style similarity",
+        )
+        return any(term in haystack for term in terms)
 
     def _has_prose_quality_signal(self, haystack: str) -> bool:
         terms = (
