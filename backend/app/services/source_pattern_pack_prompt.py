@@ -90,6 +90,30 @@ def render_source_pattern_pack_digest(
         for hint in scene_asset_pipeline_hints[:6]:
             lines.append(f"  - {hint}")
 
+    quality_score_loop_hints = _as_note_list(source_pattern_pack.get("quality_score_loop_hints"))
+    if quality_score_loop_hints:
+        lines.append("- quality_score_loop_hints:")
+        for hint in quality_score_loop_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    voice_fingerprint_hints = _as_note_list(source_pattern_pack.get("voice_fingerprint_hints"))
+    if voice_fingerprint_hints:
+        lines.append("- voice_fingerprint_hints:")
+        for hint in voice_fingerprint_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    anti_slop_audit_hints = _as_note_list(source_pattern_pack.get("anti_slop_audit_hints"))
+    if anti_slop_audit_hints:
+        lines.append("- anti_slop_audit_hints:")
+        for hint in anti_slop_audit_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    publication_pipeline_hints = _as_note_list(source_pattern_pack.get("publication_pipeline_hints"))
+    if publication_pipeline_hints:
+        lines.append("- publication_pipeline_hints:")
+        for hint in publication_pipeline_hints[:6]:
+            lines.append(f"  - {hint}")
+
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:

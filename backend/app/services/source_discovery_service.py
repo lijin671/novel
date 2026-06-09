@@ -91,7 +91,7 @@ NARRATIVE_PRODUCTION_KEYWORDS = (
 )
 PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_decomposition", ("拆书", "拆解", "解析", "book decomposition", "book analysis", "source book")),
-    ("chapter_generation", ("chapter generation", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
+    ("chapter_generation", ("chapter generation", "autonomous novel pipeline", "novel pipeline", "seed concept to print-ready", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
     ("continuation", ("continuation", "continue", "续写", "断更续写", "继续写")),
     ("same_type_creation", ("同类型", "inspired", "remix", "二创", "同人", "同类创作", "风格复刻")),
     ("worldbuilding", ("worldbuilding", "世界观", "设定", "world rules")),
@@ -106,6 +106,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "上下文注入", "上下文引用", "知识图谱", "引用")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "persistent workflow", "progress recovery", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
+    ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "score >", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "读者面板", "平台期检测")),
+    ("voice_fingerprint", ("voice fingerprint", "voice analysis", "voice discovery", "voice.md", "声纹", "文风指纹", "语气指纹", "声音发现")),
+    ("anti_slop_audit", ("anti-slop", "anti-pattern", "slop scorer", "ai tell", "mechanical slop", "anti-pattern rules", "反 AI", "反套路", "AI 味", "机械感")),
+    ("publication_pipeline", ("print-ready", "epub", "audiobook", "landing page", "typeset", "latex", "export", "publish", "publication", "有声书", "排版", "出版", "交付流水线")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -141,6 +145,15 @@ def _as_list(value: Any) -> list[Any]:
 
 def _lower_haystack(*parts: Any) -> str:
     return "\n".join(str(part or "") for part in parts).lower()
+
+
+def _contains_keyword(haystack: str, keyword: str) -> bool:
+    needle = keyword.lower()
+    if not needle:
+        return False
+    if re.fullmatch(r"[a-z0-9_]+", needle):
+        return re.search(rf"(?<![a-z0-9_]){re.escape(needle)}(?![a-z0-9_])", haystack) is not None
+    return needle in haystack
 
 
 def _date_slug(generated_at: str) -> str:
@@ -398,6 +411,10 @@ class NovelSourceDiscoveryService:
             "card_workbench_hints": self._build_card_workbench_hints(available_patterns),
             "context_reference_hints": self._build_context_reference_hints(available_patterns),
             "scene_asset_pipeline_hints": self._build_scene_asset_pipeline_hints(available_patterns),
+            "quality_score_loop_hints": self._build_quality_score_loop_hints(available_patterns),
+            "voice_fingerprint_hints": self._build_voice_fingerprint_hints(available_patterns),
+            "anti_slop_audit_hints": self._build_anti_slop_audit_hints(available_patterns),
+            "publication_pipeline_hints": self._build_publication_pipeline_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -829,6 +846,10 @@ class NovelSourceDiscoveryService:
             "context_reference": 44,
             "workflow_agent_pipeline": 42,
             "scene_asset_pipeline": 40,
+            "quality_score_loop": 38,
+            "voice_fingerprint": 36,
+            "anti_slop_audit": 34,
+            "publication_pipeline": 20,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -876,6 +897,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["workflow_nodes", "workflow_triggers", "resume_checkpoint"])
         if "scene_asset_pipeline" in patterns:
             targets.extend(["scene_assets", "shot_beats", "production_step_outputs"])
+        if "quality_score_loop" in patterns:
+            targets.extend(["quality_scores", "keep_discard_decisions", "plateau_detection"])
+        if "voice_fingerprint" in patterns:
+            targets.extend(["voice_fingerprint", "voice_guardrails", "voice_discovery_notes"])
+        if "anti_slop_audit" in patterns:
+            targets.extend(["anti_slop_findings", "anti_pattern_findings"])
+        if "publication_pipeline" in patterns:
+            targets.extend(["export_targets", "delivery_artifacts"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -893,6 +922,10 @@ class NovelSourceDiscoveryService:
             hints.append("组织和势力关系要进入续写约束，避免角色突然脱离已有阵营逻辑。")
         if "chapter_generation" in patterns:
             hints.append("每章生成后输出本章变化包，供下一章读取。")
+        if "quality_score_loop" in patterns:
+            hints.append("章节草稿采用 keep/discard 质量门：低于阈值重试，高于阈值保留并进入下一章，避免无限打磨阻断长篇进度。")
+        if "anti_slop_audit" in patterns:
+            hints.append("生成前带入反 AI 味规则，生成后先清理机械感、同构段落和空泛正确对白，再进入人工式评审。")
         if "structured_generation_schema" in patterns:
             hints.append("把续写前置分析和章节变化包拆成固定 schema 字段，缺字段时先补齐状态再生成正文。")
         if "card_workbench" in patterns:
@@ -912,6 +945,8 @@ class NovelSourceDiscoveryService:
             hints.append("Treat emotional arc as inherited state, not as one-off plot decoration.")
         if "book_decomposition" in patterns or "continuation" in patterns:
             hints.append("Write back the state snapshot, chapter change package, and unresolved hooks after every continuation pass.")
+        if "quality_score_loop" in patterns:
+            hints.append("Store score, accepted/rejected decision, retry reason, and plateau signal with each chapter state.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -929,6 +964,8 @@ class NovelSourceDiscoveryService:
         ]
         if "style_signature" in patterns:
             hints.append("把风格签名作为硬约束写入续写提示词，而不是只写成泛化风格建议。")
+        if "voice_fingerprint" in patterns:
+            hints.append("维护 voice fingerprint：分离固定风格护栏和本书生成过程中发现的具体语气、节奏、比喻习惯。")
         if "structured_generation_schema" in patterns:
             hints.append("把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。")
         if "scene_asset_pipeline" in patterns:
@@ -942,6 +979,8 @@ class NovelSourceDiscoveryService:
         ]
         if "style_signature" in patterns:
             hints.append("Use the style signature as a guardrail that constrains the rewrite, not as a generic inspiration note.")
+        if "voice_fingerprint" in patterns:
+            hints.append("Compare each accepted draft against the voice fingerprint before it can update canon or downstream chapter state.")
         if "structured_generation_schema" in patterns:
             hints.append("Measure fidelity from structured style fields before accepting a chapter draft.")
         if "scene_asset_pipeline" in patterns:
@@ -998,6 +1037,46 @@ class NovelSourceDiscoveryService:
             "Use scene assets as review units when chapter-level feedback is too coarse to locate pacing or continuity failures.",
         ]
 
+    def _build_quality_score_loop_hints(self, patterns: set[str]) -> list[str]:
+        if "quality_score_loop" not in patterns:
+            return []
+        hints = [
+            "Use a modify-evaluate-keep/discard loop: draft or revise one artifact, score it, keep it only when it clears the configured threshold.",
+            "Separate foundation scoring from chapter scoring so weak world/character/outline setup does not leak into every chapter.",
+            "Use plateau detection to stop revision loops when scores stabilize and no major actionable issue remains.",
+        ]
+        if "workflow_agent_pipeline" in patterns:
+            hints.append("Persist loop status per workflow node: attempt count, latest score, accepted artifact, and next retry reason.")
+        return hints
+
+    def _build_voice_fingerprint_hints(self, patterns: set[str]) -> list[str]:
+        if "voice_fingerprint" not in patterns:
+            return []
+        hints = [
+            "Keep a voice fingerprint separate from the general style card: immutable guardrails plus discovered per-book voice traits.",
+            "Use voice fingerprint checks before accepting drafts and before using a chapter as future style evidence.",
+        ]
+        if "style_signature" in patterns:
+            hints.append("Merge voice fingerprint results back into style fidelity review without copying source prose.")
+        return hints
+
+    def _build_anti_slop_audit_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_slop_audit" not in patterns:
+            return []
+        return [
+            "Audit drafts for word-level AI tells, over-neat explanation, repeated sentence frames, generic wisdom dialogue, and scene-free summary.",
+            "Treat anti-slop findings as concrete rewrite tasks, not as a single global quality score.",
+            "Run anti-pattern checks before publication or batch merge so low-level prose drift does not accumulate across chapters.",
+        ]
+
+    def _build_publication_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "publication_pipeline" not in patterns:
+            return []
+        return [
+            "Keep export as a downstream pipeline stage: manuscript, review report, ePub/TXT/PDF, audiobook script, and landing copy are derived artifacts.",
+            "Do not let publication artifacts mutate canon; canon changes must flow through bible/state/chapter change packages first.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -1015,6 +1094,12 @@ class NovelSourceDiscoveryService:
             targets.append("context_reference_remap")
         if "scene_asset_pipeline" in patterns:
             targets.append("scene_asset_remap")
+        if "quality_score_loop" in patterns:
+            targets.append("quality_gate_remap")
+        if "voice_fingerprint" in patterns:
+            targets.append("voice_fingerprint")
+        if "anti_slop_audit" in patterns:
+            targets.append("anti_slop_rules")
         if "organization_graph" in patterns:
             targets.append("relationship_graph_remap")
         if "style_signature" in patterns:
@@ -1042,6 +1127,12 @@ class NovelSourceDiscoveryService:
             hints.append("Keep source-pattern references separate from new-story canon references so inspiration never becomes factual canon.")
         if "scene_asset_pipeline" in patterns:
             hints.append("Transform scene assets at the level of function and pressure, not at the level of source event sequence.")
+        if "quality_score_loop" in patterns:
+            hints.append("Use quality scores to decide whether a transformed draft is acceptable; do not lower the threshold because it resembles a source.")
+        if "voice_fingerprint" in patterns:
+            hints.append("Build a new voice fingerprint for the new story instead of inheriting source-book wording or signature phrases.")
+        if "anti_slop_audit" in patterns:
+            hints.append("Anti-slop review should remove generic AI prose without pushing the text back toward copied source phrasing.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -1061,6 +1152,10 @@ class NovelSourceDiscoveryService:
             hints.append("Check transformed fields against required schema slots so no source-only proper noun or event label survives.")
         if "scene_asset_pipeline" in patterns:
             hints.append("Rebuild each scene asset from a new premise, location, cast, pressure source, and exit hook.")
+        if "quality_score_loop" in patterns:
+            hints.append("Keep/discard decisions should evaluate transformed-story quality and independence together.")
+        if "voice_fingerprint" in patterns:
+            hints.append("Translate source voice functions into new voice guardrails, not into reused sentence templates.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -1076,6 +1171,10 @@ class NovelSourceDiscoveryService:
             hints.append("Run copy-risk checks on structured fields as well as prose, because copied names and set-pieces often enter through planning cards.")
         if "context_reference" in patterns:
             hints.append("Reject drafts whose cited context reference points to source material as if it were new-story canon.")
+        if "voice_fingerprint" in patterns:
+            hints.append("Reject voice fingerprints that preserve source catchphrases, proprietary labels, or paragraph-level phrasing.")
+        if "anti_slop_audit" in patterns:
+            hints.append("Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -1096,6 +1195,9 @@ class NovelSourceDiscoveryService:
                 or "book_decomposition" in patterns
                 or "card_workbench" in patterns
                 or "structured_generation_schema" in patterns
+                or "quality_score_loop" in patterns
+                or "voice_fingerprint" in patterns
+                or "anti_slop_audit" in patterns
             )
         )
 
@@ -1353,7 +1455,7 @@ class NovelSourceDiscoveryService:
     def _absorbed_patterns(self, haystack: str) -> list[str]:
         patterns: list[str] = []
         for pattern, keywords in PATTERN_KEYWORDS:
-            if any(keyword.lower() in haystack for keyword in keywords):
+            if any(_contains_keyword(haystack, keyword) for keyword in keywords):
                 patterns.append(pattern)
         patterns = patterns or ["source_discovery"]
         return self._expand_full_writing_chain_patterns(haystack, patterns)

@@ -467,6 +467,60 @@ def test_render_ledger_and_digest_include_source_intake_provenance():
     assert "No clone, install" in digest
 
 
+def test_autonovel_metadata_maps_to_quality_voice_antislop_and_publication_pipeline():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "NousResearch/autonovel",
+                "html_url": "https://github.com/NousResearch/autonovel",
+                "description": (
+                    "Autonomous novel pipeline from seed concept to print-ready PDF, "
+                    "ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, "
+                    "foundation_score, chapter scoring, plateau detection, voice fingerprint, "
+                    "anti-slop scorer, anti-pattern rules, reader panel and dual-persona review."
+                ),
+                "stargazers_count": 1400,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "fiction", "pipeline", "voice", "epub"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T11:00:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert {
+        "quality_score_loop",
+        "voice_fingerprint",
+        "anti_slop_audit",
+        "publication_pipeline",
+        "chapter_generation",
+        "style_signature",
+        "self_review",
+    }.issubset(candidate["absorbed_patterns"])
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "quality_scores" in pattern_pack["whole_book_analysis_targets"]
+    assert "voice_fingerprint" in pattern_pack["whole_book_analysis_targets"]
+    assert "anti_slop_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "export_targets" in pattern_pack["whole_book_analysis_targets"]
+    assert "modify-evaluate-keep/discard" in " ".join(pattern_pack["quality_score_loop_hints"]).lower()
+    assert "voice fingerprint" in " ".join(pattern_pack["voice_fingerprint_hints"]).lower()
+    assert "ai tells" in " ".join(pattern_pack["anti_slop_audit_hints"]).lower()
+    assert "epub" in " ".join(pattern_pack["publication_pipeline_hints"]).lower()
+    assert "quality_gate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "voice_fingerprint" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "quality_score_loop_hints" in digest
+    assert "voice_fingerprint_hints" in digest
+    assert "anti_slop_audit_hints" in digest
+    assert "publication_pipeline_hints" in digest
+
+
 def test_default_discovery_sources_include_structured_writing_and_scene_pipeline_projects():
     assert "https://github.com/RhythmicWave/NovelForge" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/kaigani/codeywood" in DEFAULT_GITHUB_REPOSITORY_URLS

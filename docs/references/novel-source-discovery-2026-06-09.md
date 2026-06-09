@@ -14,8 +14,9 @@ No clone, install, package hook, Docker stack, MCP server, native binary, shell 
 ## Provenance Notes
 
 - RhythmicWave/NovelForge HEAD: 71db1420d919d676521a15f6999090b37db86fb0; posture pattern-only due AGPL-3.0 and runtime surface.
+- NousResearch/autonovel HEAD: d165f267a0ffd34f3b0a70a8a72ac38cb8e4a542; posture pattern-only; README read as public text metadata only.
 - kaigani/codeywood HEAD: 6eba4f27ca1699ada778ba2cd5af9d8e70700907; posture pattern-only due non-novel runtime and missing license metadata.
-- NovelForge README was read only as public text metadata; no source code import or runtime trial was performed.
+- NovelForge and autonovel READMEs were read only as public text metadata; no source code import or runtime trial was performed.
 - No clone, install, package hook, Docker stack, MCP server, native binary, shell script, browser extension, or external repository code execution was performed.
 
 ## Fetch Limits And Failures
@@ -24,6 +25,20 @@ No clone, install, package hook, Docker stack, MCP server, native binary, shell 
 - github: https://api.github.com/repos/kaigani/codeywood — GitHub REST API unauthenticated rate limit exceeded during metadata refresh; HEAD verified by git ls-remote.
 
 ## Candidates
+
+### NousResearch/autonovel
+
+- URL: https://github.com/NousResearch/autonovel
+- Source: github
+- Family: novel-automation
+- Posture: pattern-only
+- Posture hint: metadata-triage
+- Stars: 1400
+- License: MIT
+- Risk flags: none
+- Trust flags: zero-issues-high-stars
+- Absorbed patterns: chapter_generation, style_signature, self_review, quality_score_loop, voice_fingerprint, anti_slop_audit, publication_pipeline
+- Summary: Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review.
 
 ### RhythmicWave/NovelForge
 

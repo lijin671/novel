@@ -1,4 +1,9 @@
 {
+  "anti_slop_audit_hints": [
+    "Audit drafts for word-level AI tells, over-neat explanation, repeated sentence frames, generic wisdom dialogue, and scene-free summary.",
+    "Treat anti-slop findings as concrete rewrite tasks, not as a single global quality score.",
+    "Run anti-pattern checks before publication or batch merge so low-level prose drift does not accumulate across chapters."
+  ],
   "bible_enrichment_targets": [
     "world_rules",
     "timeline",
@@ -39,6 +44,8 @@
     "把情感线当作连续状态处理：记录本章前后关系压力、误会、信任和欲望变化。",
     "组织和势力关系要进入续写约束，避免角色突然脱离已有阵营逻辑。",
     "每章生成后输出本章变化包，供下一章读取。",
+    "章节草稿采用 keep/discard 质量门：低于阈值重试，高于阈值保留并进入下一章，避免无限打磨阻断长篇进度。",
+    "生成前带入反 AI 味规则，生成后先清理机械感、同构段落和空泛正确对白，再进入人工式评审。",
     "把续写前置分析和章节变化包拆成固定 schema 字段，缺字段时先补齐状态再生成正文。",
     "把人物、组织、地点、伏笔、情感线拆成可复用卡片，章节提示词只引用本章需要的卡片字段。",
     "显式列出本章引用的上下文来源，避免把未检索或未确认的信息写入续写正史。",
@@ -49,18 +56,21 @@
     "Read recent chapter_change_packages before choosing the next continuation start, conflict, and causal bridge.",
     "Treat emotional arc as inherited state, not as one-off plot decoration.",
     "Write back the state snapshot, chapter change package, and unresolved hooks after every continuation pass.",
+    "Store score, accepted/rejected decision, retry reason, and plateau signal with each chapter state.",
     "Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.",
     "Update card-level fields instead of overwriting the whole bible when one chapter changes only part of a character, faction, or hook.",
     "Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.",
     "Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context."
   ],
-  "generated_at": "2026-06-09T10:00:00+08:00",
+  "generated_at": "2026-06-09T11:00:00+08:00",
   "inspired_copy_risk_hints": [
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
     "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
     "Review each generated chapter for source-copy risk before accepting it.",
     "Run copy-risk checks on structured fields as well as prose, because copied names and set-pieces often enter through planning cards.",
-    "Reject drafts whose cited context reference points to source material as if it were new-story canon."
+    "Reject drafts whose cited context reference points to source material as if it were new-story canon.",
+    "Reject voice fingerprints that preserve source catchphrases, proprietary labels, or paragraph-level phrasing.",
+    "Do not use anti-slop cleanup as a license to paraphrase distinctive source passages."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -71,6 +81,9 @@
     "schema_field_remap",
     "context_reference_remap",
     "scene_asset_remap",
+    "quality_gate_remap",
+    "voice_fingerprint",
+    "anti_slop_rules",
     "relationship_graph_remap",
     "style_signature",
     "emotional_arc"
@@ -83,7 +96,10 @@
     "Use card structure as the workbench shape, but create new card content for characters, factions, places, and hooks.",
     "Use schema constraints to force completeness and independence, especially for renamed entities and transformed conflicts.",
     "Keep source-pattern references separate from new-story canon references so inspiration never becomes factual canon.",
-    "Transform scene assets at the level of function and pressure, not at the level of source event sequence."
+    "Transform scene assets at the level of function and pressure, not at the level of source event sequence.",
+    "Use quality scores to decide whether a transformed draft is acceptable; do not lower the threshold because it resembles a source.",
+    "Build a new voice fingerprint for the new story instead of inheriting source-book wording or signature phrases.",
+    "Anti-slop review should remove generic AI prose without pushing the text back toward copied source phrasing."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -92,7 +108,19 @@
     "Preserve the emotional function of a relationship beat while changing who causes it and why.",
     "Remap card by card: a source role can inspire a new role, but every card needs new identity, constraints, and arc.",
     "Check transformed fields against required schema slots so no source-only proper noun or event label survives.",
-    "Rebuild each scene asset from a new premise, location, cast, pressure source, and exit hook."
+    "Rebuild each scene asset from a new premise, location, cast, pressure source, and exit hook.",
+    "Keep/discard decisions should evaluate transformed-story quality and independence together.",
+    "Translate source voice functions into new voice guardrails, not into reused sentence templates."
+  ],
+  "publication_pipeline_hints": [
+    "Keep export as a downstream pipeline stage: manuscript, review report, ePub/TXT/PDF, audiobook script, and landing copy are derived artifacts.",
+    "Do not let publication artifacts mutate canon; canon changes must flow through bible/state/chapter change packages first."
+  ],
+  "quality_score_loop_hints": [
+    "Use a modify-evaluate-keep/discard loop: draft or revise one artifact, score it, keep it only when it clears the configured threshold.",
+    "Separate foundation scoring from chapter scoring so weak world/character/outline setup does not leak into every chapter.",
+    "Use plateau detection to stop revision loops when scores stabilize and no major actionable issue remains.",
+    "Persist loop status per workflow node: attempt count, latest score, accepted artifact, and next retry reason."
   ],
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
@@ -117,14 +145,16 @@
     "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
     "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
   ],
-  "source_candidate_count": 3,
+  "source_candidate_count": 4,
   "source_intake_notes": [
     "RhythmicWave/NovelForge HEAD: 71db1420d919d676521a15f6999090b37db86fb0; posture pattern-only due AGPL-3.0 and runtime surface.",
+    "NousResearch/autonovel HEAD: d165f267a0ffd34f3b0a70a8a72ac38cb8e4a542; posture pattern-only; README read as public text metadata only.",
     "kaigani/codeywood HEAD: 6eba4f27ca1699ada778ba2cd5af9d8e70700907; posture pattern-only due non-novel runtime and missing license metadata.",
-    "NovelForge README was read only as public text metadata; no source code import or runtime trial was performed.",
+    "NovelForge and autonovel READMEs were read only as public text metadata; no source code import or runtime trial was performed.",
     "No clone, install, package hook, Docker stack, MCP server, native binary, shell script, browser extension, or external repository code execution was performed."
   ],
   "source_titles": [
+    "NousResearch/autonovel",
     "RhythmicWave/NovelForge",
     "voocel/ainovel-cli",
     "kaigani/codeywood"
@@ -140,6 +170,7 @@
     "Preserve the original voice, cadence, and narrative temperature; style preservation is a hard constraint, not a loose suggestion.",
     "Keep the source book's flavor by matching sentence rhythm, POV behavior, scene density, and emotional pressure.",
     "Use the style signature as a guardrail that constrains the rewrite, not as a generic inspiration note.",
+    "Compare each accepted draft against the voice fingerprint before it can update canon or downstream chapter state.",
     "Measure fidelity from structured style fields before accepting a chapter draft.",
     "Preserve scene rhythm by matching conflict entry, beat escalation, and exit timing rather than copying wording."
   ],
@@ -147,8 +178,14 @@
     "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
     "续写要保留原书味道，但只吸收写法模式，不复制外部项目代码或长文本。",
     "把风格签名作为硬约束写入续写提示词，而不是只写成泛化风格建议。",
+    "维护 voice fingerprint：分离固定风格护栏和本书生成过程中发现的具体语气、节奏、比喻习惯。",
     "把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。",
     "用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。"
+  ],
+  "voice_fingerprint_hints": [
+    "Keep a voice fingerprint separate from the general style card: immutable guardrails plus discovered per-book voice traits.",
+    "Use voice fingerprint checks before accepting drafts and before using a chapter as future style evidence.",
+    "Merge voice fingerprint results back into style fidelity review without copying source prose."
   ],
   "whole_book_analysis_targets": [
     "world_rules",
@@ -174,6 +211,16 @@
     "scene_assets",
     "shot_beats",
     "production_step_outputs",
+    "quality_scores",
+    "keep_discard_decisions",
+    "plateau_detection",
+    "voice_fingerprint",
+    "voice_guardrails",
+    "voice_discovery_notes",
+    "anti_slop_findings",
+    "anti_pattern_findings",
+    "export_targets",
+    "delivery_artifacts",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
@@ -190,7 +237,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -230,7 +277,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -263,11 +310,26 @@
       ]
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "chapter_generation",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -286,7 +348,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -297,7 +359,7 @@
           "url": "https://github.com/voocel/ainovel-cli"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "top_source_url": "https://github.com/NousResearch/autonovel",
       "trust_flags": [
         "zero-issues-high-stars"
       ]
@@ -326,7 +388,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -382,7 +444,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -438,7 +500,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -494,7 +556,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -550,7 +612,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -583,7 +645,7 @@
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "style_signature",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -593,7 +655,22 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 140,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -604,17 +681,32 @@
           "url": "https://github.com/voocel/ainovel-cli"
         }
       ],
-      "top_source_url": "https://github.com/voocel/ainovel-cli",
+      "top_source_url": "https://github.com/NousResearch/autonovel",
       "trust_flags": [
         "zero-issues-high-stars"
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "self_review",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -633,7 +725,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 112,
+          "score": 104,
           "source": "github",
           "stars": 1280,
           "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
@@ -659,7 +751,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "top_source_url": "https://github.com/NousResearch/autonovel",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
@@ -782,6 +874,114 @@
       "top_source_url": "https://github.com/kaigani/codeywood",
       "trust_flags": [
         "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "quality_score_loop",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        }
+      ],
+      "top_source_url": "https://github.com/NousResearch/autonovel",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "voice_fingerprint",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        }
+      ],
+      "top_source_url": "https://github.com/NousResearch/autonovel",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "anti_slop_audit",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        }
+      ],
+      "top_source_url": "https://github.com/NousResearch/autonovel",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "publication_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Autonomous novel pipeline from seed concept to print-ready PDF, ePub, audiobook and landing page. Uses modify-evaluate-keep/discard, foundation_score, chapter scoring, plateau detection, voice fingerprint, anti-slop scorer, anti-pattern rules, reader panel and dual-persona review",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        }
+      ],
+      "top_source_url": "https://github.com/NousResearch/autonovel",
+      "trust_flags": [
+        "zero-issues-high-stars"
       ]
     }
   ]
