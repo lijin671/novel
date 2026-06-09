@@ -26,8 +26,13 @@ DEFAULT_GITHUB_QUERIES = (
     '("novel cli" OR "fiction generator" OR "story generation") in:name,description,readme',
     '("story bible" OR "worldbuilding" OR "chapter generation") in:name,description,readme',
     '("writing assistant" OR "style analysis" OR "same type creation") in:name,description,readme',
+    '("json schema" OR "schema-first" OR "structured generation") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("card" OR "cards" OR "context injection" OR "knowledge graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("workflow agent" OR "workflow studio" OR "progress recovery") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("scene" OR "shot" OR "idea to production" OR "storyboard") ("AI" OR "Claude Code") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
+    '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
     '("小说" OR "写作" OR "创作") "AI" in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
@@ -38,6 +43,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/raestrada/storycraftr",
     "https://github.com/YuanShiJiLoong/author",
     "https://github.com/brandburner/fabula",
+    "https://github.com/RhythmicWave/NovelForge",
+    "https://github.com/kaigani/codeywood",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -64,6 +71,24 @@ NOVEL_KEYWORDS = (
     "时间线",
     "人物卡",
 )
+NARRATIVE_PRODUCTION_KEYWORDS = (
+    "filmmaking",
+    "film production",
+    "screenplay",
+    "storyboard",
+    "shot list",
+    "scene plan",
+    "idea to production",
+    "narrative production",
+    "movie",
+    "video production",
+    "影视",
+    "电影",
+    "剧本",
+    "分镜",
+    "镜头",
+    "场景资产",
+)
 PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_decomposition", ("拆书", "拆解", "解析", "book decomposition", "book analysis", "source book")),
     ("chapter_generation", ("chapter generation", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
@@ -76,6 +101,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("emotion_arc", ("emotion", "情感", "relationship", "关系")),
     ("style_signature", ("style", "voice", "风格", "文风", "味道")),
     ("self_review", ("review", "critique", "评审", "自评", "自我评审", "优化", "rewrite")),
+    ("card_workbench", ("card", "cards", "card-based", "card workbench", "卡片", "卡片式", "卡片创作")),
+    ("structured_generation_schema", ("schema", "json schema", "schema-first", "structured generation", "结构化", "结构化生成", "动态输出模型", "输出模型")),
+    ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "上下文注入", "上下文引用", "知识图谱", "引用")),
+    ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "persistent workflow", "progress recovery", "工作流", "工作流系统", "中断恢复", "触发器")),
+    ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -364,6 +394,10 @@ class NovelSourceDiscoveryService:
             "continuation_state_hints": self._build_continuation_state_hints(available_patterns),
             "style_signature_hints": self._build_style_signature_hints(available_patterns),
             "style_fidelity_hints": self._build_style_fidelity_hints(available_patterns),
+            "structured_generation_hints": self._build_structured_generation_hints(available_patterns),
+            "card_workbench_hints": self._build_card_workbench_hints(available_patterns),
+            "context_reference_hints": self._build_context_reference_hints(available_patterns),
+            "scene_asset_pipeline_hints": self._build_scene_asset_pipeline_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -390,6 +424,33 @@ class NovelSourceDiscoveryService:
         ]
         for note in _as_list(result.get("safety_notes")):
             lines.append(f"- {note}")
+
+        provenance_notes = [_text(note) for note in _as_list(result.get("provenance_notes")) if _text(note)]
+        if provenance_notes:
+            lines.extend(
+                [
+                    "",
+                    "## Provenance Notes",
+                    "",
+                ]
+            )
+            for note in provenance_notes:
+                lines.append(f"- {note}")
+
+        fetch_errors = [item for item in _as_list(result.get("fetch_errors")) if isinstance(item, dict)]
+        if fetch_errors:
+            lines.extend(
+                [
+                    "",
+                    "## Fetch Limits And Failures",
+                    "",
+                ]
+            )
+            for item in fetch_errors:
+                source = _text(item.get("source")) or "unknown"
+                target = _text(item.get("url") or item.get("query")) or "unknown"
+                error = _text(item.get("error")) or "unknown"
+                lines.append(f"- {source}: {target} — {error}")
 
         lines.extend(
             [
@@ -763,12 +824,26 @@ class NovelSourceDiscoveryService:
             "emotion_arc": 60,
             "style_signature": 55,
             "self_review": 50,
+            "structured_generation_schema": 48,
+            "card_workbench": 46,
+            "context_reference": 44,
+            "workflow_agent_pipeline": 42,
+            "scene_asset_pipeline": 40,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
 
     def _build_bible_enrichment_targets(self, patterns: set[str]) -> list[str]:
         targets = ["world_rules", "timeline", "character_cards", "style_signature", "hard_constraints"]
+        if "card_workbench" in patterns:
+            targets.append("card_schema_catalog")
+            targets.append("field_level_cards")
+        if "structured_generation_schema" in patterns:
+            targets.append("json_schema_outputs")
+            targets.append("schema_validation_rules")
+        if "context_reference" in patterns:
+            targets.append("context_reference_index")
+            targets.append("knowledge_graph_links")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -791,6 +866,16 @@ class NovelSourceDiscoveryService:
             "style_signature",
             "chapter_change_packages",
         ]
+        if "card_workbench" in patterns:
+            targets.extend(["card_types", "card_field_dependencies"])
+        if "structured_generation_schema" in patterns:
+            targets.extend(["schema_bound_outputs", "required_fields", "validation_failures"])
+        if "context_reference" in patterns:
+            targets.extend(["context_references", "knowledge_graph_edges", "retrieval_scope"])
+        if "workflow_agent_pipeline" in patterns:
+            targets.extend(["workflow_nodes", "workflow_triggers", "resume_checkpoint"])
+        if "scene_asset_pipeline" in patterns:
+            targets.extend(["scene_assets", "shot_beats", "production_step_outputs"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -808,6 +893,14 @@ class NovelSourceDiscoveryService:
             hints.append("组织和势力关系要进入续写约束，避免角色突然脱离已有阵营逻辑。")
         if "chapter_generation" in patterns:
             hints.append("每章生成后输出本章变化包，供下一章读取。")
+        if "structured_generation_schema" in patterns:
+            hints.append("把续写前置分析和章节变化包拆成固定 schema 字段，缺字段时先补齐状态再生成正文。")
+        if "card_workbench" in patterns:
+            hints.append("把人物、组织、地点、伏笔、情感线拆成可复用卡片，章节提示词只引用本章需要的卡片字段。")
+        if "context_reference" in patterns:
+            hints.append("显式列出本章引用的上下文来源，避免把未检索或未确认的信息写入续写正史。")
+        if "workflow_agent_pipeline" in patterns:
+            hints.append("把拆书、建卡、生成、评审、回写拆成可恢复工作流节点，失败后从最近 checkpoint 继续。")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -819,6 +912,14 @@ class NovelSourceDiscoveryService:
             hints.append("Treat emotional arc as inherited state, not as one-off plot decoration.")
         if "book_decomposition" in patterns or "continuation" in patterns:
             hints.append("Write back the state snapshot, chapter change package, and unresolved hooks after every continuation pass.")
+        if "structured_generation_schema" in patterns:
+            hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
+        if "card_workbench" in patterns:
+            hints.append("Update card-level fields instead of overwriting the whole bible when one chapter changes only part of a character, faction, or hook.")
+        if "context_reference" in patterns:
+            hints.append("Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.")
+        if "workflow_agent_pipeline" in patterns:
+            hints.append("Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -828,6 +929,10 @@ class NovelSourceDiscoveryService:
         ]
         if "style_signature" in patterns:
             hints.append("把风格签名作为硬约束写入续写提示词，而不是只写成泛化风格建议。")
+        if "structured_generation_schema" in patterns:
+            hints.append("把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。")
+        if "scene_asset_pipeline" in patterns:
+            hints.append("用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。")
         return hints
 
     def _build_style_fidelity_hints(self, patterns: set[str]) -> list[str]:
@@ -837,7 +942,61 @@ class NovelSourceDiscoveryService:
         ]
         if "style_signature" in patterns:
             hints.append("Use the style signature as a guardrail that constrains the rewrite, not as a generic inspiration note.")
+        if "structured_generation_schema" in patterns:
+            hints.append("Measure fidelity from structured style fields before accepting a chapter draft.")
+        if "scene_asset_pipeline" in patterns:
+            hints.append("Preserve scene rhythm by matching conflict entry, beat escalation, and exit timing rather than copying wording.")
         return hints
+
+    def _build_structured_generation_hints(self, patterns: set[str]) -> list[str]:
+        hints: list[str] = []
+        if "structured_generation_schema" in patterns:
+            hints.extend(
+                [
+                    "Use schema-bound outputs for bible extraction, chapter intent, change packages, review findings, and retry decisions.",
+                    "Treat schema validation failure as a drafting blocker; repair missing or inconsistent fields before continuing.",
+                ]
+            )
+        if "card_workbench" in patterns:
+            hints.append("Generate and revise at field/card granularity so one bad field can be regenerated without discarding the whole artifact.")
+        if "context_reference" in patterns:
+            hints.append("Every generated field should declare which local context, card, chapter, or pattern-pack item supports it.")
+        if "workflow_agent_pipeline" in patterns:
+            hints.append("Workflow nodes should pass typed artifacts instead of free-form summaries between analysis, drafting, review, and write-back.")
+        return self._dedupe_texts(hints)
+
+    def _build_card_workbench_hints(self, patterns: set[str]) -> list[str]:
+        if "card_workbench" not in patterns:
+            return []
+        hints = [
+            "Represent reusable canon as editable cards: character, organization, location, hook, relationship, style, and chapter-state cards.",
+            "Card updates must be local and reviewable; do not silently rewrite unrelated bible sections when a chapter only changes one field.",
+        ]
+        if "structured_generation_schema" in patterns:
+            hints.append("Each card type should have required fields and validation rules before AI fills or revises it.")
+        if "context_reference" in patterns:
+            hints.append("Cards should expose compact references that prompts can include without loading the whole project history.")
+        return hints
+
+    def _build_context_reference_hints(self, patterns: set[str]) -> list[str]:
+        if "context_reference" not in patterns:
+            return []
+        hints = [
+            "Build prompts from explicit context references: selected cards, recent chapter deltas, unresolved hooks, and relevant source-pattern notes.",
+            "Context inclusion must be justified by the current chapter goal; unrelated cards stay out to reduce drift and token noise.",
+        ]
+        if "workflow_agent_pipeline" in patterns:
+            hints.append("Persist the context reference set used by each workflow node so review can replay why a draft made a decision.")
+        return hints
+
+    def _build_scene_asset_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_asset_pipeline" not in patterns:
+            return []
+        return [
+            "Convert chapter intent into scene assets before drafting: scene goal, pressure source, cast, location, prop, reveal, and exit hook.",
+            "For same-type imitation, borrow the production pipeline shape—idea, outline, scene list, beat assets, review—not the original scene content.",
+            "Use scene assets as review units when chapter-level feedback is too coarse to locate pacing or continuity failures.",
+        ]
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
@@ -848,6 +1007,14 @@ class NovelSourceDiscoveryService:
             "world_rule_remap",
             "plot_thread_remap",
         ]
+        if "card_workbench" in patterns:
+            targets.append("card_schema_remap")
+        if "structured_generation_schema" in patterns:
+            targets.append("schema_field_remap")
+        if "context_reference" in patterns:
+            targets.append("context_reference_remap")
+        if "scene_asset_pipeline" in patterns:
+            targets.append("scene_asset_remap")
         if "organization_graph" in patterns:
             targets.append("relationship_graph_remap")
         if "style_signature" in patterns:
@@ -867,6 +1034,14 @@ class NovelSourceDiscoveryService:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
             hints.append("Draft from a fresh outline/beat sheet; do not reuse the source chapter order as the new chapter order.")
+        if "card_workbench" in patterns:
+            hints.append("Use card structure as the workbench shape, but create new card content for characters, factions, places, and hooks.")
+        if "structured_generation_schema" in patterns:
+            hints.append("Use schema constraints to force completeness and independence, especially for renamed entities and transformed conflicts.")
+        if "context_reference" in patterns:
+            hints.append("Keep source-pattern references separate from new-story canon references so inspiration never becomes factual canon.")
+        if "scene_asset_pipeline" in patterns:
+            hints.append("Transform scene assets at the level of function and pressure, not at the level of source event sequence.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -880,6 +1055,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "emotion_arc" in patterns:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
+        if "card_workbench" in patterns:
+            hints.append("Remap card by card: a source role can inspire a new role, but every card needs new identity, constraints, and arc.")
+        if "structured_generation_schema" in patterns:
+            hints.append("Check transformed fields against required schema slots so no source-only proper noun or event label survives.")
+        if "scene_asset_pipeline" in patterns:
+            hints.append("Rebuild each scene asset from a new premise, location, cast, pressure source, and exit hook.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -891,10 +1072,20 @@ class NovelSourceDiscoveryService:
         ]
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
+        if "structured_generation_schema" in patterns:
+            hints.append("Run copy-risk checks on structured fields as well as prose, because copied names and set-pieces often enter through planning cards.")
+        if "context_reference" in patterns:
+            hints.append("Reject drafts whose cited context reference points to source material as if it were new-story canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
         if "same_type_creation" in patterns:
+            return True
+        if "scene_asset_pipeline" in patterns and (
+            "style_signature" in patterns
+            or "structured_generation_schema" in patterns
+            or "card_workbench" in patterns
+        ):
             return True
         return (
             "chapter_generation" in patterns
@@ -903,6 +1094,8 @@ class NovelSourceDiscoveryService:
                 "character_cards" in patterns
                 or "worldbuilding" in patterns
                 or "book_decomposition" in patterns
+                or "card_workbench" in patterns
+                or "structured_generation_schema" in patterns
             )
         )
 
@@ -1153,6 +1346,8 @@ class NovelSourceDiscoveryService:
     def _classify_family(self, haystack: str) -> str:
         if any(keyword.lower() in haystack for keyword in NOVEL_KEYWORDS):
             return "novel-automation"
+        if any(keyword.lower() in haystack for keyword in NARRATIVE_PRODUCTION_KEYWORDS):
+            return "novel-automation"
         return "pattern-only"
 
     def _absorbed_patterns(self, haystack: str) -> list[str]:
@@ -1185,6 +1380,17 @@ class NovelSourceDiscoveryService:
             'emotion',
             'review',
             'rewrite',
+            'schema',
+            'json schema',
+            'structured generation',
+            'card',
+            'context injection',
+            'knowledge graph',
+            'workflow',
+            'workflow agent',
+            'storyboard',
+            'shot list',
+            'scene plan',
             '章节生成',
             '续写',
             '故事圣经',
@@ -1196,6 +1402,14 @@ class NovelSourceDiscoveryService:
             '情感',
             '评审',
             '改写',
+            '结构化生成',
+            '卡片',
+            '上下文注入',
+            '知识图谱',
+            '工作流',
+            '分镜',
+            '镜头',
+            '场景资产',
         )
         has_novel_anchor = any(term in haystack for term in novel_anchor_terms)
         workflow_signal_count = sum(1 for term in workflow_signal_terms if term in haystack)

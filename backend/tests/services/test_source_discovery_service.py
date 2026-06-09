@@ -324,6 +324,157 @@ def test_render_source_pattern_pack_digest_can_omit_inspired_guidance_for_contin
     assert "Reject copied source names." not in digest
 
 
+def test_novelforge_metadata_maps_to_card_schema_context_workflow_patterns():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "RhythmicWave/NovelForge",
+                "html_url": "https://github.com/RhythmicWave/NovelForge",
+                "description": (
+                    "AI assisted longform novel creation engine with schema-first "
+                    "card-based creation, JSON Schema structured generation, "
+                    "context injection, knowledge graph, workflow agent, "
+                    "chapter generation, story bible and progress recovery."
+                ),
+                "stargazers_count": 921,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": [
+                    "ai-writing",
+                    "creative-writing",
+                    "fiction",
+                    "json-schema",
+                    "longform",
+                    "novel-writing",
+                    "outline",
+                    "structured-generation",
+                ],
+                "updated_at": "2026-06-08T11:00:00Z",
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T10:00:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["posture"] == "pattern-only"
+    assert candidate["license"] == "AGPL-3.0"
+    assert {
+        "card_workbench",
+        "structured_generation_schema",
+        "context_reference",
+        "workflow_agent_pipeline",
+        "chapter_generation",
+    }.issubset(candidate["absorbed_patterns"])
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "card_schema_catalog" in pattern_pack["bible_enrichment_targets"]
+    assert "json_schema_outputs" in pattern_pack["bible_enrichment_targets"]
+    assert "context_reference_index" in pattern_pack["bible_enrichment_targets"]
+    assert "workflow_nodes" in pattern_pack["whole_book_analysis_targets"]
+    assert "structured_generation_hints" in pattern_pack
+    assert "card_workbench_hints" in pattern_pack
+    assert "context_reference_hints" in pattern_pack
+    assert "schema" in " ".join(pattern_pack["structured_generation_hints"]).lower()
+    assert "cards" in " ".join(pattern_pack["card_workbench_hints"]).lower()
+    assert "context references" in " ".join(pattern_pack["context_reference_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "structured_generation_hints" in digest
+    assert "card_workbench_hints" in digest
+    assert "context_reference_hints" in digest
+
+
+def test_codeywood_metadata_maps_to_scene_asset_pipeline_without_runtime_import():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "kaigani/codeywood",
+                "html_url": "https://github.com/kaigani/codeywood",
+                "description": (
+                    "Claude Code based skills for AI filmmaking from idea to "
+                    "production, screenplay planning, storyboard, shot list, "
+                    "scene plan and multi-stage review."
+                ),
+                "stargazers_count": 21,
+                "license": None,
+                "topics": ["claude-code", "ai-filmmaking", "storyboard", "screenplay"],
+                "updated_at": "2026-06-08T12:00:00Z",
+                "root_files": ["README.md", "skills", "scripts"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T10:00:00+08:00",
+    )
+
+    assert result["candidate_count"] == 1
+    candidate = result["candidates"][0]
+    assert candidate["family"] == "novel-automation"
+    assert candidate["posture"] == "pattern-only"
+    assert "license:missing" in candidate["trust_review"]["flags"]
+    assert "scene_asset_pipeline" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "scene_assets" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_asset_pipeline_hints" in pattern_pack
+    assert "scene goal" in " ".join(pattern_pack["scene_asset_pipeline_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "scene_asset_pipeline_hints" in digest
+
+
+def test_render_ledger_and_digest_include_source_intake_provenance():
+    service = NovelSourceDiscoveryService()
+    ledger = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "RhythmicWave/NovelForge",
+                "html_url": "https://github.com/RhythmicWave/NovelForge",
+                "description": "AI novel writing with JSON Schema cards and context injection.",
+                "stargazers_count": 921,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel-writing", "json-schema"],
+                "updated_at": "2026-06-08T11:00:00Z",
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T10:00:00+08:00",
+    )
+    ledger["provenance_notes"] = [
+        "RhythmicWave/NovelForge HEAD: 71db1420d919d676521a15f6999090b37db86fb0.",
+        "No clone, install, package hook, Docker stack, MCP server, native binary, shell script, browser extension, or external repository code execution was performed.",
+    ]
+    ledger["fetch_errors"] = [
+        {
+            "source": "github",
+            "url": "https://api.github.com/repos/RhythmicWave/NovelForge",
+            "error": "GitHub REST API unauthenticated rate limit exceeded.",
+        }
+    ]
+
+    markdown = service.render_ledger_markdown(ledger)
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+    pattern_pack["source_intake_notes"] = ledger["provenance_notes"]
+    digest = render_source_pattern_pack_digest(pattern_pack)
+
+    assert "## Provenance Notes" in markdown
+    assert "RhythmicWave/NovelForge HEAD" in markdown
+    assert "## Fetch Limits And Failures" in markdown
+    assert "rate limit exceeded" in markdown
+    assert "source_intake_notes" in digest
+    assert "No clone, install" in digest
+
+
+def test_default_discovery_sources_include_structured_writing_and_scene_pipeline_projects():
+    assert "https://github.com/RhythmicWave/NovelForge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/kaigani/codeywood" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("json schema" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("context injection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("idea to production" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
 
 def test_discover_public_sources_fetches_explicit_github_repository_urls(monkeypatch):
     requested_urls: list[str] = []

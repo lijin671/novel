@@ -1,0 +1,788 @@
+{
+  "bible_enrichment_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "style_signature",
+    "hard_constraints",
+    "card_schema_catalog",
+    "field_level_cards",
+    "json_schema_outputs",
+    "schema_validation_rules",
+    "context_reference_index",
+    "knowledge_graph_links",
+    "organizations",
+    "conflicts",
+    "story_arcs",
+    "foreshadows",
+    "chapter_change_packages"
+  ],
+  "card_workbench_hints": [
+    "Represent reusable canon as editable cards: character, organization, location, hook, relationship, style, and chapter-state cards.",
+    "Card updates must be local and reviewable; do not silently rewrite unrelated bible sections when a chapter only changes one field.",
+    "Each card type should have required fields and validation rules before AI fills or revises it.",
+    "Cards should expose compact references that prompts can include without loading the whole project history."
+  ],
+  "chapter_change_package_hints": [
+    "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
+    "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
+    "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "context_reference_hints": [
+    "Build prompts from explicit context references: selected cards, recent chapter deltas, unresolved hooks, and relevant source-pattern notes.",
+    "Context inclusion must be justified by the current chapter goal; unrelated cards stay out to reduce drift and token noise.",
+    "Persist the context reference set used by each workflow node so review can replay why a draft made a decision."
+  ],
+  "continuation_prompt_hints": [
+    "续写前先读取圣经草稿中的世界观、时间线、人物卡、组织关系、冲突与伏笔。",
+    "下一章必须承接原书尾章的状态变化，不重置人物关系、情感线和因果线。",
+    "把情感线当作连续状态处理：记录本章前后关系压力、误会、信任和欲望变化。",
+    "组织和势力关系要进入续写约束，避免角色突然脱离已有阵营逻辑。",
+    "每章生成后输出本章变化包，供下一章读取。",
+    "把续写前置分析和章节变化包拆成固定 schema 字段，缺字段时先补齐状态再生成正文。",
+    "把人物、组织、地点、伏笔、情感线拆成可复用卡片，章节提示词只引用本章需要的卡片字段。",
+    "显式列出本章引用的上下文来源，避免把未检索或未确认的信息写入续写正史。",
+    "把拆书、建卡、生成、评审、回写拆成可恢复工作流节点，失败后从最近 checkpoint 继续。"
+  ],
+  "continuation_state_hints": [
+    "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
+    "Read recent chapter_change_packages before choosing the next continuation start, conflict, and causal bridge.",
+    "Treat emotional arc as inherited state, not as one-off plot decoration.",
+    "Write back the state snapshot, chapter change package, and unresolved hooks after every continuation pass.",
+    "Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.",
+    "Update card-level fields instead of overwriting the whole bible when one chapter changes only part of a character, faction, or hook.",
+    "Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.",
+    "Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context."
+  ],
+  "generated_at": "2026-06-09T10:00:00+08:00",
+  "inspired_copy_risk_hints": [
+    "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
+    "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
+    "Review each generated chapter for source-copy risk before accepting it.",
+    "Run copy-risk checks on structured fields as well as prose, because copied names and set-pieces often enter through planning cards.",
+    "Reject drafts whose cited context reference points to source material as if it were new-story canon."
+  ],
+  "inspired_mapping_targets": [
+    "character_remap",
+    "organization_remap",
+    "world_rule_remap",
+    "plot_thread_remap",
+    "card_schema_remap",
+    "schema_field_remap",
+    "context_reference_remap",
+    "scene_asset_remap",
+    "relationship_graph_remap",
+    "style_signature",
+    "emotional_arc"
+  ],
+  "inspired_prompt_hints": [
+    "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
+    "Generate an independent new story with new names, organizations, event chain, core conflict, and world rules.",
+    "Carry the style signature into drafting and review, but do not preserve source facts as canon.",
+    "Draft from a fresh outline/beat sheet; do not reuse the source chapter order as the new chapter order.",
+    "Use card structure as the workbench shape, but create new card content for characters, factions, places, and hooks.",
+    "Use schema constraints to force completeness and independence, especially for renamed entities and transformed conflicts.",
+    "Keep source-pattern references separate from new-story canon references so inspiration never becomes factual canon.",
+    "Transform scene assets at the level of function and pressure, not at the level of source event sequence."
+  ],
+  "inspired_transformation_hints": [
+    "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
+    "Replace source organizations, abilities, locations, and plot triggers with transformed equivalents.",
+    "Transform the world rules first, then derive new plot constraints from the transformed world.",
+    "Preserve the emotional function of a relationship beat while changing who causes it and why.",
+    "Remap card by card: a source role can inspire a new role, but every card needs new identity, constraints, and arc.",
+    "Check transformed fields against required schema slots so no source-only proper noun or event label survives.",
+    "Rebuild each scene asset from a new premise, location, cast, pressure source, and exit hook."
+  ],
+  "safety_constraints": [
+    "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
+    "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
+    "只采集公开元数据和公开摘要；不克隆、不安装、不执行外部项目。",
+    "GitHub 与论坛候选默认按 pattern-only 沉淀，后续吸收必须单独做许可证、安装面和安全边界复核。",
+    "Linux.do 仅使用公开 RSS/页面可访问摘要；不绕过登录、403、429、WAF 或 CAPTCHA。"
+  ],
+  "scene_asset_pipeline_hints": [
+    "Convert chapter intent into scene assets before drafting: scene goal, pressure source, cast, location, prop, reveal, and exit hook.",
+    "For same-type imitation, borrow the production pipeline shape—idea, outline, scene list, beat assets, review—not the original scene content.",
+    "Use scene assets as review units when chapter-level feedback is too coarse to locate pacing or continuity failures."
+  ],
+  "self_review_gate_hints": [
+    "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
+    "Every revision must explain which canon risk was fixed and which story state was preserved.",
+    "The loop may repeat many times, but it must still stop when the checks stop finding new problems."
+  ],
+  "self_review_policy_hints": [
+    "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
+    "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
+    "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
+  ],
+  "source_candidate_count": 3,
+  "source_intake_notes": [
+    "RhythmicWave/NovelForge HEAD: 71db1420d919d676521a15f6999090b37db86fb0; posture pattern-only due AGPL-3.0 and runtime surface.",
+    "kaigani/codeywood HEAD: 6eba4f27ca1699ada778ba2cd5af9d8e70700907; posture pattern-only due non-novel runtime and missing license metadata.",
+    "NovelForge README was read only as public text metadata; no source code import or runtime trial was performed.",
+    "No clone, install, package hook, Docker stack, MCP server, native binary, shell script, browser extension, or external repository code execution was performed."
+  ],
+  "source_titles": [
+    "RhythmicWave/NovelForge",
+    "voocel/ainovel-cli",
+    "kaigani/codeywood"
+  ],
+  "structured_generation_hints": [
+    "Use schema-bound outputs for bible extraction, chapter intent, change packages, review findings, and retry decisions.",
+    "Treat schema validation failure as a drafting blocker; repair missing or inconsistent fields before continuing.",
+    "Generate and revise at field/card granularity so one bad field can be regenerated without discarding the whole artifact.",
+    "Every generated field should declare which local context, card, chapter, or pattern-pack item supports it.",
+    "Workflow nodes should pass typed artifacts instead of free-form summaries between analysis, drafting, review, and write-back."
+  ],
+  "style_fidelity_hints": [
+    "Preserve the original voice, cadence, and narrative temperature; style preservation is a hard constraint, not a loose suggestion.",
+    "Keep the source book's flavor by matching sentence rhythm, POV behavior, scene density, and emotional pressure.",
+    "Use the style signature as a guardrail that constrains the rewrite, not as a generic inspiration note.",
+    "Measure fidelity from structured style fields before accepting a chapter draft.",
+    "Preserve scene rhythm by matching conflict entry, beat escalation, and exit timing rather than copying wording."
+  ],
+  "style_signature_hints": [
+    "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
+    "续写要保留原书味道，但只吸收写法模式，不复制外部项目代码或长文本。",
+    "把风格签名作为硬约束写入续写提示词，而不是只写成泛化风格建议。",
+    "把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。",
+    "用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。"
+  ],
+  "whole_book_analysis_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "organizations",
+    "conflicts",
+    "story_arcs",
+    "foreshadows",
+    "style_signature",
+    "chapter_change_packages",
+    "card_types",
+    "card_field_dependencies",
+    "schema_bound_outputs",
+    "required_fields",
+    "validation_failures",
+    "context_references",
+    "knowledge_graph_edges",
+    "retrieval_scope",
+    "workflow_nodes",
+    "workflow_triggers",
+    "resume_checkpoint",
+    "scene_assets",
+    "shot_beats",
+    "production_step_outputs",
+    "emotional_arc",
+    "emotion_curve",
+    "source_state_snapshot"
+  ],
+  "workflow_patterns": [
+    {
+      "candidate_count": 1,
+      "name": "continuation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "book_decomposition",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "chapter_generation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "worldbuilding",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "timeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "character_cards",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "organization_graph",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "emotion_arc",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "style_signature",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "self_review",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "structured_generation_schema",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "card_workbench",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "context_reference",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "workflow_agent_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 118,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        }
+      ],
+      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_asset_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/kaigani/codeywood",
+      "trust_flags": [
+        "license:missing"
+      ]
+    }
+  ]
+}

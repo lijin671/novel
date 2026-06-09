@@ -66,6 +66,30 @@ def render_source_pattern_pack_digest(
         for hint in style_fidelity_hints[:6]:
             lines.append(f"  - {hint}")
 
+    structured_generation_hints = _as_note_list(source_pattern_pack.get("structured_generation_hints"))
+    if structured_generation_hints:
+        lines.append("- structured_generation_hints:")
+        for hint in structured_generation_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    card_workbench_hints = _as_note_list(source_pattern_pack.get("card_workbench_hints"))
+    if card_workbench_hints:
+        lines.append("- card_workbench_hints:")
+        for hint in card_workbench_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    context_reference_hints = _as_note_list(source_pattern_pack.get("context_reference_hints"))
+    if context_reference_hints:
+        lines.append("- context_reference_hints:")
+        for hint in context_reference_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    scene_asset_pipeline_hints = _as_note_list(source_pattern_pack.get("scene_asset_pipeline_hints"))
+    if scene_asset_pipeline_hints:
+        lines.append("- scene_asset_pipeline_hints:")
+        for hint in scene_asset_pipeline_hints[:6]:
+            lines.append(f"  - {hint}")
+
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:
@@ -112,6 +136,12 @@ def render_source_pattern_pack_digest(
         lines.append("- safety_constraints:")
         for constraint in safety_constraints[:8]:
             lines.append(f"  - {constraint}")
+
+    source_intake_notes = _as_note_list(source_pattern_pack.get("source_intake_notes"))
+    if source_intake_notes:
+        lines.append("- source_intake_notes:")
+        for note in source_intake_notes[:6]:
+            lines.append(f"  - {note}")
 
     if not lines:
         return "(empty public source pattern pack; do not import external code.)"
