@@ -86,6 +86,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_production_review_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1152,6 +1156,61 @@ def _append_inspectable_rewrite_audit_section(
         lines.append("- inspectable_run_workspace: expose session, storyboard, manuscript surface, current phase, pending review, and memory refs")
 
 
+def _append_production_review_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render production, continuity-bridge, voice, and review gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "craft_role_pipeline",
+        "frontmatter_story_schema",
+        "continuity_bridge_window",
+        "episode_range_rewrite_scope",
+        "voice_table_polish_axis",
+        "boring_opening_quality_gates",
+        "beat_strand_framework",
+        "anti_hallucination_plan_check",
+        "backup_restore_checkpoint",
+        "multi_level_review_trend",
+        "editor_notes_feedback_loop",
+        "genre_parameterized_worldbuilding",
+        "prose_preflight_voice_calibration",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Production review audit:")
+    if "craft_role_pipeline" in pattern_names:
+        lines.append("- craft_role_pipeline: keep architecture, character, prose, continuity, review, edit, and export outputs separate")
+    if "frontmatter_story_schema" in pattern_names:
+        lines.append("- frontmatter_story_schema: store scene state, continuity questions, promises/payoffs, and chapter draft metadata as stable fields")
+    if "continuity_bridge_window" in pattern_names:
+        lines.append("- continuity_bridge_window: feed the next chapter from recent accepted chapters, active timeline, open hooks, character state, and editor notes")
+    if "episode_range_rewrite_scope" in pattern_names:
+        lines.append("- episode_range_rewrite_scope: calculate impacted chapters and re-polish gates before applying range rewrites")
+    if "voice_table_polish_axis" in pattern_names:
+        lines.append("- voice_table_polish_axis: check dialogue against per-character diction, sentence endings, rhythm, and nonverbal palette")
+    if "boring_opening_quality_gates" in pattern_names:
+        lines.append("- boring_opening_quality_gates: reject exposition-only openings, flat scene purpose, missing pressure, and weak chapter-end hooks")
+    if "beat_strand_framework" in pattern_names:
+        lines.append("- beat_strand_framework: track external plot, internal change, and relationship strands with convergence beats")
+    if "anti_hallucination_plan_check" in pattern_names:
+        lines.append("- anti_hallucination_plan_check: verify new facts against bible, plan, retrieval evidence, and accepted chapter-change packages")
+    if "backup_restore_checkpoint" in pattern_names:
+        lines.append("- backup_restore_checkpoint: create restore points before bulk generation, range rewrites, or destructive canon merges")
+    if "multi_level_review_trend" in pattern_names:
+        lines.append("- multi_level_review_trend: review scene, chapter, batch, and cross-chapter trend risks before acceptance")
+    if "editor_notes_feedback_loop" in pattern_names:
+        lines.append("- editor_notes_feedback_loop: carry open editor notes forward and close them only with chapter evidence")
+    if "genre_parameterized_worldbuilding" in pattern_names:
+        lines.append("- genre_parameterized_worldbuilding: parameterize factions, locations, conflict sources, and taboo moves by genre/subgenre")
+    if "prose_preflight_voice_calibration" in pattern_names:
+        lines.append("- prose_preflight_voice_calibration: use voice samples to remove generic AI tells without inventing unsupported facts")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1247,6 +1306,19 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "workflow_manuscript_compilation_hints": "workflow_manuscript_compilation",
         "writing_session_goal_tracking_hints": "writing_session_goal_tracking",
         "inspectable_run_workspace_hints": "inspectable_run_workspace",
+        "craft_role_pipeline_hints": "craft_role_pipeline",
+        "frontmatter_story_schema_hints": "frontmatter_story_schema",
+        "continuity_bridge_window_hints": "continuity_bridge_window",
+        "episode_range_rewrite_scope_hints": "episode_range_rewrite_scope",
+        "voice_table_polish_axis_hints": "voice_table_polish_axis",
+        "boring_opening_quality_gates_hints": "boring_opening_quality_gates",
+        "beat_strand_framework_hints": "beat_strand_framework",
+        "anti_hallucination_plan_check_hints": "anti_hallucination_plan_check",
+        "backup_restore_checkpoint_hints": "backup_restore_checkpoint",
+        "multi_level_review_trend_hints": "multi_level_review_trend",
+        "editor_notes_feedback_loop_hints": "editor_notes_feedback_loop",
+        "genre_parameterized_worldbuilding_hints": "genre_parameterized_worldbuilding",
+        "prose_preflight_voice_calibration_hints": "prose_preflight_voice_calibration",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

@@ -2265,3 +2265,186 @@ def test_default_discovery_sources_include_inspectable_rewrite_projects():
     assert any("retrieve relevant" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("intent.md" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("recursive planning" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+
+def test_production_review_projects_map_to_continuity_voice_and_review_patterns():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "howells/fiction",
+                "html_url": "https://github.com/howells/fiction",
+                "description": "Fiction writing plugin with specialized agents for architecture, characters, prose, review, editing, continuity and publishing prep; progress.md continuity state and chapter review.",
+                "stargazers_count": 512,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["fiction", "novel", "claude-code"],
+                "updated_at": "2026-06-09T21:40:00Z",
+            },
+            {
+                "full_name": "mjbae/awesome-novel-studio",
+                "html_url": "https://github.com/mjbae/awesome-novel-studio",
+                "description": "Web novel production pipeline propose design create polish rewrite, continuity bridge from previous 2 episodes, voice table, polish axes and episode range rewrite impact scope.",
+                "stargazers_count": 248,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["web-novel", "writing", "agents"],
+                "updated_at": "2026-06-09T21:41:00Z",
+            },
+            {
+                "full_name": "danjdewhurst/story-skills",
+                "html_url": "https://github.com/danjdewhurst/story-skills",
+                "description": "Fiction project format in plain markdown with YAML frontmatter for story bible, character files, scene state, continuity questions, promises/payoffs, timelines and chapter drafts.",
+                "stargazers_count": 120,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction", "story-bible", "agent-skills"],
+                "updated_at": "2026-06-09T21:42:00Z",
+            },
+            {
+                "full_name": "hestudy/snowflake-fiction",
+                "html_url": "https://github.com/hestudy/snowflake-fiction",
+                "description": "Chinese novel plugin using Snowflake method, scene plan partial rerun, chapter-write continuation, boring-detect, opening check, quality check and novel review.",
+                "stargazers_count": 310,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing", "snowflake"],
+                "updated_at": "2026-06-09T21:43:00Z",
+            },
+            {
+                "full_name": "forsonny/The-Crucible-Writing-System-For-Claude",
+                "html_url": "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
+                "description": "Epic fantasy novel system with 36-beat framework, three interwoven strands, scene-by-scene drafting, bi-chapter review, anti-hallucination verification against planning documents and automatic backups.",
+                "stargazers_count": 90,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "fiction", "claude"],
+                "updated_at": "2026-06-09T21:44:00Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T21:45:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+
+    assert "craft_role_pipeline" in patterns_by_title["howells/fiction"]
+    assert "continuity_bridge_window" in patterns_by_title["mjbae/awesome-novel-studio"]
+    assert "episode_range_rewrite_scope" in patterns_by_title["mjbae/awesome-novel-studio"]
+    assert "voice_table_polish_axis" in patterns_by_title["mjbae/awesome-novel-studio"]
+    assert "frontmatter_story_schema" in patterns_by_title["danjdewhurst/story-skills"]
+    assert "boring_opening_quality_gates" in patterns_by_title["hestudy/snowflake-fiction"]
+    assert "beat_strand_framework" in patterns_by_title["forsonny/The-Crucible-Writing-System-For-Claude"]
+    assert "anti_hallucination_plan_check" in patterns_by_title["forsonny/The-Crucible-Writing-System-For-Claude"]
+    assert "backup_restore_checkpoint" in patterns_by_title["forsonny/The-Crucible-Writing-System-For-Claude"]
+
+
+def test_production_review_pattern_pack_exposes_continuity_voice_and_audit_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-09T21:50:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/howells/fiction",
+                "title": "howells/fiction",
+                "summary": "Specialized craft agents, progress.md session tracking and continuity state.",
+                "stars": 512,
+                "license": "NOASSERTION",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["craft_role_pipeline", "continuation", "chapter_generation"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/mjbae/awesome-novel-studio",
+                "title": "mjbae/awesome-novel-studio",
+                "summary": "Continuity bridge, voice table and episode range rewrite impact scope.",
+                "stars": 248,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["continuity_bridge_window", "voice_table_polish_axis", "episode_range_rewrite_scope"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/danjdewhurst/story-skills",
+                "title": "danjdewhurst/story-skills",
+                "summary": "YAML frontmatter, continuity questions, promises/payoffs and chapter drafts.",
+                "stars": 120,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["frontmatter_story_schema", "setup_payoff_tracking"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/hestudy/snowflake-fiction",
+                "title": "hestudy/snowflake-fiction",
+                "summary": "Boring detect, opening check and quality review for web novel chapters.",
+                "stars": 310,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["boring_opening_quality_gates", "auto_validation_rewrite"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
+                "title": "forsonny/The-Crucible-Writing-System-For-Claude",
+                "summary": "36-beat framework, interwoven strands, anti-hallucination checks and restore checkpoints.",
+                "stars": 90,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["beat_strand_framework", "anti_hallucination_plan_check", "backup_restore_checkpoint"],
+                "score": 82,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "continuity_bridge_window" in pattern_pack["whole_book_analysis_targets"]
+    assert "voice_table" in pattern_pack["whole_book_analysis_targets"]
+    assert "frontmatter_story_schema" in pattern_pack["whole_book_analysis_targets"]
+    assert "plan_verification_results" in pattern_pack["whole_book_analysis_targets"]
+    assert "backup_restore_points" in pattern_pack["whole_book_analysis_targets"]
+    assert "craft_role_pipeline_hints" in pattern_pack
+    assert "frontmatter_story_schema_hints" in pattern_pack
+    assert "continuity_bridge_window_hints" in pattern_pack
+    assert "voice_table_polish_axis_hints" in pattern_pack
+    assert "anti_hallucination_plan_check_hints" in pattern_pack
+    assert "voice_table_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "continuity_bridge_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "craft_role_pipeline_hints" in digest
+    assert "continuity_bridge_window_hints" in digest
+    assert "voice_table_polish_axis_hints" in digest
+    assert "anti_hallucination_plan_check_hints" in digest
+
+
+def test_default_discovery_sources_include_production_review_projects():
+    assert "https://github.com/howells/fiction" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mjbae/awesome-novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/danjdewhurst/story-skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/hestudy/snowflake-fiction" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/XuanRanL/webnovel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/forsonny/book-os" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/forjd/better-writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/EdwardAThomson/NovelWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("continuity bridge" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("yaml frontmatter" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("anti-hallucination" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("voice calibration" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

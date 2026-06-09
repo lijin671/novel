@@ -52,6 +52,13 @@ DEFAULT_GITHUB_QUERIES = (
     '("json schema" OR "schema-first" OR "structured generation") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("card" OR "cards" OR "context injection" OR "knowledge graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("workflow agent" OR "workflow studio" OR "progress recovery") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("continuity bridge" OR "voice table" OR "episode rewrite") ("web novel" OR "novel studio") in:name,description,readme',
+    '("YAML frontmatter" OR "promise/payoff" OR "continuity questions") ("fiction" OR "story bible") in:name,description,readme',
+    '("anti-hallucination" OR "bi-chapter review" OR "automatic backups") ("novel" OR "fiction") in:name,description,readme',
+    '("boring detection" OR "opening check" OR "golden three chapters") ("web novel" OR "novel") in:name,description,readme',
+    '("multi-level review" OR "trend tracking" OR "batch-level quality") ("novel" OR "fiction") in:name,description,readme',
+    '("voice calibration" OR "final pre-flight" OR "generic AI tells") ("writing" OR "prose") in:name,description,readme',
+    '("scene-by-scene objectives" OR "genre guides" OR "writing tasks") ("novel" OR "fiction") in:name,description,readme',
     '("scene" OR "shot" OR "idea to production" OR "storyboard") ("AI" OR "Claude Code") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
@@ -100,6 +107,15 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/kevboh/longform",
     "https://github.com/principia-ai/WriteHERE",
     "https://github.com/iLearn-Lab/NovelClaw",
+    "https://github.com/howells/fiction",
+    "https://github.com/mjbae/awesome-novel-studio",
+    "https://github.com/danjdewhurst/story-skills",
+    "https://github.com/hestudy/snowflake-fiction",
+    "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
+    "https://github.com/XuanRanL/webnovel-writer",
+    "https://github.com/forsonny/book-os",
+    "https://github.com/forjd/better-writing",
+    "https://github.com/EdwardAThomson/NovelWriter",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -218,6 +234,19 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("workflow_manuscript_compilation", ("workflow-based compilation", "compile manuscripts", "compilation tool", "ordered manuscript", "ordered series of scenes", "manuscript compilation", "编译手稿", "场景编译")),
     ("writing_session_goal_tracking", ("writing session goals", "daily writing session goals", "word counts", "scene/draft/project word counts", "writing goals", "字数目标", "写作目标")),
     ("inspectable_run_workspace", ("inspectable writing workspace", "inspectable runs", "sessions, storyboards, manuscript surfaces", "editable memory banks", "storyboards", "manuscript surfaces", "memory-aware writing control", "可检查工作区", "运行会话")),
+    ("craft_role_pipeline", ("specialized agents", "architecture, characters, prose, review, editing, continuity", "agent roles", "review agents", "multi-agent orchestration", "tool selection", "craft-aware feedback", "production system", "specialist agents")),
+    ("frontmatter_story_schema", ("yaml frontmatter", "frontmatter", "shared project format", "story bible", "character files", "scene state", "continuity questions", "plain markdown with yaml")),
+    ("continuity_bridge_window", ("continuity bridge", "previous 2 episodes", "previous two episodes", "collects timeline", "feeds it to the creation agent", "progress.md", "continuity state")),
+    ("episode_range_rewrite_scope", ("episode range", "ep001-ep010", "range arguments", "impact scope", "rewrite episodes", "auto-calculates impact scope", "after design changes")),
+    ("voice_table_polish_axis", ("voice table", "speech patterns", "sentence endings", "non-verbal palette", "voice consistency", "voice checker", "voice axis", "polish axes")),
+    ("boring_opening_quality_gates", ("boring detect", "boring-detect", "running-log", "opening check", "opening-check", "golden three chapters", "quality check", "hook", "reader experience")),
+    ("beat_strand_framework", ("36-beat", "36 beat", "three interwoven strands", "quest", "fire", "constellation", "forge points", "apex", "mercy engine", "narrative framework")),
+    ("anti_hallucination_plan_check", ("anti-hallucination", "strict verification against planning documents", "verification against planning documents", "hallucination", "forgetting", "reduce forgetting", "memory and hallucination guard")),
+    ("backup_restore_checkpoint", ("automatic backups", "restore from backup", "crucible-restore", "git backup", "backup", "restore", "never lose your work")),
+    ("multi_level_review_trend", ("multi-level review", "scene, chapter, and batch-level", "batch-level quality", "trend tracking", "quality analysis", "7 layers", "70 checks", "audit gate")),
+    ("editor_notes_feedback_loop", ("editor_notes", "editor notes", "cross-chapter feedback", "feedback loop", "cross-chapter closure", "review notes", "revision pass")),
+    ("genre_parameterized_worldbuilding", ("genre-specific", "genre guides", "genre conventions", "dynamic faction", "location systems", "faction generation", "any genre", "subgenre", "genre-specific world-building")),
+    ("prose_preflight_voice_calibration", ("voice calibration", "writing sample", "generic ai tells", "final pre-flight", "pre-flight check", "specificity does not turn into invention", "clear, specific, and human")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -362,6 +391,42 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "ilearn-lab/novelclaw": (
         "Long-form fiction workspace centered on chapter drafting, inspectable runs, manuscript review, and memory-aware writing control. Public README describes sessions, storyboards, "
         "manuscript surfaces, character/world views, editable memory banks, chapter control, and GitHub-safe release posture."
+    ),
+    "howells/fiction": (
+        "Claude Code fiction writing plugin. Public README describes a complete novel workflow with specialized agents for architecture, characters, prose, review, editing, "
+        "continuity, and publishing prep; progress.md session tracking; chapter/scene breakdown; and chapter-by-chapter craft review."
+    ),
+    "mjbae/awesome-novel-studio": (
+        "Claude Code web-novel production harness. Public README describes propose/design/create/polish/rewrite pipeline, 18 specialist agents, 16-axis polish, "
+        "voice table, continuity bridge from the previous two episodes, range rewrite commands, and design-change impact scope."
+    ),
+    "danjdewhurst/story-skills": (
+        "Agent Skills project format for fiction. Public README describes markdown files with YAML frontmatter for story bible, character files, worldbuilding notes, "
+        "factions, artifacts, plot arcs, scene state, continuity questions, promises/payoffs, timelines, and chapter drafts."
+    ),
+    "hestudy/snowflake-fiction": (
+        "Chinese Claude Code novel-writing plugin. Public README describes Snowflake method orchestration, concept validation, character design, scene planning with partial rerun, "
+        "chapter writing, novel review, humanizing, quality checks, boring-detect, opening checks, and export."
+    ),
+    "forsonny/the-crucible-writing-system-for-claude": (
+        "Claude Code epic-fantasy writing system. Public README describes a 36-beat framework, three interwoven strands, Forge Points and Apex, Mercy Engine, "
+        "scene-by-scene drafting, bi-chapter reviews, anti-hallucination checks against planning documents, and automatic backups/restore."
+    ),
+    "xuanranl/webnovel-writer": (
+        "Claude Code long web-novel system. Public README describes reducing forgetting and hallucination, RAG configuration, graph-hybrid/BM25 fallback, agent settings, "
+        "7-layer audit gates, about 70 checks, audit-agent, chapter_audit CLI, and editor_notes cross-chapter feedback."
+    ),
+    "forsonny/book-os": (
+        "Novel-OS structured workflow system. Public README describes AI-tool-agnostic writing context, genre guides, story outlines, scene-by-scene writing tasks, "
+        "global standards, novel-specific style, and writing tasks that keep voice and context inspectable."
+    ),
+    "forjd/better-writing": (
+        "Agent skill for human prose quality. Public README describes removing generic AI tells, slop structures, voice calibration from writing samples, "
+        "factual guardrails so specificity does not become invention, and final pre-flight checks before delivery."
+    ),
+    "edwardathomson/novelwriter": (
+        "Python LLM novel-writing application. Public README describes genre-specific worldbuilding, dynamic factions and locations, agentic multi-agent orchestration, "
+        "scene/chapter/batch-level review, trend tracking, automated chapter writing, flexible outputs, and chapter manuscript combining."
     ),
 }
 
@@ -712,6 +777,19 @@ class NovelSourceDiscoveryService:
             "workflow_manuscript_compilation_hints": self._build_workflow_manuscript_compilation_hints(available_patterns),
             "writing_session_goal_tracking_hints": self._build_writing_session_goal_tracking_hints(available_patterns),
             "inspectable_run_workspace_hints": self._build_inspectable_run_workspace_hints(available_patterns),
+            "craft_role_pipeline_hints": self._build_craft_role_pipeline_hints(available_patterns),
+            "frontmatter_story_schema_hints": self._build_frontmatter_story_schema_hints(available_patterns),
+            "continuity_bridge_window_hints": self._build_continuity_bridge_window_hints(available_patterns),
+            "episode_range_rewrite_scope_hints": self._build_episode_range_rewrite_scope_hints(available_patterns),
+            "voice_table_polish_axis_hints": self._build_voice_table_polish_axis_hints(available_patterns),
+            "boring_opening_quality_gates_hints": self._build_boring_opening_quality_gates_hints(available_patterns),
+            "beat_strand_framework_hints": self._build_beat_strand_framework_hints(available_patterns),
+            "anti_hallucination_plan_check_hints": self._build_anti_hallucination_plan_check_hints(available_patterns),
+            "backup_restore_checkpoint_hints": self._build_backup_restore_checkpoint_hints(available_patterns),
+            "multi_level_review_trend_hints": self._build_multi_level_review_trend_hints(available_patterns),
+            "editor_notes_feedback_loop_hints": self._build_editor_notes_feedback_loop_hints(available_patterns),
+            "genre_parameterized_worldbuilding_hints": self._build_genre_parameterized_worldbuilding_hints(available_patterns),
+            "prose_preflight_voice_calibration_hints": self._build_prose_preflight_voice_calibration_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1200,6 +1278,19 @@ class NovelSourceDiscoveryService:
             "workflow_manuscript_compilation": 34,
             "writing_session_goal_tracking": 23,
             "inspectable_run_workspace": 40,
+            "craft_role_pipeline": 58,
+            "frontmatter_story_schema": 50,
+            "continuity_bridge_window": 66,
+            "episode_range_rewrite_scope": 47,
+            "voice_table_polish_axis": 59,
+            "boring_opening_quality_gates": 57,
+            "beat_strand_framework": 56,
+            "anti_hallucination_plan_check": 65,
+            "backup_restore_checkpoint": 46,
+            "multi_level_review_trend": 60,
+            "editor_notes_feedback_loop": 55,
+            "genre_parameterized_worldbuilding": 54,
+            "prose_preflight_voice_calibration": 52,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1327,6 +1418,23 @@ class NovelSourceDiscoveryService:
             targets.append("writing_session_goals")
         if "inspectable_run_workspace" in patterns:
             targets.append("inspectable_run_workspace")
+        if "craft_role_pipeline" in patterns:
+            targets.append("craft_role_assignments")
+        if "frontmatter_story_schema" in patterns:
+            targets.append("frontmatter_story_schema")
+            targets.append("continuity_question_ledger")
+        if "continuity_bridge_window" in patterns:
+            targets.append("continuity_bridge_window")
+        if "voice_table_polish_axis" in patterns:
+            targets.append("voice_table")
+        if "beat_strand_framework" in patterns:
+            targets.append("beat_strand_map")
+        if "anti_hallucination_plan_check" in patterns:
+            targets.append("plan_verification_rules")
+        if "genre_parameterized_worldbuilding" in patterns:
+            targets.append("genre_parameterized_world_rules")
+        if "prose_preflight_voice_calibration" in patterns:
+            targets.append("voice_calibration_samples")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -1473,6 +1581,32 @@ class NovelSourceDiscoveryService:
             targets.extend(["writing_session_goal", "scene_draft_word_counts", "daily_progress_targets"])
         if "inspectable_run_workspace" in patterns:
             targets.extend(["inspectable_run_sessions", "storyboard_surfaces", "editable_memory_bank_refs"])
+        if "craft_role_pipeline" in patterns:
+            targets.extend(["craft_role_assignments", "role_output_boundaries", "review_agent_findings"])
+        if "frontmatter_story_schema" in patterns:
+            targets.extend(["frontmatter_story_schema", "scene_state_frontmatter", "continuity_questions", "promise_payoff_refs"])
+        if "continuity_bridge_window" in patterns:
+            targets.extend(["continuity_bridge_window", "recent_episode_state", "bridge_input_sources"])
+        if "episode_range_rewrite_scope" in patterns:
+            targets.extend(["rewrite_impact_scope", "episode_range_change_plan"])
+        if "voice_table_polish_axis" in patterns:
+            targets.extend(["voice_table", "dialogue_consistency_axes", "nonverbal_palette"])
+        if "boring_opening_quality_gates" in patterns:
+            targets.extend(["boring_scene_findings", "opening_hook_checks", "reader_experience_findings"])
+        if "beat_strand_framework" in patterns:
+            targets.extend(["beat_framework_map", "interwoven_strands", "convergence_points"])
+        if "anti_hallucination_plan_check" in patterns:
+            targets.extend(["plan_verification_results", "hallucination_risk_findings", "forgotten_state_findings"])
+        if "backup_restore_checkpoint" in patterns:
+            targets.extend(["backup_restore_points", "restore_manifest"])
+        if "multi_level_review_trend" in patterns:
+            targets.extend(["scene_chapter_batch_reviews", "quality_trend_report", "audit_layer_results"])
+        if "editor_notes_feedback_loop" in patterns:
+            targets.extend(["editor_notes", "cross_chapter_feedback_items"])
+        if "genre_parameterized_worldbuilding" in patterns:
+            targets.extend(["genre_worldbuilding_parameters", "faction_location_templates", "genre_guide_refs"])
+        if "prose_preflight_voice_calibration" in patterns:
+            targets.extend(["voice_calibration_samples", "prose_preflight_findings", "specificity_guardrails"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1534,6 +1668,16 @@ class NovelSourceDiscoveryService:
             hints.append("续写任务恢复时先读取断点、最后验收章节、未完成章节和最近失败原因，再继续生成。")
         if "auto_validation_rewrite" in patterns:
             hints.append("章节验收包含字数、连贯性、钩子、风格和状态写回；不合格章节进入有限轮次自动重写。")
+        if "continuity_bridge_window" in patterns:
+            hints.append("Before writing the next episode, build a continuity bridge from the last accepted chapters, active timeline, foreshadows, character state, and editor notes.")
+        if "voice_table_polish_axis" in patterns:
+            hints.append("Check dialogue against a voice table: sentence endings, diction, nonverbal palette, and motivation must stay distinct by character.")
+        if "anti_hallucination_plan_check" in patterns:
+            hints.append("Drafting cannot invent facts outside the accepted bible, plan, or chapter-change packages; mark missing facts as review questions instead.")
+        if "multi_level_review_trend" in patterns:
+            hints.append("Review at scene, chapter, and batch levels so local fixes do not hide cross-chapter drift or repeated weak beats.")
+        if "editor_notes_feedback_loop" in patterns:
+            hints.append("Carry unresolved editor notes into the next chapter context and close each note only with chapter evidence.")
         if "top_down_story_planning" in patterns:
             hints.append("长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。")
         if "plain_text_project_storage" in patterns:
@@ -1597,6 +1741,14 @@ class NovelSourceDiscoveryService:
             hints.append("Persist plot dependency edges so a payoff can prove which setup, clue, promise, or unresolved hook authorized it.")
         if "plotgrid_scene_matrix" in patterns:
             hints.append("Keep a scene matrix row for each planned scene with plotline, POV, location, emotion, status, and linked hooks.")
+        if "continuity_bridge_window" in patterns:
+            hints.append("Persist the bridge input set for each episode: recent chapters used, state slices selected, omitted risks, and why they were enough.")
+        if "episode_range_rewrite_scope" in patterns:
+            hints.append("When rewriting a chapter range, store the impact scope and all downstream chapters that must be re-polished or rechecked.")
+        if "backup_restore_checkpoint" in patterns:
+            hints.append("Create a restore checkpoint before range rewrites, bulk polishing, or schema migrations so rejected changes can roll back cleanly.")
+        if "editor_notes_feedback_loop" in patterns:
+            hints.append("Keep editor notes as open/closed state across chapters instead of burying them in review prose.")
         if "alternate_timeline_branching" in patterns:
             hints.append("Store alternate timelines as branch state; never merge divergence choices back into faithful continuation canon without explicit approval.")
         if "worldpkg_export" in patterns:
@@ -2252,6 +2404,110 @@ class NovelSourceDiscoveryService:
             "Reviewers should be able to inspect the run state without reading hidden provider prompts or external project code.",
         ]
 
+    def _build_craft_role_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "craft_role_pipeline" not in patterns:
+            return []
+        return [
+            "Separate craft roles: architecture, character, prose, continuity, review, editing, and export should produce distinct artifacts.",
+            "A review role may request changes, but canon write-back stays with the owning generation or state-sync step.",
+        ]
+
+    def _build_frontmatter_story_schema_hints(self, patterns: set[str]) -> list[str]:
+        if "frontmatter_story_schema" not in patterns:
+            return []
+        return [
+            "Use stable frontmatter-like fields for story bible, scene state, continuity questions, promises/payoffs, and chapter drafts.",
+            "Keep prose bodies separate from metadata so checks can diff state without parsing the whole manuscript.",
+        ]
+
+    def _build_continuity_bridge_window_hints(self, patterns: set[str]) -> list[str]:
+        if "continuity_bridge_window" not in patterns:
+            return []
+        return [
+            "Build a compact continuity bridge from the last accepted chapters, active timeline, open hooks, character state, and editor notes.",
+            "The bridge should record which recent chapters were included and why older material was omitted.",
+        ]
+
+    def _build_episode_range_rewrite_scope_hints(self, patterns: set[str]) -> list[str]:
+        if "episode_range_rewrite_scope" not in patterns:
+            return []
+        return [
+            "Range rewrites must calculate downstream impact before editing: affected chapters, polish axes, state deltas, and acceptance gates.",
+            "Do not silently rewrite outside the requested range; emit a separate impact proposal for dependent chapters.",
+        ]
+
+    def _build_voice_table_polish_axis_hints(self, patterns: set[str]) -> list[str]:
+        if "voice_table_polish_axis" not in patterns:
+            return []
+        return [
+            "Create a voice table with diction, sentence endings, rhythm, nonverbal palette, taboo phrases, and motivation pressure per character.",
+            "Polish dialogue against the table after continuity checks, not by flattening every character into one narrative voice.",
+        ]
+
+    def _build_boring_opening_quality_gates_hints(self, patterns: set[str]) -> list[str]:
+        if "boring_opening_quality_gates" not in patterns:
+            return []
+        return [
+            "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
+            "Opening checks should protect the first scene and early chapters from exposition-only starts.",
+        ]
+
+    def _build_beat_strand_framework_hints(self, patterns: set[str]) -> list[str]:
+        if "beat_strand_framework" not in patterns:
+            return []
+        return [
+            "Map external plot, internal change, and relationship strands separately, then mark convergence beats where they collide.",
+            "A beat framework is a pressure map, not a license to force every chapter into the same template.",
+        ]
+
+    def _build_anti_hallucination_plan_check_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_hallucination_plan_check" not in patterns:
+            return []
+        return [
+            "Before accepting prose, verify new facts against planning documents, bible state, retrieval evidence, and accepted chapter changes.",
+            "If evidence is missing, emit a continuity question or review note instead of inventing a bridge.",
+        ]
+
+    def _build_backup_restore_checkpoint_hints(self, patterns: set[str]) -> list[str]:
+        if "backup_restore_checkpoint" not in patterns:
+            return []
+        return [
+            "Create restore checkpoints before bulk generation, range rewrite, schema migration, or destructive canon merge.",
+            "A restore point must name the changed artifacts so prose, plan, bible, and review state roll back together.",
+        ]
+
+    def _build_multi_level_review_trend_hints(self, patterns: set[str]) -> list[str]:
+        if "multi_level_review_trend" not in patterns:
+            return []
+        return [
+            "Review at scene, chapter, batch, and cross-chapter trend levels; local pass status cannot hide repeated drift.",
+            "Track trend findings such as repeated weak hooks, voice collapse, unresolved editor notes, and pacing flatlines.",
+        ]
+
+    def _build_editor_notes_feedback_loop_hints(self, patterns: set[str]) -> list[str]:
+        if "editor_notes_feedback_loop" not in patterns:
+            return []
+        return [
+            "Persist editor notes as open, deferred, or closed items with the chapter evidence that resolves them.",
+            "Next-chapter prompts should include only active notes relevant to the current beat or risk.",
+        ]
+
+    def _build_genre_parameterized_worldbuilding_hints(self, patterns: set[str]) -> list[str]:
+        if "genre_parameterized_worldbuilding" not in patterns:
+            return []
+        return [
+            "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
+            "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks.",
+        ]
+
+    def _build_prose_preflight_voice_calibration_hints(self, patterns: set[str]) -> list[str]:
+        if "prose_preflight_voice_calibration" not in patterns:
+            return []
+        return [
+            "Use voice samples to calibrate specificity, rhythm, warmth, and density before polishing prose.",
+            "The final prose preflight removes generic AI tells while preserving factual guardrails and character voice.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -2334,6 +2590,18 @@ class NovelSourceDiscoveryService:
             targets.append("state_delta_remap")
         if "recursive_adaptive_planning" in patterns:
             targets.append("adaptive_task_tree_remap")
+        if "frontmatter_story_schema" in patterns:
+            targets.append("frontmatter_schema_remap")
+        if "continuity_bridge_window" in patterns:
+            targets.append("continuity_bridge_remap")
+        if "voice_table_polish_axis" in patterns:
+            targets.append("voice_table_remap")
+        if "beat_strand_framework" in patterns:
+            targets.append("beat_strand_remap")
+        if "genre_parameterized_worldbuilding" in patterns:
+            targets.append("genre_module_remap")
+        if "prose_preflight_voice_calibration" in patterns:
+            targets.append("voice_calibration_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -2391,6 +2659,12 @@ class NovelSourceDiscoveryService:
             hints.append("Use retrieval to compare functions and pressure points, then rewrite only transformed spans in the new story state.")
         if "recursive_adaptive_planning" in patterns:
             hints.append("Let adaptive planning revise the new story's task tree instead of following the source workflow order.")
+        if "voice_table_polish_axis" in patterns:
+            hints.append("Build a new voice table for the transformed cast; source voice axes can guide separation, not wording.")
+        if "genre_parameterized_worldbuilding" in patterns:
+            hints.append("Transform genre parameters into new factions, locations, stakes, and taboo moves before drafting.")
+        if "prose_preflight_voice_calibration" in patterns:
+            hints.append("Use voice calibration to make the new prose specific and human without preserving source phrases.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -2436,6 +2710,10 @@ class NovelSourceDiscoveryService:
             hints.append("When borrowing a local scene function, identify the new-story span and update its outline delta instead of rewriting source-like neighbors.")
         if "schema_validated_state_delta" in patterns:
             hints.append("Validate transformed state deltas so copied source event labels cannot enter canon through structured fields.")
+        if "beat_strand_framework" in patterns:
+            hints.append("Transform strand functions and convergence pressure; do not preserve the source beat labels or sequence.")
+        if "frontmatter_story_schema" in patterns:
+            hints.append("Create new frontmatter/story-schema values instead of carrying source promises, questions, or scene state forward.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -2477,6 +2755,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject rewrites that retrieve source spans as canon instead of using them as transformation evidence.")
         if "runtime_artifact_trace" in patterns:
             hints.append("Reject traces whose selected context mixes source inspiration with accepted new-story canon.")
+        if "continuity_bridge_window" in patterns:
+            hints.append("Reject bridge packets that import source continuity as if it were accepted new-story history.")
+        if "voice_table_polish_axis" in patterns:
+            hints.append("Reject voice tables that keep source catchphrases, signature sentence endings, or named verbal tics.")
+        if "beat_strand_framework" in patterns:
+            hints.append("Reject beat maps that preserve the source convergence order under different names.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -2505,6 +2789,12 @@ class NovelSourceDiscoveryService:
                 "runtime_artifact_trace",
                 "schema_validated_state_delta",
                 "recursive_adaptive_planning",
+                "frontmatter_story_schema",
+                "continuity_bridge_window",
+                "voice_table_polish_axis",
+                "beat_strand_framework",
+                "genre_parameterized_worldbuilding",
+                "prose_preflight_voice_calibration",
             }
         ) and (
             "style_signature" in patterns

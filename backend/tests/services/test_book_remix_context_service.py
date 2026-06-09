@@ -1523,3 +1523,46 @@ def test_build_remix_continuation_progress_summary_renders_emotional_progression
             "curve": {"start": 0.4, "end": 0.8},
         }
     ]
+
+
+
+def test_build_remix_continuation_context_block_renders_production_review_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Production Review Novel",
+        bible={"world_rules": {"rule": "keep accepted canon"}},
+        plan={"summary": "Continue from accepted bridge."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "craft_role_pipeline"},
+                {"name": "frontmatter_story_schema"},
+                {"name": "continuity_bridge_window"},
+                {"name": "episode_range_rewrite_scope"},
+                {"name": "voice_table_polish_axis"},
+                {"name": "boring_opening_quality_gates"},
+                {"name": "beat_strand_framework"},
+                {"name": "anti_hallucination_plan_check"},
+                {"name": "backup_restore_checkpoint"},
+                {"name": "multi_level_review_trend"},
+                {"name": "editor_notes_feedback_loop"},
+                {"name": "genre_parameterized_worldbuilding"},
+                {"name": "prose_preflight_voice_calibration"},
+            ],
+            "continuity_bridge_window_hints": ["Build a compact continuity bridge."],
+            "voice_table_polish_axis_hints": ["Check dialogue against voice table."],
+        },
+    )
+
+    assert "Production review audit:" in block
+    assert "craft_role_pipeline: keep architecture, character, prose, continuity, review, edit, and export outputs separate" in block
+    assert "frontmatter_story_schema: store scene state, continuity questions, promises/payoffs, and chapter draft metadata as stable fields" in block
+    assert "continuity_bridge_window: feed the next chapter from recent accepted chapters" in block
+    assert "episode_range_rewrite_scope: calculate impacted chapters" in block
+    assert "voice_table_polish_axis: check dialogue against per-character" in block
+    assert "boring_opening_quality_gates: reject exposition-only openings" in block
+    assert "beat_strand_framework: track external plot, internal change, and relationship strands" in block
+    assert "anti_hallucination_plan_check: verify new facts against bible" in block
+    assert "backup_restore_checkpoint: create restore points" in block
+    assert "multi_level_review_trend: review scene, chapter, batch" in block
+    assert "editor_notes_feedback_loop: carry open editor notes forward" in block
+    assert "genre_parameterized_worldbuilding: parameterize factions" in block
+    assert "prose_preflight_voice_calibration: use voice samples" in block

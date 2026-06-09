@@ -243,6 +243,19 @@ def render_source_pattern_pack_digest(
         "workflow_manuscript_compilation_hints",
         "writing_session_goal_tracking_hints",
         "inspectable_run_workspace_hints",
+        "craft_role_pipeline_hints",
+        "frontmatter_story_schema_hints",
+        "continuity_bridge_window_hints",
+        "episode_range_rewrite_scope_hints",
+        "voice_table_polish_axis_hints",
+        "boring_opening_quality_gates_hints",
+        "beat_strand_framework_hints",
+        "anti_hallucination_plan_check_hints",
+        "backup_restore_checkpoint_hints",
+        "multi_level_review_trend_hints",
+        "editor_notes_feedback_loop_hints",
+        "genre_parameterized_worldbuilding_hints",
+        "prose_preflight_voice_calibration_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:
