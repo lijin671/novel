@@ -122,6 +122,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_near_duplicate_semantic_dedup_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_text_analysis_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -432,6 +436,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_copy_similarity_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_near_duplicate_semantic_dedup_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1346,6 +1354,37 @@ def _append_copy_similarity_audit_section(
         lines.append("- diff_span_copy_review: inspect diff spans for copied wording, source sentence order, semantic-cleanup matches, and patch-like edits")
 
 
+def _append_near_duplicate_semantic_dedup_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render MinHash/SimHash/semantic dedup independence gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "minhash_lsh_near_duplicate_gate",
+        "simhash_hamming_similarity_gate",
+        "semantic_duplicate_cluster_gate",
+        "embedding_similarity_independence_gate",
+        "corpus_leakage_dedup_review_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Near-duplicate and semantic dedup audit:")
+    if "minhash_lsh_near_duplicate_gate" in pattern_names:
+        lines.append("- minhash_lsh_near_duplicate_gate: compare source and draft shingles; review high-Jaccard near-duplicate windows before acceptance")
+    if "simhash_hamming_similarity_gate" in pattern_names:
+        lines.append("- simhash_hamming_similarity_gate: flag low-Hamming-distance windows that survive renaming, translation, or polish")
+    if "semantic_duplicate_cluster_gate" in pattern_names:
+        lines.append("- semantic_duplicate_cluster_gate: cluster semantic neighbors so paraphrased source scenes cannot pass as independent drafts")
+    if "embedding_similarity_independence_gate" in pattern_names:
+        lines.append("- embedding_similarity_independence_gate: require key passages to be closer to transformed canon/brief than to source excerpts")
+    if "corpus_leakage_dedup_review_gate" in pattern_names:
+        lines.append("- corpus_leakage_dedup_review_gate: keep source corpora, deconstruction notes, transformed canon, and drafts in separate leakage-auditable manifests")
+
+
 def _append_text_analysis_audit_section(
     *,
     lines: list[str],
@@ -2175,6 +2214,11 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "source_text_fingerprint_gate_hints": "source_text_fingerprint_gate",
         "fuzzy_phrase_similarity_gate_hints": "fuzzy_phrase_similarity_gate",
         "diff_span_copy_review_hints": "diff_span_copy_review",
+        "minhash_lsh_near_duplicate_gate_hints": "minhash_lsh_near_duplicate_gate",
+        "simhash_hamming_similarity_gate_hints": "simhash_hamming_similarity_gate",
+        "semantic_duplicate_cluster_gate_hints": "semantic_duplicate_cluster_gate",
+        "embedding_similarity_independence_gate_hints": "embedding_similarity_independence_gate",
+        "corpus_leakage_dedup_review_gate_hints": "corpus_leakage_dedup_review_gate",
         "character_quote_attribution_map_hints": "character_quote_attribution_map",
         "readability_pacing_metric_gate_hints": "readability_pacing_metric_gate",
         "prose_lint_style_rule_gate_hints": "prose_lint_style_rule_gate",

@@ -2052,6 +2052,69 @@ def test_build_remix_inspired_context_block_renders_copy_similarity_audit():
     assert "fingerprint_baseline_remap, fuzzy_phrase_threshold_remap, diff_span_review_remap" in block
 
 
+def test_build_remix_continuation_context_block_renders_near_duplicate_semantic_dedup_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Dedup Continuation Desk",
+        bible={"chapter_change_packages": [{"chapter_number": 6, "summary": "The source route was transformed."}]},
+        plan={"summary": "Continue only after source-leakage and near-duplicate checks pass."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "minhash_lsh_near_duplicate_gate"},
+                {"name": "simhash_hamming_similarity_gate"},
+                {"name": "semantic_duplicate_cluster_gate"},
+                {"name": "embedding_similarity_independence_gate"},
+                {"name": "corpus_leakage_dedup_review_gate"},
+            ],
+            "minhash_lsh_near_duplicate_gate_hints": ["Review high-Jaccard source shingles."],
+            "semantic_duplicate_cluster_gate_hints": ["Cluster source and draft windows before acceptance."],
+        },
+    )
+
+    assert "Near-duplicate and semantic dedup audit" in block
+    assert "minhash_lsh_near_duplicate_gate: compare source and draft shingles" in block
+    assert "simhash_hamming_similarity_gate: flag low-Hamming-distance windows" in block
+    assert "semantic_duplicate_cluster_gate: cluster semantic neighbors" in block
+    assert "embedding_similarity_independence_gate: require key passages" in block
+    assert "corpus_leakage_dedup_review_gate: keep source corpora" in block
+    assert "Review high-Jaccard source shingles." in block
+
+
+def test_build_remix_inspired_context_block_renders_near_duplicate_semantic_dedup_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Dedup Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Keep genre pressure, not source scene topology.\n"
+            "source voice\n"
+            "- Dense reversals, compressed dialogue.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "minhash_lsh_near_duplicate_gate"},
+                {"name": "simhash_hamming_similarity_gate"},
+                {"name": "semantic_duplicate_cluster_gate"},
+                {"name": "embedding_similarity_independence_gate"},
+                {"name": "corpus_leakage_dedup_review_gate"},
+            ],
+            "inspired_mapping_targets": [
+                "minhash_lsh_threshold_remap",
+                "simhash_hamming_threshold_remap",
+                "semantic_cluster_independence_remap",
+                "embedding_neighbor_independence_remap",
+                "corpus_leakage_boundary_remap",
+            ],
+            "inspired_copy_risk_hints": ["Reject source-nearest semantic neighbors and long repeated sequences."],
+        },
+    )
+
+    assert "Near-duplicate and semantic dedup audit" in block
+    assert "minhash_lsh_near_duplicate_gate" in block
+    assert "embedding_similarity_independence_gate" in block
+    assert "Inspired transformation audit" in block
+    assert "minhash_lsh_threshold_remap, simhash_hamming_threshold_remap" in block
+    assert "Reject source-nearest semantic neighbors and long repeated sequences." in block
+
+
 def test_build_remix_continuation_context_block_renders_text_analysis_audit():
     block = build_remix_continuation_context_block(
         project_title="Metric Continuation Desk",

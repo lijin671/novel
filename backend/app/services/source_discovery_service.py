@@ -95,6 +95,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("winnowing" OR "document fingerprinting" OR "plagiarism detection") ("text" OR "source" OR "similarity") in:name,description,readme',
     '("fuzzy string matching" OR "Levenshtein" OR "string metrics") ("text" OR "similarity" OR "copy") in:name,description,readme',
     '("diff match patch" OR "semantic cleanup" OR "copied spans") ("text" OR "copy" OR "similarity") in:name,description,readme',
+    '("MinHash" OR "LSH" OR "near duplicate") ("text dedup" OR "deduplication" OR "Jaccard") in:name,description,readme',
+    '("SimHash" OR "Hamming distance" OR "near duplicate") ("text" OR "document" OR "similarity") in:name,description,readme',
+    '("semantic deduplication" OR "embedding similarity" OR "semantic duplicates" OR "FAISS") ("text" OR "dataset" OR "corpus") in:name,description,readme',
     '("quote attribution" OR "character coreference" OR "speaker attribution") ("book" OR "novel" OR "fiction") in:name,description,readme',
     '("readability" OR "sentence length" OR "lexical diversity" OR "lexical richness") ("novel" OR "fiction" OR "text analysis") in:name,description,readme',
     '("prose lint" OR "prose linter" OR "style linter" OR "copyedit") ("novel" OR "fiction" OR "manuscript" OR "markdown") in:name,description,readme',
@@ -248,6 +251,15 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/rapidfuzz/RapidFuzz",
     "https://github.com/google/diff-match-patch",
     "https://github.com/agranya99/MOSS-winnowing-seqMatcher",
+    "https://github.com/ChenghaoMou/text-dedup",
+    "https://github.com/google-research/deduplicate-text-datasets",
+    "https://github.com/ekzhu/datasketch",
+    "https://github.com/seomoz/simhash-py",
+    "https://github.com/1e0ng/simhash",
+    "https://github.com/MinishLab/semhash",
+    "https://github.com/UKPLab/sentence-transformers",
+    "https://github.com/facebookresearch/faiss",
+    "https://github.com/facebookresearch/SemDeDup",
     "https://github.com/booknlp/booknlp",
     "https://github.com/textstat/textstat",
     "https://github.com/vale-cli/vale",
@@ -511,6 +523,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("source_text_fingerprint_gate", ("winnowing", "document fingerprinting", "fingerprinting", "plagiarism detection", "copied slices", "moss", "source fingerprint", "text fingerprint", "fingerprint overlap")),
     ("fuzzy_phrase_similarity_gate", ("fuzzy string matching", "levenshtein", "string metrics", "sequence matcher", "sequencematcher", "fuzzy phrase", "phrase similarity")),
     ("diff_span_copy_review", ("diff match patch", "diff, match and patch", "semantic cleanup", "copied spans", "diff spans", "patch library", "diff_span")),
+    ("minhash_lsh_near_duplicate_gate", ("minhash", "lsh", "locality sensitive hashing", "jaccard similarity", "near duplicate", "near-duplicate", "text dedup", "deduplication", "text-dedup", "datasketch")),
+    ("simhash_hamming_similarity_gate", ("simhash", "hamming distance", "hamming", "similar hashes", "near-duplicate documents", "near duplicate documents", "simhash-py")),
+    ("semantic_duplicate_cluster_gate", ("semantic deduplication", "semantic dedup", "semantic duplicates", "semhash", "semdedup", "embedding clusters", "cluster semantic duplicates")),
+    ("embedding_similarity_independence_gate", ("sentence-transformers", "sentence transformers", "embedding similarity", "dense vectors", "similarity search", "nearest neighbor", "nearest neighbours", "faiss", "vector similarity", "cosine similarity")),
+    ("corpus_leakage_dedup_review_gate", ("deduplicating training data", "exactsubstr", "neardup", "dataset deduplication", "deduplicate language model datasets", "corpus leakage", "training data dedup", "repeated sequences")),
     ("character_quote_attribution_map", ("booknlp", "book-length documents", "character coreference", "character mentions", "quote attribution", "speaker attribution", "entity tokens", "quote speaker", "speaker map")),
     ("readability_pacing_metric_gate", ("readability", "readability statistics", "sentence length", "paragraph length", "flesch", "gunning fog", "smog index", "text statistics")),
     ("prose_lint_style_rule_gate", ("prose lint", "prose linter", "style linter", "natural language linter", "text linter", "vale", "textlint", "proselint", "write-good", "write good", "weasel words", "passive voice", "cliches", "style guide rules", "house style", "lint prose", "\u6587\u7a3f\u6821\u5bf9", "\u98ce\u683c\u89c4\u5219", "\u6563\u6587\u68c0\u67e5")),
@@ -933,6 +950,46 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "agranya99/moss-winnowing-seqmatcher": (
         "MOSS-winnowing-seqMatcher is an MIT educational plagiarism checker using winnowing and SequenceMatcher. "
         "Absorb fingerprint and fuzzy phrase review patterns only; scripts are not executed."
+    ),
+    "chenghaomou/text-dedup": (
+        "text-dedup is an Apache-2.0 all-in-one text deduplication project. "
+        "Absorb exact, MinHash, SimHash, and semantic dedup gate patterns only; package/runtime code is not installed."
+    ),
+    "google-research/deduplicate-text-datasets": (
+        "Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning. "
+        "Absorb corpus leakage and repeated-sequence review gates only; Rust/Python scripts and datasets are not executed or downloaded."
+    ),
+    "ekzhu/datasketch": (
+        "datasketch provides MinHash, MinHash LSH, LSH Forest, Weighted MinHash, HyperLogLog, and related probabilistic structures. "
+        "Absorb Jaccard/LSH near-duplicate threshold patterns only; package runtime is not imported."
+    ),
+    "seomoz/simhash-py": (
+        "simhash-py identifies near-duplicate documents by comparing similar hashes and Hamming distance. "
+        "Absorb SimHash/Hamming review gates only; C++ extension/runtime is not built."
+    ),
+    "1e0ng/simhash": (
+        "simhash is a Python implementation of the SimHash algorithm for text similarity. "
+        "Absorb lightweight SimHash near-duplicate review patterns only; package runtime is not imported."
+    ),
+    "minishlab/semhash": (
+        "SemHash is a MIT fast multimodal semantic deduplication and filtering project. "
+        "Absorb semantic duplicate clustering and filtering gates only; models/packages are not installed."
+    ),
+    "ukplab/sentence-transformers": (
+        "Sentence Transformers provides embeddings, retrieval, and reranking for semantic similarity. "
+        "Absorb embedding-similarity independence review gates only; models and runtime dependencies are not downloaded."
+    ),
+    "huggingface/sentence-transformers": (
+        "Sentence Transformers provides embeddings, retrieval, and reranking for semantic similarity. "
+        "Absorb embedding-similarity independence review gates only; models and runtime dependencies are not downloaded."
+    ),
+    "facebookresearch/faiss": (
+        "Faiss is a MIT library for efficient similarity search and clustering of dense vectors. "
+        "Absorb vector-nearest-neighbor review and threshold patterns only; native/GPU runtime is not imported."
+    ),
+    "facebookresearch/semdedup": (
+        "SemDeDup identifies and removes semantic duplicates in web-scale datasets using embedding clusters. "
+        "Absorb semantic duplicate cluster gates and corpus leakage warnings only; archived code, conda env, and data pipeline are not executed."
     ),
     "booknlp/booknlp": (
         "BookNLP is an MIT NLP pipeline for book-length documents. Public README and metadata describe character coreference, "
@@ -1667,6 +1724,11 @@ class NovelSourceDiscoveryService:
             "source_text_fingerprint_gate_hints": self._build_source_text_fingerprint_gate_hints(available_patterns),
             "fuzzy_phrase_similarity_gate_hints": self._build_fuzzy_phrase_similarity_gate_hints(available_patterns),
             "diff_span_copy_review_hints": self._build_diff_span_copy_review_hints(available_patterns),
+            "minhash_lsh_near_duplicate_gate_hints": self._build_minhash_lsh_near_duplicate_gate_hints(available_patterns),
+            "simhash_hamming_similarity_gate_hints": self._build_simhash_hamming_similarity_gate_hints(available_patterns),
+            "semantic_duplicate_cluster_gate_hints": self._build_semantic_duplicate_cluster_gate_hints(available_patterns),
+            "embedding_similarity_independence_gate_hints": self._build_embedding_similarity_independence_gate_hints(available_patterns),
+            "corpus_leakage_dedup_review_gate_hints": self._build_corpus_leakage_dedup_review_gate_hints(available_patterns),
             "character_quote_attribution_map_hints": self._build_character_quote_attribution_map_hints(available_patterns),
             "readability_pacing_metric_gate_hints": self._build_readability_pacing_metric_gate_hints(available_patterns),
             "prose_lint_style_rule_gate_hints": self._build_prose_lint_style_rule_gate_hints(available_patterns),
@@ -2275,6 +2337,11 @@ class NovelSourceDiscoveryService:
             "source_text_fingerprint_gate": 63,
             "fuzzy_phrase_similarity_gate": 62,
             "diff_span_copy_review": 61,
+            "minhash_lsh_near_duplicate_gate": 65,
+            "simhash_hamming_similarity_gate": 64,
+            "semantic_duplicate_cluster_gate": 66,
+            "embedding_similarity_independence_gate": 66,
+            "corpus_leakage_dedup_review_gate": 65,
             "character_quote_attribution_map": 66,
             "readability_pacing_metric_gate": 60,
             "prose_lint_style_rule_gate": 61,
@@ -2487,6 +2554,21 @@ class NovelSourceDiscoveryService:
         if "diff_span_copy_review" in patterns:
             targets.append("diff_span_review_rules")
             targets.append("copied_span_rewrite_policy")
+        if "minhash_lsh_near_duplicate_gate" in patterns:
+            targets.append("minhash_lsh_thresholds")
+            targets.append("shingle_window_policy")
+        if "simhash_hamming_similarity_gate" in patterns:
+            targets.append("simhash_hamming_thresholds")
+            targets.append("near_duplicate_window_policy")
+        if "semantic_duplicate_cluster_gate" in patterns:
+            targets.append("semantic_duplicate_cluster_thresholds")
+            targets.append("cluster_false_positive_review_rules")
+        if "embedding_similarity_independence_gate" in patterns:
+            targets.append("embedding_similarity_independence_thresholds")
+            targets.append("nearest_neighbor_review_policy")
+        if "corpus_leakage_dedup_review_gate" in patterns:
+            targets.append("corpus_leakage_review_policy")
+            targets.append("source_corpus_boundary_manifest")
         if "character_quote_attribution_map" in patterns:
             targets.append("character_quote_speaker_map")
             targets.append("alias_mention_index")
@@ -2878,6 +2960,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["fuzzy_phrase_similarity_report", "paraphrase_similarity_findings", "phrase_threshold_decisions"])
         if "diff_span_copy_review" in patterns:
             targets.extend(["diff_span_copy_risk_report", "copied_span_review_notes", "semantic_cleanup_review_findings"])
+        if "minhash_lsh_near_duplicate_gate" in patterns:
+            targets.extend(["minhash_lsh_overlap_report", "jaccard_near_duplicate_windows", "shingle_false_positive_notes"])
+        if "simhash_hamming_similarity_gate" in patterns:
+            targets.extend(["simhash_hamming_report", "near_duplicate_hash_windows", "hamming_threshold_decisions"])
+        if "semantic_duplicate_cluster_gate" in patterns:
+            targets.extend(["semantic_duplicate_cluster_report", "embedding_cluster_neighbors", "semantic_dedup_false_positive_notes"])
+        if "embedding_similarity_independence_gate" in patterns:
+            targets.extend(["embedding_similarity_independence_report", "nearest_neighbor_source_hits", "source_distance_acceptance_decisions"])
+        if "corpus_leakage_dedup_review_gate" in patterns:
+            targets.extend(["corpus_leakage_dedup_report", "repeated_sequence_findings", "source_corpus_boundary_findings"])
         if "character_quote_attribution_map" in patterns:
             targets.extend(["character_quote_attribution_report", "speaker_alias_map", "quote_voice_distribution"])
         if "readability_pacing_metric_gate" in patterns:
@@ -4544,6 +4636,51 @@ class NovelSourceDiscoveryService:
             "Use diff review as a copy-risk gate only; it must not import source text or train prompts to imitate protected wording.",
         ]
 
+    def _build_minhash_lsh_near_duplicate_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "minhash_lsh_near_duplicate_gate" not in patterns:
+            return []
+        return [
+            "Use shingled MinHash/LSH-style checks to catch near-duplicate source windows before same-type drafts become accepted chapters.",
+            "Review high-Jaccard clusters manually because genre formulas, required names, and boilerplate can be legitimate false positives.",
+            "Record shingle size, threshold, and accepted/rewritten decisions so future prompt changes can be regression-tested.",
+        ]
+
+    def _build_simhash_hamming_similarity_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "simhash_hamming_similarity_gate" not in patterns:
+            return []
+        return [
+            "Use SimHash/Hamming-style fingerprints for lightly edited or reordered passages that may evade exact fingerprint checks.",
+            "Flag near-duplicate hash windows after entity renaming, translation, or copyedit polishing because those passes can preserve source topology.",
+            "Keep Hamming thresholds separate for short dialogue, long prose windows, and outline beats to avoid over-blocking stock genre language.",
+        ]
+
+    def _build_semantic_duplicate_cluster_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "semantic_duplicate_cluster_gate" not in patterns:
+            return []
+        return [
+            "Cluster source and draft windows by semantic similarity so paraphrased duplicate scenes are found even when wording changes.",
+            "Treat same-cluster source neighbors as review evidence: rewrite concrete actor, object, obstacle, cost, and payoff until the draft stands alone.",
+            "Store false-positive notes for shared tropes so semantic dedup does not reject genre resemblance by itself.",
+        ]
+
+    def _build_embedding_similarity_independence_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "embedding_similarity_independence_gate" not in patterns:
+            return []
+        return [
+            "Run embedding-nearest-neighbor style checks against source excerpts and transformed canon before accepting same-type prose.",
+            "A draft should be closest to its own transformed brief, accepted canon, or local outline, not to the source text or source author baseline.",
+            "Use vector similarity as a triage signal with cited neighbors and thresholds; do not let opaque similarity scores silently rewrite prose.",
+        ]
+
+    def _build_corpus_leakage_dedup_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "corpus_leakage_dedup_review_gate" not in patterns:
+            return []
+        return [
+            "Keep source corpora, deconstruction notes, transformed canon, and generated drafts in separate manifests so training-like leakage can be audited.",
+            "Scan for repeated long sequences or chapter-route clusters that indicate the draft imported source material instead of transformed story state.",
+            "Do not accept same-type output until leakage findings are resolved or explicitly marked as allowed continuation canon.",
+        ]
+
     def _build_character_quote_attribution_map_hints(self, patterns: set[str]) -> list[str]:
         if "character_quote_attribution_map" not in patterns:
             return []
@@ -5254,6 +5391,16 @@ class NovelSourceDiscoveryService:
             targets.append("fuzzy_phrase_threshold_remap")
         if "diff_span_copy_review" in patterns:
             targets.append("diff_span_review_remap")
+        if "minhash_lsh_near_duplicate_gate" in patterns:
+            targets.append("minhash_lsh_threshold_remap")
+        if "simhash_hamming_similarity_gate" in patterns:
+            targets.append("simhash_hamming_threshold_remap")
+        if "semantic_duplicate_cluster_gate" in patterns:
+            targets.append("semantic_cluster_independence_remap")
+        if "embedding_similarity_independence_gate" in patterns:
+            targets.append("embedding_neighbor_independence_remap")
+        if "corpus_leakage_dedup_review_gate" in patterns:
+            targets.append("corpus_leakage_boundary_remap")
         if "character_quote_attribution_map" in patterns:
             targets.append("quote_speaker_remap")
         if "readability_pacing_metric_gate" in patterns:
@@ -5481,6 +5628,16 @@ class NovelSourceDiscoveryService:
             hints.append("Use fuzzy phrase checks to catch near-copy paraphrases after names and surface labels have been changed.")
         if "diff_span_copy_review" in patterns:
             hints.append("Review source-vs-draft diff spans so semantic cleanup does not hide copied sentence order or set-piece wording.")
+        if "minhash_lsh_near_duplicate_gate" in patterns:
+            hints.append("Run near-duplicate shingle checks before accepting same-type prose; high-overlap windows need visible rewrite or exception notes.")
+        if "simhash_hamming_similarity_gate" in patterns:
+            hints.append("Use SimHash/Hamming checks after entity remap and polish so lightly edited source passages cannot pass as new prose.")
+        if "semantic_duplicate_cluster_gate" in patterns:
+            hints.append("Check whether draft windows cluster with source scenes; if they do, change actor pressure, object, obstacle, and payoff.")
+        if "embedding_similarity_independence_gate" in patterns:
+            hints.append("The nearest semantic neighbor for a draft should be transformed canon or its own brief, not the source excerpt.")
+        if "corpus_leakage_dedup_review_gate" in patterns:
+            hints.append("Keep source corpus notes outside generated canon and reject repeated long sequences that suggest source leakage.")
         if "character_quote_attribution_map" in patterns:
             hints.append("Map source quote distribution into new speaker functions, then rewrite aliases, speakers, and dialogue content for the transformed cast.")
         if "readability_pacing_metric_gate" in patterns:
@@ -5714,6 +5871,16 @@ class NovelSourceDiscoveryService:
             hints.append("Change image clusters, objects, stakes, and causal wording until fuzzy phrase similarity drops below the review threshold.")
         if "diff_span_copy_review" in patterns:
             hints.append("Use copied-span review to drive targeted rewrites while preserving only abstract craft function.")
+        if "minhash_lsh_near_duplicate_gate" in patterns:
+            hints.append("Transform shingles by changing event order, object set, scene exits, and causal phrasing before prose expansion.")
+        if "simhash_hamming_similarity_gate" in patterns:
+            hints.append("Transform lightly similar hash windows by changing structure as well as wording; name replacement alone is insufficient.")
+        if "semantic_duplicate_cluster_gate" in patterns:
+            hints.append("Transform semantic clusters into new scene functions, then verify source scenes are no longer the closest cluster center.")
+        if "embedding_similarity_independence_gate" in patterns:
+            hints.append("Transform embedding-neighbor evidence into concrete deltas: new protagonist goal, blocker, cost, clue, and consequence.")
+        if "corpus_leakage_dedup_review_gate" in patterns:
+            hints.append("Transform source corpus examples into separate craft constraints so no raw source sequence enters draft context.")
         if "character_quote_attribution_map" in patterns:
             hints.append("Transform quote attribution by assigning new speakers, aliases, relationship pressure, and dialogue goals before drafting.")
         if "readability_pacing_metric_gate" in patterns:
@@ -5959,6 +6126,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject paraphrases that survive fuzzy matching after names, titles, and surface nouns are changed.")
         if "diff_span_copy_review" in patterns:
             hints.append("Reject chapters whose copied-span review shows source sentence order, semantic-cleanup matches, or patch-like edits.")
+        if "minhash_lsh_near_duplicate_gate" in patterns:
+            hints.append("Reject high-Jaccard source overlaps unless they are reviewed stock phrases or explicit continuation canon.")
+        if "simhash_hamming_similarity_gate" in patterns:
+            hints.append("Reject low-Hamming-distance prose windows that survive entity remap, translation, or copyedit polish.")
+        if "semantic_duplicate_cluster_gate" in patterns:
+            hints.append("Reject drafts whose scene windows cluster with source scenes after concrete entities and wording have changed.")
+        if "embedding_similarity_independence_gate" in patterns:
+            hints.append("Reject same-type drafts when source excerpts remain the nearest semantic neighbors for key passages.")
+        if "corpus_leakage_dedup_review_gate" in patterns:
+            hints.append("Reject outputs that reuse long source sequences, duplicated chapter routes, or mixed source/deconstruction material as canon.")
         if "character_quote_attribution_map" in patterns:
             hints.append("Reject copied speaker quote distribution, alias clusters, or dialogue-turn ownership that makes the new cast trace back to the source.")
         if "readability_pacing_metric_gate" in patterns:
@@ -6089,6 +6266,11 @@ class NovelSourceDiscoveryService:
                 "source_text_fingerprint_gate",
                 "fuzzy_phrase_similarity_gate",
                 "diff_span_copy_review",
+                "minhash_lsh_near_duplicate_gate",
+                "simhash_hamming_similarity_gate",
+                "semantic_duplicate_cluster_gate",
+                "embedding_similarity_independence_gate",
+                "corpus_leakage_dedup_review_gate",
                 "character_quote_attribution_map",
                 "readability_pacing_metric_gate",
                 "prose_lint_style_rule_gate",
@@ -6222,6 +6404,11 @@ class NovelSourceDiscoveryService:
                 "source_text_fingerprint_gate",
                 "fuzzy_phrase_similarity_gate",
                 "diff_span_copy_review",
+                "minhash_lsh_near_duplicate_gate",
+                "simhash_hamming_similarity_gate",
+                "semantic_duplicate_cluster_gate",
+                "embedding_similarity_independence_gate",
+                "corpus_leakage_dedup_review_gate",
                 "prose_lint_style_rule_gate",
                 "grammar_spelling_copyedit_gate",
                 "copyedit_diagnostic_triage_queue",
@@ -6293,6 +6480,11 @@ class NovelSourceDiscoveryService:
                 or "source_text_fingerprint_gate" in patterns
                 or "fuzzy_phrase_similarity_gate" in patterns
                 or "diff_span_copy_review" in patterns
+                or "minhash_lsh_near_duplicate_gate" in patterns
+                or "simhash_hamming_similarity_gate" in patterns
+                or "semantic_duplicate_cluster_gate" in patterns
+                or "embedding_similarity_independence_gate" in patterns
+                or "corpus_leakage_dedup_review_gate" in patterns
                 or "prose_lint_style_rule_gate" in patterns
                 or "grammar_spelling_copyedit_gate" in patterns
                 or "copyedit_diagnostic_triage_queue" in patterns
@@ -6602,6 +6794,23 @@ class NovelSourceDiscoveryService:
             "diff match patch",
             "semantic cleanup",
             "copied slices",
+            "minhash",
+            "lsh",
+            "locality sensitive hashing",
+            "jaccard similarity",
+            "text dedup",
+            "deduplication",
+            "simhash",
+            "hamming distance",
+            "semantic deduplication",
+            "semantic duplicates",
+            "sentence-transformers",
+            "embedding similarity",
+            "similarity search",
+            "faiss",
+            "exactsubstr",
+            "neardup",
+            "corpus leakage",
         )
         return any(term in haystack for term in copy_terms)
 

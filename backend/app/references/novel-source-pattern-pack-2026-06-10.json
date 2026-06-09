@@ -52,6 +52,11 @@
     "Keep author notes as a separate prompt layer for transient style, POV, pacing, or scene-temperature nudges.",
     "Author notes should have scope and expiry; remove or refresh them when the chapter goal changes."
   ],
+  "authorship_attribution_similarity_gate_hints": [
+    "Use authorship-style similarity as a risk and calibration signal, not as a goal to maximize.",
+    "Record source-vs-draft distance thresholds, false-positive notes, and reviewer decisions before accepting same-type prose.",
+    "If the transformed draft becomes closer to the source author than to its own approved style baseline, route it to rewrite review."
+  ],
   "auto_validation_rewrite_hints": [
     "Validate each chapter for required length, continuity, style fidelity, hook presence, and state write-back completeness.",
     "Failed chapters may rewrite within a bounded retry budget; each retry must target concrete validation failures.",
@@ -159,14 +164,68 @@
     "phrase_similarity_review_rules",
     "diff_span_review_rules",
     "copied_span_rewrite_policy",
+    "minhash_lsh_thresholds",
+    "shingle_window_policy",
+    "simhash_hamming_thresholds",
+    "near_duplicate_window_policy",
+    "semantic_duplicate_cluster_thresholds",
+    "cluster_false_positive_review_rules",
+    "embedding_similarity_independence_thresholds",
+    "nearest_neighbor_review_policy",
+    "corpus_leakage_review_policy",
+    "source_corpus_boundary_manifest",
     "character_quote_speaker_map",
     "alias_mention_index",
     "readability_pacing_thresholds",
     "sentence_paragraph_curve",
+    "prose_lint_rule_profile",
+    "house_style_rule_exceptions",
+    "grammar_spelling_boundary_rules",
+    "dialogue_dialect_exception_policy",
+    "copyedit_diagnostic_queue",
+    "accepted_ignored_diagnostic_ledger",
     "lexical_diversity_voice_baseline",
     "vocabulary_drift_rules",
+    "stylometric_author_fingerprint_baseline",
+    "style_profile_version_manifest",
+    "function_word_syntax_style_baseline",
+    "punctuation_sentence_rhythm_rules",
+    "authorship_similarity_thresholds",
+    "source_author_distance_policy",
+    "style_overfit_regression_cases",
+    "style_drift_window_thresholds",
+    "paraphrase_independence_review_policy",
+    "style_transfer_boundary_rules",
     "keyphrase_motif_ledger",
     "motif_topic_drift_rules",
+    "chinese_segmentation_dictionary",
+    "keyword_motif_extraction_profile",
+    "chinese_entity_alias_ledger",
+    "character_location_org_name_rules",
+    "chinese_text_normalization_policy",
+    "simplified_traditional_variant_map",
+    "chinese_correction_review_queue",
+    "confusion_set_exception_policy",
+    "source_import_manifest",
+    "source_toc_spine_map",
+    "pdf_page_span_map",
+    "layout_reading_order_rules",
+    "ocr_page_confidence_report",
+    "scanned_page_review_queue",
+    "document_element_partition_map",
+    "chapter_heading_detection_rules",
+    "source_file_checksum_manifest",
+    "import_parser_version_ledger",
+    "literary_entity_event_annotation_schema",
+    "event_participant_role_ledger",
+    "narrative_event_chain_graph",
+    "event_causality_discourse_edges",
+    "sentiment_arc_baseline",
+    "character_emotion_trajectory",
+    "cross_context_coreference_ledger",
+    "mention_cluster_boundary_rules",
+    "character_interaction_network",
+    "relationship_polarity_timeline",
     "semantic_chunk_boundary_manifest",
     "chunk_inclusion_rules",
     "chapter_summary_anchor_index",
@@ -266,51 +325,7 @@
     "conflicts",
     "story_arcs",
     "foreshadows",
-    "chapter_change_packages",
-    "prose_lint_rule_profile",
-    "house_style_rule_exceptions",
-    "grammar_spelling_boundary_rules",
-    "dialogue_dialect_exception_policy",
-    "copyedit_diagnostic_queue",
-    "accepted_ignored_diagnostic_ledger",
-    "chinese_segmentation_dictionary",
-    "keyword_motif_extraction_profile",
-    "chinese_entity_alias_ledger",
-    "character_location_org_name_rules",
-    "chinese_text_normalization_policy",
-    "simplified_traditional_variant_map",
-    "chinese_correction_review_queue",
-    "confusion_set_exception_policy",
-    "source_import_manifest",
-    "source_toc_spine_map",
-    "pdf_page_span_map",
-    "layout_reading_order_rules",
-    "ocr_page_confidence_report",
-    "scanned_page_review_queue",
-    "document_element_partition_map",
-    "chapter_heading_detection_rules",
-    "source_file_checksum_manifest",
-    "import_parser_version_ledger",
-    "literary_entity_event_annotation_schema",
-    "event_participant_role_ledger",
-    "narrative_event_chain_graph",
-    "event_causality_discourse_edges",
-    "sentiment_arc_baseline",
-    "character_emotion_trajectory",
-    "cross_context_coreference_ledger",
-    "mention_cluster_boundary_rules",
-    "character_interaction_network",
-    "relationship_polarity_timeline",
-    "stylometric_author_fingerprint_baseline",
-    "style_profile_version_manifest",
-    "function_word_syntax_style_baseline",
-    "punctuation_sentence_rhythm_rules",
-    "authorship_similarity_thresholds",
-    "source_author_distance_policy",
-    "style_overfit_regression_cases",
-    "style_drift_window_thresholds",
-    "paraphrase_independence_review_policy",
-    "style_transfer_boundary_rules"
+    "chapter_change_packages"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -596,6 +611,11 @@
     "Persist ignored diagnostics with reasons so repeated warnings do not hide new copyedit defects across chapters.",
     "Batch diagnostics by chapter and rule id before final manuscript assembly or same-type draft acceptance."
   ],
+  "corpus_leakage_dedup_review_gate_hints": [
+    "Keep source corpora, deconstruction notes, transformed canon, and generated drafts in separate manifests so training-like leakage can be audited.",
+    "Scan for repeated long sequences or chapter-route clusters that indicate the draft imported source material instead of transformed story state.",
+    "Do not accept same-type output until leakage findings are resolved or explicitly marked as allowed continuation canon."
+  ],
   "cover_kdp_metadata_boundary_hints": [],
   "craft_role_pipeline_hints": [
     "Separate craft roles: architecture, character, prose, continuity, review, editing, and export should produce distinct artifacts.",
@@ -644,6 +664,11 @@
     "Persist editor notes as open, deferred, or closed items with the chapter evidence that resolves them.",
     "Next-chapter prompts should include only active notes relevant to the current beat or risk."
   ],
+  "embedding_similarity_independence_gate_hints": [
+    "Run embedding-nearest-neighbor style checks against source excerpts and transformed canon before accepting same-type prose.",
+    "A draft should be closest to its own transformed brief, accepted canon, or local outline-not to the source text or source author baseline.",
+    "Use vector similarity as a triage signal with cited neighbors and thresholds; do not let opaque similarity scores silently rewrite prose."
+  ],
   "entity_memory_slotfill_grounding_hints": [
     "Ground slot filling against entity memory so names, roles, locations, and objects stay consistent across realized events.",
     "Track entity substitutions explicitly when a chapter changes speaker, target, location, or carried object.",
@@ -683,6 +708,11 @@
   "frontmatter_story_schema_hints": [
     "Use stable frontmatter-like fields for story bible, scene state, continuity questions, promises/payoffs, and chapter drafts.",
     "Keep prose bodies separate from metadata so checks can diff state without parsing the whole manuscript."
+  ],
+  "function_word_syntax_style_gate_hints": [
+    "Track function words, punctuation, sentence length, word length, readability, and syntax feature windows as style evidence.",
+    "Treat feature outliers as review tasks instead of automatic rewrites, especially for dialogue, dialect, and deliberate register shifts.",
+    "For same-type creation, transform feature ranges into a new house style and speaker-specific exceptions."
   ],
   "fuzzy_phrase_similarity_gate_hints": [
     "Apply fuzzy phrase thresholds to catch paraphrased source sentences, renamed proper-noun strings, and near-duplicate dialogue turns.",
@@ -817,10 +847,37 @@
     "Reject drafts with high fingerprint overlap in long phrases, scene order, or set-piece labels unless the span is explicit continuation canon.",
     "Reject paraphrases that survive fuzzy matching after names, titles, and surface nouns are changed.",
     "Reject chapters whose copied-span review shows source sentence order, semantic-cleanup matches, or patch-like edits.",
+    "Reject high-Jaccard source overlaps unless they are reviewed stock phrases or explicit continuation canon.",
+    "Reject low-Hamming-distance prose windows that survive entity remap, translation, or copyedit polish.",
+    "Reject drafts whose scene windows cluster with source scenes after concrete entities and wording have changed.",
+    "Reject same-type drafts when source excerpts remain the nearest semantic neighbors for key passages.",
+    "Reject outputs that reuse long source sequences, duplicated chapter routes, or mixed source/deconstruction material as canon.",
     "Reject copied speaker quote distribution, alias clusters, or dialogue-turn ownership that makes the new cast trace back to the source.",
     "Reject transformed chapters that match source readability curves because they also preserve source scene order or payoff cadence.",
+    "Reject lint-clean drafts when the rule fixes preserve source paragraph rhythm, catchphrases, or signature sentence closures.",
+    "Reject copyedit fixes that normalize the new voice toward source diction or remove deliberate dialogue/register differences.",
+    "Reject accepted diagnostic batches that silently apply source-like rewrites without author-visible triage reasons.",
     "Reject voice audits that keep source catchphrases, repeated vocabulary clusters, or signature metaphor families.",
+    "Reject fingerprints that make the transformed draft intentionally attributable to the source author or source corpus.",
+    "Reject drafts whose function-word, punctuation, or sentence-rhythm windows recreate source-author signatures too closely.",
+    "Reject same-type drafts when attribution/similarity checks rank the source author or source text as the nearest neighbor.",
+    "Reject prompt or polish changes that improve style resemblance while increasing source-voice leakage in regression windows.",
+    "Reject paraphrases that pass surface-copy checks but keep source phrase families, cadence, or author-mimicry constraints.",
     "Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.",
+    "Reject drafts whose segmented keyword list keeps source-specific names, terms, or motif compounds under surface changes.",
+    "Reject transformed entity ledgers that keep source aliases, sect/place names, title systems, or relationship labels as canon.",
+    "Reject normalization diffs that hide copied source phrasing behind Simplified/Traditional or punctuation-only changes.",
+    "Reject correction batches that normalize character voice toward source diction or silently rewrite invented terms.",
+    "Reject transformed outlines that preserve source TOC, spine order, metadata titles, or chapter grouping under new labels.",
+    "Reject drafts that copy source page-span rhythm, header/footer artifacts, or layout-driven section order.",
+    "Reject generations based on unreviewed low-confidence OCR spans or hallucinated fixes to unreadable pages.",
+    "Reject chapter maps that keep source heading text, partition sequence, or section boundary cadence.",
+    "Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage.",
+    "Reject drafts whose event/entity annotation ledger preserves source participant roles, event labels, or mention order under renamed surface text.",
+    "Reject transformed outlines whose causal/event graph keeps source event order, dependency edges, or script-like next-event predictions.",
+    "Reject emotion arcs that mirror source turning-point sequence, valence curve, or character-trigger mapping too closely.",
+    "Reject coreference ledgers that allow source aliases, events, or abstract concepts to resolve into transformed canon.",
+    "Reject relationship networks that preserve source central characters, alliance/conflict polarity, or interaction timing under new names.",
     "Reject transformed context packs that preserve source chunk order, boundary labels, or inclusion sequence under new names.",
     "Reject summaries that preserve source chapter-summary order, representative sentence function, or unresolved-hook sequence.",
     "Reject topic maps whose cluster sequence, salience curve, or off-arc detours match the source route.",
@@ -852,29 +909,7 @@
     "Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.",
     "Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.",
     "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
-    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.",
-    "Reject lint-clean drafts when the rule fixes preserve source paragraph rhythm, catchphrases, or signature sentence closures.",
-    "Reject copyedit fixes that normalize the new voice toward source diction or remove deliberate dialogue/register differences.",
-    "Reject accepted diagnostic batches that silently apply source-like rewrites without author-visible triage reasons.",
-    "Reject drafts whose segmented keyword list keeps source-specific names, terms, or motif compounds under surface changes.",
-    "Reject transformed entity ledgers that keep source aliases, sect/place names, title systems, or relationship labels as canon.",
-    "Reject normalization diffs that hide copied source phrasing behind Simplified/Traditional or punctuation-only changes.",
-    "Reject correction batches that normalize character voice toward source diction or silently rewrite invented terms.",
-    "Reject transformed outlines that preserve source TOC, spine order, metadata titles, or chapter grouping under new labels.",
-    "Reject drafts that copy source page-span rhythm, header/footer artifacts, or layout-driven section order.",
-    "Reject generations based on unreviewed low-confidence OCR spans or hallucinated fixes to unreadable pages.",
-    "Reject chapter maps that keep source heading text, partition sequence, or section boundary cadence.",
-    "Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage.",
-    "Reject drafts whose event/entity annotation ledger preserves source participant roles, event labels, or mention order under renamed surface text.",
-    "Reject transformed outlines whose causal/event graph keeps source event order, dependency edges, or script-like next-event predictions.",
-    "Reject emotion arcs that mirror source turning-point sequence, valence curve, or character-trigger mapping too closely.",
-    "Reject coreference ledgers that allow source aliases, events, or abstract concepts to resolve into transformed canon.",
-    "Reject relationship networks that preserve source central characters, alliance/conflict polarity, or interaction timing under new names.",
-    "Reject fingerprints that make the transformed draft intentionally attributable to the source author or source corpus.",
-    "Reject drafts whose function-word, punctuation, or sentence-rhythm windows recreate source-author signatures too closely.",
-    "Reject same-type drafts when attribution/similarity checks rank the source author or source text as the nearest neighbor.",
-    "Reject prompt or polish changes that improve style resemblance while increasing source-voice leakage in regression windows.",
-    "Reject paraphrases that pass surface-copy checks but keep source phrase families, cadence, or author-mimicry constraints."
+    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -968,10 +1003,37 @@
     "fingerprint_baseline_remap",
     "fuzzy_phrase_threshold_remap",
     "diff_span_review_remap",
+    "minhash_lsh_threshold_remap",
+    "simhash_hamming_threshold_remap",
+    "semantic_cluster_independence_remap",
+    "embedding_neighbor_independence_remap",
+    "corpus_leakage_boundary_remap",
     "quote_speaker_remap",
     "readability_curve_remap",
+    "prose_lint_rule_remap",
+    "grammar_copyedit_exception_remap",
+    "copyedit_triage_policy_remap",
     "lexical_diversity_remap",
+    "stylometric_fingerprint_remap",
+    "function_word_syntax_remap",
+    "authorship_similarity_threshold_remap",
+    "style_overfit_regression_remap",
+    "paraphrase_independence_policy_remap",
     "keyphrase_motif_remap",
+    "chinese_segmentation_dictionary_remap",
+    "chinese_entity_alias_remap",
+    "chinese_normalization_policy_remap",
+    "chinese_correction_exception_remap",
+    "source_import_structure_remap",
+    "pdf_layout_evidence_remap",
+    "ocr_uncertainty_review_remap",
+    "chapter_partition_structure_remap",
+    "import_provenance_lineage_remap",
+    "literary_annotation_role_remap",
+    "event_chain_causality_remap",
+    "sentiment_arc_emotion_remap",
+    "cross_context_coreference_remap",
+    "character_network_relationship_remap",
     "chunk_boundary_remap",
     "summary_anchor_remap",
     "topic_drift_remap",
@@ -1003,29 +1065,7 @@
     "author_preference_memory_remap",
     "source_community_graph_remap",
     "graph_vector_retrieval_remap",
-    "schema_guided_graph_remap",
-    "prose_lint_rule_remap",
-    "grammar_copyedit_exception_remap",
-    "copyedit_triage_policy_remap",
-    "chinese_segmentation_dictionary_remap",
-    "chinese_entity_alias_remap",
-    "chinese_normalization_policy_remap",
-    "chinese_correction_exception_remap",
-    "source_import_structure_remap",
-    "pdf_layout_evidence_remap",
-    "ocr_uncertainty_review_remap",
-    "chapter_partition_structure_remap",
-    "import_provenance_lineage_remap",
-    "literary_annotation_role_remap",
-    "event_chain_causality_remap",
-    "sentiment_arc_emotion_remap",
-    "cross_context_coreference_remap",
-    "character_network_relationship_remap",
-    "stylometric_fingerprint_remap",
-    "function_word_syntax_remap",
-    "authorship_similarity_threshold_remap",
-    "style_overfit_regression_remap",
-    "paraphrase_independence_policy_remap"
+    "schema_guided_graph_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1077,10 +1117,34 @@
     "Run fingerprint overlap checks against source excerpts and rewrite high-overlap windows before accepting same-type prose.",
     "Use fuzzy phrase checks to catch near-copy paraphrases after names and surface labels have been changed.",
     "Review source-vs-draft diff spans so semantic cleanup does not hide copied sentence order or set-piece wording.",
+    "Run near-duplicate shingle checks before accepting same-type prose; high-overlap windows need visible rewrite or exception notes.",
+    "Use SimHash/Hamming checks after entity remap and polish so lightly edited source passages cannot pass as new prose.",
+    "Check whether draft windows cluster with source scenes; if they do, change actor pressure, object, obstacle, and payoff.",
+    "The nearest semantic neighbor for a draft should be transformed canon or its own brief, not the source excerpt.",
+    "Keep source corpus notes outside generated canon and reject repeated long sequences that suggest source leakage.",
     "Map source quote distribution into new speaker functions, then rewrite aliases, speakers, and dialogue content for the transformed cast.",
     "Use readability and sentence-length curves as rhythm guidance while rebuilding chapter events and scene exits.",
     "Carry over only broad lexical diversity range; replace source catchphrases, image clusters, and signature diction.",
+    "Use stylometric fingerprints as bounded calibration, then verify the new story has its own approved voice profile.",
+    "Translate function-word and syntax ranges into new narrator/speaker style rules instead of copying the source author's exact rhythm.",
+    "Treat high source-author similarity as a failure signal for same-type drafts, even when the prose sounds fluent.",
+    "Run style-overfit regression after paraphrase and polish passes so source voice leakage cannot survive renamed entities.",
+    "Require paraphrase-independence evidence before accepting inspired prose, not only surface renaming or grammar cleanup.",
     "Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.",
+    "Rebuild custom dictionaries and keyword profiles for the transformed story so source names and invented terms are not carried over.",
+    "Transform Chinese entity clusters by replacing names, aliases, sects, places, and relationship labels before context reuse.",
+    "Normalize only for comparison; regenerate visible orthography and punctuation policy for the new manuscript.",
+    "Treat Chinese correction suggestions as local review tasks, not automatic rewrites toward source diction.",
+    "Transform imported TOC/spine evidence into a new outline structure instead of preserving source chapter order.",
+    "Use PDF page/layout evidence to understand source pacing, then rebuild section boundaries for the new story.",
+    "Keep OCR uncertainty out of new-story canon; only reviewed source evidence may influence transformation choices.",
+    "Transform source element partitions into new scene/section functions, not copied headings or section boundaries.",
+    "Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts.",
+    "Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.",
+    "Remap event chains by changing causes, blockers, decision points, and payoff edges instead of preserving source chronology.",
+    "Use emotion arcs as pressure-shape evidence only; rebuild turning points, valence shifts, and character triggers for the new story.",
+    "Rebuild mention clusters around the transformed cast so source entities and events cannot leak across context packs.",
+    "Transform character networks by changing centrality, alliance, conflict polarity, and relationship timing before prose expansion.",
     "Use source chunk boundaries as analysis evidence only; rebuild transformed chapter chunks around the new event chain.",
     "Build new summary anchors from transformed accepted chapters before using summaries as drafting context.",
     "Use topic drift maps to check new-story focus, but change source topic order, salience, and payoff sequence.",
@@ -1111,22 +1175,7 @@
     "Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.",
     "Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.",
     "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
-    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon.",
-    "Transform source import manifests by changing TOC hierarchy, chapter grouping, metadata use, and skipped-section policy.",
-    "Transform layout-derived pacing into new scene density; source page spans are not outline anchors.",
-    "Transform OCR-derived uncertainty into review tasks, not generation context.",
-    "Transform document element sequences into new chapter functions before drafting.",
-    "Transform provenance links so source artifacts never masquerade as accepted new-story chapters.",
-    "Transform annotation schemas by replacing source event labels, participant roles, and mention evidence with new-story equivalents.",
-    "Transform event-evolution graphs by altering edge type, event order, actor intent, and consequence scope.",
-    "Transform emotion trajectories by changing who feels the shift, why it turns, and which scene pays it off.",
-    "Transform coreference ledgers so old source aliases and event mentions never resolve to new-story entities.",
-    "Transform relationship graphs by changing interaction frequency, polarity, faction membership, and bridge characters.",
-    "Use stylometric fingerprints as bounded calibration, then verify the new story has its own approved voice profile.",
-    "Translate function-word and syntax ranges into new narrator/speaker style rules instead of copying the source author's exact rhythm.",
-    "Treat high source-author similarity as a failure signal for same-type drafts, even when the prose sounds fluent.",
-    "Run style-overfit regression after paraphrase and polish passes so source voice leakage cannot survive renamed entities.",
-    "Require paraphrase-independence evidence before accepting inspired prose, not only surface renaming or grammar cleanup."
+    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1185,10 +1234,37 @@
     "Transform or discard any draft window whose fingerprint overlap remains close to source text after entity remapping.",
     "Change image clusters, objects, stakes, and causal wording until fuzzy phrase similarity drops below the review threshold.",
     "Use copied-span review to drive targeted rewrites while preserving only abstract craft function.",
+    "Transform shingles by changing event order, object set, scene exits, and causal phrasing before prose expansion.",
+    "Transform lightly similar hash windows by changing structure as well as wording; name replacement alone is insufficient.",
+    "Transform semantic clusters into new scene functions, then verify source scenes are no longer the closest cluster center.",
+    "Transform embedding-neighbor evidence into concrete deltas: new protagonist goal, blocker, cost, clue, and consequence.",
+    "Transform source corpus examples into separate craft constraints so no raw source sequence enters draft context.",
     "Transform quote attribution by assigning new speakers, aliases, relationship pressure, and dialogue goals before drafting.",
     "Transform pacing metrics into a new readability curve for the new chapter sequence, not a source chapter-order clone.",
+    "Transform source prose-rule findings into new-book house style rules; do not inherit source lint exceptions, catchphrases, or cadence.",
+    "Rebuild grammar and copyedit exceptions around the new cast, invented terms, dialogue register, and genre vocabulary.",
+    "Triage copyedit diagnostics as local revision tasks; source-derived diagnostics are evidence, not final wording.",
     "Transform lexical voice baselines into new narrator and speaker vocabularies before prose expansion.",
+    "Transform style fingerprints by creating a new profile id, feature ranges, and approved exceptions for the new narrator and cast.",
+    "Transform function-word, punctuation, and syntax features into local house-style ranges before drafting.",
+    "Transform attribution checks into distance thresholds that prefer the new style baseline over the source author baseline.",
+    "Transform style-change test windows into regression fixtures that catch source voice leakage after every major prompt change.",
+    "Transform style-transfer prompts by separating allowed abstract voice goals from blocked phrase families, tics, and scene-order cues.",
     "Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.",
+    "Transform segmentation dictionaries before generating or retrieving context, especially names, skills, sects, places, and invented compounds.",
+    "Transform entity aliases and title systems before any same-type draft becomes canon.",
+    "Transform normalization policy into a new manuscript style guide instead of using source orthography as default.",
+    "Transform correction exceptions around the new cast, dialect, invented terms, and genre vocabulary.",
+    "Transform source import manifests by changing TOC hierarchy, chapter grouping, metadata use, and skipped-section policy.",
+    "Transform layout-derived pacing into new scene density; source page spans are not outline anchors.",
+    "Transform OCR-derived uncertainty into review tasks, not generation context.",
+    "Transform document element sequences into new chapter functions before drafting.",
+    "Transform provenance links so source artifacts never masquerade as accepted new-story chapters.",
+    "Transform annotation schemas by replacing source event labels, participant roles, and mention evidence with new-story equivalents.",
+    "Transform event-evolution graphs by altering edge type, event order, actor intent, and consequence scope.",
+    "Transform emotion trajectories by changing who feels the shift, why it turns, and which scene pays it off.",
+    "Transform coreference ledgers so old source aliases and event mentions never resolve to new-story entities.",
+    "Transform relationship graphs by changing interaction frequency, polarity, faction membership, and bridge characters.",
     "Transform chunk boundaries by changing chapter segmentation, included evidence, and transition logic.",
     "Transform summary anchors by selecting new representative events and sentences from the new story state.",
     "Transform topic drift by changing topic sequence, cluster labels, and subplot emphasis before drafting.",
@@ -1220,29 +1296,7 @@
     "Transform author preferences into project-local style decisions without recording source-book facts as preferences.",
     "Transform source communities into new-story communities with different members, labels, causal pressures, and cross-community edges.",
     "Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.",
-    "Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents.",
-    "Transform source prose-rule findings into new-book house style rules; do not inherit source lint exceptions, catchphrases, or cadence.",
-    "Rebuild grammar and copyedit exceptions around the new cast, invented terms, dialogue register, and genre vocabulary.",
-    "Triage copyedit diagnostics as local revision tasks; source-derived diagnostics are evidence, not final wording.",
-    "Rebuild custom dictionaries and keyword profiles for the transformed story so source names and invented terms are not carried over.",
-    "Transform Chinese entity clusters by replacing names, aliases, sects, places, and relationship labels before context reuse.",
-    "Normalize only for comparison; regenerate visible orthography and punctuation policy for the new manuscript.",
-    "Treat Chinese correction suggestions as local review tasks, not automatic rewrites toward source diction.",
-    "Transform imported TOC/spine evidence into a new outline structure instead of preserving source chapter order.",
-    "Use PDF page/layout evidence to understand source pacing, then rebuild section boundaries for the new story.",
-    "Keep OCR uncertainty out of new-story canon; only reviewed source evidence may influence transformation choices.",
-    "Transform source element partitions into new scene/section functions, not copied headings or section boundaries.",
-    "Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts.",
-    "Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.",
-    "Remap event chains by changing causes, blockers, decision points, and payoff edges instead of preserving source chronology.",
-    "Use emotion arcs as pressure-shape evidence only; rebuild turning points, valence shifts, and character triggers for the new story.",
-    "Rebuild mention clusters around the transformed cast so source entities and events cannot leak across context packs.",
-    "Transform character networks by changing centrality, alliance, conflict polarity, and relationship timing before prose expansion.",
-    "Transform style fingerprints by creating a new profile id, feature ranges, and approved exceptions for the new narrator and cast.",
-    "Transform function-word, punctuation, and syntax features into local house-style ranges before drafting.",
-    "Transform attribution checks into distance thresholds that prefer the new style baseline over the source author baseline.",
-    "Transform style-change test windows into regression fixtures that catch source voice leakage after every major prompt change.",
-    "Transform style-transfer prompts by separating allowed abstract voice goals from blocked phrase families, tics, and scene-order cues."
+    "Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1329,6 +1383,11 @@
     "Visual links should remain planning evidence until accepted into canon through review.",
     "Do not inject the whole mindmap into drafting; select the nodes directly relevant to the current chapter goal."
   ],
+  "minhash_lsh_near_duplicate_gate_hints": [
+    "Use shingled MinHash/LSH-style checks to catch near-duplicate source windows before same-type drafts become accepted chapters.",
+    "Review high-Jaccard clusters manually because genre formulas, required names, and boilerplate can be legitimate false positives.",
+    "Record shingle size, threshold, and accepted/rewritten decisions so future prompt changes can be regression-tested."
+  ],
   "multi_level_review_trend_hints": [
     "Review at scene, chapter, batch, and cross-chapter trend levels; local pass status cannot hide repeated drift.",
     "Track trend findings such as repeated weak hooks, voice collapse, unresolved editor notes, and pacing flatlines."
@@ -1381,6 +1440,11 @@
   "parallel_agent_chapter_pipeline_hints": [
     "Parallel chapter jobs need isolated workspaces, explicit input artifacts, and validation before aggregate revision.",
     "Aggregate findings from chapter reviews, full-book review, and cross-chapter audit before starting revision cycles."
+  ],
+  "paraphrase_independence_review_gate_hints": [
+    "Review same-type drafts for paraphrase independence after entity remap, style polish, and humanization passes.",
+    "Separate allowed voice targets from blocked author-mimicry: no source-specific phrase families, scene order, or stylistic tics as required constraints.",
+    "Humanization or style-transfer prompts must include copy-risk rejection, provenance, and author-visible accept/ignore decisions."
   ],
   "passage_link_navigation_map_hints": [
     "Track passages as reachable nodes with visible links, hidden link conditions, dead-end checks, and intentional merge points.",
@@ -1540,15 +1604,7 @@
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
-    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "Prose lint, grammar, and copyedit projects remain pattern-only until a separate local runtime safety contract allows a specific checker.",
-    "Do not send manuscripts, source books, drafts, tokens, cookies, or private text to external grammar/checking services during source intake.",
-    "Chinese NLP projects remain pattern-only until a runtime safety contract names a local checker, model/download boundary, and manuscript privacy scope.",
-    "Do not download NLP models, build native tokenizers, call external services, or run correction tools during source intake.",
-    "Source import/OCR intake is static only: no OCR binary, parser runtime, conversion command, model, or language-data download is launched.",
-    "AGPL/GPL/MPL document-tool sources remain pattern-only; no external runtime code or long documentation is imported.",
-    "Narrative event/emotion graph intake is static only: no datasets, notebooks, model weights, graph pipelines, Java/R/Python runtimes, or visualization servers are launched.",
-    "Literary annotation and character-network sources are pattern-only; source character names, event labels, and relationship topology must be transformed before same-type creation."
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。"
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1600,6 +1656,11 @@
     "Each chunk needs source chapter id, boundary reason, overlap policy, token/character size, and inclusion purpose.",
     "For same-type creation, remap chunk order and boundary function instead of preserving the source chapter segmentation route."
   ],
+  "semantic_duplicate_cluster_gate_hints": [
+    "Cluster source and draft windows by semantic similarity so paraphrased duplicate scenes are found even when wording changes.",
+    "Treat same-cluster source neighbors as review evidence: rewrite concrete actor, object, obstacle, cost, and payoff until the draft stands alone.",
+    "Store false-positive notes for shared tropes so semantic dedup does not reject genre resemblance by itself."
+  ],
   "semantic_long_context_search_hints": [
     "Use semantic search to retrieve long-range context, but require an inclusion reason and source artifact id for every injected hit.",
     "Fallback retrieval should prefer accepted chapters, sourcebook entries, and knowledge-base refs over raw draft buffers."
@@ -1614,25 +1675,21 @@
     "Payoff acceptance requires a matching setup edge and a visible consequence in character, plot, or world state.",
     "Flag repeated payoff, orphan setup, and payoff without setup as review blockers."
   ],
+  "simhash_hamming_similarity_gate_hints": [
+    "Use SimHash/Hamming-style fingerprints for lightly edited or reordered passages that may evade exact fingerprint checks.",
+    "Flag near-duplicate hash windows after entity renaming, translation, or copyedit polishing because those passes can preserve source topology.",
+    "Keep Hamming thresholds separate for short dialogue, long prose windows, and outline beats to avoid over-blocking stock genre language."
+  ],
   "snowflake_premise_expansion_hints": [
     "Preserve a premise chain: one-sentence promise -> paragraph summary -> full summary -> chapter goals.",
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 165,
+  "source_candidate_count": 174,
   "source_format_import_manifest_hints": [
     "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
     "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
     "For same-type creation, never reuse source TOC/spine order as the new outline without a transformation step."
-  ],
-  "source_intake_notes": [
-    "2026-06-10 prose/copyedit intake used git ls-remote HEAD plus raw LICENSE static checks; GitHub REST API metadata calls returned unauthenticated 403 rate-limit errors.",
-    "No clone, install, package hook, language server, browser extension, grammar server, or external checking service was launched.",
-    "2026-06-11 Chinese text-processing intake used git ls-remote HEAD and raw LICENSE static checks; no clone/install/runtime/model download was performed.",
-    "2026-06-11 source-import/OCR pass added EbookLib, pdfminer.six, PyMuPDF, OCRmyPDF, Tesseract, Unstructured, and Pandoc as static pattern-only references.",
-    "Import artifacts must keep format, TOC/spine, page spans, OCR confidence, document partitions, parser settings, and checksums separate from accepted canon.",
-    "2026-06-11 narrative event/emotion graph pass added LitBank, NEEG, EventNarrative, narrative_graph_emnlp2020, Syuzhet, SentimentArcs, xCoRe, XCoref, and character-network sources as static pattern-only references.",
-    "?? outputs should separate entity/event annotations, event-chain edges, emotion arcs, cross-context coreference, and character relationship networks before canon write-back or same-type remapping."
   ],
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
@@ -1658,6 +1715,7 @@
     "AutoFiction-AI/AutoFiction",
     "Anning01/novelvids",
     "Prompt-And-Circumstance/StoryMode",
+    "aerkalov/ebooklib",
     "arian-emami/NovelDreamer",
     "wavemakercards/wavemaker-cards-v4",
     "Picrew/ConStory-Bench",
@@ -1669,19 +1727,45 @@
     "kevboh/longform",
     "harshaneel/humanize",
     "MaoXiaoYuZ/Long-Novel-GPT",
+    "fxsjy/jieba",
     "Picrew/awesome-llm-story-generation",
     "doctoroyy/novel-copilot",
+    "hankcs/HanLP",
+    "jgm/pandoc",
+    "getzep/graphiti",
     "andreafeccomandi/bibisco",
+    "mem0ai/mem0",
+    "HIT-SCIR/ltp",
     "skyfiredao/dreampowers",
     "mrigankad/Novel-OS",
+    "microsoft/graphrag",
+    "vale-cli/vale",
+    "shibing624/pycorrector",
+    "computationalstylistics/stylo",
     "howells/fiction",
+    "HKUDS/LightRAG",
+    "BYVoid/OpenCC",
+    "Automattic/harper",
+    "textlint/textlint",
+    "neo4j-labs/llm-graph-builder",
+    "messense/jieba-rs",
+    "dbamman/litbank",
     "mjbae/awesome-novel-studio",
+    "pan-webis-de/pan-code",
     "ypcypc/WhatIf",
+    "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+    "languagetool-org/languagetool",
+    "amperser/proselint",
     "THUDM/LongWriter",
     "PixeroJan/obsidian-storyline",
+    "eecrazy/ConstructingNEEG_IJCAI_2018",
     "danjdewhurst/story-skills",
+    "fastdatascience/faststylometry",
+    "btford/write-good",
     "inkle/ink",
+    "mjockers/syuzhet",
     "hestudy/snowflake-fiction",
+    "mullerpeter/authorstyle",
     "zy-zmc/tianming-novel-ai-writer",
     "google-deepmind/dramatron",
     "booknlp/booknlp",
@@ -1692,19 +1776,35 @@
     "EQ-bench/longform-writing-bench",
     "forsonny/The-Crucible-Writing-System-For-Claude",
     "THUDM/LongReward",
+    "gratajik/book-memory-bank",
+    "michaeleby1/stylometric-analysis-project-gutenberg",
+    "SapienzaNLP/xcore",
+    "ivannikov-lab/style-change-analysis",
     "openai/evals",
+    "adaumann/speckit-preset-fiction-book-writing",
     "confident-ai/deepeval",
     "klembot/twinejs",
+    "1e0ng/simhash",
     "XuanRanL/webnovel-writer",
     "blingenf/copydetect",
+    "hzjken/character-network",
+    "jon-chun/sentimentarcs_notebooks",
+    "sam0jones0/pyantistylometry",
     "THU-KEG/LongWriter-V",
+    "ngpepin/stylometric-transfer",
+    "danngalann/llm-ebook-summarizer",
     "HZ-KMNO/web-novel-writing-guidance-skill",
     "truera/trulens",
     "textstat/textstat",
+    "darkautism/ai-novel-translation",
     "Arize-ai/phoenix",
     "rapidfuzz/RapidFuzz",
     "MangoLion/plotbunni",
     "forsonny/book-os",
+    "llm-authorship/survey",
+    "ContextLab/llm-stylometry",
+    "anastasia-zhukova/XCoref",
+    "lordjabez/story-framework",
     "promptfoo/promptfoo",
     "zygmuntz/goodbooks-10k",
     "LSYS/LexicalRichness",
@@ -1713,11 +1813,14 @@
     "dfabulich/choicescript",
     "HLasse/TextDescriptives",
     "forjd/better-writing",
+    "devbret/character-interactions",
     "boudinfl/pke",
     "MengtingWan/goodreads",
+    "acolas1/EventNarrative",
     "Lanerra/saga",
     "EdwardAThomson/NovelWriter",
     "f5alcon/The-Novelists-Atelier",
+    "doug919/narrative_graph_emnlp2020",
     "SillyTavern/SillyTavern",
     "matrixorigin/Memoria",
     "agranya99/MOSS-winnowing-seqMatcher",
@@ -1727,12 +1830,22 @@
     "THU-KEG/StoryWriter",
     "bal-spec/sillytavern-character-memory",
     "langchain-ai/langchain",
+    "facebookresearch/faiss",
+    "pdfminer/pdfminer.six",
     "guchendesigndog/GC-Writer-Assistant",
     "maria-antoniak/goodreads-scraper",
+    "Unstructured-IO/unstructured",
     "yangkevin2/emnlp22-re3-story-generation",
     "ShmilyWithme/Shmily_novel_skill",
     "envy-ai/ai_rpg",
     "vkbo/novelWriter",
+    "ChenghaoMou/text-dedup",
+    "seomoz/simhash-py",
+    "facebookresearch/SemDeDup",
+    "UKPLab/sentence-transformers",
+    "ocrmypdf/OCRmyPDF",
+    "ekzhu/datasketch",
+    "google-research/deduplicate-text-datasets",
     "X-PLUG/WritingBench",
     "EQ-bench/creative-writing-bench",
     "lechmazur/writing_styles",
@@ -1741,6 +1854,9 @@
     "LC1332/Chat-Haruhi-Suzumiya",
     "principia-ai/WriteHERE",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+    "MinishLab/semhash",
+    "tesseract-ocr/tesseract",
+    "pymupdf/PyMuPDF",
     "benbrandt/text-splitter",
     "lars76/story-evaluation-llm",
     "anirudhlakkaraju/cs4_benchmark",
@@ -1754,57 +1870,7 @@
     "rajammanabrolu/StoryRealization",
     "lechmazur/writing",
     "Theltn/AICreativityJudge",
-    "dig-team/hanna-benchmark-asg",
-    "gratajik/book-memory-bank",
-    "adaumann/speckit-preset-fiction-book-writing",
-    "danngalann/llm-ebook-summarizer",
-    "darkautism/ai-novel-translation",
-    "lordjabez/story-framework",
-    "getzep/graphiti",
-    "mem0ai/mem0",
-    "microsoft/graphrag",
-    "HKUDS/LightRAG",
-    "neo4j-labs/llm-graph-builder",
-    "vale-cli/vale",
-    "textlint/textlint",
-    "amperser/proselint",
-    "Automattic/harper",
-    "languagetool-org/languagetool",
-    "btford/write-good",
-    "fxsjy/jieba",
-    "messense/jieba-rs",
-    "hankcs/HanLP",
-    "HIT-SCIR/ltp",
-    "BYVoid/OpenCC",
-    "shibing624/pycorrector",
-    "aerkalov/ebooklib",
-    "pdfminer/pdfminer.six",
-    "pymupdf/PyMuPDF",
-    "ocrmypdf/OCRmyPDF",
-    "tesseract-ocr/tesseract",
-    "Unstructured-IO/unstructured",
-    "jgm/pandoc",
-    "dbamman/litbank",
-    "eecrazy/ConstructingNEEG_IJCAI_2018",
-    "acolas1/EventNarrative",
-    "doug919/narrative_graph_emnlp2020",
-    "mjockers/syuzhet",
-    "jon-chun/sentimentarcs_notebooks",
-    "SapienzaNLP/xcore",
-    "anastasia-zhukova/XCoref",
-    "hzjken/character-network",
-    "devbret/character-interactions",
-    "computationalstylistics/stylo",
-    "pan-webis-de/pan-code",
-    "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
-    "fastdatascience/faststylometry",
-    "mullerpeter/authorstyle",
-    "michaeleby1/stylometric-analysis-project-gutenberg",
-    "ivannikov-lab/style-change-analysis",
-    "sam0jones0/pyantistylometry",
-    "ngpepin/stylometric-transfer",
-    "llm-authorship/survey",
-    "ContextLab/llm-stylometry"
+    "dig-team/hanna-benchmark-asg"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -1854,6 +1920,11 @@
     "Scene overrides should be local and temporary: tense, POV, pacing, dialogue density, and emotional temperature for the current scene only.",
     "Character voice notes apply to dialogue and interiority without overriding world rules or continuation canon."
   ],
+  "style_overfit_regression_gate_hints": [
+    "Run windowed style-change checks across source, outline, draft, and revised prose to catch source-voice leakage.",
+    "Regression cases should include paraphrased, renamed, and polished drafts because overfit often survives surface substitutions.",
+    "Do not accept a draft that passes grammar/copyedit gates while failing style-overfit or source-distance gates."
+  ],
   "style_signature_hints": [
     "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
     "续写要保留原书味道，但只吸收写法模式，不复制外部项目代码或长文本。",
@@ -1862,6 +1933,11 @@
     "把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。",
     "用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。",
     "按全书基础风格、当前场景覆写、出场角色声纹三层组织风格约束。"
+  ],
+  "stylometric_author_fingerprint_gate_hints": [
+    "Build an inspectable author/style fingerprint from stable metrics before using source style as guidance.",
+    "Version each fingerprint with source scope, feature family, extraction settings, and human approval status.",
+    "Same-type creation may borrow broad fingerprint targets but must not preserve source catchphrases, named imagery, or paragraph-level cadence."
   ],
   "synopsis_cross_reference_hints": [
     "Attach synopsis, comments, notes, and cross-references to the chapter or scene they explain.",
@@ -2092,18 +2168,99 @@
     "diff_span_copy_risk_report",
     "copied_span_review_notes",
     "semantic_cleanup_review_findings",
+    "minhash_lsh_overlap_report",
+    "jaccard_near_duplicate_windows",
+    "shingle_false_positive_notes",
+    "simhash_hamming_report",
+    "near_duplicate_hash_windows",
+    "hamming_threshold_decisions",
+    "semantic_duplicate_cluster_report",
+    "embedding_cluster_neighbors",
+    "semantic_dedup_false_positive_notes",
+    "embedding_similarity_independence_report",
+    "nearest_neighbor_source_hits",
+    "source_distance_acceptance_decisions",
+    "corpus_leakage_dedup_report",
+    "repeated_sequence_findings",
+    "source_corpus_boundary_findings",
     "character_quote_attribution_report",
     "speaker_alias_map",
     "quote_voice_distribution",
     "readability_pacing_curve",
     "sentence_length_variance_report",
     "paragraph_density_report",
+    "prose_lint_report",
+    "house_style_violation_map",
+    "rule_exception_notes",
+    "grammar_spelling_report",
+    "copyedit_blocker_findings",
+    "dialogue_exception_findings",
+    "copyedit_diagnostic_triage_report",
+    "accepted_ignored_lint_ledger",
+    "revision_task_queue",
     "lexical_diversity_voice_report",
     "mtld_hdd_voice_baseline",
     "repeated_vocabulary_findings",
+    "stylometric_author_fingerprint_report",
+    "style_profile_distance_matrix",
+    "voice_fingerprint_version_diff",
+    "function_word_syntax_report",
+    "punctuation_sentence_rhythm_curve",
+    "style_feature_outlier_windows",
+    "authorship_similarity_report",
+    "source_author_distance_findings",
+    "same_type_similarity_threshold_decisions",
+    "style_overfit_regression_report",
+    "style_change_window_findings",
+    "source_voice_leakage_failures",
+    "paraphrase_independence_report",
+    "style_transfer_boundary_findings",
+    "author_voice_mimicry_risk_notes",
     "keyphrase_motif_map",
     "motif_drift_findings",
     "topic_keyword_salience",
+    "chinese_segmentation_report",
+    "custom_dictionary_hits",
+    "keyword_motif_salience",
+    "chinese_entity_alias_report",
+    "character_location_org_consistency",
+    "alias_conflict_findings",
+    "chinese_text_normalization_report",
+    "simplified_traditional_variant_findings",
+    "punctuation_width_findings",
+    "chinese_error_correction_report",
+    "confusion_set_review_findings",
+    "accepted_ignored_correction_ledger",
+    "source_import_manifest_report",
+    "toc_spine_chapter_map",
+    "source_metadata_findings",
+    "pdf_layout_extraction_report",
+    "page_span_reading_order",
+    "pdf_text_gap_findings",
+    "ocr_confidence_report",
+    "scanned_page_text_gap_findings",
+    "ocr_manual_review_items",
+    "document_partition_report",
+    "chapter_heading_detection_report",
+    "element_type_sequence",
+    "import_checksum_report",
+    "parser_setting_manifest",
+    "source_artifact_provenance",
+    "literary_entity_event_annotation_report",
+    "event_participant_role_conflicts",
+    "source_event_annotation_gaps",
+    "narrative_event_chain_report",
+    "causal_discourse_edge_findings",
+    "event_order_dependency_gaps",
+    "sentiment_arc_emotion_report",
+    "character_emotion_trajectory_report",
+    "emotion_turning_point_findings",
+    "cross_context_coreference_report",
+    "mention_cluster_conflicts",
+    "entity_event_identity_gaps",
+    "character_interaction_network_report",
+    "relationship_polarity_drift",
+    "centrality_role_shift_findings",
     "semantic_chunk_boundary_report",
     "chunk_overlap_manifest",
     "context_boundary_findings",
@@ -2392,73 +2549,7 @@
     "token_breakdown_notes",
     "emotional_arc",
     "emotion_curve",
-    "source_state_snapshot",
-    "prose_lint_report",
-    "house_style_violation_map",
-    "rule_exception_notes",
-    "grammar_spelling_report",
-    "copyedit_blocker_findings",
-    "dialogue_exception_findings",
-    "copyedit_diagnostic_triage_report",
-    "accepted_ignored_lint_ledger",
-    "revision_task_queue",
-    "chinese_segmentation_report",
-    "custom_dictionary_hits",
-    "keyword_motif_salience",
-    "chinese_entity_alias_report",
-    "character_location_org_consistency",
-    "alias_conflict_findings",
-    "chinese_text_normalization_report",
-    "simplified_traditional_variant_findings",
-    "punctuation_width_findings",
-    "chinese_error_correction_report",
-    "confusion_set_review_findings",
-    "accepted_ignored_correction_ledger",
-    "source_import_manifest_report",
-    "toc_spine_chapter_map",
-    "source_metadata_findings",
-    "pdf_layout_extraction_report",
-    "page_span_reading_order",
-    "pdf_text_gap_findings",
-    "ocr_confidence_report",
-    "scanned_page_text_gap_findings",
-    "ocr_manual_review_items",
-    "document_partition_report",
-    "chapter_heading_detection_report",
-    "element_type_sequence",
-    "import_checksum_report",
-    "parser_setting_manifest",
-    "source_artifact_provenance",
-    "literary_entity_event_annotation_report",
-    "event_participant_role_conflicts",
-    "source_event_annotation_gaps",
-    "narrative_event_chain_report",
-    "causal_discourse_edge_findings",
-    "event_order_dependency_gaps",
-    "sentiment_arc_emotion_report",
-    "character_emotion_trajectory_report",
-    "emotion_turning_point_findings",
-    "cross_context_coreference_report",
-    "mention_cluster_conflicts",
-    "entity_event_identity_gaps",
-    "character_interaction_network_report",
-    "relationship_polarity_drift",
-    "centrality_role_shift_findings",
-    "stylometric_author_fingerprint_report",
-    "style_profile_distance_matrix",
-    "voice_fingerprint_version_diff",
-    "function_word_syntax_report",
-    "punctuation_sentence_rhythm_curve",
-    "style_feature_outlier_windows",
-    "authorship_similarity_report",
-    "source_author_distance_findings",
-    "same_type_similarity_threshold_decisions",
-    "style_overfit_regression_report",
-    "style_change_window_findings",
-    "source_voice_leakage_failures",
-    "paraphrase_independence_report",
-    "style_transfer_boundary_findings",
-    "author_voice_mimicry_risk_notes"
+    "source_state_snapshot"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -3777,16 +3868,12 @@
           "stars": 15400,
           "summary": "Graphiti is a temporal knowledge graph memory pattern source for novel canon: episodes, entity/relationship extraction, hybrid search, temporal validity windows, and provenance tracking.",
           "title": "getzep/graphiti",
-          "trust_flags": [
-            "license:unconfirmed"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/getzep/graphiti"
         }
       ],
       "top_source_url": "https://github.com/getzep/graphiti",
-      "trust_flags": [
-        "license:unconfirmed"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 3,
@@ -3839,6 +3926,85 @@
         }
       ],
       "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 5,
+      "name": "style_overfit_regression_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "prompt_model_provider"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 200,
+          "summary": "PAN baselines and evaluation code for authorship attribution, profiling, style change and style breach tasks.",
+          "title": "pan-webis-de/pan-code",
+          "trust_flags": [],
+          "url": "https://github.com/pan-webis-de/pan-code"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 115,
+          "summary": "Windowed writing-style classification with sentence length, readability, vocabulary richness and frequencies.",
+          "title": "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+          "trust_flags": [],
+          "url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 6,
+          "summary": "Style change and style breach detection with paragraph windows, clustering, and statistical comparison.",
+          "title": "ivannikov-lab/style-change-analysis",
+          "trust_flags": [],
+          "url": "https://github.com/ivannikov-lab/style-change-analysis"
+        },
+        {
+          "license": "PolyForm-Noncommercial-1.0.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "prompt_model_provider"
+          ],
+          "score": 80,
+          "source": "github",
+          "stars": 18,
+          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
+          "title": "ngpepin/stylometric-transfer",
+          "trust_flags": [],
+          "url": "https://github.com/ngpepin/stylometric-transfer"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 120,
+          "summary": "LLM-era authorship attribution taxonomy for human, model, and human-LLM coauthored text.",
+          "title": "llm-authorship/survey",
+          "trust_flags": [],
+          "url": "https://github.com/llm-authorship/survey"
+        }
+      ],
+      "top_source_url": "https://github.com/pan-webis-de/pan-code",
       "trust_flags": []
     },
     {
@@ -3916,16 +4082,52 @@
           "stars": 39,
           "summary": "Book Memory Bank uses a structured context lattice for stateless AI book writing: project brief, story structure, world/characters, style guide, active context, progress, and plan-to-actual chapter updates.",
           "title": "gratajik/book-memory-bank",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/gratajik/book-memory-bank"
         }
       ],
       "top_source_url": "https://github.com/gratajik/book-memory-bank",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "paraphrase_independence_review_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "prompt_model_provider"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 30,
+          "summary": "Anti-stylometry research notes for reducing identifiable writing-style signals.",
+          "title": "sam0jones0/pyantistylometry",
+          "trust_flags": [],
+          "url": "https://github.com/sam0jones0/pyantistylometry"
+        },
+        {
+          "license": "PolyForm-Noncommercial-1.0.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "prompt_model_provider"
+          ],
+          "score": 80,
+          "source": "github",
+          "stars": 18,
+          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
+          "title": "ngpepin/stylometric-transfer",
+          "trust_flags": [],
+          "url": "https://github.com/ngpepin/stylometric-transfer"
+        }
+      ],
+      "top_source_url": "https://github.com/sam0jones0/pyantistylometry",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -3951,6 +4153,186 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 7,
+      "name": "authorship_attribution_similarity_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 90,
+          "source": "github",
+          "stars": 624,
+          "summary": "Computational stylistics and authorship attribution for explicit style fingerprints.",
+          "title": "computationalstylistics/stylo",
+          "trust_flags": [],
+          "url": "https://github.com/computationalstylistics/stylo"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 200,
+          "summary": "PAN baselines and evaluation code for authorship attribution, profiling, style change and style breach tasks.",
+          "title": "pan-webis-de/pan-code",
+          "trust_flags": [],
+          "url": "https://github.com/pan-webis-de/pan-code"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 65,
+          "summary": "Burrows Delta and style similarity for authorship attribution distance checks.",
+          "title": "fastdatascience/faststylometry",
+          "trust_flags": [],
+          "url": "https://github.com/fastdatascience/faststylometry"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": 20,
+          "summary": "PAN corpora handling and stylometric feature extraction for text documents.",
+          "title": "mullerpeter/authorstyle",
+          "trust_flags": [],
+          "url": "https://github.com/mullerpeter/authorstyle"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 12,
+          "summary": "Project Gutenberg style metrics, cosine similarity between titles, and stylistic clusters.",
+          "title": "michaeleby1/stylometric-analysis-project-gutenberg",
+          "trust_flags": [],
+          "url": "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 120,
+          "summary": "LLM-era authorship attribution taxonomy for human, model, and human-LLM coauthored text.",
+          "title": "llm-authorship/survey",
+          "trust_flags": [],
+          "url": "https://github.com/llm-authorship/survey"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 11,
+          "summary": "LLM stylometry with author-trained language models and cross-entropy style comparisons.",
+          "title": "ContextLab/llm-stylometry",
+          "trust_flags": [],
+          "url": "https://github.com/ContextLab/llm-stylometry"
+        }
+      ],
+      "top_source_url": "https://github.com/computationalstylistics/stylo",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 5,
+      "name": "stylometric_author_fingerprint_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "prompt_model_provider"
+      ],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 90,
+          "source": "github",
+          "stars": 624,
+          "summary": "Computational stylistics and authorship attribution for explicit style fingerprints.",
+          "title": "computationalstylistics/stylo",
+          "trust_flags": [],
+          "url": "https://github.com/computationalstylistics/stylo"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 65,
+          "summary": "Burrows Delta and style similarity for authorship attribution distance checks.",
+          "title": "fastdatascience/faststylometry",
+          "trust_flags": [],
+          "url": "https://github.com/fastdatascience/faststylometry"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 12,
+          "summary": "Project Gutenberg style metrics, cosine similarity between titles, and stylistic clusters.",
+          "title": "michaeleby1/stylometric-analysis-project-gutenberg",
+          "trust_flags": [],
+          "url": "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg"
+        },
+        {
+          "license": "PolyForm-Noncommercial-1.0.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "prompt_model_provider"
+          ],
+          "score": 80,
+          "source": "github",
+          "stars": 18,
+          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
+          "title": "ngpepin/stylometric-transfer",
+          "trust_flags": [],
+          "url": "https://github.com/ngpepin/stylometric-transfer"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 11,
+          "summary": "LLM stylometry with author-trained language models and cross-entropy style comparisons.",
+          "title": "ContextLab/llm-stylometry",
+          "trust_flags": [],
+          "url": "https://github.com/ContextLab/llm-stylometry"
+        }
+      ],
+      "top_source_url": "https://github.com/computationalstylistics/stylo",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "community_graph_source_deconstruction",
       "posture_hint": "metadata-triage",
@@ -3966,16 +4348,12 @@
           "stars": 30100,
           "summary": "GraphRAG provides source-book deconstruction patterns: structured extraction from unstructured text, entity/community reports, global search, and local graph neighborhood answers.",
           "title": "microsoft/graphrag",
-          "trust_flags": [
-            "license:unconfirmed"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/microsoft/graphrag"
         }
       ],
       "top_source_url": "https://github.com/microsoft/graphrag",
-      "trust_flags": [
-        "license:unconfirmed"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4002,6 +4380,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "literary_event_entity_annotation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 376,
+          "summary": "LitBank provides fiction-specific annotations for literary entities, literary events, and coreference. Absorb annotation gates only; dataset files and models are not imported. HEAD 3e50db0ffc033d7ccbb94f4d88f6b99210328ed8.",
+          "title": "dbamman/litbank",
+          "trust_flags": [],
+          "url": "https://github.com/dbamman/litbank"
+        }
+      ],
+      "top_source_url": "https://github.com/dbamman/litbank",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "schema_guided_graph_extraction",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -4020,16 +4421,12 @@
           "stars": 3200,
           "summary": "Neo4j LLM Graph Builder contributes schema-guided graph extraction patterns: nodes, relationships, properties, source metadata, and bounded graph update review.",
           "title": "neo4j-labs/llm-graph-builder",
-          "trust_flags": [
-            "license:unconfirmed"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/neo4j-labs/llm-graph-builder"
         }
       ],
       "top_source_url": "https://github.com/neo4j-labs/llm-graph-builder",
-      "trust_flags": [
-        "license:unconfirmed"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4093,15 +4490,108 @@
           "stars": 11,
           "summary": "Spec Kit fiction preset adapts specs into story briefs, plans, scene-by-scene writing tasks, POV architecture, story-bible constitution, glossary/subplot/pacing gates, and quality workflow.",
           "title": "adaumann/speckit-preset-fiction-book-writing",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
         }
       ],
       "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "embedding_similarity_independence_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 40240,
+          "summary": "Efficient similarity search and clustering of dense vectors for nearest neighbor retrieval. Static intake note: Faiss is a MIT library for efficient similarity search and clustering of dense vectors. Absorb vector-nearest-neighbor review and threshold patterns only; native/GPU ru",
+          "title": "facebookresearch/faiss",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/facebookresearch/faiss"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 18795,
+          "summary": "State-of-the-art embeddings, retrieval, reranking, and embedding similarity for sentence transformers. Static intake note: Sentence Transformers provides embeddings, retrieval, and reranking for semantic similarity. Absorb embedding-similarity independence review gates only; mode",
+          "title": "UKPLab/sentence-transformers",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/UKPLab/sentence-transformers"
+        }
+      ],
+      "top_source_url": "https://github.com/facebookresearch/faiss",
       "trust_flags": [
-        "license:missing"
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "semantic_duplicate_cluster_gate",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 58,
+          "source": "github",
+          "stars": 759,
+          "summary": "All-in-one text de-duplication with exact, MinHash, SimHash, and semantic deduplication. Static intake note: text-dedup is an Apache-2.0 all-in-one text deduplication project. Absorb exact, MinHash, SimHash, and semantic dedup gate patterns only; package/runtime code is not insta",
+          "title": "ChenghaoMou/text-dedup",
+          "trust_flags": [],
+          "url": "https://github.com/ChenghaoMou/text-dedup"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 58,
+          "source": "github",
+          "stars": 153,
+          "summary": "Semantic duplicates and semantic deduplication in web-scale datasets with embedding clusters. Static intake note: SemDeDup identifies and removes semantic duplicates in web-scale datasets using embedding clusters. Absorb semantic duplicate cluster gates and corpus leakage warning",
+          "title": "facebookresearch/SemDeDup",
+          "trust_flags": [
+            "license:noassertion",
+            "repo:archived"
+          ],
+          "url": "https://github.com/facebookresearch/SemDeDup"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 46,
+          "source": "github",
+          "stars": 936,
+          "summary": "Fast multimodal semantic deduplication and filtering for semantic duplicates. Static intake note: SemHash is a MIT fast multimodal semantic deduplication and filtering project. Absorb semantic duplicate clustering and filtering gates only; models/packages are not installed.",
+          "title": "MinishLab/semhash",
+          "trust_flags": [],
+          "url": "https://github.com/MinishLab/semhash"
+        }
+      ],
+      "top_source_url": "https://github.com/ChenghaoMou/text-dedup",
+      "trust_flags": [
+        "license:noassertion",
+        "repo:archived"
       ]
     },
     {
@@ -4344,16 +4834,61 @@
           "stars": 24500,
           "summary": "LightRAG contributes dual-level graph and vector retrieval patterns for long-form story context: local, global, hybrid, and naive query modes over knowledge graph plus embeddings.",
           "title": "HKUDS/LightRAG",
-          "trust_flags": [
-            "license:unconfirmed"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/HKUDS/LightRAG"
         }
       ],
       "top_source_url": "https://github.com/HKUDS/LightRAG",
-      "trust_flags": [
-        "license:unconfirmed"
-      ]
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "narrative_event_evolution_graph_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 165,
+          "summary": "ConstructingNEEG models narrative event evolutionary graphs for script event prediction. Absorb event-chain graph review only; external data and old PyTorch runtime are not executed. HEAD 97b133685fbca89ce908977857e056481a9deadf.",
+          "title": "eecrazy/ConstructingNEEG_IJCAI_2018",
+          "trust_flags": [],
+          "url": "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 75,
+          "source": "github",
+          "stars": 7,
+          "summary": "EventNarrative is an event-centric knowledge-graph-to-text dataset. Absorb event graph linearization and provenance-separation patterns only; data/runtime assets are not downloaded. HEAD a6e2b06e998ac2709cce36ff25ae8ffaa3d9b425.",
+          "title": "acolas1/EventNarrative",
+          "trust_flags": [],
+          "url": "https://github.com/acolas1/EventNarrative"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 74,
+          "source": "github",
+          "stars": 6,
+          "summary": "Narrative graph EMNLP 2020 models contextualized event embeddings for discourse relations. Absorb event/discourse relation evidence only; trained models and Java/Python runtime are not executed. HEAD f63a17ff7ef0d2d71630230e3c1af7a26894fdb3.",
+          "title": "doug919/narrative_graph_emnlp2020",
+          "trust_flags": [],
+          "url": "https://github.com/doug919/narrative_graph_emnlp2020"
+        }
+      ],
+      "top_source_url": "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -4428,6 +4963,125 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 7,
+      "name": "minhash_lsh_near_duplicate_gate",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 1037,
+          "summary": "A Python implementation of SimHash with Hamming distance style near duplicate comparison. Static intake note: simhash is a Python implementation of the SimHash algorithm for text similarity. Absorb lightweight SimHash near-duplicate review patterns only; package runtime is not im",
+          "title": "1e0ng/simhash",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/1e0ng/simhash"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 58,
+          "source": "github",
+          "stars": 759,
+          "summary": "All-in-one text de-duplication with exact, MinHash, SimHash, and semantic deduplication. Static intake note: text-dedup is an Apache-2.0 all-in-one text deduplication project. Absorb exact, MinHash, SimHash, and semantic dedup gate patterns only; package/runtime code is not insta",
+          "title": "ChenghaoMou/text-dedup",
+          "trust_flags": [],
+          "url": "https://github.com/ChenghaoMou/text-dedup"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 58,
+          "source": "github",
+          "stars": 422,
+          "summary": "Simhash and near-duplicate detection with Hamming distance over similar hashes. Static intake note: simhash-py identifies near-duplicate documents by comparing similar hashes and Hamming distance. Absorb SimHash/Hamming review gates only; C++ extension/runtime is not built.",
+          "title": "seomoz/simhash-py",
+          "trust_flags": [],
+          "url": "https://github.com/seomoz/simhash-py"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 58,
+          "source": "github",
+          "stars": 153,
+          "summary": "Semantic duplicates and semantic deduplication in web-scale datasets with embedding clusters. Static intake note: SemDeDup identifies and removes semantic duplicates in web-scale datasets using embedding clusters. Absorb semantic duplicate cluster gates and corpus leakage warning",
+          "title": "facebookresearch/SemDeDup",
+          "trust_flags": [
+            "license:noassertion",
+            "repo:archived"
+          ],
+          "url": "https://github.com/facebookresearch/SemDeDup"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 2928,
+          "summary": "MinHash, LSH, LSH Forest and Weighted MinHash for estimating Jaccard similarity. Static intake note: datasketch provides MinHash, MinHash LSH, LSH Forest, Weighted MinHash, HyperLogLog, and related probabilistic structures. Absorb Jaccard/LSH near-duplicate threshold patterns onl",
+          "title": "ekzhu/datasketch",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/ekzhu/datasketch"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 1273,
+          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning. ",
+          "title": "google-research/deduplicate-text-datasets",
+          "trust_flags": [
+            "zero-issues-high-stars",
+            "repo:archived"
+          ],
+          "url": "https://github.com/google-research/deduplicate-text-datasets"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 46,
+          "source": "github",
+          "stars": 936,
+          "summary": "Fast multimodal semantic deduplication and filtering for semantic duplicates. Static intake note: SemHash is a MIT fast multimodal semantic deduplication and filtering project. Absorb semantic duplicate clustering and filtering gates only; models/packages are not installed.",
+          "title": "MinishLab/semhash",
+          "trust_flags": [],
+          "url": "https://github.com/MinishLab/semhash"
+        }
+      ],
+      "top_source_url": "https://github.com/1e0ng/simhash",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:noassertion",
+        "repo:archived"
+      ]
+    },
+    {
       "candidate_count": 1,
       "name": "toc_aware_source_deconstruction",
       "posture_hint": "metadata-triage",
@@ -4443,15 +5097,57 @@
           "stars": 1,
           "summary": "LLM Ebook Summarizer deconstructs EPUB/PDF sources with table-of-contents hierarchy, nested chapter handling, parent-section context preservation, structured markdown notes, quotes, and anecdotes.",
           "title": "danngalann/llm-ebook-summarizer",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/danngalann/llm-ebook-summarizer"
         }
       ],
       "top_source_url": "https://github.com/danngalann/llm-ebook-summarizer",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "corpus_leakage_dedup_review_gate",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 58,
+          "source": "github",
+          "stars": 153,
+          "summary": "Semantic duplicates and semantic deduplication in web-scale datasets with embedding clusters. Static intake note: SemDeDup identifies and removes semantic duplicates in web-scale datasets using embedding clusters. Absorb semantic duplicate cluster gates and corpus leakage warning",
+          "title": "facebookresearch/SemDeDup",
+          "trust_flags": [
+            "license:noassertion",
+            "repo:archived"
+          ],
+          "url": "https://github.com/facebookresearch/SemDeDup"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 1273,
+          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning. ",
+          "title": "google-research/deduplicate-text-datasets",
+          "trust_flags": [
+            "zero-issues-high-stars",
+            "repo:archived"
+          ],
+          "url": "https://github.com/google-research/deduplicate-text-datasets"
+        }
+      ],
+      "top_source_url": "https://github.com/facebookresearch/SemDeDup",
       "trust_flags": [
-        "license:missing"
+        "license:noassertion",
+        "repo:archived",
+        "zero-issues-high-stars"
       ]
     },
     {
@@ -4493,16 +5189,12 @@
           "stars": null,
           "summary": "Story Realization expands plot events into sentences with event creation, slot filling, a memory graph for entities, ensemble thresholds and confidence scores. Static intake note: StoryRealization expands plot events into sentences. Public README describes event creation, slot fi",
           "title": "rajammanabrolu/StoryRealization",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/rajammanabrolu/StoryRealization"
         }
       ],
       "top_source_url": "https://github.com/rajammanabrolu/StoryRealization",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 3,
@@ -4585,6 +5277,68 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 4,
+      "name": "source_format_import_manifest",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 108,
+          "source": "github",
+          "stars": 2300,
+          "summary": "EbookLib handles EPUB reading/writing with OPF metadata, spine, and table-of-contents surfaces. Absorb EPUB import manifests only; AGPL runtime code is not imported. HEAD a50289fb9d4039224d54bf7d92698eb03cd68254.",
+          "title": "aerkalov/ebooklib",
+          "trust_flags": [],
+          "url": "https://github.com/aerkalov/ebooklib"
+        },
+        {
+          "license": "GPL-2.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 39000,
+          "summary": "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. Absorb conversion provenance patterns only; GPL runtime is not installed. HEAD 912bfa5e2e3f5c74eb125dfc19404f67c61ca58b.",
+          "title": "jgm/pandoc",
+          "trust_flags": [],
+          "url": "https://github.com/jgm/pandoc"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": 12000,
+          "summary": "Unstructured partitions PDFs, EPUBs, DOCX, HTML, and other documents into typed elements. Absorb element partition and chapter-heading detection patterns only; runtime is not imported. HEAD 19857c193657b5f1b0ca922562a3015b38cc6fb8.",
+          "title": "Unstructured-IO/unstructured",
+          "trust_flags": [],
+          "url": "https://github.com/Unstructured-IO/unstructured"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 44,
+          "source": "github",
+          "stars": 6000,
+          "summary": "PyMuPDF exposes PDF page text blocks, coordinates, images, and metadata. Absorb layout-aware import checks only; AGPL/commercial runtime is not imported. HEAD d981d87e87924962f7975dc2ed746e6c627e6cf6.",
+          "title": "pymupdf/PyMuPDF",
+          "trust_flags": [],
+          "url": "https://github.com/pymupdf/PyMuPDF"
+        }
+      ],
+      "top_source_url": "https://github.com/aerkalov/ebooklib",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "long_term_author_preference_memory",
       "posture_hint": "metadata-triage",
@@ -4600,16 +5354,48 @@
           "stars": 38200,
           "summary": "Mem0 provides long-term memory patterns for AI agents: user preferences, session memory, adaptive personalization, multi-level memory scopes, and memory search.",
           "title": "mem0ai/mem0",
-          "trust_flags": [
-            "license:unconfirmed"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/mem0ai/mem0"
         }
       ],
       "top_source_url": "https://github.com/mem0ai/mem0",
-      "trust_flags": [
-        "license:unconfirmed"
-      ]
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "function_word_syntax_style_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 115,
+          "summary": "Windowed writing-style classification with sentence length, readability, vocabulary richness and frequencies.",
+          "title": "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+          "trust_flags": [],
+          "url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": 20,
+          "summary": "PAN corpora handling and stylometric feature extraction for text documents.",
+          "title": "mullerpeter/authorstyle",
+          "trust_flags": [],
+          "url": "https://github.com/mullerpeter/authorstyle"
+        }
+      ],
+      "top_source_url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -4733,6 +5519,99 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "cross_context_coreference_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 11,
+          "summary": "xCoRe is a cross-context coreference model for short, long, and multiple contexts. Absorb mention-cluster stability gates only; model weights and runtime are not downloaded. HEAD 9a5713b210abaaa6ded158966b200740ea1bfbfc.",
+          "title": "SapienzaNLP/xcore",
+          "trust_flags": [],
+          "url": "https://github.com/SapienzaNLP/xcore"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document identity review only; pipeline runtime is not executed. HEAD f62e9ddbe63290228cdc4cbd49f8c94105b1cf15.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        }
+      ],
+      "top_source_url": "https://github.com/SapienzaNLP/xcore",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "simhash_hamming_similarity_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 1037,
+          "summary": "A Python implementation of SimHash with Hamming distance style near duplicate comparison. Static intake note: simhash is a Python implementation of the SimHash algorithm for text similarity. Absorb lightweight SimHash near-duplicate review patterns only; package runtime is not im",
+          "title": "1e0ng/simhash",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/1e0ng/simhash"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 58,
+          "source": "github",
+          "stars": 759,
+          "summary": "All-in-one text de-duplication with exact, MinHash, SimHash, and semantic deduplication. Static intake note: text-dedup is an Apache-2.0 all-in-one text deduplication project. Absorb exact, MinHash, SimHash, and semantic dedup gate patterns only; package/runtime code is not insta",
+          "title": "ChenghaoMou/text-dedup",
+          "trust_flags": [],
+          "url": "https://github.com/ChenghaoMou/text-dedup"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 58,
+          "source": "github",
+          "stars": 422,
+          "summary": "Simhash and near-duplicate detection with Hamming distance over similar hashes. Static intake note: simhash-py identifies near-duplicate documents by comparing similar hashes and Hamming distance. Absorb SimHash/Hamming review gates only; C++ extension/runtime is not built.",
+          "title": "seomoz/simhash-py",
+          "trust_flags": [],
+          "url": "https://github.com/seomoz/simhash-py"
+        }
+      ],
+      "top_source_url": "https://github.com/1e0ng/simhash",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
       "candidate_count": 1,
       "name": "two_pass_context_glossary_pipeline",
       "posture_hint": "metadata-triage",
@@ -4748,18 +5627,35 @@
           "stars": 0,
           "summary": "AI Novel Translation uses a two-pass serialized-chapter pipeline: analysis summary and term extraction first, then generation with previous summary, cumulative glossary, resume detection, and editable glossary JSON.",
           "title": "darkautism/ai-novel-translation",
-          "trust_flags": [
-            "license:missing",
-            "default-branch:nonstandard"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/darkautism/ai-novel-translation"
         }
       ],
       "top_source_url": "https://github.com/darkautism/ai-novel-translation",
-      "trust_flags": [
-        "license:missing",
-        "default-branch:nonstandard"
-      ]
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "document_partition_chapter_detection_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": 12000,
+          "summary": "Unstructured partitions PDFs, EPUBs, DOCX, HTML, and other documents into typed elements. Absorb element partition and chapter-heading detection patterns only; runtime is not imported. HEAD 19857c193657b5f1b0ca922562a3015b38cc6fb8.",
+          "title": "Unstructured-IO/unstructured",
+          "trust_flags": [],
+          "url": "https://github.com/Unstructured-IO/unstructured"
+        }
+      ],
+      "top_source_url": "https://github.com/Unstructured-IO/unstructured",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4823,16 +5719,12 @@
           "stars": null,
           "summary": "Story Realization expands plot events into sentences with event creation, slot filling, a memory graph for entities, ensemble thresholds and confidence scores. Static intake note: StoryRealization expands plot events into sentences. Public README describes event creation, slot fi",
           "title": "rajammanabrolu/StoryRealization",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/rajammanabrolu/StoryRealization"
         }
       ],
       "top_source_url": "https://github.com/rajammanabrolu/StoryRealization",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4929,9 +5821,7 @@
           "stars": 36500,
           "summary": "Chinese tokenization, named entity recognition, dependency and semantic analysis. Absorb entity/alias consistency gates only; models were not downloaded.",
           "title": "hankcs/HanLP",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/hankcs/HanLP"
         },
         {
@@ -4944,18 +5834,12 @@
           "stars": 7800,
           "summary": "Chinese NLP toolkit for segmentation, NER, dependency and semantic roles. License not confirmed via raw LICENSE; absorb pattern only.",
           "title": "HIT-SCIR/ltp",
-          "trust_flags": [
-            "license:raw-not-found",
-            "head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/HIT-SCIR/ltp"
         }
       ],
       "top_source_url": "https://github.com/hankcs/HanLP",
-      "trust_flags": [
-        "head-via-git-ls-remote",
-        "license:raw-not-found"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4978,6 +5862,42 @@
         }
       ],
       "top_source_url": "https://github.com/THUDM/LongReward",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "character_interaction_network_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 62,
+          "summary": "Character-network analyzes relationships among novel characters with graph, entity-recognition, and sentiment techniques. Absorb character interaction network gates only; notebooks are not executed. HEAD 3f48c059b7aadc9fe9492961a54fcc0fa226b2d5.",
+          "title": "hzjken/character-network",
+          "trust_flags": [],
+          "url": "https://github.com/hzjken/character-network"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 4,
+          "summary": "Character-interactions extracts characters, infers relationships, and visualizes literary interaction networks. Absorb relationship evidence and network review only; web runtime is not launched. HEAD 68e1b8c88029a77e04007f73adc82da268fa377f.",
+          "title": "devbret/character-interactions",
+          "trust_flags": [],
+          "url": "https://github.com/devbret/character-interactions"
+        }
+      ],
+      "top_source_url": "https://github.com/hzjken/character-network",
       "trust_flags": []
     },
     {
@@ -5077,6 +5997,42 @@
         }
       ],
       "top_source_url": "https://github.com/lordjabez/story-framework",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "pdf_layout_text_extraction_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT-like",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 6700,
+          "summary": "Pdfminer.six extracts PDF text, layout information, page spans, and reading-order evidence. Absorb layout review gates only; package runtime is not imported. HEAD a18de2a9c479b4c847538500017b449ddaec177e.",
+          "title": "pdfminer/pdfminer.six",
+          "trust_flags": [],
+          "url": "https://github.com/pdfminer/pdfminer.six"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 44,
+          "source": "github",
+          "stars": 6000,
+          "summary": "PyMuPDF exposes PDF page text blocks, coordinates, images, and metadata. Absorb layout-aware import checks only; AGPL/commercial runtime is not imported. HEAD d981d87e87924962f7975dc2ed746e6c627e6cf6.",
+          "title": "pymupdf/PyMuPDF",
+          "trust_flags": [],
+          "url": "https://github.com/pymupdf/PyMuPDF"
+        }
+      ],
+      "top_source_url": "https://github.com/pdfminer/pdfminer.six",
       "trust_flags": []
     },
     {
@@ -5265,6 +6221,42 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "import_provenance_checksum_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 108,
+          "source": "github",
+          "stars": 2300,
+          "summary": "EbookLib handles EPUB reading/writing with OPF metadata, spine, and table-of-contents surfaces. Absorb EPUB import manifests only; AGPL runtime code is not imported. HEAD a50289fb9d4039224d54bf7d92698eb03cd68254.",
+          "title": "aerkalov/ebooklib",
+          "trust_flags": [],
+          "url": "https://github.com/aerkalov/ebooklib"
+        },
+        {
+          "license": "GPL-2.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 39000,
+          "summary": "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. Absorb conversion provenance patterns only; GPL runtime is not installed. HEAD 912bfa5e2e3f5c74eb125dfc19404f67c61ca58b.",
+          "title": "jgm/pandoc",
+          "trust_flags": [],
+          "url": "https://github.com/jgm/pandoc"
+        }
+      ],
+      "top_source_url": "https://github.com/aerkalov/ebooklib",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 4,
       "name": "chinese_segmentation_keyword_gate",
       "posture_hint": "metadata-triage",
@@ -5282,10 +6274,34 @@
           "stars": 33500,
           "summary": "Chinese word segmentation with custom dictionaries and keyword extraction. Static intake only; package runtime was not imported.",
           "title": "fxsjy/jieba",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/fxsjy/jieba"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 93,
+          "source": "github",
+          "stars": 36500,
+          "summary": "Chinese tokenization, named entity recognition, dependency and semantic analysis. Absorb entity/alias consistency gates only; models were not downloaded.",
+          "title": "hankcs/HanLP",
+          "trust_flags": [],
+          "url": "https://github.com/hankcs/HanLP"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 7800,
+          "summary": "Chinese NLP toolkit for segmentation, NER, dependency and semantic roles. License not confirmed via raw LICENSE; absorb pattern only.",
+          "title": "HIT-SCIR/ltp",
+          "trust_flags": [],
+          "url": "https://github.com/HIT-SCIR/ltp"
         },
         {
           "license": "MIT",
@@ -5299,48 +6315,48 @@
           "stars": 2100,
           "summary": "Rust implementation of Jieba-style Chinese tokenization for deterministic segmentation boundaries. Static intake only; native code was not built.",
           "title": "messense/jieba-rs",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/messense/jieba-rs"
-        },
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 93,
-          "source": "github",
-          "stars": 36500,
-          "summary": "Chinese tokenization, named entity recognition, dependency and semantic analysis. Absorb entity/alias consistency gates only; models were not downloaded.",
-          "title": "hankcs/HanLP",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/hankcs/HanLP"
-        },
+        }
+      ],
+      "top_source_url": "https://github.com/fxsjy/jieba",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "sentiment_arc_emotion_trajectory_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
         {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 91,
+          "score": 84,
           "source": "github",
-          "stars": 7800,
-          "summary": "Chinese NLP toolkit for segmentation, NER, dependency and semantic roles. License not confirmed via raw LICENSE; absorb pattern only.",
-          "title": "HIT-SCIR/ltp",
-          "trust_flags": [
-            "license:raw-not-found",
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/HIT-SCIR/ltp"
+          "stars": 350,
+          "summary": "Syuzhet extracts sentiment and sentiment-based plot arcs from text. Absorb emotion-arc review and pacing-trajectory patterns only; R package runtime is not installed. HEAD 73ec7d852e1f368661069e1b75e6c8c12a9f2133.",
+          "title": "mjockers/syuzhet",
+          "trust_flags": [],
+          "url": "https://github.com/mjockers/syuzhet"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs compares sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks and dependencies are not executed. HEAD f427bedd93b712d9574ae1d0cd60345cd3a342a9.",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
         }
       ],
-      "top_source_url": "https://github.com/fxsjy/jieba",
-      "trust_flags": [
-        "head-via-git-ls-remote",
-        "license:raw-not-found"
-      ]
+      "top_source_url": "https://github.com/mjockers/syuzhet",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -5651,9 +6667,7 @@
           "stars": 18000,
           "summary": "Prose linter for configurable house-style rules, Markdown-aware style checks, and diagnostic reports. Static intake only; CLI was not installed or executed.",
           "title": "vale-cli/vale",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/vale-cli/vale"
         },
         {
@@ -5666,9 +6680,7 @@
           "stars": 11000,
           "summary": "Pluggable natural language linter for Markdown/text with rule packages, diagnostics, and suppressions. Static intake only; Node packages were not installed.",
           "title": "textlint/textlint",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/textlint/textlint"
         },
         {
@@ -5681,9 +6693,7 @@
           "stars": 4300,
           "summary": "Prose style checker for cliches, jargon, redundancy, passive voice, and copyedit warnings. Absorb warning taxonomy only; package runtime was not imported.",
           "title": "amperser/proselint",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/amperser/proselint"
         },
         {
@@ -5696,16 +6706,12 @@
           "stars": 5600,
           "summary": "Lightweight prose style checker for passive voice, weasel words, adverbs, cliches, and hard-to-read text. Absorb warning categories only; package runtime was not imported.",
           "title": "btford/write-good",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/btford/write-good"
         }
       ],
       "top_source_url": "https://github.com/vale-cli/vale",
-      "trust_flags": [
-        "rest-api:rate-limit; head-via-git-ls-remote"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -5790,6 +6796,42 @@
         }
       ],
       "top_source_url": "https://github.com/langchain-ai/langchain",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "ocr_scanned_page_import_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MPL-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 3300,
+          "summary": "OCRmyPDF adds OCR text layers to scanned PDFs and records OCR pipeline behavior. Absorb scanned-page confidence gates only; no OCR runtime is launched. HEAD 5cb5d7a682095700aa28eb592a94c0fe28e94fd0.",
+          "title": "ocrmypdf/OCRmyPDF",
+          "trust_flags": [],
+          "url": "https://github.com/ocrmypdf/OCRmyPDF"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 44,
+          "source": "github",
+          "stars": 69000,
+          "summary": "Tesseract is an OCR engine for image text recognition. Absorb language/confidence/page-image review gates only; native OCR runtime and language data are not downloaded. HEAD f4afb2cc9545f622a07812b09e1b72fc78f85a64.",
+          "title": "tesseract-ocr/tesseract",
+          "trust_flags": [],
+          "url": "https://github.com/tesseract-ocr/tesseract"
+        }
+      ],
+      "top_source_url": "https://github.com/ocrmypdf/OCRmyPDF",
       "trust_flags": []
     },
     {
@@ -6230,16 +7272,12 @@
           "stars": 8400,
           "summary": "Chinese text correction with confusion-set and model-based correction modes. Absorb correction review queue patterns only; models were not downloaded.",
           "title": "shibing624/pycorrector",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/shibing624/pycorrector"
         }
       ],
       "top_source_url": "https://github.com/shibing624/pycorrector",
-      "trust_flags": [
-        "head-via-git-ls-remote"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -6257,9 +7295,7 @@
           "stars": 8500,
           "summary": "Offline grammar checker and language-server surface for prose spelling, grammar, and copyedit diagnostics. Static intake only; no editor integration or extension was installed.",
           "title": "Automattic/harper",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Automattic/harper"
         },
         {
@@ -6272,16 +7308,12 @@
           "stars": 13000,
           "summary": "Multilingual grammar, spell, and style checking surface. Absorb grammar/spelling gate taxonomy only; no server, extension, or external checking service was launched.",
           "title": "languagetool-org/languagetool",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/languagetool-org/languagetool"
         }
       ],
       "top_source_url": "https://github.com/Automattic/harper",
-      "trust_flags": [
-        "rest-api:rate-limit; head-via-git-ls-remote"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -6575,29 +7607,12 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 88,
-          "source": "github",
-          "stars": 11000,
-          "summary": "Pluggable natural language linter for Markdown/text with rule packages, diagnostics, and suppressions. Static intake only; Node packages were not installed.",
-          "title": "textlint/textlint",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/textlint/textlint"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
           "score": 90,
           "source": "github",
           "stars": 18000,
           "summary": "Prose linter for configurable house-style rules, Markdown-aware style checks, and diagnostic reports. Static intake only; CLI was not installed or executed.",
           "title": "vale-cli/vale",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/vale-cli/vale"
         },
         {
@@ -6605,15 +7620,13 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 85,
+          "score": 88,
           "source": "github",
-          "stars": 5600,
-          "summary": "Lightweight prose style checker for passive voice, weasel words, adverbs, cliches, and hard-to-read text. Absorb warning categories only; package runtime was not imported.",
-          "title": "btford/write-good",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/btford/write-good"
+          "stars": 11000,
+          "summary": "Pluggable natural language linter for Markdown/text with rule packages, diagnostics, and suppressions. Static intake only; Node packages were not installed.",
+          "title": "textlint/textlint",
+          "trust_flags": [],
+          "url": "https://github.com/textlint/textlint"
         },
         {
           "license": "BSD-style",
@@ -6625,16 +7638,25 @@
           "stars": 4300,
           "summary": "Prose style checker for cliches, jargon, redundancy, passive voice, and copyedit warnings. Absorb warning taxonomy only; package runtime was not imported.",
           "title": "amperser/proselint",
-          "trust_flags": [
-            "rest-api:rate-limit; head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/amperser/proselint"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 85,
+          "source": "github",
+          "stars": 5600,
+          "summary": "Lightweight prose style checker for passive voice, weasel words, adverbs, cliches, and hard-to-read text. Absorb warning categories only; package runtime was not imported.",
+          "title": "btford/write-good",
+          "trust_flags": [],
+          "url": "https://github.com/btford/write-good"
         }
       ],
-      "top_source_url": "https://github.com/textlint/textlint",
-      "trust_flags": [
-        "rest-api:rate-limit; head-via-git-ls-remote"
-      ]
+      "top_source_url": "https://github.com/vale-cli/vale",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -6830,16 +7852,12 @@
           "stars": 9600,
           "summary": "Simplified/Traditional Chinese conversion and variant normalization. Static intake only; conversion runtime was not installed.",
           "title": "BYVoid/OpenCC",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/BYVoid/OpenCC"
         }
       ],
       "top_source_url": "https://github.com/BYVoid/OpenCC",
-      "trust_flags": [
-        "head-via-git-ls-remote"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 5,
@@ -7492,7 +8510,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 14,
+      "candidate_count": 15,
       "name": "style_signature",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -7649,6 +8667,21 @@
           "url": "https://github.com/ModernRelay/omnigraph"
         },
         {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 1037,
+          "summary": "A Python implementation of SimHash with Hamming distance style near duplicate comparison. Static intake note: simhash is a Python implementation of the SimHash algorithm for text similarity. Absorb lightweight SimHash near-duplicate review patterns only; package runtime is not im",
+          "title": "1e0ng/simhash",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/1e0ng/simhash"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -7706,7 +8739,9 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
     },
     {
       "candidate_count": 2,
@@ -8461,16 +9496,17 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 27,
+      "candidate_count": 32,
       "name": "self_review",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
         "native_binary",
         "shell_script",
         "python_project",
-        "postinstall"
+        "postinstall",
+        "browser_extension"
       ],
       "sources": [
         {
@@ -8750,6 +9786,21 @@
           "url": "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude"
         },
         {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 1037,
+          "summary": "A Python implementation of SimHash with Hamming distance style near duplicate comparison. Static intake note: simhash is a Python implementation of the SimHash algorithm for text similarity. Absorb lightweight SimHash near-duplicate review patterns only; package runtime is not im",
+          "title": "1e0ng/simhash",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/1e0ng/simhash"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -8774,6 +9825,21 @@
           "title": "jinmawang/claude-novel-writeFlow",
           "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 40240,
+          "summary": "Efficient similarity search and clustering of dense vectors for nearest neighbor retrieval. Static intake note: Faiss is a MIT library for efficient similarity search and clustering of dense vectors. Absorb vector-nearest-neighbor review and threshold patterns only; native/GPU ru",
+          "title": "facebookresearch/faiss",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/facebookresearch/faiss"
         },
         {
           "license": "MIT",
@@ -8818,6 +9884,52 @@
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 58,
+          "source": "github",
+          "stars": 422,
+          "summary": "Simhash and near-duplicate detection with Hamming distance over similar hashes. Static intake note: simhash-py identifies near-duplicate documents by comparing similar hashes and Hamming distance. Absorb SimHash/Hamming review gates only; C++ extension/runtime is not built.",
+          "title": "seomoz/simhash-py",
+          "trust_flags": [],
+          "url": "https://github.com/seomoz/simhash-py"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 18795,
+          "summary": "State-of-the-art embeddings, retrieval, reranking, and embedding similarity for sentence transformers. Static intake note: Sentence Transformers provides embeddings, retrieval, and reranking for semantic similarity. Absorb embedding-similarity independence review gates only; mode",
+          "title": "UKPLab/sentence-transformers",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/UKPLab/sentence-transformers"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 1273,
+          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning. ",
+          "title": "google-research/deduplicate-text-datasets",
+          "trust_flags": [
+            "zero-issues-high-stars",
+            "repo:archived"
+          ],
+          "url": "https://github.com/google-research/deduplicate-text-datasets"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
           "risk_flags": [],
           "score": 52,
           "source": "github",
@@ -8842,7 +9954,10 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "repo:archived"
+      ]
     },
     {
       "candidate_count": 2,
@@ -9522,7 +10637,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 13,
+      "candidate_count": 15,
       "name": "context_reference",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -9704,6 +10819,36 @@
           "url": "https://github.com/bal-spec/sillytavern-character-memory"
         },
         {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 40240,
+          "summary": "Efficient similarity search and clustering of dense vectors for nearest neighbor retrieval. Static intake note: Faiss is a MIT library for efficient similarity search and clustering of dense vectors. Absorb vector-nearest-neighbor review and threshold patterns only; native/GPU ru",
+          "title": "facebookresearch/faiss",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/facebookresearch/faiss"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 56,
+          "source": "github",
+          "stars": 18795,
+          "summary": "State-of-the-art embeddings, retrieval, reranking, and embedding similarity for sentence transformers. Static intake note: Sentence Transformers provides embeddings, retrieval, and reranking for semantic similarity. Absorb embedding-similarity independence review gates only; mode",
+          "title": "UKPLab/sentence-transformers",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/UKPLab/sentence-transformers"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -9720,7 +10865,9 @@
         }
       ],
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
-      "trust_flags": []
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
     },
     {
       "candidate_count": 2,
@@ -11116,787 +12263,6 @@
       ],
       "top_source_url": "https://github.com/Theltn/AICreativityJudge",
       "trust_flags": []
-    },
-    {
-      "candidate_count": 4,
-      "name": "source_format_import_manifest",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 108,
-          "source": "github",
-          "stars": 2300,
-          "summary": "EbookLib handles EPUB reading/writing with OPF metadata, spine, and table-of-contents surfaces. Absorb EPUB import manifests only; AGPL runtime code is not imported. HEAD a50289fb9d4039224d54bf7d92698eb03cd68254.",
-          "title": "aerkalov/ebooklib",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/aerkalov/ebooklib"
-        },
-        {
-          "license": "GPL-2.0-or-later",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 92,
-          "source": "github",
-          "stars": 39000,
-          "summary": "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. Absorb conversion provenance patterns only; GPL runtime is not installed. HEAD 912bfa5e2e3f5c74eb125dfc19404f67c61ca58b.",
-          "title": "jgm/pandoc",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/jgm/pandoc"
-        },
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 64,
-          "source": "github",
-          "stars": 12000,
-          "summary": "Unstructured partitions PDFs, EPUBs, DOCX, HTML, and other documents into typed elements. Absorb element partition and chapter-heading detection patterns only; runtime is not imported. HEAD 19857c193657b5f1b0ca922562a3015b38cc6fb8.",
-          "title": "Unstructured-IO/unstructured",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/Unstructured-IO/unstructured"
-        },
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 44,
-          "source": "github",
-          "stars": 6000,
-          "summary": "PyMuPDF exposes PDF page text blocks, coordinates, images, and metadata. Absorb layout-aware import checks only; AGPL/commercial runtime is not imported. HEAD d981d87e87924962f7975dc2ed746e6c627e6cf6.",
-          "title": "pymupdf/PyMuPDF",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/pymupdf/PyMuPDF"
-        }
-      ],
-      "top_source_url": "https://github.com/aerkalov/ebooklib",
-      "trust_flags": [
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "pdf_layout_text_extraction_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT-like",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 68,
-          "source": "github",
-          "stars": 6700,
-          "summary": "Pdfminer.six extracts PDF text, layout information, page spans, and reading-order evidence. Absorb layout review gates only; package runtime is not imported. HEAD a18de2a9c479b4c847538500017b449ddaec177e.",
-          "title": "pdfminer/pdfminer.six",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/pdfminer/pdfminer.six"
-        },
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 44,
-          "source": "github",
-          "stars": 6000,
-          "summary": "PyMuPDF exposes PDF page text blocks, coordinates, images, and metadata. Absorb layout-aware import checks only; AGPL/commercial runtime is not imported. HEAD d981d87e87924962f7975dc2ed746e6c627e6cf6.",
-          "title": "pymupdf/PyMuPDF",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/pymupdf/PyMuPDF"
-        }
-      ],
-      "top_source_url": "https://github.com/pdfminer/pdfminer.six",
-      "trust_flags": [
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "ocr_scanned_page_import_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MPL-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 56,
-          "source": "github",
-          "stars": 3300,
-          "summary": "OCRmyPDF adds OCR text layers to scanned PDFs and records OCR pipeline behavior. Absorb scanned-page confidence gates only; no OCR runtime is launched. HEAD 5cb5d7a682095700aa28eb592a94c0fe28e94fd0.",
-          "title": "ocrmypdf/OCRmyPDF",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/ocrmypdf/OCRmyPDF"
-        },
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 44,
-          "source": "github",
-          "stars": 69000,
-          "summary": "Tesseract is an OCR engine for image text recognition. Absorb language/confidence/page-image review gates only; native OCR runtime and language data are not downloaded. HEAD f4afb2cc9545f622a07812b09e1b72fc78f85a64.",
-          "title": "tesseract-ocr/tesseract",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/tesseract-ocr/tesseract"
-        }
-      ],
-      "top_source_url": "https://github.com/ocrmypdf/OCRmyPDF",
-      "trust_flags": [
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "document_partition_chapter_detection_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 64,
-          "source": "github",
-          "stars": 12000,
-          "summary": "Unstructured partitions PDFs, EPUBs, DOCX, HTML, and other documents into typed elements. Absorb element partition and chapter-heading detection patterns only; runtime is not imported. HEAD 19857c193657b5f1b0ca922562a3015b38cc6fb8.",
-          "title": "Unstructured-IO/unstructured",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/Unstructured-IO/unstructured"
-        }
-      ],
-      "top_source_url": "https://github.com/Unstructured-IO/unstructured",
-      "trust_flags": [
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "import_provenance_checksum_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 108,
-          "source": "github",
-          "stars": 2300,
-          "summary": "EbookLib handles EPUB reading/writing with OPF metadata, spine, and table-of-contents surfaces. Absorb EPUB import manifests only; AGPL runtime code is not imported. HEAD a50289fb9d4039224d54bf7d92698eb03cd68254.",
-          "title": "aerkalov/ebooklib",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/aerkalov/ebooklib"
-        },
-        {
-          "license": "GPL-2.0-or-later",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 92,
-          "source": "github",
-          "stars": 39000,
-          "summary": "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. Absorb conversion provenance patterns only; GPL runtime is not installed. HEAD 912bfa5e2e3f5c74eb125dfc19404f67c61ca58b.",
-          "title": "jgm/pandoc",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/jgm/pandoc"
-        }
-      ],
-      "top_source_url": "https://github.com/aerkalov/ebooklib",
-      "trust_flags": [
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "literary_event_entity_annotation_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 88,
-          "source": "github",
-          "stars": 376,
-          "summary": "LitBank provides fiction-specific annotations for literary entities, literary events, and coreference. Absorb annotation gates only; dataset files and models are not imported. HEAD 3e50db0ffc033d7ccbb94f4d88f6b99210328ed8.",
-          "title": "dbamman/litbank",
-          "trust_flags": [
-            "license:missing",
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/dbamman/litbank"
-        }
-      ],
-      "top_source_url": "https://github.com/dbamman/litbank",
-      "trust_flags": [
-        "license:missing",
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 3,
-      "name": "narrative_event_evolution_graph_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 86,
-          "source": "github",
-          "stars": 165,
-          "summary": "ConstructingNEEG models narrative event evolutionary graphs for script event prediction. Absorb event-chain graph review only; external data and old PyTorch runtime are not executed. HEAD 97b133685fbca89ce908977857e056481a9deadf.",
-          "title": "eecrazy/ConstructingNEEG_IJCAI_2018",
-          "trust_flags": [
-            "license:missing",
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 75,
-          "source": "github",
-          "stars": 7,
-          "summary": "EventNarrative is an event-centric knowledge-graph-to-text dataset. Absorb event graph linearization and provenance-separation patterns only; data/runtime assets are not downloaded. HEAD a6e2b06e998ac2709cce36ff25ae8ffaa3d9b425.",
-          "title": "acolas1/EventNarrative",
-          "trust_flags": [
-            "license:missing",
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/acolas1/EventNarrative"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 74,
-          "source": "github",
-          "stars": 6,
-          "summary": "Narrative graph EMNLP 2020 models contextualized event embeddings for discourse relations. Absorb event/discourse relation evidence only; trained models and Java/Python runtime are not executed. HEAD f63a17ff7ef0d2d71630230e3c1af7a26894fdb3.",
-          "title": "doug919/narrative_graph_emnlp2020",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/doug919/narrative_graph_emnlp2020"
-        }
-      ],
-      "top_source_url": "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018",
-      "trust_flags": [
-        "license:missing",
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "sentiment_arc_emotion_trajectory_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 84,
-          "source": "github",
-          "stars": 350,
-          "summary": "Syuzhet extracts sentiment and sentiment-based plot arcs from text. Absorb emotion-arc review and pacing-trajectory patterns only; R package runtime is not installed. HEAD 73ec7d852e1f368661069e1b75e6c8c12a9f2133.",
-          "title": "mjockers/syuzhet",
-          "trust_flags": [
-            "license:missing",
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/mjockers/syuzhet"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 80,
-          "source": "github",
-          "stars": 43,
-          "summary": "SentimentArcs compares sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks and dependencies are not executed. HEAD f427bedd93b712d9574ae1d0cd60345cd3a342a9.",
-          "title": "jon-chun/sentimentarcs_notebooks",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
-        }
-      ],
-      "top_source_url": "https://github.com/mjockers/syuzhet",
-      "trust_flags": [
-        "license:missing",
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "cross_context_coreference_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 82,
-          "source": "github",
-          "stars": 11,
-          "summary": "xCoRe is a cross-context coreference model for short, long, and multiple contexts. Absorb mention-cluster stability gates only; model weights and runtime are not downloaded. HEAD 9a5713b210abaaa6ded158966b200740ea1bfbfc.",
-          "title": "SapienzaNLP/xcore",
-          "trust_flags": [
-            "license:missing",
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/SapienzaNLP/xcore"
-        },
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 78,
-          "source": "github",
-          "stars": 3,
-          "summary": "XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document identity review only; pipeline runtime is not executed. HEAD f62e9ddbe63290228cdc4cbd49f8c94105b1cf15.",
-          "title": "anastasia-zhukova/XCoref",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/anastasia-zhukova/XCoref"
-        }
-      ],
-      "top_source_url": "https://github.com/SapienzaNLP/xcore",
-      "trust_flags": [
-        "license:missing",
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "character_interaction_network_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 80,
-          "source": "github",
-          "stars": 62,
-          "summary": "Character-network analyzes relationships among novel characters with graph, entity-recognition, and sentiment techniques. Absorb character interaction network gates only; notebooks are not executed. HEAD 3f48c059b7aadc9fe9492961a54fcc0fa226b2d5.",
-          "title": "hzjken/character-network",
-          "trust_flags": [
-            "license:missing",
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/hzjken/character-network"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 76,
-          "source": "github",
-          "stars": 4,
-          "summary": "Character-interactions extracts characters, infers relationships, and visualizes literary interaction networks. Absorb relationship evidence and network review only; web runtime is not launched. HEAD 68e1b8c88029a77e04007f73adc82da268fa377f.",
-          "title": "devbret/character-interactions",
-          "trust_flags": [
-            "head-via-git-ls-remote"
-          ],
-          "url": "https://github.com/devbret/character-interactions"
-        }
-      ],
-      "top_source_url": "https://github.com/hzjken/character-network",
-      "trust_flags": [
-        "license:missing",
-        "head-via-git-ls-remote"
-      ]
-    },
-    {
-      "name": "style_overfit_regression_gate",
-      "candidate_count": 5,
-      "top_source_url": "https://github.com/pan-webis-de/pan-code",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "prompt_model_provider"
-      ],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "pan-webis-de/pan-code",
-          "url": "https://github.com/pan-webis-de/pan-code",
-          "source": "github",
-          "summary": "PAN baselines and evaluation code for authorship attribution, profiling, style change and style breach tasks.",
-          "stars": 200,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 88
-        },
-        {
-          "title": "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
-          "url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
-          "source": "github",
-          "summary": "Windowed writing-style classification with sentence length, readability, vocabulary richness and frequencies.",
-          "stars": 115,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 88
-        },
-        {
-          "title": "ivannikov-lab/style-change-analysis",
-          "url": "https://github.com/ivannikov-lab/style-change-analysis",
-          "source": "github",
-          "summary": "Style change and style breach detection with paragraph windows, clustering, and statistical comparison.",
-          "stars": 6,
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 82
-        },
-        {
-          "title": "ngpepin/stylometric-transfer",
-          "url": "https://github.com/ngpepin/stylometric-transfer",
-          "source": "github",
-          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
-          "stars": 18,
-          "license": "PolyForm-Noncommercial-1.0.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "prompt_model_provider"
-          ],
-          "trust_flags": [],
-          "score": 80
-        },
-        {
-          "title": "llm-authorship/survey",
-          "url": "https://github.com/llm-authorship/survey",
-          "source": "github",
-          "summary": "LLM-era authorship attribution taxonomy for human, model, and human-LLM coauthored text.",
-          "stars": 120,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 78
-        }
-      ]
-    },
-    {
-      "name": "paraphrase_independence_review_gate",
-      "candidate_count": 2,
-      "top_source_url": "https://github.com/sam0jones0/pyantistylometry",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "prompt_model_provider"
-      ],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "sam0jones0/pyantistylometry",
-          "url": "https://github.com/sam0jones0/pyantistylometry",
-          "source": "github",
-          "summary": "Anti-stylometry research notes for reducing identifiable writing-style signals.",
-          "stars": 30,
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 80
-        },
-        {
-          "title": "ngpepin/stylometric-transfer",
-          "url": "https://github.com/ngpepin/stylometric-transfer",
-          "source": "github",
-          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
-          "stars": 18,
-          "license": "PolyForm-Noncommercial-1.0.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "prompt_model_provider"
-          ],
-          "trust_flags": [],
-          "score": 80
-        }
-      ]
-    },
-    {
-      "name": "authorship_attribution_similarity_gate",
-      "candidate_count": 7,
-      "top_source_url": "https://github.com/computationalstylistics/stylo",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "computationalstylistics/stylo",
-          "url": "https://github.com/computationalstylistics/stylo",
-          "source": "github",
-          "summary": "Computational stylistics and authorship attribution for explicit style fingerprints.",
-          "stars": 624,
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 90
-        },
-        {
-          "title": "pan-webis-de/pan-code",
-          "url": "https://github.com/pan-webis-de/pan-code",
-          "source": "github",
-          "summary": "PAN baselines and evaluation code for authorship attribution, profiling, style change and style breach tasks.",
-          "stars": 200,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 88
-        },
-        {
-          "title": "fastdatascience/faststylometry",
-          "url": "https://github.com/fastdatascience/faststylometry",
-          "source": "github",
-          "summary": "Burrows Delta and style similarity for authorship attribution distance checks.",
-          "stars": 65,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 86
-        },
-        {
-          "title": "mullerpeter/authorstyle",
-          "url": "https://github.com/mullerpeter/authorstyle",
-          "source": "github",
-          "summary": "PAN corpora handling and stylometric feature extraction for text documents.",
-          "stars": 20,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 84
-        },
-        {
-          "title": "michaeleby1/stylometric-analysis-project-gutenberg",
-          "url": "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg",
-          "source": "github",
-          "summary": "Project Gutenberg style metrics, cosine similarity between titles, and stylistic clusters.",
-          "stars": 12,
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 82
-        },
-        {
-          "title": "llm-authorship/survey",
-          "url": "https://github.com/llm-authorship/survey",
-          "source": "github",
-          "summary": "LLM-era authorship attribution taxonomy for human, model, and human-LLM coauthored text.",
-          "stars": 120,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 78
-        },
-        {
-          "title": "ContextLab/llm-stylometry",
-          "url": "https://github.com/ContextLab/llm-stylometry",
-          "source": "github",
-          "summary": "LLM stylometry with author-trained language models and cross-entropy style comparisons.",
-          "stars": 11,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 78
-        }
-      ]
-    },
-    {
-      "name": "stylometric_author_fingerprint_gate",
-      "candidate_count": 5,
-      "top_source_url": "https://github.com/computationalstylistics/stylo",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "prompt_model_provider"
-      ],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "computationalstylistics/stylo",
-          "url": "https://github.com/computationalstylistics/stylo",
-          "source": "github",
-          "summary": "Computational stylistics and authorship attribution for explicit style fingerprints.",
-          "stars": 624,
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 90
-        },
-        {
-          "title": "fastdatascience/faststylometry",
-          "url": "https://github.com/fastdatascience/faststylometry",
-          "source": "github",
-          "summary": "Burrows Delta and style similarity for authorship attribution distance checks.",
-          "stars": 65,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 86
-        },
-        {
-          "title": "michaeleby1/stylometric-analysis-project-gutenberg",
-          "url": "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg",
-          "source": "github",
-          "summary": "Project Gutenberg style metrics, cosine similarity between titles, and stylistic clusters.",
-          "stars": 12,
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 82
-        },
-        {
-          "title": "ngpepin/stylometric-transfer",
-          "url": "https://github.com/ngpepin/stylometric-transfer",
-          "source": "github",
-          "summary": "Explicit JSON style fingerprints and controllable author-style transfer with similarity checks.",
-          "stars": 18,
-          "license": "PolyForm-Noncommercial-1.0.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "prompt_model_provider"
-          ],
-          "trust_flags": [],
-          "score": 80
-        },
-        {
-          "title": "ContextLab/llm-stylometry",
-          "url": "https://github.com/ContextLab/llm-stylometry",
-          "source": "github",
-          "summary": "LLM stylometry with author-trained language models and cross-entropy style comparisons.",
-          "stars": 11,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 78
-        }
-      ]
-    },
-    {
-      "name": "function_word_syntax_style_gate",
-      "candidate_count": 2,
-      "top_source_url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
-          "url": "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
-          "source": "github",
-          "summary": "Windowed writing-style classification with sentence length, readability, vocabulary richness and frequencies.",
-          "stars": 115,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 88
-        },
-        {
-          "title": "mullerpeter/authorstyle",
-          "url": "https://github.com/mullerpeter/authorstyle",
-          "source": "github",
-          "summary": "PAN corpora handling and stylometric feature extraction for text documents.",
-          "stars": 20,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 84
-        }
-      ]
     }
   ],
   "world_state_tracking_hints": [
@@ -11912,30 +12278,5 @@
   "writing_session_goal_tracking_hints": [
     "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
     "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates."
-  ],
-  "stylometric_author_fingerprint_gate_hints": [
-    "Build an inspectable author/style fingerprint from stable metrics before using source style as guidance.",
-    "Version each fingerprint with source scope, feature family, extraction settings, and human approval status.",
-    "Same-type creation may borrow broad fingerprint targets but must not preserve source catchphrases, named imagery, or paragraph-level cadence."
-  ],
-  "function_word_syntax_style_gate_hints": [
-    "Track function words, punctuation, sentence length, word length, readability, and syntax feature windows as style evidence.",
-    "Treat feature outliers as review tasks instead of automatic rewrites, especially for dialogue, dialect, and deliberate register shifts.",
-    "For same-type creation, transform feature ranges into a new house style and speaker-specific exceptions."
-  ],
-  "authorship_attribution_similarity_gate_hints": [
-    "Use authorship-style similarity as a risk and calibration signal, not as a goal to maximize.",
-    "Record source-vs-draft distance thresholds, false-positive notes, and reviewer decisions before accepting same-type prose.",
-    "If the transformed draft becomes closer to the source author than to its own approved style baseline, route it to rewrite review."
-  ],
-  "style_overfit_regression_gate_hints": [
-    "Run windowed style-change checks across source, outline, draft, and revised prose to catch source-voice leakage.",
-    "Regression cases should include paraphrased, renamed, and polished drafts because overfit often survives surface substitutions.",
-    "Do not accept a draft that passes grammar/copyedit gates while failing style-overfit or source-distance gates."
-  ],
-  "paraphrase_independence_review_gate_hints": [
-    "Review same-type drafts for paraphrase independence after entity remap, style polish, and humanization passes.",
-    "Separate allowed voice targets from blocked author-mimicry: no source-specific phrase families, scene order, or stylistic tics as required constraints.",
-    "Humanization or style-transfer prompts must include copy-risk rejection, provenance, and author-visible accept/ignore decisions."
   ]
 }

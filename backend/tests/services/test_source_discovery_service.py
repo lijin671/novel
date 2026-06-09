@@ -6117,3 +6117,201 @@ def test_default_discovery_sources_include_stylometry_style_overfit_projects():
     assert any("style change detection" in query.lower() and "pan" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("stylometric transfer" in query.lower() and "style fingerprint" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("anti-stylometry" in query.lower() and "paraphrase independence" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_dedup_similarity_sources_classify_into_independence_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ChenghaoMou/text-dedup",
+                "html_url": "https://github.com/ChenghaoMou/text-dedup",
+                "description": "All-in-one text de-duplication with exact, MinHash, SimHash, and semantic deduplication.",
+                "stargazers_count": 759,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["text-dedup", "minhash", "simhash"],
+                "updated_at": "2026-06-09T12:52:49Z",
+                "root_files": ["README.md", "pyproject.toml"],
+            },
+            {
+                "full_name": "ekzhu/datasketch",
+                "html_url": "https://github.com/ekzhu/datasketch",
+                "description": "MinHash, LSH, LSH Forest and Weighted MinHash for estimating Jaccard similarity.",
+                "stargazers_count": 2928,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["minhash", "lsh", "jaccard"],
+                "updated_at": "2026-06-07T05:39:08Z",
+                "root_files": ["README.rst", "setup.py"],
+            },
+            {
+                "full_name": "seomoz/simhash-py",
+                "html_url": "https://github.com/seomoz/simhash-py",
+                "description": "Simhash and near-duplicate detection with Hamming distance over similar hashes.",
+                "stargazers_count": 422,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["simhash", "near-duplicate"],
+                "updated_at": "2026-06-09T06:16:20Z",
+                "root_files": ["README.md", "setup.py"],
+            },
+            {
+                "full_name": "MinishLab/semhash",
+                "html_url": "https://github.com/MinishLab/semhash",
+                "description": "Fast multimodal semantic deduplication and filtering for semantic duplicates.",
+                "stargazers_count": 936,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["semantic-deduplication", "filtering"],
+                "updated_at": "2026-06-08T09:48:32Z",
+                "root_files": ["README.md", "pyproject.toml"],
+            },
+            {
+                "full_name": "facebookresearch/faiss",
+                "html_url": "https://github.com/facebookresearch/faiss",
+                "description": "Efficient similarity search and clustering of dense vectors for nearest neighbor retrieval.",
+                "stargazers_count": 40240,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["similarity-search", "dense-vectors"],
+                "updated_at": "2026-06-09T22:45:04Z",
+                "root_files": ["README.md", "CMakeLists.txt"],
+            },
+            {
+                "full_name": "google-research/deduplicate-text-datasets",
+                "html_url": "https://github.com/google-research/deduplicate-text-datasets",
+                "description": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets.",
+                "stargazers_count": 1273,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["deduplication", "datasets"],
+                "updated_at": "2026-05-26T07:58:09Z",
+                "root_files": ["README.md", "Cargo.toml"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T13:00:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["ChenghaoMou/text-dedup"]["family"] == "novel-automation"
+    assert "minhash_lsh_near_duplicate_gate" in by_title["ChenghaoMou/text-dedup"]["absorbed_patterns"]
+    assert "simhash_hamming_similarity_gate" in by_title["ChenghaoMou/text-dedup"]["absorbed_patterns"]
+    assert "semantic_duplicate_cluster_gate" in by_title["ChenghaoMou/text-dedup"]["absorbed_patterns"]
+    assert "minhash_lsh_near_duplicate_gate" in by_title["ekzhu/datasketch"]["absorbed_patterns"]
+    assert "simhash_hamming_similarity_gate" in by_title["seomoz/simhash-py"]["absorbed_patterns"]
+    assert "semantic_duplicate_cluster_gate" in by_title["MinishLab/semhash"]["absorbed_patterns"]
+    assert "embedding_similarity_independence_gate" in by_title["facebookresearch/faiss"]["absorbed_patterns"]
+    assert "corpus_leakage_dedup_review_gate" in by_title["google-research/deduplicate-text-datasets"]["absorbed_patterns"]
+
+
+def test_dedup_similarity_pattern_pack_exposes_independence_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T13:10:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/ekzhu/datasketch",
+                "title": "ekzhu/datasketch",
+                "summary": "MinHash LSH and Jaccard similarity for near duplicate text windows.",
+                "stars": 2928,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["minhash_lsh_near_duplicate_gate"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/seomoz/simhash-py",
+                "title": "seomoz/simhash-py",
+                "summary": "SimHash Hamming distance for near duplicate documents.",
+                "stars": 422,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["native_binary"],
+                "absorbed_patterns": ["simhash_hamming_similarity_gate"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/MinishLab/semhash",
+                "title": "MinishLab/semhash",
+                "summary": "Semantic deduplication and filtering for semantic duplicates.",
+                "stars": 936,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["semantic_duplicate_cluster_gate"],
+                "score": 87,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/facebookresearch/faiss",
+                "title": "facebookresearch/faiss",
+                "summary": "Similarity search and clustering of dense vectors for nearest neighbor source checks.",
+                "stars": 40240,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["native_binary"],
+                "absorbed_patterns": ["embedding_similarity_independence_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/google-research/deduplicate-text-datasets",
+                "title": "google-research/deduplicate-text-datasets",
+                "summary": "ExactSubstr and NearDup dataset deduplication for corpus leakage review.",
+                "stars": 1273,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["native_binary"],
+                "absorbed_patterns": ["corpus_leakage_dedup_review_gate"],
+                "score": 85,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "minhash_lsh_thresholds" in pattern_pack["bible_enrichment_targets"]
+    assert "simhash_hamming_thresholds" in pattern_pack["bible_enrichment_targets"]
+    assert "semantic_duplicate_cluster_thresholds" in pattern_pack["bible_enrichment_targets"]
+    assert "embedding_similarity_independence_thresholds" in pattern_pack["bible_enrichment_targets"]
+    assert "corpus_leakage_review_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "minhash_lsh_overlap_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "simhash_hamming_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "semantic_duplicate_cluster_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "embedding_similarity_independence_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "corpus_leakage_dedup_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "minhash_lsh_threshold_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "simhash_hamming_threshold_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "semantic_cluster_independence_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "embedding_neighbor_independence_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "corpus_leakage_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "minhash_lsh_near_duplicate_gate_hints" in digest
+    assert "simhash_hamming_similarity_gate_hints" in digest
+    assert "semantic_duplicate_cluster_gate_hints" in digest
+    assert "embedding_similarity_independence_gate_hints" in digest
+    assert "corpus_leakage_dedup_review_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_dedup_similarity_projects():
+    assert "https://github.com/ChenghaoMou/text-dedup" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/google-research/deduplicate-text-datasets" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ekzhu/datasketch" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/seomoz/simhash-py" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/1e0ng/simhash" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/MinishLab/semhash" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/UKPLab/sentence-transformers" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/facebookresearch/faiss" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/facebookresearch/SemDeDup" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("minhash" in query.lower() and "jaccard" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("simhash" in query.lower() and "hamming distance" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("semantic deduplication" in query.lower() and "faiss" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
