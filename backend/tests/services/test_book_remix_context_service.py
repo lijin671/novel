@@ -1238,6 +1238,69 @@ def test_build_remix_continuation_context_block_renders_plotgrid_reveal_and_bran
     assert "worldpkg_export_boundary: exported world packages are reusable context artifacts" in block
 
 
+def test_build_remix_continuation_context_block_renders_acceptance_loop_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Track the archive witness"}],
+            "timeline": [
+                {
+                    "event": "Inspector Lin recovered ledger",
+                    "chapter_number": 19,
+                    "source": "chapter_analysis",
+                },
+            ],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Witness",
+                    "summary": "Inspector Lin questioned the archive witness.",
+                    "timeline_delta": [{"event": "Archive witness revealed a sealed file"}],
+                },
+            ],
+            "style_signature": {"voice": "tense restraint"},
+        },
+        plan={
+            "summary": "Follow the sealed file lead next.",
+            "beats": [{"beat": "Follow city hall file", "status": "pending"}],
+            "priority_hooks": [{"hook": "Sealed file points to city hall", "status": "pending"}],
+            "guardrails": [{"rule": "No premature final confrontation"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "context_pack_preview"},
+                {"name": "accepted_chapter_memory"},
+                {"name": "critic_verifier_loop"},
+                {"name": "collapse_prevention"},
+                {"name": "trend_deconstruction_pipeline"},
+                {"name": "anti_ai_tone_polish"},
+                {"name": "preference_memory"},
+                {"name": "interrupted_resume_flow"},
+                {"name": "auto_validation_rewrite"},
+                {"name": "top_down_story_planning"},
+            ],
+            "context_pack_preview_hints": ["Render a context-pack preview before drafting."],
+            "accepted_chapter_memory_hints": ["Only accepted chapters extract memory."],
+            "critic_verifier_loop_hints": ["Separate writer/reviser output from critic/verifier feedback."],
+            "auto_validation_rewrite_hints": ["Validate each chapter before accepting it."],
+        },
+    )
+
+    assert "Acceptance loop audit" in block
+    assert "context_pack_preview: list included canon facts, retrieval reasons, token budget, and omitted-but-relevant context before drafting" in block
+    assert "accepted_chapter_memory: drafts cannot update canon; only accepted chapters may extract memory" in block
+    assert "critic_verifier_loop: keep writer/reviser output separate from critic/verifier findings" in block
+    assert "collapse_prevention: block write-back on invalid output, causality break, state contradiction" in block
+    assert "trend_deconstruction_pipeline: use deconstructed trope modules as transformed craft pressure" in block
+    assert "anti_ai_tone_polish: remove explanation-heavy AI tone after continuity passes" in block
+    assert "preference_memory_boundary: apply user preference to style defaults only" in block
+    assert "interrupted_resume_flow: resume from current phase, chapter, scene, last accepted artifact" in block
+    assert "auto_validation_rewrite: validate word count, coherence, hook, style, and state write-back before bounded retry" in block
+    assert "top_down_story_planning: preserve hierarchy from book spec to act, chapter, scene" in block
+
+
 def test_build_remix_continuation_progress_summary_deduplicates_legacy_generation_and_analysis_packages():
     summary = build_remix_continuation_progress_summary(
         packages=[

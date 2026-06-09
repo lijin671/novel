@@ -36,6 +36,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("plotgrid" OR "plotline" OR "scene status") ("novel" OR "fiction" OR "writing") in:name,description,readme',
     '("gradual reveal" OR "setup/payoff" OR "scene-type directing") ("novel" OR "fiction" OR "writing") in:name,description,readme',
     '("WorldPkg" OR "alternative timeline" OR "divergence guidance") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("context pack" OR "accepted chapter" OR "continuity check") ("novel" OR "fiction" OR "story bible") in:name,description,readme',
+    '("writer model" OR "critic model" OR "verifier") ("story" OR "fiction" OR "novel") in:name,description,readme',
+    '("trend scanning" OR "deconstruction" OR "AI tone removal") ("web novel" OR "novel writing") in:name,description,readme',
+    '("interrupted continuation" OR "resume writing" OR "auto validation") ("novel" OR "chapter") in:name,description,readme',
+    '("top down" OR "book spec" OR "chapter scenes") ("storytelling agent" OR "long stories") in:name,description,readme',
     '("json schema" OR "schema-first" OR "structured generation") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("card" OR "cards" OR "context injection" OR "knowledge graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("workflow agent" OR "workflow studio" OR "progress recovery") ("novel" OR "fiction" OR "story") in:name,description,readme',
@@ -71,6 +76,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/PixeroJan/obsidian-storyline",
     "https://github.com/skyfiredao/dreampowers",
     "https://github.com/ypcypc/WhatIf",
+    "https://github.com/YfengJ/novel-studio-ai",
+    "https://github.com/davealaw/FictionRefine",
+    "https://github.com/ShmilyWithme/Shmily_novel_skill",
+    "https://github.com/worldwonderer/oh-story-claudecode",
+    "https://github.com/PenglongHuang/chinese-novelist-skill",
+    "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -163,6 +174,16 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("worldpkg_export", ("worldpkg", "world package", "structured world data", "extract world data", "lorebook extraction", "entity state transitions", "世界数据包", "世界数据")),
     ("alternate_timeline_branching", ("alternative timeline", "alternate timeline", "what-if", "choice-driven", "branch storyline", "same world as a player", "timeline management", "平行时间线", "分歧时间线")),
     ("divergence_guidance", ("divergence guidance", "branch drift", "player choices", "every choice", "choice reshape", "scene adaptation", "改写剧情", "分歧引导")),
+    ("context_pack_preview", ("context pack", "context pack preview", "build context pack", "confirmed memory", "retrieval memory", "hybrid retrieval", "keyword search", "local vector search", "graph facts", "context preview", "上下文包", "上下文预览")),
+    ("accepted_chapter_memory", ("accepted chapter", "accept chapter", "accepted chapters", "drafts do not update canon", "extract memory", "accepted chapter write", "reuse memory in the next chapter", "accept flow", "正式接受", "章节验收")),
+    ("critic_verifier_loop", ("critic", "verifier", "writer model", "critic model", "two-llm", "two llm", "reviewing, revising, and verification", "automated revision cycles", "quality thresholds", "detailed feedback", "评审模型", "验证模型")),
+    ("collapse_prevention", ("story collapse", "prevents story collapse", "story collapse prevention", "handles model failures", "validates outputs", "failure handling", "collapse", "崩坏", "剧情崩坏")),
+    ("trend_deconstruction_pipeline", ("trend scanning", "scan trending charts", "deconstruct", "deconstruction", "reverse-engineering hits", "plot modularization", "module library", "tropes", "commercialize", "hooks, payoff density", "扫榜", "拆文", "爆款", "套路", "模块库")),
+    ("anti_ai_tone_polish", ("ai tone removal", "remove ai tone", "deslop", "deep polish", "ai痕迹", "去ai味", "去 AI 味", "ai tone", "natural and fluent", "文字自然流畅")),
+    ("preference_memory", ("preference memory", "creative memory", "learns your preferences", "user preference", "personalized", "memory-demo", "偏好记忆")),
+    ("interrupted_resume_flow", ("interrupted continuation", "resume from breakpoint", "detect unfinished", "resume writing", "interruption", "中断续写", "断点续写")),
+    ("auto_validation_rewrite", ("auto validation", "automatic validation", "auto repair", "auto rewrite", "word count and coherence", "not qualified auto rewrite", "自动校验", "自动修复")),
+    ("top_down_story_planning", ("top down", "top-down", "book spec", "enhance book spec", "create plot chapters", "enhance plot chapters", "split chapters into scenes", "chapter scenes", "scene scale", "from topic to scene", "顶层设计", "分章分场")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -241,6 +262,31 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "ypcypc/whatif": (
         "Chinese novel-to-interactive-world project that extracts events, characters, locations, items, lorebook data, "
         "entity state transitions, and WorldPkg packages, then supports choice-driven divergence, alternative timeline management, scene adaptation, and memory compression."
+    ),
+    "yfengj/novel-studio-ai": (
+        "Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, five-chapter arc packs, "
+        "chapter outlines, scene beats, Chapter Studio context-pack preview, continuity check, style revision, accept flow, character state versions, "
+        "graph facts, hybrid retrieval, local vector search, and accepted-chapter memory extraction."
+    ),
+    "davealaw/fictionrefine": (
+        "Two-LLM story workflow using a writer/reviser model and a critic/verifier model. Public README describes multi-dimensional critique, "
+        "iterative review/revision/verification cycles, quality thresholds, output validation, failure handling, and story-collapse prevention."
+    ),
+    "shmilywithme/shmily_novel_skill": (
+        "Chinese web-novel writing assistant for Claude Code and Codex Skill surfaces. Public docs describe a long-form workbench, chapter station, story map, "
+        "library, AI writer room, dashboard, previous/next chapter navigation, chapter planning, review health check, continuation, polishing, and local CLI diagnostics."
+    ),
+    "worldwonderer/oh-story-claudecode": (
+        "Chinese web-novel skill pack for trend scanning, deconstruction, writing, AI-tone removal, and cover generation. Public README frames tropes as deterministic "
+        "emotional payoff and emphasizes reverse-engineering hits, plot modularization, layered state management, hooks, payoff density, and expectation management."
+    ),
+    "penglonghuang/chinese-novelist-skill": (
+        "Chinese novelist skill. Public README/SKILL describe three-layer progressive Q&A, preference memory, interrupted continuation, serial/subagent/Agent Teams writing modes, "
+        "automatic word-count/coherence validation, auto repair/rewrite, conflict-driven chapters, chapter-end hooks, and deep polish to remove AI traces."
+    ),
+    "goat-ai-lab/goat-storytelling-agent": (
+        "Long-story generation agent. Public README describes a top-down pipeline from topic to book specification, enhanced book spec, plot chapters, enhanced chapter plan, "
+        "splitting chapters into scenes, and writing each scene with previous-scene context for scale-controllable storytelling."
     ),
 }
 
@@ -565,6 +611,16 @@ class NovelSourceDiscoveryService:
             "worldpkg_export_hints": self._build_worldpkg_export_hints(available_patterns),
             "alternate_timeline_branching_hints": self._build_alternate_timeline_branching_hints(available_patterns),
             "divergence_guidance_hints": self._build_divergence_guidance_hints(available_patterns),
+            "context_pack_preview_hints": self._build_context_pack_preview_hints(available_patterns),
+            "accepted_chapter_memory_hints": self._build_accepted_chapter_memory_hints(available_patterns),
+            "critic_verifier_loop_hints": self._build_critic_verifier_loop_hints(available_patterns),
+            "collapse_prevention_hints": self._build_collapse_prevention_hints(available_patterns),
+            "trend_deconstruction_pipeline_hints": self._build_trend_deconstruction_pipeline_hints(available_patterns),
+            "anti_ai_tone_polish_hints": self._build_anti_ai_tone_polish_hints(available_patterns),
+            "preference_memory_hints": self._build_preference_memory_hints(available_patterns),
+            "interrupted_resume_flow_hints": self._build_interrupted_resume_flow_hints(available_patterns),
+            "auto_validation_rewrite_hints": self._build_auto_validation_rewrite_hints(available_patterns),
+            "top_down_story_planning_hints": self._build_top_down_story_planning_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1027,6 +1083,16 @@ class NovelSourceDiscoveryService:
             "worldpkg_export": 44,
             "alternate_timeline_branching": 46,
             "divergence_guidance": 45,
+            "context_pack_preview": 63,
+            "accepted_chapter_memory": 64,
+            "critic_verifier_loop": 57,
+            "collapse_prevention": 56,
+            "trend_deconstruction_pipeline": 49,
+            "anti_ai_tone_polish": 35,
+            "preference_memory": 33,
+            "interrupted_resume_flow": 52,
+            "auto_validation_rewrite": 51,
+            "top_down_story_planning": 59,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1098,6 +1164,30 @@ class NovelSourceDiscoveryService:
             targets.append("alternate_timeline_branches")
         if "divergence_guidance" in patterns:
             targets.append("divergence_guidance_rules")
+        if "context_pack_preview" in patterns:
+            targets.append("context_pack_manifest")
+            targets.append("retrieval_reason_index")
+        if "accepted_chapter_memory" in patterns:
+            targets.append("accepted_chapter_memory_log")
+            targets.append("canon_write_back_rules")
+        if "critic_verifier_loop" in patterns:
+            targets.append("critic_review_schema")
+        if "collapse_prevention" in patterns:
+            targets.append("collapse_risk_rules")
+        if "trend_deconstruction_pipeline" in patterns:
+            targets.append("trope_module_library")
+            targets.append("reader_expectation_profile")
+        if "anti_ai_tone_polish" in patterns:
+            targets.append("anti_ai_tone_rules")
+        if "preference_memory" in patterns:
+            targets.append("user_preference_memory")
+        if "interrupted_resume_flow" in patterns:
+            targets.append("resume_checkpoint")
+        if "auto_validation_rewrite" in patterns:
+            targets.append("auto_validation_rules")
+        if "top_down_story_planning" in patterns:
+            targets.append("book_spec")
+            targets.append("chapter_scene_plan")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -1192,6 +1282,26 @@ class NovelSourceDiscoveryService:
             targets.extend(["alternate_timeline_branches", "branch_divergence_points"])
         if "divergence_guidance" in patterns:
             targets.extend(["divergence_guidance", "choice_to_consequence_map", "scene_adaptation_notes"])
+        if "context_pack_preview" in patterns:
+            targets.extend(["context_pack_manifest", "retrieval_evidence", "omitted_context_candidates"])
+        if "accepted_chapter_memory" in patterns:
+            targets.extend(["accepted_chapter_memory_log", "canon_write_back_events", "draft_acceptance_boundary"])
+        if "critic_verifier_loop" in patterns:
+            targets.extend(["critic_review_reports", "revision_actions", "verification_results"])
+        if "collapse_prevention" in patterns:
+            targets.extend(["collapse_risk_findings", "model_failure_retries", "invalid_output_rejections"])
+        if "trend_deconstruction_pipeline" in patterns:
+            targets.extend(["trend_deconstruction_notes", "trope_modules", "payoff_density_map", "reader_expectation_curve"])
+        if "anti_ai_tone_polish" in patterns:
+            targets.extend(["anti_ai_tone_findings", "naturalness_rewrite_actions"])
+        if "preference_memory" in patterns:
+            targets.extend(["user_preference_memory", "preference_application_notes"])
+        if "interrupted_resume_flow" in patterns:
+            targets.extend(["resume_checkpoint", "interrupted_task_state"])
+        if "auto_validation_rewrite" in patterns:
+            targets.extend(["auto_validation_results", "rewrite_attempts", "word_count_coherence_checks"])
+        if "top_down_story_planning" in patterns:
+            targets.extend(["book_spec", "act_plan", "chapter_scene_plan", "previous_scene_context"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1237,6 +1347,24 @@ class NovelSourceDiscoveryService:
             hints.append("每次回收伏笔前先核对 setup/payoff ledger，避免无铺垫回收或重复回收。")
         if "scene_type_directing" in patterns:
             hints.append("每个场景先声明动作、情感、对话或转场类型，再选择节奏、镜头感和信息密度。")
+        if "context_pack_preview" in patterns:
+            hints.append("生成前预览本章 context pack：只注入当前章节目标、已验收记忆、相关图谱事实和检索理由。")
+        if "accepted_chapter_memory" in patterns:
+            hints.append("草稿不直接写入正史；只有通过验收的章节才能抽取记忆并回写下一章可读状态。")
+        if "critic_verifier_loop" in patterns:
+            hints.append("把作者模型和评审模型职责分离：评审只输出问题、证据和返工项，不替代正史写回。")
+        if "collapse_prevention" in patterns:
+            hints.append("检测剧情崩坏风险：无效输出、人物断裂、因果坍塌或模型失败时先返工，不进入批量续写。")
+        if "trend_deconstruction_pipeline" in patterns:
+            hints.append("同类型仿写先拆题材套路、情绪满足、钩子密度和期待管理，再转化为本书的新模块。")
+        if "anti_ai_tone_polish" in patterns:
+            hints.append("最终润色要去 AI 味：减少解释腔、模板句、空泛总结，让动作、对白和细节承担信息。")
+        if "interrupted_resume_flow" in patterns:
+            hints.append("续写任务恢复时先读取断点、最后验收章节、未完成章节和最近失败原因，再继续生成。")
+        if "auto_validation_rewrite" in patterns:
+            hints.append("章节验收包含字数、连贯性、钩子、风格和状态写回；不合格章节进入有限轮次自动重写。")
+        if "top_down_story_planning" in patterns:
+            hints.append("长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -1278,6 +1406,22 @@ class NovelSourceDiscoveryService:
             hints.append("Store alternate timelines as branch state; never merge divergence choices back into faithful continuation canon without explicit approval.")
         if "worldpkg_export" in patterns:
             hints.append("Export reusable world packages as derived artifacts; canonical state remains the reviewed bible and chapter change packages.")
+        if "context_pack_preview" in patterns:
+            hints.append("Persist the context pack manifest with included facts, retrieval reason, token budget, and omitted-but-relevant candidates.")
+        if "accepted_chapter_memory" in patterns:
+            hints.append("Mark draft, reviewed, accepted, and rejected chapter states separately so rejected prose cannot leak into memory.")
+        if "critic_verifier_loop" in patterns:
+            hints.append("Store critic feedback, revision action, and verifier result beside each attempt for replayable quality history.")
+        if "collapse_prevention" in patterns:
+            hints.append("When a chapter fails validation, persist the collapse reason and resume from the last accepted state.")
+        if "preference_memory" in patterns:
+            hints.append("Keep user preference memory separate from canon; apply it as style/format preference, not as story fact.")
+        if "interrupted_resume_flow" in patterns:
+            hints.append("Every long run should keep a resumable checkpoint: current phase, chapter, scene, accepted artifact, and next action.")
+        if "auto_validation_rewrite" in patterns:
+            hints.append("Record validation pass/fail status, rewrite count, and remaining retry budget before moving to the next chapter.")
+        if "top_down_story_planning" in patterns:
+            hints.append("Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -1656,6 +1800,95 @@ class NovelSourceDiscoveryService:
             "For same-type creation, use divergence guidance to create independent causality rather than source-order replay.",
         ]
 
+    def _build_context_pack_preview_hints(self, patterns: set[str]) -> list[str]:
+        if "context_pack_preview" not in patterns:
+            return []
+        return [
+            "Render a context-pack preview before drafting: chapter goal, accepted memory, graph facts, retrieval hits, and inclusion reason.",
+            "Keep omitted-but-relevant context visible to reviewers so missing lore can be corrected without stuffing the prompt.",
+            "Reject context packs that mix source inspiration with confirmed canon or include facts without retrieval reason.",
+        ]
+
+    def _build_accepted_chapter_memory_hints(self, patterns: set[str]) -> list[str]:
+        if "accepted_chapter_memory" not in patterns:
+            return []
+        return [
+            "Drafts do not update canon; only accepted chapters extract summaries, character states, graph facts, timeline events, and memory chunks.",
+            "Each accepted chapter should record what memory changed and which next-chapter context pack may reuse it.",
+            "Rejected drafts must keep their prose and extracted memory outside the active bible and retrieval index.",
+        ]
+
+    def _build_critic_verifier_loop_hints(self, patterns: set[str]) -> list[str]:
+        if "critic_verifier_loop" not in patterns:
+            return []
+        return [
+            "Separate writer/reviser output from critic/verifier feedback so review findings cannot silently become canon.",
+            "Critique should name plot, character, setting, dialogue, mechanics, continuity, and style issues with actionable revision tasks.",
+            "Verification passes only when revised text addresses the named issues and preserves the current story state.",
+        ]
+
+    def _build_collapse_prevention_hints(self, patterns: set[str]) -> list[str]:
+        if "collapse_prevention" not in patterns:
+            return []
+        return [
+            "Detect story collapse before acceptance: invalid model output, missing chapter goal, contradictory state, or causality break blocks write-back.",
+            "On model failure, retry from the last accepted state and keep the failed attempt as review evidence, not as memory.",
+            "Use collapse categories so batch runs stop on repeated structural failure instead of producing more broken chapters.",
+        ]
+
+    def _build_trend_deconstruction_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "trend_deconstruction_pipeline" not in patterns:
+            return []
+        return [
+            "For same-type writing, deconstruct trend patterns into trope, hook, payoff, emotion promise, reader expectation, and reusable module shape.",
+            "Transform modules before drafting: preserve emotional function and payoff density, not source names, order, or set pieces.",
+            "Keep a module library with provenance and copy-risk notes so commercial-pattern learning stays separate from canon.",
+        ]
+
+    def _build_anti_ai_tone_polish_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_ai_tone_polish" not in patterns:
+            return []
+        return [
+            "Polish for natural prose after continuity passes: replace explanation with action, sensory detail, subtext, and specific dialogue.",
+            "Flag over-neat summaries, template transitions, generic wisdom, symmetrical paragraphs, and emotion labels as AI-tone risks.",
+            "Anti-AI-tone edits must not paraphrase distinctive source passages or erase necessary canon facts.",
+        ]
+
+    def _build_preference_memory_hints(self, patterns: set[str]) -> list[str]:
+        if "preference_memory" not in patterns:
+            return []
+        return [
+            "Store reader/user preferences as separate writing preferences: genre, POV, chapter length, pacing, polish level, and taboo content.",
+            "Preference memory can choose defaults and style pressure, but it cannot override world rules, continuation canon, or safety constraints.",
+        ]
+
+    def _build_interrupted_resume_flow_hints(self, patterns: set[str]) -> list[str]:
+        if "interrupted_resume_flow" not in patterns:
+            return []
+        return [
+            "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
+            "Resume from the smallest safe unit: scene if a scene is in progress, chapter if the scene boundary is unclear, plan if canon changed.",
+            "Do not ask for reconfirmation during automated continuation unless the checkpoint is ambiguous or conflicting.",
+        ]
+
+    def _build_auto_validation_rewrite_hints(self, patterns: set[str]) -> list[str]:
+        if "auto_validation_rewrite" not in patterns:
+            return []
+        return [
+            "Validate each chapter for required length, continuity, style fidelity, hook presence, and state write-back completeness.",
+            "Failed chapters may rewrite within a bounded retry budget; each retry must target concrete validation failures.",
+            "After retries are exhausted, mark the chapter blocked with evidence instead of accepting weak text.",
+        ]
+
+    def _build_top_down_story_planning_hints(self, patterns: set[str]) -> list[str]:
+        if "top_down_story_planning" not in patterns:
+            return []
+        return [
+            "Plan top-down: topic or premise -> book spec -> act plan -> chapter plan -> scene list -> scene draft.",
+            "Let users or higher-level plans intervene at any scale, but lower-level generation must inherit the active parent plan.",
+            "Each scene draft should know its chapter number, scene number, plan role, and previous-scene context.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -1707,6 +1940,17 @@ class NovelSourceDiscoveryService:
             targets.append("setup_payoff_remap")
         if "alternate_timeline_branching" in patterns:
             targets.append("branch_divergence_remap")
+        if "trend_deconstruction_pipeline" in patterns:
+            targets.append("trope_module_remap")
+            targets.append("reader_expectation_remap")
+        if "context_pack_preview" in patterns:
+            targets.append("context_pack_boundary")
+        if "critic_verifier_loop" in patterns:
+            targets.append("critic_gate_remap")
+        if "anti_ai_tone_polish" in patterns:
+            targets.append("anti_ai_tone_rules")
+        if "top_down_story_planning" in patterns:
+            targets.append("plan_hierarchy_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -1740,6 +1984,16 @@ class NovelSourceDiscoveryService:
             hints.append("Build a new plotline/scene matrix for the new story; do not reuse the source scene rows or payoff order.")
         if "gradual_reveal_control" in patterns:
             hints.append("Create a fresh reveal budget so genre secrets unfold independently from the source book.")
+        if "trend_deconstruction_pipeline" in patterns:
+            hints.append("Use trend/deconstruction notes only as module shapes for reader expectation and payoff; rebuild premise, cast, and event chain.")
+        if "context_pack_preview" in patterns:
+            hints.append("The new story's context pack must cite transformed canon only; source deconstruction may appear as craft notes, not facts.")
+        if "critic_verifier_loop" in patterns:
+            hints.append("Run critic/verifier checks for independence as well as quality before accepting a same-type draft.")
+        if "anti_ai_tone_polish" in patterns:
+            hints.append("Anti-AI-tone polish should make the new prose more specific, not closer to source phrasing.")
+        if "top_down_story_planning" in patterns:
+            hints.append("Build a fresh top-down plan hierarchy so the new story is not a chapter-by-chapter route clone.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -1769,6 +2023,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform setup/payoff pairs by changing the promise, cost, and payoff consequence.")
         if "alternate_timeline_branching" in patterns:
             hints.append("Use branch divergence as a design tool for independent causality, not as a renamed source route.")
+        if "trend_deconstruction_pipeline" in patterns:
+            hints.append("Transform trope modules by changing desire, obstacle, cost, payoff timing, and reader-facing promise.")
+        if "top_down_story_planning" in patterns:
+            hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
+        if "context_pack_preview" in patterns:
+            hints.append("Build a context pack from the transformed story state; do not retrieve source events as if they were reusable canon.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -1794,6 +2054,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject copied setup/payoff timing when the same clue, promise, and payoff window survive under new names.")
         if "worldpkg_export" in patterns:
             hints.append("Do not import source WorldPkg facts as new-story canon; exports are analysis artifacts only.")
+        if "trend_deconstruction_pipeline" in patterns:
+            hints.append("Reject drafts whose trope module library preserves source plot order, named gimmicks, or signature set-piece sequence.")
+        if "context_pack_preview" in patterns:
+            hints.append("Reject context packs that cite source analysis artifacts as new-story facts.")
+        if "top_down_story_planning" in patterns:
+            hints.append("Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -1808,12 +2074,17 @@ class NovelSourceDiscoveryService:
                 "setup_payoff_tracking",
                 "alternate_timeline_branching",
                 "divergence_guidance",
+                "trend_deconstruction_pipeline",
+                "context_pack_preview",
+                "critic_verifier_loop",
+                "top_down_story_planning",
             }
         ) and (
             "style_signature" in patterns
             or "chapter_generation" in patterns
             or "scene_type_directing" in patterns
             or "worldpkg_export" in patterns
+            or "anti_ai_tone_polish" in patterns
         ):
             return True
         if "scene_asset_pipeline" in patterns and (

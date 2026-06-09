@@ -217,6 +217,16 @@ def render_source_pattern_pack_digest(
         "worldpkg_export_hints",
         "alternate_timeline_branching_hints",
         "divergence_guidance_hints",
+        "context_pack_preview_hints",
+        "accepted_chapter_memory_hints",
+        "critic_verifier_loop_hints",
+        "collapse_prevention_hints",
+        "trend_deconstruction_pipeline_hints",
+        "anti_ai_tone_polish_hints",
+        "preference_memory_hints",
+        "interrupted_resume_flow_hints",
+        "auto_validation_rewrite_hints",
+        "top_down_story_planning_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

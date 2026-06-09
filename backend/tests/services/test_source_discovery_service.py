@@ -1733,3 +1733,137 @@ def test_current_writing_tool_pattern_pack_exposes_new_guidance_sections():
     assert "plotgrid_scene_matrix_hints" in digest
     assert "setup_payoff_tracking_hints" in digest
     assert "alternate_timeline_branching_hints" in digest
+
+
+def test_acceptance_loop_sources_map_to_context_memory_critic_and_resume_patterns():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "YfengJ/novel-studio-ai",
+                "html_url": "https://github.com/YfengJ/novel-studio-ai",
+                "description": "Local-first AI long-form fiction workbench.",
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["fiction-writing", "novel", "story-bible"],
+                "updated_at": "2026-06-09T14:52:52Z",
+            },
+            {
+                "full_name": "davealaw/FictionRefine",
+                "html_url": "https://github.com/davealaw/FictionRefine",
+                "description": "A two-LLM workflow for iterative story generation and improvement.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction", "llm", "revision"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            },
+            {
+                "full_name": "worldwonderer/oh-story-claudecode",
+                "html_url": "https://github.com/worldwonderer/oh-story-claudecode",
+                "description": "Web novel skill pack for trend scanning, deconstruction, writing and AI tone removal.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "skill", "writing"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            },
+            {
+                "full_name": "PenglongHuang/chinese-novelist-skill",
+                "html_url": "https://github.com/PenglongHuang/chinese-novelist-skill",
+                "description": "Chinese novelist skill with preference memory, interrupted continuation, auto validation and auto rewrite.",
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["novel", "claude-code-skill"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            },
+            {
+                "full_name": "GOAT-AI-lab/GOAT-Storytelling-Agent",
+                "html_url": "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent",
+                "description": "Agent for writing consistent long stories with top-down planning from book spec to chapter scenes.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["storytelling", "agent", "novel"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T18:00:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+    assert {
+        "context_pack_preview",
+        "accepted_chapter_memory",
+        "context_reference",
+    }.issubset(patterns_by_title["YfengJ/novel-studio-ai"])
+    assert {
+        "critic_verifier_loop",
+        "collapse_prevention",
+        "self_review",
+    }.issubset(patterns_by_title["davealaw/FictionRefine"])
+    assert {
+        "trend_deconstruction_pipeline",
+        "anti_ai_tone_polish",
+    }.issubset(patterns_by_title["worldwonderer/oh-story-claudecode"])
+    assert {
+        "preference_memory",
+        "interrupted_resume_flow",
+        "auto_validation_rewrite",
+    }.issubset(patterns_by_title["PenglongHuang/chinese-novelist-skill"])
+    assert "top_down_story_planning" in patterns_by_title[
+        "GOAT-AI-lab/GOAT-Storytelling-Agent"
+    ]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "context_pack_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "accepted_chapter_memory_log" in pattern_pack["whole_book_analysis_targets"]
+    assert "critic_review_reports" in pattern_pack["whole_book_analysis_targets"]
+    assert "collapse_risk_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "trend_deconstruction_notes" in pattern_pack["whole_book_analysis_targets"]
+    assert "anti_ai_tone_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "user_preference_memory" in pattern_pack["whole_book_analysis_targets"]
+    assert "resume_checkpoint" in pattern_pack["whole_book_analysis_targets"]
+    assert "auto_validation_results" in pattern_pack["whole_book_analysis_targets"]
+    assert "book_spec" in pattern_pack["whole_book_analysis_targets"]
+    assert "context_pack_preview_hints" in pattern_pack
+    assert "accepted_chapter_memory_hints" in pattern_pack
+    assert "critic_verifier_loop_hints" in pattern_pack
+    assert "collapse_prevention_hints" in pattern_pack
+    assert "trend_deconstruction_pipeline_hints" in pattern_pack
+    assert "anti_ai_tone_polish_hints" in pattern_pack
+    assert "preference_memory_hints" in pattern_pack
+    assert "interrupted_resume_flow_hints" in pattern_pack
+    assert "auto_validation_rewrite_hints" in pattern_pack
+    assert "top_down_story_planning_hints" in pattern_pack
+    assert "context_pack_boundary" in pattern_pack["inspired_mapping_targets"]
+    assert "trope_module_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "plan_hierarchy_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "context_pack_preview_hints" in digest
+    assert "accepted_chapter_memory_hints" in digest
+    assert "critic_verifier_loop_hints" in digest
+    assert "collapse_prevention_hints" in digest
+    assert "trend_deconstruction_pipeline_hints" in digest
+    assert "anti_ai_tone_polish_hints" in digest
+    assert "preference_memory_hints" in digest
+    assert "interrupted_resume_flow_hints" in digest
+    assert "auto_validation_rewrite_hints" in digest
+    assert "top_down_story_planning_hints" in digest
+
+
+def test_default_discovery_sources_include_acceptance_loop_projects():
+    assert "https://github.com/YfengJ/novel-studio-ai" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/davealaw/FictionRefine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ShmilyWithme/Shmily_novel_skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/worldwonderer/oh-story-claudecode" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/PenglongHuang/chinese-novelist-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("context pack" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("critic model" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("trend scanning" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("interrupted continuation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("book spec" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

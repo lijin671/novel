@@ -1,8 +1,18 @@
 {
+  "accepted_chapter_memory_hints": [
+    "Drafts do not update canon; only accepted chapters extract summaries, character states, graph facts, timeline events, and memory chunks.",
+    "Each accepted chapter should record what memory changed and which next-chapter context pack may reuse it.",
+    "Rejected drafts must keep their prose and extracted memory outside the active bible and retrieval index."
+  ],
   "alternate_timeline_branching_hints": [
     "Store what-if and same-world divergence as alternate timeline branches, not as faithful continuation state.",
     "Each branch needs a divergence point, changed assumption, affected entities, and merge/reject decision.",
     "Never let branch-only events satisfy hooks in the main canon unless an explicit merge is accepted."
+  ],
+  "anti_ai_tone_polish_hints": [
+    "Polish for natural prose after continuity passes: replace explanation with action, sensory detail, subtext, and specific dialogue.",
+    "Flag over-neat summaries, template transitions, generic wisdom, symmetrical paragraphs, and emotion labels as AI-tone risks.",
+    "Anti-AI-tone edits must not paraphrase distinctive source passages or erase necessary canon facts."
   ],
   "anti_slop_audit_hints": [
     "Audit drafts for word-level AI tells, over-neat explanation, repeated sentence frames, generic wisdom dialogue, and scene-free summary.",
@@ -12,6 +22,11 @@
   "author_note_layer_hints": [
     "Keep author notes as a separate prompt layer for transient style, POV, pacing, or scene-temperature nudges.",
     "Author notes should have scope and expiry; remove or refresh them when the chapter goal changes."
+  ],
+  "auto_validation_rewrite_hints": [
+    "Validate each chapter for required length, continuity, style fidelity, hook presence, and state write-back completeness.",
+    "Failed chapters may rewrite within a bounded retry budget; each retry must target concrete validation failures.",
+    "After retries are exhausted, mark the chapter blocked with evidence instead of accepting weak text."
   ],
   "bible_enrichment_targets": [
     "world_rules",
@@ -58,6 +73,20 @@
     "entity_state_transitions",
     "alternate_timeline_branches",
     "divergence_guidance_rules",
+    "context_pack_manifest",
+    "retrieval_reason_index",
+    "accepted_chapter_memory_log",
+    "canon_write_back_rules",
+    "critic_review_schema",
+    "collapse_risk_rules",
+    "trope_module_library",
+    "reader_expectation_profile",
+    "anti_ai_tone_rules",
+    "user_preference_memory",
+    "resume_checkpoint",
+    "auto_validation_rules",
+    "book_spec",
+    "chapter_scene_plan",
     "organizations",
     "conflicts",
     "story_arcs",
@@ -75,10 +104,20 @@
     "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
     "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
   ],
+  "collapse_prevention_hints": [
+    "Detect story collapse before acceptance: invalid model output, missing chapter goal, contradictory state, or causality break blocks write-back.",
+    "On model failure, retry from the last accepted state and keep the failed attempt as review evidence, not as memory.",
+    "Use collapse categories so batch runs stop on repeated structural failure instead of producing more broken chapters."
+  ],
   "content_ref_externalization_hints": [
     "Externalize large outlines, drafts, scene lists, extraction payloads, and review reports behind content refs.",
     "Each content ref should include type, path or artifact id, size, checksum, and source chapter so replay can verify integrity.",
     "Keep prompts fed by summarized refs unless the current task requires opening the full artifact."
+  ],
+  "context_pack_preview_hints": [
+    "Render a context-pack preview before drafting: chapter goal, accepted memory, graph facts, retrieval hits, and inclusion reason.",
+    "Keep omitted-but-relevant context visible to reviewers so missing lore can be corrected without stuffing the prompt.",
+    "Reject context packs that mix source inspiration with confirmed canon or include facts without retrieval reason."
   ],
   "context_reference_hints": [
     "Build prompts from explicit context references: selected cards, recent chapter deltas, unresolved hooks, and relevant source-pattern notes.",
@@ -104,7 +143,16 @@
     "章节验收前检查是否过早解决主冲突、跳过伏笔回收窗口，或把阶段性胜利误写成全书终局。",
     "控制信息释放：本章只揭示当前行动能自然暴露的设定，隐藏层设定留给后续触发。",
     "每次回收伏笔前先核对 setup/payoff ledger，避免无铺垫回收或重复回收。",
-    "每个场景先声明动作、情感、对话或转场类型，再选择节奏、镜头感和信息密度。"
+    "每个场景先声明动作、情感、对话或转场类型，再选择节奏、镜头感和信息密度。",
+    "生成前预览本章 context pack：只注入当前章节目标、已验收记忆、相关图谱事实和检索理由。",
+    "草稿不直接写入正史；只有通过验收的章节才能抽取记忆并回写下一章可读状态。",
+    "把作者模型和评审模型职责分离：评审只输出问题、证据和返工项，不替代正史写回。",
+    "检测剧情崩坏风险：无效输出、人物断裂、因果坍塌或模型失败时先返工，不进入批量续写。",
+    "同类型仿写先拆题材套路、情绪满足、钩子密度和期待管理，再转化为本书的新模块。",
+    "最终润色要去 AI 味：减少解释腔、模板句、空泛总结，让动作、对白和细节承担信息。",
+    "续写任务恢复时先读取断点、最后验收章节、未完成章节和最近失败原因，再继续生成。",
+    "章节验收包含字数、连贯性、钩子、风格和状态写回；不合格章节进入有限轮次自动重写。",
+    "长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。"
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -125,12 +173,25 @@
     "Persist plot dependency edges so a payoff can prove which setup, clue, promise, or unresolved hook authorized it.",
     "Keep a scene matrix row for each planned scene with plotline, POV, location, emotion, status, and linked hooks.",
     "Store alternate timelines as branch state; never merge divergence choices back into faithful continuation canon without explicit approval.",
-    "Export reusable world packages as derived artifacts; canonical state remains the reviewed bible and chapter change packages."
+    "Export reusable world packages as derived artifacts; canonical state remains the reviewed bible and chapter change packages.",
+    "Persist the context pack manifest with included facts, retrieval reason, token budget, and omitted-but-relevant candidates.",
+    "Mark draft, reviewed, accepted, and rejected chapter states separately so rejected prose cannot leak into memory.",
+    "Store critic feedback, revision action, and verifier result beside each attempt for replayable quality history.",
+    "When a chapter fails validation, persist the collapse reason and resume from the last accepted state.",
+    "Keep user preference memory separate from canon; apply it as style/format preference, not as story fact.",
+    "Every long run should keep a resumable checkpoint: current phase, chapter, scene, accepted artifact, and next action.",
+    "Record validation pass/fail status, rewrite count, and remaining retry budget before moving to the next chapter.",
+    "Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale."
   ],
   "contradiction_detection_hints": [
     "Check timeline order, location presence, relationship evolution, trait consistency, faction membership, and unresolved hook state before accepting drafts.",
     "Every contradiction should name the conflicting canon facts and the scene or chapter that introduced the drift.",
     "Revision guidance should fix concrete contradictions, then rerun extraction and validation before write-back."
+  ],
+  "critic_verifier_loop_hints": [
+    "Separate writer/reviser output from critic/verifier feedback so review findings cannot silently become canon.",
+    "Critique should name plot, character, setting, dialogue, mechanics, continuity, and style issues with actionable revision tasks.",
+    "Verification passes only when revised text addresses the named issues and preserves the current story state."
   ],
   "divergence_guidance_hints": [
     "Name the choice or premise change that causes divergence before drafting a branch scene.",
@@ -142,7 +203,7 @@
     "Validate custom fields before they enter prompts so missing genre facts are caught during analysis instead of after drafting.",
     "Use custom fields in same-type creation to transform genre mechanics without copying source names or proprietary labels."
   ],
-  "generated_at": "2026-06-09T18:50:00+08:00",
+  "generated_at": "2026-06-09T19:20:00+08:00",
   "gradual_reveal_control_hints": [
     "Use a reveal budget: visible facts can enter the chapter, hidden facts stay out unless action/dialogue exposes them.",
     "Track iceberg annotations so worldbuilding depth exists without dumping it into the next scene.",
@@ -168,7 +229,10 @@
     "Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.",
     "Reject transformed outlines that preserve the source plotline matrix row order or scene-function sequence.",
     "Reject copied setup/payoff timing when the same clue, promise, and payoff window survive under new names.",
-    "Do not import source WorldPkg facts as new-story canon; exports are analysis artifacts only."
+    "Do not import source WorldPkg facts as new-story canon; exports are analysis artifacts only.",
+    "Reject drafts whose trope module library preserves source plot order, named gimmicks, or signature set-piece sequence.",
+    "Reject context packs that cite source analysis artifacts as new-story facts.",
+    "Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -195,7 +259,13 @@
     "plotline_matrix_remap",
     "reveal_budget_remap",
     "setup_payoff_remap",
-    "branch_divergence_remap"
+    "branch_divergence_remap",
+    "trope_module_remap",
+    "reader_expectation_remap",
+    "context_pack_boundary",
+    "critic_gate_remap",
+    "anti_ai_tone_rules",
+    "plan_hierarchy_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -211,7 +281,12 @@
     "Anti-slop review should remove generic AI prose without pushing the text back toward copied source phrasing.",
     "Preserve anti-ending pressure: the new story should avoid early total closure even if it borrows a satisfying beat shape.",
     "Build a new plotline/scene matrix for the new story; do not reuse the source scene rows or payoff order.",
-    "Create a fresh reveal budget so genre secrets unfold independently from the source book."
+    "Create a fresh reveal budget so genre secrets unfold independently from the source book.",
+    "Use trend/deconstruction notes only as module shapes for reader expectation and payoff; rebuild premise, cast, and event chain.",
+    "The new story's context pack must cite transformed canon only; source deconstruction may appear as craft notes, not facts.",
+    "Run critic/verifier checks for independence as well as quality before accepting a same-type draft.",
+    "Anti-AI-tone polish should make the new prose more specific, not closer to source phrasing.",
+    "Build a fresh top-down plan hierarchy so the new story is not a chapter-by-chapter route clone."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -225,7 +300,15 @@
     "Translate source voice functions into new voice guardrails, not into reused sentence templates.",
     "Rebuild dependency edges from new promises and clues; a source setup can inspire a function but not a factual dependency.",
     "Transform setup/payoff pairs by changing the promise, cost, and payoff consequence.",
-    "Use branch divergence as a design tool for independent causality, not as a renamed source route."
+    "Use branch divergence as a design tool for independent causality, not as a renamed source route.",
+    "Transform trope modules by changing desire, obstacle, cost, payoff timing, and reader-facing promise.",
+    "Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.",
+    "Build a context pack from the transformed story state; do not retrieve source events as if they were reusable canon."
+  ],
+  "interrupted_resume_flow_hints": [
+    "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
+    "Resume from the smallest safe unit: scene if a scene is in progress, chapter if the scene boundary is unclear, plan if canon changed.",
+    "Do not ask for reconfirmation during automated continuation unless the checkpoint is ambiguous or conflicting."
   ],
   "layered_memory_model_hints": [
     "Keep memory layers separate: stable story bible, current character state, and plot dependency graph should be read and updated independently.",
@@ -263,6 +346,10 @@
     "Every scene should advance, complicate, reveal, or deliberately rest at least one named thread.",
     "Before accepting a chapter, check whether any high-priority thread vanished without a state change."
   ],
+  "preference_memory_hints": [
+    "Store reader/user preferences as separate writing preferences: genre, POV, chapter length, pacing, polish level, and taboo content.",
+    "Preference memory can choose defaults and style pressure, but it cannot override world rules, continuation canon, or safety constraints."
+  ],
   "premature_ending_guard_hints": [
     "Detect false endings before acceptance: unresolved main conflict, unpaid setup, missing cost, or skipped causal bridge means the chapter is not done.",
     "Treat a calm or victory scene as a stage beat unless the plan, hooks, and story arcs prove the whole-book endpoint is allowed.",
@@ -297,9 +384,9 @@
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "只采集公开元数据和公开摘要；不克隆、不安装、不执行外部项目。",
-    "GitHub 与论坛候选默认按 pattern-only 沉淀，后续吸收必须单独做许可证、安装面和安全边界复核。",
-    "Linux.do 仅使用公开 RSS/页面可访问摘要；不绕过登录、403、429、WAF 或 CAPTCHA。"
+    "?????????README ??? git ls-remote HEAD?????????????????",
+    "????????? pattern-only ???MIT??? license?Skill????Docker?provider/runtime ???????????",
+    "??????????????????????????????README ???????"
   ],
   "scene_asset_pipeline_hints": [
     "Convert chapter intent into scene assets before drafting: scene goal, pressure source, cast, location, prop, reveal, and exit hook.",
@@ -337,23 +424,22 @@
     "Payoff acceptance requires a matching setup edge and a visible consequence in character, plot, or world state.",
     "Flag repeated payoff, orphan setup, and payoff without setup as review blockers."
   ],
-  "source_candidate_count": 20,
+  "source_candidate_count": 26,
   "source_intake_notes": [
-    "MangoLion/plotbunni HEAD 5620cd091c7074365980f457dfce95f02e5fa45f; MIT; static local clone review only.",
-    "loreum-app/loreum HEAD c38ade12a664790d10ff3ae847ce2529845f299c; AGPL-3.0; pattern-only static review.",
-    "ExplosiveCoderflome/AI-Novel-Writing-Assistant HEAD f0469671e0c971325bb8491a6eb1cc43ffb1e88a; dual/nonstandard license text; pattern-only static review.",
-    "Lanerra/saga HEAD 865a3912f17b09af9927c0358f9f026020f51673; Apache-2.0; pattern-only static review.",
-    "ModernRelay/omnigraph HEAD 5eead8d29eb6a4e7dfb453603aa0efd8e6851c47; MIT; graph transaction pattern-only static review.",
-    "No external project install, package manager, script, Docker, MCP server, browser extension, native binary, provider call, credential, or runtime trial was executed.",
-    "doctoroyy/novel-copilot observed via GitHub REST metadata on 2026-06-09; license missing; static metadata/README summary only.",
-    "PixeroJan/obsidian-storyline observed via GitHub REST metadata on 2026-06-09; MIT; Obsidian plugin/browser-extension surface treated as pattern-only.",
-    "skyfiredao/dreampowers observed via GitHub REST metadata on 2026-06-09; GPL-3.0; install/uninstall shell scripts not executed; pattern-only.",
-    "ypcypc/WhatIf observed via GitHub REST metadata on 2026-06-09; MIT; local start/runtime not executed; pattern-only."
+    "YfengJ/novel-studio-ai HEAD: 90fbf0681e76afe791d11f21edd1fb1516ee5e1d.",
+    "davealaw/FictionRefine HEAD: 9b3926ff8e57e6b9f9a289c92e0cfd4d5420e020.",
+    "ShmilyWithme/Shmily_novel_skill HEAD: 55bfa76774fd8c52e191025e923d710ae2ce6b7a.",
+    "worldwonderer/oh-story-claudecode HEAD: 7e56ad15e9665a463668791d3c11df887002f687.",
+    "PenglongHuang/chinese-novelist-skill HEAD: eb1185649437f2aaaa765f02be024132ea83d82d.",
+    "GOAT-AI-lab/GOAT-Storytelling-Agent HEAD: 75637b176d1fb2341d6d813b2d8dca217638cbfc.",
+    "No clone, install, package hook, Docker stack, MCP server, native binary, shell script, browser extension, provider call, credential, cookie, or external repository code execution was performed."
   ],
   "source_titles": [
     "loreum-app/loreum",
+    "YfengJ/novel-studio-ai",
     "NousResearch/autonovel",
     "voocel/ainovel-cli",
+    "PenglongHuang/chinese-novelist-skill",
     "RhythmicWave/NovelForge",
     "doctoroyy/novel-copilot",
     "skyfiredao/dreampowers",
@@ -366,9 +452,13 @@
     "Lanerra/saga",
     "SillyTavern/SillyTavern",
     "matrixorigin/Memoria",
+    "worldwonderer/oh-story-claudecode",
     "bal-spec/sillytavern-character-memory",
+    "ShmilyWithme/Shmily_novel_skill",
     "envy-ai/ai_rpg",
+    "davealaw/FictionRefine",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+    "GOAT-AI-lab/GOAT-Storytelling-Agent",
     "aikohanasaki/SillyTavern-MemoryBooks",
     "kaigani/codeywood"
   ],
@@ -403,6 +493,16 @@
     "把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。",
     "用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。",
     "按全书基础风格、当前场景覆写、出场角色声纹三层组织风格约束。"
+  ],
+  "top_down_story_planning_hints": [
+    "Plan top-down: topic or premise -> book spec -> act plan -> chapter plan -> scene list -> scene draft.",
+    "Let users or higher-level plans intervene at any scale, but lower-level generation must inherit the active parent plan.",
+    "Each scene draft should know its chapter number, scene number, plan role, and previous-scene context."
+  ],
+  "trend_deconstruction_pipeline_hints": [
+    "For same-type writing, deconstruct trend patterns into trope, hook, payoff, emotion promise, reader expectation, and reusable module shape.",
+    "Transform modules before drafting: preserve emotional function and payoff density, not source names, order, or set pieces.",
+    "Keep a module library with provenance and copy-risk notes so commercial-pattern learning stays separate from canon."
   ],
   "voice_fingerprint_hints": [
     "Keep a voice fingerprint separate from the general style card: immutable guardrails plus discovered per-book voice traits.",
@@ -522,13 +622,41 @@
     "divergence_guidance",
     "choice_to_consequence_map",
     "scene_adaptation_notes",
+    "context_pack_manifest",
+    "retrieval_evidence",
+    "omitted_context_candidates",
+    "accepted_chapter_memory_log",
+    "canon_write_back_events",
+    "draft_acceptance_boundary",
+    "critic_review_reports",
+    "revision_actions",
+    "verification_results",
+    "collapse_risk_findings",
+    "model_failure_retries",
+    "invalid_output_rejections",
+    "trend_deconstruction_notes",
+    "trope_modules",
+    "payoff_density_map",
+    "reader_expectation_curve",
+    "anti_ai_tone_findings",
+    "naturalness_rewrite_actions",
+    "user_preference_memory",
+    "preference_application_notes",
+    "interrupted_task_state",
+    "auto_validation_results",
+    "rewrite_attempts",
+    "word_count_coherence_checks",
+    "book_spec",
+    "act_plan",
+    "chapter_scene_plan",
+    "previous_scene_context",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
   ],
   "workflow_patterns": [
     {
-      "candidate_count": 3,
+      "candidate_count": 5,
       "name": "continuation",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -549,6 +677,21 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese novelist skill with preference memory, interrupted continuation, auto validation, auto repair, auto rewrite and chapter-end hooks. Static intake note: Chinese novelist skill. Public README/SKILL describe three-layer progressive Q&A, preference memory, interrupted continua",
+          "title": "PenglongHuang/chinese-novelist-skill",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/PenglongHuang/chinese-novelist-skill"
         },
         {
           "license": "unknown",
@@ -581,6 +724,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/matrixorigin/Memoria"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese web-novel writing assistant with long-form workbench, chapter station, story map, review health check, continuation and polishing. Static intake note: Chinese web-novel writing assistant for Claude Code and Codex Skill surfaces. Public docs describe a long-form workbench,",
+          "title": "ShmilyWithme/Shmily_novel_skill",
+          "trust_flags": [],
+          "url": "https://github.com/ShmilyWithme/Shmily_novel_skill"
         }
       ],
       "top_source_url": "https://github.com/voocel/ainovel-cli",
@@ -590,7 +746,7 @@
       ]
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "book_decomposition",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -615,6 +771,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
           "license": "MIT",
@@ -680,8 +853,8 @@
       "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
         "zero-issues-high-stars",
-        "license:noassertion",
-        "license:missing"
+        "license:missing",
+        "license:noassertion"
       ]
     },
     {
@@ -740,7 +913,7 @@
       ]
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "worldbuilding",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -765,6 +938,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
           "license": "MIT",
@@ -832,7 +1022,7 @@
       ]
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "timeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -858,6 +1048,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
           "license": "MIT",
@@ -925,7 +1132,7 @@
       ]
     },
     {
-      "candidate_count": 7,
+      "candidate_count": 8,
       "name": "character_cards",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -952,6 +1159,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
           "license": "MIT",
@@ -1053,7 +1277,7 @@
       ]
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "organization_graph",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1078,6 +1302,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
           "license": "MIT",
@@ -1126,6 +1367,68 @@
       "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
         "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "accepted_chapter_memory",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
+        }
+      ],
+      "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "context_pack_preview",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
+        }
+      ],
+      "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
+      "trust_flags": [
         "license:missing"
       ]
     },
@@ -1211,7 +1514,7 @@
       ]
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "emotion_arc",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1237,6 +1540,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
           "license": "MIT",
@@ -1306,7 +1626,7 @@
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "setup_payoff_tracking",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1327,6 +1647,21 @@
           "title": "skyfiredao/dreampowers",
           "trust_flags": [],
           "url": "https://github.com/skyfiredao/dreampowers"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 72,
+          "source": "github",
+          "stars": 0,
+          "summary": "Web novel skill pack for trend scanning, deconstruction, writing, AI tone removal and cover generation. Static intake note: Chinese web-novel skill pack for trend scanning, deconstruction, writing, AI-tone removal, and cover generation. Public README frames tropes as deterministi",
+          "title": "worldwonderer/oh-story-claudecode",
+          "trust_flags": [],
+          "url": "https://github.com/worldwonderer/oh-story-claudecode"
         }
       ],
       "top_source_url": "https://github.com/skyfiredao/dreampowers",
@@ -1357,6 +1692,29 @@
         }
       ],
       "top_source_url": "https://github.com/skyfiredao/dreampowers",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "top_down_story_planning",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 44,
+          "source": "github",
+          "stars": 0,
+          "summary": "Agent for writing consistent long stories with top-down planning from topic to book spec to plot chapters and chapter scenes. Static intake note: Long-story generation agent. Public README describes a top-down pipeline from topic to book specification, enhanced book spec, plot ch",
+          "title": "GOAT-AI-lab/GOAT-Storytelling-Agent",
+          "trust_flags": [],
+          "url": "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent"
+        }
+      ],
+      "top_source_url": "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent",
       "trust_flags": []
     },
     {
@@ -1436,6 +1794,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "critic_verifier_loop",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 52,
+          "source": "github",
+          "stars": 0,
+          "summary": "A two-LLM workflow for iterative story generation and improvement using a writer model and a critic model. Static intake note: Two-LLM story workflow using a writer/reviser model and a critic/verifier model. Public README describes multi-dimensional critique, iterative review/rev",
+          "title": "davealaw/FictionRefine",
+          "trust_flags": [],
+          "url": "https://github.com/davealaw/FictionRefine"
+        }
+      ],
+      "top_source_url": "https://github.com/davealaw/FictionRefine",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "plot_dependency_graph",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1466,7 +1847,30 @@
       ]
     },
     {
-      "candidate_count": 7,
+      "candidate_count": 1,
+      "name": "collapse_prevention",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 52,
+          "source": "github",
+          "stars": 0,
+          "summary": "A two-LLM workflow for iterative story generation and improvement using a writer model and a critic model. Static intake note: Two-LLM story workflow using a writer/reviser model and a critic/verifier model. Public README describes multi-dimensional critique, iterative review/rev",
+          "title": "davealaw/FictionRefine",
+          "trust_flags": [],
+          "url": "https://github.com/davealaw/FictionRefine"
+        }
+      ],
+      "top_source_url": "https://github.com/davealaw/FictionRefine",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 8,
       "name": "style_signature",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1493,6 +1897,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
           "license": "MIT",
@@ -1622,13 +2043,31 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "layered_memory_model",
       "posture_hint": "metadata-triage",
       "risk_flags": [
+        "docker",
         "shell_script"
       ],
       "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -1647,7 +2086,7 @@
           "url": "https://github.com/doctoroyy/novel-copilot"
         }
       ],
-      "top_source_url": "https://github.com/doctoroyy/novel-copilot",
+      "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
       "trust_flags": [
         "license:missing"
       ]
@@ -1680,11 +2119,30 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "local_first_novel_workspace",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "docker"
+      ],
       "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -1699,8 +2157,10 @@
           "url": "https://github.com/MangoLion/plotbunni"
         }
       ],
-      "top_source_url": "https://github.com/MangoLion/plotbunni",
-      "trust_flags": []
+      "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -1737,6 +2197,33 @@
     },
     {
       "candidate_count": 1,
+      "name": "interrupted_resume_flow",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese novelist skill with preference memory, interrupted continuation, auto validation, auto repair, auto rewrite and chapter-end hooks. Static intake note: Chinese novelist skill. Public README/SKILL describe three-layer progressive Q&A, preference memory, interrupted continua",
+          "title": "PenglongHuang/chinese-novelist-skill",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/PenglongHuang/chinese-novelist-skill"
+        }
+      ],
+      "top_source_url": "https://github.com/PenglongHuang/chinese-novelist-skill",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
       "name": "entity_schema_custom_fields",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1769,7 +2256,34 @@
       ]
     },
     {
-      "candidate_count": 7,
+      "candidate_count": 1,
+      "name": "auto_validation_rewrite",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese novelist skill with preference memory, interrupted continuation, auto validation, auto repair, auto rewrite and chapter-end hooks. Static intake note: Chinese novelist skill. Public README/SKILL describe three-layer progressive Q&A, preference memory, interrupted continua",
+          "title": "PenglongHuang/chinese-novelist-skill",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/PenglongHuang/chinese-novelist-skill"
+        }
+      ],
+      "top_source_url": "https://github.com/PenglongHuang/chinese-novelist-skill",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 11,
       "name": "self_review",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1795,6 +2309,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
           "license": "MIT",
@@ -1827,6 +2358,21 @@
           "url": "https://github.com/voocel/ainovel-cli"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese novelist skill with preference memory, interrupted continuation, auto validation, auto repair, auto rewrite and chapter-end hooks. Static intake note: Chinese novelist skill. Public README/SKILL describe three-layer progressive Q&A, preference memory, interrupted continua",
+          "title": "PenglongHuang/chinese-novelist-skill",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/PenglongHuang/chinese-novelist-skill"
+        },
+        {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1855,6 +2401,19 @@
           "url": "https://github.com/skyfiredao/dreampowers"
         },
         {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese web-novel writing assistant with long-form workbench, chapter station, story map, review health check, continuation and polishing. Static intake note: Chinese web-novel writing assistant for Claude Code and Codex Skill surfaces. Public docs describe a long-form workbench,",
+          "title": "ShmilyWithme/Shmily_novel_skill",
+          "trust_flags": [],
+          "url": "https://github.com/ShmilyWithme/Shmily_novel_skill"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1868,6 +2427,19 @@
             "license:missing"
           ],
           "url": "https://github.com/envy-ai/ai_rpg"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 52,
+          "source": "github",
+          "stars": 0,
+          "summary": "A two-LLM workflow for iterative story generation and improvement using a writer model and a critic model. Static intake note: Two-LLM story workflow using a writer/reviser model and a critic/verifier model. Public README describes multi-dimensional critique, iterative review/rev",
+          "title": "davealaw/FictionRefine",
+          "trust_flags": [],
+          "url": "https://github.com/davealaw/FictionRefine"
         },
         {
           "license": "unknown",
@@ -1945,6 +2517,33 @@
         }
       ],
       "top_source_url": "https://github.com/Lanerra/saga",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "trend_deconstruction_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 72,
+          "source": "github",
+          "stars": 0,
+          "summary": "Web novel skill pack for trend scanning, deconstruction, writing, AI tone removal and cover generation. Static intake note: Chinese web-novel skill pack for trend scanning, deconstruction, writing, AI-tone removal, and cover generation. Public README frames tropes as deterministi",
+          "title": "worldwonderer/oh-story-claudecode",
+          "trust_flags": [],
+          "url": "https://github.com/worldwonderer/oh-story-claudecode"
+        }
+      ],
+      "top_source_url": "https://github.com/worldwonderer/oh-story-claudecode",
       "trust_flags": []
     },
     {
@@ -2231,13 +2830,31 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "context_reference",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
+        "docker",
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 144,
+          "source": "github",
+          "stars": 0,
+          "summary": "Local-first AI long-form fiction writing workbench with story bibles, outlines, character state, graph facts, retrieval memory, and continuity checks. Static intake note: Local-first long-form fiction workbench. Public README describes story and style bibles, volume outlines, fiv",
+          "title": "YfengJ/novel-studio-ai",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -2285,11 +2902,11 @@
           "url": "https://github.com/bal-spec/sillytavern-character-memory"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
       "trust_flags": [
+        "license:missing",
         "zero-issues-high-stars",
-        "default-branch:nonstandard",
-        "license:missing"
+        "default-branch:nonstandard"
       ]
     },
     {
@@ -2644,6 +3261,50 @@
       ]
     },
     {
+      "candidate_count": 2,
+      "name": "anti_ai_tone_polish",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese novelist skill with preference memory, interrupted continuation, auto validation, auto repair, auto rewrite and chapter-end hooks. Static intake note: Chinese novelist skill. Public README/SKILL describe three-layer progressive Q&A, preference memory, interrupted continua",
+          "title": "PenglongHuang/chinese-novelist-skill",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/PenglongHuang/chinese-novelist-skill"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 72,
+          "source": "github",
+          "stars": 0,
+          "summary": "Web novel skill pack for trend scanning, deconstruction, writing, AI tone removal and cover generation. Static intake note: Chinese web-novel skill pack for trend scanning, deconstruction, writing, AI-tone removal, and cover generation. Public README frames tropes as deterministi",
+          "title": "worldwonderer/oh-story-claudecode",
+          "trust_flags": [],
+          "url": "https://github.com/worldwonderer/oh-story-claudecode"
+        }
+      ],
+      "top_source_url": "https://github.com/PenglongHuang/chinese-novelist-skill",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 1,
       "name": "anti_slop_audit",
       "posture_hint": "metadata-triage",
@@ -2668,6 +3329,33 @@
       "top_source_url": "https://github.com/NousResearch/autonovel",
       "trust_flags": [
         "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "preference_memory",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese novelist skill with preference memory, interrupted continuation, auto validation, auto repair, auto rewrite and chapter-end hooks. Static intake note: Chinese novelist skill. Public README/SKILL describe three-layer progressive Q&A, preference memory, interrupted continua",
+          "title": "PenglongHuang/chinese-novelist-skill",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/PenglongHuang/chinese-novelist-skill"
+        }
+      ],
+      "top_source_url": "https://github.com/PenglongHuang/chinese-novelist-skill",
+      "trust_flags": [
+        "license:missing"
       ]
     },
     {

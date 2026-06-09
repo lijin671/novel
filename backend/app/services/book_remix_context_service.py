@@ -74,6 +74,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_acceptance_loop_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1014,6 +1018,52 @@ def _append_plotgrid_reveal_branch_audit_section(
         lines.append("- worldpkg_export_boundary: exported world packages are reusable context artifacts, not automatic canon mutations")
 
 
+def _append_acceptance_loop_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render context-pack, accepted-memory, critic, resume, and rewrite gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "context_pack_preview",
+        "accepted_chapter_memory",
+        "critic_verifier_loop",
+        "collapse_prevention",
+        "trend_deconstruction_pipeline",
+        "anti_ai_tone_polish",
+        "preference_memory",
+        "interrupted_resume_flow",
+        "auto_validation_rewrite",
+        "top_down_story_planning",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Acceptance loop audit:")
+    if "context_pack_preview" in pattern_names:
+        lines.append("- context_pack_preview: list included canon facts, retrieval reasons, token budget, and omitted-but-relevant context before drafting")
+    if "accepted_chapter_memory" in pattern_names:
+        lines.append("- accepted_chapter_memory: drafts cannot update canon; only accepted chapters may extract memory and feed the next context pack")
+    if "critic_verifier_loop" in pattern_names:
+        lines.append("- critic_verifier_loop: keep writer/reviser output separate from critic/verifier findings and verification results")
+    if "collapse_prevention" in pattern_names:
+        lines.append("- collapse_prevention: block write-back on invalid output, causality break, state contradiction, or repeated model failure")
+    if "trend_deconstruction_pipeline" in pattern_names:
+        lines.append("- trend_deconstruction_pipeline: use deconstructed trope modules as transformed craft pressure, not copied source route")
+    if "anti_ai_tone_polish" in pattern_names:
+        lines.append("- anti_ai_tone_polish: remove explanation-heavy AI tone after continuity passes without paraphrasing source prose")
+    if "preference_memory" in pattern_names:
+        lines.append("- preference_memory_boundary: apply user preference to style defaults only; never override canon state")
+    if "interrupted_resume_flow" in pattern_names:
+        lines.append("- interrupted_resume_flow: resume from current phase, chapter, scene, last accepted artifact, and pending validation status")
+    if "auto_validation_rewrite" in pattern_names:
+        lines.append("- auto_validation_rewrite: validate word count, coherence, hook, style, and state write-back before bounded retry")
+    if "top_down_story_planning" in pattern_names:
+        lines.append("- top_down_story_planning: preserve hierarchy from book spec to act, chapter, scene, and previous-scene context")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1083,6 +1133,16 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "worldpkg_export_hints": "worldpkg_export",
         "alternate_timeline_branching_hints": "alternate_timeline_branching",
         "divergence_guidance_hints": "divergence_guidance",
+        "context_pack_preview_hints": "context_pack_preview",
+        "accepted_chapter_memory_hints": "accepted_chapter_memory",
+        "critic_verifier_loop_hints": "critic_verifier_loop",
+        "collapse_prevention_hints": "collapse_prevention",
+        "trend_deconstruction_pipeline_hints": "trend_deconstruction_pipeline",
+        "anti_ai_tone_polish_hints": "anti_ai_tone_polish",
+        "preference_memory_hints": "preference_memory",
+        "interrupted_resume_flow_hints": "interrupted_resume_flow",
+        "auto_validation_rewrite_hints": "auto_validation_rewrite",
+        "top_down_story_planning_hints": "top_down_story_planning",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):
