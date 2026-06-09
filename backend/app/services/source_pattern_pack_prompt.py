@@ -235,6 +235,14 @@ def render_source_pattern_pack_digest(
         "character_depth_interview_hints",
         "mindmap_visual_planning_hints",
         "manuscript_export_formats_hints",
+        "human_synopsis_gate_hints",
+        "retrieval_guided_span_rewrite_hints",
+        "runtime_artifact_trace_hints",
+        "schema_validated_state_delta_hints",
+        "recursive_adaptive_planning_hints",
+        "workflow_manuscript_compilation_hints",
+        "writing_session_goal_tracking_hints",
+        "inspectable_run_workspace_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

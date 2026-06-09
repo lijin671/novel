@@ -45,6 +45,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("snowflake method" OR "index cards" OR "outliner") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
     '("narrative strands" OR "fabula" OR "character interview") ("novel" OR "writing") in:name,description,readme',
     '("mind mapping" OR "timeline planning" OR "grid planner") ("creative writing" OR "novel" OR "story") in:name,description,readme',
+    '("human review of synopsis" OR "chapter summaries" OR "synopsis gate") ("novel" OR "story" OR "fiction") in:name,description,readme',
+    '("retrieve relevant" OR "related text snippets" OR "sync update outline") ("long novel" OR "novel agent" OR "RAG") in:name,description,readme',
+    '("intent.md" OR "context.json" OR "rule-stack.yaml" OR "trace.json") ("story" OR "novel" OR "writing") in:name,description,readme',
+    '("recursive planning" OR "dynamic adaptation" OR "heterogeneous integration") ("fiction writing" OR "long-form writing" OR "story") in:name,description,readme',
     '("json schema" OR "schema-first" OR "structured generation") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("card" OR "cards" OR "context injection" OR "knowledge graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("workflow agent" OR "workflow studio" OR "progress recovery") ("novel" OR "fiction" OR "story") in:name,description,readme',
@@ -90,6 +94,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/olivierkes/manuskript",
     "https://github.com/andreafeccomandi/bibisco",
     "https://github.com/wavemakercards/wavemaker-cards-v4",
+    "https://github.com/Narcooo/inkos",
+    "https://github.com/MaoXiaoYuZ/Long-Novel-GPT",
+    "https://github.com/dylanhogg/gptauthor",
+    "https://github.com/kevboh/longform",
+    "https://github.com/principia-ai/WriteHERE",
+    "https://github.com/iLearn-Lab/NovelClaw",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -136,7 +146,7 @@ NARRATIVE_PRODUCTION_KEYWORDS = (
 )
 PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_decomposition", ("拆书", "拆解", "解析", "book decomposition", "book analysis", "source book")),
-    ("chapter_generation", ("chapter generation", "autonomous novel pipeline", "novel pipeline", "seed concept to print-ready", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
+    ("chapter_generation", ("chapter generation", "multi-chapter stories", "iterative chapter writing", "autonomous novel pipeline", "novel pipeline", "seed concept to print-ready", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
     ("continuation", ("continuation", "continue", "续写", "断更续写", "继续写")),
     ("same_type_creation", ("同类型", "inspired", "remix", "二创", "同人", "同类创作", "风格复刻")),
     ("worldbuilding", ("worldbuilding", "世界观", "设定", "world rules")),
@@ -148,7 +158,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("self_review", ("review", "critique", "评审", "自评", "自我评审", "优化", "rewrite")),
     ("card_workbench", ("card", "cards", "card-based", "card workbench", "卡片", "卡片式", "卡片创作")),
     ("structured_generation_schema", ("schema", "json schema", "schema-first", "structured generation", "结构化", "结构化生成", "动态输出模型", "输出模型")),
-    ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "vector retrieval", "vector storage", "retrieved automatically", "retrieval", "injection viewer", "上下文注入", "上下文引用", "知识图谱", "引用")),
+    ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "vector retrieval", "vector storage", "retrieved automatically", "retrieval", "retrieve relevant", "rag", "injection viewer", "上下文注入", "上下文引用", "知识图谱", "引用")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "读者面板", "平台期检测")),
@@ -195,11 +205,19 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("plain_text_project_storage", ("plain text", "human readable text files", "many smaller text documents", "version control", "file synchronisation", "minimal formatting syntax", "robustness", "纯文本", "可读文本", "版本控制")),
     ("synopsis_cross_reference", ("synopsis", "comments", "cross-referencing", "cross reference", "metadata syntax", "notes", "comment", "摘要", "交叉引用")),
     ("snowflake_premise_expansion", ("snowflake method", "snowflake", "one sentence", "to a paragraph", "full summary", "step-by-step story development", "premise expansion", "premise from one sentence", "雪花法", "一句话", "完整梗概")),
-    ("outliner_index_cards", ("outliner", "outline mode", "index cards", "grid planner", "plot point management", "plot points", "re-organize chapters and scenes", "edit and re-organize", "chapter and scene management", "大纲模式", "索引卡", "章节重排")),
+    ("outliner_index_cards", ("outliner", "outline mode", "index cards", "grid planner", "plot point management", "plot points", "reorderable nestable scenes", "reorderable, nestable list", "reorderable scenes", "nestable scenes", "re-organize chapters and scenes", "edit and re-organize", "chapter and scene management", "大纲模式", "索引卡", "章节重排")),
     ("narrative_strand_mapping", ("narrative strands", "fabula", "premise", "settings: geographic, temporal and social context", "geographic, temporal and social context", "story line", "叙事线", "故事线", "社会背景")),
     ("character_depth_interview", ("know everything about your characters", "believable characters", "human nature", "character complexity", "character interview", "人物访谈", "人物深描", "可信人物")),
     ("mindmap_visual_planning", ("mind mapping", "mind map", "interactive visual story planning", "visual story planning", "drag-and-drop node", "visual links", "visualization tools", "脑图", "思维导图")),
-    ("manuscript_export_formats", ("export novel in pdf, docx, or txt", "export formats", "import/export formats", "import and export", "import and export document formats", "document formats", "html, epub, opendocument, docx", "pdf, docx, txt", "markdown export", "json exports", "导出", "文档格式")),
+    ("manuscript_export_formats", ("export novel in pdf, docx, or txt", "export formats", "import/export formats", "import and export", "import and export document formats", "document formats", "html, epub, opendocument, docx", "pdf, docx, txt", "markdown export", "markdown and html export", "html export", "json exports", "导出", "文档格式")),
+    ("human_synopsis_gate", ("human review of synopsis", "review the synopsis", "generate another before proceeding", "chapter summaries", "synopsis gate", "人工审阅梗概", "章节摘要审核")),
+    ("retrieval_guided_span_rewrite", ("retrieve relevant body snippets", "retrieve relevant text snippets", "related text snippets", "related body snippets", "related plot outline", "modify text snippets", "sync update outline", "同步更新剧情纲要", "相关正文片段", "检索相关正文片段", "修改正文片段")),
+    ("runtime_artifact_trace", ("intent.md", "context.json", "rule-stack.yaml", "trace.json", "runtime artifacts", "actual selected context", "rule stack", "inspectable run", "可检查运行", "追踪文件")),
+    ("schema_validated_state_delta", ("zod schema", "json delta", "state delta", "validate runtime state", "validateruntimestate", "immutable update", "structure validation", "bad data rejected", "状态增量", "结构校验")),
+    ("recursive_adaptive_planning", ("recursive planning", "recursive task decomposition", "heterogeneous integration", "dynamic adaptation", "adaptive planning", "retrieval, reasoning, and composition", "递归规划", "动态规划", "自适应规划")),
+    ("workflow_manuscript_compilation", ("workflow-based compilation", "compile manuscripts", "compilation tool", "ordered manuscript", "ordered series of scenes", "manuscript compilation", "编译手稿", "场景编译")),
+    ("writing_session_goal_tracking", ("writing session goals", "daily writing session goals", "word counts", "scene/draft/project word counts", "writing goals", "字数目标", "写作目标")),
+    ("inspectable_run_workspace", ("inspectable writing workspace", "inspectable runs", "sessions, storyboards, manuscript surfaces", "editable memory banks", "storyboards", "manuscript surfaces", "memory-aware writing control", "可检查工作区", "运行会话")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -319,6 +337,31 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "wavemakercards/wavemaker-cards-v4": (
         "Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planner, character tracking across scenes, "
         "plot point management, and Snowflake Method step-by-step story development."
+    ),
+    "narcooo/inkos": (
+        "Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same-type writing, and interactive worlds. Public README describes review list/approve-all, "
+        "continuity auditor dimensions, bounded revise-audit loops, plan/compose runtime artifacts intent.md/context.json/rule-stack.yaml/trace.json, Zod schema validated state deltas, "
+        "author intent/current focus controls, SQLite temporal memory, and human-readable state projections."
+    ),
+    "maoxiaoyuz/long-novel-gpt": (
+        "Long-novel agent using LLM and RAG. Public README describes importing an existing novel, book decomposition into plot/character relationship outline, user change requests, "
+        "retrieving relevant body text snippets and plot outline, rewriting those snippets, and synchronously updating the plot outline."
+    ),
+    "dylanhogg/gptauthor": (
+        "CLI for long-form multi-chapter stories. Public README describes human-written story prompt, AI-generated synopsis with chapter summaries, human review/edit/regeneration of synopsis, "
+        "then iterative chapter writing from the common synopsis and previous chapter, exporting Markdown and HTML outputs."
+    ),
+    "kevboh/longform": (
+        "Obsidian plugin for novels, screenplays, and long projects. Public README describes organizing notes/scenes into an ordered manuscript, reorderable/nestable scene list, "
+        "scene/draft/project word counts, daily writing session goals, and workflow-based compilation into manuscripts."
+    ),
+    "principia-ai/writehere": (
+        "Open-source long-form writing framework based on heterogeneous recursive planning. Public README describes recursive task decomposition, integration of retrieval/reasoning/composition, "
+        "and dynamic adaptation during fiction and report writing."
+    ),
+    "ilearn-lab/novelclaw": (
+        "Long-form fiction workspace centered on chapter drafting, inspectable runs, manuscript review, and memory-aware writing control. Public README describes sessions, storyboards, "
+        "manuscript surfaces, character/world views, editable memory banks, chapter control, and GitHub-safe release posture."
     ),
 }
 
@@ -661,6 +704,14 @@ class NovelSourceDiscoveryService:
             "character_depth_interview_hints": self._build_character_depth_interview_hints(available_patterns),
             "mindmap_visual_planning_hints": self._build_mindmap_visual_planning_hints(available_patterns),
             "manuscript_export_formats_hints": self._build_manuscript_export_formats_hints(available_patterns),
+            "human_synopsis_gate_hints": self._build_human_synopsis_gate_hints(available_patterns),
+            "retrieval_guided_span_rewrite_hints": self._build_retrieval_guided_span_rewrite_hints(available_patterns),
+            "runtime_artifact_trace_hints": self._build_runtime_artifact_trace_hints(available_patterns),
+            "schema_validated_state_delta_hints": self._build_schema_validated_state_delta_hints(available_patterns),
+            "recursive_adaptive_planning_hints": self._build_recursive_adaptive_planning_hints(available_patterns),
+            "workflow_manuscript_compilation_hints": self._build_workflow_manuscript_compilation_hints(available_patterns),
+            "writing_session_goal_tracking_hints": self._build_writing_session_goal_tracking_hints(available_patterns),
+            "inspectable_run_workspace_hints": self._build_inspectable_run_workspace_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1141,6 +1192,14 @@ class NovelSourceDiscoveryService:
             "character_depth_interview": 58,
             "mindmap_visual_planning": 37,
             "manuscript_export_formats": 24,
+            "human_synopsis_gate": 62,
+            "retrieval_guided_span_rewrite": 61,
+            "runtime_artifact_trace": 55,
+            "schema_validated_state_delta": 57,
+            "recursive_adaptive_planning": 56,
+            "workflow_manuscript_compilation": 34,
+            "writing_session_goal_tracking": 23,
+            "inspectable_run_workspace": 40,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1252,6 +1311,22 @@ class NovelSourceDiscoveryService:
             targets.append("mindmap_nodes")
         if "manuscript_export_formats" in patterns:
             targets.append("export_format_targets")
+        if "human_synopsis_gate" in patterns:
+            targets.append("synopsis_review_gate")
+        if "retrieval_guided_span_rewrite" in patterns:
+            targets.append("retrieval_guided_rewrite_scope")
+        if "runtime_artifact_trace" in patterns:
+            targets.append("runtime_trace_artifacts")
+        if "schema_validated_state_delta" in patterns:
+            targets.append("validated_state_delta_schema")
+        if "recursive_adaptive_planning" in patterns:
+            targets.append("adaptive_planning_tasks")
+        if "workflow_manuscript_compilation" in patterns:
+            targets.append("manuscript_compilation_workflow")
+        if "writing_session_goal_tracking" in patterns:
+            targets.append("writing_session_goals")
+        if "inspectable_run_workspace" in patterns:
+            targets.append("inspectable_run_workspace")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -1382,6 +1457,22 @@ class NovelSourceDiscoveryService:
             targets.extend(["mindmap_nodes", "visual_link_edges", "idea_to_outline_promotions"])
         if "manuscript_export_formats" in patterns:
             targets.extend(["export_format_targets", "derived_manuscript_artifacts"])
+        if "human_synopsis_gate" in patterns:
+            targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
+        if "retrieval_guided_span_rewrite" in patterns:
+            targets.extend(["retrieved_text_spans", "span_rewrite_scope", "outline_sync_delta"])
+        if "runtime_artifact_trace" in patterns:
+            targets.extend(["runtime_intent_artifact", "selected_context_artifact", "rule_stack_artifact", "trace_artifact"])
+        if "schema_validated_state_delta" in patterns:
+            targets.extend(["validated_state_delta_schema", "state_delta_rejections", "immutable_state_updates"])
+        if "recursive_adaptive_planning" in patterns:
+            targets.extend(["adaptive_task_tree", "retrieval_reasoning_composition_steps", "dynamic_replan_points"])
+        if "workflow_manuscript_compilation" in patterns:
+            targets.extend(["manuscript_compile_steps", "ordered_scene_sources", "compile_output_manifest"])
+        if "writing_session_goal_tracking" in patterns:
+            targets.extend(["writing_session_goal", "scene_draft_word_counts", "daily_progress_targets"])
+        if "inspectable_run_workspace" in patterns:
+            targets.extend(["inspectable_run_sessions", "storyboard_surfaces", "editable_memory_bank_refs"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1459,6 +1550,16 @@ class NovelSourceDiscoveryService:
             hints.append("重大人物转折前先核对欲望、恐惧、矛盾、社会面具和压力来源。")
         if "mindmap_visual_planning" in patterns:
             hints.append("脑图节点只作为创意候选；进入正史前必须提升为大纲、卡片或圣经字段。")
+        if "human_synopsis_gate" in patterns:
+            hints.append("章节梗概进入正文前必须先过人工/显式验收；不满意时重新生成或修改梗概，而不是带病扩写。")
+        if "retrieval_guided_span_rewrite" in patterns:
+            hints.append("改写已有长篇时先检索相关正文片段和剧情纲要，只改命中的片段，并同步写出纲要增量。")
+        if "runtime_artifact_trace" in patterns:
+            hints.append("生成前保存意图、选入上下文、规则栈和追踪信息，便于复盘为什么本章这样写。")
+        if "schema_validated_state_delta" in patterns:
+            hints.append("LLM 产出的状态增量必须过 schema 校验；坏数据拒绝写入，避免连续性错误滚雪球。")
+        if "recursive_adaptive_planning" in patterns:
+            hints.append("复杂写作任务按递归规划拆成检索、推理、构思和成文子任务，并允许根据上下文动态重规划。")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -1526,6 +1627,22 @@ class NovelSourceDiscoveryService:
             hints.append("Track narrative strand membership per scene so a strand does not disappear during long continuation.")
         if "character_depth_interview" in patterns:
             hints.append("Store character-depth answers separately from transient scene mood; update them only from accepted evidence.")
+        if "human_synopsis_gate" in patterns:
+            hints.append("Record whether synopsis and chapter summaries were accepted, edited, or regenerated before drafting prose.")
+        if "retrieval_guided_span_rewrite" in patterns:
+            hints.append("Persist retrieved span ids, rewrite decision, and outline sync delta so localized edits do not drift the whole book.")
+        if "runtime_artifact_trace" in patterns:
+            hints.append("Store intent, selected context, rule stack, and trace artifacts beside each chapter run for replay.")
+        if "schema_validated_state_delta" in patterns:
+            hints.append("Persist accepted and rejected state deltas with validation errors before mutating canon state.")
+        if "recursive_adaptive_planning" in patterns:
+            hints.append("Track adaptive task-tree nodes and replan reasons so long runs can resume at the right subtask.")
+        if "workflow_manuscript_compilation" in patterns:
+            hints.append("Keep compilation manifests separate from canon; compiled manuscripts derive from ordered accepted scenes.")
+        if "writing_session_goal_tracking" in patterns:
+            hints.append("Record session word-count goals and actual accepted-word counts without letting numeric goals override continuity.")
+        if "inspectable_run_workspace" in patterns:
+            hints.append("Expose session, storyboard, manuscript surface, and memory-bank refs so reviewers can inspect a run without hidden state.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -2064,6 +2181,77 @@ class NovelSourceDiscoveryService:
             "Exports should include source state version, accepted chapter range, and generation timestamp for replay.",
         ]
 
+    def _build_human_synopsis_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "human_synopsis_gate" not in patterns:
+            return []
+        return [
+            "Generate or update the synopsis and chapter summaries before prose, then require explicit accept/edit/regenerate status.",
+            "Do not draft from an unreviewed synopsis when the user is doing source-book continuation or same-type imitation.",
+            "If synopsis review fails, regenerate or patch the synopsis before expanding chapters.",
+        ]
+
+    def _build_retrieval_guided_span_rewrite_hints(self, patterns: set[str]) -> list[str]:
+        if "retrieval_guided_span_rewrite" not in patterns:
+            return []
+        return [
+            "For existing-novel rewrites, retrieve the relevant body spans and outline nodes before editing.",
+            "Constrain rewrite scope to named spans, then emit an outline sync delta that explains what changed.",
+            "Do not rewrite unrelated chapters because a global instruction matched one local plot issue.",
+        ]
+
+    def _build_runtime_artifact_trace_hints(self, patterns: set[str]) -> list[str]:
+        if "runtime_artifact_trace" not in patterns:
+            return []
+        return [
+            "Persist run artifacts for each chapter task: intent, selected context, rule stack, and trace.",
+            "Use trace artifacts to debug prompt assembly and continuity decisions instead of relying on chat memory.",
+            "A context trace should explain both included context and important omitted context.",
+        ]
+
+    def _build_schema_validated_state_delta_hints(self, patterns: set[str]) -> list[str]:
+        if "schema_validated_state_delta" not in patterns:
+            return []
+        return [
+            "Represent canon mutations as typed state deltas and validate them before applying them.",
+            "Reject malformed or out-of-range deltas rather than normalizing them into canon silently.",
+            "Apply accepted deltas immutably so review can compare before-state, delta, and after-state.",
+        ]
+
+    def _build_recursive_adaptive_planning_hints(self, patterns: set[str]) -> list[str]:
+        if "recursive_adaptive_planning" not in patterns:
+            return []
+        return [
+            "Break long-form tasks recursively into retrieval, reasoning, planning, composition, and review subtasks.",
+            "Allow replanning when retrieved context or review findings contradict the current plan.",
+            "Keep the adaptive task tree inspectable so later runs know why a branch was expanded or abandoned.",
+        ]
+
+    def _build_workflow_manuscript_compilation_hints(self, patterns: set[str]) -> list[str]:
+        if "workflow_manuscript_compilation" not in patterns:
+            return []
+        return [
+            "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
+            "Compilation should record source scene order, filters/transforms, output path, and source state version.",
+            "Keep compilation outputs derived; they must not write back into canon without review.",
+        ]
+
+    def _build_writing_session_goal_tracking_hints(self, patterns: set[str]) -> list[str]:
+        if "writing_session_goal_tracking" not in patterns:
+            return []
+        return [
+            "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
+            "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates.",
+        ]
+
+    def _build_inspectable_run_workspace_hints(self, patterns: set[str]) -> list[str]:
+        if "inspectable_run_workspace" not in patterns:
+            return []
+        return [
+            "Expose writing sessions, storyboard surfaces, manuscript surfaces, character/world views, and editable memory-bank refs.",
+            "Each inspectable run should show current phase, selected context, accepted artifacts, pending review, and next action.",
+            "Reviewers should be able to inspect the run state without reading hidden provider prompts or external project code.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -2136,6 +2324,16 @@ class NovelSourceDiscoveryService:
             targets.append("character_depth_remap")
         if "mindmap_visual_planning" in patterns:
             targets.append("idea_node_remap")
+        if "human_synopsis_gate" in patterns:
+            targets.append("synopsis_gate_remap")
+        if "retrieval_guided_span_rewrite" in patterns:
+            targets.append("retrieval_span_remap")
+        if "runtime_artifact_trace" in patterns:
+            targets.append("trace_artifact_remap")
+        if "schema_validated_state_delta" in patterns:
+            targets.append("state_delta_remap")
+        if "recursive_adaptive_planning" in patterns:
+            targets.append("adaptive_task_tree_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -2187,6 +2385,12 @@ class NovelSourceDiscoveryService:
             hints.append("Borrow strand function only after replacing fabula, social context, and concrete causality.")
         if "character_depth_interview" in patterns:
             hints.append("Use character-depth interviews to create new internal contradictions, not renamed source psychology.")
+        if "human_synopsis_gate" in patterns:
+            hints.append("Review the transformed synopsis before prose so same-type writing does not inherit the source chapter-summary route.")
+        if "retrieval_guided_span_rewrite" in patterns:
+            hints.append("Use retrieval to compare functions and pressure points, then rewrite only transformed spans in the new story state.")
+        if "recursive_adaptive_planning" in patterns:
+            hints.append("Let adaptive planning revise the new story's task tree instead of following the source workflow order.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -2226,6 +2430,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform from the top of the premise chain downward so lower-level scenes inherit a new core promise.")
         if "character_depth_interview" in patterns:
             hints.append("Re-answer depth questions for each transformed character before mapping any relationship beat.")
+        if "human_synopsis_gate" in patterns:
+            hints.append("Transform synopsis and chapter summaries first, then draft from accepted transformed summaries only.")
+        if "retrieval_guided_span_rewrite" in patterns:
+            hints.append("When borrowing a local scene function, identify the new-story span and update its outline delta instead of rewriting source-like neighbors.")
+        if "schema_validated_state_delta" in patterns:
+            hints.append("Validate transformed state deltas so copied source event labels cannot enter canon through structured fields.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -2261,6 +2471,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.")
         if "narrative_strand_mapping" in patterns:
             hints.append("Reject narrative strands that preserve source fabula and setting pressure under surface substitutions.")
+        if "human_synopsis_gate" in patterns:
+            hints.append("Reject accepted synopses that preserve the source chapter-summary sequence under renamed entities.")
+        if "retrieval_guided_span_rewrite" in patterns:
+            hints.append("Reject rewrites that retrieve source spans as canon instead of using them as transformation evidence.")
+        if "runtime_artifact_trace" in patterns:
+            hints.append("Reject traces whose selected context mixes source inspiration with accepted new-story canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -2284,6 +2500,11 @@ class NovelSourceDiscoveryService:
                 "narrative_strand_mapping",
                 "character_depth_interview",
                 "mindmap_visual_planning",
+                "human_synopsis_gate",
+                "retrieval_guided_span_rewrite",
+                "runtime_artifact_trace",
+                "schema_validated_state_delta",
+                "recursive_adaptive_planning",
             }
         ) and (
             "style_signature" in patterns
@@ -2302,6 +2523,9 @@ class NovelSourceDiscoveryService:
                 "narrative_strand_mapping",
                 "character_depth_interview",
                 "mindmap_visual_planning",
+                "human_synopsis_gate",
+                "retrieval_guided_span_rewrite",
+                "recursive_adaptive_planning",
             }
         ) and (
             "narrative_strand_mapping" in patterns

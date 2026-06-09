@@ -82,6 +82,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_inspectable_rewrite_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1108,6 +1112,46 @@ def _append_manuscript_structure_audit_section(
         lines.append("- manuscript_export_formats: treat PDF/DOCX/TXT/EPUB exports as derived artifacts, not canon sources")
 
 
+def _append_inspectable_rewrite_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render inspectable planning, rewrite, trace, and validation gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "human_synopsis_gate",
+        "retrieval_guided_span_rewrite",
+        "runtime_artifact_trace",
+        "schema_validated_state_delta",
+        "recursive_adaptive_planning",
+        "workflow_manuscript_compilation",
+        "writing_session_goal_tracking",
+        "inspectable_run_workspace",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Inspectable rewrite audit:")
+    if "human_synopsis_gate" in pattern_names:
+        lines.append("- human_synopsis_gate: accept, edit, or regenerate synopsis and chapter summaries before prose expansion")
+    if "retrieval_guided_span_rewrite" in pattern_names:
+        lines.append("- retrieval_guided_span_rewrite: retrieve related body spans and outline nodes; rewrite only named spans and emit outline sync delta")
+    if "runtime_artifact_trace" in pattern_names:
+        lines.append("- runtime_artifact_trace: persist intent, selected context, rule stack, and trace for each chapter run")
+    if "schema_validated_state_delta" in pattern_names:
+        lines.append("- schema_validated_state_delta: validate structured state deltas before canon mutation; reject bad deltas instead of normalizing them")
+    if "recursive_adaptive_planning" in pattern_names:
+        lines.append("- recursive_adaptive_planning: split work into retrieval, reasoning, planning, composition, and review subtasks; replan on contradiction")
+    if "workflow_manuscript_compilation" in pattern_names:
+        lines.append("- workflow_manuscript_compilation: compile only accepted ordered scenes into manuscript outputs")
+    if "writing_session_goal_tracking" in pattern_names:
+        lines.append("- writing_session_goal_tracking: track target and accepted word counts without letting quota override continuity gates")
+    if "inspectable_run_workspace" in pattern_names:
+        lines.append("- inspectable_run_workspace: expose session, storyboard, manuscript surface, current phase, pending review, and memory refs")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1195,6 +1239,14 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "character_depth_interview_hints": "character_depth_interview",
         "mindmap_visual_planning_hints": "mindmap_visual_planning",
         "manuscript_export_formats_hints": "manuscript_export_formats",
+        "human_synopsis_gate_hints": "human_synopsis_gate",
+        "retrieval_guided_span_rewrite_hints": "retrieval_guided_span_rewrite",
+        "runtime_artifact_trace_hints": "runtime_artifact_trace",
+        "schema_validated_state_delta_hints": "schema_validated_state_delta",
+        "recursive_adaptive_planning_hints": "recursive_adaptive_planning",
+        "workflow_manuscript_compilation_hints": "workflow_manuscript_compilation",
+        "writing_session_goal_tracking_hints": "writing_session_goal_tracking",
+        "inspectable_run_workspace_hints": "inspectable_run_workspace",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

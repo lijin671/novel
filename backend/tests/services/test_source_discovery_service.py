@@ -2041,3 +2041,227 @@ def test_default_discovery_sources_include_mature_writing_tools():
     assert any("snowflake method" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("narrative strands" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("mind mapping" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_inspectable_rewrite_sources_map_to_trace_and_adaptive_patterns():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Narcooo/inkos",
+                "html_url": "https://github.com/Narcooo/inkos",
+                "description": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation.",
+                "stargazers_count": 7046,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["story", "novel", "writing-agent"],
+                "updated_at": "2026-06-09T11:22:23Z",
+            },
+            {
+                "full_name": "MaoXiaoYuZ/Long-Novel-GPT",
+                "html_url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT",
+                "description": "Long novel GPT with LLM and RAG, import existing novel, retrieve relevant body snippets and plot outline, modify text snippets and sync update outline.",
+                "stargazers_count": 1152,
+                "license": {"spdx_id": "unknown"},
+                "topics": ["long-novel", "rag", "writing"],
+                "updated_at": "2026-06-08T15:08:16Z",
+            },
+            {
+                "full_name": "dylanhogg/gptauthor",
+                "html_url": "https://github.com/dylanhogg/gptauthor",
+                "description": "Long form multi-chapter stories with human review of synopsis, chapter summaries, previous chapter context, Markdown and HTML export.",
+                "stargazers_count": 108,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction", "story", "chapters"],
+                "updated_at": "2026-05-31T23:48:56Z",
+            },
+            {
+                "full_name": "kevboh/longform",
+                "html_url": "https://github.com/kevboh/longform",
+                "description": "Obsidian longform plugin with ordered manuscript, reorderable nestable scenes, word counts, writing session goals and workflow-based compilation.",
+                "stargazers_count": 936,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["obsidian", "novel", "manuscript"],
+                "updated_at": "2026-06-09T07:04:52Z",
+            },
+            {
+                "full_name": "principia-ai/WriteHERE",
+                "html_url": "https://github.com/principia-ai/WriteHERE",
+                "description": "Long-form writing with recursive planning, recursive task decomposition, heterogeneous integration of retrieval, reasoning, and composition, and dynamic adaptation.",
+                "stargazers_count": 930,
+                "license": {"spdx_id": "unknown"},
+                "topics": ["writing", "planning", "fiction"],
+                "updated_at": "2026-06-07T12:40:34Z",
+            },
+            {
+                "full_name": "iLearn-Lab/NovelClaw",
+                "html_url": "https://github.com/iLearn-Lab/NovelClaw",
+                "description": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control.",
+                "stargazers_count": 319,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "memory", "workspace"],
+                "updated_at": "2026-06-09T11:15:43Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T21:10:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+    assert {
+        "runtime_artifact_trace",
+        "schema_validated_state_delta",
+        "self_review",
+    }.issubset(patterns_by_title["Narcooo/inkos"])
+    assert {
+        "retrieval_guided_span_rewrite",
+        "book_decomposition",
+        "context_reference",
+    }.issubset(patterns_by_title["MaoXiaoYuZ/Long-Novel-GPT"])
+    assert {
+        "human_synopsis_gate",
+        "chapter_generation",
+        "manuscript_export_formats",
+    }.issubset(patterns_by_title["dylanhogg/gptauthor"])
+    assert {
+        "workflow_manuscript_compilation",
+        "writing_session_goal_tracking",
+        "outliner_index_cards",
+    }.issubset(patterns_by_title["kevboh/longform"])
+    assert "recursive_adaptive_planning" in patterns_by_title["principia-ai/WriteHERE"]
+    assert "inspectable_run_workspace" in patterns_by_title["iLearn-Lab/NovelClaw"]
+
+
+def test_inspectable_rewrite_pattern_pack_exposes_trace_and_adaptive_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-09T21:15:00+08:00",
+        "candidate_count": 6,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/Narcooo/inkos",
+                "title": "Narcooo/inkos",
+                "summary": "Review gates, runtime artifacts, Zod schema and state delta validation.",
+                "stars": 7046,
+                "license": "AGPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["runtime_artifact_trace", "schema_validated_state_delta", "self_review"],
+                "score": 96,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT",
+                "title": "MaoXiaoYuZ/Long-Novel-GPT",
+                "summary": "Retrieve relevant spans and outline, rewrite spans, sync outline.",
+                "stars": 1152,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker", "shell_script"],
+                "absorbed_patterns": ["retrieval_guided_span_rewrite", "context_reference"],
+                "score": 94,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/dylanhogg/gptauthor",
+                "title": "dylanhogg/gptauthor",
+                "summary": "Human synopsis gate and multi-chapter export.",
+                "stars": 108,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["human_synopsis_gate", "chapter_generation", "manuscript_export_formats"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/kevboh/longform",
+                "title": "kevboh/longform",
+                "summary": "Workflow-based compilation, ordered scenes, word counts and writing goals.",
+                "stars": 936,
+                "license": "NOASSERTION",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["browser_extension"],
+                "absorbed_patterns": ["workflow_manuscript_compilation", "writing_session_goal_tracking"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/principia-ai/WriteHERE",
+                "title": "principia-ai/WriteHERE",
+                "summary": "Recursive planning and dynamic adaptation.",
+                "stars": 930,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["recursive_adaptive_planning"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/iLearn-Lab/NovelClaw",
+                "title": "iLearn-Lab/NovelClaw",
+                "summary": "Inspectable runs, sessions, storyboards, manuscript surfaces and editable memory banks.",
+                "stars": 319,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker", "shell_script", "powershell_script", "native_binary"],
+                "absorbed_patterns": ["inspectable_run_workspace", "memory_snapshot_versioning"],
+                "score": 82,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "synopsis_review_gate" in pattern_pack["whole_book_analysis_targets"]
+    assert "retrieved_text_spans" in pattern_pack["whole_book_analysis_targets"]
+    assert "runtime_intent_artifact" in pattern_pack["whole_book_analysis_targets"]
+    assert "validated_state_delta_schema" in pattern_pack["whole_book_analysis_targets"]
+    assert "adaptive_task_tree" in pattern_pack["whole_book_analysis_targets"]
+    assert "manuscript_compile_steps" in pattern_pack["whole_book_analysis_targets"]
+    assert "writing_session_goal" in pattern_pack["whole_book_analysis_targets"]
+    assert "inspectable_run_sessions" in pattern_pack["whole_book_analysis_targets"]
+    assert "human_synopsis_gate_hints" in pattern_pack
+    assert "retrieval_guided_span_rewrite_hints" in pattern_pack
+    assert "runtime_artifact_trace_hints" in pattern_pack
+    assert "schema_validated_state_delta_hints" in pattern_pack
+    assert "recursive_adaptive_planning_hints" in pattern_pack
+    assert "workflow_manuscript_compilation_hints" in pattern_pack
+    assert "writing_session_goal_tracking_hints" in pattern_pack
+    assert "inspectable_run_workspace_hints" in pattern_pack
+    assert "synopsis_gate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "retrieval_span_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "adaptive_task_tree_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "human_synopsis_gate_hints" in digest
+    assert "retrieval_guided_span_rewrite_hints" in digest
+    assert "runtime_artifact_trace_hints" in digest
+    assert "schema_validated_state_delta_hints" in digest
+    assert "recursive_adaptive_planning_hints" in digest
+    assert "workflow_manuscript_compilation_hints" in digest
+    assert "writing_session_goal_tracking_hints" in digest
+    assert "inspectable_run_workspace_hints" in digest
+
+
+def test_default_discovery_sources_include_inspectable_rewrite_projects():
+    assert "https://github.com/Narcooo/inkos" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/MaoXiaoYuZ/Long-Novel-GPT" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dylanhogg/gptauthor" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/kevboh/longform" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/principia-ai/WriteHERE" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/iLearn-Lab/NovelClaw" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("human review of synopsis" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("retrieve relevant" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("intent.md" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("recursive planning" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

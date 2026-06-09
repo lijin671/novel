@@ -95,6 +95,14 @@
     "character_depth_questions",
     "mindmap_nodes",
     "export_format_targets",
+    "synopsis_review_gate",
+    "retrieval_guided_rewrite_scope",
+    "runtime_trace_artifacts",
+    "validated_state_delta_schema",
+    "adaptive_planning_tasks",
+    "manuscript_compilation_workflow",
+    "writing_session_goals",
+    "inspectable_run_workspace",
     "organizations",
     "conflicts",
     "story_arcs",
@@ -172,7 +180,12 @@
     "把章节和场景作为可重排卡片处理，重排时同步保留人物、伏笔和状态证据。",
     "按叙事线、fabula、地理/时间/社会背景检查章节承接，不只看单章爽点。",
     "重大人物转折前先核对欲望、恐惧、矛盾、社会面具和压力来源。",
-    "脑图节点只作为创意候选；进入正史前必须提升为大纲、卡片或圣经字段。"
+    "脑图节点只作为创意候选；进入正史前必须提升为大纲、卡片或圣经字段。",
+    "章节梗概进入正文前必须先过人工/显式验收；不满意时重新生成或修改梗概，而不是带病扩写。",
+    "改写已有长篇时先检索相关正文片段和剧情纲要，只改命中的片段，并同步写出纲要增量。",
+    "生成前保存意图、选入上下文、规则栈和追踪信息，便于复盘为什么本章这样写。",
+    "LLM 产出的状态增量必须过 schema 校验；坏数据拒绝写入，避免连续性错误滚雪球。",
+    "复杂写作任务按递归规划拆成检索、推理、构思和成文子任务，并允许根据上下文动态重规划。"
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -206,7 +219,15 @@
     "Persist synopsis and cross-reference links beside chapter state so prompts can cite why a note is relevant.",
     "When outline cards are reordered, record previous order, new order, and affected dependencies.",
     "Track narrative strand membership per scene so a strand does not disappear during long continuation.",
-    "Store character-depth answers separately from transient scene mood; update them only from accepted evidence."
+    "Store character-depth answers separately from transient scene mood; update them only from accepted evidence.",
+    "Record whether synopsis and chapter summaries were accepted, edited, or regenerated before drafting prose.",
+    "Persist retrieved span ids, rewrite decision, and outline sync delta so localized edits do not drift the whole book.",
+    "Store intent, selected context, rule stack, and trace artifacts beside each chapter run for replay.",
+    "Persist accepted and rejected state deltas with validation errors before mutating canon state.",
+    "Track adaptive task-tree nodes and replan reasons so long runs can resume at the right subtask.",
+    "Keep compilation manifests separate from canon; compiled manuscripts derive from ordered accepted scenes.",
+    "Record session word-count goals and actual accepted-word counts without letting numeric goals override continuity.",
+    "Expose session, storyboard, manuscript surface, and memory-bank refs so reviewers can inspect a run without hidden state."
   ],
   "contradiction_detection_hints": [
     "Check timeline order, location presence, relationship evolution, trait consistency, faction membership, and unresolved hook state before accepting drafts.",
@@ -228,7 +249,7 @@
     "Validate custom fields before they enter prompts so missing genre facts are caught during analysis instead of after drafting.",
     "Use custom fields in same-type creation to transform genre mechanics without copying source names or proprietary labels."
   ],
-  "generated_at": "2026-06-09T20:30:00+08:00",
+  "generated_at": "2026-06-09T21:30:00+08:00",
   "gradual_reveal_control_hints": [
     "Use a reveal budget: visible facts can enter the chapter, hidden facts stay out unless action/dialogue exposes them.",
     "Track iceberg annotations so worldbuilding depth exists without dumping it into the next scene.",
@@ -243,6 +264,16 @@
     "After extraction, detect duplicate entities, orphan lore, stale relationship edges, and provisional nodes.",
     "Treat graph healing candidates as reviewable changes; auto-merge only low-risk duplicates with clear evidence.",
     "Record graph healing history so future contradictions can be traced back to a merge, rename, or cleanup decision."
+  ],
+  "human_synopsis_gate_hints": [
+    "Generate or update the synopsis and chapter summaries before prose, then require explicit accept/edit/regenerate status.",
+    "Do not draft from an unreviewed synopsis when the user is doing source-book continuation or same-type imitation.",
+    "If synopsis review fails, regenerate or patch the synopsis before expanding chapters."
+  ],
+  "inspectable_run_workspace_hints": [
+    "Expose writing sessions, storyboard surfaces, manuscript surfaces, character/world views, and editable memory-bank refs.",
+    "Each inspectable run should show current phase, selected context, accepted artifacts, pending review, and next action.",
+    "Reviewers should be able to inspect the run state without reading hidden provider prompts or external project code."
   ],
   "inspired_copy_risk_hints": [
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
@@ -259,7 +290,10 @@
     "Reject context packs that cite source analysis artifacts as new-story facts.",
     "Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels.",
     "Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.",
-    "Reject narrative strands that preserve source fabula and setting pressure under surface substitutions."
+    "Reject narrative strands that preserve source fabula and setting pressure under surface substitutions.",
+    "Reject accepted synopses that preserve the source chapter-summary sequence under renamed entities.",
+    "Reject rewrites that retrieve source spans as canon instead of using them as transformation evidence.",
+    "Reject traces whose selected context mixes source inspiration with accepted new-story canon."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -297,7 +331,12 @@
     "outline_card_remap",
     "narrative_strand_remap",
     "character_depth_remap",
-    "idea_node_remap"
+    "idea_node_remap",
+    "synopsis_gate_remap",
+    "retrieval_span_remap",
+    "trace_artifact_remap",
+    "state_delta_remap",
+    "adaptive_task_tree_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -322,7 +361,10 @@
     "Create a new premise chain before outlining; do not reuse the source promise or summary structure as canon.",
     "Rebuild outline cards around new goals, conflicts, hooks, and dependency order.",
     "Borrow strand function only after replacing fabula, social context, and concrete causality.",
-    "Use character-depth interviews to create new internal contradictions, not renamed source psychology."
+    "Use character-depth interviews to create new internal contradictions, not renamed source psychology.",
+    "Review the transformed synopsis before prose so same-type writing does not inherit the source chapter-summary route.",
+    "Use retrieval to compare functions and pressure points, then rewrite only transformed spans in the new story state.",
+    "Let adaptive planning revise the new story's task tree instead of following the source workflow order."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -341,7 +383,10 @@
     "Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.",
     "Build a context pack from the transformed story state; do not retrieve source events as if they were reusable canon.",
     "Transform from the top of the premise chain downward so lower-level scenes inherit a new core promise.",
-    "Re-answer depth questions for each transformed character before mapping any relationship beat."
+    "Re-answer depth questions for each transformed character before mapping any relationship beat.",
+    "Transform synopsis and chapter summaries first, then draft from accepted transformed summaries only.",
+    "When borrowing a local scene function, identify the new-story span and update its outline delta instead of rewriting source-like neighbors.",
+    "Validate transformed state deltas so copied source event labels cannot enter canon through structured fields."
   ],
   "interrupted_resume_flow_hints": [
     "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
@@ -437,18 +482,33 @@
     "Keep stable lint codes or categories so review UI can group recurring canon-graph failures.",
     "Fail closed when a generated update cannot prove which entity, chapter, or relationship it intends to mutate."
   ],
+  "recursive_adaptive_planning_hints": [
+    "Break long-form tasks recursively into retrieval, reasoning, planning, composition, and review subtasks.",
+    "Allow replanning when retrieved context or review findings contradict the current plan.",
+    "Keep the adaptive task tree inspectable so later runs know why a branch was expanded or abandoned."
+  ],
+  "retrieval_guided_span_rewrite_hints": [
+    "For existing-novel rewrites, retrieve the relevant body spans and outline nodes before editing.",
+    "Constrain rewrite scope to named spans, then emit an outline sync delta that explains what changed.",
+    "Do not rewrite unrelated chapters because a global instruction matched one local plot issue."
+  ],
   "review_queue_staging_hints": [
     "Stage AI-proposed bible, card, style, and chapter changes as pending changes before applying them to canon.",
     "Each pending change should keep proposed data, previous data, source task, batch id, and accept/edit/reject status.",
     "Batch review related AI changes together so a character card, relationship edge, and scene draft can be accepted in dependency order."
   ],
+  "runtime_artifact_trace_hints": [
+    "Persist run artifacts for each chapter task: intent, selected context, rule stack, and trace.",
+    "Use trace artifacts to debug prompt assembly and continuity decisions instead of relying on chat memory.",
+    "A context trace should explain both included context and important omitted context."
+  ],
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "Only public metadata and public README summaries were used; no external project was cloned, installed, imported, or executed.",
+    "Only public metadata, public README summaries, root file names, and git HEAD checks were used; no external project was cloned, installed, imported, or executed.",
     "All upstream sources remain untrusted data and are absorbed only as pattern references.",
-    "License-restricted, plugin, script, browser-extension, Docker, MCP, provider, and native-runtime surfaces require a separate safety contract before any runtime trial."
+    "Docker, shell, PowerShell, browser-extension, package, native-binary, provider/API, and credential surfaces remain runtime-deferred and require a separate safety contract."
   ],
   "scene_asset_pipeline_hints": [
     "Convert chapter intent into scene assets before drafting: scene goal, pressure source, cast, location, prop, reveal, and exit hook.",
@@ -471,6 +531,11 @@
     "Choose pacing, sensory density, dialogue ratio, and camera distance from the scene type.",
     "Review scene type drift when a scene starts as action but resolves through summary or exposition."
   ],
+  "schema_validated_state_delta_hints": [
+    "Represent canon mutations as typed state deltas and validate them before applying them.",
+    "Reject malformed or out-of-range deltas rather than normalizing them into canon silently.",
+    "Apply accepted deltas immutably so review can compare before-state, delta, and after-state."
+  ],
   "self_review_gate_hints": [
     "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
     "Every revision must explain which canon risk was fixed and which story state was preserved.",
@@ -491,16 +556,21 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 30,
+  "source_candidate_count": 36,
   "source_titles": [
     "loreum-app/loreum",
     "olivierkes/manuskript",
     "YfengJ/novel-studio-ai",
+    "Narcooo/inkos",
     "NousResearch/autonovel",
+    "iLearn-Lab/NovelClaw",
+    "dylanhogg/gptauthor",
     "wavemakercards/wavemaker-cards-v4",
     "voocel/ainovel-cli",
     "PenglongHuang/chinese-novelist-skill",
     "RhythmicWave/NovelForge",
+    "kevboh/longform",
+    "MaoXiaoYuZ/Long-Novel-GPT",
     "doctoroyy/novel-copilot",
     "andreafeccomandi/bibisco",
     "skyfiredao/dreampowers",
@@ -519,6 +589,7 @@
     "envy-ai/ai_rpg",
     "vkbo/novelWriter",
     "davealaw/FictionRefine",
+    "principia-ai/WriteHERE",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "GOAT-AI-lab/GOAT-Storytelling-Agent",
     "aikohanasaki/SillyTavern-MemoryBooks",
@@ -741,9 +812,39 @@
     "idea_to_outline_promotions",
     "export_format_targets",
     "derived_manuscript_artifacts",
+    "synopsis_review_gate",
+    "chapter_summary_review_status",
+    "synopsis_regeneration_options",
+    "retrieved_text_spans",
+    "span_rewrite_scope",
+    "outline_sync_delta",
+    "runtime_intent_artifact",
+    "selected_context_artifact",
+    "rule_stack_artifact",
+    "trace_artifact",
+    "validated_state_delta_schema",
+    "state_delta_rejections",
+    "immutable_state_updates",
+    "adaptive_task_tree",
+    "retrieval_reasoning_composition_steps",
+    "dynamic_replan_points",
+    "manuscript_compile_steps",
+    "ordered_scene_sources",
+    "compile_output_manifest",
+    "writing_session_goal",
+    "scene_draft_word_counts",
+    "daily_progress_targets",
+    "inspectable_run_sessions",
+    "storyboard_surfaces",
+    "editable_memory_bank_refs",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
+  ],
+  "workflow_manuscript_compilation_hints": [
+    "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
+    "Compilation should record source scene order, filters/transforms, output path, and source state version.",
+    "Keep compilation outputs derived; they must not write back into canon without review."
   ],
   "workflow_patterns": [
     {
@@ -837,12 +938,14 @@
       ]
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 11,
       "name": "book_decomposition",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
-        "mcp_server"
+        "mcp_server",
+        "native_binary",
+        "shell_script"
       ],
       "sources": [
         {
@@ -894,6 +997,37 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
         },
         {
           "license": "MIT",
@@ -937,6 +1071,25 @@
           "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 96,
+          "source": "github",
+          "stars": 1152,
+          "summary": "Long novel GPT with LLM and RAG, import existing novel, retrieve relevant body snippets and plot outline, modify text snippets and sync update outline. Static intake note: Long-novel agent using LLM and RAG. Public README describes importing an existing novel, book decomposition ",
+          "title": "MaoXiaoYuZ/Long-Novel-GPT",
+          "trust_flags": [
+            "license:noassertion",
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -977,7 +1130,7 @@
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "chapter_generation",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -996,6 +1149,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 122,
+          "source": "github",
+          "stars": 108,
+          "summary": "Long form multi-chapter stories with human review of synopsis, chapter summaries, previous chapter context, Markdown and HTML export. Static intake note: CLI for long-form multi-chapter stories. Public README describes human-written story prompt, AI-generated synopsis with chapte",
+          "title": "dylanhogg/gptauthor",
+          "trust_flags": [],
+          "url": "https://github.com/dylanhogg/gptauthor"
         },
         {
           "license": "MIT",
@@ -1032,12 +1198,13 @@
       ]
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 10,
       "name": "worldbuilding",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
-        "mcp_server"
+        "mcp_server",
+        "native_binary"
       ],
       "sources": [
         {
@@ -1089,6 +1256,37 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
         },
         {
           "license": "MIT",
@@ -1169,12 +1367,13 @@
       ]
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 10,
       "name": "timeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
         "mcp_server",
+        "native_binary",
         "browser_extension"
       ],
       "sources": [
@@ -1227,6 +1426,37 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
         },
         {
           "license": "MIT",
@@ -1307,12 +1537,13 @@
       ]
     },
     {
-      "candidate_count": 11,
+      "candidate_count": 14,
       "name": "character_cards",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
+        "native_binary",
         "shell_script",
         "browser_extension"
       ],
@@ -1368,6 +1599,37 @@
           "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1407,6 +1669,25 @@
           "title": "RhythmicWave/NovelForge",
           "trust_flags": [],
           "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 96,
+          "source": "github",
+          "stars": 1152,
+          "summary": "Long novel GPT with LLM and RAG, import existing novel, retrieve relevant body snippets and plot outline, modify text snippets and sync update outline. Static intake note: Long-novel agent using LLM and RAG. Public README describes importing an existing novel, book decomposition ",
+          "title": "MaoXiaoYuZ/Long-Novel-GPT",
+          "trust_flags": [
+            "license:noassertion",
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT"
         },
         {
           "license": "unknown",
@@ -1491,16 +1772,18 @@
       "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
         "zero-issues-high-stars",
-        "license:missing"
+        "license:missing",
+        "license:noassertion"
       ]
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 10,
       "name": "organization_graph",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
-        "mcp_server"
+        "mcp_server",
+        "native_binary"
       ],
       "sources": [
         {
@@ -1552,6 +1835,37 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
         },
         {
           "license": "MIT",
@@ -1745,6 +2059,64 @@
     },
     {
       "candidate_count": 1,
+      "name": "human_synopsis_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 122,
+          "source": "github",
+          "stars": 108,
+          "summary": "Long form multi-chapter stories with human review of synopsis, chapter summaries, previous chapter context, Markdown and HTML export. Static intake note: CLI for long-form multi-chapter stories. Public README describes human-written story prompt, AI-generated synopsis with chapte",
+          "title": "dylanhogg/gptauthor",
+          "trust_flags": [],
+          "url": "https://github.com/dylanhogg/gptauthor"
+        }
+      ],
+      "top_source_url": "https://github.com/dylanhogg/gptauthor",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "retrieval_guided_span_rewrite",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "docker",
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 96,
+          "source": "github",
+          "stars": 1152,
+          "summary": "Long novel GPT with LLM and RAG, import existing novel, retrieve relevant body snippets and plot outline, modify text snippets and sync update outline. Static intake note: Long-novel agent using LLM and RAG. Public README describes importing an existing novel, book decomposition ",
+          "title": "MaoXiaoYuZ/Long-Novel-GPT",
+          "trust_flags": [
+            "license:noassertion",
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT"
+        }
+      ],
+      "top_source_url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT",
+      "trust_flags": [
+        "license:noassertion",
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
       "name": "premature_ending_guard",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1775,12 +2147,14 @@
       ]
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 11,
       "name": "emotion_arc",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
+        "native_binary",
+        "shell_script",
         "browser_extension"
       ],
       "sources": [
@@ -1835,6 +2209,37 @@
           "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1878,6 +2283,25 @@
         {
           "license": "unknown",
           "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 96,
+          "source": "github",
+          "stars": 1152,
+          "summary": "Long novel GPT with LLM and RAG, import existing novel, retrieve relevant body snippets and plot outline, modify text snippets and sync update outline. Static intake note: Long-novel agent using LLM and RAG. Public README describes importing an existing novel, book decomposition ",
+          "title": "MaoXiaoYuZ/Long-Novel-GPT",
+          "trust_flags": [
+            "license:noassertion",
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [
             "browser_extension"
@@ -1911,7 +2335,8 @@
       "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
         "zero-issues-high-stars",
-        "license:missing"
+        "license:missing",
+        "license:noassertion"
       ]
     },
     {
@@ -2110,6 +2535,33 @@
     },
     {
       "candidate_count": 1,
+      "name": "schema_validated_state_delta",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        }
+      ],
+      "top_source_url": "https://github.com/Narcooo/inkos",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
       "name": "critic_verifier_loop",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -2184,6 +2636,37 @@
       ],
       "top_source_url": "https://github.com/davealaw/FictionRefine",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "recursive_adaptive_planning",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 50,
+          "source": "github",
+          "stars": 930,
+          "summary": "Long-form writing with recursive planning, recursive task decomposition, heterogeneous integration of retrieval, reasoning, and composition, and dynamic adaptation. Static intake note: Open-source long-form writing framework based on heterogeneous recursive planning. Public READM",
+          "title": "principia-ai/WriteHERE",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/principia-ai/WriteHERE"
+        }
+      ],
+      "top_source_url": "https://github.com/principia-ai/WriteHERE",
+      "trust_flags": [
+        "license:noassertion"
+      ]
     },
     {
       "candidate_count": 8,
@@ -2332,6 +2815,52 @@
       ]
     },
     {
+      "candidate_count": 2,
+      "name": "runtime_artifact_trace",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "native_binary"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
+        }
+      ],
+      "top_source_url": "https://github.com/Narcooo/inkos",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
       "candidate_count": 1,
       "name": "plotgrid_scene_matrix",
       "posture_hint": "metadata-triage",
@@ -2475,10 +3004,12 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "outliner_index_cards",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
         {
           "license": "GPL-3.0-or-later",
@@ -2507,19 +3038,38 @@
           "title": "wavemakercards/wavemaker-cards-v4",
           "trust_flags": [],
           "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 98,
+          "source": "github",
+          "stars": 936,
+          "summary": "Obsidian longform plugin with ordered manuscript, reorderable nestable scenes, word counts, writing session goals and workflow-based compilation. Static intake note: Obsidian plugin for novels, screenplays, and long projects. Public README describes organizing notes/scenes into a",
+          "title": "kevboh/longform",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/kevboh/longform"
         }
       ],
       "top_source_url": "https://github.com/olivierkes/manuskript",
       "trust_flags": [
-        "zero-issues-high-stars"
+        "zero-issues-high-stars",
+        "license:noassertion"
       ]
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "local_first_novel_workspace",
       "posture_hint": "metadata-triage",
       "risk_flags": [
-        "docker"
+        "docker",
+        "native_binary"
       ],
       "sources": [
         {
@@ -2538,6 +3088,22 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
         },
         {
           "license": "MIT",
@@ -2721,12 +3287,13 @@
       ]
     },
     {
-      "candidate_count": 13,
+      "candidate_count": 16,
       "name": "self_review",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
         "mcp_server",
+        "native_binary",
         "shell_script"
       ],
       "sources": [
@@ -2781,6 +3348,21 @@
           "url": "https://github.com/YfengJ/novel-studio-ai"
         },
         {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -2794,6 +3376,35 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 122,
+          "source": "github",
+          "stars": 108,
+          "summary": "Long form multi-chapter stories with human review of synopsis, chapter summaries, previous chapter context, Markdown and HTML export. Static intake note: CLI for long-form multi-chapter stories. Public README describes human-written story prompt, AI-generated synopsis with chapte",
+          "title": "dylanhogg/gptauthor",
+          "trust_flags": [],
+          "url": "https://github.com/dylanhogg/gptauthor"
         },
         {
           "license": "MIT",
@@ -3013,11 +3624,26 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "structured_generation_schema",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 140,
+          "source": "github",
+          "stars": 7046,
+          "summary": "Story creation AI agent with review list, approve-all, continuity auditor, intent.md, context.json, rule-stack.yaml, trace.json, Zod schema and JSON delta validation. Static intake note: Story creation AI agent for long/short fiction, screenplays, fan fiction, continuations, same",
+          "title": "Narcooo/inkos",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Narcooo/inkos"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -3045,8 +3671,10 @@
           "url": "https://github.com/ModernRelay/omnigraph"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
-      "trust_flags": []
+      "top_source_url": "https://github.com/Narcooo/inkos",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
     },
     {
       "candidate_count": 4,
@@ -3326,11 +3954,12 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 6,
       "name": "context_reference",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
+        "shell_script",
         "browser_extension"
       ],
       "sources": [
@@ -3365,6 +3994,25 @@
           "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "shell_script"
+          ],
+          "score": 96,
+          "source": "github",
+          "stars": 1152,
+          "summary": "Long novel GPT with LLM and RAG, import existing novel, retrieve relevant body snippets and plot outline, modify text snippets and sync update outline. Static intake note: Long-novel agent using LLM and RAG. Public README describes importing an existing novel, book decomposition ",
+          "title": "MaoXiaoYuZ/Long-Novel-GPT",
+          "trust_flags": [
+            "license:noassertion",
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT"
+        },
+        {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "defer-trust-review",
@@ -3396,11 +4044,29 @@
             "license:missing"
           ],
           "url": "https://github.com/bal-spec/sillytavern-character-memory"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 50,
+          "source": "github",
+          "stars": 930,
+          "summary": "Long-form writing with recursive planning, recursive task decomposition, heterogeneous integration of retrieval, reasoning, and composition, and dynamic adaptation. Static intake note: Open-source long-form writing framework based on heterogeneous recursive planning. Public READM",
+          "title": "principia-ai/WriteHERE",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/principia-ai/WriteHERE"
         }
       ],
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
       "trust_flags": [
         "license:missing",
+        "license:noassertion",
         "zero-issues-high-stars",
         "default-branch:nonstandard"
       ]
@@ -3429,11 +4095,30 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "graph_branching_atomicity",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 98,
+          "source": "github",
+          "stars": 936,
+          "summary": "Obsidian longform plugin with ordered manuscript, reorderable nestable scenes, word counts, writing session goals and workflow-based compilation. Static intake note: Obsidian plugin for novels, screenplays, and long projects. Public README describes organizing notes/scenes into a",
+          "title": "kevboh/longform",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/kevboh/longform"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -3448,8 +4133,10 @@
           "url": "https://github.com/ModernRelay/omnigraph"
         }
       ],
-      "top_source_url": "https://github.com/ModernRelay/omnigraph",
-      "trust_flags": []
+      "top_source_url": "https://github.com/kevboh/longform",
+      "trust_flags": [
+        "license:noassertion"
+      ]
     },
     {
       "candidate_count": 2,
@@ -3592,6 +4279,35 @@
     },
     {
       "candidate_count": 1,
+      "name": "inspectable_run_workspace",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "native_binary"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "native_binary"
+          ],
+          "score": 122,
+          "source": "github",
+          "stars": 319,
+          "summary": "Inspectable writing workspace with inspectable runs, sessions, storyboards, manuscript surfaces, character and world views, editable memory banks and memory-aware writing control. Static intake note: Long-form fiction workspace centered on chapter drafting, inspectable runs, manu",
+          "title": "iLearn-Lab/NovelClaw",
+          "trust_flags": [],
+          "url": "https://github.com/iLearn-Lab/NovelClaw"
+        }
+      ],
+      "top_source_url": "https://github.com/iLearn-Lab/NovelClaw",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "query_lint_contract",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -3657,11 +4373,43 @@
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 3,
       "name": "synopsis_cross_reference",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 122,
+          "source": "github",
+          "stars": 108,
+          "summary": "Long form multi-chapter stories with human review of synopsis, chapter summaries, previous chapter context, Markdown and HTML export. Static intake note: CLI for long-form multi-chapter stories. Public README describes human-written story prompt, AI-generated synopsis with chapte",
+          "title": "dylanhogg/gptauthor",
+          "trust_flags": [],
+          "url": "https://github.com/dylanhogg/gptauthor"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 98,
+          "source": "github",
+          "stars": 936,
+          "summary": "Obsidian longform plugin with ordered manuscript, reorderable nestable scenes, word counts, writing session goals and workflow-based compilation. Static intake note: Obsidian plugin for novels, screenplays, and long projects. Public README describes organizing notes/scenes into a",
+          "title": "kevboh/longform",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/kevboh/longform"
+        },
         {
           "license": "GPL-3.0",
           "posture": "pattern-only",
@@ -3678,8 +4426,9 @@
           "url": "https://github.com/vkbo/novelWriter"
         }
       ],
-      "top_source_url": "https://github.com/vkbo/novelWriter",
+      "top_source_url": "https://github.com/dylanhogg/gptauthor",
       "trust_flags": [
+        "license:noassertion",
         "zero-issues-high-stars"
       ]
     },
@@ -3906,6 +4655,37 @@
     },
     {
       "candidate_count": 1,
+      "name": "workflow_manuscript_compilation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 98,
+          "source": "github",
+          "stars": 936,
+          "summary": "Obsidian longform plugin with ordered manuscript, reorderable nestable scenes, word counts, writing session goals and workflow-based compilation. Static intake note: Obsidian plugin for novels, screenplays, and long projects. Public README describes organizing notes/scenes into a",
+          "title": "kevboh/longform",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/kevboh/longform"
+        }
+      ],
+      "top_source_url": "https://github.com/kevboh/longform",
+      "trust_flags": [
+        "license:noassertion"
+      ]
+    },
+    {
+      "candidate_count": 1,
       "name": "preference_memory",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -3976,7 +4756,7 @@
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "manuscript_export_formats",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -3995,6 +4775,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 122,
+          "source": "github",
+          "stars": 108,
+          "summary": "Long form multi-chapter stories with human review of synopsis, chapter summaries, previous chapter context, Markdown and HTML export. Static intake note: CLI for long-form multi-chapter stories. Public README describes human-written story prompt, AI-generated synopsis with chapte",
+          "title": "dylanhogg/gptauthor",
+          "trust_flags": [],
+          "url": "https://github.com/dylanhogg/gptauthor"
         }
       ],
       "top_source_url": "https://github.com/olivierkes/manuskript",
@@ -4003,7 +4796,38 @@
       ]
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 1,
+      "name": "writing_session_goal_tracking",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 98,
+          "source": "github",
+          "stars": 936,
+          "summary": "Obsidian longform plugin with ordered manuscript, reorderable nestable scenes, word counts, writing session goals and workflow-based compilation. Static intake note: Obsidian plugin for novels, screenplays, and long projects. Public README describes organizing notes/scenes into a",
+          "title": "kevboh/longform",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/kevboh/longform"
+        }
+      ],
+      "top_source_url": "https://github.com/kevboh/longform",
+      "trust_flags": [
+        "license:noassertion"
+      ]
+    },
+    {
+      "candidate_count": 3,
       "name": "publication_pipeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -4037,6 +4861,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 122,
+          "source": "github",
+          "stars": 108,
+          "summary": "Long form multi-chapter stories with human review of synopsis, chapter summaries, previous chapter context, Markdown and HTML export. Static intake note: CLI for long-form multi-chapter stories. Public README describes human-written story prompt, AI-generated synopsis with chapte",
+          "title": "dylanhogg/gptauthor",
+          "trust_flags": [],
+          "url": "https://github.com/dylanhogg/gptauthor"
         }
       ],
       "top_source_url": "https://github.com/olivierkes/manuskript",
@@ -4054,5 +4891,9 @@
     "Export reusable world packages as derived artifacts: events, characters, locations, items, lorebook entries, and entity state transitions.",
     "Keep WorldPkg-style exports separate from canon write-back; imports must pass review before changing bible state.",
     "Use exports for replay, what-if branches, or external inspection without granting them authority over confirmed continuation canon."
+  ],
+  "writing_session_goal_tracking_hints": [
+    "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
+    "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates."
   ]
 }

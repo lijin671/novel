@@ -1359,6 +1359,45 @@ def test_build_remix_continuation_context_block_renders_manuscript_structure_aud
     assert "manuscript_export_formats: treat PDF/DOCX/TXT/EPUB exports as derived artifacts, not canon sources" in block
 
 
+def test_build_remix_continuation_context_block_renders_inspectable_rewrite_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Rewrite Desk",
+        bible={
+            "character_cards": [{"name": "Ari", "goal": "Protect the archive"}],
+            "timeline": [{"event": "Ari entered the archive", "chapter_number": 7}],
+        },
+        plan={
+            "summary": "Patch the archive chapter without drifting the whole book.",
+            "beats": [{"beat": "Rewrite archive discovery", "status": "pending"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "human_synopsis_gate"},
+                {"name": "retrieval_guided_span_rewrite"},
+                {"name": "runtime_artifact_trace"},
+                {"name": "schema_validated_state_delta"},
+                {"name": "recursive_adaptive_planning"},
+                {"name": "workflow_manuscript_compilation"},
+                {"name": "writing_session_goal_tracking"},
+                {"name": "inspectable_run_workspace"},
+            ],
+            "human_synopsis_gate_hints": ["Review synopsis before prose."],
+            "retrieval_guided_span_rewrite_hints": ["Rewrite only named spans."],
+            "runtime_artifact_trace_hints": ["Persist trace artifacts."],
+        },
+    )
+
+    assert "Inspectable rewrite audit" in block
+    assert "human_synopsis_gate: accept, edit, or regenerate synopsis and chapter summaries before prose expansion" in block
+    assert "retrieval_guided_span_rewrite: retrieve related body spans and outline nodes; rewrite only named spans" in block
+    assert "runtime_artifact_trace: persist intent, selected context, rule stack, and trace for each chapter run" in block
+    assert "schema_validated_state_delta: validate structured state deltas before canon mutation" in block
+    assert "recursive_adaptive_planning: split work into retrieval, reasoning, planning, composition, and review subtasks" in block
+    assert "workflow_manuscript_compilation: compile only accepted ordered scenes into manuscript outputs" in block
+    assert "writing_session_goal_tracking: track target and accepted word counts without letting quota override continuity gates" in block
+    assert "inspectable_run_workspace: expose session, storyboard, manuscript surface, current phase, pending review, and memory refs" in block
+
+
 def test_build_remix_continuation_progress_summary_deduplicates_legacy_generation_and_analysis_packages():
     summary = build_remix_continuation_progress_summary(
         packages=[
