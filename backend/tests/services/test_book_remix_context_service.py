@@ -98,6 +98,37 @@ def test_build_remix_continuation_context_block_omits_inspired_pattern_pack_guid
     assert "Reject copied source names." not in block
 
 
+def test_build_remix_continuation_context_block_renders_long_output_reward_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={"hard_constraints": [{"rule": "Preserve accepted canon"}]},
+        plan={"summary": "Write the next long chapter without truncation."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "agentwrite_plan_write_pipeline", "candidate_count": 1},
+                {"name": "long_output_length_quality_ruler", "candidate_count": 2},
+                {"name": "long_context_reward_dimension_gate", "candidate_count": 1},
+            ],
+            "agentwrite_plan_write_pipeline_hints": [
+                "Split ultra-long generation into a planning artifact and a writing artifact."
+            ],
+            "long_output_length_quality_ruler_hints": [
+                "Track long-output quality and output length together."
+            ],
+            "long_context_reward_dimension_gate_hints": [
+                "Evaluate long-context outputs on helpfulness, logicality, faithfulness, and completeness."
+            ],
+        },
+    )
+
+    assert "Long output plan-write reward audit" in block
+    assert "agentwrite_plan_write_pipeline" in block
+    assert "long_output_length_quality_ruler" in block
+    assert "long_context_reward_dimension_gate" in block
+    assert "do not average away blocking failures" in block
+    assert "Track long-output quality and output length together." in block
+
+
 def test_build_remix_inspired_context_block_renders_style_copy_risk_and_pattern_guidance():
     block = build_remix_inspired_context_block(
         project_title="Inspired Draft",

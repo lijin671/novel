@@ -315,6 +315,9 @@ def render_source_pattern_pack_digest(
         "context_faithfulness_eval_gate_hints",
         "retrieval_trace_observability_gate_hints",
         "prompt_regression_eval_suite_hints",
+        "agentwrite_plan_write_pipeline_hints",
+        "long_output_length_quality_ruler_hints",
+        "long_context_reward_dimension_gate_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

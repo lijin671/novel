@@ -4374,3 +4374,127 @@ def test_default_discovery_sources_include_eval_observability_projects():
     assert any("faithfulness" in query.lower() and "context precision" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("observability" in query.lower() and "trace" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("prompt" in query.lower() and "regression" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_longwriter_sources_are_classified_as_plan_write_length_and_reward_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "THUDM/LongWriter",
+                "html_url": "https://github.com/THUDM/LongWriter",
+                "description": "LongWriter unleashes 10,000+ word generation with AgentWrite, LongBench-Write and LongWrite-Ruler evaluation.",
+                "stargazers_count": 1865,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["longwriter", "long-form", "evaluation"],
+                "updated_at": "2026-06-09T12:52:38Z",
+                "root_files": ["README.md", "agentwrite", "evaluation", "requirements.txt"],
+            },
+            {
+                "full_name": "THUDM/LongReward",
+                "html_url": "https://github.com/THUDM/LongReward",
+                "description": "LongReward scores long-context scenarios for helpfulness, logicality, faithfulness and completeness.",
+                "stargazers_count": 62,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["long-context", "reward", "evaluation"],
+                "updated_at": "2025-12-29T13:04:31Z",
+                "root_files": ["README.md", "long_reward", "evaluation", "requirements.txt"],
+            },
+            {
+                "full_name": "THU-KEG/LongWriter-V",
+                "html_url": "https://github.com/THU-KEG/LongWriter-V",
+                "description": "LongWriter-V enables ultra-long generation with LongWriter-Agent-V, MMLongBench-Write and LongWrite-V-Ruler.",
+                "stargazers_count": 22,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["longwriter", "ultra-long", "vision-language"],
+                "updated_at": "2026-04-11T07:16:02Z",
+                "root_files": ["README.md", "agentwrite", "eval", "requirements.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T18:20:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["THUDM/LongWriter"]["family"] == "novel-automation"
+    assert "agentwrite_plan_write_pipeline" in by_title["THUDM/LongWriter"]["absorbed_patterns"]
+    assert "long_output_length_quality_ruler" in by_title["THUDM/LongWriter"]["absorbed_patterns"]
+    assert "long_context_reward_dimension_gate" in by_title["THUDM/LongReward"]["absorbed_patterns"]
+    assert "agentwrite_plan_write_pipeline" in by_title["THU-KEG/LongWriter-V"]["absorbed_patterns"]
+    assert "long_output_length_quality_ruler" in by_title["THU-KEG/LongWriter-V"]["absorbed_patterns"]
+
+
+def test_long_output_pattern_pack_exposes_plan_write_ruler_and_reward_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T18:25:00+08:00",
+        "candidate_count": 3,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/THUDM/LongWriter",
+                "title": "THUDM/LongWriter",
+                "summary": "AgentWrite plan.py/write.py plus LongBench-Write and LongWrite-Ruler.",
+                "stars": 1865,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["agentwrite_plan_write_pipeline", "long_output_length_quality_ruler"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/THUDM/LongReward",
+                "title": "THUDM/LongReward",
+                "summary": "Long-context reward dimensions: helpfulness, logicality, faithfulness, completeness.",
+                "stars": 62,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["long_context_reward_dimension_gate"],
+                "score": 80,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/THU-KEG/LongWriter-V",
+                "title": "THU-KEG/LongWriter-V",
+                "summary": "LongWriter-Agent-V outline_vlm.py, MMLongBench-Write and LongWrite-V-Ruler.",
+                "stars": 22,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["agentwrite_plan_write_pipeline", "long_output_length_quality_ruler"],
+                "score": 78,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "agentwrite_plan_artifacts" in pattern_pack["bible_enrichment_targets"]
+    assert "long_output_length_targets" in pattern_pack["bible_enrichment_targets"]
+    assert "long_context_reward_dimensions" in pattern_pack["bible_enrichment_targets"]
+    assert "long_output_length_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "long_context_reward_scores" in pattern_pack["whole_book_analysis_targets"]
+    assert "plan_write_stage_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "long_output_ruler_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reward_dimension_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "agentwrite_plan_write_pipeline_hints" in digest
+    assert "long_output_length_quality_ruler_hints" in digest
+    assert "long_context_reward_dimension_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_longwriter_family_projects():
+    assert "https://github.com/THUDM/LongWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/THUDM/LongReward" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/THU-KEG/LongWriter-V" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("agentwrite" in query.lower() and "longwriter" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("helpfulness" in query.lower() and "completeness" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ultra-long" in query.lower() and "long output quality" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

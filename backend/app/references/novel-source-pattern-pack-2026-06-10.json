@@ -12,6 +12,11 @@
     "Use multi-agent story-world simulation as a proposal generator for character behavior, social interaction, and world evolution.",
     "Simulated outcomes must be reviewed against canon and author direction before they become continuation facts."
   ],
+  "agentwrite_plan_write_pipeline_hints": [
+    "Split ultra-long generation into a planning artifact and a writing artifact; validate the plan before prose expansion starts.",
+    "Each write stage should cite the plan segment, target section length, accepted context, and post-write change package.",
+    "For same-type creation, transform the plan-write stage boundaries so the new book does not follow the source outline order."
+  ],
   "alternate_timeline_branching_hints": [
     "Store what-if and same-world divergence as alternate timeline branches, not as faithful continuation state.",
     "Each branch needs a divergence point, changed assumption, affected entities, and merge/reject decision.",
@@ -118,6 +123,16 @@
     "collapse_risk_rules",
     "trope_module_library",
     "reader_expectation_profile",
+    "reader_rating_signal_map",
+    "shelf_tag_expectation_profile",
+    "spoiler_sensitive_review_signals",
+    "review_sentiment_clusters",
+    "beta_reader_archetypes",
+    "want_to_continue_thresholds",
+    "comp_title_positioning",
+    "market_gap_statement",
+    "reader_experience_prompts",
+    "micro_tension_hook_rules",
     "anti_ai_tone_rules",
     "user_preference_memory",
     "resume_checkpoint",
@@ -132,6 +147,44 @@
     "character_depth_questions",
     "mindmap_nodes",
     "export_format_targets",
+    "choice_branch_graph",
+    "branch_decision_points",
+    "dialogue_node_state_machine",
+    "dialogue_entry_exit_deltas",
+    "passage_link_navigation_map",
+    "choice_stats_consequence_ledger",
+    "source_fingerprint_baseline",
+    "fingerprint_overlap_thresholds",
+    "fuzzy_phrase_thresholds",
+    "phrase_similarity_review_rules",
+    "diff_span_review_rules",
+    "copied_span_rewrite_policy",
+    "character_quote_speaker_map",
+    "alias_mention_index",
+    "readability_pacing_thresholds",
+    "sentence_paragraph_curve",
+    "lexical_diversity_voice_baseline",
+    "vocabulary_drift_rules",
+    "keyphrase_motif_ledger",
+    "motif_topic_drift_rules",
+    "semantic_chunk_boundary_manifest",
+    "chunk_inclusion_rules",
+    "chapter_summary_anchor_index",
+    "representative_sentence_refs",
+    "topic_cluster_map",
+    "topic_drift_thresholds",
+    "faithfulness_eval_thresholds",
+    "context_grounding_rules",
+    "retrieval_trace_schema",
+    "context_selection_reason_rules",
+    "prompt_regression_suite",
+    "golden_case_dataset",
+    "agentwrite_plan_artifacts",
+    "agentwrite_write_artifacts",
+    "long_output_length_targets",
+    "length_quality_ruler_thresholds",
+    "long_context_reward_dimensions",
+    "helpfulness_logicality_faithfulness_completeness_scores",
     "synopsis_review_gate",
     "retrieval_guided_rewrite_scope",
     "runtime_trace_artifacts",
@@ -172,49 +225,7 @@
     "conflicts",
     "story_arcs",
     "foreshadows",
-    "chapter_change_packages",
-    "reader_rating_signal_map",
-    "shelf_tag_expectation_profile",
-    "spoiler_sensitive_review_signals",
-    "review_sentiment_clusters",
-    "beta_reader_archetypes",
-    "want_to_continue_thresholds",
-    "comp_title_positioning",
-    "market_gap_statement",
-    "reader_experience_prompts",
-    "micro_tension_hook_rules",
-    "choice_branch_graph",
-    "branch_decision_points",
-    "dialogue_node_state_machine",
-    "dialogue_entry_exit_deltas",
-    "passage_link_navigation_map",
-    "choice_stats_consequence_ledger",
-    "source_fingerprint_baseline",
-    "fingerprint_overlap_thresholds",
-    "fuzzy_phrase_thresholds",
-    "phrase_similarity_review_rules",
-    "diff_span_review_rules",
-    "copied_span_rewrite_policy",
-    "character_quote_speaker_map",
-    "alias_mention_index",
-    "readability_pacing_thresholds",
-    "sentence_paragraph_curve",
-    "lexical_diversity_voice_baseline",
-    "vocabulary_drift_rules",
-    "keyphrase_motif_ledger",
-    "motif_topic_drift_rules",
-    "semantic_chunk_boundary_manifest",
-    "chunk_inclusion_rules",
-    "chapter_summary_anchor_index",
-    "representative_sentence_refs",
-    "topic_cluster_map",
-    "topic_drift_thresholds",
-    "faithfulness_eval_thresholds",
-    "context_grounding_rules",
-    "retrieval_trace_schema",
-    "context_selection_reason_rules",
-    "prompt_regression_suite",
-    "golden_case_dataset"
+    "chapter_change_packages"
   ],
   "boring_opening_quality_gates_hints": [
     "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
@@ -236,10 +247,20 @@
     "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
     "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
   ],
+  "chapter_summary_anchor_gate_hints": [
+    "Anchor summaries to accepted chapter ids, representative sentences, source refs, and canon status before using them as prompt context.",
+    "Reject summaries that hide unresolved hooks, merge separate events, or promote draft-only facts into continuation state.",
+    "For same-type creation, rebuild summary anchors around transformed events so source chapter-summary order cannot leak in."
+  ],
   "character_depth_interview_hints": [
     "Use character-depth questions before major turns: desire, fear, contradiction, wound, social mask, and pressure source.",
     "Believable character changes require visible cause, cost, and after-state, not just a new trait label.",
     "Store depth answers as character-card evidence only after accepted scenes prove them."
+  ],
+  "character_quote_attribution_map_hints": [
+    "Build a character mention, alias, speaker, and quote-attribution map before judging voice consistency or relationship pressure.",
+    "For continuation, verify new dialogue belongs to the current speaker state and does not swap aliases, titles, or pronouns across characters.",
+    "For same-type creation, preserve only quote-distribution function and conflict pressure; rebuild speakers, aliases, and dialogue content."
   ],
   "choice_stats_consequence_gate_hints": [
     "Every choice-stat mutation needs a visible immediate or delayed consequence, plus a ledger entry naming trigger, stat delta, and payoff window.",
@@ -264,6 +285,11 @@
     "Externalize large outlines, drafts, scene lists, extraction payloads, and review reports behind content refs.",
     "Each content ref should include type, path or artifact id, size, checksum, and source chapter so replay can verify integrity.",
     "Keep prompts fed by summarized refs unless the current task requires opening the full artifact."
+  ],
+  "context_faithfulness_eval_gate_hints": [
+    "Evaluate whether generated facts are supported by accepted chapter memory, bible state, retrieved context, and summary anchors before canon write-back.",
+    "Track faithfulness, groundedness, context precision, and context recall as review evidence; low scores create fix tasks, not automatic acceptance or rejection.",
+    "For same-type creation, measure grounding against transformed-story canon only so source inspiration cannot masquerade as faithful context."
   ],
   "context_pack_preview_hints": [
     "Render a context-pack preview before drafting: chapter goal, accepted memory, graph facts, retrieval hits, and inclusion reason.",
@@ -308,6 +334,11 @@
     "Drafting cannot invent facts outside the accepted bible, plan, or chapter-change packages; mark missing facts as review questions instead.",
     "Review at scene, chapter, and batch levels so local fixes do not hide cross-chapter drift or repeated weak beats.",
     "Carry unresolved editor notes into the next chapter context and close each note only with chapter evidence.",
+    "Use rating/shelf/to-read signals only as aggregate reader-expectation hints; they must not override accepted canon or author direction.",
+    "When using review-like feedback, separate spoiler-sensitive complaints, praise clusters, and sentiment drift from canon facts.",
+    "Run a beta-reader panel on important chapters: genre fan, casual reader, critical reader, and sensitivity reader each produce confusion and turn-page notes.",
+    "Use comp titles to calibrate promise, tone, trope expectation, and market gap; do not copy their premise, cast, title language, or review wording.",
+    "Before acceptance, audit micro-tension, reader curiosity, chapter hook, cliffhanger, paragraph rhythm, and scene opening/ending strength.",
     "Use semantic long-context search for chapter-specific recall, but cite the selected sourcebook or knowledge-base refs instead of silently injecting them.",
     "Run a contradiction taxonomy check before accepting a chapter: characterization, factual detail, narrative style, timeline/plot, and world rules.",
     "Audit cross-chapter redundancy, repeated scene construction, weak causality, flat dialogue, and over-regular prose before revision closes.",
@@ -345,12 +376,7 @@
     "改写已有长篇时先检索相关正文片段和剧情纲要，只改命中的片段，并同步写出纲要增量。",
     "生成前保存意图、选入上下文、规则栈和追踪信息，便于复盘为什么本章这样写。",
     "LLM 产出的状态增量必须过 schema 校验；坏数据拒绝写入，避免连续性错误滚雪球。",
-    "复杂写作任务按递归规划拆成检索、推理、构思和成文子任务，并允许根据上下文动态重规划。",
-    "Use rating/shelf/to-read signals only as aggregate reader-expectation hints; they must not override accepted canon or author direction.",
-    "When using review-like feedback, separate spoiler-sensitive complaints, praise clusters, and sentiment drift from canon facts.",
-    "Run a beta-reader panel on important chapters: genre fan, casual reader, critical reader, and sensitivity reader each produce confusion and turn-page notes.",
-    "Use comp titles to calibrate promise, tone, trope expectation, and market gap; do not copy their premise, cast, title language, or review wording.",
-    "Before acceptance, audit micro-tension, reader curiosity, chapter hook, cliffhanger, paragraph rhythm, and scene opening/ending strength."
+    "复杂写作任务按递归规划拆成检索、推理、构思和成文子任务，并允许根据上下文动态重规划。"
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -383,6 +409,11 @@
     "Keep user preference memory separate from canon; apply it as style/format preference, not as story fact.",
     "Every long run should keep a resumable checkpoint: current phase, chapter, scene, accepted artifact, and next action.",
     "Record validation pass/fail status, rewrite count, and remaining retry budget before moving to the next chapter.",
+    "Persist aggregate reader signals as external calibration metadata: rating bucket, shelf/tag expectation, to-read intent, and source/date.",
+    "Store review clusters by opaque ids and aggregate labels; never keep reviewer identity or verbatim review text in drafting context.",
+    "Attach beta-reader reports to chapter state with archetype, tension, pacing, want-to-continue, confusion, favorite moment, and stumble point.",
+    "Keep comp-title matrices as market-position artifacts, not canon; expire them when genre target, audience, or premise changes.",
+    "Persist reader-experience findings as review tasks tied to chapter ids so hook, curiosity, and rhythm fixes can be verified after rewrite.",
     "Persist sourcebook entries as author-owned state; Writing Partner suggestions remain proposals until accepted.",
     "Store semantic search results with query, matched artifact, inclusion reason, and whether each hit became canon evidence.",
     "Record each agent stage job, input artifact set, output path, validation status, and aggregate revision finding for replayable long runs.",
@@ -420,12 +451,7 @@
     "Store each required constraint, satisfaction evidence, and coherence tradeoff so highly specific prompts remain auditable.",
     "Persist style-axis fingerprints per chapter to detect voice narrowing, rhythm drift, or unplanned POV changes across batches.",
     "Keep compressed history tied to the current event and chapter plan so omitted history can be inspected when continuity breaks.",
-    "Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically.",
-    "Persist aggregate reader signals as external calibration metadata: rating bucket, shelf/tag expectation, to-read intent, and source/date.",
-    "Store review clusters by opaque ids and aggregate labels; never keep reviewer identity or verbatim review text in drafting context.",
-    "Attach beta-reader reports to chapter state with archetype, tension, pacing, want-to-continue, confusion, favorite moment, and stumble point.",
-    "Keep comp-title matrices as market-position artifacts, not canon; expire them when genre target, audience, or premise changes.",
-    "Persist reader-experience findings as review tasks tied to chapter ids so hook, curiosity, and rhythm fixes can be verified after rewrite."
+    "Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically."
   ],
   "continuity_bridge_window_hints": [
     "Build a compact continuity bridge from the last accepted chapters, active timeline, open hooks, character state, and editor notes.",
@@ -508,7 +534,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T13:55:00+08:00",
+  "generated_at": "2026-06-10T18:35:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -554,6 +580,11 @@
     "Reject copied setup/payoff timing when the same clue, promise, and payoff window survive under new names.",
     "Do not import source WorldPkg facts as new-story canon; exports are analysis artifacts only.",
     "Reject drafts whose trope module library preserves source plot order, named gimmicks, or signature set-piece sequence.",
+    "Reject plans that treat high-rated books, shelves, or tags as permission to copy their premise, cast, or event chain.",
+    "Reject prompts or copy that paste verbatim reader reviews, reviewer identities, spoiler examples, or quoted complaint language.",
+    "Reject beta-reader fixes that force the new story back toward a comp/source plot route instead of solving the local issue.",
+    "Reject comp-title positioning that reuses title phrasing, blurb beats, named tropes as labels, or recognizable hook sequence.",
+    "Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence.",
     "Reject context packs that cite source analysis artifacts as new-story facts.",
     "Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels.",
     "Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.",
@@ -589,11 +620,6 @@
     "Reject style fingerprints that preserve source catchphrases, metaphor clusters, or recognizable closure cadence.",
     "Reject compressed histories that import source events as if they happened in the transformed story.",
     "Reject simulated outcomes that reproduce source character decisions or social graph under renamed labels.",
-    "Reject plans that treat high-rated books, shelves, or tags as permission to copy their premise, cast, or event chain.",
-    "Reject prompts or copy that paste verbatim reader reviews, reviewer identities, spoiler examples, or quoted complaint language.",
-    "Reject beta-reader fixes that force the new story back toward a comp/source plot route instead of solving the local issue.",
-    "Reject comp-title positioning that reuses title phrasing, blurb beats, named tropes as labels, or recognizable hook sequence.",
-    "Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence.",
     "Reject copied choice text, option order, branch topology, or consequence labels that make the new route recognizable as the source.",
     "Reject dialogue nodes that preserve source lines, option labels, command names, or speaker-state order under renamed characters.",
     "Reject passage maps whose visible links, hidden routes, dead ends, or merge sequence mirror the source navigation.",
@@ -610,7 +636,10 @@
     "Reject topic maps whose cluster sequence, salience curve, or off-arc detours match the source route.",
     "Reject faithfulness scores that treat source-analysis notes or source summaries as transformed-story evidence.",
     "Reject traces that cannot explain why source-like context was selected, omitted, or separated from transformed canon.",
-    "Reject prompt changes that pass quality checks but fail golden copy-risk, grounding, or source-canon leakage cases."
+    "Reject prompt changes that pass quality checks but fail golden copy-risk, grounding, or source-canon leakage cases.",
+    "Reject plan-write pipelines whose plan segments, section order, or write-stage prompts mirror the source route.",
+    "Reject long outputs that satisfy word count by padding, repeating, prematurely summarizing, or tracking source pacing too closely.",
+    "Reject averaged reward scores when faithfulness, logicality, or completeness fails on transformed-story evidence."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -681,6 +710,13 @@
     "fact_delta_remap",
     "foreshadowing_debt_remap",
     "retention_hook_remap",
+    "reader_signal_remap",
+    "shelf_tag_expectation_remap",
+    "review_cluster_remap",
+    "spoiler_boundary_remap",
+    "beta_reader_panel_remap",
+    "comp_title_positioning_remap",
+    "reader_experience_hook_remap",
     "draft_stage_remap",
     "rolling_context_remap",
     "pairwise_variant_remap",
@@ -690,13 +726,6 @@
     "style_axis_remap",
     "event_outline_remap",
     "agent_world_simulation_remap",
-    "reader_signal_remap",
-    "shelf_tag_expectation_remap",
-    "review_cluster_remap",
-    "spoiler_boundary_remap",
-    "beta_reader_panel_remap",
-    "comp_title_positioning_remap",
-    "reader_experience_hook_remap",
     "choice_branch_remap",
     "dialogue_node_remap",
     "passage_navigation_remap",
@@ -713,7 +742,10 @@
     "topic_drift_remap",
     "faithfulness_eval_remap",
     "retrieval_trace_remap",
-    "prompt_regression_remap"
+    "prompt_regression_remap",
+    "plan_write_stage_remap",
+    "long_output_ruler_remap",
+    "reward_dimension_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -731,6 +763,11 @@
     "Build a new plotline/scene matrix for the new story; do not reuse the source scene rows or payoff order.",
     "Create a fresh reveal budget so genre secrets unfold independently from the source book.",
     "Use trend/deconstruction notes only as module shapes for reader expectation and payoff; rebuild premise, cast, and event chain.",
+    "Reader rating and shelf signals can calibrate market feel, but the new story needs independent promise, stakes, cast, and causality.",
+    "Use review clusters as abstract reader desire and complaint signals; do not reuse review wording or spoiler examples as story facts.",
+    "Run the transformed draft through beta-reader archetypes for hook, confusion, and turn-page pull after copy-risk checks.",
+    "Comp titles guide positioning and audience promise only; rebuild premise, scene order, and hook language from scratch.",
+    "Optimize micro-tension and curiosity in the transformed story without copying a source chapter's cliffhanger shape or ending cadence.",
     "The new story's context pack must cite transformed canon only; source deconstruction may appear as craft notes, not facts.",
     "Run critic/verifier checks for independence as well as quality before accepting a same-type draft.",
     "Anti-AI-tone polish should make the new prose more specific, not closer to source phrasing.",
@@ -753,26 +790,6 @@
     "Anti-repetition checks should reject both generic loops and source-like repeated beat sequences.",
     "Evaluate same-type prompt recipes against independence, continuity, and voice before accepting the best candidate.",
     "Select a narrative arc template, then change premise, cast, cause, cost, and payoff so the arc is independent.",
-    "Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.",
-    "Use structure scaffolds like Hero's Journey or Freytag as abstract pressure maps, not as source event order.",
-    "For same-type creation, create a new contract and commit chain; source contracts may guide artifact shape only.",
-    "Transform fact snapshot dimensions and delta gates into new-story state fields before drafting.",
-    "Rebuild foreshadowing debt from new hooks and payoff windows instead of copying source mysteries.",
-    "Map reader-retention pressure to new hooks, pleasure points, rhythm, and cliffhangers; do not reuse source set pieces.",
-    "Use Draft A/B/C stages to improve transformed prose while preserving independence and canon boundaries.",
-    "Build rolling summaries from transformed accepted chapters only; source summaries remain craft references.",
-    "Compare transformed variants against the same new-story brief; do not choose a variant because it is closer to the source.",
-    "Apply the quality rubric to transformed-story prose and require independence evidence alongside quality improvements.",
-    "Map source beat functions to new beat functions, then change characters, causes, costs, and outcomes.",
-    "Use specific constraints for the new story's premise, not for recreating source event details.",
-    "Transform style axes into new voice, rhythm, POV, pacing, imagery, and closure targets without copying phrases.",
-    "Build a fresh event outline and compressed history for the transformed premise before drafting.",
-    "Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence.",
-    "Reader rating and shelf signals can calibrate market feel, but the new story needs independent promise, stakes, cast, and causality.",
-    "Use review clusters as abstract reader desire and complaint signals; do not reuse review wording or spoiler examples as story facts.",
-    "Run the transformed draft through beta-reader archetypes for hook, confusion, and turn-page pull after copy-risk checks.",
-    "Comp titles guide positioning and audience promise only; rebuild premise, scene order, and hook language from scratch.",
-    "Optimize micro-tension and curiosity in the transformed story without copying a source chapter's cliffhanger shape or ending cadence.",
     "Carry over interactive choice pressure only as abstract branch design; create new options, consequences, and merge/reject decisions.",
     "Use node-based dialogue planning for the new cast, with fresh entry conditions, option wording, command hooks, and exit deltas.",
     "Build a new passage/link map from the transformed premise; source passage order and link labels remain analysis evidence only.",
@@ -789,7 +806,22 @@
     "Use topic drift maps to check new-story focus, but change source topic order, salience, and payoff sequence.",
     "Score same-type drafts for faithfulness against transformed canon only; source-analysis notes cannot count as supporting evidence.",
     "Keep retrieval traces inspectable so reviewers can see whether the prompt used transformed canon or source-analysis material.",
-    "Use golden prompt cases to test context packing, copy-risk rejection, and canon write-back before changing same-type prompts."
+    "Use golden prompt cases to test context packing, copy-risk rejection, and canon write-back before changing same-type prompts.",
+    "Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.",
+    "Use structure scaffolds like Hero's Journey or Freytag as abstract pressure maps, not as source event order.",
+    "For same-type creation, create a new contract and commit chain; source contracts may guide artifact shape only.",
+    "Transform fact snapshot dimensions and delta gates into new-story state fields before drafting.",
+    "Rebuild foreshadowing debt from new hooks and payoff windows instead of copying source mysteries.",
+    "Map reader-retention pressure to new hooks, pleasure points, rhythm, and cliffhangers; do not reuse source set pieces.",
+    "Use Draft A/B/C stages to improve transformed prose while preserving independence and canon boundaries.",
+    "Build rolling summaries from transformed accepted chapters only; source summaries remain craft references.",
+    "Compare transformed variants against the same new-story brief; do not choose a variant because it is closer to the source.",
+    "Apply the quality rubric to transformed-story prose and require independence evidence alongside quality improvements.",
+    "Map source beat functions to new beat functions, then change characters, causes, costs, and outcomes.",
+    "Use specific constraints for the new story's premise, not for recreating source event details.",
+    "Transform style axes into new voice, rhythm, POV, pacing, imagery, and closure targets without copying phrases.",
+    "Build a fresh event outline and compressed history for the transformed premise before drafting.",
+    "Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -805,6 +837,11 @@
     "Transform setup/payoff pairs by changing the promise, cost, and payoff consequence.",
     "Use branch divergence as a design tool for independent causality, not as a renamed source route.",
     "Transform trope modules by changing desire, obstacle, cost, payoff timing, and reader-facing promise.",
+    "Convert shelf/tag signals into a new expectation profile before building characters, setting, and conflict.",
+    "Rewrite review-derived complaints into abstract revision goals; keep spoilers and quoted review text out of draft context.",
+    "Transform beta-reader objections into chapter-specific fixes rather than importing the reader persona's preferred plot solution.",
+    "Map each comp-title similarity to a transformed difference: new protagonist pressure, new obstacle, new setting, and new payoff cost.",
+    "Rebuild hooks and cliffhangers from the new chapter's active conflict, not from source set-piece timing.",
     "Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.",
     "Build a context pack from the transformed story state; do not retrieve source events as if they were reusable canon.",
     "Transform from the top of the premise chain downward so lower-level scenes inherit a new core promise.",
@@ -836,11 +873,6 @@
     "Use style-axis fingerprints to shape surface craft while changing concrete motifs, metaphors, and dialogue tics.",
     "Compress only the transformed event history; source event outlines remain comparison material, not context.",
     "Transform the agent world by changing roles, social graph, environment rules, and conflict incentives before simulation.",
-    "Convert shelf/tag signals into a new expectation profile before building characters, setting, and conflict.",
-    "Rewrite review-derived complaints into abstract revision goals; keep spoilers and quoted review text out of draft context.",
-    "Transform beta-reader objections into chapter-specific fixes rather than importing the reader persona's preferred plot solution.",
-    "Map each comp-title similarity to a transformed difference: new protagonist pressure, new obstacle, new setting, and new payoff cost.",
-    "Rebuild hooks and cliffhangers from the new chapter's active conflict, not from source set-piece timing.",
     "Transform branch edges by changing decision cause, option intent, consequence scope, and merge policy before drafting.",
     "Transform dialogue nodes around new speaker states and new exit deltas; do not preserve source line/order scaffolds.",
     "Transform navigation by rebuilding reachable paths, hidden gates, and dead-end checks around the new story topology.",
@@ -857,17 +889,30 @@
     "Transform topic drift by changing topic sequence, cluster labels, and subplot emphasis before drafting.",
     "Transform faithfulness checks by changing the supporting canon evidence set and expected grounded facts.",
     "Transform retrieval traces by changing selected evidence, omission reasons, and generation spans for the new story.",
-    "Transform prompt regression cases by using new-story fixtures and expected independence failures."
+    "Transform prompt regression cases by using new-story fixtures and expected independence failures.",
+    "Transform plan-write stages by rebuilding the plan segments, section goals, and write-stage context around the new story.",
+    "Transform long-output length targets around the new outline's rhythm instead of matching source chapter or section lengths.",
+    "Transform reward checks so helpfulness, logicality, faithfulness, and completeness judge only new-story requirements."
   ],
   "interrupted_resume_flow_hints": [
     "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
     "Resume from the smallest safe unit: scene if a scene is in progress, chapter if the scene boundary is unclear, plan if canon changed.",
     "Do not ask for reconfirmation during automated continuation unless the checkpoint is ambiguous or conflicting."
   ],
+  "keyphrase_motif_extraction_hints": [
+    "Extract keyphrases and motif keywords from source, outline, and draft to reveal topic drift, missing promises, and repeated thematic anchors.",
+    "Continuation review should compare keyphrase salience against active arcs, foreshadows, and chapter goals before canon write-back.",
+    "Same-type creation should transform motif functions into new objects, places, taboos, and stakes rather than reusing source keywords."
+  ],
   "layered_memory_model_hints": [
     "Keep memory layers separate: stable story bible, current character state, and plot dependency graph should be read and updated independently.",
     "A chapter may update character state without rewriting world rules; plot dependency updates need explicit setup/payoff evidence.",
     "Prompt assembly should name which layer each fact came from so stale character state does not override stable canon."
+  ],
+  "lexical_diversity_voice_audit_hints": [
+    "Measure lexical diversity and repeated-vocabulary drift by chapter, narrator, and major speaker before accepting style-sensitive drafts.",
+    "Low diversity, sudden MTLD/HD-D jumps, or repeated word clusters should become targeted voice-review notes.",
+    "Same-type creation may borrow diversity range but must replace source catchphrases, metaphor clusters, and signature diction."
   ],
   "local_first_workspace_hints": [
     "Scope remix analysis, continuation plans, style seeds, prompt choices, and draft state to the active novel/project workspace.",
@@ -878,6 +923,16 @@
     "Run reader-experience edits at chapter and scene level: micro-tension, curiosity thread, hook, cliffhanger, opening, ending, paragraph rhythm, and clarity.",
     "Use series/book/chapter context scopes so broad context does not drown the current reader-experience question.",
     "Expose token/context breakdown and local analysis notes before expensive full-manuscript review passes."
+  ],
+  "long_context_reward_dimension_gate_hints": [
+    "Evaluate long-context outputs on separate dimensions: helpfulness to the current writing goal, logicality, faithfulness, and completeness.",
+    "Low reward dimensions become named fix tasks; do not average away a faithfulness or logicality failure in a long chapter.",
+    "For same-type creation, completeness means all transformed-story requirements are covered without importing source-only facts."
+  ],
+  "long_output_length_quality_ruler_hints": [
+    "Track long-output quality and output length together; a chapter or batch is not acceptable when it hits word count but loses coherence, canon, or style.",
+    "Use length stress tests for long continuation batches: target range, actual length, truncation risk, repeated-section risk, and ending pressure.",
+    "For same-type creation, length targets must serve the transformed outline, not force source chapter pacing or section boundaries."
   ],
   "lorebook_context_hints": [
     "Store lorebook entries as compact fact cards with activation keywords, priority, insertion depth, and token budget.",
@@ -990,6 +1045,11 @@
     "Run prompt recipes as bounded experiments with fixed inputs, rubric review, and keep/discard decisions before promoting a recipe.",
     "Compare recipes by story quality, continuity risk, style fidelity, novelty, and copy-risk instead of by one sample's surface fluency."
   ],
+  "prompt_regression_eval_suite_hints": [
+    "Keep golden continuation and same-type cases for prompt changes: input state, expected guardrail findings, accepted outputs, and failure diffs.",
+    "Run prompt regression checks before accepting prompt-pack changes that affect context selection, copy-risk gates, or canon write-back.",
+    "Regression cases should include adversarial source-like inputs to prove the prompt rejects copied route, wording, and source-canon leakage."
+  ],
   "prose_preflight_voice_calibration_hints": [
     "Use voice samples to calibrate specificity, rhythm, warmth, and density before polishing prose.",
     "The final prose preflight removes generic AI tells while preserving factual guardrails and character voice."
@@ -1012,6 +1072,11 @@
   "rag_synopsis_spine_hints": [
     "Maintain a full synopsis spine with chapter summaries and retrieve against that spine before pulling larger chapter text.",
     "Every RAG hit needs query, matched synopsis/chapter id, inclusion reason, and canon status before prompt injection."
+  ],
+  "readability_pacing_metric_gate_hints": [
+    "Track readability, sentence length, paragraph length, and scene-density curves across source, draft, and accepted chapters.",
+    "Use metric drift as a pacing review signal, not as a command to flatten prose into uniform easy text.",
+    "For same-type creation, match broad reading rhythm while changing scene order, objects, stakes, and source wording."
   ],
   "reader_rating_signal_model_hints": [
     "Treat ratings, to-read markers, shelves, and tags as aggregate reader-expectation signals, not as creative truth or canon.",
@@ -1038,6 +1103,11 @@
     "Constrain rewrite scope to named spans, then emit an outline sync delta that explains what changed.",
     "Do not rewrite unrelated chapters because a global instruction matched one local plot issue."
   ],
+  "retrieval_trace_observability_gate_hints": [
+    "Store retrieval traces with query, selected chunks, omitted candidates, context relevance reason, and generation span that used each item.",
+    "Trace review should explain why each context item entered the prompt and which important candidates were omitted.",
+    "For same-type creation, separate source-analysis traces from transformed-canon traces so reviewer can detect accidental source-canon mixing."
+  ],
   "review_queue_staging_hints": [
     "Stage AI-proposed bible, card, style, and chapter changes as pending changes before applying them to canon.",
     "Each pending change should keep proposed data, previous data, source task, batch id, and accept/edit/reject status.",
@@ -1061,11 +1131,8 @@
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "本次只使用 public metadata、README 静态摘录、LICENSE/root-file 静态信息和 git ls-remote HEAD 证据；没有安装、克隆、运行或调用外部项目。",
-    "故事质量评估与多智能体推演来源默认沉淀为 pattern-only；不导入外部代码、数据集、模型权重、脚本或评测输出长表。",
-    "包含 shell、provider config、模型评测或仿真 runtime 的项目继续停留在静态参考层。",
-    "Segmentation, summary, and topic-drift sources remain pattern-only; do not import external splitter, summarizer, topic-model runtime, or model dependencies.",
-    "Eval and observability sources remain pattern-only; do not import external eval runners, tracing services, red-team scanners, provider integrations, or datasets."
+    "Only public GitHub metadata and README/tree signals were used; no clone, install, provider call, model download, dataset download, Docker, MCP, or script execution occurred.",
+    "LongWriter/LongReward/LongWriter-V are absorbed pattern-only for plan-write decomposition, long-output length-quality evaluation, and reward-dimension gates."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1107,6 +1174,11 @@
     "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
     "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
   ],
+  "semantic_chunk_boundary_map_hints": [
+    "Split source and generated chapters at semantic boundaries before context packing, retrieval, or summary compression.",
+    "Each chunk needs source chapter id, boundary reason, overlap policy, token/character size, and inclusion purpose.",
+    "For same-type creation, remap chunk order and boundary function instead of preserving the source chapter segmentation route."
+  ],
   "semantic_long_context_search_hints": [
     "Use semantic search to retrieve long-range context, but require an inclusion reason and source artifact id for every injected hit.",
     "Fallback retrieval should prefer accepted chapters, sourcebook entries, and knowledge-base refs over raw draft buffers."
@@ -1121,17 +1193,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 104,
-  "source_intake_notes": [
-    "2026-06-10 interactive narrative intake used public metadata/README summaries only; no clone, install, package hook, MCP server, browser extension, or external code execution.",
-    "Interactive branching patterns are pattern-only and feed continuation/same-type prompt audits through choice graph, dialogue node, passage link, and choice-stat consequence gates.",
-    "2026-06-10 copy-similarity intake used public metadata/README summaries and git ls-remote HEAD checks only; no clone, install, package hook, detector execution, or external code import.",
-    "Copy-similarity patterns are pattern-only gates for same-type creation and continuation copy-risk review: fingerprint overlap, fuzzy phrase thresholds, and diff-span copied-text review.",
-    "2026-06-10 segmentation/summary/topic intake used public metadata plus git ls-remote HEAD checks only; no clone, install, package hook, model/provider call, or external code execution.",
-    "Segmentation, summary, and topic patterns are pattern-only gates for long-text context packing, accepted-chapter summary anchoring, and same-type topic-drift copy-risk review.",
-    "2026-06-10 eval/observability intake used public metadata plus git ls-remote HEAD checks only; no clone, install, package hook, provider call, eval execution, or external code import.",
-    "Eval and observability patterns are pattern-only gates for context faithfulness, retrieval trace review, and prompt regression cases in continuation and same-type creation."
-  ],
+  "source_candidate_count": 107,
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
     "Keep fingerprint thresholds separate for names, set-piece labels, long phrases, and structural scene order to reduce false positives.",
@@ -1175,28 +1237,56 @@
     "howells/fiction",
     "mjbae/awesome-novel-studio",
     "ypcypc/WhatIf",
+    "THUDM/LongWriter",
     "PixeroJan/obsidian-storyline",
     "danjdewhurst/story-skills",
+    "inkle/ink",
     "hestudy/snowflake-fiction",
     "zy-zmc/tianming-novel-ai-writer",
+    "booknlp/booknlp",
     "ModernRelay/omnigraph",
+    "Ckokoski/authorclaw",
+    "explodinggradients/ragas",
+    "YarnSpinnerTool/YarnSpinner",
     "forsonny/The-Crucible-Writing-System-For-Claude",
+    "THUDM/LongReward",
+    "openai/evals",
+    "confident-ai/deepeval",
+    "klembot/twinejs",
     "XuanRanL/webnovel-writer",
+    "blingenf/copydetect",
+    "THU-KEG/LongWriter-V",
     "HZ-KMNO/web-novel-writing-guidance-skill",
+    "truera/trulens",
+    "textstat/textstat",
+    "Arize-ai/phoenix",
+    "rapidfuzz/RapidFuzz",
     "MangoLion/plotbunni",
     "forsonny/book-os",
+    "promptfoo/promptfoo",
+    "zygmuntz/goodbooks-10k",
+    "LSYS/LexicalRichness",
+    "google/diff-match-patch",
     "KoboldAI/KoboldAI-Client",
+    "dfabulich/choicescript",
+    "HLasse/TextDescriptives",
     "forjd/better-writing",
+    "boudinfl/pke",
+    "MengtingWan/goodreads",
     "Lanerra/saga",
     "EdwardAThomson/NovelWriter",
+    "f5alcon/The-Novelists-Atelier",
     "SillyTavern/SillyTavern",
     "matrixorigin/Memoria",
+    "agranya99/MOSS-winnowing-seqMatcher",
     "worldwonderer/oh-story-claudecode",
     "lujih/webnovel-writer-opencode",
     "jinmawang/claude-novel-writeFlow",
     "THU-KEG/StoryWriter",
     "bal-spec/sillytavern-character-memory",
+    "langchain-ai/langchain",
     "guchendesigndog/GC-Writer-Assistant",
+    "maria-antoniak/goodreads-scraper",
     "ShmilyWithme/Shmily_novel_skill",
     "envy-ai/ai_rpg",
     "vkbo/novelWriter",
@@ -1205,43 +1295,18 @@
     "clchinkc/story-bench",
     "principia-ai/WriteHERE",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+    "benbrandt/text-splitter",
     "lars76/story-evaluation-llm",
     "anirudhlakkaraju/cs4_benchmark",
     "ZJU-LLMs/OpenStory",
     "GOAT-AI-lab/GOAT-Storytelling-Agent",
     "aikohanasaki/SillyTavern-MemoryBooks",
-    "kaigani/codeywood",
-    "lechmazur/writing",
-    "Theltn/AICreativityJudge",
-    "zygmuntz/goodbooks-10k",
-    "MengtingWan/goodreads",
-    "maria-antoniak/goodreads-scraper",
-    "Ckokoski/authorclaw",
-    "f5alcon/The-Novelists-Atelier",
-    "inkle/ink",
-    "YarnSpinnerTool/YarnSpinner",
-    "klembot/twinejs",
-    "dfabulich/choicescript",
-    "blingenf/copydetect",
-    "rapidfuzz/RapidFuzz",
-    "google/diff-match-patch",
-    "agranya99/MOSS-winnowing-seqMatcher",
-    "booknlp/booknlp",
-    "textstat/textstat",
-    "LSYS/LexicalRichness",
-    "HLasse/TextDescriptives",
-    "boudinfl/pke",
-    "benbrandt/text-splitter",
-    "langchain-ai/langchain",
     "miso-belica/sumy",
-    "dmmiller612/bert-extractive-summarizer",
+    "kaigani/codeywood",
     "MaartenGr/BERTopic",
-    "explodinggradients/ragas",
-    "confident-ai/deepeval",
-    "truera/trulens",
-    "Arize-ai/phoenix",
-    "promptfoo/promptfoo",
-    "openai/evals"
+    "dmmiller612/bert-extractive-summarizer",
+    "lechmazur/writing",
+    "Theltn/AICreativityJudge"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -1304,6 +1369,11 @@
     "Plan top-down: topic or premise -> book spec -> act plan -> chapter plan -> scene list -> scene draft.",
     "Let users or higher-level plans intervene at any scale, but lower-level generation must inherit the active parent plan.",
     "Each scene draft should know its chapter number, scene number, plan role, and previous-scene context."
+  ],
+  "topic_drift_map_hints": [
+    "Map topic clusters across chapters and compare drift against active arcs, promises, motifs, and chapter goals before acceptance.",
+    "Topic drift is a review signal: distinguish intentional subplot shift from accidental off-arc wandering or source-topic copying.",
+    "For same-type creation, transform topic sequence and salience so the new story does not follow the source's topic timeline."
   ],
   "trend_deconstruction_pipeline_hints": [
     "For same-type writing, deconstruct trend patterns into trope, hook, payoff, emotion promise, reader expectation, and reusable module shape.",
@@ -1484,6 +1554,65 @@
     "idea_to_outline_promotions",
     "export_format_targets",
     "derived_manuscript_artifacts",
+    "choice_branch_graph",
+    "branch_decision_points",
+    "branch_merge_reject_notes",
+    "dialogue_node_state_machine",
+    "dialogue_entry_conditions",
+    "dialogue_exit_state_deltas",
+    "passage_link_navigation_map",
+    "dead_end_passage_findings",
+    "reachable_path_checks",
+    "choice_stats_consequence_ledger",
+    "visible_delayed_consequence_checks",
+    "source_fingerprint_overlap_report",
+    "fingerprint_false_positive_notes",
+    "fingerprint_threshold_decisions",
+    "fuzzy_phrase_similarity_report",
+    "paraphrase_similarity_findings",
+    "phrase_threshold_decisions",
+    "diff_span_copy_risk_report",
+    "copied_span_review_notes",
+    "semantic_cleanup_review_findings",
+    "character_quote_attribution_report",
+    "speaker_alias_map",
+    "quote_voice_distribution",
+    "readability_pacing_curve",
+    "sentence_length_variance_report",
+    "paragraph_density_report",
+    "lexical_diversity_voice_report",
+    "mtld_hdd_voice_baseline",
+    "repeated_vocabulary_findings",
+    "keyphrase_motif_map",
+    "motif_drift_findings",
+    "topic_keyword_salience",
+    "semantic_chunk_boundary_report",
+    "chunk_overlap_manifest",
+    "context_boundary_findings",
+    "chapter_summary_anchor_report",
+    "representative_sentence_refs",
+    "summary_anchor_drift_findings",
+    "topic_drift_map",
+    "topic_cluster_timeline",
+    "off_arc_topic_findings",
+    "context_faithfulness_eval_report",
+    "groundedness_findings",
+    "context_precision_recall_scores",
+    "retrieval_trace_eval_report",
+    "selected_omitted_context_trace",
+    "context_relevance_findings",
+    "prompt_regression_suite",
+    "golden_case_eval_results",
+    "eval_failure_diffs",
+    "agentwrite_plan_artifact",
+    "agentwrite_write_artifact",
+    "plan_write_stage_trace",
+    "long_output_length_report",
+    "long_output_quality_report",
+    "length_stress_test_results",
+    "long_context_reward_scores",
+    "helpfulness_logicality_faithfulness_completeness_report",
+    "reward_dimension_fix_tasks",
     "synopsis_review_gate",
     "chapter_summary_review_status",
     "synopsis_regeneration_options",
@@ -1652,9 +1781,6 @@
     "simulated_agent_interactions",
     "character_behavior_state",
     "story_world_evolution_log",
-    "emotional_arc",
-    "emotion_curve",
-    "source_state_snapshot",
     "reader_rating_matrix",
     "to_read_intent_signals",
     "shelf_tag_expectation_map",
@@ -1677,56 +1803,9 @@
     "chapter_hook_cliffhanger_audit",
     "style_dna_context_fit",
     "token_breakdown_notes",
-    "choice_branch_graph",
-    "branch_decision_points",
-    "branch_merge_reject_notes",
-    "dialogue_node_state_machine",
-    "dialogue_entry_conditions",
-    "dialogue_exit_state_deltas",
-    "passage_link_navigation_map",
-    "dead_end_passage_findings",
-    "reachable_path_checks",
-    "choice_stats_consequence_ledger",
-    "visible_delayed_consequence_checks",
-    "source_fingerprint_overlap_report",
-    "fingerprint_false_positive_notes",
-    "fingerprint_threshold_decisions",
-    "fuzzy_phrase_similarity_report",
-    "paraphrase_similarity_findings",
-    "phrase_threshold_decisions",
-    "diff_span_copy_risk_report",
-    "copied_span_review_notes",
-    "semantic_cleanup_review_findings",
-    "character_quote_attribution_report",
-    "speaker_alias_map",
-    "quote_voice_distribution",
-    "readability_pacing_curve",
-    "sentence_length_variance_report",
-    "paragraph_density_report",
-    "lexical_diversity_voice_report",
-    "mtld_hdd_voice_baseline",
-    "repeated_vocabulary_findings",
-    "keyphrase_motif_map",
-    "motif_drift_findings",
-    "topic_keyword_salience",
-    "semantic_chunk_boundary_report",
-    "chunk_overlap_manifest",
-    "context_boundary_findings",
-    "chapter_summary_anchor_report",
-    "representative_sentence_refs",
-    "summary_anchor_drift_findings",
-    "topic_drift_map",
-    "topic_cluster_timeline",
-    "off_arc_topic_findings",
-    "context_faithfulness_eval_report",
-    "groundedness_findings",
-    "context_precision_recall_scores",
-    "retrieval_trace_eval_report",
-    "selected_omitted_context_trace",
-    "context_relevance_findings",
-    "prompt_regression_suite",
-    "golden_case_eval_results",
-    "eval_failure_diffs"
+    "emotional_arc",
+    "emotion_curve",
+    "source_state_snapshot"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -3124,6 +3203,29 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "character_quote_attribution_map",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 920,
+          "summary": "MIT book-length NLP pipeline with character coreference, quote attribution, entity tokens, and speaker/mention outputs.",
+          "title": "booknlp/booknlp",
+          "trust_flags": [],
+          "url": "https://github.com/booknlp/booknlp"
+        }
+      ],
+      "top_source_url": "https://github.com/booknlp/booknlp",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 12,
       "name": "organization_graph",
       "posture_hint": "metadata-triage",
@@ -3309,6 +3411,42 @@
     },
     {
       "candidate_count": 2,
+      "name": "agentwrite_plan_write_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 1865,
+          "summary": "LongWriter: 10,000+ word generation from long-context LLMs. Static intake note: AgentWrite plan.py/write.py, plan.txt/write.txt, LongBench-Write long-output quality, and LongWrite-Ruler length stress tests.",
+          "title": "THUDM/LongWriter",
+          "trust_flags": [],
+          "url": "https://github.com/THUDM/LongWriter"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 22,
+          "summary": "LongWriter-V: ultra-long multimodal generation. Static intake note: LongWriter-Agent-V outline_vlm.py, MMLongBench-Write, and LongWrite-V-Ruler length tests.",
+          "title": "THU-KEG/LongWriter-V",
+          "trust_flags": [],
+          "url": "https://github.com/THU-KEG/LongWriter-V"
+        }
+      ],
+      "top_source_url": "https://github.com/THUDM/LongWriter",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
       "name": "anti_hallucination_plan_check",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -3430,6 +3568,104 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "long_output_length_quality_ruler",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 1865,
+          "summary": "LongWriter: 10,000+ word generation from long-context LLMs. Static intake note: AgentWrite plan.py/write.py, plan.txt/write.txt, LongBench-Write long-output quality, and LongWrite-Ruler length stress tests.",
+          "title": "THUDM/LongWriter",
+          "trust_flags": [],
+          "url": "https://github.com/THUDM/LongWriter"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 22,
+          "summary": "LongWriter-V: ultra-long multimodal generation. Static intake note: LongWriter-Agent-V outline_vlm.py, MMLongBench-Write, and LongWrite-V-Ruler length tests.",
+          "title": "THU-KEG/LongWriter-V",
+          "trust_flags": [],
+          "url": "https://github.com/THU-KEG/LongWriter-V"
+        }
+      ],
+      "top_source_url": "https://github.com/THUDM/LongWriter",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 4,
+      "name": "context_faithfulness_eval_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 11000,
+          "summary": "Apache-2.0 RAG evaluation framework with faithfulness, answer relevancy, context precision, context recall, and testset generation; used as pattern evidence for context grounding gates only.",
+          "title": "explodinggradients/ragas",
+          "trust_flags": [],
+          "url": "https://github.com/explodinggradients/ragas"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 62,
+          "summary": "LongReward: long-context AI feedback. Static intake note: auto_scorer evaluates helpfulness, logicality, faithfulness, and completeness for long-context responses.",
+          "title": "THUDM/LongReward",
+          "trust_flags": [],
+          "url": "https://github.com/THUDM/LongReward"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 7600,
+          "summary": "Apache-2.0 LLM evaluation framework with hallucination metrics, answer relevancy, faithfulness, datasets, GEval, and regression tests; used as pattern evidence for grounding and regression gates only.",
+          "title": "confident-ai/deepeval",
+          "trust_flags": [],
+          "url": "https://github.com/confident-ai/deepeval"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 79,
+          "source": "github",
+          "stars": 2600,
+          "summary": "MIT LLM app observability and evaluation framework with groundedness, context relevance, answer relevance, feedback functions, and traces; used as pattern evidence for grounded trace review only.",
+          "title": "truera/trulens",
+          "trust_flags": [],
+          "url": "https://github.com/truera/trulens"
+        }
+      ],
+      "top_source_url": "https://github.com/explodinggradients/ragas",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "context_pack_preview",
       "posture_hint": "metadata-triage",
@@ -3483,6 +3719,105 @@
         }
       ],
       "top_source_url": "https://github.com/jncchds/abook",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "long_context_reward_dimension_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 62,
+          "summary": "LongReward: long-context AI feedback. Static intake note: auto_scorer evaluates helpfulness, logicality, faithfulness, and completeness for long-context responses.",
+          "title": "THUDM/LongReward",
+          "trust_flags": [],
+          "url": "https://github.com/THUDM/LongReward"
+        }
+      ],
+      "top_source_url": "https://github.com/THUDM/LongReward",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "source_text_fingerprint_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 326,
+          "summary": "MIT code plagiarism detection tool based on winnowing document fingerprinting and copied-slice HTML reports.",
+          "title": "blingenf/copydetect",
+          "trust_flags": [],
+          "url": "https://github.com/blingenf/copydetect"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 72,
+          "source": "github",
+          "stars": 50,
+          "summary": "MIT educational MOSS-style plagiarism checker using winnowing and SequenceMatcher over cleaned source text.",
+          "title": "agranya99/MOSS-winnowing-seqMatcher",
+          "trust_flags": [],
+          "url": "https://github.com/agranya99/MOSS-winnowing-seqMatcher"
+        }
+      ],
+      "top_source_url": "https://github.com/blingenf/copydetect",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "retrieval_trace_observability_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 79,
+          "source": "github",
+          "stars": 2600,
+          "summary": "MIT LLM app observability and evaluation framework with groundedness, context relevance, answer relevance, feedback functions, and traces; used as pattern evidence for grounded trace review only.",
+          "title": "truera/trulens",
+          "trust_flags": [],
+          "url": "https://github.com/truera/trulens"
+        },
+        {
+          "license": "Elastic-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 78,
+          "source": "github",
+          "stars": 5800,
+          "summary": "Elastic-2.0 AI observability and evaluation platform with tracing, LLM spans, retrieval traces, datasets, experiments, and evals; used as pattern evidence for retrieval trace review only.",
+          "title": "Arize-ai/phoenix",
+          "trust_flags": [],
+          "url": "https://github.com/Arize-ai/phoenix"
+        }
+      ],
+      "top_source_url": "https://github.com/truera/trulens",
       "trust_flags": []
     },
     {
@@ -3667,7 +4002,6 @@
       ],
       "sources": [
         {
-          "family": "novel-automation",
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "defer-trust-review",
@@ -3685,7 +4019,6 @@
           "url": "https://github.com/Ckokoski/authorclaw"
         },
         {
-          "family": "novel-automation",
           "license": "Apache-2.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3705,6 +4038,127 @@
       "trust_flags": [
         "license_declared"
       ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "prompt_regression_eval_suite",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 81,
+          "source": "github",
+          "stars": 16000,
+          "summary": "MIT framework for custom evals with datasets, samples, graders, and regression cases; used as pattern evidence for golden-case prompt regression only.",
+          "title": "openai/evals",
+          "trust_flags": [],
+          "url": "https://github.com/openai/evals"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 7600,
+          "summary": "Apache-2.0 LLM evaluation framework with hallucination metrics, answer relevancy, faithfulness, datasets, GEval, and regression tests; used as pattern evidence for grounding and regression gates only.",
+          "title": "confident-ai/deepeval",
+          "trust_flags": [],
+          "url": "https://github.com/confident-ai/deepeval"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 77,
+          "source": "github",
+          "stars": 8500,
+          "summary": "MIT prompt testing and eval framework with assertions, golden datasets, regression suites, red-team checks, and CI evaluation; used as pattern evidence for prompt regression only.",
+          "title": "promptfoo/promptfoo",
+          "trust_flags": [],
+          "url": "https://github.com/promptfoo/promptfoo"
+        }
+      ],
+      "top_source_url": "https://github.com/openai/evals",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "fuzzy_phrase_similarity_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 3949,
+          "summary": "MIT rapid fuzzy string matching in Python and C++ using Levenshtein distance and string metrics.",
+          "title": "rapidfuzz/RapidFuzz",
+          "trust_flags": [],
+          "url": "https://github.com/rapidfuzz/RapidFuzz"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 72,
+          "source": "github",
+          "stars": 50,
+          "summary": "MIT educational MOSS-style plagiarism checker using winnowing and SequenceMatcher over cleaned source text.",
+          "title": "agranya99/MOSS-winnowing-seqMatcher",
+          "trust_flags": [],
+          "url": "https://github.com/agranya99/MOSS-winnowing-seqMatcher"
+        }
+      ],
+      "top_source_url": "https://github.com/rapidfuzz/RapidFuzz",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "semantic_chunk_boundary_map",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 111000,
+          "summary": "MIT framework with recursive character text splitters, semantic chunking, document transformers, and summarization chains; used as pattern evidence for chunk-boundary and summary-chain gates only.",
+          "title": "langchain-ai/langchain",
+          "trust_flags": [],
+          "url": "https://github.com/langchain-ai/langchain"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 44,
+          "source": "github",
+          "stars": 1500,
+          "summary": "MIT semantic text splitter for Markdown, plain text, and code with chunk capacity and boundary preservation; used as pattern evidence for semantic chunk manifests only.",
+          "title": "benbrandt/text-splitter",
+          "trust_flags": [],
+          "url": "https://github.com/benbrandt/text-splitter"
+        }
+      ],
+      "top_source_url": "https://github.com/langchain-ai/langchain",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -3846,6 +4300,91 @@
         }
       ],
       "top_source_url": "https://github.com/doctoroyy/novel-copilot",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "diff_span_copy_review",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 326,
+          "summary": "MIT code plagiarism detection tool based on winnowing document fingerprinting and copied-slice HTML reports.",
+          "title": "blingenf/copydetect",
+          "trust_flags": [],
+          "url": "https://github.com/blingenf/copydetect"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 19000,
+          "summary": "Apache-2.0 diff, match, and patch library with semantic cleanup and unit tests across language ports.",
+          "title": "google/diff-match-patch",
+          "trust_flags": [],
+          "url": "https://github.com/google/diff-match-patch"
+        }
+      ],
+      "top_source_url": "https://github.com/blingenf/copydetect",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "chapter_summary_anchor_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 111000,
+          "summary": "MIT framework with recursive character text splitters, semantic chunking, document transformers, and summarization chains; used as pattern evidence for chunk-boundary and summary-chain gates only.",
+          "title": "langchain-ai/langchain",
+          "trust_flags": [],
+          "url": "https://github.com/langchain-ai/langchain"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 40,
+          "source": "github",
+          "stars": 3600,
+          "summary": "Apache-2.0 automatic text summarization library with LSA, LexRank, TextRank, Edmundson, and Luhn summarizers; used as pattern evidence for summary anchors only.",
+          "title": "miso-belica/sumy",
+          "trust_flags": [],
+          "url": "https://github.com/miso-belica/sumy"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 32,
+          "source": "github",
+          "stars": 3300,
+          "summary": "MIT extractive summarizer selecting representative sentences from embeddings; used as pattern evidence for representative-sentence summary anchoring only.",
+          "title": "dmmiller612/bert-extractive-summarizer",
+          "trust_flags": [],
+          "url": "https://github.com/dmmiller612/bert-extractive-summarizer"
+        }
+      ],
+      "top_source_url": "https://github.com/langchain-ai/langchain",
       "trust_flags": []
     },
     {
@@ -4339,6 +4878,42 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "readability_pacing_metric_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 79,
+          "source": "github",
+          "stars": 1372,
+          "summary": "MIT readability-statistics library for text, paragraphs, and sentences; useful as a sentence/paragraph pacing metric gate.",
+          "title": "textstat/textstat",
+          "trust_flags": [],
+          "url": "https://github.com/textstat/textstat"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 366,
+          "summary": "Apache-2.0 text metrics library with descriptive, readability, coherence, dependency, and quality signals for metric-bundle review.",
+          "title": "HLasse/TextDescriptives",
+          "trust_flags": [],
+          "url": "https://github.com/HLasse/TextDescriptives"
+        }
+      ],
+      "top_source_url": "https://github.com/textstat/textstat",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "event_outline_history_compression",
       "posture_hint": "metadata-triage",
@@ -4364,6 +4939,29 @@
       "trust_flags": [
         "license:noassertion"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "topic_drift_map",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 32,
+          "source": "github",
+          "stars": 7200,
+          "summary": "MIT topic-modeling framework using transformer embeddings, c-TF-IDF, topic representations, and dynamic topic modeling; used as pattern evidence for topic-drift maps only.",
+          "title": "MaartenGr/BERTopic",
+          "trust_flags": [],
+          "url": "https://github.com/MaartenGr/BERTopic"
+        }
+      ],
+      "top_source_url": "https://github.com/MaartenGr/BERTopic",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -4566,13 +5164,48 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "lexical_diversity_voice_audit",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 77,
+          "source": "github",
+          "stars": 113,
+          "summary": "MIT lexical richness and diversity metrics including MTLD, HD-D, and type-token variants for voice drift review.",
+          "title": "LSYS/LexicalRichness",
+          "trust_flags": [],
+          "url": "https://github.com/LSYS/LexicalRichness"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 366,
+          "summary": "Apache-2.0 text metrics library with descriptive, readability, coherence, dependency, and quality signals for metric-bundle review.",
+          "title": "HLasse/TextDescriptives",
+          "trust_flags": [],
+          "url": "https://github.com/HLasse/TextDescriptives"
+        }
+      ],
+      "top_source_url": "https://github.com/LSYS/LexicalRichness",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "local_reader_experience_editor",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
         {
-          "family": "novel-automation",
           "license": "Apache-2.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -4767,6 +5400,42 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "choice_stats_consequence_gate",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
+          "title": "YarnSpinnerTool/YarnSpinner",
+          "trust_flags": [],
+          "url": "https://github.com/YarnSpinnerTool/YarnSpinner"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 453,
+          "summary": "ChoiceScript multiple-choice games with choices, stats, variables, and achievements.",
+          "title": "dfabulich/choicescript",
+          "trust_flags": [],
+          "url": "https://github.com/dfabulich/choicescript"
+        }
+      ],
+      "top_source_url": "https://github.com/YarnSpinnerTool/YarnSpinner",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 3,
       "name": "reader_rating_signal_model",
       "posture_hint": "defer-trust-review",
@@ -4775,7 +5444,6 @@
       ],
       "sources": [
         {
-          "family": "novel-automation",
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -4789,7 +5457,6 @@
           "url": "https://github.com/zygmuntz/goodbooks-10k"
         },
         {
-          "family": "novel-automation",
           "license": "Apache-2.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -4805,7 +5472,6 @@
           "url": "https://github.com/MengtingWan/goodreads"
         },
         {
-          "family": "novel-automation",
           "license": "GPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "defer-trust-review",
@@ -4827,6 +5493,29 @@
       "trust_flags": [
         "license_declared"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "keyphrase_motif_extraction",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 75,
+          "source": "github",
+          "stars": 1591,
+          "summary": "GPL-3.0 keyphrase extraction module with candidate extraction and weighting for motif and topic-drift review.",
+          "title": "boudinfl/pke",
+          "trust_flags": [],
+          "url": "https://github.com/boudinfl/pke"
+        }
+      ],
+      "top_source_url": "https://github.com/boudinfl/pke",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4921,6 +5610,55 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 3,
+      "name": "branching_choice_graph",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": 4795,
+          "summary": "Interactive narrative scripting for highly branching stories with choices, knots, stitches, diverts, variables, and weave structure.",
+          "title": "inkle/ink",
+          "trust_flags": [],
+          "url": "https://github.com/inkle/ink"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 2775,
+          "summary": "Interactive nonlinear stories with passages, links, variables, and story formats.",
+          "title": "klembot/twinejs",
+          "trust_flags": [],
+          "url": "https://github.com/klembot/twinejs"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 453,
+          "summary": "ChoiceScript multiple-choice games with choices, stats, variables, and achievements.",
+          "title": "dfabulich/choicescript",
+          "trust_flags": [],
+          "url": "https://github.com/dfabulich/choicescript"
+        }
+      ],
+      "top_source_url": "https://github.com/inkle/ink",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "boring_opening_quality_gates",
       "posture_hint": "metadata-triage",
@@ -4948,12 +5686,11 @@
       "name": "review_spoiler_sentiment_corpus",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
-        "shell_script",
-        "docker"
+        "docker",
+        "shell_script"
       ],
       "sources": [
         {
-          "family": "novel-automation",
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "defer-trust-review",
@@ -4971,7 +5708,6 @@
           "url": "https://github.com/Ckokoski/authorclaw"
         },
         {
-          "family": "novel-automation",
           "license": "Apache-2.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -4987,7 +5723,6 @@
           "url": "https://github.com/MengtingWan/goodreads"
         },
         {
-          "family": "novel-automation",
           "license": "GPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "defer-trust-review",
@@ -5140,6 +5875,29 @@
         }
       ],
       "top_source_url": "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "node_dialogue_state_machine",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
+          "title": "YarnSpinnerTool/YarnSpinner",
+          "trust_flags": [],
+          "url": "https://github.com/YarnSpinnerTool/YarnSpinner"
+        }
+      ],
+      "top_source_url": "https://github.com/YarnSpinnerTool/YarnSpinner",
       "trust_flags": []
     },
     {
@@ -5711,7 +6469,6 @@
       ],
       "sources": [
         {
-          "family": "novel-automation",
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "defer-trust-review",
@@ -6759,6 +7516,42 @@
       "trust_flags": [
         "default-branch:nonstandard"
       ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "passage_link_navigation_map",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": 4795,
+          "summary": "Interactive narrative scripting for highly branching stories with choices, knots, stitches, diverts, variables, and weave structure.",
+          "title": "inkle/ink",
+          "trust_flags": [],
+          "url": "https://github.com/inkle/ink"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 2775,
+          "summary": "Interactive nonlinear stories with passages, links, variables, and story formats.",
+          "title": "klembot/twinejs",
+          "trust_flags": [],
+          "url": "https://github.com/klembot/twinejs"
+        }
+      ],
+      "top_source_url": "https://github.com/inkle/ink",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -8900,622 +9693,6 @@
       "trust_flags": [
         "license:noassertion"
       ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "choice_stats_consequence_gate",
-      "posture_hint": "defer-trust-review",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 82,
-          "source": "github",
-          "stars": 2800,
-          "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
-          "title": "YarnSpinnerTool/YarnSpinner",
-          "trust_flags": [],
-          "url": "https://github.com/YarnSpinnerTool/YarnSpinner"
-        },
-        {
-          "license": "NOASSERTION",
-          "posture": "pattern-only",
-          "posture_hint": "defer-trust-review",
-          "risk_flags": [],
-          "score": 76,
-          "source": "github",
-          "stars": 453,
-          "summary": "ChoiceScript multiple-choice games with choices, stats, variables, and achievements.",
-          "title": "dfabulich/choicescript",
-          "trust_flags": [],
-          "url": "https://github.com/dfabulich/choicescript"
-        }
-      ],
-      "top_source_url": "https://github.com/YarnSpinnerTool/YarnSpinner",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 3,
-      "name": "branching_choice_graph",
-      "posture_hint": "defer-trust-review",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 84,
-          "source": "github",
-          "stars": 4795,
-          "summary": "Interactive narrative scripting for highly branching stories with choices, knots, stitches, diverts, variables, and weave structure.",
-          "title": "inkle/ink",
-          "trust_flags": [],
-          "url": "https://github.com/inkle/ink"
-        },
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 80,
-          "source": "github",
-          "stars": 2775,
-          "summary": "Interactive nonlinear stories with passages, links, variables, and story formats.",
-          "title": "klembot/twinejs",
-          "trust_flags": [],
-          "url": "https://github.com/klembot/twinejs"
-        },
-        {
-          "license": "NOASSERTION",
-          "posture": "pattern-only",
-          "posture_hint": "defer-trust-review",
-          "risk_flags": [],
-          "score": 76,
-          "source": "github",
-          "stars": 453,
-          "summary": "ChoiceScript multiple-choice games with choices, stats, variables, and achievements.",
-          "title": "dfabulich/choicescript",
-          "trust_flags": [],
-          "url": "https://github.com/dfabulich/choicescript"
-        }
-      ],
-      "top_source_url": "https://github.com/inkle/ink",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "node_dialogue_state_machine",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 82,
-          "source": "github",
-          "stars": 2800,
-          "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
-          "title": "YarnSpinnerTool/YarnSpinner",
-          "trust_flags": [],
-          "url": "https://github.com/YarnSpinnerTool/YarnSpinner"
-        }
-      ],
-      "top_source_url": "https://github.com/YarnSpinnerTool/YarnSpinner",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 2,
-      "name": "passage_link_navigation_map",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 84,
-          "source": "github",
-          "stars": 4795,
-          "summary": "Interactive narrative scripting for highly branching stories with choices, knots, stitches, diverts, variables, and weave structure.",
-          "title": "inkle/ink",
-          "trust_flags": [],
-          "url": "https://github.com/inkle/ink"
-        },
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 80,
-          "source": "github",
-          "stars": 2775,
-          "summary": "Interactive nonlinear stories with passages, links, variables, and story formats.",
-          "title": "klembot/twinejs",
-          "trust_flags": [],
-          "url": "https://github.com/klembot/twinejs"
-        }
-      ],
-      "top_source_url": "https://github.com/inkle/ink",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 2,
-      "name": "source_text_fingerprint_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 80,
-          "source": "github",
-          "stars": 326,
-          "summary": "MIT code plagiarism detection tool based on winnowing document fingerprinting and copied-slice HTML reports.",
-          "title": "blingenf/copydetect",
-          "trust_flags": [],
-          "url": "https://github.com/blingenf/copydetect"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 72,
-          "source": "github",
-          "stars": 50,
-          "summary": "MIT educational MOSS-style plagiarism checker using winnowing and SequenceMatcher over cleaned source text.",
-          "title": "agranya99/MOSS-winnowing-seqMatcher",
-          "trust_flags": [],
-          "url": "https://github.com/agranya99/MOSS-winnowing-seqMatcher"
-        }
-      ],
-      "top_source_url": "https://github.com/blingenf/copydetect",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 2,
-      "name": "fuzzy_phrase_similarity_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 78,
-          "source": "github",
-          "stars": 3949,
-          "summary": "MIT rapid fuzzy string matching in Python and C++ using Levenshtein distance and string metrics.",
-          "title": "rapidfuzz/RapidFuzz",
-          "trust_flags": [],
-          "url": "https://github.com/rapidfuzz/RapidFuzz"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 72,
-          "source": "github",
-          "stars": 50,
-          "summary": "MIT educational MOSS-style plagiarism checker using winnowing and SequenceMatcher over cleaned source text.",
-          "title": "agranya99/MOSS-winnowing-seqMatcher",
-          "trust_flags": [],
-          "url": "https://github.com/agranya99/MOSS-winnowing-seqMatcher"
-        }
-      ],
-      "top_source_url": "https://github.com/rapidfuzz/RapidFuzz",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 2,
-      "name": "diff_span_copy_review",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 80,
-          "source": "github",
-          "stars": 326,
-          "summary": "MIT code plagiarism detection tool based on winnowing document fingerprinting and copied-slice HTML reports.",
-          "title": "blingenf/copydetect",
-          "trust_flags": [],
-          "url": "https://github.com/blingenf/copydetect"
-        },
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 76,
-          "source": "github",
-          "stars": 19000,
-          "summary": "Apache-2.0 diff, match, and patch library with semantic cleanup and unit tests across language ports.",
-          "title": "google/diff-match-patch",
-          "trust_flags": [],
-          "url": "https://github.com/google/diff-match-patch"
-        }
-      ],
-      "top_source_url": "https://github.com/blingenf/copydetect",
-      "trust_flags": []
-    },
-    {
-      "name": "character_quote_attribution_map",
-      "candidate_count": 1,
-      "top_source_url": "https://github.com/booknlp/booknlp",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "booknlp/booknlp",
-          "url": "https://github.com/booknlp/booknlp",
-          "source": "github",
-          "summary": "MIT book-length NLP pipeline with character coreference, quote attribution, entity tokens, and speaker/mention outputs.",
-          "stars": 920,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 83
-        }
-      ]
-    },
-    {
-      "name": "readability_pacing_metric_gate",
-      "candidate_count": 2,
-      "top_source_url": "https://github.com/textstat/textstat",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "textstat/textstat",
-          "url": "https://github.com/textstat/textstat",
-          "source": "github",
-          "summary": "MIT readability-statistics library for text, paragraphs, and sentences; useful as a sentence/paragraph pacing metric gate.",
-          "stars": 1372,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 79
-        },
-        {
-          "title": "HLasse/TextDescriptives",
-          "url": "https://github.com/HLasse/TextDescriptives",
-          "source": "github",
-          "summary": "Apache-2.0 text metrics library with descriptive, readability, coherence, dependency, and quality signals for metric-bundle review.",
-          "stars": 366,
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 76
-        }
-      ]
-    },
-    {
-      "name": "lexical_diversity_voice_audit",
-      "candidate_count": 2,
-      "top_source_url": "https://github.com/LSYS/LexicalRichness",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "LSYS/LexicalRichness",
-          "url": "https://github.com/LSYS/LexicalRichness",
-          "source": "github",
-          "summary": "MIT lexical richness and diversity metrics including MTLD, HD-D, and type-token variants for voice drift review.",
-          "stars": 113,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 77
-        },
-        {
-          "title": "HLasse/TextDescriptives",
-          "url": "https://github.com/HLasse/TextDescriptives",
-          "source": "github",
-          "summary": "Apache-2.0 text metrics library with descriptive, readability, coherence, dependency, and quality signals for metric-bundle review.",
-          "stars": 366,
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 76
-        }
-      ]
-    },
-    {
-      "name": "keyphrase_motif_extraction",
-      "candidate_count": 1,
-      "top_source_url": "https://github.com/boudinfl/pke",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "boudinfl/pke",
-          "url": "https://github.com/boudinfl/pke",
-          "source": "github",
-          "summary": "GPL-3.0 keyphrase extraction module with candidate extraction and weighting for motif and topic-drift review.",
-          "stars": 1591,
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 75
-        }
-      ]
-    },
-    {
-      "name": "semantic_chunk_boundary_map",
-      "candidate_count": 2,
-      "top_source_url": "https://github.com/langchain-ai/langchain",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "langchain-ai/langchain",
-          "url": "https://github.com/langchain-ai/langchain",
-          "source": "github",
-          "summary": "MIT framework with recursive character text splitters, semantic chunking, document transformers, and summarization chains; used as pattern evidence for chunk-boundary and summary-chain gates only.",
-          "stars": 111000,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 68
-        },
-        {
-          "title": "benbrandt/text-splitter",
-          "url": "https://github.com/benbrandt/text-splitter",
-          "source": "github",
-          "summary": "MIT semantic text splitter for Markdown, plain text, and code with chunk capacity and boundary preservation; used as pattern evidence for semantic chunk manifests only.",
-          "stars": 1500,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 44
-        }
-      ]
-    },
-    {
-      "name": "chapter_summary_anchor_gate",
-      "candidate_count": 3,
-      "top_source_url": "https://github.com/langchain-ai/langchain",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "langchain-ai/langchain",
-          "url": "https://github.com/langchain-ai/langchain",
-          "source": "github",
-          "summary": "MIT framework with summarization chains and document transformers; used as pattern evidence for chapter-summary anchor gates only.",
-          "stars": 111000,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 68
-        },
-        {
-          "title": "miso-belica/sumy",
-          "url": "https://github.com/miso-belica/sumy",
-          "source": "github",
-          "summary": "Apache-2.0 automatic text summarization library with LSA, LexRank, TextRank, Edmundson, and Luhn summarizers; used as pattern evidence for summary anchors only.",
-          "stars": 3600,
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 40
-        },
-        {
-          "title": "dmmiller612/bert-extractive-summarizer",
-          "url": "https://github.com/dmmiller612/bert-extractive-summarizer",
-          "source": "github",
-          "summary": "MIT extractive summarizer selecting representative sentences from embeddings; used as pattern evidence for representative-sentence summary anchoring only.",
-          "stars": 3300,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 32
-        }
-      ]
-    },
-    {
-      "name": "topic_drift_map",
-      "candidate_count": 1,
-      "top_source_url": "https://github.com/MaartenGr/BERTopic",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "MaartenGr/BERTopic",
-          "url": "https://github.com/MaartenGr/BERTopic",
-          "source": "github",
-          "summary": "MIT topic-modeling framework using transformer embeddings, c-TF-IDF, topic representations, and dynamic topic modeling; used as pattern evidence for topic-drift maps only.",
-          "stars": 7200,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 32
-        }
-      ]
-    },
-    {
-      "name": "context_faithfulness_eval_gate",
-      "candidate_count": 3,
-      "top_source_url": "https://github.com/explodinggradients/ragas",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "explodinggradients/ragas",
-          "url": "https://github.com/explodinggradients/ragas",
-          "source": "github",
-          "summary": "Apache-2.0 RAG evaluation framework with faithfulness, answer relevancy, context precision, context recall, and testset generation; used as pattern evidence for context grounding gates only.",
-          "stars": 11000,
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 82
-        },
-        {
-          "title": "confident-ai/deepeval",
-          "url": "https://github.com/confident-ai/deepeval",
-          "source": "github",
-          "summary": "Apache-2.0 LLM evaluation framework with hallucination metrics, answer relevancy, faithfulness, datasets, GEval, and regression tests; used as pattern evidence for grounding and regression gates only.",
-          "stars": 7600,
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 80
-        },
-        {
-          "title": "truera/trulens",
-          "url": "https://github.com/truera/trulens",
-          "source": "github",
-          "summary": "MIT LLM app observability and evaluation framework with groundedness, context relevance, answer relevance, feedback functions, and traces; used as pattern evidence for grounded trace review only.",
-          "stars": 2600,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 79
-        }
-      ]
-    },
-    {
-      "name": "retrieval_trace_observability_gate",
-      "candidate_count": 2,
-      "top_source_url": "https://github.com/Arize-ai/phoenix",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "docker"
-      ],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "Arize-ai/phoenix",
-          "url": "https://github.com/Arize-ai/phoenix",
-          "source": "github",
-          "summary": "Elastic-2.0 AI observability and evaluation platform with tracing, LLM spans, retrieval traces, datasets, experiments, and evals; used as pattern evidence for retrieval trace review only.",
-          "stars": 5800,
-          "license": "Elastic-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "docker"
-          ],
-          "trust_flags": [],
-          "score": 78
-        },
-        {
-          "title": "truera/trulens",
-          "url": "https://github.com/truera/trulens",
-          "source": "github",
-          "summary": "MIT LLM app observability and evaluation framework with feedback functions, groundedness, context relevance, answer relevance, and traces; used as pattern evidence for retrieval trace gates only.",
-          "stars": 2600,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 79
-        }
-      ]
-    },
-    {
-      "name": "prompt_regression_eval_suite",
-      "candidate_count": 3,
-      "top_source_url": "https://github.com/openai/evals",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "openai/evals",
-          "url": "https://github.com/openai/evals",
-          "source": "github",
-          "summary": "MIT framework for custom evals with datasets, samples, graders, and regression cases; used as pattern evidence for golden-case prompt regression only.",
-          "stars": 16000,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 81
-        },
-        {
-          "title": "promptfoo/promptfoo",
-          "url": "https://github.com/promptfoo/promptfoo",
-          "source": "github",
-          "summary": "MIT prompt testing and eval framework with assertions, golden datasets, regression suites, red-team checks, and CI evaluation; used as pattern evidence for prompt regression only.",
-          "stars": 8500,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 77
-        },
-        {
-          "title": "confident-ai/deepeval",
-          "url": "https://github.com/confident-ai/deepeval",
-          "source": "github",
-          "summary": "Apache-2.0 LLM evaluation framework with datasets, GEval, hallucination metrics, faithfulness, and regression tests; used as pattern evidence for prompt regression gates only.",
-          "stars": 7600,
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 80
-        }
-      ]
     }
   ],
   "world_state_tracking_hints": [
@@ -9531,55 +9708,5 @@
   "writing_session_goal_tracking_hints": [
     "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
     "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates."
-  ],
-  "character_quote_attribution_map_hints": [
-    "Build a character mention, alias, speaker, and quote-attribution map before judging voice consistency or relationship pressure.",
-    "For continuation, verify new dialogue belongs to the current speaker state and does not swap aliases, titles, or pronouns across characters.",
-    "For same-type creation, preserve only quote-distribution function and conflict pressure; rebuild speakers, aliases, and dialogue content."
-  ],
-  "readability_pacing_metric_gate_hints": [
-    "Track readability, sentence length, paragraph length, and scene-density curves across source, draft, and accepted chapters.",
-    "Use metric drift as a pacing review signal, not as a command to flatten prose into uniform easy text.",
-    "For same-type creation, match broad reading rhythm while changing scene order, objects, stakes, and source wording."
-  ],
-  "lexical_diversity_voice_audit_hints": [
-    "Measure lexical diversity and repeated-vocabulary drift by chapter, narrator, and major speaker before accepting style-sensitive drafts.",
-    "Low diversity, sudden MTLD/HD-D jumps, or repeated word clusters should become targeted voice-review notes.",
-    "Same-type creation may borrow diversity range but must replace source catchphrases, metaphor clusters, and signature diction."
-  ],
-  "keyphrase_motif_extraction_hints": [
-    "Extract keyphrases and motif keywords from source, outline, and draft to reveal topic drift, missing promises, and repeated thematic anchors.",
-    "Continuation review should compare keyphrase salience against active arcs, foreshadows, and chapter goals before canon write-back.",
-    "Same-type creation should transform motif functions into new objects, places, taboos, and stakes rather than reusing source keywords."
-  ],
-  "semantic_chunk_boundary_map_hints": [
-    "Split source and generated chapters at semantic boundaries before context packing, retrieval, or summary compression.",
-    "Each chunk needs source chapter id, boundary reason, overlap policy, token/character size, and inclusion purpose.",
-    "For same-type creation, remap chunk order and boundary function instead of preserving the source chapter segmentation route."
-  ],
-  "chapter_summary_anchor_gate_hints": [
-    "Anchor summaries to accepted chapter ids, representative sentences, source refs, and canon status before using them as prompt context.",
-    "Reject summaries that hide unresolved hooks, merge separate events, or promote draft-only facts into continuation state.",
-    "For same-type creation, rebuild summary anchors around transformed events so source chapter-summary order cannot leak in."
-  ],
-  "topic_drift_map_hints": [
-    "Map topic clusters across chapters and compare drift against active arcs, promises, motifs, and chapter goals before acceptance.",
-    "Topic drift is a review signal: distinguish intentional subplot shift from accidental off-arc wandering or source-topic copying.",
-    "For same-type creation, transform topic sequence and salience so the new story does not follow the source's topic timeline."
-  ],
-  "context_faithfulness_eval_gate_hints": [
-    "Evaluate whether generated facts are supported by accepted chapter memory, bible state, retrieved context, and summary anchors before canon write-back.",
-    "Track faithfulness, groundedness, context precision, and context recall as review evidence; low scores create fix tasks, not automatic acceptance or rejection.",
-    "For same-type creation, measure grounding against transformed-story canon only so source inspiration cannot masquerade as faithful context."
-  ],
-  "retrieval_trace_observability_gate_hints": [
-    "Store retrieval traces with query, selected chunks, omitted candidates, context relevance reason, and generation span that used each item.",
-    "Trace review should explain why each context item entered the prompt and which important candidates were omitted.",
-    "For same-type creation, separate source-analysis traces from transformed-canon traces so reviewer can detect accidental source-canon mixing."
-  ],
-  "prompt_regression_eval_suite_hints": [
-    "Keep golden continuation and same-type cases for prompt changes: input state, expected guardrail findings, accepted outputs, and failure diffs.",
-    "Run prompt regression checks before accepting prompt-pack changes that affect context selection, copy-risk gates, or canon write-back.",
-    "Regression cases should include adversarial source-like inputs to prove the prompt rejects copied route, wording, and source-canon leakage."
   ]
 }

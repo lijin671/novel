@@ -134,6 +134,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_long_output_reward_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1354,6 +1358,31 @@ def _append_eval_observability_audit_section(
         lines.append("- retrieval_trace_observability_gate: persist query, selected chunks, omitted candidates, relevance reason, and generation spans for context review")
     if "prompt_regression_eval_suite" in pattern_names:
         lines.append("- prompt_regression_eval_suite: run golden continuation and same-type cases before prompt-pack or context-selection changes")
+
+
+def _append_long_output_reward_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render plan-write, long-output, and reward-dimension gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "agentwrite_plan_write_pipeline",
+        "long_output_length_quality_ruler",
+        "long_context_reward_dimension_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Long output plan-write reward audit:")
+    if "agentwrite_plan_write_pipeline" in pattern_names:
+        lines.append("- agentwrite_plan_write_pipeline: validate plan artifacts before prose expansion and link each write stage to its plan segment")
+    if "long_output_length_quality_ruler" in pattern_names:
+        lines.append("- long_output_length_quality_ruler: check target length, actual length, truncation, repetition, premature ending, coherence, canon, and style together")
+    if "long_context_reward_dimension_gate" in pattern_names:
+        lines.append("- long_context_reward_dimension_gate: score helpfulness, logicality, faithfulness, and completeness separately; do not average away blocking failures")
 
 
 def _append_inspectable_rewrite_audit_section(

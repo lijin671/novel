@@ -104,6 +104,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("faithfulness" OR "context precision" OR "context recall" OR "groundedness") ("RAG" OR "LLM evaluation") in:name,description,readme',
     '("observability" OR "trace" OR "tracing" OR "retrieval traces") ("LLM" OR "RAG" OR "evals") in:name,description,readme',
     '("prompt tests" OR "golden dataset" OR "regression suite" OR "custom evals") ("LLM" OR "prompt") in:name,description,readme',
+    '("AgentWrite" OR "LongWriter" OR "LongBench-Write" OR "LongWrite-Ruler") ("long-form" OR "long output" OR "story") in:name,description,readme',
+    '("helpfulness" OR "logicality" OR "faithfulness" OR "completeness") ("long-context" OR "long output" OR "writing") in:name,description,readme',
+    '("ultra-long" OR "10000+ words" OR "long output quality") ("writing" OR "generation" OR "story") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -220,6 +223,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Arize-ai/phoenix",
     "https://github.com/promptfoo/promptfoo",
     "https://github.com/openai/evals",
+    "https://github.com/THUDM/LongWriter",
+    "https://github.com/THUDM/LongReward",
+    "https://github.com/THU-KEG/LongWriter-V",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -416,6 +422,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("context_faithfulness_eval_gate", ("faithfulness", "answer relevancy", "answer relevance", "context precision", "context recall", "groundedness", "context relevance", "hallucination metrics", "rag evaluation")),
     ("retrieval_trace_observability_gate", ("llm app observability", "ai observability", "observability", "tracing", "traces", "retrieval traces", "llm spans", "feedback functions")),
     ("prompt_regression_eval_suite", ("prompt tests", "golden datasets", "golden dataset", "regression suites", "regression suite", "regression tests", "ci evaluation", "custom evals", "graders")),
+    ("agentwrite_plan_write_pipeline", ("agentwrite", "plan.py", "write.py", "plan.txt", "write.txt", "outline_vlm", "automated ultra-long output data construction", "plan and then write")),
+    ("long_output_length_quality_ruler", ("longwriter", "longbench-write", "longwrite-ruler", "mmlongbench-write", "ultra-long text generation", "ultra-long output", "10000+ words", "maximum output length", "output length", "long output quality", "length stress test")),
+    ("long_context_reward_dimension_gate", ("longreward", "long-context scenarios", "helpfulness", "logicality", "faithfulness", "completeness", "final reward", "reward score", "auto_scorer")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -845,6 +854,21 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "OpenAI Evals is an MIT framework for building custom evals with datasets, samples, graders, and regression cases. "
         "Absorb custom eval and golden-case regression patterns only; eval runtime and provider calls are not used."
     ),
+    "thudm/longwriter": (
+        "LongWriter is an Apache-2.0 long-output generation project. Public README describes AgentWrite under agentwrite/ with plan.py then write.py, "
+        "prompt files plan.txt/write.txt, LongBench-Write for long output quality, and LongWrite-Ruler for maximum output length stress tests. "
+        "Absorb plan-write decomposition, length-quality ruler, and long-output evaluation patterns only; model/runtime/provider code is not imported."
+    ),
+    "thudm/longreward": (
+        "LongReward is an Apache-2.0 long-context AI-feedback project. Public README describes auto_scorer scoring long-context responses across helpfulness, "
+        "logicality, faithfulness, and completeness, then averaging them into a reward score. Absorb multi-dimension long-output acceptance gates only; "
+        "reward models, datasets, and provider calls are not used."
+    ),
+    "thu-keg/longwriter-v": (
+        "LongWriter-V is an MIT ultra-long multimodal generation project. Public README describes LongWriter-Agent-V under agentwrite/, outline_vlm.py, "
+        "MMLongBench-Write for long output quality, and LongWrite-V-Ruler for length stress tests. Absorb outline-first long-output and ruler evaluation patterns only; "
+        "vision-language model/runtime/API surfaces are not used."
+    ),
 }
 
 
@@ -1266,6 +1290,9 @@ class NovelSourceDiscoveryService:
             "context_faithfulness_eval_gate_hints": self._build_context_faithfulness_eval_gate_hints(available_patterns),
             "retrieval_trace_observability_gate_hints": self._build_retrieval_trace_observability_gate_hints(available_patterns),
             "prompt_regression_eval_suite_hints": self._build_prompt_regression_eval_suite_hints(available_patterns),
+            "agentwrite_plan_write_pipeline_hints": self._build_agentwrite_plan_write_pipeline_hints(available_patterns),
+            "long_output_length_quality_ruler_hints": self._build_long_output_length_quality_ruler_hints(available_patterns),
+            "long_context_reward_dimension_gate_hints": self._build_long_context_reward_dimension_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1826,6 +1853,9 @@ class NovelSourceDiscoveryService:
             "context_faithfulness_eval_gate": 64,
             "retrieval_trace_observability_gate": 63,
             "prompt_regression_eval_suite": 62,
+            "agentwrite_plan_write_pipeline": 65,
+            "long_output_length_quality_ruler": 64,
+            "long_context_reward_dimension_gate": 63,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -2010,6 +2040,15 @@ class NovelSourceDiscoveryService:
         if "prompt_regression_eval_suite" in patterns:
             targets.append("prompt_regression_suite")
             targets.append("golden_case_dataset")
+        if "agentwrite_plan_write_pipeline" in patterns:
+            targets.append("agentwrite_plan_artifacts")
+            targets.append("agentwrite_write_artifacts")
+        if "long_output_length_quality_ruler" in patterns:
+            targets.append("long_output_length_targets")
+            targets.append("length_quality_ruler_thresholds")
+        if "long_context_reward_dimension_gate" in patterns:
+            targets.append("long_context_reward_dimensions")
+            targets.append("helpfulness_logicality_faithfulness_completeness_scores")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -2252,6 +2291,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["retrieval_trace_eval_report", "selected_omitted_context_trace", "context_relevance_findings"])
         if "prompt_regression_eval_suite" in patterns:
             targets.extend(["prompt_regression_suite", "golden_case_eval_results", "eval_failure_diffs"])
+        if "agentwrite_plan_write_pipeline" in patterns:
+            targets.extend(["agentwrite_plan_artifact", "agentwrite_write_artifact", "plan_write_stage_trace"])
+        if "long_output_length_quality_ruler" in patterns:
+            targets.extend(["long_output_length_report", "long_output_quality_report", "length_stress_test_results"])
+        if "long_context_reward_dimension_gate" in patterns:
+            targets.extend(["long_context_reward_scores", "helpfulness_logicality_faithfulness_completeness_report", "reward_dimension_fix_tasks"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -3892,6 +3937,33 @@ class NovelSourceDiscoveryService:
             "Regression cases should include adversarial source-like inputs to prove the prompt rejects copied route, wording, and source-canon leakage.",
         ]
 
+    def _build_agentwrite_plan_write_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "agentwrite_plan_write_pipeline" not in patterns:
+            return []
+        return [
+            "Split ultra-long generation into a planning artifact and a writing artifact; validate the plan before prose expansion starts.",
+            "Each write stage should cite the plan segment, target section length, accepted context, and post-write change package.",
+            "For same-type creation, transform the plan-write stage boundaries so the new book does not follow the source outline order.",
+        ]
+
+    def _build_long_output_length_quality_ruler_hints(self, patterns: set[str]) -> list[str]:
+        if "long_output_length_quality_ruler" not in patterns:
+            return []
+        return [
+            "Track long-output quality and output length together; a chapter or batch is not acceptable when it hits word count but loses coherence, canon, or style.",
+            "Use length stress tests for long continuation batches: target range, actual length, truncation risk, repeated-section risk, and ending pressure.",
+            "For same-type creation, length targets must serve the transformed outline, not force source chapter pacing or section boundaries.",
+        ]
+
+    def _build_long_context_reward_dimension_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "long_context_reward_dimension_gate" not in patterns:
+            return []
+        return [
+            "Evaluate long-context outputs on separate dimensions: helpfulness to the current writing goal, logicality, faithfulness, and completeness.",
+            "Low reward dimensions become named fix tasks; do not average away a faithfulness or logicality failure in a long chapter.",
+            "For same-type creation, completeness means all transformed-story requirements are covered without importing source-only facts.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -4100,6 +4172,12 @@ class NovelSourceDiscoveryService:
             targets.append("retrieval_trace_remap")
         if "prompt_regression_eval_suite" in patterns:
             targets.append("prompt_regression_remap")
+        if "agentwrite_plan_write_pipeline" in patterns:
+            targets.append("plan_write_stage_remap")
+        if "long_output_length_quality_ruler" in patterns:
+            targets.append("long_output_ruler_remap")
+        if "long_context_reward_dimension_gate" in patterns:
+            targets.append("reward_dimension_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -4406,6 +4484,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform retrieval traces by changing selected evidence, omission reasons, and generation spans for the new story.")
         if "prompt_regression_eval_suite" in patterns:
             hints.append("Transform prompt regression cases by using new-story fixtures and expected independence failures.")
+        if "agentwrite_plan_write_pipeline" in patterns:
+            hints.append("Transform plan-write stages by rebuilding the plan segments, section goals, and write-stage context around the new story.")
+        if "long_output_length_quality_ruler" in patterns:
+            hints.append("Transform long-output length targets around the new outline's rhythm instead of matching source chapter or section lengths.")
+        if "long_context_reward_dimension_gate" in patterns:
+            hints.append("Transform reward checks so helpfulness, logicality, faithfulness, and completeness judge only new-story requirements.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -4555,6 +4639,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject traces that cannot explain why source-like context was selected, omitted, or separated from transformed canon.")
         if "prompt_regression_eval_suite" in patterns:
             hints.append("Reject prompt changes that pass quality checks but fail golden copy-risk, grounding, or source-canon leakage cases.")
+        if "agentwrite_plan_write_pipeline" in patterns:
+            hints.append("Reject plan-write pipelines whose plan segments, section order, or write-stage prompts mirror the source route.")
+        if "long_output_length_quality_ruler" in patterns:
+            hints.append("Reject long outputs that satisfy word count by padding, repeating, prematurely summarizing, or tracking source pacing too closely.")
+        if "long_context_reward_dimension_gate" in patterns:
+            hints.append("Reject averaged reward scores when faithfulness, logicality, or completeness fails on transformed-story evidence.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -4579,6 +4669,9 @@ class NovelSourceDiscoveryService:
                 "context_faithfulness_eval_gate",
                 "retrieval_trace_observability_gate",
                 "prompt_regression_eval_suite",
+                "agentwrite_plan_write_pipeline",
+                "long_output_length_quality_ruler",
+                "long_context_reward_dimension_gate",
             }
         ):
             return True
@@ -5000,6 +5093,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_eval_observability_signal(haystack):
             return "novel-automation"
+        if self._has_long_output_generation_signal(haystack):
+            return "novel-automation"
         return "pattern-only"
 
     def _has_copy_similarity_signal(self, haystack: str) -> bool:
@@ -5081,6 +5176,27 @@ class NovelSourceDiscoveryService:
             "regression suite",
             "custom evals",
             "graders",
+        )
+        return any(term in haystack for term in terms)
+
+    def _has_long_output_generation_signal(self, haystack: str) -> bool:
+        terms = (
+            "longwriter",
+            "agentwrite",
+            "longwriter-agent-v",
+            "longbench-write",
+            "mmlongbench-write",
+            "longwrite-ruler",
+            "longwrite-v-ruler",
+            "long output quality",
+            "ultra-long generation",
+            "10,000+ word",
+            "10000+ word",
+            "plan.py",
+            "write.py",
+            "plan.txt",
+            "write.txt",
+            "outline_vlm",
         )
         return any(term in haystack for term in terms)
 
