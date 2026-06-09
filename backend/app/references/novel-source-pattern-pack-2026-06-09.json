@@ -1,25 +1,33 @@
 {
-  "generated_at": "2026-06-09T22:45:00+08:00",
-  "source_candidate_count": 50,
+  "generated_at": "2026-06-09T21:30:47+08:00",
+  "source_candidate_count": 58,
   "source_titles": [
     "loreum-app/loreum",
     "olivierkes/manuskript",
     "YfengJ/novel-studio-ai",
     "Narcooo/inkos",
     "NousResearch/autonovel",
+    "jncchds/abook",
     "YILING0013/AI_NovelGenerator",
     "iLearn-Lab/NovelClaw",
     "dylanhogg/gptauthor",
+    "MemeCalculate/moyin-creator",
+    "forsonny/novel-master-ai",
     "AutoFiction-AI/AutoFiction",
+    "Anning01/novelvids",
+    "Prompt-And-Circumstance/StoryMode",
+    "arian-emami/NovelDreamer",
     "wavemakercards/wavemaker-cards-v4",
     "Picrew/ConStory-Bench",
     "voocel/ainovel-cli",
     "PenglongHuang/chinese-novelist-skill",
     "RhythmicWave/NovelForge",
+    "brianlmerritt/explore_writing",
     "StableLlamaAI/AugmentedQuill",
     "kevboh/longform",
     "harshaneel/humanize",
     "MaoXiaoYuZ/Long-Novel-GPT",
+    "Picrew/awesome-llm-story-generation",
     "doctoroyy/novel-copilot",
     "andreafeccomandi/bibisco",
     "skyfiredao/dreampowers",
@@ -56,14 +64,18 @@
   "workflow_patterns": [
     {
       "name": "continuation",
-      "candidate_count": 7,
+      "candidate_count": 8,
       "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "shell_script",
+        "mcp_server",
+        "node_project",
         "postinstall"
       ],
-      "trust_flags": [],
+      "trust_flags": [
+        "license:custom-text"
+      ],
       "sources": [
         {
           "title": "YILING0013/AI_NovelGenerator",
@@ -79,6 +91,24 @@
           ],
           "trust_flags": [],
           "score": 126
+        },
+        {
+          "title": "forsonny/novel-master-ai",
+          "url": "https://github.com/forsonny/novel-master-ai",
+          "source": "github",
+          "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
+          "stars": 125,
+          "license": "MIT-like custom text",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "mcp_server",
+            "node_project"
+          ],
+          "trust_flags": [
+            "license:custom-text"
+          ],
+          "score": 116
         },
         {
           "title": "voocel/ainovel-cli",
@@ -166,16 +196,20 @@
     },
     {
       "name": "book_decomposition",
-      "candidate_count": 11,
+      "candidate_count": 12,
       "top_source_url": "https://github.com/loreum-app/loreum",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
         "native_binary",
+        "python_project",
+        "external_api_surface",
         "shell_script"
       ],
-      "trust_flags": [],
+      "trust_flags": [
+        "license:missing"
+      ],
       "sources": [
         {
           "title": "loreum-app/loreum",
@@ -249,6 +283,24 @@
           ],
           "trust_flags": [],
           "score": 122
+        },
+        {
+          "title": "Anning01/novelvids",
+          "url": "https://github.com/Anning01/novelvids",
+          "source": "github",
+          "summary": "Chinese novel-to-short-drama platform that transforms novels into video content through chapter/script processing, entity extraction, character reference imagery, storyboard/shot planning, and video synthesis.",
+          "stars": 219,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project",
+            "external_api_surface"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 112
         },
         {
           "title": "wavemakercards/wavemaker-cards-v4",
@@ -424,6 +476,39 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 88
+        }
+      ]
+    },
+    {
+      "name": "same_type_creation",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/Prompt-And-Circumstance/StoryMode",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "browser_extension",
+        "postinstall"
+      ],
+      "trust_flags": [
+        "license:missing"
+      ],
+      "sources": [
+        {
+          "title": "Prompt-And-Circumstance/StoryMode",
+          "url": "https://github.com/Prompt-And-Circumstance/StoryMode",
+          "source": "github",
+          "summary": "SillyTavern story-mode extension with 43 genres, story style and author style controls, mix-and-match settings, narrative arc controls, and scenario blueprint schema.",
+          "stars": 140,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "browser_extension",
+            "postinstall"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 110
         }
       ]
     },
@@ -1308,16 +1393,48 @@
       ]
     },
     {
+      "name": "rag_synopsis_spine",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/jncchds/abook",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "jncchds/abook",
+          "url": "https://github.com/jncchds/abook",
+          "source": "github",
+          "summary": "Agentic book-writing workspace with seven agents for Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker; RAG context retrieval, full synopsis spine, anti-repetition prompt rules, token stats, and export surfaces.",
+          "stars": 430,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "trust_flags": [],
+          "score": 128
+        }
+      ]
+    },
+    {
       "name": "contradiction_detection",
-      "candidate_count": 3,
+      "candidate_count": 4,
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
+        "node_project",
         "shell_script"
       ],
-      "trust_flags": [],
+      "trust_flags": [
+        "license:custom-text"
+      ],
       "sources": [
         {
           "title": "loreum-app/loreum",
@@ -1334,6 +1451,24 @@
           ],
           "trust_flags": [],
           "score": 196
+        },
+        {
+          "title": "forsonny/novel-master-ai",
+          "url": "https://github.com/forsonny/novel-master-ai",
+          "source": "github",
+          "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
+          "stars": 125,
+          "license": "MIT-like custom text",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "mcp_server",
+            "node_project"
+          ],
+          "trust_flags": [
+            "license:custom-text"
+          ],
+          "score": 116
         },
         {
           "title": "Picrew/ConStory-Bench",
@@ -1672,6 +1807,35 @@
       ]
     },
     {
+      "name": "agentic_book_planner_pipeline",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/jncchds/abook",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "jncchds/abook",
+          "url": "https://github.com/jncchds/abook",
+          "source": "github",
+          "summary": "Agentic book-writing workspace with seven agents for Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker; RAG context retrieval, full synopsis spine, anti-repetition prompt rules, token stats, and export surfaces.",
+          "stars": 430,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "trust_flags": [],
+          "score": 128
+        }
+      ]
+    },
+    {
       "name": "setup_payoff_tracking",
       "candidate_count": 3,
       "top_source_url": "https://github.com/skyfiredao/dreampowers",
@@ -1763,6 +1927,114 @@
       ]
     },
     {
+      "name": "top_down_story_planning",
+      "candidate_count": 4,
+      "top_source_url": "https://github.com/forsonny/novel-master-ai",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "mcp_server",
+        "node_project",
+        "python_project"
+      ],
+      "trust_flags": [
+        "license:custom-text"
+      ],
+      "sources": [
+        {
+          "title": "forsonny/novel-master-ai",
+          "url": "https://github.com/forsonny/novel-master-ai",
+          "source": "github",
+          "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
+          "stars": 125,
+          "license": "MIT-like custom text",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "mcp_server",
+            "node_project"
+          ],
+          "trust_flags": [
+            "license:custom-text"
+          ],
+          "score": 116
+        },
+        {
+          "title": "arian-emami/NovelDreamer",
+          "url": "https://github.com/arian-emami/NovelDreamer",
+          "source": "github",
+          "summary": "Research novel generator using style/thematic retrieval from Wikiquote samples, Hero's Journey and Freytag structure, and act/chapter pre-planning before generation.",
+          "stars": 88,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 108
+        },
+        {
+          "title": "forsonny/book-os",
+          "url": "https://github.com/forsonny/book-os",
+          "source": "github",
+          "summary": "Novel-OS workflow system for any AI tool with genre guides, global standards, novel-specific style, story outlines and scene-by-scene writing tasks.",
+          "stars": 141,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 78
+        },
+        {
+          "title": "GOAT-AI-lab/GOAT-Storytelling-Agent",
+          "url": "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent",
+          "source": "github",
+          "summary": "Agent for writing consistent long stories with top-down planning from topic to book spec to plot chapters and chapter scenes. Static intake note: Long-story generation agent. Public README describes a top-down pipeline from topic to book specification, enhanced book spec, plot ch",
+          "stars": 0,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 44
+        }
+      ]
+    },
+    {
+      "name": "nrd_task_tree_pipeline",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/forsonny/novel-master-ai",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "mcp_server",
+        "node_project"
+      ],
+      "trust_flags": [
+        "license:custom-text"
+      ],
+      "sources": [
+        {
+          "title": "forsonny/novel-master-ai",
+          "url": "https://github.com/forsonny/novel-master-ai",
+          "source": "github",
+          "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
+          "stars": 125,
+          "license": "MIT-like custom text",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "mcp_server",
+            "node_project"
+          ],
+          "trust_flags": [
+            "license:custom-text"
+          ],
+          "score": 116
+        }
+      ]
+    },
+    {
       "name": "gradual_reveal_control",
       "candidate_count": 1,
       "top_source_url": "https://github.com/skyfiredao/dreampowers",
@@ -1813,38 +2085,31 @@
       ]
     },
     {
-      "name": "top_down_story_planning",
-      "candidate_count": 2,
-      "top_source_url": "https://github.com/forsonny/book-os",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "name": "anti_repetition_prompt_rules",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/jncchds/abook",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
       "trust_flags": [],
       "sources": [
         {
-          "title": "forsonny/book-os",
-          "url": "https://github.com/forsonny/book-os",
+          "title": "jncchds/abook",
+          "url": "https://github.com/jncchds/abook",
           "source": "github",
-          "summary": "Novel-OS workflow system for any AI tool with genre guides, global standards, novel-specific style, story outlines and scene-by-scene writing tasks.",
-          "stars": 141,
-          "license": "MIT",
+          "summary": "Agentic book-writing workspace with seven agents for Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker; RAG context retrieval, full synopsis spine, anti-repetition prompt rules, token stats, and export surfaces.",
+          "stars": 430,
+          "license": "Apache-2.0",
           "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
           "trust_flags": [],
-          "score": 78
-        },
-        {
-          "title": "GOAT-AI-lab/GOAT-Storytelling-Agent",
-          "url": "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent",
-          "source": "github",
-          "summary": "Agent for writing consistent long stories with top-down planning from topic to book spec to plot chapters and chapter scenes. Static intake note: Long-story generation agent. Public README describes a top-down pipeline from topic to book specification, enhanced book spec, plot ch",
-          "stars": 0,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 44
+          "score": 128
         }
       ]
     },
@@ -2218,16 +2483,20 @@
     },
     {
       "name": "style_signature",
-      "candidate_count": 9,
+      "candidate_count": 11,
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
-        "shell_script",
-        "browser_extension"
+        "browser_extension",
+        "postinstall",
+        "python_project",
+        "shell_script"
       ],
-      "trust_flags": [],
+      "trust_flags": [
+        "license:missing"
+      ],
       "sources": [
         {
           "title": "loreum-app/loreum",
@@ -2272,6 +2541,39 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 140
+        },
+        {
+          "title": "Prompt-And-Circumstance/StoryMode",
+          "url": "https://github.com/Prompt-And-Circumstance/StoryMode",
+          "source": "github",
+          "summary": "SillyTavern story-mode extension with 43 genres, story style and author style controls, mix-and-match settings, narrative arc controls, and scenario blueprint schema.",
+          "stars": 140,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "browser_extension",
+            "postinstall"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 110
+        },
+        {
+          "title": "arian-emami/NovelDreamer",
+          "url": "https://github.com/arian-emami/NovelDreamer",
+          "source": "github",
+          "summary": "Research novel generator using style/thematic retrieval from Wikiquote samples, Hero's Journey and Freytag structure, and act/chapter pre-planning before generation.",
+          "stars": 88,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 108
         },
         {
           "title": "voocel/ainovel-cli",
@@ -2740,6 +3042,39 @@
       ]
     },
     {
+      "name": "narrative_arc_template_control",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/Prompt-And-Circumstance/StoryMode",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "browser_extension",
+        "postinstall"
+      ],
+      "trust_flags": [
+        "license:missing"
+      ],
+      "sources": [
+        {
+          "title": "Prompt-And-Circumstance/StoryMode",
+          "url": "https://github.com/Prompt-And-Circumstance/StoryMode",
+          "source": "github",
+          "summary": "SillyTavern story-mode extension with 43 genres, story style and author style controls, mix-and-match settings, narrative arc controls, and scenario blueprint schema.",
+          "stars": 140,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "browser_extension",
+            "postinstall"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 110
+        }
+      ]
+    },
+    {
       "name": "review_queue_staging",
       "candidate_count": 1,
       "top_source_url": "https://github.com/loreum-app/loreum",
@@ -2801,6 +3136,33 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 92
+        }
+      ]
+    },
+    {
+      "name": "story_structure_rag_planning",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/arian-emami/NovelDreamer",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "python_project"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "arian-emami/NovelDreamer",
+          "url": "https://github.com/arian-emami/NovelDreamer",
+          "source": "github",
+          "summary": "Research novel generator using style/thematic retrieval from Wikiquote samples, Hero's Journey and Freytag structure, and act/chapter pre-planning before generation.",
+          "stars": 88,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 108
         }
       ]
     },
@@ -2934,7 +3296,7 @@
     },
     {
       "name": "self_review",
-      "candidate_count": 20,
+      "candidate_count": 21,
       "top_source_url": "https://github.com/loreum-app/loreum",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -2942,6 +3304,7 @@
         "mcp_server",
         "native_binary",
         "shell_script",
+        "python_project",
         "postinstall"
       ],
       "trust_flags": [],
@@ -3126,6 +3489,21 @@
           "score": 102
         },
         {
+          "title": "brianlmerritt/explore_writing",
+          "url": "https://github.com/brianlmerritt/explore_writing",
+          "source": "github",
+          "summary": "Writing experiment harness with prompt recipes, sampling/temperature grids, write/review/top_writing phases, rubric review, append-only resumable TSV logs, and parameter comparison loops.",
+          "stars": 35,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 102
+        },
+        {
           "title": "skyfiredao/dreampowers",
           "url": "https://github.com/skyfiredao/dreampowers",
           "source": "github",
@@ -3223,6 +3601,52 @@
       ]
     },
     {
+      "name": "frontmatter_story_schema",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/forsonny/novel-master-ai",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "mcp_server",
+        "node_project"
+      ],
+      "trust_flags": [
+        "license:custom-text"
+      ],
+      "sources": [
+        {
+          "title": "forsonny/novel-master-ai",
+          "url": "https://github.com/forsonny/novel-master-ai",
+          "source": "github",
+          "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
+          "stars": 125,
+          "license": "MIT-like custom text",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "mcp_server",
+            "node_project"
+          ],
+          "trust_flags": [
+            "license:custom-text"
+          ],
+          "score": 116
+        },
+        {
+          "title": "danjdewhurst/story-skills",
+          "url": "https://github.com/danjdewhurst/story-skills",
+          "source": "github",
+          "summary": "Agent Skills fiction project format with plain markdown and YAML frontmatter for story bible, characters, worldbuilding, scene state, continuity questions, promises/payoffs and chapter drafts.",
+          "stars": 120,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 86
+        }
+      ]
+    },
+    {
       "name": "scene_type_directing",
       "candidate_count": 1,
       "top_source_url": "https://github.com/skyfiredao/dreampowers",
@@ -3246,29 +3670,6 @@
           ],
           "trust_flags": [],
           "score": 91
-        }
-      ]
-    },
-    {
-      "name": "frontmatter_story_schema",
-      "candidate_count": 1,
-      "top_source_url": "https://github.com/danjdewhurst/story-skills",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "danjdewhurst/story-skills",
-          "url": "https://github.com/danjdewhurst/story-skills",
-          "source": "github",
-          "summary": "Agent Skills fiction project format with plain markdown and YAML frontmatter for story bible, characters, worldbuilding, scene state, continuity questions, promises/payoffs and chapter drafts.",
-          "stars": 120,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "trust_flags": [],
-          "score": 86
         }
       ]
     },
@@ -3363,11 +3764,16 @@
     },
     {
       "name": "structured_generation_schema",
-      "candidate_count": 3,
+      "candidate_count": 4,
       "top_source_url": "https://github.com/Narcooo/inkos",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "trust_flags": [],
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "browser_extension",
+        "postinstall"
+      ],
+      "trust_flags": [
+        "license:missing"
+      ],
       "sources": [
         {
           "title": "Narcooo/inkos",
@@ -3381,6 +3787,24 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 140
+        },
+        {
+          "title": "Prompt-And-Circumstance/StoryMode",
+          "url": "https://github.com/Prompt-And-Circumstance/StoryMode",
+          "source": "github",
+          "summary": "SillyTavern story-mode extension with 43 genres, story style and author style controls, mix-and-match settings, narrative arc controls, and scenario blueprint schema.",
+          "stars": 140,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "browser_extension",
+            "postinstall"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 110
         },
         {
           "title": "RhythmicWave/NovelForge",
@@ -3730,12 +4154,14 @@
     },
     {
       "name": "context_reference",
-      "candidate_count": 8,
+      "candidate_count": 10,
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
+        "mcp_server",
         "shell_script",
+        "python_project",
         "browser_extension"
       ],
       "trust_flags": [],
@@ -3756,6 +4182,22 @@
           "score": 144
         },
         {
+          "title": "jncchds/abook",
+          "url": "https://github.com/jncchds/abook",
+          "source": "github",
+          "summary": "Agentic book-writing workspace with seven agents for Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker; RAG context retrieval, full synopsis spine, anti-repetition prompt rules, token stats, and export surfaces.",
+          "stars": 430,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "trust_flags": [],
+          "score": 128
+        },
+        {
           "title": "YILING0013/AI_NovelGenerator",
           "url": "https://github.com/YILING0013/AI_NovelGenerator",
           "source": "github",
@@ -3769,6 +4211,21 @@
           ],
           "trust_flags": [],
           "score": 126
+        },
+        {
+          "title": "arian-emami/NovelDreamer",
+          "url": "https://github.com/arian-emami/NovelDreamer",
+          "source": "github",
+          "summary": "Research novel generator using style/thematic retrieval from Wikiquote samples, Hero's Journey and Freytag structure, and act/chapter pre-planning before generation.",
+          "stars": 88,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 108
         },
         {
           "title": "RhythmicWave/NovelForge",
@@ -3854,6 +4311,64 @@
           ],
           "trust_flags": [],
           "score": 50
+        }
+      ]
+    },
+    {
+      "name": "entity_to_visual_asset_pipeline",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/MemeCalculate/moyin-creator",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "postinstall",
+        "native_binary",
+        "desktop_runtime",
+        "python_project",
+        "external_api_surface"
+      ],
+      "trust_flags": [
+        "owner:user-high-star-tool",
+        "downloads:enabled-high-stars",
+        "license:missing"
+      ],
+      "sources": [
+        {
+          "title": "MemeCalculate/moyin-creator",
+          "url": "https://github.com/MemeCalculate/moyin-creator",
+          "source": "github",
+          "summary": "AI film production tool with script-to-film batch workflow: script, characters, scenes, director decisions, storyboard/shot planning, and final video. AGPL/Electron/runtime surface keeps it pattern-only.",
+          "stars": 3760,
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "postinstall",
+            "native_binary",
+            "desktop_runtime"
+          ],
+          "trust_flags": [
+            "owner:user-high-star-tool",
+            "downloads:enabled-high-stars"
+          ],
+          "score": 118
+        },
+        {
+          "title": "Anning01/novelvids",
+          "url": "https://github.com/Anning01/novelvids",
+          "source": "github",
+          "summary": "Chinese novel-to-short-drama platform that transforms novels into video content through chapter/script processing, entity extraction, character reference imagery, storyboard/shot planning, and video synthesis.",
+          "stars": 219,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project",
+            "external_api_surface"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 112
         }
       ]
     },
@@ -3949,14 +4464,32 @@
     },
     {
       "name": "workflow_agent_pipeline",
-      "candidate_count": 5,
-      "top_source_url": "https://github.com/AutoFiction-AI/AutoFiction",
-      "posture_hint": "metadata-triage",
+      "candidate_count": 6,
+      "top_source_url": "https://github.com/jncchds/abook",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
+        "docker",
+        "mcp_server",
         "shell_script"
       ],
       "trust_flags": [],
       "sources": [
+        {
+          "title": "jncchds/abook",
+          "url": "https://github.com/jncchds/abook",
+          "source": "github",
+          "summary": "Agentic book-writing workspace with seven agents for Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker; RAG context retrieval, full synopsis spine, anti-repetition prompt rules, token stats, and export surfaces.",
+          "stars": 430,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "trust_flags": [],
+          "score": 128
+        },
         {
           "title": "AutoFiction-AI/AutoFiction",
           "url": "https://github.com/AutoFiction-AI/AutoFiction",
@@ -4023,6 +4556,33 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 80
+        }
+      ]
+    },
+    {
+      "name": "append_only_generation_review_log",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/brianlmerritt/explore_writing",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "python_project"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "brianlmerritt/explore_writing",
+          "url": "https://github.com/brianlmerritt/explore_writing",
+          "source": "github",
+          "summary": "Writing experiment harness with prompt recipes, sampling/temperature grids, write/review/top_writing phases, rubric review, append-only resumable TSV logs, and parameter comparison loops.",
+          "stars": 35,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 102
         }
       ]
     },
@@ -4134,14 +4694,23 @@
     },
     {
       "name": "scene_asset_pipeline",
-      "candidate_count": 2,
+      "candidate_count": 4,
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
-        "mcp_server"
+        "mcp_server",
+        "postinstall",
+        "native_binary",
+        "desktop_runtime",
+        "python_project",
+        "external_api_surface"
       ],
-      "trust_flags": [],
+      "trust_flags": [
+        "owner:user-high-star-tool",
+        "downloads:enabled-high-stars",
+        "license:missing"
+      ],
       "sources": [
         {
           "title": "loreum-app/loreum",
@@ -4158,6 +4727,44 @@
           ],
           "trust_flags": [],
           "score": 196
+        },
+        {
+          "title": "MemeCalculate/moyin-creator",
+          "url": "https://github.com/MemeCalculate/moyin-creator",
+          "source": "github",
+          "summary": "AI film production tool with script-to-film batch workflow: script, characters, scenes, director decisions, storyboard/shot planning, and final video. AGPL/Electron/runtime surface keeps it pattern-only.",
+          "stars": 3760,
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "postinstall",
+            "native_binary",
+            "desktop_runtime"
+          ],
+          "trust_flags": [
+            "owner:user-high-star-tool",
+            "downloads:enabled-high-stars"
+          ],
+          "score": 118
+        },
+        {
+          "title": "Anning01/novelvids",
+          "url": "https://github.com/Anning01/novelvids",
+          "source": "github",
+          "summary": "Chinese novel-to-short-drama platform that transforms novels into video content through chapter/script processing, entity extraction, character reference imagery, storyboard/shot planning, and video synthesis.",
+          "stars": 219,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project",
+            "external_api_surface"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 112
         },
         {
           "title": "kaigani/codeywood",
@@ -4204,6 +4811,33 @@
       ]
     },
     {
+      "name": "prompt_recipe_experiment_grid",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/brianlmerritt/explore_writing",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "python_project"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "brianlmerritt/explore_writing",
+          "url": "https://github.com/brianlmerritt/explore_writing",
+          "source": "github",
+          "summary": "Writing experiment harness with prompt recipes, sampling/temperature grids, write/review/top_writing phases, rubric review, append-only resumable TSV logs, and parameter comparison loops.",
+          "stars": 35,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 102
+        }
+      ]
+    },
+    {
       "name": "query_lint_contract",
       "candidate_count": 1,
       "top_source_url": "https://github.com/ModernRelay/omnigraph",
@@ -4228,11 +4862,12 @@
     },
     {
       "name": "quality_score_loop",
-      "candidate_count": 3,
+      "candidate_count": 4,
       "top_source_url": "https://github.com/NousResearch/autonovel",
       "posture_hint": "metadata-triage",
       "risk_flags": [
-        "shell_script"
+        "shell_script",
+        "python_project"
       ],
       "trust_flags": [],
       "sources": [
@@ -4263,6 +4898,21 @@
           ],
           "trust_flags": [],
           "score": 112
+        },
+        {
+          "title": "brianlmerritt/explore_writing",
+          "url": "https://github.com/brianlmerritt/explore_writing",
+          "source": "github",
+          "summary": "Writing experiment harness with prompt recipes, sampling/temperature grids, write/review/top_writing phases, rubric review, append-only resumable TSV logs, and parameter comparison loops.",
+          "stars": 35,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 102
         },
         {
           "title": "mrigankad/Novel-OS",
@@ -4352,6 +5002,33 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 106
+        }
+      ]
+    },
+    {
+      "name": "sampling_parameter_quality_sweep",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/brianlmerritt/explore_writing",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "python_project"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "brianlmerritt/explore_writing",
+          "url": "https://github.com/brianlmerritt/explore_writing",
+          "source": "github",
+          "summary": "Writing experiment harness with prompt recipes, sampling/temperature grids, write/review/top_writing phases, rubric review, append-only resumable TSV logs, and parameter comparison loops.",
+          "stars": 35,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project"
+          ],
+          "trust_flags": [],
+          "score": 102
         }
       ]
     },
@@ -4454,6 +5131,64 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 76
+        }
+      ]
+    },
+    {
+      "name": "novel_to_multimodal_pipeline",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/MemeCalculate/moyin-creator",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "postinstall",
+        "native_binary",
+        "desktop_runtime",
+        "python_project",
+        "external_api_surface"
+      ],
+      "trust_flags": [
+        "owner:user-high-star-tool",
+        "downloads:enabled-high-stars",
+        "license:missing"
+      ],
+      "sources": [
+        {
+          "title": "MemeCalculate/moyin-creator",
+          "url": "https://github.com/MemeCalculate/moyin-creator",
+          "source": "github",
+          "summary": "AI film production tool with script-to-film batch workflow: script, characters, scenes, director decisions, storyboard/shot planning, and final video. AGPL/Electron/runtime surface keeps it pattern-only.",
+          "stars": 3760,
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "postinstall",
+            "native_binary",
+            "desktop_runtime"
+          ],
+          "trust_flags": [
+            "owner:user-high-star-tool",
+            "downloads:enabled-high-stars"
+          ],
+          "score": 118
+        },
+        {
+          "title": "Anning01/novelvids",
+          "url": "https://github.com/Anning01/novelvids",
+          "source": "github",
+          "summary": "Chinese novel-to-short-drama platform that transforms novels into video content through chapter/script processing, entity extraction, character reference imagery, storyboard/shot planning, and video synthesis.",
+          "stars": 219,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project",
+            "external_api_surface"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 112
         }
       ]
     },
@@ -4684,11 +5419,45 @@
       ]
     },
     {
-      "name": "manuscript_export_formats",
-      "candidate_count": 4,
-      "top_source_url": "https://github.com/olivierkes/manuskript",
+      "name": "research_taxonomy_story_map",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/Picrew/awesome-llm-story-generation",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "license:missing"
+      ],
+      "trust_flags": [
+        "license:missing"
+      ],
+      "sources": [
+        {
+          "title": "Picrew/awesome-llm-story-generation",
+          "url": "https://github.com/Picrew/awesome-llm-story-generation",
+          "source": "github",
+          "summary": "Curated LLM story/novel/script generation index with 232 verified entries and 10 method categories: planning/decomposition, agent collaboration, sandbox/world simulation, multimodal story generation, memory/long-context, and evaluation/benchmark groupings.",
+          "stars": 80,
+          "license": "unknown",
+          "posture": "index-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "license:missing"
+          ],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 94
+        }
+      ]
+    },
+    {
+      "name": "manuscript_export_formats",
+      "candidate_count": 5,
+      "top_source_url": "https://github.com/olivierkes/manuskript",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
       "trust_flags": [],
       "sources": [
         {
@@ -4703,6 +5472,22 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 168
+        },
+        {
+          "title": "jncchds/abook",
+          "url": "https://github.com/jncchds/abook",
+          "source": "github",
+          "summary": "Agentic book-writing workspace with seven agents for Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker; RAG context retrieval, full synopsis spine, anti-repetition prompt rules, token stats, and export surfaces.",
+          "stars": 430,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "trust_flags": [],
+          "score": 128
         },
         {
           "title": "dylanhogg/gptauthor",
@@ -5084,6 +5869,43 @@
     "ai_transition_removals",
     "ai_generated_labeling",
     "ethical_disclosure_notes",
+    "story_generation_taxonomy",
+    "method_category_map",
+    "benchmark_candidate_refs",
+    "multimodal_adaptation_chain",
+    "script_scene_storyboard_outputs",
+    "video_asset_boundaries",
+    "entity_extraction_results",
+    "character_reference_assets",
+    "scene_visual_asset_manifest",
+    "story_bible_agent_outputs",
+    "plot_thread_agent_outputs",
+    "chapter_outline_agent_outputs",
+    "continuity_checker_outputs",
+    "full_synopsis_spine",
+    "rag_context_retrieval_log",
+    "chapter_summary_spine",
+    "anti_repetition_rule_hits",
+    "token_stats",
+    "repeated_phrase_scene_shape_report",
+    "prompt_recipe_grid",
+    "writing_experiment_runs",
+    "rubric_review_scores",
+    "append_only_run_log",
+    "resumable_review_records",
+    "experiment_resume_state",
+    "narrative_arc_templates",
+    "genre_style_matrix",
+    "scenario_blueprint_fields",
+    "nrd_task_tree",
+    "arc_chapter_scene_nodes",
+    "revision_pass_records",
+    "sampling_parameter_grid",
+    "quality_sweep_results",
+    "temperature_top_p_findings",
+    "hero_journey_beats",
+    "freytag_structure_points",
+    "style_thematic_rag_samples",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
@@ -5179,6 +6001,18 @@
     "agent_stage_contracts",
     "stylometry_polish_rules",
     "human_authority_boundary",
+    "research_taxonomy_map",
+    "multimodal_adaptation_plan",
+    "entity_visual_asset_refs",
+    "agentic_planning_roles",
+    "synopsis_spine",
+    "anti_repetition_rules",
+    "prompt_recipe_catalog",
+    "generation_review_log",
+    "narrative_arc_templates",
+    "nrd_task_tree",
+    "sampling_quality_grid",
+    "story_structure_refs",
     "organizations",
     "conflicts",
     "story_arcs",
@@ -5222,6 +6056,13 @@
     "Run a contradiction taxonomy check before accepting a chapter: characterization, factual detail, narrative style, timeline/plot, and world rules.",
     "Audit cross-chapter redundancy, repeated scene construction, weak causality, flat dialogue, and over-regular prose before revision closes.",
     "Keep the author in control: AI may propose, draft, and review, but canon changes require accepted project artifacts or explicit user direction.",
+    "Use the research taxonomy as a checklist for method coverage: planning, agents, simulation, multimodal adaptation, memory, and benchmark gates.",
+    "Separate Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker outputs before drafting.",
+    "Keep a full synopsis spine and retrieve only the chapter-summary/context slices relevant to the next beat.",
+    "Apply anti-repetition rules before acceptance: reject repeated phrases, repeated scene shapes, and redundant causal bridges.",
+    "Select narrative arc and genre/style controls explicitly so continuation follows the intended arc instead of drifting by local scene taste.",
+    "Drive continuation from an NRD-style task tree: arcs -> chapters -> scenes -> revision passes, with continuity reporting after each level.",
+    "Use story-structure references as planning scaffolds only; map Hero's Journey/Freytag beats to this book's accepted facts before prose.",
     "长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。",
     "把章节、笔记、摘要和分析切成稳定文本单元，便于 diff、回滚和人工审阅。",
     "生成前核对本章 synopsis、评论、注释和交叉引用，避免遗漏已标记线索。",
@@ -5271,6 +6112,13 @@
     "Store semantic search results with query, matched artifact, inclusion reason, and whether each hit became canon evidence.",
     "Record each agent stage job, input artifact set, output path, validation status, and aggregate revision finding for replayable long runs.",
     "Persist redundancy findings across chapters so repeated weak patterns can be fixed in batch revision rather than forgotten.",
+    "Persist the chosen method taxonomy category for each writing run so later reviews know whether it was planning, agentic, RAG, multimodal, or benchmark-driven.",
+    "Store agent role outputs separately; Writer drafts should cite Story Bible, Plot Thread, Chapter Outline, Editor, and Continuity Checker artifact ids.",
+    "Keep the full synopsis spine, chapter summaries, retrieval query, included context, and omitted context together for resumable continuation.",
+    "Persist anti-repetition rule hits and token/repeated-pattern stats across chapters so batch repair can target recurring prose habits.",
+    "Persist prompt recipe, sampling parameters, review rubric, and keep/discard decision for every experiment run.",
+    "Use append-only generation/review logs for experiment runs so interrupted sweeps resume without rewriting prior evidence.",
+    "Track NRD task-tree nodes, tags, revision pass status, and continuity-report outcomes across arcs, chapters, and scenes.",
     "Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale.",
     "Keep stable ids for manuscript text units so generated changes can be diffed and reverted without losing notes.",
     "Persist synopsis and cross-reference links beside chapter state so prompts can cite why a note is relevant.",
@@ -5692,6 +6540,54 @@
     "Separate AI proposals from accepted canon and keep user/author decisions visible in the run state.",
     "When output is AI-generated or synthetic, label it in artifacts instead of presenting it as human-authored final prose."
   ],
+  "research_taxonomy_story_map_hints": [
+    "Use the story-generation taxonomy as an index-only coverage map: planning/decomposition, agent collaboration, simulation, multimodal, memory, and evaluation.",
+    "Do not inject a large awesome-list into prompts; cite only the method category that explains the current writing choice."
+  ],
+  "novel_to_multimodal_pipeline_hints": [
+    "When planning adaptation, split novel text into chapter summary, script scene, storyboard/shot list, asset manifest, and derived media output.",
+    "Multimodal outputs are derived artifacts; they must not mutate novel canon unless an accepted script/scene change package says so."
+  ],
+  "entity_to_visual_asset_pipeline_hints": [
+    "Extract characters, locations, props, costumes, and scene mood into visual-asset refs before storyboard or image/video prompting.",
+    "Reference images and visual prompts must cite the source entity/card version so later prose changes can invalidate stale assets."
+  ],
+  "agentic_book_planner_pipeline_hints": [
+    "Keep book-planning roles separate: Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker.",
+    "Writer output should cite the accepted planning artifacts it used, and Editor/Continuity findings should remain review records until accepted."
+  ],
+  "rag_synopsis_spine_hints": [
+    "Maintain a full synopsis spine with chapter summaries and retrieve against that spine before pulling larger chapter text.",
+    "Every RAG hit needs query, matched synopsis/chapter id, inclusion reason, and canon status before prompt injection."
+  ],
+  "anti_repetition_prompt_rules_hints": [
+    "Add anti-repetition rules to prompt and review: repeated phrase, repeated scene shape, repeated causal bridge, and repeated emotional beat.",
+    "Use token/repetition stats as evidence for batch repair, not as a reason to flatten the prose voice."
+  ],
+  "prompt_recipe_experiment_grid_hints": [
+    "Run prompt recipes as bounded experiments with fixed inputs, rubric review, and keep/discard decisions before promoting a recipe.",
+    "Compare recipes by story quality, continuity risk, style fidelity, novelty, and copy-risk instead of by one sample's surface fluency."
+  ],
+  "append_only_generation_review_log_hints": [
+    "Record generation experiments in an append-only log with recipe id, parameter set, output id, review score, and decision.",
+    "Interrupted sweeps should resume by appending new rows, not by rewriting prior review evidence."
+  ],
+  "narrative_arc_template_control_hints": [
+    "Select genre, story style, author-style target, narrative arc, and scenario blueprint before same-type drafting.",
+    "Arc templates guide pressure and payoff timing; they must be transformed into new cast, setting, conflict, and event chain."
+  ],
+  "nrd_task_tree_pipeline_hints": [
+    "Represent long-form planning as an NRD task tree from arcs to chapters to scenes and revision passes.",
+    "Each task node needs tag/status, accepted input artifacts, generated output, review finding, and continuity-report result."
+  ],
+  "sampling_parameter_quality_sweep_hints": [
+    "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
+    "Promote parameter defaults only when they improve continuity, voice, pacing, and copy-risk together."
+  ],
+  "story_structure_rag_planning_hints": [
+    "Use retrieved style/thematic samples plus Hero's Journey or Freytag beats as planning scaffolds before act/chapter drafting.",
+    "Structure references are not canon; map each beat to accepted story facts before prose generation."
+  ],
   "inspired_mapping_targets": [
     "character_remap",
     "organization_remap",
@@ -5744,7 +6640,19 @@
     "semantic_context_remap",
     "consistency_taxonomy_remap",
     "redundancy_pattern_remap",
-    "stylometry_rule_remap"
+    "stylometry_rule_remap",
+    "method_taxonomy_remap",
+    "multimodal_pipeline_remap",
+    "visual_asset_remap",
+    "book_planner_role_remap",
+    "synopsis_spine_remap",
+    "anti_repetition_rule_remap",
+    "prompt_recipe_remap",
+    "experiment_log_remap",
+    "narrative_arc_remap",
+    "nrd_task_tree_remap",
+    "sampling_quality_remap",
+    "structure_scaffold_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -5777,7 +6685,15 @@
     "Transform genre parameters into new factions, locations, stakes, and taboo moves before drafting.",
     "Use voice calibration to make the new prose specific and human without preserving source phrases.",
     "Build a new sourcebook for the transformed story; sourcebook entries from the reference remain craft notes, not canon.",
-    "Run independence checks under the same consistency taxonomy so transformed facts do not drift back toward source facts."
+    "Run independence checks under the same consistency taxonomy so transformed facts do not drift back toward source facts.",
+    "Use taxonomy categories to choose a method for the new story, not to inherit another project's source list or paper structure.",
+    "Recreate planner-role outputs for the transformed story; source Story Bible, plot threads, and chapter outlines are reference evidence only.",
+    "Build a transformed synopsis spine first, then retrieve from that new spine instead of from source-book summaries.",
+    "Anti-repetition checks should reject both generic loops and source-like repeated beat sequences.",
+    "Evaluate same-type prompt recipes against independence, continuity, and voice before accepting the best candidate.",
+    "Select a narrative arc template, then change premise, cast, cause, cost, and payoff so the arc is independent.",
+    "Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.",
+    "Use structure scaffolds like Hero's Journey or Freytag as abstract pressure maps, not as source event order."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -5803,7 +6719,14 @@
     "Transform strand functions and convergence pressure; do not preserve the source beat labels or sequence.",
     "Create new frontmatter/story-schema values instead of carrying source promises, questions, or scene state forward.",
     "Semantic hits from source works must be converted into abstract craft pressure before any new-story context pack is built.",
-    "Stylometry polish should change surface rhythm, not preserve distinctive source phrasing or scene wording."
+    "Stylometry polish should change surface rhythm, not preserve distinctive source phrasing or scene wording.",
+    "Transform adaptation outputs at script/scene/storyboard function level; do not preserve source shot or set-piece order.",
+    "Regenerate visual-asset refs from transformed entities so source character designs, props, and locations do not leak into the new canon.",
+    "Transform Story Bible, character, plot-thread, and chapter-outline artifacts before any Writer role drafts prose.",
+    "Rewrite the synopsis spine around the new premise and only then use it for retrieval-guided same-type drafting.",
+    "Transform arc controls into new scene pressure, reveal timing, and payoff cost instead of retaining source beat order.",
+    "Rebuild the NRD task tree from new arcs to scenes so revision passes repair the new story, not the source workflow.",
+    "Map structure-RAG samples to abstract beat purpose, then replace character, setting, event, and language before drafting."
   ],
   "inspired_copy_risk_hints": [
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
@@ -5828,7 +6751,17 @@
     "Reject voice tables that keep source catchphrases, signature sentence endings, or named verbal tics.",
     "Reject beat maps that preserve the source convergence order under different names.",
     "Reject transformed sourcebooks that carry source names, unique locations, lore labels, item names, or scene lists.",
-    "Reject semantic context packs that retrieve source passages as new-story canon."
+    "Reject semantic context packs that retrieve source passages as new-story canon.",
+    "Reject prompts that paste large index/catalog entries into same-type drafting context.",
+    "Reject adaptation plans that preserve source shot order, scene order, or recognizable set-piece staging.",
+    "Reject visual-asset manifests that keep source character designs, unique props, location names, or costume signatures.",
+    "Reject planner-role outputs that mirror source Story Bible facts, plot-thread labels, or chapter-outline sequence.",
+    "Reject synopsis spines that preserve source chapter-summary order under renamed entities.",
+    "Reject drafts that pass local prose checks but repeat the source's scene-function rhythm across chapters.",
+    "Reject experiment winners whose quality score comes from closeness to source facts or wording.",
+    "Reject arc templates that preserve source scenario blueprint fields, named gimmicks, or payoff order.",
+    "Reject NRD task trees whose arc/chapter/scene hierarchy mirrors the source route.",
+    "Reject structure scaffolds that smuggle source quotes, named examples, or event ordering into canon."
   ],
   "self_review_policy_hints": [
     "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
@@ -5848,6 +6781,9 @@
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
-    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。"
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
+    "?????????README ??? git ls-remote HEAD?????????????????",
+    "???????????????????? index-only ? pattern-only ???",
+    "Docker?MCP???????Electron??? API ?????????????????"
   ]
 }

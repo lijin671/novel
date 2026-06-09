@@ -263,6 +263,18 @@ def render_source_pattern_pack_digest(
         "cross_chapter_redundancy_audit_hints",
         "humanization_stylometry_levers_hints",
         "author_control_boundary_hints",
+        "research_taxonomy_story_map_hints",
+        "novel_to_multimodal_pipeline_hints",
+        "entity_to_visual_asset_pipeline_hints",
+        "agentic_book_planner_pipeline_hints",
+        "rag_synopsis_spine_hints",
+        "anti_repetition_prompt_rules_hints",
+        "prompt_recipe_experiment_grid_hints",
+        "append_only_generation_review_log_hints",
+        "narrative_arc_template_control_hints",
+        "nrd_task_tree_pipeline_hints",
+        "sampling_parameter_quality_sweep_hints",
+        "story_structure_rag_planning_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

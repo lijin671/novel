@@ -2628,3 +2628,255 @@ def test_default_discovery_sources_include_consistency_sourcebook_projects():
     assert any("narrative consistency" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("cross-chapter redundancy" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("perplexity" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_research_multimodal_experiment_projects_are_classified_as_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Picrew/awesome-llm-story-generation",
+                "html_url": "https://github.com/Picrew/awesome-llm-story-generation",
+                "description": "Curated list of LLM story/novel/script generation research with planning / decomposition, agent collaboration, sandbox / world simulation, multimodal story generation and evaluation / benchmark categories.",
+                "stargazers_count": 80,
+                "license": None,
+                "topics": ["story-generation", "llm", "novel"],
+                "updated_at": "2026-06-09T07:56:32Z",
+            },
+            {
+                "full_name": "Anning01/novelvids",
+                "html_url": "https://github.com/Anning01/novelvids",
+                "description": "AI 驱动的小说转短剧全流程生产平台：章节拆分、实体提取、角色参考图、分镜、storyboard and video synthesis.",
+                "stargazers_count": 219,
+                "license": None,
+                "topics": ["novel", "video", "storyboard"],
+                "updated_at": "2026-05-30T06:12:51Z",
+                "root_files": ["pyproject.toml", "main.py", "README.md"],
+            },
+            {
+                "full_name": "MemeCalculate/moyin-creator",
+                "html_url": "https://github.com/MemeCalculate/moyin-creator",
+                "description": "AI film production tool with script to characters, scenes, director decisions, storyboard, shot planning and final video.",
+                "stargazers_count": 3760,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["film-production", "script", "storyboard"],
+                "updated_at": "2026-06-09T12:29:33Z",
+                "root_files": ["package.json", "electron-builder.yml", "README.md"],
+                "package_scripts": {"postinstall": "node scripts/postinstall.js"},
+            },
+            {
+                "full_name": "jncchds/abook",
+                "html_url": "https://github.com/jncchds/abook",
+                "description": "Agentic book planner with seven agents: Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor and Continuity Checker; RAG context retrieval, full synopsis spine, anti-repetition rules and token stats.",
+                "stargazers_count": 430,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "writing", "rag"],
+                "updated_at": "2026-06-09T09:00:00Z",
+                "root_files": ["docker-compose.yml", "Dockerfile", "README.md"],
+            },
+            {
+                "full_name": "Prompt-And-Circumstance/StoryMode",
+                "html_url": "https://github.com/Prompt-And-Circumstance/StoryMode",
+                "description": "SillyTavern extension with 43 genres, story style, author style, mix-and-match settings, narrative arc and scenario blueprint schema.",
+                "stargazers_count": 140,
+                "license": None,
+                "topics": ["story", "fiction", "sillytavern"],
+                "updated_at": "2026-06-09T09:30:00Z",
+                "root_files": ["package.json", "manifest.json", "README.md"],
+            },
+            {
+                "full_name": "brianlmerritt/explore_writing",
+                "html_url": "https://github.com/brianlmerritt/explore_writing",
+                "description": "Writing experiment harness with prompt recipes, temperature grid, sampling parameter quality sweep, write/review/top_writing phases and append-only resumable TSV logs.",
+                "stargazers_count": 35,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "experiments"],
+                "updated_at": "2026-06-09T10:00:00Z",
+                "root_files": ["requirements.txt", "README.md"],
+            },
+            {
+                "full_name": "forsonny/novel-master-ai",
+                "html_url": "https://github.com/forsonny/novel-master-ai",
+                "description": "Novel Master AI uses NRD task tree pipeline across arcs/chapters/scenes, revision passes, tagged workflow and continuity reporting.",
+                "stargazers_count": 125,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing", "mcp"],
+                "updated_at": "2026-06-09T10:30:00Z",
+                "root_files": ["package.json", "README.md"],
+            },
+            {
+                "full_name": "arian-emami/NovelDreamer",
+                "html_url": "https://github.com/arian-emami/NovelDreamer",
+                "description": "Novel generator using Wikiquote style/thematic samples, Hero's Journey, Freytag and acts/chapters pre-planning with story structure RAG.",
+                "stargazers_count": 88,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "rag", "story"],
+                "updated_at": "2026-06-09T11:00:00Z",
+                "root_files": ["requirements.txt", "README.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T23:00:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+
+    assert "research_taxonomy_story_map" in patterns_by_title["Picrew/awesome-llm-story-generation"]
+    assert "novel_to_multimodal_pipeline" in patterns_by_title["Anning01/novelvids"]
+    assert "entity_to_visual_asset_pipeline" in patterns_by_title["Anning01/novelvids"]
+    assert "novel_to_multimodal_pipeline" in patterns_by_title["MemeCalculate/moyin-creator"]
+    assert "agentic_book_planner_pipeline" in patterns_by_title["jncchds/abook"]
+    assert "rag_synopsis_spine" in patterns_by_title["jncchds/abook"]
+    assert "anti_repetition_prompt_rules" in patterns_by_title["jncchds/abook"]
+    assert "narrative_arc_template_control" in patterns_by_title["Prompt-And-Circumstance/StoryMode"]
+    assert "prompt_recipe_experiment_grid" in patterns_by_title["brianlmerritt/explore_writing"]
+    assert "append_only_generation_review_log" in patterns_by_title["brianlmerritt/explore_writing"]
+    assert "sampling_parameter_quality_sweep" in patterns_by_title["brianlmerritt/explore_writing"]
+    assert "nrd_task_tree_pipeline" in patterns_by_title["forsonny/novel-master-ai"]
+    assert "story_structure_rag_planning" in patterns_by_title["arian-emami/NovelDreamer"]
+
+
+def test_research_multimodal_experiment_pattern_pack_exposes_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-09T23:05:00+08:00",
+        "candidate_count": 8,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/Picrew/awesome-llm-story-generation",
+                "title": "Picrew/awesome-llm-story-generation",
+                "summary": "Story generation taxonomy with planning/decomposition, agent collaboration, multimodal, memory and benchmark categories.",
+                "stars": 80,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "index-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["research_taxonomy_story_map"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Anning01/novelvids",
+                "title": "Anning01/novelvids",
+                "summary": "Novel-to-short-drama pipeline with entity extraction, reference images, storyboard and video synthesis.",
+                "stars": 219,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["runtime_surface"],
+                "absorbed_patterns": ["novel_to_multimodal_pipeline", "entity_to_visual_asset_pipeline", "scene_asset_pipeline"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/jncchds/abook",
+                "title": "jncchds/abook",
+                "summary": "Seven-agent book planner with RAG context retrieval, full synopsis spine, anti-repetition rules and continuity checker.",
+                "stars": 430,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker", "mcp_server"],
+                "absorbed_patterns": ["agentic_book_planner_pipeline", "rag_synopsis_spine", "anti_repetition_prompt_rules", "workflow_agent_pipeline"],
+                "score": 94,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Prompt-And-Circumstance/StoryMode",
+                "title": "Prompt-And-Circumstance/StoryMode",
+                "summary": "43 genres, story style, author style, narrative arc and scenario blueprint schema.",
+                "stars": 140,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["browser_extension"],
+                "absorbed_patterns": ["narrative_arc_template_control", "same_type_creation"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/brianlmerritt/explore_writing",
+                "title": "brianlmerritt/explore_writing",
+                "summary": "Prompt recipes, sampling grid, rubric review, write/review/top_writing and append-only resumable TSV logs.",
+                "stars": 35,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["prompt_recipe_experiment_grid", "append_only_generation_review_log", "sampling_parameter_quality_sweep"],
+                "score": 80,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/forsonny/novel-master-ai",
+                "title": "forsonny/novel-master-ai",
+                "summary": "NRD task tree across arcs, chapters, scenes and revision passes with continuity reporting.",
+                "stars": 125,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["mcp_server"],
+                "absorbed_patterns": ["nrd_task_tree_pipeline", "continuation"],
+                "score": 89,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/arian-emami/NovelDreamer",
+                "title": "arian-emami/NovelDreamer",
+                "summary": "Wikiquote style/thematic RAG with Hero's Journey, Freytag and act/chapter pre-planning.",
+                "stars": 88,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["story_structure_rag_planning", "top_down_story_planning"],
+                "score": 82,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "story_generation_taxonomy" in pattern_pack["whole_book_analysis_targets"]
+    assert "multimodal_adaptation_chain" in pattern_pack["whole_book_analysis_targets"]
+    assert "entity_extraction_results" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_bible_agent_outputs" in pattern_pack["whole_book_analysis_targets"]
+    assert "full_synopsis_spine" in pattern_pack["whole_book_analysis_targets"]
+    assert "anti_repetition_rule_hits" in pattern_pack["whole_book_analysis_targets"]
+    assert "prompt_recipe_grid" in pattern_pack["whole_book_analysis_targets"]
+    assert "narrative_arc_templates" in pattern_pack["whole_book_analysis_targets"]
+    assert "nrd_task_tree" in pattern_pack["whole_book_analysis_targets"]
+    assert "hero_journey_beats" in pattern_pack["whole_book_analysis_targets"]
+    assert "research_taxonomy_story_map_hints" in pattern_pack
+    assert "novel_to_multimodal_pipeline_hints" in pattern_pack
+    assert "agentic_book_planner_pipeline_hints" in pattern_pack
+    assert "rag_synopsis_spine_hints" in pattern_pack
+    assert "prompt_recipe_experiment_grid_hints" in pattern_pack
+    assert "narrative_arc_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "nrd_task_tree_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "research_taxonomy_story_map_hints" in digest
+    assert "agentic_book_planner_pipeline_hints" in digest
+    assert "sampling_parameter_quality_sweep_hints" in digest
+
+
+def test_default_discovery_sources_include_research_multimodal_experiment_projects():
+    assert "https://github.com/Picrew/awesome-llm-story-generation" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Anning01/novelvids" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/MemeCalculate/moyin-creator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jncchds/abook" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Prompt-And-Circumstance/StoryMode" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/brianlmerritt/explore_writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/forsonny/novel-master-ai" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/arian-emami/NovelDreamer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("story generation taxonomy" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("continuity checker" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("narrative arc" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("prompt recipes" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("hero journey" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

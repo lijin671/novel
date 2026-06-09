@@ -94,6 +94,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_research_multimodal_experiment_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1252,6 +1256,58 @@ def _append_consistency_style_audit_section(
         lines.append("- author_control_boundary: keep AI proposals, accepted canon, and disclosure/labeling decisions separate")
 
 
+def _append_research_multimodal_experiment_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render research taxonomy, adaptation, agent-planner, and experiment gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "research_taxonomy_story_map",
+        "novel_to_multimodal_pipeline",
+        "entity_to_visual_asset_pipeline",
+        "agentic_book_planner_pipeline",
+        "rag_synopsis_spine",
+        "anti_repetition_prompt_rules",
+        "prompt_recipe_experiment_grid",
+        "append_only_generation_review_log",
+        "narrative_arc_template_control",
+        "nrd_task_tree_pipeline",
+        "sampling_parameter_quality_sweep",
+        "story_structure_rag_planning",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Research, multimodal, and experiment audit:")
+    if "research_taxonomy_story_map" in pattern_names:
+        lines.append("- research_taxonomy_story_map: use method categories as coverage checks; keep indexes out of runtime prompts")
+    if "novel_to_multimodal_pipeline" in pattern_names:
+        lines.append("- novel_to_multimodal_pipeline: treat scripts, storyboards, and videos as derived artifacts unless accepted into canon")
+    if "entity_to_visual_asset_pipeline" in pattern_names:
+        lines.append("- entity_to_visual_asset_pipeline: tie visual assets to entity/card versions so stale images do not overwrite prose state")
+    if "agentic_book_planner_pipeline" in pattern_names:
+        lines.append("- agentic_book_planner_pipeline: separate Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker artifacts")
+    if "rag_synopsis_spine" in pattern_names:
+        lines.append("- rag_synopsis_spine: retrieve from the full synopsis spine with query, matched chapter, inclusion reason, and canon status")
+    if "anti_repetition_prompt_rules" in pattern_names:
+        lines.append("- anti_repetition_prompt_rules: reject repeated phrases, repeated scene shapes, repeated causal bridges, and repeated emotional beats")
+    if "prompt_recipe_experiment_grid" in pattern_names:
+        lines.append("- prompt_recipe_experiment_grid: compare prompt recipes under fixed inputs, rubric review, and keep/discard decisions")
+    if "append_only_generation_review_log" in pattern_names:
+        lines.append("- append_only_generation_review_log: append experiment evidence instead of rewriting previous review rows")
+    if "narrative_arc_template_control" in pattern_names:
+        lines.append("- narrative_arc_template_control: declare genre, story style, author style, arc, and scenario blueprint before drafting")
+    if "nrd_task_tree_pipeline" in pattern_names:
+        lines.append("- nrd_task_tree_pipeline: track arcs -> chapters -> scenes -> revision passes with continuity reports")
+    if "sampling_parameter_quality_sweep" in pattern_names:
+        lines.append("- sampling_parameter_quality_sweep: promote parameter defaults only when quality, continuity, voice, and copy-risk all improve")
+    if "story_structure_rag_planning" in pattern_names:
+        lines.append("- story_structure_rag_planning: map Hero's Journey/Freytag or style-RAG samples to accepted story facts before prose")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1367,6 +1423,18 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "cross_chapter_redundancy_audit_hints": "cross_chapter_redundancy_audit",
         "humanization_stylometry_levers_hints": "humanization_stylometry_levers",
         "author_control_boundary_hints": "author_control_boundary",
+        "research_taxonomy_story_map_hints": "research_taxonomy_story_map",
+        "novel_to_multimodal_pipeline_hints": "novel_to_multimodal_pipeline",
+        "entity_to_visual_asset_pipeline_hints": "entity_to_visual_asset_pipeline",
+        "agentic_book_planner_pipeline_hints": "agentic_book_planner_pipeline",
+        "rag_synopsis_spine_hints": "rag_synopsis_spine",
+        "anti_repetition_prompt_rules_hints": "anti_repetition_prompt_rules",
+        "prompt_recipe_experiment_grid_hints": "prompt_recipe_experiment_grid",
+        "append_only_generation_review_log_hints": "append_only_generation_review_log",
+        "narrative_arc_template_control_hints": "narrative_arc_template_control",
+        "nrd_task_tree_pipeline_hints": "nrd_task_tree_pipeline",
+        "sampling_parameter_quality_sweep_hints": "sampling_parameter_quality_sweep",
+        "story_structure_rag_planning_hints": "story_structure_rag_planning",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

@@ -64,6 +64,13 @@ DEFAULT_GITHUB_QUERIES = (
     '("cross-chapter redundancy" OR "full-book review" OR "parallel chapter drafting") ("novel" OR "fiction") in:name,description,readme',
     '("semantic search" OR "vector-based long-term context" OR "plot contradictions") ("novel" OR "chapter") in:name,description,readme',
     '("perplexity" OR "burstiness" OR "stylometry") ("humanize" OR "AI text") in:name,description,readme',
+    '("story generation taxonomy" OR "LLM story generation" OR "story generation survey") ("novel" OR "script") in:name,description,readme',
+    '("story bible" OR "plot threads" OR "continuity checker") ("writer" OR "editor" OR "chapter outlines") in:name,description,readme',
+    '("narrative arc" OR "author style" OR "scenario blueprint") ("story mode" OR "fiction") in:name,description,readme',
+    '("prompt recipes" OR "sampling grid" OR "append-only log") ("writing" OR "story") in:name,description,readme',
+    '("hero journey" OR "Freytag" OR "Wikiquote" OR "story structure RAG") ("novel" OR "fiction") in:name,description,readme',
+    '("novel to video" OR "script to scene" OR "character reference") ("AI" OR "film production") in:name,description,readme',
+    '("NRD" OR "task tree" OR "revision passes") ("novel" OR "writing") in:name,description,readme',
     '("scene" OR "shot" OR "idea to production" OR "storyboard") ("AI" OR "Claude Code") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
@@ -126,6 +133,14 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/YILING0013/AI_NovelGenerator",
     "https://github.com/Picrew/ConStory-Bench",
     "https://github.com/harshaneel/humanize",
+    "https://github.com/Picrew/awesome-llm-story-generation",
+    "https://github.com/Anning01/novelvids",
+    "https://github.com/MemeCalculate/moyin-creator",
+    "https://github.com/jncchds/abook",
+    "https://github.com/Prompt-And-Circumstance/StoryMode",
+    "https://github.com/brianlmerritt/explore_writing",
+    "https://github.com/forsonny/novel-master-ai",
+    "https://github.com/arian-emami/NovelDreamer",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -264,6 +279,18 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("cross_chapter_redundancy_audit", ("cross-chapter redundancy", "repetitive scene construction", "weak causality", "continuity drift", "flat dialogue", "over-regular prose", "grep to count prose patterns")),
     ("humanization_stylometry_levers", ("perplexity", "burstiness", "stylometry", "discourse", "watermarking", "nine humanization levers", "specificity insertion", "ai-transition removal", "rlhf voice strip")),
     ("author_control_boundary", ("author in the driver seat", "creative partner", "supports your voice and choices", "your story is your story", "human readers respond", "clearly labeled as ai-generated", "ethics.md")),
+    ("research_taxonomy_story_map", ("story generation taxonomy", "llm story generation", "curated list of story/novel/script generation research", "planning / decomposition", "agent collaboration", "sandbox / world simulation", "multimodal story generation", "evaluation / benchmark", "method categories")),
+    ("novel_to_multimodal_pipeline", ("novel to short drama", "novel-to-short-drama", "novel to video", "script to scene", "script to film", "storyboard", "video synthesis", "film production tool", "剧本到成片", "小说转短剧")),
+    ("entity_to_visual_asset_pipeline", ("entity extraction", "character reference", "reference image", "reference images", "visual asset", "scene asset", "storyboard asset", "角色参考图", "实体提取")),
+    ("agentic_book_planner_pipeline", ("story bible", "plot threads", "chapter outlines", "writer", "editor", "continuity checker", "7 agents", "agentic book planner", "book creation assistant", "worldbuilding, book structure, chapters")),
+    ("rag_synopsis_spine", ("rag context retrieval", "full synopsis spine", "synopsis spine", "chapter summaries", "retrieved context", "local embeddings", "book structure", "context retrieval")),
+    ("anti_repetition_prompt_rules", ("anti-repetition", "anti repetition", "avoid repetition", "repetition rules", "anti-repetition rules", "repeated phrases", "repeated scene", "token stats")),
+    ("prompt_recipe_experiment_grid", ("prompt recipes", "prompt recipe", "sampling grid", "temperature grid", "experiment harness", "write/review/top_writing", "top_writing")),
+    ("append_only_generation_review_log", ("append-only", "append only", "resumable tsv", "append-only/resumable", "review log", "generation log", "experiment log")),
+    ("narrative_arc_template_control", ("narrative arc", "scenario blueprint", "43 genres", "story style", "author style", "mix-and-match", "genre list", "arc template")),
+    ("nrd_task_tree_pipeline", ("nrd", "arcs/chapters/scenes", "revision passes", "tagged workflow", "continuity reporting", "task tree", "novel master")),
+    ("sampling_parameter_quality_sweep", ("sampling grid", "temperature", "top_p", "top-k", "sampling parameter", "quality sweep", "parameter sweep")),
+    ("story_structure_rag_planning", ("wikiquote", "hero's journey", "freytag", "story structure rag", "style/thematic samples", "acts/chapters pre-planning", "thematic samples")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -464,6 +491,39 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "harshaneel/humanize": (
         "LLM-agnostic static AI text humanization/detection skill. Public README describes perplexity, burstiness, stylometry, discourse, watermarking, nine humanization levers, "
         "rule-based audit-revise loop, limits against learned classifiers, and factual guardrails for specificity."
+    ),
+    "picrew/awesome-llm-story-generation": (
+        "Curated LLM story/novel/script generation index. Public README describes 232 verified entries, 10 method categories, planning/decomposition, "
+        "agent collaboration, sandbox/world simulation, multimodal story generation, memory/long-context, and evaluation/benchmark groupings. "
+        "Absorb as index-only taxonomy; do not import catalog content into runtime prompts."
+    ),
+    "anning01/novelvids": (
+        "Chinese novel-to-short-drama production platform. Public README describes a full AI-driven pipeline that transforms novels into video content through "
+        "chapter/script processing, entity extraction, reference imagery, storyboards, and video synthesis. High runtime/API surface keeps it pattern-only."
+    ),
+    "memecalculate/moyin-creator": (
+        "AI film production tool with script-to-film batch workflow. Public README describes a production chain from script to characters, scenes, director decisions, "
+        "shot/storyboard planning, and final video. AGPL/Electron/runtime surface keeps it pattern-only."
+    ),
+    "jncchds/abook": (
+        "Agentic book-writing workspace. Public README describes seven agents across Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker; "
+        "RAG context retrieval, full synopsis spine, anti-repetition prompt rules, token stats, and export surfaces. Docker/MCP/runtime surface keeps it pattern-only."
+    ),
+    "prompt-and-circumstance/storymode": (
+        "SillyTavern story-mode extension. Public README describes 43 genres, story style and author style controls, mix-and-match story settings, narrative arc controls, "
+        "and scenario blueprint schema. Browser/extension/runtime surface keeps it pattern-only."
+    ),
+    "brianlmerritt/explore_writing": (
+        "Writing experiment harness. Public README describes prompt recipes, sampling/temperature grids, write/review/top_writing phases, rubric review, "
+        "append-only resumable TSV logs, and parameter comparison loops."
+    ),
+    "forsonny/novel-master-ai": (
+        "Novel Master AI workflow. Public README describes NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, "
+        "continuity reporting, CLI/MCP surfaces, and structured manuscript planning. Runtime/MCP surface keeps it pattern-only."
+    ),
+    "arian-emami/noveldreamer": (
+        "Research novel generator using style/thematic retrieval. Public README describes RAG from Wikiquote samples, Hero's Journey and Freytag structure, "
+        "and act/chapter pre-planning before generation."
     ),
 }
 
@@ -834,6 +894,18 @@ class NovelSourceDiscoveryService:
             "cross_chapter_redundancy_audit_hints": self._build_cross_chapter_redundancy_audit_hints(available_patterns),
             "humanization_stylometry_levers_hints": self._build_humanization_stylometry_levers_hints(available_patterns),
             "author_control_boundary_hints": self._build_author_control_boundary_hints(available_patterns),
+            "research_taxonomy_story_map_hints": self._build_research_taxonomy_story_map_hints(available_patterns),
+            "novel_to_multimodal_pipeline_hints": self._build_novel_to_multimodal_pipeline_hints(available_patterns),
+            "entity_to_visual_asset_pipeline_hints": self._build_entity_to_visual_asset_pipeline_hints(available_patterns),
+            "agentic_book_planner_pipeline_hints": self._build_agentic_book_planner_pipeline_hints(available_patterns),
+            "rag_synopsis_spine_hints": self._build_rag_synopsis_spine_hints(available_patterns),
+            "anti_repetition_prompt_rules_hints": self._build_anti_repetition_prompt_rules_hints(available_patterns),
+            "prompt_recipe_experiment_grid_hints": self._build_prompt_recipe_experiment_grid_hints(available_patterns),
+            "append_only_generation_review_log_hints": self._build_append_only_generation_review_log_hints(available_patterns),
+            "narrative_arc_template_control_hints": self._build_narrative_arc_template_control_hints(available_patterns),
+            "nrd_task_tree_pipeline_hints": self._build_nrd_task_tree_pipeline_hints(available_patterns),
+            "sampling_parameter_quality_sweep_hints": self._build_sampling_parameter_quality_sweep_hints(available_patterns),
+            "story_structure_rag_planning_hints": self._build_story_structure_rag_planning_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1342,6 +1414,18 @@ class NovelSourceDiscoveryService:
             "cross_chapter_redundancy_audit": 64,
             "humanization_stylometry_levers": 43,
             "author_control_boundary": 41,
+            "research_taxonomy_story_map": 30,
+            "novel_to_multimodal_pipeline": 36,
+            "entity_to_visual_asset_pipeline": 44,
+            "agentic_book_planner_pipeline": 60,
+            "rag_synopsis_spine": 63,
+            "anti_repetition_prompt_rules": 58,
+            "prompt_recipe_experiment_grid": 39,
+            "append_only_generation_review_log": 42,
+            "narrative_arc_template_control": 53,
+            "nrd_task_tree_pipeline": 59,
+            "sampling_parameter_quality_sweep": 37,
+            "story_structure_rag_planning": 52,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1499,6 +1583,30 @@ class NovelSourceDiscoveryService:
             targets.append("stylometry_polish_rules")
         if "author_control_boundary" in patterns:
             targets.append("human_authority_boundary")
+        if "research_taxonomy_story_map" in patterns:
+            targets.append("research_taxonomy_map")
+        if "novel_to_multimodal_pipeline" in patterns:
+            targets.append("multimodal_adaptation_plan")
+        if "entity_to_visual_asset_pipeline" in patterns:
+            targets.append("entity_visual_asset_refs")
+        if "agentic_book_planner_pipeline" in patterns:
+            targets.append("agentic_planning_roles")
+        if "rag_synopsis_spine" in patterns:
+            targets.append("synopsis_spine")
+        if "anti_repetition_prompt_rules" in patterns:
+            targets.append("anti_repetition_rules")
+        if "prompt_recipe_experiment_grid" in patterns:
+            targets.append("prompt_recipe_catalog")
+        if "append_only_generation_review_log" in patterns:
+            targets.append("generation_review_log")
+        if "narrative_arc_template_control" in patterns:
+            targets.append("narrative_arc_templates")
+        if "nrd_task_tree_pipeline" in patterns:
+            targets.append("nrd_task_tree")
+        if "sampling_parameter_quality_sweep" in patterns:
+            targets.append("sampling_quality_grid")
+        if "story_structure_rag_planning" in patterns:
+            targets.append("story_structure_refs")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -1685,6 +1793,30 @@ class NovelSourceDiscoveryService:
             targets.extend(["stylometry_findings", "burstiness_findings", "perplexity_risk_notes", "ai_transition_removals"])
         if "author_control_boundary" in patterns:
             targets.extend(["author_control_decisions", "ai_generated_labeling", "ethical_disclosure_notes"])
+        if "research_taxonomy_story_map" in patterns:
+            targets.extend(["story_generation_taxonomy", "method_category_map", "benchmark_candidate_refs"])
+        if "novel_to_multimodal_pipeline" in patterns:
+            targets.extend(["multimodal_adaptation_chain", "script_scene_storyboard_outputs", "video_asset_boundaries"])
+        if "entity_to_visual_asset_pipeline" in patterns:
+            targets.extend(["entity_extraction_results", "character_reference_assets", "scene_visual_asset_manifest"])
+        if "agentic_book_planner_pipeline" in patterns:
+            targets.extend(["story_bible_agent_outputs", "plot_thread_agent_outputs", "chapter_outline_agent_outputs", "continuity_checker_outputs"])
+        if "rag_synopsis_spine" in patterns:
+            targets.extend(["full_synopsis_spine", "rag_context_retrieval_log", "chapter_summary_spine"])
+        if "anti_repetition_prompt_rules" in patterns:
+            targets.extend(["anti_repetition_rule_hits", "token_stats", "repeated_phrase_scene_shape_report"])
+        if "prompt_recipe_experiment_grid" in patterns:
+            targets.extend(["prompt_recipe_grid", "writing_experiment_runs", "rubric_review_scores"])
+        if "append_only_generation_review_log" in patterns:
+            targets.extend(["append_only_run_log", "resumable_review_records", "experiment_resume_state"])
+        if "narrative_arc_template_control" in patterns:
+            targets.extend(["narrative_arc_templates", "genre_style_matrix", "scenario_blueprint_fields"])
+        if "nrd_task_tree_pipeline" in patterns:
+            targets.extend(["nrd_task_tree", "arc_chapter_scene_nodes", "revision_pass_records"])
+        if "sampling_parameter_quality_sweep" in patterns:
+            targets.extend(["sampling_parameter_grid", "quality_sweep_results", "temperature_top_p_findings"])
+        if "story_structure_rag_planning" in patterns:
+            targets.extend(["hero_journey_beats", "freytag_structure_points", "style_thematic_rag_samples"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1764,6 +1896,20 @@ class NovelSourceDiscoveryService:
             hints.append("Audit cross-chapter redundancy, repeated scene construction, weak causality, flat dialogue, and over-regular prose before revision closes.")
         if "author_control_boundary" in patterns:
             hints.append("Keep the author in control: AI may propose, draft, and review, but canon changes require accepted project artifacts or explicit user direction.")
+        if "research_taxonomy_story_map" in patterns:
+            hints.append("Use the research taxonomy as a checklist for method coverage: planning, agents, simulation, multimodal adaptation, memory, and benchmark gates.")
+        if "agentic_book_planner_pipeline" in patterns:
+            hints.append("Separate Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker outputs before drafting.")
+        if "rag_synopsis_spine" in patterns:
+            hints.append("Keep a full synopsis spine and retrieve only the chapter-summary/context slices relevant to the next beat.")
+        if "anti_repetition_prompt_rules" in patterns:
+            hints.append("Apply anti-repetition rules before acceptance: reject repeated phrases, repeated scene shapes, and redundant causal bridges.")
+        if "narrative_arc_template_control" in patterns:
+            hints.append("Select narrative arc and genre/style controls explicitly so continuation follows the intended arc instead of drifting by local scene taste.")
+        if "nrd_task_tree_pipeline" in patterns:
+            hints.append("Drive continuation from an NRD-style task tree: arcs -> chapters -> scenes -> revision passes, with continuity reporting after each level.")
+        if "story_structure_rag_planning" in patterns:
+            hints.append("Use story-structure references as planning scaffolds only; map Hero's Journey/Freytag beats to this book's accepted facts before prose.")
         if "top_down_story_planning" in patterns:
             hints.append("长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。")
         if "plain_text_project_storage" in patterns:
@@ -1861,6 +2007,20 @@ class NovelSourceDiscoveryService:
             hints.append("Record each agent stage job, input artifact set, output path, validation status, and aggregate revision finding for replayable long runs.")
         if "cross_chapter_redundancy_audit" in patterns:
             hints.append("Persist redundancy findings across chapters so repeated weak patterns can be fixed in batch revision rather than forgotten.")
+        if "research_taxonomy_story_map" in patterns:
+            hints.append("Persist the chosen method taxonomy category for each writing run so later reviews know whether it was planning, agentic, RAG, multimodal, or benchmark-driven.")
+        if "agentic_book_planner_pipeline" in patterns:
+            hints.append("Store agent role outputs separately; Writer drafts should cite Story Bible, Plot Thread, Chapter Outline, Editor, and Continuity Checker artifact ids.")
+        if "rag_synopsis_spine" in patterns:
+            hints.append("Keep the full synopsis spine, chapter summaries, retrieval query, included context, and omitted context together for resumable continuation.")
+        if "anti_repetition_prompt_rules" in patterns:
+            hints.append("Persist anti-repetition rule hits and token/repeated-pattern stats across chapters so batch repair can target recurring prose habits.")
+        if "prompt_recipe_experiment_grid" in patterns:
+            hints.append("Persist prompt recipe, sampling parameters, review rubric, and keep/discard decision for every experiment run.")
+        if "append_only_generation_review_log" in patterns:
+            hints.append("Use append-only generation/review logs for experiment runs so interrupted sweeps resume without rewriting prior evidence.")
+        if "nrd_task_tree_pipeline" in patterns:
+            hints.append("Track NRD task-tree nodes, tags, revision pass status, and continuity-report outcomes across arcs, chapters, and scenes.")
         if "top_down_story_planning" in patterns:
             hints.append("Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale.")
         if "plain_text_project_storage" in patterns:
@@ -2658,6 +2818,102 @@ class NovelSourceDiscoveryService:
             "When output is AI-generated or synthetic, label it in artifacts instead of presenting it as human-authored final prose.",
         ]
 
+    def _build_research_taxonomy_story_map_hints(self, patterns: set[str]) -> list[str]:
+        if "research_taxonomy_story_map" not in patterns:
+            return []
+        return [
+            "Use the story-generation taxonomy as an index-only coverage map: planning/decomposition, agent collaboration, simulation, multimodal, memory, and evaluation.",
+            "Do not inject a large awesome-list into prompts; cite only the method category that explains the current writing choice.",
+        ]
+
+    def _build_novel_to_multimodal_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "novel_to_multimodal_pipeline" not in patterns:
+            return []
+        return [
+            "When planning adaptation, split novel text into chapter summary, script scene, storyboard/shot list, asset manifest, and derived media output.",
+            "Multimodal outputs are derived artifacts; they must not mutate novel canon unless an accepted script/scene change package says so.",
+        ]
+
+    def _build_entity_to_visual_asset_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "entity_to_visual_asset_pipeline" not in patterns:
+            return []
+        return [
+            "Extract characters, locations, props, costumes, and scene mood into visual-asset refs before storyboard or image/video prompting.",
+            "Reference images and visual prompts must cite the source entity/card version so later prose changes can invalidate stale assets.",
+        ]
+
+    def _build_agentic_book_planner_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "agentic_book_planner_pipeline" not in patterns:
+            return []
+        return [
+            "Keep book-planning roles separate: Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker.",
+            "Writer output should cite the accepted planning artifacts it used, and Editor/Continuity findings should remain review records until accepted.",
+        ]
+
+    def _build_rag_synopsis_spine_hints(self, patterns: set[str]) -> list[str]:
+        if "rag_synopsis_spine" not in patterns:
+            return []
+        return [
+            "Maintain a full synopsis spine with chapter summaries and retrieve against that spine before pulling larger chapter text.",
+            "Every RAG hit needs query, matched synopsis/chapter id, inclusion reason, and canon status before prompt injection.",
+        ]
+
+    def _build_anti_repetition_prompt_rules_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_repetition_prompt_rules" not in patterns:
+            return []
+        return [
+            "Add anti-repetition rules to prompt and review: repeated phrase, repeated scene shape, repeated causal bridge, and repeated emotional beat.",
+            "Use token/repetition stats as evidence for batch repair, not as a reason to flatten the prose voice.",
+        ]
+
+    def _build_prompt_recipe_experiment_grid_hints(self, patterns: set[str]) -> list[str]:
+        if "prompt_recipe_experiment_grid" not in patterns:
+            return []
+        return [
+            "Run prompt recipes as bounded experiments with fixed inputs, rubric review, and keep/discard decisions before promoting a recipe.",
+            "Compare recipes by story quality, continuity risk, style fidelity, novelty, and copy-risk instead of by one sample's surface fluency.",
+        ]
+
+    def _build_append_only_generation_review_log_hints(self, patterns: set[str]) -> list[str]:
+        if "append_only_generation_review_log" not in patterns:
+            return []
+        return [
+            "Record generation experiments in an append-only log with recipe id, parameter set, output id, review score, and decision.",
+            "Interrupted sweeps should resume by appending new rows, not by rewriting prior review evidence.",
+        ]
+
+    def _build_narrative_arc_template_control_hints(self, patterns: set[str]) -> list[str]:
+        if "narrative_arc_template_control" not in patterns:
+            return []
+        return [
+            "Select genre, story style, author-style target, narrative arc, and scenario blueprint before same-type drafting.",
+            "Arc templates guide pressure and payoff timing; they must be transformed into new cast, setting, conflict, and event chain.",
+        ]
+
+    def _build_nrd_task_tree_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "nrd_task_tree_pipeline" not in patterns:
+            return []
+        return [
+            "Represent long-form planning as an NRD task tree from arcs to chapters to scenes and revision passes.",
+            "Each task node needs tag/status, accepted input artifacts, generated output, review finding, and continuity-report result.",
+        ]
+
+    def _build_sampling_parameter_quality_sweep_hints(self, patterns: set[str]) -> list[str]:
+        if "sampling_parameter_quality_sweep" not in patterns:
+            return []
+        return [
+            "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
+            "Promote parameter defaults only when they improve continuity, voice, pacing, and copy-risk together.",
+        ]
+
+    def _build_story_structure_rag_planning_hints(self, patterns: set[str]) -> list[str]:
+        if "story_structure_rag_planning" not in patterns:
+            return []
+        return [
+            "Use retrieved style/thematic samples plus Hero's Journey or Freytag beats as planning scaffolds before act/chapter drafting.",
+            "Structure references are not canon; map each beat to accepted story facts before prose generation.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -2762,6 +3018,30 @@ class NovelSourceDiscoveryService:
             targets.append("redundancy_pattern_remap")
         if "humanization_stylometry_levers" in patterns:
             targets.append("stylometry_rule_remap")
+        if "research_taxonomy_story_map" in patterns:
+            targets.append("method_taxonomy_remap")
+        if "novel_to_multimodal_pipeline" in patterns:
+            targets.append("multimodal_pipeline_remap")
+        if "entity_to_visual_asset_pipeline" in patterns:
+            targets.append("visual_asset_remap")
+        if "agentic_book_planner_pipeline" in patterns:
+            targets.append("book_planner_role_remap")
+        if "rag_synopsis_spine" in patterns:
+            targets.append("synopsis_spine_remap")
+        if "anti_repetition_prompt_rules" in patterns:
+            targets.append("anti_repetition_rule_remap")
+        if "prompt_recipe_experiment_grid" in patterns:
+            targets.append("prompt_recipe_remap")
+        if "append_only_generation_review_log" in patterns:
+            targets.append("experiment_log_remap")
+        if "narrative_arc_template_control" in patterns:
+            targets.append("narrative_arc_remap")
+        if "nrd_task_tree_pipeline" in patterns:
+            targets.append("nrd_task_tree_remap")
+        if "sampling_parameter_quality_sweep" in patterns:
+            targets.append("sampling_quality_remap")
+        if "story_structure_rag_planning" in patterns:
+            targets.append("structure_scaffold_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -2829,6 +3109,22 @@ class NovelSourceDiscoveryService:
             hints.append("Build a new sourcebook for the transformed story; sourcebook entries from the reference remain craft notes, not canon.")
         if "contradiction_taxonomy_checker" in patterns:
             hints.append("Run independence checks under the same consistency taxonomy so transformed facts do not drift back toward source facts.")
+        if "research_taxonomy_story_map" in patterns:
+            hints.append("Use taxonomy categories to choose a method for the new story, not to inherit another project's source list or paper structure.")
+        if "agentic_book_planner_pipeline" in patterns:
+            hints.append("Recreate planner-role outputs for the transformed story; source Story Bible, plot threads, and chapter outlines are reference evidence only.")
+        if "rag_synopsis_spine" in patterns:
+            hints.append("Build a transformed synopsis spine first, then retrieve from that new spine instead of from source-book summaries.")
+        if "anti_repetition_prompt_rules" in patterns:
+            hints.append("Anti-repetition checks should reject both generic loops and source-like repeated beat sequences.")
+        if "prompt_recipe_experiment_grid" in patterns:
+            hints.append("Evaluate same-type prompt recipes against independence, continuity, and voice before accepting the best candidate.")
+        if "narrative_arc_template_control" in patterns:
+            hints.append("Select a narrative arc template, then change premise, cast, cause, cost, and payoff so the arc is independent.")
+        if "nrd_task_tree_pipeline" in patterns:
+            hints.append("Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.")
+        if "story_structure_rag_planning" in patterns:
+            hints.append("Use structure scaffolds like Hero's Journey or Freytag as abstract pressure maps, not as source event order.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -2882,6 +3178,20 @@ class NovelSourceDiscoveryService:
             hints.append("Semantic hits from source works must be converted into abstract craft pressure before any new-story context pack is built.")
         if "humanization_stylometry_levers" in patterns:
             hints.append("Stylometry polish should change surface rhythm, not preserve distinctive source phrasing or scene wording.")
+        if "novel_to_multimodal_pipeline" in patterns:
+            hints.append("Transform adaptation outputs at script/scene/storyboard function level; do not preserve source shot or set-piece order.")
+        if "entity_to_visual_asset_pipeline" in patterns:
+            hints.append("Regenerate visual-asset refs from transformed entities so source character designs, props, and locations do not leak into the new canon.")
+        if "agentic_book_planner_pipeline" in patterns:
+            hints.append("Transform Story Bible, character, plot-thread, and chapter-outline artifacts before any Writer role drafts prose.")
+        if "rag_synopsis_spine" in patterns:
+            hints.append("Rewrite the synopsis spine around the new premise and only then use it for retrieval-guided same-type drafting.")
+        if "narrative_arc_template_control" in patterns:
+            hints.append("Transform arc controls into new scene pressure, reveal timing, and payoff cost instead of retaining source beat order.")
+        if "nrd_task_tree_pipeline" in patterns:
+            hints.append("Rebuild the NRD task tree from new arcs to scenes so revision passes repair the new story, not the source workflow.")
+        if "story_structure_rag_planning" in patterns:
+            hints.append("Map structure-RAG samples to abstract beat purpose, then replace character, setting, event, and language before drafting.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -2933,6 +3243,26 @@ class NovelSourceDiscoveryService:
             hints.append("Reject transformed sourcebooks that carry source names, unique locations, lore labels, item names, or scene lists.")
         if "semantic_long_context_search" in patterns:
             hints.append("Reject semantic context packs that retrieve source passages as new-story canon.")
+        if "research_taxonomy_story_map" in patterns:
+            hints.append("Reject prompts that paste large index/catalog entries into same-type drafting context.")
+        if "novel_to_multimodal_pipeline" in patterns:
+            hints.append("Reject adaptation plans that preserve source shot order, scene order, or recognizable set-piece staging.")
+        if "entity_to_visual_asset_pipeline" in patterns:
+            hints.append("Reject visual-asset manifests that keep source character designs, unique props, location names, or costume signatures.")
+        if "agentic_book_planner_pipeline" in patterns:
+            hints.append("Reject planner-role outputs that mirror source Story Bible facts, plot-thread labels, or chapter-outline sequence.")
+        if "rag_synopsis_spine" in patterns:
+            hints.append("Reject synopsis spines that preserve source chapter-summary order under renamed entities.")
+        if "anti_repetition_prompt_rules" in patterns:
+            hints.append("Reject drafts that pass local prose checks but repeat the source's scene-function rhythm across chapters.")
+        if "prompt_recipe_experiment_grid" in patterns:
+            hints.append("Reject experiment winners whose quality score comes from closeness to source facts or wording.")
+        if "narrative_arc_template_control" in patterns:
+            hints.append("Reject arc templates that preserve source scenario blueprint fields, named gimmicks, or payoff order.")
+        if "nrd_task_tree_pipeline" in patterns:
+            hints.append("Reject NRD task trees whose arc/chapter/scene hierarchy mirrors the source route.")
+        if "story_structure_rag_planning" in patterns:
+            hints.append("Reject structure scaffolds that smuggle source quotes, named examples, or event ordering into canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -2972,6 +3302,18 @@ class NovelSourceDiscoveryService:
                 "contradiction_taxonomy_checker",
                 "cross_chapter_redundancy_audit",
                 "humanization_stylometry_levers",
+                "research_taxonomy_story_map",
+                "novel_to_multimodal_pipeline",
+                "entity_to_visual_asset_pipeline",
+                "agentic_book_planner_pipeline",
+                "rag_synopsis_spine",
+                "anti_repetition_prompt_rules",
+                "prompt_recipe_experiment_grid",
+                "append_only_generation_review_log",
+                "narrative_arc_template_control",
+                "nrd_task_tree_pipeline",
+                "sampling_parameter_quality_sweep",
+                "story_structure_rag_planning",
             }
         ) and (
             "style_signature" in patterns

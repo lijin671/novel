@@ -1594,3 +1594,41 @@ def test_build_remix_continuation_context_block_renders_consistency_style_audit(
     assert "cross_chapter_redundancy_audit: count repeated scene shapes" in block
     assert "humanization_stylometry_levers: apply burstiness, specificity" in block
     assert "author_control_boundary: keep AI proposals, accepted canon" in block
+
+
+def test_build_remix_continuation_context_block_renders_research_multimodal_experiment_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Research Multimodal Novel",
+        bible={"world_rules": {"rule": "keep accepted canon"}},
+        plan={"summary": "Continue from taxonomy and synopsis-spine state."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "research_taxonomy_story_map"},
+                {"name": "novel_to_multimodal_pipeline"},
+                {"name": "entity_to_visual_asset_pipeline"},
+                {"name": "agentic_book_planner_pipeline"},
+                {"name": "rag_synopsis_spine"},
+                {"name": "anti_repetition_prompt_rules"},
+                {"name": "prompt_recipe_experiment_grid"},
+                {"name": "append_only_generation_review_log"},
+                {"name": "narrative_arc_template_control"},
+                {"name": "nrd_task_tree_pipeline"},
+                {"name": "sampling_parameter_quality_sweep"},
+                {"name": "story_structure_rag_planning"},
+            ],
+        },
+    )
+
+    assert "Research, multimodal, and experiment audit:" in block
+    assert "research_taxonomy_story_map: use method categories as coverage checks" in block
+    assert "novel_to_multimodal_pipeline: treat scripts, storyboards, and videos as derived artifacts" in block
+    assert "entity_to_visual_asset_pipeline: tie visual assets to entity/card versions" in block
+    assert "agentic_book_planner_pipeline: separate Story Bible, Characters, Plot Threads" in block
+    assert "rag_synopsis_spine: retrieve from the full synopsis spine" in block
+    assert "anti_repetition_prompt_rules: reject repeated phrases" in block
+    assert "prompt_recipe_experiment_grid: compare prompt recipes" in block
+    assert "append_only_generation_review_log: append experiment evidence" in block
+    assert "narrative_arc_template_control: declare genre, story style" in block
+    assert "nrd_task_tree_pipeline: track arcs -> chapters -> scenes" in block
+    assert "sampling_parameter_quality_sweep: promote parameter defaults" in block
+    assert "story_structure_rag_planning: map Hero's Journey/Freytag" in block
