@@ -1,40 +1,36 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { ConfigProvider } from 'antd';
-import zhCN from 'antd/locale/zh_CN';
-import ProjectList from './pages/ProjectList';
-import ProjectWizardNew from './pages/ProjectWizardNew';
-import Inspiration from './pages/Inspiration';
-import ProjectDetail from './pages/ProjectDetail';
-import WorldSetting from './pages/WorldSetting';
-import Outline from './pages/Outline';
-import Characters from './pages/Characters';
-import Careers from './pages/Careers';
-import Relationships from './pages/Relationships';
-import RelationshipGraph from './pages/RelationshipGraph';
-import Organizations from './pages/Organizations';
-import Chapters from './pages/Chapters';
-import ChapterReader from './pages/ChapterReader';
-import ChapterAnalysis from './pages/ChapterAnalysis';
-import Foreshadows from './pages/Foreshadows';
-import WritingStyles from './pages/WritingStyles';
-import PromptWorkshop from './pages/PromptWorkshop';
-import Settings from './pages/Settings';
-import MCPPlugins from './pages/MCPPlugins';
-import UserManagement from './pages/UserManagement';
-import PromptTemplates from './pages/PromptTemplates';
-import Sponsor from './pages/Sponsor';
-// import Polish from './pages/Polish';
-import Login from './pages/Login';
-import AuthCallback from './pages/AuthCallback';
-import ProtectedRoute from './components/ProtectedRoute';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import AppFooter from './components/AppFooter';
+import ProtectedRoute from './components/ProtectedRoute';
 import SpringFestival from './components/SpringFestival';
 import './App.css';
+import AuthCallback from './pages/AuthCallback';
+import ChapterAnalysis from './pages/ChapterAnalysis';
+import ChapterReader from './pages/ChapterReader';
+import Chapters from './pages/Chapters';
+import Characters from './pages/Characters';
+import Careers from './pages/Careers';
+import Foreshadows from './pages/Foreshadows';
+import Inspiration from './pages/Inspiration';
+import Login from './pages/Login';
+import MCPPlugins from './pages/MCPPlugins';
+import Organizations from './pages/Organizations';
+import Outline from './pages/Outline';
+import ProjectDetail from './pages/ProjectDetail';
+import ProjectList from './pages/ProjectList';
+import ProjectWizardNew from './pages/ProjectWizardNew';
+import PromptTemplates from './pages/PromptTemplates';
+import PromptWorkshop from './pages/PromptWorkshop';
+import RelationshipGraph from './pages/RelationshipGraph';
+import Relationships from './pages/Relationships';
+import Settings from './pages/Settings';
+import Sponsor from './pages/Sponsor';
+import UserManagement from './pages/UserManagement';
+import WorldSetting from './pages/WorldSetting';
+import WritingStyles from './pages/WritingStyles';
 
 function App() {
   return (
-    <ConfigProvider locale={zhCN}>
-      {/* 🧧 春节喜庆装饰 */}
+    <>
       <SpringFestival />
       <BrowserRouter
         future={{
@@ -70,11 +66,10 @@ function App() {
             <Route path="writing-styles" element={<WritingStyles />} />
             <Route path="prompt-workshop" element={<PromptWorkshop />} />
             <Route path="sponsor" element={<Sponsor />} />
-            {/* <Route path="polish" element={<Polish />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>
-    </ConfigProvider>
+    </>
   );
 }
 

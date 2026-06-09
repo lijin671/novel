@@ -1,12 +1,13 @@
 ﻿import { useState, useEffect, useMemo } from 'react';
-import { Button, List, Modal, Form, Input, message, Empty, Space, Popconfirm, Card, Select, Radio, Tag, InputNumber, Tabs, Pagination } from 'antd';
-import { EditOutlined, DeleteOutlined, ThunderboltOutlined, BranchesOutlined, AppstoreAddOutlined, CheckCircleOutlined, ExclamationCircleOutlined, PlusOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Button, List, Modal, Form, Input, message, Empty, Space, Popconfirm, Card, Select, Radio, Tag, InputNumber, Tabs, Pagination, Checkbox, Alert } from 'antd';
+import { EditOutlined, DeleteOutlined, ThunderboltOutlined, BranchesOutlined, AppstoreAddOutlined, CheckCircleOutlined, ExclamationCircleOutlined, PlusOutlined, FileTextOutlined, ReloadOutlined } from '@ant-design/icons';
 import { useStore } from '../store';
 import { useOutlineSync } from '../store/hooks';
 import { SSEPostClient } from '../utils/sseClient';
 import { SSEProgressModal } from '../components/SSEProgressModal';
-import { outlineApi, chapterApi, projectApi, characterApi } from '../services/api';
-import type { OutlineExpansionResponse, BatchOutlineExpansionResponse, ChapterPlanItem, ApiError, Character } from '../types';
+import { outlineApi, chapterApi, projectApi, characterApi, bookRemixApi } from '../services/api';
+import { getApiErrorDetailMessage } from '../types';
+import type { OutlineExpansionResponse, BatchOutlineExpansionResponse, ChapterPlanItem, ApiError, Character, Chapter, GenerateOutlineResponse } from '../types';
 
 // 大纲生成请求数据类型
 interface OutlineGenerateRequestData {
@@ -105,6 +106,61 @@ function parseOutlineStructure(structure?: string): OutlineStructureData {
   }
 }
 
+function isContinuationWorkbenchProject(description?: string, outlineMode?: string): boolean {
+  const normalized = (description || '').trim();
+  return outlineMode === 'one-to-one' && (
+    normalized.includes('[拆书续写工作台]')
+    || normalized.includes('[拆书模式] continuation')
+  );
+}
+
+function buildFaithfulContinuationRequirements(options: {
+  sourceChapterCount: number;
+  storyDirection?: string;
+  customRequirements?: string;
+}): string {
+  const lines = [
+    '这是对断更原书的忠实续写重建，不是改编，不是换皮重写，也不是重做设定。',
+    '必须保持原书既有的叙事口吻、节奏、人物说话习惯、冲突推进方式和世界规则边界。',
+    '优先承接原书结尾已经抛出的目标、悬念、矛盾和伏笔，不要突然另起新主线。',
+    `默认以前 ${options.sourceChapterCount} 章原书正文为续写基准，后续大纲必须沿着这个基准继续写。`,
+    '除非原文已铺垫，否则不要突然升级力量体系、重置人物性格、硬换题材或大改世界观。',
+  ];
+
+  if (options.storyDirection?.trim()) {
+    lines.push(`优先推进方向：${options.storyDirection.trim()}`);
+  }
+
+  if (options.customRequirements?.trim()) {
+    lines.push(`补充要求：${options.customRequirements.trim()}`);
+  }
+
+  return lines.join('\n');
+}
+
+function buildPendingContinuationRange(chapters: Chapter[], limit: number) {
+  const pending = [...chapters]
+    .filter((chapter) => !chapter.content || !chapter.content.trim())
+    .sort((left, right) => left.chapter_number - right.chapter_number)
+    .slice(0, Math.max(1, limit));
+
+  if (!pending.length) {
+    throw new Error('当前没有可直接启动正文续写的空章节');
+  }
+
+  const start = pending[0].chapter_number;
+  pending.forEach((chapter, index) => {
+    if (chapter.chapter_number !== start + index) {
+      throw new Error('当前只支持从连续空章节开始启动首批正文续写');
+    }
+  });
+
+  return {
+    start,
+    count: pending.length,
+  };
+}
+
 const { TextArea } = Input;
 
 export default function Outline() {
@@ -112,6 +168,7 @@ export default function Outline() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [editForm] = Form.useForm();
   const [generateForm] = Form.useForm();
+  const [faithfulRegenerateForm] = Form.useForm();
   const [expansionForm] = Form.useForm();
   const [modalApi, contextHolder] = Modal.useModal();
   const [batchExpansionForm] = Form.useForm();
@@ -209,6 +266,10 @@ export default function Outline() {
 
   // 确保大纲按 order_index 排序
   const sortedOutlines = [...outlines].sort((a, b) => a.order_index - b.order_index);
+  const isContinuationWorkbench = useMemo(
+    () => isContinuationWorkbenchProject(currentProject?.description, currentProject?.outline_mode),
+    [currentProject?.description, currentProject?.outline_mode],
+  );
 
   // 前端查询过滤
   const filteredOutlines = useMemo(() => {
@@ -507,6 +568,18 @@ export default function Outline() {
     keep_existing?: boolean;
   }
 
+  interface FaithfulRegenerateFormValues {
+    chapter_count?: number;
+    story_direction?: string;
+    plot_stage?: 'development' | 'climax' | 'ending';
+    requirements?: string;
+    replace_pending_outlines?: boolean;
+    auto_generate_content?: boolean;
+    initial_content_count?: number;
+    target_word_count?: number;
+    enable_analysis?: boolean;
+  }
+
   const handleGenerate = async (values: GenerateFormValues) => {
     try {
       setIsGenerating(true);
@@ -590,6 +663,235 @@ export default function Outline() {
       setSSEModalVisible(false);
       setIsGenerating(false);
     }
+  };
+
+  const loadPendingContinuationChapters = async (
+    projectId: string,
+    outlineResult?: GenerateOutlineResponse | null,
+  ) => {
+    const fromResult = (outlineResult?.chapters || [])
+      .filter((chapter) => chapter?.id && Number.isFinite(chapter.chapter_number))
+      .map((chapter) => ({
+        id: chapter.id,
+        chapter_number: chapter.chapter_number,
+        title: chapter.title,
+        content: '',
+      })) as Chapter[];
+
+    if (fromResult.length > 0) {
+      return fromResult;
+    }
+
+    return chapterApi.getChapters(projectId);
+  };
+
+  const handleFaithfulContinuationRegenerate = async (values: FaithfulRegenerateFormValues) => {
+    if (!currentProject?.id) return;
+
+    const projectId = currentProject.id;
+
+    try {
+      setIsGenerating(true);
+      Modal.destroyAll();
+
+      setSSEProgress(0);
+      setSSEMessage('正在重建忠实续写配置...');
+      setSSEModalVisible(true);
+
+      const refreshResult = await bookRemixApi.refreshContinuationProject(projectId, {
+        replace_pending_outlines: values.replace_pending_outlines !== false,
+      });
+
+      setSSEProgress(8);
+      setSSEMessage(refreshResult.message);
+
+      try {
+        const latestProject = await projectApi.getProject(projectId);
+        setCurrentProject(latestProject);
+      } catch (error) {
+        console.warn('刷新项目详情失败，将继续使用当前项目信息', error);
+      }
+
+      let latestOutlineResult: GenerateOutlineResponse | null = null;
+      const requestData: OutlineGenerateRequestData = {
+        project_id: projectId,
+        genre: currentProject.genre || '通用',
+        theme: currentProject.theme || '',
+        chapter_count: values.chapter_count || 5,
+        narrative_perspective: currentProject.narrative_perspective || '第三人称',
+        target_words: currentProject.target_words || 100000,
+        requirements: buildFaithfulContinuationRequirements({
+          sourceChapterCount: refreshResult.source_chapter_count,
+          storyDirection: values.story_direction,
+          customRequirements: values.requirements,
+        }),
+        mode: 'continue',
+        story_direction: values.story_direction,
+        plot_stage: values.plot_stage || 'development',
+      };
+
+      const client = new SSEPostClient('/api/outlines/generate-stream', requestData, {
+        onProgress: (msg: string, progress: number) => {
+          const normalizedProgress = Math.min(96, Math.max(12, progress || 12));
+          setSSEMessage(msg || '正在重新生成忠实续写大纲...');
+          setSSEProgress(normalizedProgress);
+        },
+        onResult: (data: unknown) => {
+          latestOutlineResult = data as GenerateOutlineResponse;
+        },
+        onError: (error: string) => {
+          message.error(`忠实续写重生成失败: ${error}`);
+          setSSEModalVisible(false);
+          setIsGenerating(false);
+        },
+        onComplete: () => {
+          void (async () => {
+            try {
+              await refreshOutlines();
+
+              if (values.auto_generate_content) {
+                setSSEProgress(97);
+                setSSEMessage('忠实续写大纲已重建，正在启动首批正文续写...');
+
+                const chapters = await loadPendingContinuationChapters(projectId, latestOutlineResult);
+                const range = buildPendingContinuationRange(chapters, values.initial_content_count || 2);
+
+                await chapterApi.batchGenerate(projectId, {
+                  start_chapter_number: range.start,
+                  count: range.count,
+                  target_word_count: values.target_word_count || 2600,
+                  enable_analysis: values.enable_analysis !== false,
+                  enable_mcp: true,
+                  max_retries: 3,
+                });
+
+                setSSEProgress(100);
+                setSSEMessage(`已启动前 ${range.count} 章正文续写`);
+                message.success(`忠实续写大纲已重建，并启动前 ${range.count} 章正文续写`);
+              } else {
+                setSSEProgress(100);
+                setSSEMessage('忠实续写大纲已重建完成');
+                message.success('忠实续写大纲已重建完成');
+              }
+            } catch (error) {
+              console.error('忠实续写重生成收尾失败:', error);
+              if (values.auto_generate_content) {
+                message.warning('忠实续写大纲已重建，但首批正文续写启动失败，请到章节页继续处理');
+              } else {
+                message.warning('忠实续写大纲已重建，但列表刷新失败，请手动刷新页面确认');
+              }
+            } finally {
+              setSSEModalVisible(false);
+              setIsGenerating(false);
+            }
+          })();
+        },
+      });
+
+      client.connect();
+    } catch (error) {
+      console.error('忠实续写重生成失败:', error);
+      message.error('忠实续写重生成失败');
+      setSSEModalVisible(false);
+      setIsGenerating(false);
+    }
+  };
+
+  const showFaithfulRegenerateModal = () => {
+    faithfulRegenerateForm.resetFields();
+    modalApi.confirm({
+      title: '忠实续写重生成',
+      width: 720,
+      centered: true,
+      content: (
+        <Form
+          form={faithfulRegenerateForm}
+          layout="vertical"
+          style={{ marginTop: 16 }}
+          initialValues={{
+            chapter_count: 5,
+            plot_stage: 'development',
+            replace_pending_outlines: true,
+            auto_generate_content: false,
+            initial_content_count: 2,
+            target_word_count: 2600,
+            enable_analysis: true,
+          }}
+        >
+          <Alert
+            type="info"
+            showIcon
+            style={{ marginBottom: 16 }}
+            message="安全策略"
+            description="这次重建只会替换还没写正文的旧续写大纲和空章节，不会删除你已经导入的原书正文，也不会碰已有正文内容。"
+          />
+
+          <Form.Item name="replace_pending_outlines" valuePropName="checked">
+            <Checkbox>先删除旧的待写续写大纲，再按新规则重生成</Checkbox>
+          </Form.Item>
+
+          <Form.Item
+            label="重生成章节数"
+            name="chapter_count"
+            rules={[{ required: true, message: '请输入要重生成的章节数' }]}
+          >
+            <InputNumber min={1} max={20} style={{ width: '100%' }} />
+          </Form.Item>
+
+          <Form.Item label="故事发展方向" name="story_direction">
+            <TextArea
+              rows={3}
+              placeholder="例如：优先延续原书结尾留下的核心悬念，保持原书慢热推进节奏"
+            />
+          </Form.Item>
+
+          <Form.Item label="情节阶段" name="plot_stage">
+            <Select>
+              <Select.Option value="development">发展阶段 - 继续展开情节</Select.Option>
+              <Select.Option value="climax">高潮阶段 - 矛盾激化</Select.Option>
+              <Select.Option value="ending">结局阶段 - 收束伏笔</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item label="补充要求" name="requirements">
+            <TextArea
+              rows={3}
+              placeholder="例如：不要过早引入新外挂；保持主角说话方式和原书一致"
+            />
+          </Form.Item>
+
+          <Form.Item name="auto_generate_content" valuePropName="checked">
+            <Checkbox>重建大纲后，自动启动首批正文续写</Checkbox>
+          </Form.Item>
+
+          <Form.Item
+            noStyle
+            shouldUpdate={(prevValues, currentValues) => prevValues.auto_generate_content !== currentValues.auto_generate_content}
+          >
+            {({ getFieldValue }) => getFieldValue('auto_generate_content') ? (
+              <Space direction="vertical" size={12} style={{ width: '100%' }}>
+                <Form.Item label="首批正文章数" name="initial_content_count">
+                  <InputNumber min={1} max={10} style={{ width: '100%' }} />
+                </Form.Item>
+                <Form.Item label="单章目标字数" name="target_word_count">
+                  <InputNumber min={1200} max={6000} step={100} style={{ width: '100%' }} />
+                </Form.Item>
+                <Form.Item name="enable_analysis" valuePropName="checked">
+                  <Checkbox>生成后自动分析正文</Checkbox>
+                </Form.Item>
+              </Space>
+            ) : null}
+          </Form.Item>
+        </Form>
+      ),
+      okText: '开始重建',
+      cancelText: '取消',
+      okButtonProps: { type: 'primary' },
+      onOk: async () => {
+        const values = await faithfulRegenerateForm.validateFields();
+        await handleFaithfulContinuationRegenerate(values);
+      },
+    });
   };
 
   const showGenerateModal = async () => {
@@ -1101,7 +1403,7 @@ export default function Outline() {
       }
     } catch (error: unknown) {
       const apiError = error as ApiError;
-      message.error(apiError.response?.data?.detail || '删除章节失败');
+      message.error(getApiErrorDetailMessage(apiError.response?.data?.detail, '删除章节失败'));
     }
   };
 
@@ -1952,6 +2254,16 @@ export default function Outline() {
             >
               {isMobile ? 'AI生成/续写' : 'AI生成/续写大纲'}
             </Button>
+            {isContinuationWorkbench && (
+              <Button
+                icon={<ReloadOutlined />}
+                onClick={showFaithfulRegenerateModal}
+                loading={isGenerating}
+                block={isMobile}
+              >
+                {isMobile ? '忠实重建' : '忠实续写重生成'}
+              </Button>
+            )}
             {outlines.length > 0 && currentProject?.outline_mode === 'one-to-many' && (
               <Button
                 icon={<AppstoreAddOutlined />}

@@ -1,0 +1,135 @@
+"""Render source-discovery pattern packs into compact prompt guidance."""
+
+from __future__ import annotations
+
+from typing import Any, Optional
+
+
+def render_source_pattern_pack_digest(
+    source_pattern_pack: Optional[dict[str, Any]],
+    *,
+    empty_message: str = "(no public source pattern pack; use only local project canon.)",
+    include_inspired_guidance: bool = True,
+) -> str:
+    """Convert the latest source-discovery pattern pack into prompt-safe bullets."""
+    if not source_pattern_pack:
+        return empty_message
+
+    lines: list[str] = []
+    workflow_patterns = _as_dict_list(source_pattern_pack.get("workflow_patterns"))
+    if workflow_patterns:
+        lines.append("- workflow_patterns:")
+        for pattern in workflow_patterns[:8]:
+            name = str(pattern.get("name") or "").strip()
+            if not name:
+                continue
+            count = pattern.get("candidate_count") or 0
+            top_source_url = str(pattern.get("top_source_url") or "").strip()
+            posture_hint = str(pattern.get("posture_hint") or "").strip()
+            risk_flags = _as_note_list(pattern.get("risk_flags"))
+            trust_flags = _as_note_list(pattern.get("trust_flags"))
+            posture_text = f"; posture_hint: {posture_hint}" if posture_hint else ""
+            risk_text = f"; risk_flags: {', '.join(risk_flags[:5])}" if risk_flags else ""
+            trust_text = f"; trust_flags: {', '.join(trust_flags[:5])}" if trust_flags else ""
+            source_text = f"; top_source: {top_source_url}" if top_source_url else ""
+            lines.append(f"  - {name} (candidates: {count}{source_text}{posture_text}{risk_text}{trust_text})")
+
+    bible_targets = _as_note_list(source_pattern_pack.get("bible_enrichment_targets"))
+    if bible_targets:
+        lines.append("- bible_enrichment_targets: " + ", ".join(bible_targets[:12]))
+
+    whole_book_targets = _as_note_list(source_pattern_pack.get("whole_book_analysis_targets"))
+    if whole_book_targets:
+        lines.append("- whole_book_analysis_targets: " + ", ".join(whole_book_targets[:14]))
+
+    continuation_hints = _as_note_list(source_pattern_pack.get("continuation_prompt_hints"))
+    if continuation_hints:
+        lines.append("- continuation_prompt_hints:")
+        for hint in continuation_hints[:8]:
+            lines.append(f"  - {hint}")
+
+    continuation_state_hints = _as_note_list(source_pattern_pack.get("continuation_state_hints"))
+    if continuation_state_hints:
+        lines.append("- continuation_state_hints:")
+        for hint in continuation_state_hints[:8]:
+            lines.append(f"  - {hint}")
+
+    style_hints = _as_note_list(source_pattern_pack.get("style_signature_hints"))
+    if style_hints:
+        lines.append("- style_signature_hints:")
+        for hint in style_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    style_fidelity_hints = _as_note_list(source_pattern_pack.get("style_fidelity_hints"))
+    if style_fidelity_hints:
+        lines.append("- style_fidelity_hints:")
+        for hint in style_fidelity_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    if include_inspired_guidance:
+        inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
+        if inspired_mapping_targets:
+            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:12]))
+
+        inspired_prompt_hints = _as_note_list(source_pattern_pack.get("inspired_prompt_hints"))
+        if inspired_prompt_hints:
+            lines.append("- inspired_prompt_hints:")
+            for hint in inspired_prompt_hints[:6]:
+                lines.append(f"  - {hint}")
+
+        inspired_transformation_hints = _as_note_list(source_pattern_pack.get("inspired_transformation_hints"))
+        if inspired_transformation_hints:
+            lines.append("- inspired_transformation_hints:")
+            for hint in inspired_transformation_hints[:6]:
+                lines.append(f"  - {hint}")
+
+        inspired_copy_risk_hints = _as_note_list(source_pattern_pack.get("inspired_copy_risk_hints"))
+        if inspired_copy_risk_hints:
+            lines.append("- inspired_copy_risk_hints:")
+            for hint in inspired_copy_risk_hints[:6]:
+                lines.append(f"  - {hint}")
+
+    review_hints = _as_note_list(source_pattern_pack.get("self_review_policy_hints"))
+    if review_hints:
+        lines.append("- self_review_policy_hints:")
+        for hint in review_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    review_gate_hints = _as_note_list(source_pattern_pack.get("self_review_gate_hints"))
+    if review_gate_hints:
+        lines.append("- self_review_gate_hints:")
+        for hint in review_gate_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    chapter_change_hints = _as_note_list(source_pattern_pack.get("chapter_change_package_hints"))
+    if chapter_change_hints:
+        lines.append("- chapter_change_package_hints:")
+        for hint in chapter_change_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    safety_constraints = _as_note_list(source_pattern_pack.get("safety_constraints"))
+    if safety_constraints:
+        lines.append("- safety_constraints:")
+        for constraint in safety_constraints[:8]:
+            lines.append(f"  - {constraint}")
+
+    if not lines:
+        return "(empty public source pattern pack; do not import external code.)"
+    return "\n".join(lines)
+
+
+def _as_dict_list(value: Any) -> list[dict[str, Any]]:
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, dict)]
+
+
+def _as_note_list(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    notes: list[str] = []
+    for item in value:
+        text = str(item).strip()
+        if text:
+            notes.append(text)
+    return notes

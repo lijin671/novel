@@ -19,6 +19,7 @@ import type {
   OutlineUpdate,
   ChapterCreate,
   ChapterUpdate,
+  ChapterGenerateRequest,
   GenerateOutlineRequest,
   GenerateCharacterRequest
 } from '../types';
@@ -288,25 +289,40 @@ export function useChapterSync() {
     targetWordCount?: number,
     onProgressUpdate?: (message: string, progress: number) => void,
     model?: string,
-    narrativePerspective?: string
+    narrativePerspective?: string,
+    forceHighRiskContinuation?: boolean
   ) => {
     try {
       // 使用fetch处理流式响应
+      const requestBody: ChapterGenerateRequest = {
+        style_id: styleId,
+        target_word_count: targetWordCount,
+        enable_mcp: true,
+      };
+
       const response = await fetch(`/api/chapters/${chapterId}/generate-stream`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          style_id: styleId,
-          target_word_count: targetWordCount,
-          model: model,
-          narrative_perspective: narrativePerspective
+          ...requestBody,
+          model,
+          narrative_perspective: narrativePerspective,
+          force_high_risk_continuation: forceHighRiskContinuation || undefined,
         }),
       });
 
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        let errorData: unknown;
+        try {
+          errorData = await response.json();
+        } catch {
+          errorData = undefined;
+        }
+        const error = new Error(`HTTP error! status: ${response.status}`) as Error & { response?: { data?: unknown } };
+        error.response = { data: errorData };
+        throw error;
       }
 
       const reader = response.body?.getReader();
@@ -338,55 +354,65 @@ export function useChapterSync() {
             continue;
           }
 
+          const dataMatch = line.match(/^data: (.+)$/m);
+          if (!dataMatch) {
+            continue;
+          }
+
+          let message;
           try {
-            const dataMatch = line.match(/^data: (.+)$/m);
-            if (dataMatch) {
-              const message = JSON.parse(dataMatch[1]);
-              
-              if (message.type === 'start') {
-                // 开始生成
-                if (onProgressUpdate) {
-                  onProgressUpdate(message.message || '开始生成...', 0);
-                }
-              } else if (message.type === 'progress') {
-                // 进度更新
-                if (onProgressUpdate) {
-                  onProgressUpdate(
-                    message.message || '生成中...',
-                    message.progress || 0
-                  );
-                }
-              } else if ((message.type === 'content' || message.type === 'chunk') && message.content) {
-                fullContent += message.content;
-                if (onProgress) {
-                  onProgress(fullContent);
-                }
-              } else if (message.type === 'error') {
-                throw new Error(message.error || '生成失败');
-              } else if (message.type === 'result') {
-                // 结果消息，包含分析任务ID
-                if (message.data?.analysis_task_id) {
-                  analysisTaskId = message.data.analysis_task_id;
-                }
-                if (onProgressUpdate) {
-                  onProgressUpdate('生成完成', 100);
-                }
-              } else if (message.type === 'done') {
-                // 生成完成，刷新章节数据
-                await refreshChapters();
-              } else if (message.type === 'analysis_started') {
-                // 分析已开始
-                analysisTaskId = message.task_id;
-                if (onProgressUpdate) {
-                  onProgressUpdate('章节分析已开始...', 100);
-                }
-              } else if (message.type === 'analysis_queued') {
-                // 分析任务已加入队列
-                analysisTaskId = message.task_id;
-              }
-            }
+            message = JSON.parse(dataMatch[1]);
           } catch (error) {
             console.error('解析SSE消息失败:', error);
+            continue;
+          }
+
+          if (message.type === 'start') {
+            // 开始生成
+            if (onProgressUpdate) {
+              onProgressUpdate(message.message || '开始生成...', 0);
+            }
+          } else if (message.type === 'progress') {
+            // 进度更新
+            if (onProgressUpdate) {
+              onProgressUpdate(
+                message.message || '生成中...',
+                message.progress || 0
+              );
+            }
+          } else if ((message.type === 'content' || message.type === 'chunk') && message.content) {
+            fullContent += message.content;
+            if (onProgress) {
+              onProgress(fullContent);
+            }
+          } else if (message.type === 'error') {
+            throw new Error(message.error || '生成失败');
+          } else if (message.type === 'result') {
+            // 结果消息，包含分析任务ID
+            if (message.data?.analysis_task_id) {
+              analysisTaskId = message.data.analysis_task_id;
+            }
+            if (typeof message.data?.final_content === 'string' && message.data.final_content.length > 0) {
+              fullContent = message.data.final_content;
+              if (onProgress) {
+                onProgress(fullContent);
+              }
+            }
+            if (onProgressUpdate) {
+              onProgressUpdate('生成完成', 100);
+            }
+          } else if (message.type === 'done') {
+            // 生成完成，刷新章节数据
+            await refreshChapters();
+          } else if (message.type === 'analysis_started') {
+            // 分析已开始
+            analysisTaskId = message.task_id;
+            if (onProgressUpdate) {
+              onProgressUpdate('章节分析已开始...', 100);
+            }
+          } else if (message.type === 'analysis_queued') {
+            // 分析任务已加入队列
+            analysisTaskId = message.task_id;
           }
         }
       }

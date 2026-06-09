@@ -56,6 +56,10 @@ interface NavigationData {
   } | null;
 }
 
+const ANALYSIS_POLL_INTERVAL_MS = 2000;
+const ANALYSIS_SLOW_NOTICE_MS = 30 * 1000;
+const ANALYSIS_MAX_POLL_MS = 20 * 60 * 1000;
+
 /**
  * 章节阅读器页面
  * 展示带有记忆标注的章节内容
@@ -175,7 +179,19 @@ const ChapterReader: React.FC = () => {
       await api.post(`/chapters/${chapterId}/analyze`);
 
       // 轮询分析状态
-      const pollInterval = setInterval(async () => {
+      let finished = false;
+      const slowNoticeTimeout = window.setTimeout(() => {
+        if (finished) {
+          return;
+        }
+
+        message.info({
+          content: '分析耗时较长，仍在后台继续执行，请稍候',
+          key: 'analyze-slow',
+          duration: 3
+        });
+      }, ANALYSIS_SLOW_NOTICE_MS);
+      const pollInterval = window.setInterval(async () => {
         try {
           const statusRes = await api.get(`/chapters/${chapterId}/analysis/status`);
           const { status, progress, error_message } = statusRes.data;
@@ -183,7 +199,11 @@ const ChapterReader: React.FC = () => {
           setAnalysisProgress(progress || 0);
 
           if (status === 'completed') {
+            finished = true;
             clearInterval(pollInterval);
+            clearTimeout(slowNoticeTimeout);
+            clearTimeout(maxPollTimeout);
+            message.destroy('analyze-slow');
             setAnalyzing(false);
             message.success({ content: '分析完成！', key: 'analyze' });
             
@@ -191,7 +211,11 @@ const ChapterReader: React.FC = () => {
             const annotationsRes = await api.get(`/chapters/${chapterId}/annotations`);
             setAnnotationsData(annotationsRes.data);
           } else if (status === 'failed') {
+            finished = true;
             clearInterval(pollInterval);
+            clearTimeout(slowNoticeTimeout);
+            clearTimeout(maxPollTimeout);
+            message.destroy('analyze-slow');
             setAnalyzing(false);
             message.error({
               content: `分析失败：${error_message || '未知错误'}`,
@@ -201,19 +225,27 @@ const ChapterReader: React.FC = () => {
         } catch (err) {
           console.error('轮询分析状态失败:', err);
         }
-      }, 2000); // 每2秒轮询一次
+      }, ANALYSIS_POLL_INTERVAL_MS); // 每2秒轮询一次
 
-      // 30秒超时
-      setTimeout(() => {
+      // 最长轮询 20 分钟，适配高推理模型
+      const maxPollTimeout = window.setTimeout(() => {
         clearInterval(pollInterval);
+        if (finished) {
+          return;
+        }
+
+        finished = true;
+        clearTimeout(slowNoticeTimeout);
+        message.destroy('analyze-slow');
         if (analyzing) {
           setAnalyzing(false);
-          message.warning({ content: '分析超时，请稍后刷新查看结果', key: 'analyze' });
+          message.warning({ content: '分析仍在后台继续执行，请稍后刷新查看结果', key: 'analyze' });
         }
-      }, 30000);
+      }, ANALYSIS_MAX_POLL_MS);
 
     } catch (err: unknown) {
       setAnalyzing(false);
+      message.destroy('analyze-slow');
       const error = err as { response?: { data?: { detail?: string } } };
       message.error({
         content: error.response?.data?.detail || '触发分析失败',

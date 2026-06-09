@@ -83,6 +83,12 @@ export interface AuthUrlResponse {
 }
 
 // 项目类型定义
+export interface ProjectRealitySyncConfig {
+  mode: 'auto' | 'force' | 'off';
+  preferred_groups: string[];
+  max_groups_per_run: number;
+}
+
 export interface Project {
   id: string;  // UUID字符串
   title: string;
@@ -99,6 +105,7 @@ export interface Project {
   world_location?: string;
   world_atmosphere?: string;
   world_rules?: string;
+  reality_sync_config?: ProjectRealitySyncConfig;
   chapter_count?: number;
   narrative_perspective?: string;
   character_count?: number;
@@ -119,6 +126,7 @@ export interface ProjectCreate {
   world_location?: string;
   world_atmosphere?: string;
   world_rules?: string;
+  reality_sync_config?: ProjectRealitySyncConfig;
 }
 
 export interface ProjectUpdate {
@@ -132,6 +140,7 @@ export interface ProjectUpdate {
   world_location?: string;
   world_atmosphere?: string;
   world_rules?: string;
+  reality_sync_config?: ProjectRealitySyncConfig;
   chapter_count?: number;
   narrative_perspective?: string;
   character_count?: number;
@@ -313,6 +322,10 @@ export interface ChapterUpdate {
 export interface ChapterGenerateRequest {
   style_id?: number;
   target_word_count?: number;
+  enable_mcp?: boolean;
+  model?: string;
+  narrative_perspective?: string;
+  force_high_risk_continuation?: boolean;
 }
 
 // 章节生成检查响应
@@ -347,6 +360,7 @@ export interface GenerateOutlineRequest {
   story_direction?: string;
   plot_stage?: 'development' | 'climax' | 'ending';
   keep_existing?: boolean;
+  enable_mcp?: boolean;
 }
 
 // 大纲重排序请求类型
@@ -446,7 +460,17 @@ export interface GenerateCharactersResponse {
 }
 
 export interface GenerateOutlineResponse {
+  message?: string;
+  outline_count?: number;
+  chapter_count?: number;
+  outline_mode?: 'one-to-one' | 'one-to-many';
   outlines: Outline[];
+  chapters?: Array<{
+    id: string;
+    chapter_number: number;
+    title: string;
+    status: string;
+  }>;
 }
 
 // API响应类型
@@ -516,17 +540,45 @@ export interface WizardBasicInfo {
   character_count?: number;
   target_words?: number;
   outline_mode?: 'one-to-one' | 'one-to-many';  // 大纲章节模式
+  memory_retrieval_preset?: import('./memoryRetrieval').PipelineMemoryRetrievalPresetKey;
 }
 
 // API 错误响应类型
+export interface ApiErrorDetailObject {
+  code?: string;
+  message?: string;
+  continuation_risk?: {
+    level?: string;
+    label?: string;
+    can_continue?: boolean;
+    message?: string;
+    blocking_chapter_numbers?: number[];
+    warning_chapter_numbers?: number[];
+    reasons?: string[];
+    reason_labels?: string[];
+  };
+}
+
+export type ApiErrorDetail = string | ApiErrorDetailObject;
+
 export interface ApiError {
   response?: {
     data?: {
-      detail?: string;
+      detail?: ApiErrorDetail;
     };
   };
   message?: string;
 }
+
+export const getApiErrorDetailMessage = (detail: ApiErrorDetail | undefined, fallback = '未知错误'): string => {
+  if (typeof detail === 'string') {
+    return detail;
+  }
+  if (detail?.message) {
+    return detail.message;
+  }
+  return fallback;
+};
 
 // 章节分析任务相关类型
 export interface AnalysisTask {
@@ -563,6 +615,37 @@ export interface BatchAnalyzeUnanalyzedResponse {
 }
 
 // 分析结果 - 钩子
+export interface NovelWorkflowRunRequest {
+  chapter_ids?: string[];
+  auto_regenerate?: boolean;
+  max_rounds?: number;
+  min_score?: number;
+}
+
+export interface NovelWorkflowRunResponse {
+  task_id: string;
+  project_id: string;
+  status: string;
+  total_chapters: number;
+  message: string;
+}
+
+export interface NovelWorkflowTaskStatusResponse {
+  task_id: string;
+  project_id: string;
+  status: 'pending' | 'running' | 'completed' | 'failed' | 'cancelled';
+  total: number;
+  completed: number;
+  current_chapter_id?: string | null;
+  current_chapter_number?: number | null;
+  failed_chapters: Array<Record<string, unknown>>;
+  result_summary: Record<string, number>;
+  created_at?: string | null;
+  started_at?: string | null;
+  completed_at?: string | null;
+  error_message?: string | null;
+}
+
 export interface AnalysisHook {
   type: string;
   content: string;
@@ -692,12 +775,13 @@ export interface MCPPlugin {
   plugin_name: string;
   display_name: string;
   description?: string;
-  plugin_type: 'http' | 'stdio' | 'streamable_http' | 'sse';
+  plugin_type: 'http' | 'stdio' | 'streamable_http' | 'sse' | 'builtin';
   category: string;
 
   // HTTP类型字段
   server_url?: string;
   headers?: Record<string, string>;
+  config?: Record<string, unknown>;
 
   // Stdio类型字段
   command?: string;
@@ -706,7 +790,7 @@ export interface MCPPlugin {
 
   // 状态字段
   enabled: boolean;
-  status: 'active' | 'inactive' | 'error';
+  status: 'active' | 'inactive' | 'error' | 'pending' | 'degraded';
   last_error?: string;
   last_test_at?: string;
 
@@ -735,7 +819,17 @@ export interface MCPPluginUpdate {
   args?: string[];
   env?: Record<string, string>;
   headers?: Record<string, string>;
+  config?: Record<string, unknown>;
   enabled?: boolean;
+  category?: string;
+}
+
+export interface ExaRestAdapterInstallRequest {
+  base_url: string;
+  api_key?: string;
+  api_key_header?: string;
+  enabled?: boolean;
+  category?: string;
 }
 
 export interface MCPTool {
@@ -1069,6 +1163,61 @@ export interface PromptWorkshopAdminStats {
   total_pending: number;
   total_downloads: number;
   total_likes: number;
+}
+
+export interface PromptLocalAsset {
+  id: string;
+  filename: string;
+  name: string;
+  source_path: string;
+  description: string;
+  category: string;
+  tags: string[];
+  risk_level: 'low' | 'medium' | 'high';
+  risk_reasons: string[];
+  sync_status: 'eligible' | 'catalog_only' | 'blocked_high_risk';
+  can_sync_to_workshop: boolean;
+  content_preview?: string | null;
+  content_length: number;
+  prompt_content?: string | null;
+  content_blocked_reason?: string;
+}
+
+export interface PromptLocalAssetSummary {
+  total: number;
+  low: number;
+  medium: number;
+  high: number;
+  eligible: number;
+  catalog_only: number;
+  blocked_high_risk: number;
+}
+
+export interface PromptLocalAssetListResponse {
+  success: boolean;
+  data: {
+    summary: PromptLocalAssetSummary;
+    items: PromptLocalAsset[];
+  };
+}
+
+export interface PromptLocalAssetBatchImportResponse {
+  success: boolean;
+  message: string;
+  data: {
+    imported_count: number;
+    skipped_count: number;
+    imported_items: Array<{
+      id: string;
+      name: string;
+      writing_style_id: number;
+    }>;
+    skipped_items: Array<{
+      id: string;
+      name?: string;
+      reason: string;
+    }>;
+  };
 }
 
 // 提示词工坊分类常量

@@ -3,6 +3,44 @@ from typing import Dict, Any, Optional
 import json
 
 
+def build_style_system_prompt(style_content: str) -> Optional[str]:
+    """
+    构建写作风格对应的系统提示词片段。
+    """
+    normalized_style = (style_content or "").strip()
+    if not normalized_style:
+        return None
+
+    return f"""【写作风格要求 - 最高优先级】
+
+{normalized_style}
+
+请严格遵循以上写作风格要求进行创作，保持整章风格一致，并严格遵守正文与摘要输出契约。"""
+
+
+def compose_system_prompt(
+    base_system_prompt: Optional[str],
+    style_content: Optional[str]
+) -> Optional[str]:
+    """
+    合成全局 system_prompt 与写作风格系统提示词，避免互相覆盖。
+    """
+    sections = []
+
+    normalized_base_prompt = (base_system_prompt or "").strip()
+    if normalized_base_prompt:
+        sections.append(normalized_base_prompt)
+
+    style_system_prompt = build_style_system_prompt(style_content or "")
+    if style_system_prompt:
+        sections.append(style_system_prompt)
+
+    if not sections:
+        return None
+
+    return "\n\n".join(sections)
+
+
 class WritingStyleManager:
     """写作风格管理器"""
     
@@ -19,7 +57,28 @@ class WritingStyleManager:
             组合后的提示词
         """
         # 在基础提示词末尾添加风格要求
-        return f"{base_prompt}\n\n{style_content}\n\n请直接输出章节正文内容，不要包含章节标题和其他说明文字。"
+        return f"{base_prompt}\n\n{style_content}\n\n请严格遵守当前提示词中的输出契约，不要额外输出章节标题、解释或说明文字。"
+
+
+CHAPTER_GENERATION_PROJECT_ALIGNMENT_RULES = """<project_alignment priority="P0">
+【项目长篇一致性规则】
+- 以本章大纲、上一章衔接锚点、上一章摘要、最近章节上下文、角色信息、职业信息、相关记忆、伏笔提醒为当前事实依据。
+- 如果已有上下文之间存在张力，优先保持正文已发生事实、角色状态、时间线、利益链、伤势与资源状态稳定，不得擅自吃设定。
+- 不要伪造“更早章节已经写过”的内容；未提供的信息只能谨慎推断，不能写成确定事实。
+- 本章只推进新增内容，不要把上一章的结尾、摘要或上下文换一种说法重写一遍。
+- 配角不能只承担工具人功能，关键配角要有目标、顾虑、筹码、误判与反应。
+- 爽点必须落到具体结果：行动成败、地位变化、利益得失、情报推进、关系变化，不要只喊口号。
+</project_alignment>
+"""
+
+CHAPTER_GENERATION_RESEARCH_RULES = """<research_rules priority="P2">
+【资料与考据规则】
+- 当前项目上下文优先于外部常识。
+- 涉及现实世界硬事实时，仅在确有必要且工具可用时按需查证。
+- 联网结果只能补充真实世界事实，不能覆盖当前项目正文中已经成立的剧情事实。
+- 不要为了使用工具而使用工具。
+</research_rules>
+"""
 
 
 class PromptService:
@@ -422,6 +481,19 @@ class PromptService:
 {recent_outlines}
 </previous_context>
 
+<style_anchor priority="P0">
+{style_anchor}
+</style_anchor>
+
+<recent_chapter_samples priority="P0">
+{recent_chapter_samples}
+</recent_chapter_samples>
+
+<remix_continuation_context priority="P0">
+本段为已确认 Canon / 续写状态。若与普通记忆、旧摘要或局部大纲冲突，优先服从本段。
+{remix_continuation_context}
+</remix_continuation_context>
+
 <characters priority="P0">
 【所有角色信息】
 {characters_info}
@@ -490,6 +562,8 @@ class PromptService:
 ✅ 情节阶段：遵循{plot_stage_instruction}的要求
 ✅ 风格一致：保持与已有章节相同风格和详细程度
 ✅ 大纲详细：充分解析最近10章大纲的structure字段信息
+✅ 忠实续写：优先服从“续写风格锚点”与“最近正文样本”，沿用原书节奏、口吻和冲突链
+✅ 承接结尾：优先续接原书末尾已暴露的问题、目标和伏笔，不另起全新故事
 
 【必须遵守】
 ✅ 数量精确：数组包含{chapter_count}个章节
@@ -505,12 +579,179 @@ class PromptService:
 ❌ 忽略最近大纲中的情节线索
 </constraints>"""
     
-    # 章节生成 - 1-N模式（第1章）
-    CHAPTER_GENERATION_ONE_TO_MANY = """<system>
-你是《{project_title}》的作者，一位专注于{genre}类型的网络小说家。
+    # 章节导演脚本：在正文生成前，为单章先产出一个轻量执行计划。
+    CHAPTER_DIRECTOR_PLAN = """<system>
+你是长篇小说的章节导演，负责在正式写作前为单章生成一个可执行的导演脚本。
 </system>
 
 <task>
+【任务】
+基于当前章节的大纲、承接锚点、角色信息和伏笔提醒，为第{chapter_number}章《{chapter_title}》输出一个严格的 JSON 导演脚本。
+
+【目标】
+- 只规划本章，不替后续章节收束全局冲突
+- 明确本章要推进的新事件、开篇方式、节奏预算和结尾钩子
+- 没有必要时不要新增正式点名出场的新角色
+</task>
+
+<context priority="P0">
+【项目信息】
+书名：{project_title}
+类型：{genre}
+叙事视角：{narrative_perspective}
+目标字数：{target_word_count}
+
+【本章大纲】
+{chapter_outline}
+
+【上一章摘要】
+{previous_chapter_summary}
+
+【衔接锚点】
+{continuation_point}
+</context>
+
+<support priority="P1">
+【本章角色】
+{characters_info}
+
+【本章职业】
+{chapter_careers}
+
+【最近章节规划】
+{recent_chapters_context}
+
+【伏笔提醒】
+{foreshadow_reminders}
+
+【相关记忆】
+{relevant_memories}
+</support>
+
+<output priority="P0">
+【输出格式】
+返回纯 JSON 对象，不要输出 markdown、代码块或解释文字：
+
+{{
+  "macro_beat": "本章主节拍，如推进/压迫/揭示/转折/缓冲",
+  "chapter_goal": "本章必须完成的核心推进",
+  "opening_strategy": "开篇怎么接住上一章并快速进入本章动作",
+  "ending_hook": "结尾留下什么未完成问题、压力或悬念",
+  "pov_focus": "本章最核心的视角重心或情绪重心",
+  "pace_budget": {{
+    "new_major_facts": 1,
+    "new_major_characters": 0,
+    "major_payoff": 0,
+    "hooks": 1
+  }},
+  "must_include": ["本章必须出现的事件/动作/信息"],
+  "must_avoid": ["本章必须避免的写法或内容"],
+  "allowed_new_characters": ["允许正式点名出场的新角色名，无则返回[]"],
+  "scene_list": [
+    {{
+      "scene": 1,
+      "goal": "该场景的任务",
+      "conflict": "该场景的冲突或阻力",
+      "turn": "该场景的变化点",
+      "end_hook": "该场景末尾的推动点"
+    }}
+  ],
+  "narrative_notes": ["叙事执行提醒"]
+}}
+</output>
+
+<constraints>
+【必须遵守】
+✅ 只规划本章，不提前完成后续章节的高潮或回收
+✅ 必须体现“承接上一章之后如何继续推进”
+✅ allowed_new_characters 只填写本章确有必要正式点名的人物
+✅ must_avoid 中至少包含“禁止重复上一章已完成事件”“禁止全知视角”“禁止总结式收尾”
+✅ scene_list 保持 2-5 个场景，聚焦可写成正文的事件链
+
+【禁止事项】
+❌ 输出 JSON 之外的任何文字
+❌ 把大纲原文整段照抄到字段里
+❌ 让单章承担过多重大信息揭示
+</constraints>"""
+
+    # 章节护栏修复：针对生成后的违规点进行最小修改，不重写整章。
+    CHAPTER_GUARDRAILS_REWRITE = """<system>
+你是专业的小说修订编辑，负责在不改变章节核心剧情的前提下，精准修复叙事违规问题。
+</system>
+
+<task>
+【修复任务】
+修复第{chapter_number}章《{chapter_title}》中的违规点，使其更符合有限视角、承接逻辑和角色登场规则。
+
+【修复原则】
+- 只修违规点，不推翻本章核心事件和整体风格
+- 优先保留已有可用内容，最小幅度改动
+- 修复后必须仍然是完整连贯的章节正文
+</task>
+
+<context priority="P0">
+【本章大纲】
+{chapter_outline}
+
+【章节导演脚本】
+{chapter_director_plan}
+
+【上一章摘要】
+{previous_chapter_summary}
+
+【衔接锚点】
+{continuation_point}
+
+【已确认 Canon 续写状态】
+{remix_continuation_context}
+
+【公开来源模式约束】
+{source_pattern_constraints}
+
+【源书显性元素禁用清单】
+{forbidden_source_names}
+
+【目标字数】
+{target_word_count}
+</context>
+
+<violations priority="P0">
+【待修复违规列表】
+{violations_text}
+</violations>
+
+<original priority="P1">
+【原始正文】
+{original_content}
+</original>
+
+<constraints>
+【必须遵守】
+✅ 如果开篇与衔接锚点重复，要保留锚点之后的反应、后果或下一步行动
+✅ 如果触犯已确认 Canon，必须从已完成/已解决状态之后继续推进，不得重演、回退或覆盖
+✅ 如果出现未允许角色名，改为模糊指代、延后揭示或直接删除
+✅ 如果出现全知视角，改成当前视角角色可观察、可推断、可感受到的信息
+✅ 如果新角色首次出现过于突兀，补少量观察、判断、称呼确认过程
+✅ 保持原有叙事视角、文风和章节主事件不变
+
+【禁止事项】
+❌ 不要把整章重写成全新剧情
+❌ 不要输出修复说明、标题、JSON、markdown 或注释
+❌ 不要增加大纲之外的重大新设定
+</constraints>
+
+<output>
+【输出规范】
+直接输出修复后的章节正文，只输出正文本身。
+</output>"""
+
+    # 章节生成共享规则块：尽量保持系统模板结构简单，便于后续继续拆分为资源化模板。
+    CHAPTER_GENERATION_SYSTEM = """<system>
+你是《{project_title}》的作者，一位专注于{genre}类型的网络小说家。
+</system>
+"""
+
+    CHAPTER_GENERATION_TASK = """<task priority="P0">
 【创作任务】
 撰写第{chapter_number}章《{chapter_title}》的完整正文。
 
@@ -518,21 +759,101 @@ class PromptService:
 - 目标字数：{target_word_count}字（允许±200字浮动）
 - 叙事视角：{narrative_perspective}
 </task>
+"""
 
-<outline priority="P0">
+    CHAPTER_GENERATION_PLAN_FIRST = """<planning priority="P0">
+【隐式规划要求】
+正式写正文前，先在脑中完成一个不输出的小型章节规划：
+1. 开篇用场景、动作、对话或突发信息切入，不要空泛开场
+2. 中段至少推进一个新的有效事件、发现、冲突或关系变化
+3. 结尾留下自然延续点，但不要用总结、喊话、反问来收尾
+
+只允许内部思考，不得把规划过程、分点、提示语输出到正文里。
+</planning>
+"""
+
+    CHAPTER_GENERATION_REMIX_CONTEXT = """<remix_continuation_context priority="P0">
+本段为已确认 Canon - 续写状态必须优先服从
+{remix_continuation_context}
+
+使用规则：
+- 最新 timeline、character continuation updates、resolved hooks 与 done beats 代表已经发生的剧情，不得重复书写或回退。
+- 未回收伏笔、pending beats 与 guardrails 代表下一章必须优先照顾的开放任务和硬约束。
+- 如本段与普通记忆、旧摘要或局部大纲冲突，优先服从本段 Canon，不得覆盖已确认状态。
+</remix_continuation_context>
+"""
+
+    CHAPTER_GENERATION_CRAFT_RULES = """<craft_rules priority="P1">
+【章节写作规则】
+- 信息要通过场景、动作、对白、心理反应和感官细节来呈现，避免整段概括式说明
+- 每章必须产生明确推进，不能只有回顾、铺垫或空泛抒情
+- 情绪变化要有触发点，冲突升级要有因果，人物反应要能落在具体行为上
+- 场景转换要自然，段落之间保持时间、空间、视角上的清晰连续
+- 如需回收伏笔，要让回收动作落在剧情里，不要像作者解释设定
+</craft_rules>
+"""
+
+    CHAPTER_GENERATION_CHARACTER_RULES = """⚠️ 角色执行规则：
+- 对话、行为、判断必须符合角色既有性格、关系、身份和立场
+- 角色能力表现必须符合其职业、阶段与已知设定，不可临时拔高
+- 涉及组织、师承、阵营时，要体现角色在体系中的位置和边界
+- 角色之间的称呼、情绪温度、互动距离要与前文发展一致
+"""
+
+    CHAPTER_GENERATION_NO_REPEAT_RULES = """<anti_repeat priority="P1">
+【反重复规则】
+- 不要把大纲、上一章摘要、上下文参考原样改写成正文
+- 不要重复描写已经完成的动作、环境状态、心理结论，只写本章新增内容
+- 如果上一章已经给出结果，本章直接写结果之后的反应、后果或下一步行动
+- 禁止使用“接上回”“书接上文”“上一章说到”等套话
+</anti_repeat>
+"""
+
+    CHAPTER_GENERATION_CONTINUATION_RULES = """<continuation_rules priority="P0">
+【承接规则】
+- 开篇必须接住上一章最后的动作、信息、情绪或局势变化
+- 可以顺势转场，但不能把上一章最后一段换一种说法重写一遍
+- 如果上一章结尾是对话、揭示或冲突，本章第一段优先写其后果、反应或下一步决定
+- 如果上一章结尾偏静态描写，本章要尽快转入新的行动、判断或事件推进
+</continuation_rules>
+"""
+
+    CHAPTER_GENERATION_OUTPUT_CONTRACT = """<output>
+【输出规范】
+你必须严格按以下格式输出，且只输出这两段：
+
+<<<CONTENT>>>
+这里输出章节正文，从故事场景、动作、对话或情绪变化开始。
+不要输出标题、序号、提纲、解释、作者注释或任何额外标签。
+
+<<<SUMMARY>>>
+这里输出本章摘要，控制在60-180字，聚焦本章真实发生的关键推进、角色变化、悬念或伏笔。
+摘要必须基于正文内容提炼，不得臆造正文中未发生的重要事件。
+
+现在开始创作：
+</output>"""
+
+    # 章节生成 - 1-N模式（第1章）
+    CHAPTER_GENERATION_ONE_TO_MANY = (
+        CHAPTER_GENERATION_SYSTEM
+        + CHAPTER_GENERATION_TASK
+        + CHAPTER_GENERATION_PLAN_FIRST
+        + CHAPTER_GENERATION_REMIX_CONTEXT
+        + """<outline priority="P0">
 【本章大纲 - 必须遵循】
 {chapter_outline}
 </outline>
-
-<characters priority="P1">
+"""
+        + CHAPTER_GENERATION_PROJECT_ALIGNMENT_RULES
+        + CHAPTER_GENERATION_RESEARCH_RULES
+        + CHAPTER_GENERATION_CRAFT_RULES
+        + """<characters priority="P1">
 【本章角色 - 请严格遵循角色设定】
 {characters_info}
 
-⚠️ 角色互动须知：
-- 角色之间的对话和行为必须符合其关系设定（如师徒、敌对等）
-- 涉及组织的情节须体现角色在组织中的身份和职位
-- 角色的能力表现须符合其职业和阶段设定
-</characters>
+"""
+        + CHAPTER_GENERATION_CHARACTER_RULES
+        + """</characters>
 
 <careers priority="P2">
 【本章职业】
@@ -548,13 +869,16 @@ class PromptService:
 【相关记忆】
 {relevant_memories}
 </memory>
-
+"""
+        + CHAPTER_GENERATION_NO_REPEAT_RULES
+        + """
 <constraints>
 【必须遵守】
 ✅ 严格按照大纲推进情节
 ✅ 保持角色性格、说话方式一致
 ✅ 角色互动须符合关系设定（师徒、朋友、敌对等）
 ✅ 组织相关情节须体现成员身份和职位层级
+✅ 每章都要落下至少一个新的有效推进点，不能只做背景复述
 ✅ 字数控制在目标范围内
 ✅ 如有伏笔提醒，请在本章中适当埋入或回收相应伏笔
 
@@ -563,40 +887,34 @@ class PromptService:
 ❌ 使用"总之"、"综上所述"等AI常见总结语
 ❌ 在结尾处使用开放式反问
 ❌ 添加作者注释或创作说明
+❌ 用大段解释代替具体剧情
 ❌ 角色行为超出其职业阶段的能力范围
 </constraints>
-
-<output>
-【输出规范】
-直接输出小说正文内容，从故事场景或动作开始。
-无需任何前言、后记或解释性文字。
-
-现在开始创作：
-</output>"""
+"""
+        + CHAPTER_GENERATION_OUTPUT_CONTRACT
+    )
 
     # 章节生成 - 1-1模式（第1章）
-    CHAPTER_GENERATION_ONE_TO_ONE = """<system>
-你是《{project_title}》的作者，一位专注于{genre}类型的网络小说家。
-</system>
-
-<task priority="P0">
-【创作任务】
-撰写第{chapter_number}章《{chapter_title}》的完整正文。
-
-【基本要求】
-- 目标字数：{target_word_count}字（允许±200字浮动）
-- 叙事视角：{narrative_perspective}
-</task>
-
-<outline priority="P0">
+    CHAPTER_GENERATION_ONE_TO_ONE = (
+        CHAPTER_GENERATION_SYSTEM
+        + CHAPTER_GENERATION_TASK
+        + CHAPTER_GENERATION_PLAN_FIRST
+        + CHAPTER_GENERATION_REMIX_CONTEXT
+        + """<outline priority="P0">
 【本章大纲】
 {chapter_outline}
 </outline>
-
-<characters priority="P1">
+"""
+        + CHAPTER_GENERATION_PROJECT_ALIGNMENT_RULES
+        + CHAPTER_GENERATION_RESEARCH_RULES
+        + CHAPTER_GENERATION_CRAFT_RULES
+        + """<characters priority="P1">
 【本章角色】
 {characters_info}
-</characters>
+
+"""
+        + CHAPTER_GENERATION_CHARACTER_RULES
+        + """</characters>
 
 <careers priority="P2">
 【本章职业】
@@ -612,11 +930,14 @@ class PromptService:
 【相关记忆】
 {relevant_memories}
 </memory>
-
+"""
+        + CHAPTER_GENERATION_NO_REPEAT_RULES
+        + """
 <constraints>
 【必须遵守】
 ✅ 严格按照大纲推进情节
 ✅ 保持角色性格、说话方式一致
+✅ 每章都要有新的有效信息、冲突、决定或关系变化
 ✅ 字数需要严格控制在目标字数内
 ✅ 如有伏笔提醒，请在本章中适当埋入或回收相应伏笔
 
@@ -624,32 +945,20 @@ class PromptService:
 ❌ 输出章节标题、序号等元信息
 ❌ 使用"总之"、"综上所述"等AI常见总结语
 ❌ 添加作者注释或创作说明
+❌ 用大段回顾或设定解释冲淡正文推进
 ❌ 生成字数禁止超过目标字数
 </constraints>
-
-<output>
-【输出规范】
-直接输出小说正文内容，从故事场景或动作开始。
-无需任何前言、后记或解释性文字。
-
-现在开始创作：
-</output>"""
+"""
+        + CHAPTER_GENERATION_OUTPUT_CONTRACT
+    )
 
     # 章节生成 - 1-1模式（第2章及以后）
-    CHAPTER_GENERATION_ONE_TO_ONE_NEXT = """<system>
-你是《{project_title}》的作者，一位专注于{genre}类型的网络小说家。
-</system>
-
-<task priority="P0">
-【创作任务】
-撰写第{chapter_number}章《{chapter_title}》的完整正文。
-
-【基本要求】
-- 目标字数：{target_word_count}字（允许±200字浮动）
-- 叙事视角：{narrative_perspective}
-</task>
-
-<outline priority="P0">
+    CHAPTER_GENERATION_ONE_TO_ONE_NEXT = (
+        CHAPTER_GENERATION_SYSTEM
+        + CHAPTER_GENERATION_TASK
+        + CHAPTER_GENERATION_PLAN_FIRST
+        + CHAPTER_GENERATION_REMIX_CONTEXT
+        + """<outline priority="P0">
 【本章大纲】
 {chapter_outline}
 </outline>
@@ -663,11 +972,18 @@ class PromptService:
 【上一章末尾500字内容】
 {previous_chapter_content}
 </previous_chapter>
-
-<characters priority="P1">
+"""
+        + CHAPTER_GENERATION_PROJECT_ALIGNMENT_RULES
+        + CHAPTER_GENERATION_RESEARCH_RULES
+        + CHAPTER_GENERATION_CONTINUATION_RULES
+        + CHAPTER_GENERATION_CRAFT_RULES
+        + """<characters priority="P1">
 【本章角色】
 {characters_info}
-</characters>
+
+"""
+        + CHAPTER_GENERATION_CHARACTER_RULES
+        + """</characters>
 
 <careers priority="P2">
 【本章职业】
@@ -683,12 +999,16 @@ class PromptService:
 【相关记忆】
 {relevant_memories}
 </memory>
-
+"""
+        + CHAPTER_GENERATION_NO_REPEAT_RULES
+        + """
 <constraints>
 【必须遵守】
 ✅ 严格按照大纲推进情节
 ✅ 自然承接上一章末尾内容，保持连贯性
+✅ 开篇优先承接上一章最后一个动作、信息、情绪或局势变化
 ✅ 保持角色性格、说话方式一致
+✅ 本章必须推进到新的事件、判断或关系变化，不能只是换说法复述上一章
 ✅ 字数需要严格控制在目标字数内
 ✅ 如有伏笔提醒，请在本章中适当埋入或回收相应伏笔
 
@@ -698,32 +1018,20 @@ class PromptService:
 ❌ 在结尾处使用开放式反问
 ❌ 添加作者注释或创作说明
 ❌ 重复上一章已发生的事件
+❌ 在开篇使用"接上回"、"书接上文"等套话
 ❌ 生成字数禁止超过目标字数
 </constraints>
-
-<output>
-【输出规范】
-直接输出小说正文内容，从故事场景或动作开始。
-无需任何前言、后记或解释性文字。
-
-现在开始创作：
-</output>"""
+"""
+        + CHAPTER_GENERATION_OUTPUT_CONTRACT
+    )
 
     # 章节生成 - 1-N模式（第2章及以后）
-    CHAPTER_GENERATION_ONE_TO_MANY_NEXT = """<system>
-你是《{project_title}》的作者，一位专注于{genre}类型的网络小说家。
-</system>
-
-<task>
-【创作任务】
-撰写第{chapter_number}章《{chapter_title}》的完整正文。
-
-【基本要求】
-- 目标字数：{target_word_count}字（允许±200字浮动）
-- 叙事视角：{narrative_perspective}
-</task>
-
-<outline priority="P0">
+    CHAPTER_GENERATION_ONE_TO_MANY_NEXT = (
+        CHAPTER_GENERATION_SYSTEM
+        + CHAPTER_GENERATION_TASK
+        + CHAPTER_GENERATION_PLAN_FIRST
+        + CHAPTER_GENERATION_REMIX_CONTEXT
+        + """<outline priority="P0">
 【本章大纲 - 必须遵循】
 {chapter_outline}
 </outline>
@@ -742,21 +1050,23 @@ class PromptService:
 {previous_chapter_summary}
 
 ⚠️ 严重警告：
-1. 上述"已完成剧情"和"衔接锚点"是**已经写过的**内容
-2. 本章必须推进到**新的情节点**，绝对不能重新叙述已经发生的事件
+1. 上述"已完成剧情"和"衔接锚点"是已经写过的内容
+2. 本章必须推进到新的情节点，绝对不能重新叙述已经发生的事件
 3. 如果锚点是对话结束，请描写对话后的动作或场景转换，不要重复对话
 4. 如果锚点是场景描写，请直接开始人物行动，不要重复描写环境
 </continuation>
-
-<characters priority="P1">
+"""
+        + CHAPTER_GENERATION_PROJECT_ALIGNMENT_RULES
+        + CHAPTER_GENERATION_RESEARCH_RULES
+        + CHAPTER_GENERATION_CONTINUATION_RULES
+        + CHAPTER_GENERATION_CRAFT_RULES
+        + """<characters priority="P1">
 【本章角色 - 请严格遵循角色设定】
 {characters_info}
 
-⚠️ 角色互动须知：
-- 角色之间的对话和行为必须符合其关系设定（如师徒、敌对等）
-- 涉及组织的情节须体现角色在组织中的身份和职位
-- 角色的能力表现须符合其职业和阶段设定
-</characters>
+"""
+        + CHAPTER_GENERATION_CHARACTER_RULES
+        + """</characters>
 
 <careers priority="P2">
 【本章职业】
@@ -772,20 +1082,25 @@ class PromptService:
 【相关记忆 - 参考】
 {relevant_memories}
 </memory>
-
+"""
+        + CHAPTER_GENERATION_NO_REPEAT_RULES
+        + """
 <constraints>
 【必须遵守】
 ✅ 严格按照大纲推进情节
 ✅ 自然承接上一章结尾，不重复已发生事件
+✅ 开篇优先处理锚点之后的反应、后果或新动作
 ✅ 保持角色性格、说话方式一致
 ✅ 角色互动须符合关系设定（师徒、朋友、敌对等）
 ✅ 组织相关情节须体现成员身份和职位层级
+✅ 本章必须明确推进到大纲中的新事件，不能停留在复盘和回顾
 ✅ 字数控制在目标范围内
 ✅ 如有伏笔提醒，请在本章中适当埋入或回收相应伏笔
 
 【🔴 反重复特别指令】
 ✅ 检查本章开篇是否与"衔接锚点"内容重复
 ✅ 检查本章情节是否与"上一章已完成剧情"重复
+✅ 检查段落是否用概括总结代替新剧情推进
 ✅ 确保本章推进到了大纲中规划的新事件
 
 【禁止事项】
@@ -795,16 +1110,12 @@ class PromptService:
 ❌ 添加作者注释或创作说明
 ❌ 重复叙述上一章已发生的事件（包括环境描写、心理活动）
 ❌ 在开篇使用"接上回"、"书接上文"等套话
+❌ 用大段背景解释代替场景推进
 ❌ 角色行为超出其职业阶段的能力范围
 </constraints>
-
-<output>
-【输出规范】
-直接输出小说正文内容，从故事场景或动作开始。
-无需任何前言、后记或解释性文字。
-
-现在开始创作：
-</output>"""
+"""
+        + CHAPTER_GENERATION_OUTPUT_CONTRACT
+    )
 
     # 单个角色生成提示词 V2（RTCO框架）
     SINGLE_CHARACTER_GENERATION = """<system>
@@ -823,6 +1134,19 @@ class PromptService:
 【用户需求】
 {user_input}
 </context>
+
+<reality_mode priority="P0">
+【现实资料模式】
+当项目上下文、用户需求或后续工具结果中出现以下任一信号时，必须进入现实资料模式：
+- 现实世界、真实人物、偶像、女团、组合、成员名单、经纪公司、出道、回归、退团、毕业、解散、活动期、公开履历、时间线
+
+进入现实资料模式后：
+1. 如果 MCP 工具可用，必须先检索公开资料，再输出结果
+2. 成员名单、所属组织、出道时间、加入/退出时间、活动期必须以可核实公开信息为准
+3. 无法确认的信息宁可写“待核实”或留空，也不要编造
+4. 时间信息优先写入 background、relationships.started_at、organization_memberships.joined_at 等字段
+5. 只可使用公开资料，不可编造私密、露骨或未经证实内容
+</reality_mode>
 
 <output priority="P0">
 【输出格式】
@@ -936,6 +1260,20 @@ class PromptService:
 {user_input}
 </context>
 
+<reality_mode priority="P0">
+【现实资料模式】
+当项目上下文、用户需求或后续工具结果中出现以下任一信号时，必须进入现实资料模式：
+- 现实世界、真实人物、偶像组合、女团、成员名单、经纪公司、出道、回归、退团、毕业、解散、活动期、公开履历、时间线
+
+进入现实资料模式后：
+1. 如果 MCP 工具可用，必须先检索公开资料，再输出结果
+2. 组织名称、成员名单、所属公司、活动期、解散/重组信息必须以公开资料为准
+3. organization_members 优先填写公开可核实的完整成员名单
+4. 成员变动、加入退出、毕业解散等时间节点要按现实时间线写入 background
+5. 无法确认的信息宁可写“待核实”或留空，也不要编造
+6. 只可使用公开资料，不可编造私密、露骨或未经证实内容
+</reality_mode>
+
 <output priority="P0">
 【输出格式】
 生成完整的组织设定JSON对象：
@@ -958,7 +1296,7 @@ class PromptService:
 
 【字段说明】
 - power_level：0-100的整数，表示在世界中的影响力
-- organization_members：组织内重要成员名字列表（可关联已有角色）
+- organization_members：组织内重要成员名字列表；现实资料模式下优先填写公开可核实的完整成员名单
 - 成立时间：在background中描述
 </output>
 
@@ -1906,6 +2244,8 @@ class PromptService:
 4. 外貌描写要具体生动
 5. 特长和能力要符合角色定位
 6. **如果【已有角色】中包含职业列表，必须为角色设定职业**
+7. 如果内容涉及现实世界、真实偶像、女团成员、组合时间线等现实资料，且 MCP 工具可用，必须先检索公开资料再输出
+8. 成员所属组合、活动期、加入/退出时间等无法确认时宁可留空或写“待核实”，不要编造
 
 【关系建立指导】
 - 仔细审视【已有角色】列表，思考新角色与哪些现有角色有联系
@@ -1913,6 +2253,7 @@ class PromptService:
 - 每个关系都要有明确的类型、亲密度和描述
 - 关系应该服务于剧情发展
 - 如果新角色是组织成员，记得填写organization_memberships
+- 现实资料模式下，时间节点优先写入 relationships.started_at 和 organization_memberships.joined_at
 
 【职业信息要求】
 如果【已有角色】部分包含"可用主职业列表"或"可用副职业列表"：
@@ -1945,6 +2286,7 @@ class PromptService:
       "relationship_type": "关系类型",
       "intimacy_level": 75,
       "description": "关系的具体描述",
+      "started_at": "关系开始时间（现实资料模式下尽量填写明确日期或时间段）",
       "status": "active"
     }}
   ],
@@ -1953,7 +2295,8 @@ class PromptService:
       "organization_name": "已存在的组织名称",
       "position": "职位",
       "rank": 5,
-      "loyalty": 80
+      "loyalty": 80,
+      "joined_at": "加入时间（现实资料模式下尽量填写明确日期或时间段）"
     }}
   ],
   
@@ -2172,6 +2515,8 @@ class PromptService:
 4. 外在表现要具体生动
 5. 考虑与已有组织的关系和互动
 6. 如果需要，可以建议将现有角色加入组织
+7. 如果内容涉及现实世界、真实组合、女团、成员名单或活动时间线，且 MCP 工具可用，必须先检索公开资料再输出
+8. 现实资料模式下，organization_members 优先给出公开可核实的完整成员名单；成员变动时间节点写入 background 或 initial_members.joined_at
 </requirements>
 
 <output priority="P0">
@@ -2192,6 +2537,7 @@ class PromptService:
 "motto": "组织格言或口号",
 "color": "组织代表颜色",
 "traits": ["特征1", "特征2", "特征3"],
+"organization_members": ["公开成员1", "公开成员2", "公开成员3"],
 
 "initial_members": [
 {{
@@ -2868,6 +3214,15 @@ class PromptService:
                              "all_chapters_brief", "recent_plot", "memory_context", "mcp_references", 
                              "plot_stage_instruction", "start_chapter", "end_chapter", "story_direction", "requirements"]
             },
+            "CHAPTER_DIRECTOR_PLAN": {
+                "name": "章节导演脚本",
+                "category": "章节创作",
+                "description": "在正文生成前，先为单章生成一个 JSON 执行计划",
+                "parameters": ["project_title", "genre", "narrative_perspective", "chapter_number", "chapter_title",
+                             "chapter_outline", "target_word_count", "previous_chapter_summary", "continuation_point",
+                             "characters_info", "chapter_careers", "recent_chapters_context", "foreshadow_reminders",
+                             "relevant_memories"]
+            },
             "CHAPTER_GENERATION_ONE_TO_MANY": {
                 "name": "章节创作-1-N模式（第1章）",
                 "category": "章节创作",
@@ -2904,6 +3259,14 @@ class PromptService:
                 "description": "用于章节重写的系统提示词",
                 "parameters": ["chapter_number", "title", "word_count", "content", "modification_instructions",
                              "project_context", "style_content", "target_word_count"]
+            },
+            "CHAPTER_GUARDRAILS_REWRITE": {
+                "name": "章节护栏修复",
+                "category": "章节创作",
+                "description": "针对章节中的视角、承接、角色登场等违规点进行最小修复",
+                "parameters": ["chapter_number", "chapter_title", "chapter_outline", "target_word_count",
+                             "chapter_director_plan", "previous_chapter_summary", "continuation_point",
+                             "violations_text", "original_content"]
             },
             "PARTIAL_REGENERATE": {
                 "name": "局部重写",

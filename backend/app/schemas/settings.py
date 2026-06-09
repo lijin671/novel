@@ -1,6 +1,6 @@
 """设置相关的Pydantic模型"""
 from pydantic import BaseModel, Field, ConfigDict
-from typing import Optional, List
+from typing import Optional, List, Dict
 from datetime import datetime
 
 
@@ -36,6 +36,26 @@ class SettingsResponse(SettingsBase):
     user_id: str
     created_at: datetime
     updated_at: datetime
+
+
+class MemoryRetrievalConfigUpdateRequest(BaseModel):
+    """记忆检索配置更新请求"""
+    model_config = ConfigDict(protected_namespaces=())
+
+    scenario_types: Dict[str, Optional[List[str]]] = Field(
+        default_factory=dict,
+        description="按场景覆盖的记忆类型白名单，传 null 可重置该场景为默认值"
+    )
+
+
+class MemoryRetrievalConfigResponse(BaseModel):
+    """记忆检索配置响应"""
+    model_config = ConfigDict(protected_namespaces=())
+
+    version: str = Field(..., description="配置版本")
+    scenario_types: Dict[str, List[str]] = Field(..., description="生效中的场景白名单")
+    supported_memory_types: List[str] = Field(..., description="可选记忆类型")
+    default_scenario_types: Dict[str, List[str]] = Field(..., description="系统默认场景白名单")
 
 
 # ========== API配置预设相关模型 ==========

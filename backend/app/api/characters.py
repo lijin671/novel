@@ -80,6 +80,50 @@ async def _build_relationships_summary(character_id: str, project_id: str, db: A
     return "；".join(parts)
 
 
+def _serialize_organization_members(members_data) -> str:
+    """将组织成员数据规范化为前端可直接 JSON.parse 的字符串。"""
+    if not members_data:
+        return ""
+
+    if isinstance(members_data, str):
+        stripped = members_data.strip()
+        if not stripped:
+            return ""
+        try:
+            parsed = json.loads(stripped)
+        except json.JSONDecodeError:
+            return json.dumps([stripped], ensure_ascii=False)
+        return _serialize_organization_members(parsed)
+
+    if isinstance(members_data, list):
+        normalized_members = []
+        for item in members_data:
+            if isinstance(item, dict):
+                name = (item.get("character_name") or item.get("name") or "").strip()
+                position = (item.get("position") or "").strip()
+                if not name:
+                    continue
+                normalized_members.append(f"{name}（{position}）" if position else name)
+                continue
+
+            text = str(item).strip()
+            if text:
+                normalized_members.append(text)
+
+        return json.dumps(normalized_members, ensure_ascii=False) if normalized_members else ""
+
+    text = str(members_data).strip()
+    return json.dumps([text], ensure_ascii=False) if text else ""
+
+
+async def _get_stored_org_members_summary(character_id: str, db: AsyncSession) -> str:
+    """读取 Character 表中的组织成员兜底数据。"""
+    result = await db.execute(
+        select(Character.organization_members).where(Character.id == character_id)
+    )
+    return _serialize_organization_members(result.scalar_one_or_none())
+
+
 async def _build_org_members_summary(character_id: str, db: AsyncSession) -> str:
     """从 organization_members 表构建组织成员JSON字符串（与schema契约保持一致）"""
     # 先查找该角色对应的 Organization 记录
@@ -88,7 +132,7 @@ async def _build_org_members_summary(character_id: str, db: AsyncSession) -> str
     )
     org = org_result.scalar_one_or_none()
     if not org:
-        return ""
+        return await _get_stored_org_members_summary(character_id, db)
 
     # 查询该组织的所有成员（按职级倒序，保证展示顺序稳定）
     members_result = await db.execute(
@@ -98,7 +142,7 @@ async def _build_org_members_summary(character_id: str, db: AsyncSession) -> str
     )
     members = members_result.scalars().all()
     if not members:
-        return ""
+        return await _get_stored_org_members_summary(character_id, db)
 
     # 批量查询成员角色名称
     member_char_ids = [m.character_id for m in members]
@@ -949,7 +993,8 @@ async def generate_character_stream(
                 
                 async for chunk in user_ai_service.generate_text_stream(
                     prompt=prompt,
-                    tool_choice="required",
+                    tool_choice="auto" if request.enable_mcp else "none",
+                    auto_mcp=request.enable_mcp,
                 ):
                     # chunk 现在可能是 dict 或 str，提取 content 字段
                     if isinstance(chunk, dict):

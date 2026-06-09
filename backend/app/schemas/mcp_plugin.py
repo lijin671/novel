@@ -17,7 +17,7 @@ class MCPPluginBase(BaseModel):
     plugin_name: str = Field(..., description="插件唯一标识")
     display_name: Optional[str] = Field(None, description="显示名称")
     description: Optional[str] = Field(None, description="插件描述")
-    plugin_type: str = Field(default="http", description="插件类型：http/stdio")
+    plugin_type: str = Field(default="http", description="插件类型：http/stdio/builtin")
     category: str = Field(default="general", description="分类")
     sort_order: int = Field(default=0, description="排序顺序")
 
@@ -67,6 +67,7 @@ class MCPPluginResponse(BaseModel):
     # HTTP类型字段
     server_url: Optional[str] = None
     headers: Optional[Dict[str, str]] = None
+    config: Optional[Dict[str, Any]] = None
     
     # Stdio类型字段
     command: Optional[str] = None
@@ -83,6 +84,16 @@ class MCPPluginResponse(BaseModel):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+class ExaRestAdapterInstallRequest(BaseModel):
+    """安装或更新 Exa REST 内置适配器。"""
+
+    base_url: str = Field(default="https://exa.chengtx.vip", description="Exa REST 基础地址")
+    api_key: Optional[str] = Field(default="", description="Exa API Key，可留空后续再填")
+    api_key_header: str = Field(default="x-api-key", description="API Key 请求头名称")
+    enabled: bool = Field(default=True, description="是否启用")
+    category: str = Field(default="search", description="插件分类")
 
 
 class MCPToolCall(BaseModel):

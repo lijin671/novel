@@ -4,6 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func, delete
 from typing import List, AsyncGenerator, Dict, Any
 import json
+import re
 
 from app.database import get_db
 from app.api.common import verify_project_access
@@ -32,6 +33,8 @@ from app.services.memory_service import memory_service
 from app.services.plot_expansion_service import PlotExpansionService
 from app.services.foreshadow_service import foreshadow_service
 from app.services.memory_service import memory_service
+from app.services.book_remix_service import book_remix_service
+from app.services.book_remix_context_service import book_remix_context_service
 from app.logger import get_logger
 from app.api.settings import get_user_ai_service
 from app.utils.sse_response import SSEResponse, create_sse_response, WizardProgressTracker
@@ -53,6 +56,11 @@ def _build_characters_info(characters: List[Character]) -> str:
         f"{char.personality[:100] if char.personality else '暂无描述'}"
         for char in characters
     ])
+
+
+def _should_apply_remix_style_augmentation(*, has_durable_remix_lineage: bool) -> bool:
+    """Caller gate for remix-only continuation style augmentation."""
+    return bool(has_durable_remix_lineage)
 
 
 @router.post("", response_model=OutlineResponse, summary="创建大纲")
@@ -445,7 +453,8 @@ async def _build_outline_continue_context(
     plot_stage: str,
     story_direction: str,
     requirements: str,
-    db: AsyncSession
+    db: AsyncSession,
+    include_remix_style_context: bool = False,
 ) -> dict:
     """
     构建大纲续写上下文（简化版）
@@ -472,11 +481,14 @@ async def _build_outline_continue_context(
     context = {
         'project_info': '',
         'recent_outlines': '',
+        'recent_chapter_samples': '',
+        'style_anchor': '',
         'characters_info': '',
         'user_input': '',
         'stats': {
             'total_outlines': len(latest_outlines),
             'recent_outlines_count': 0,
+            'recent_chapters_count': 0,
             'characters_count': len(characters)
         }
     }
@@ -574,7 +586,49 @@ async def _build_outline_continue_context(
             
             context['recent_outlines'] = "\n".join(outline_texts)
             logger.info(f"  ✅ 最近大纲：{recent_count}章")
-        
+
+        if include_remix_style_context:
+            recent_chapters_result = await db.execute(
+                select(Chapter)
+                .where(
+                    Chapter.project_id == project.id,
+                    Chapter.content.is_not(None),
+                    Chapter.content != ""
+                )
+                .order_by(Chapter.chapter_number.desc())
+                .limit(3)
+            )
+            recent_chapters = list(reversed(recent_chapters_result.scalars().all()))
+            context['stats']['recent_chapters_count'] = len(recent_chapters)
+            if recent_chapters:
+                chapter_sample_lines = ["【最近正文样本】"]
+                for chapter in recent_chapters:
+                    excerpt = re.sub(r"\s+", " ", chapter.content or "").strip()[:260]
+                    if not excerpt:
+                        continue
+                    chapter_sample_lines.append(f"\n第{chapter.chapter_number}章《{chapter.title}》")
+                    if chapter.summary:
+                        chapter_sample_lines.append(f"摘要：{chapter.summary[:120]}")
+                    chapter_sample_lines.append(f"正文片段：{excerpt}")
+                context['recent_chapter_samples'] = "\n".join(chapter_sample_lines)
+                logger.info(f"  ✅ 最近正文样本：{len(recent_chapters)}章")
+            else:
+                context['recent_chapter_samples'] = "【最近正文样本】\n暂无可用正文样本"
+
+            from app.models.project_default_style import ProjectDefaultStyle
+            from app.models.writing_style import WritingStyle
+
+            style_anchor_result = await db.execute(
+                select(WritingStyle.prompt_content)
+                .join(ProjectDefaultStyle, ProjectDefaultStyle.style_id == WritingStyle.id)
+                .where(ProjectDefaultStyle.project_id == project.id)
+            )
+            style_anchor = style_anchor_result.scalar_one_or_none()
+            if style_anchor:
+                context['style_anchor'] = f"【续写风格锚点】\n{style_anchor[:2400]}"
+            else:
+                context['style_anchor'] = "【续写风格锚点】\n暂无专属风格锚点"
+
         # 3. 所有角色的全部信息(包括职业信息)
         if characters:
             from app.models.career import Career, CharacterCareer
@@ -696,6 +750,8 @@ async def _build_outline_continue_context(
         total_length = sum([
             len(context['project_info']),
             len(context['recent_outlines']),
+            len(context['recent_chapter_samples']),
+            len(context['style_anchor']),
             len(context['characters_info']),
             len(context['user_input'])
         ])
@@ -1350,6 +1406,60 @@ async def continue_outline_generator(
         
         # 获取现有大纲
         yield await tracker.loading("分析已有大纲...", 0.5)
+        is_remix_continuation_project = False
+        try:
+            is_remix_continuation_project = await book_remix_context_service.has_project_durable_remix_lineage(
+                project=project,
+                db=db,
+            )
+        except Exception as remix_lineage_error:
+            logger.warning(
+                "Continue outline remix lineage detection failed, fallback to ordinary continuation: %s",
+                remix_lineage_error,
+            )
+
+        should_apply_remix_style_augmentation = _should_apply_remix_style_augmentation(
+            has_durable_remix_lineage=is_remix_continuation_project,
+        )
+
+        if should_apply_remix_style_augmentation:
+            yield await tracker.loading("提炼续写风格锚点...", 0.35)
+            try:
+                refreshed_style_id = await book_remix_service.prepare_project_continuation_style(
+                    project=project,
+                    user_id=user_id,
+                    db=db,
+                )
+                if refreshed_style_id:
+                    logger.info(
+                        "Continue outline auto-prepared continuation style for project=%s style_id=%s",
+                        project_id,
+                        refreshed_style_id,
+                    )
+            except Exception as style_error:
+                logger.warning(f"⚠️ 续写前自动提炼项目风格失败，将继续使用现有默认风格: {style_error}")
+
+        remix_continuation_context = ""
+        if should_apply_remix_style_augmentation:
+            try:
+                remix_continuation_context = await book_remix_context_service.build_project_context_block(
+                    project=project,
+                    db=db,
+                )
+            except Exception as remix_context_error:
+                logger.warning(
+                    "Continue outline remix context injection failed, fallback to default path: %s",
+                    remix_context_error,
+                )
+
+        remix_continuation_context_for_prompt = remix_continuation_context or ""
+        if remix_continuation_context:
+            logger.info(
+                "Continue outline remix context injected: project=%s chars=%s",
+                project.id,
+                len(remix_continuation_context),
+            )
+
         existing_result = await db.execute(
             select(Outline)
             .where(Outline.project_id == project_id)
@@ -1426,13 +1536,15 @@ async def continue_outline_generator(
                 plot_stage=data.get("plot_stage", "development"),
                 story_direction=data.get("story_direction", "自然延续"),
                 requirements=data.get("requirements", ""),
-                db=db
+                db=db,
+                include_remix_style_context=should_apply_remix_style_augmentation,
             )
             
             # 日志统计
             stats = context['stats']
             logger.info(f"📊 批次{batch_num + 1}大纲上下文: 总大纲{stats['total_outlines']}, "
-                       f"最近{stats['recent_outlines_count']}章, "
+                       f"最近大纲{stats['recent_outlines_count']}章, "
+                       f"最近正文{stats.get('recent_chapters_count', 0)}章, "
                        f"角色{stats['characters_count']}个, "
                        f"长度{stats['total_length']}字符")
             
@@ -1451,6 +1563,7 @@ async def continue_outline_generator(
             template = await PromptService.get_template("OUTLINE_CONTINUE", user_id, db)
             prompt = PromptService.format_prompt(
                 template,
+                remix_continuation_context=remix_continuation_context_for_prompt,
                 # 基础信息
                 title=project.title,
                 theme=project.theme or "未设定",
@@ -1462,6 +1575,8 @@ async def continue_outline_generator(
                 rules=project.world_rules or "未设定",
                 # 上下文信息
                 recent_outlines=context['recent_outlines'],
+                recent_chapter_samples=context['recent_chapter_samples'],
+                style_anchor=context['style_anchor'],
                 characters_info=context['characters_info'],
                 # 续写参数
                 chapter_count=current_batch_size,

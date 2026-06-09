@@ -9,6 +9,58 @@ import { SSELoadingOverlay } from '../components/SSELoadingOverlay';
 const { Title, Paragraph } = Typography;
 const { TextArea } = Input;
 
+type RealitySyncMode = 'auto' | 'force' | 'off';
+
+interface RealitySyncConfigView {
+  mode: RealitySyncMode;
+  preferred_groups: string[];
+  max_groups_per_run: number;
+}
+
+const DEFAULT_REALITY_SYNC_CONFIG: RealitySyncConfigView = {
+  mode: 'auto',
+  preferred_groups: [],
+  max_groups_per_run: 6,
+};
+
+function normalizeRealitySyncConfig(rawConfig: unknown): RealitySyncConfigView {
+  if (!rawConfig || typeof rawConfig !== 'object') {
+    return DEFAULT_REALITY_SYNC_CONFIG;
+  }
+
+  const config = rawConfig as Partial<RealitySyncConfigView>;
+  const mode = config.mode === 'force' || config.mode === 'off' ? config.mode : 'auto';
+  const preferredGroups = Array.isArray(config.preferred_groups)
+    ? Array.from(new Set(config.preferred_groups.map((item) => String(item || '').trim()).filter(Boolean)))
+    : [];
+  const maxGroupsPerRun = Number.isFinite(config.max_groups_per_run)
+    ? Math.min(12, Math.max(1, Number(config.max_groups_per_run)))
+    : 6;
+
+  return {
+    mode,
+    preferred_groups: preferredGroups,
+    max_groups_per_run: maxGroupsPerRun,
+  };
+}
+
+function parseRealitySyncGroups(rawValue: string | undefined): string[] {
+  return Array.from(
+    new Set(
+      String(rawValue || '')
+        .split(/[\n,，]/)
+        .map((item) => item.trim())
+        .filter(Boolean)
+    )
+  );
+}
+
+function getRealitySyncModeLabel(mode: RealitySyncMode): string {
+  if (mode === 'force') return '强制同步';
+  if (mode === 'off') return '关闭';
+  return '自动识别';
+}
+
 export default function WorldSetting() {
   const { currentProject, setCurrentProject } = useStore();
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
@@ -125,6 +177,7 @@ export default function WorldSetting() {
   };
 
   if (!currentProject) return null;
+  const realitySyncConfig = normalizeRealitySyncConfig(currentProject.reality_sync_config);
 
   // 检查是否有世界设定信息
   const hasWorldSetting = currentProject.world_time_period ||
@@ -212,6 +265,9 @@ export default function WorldSetting() {
                   genre: currentProject.genre || '',
                   narrative_perspective: currentProject.narrative_perspective || '',
                   target_words: currentProject.target_words || 0,
+                  reality_sync_mode: realitySyncConfig.mode,
+                  reality_sync_groups: realitySyncConfig.preferred_groups.join('\n'),
+                  reality_sync_max_groups: realitySyncConfig.max_groups_per_run,
                 });
                 setIsEditProjectModalVisible(true);
               }}
@@ -270,6 +326,14 @@ export default function WorldSetting() {
               {currentProject.target_words ? `${currentProject.target_words.toLocaleString()} 字` : '未设定'}
             </Descriptions.Item>
           </Descriptions>
+          <Paragraph type="secondary" style={{ marginTop: 16, marginBottom: 0 }}>
+            当前现实资料同步：{getRealitySyncModeLabel(realitySyncConfig.mode)}；
+            优先组合：
+            {realitySyncConfig.preferred_groups.length > 0
+              ? realitySyncConfig.preferred_groups.join('、')
+              : '未配置'}；
+            单次最多同步 {realitySyncConfig.max_groups_per_run} 个组合。
+          </Paragraph>
         </Card>
 
         <Card
@@ -453,6 +517,50 @@ export default function WorldSetting() {
               maxLength={1000}
             />
           </Form.Item>
+
+          <Form.Item
+            label="现实资料同步模式"
+            name="reality_sync_mode"
+            extra="现实女团、真人成员、公开时间线类项目建议选择“强制同步”。"
+          >
+            <Select
+              options={[
+                { label: '自动识别', value: 'auto' },
+                { label: '强制同步', value: 'force' },
+                { label: '关闭', value: 'off' }
+              ]}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="优先同步组合"
+            name="reality_sync_groups"
+            extra="支持换行、英文逗号或中文逗号分隔，例如：IZ*ONE、TWICE、(G)I-DLE、ITZY、NMIXX"
+          >
+            <TextArea
+              rows={4}
+              placeholder="每行一个组合名，或用逗号分隔"
+              showCount
+              maxLength={400}
+            />
+          </Form.Item>
+
+          <Form.Item
+            label="单次最多同步组合数"
+            name="reality_sync_max_groups"
+            extra="一键续写前，最多先补多少个组合的现实资料。"
+            rules={[
+              { type: 'number', min: 1, max: 12, message: '请输入 1 到 12 之间的数字' }
+            ]}
+          >
+            <InputNumber
+              style={{ width: '100%' }}
+              min={1}
+              max={12}
+              step={1}
+              addonAfter="个"
+            />
+          </Form.Item>
         </Form>
       </Modal>
 
@@ -477,6 +585,11 @@ export default function WorldSetting() {
               genre: values.genre,
               narrative_perspective: values.narrative_perspective,
               target_words: values.target_words,
+              reality_sync_config: {
+                mode: (values.reality_sync_mode || 'auto') as RealitySyncMode,
+                preferred_groups: parseRealitySyncGroups(values.reality_sync_groups),
+                max_groups_per_run: Math.min(12, Math.max(1, Number(values.reality_sync_max_groups || 6))),
+              },
             });
 
             setCurrentProject(updatedProject);

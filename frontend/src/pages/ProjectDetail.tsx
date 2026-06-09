@@ -22,6 +22,7 @@ import {
 import { useStore } from '../store';
 import { useCharacterSync, useOutlineSync, useChapterSync } from '../store/hooks';
 import { projectApi } from '../services/api';
+import ThemeSwitch from '../components/ThemeSwitch';
 
 const { Header, Sider, Content } = Layout;
 
@@ -296,7 +297,10 @@ export default function ProjectDetail() {
 
         {!mobile && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', zIndex: 1 }}>
-            <div style={{ display: 'flex', gap: '16px' }}>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+              <div style={{ minWidth: 120 }}>
+                <ThemeSwitch block />
+              </div>
               {[
                 { label: '大纲', value: outlines.length, unit: '条' },
                 { label: '角色', value: characters.length, unit: '个' },

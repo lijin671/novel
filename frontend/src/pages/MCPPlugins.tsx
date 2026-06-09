@@ -31,7 +31,7 @@ import {
   WarningOutlined,
 } from '@ant-design/icons';
 import { mcpPluginApi, settingsApi } from '../services/api';
-import type { MCPPlugin, MCPTool } from '../types';
+import type { ExaRestAdapterInstallRequest, MCPPlugin, MCPTool } from '../types';
 
 const { Paragraph, Text, Title } = Typography;
 const { TextArea } = Input;
@@ -39,6 +39,7 @@ const { TextArea } = Input;
 export default function MCPPluginsPage() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [form] = Form.useForm();
+  const [exaForm] = Form.useForm();
   
   // 响应式监听窗口大小变化
   useEffect(() => {
@@ -53,6 +54,8 @@ export default function MCPPluginsPage() {
   const [plugins, setPlugins] = useState<MCPPlugin[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [editingPlugin, setEditingPlugin] = useState<MCPPlugin | null>(null);
+  const [exaModalVisible, setExaModalVisible] = useState(false);
+  const [editingExaPlugin, setEditingExaPlugin] = useState<MCPPlugin | null>(null);
   const [testingPluginId, setTestingPluginId] = useState<string | null>(null);
   const [viewingTools, setViewingTools] = useState<{ pluginId: string; tools: MCPTool[] } | null>(null);
   const [checkingFunctionCalling, setCheckingFunctionCalling] = useState(false);
@@ -148,17 +151,25 @@ export default function MCPPluginsPage() {
     }
   };
 
+  const ensureModelSupport = () => {
+    if (modelSupportStatus === 'supported') {
+      return true;
+    }
+
+    modal.confirm({
+      title: '模型能力检查',
+      centered: true,
+      icon: <WarningOutlined />,
+      content: '为了确保 MCP 插件正常工作，您当前使用的 AI 模型必须支持 Function Calling（工具调用）能力。请先进行模型支持检测。',
+      okText: '去检测',
+      cancelText: '取消',
+      onOk: handleCheckFunctionCalling,
+    });
+    return false;
+  };
+
   const handleCreate = () => {
-    if (modelSupportStatus !== 'supported') {
-      modal.confirm({
-        title: '模型能力检查',
-        centered: true,
-        icon: <WarningOutlined />,
-        content: '为了确保 MCP 插件正常工作，您当前使用的 AI 模型必须支持 Function Calling（工具调用）能力。请先进行模型支持检测。',
-        okText: '去检测',
-        cancelText: '取消',
-        onOk: handleCheckFunctionCalling,
-      });
+    if (!ensureModelSupport()) {
       return;
     }
     setEditingPlugin(null);
@@ -169,7 +180,7 @@ export default function MCPPluginsPage() {
       config_json: `{
   "mcpServers": {
     "exa": {
-      "type": "http",
+      "type": "streamable_http",
       "url": "https://mcp.exa.ai/mcp?exaApiKey=YOUR_API_KEY",
       "headers": {}
     }
@@ -179,7 +190,37 @@ export default function MCPPluginsPage() {
     setModalVisible(true);
   };
 
+  const openExaAdapterModal = (plugin?: MCPPlugin) => {
+    if (!ensureModelSupport()) {
+      return;
+    }
+
+    const configuredHeader =
+      typeof plugin?.config?.api_key_header === 'string'
+        ? plugin.config.api_key_header
+        : undefined;
+    const headerEntries = plugin?.headers || {};
+    const fallbackHeader = Object.keys(headerEntries)[0];
+    const apiKeyHeader = configuredHeader || fallbackHeader || 'x-api-key';
+
+    setEditingExaPlugin(plugin || null);
+    exaForm.resetFields();
+    exaForm.setFieldsValue({
+      base_url: plugin?.server_url || 'https://exa.chengtx.vip',
+      api_key_header: apiKeyHeader,
+      api_key: headerEntries[apiKeyHeader] || '',
+      enabled: plugin?.enabled ?? true,
+      category: plugin?.category || 'search',
+    });
+    setExaModalVisible(true);
+  };
+
   const handleEdit = (plugin: MCPPlugin) => {
+    if (plugin.plugin_type === 'builtin' && plugin.plugin_name === 'exa_rest') {
+      openExaAdapterModal(plugin);
+      return;
+    }
+
     setEditingPlugin(plugin);
 
     // 重构为标准MCP配置格式
@@ -578,6 +619,30 @@ export default function MCPPluginsPage() {
     }
   };
 
+  const handleExaAdapterSubmit = async (values: ExaRestAdapterInstallRequest) => {
+    setLoading(true);
+    try {
+      await mcpPluginApi.installExaRestAdapter({
+        base_url: values.base_url,
+        api_key: values.api_key || '',
+        api_key_header: values.api_key_header || 'x-api-key',
+        enabled: values.enabled ?? true,
+        category: values.category || 'search',
+      });
+      message.success(editingExaPlugin ? 'Exa REST 适配器已更新' : 'Exa REST 适配器已安装');
+      setExaModalVisible(false);
+      setEditingExaPlugin(null);
+      exaForm.resetFields();
+      loadPlugins();
+    } catch (error: unknown) {
+      const err = error as { response?: { data?: { detail?: string } } };
+      const errorMsg = err?.response?.data?.detail || '操作失败';
+      message.error(errorMsg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getStatusTag = (plugin: MCPPlugin) => {
     if (!plugin.enabled) {
       return <Tag color="default">已禁用</Tag>;
@@ -585,6 +650,10 @@ export default function MCPPluginsPage() {
     switch (plugin.status) {
       case 'active':
         return <Tag color="success" icon={<CheckCircleOutlined />}>运行中</Tag>;
+      case 'pending':
+        return <Tag color="processing">连接中</Tag>;
+      case 'degraded':
+        return <Tag color="warning">降级</Tag>;
       case 'error':
         return (
           <Tag color="error" icon={<CloseCircleOutlined />} title={plugin.last_error}>错误</Tag>
@@ -646,6 +715,19 @@ export default function MCPPluginsPage() {
               </Col>
               <Col xs={24} sm={12}>
                 <Space size={12} style={{ display: 'flex', justifyContent: isMobile ? 'flex-start' : 'flex-end', width: '100%' }}>
+                  <Button
+                    icon={<ApiOutlined />}
+                    onClick={() => openExaAdapterModal()}
+                    style={{
+                      borderRadius: 12,
+                      background: 'rgba(255, 255, 255, 0.18)',
+                      border: '1px solid rgba(255, 255, 255, 0.35)',
+                      color: '#fff',
+                      fontWeight: 600,
+                    }}
+                  >
+                    安装 Exa REST
+                  </Button>
                   <Button
                     type="primary"
                     icon={<PlusOutlined />}
@@ -774,6 +856,25 @@ export default function MCPPluginsPage() {
               />
             )}
 
+            <Alert
+              message="Exa 官方 MCP 与 Exa REST 适配器都已可用"
+              description={
+                <div style={{ lineHeight: 1.7 }}>
+                  <div>
+                    如果你拿到的是官方 MCP 地址，继续用普通 MCP 配置：
+                    <Text code> https://mcp.exa.ai/mcp?exaApiKey=YOUR_API_KEY</Text>
+                  </div>
+                  <div>
+                    如果你拿到的是 <Text code>https://exa.chengtx.vip/search</Text> 这类 <Text code>/search</Text> REST 地址，
+                    直接点上方 <Text strong>“安装 Exa REST”</Text>，项目会自动接成内置工具插件。
+                  </div>
+                </div>
+              }
+              type="info"
+              showIcon
+              style={{ marginBottom: 16, borderRadius: 8 }}
+            />
+
             {/* 插件列表 */}
             <Spin spinning={loading}>
               {plugins.length === 0 ? (
@@ -782,9 +883,14 @@ export default function MCPPluginsPage() {
                   image={Empty.PRESENTED_IMAGE_SIMPLE}
                   style={{ padding: isMobile ? '40px 0' : '60px 0' }}
                 >
-                  <Button type="primary" icon={<PlusOutlined />} onClick={handleCreate}>
-                    添加第一个插件
-                  </Button>
+                  <Space wrap>
+                    <Button type="primary" icon={<ApiOutlined />} onClick={() => openExaAdapterModal()}>
+                      安装 Exa REST 适配器
+                    </Button>
+                    <Button icon={<PlusOutlined />} onClick={handleCreate}>
+                      添加普通插件
+                    </Button>
+                  </Space>
                 </Empty>
               ) : (
                 <Space direction="vertical" size={isMobile ? 'small' : 'middle'} style={{ width: '100%' }}>
@@ -844,7 +950,16 @@ export default function MCPPluginsPage() {
                             
                             {/* 类型和分类标签 */}
                             <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                              <Tag color={plugin.plugin_type === 'http' || plugin.plugin_type === 'streamable_http' || plugin.plugin_type === 'sse' ? 'blue' : 'cyan'} style={{ fontSize: isMobile ? 11 : 12 }}>
+                              <Tag
+                                color={
+                                  plugin.plugin_type === 'builtin'
+                                    ? 'gold'
+                                    : plugin.plugin_type === 'http' || plugin.plugin_type === 'streamable_http' || plugin.plugin_type === 'sse'
+                                      ? 'blue'
+                                      : 'cyan'
+                                }
+                                style={{ fontSize: isMobile ? 11 : 12 }}
+                              >
                                 {plugin.plugin_type?.toUpperCase() || 'UNKNOWN'}
                               </Tag>
                               {plugin.category && plugin.category !== 'general' && (
@@ -866,7 +981,7 @@ export default function MCPPluginsPage() {
                             )}
 
                             {/* 只显示有值的URL或命令，脱敏处理敏感信息 */}
-                            {(plugin.plugin_type === 'http' || plugin.plugin_type === 'streamable_http' || plugin.plugin_type === 'sse') && plugin.server_url && (
+                            {(plugin.plugin_type === 'http' || plugin.plugin_type === 'streamable_http' || plugin.plugin_type === 'sse' || plugin.plugin_type === 'builtin') && plugin.server_url && (
                               <div style={{
                                 fontSize: isMobile ? '11px' : '12px',
                                 overflow: 'hidden',
@@ -994,6 +1109,80 @@ export default function MCPPluginsPage() {
           </div>
         </div>
 
+        {/* Exa REST 适配器模态框 */}
+        <Modal
+          title={editingExaPlugin ? '编辑 Exa REST 适配器' : '安装 Exa REST 适配器'}
+          open={exaModalVisible}
+          centered
+          onCancel={() => {
+            setExaModalVisible(false);
+            setEditingExaPlugin(null);
+            exaForm.resetFields();
+          }}
+          onOk={() => exaForm.submit()}
+          width={isMobile ? '100%' : 620}
+          confirmLoading={loading}
+          okText="保存"
+          cancelText="取消"
+        >
+          <Form form={exaForm} layout="vertical" onFinish={handleExaAdapterSubmit}>
+            <Alert
+              type="info"
+              showIcon
+              style={{ marginBottom: 16, borderRadius: 8 }}
+              message="这里接的是 REST 搜索接口，不是 MCP 地址"
+              description="可以直接填写 https://exa.chengtx.vip/search，系统会自动转换为基础地址并包装成内置工具。"
+            />
+
+            <Form.Item
+              label="API 地址"
+              name="base_url"
+              rules={[{ required: true, message: '请输入 API 地址' }]}
+              extra="支持填写基础地址或 /search 完整地址。"
+            >
+              <Input placeholder="https://exa.chengtx.vip/search" />
+            </Form.Item>
+
+            <Form.Item
+              label="Key Header"
+              name="api_key_header"
+              rules={[{ required: true, message: '请输入请求头名称' }]}
+            >
+              <Input placeholder="x-api-key" />
+            </Form.Item>
+
+            <Form.Item
+              label="API Key"
+              name="api_key"
+              extra="可以先留空，后续再回来填写。未填写时启用后通常会连接失败。"
+            >
+              <Input.Password placeholder="输入你的 Exa Key" />
+            </Form.Item>
+
+            <Form.Item
+              label="插件分类"
+              name="category"
+              rules={[{ required: true, message: '请选择插件分类' }]}
+            >
+              <Select placeholder="请选择分类">
+                <Select.Option value="search">搜索类 (Search) - 网络搜索、信息查询</Select.Option>
+                <Select.Option value="analysis">分析类 (Analysis) - 数据分析、文本处理</Select.Option>
+                <Select.Option value="api">API调用 (API) - 第三方服务接口</Select.Option>
+                <Select.Option value="general">通用 (General) - 其他功能</Select.Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              label="启用适配器"
+              name="enabled"
+              valuePropName="checked"
+              extra="启用后会立即尝试做一次连接校验。"
+            >
+              <Switch checkedChildren="启用" unCheckedChildren="停用" />
+            </Form.Item>
+          </Form>
+        </Modal>
+
         {/* 创建/编辑插件模态框 */}
         <Modal
           title={editingPlugin ? '编辑插件' : '添加插件'}
@@ -1001,6 +1190,7 @@ export default function MCPPluginsPage() {
           centered
           onCancel={() => {
             setModalVisible(false);
+            setEditingPlugin(null);
             form.resetFields();
           }}
           onOk={() => form.submit()}
@@ -1014,7 +1204,7 @@ export default function MCPPluginsPage() {
               label="MCP配置JSON"
               name="config_json"
               rules={[{ required: true, message: '请输入配置JSON' }]}
-              extra="粘贴标准MCP配置，系统自动提取插件名称。支持HTTP和Stdio类型"
+              extra="粘贴标准 MCP 配置。推荐直接使用官方 Exa MCP；像 /search 这类 REST 地址不能直接当作 MCP 端点使用。"
             >
               <TextArea
                 rows={isMobile ? 12 : 16}

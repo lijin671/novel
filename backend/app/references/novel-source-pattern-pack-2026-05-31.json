@@ -1,0 +1,138 @@
+{
+  "bible_enrichment_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "style_signature",
+    "hard_constraints",
+    "foreshadows",
+    "chapter_change_packages"
+  ],
+  "continuation_prompt_hints": [
+    "续写前先读取圣经草稿中的世界观、时间线、人物卡、组织关系、冲突与伏笔。",
+    "下一章必须承接原书尾章的状态变化，不重置人物关系、情感线和因果线。",
+    "每章生成后输出本章变化包，供下一章读取。"
+  ],
+  "generated_at": "2026-05-31T09:30:00+08:00",
+  "safety_constraints": [
+    "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
+    "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。"
+  ],
+  "self_review_policy_hints": [
+    "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
+    "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
+    "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
+  ],
+  "source_candidate_count": 4,
+  "source_titles": [
+    "voocel/ainovel-cli",
+    "Deng-m1/MaliangAINovalWriter",
+    "leew666/aiNovel",
+    "yulan233/CLINovel"
+  ],
+  "style_signature_hints": [
+    "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
+    "续写要保留原书味道，但只吸收写法模式，不复制外部项目代码或长文本。"
+  ],
+  "workflow_patterns": [
+    {
+      "candidate_count": 1,
+      "name": "continuation",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 313,
+          "summary": "multi-agent AI novel generation CLI for continuation workflow.",
+          "title": "voocel/ainovel-cli",
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/voocel/ainovel-cli"
+    },
+    {
+      "candidate_count": 2,
+      "name": "chapter_generation",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 313,
+          "summary": "multi-agent AI novel generation CLI for continuation workflow.",
+          "title": "voocel/ainovel-cli",
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 72,
+          "source": "github",
+          "stars": 780,
+          "summary": "AI novel writing platform for chapter generation and author workflow.",
+          "title": "Deng-m1/MaliangAINovalWriter",
+          "url": "https://github.com/Deng-m1/MaliangAINovalWriter"
+        }
+      ],
+      "top_source_url": "https://github.com/voocel/ainovel-cli"
+    },
+    {
+      "candidate_count": 1,
+      "name": "self_review",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 313,
+          "summary": "multi-agent AI novel generation CLI for continuation workflow.",
+          "title": "voocel/ainovel-cli",
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/voocel/ainovel-cli"
+    },
+    {
+      "candidate_count": 2,
+      "name": "source_discovery",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "BSD-3-Clause",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 15,
+          "source": "github",
+          "stars": 3,
+          "summary": "AI novel creation reference.",
+          "title": "leew666/aiNovel",
+          "url": "https://github.com/leew666/aiNovel"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 12,
+          "source": "github",
+          "stars": 2,
+          "summary": "CLI novel project reference.",
+          "title": "yulan233/CLINovel",
+          "url": "https://github.com/yulan233/CLINovel"
+        }
+      ],
+      "top_source_url": "https://github.com/leew666/aiNovel"
+    }
+  ]
+}

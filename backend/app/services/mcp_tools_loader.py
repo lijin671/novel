@@ -76,7 +76,7 @@ class MCPToolsLoader:
             query = select(MCPPlugin.id).where(
                 MCPPlugin.user_id == user_id,
                 MCPPlugin.enabled == True,
-                MCPPlugin.plugin_type.in_(["http", "streamable_http", "sse"])
+                MCPPlugin.plugin_type.in_(["http", "streamable_http", "sse", "builtin"])
             ).limit(1)
             
             result = await db_session.execute(query)
@@ -153,7 +153,7 @@ class MCPToolsLoader:
         query = select(MCPPlugin).where(
             MCPPlugin.user_id == user_id,
             MCPPlugin.enabled == True,
-            MCPPlugin.plugin_type.in_(["http", "streamable_http", "sse"])
+            MCPPlugin.plugin_type.in_(["http", "streamable_http", "sse", "builtin"])
         ).order_by(MCPPlugin.sort_order)
         
         result = await db_session.execute(query)
@@ -172,13 +172,17 @@ class MCPToolsLoader:
                     plugin_type = "streamable_http"  # 默认使用streamable_http
                 
                 # 确保插件已注册到MCP客户端
-                await mcp_client.ensure_registered(
+                registered = await mcp_client.ensure_registered(
                     user_id=user_id,
                     plugin_name=plugin.plugin_name,
                     url=plugin.server_url,
                     plugin_type=plugin_type,
-                    headers=plugin.headers
+                    headers=plugin.headers,
+                    config=plugin.config,
                 )
+                if not registered:
+                    logger.warning(f"⚠️ 插件 {plugin.plugin_name} 注册失败，跳过工具加载")
+                    continue
                 
                 # 获取工具列表
                 plugin_tools = await mcp_client.get_tools(user_id, plugin.plugin_name)

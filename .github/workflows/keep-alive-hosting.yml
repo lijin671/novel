@@ -1,0 +1,34 @@
+name: Keep Hosting Alive
+
+# 每30天自动运行一次（比45天限制提前15天，留有余量）
+# 也支持手动触发
+on:
+  schedule:
+    # 每月1号和15号 UTC 08:00（北京时间16:00）运行
+    - cron: '0 8 1,15 * *'
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Login to hosting panel
+        env:
+          HOSTING_EMAIL: ${{ secrets.HOSTING_EMAIL }}
+          HOSTING_PASSWORD: ${{ secrets.HOSTING_PASSWORD }}
+        run: python scripts/keep_alive_hosting.py
+
+      - name: Report result
+        if: always()
+        run: echo "Keep-alive job completed at $(date -u '+%Y-%m-%d %H:%M:%S UTC')"

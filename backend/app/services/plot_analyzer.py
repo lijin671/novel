@@ -303,7 +303,8 @@ class PlotAnalyzer:
         chapter_id: str,
         chapter_number: int,
         chapter_content: str = "",
-        chapter_title: str = ""
+        chapter_title: str = "",
+        chapter_summary_text: str = ""
     ) -> List[Dict[str, Any]]:
         """
         从分析结果中提取记忆片段
@@ -322,17 +323,17 @@ class PlotAnalyzer:
         
         try:
             # 【新增】0. 提取章节摘要作为记忆（用于语义检索相关章节）
-            chapter_summary = ""
+            chapter_summary = (chapter_summary_text or "").strip()
             
             # 尝试从分析结果获取摘要
-            if analysis.get('summary'):
+            if not chapter_summary and analysis.get('summary'):
                 chapter_summary = analysis.get('summary')
             # 或者从情节点组合生成摘要
-            elif analysis.get('plot_points'):
+            elif not chapter_summary and analysis.get('plot_points'):
                 plot_summaries = [p.get('content', '') for p in analysis.get('plot_points', [])[:3]]
                 chapter_summary = "；".join(plot_summaries)
             # 或者使用内容前300字
-            elif chapter_content:
+            elif not chapter_summary and chapter_content:
                 chapter_summary = chapter_content[:300] + ("..." if len(chapter_content) > 300 else "")
             
             # 如果有摘要，添加到记忆中

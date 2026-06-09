@@ -1,0 +1,1172 @@
+from __future__ import annotations
+
+import uuid
+from datetime import datetime, timedelta
+
+import pytest
+
+from app.models.book_remix_bible import BookRemixBible, BookRemixContinuationPlan
+from app.models.project import Project
+from app.services.book_remix_context_service import (
+    BookRemixContextService,
+    build_remix_continuation_context_block,
+    build_remix_inspired_context_block,
+    build_remix_continuation_progress_summary,
+)
+
+
+def test_build_remix_continuation_context_block_contains_constraints_and_plan():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+            "timeline": [{"event": "Warehouse fire", "impact": "Ledger disappeared"}],
+            "hard_constraints": [{"rule": "Do not flip protagonist alignment abruptly"}],
+            "story_arcs": [{"name": "Ledger Arc", "status": "open"}],
+            "foreshadows": [{"hook": "Old rival returns", "status": "open"}],
+        },
+        plan={
+            "summary": "Resolve old ledger thread before expanding cast scope.",
+            "beats": [{"beat": "Reconnect the dropped ledger line"}],
+            "priority_hooks": [{"hook": "Old rival returns in public"}],
+            "guardrails": [{"rule": "No sudden new power systems"}],
+        },
+    )
+
+    assert "Inspector Lin" in block
+    assert "Warehouse fire" in block
+    assert "Do not flip protagonist alignment abruptly" in block
+    assert "Reconnect the dropped ledger line" in block
+    assert "Old rival returns in public" in block
+
+
+def test_build_remix_continuation_context_block_renders_source_pattern_pack_guidance():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Yang Cui", "goal": "survive idol pressure"}],
+            "timeline": [{"event": "The promise has already happened"}],
+            "hard_constraints": [{"rule": "Do not erase the original ending"}],
+            "style_signature": {
+                "voice": "压抑克制",
+                "pacing": "短句推进后释放情绪",
+            },
+            "organizations": [{"name": "Starship", "role": "management pressure"}],
+            "conflicts": [{"name": "公开与保密", "status": "unresolved"}],
+        },
+        plan={"summary": "Continue from the promise."},
+        source_pattern_pack={
+            "continuation_prompt_hints": ["续写前先读取世界观、时间线、人物卡、组织、情感线。"],
+            "style_signature_hints": ["保留原书味道，并把风格签名作为硬约束。"],
+            "self_review_policy_hints": ["不限次数自评优化必须有停止条件。"],
+            "safety_constraints": ["不克隆、不安装、不执行外部项目。"],
+        },
+    )
+
+    assert "Source-discovered continuation guidance" in block
+    assert "续写前先读取世界观" in block
+    assert "保留原书味道" in block
+    assert "不限次数自评优化" in block
+    assert "不克隆、不安装、不执行外部项目" in block
+    assert "Style signature to preserve" in block
+    assert "压抑克制" in block
+    assert "Organizations to preserve" in block
+    assert "Starship" in block
+    assert "Conflict and emotion arcs" in block
+    assert "公开与保密" in block
+
+
+def test_build_remix_continuation_context_block_omits_inspired_pattern_pack_guidance():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Yang Cui", "goal": "survive idol pressure"}],
+            "timeline": [{"event": "The promise has already happened"}],
+            "hard_constraints": [{"rule": "Do not erase the original ending"}],
+        },
+        plan={"summary": "Continue from the promise."},
+        source_pattern_pack={
+            "continuation_prompt_hints": ["Keep confirmed continuation canon."],
+            "inspired_prompt_hints": ["Generate an independent new story."],
+            "inspired_copy_risk_hints": ["Reject copied source names."],
+        },
+    )
+
+    assert "Keep confirmed continuation canon." in block
+    assert "inspired_prompt_hints" not in block
+    assert "Generate an independent new story." not in block
+    assert "Reject copied source names." not in block
+
+
+def test_build_remix_inspired_context_block_renders_style_copy_risk_and_pattern_guidance():
+    block = build_remix_inspired_context_block(
+        project_title="Inspired Draft",
+        style_content=(
+            "你正在基于《源书》做同类型创作，而不是忠实续写或照搬改名。\n"
+            "【同类型创作总原则】\n"
+            "- 只学习写法模式、情绪曲线、信息释放节奏和人物互动质感，不复制原书事实。\n"
+            "【源书语气样本】\n"
+            "[样本1]\n"
+            "Lin kept his answer short. The rain moved across the archive windows.\n"
+            "【源书显性元素禁用清单】\n"
+            "以下名称只能作为改造参考，正文不得原样沿用：\n"
+            "- 林寒, 青岚会, 星火系统\n"
+        ),
+        source_pattern_pack={
+            "inspired_mapping_targets": ["character_remap", "organization_remap"],
+            "inspired_prompt_hints": ["Use source style as rhythm and POV guidance only."],
+            "inspired_transformation_hints": ["Rename and reframe source entities before drafting."],
+            "inspired_copy_risk_hints": ["Reject copied source names, events, and set-piece order."],
+            "safety_constraints": ["Do not import external runtime code."],
+        },
+    )
+
+    assert "【Remix Inspired Creation Context】" in block
+    assert "Inspired Draft" in block
+    assert "Do not treat this as continuation canon" in block
+    assert "Lin kept his answer short" in block
+    assert "林寒" in block
+    assert "青岚会" in block
+    assert "星火系统" in block
+    assert "inspired_prompt_hints" in block
+    assert "Use source style as rhythm and POV guidance only." in block
+    assert "Reject copied source names" in block
+
+
+def test_build_remix_inspired_context_block_ignores_ordinary_style_content():
+    block = build_remix_inspired_context_block(
+        project_title="Ordinary Draft",
+        style_content="保持克制短句，减少形容词，不要使用上帝视角。",
+        source_pattern_pack={"inspired_prompt_hints": ["should not render"]},
+    )
+
+    assert block == ""
+
+
+
+def test_build_remix_continuation_context_block_treats_generated_state_as_latest_machine_state():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [
+                {
+                    "name": "Inspector Lin",
+                    "goal": "Recover the ledger",
+                    "continuation_updates": [
+                        {
+                            "chapter_number": 19,
+                            "state_after": "decisive",
+                            "key_event": "Recovered ledger",
+                            "source": "chapter_analysis",
+                        },
+                        {
+                            "chapter_number": 20,
+                            "chapter_title": "Archive Witness",
+                            "state_after": "suspicious",
+                            "key_event": "Questioned the archive witness",
+                            "source": "chapter_generation",
+                        },
+                    ],
+                }
+            ],
+            "timeline": [
+                {
+                    "event": "Inspector Lin recovered ledger",
+                    "summary": "The ledger arc moved into confrontation.",
+                    "chapter_number": 19,
+                    "source": "chapter_analysis",
+                },
+                {
+                    "event": "Archive witness revealed a sealed file",
+                    "summary": "The next lead now points to city hall.",
+                    "chapter_number": 20,
+                    "source": "chapter_generation",
+                },
+            ],
+            "foreshadows": [],
+            "hard_constraints": [],
+            "story_arcs": [],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_generation",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Witness",
+                    "summary": "Inspector Lin questioned the archive witness.",
+                    "timeline_delta": [{"event": "Archive witness revealed a sealed file"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "suspicious"}
+                    ],
+                    "plan_progress": [{"beat": "Question archive witness", "status": "done"}],
+                },
+            ],
+        },
+        plan={
+            "summary": "Follow the sealed file lead next.",
+            "beats": [
+                {"beat": "Question archive witness", "status": "done", "last_chapter_number": 20},
+                {"beat": "Follow city hall file", "status": "pending"},
+            ],
+            "priority_hooks": [],
+            "guardrails": [],
+        },
+    )
+
+    assert "Latest machine timeline" in block
+    assert "Archive witness revealed a sealed file" in block
+    assert "Inspector Lin @ Chapter 20" in block
+    assert "state_after: suspicious" in block
+    assert "Whole-book continuation progress" in block
+    assert "Continuation chapters with context: 20 (1 packages)" in block
+    assert "Recent chapter change packages" in block
+    assert "Chapter 20: Archive Witness" in block
+    assert "chapter_generation" not in block
+
+
+
+def test_build_remix_continuation_context_block_prioritizes_active_next_chapter_state():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [
+                {
+                    "name": "Inspector Lin",
+                    "goal": "Recover the ledger",
+                    "continuation_updates": [
+                        {
+                            "chapter_number": 18,
+                            "state_after": "uncertain",
+                            "key_event": "Lost the first lead",
+                            "source": "chapter_analysis",
+                        },
+                        {
+                            "chapter_number": 19,
+                            "chapter_title": "Ledger Returns",
+                            "state_after": "decisive",
+                            "key_event": "Recovered ledger",
+                            "source": "chapter_analysis",
+                        },
+                    ],
+                }
+            ],
+            "timeline": [
+                {"event": "Manual prologue anchor", "source": "manual"},
+                {
+                    "event": "Older machine event",
+                    "summary": "Chapter 18 clue failed.",
+                    "chapter_number": 18,
+                    "source": "chapter_analysis",
+                },
+                {
+                    "event": "Inspector Lin recovered ledger",
+                    "summary": "The ledger arc moved into confrontation.",
+                    "chapter_number": 19,
+                    "source": "chapter_analysis",
+                },
+            ],
+            "foreshadows": [
+                {"hook": "Old rival returns", "status": "resolved", "chapter_number": 19},
+                {"hook": "Archive witness hesitates", "status": "open", "chapter_number": 20},
+            ],
+            "hard_constraints": [{"rule": "Do not flip protagonist alignment abruptly"}],
+        },
+        plan={
+            "summary": "Resolve old ledger thread before expanding cast scope.",
+            "beats": [
+                {"beat": "Recover ledger", "status": "done", "last_chapter_number": 19},
+                {"beat": "Question archive witness", "status": "pending"},
+            ],
+            "priority_hooks": [
+                {"hook": "Old rival returns", "status": "done", "last_chapter_number": 19},
+                {"hook": "Archive witness hesitates", "status": "pending"},
+            ],
+            "guardrails": [{"rule": "No sudden new power systems"}],
+        },
+    )
+
+    assert "Latest machine timeline" in block
+    assert "Inspector Lin recovered ledger" in block
+    assert "Manual prologue anchor" in block
+    assert "Inspector Lin @ Chapter 19" in block
+    assert "state_after: decisive" in block
+    assert "Done planned beats" in block
+    assert "Recover ledger" in block
+    assert "Pending planned beats" in block
+    assert "Question archive witness" in block
+    assert block.index("Pending planned beats") < block.index("Done planned beats")
+    assert "Resolved hooks" in block
+    assert "Open hooks" in block
+    assert block.index("Open hooks") < block.index("Resolved hooks")
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_block_returns_empty_without_confirmed_bible(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Normal Project",
+        description="ordinary writing project",
+    )
+    db_session.add(project)
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    block = await BookRemixContextService().build_project_context_block(
+        project=project,
+        db=db_session,
+    )
+    assert block == ""
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_block_returns_empty_with_draft_bible(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Draft Bible Project",
+        description="remix continuation project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    bible = BookRemixBible(
+        project_id=project.id,
+        generation_status="draft",
+        hard_constraints=[{"rule": "Do not flip protagonist alignment abruptly"}],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible.id,
+        status="draft",
+        summary="This plan should be ignored until bible is confirmed.",
+    )
+    db_session.add_all([bible, plan])
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    block = await BookRemixContextService().build_project_context_block(
+        project=project,
+        db=db_session,
+    )
+    assert block == ""
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_block_returns_empty_with_confirmed_bible_and_missing_plan(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Continuation Desk",
+        description="remix continuation project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    bible = BookRemixBible(
+        project_id=project.id,
+        generation_status="confirmed",
+        hard_constraints=[{"rule": "Do not flip protagonist alignment abruptly"}],
+        story_arcs=[{"name": "Ledger Arc", "status": "open"}],
+        foreshadows=[{"hook": "Old rival returns", "status": "open"}],
+    )
+    db_session.add(bible)
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    block = await BookRemixContextService().build_project_context_block(
+        project=project,
+        db=db_session,
+    )
+    assert block == ""
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_block_returns_empty_with_confirmed_bible_and_draft_plan(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Continuation Desk",
+        description="remix continuation project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    bible = BookRemixBible(
+        project_id=project.id,
+        generation_status="confirmed",
+        hard_constraints=[{"rule": "Do not flip protagonist alignment abruptly"}],
+        story_arcs=[{"name": "Ledger Arc", "status": "open"}],
+        foreshadows=[{"hook": "Old rival returns", "status": "open"}],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible.id,
+        status="draft",
+        summary="Resolve old ledger thread before expanding cast scope.",
+        beats=[{"beat": "Reconnect the dropped ledger line"}],
+        priority_hooks=[{"hook": "Old rival returns in public"}],
+        guardrails=[{"rule": "No sudden new power systems"}],
+    )
+    db_session.add_all([bible, plan])
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    block = await BookRemixContextService().build_project_context_block(
+        project=project,
+        db=db_session,
+    )
+    assert block == ""
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_block_returns_empty_for_ordinary_project_without_remix_lineage(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Ordinary Project",
+        description="ordinary writing project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        generation_status="confirmed",
+        source_chapter_count=0,
+        hard_constraints=[{"rule": "Do not flip protagonist alignment abruptly"}],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        summary="Resolve old ledger thread before expanding cast scope.",
+        beats=[{"beat": "Reconnect the dropped ledger line"}],
+        priority_hooks=[{"hook": "Old rival returns in public"}],
+        guardrails=[{"rule": "No sudden new power systems"}],
+    )
+    db_session.add_all([bible, plan])
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    block = await BookRemixContextService().build_project_context_block(
+        project=project,
+        db=db_session,
+    )
+    assert block == ""
+
+
+@pytest.mark.asyncio
+async def test_has_project_durable_remix_lineage_returns_false_without_bible(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Ordinary Project",
+        description="ordinary writing project",
+    )
+    db_session.add(project)
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    has_lineage = await BookRemixContextService().has_project_durable_remix_lineage(
+        project=project,
+        db=db_session,
+    )
+    assert has_lineage is False
+
+
+@pytest.mark.asyncio
+async def test_has_project_durable_remix_lineage_returns_true_with_source_markers(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Remix Continuation Project",
+        description="remix continuation project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    bible = BookRemixBible(
+        project_id=project.id,
+        source_task_id="task-1",
+        source_chapter_count=18,
+        generation_status="generated",
+    )
+    db_session.add(bible)
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    has_lineage = await BookRemixContextService().has_project_durable_remix_lineage(
+        project=project,
+        db=db_session,
+    )
+    assert has_lineage is True
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_block_uses_confirmed_bible_and_confirmed_plan(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Continuation Desk",
+        description="remix continuation project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        generation_status="confirmed",
+        source_task_id="task-1",
+        source_chapter_count=18,
+        character_cards=[{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+        timeline=[{"event": "Warehouse fire", "impact": "Ledger disappeared"}],
+        hard_constraints=[{"rule": "Do not flip protagonist alignment abruptly"}],
+        story_arcs=[{"name": "Ledger Arc", "status": "open"}],
+        foreshadows=[{"hook": "Old rival returns", "status": "open"}],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        summary="Resolve old ledger thread before expanding cast scope.",
+        beats=[{"beat": "Reconnect the dropped ledger line"}],
+        priority_hooks=[{"hook": "Old rival returns in public"}],
+        guardrails=[{"rule": "No sudden new power systems"}],
+    )
+    db_session.add_all([bible, plan])
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    block = await BookRemixContextService().build_project_context_block(
+        project=project,
+        db=db_session,
+    )
+    assert "Continuation Desk" in block
+    assert "Inspector Lin" in block
+    assert "Warehouse fire" in block
+    assert "Do not flip protagonist alignment abruptly" in block
+    assert "Reconnect the dropped ledger line" in block
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_block_resolves_fresh_pattern_pack(monkeypatch, create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    import app.services.book_remix_context_service as context_service_module
+
+    resolve_calls = []
+
+    async def fake_resolve_fresh_pattern_pack(*, repo_root, force=False, **kwargs):
+        resolve_calls.append({"repo_root": repo_root, "force": force, **kwargs})
+        return {
+            "continuation_prompt_hints": ["fresh context continuation hint"],
+            "style_signature_hints": ["fresh context style hint"],
+        }
+
+    monkeypatch.setattr(
+        context_service_module.source_discovery_service,
+        "resolve_fresh_pattern_pack",
+        fake_resolve_fresh_pattern_pack,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Continuation Desk",
+        description="remix continuation project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        generation_status="confirmed",
+        source_task_id="task-1",
+        source_chapter_count=18,
+        character_cards=[{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+        timeline=[{"event": "Warehouse fire", "impact": "Ledger disappeared"}],
+        hard_constraints=[{"rule": "Do not flip protagonist alignment abruptly"}],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        summary="Resolve old ledger thread before expanding cast scope.",
+    )
+    db_session.add_all([bible, plan])
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    block = await BookRemixContextService().build_project_context_block(
+        project=project,
+        db=db_session,
+    )
+
+    assert resolve_calls
+    assert resolve_calls[0]["repo_root"] == context_service_module.PROJECT_ROOT
+    assert resolve_calls[0]["force"] is False
+    assert "fresh context continuation hint" in block
+    assert "fresh context style hint" in block
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_preview_loads_latest_pattern_pack(monkeypatch, create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    import app.services.book_remix_context_service as context_service_module
+
+    monkeypatch.setattr(
+        context_service_module.source_discovery_service,
+        "load_latest_pattern_pack",
+        lambda *, repo_root: {
+            "continuation_prompt_hints": ["预览应展示最新来源模式续写提示。"],
+            "style_signature_hints": ["预览应展示原书味道约束。"],
+        },
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Continuation Desk",
+        description="remix continuation project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        generation_status="confirmed",
+        source_task_id="task-1",
+        source_chapter_count=18,
+        character_cards=[{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+        timeline=[{"event": "Warehouse fire", "impact": "Ledger disappeared"}],
+        hard_constraints=[{"rule": "Do not flip protagonist alignment abruptly"}],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        summary="Resolve old ledger thread before expanding cast scope.",
+    )
+    db_session.add_all([bible, plan])
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    preview = await BookRemixContextService().build_project_context_preview(
+        project=project,
+        db=db_session,
+    )
+
+    assert preview["source_pattern_pack_loaded"] is True
+    assert "预览应展示最新来源模式续写提示" in preview["context"]
+    assert "预览应展示原书味道约束" in preview["context"]
+
+
+@pytest.mark.asyncio
+async def test_build_project_context_block_ignores_stale_confirmed_plan(create_schema, db_session):
+    await create_schema(
+        Project.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id="user-1",
+        title="Continuation Desk",
+        description="remix continuation project",
+    )
+    db_session.add(project)
+    await db_session.flush()
+
+    base_time = datetime.utcnow()
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        generation_status="confirmed",
+        source_task_id="task-1",
+        source_chapter_count=18,
+        hard_constraints=[{"rule": "Do not flip protagonist alignment abruptly"}],
+        story_arcs=[{"name": "Ledger Arc", "status": "open"}],
+        foreshadows=[{"hook": "Old rival returns", "status": "open"}],
+        created_at=base_time + timedelta(minutes=1),
+        updated_at=base_time + timedelta(minutes=1),
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        summary="Resolve old ledger thread before expanding cast scope.",
+        beats=[{"beat": "Reconnect the dropped ledger line"}],
+        priority_hooks=[{"hook": "Old rival returns in public"}],
+        guardrails=[{"rule": "No sudden new power systems"}],
+        created_at=base_time,
+        updated_at=base_time,
+    )
+    db_session.add_all([bible, plan])
+    await db_session.commit()
+    await db_session.refresh(project)
+
+    block = await BookRemixContextService().build_project_context_block(
+        project=project,
+        db=db_session,
+    )
+    assert block == ""
+
+
+def test_build_remix_continuation_context_block_renders_recent_change_packages_before_done_state():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+            "timeline": [],
+            "hard_constraints": [],
+            "story_arcs": [],
+            "foreshadows": [],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_id": "chapter-19",
+                    "chapter_number": 19,
+                    "chapter_title": "Ledger Returns",
+                    "summary": "Inspector Lin recovered the ledger.",
+                    "timeline_delta": [
+                        {"event": "Inspector Lin recovered ledger"}
+                    ],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "decisive"}
+                    ],
+                    "foreshadow_changes": [
+                        {"hook": "Old rival returns", "status": "resolved"}
+                    ],
+                    "plan_progress": [
+                        {"beat": "Recover ledger", "status": "done"}
+                    ],
+                    "changed_sections": ["timeline", "plan_beats", "chapter_change_packages"],
+                },
+            ],
+        },
+        plan={
+            "summary": "Resolve old ledger thread before expanding cast scope.",
+            "beats": [
+                {"beat": "Recover ledger", "status": "done", "last_chapter_number": 19},
+                {"beat": "Question archive witness", "status": "pending"},
+            ],
+            "priority_hooks": [],
+            "guardrails": [],
+        },
+    )
+
+    assert "Recent chapter change packages" in block
+    assert "Chapter 19: Ledger Returns" in block
+    assert "Inspector Lin recovered the ledger" in block
+    assert "timeline: Inspector Lin recovered ledger" in block
+    assert "character: Inspector Lin -> decisive" in block
+    assert "hook: Old rival returns (status: resolved)" in block
+    assert "plan: Recover ledger (status: done)" in block
+    assert block.index("Recent chapter change packages") < block.index("Pending planned beats")
+
+
+
+def test_build_remix_continuation_context_block_summarizes_whole_book_progress_from_change_packages():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+            "timeline": [],
+            "hard_constraints": [],
+            "story_arcs": [],
+            "foreshadows": [],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 19,
+                    "chapter_title": "Ledger Returns",
+                    "summary": "Inspector Lin recovered the ledger.",
+                    "timeline_delta": [{"event": "Inspector Lin recovered ledger"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "decisive"}
+                    ],
+                    "foreshadow_changes": [
+                        {"hook": "Old rival returns", "status": "resolved"}
+                    ],
+                    "plan_progress": [{"beat": "Recover ledger", "status": "done"}],
+                },
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Witness",
+                    "summary": "Inspector Lin questioned the archive witness.",
+                    "timeline_delta": [{"event": "Archive witness revealed a sealed file"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "suspicious"},
+                        {"character_name": "Archive Witness", "state_after": "afraid"},
+                    ],
+                    "foreshadow_changes": [
+                        {"hook": "Sealed file points to city hall", "status": "open"}
+                    ],
+                    "plan_progress": [{"beat": "Question archive witness", "status": "done"}],
+                },
+            ],
+        },
+        plan={
+            "summary": "Resolve old ledger thread before expanding cast scope.",
+            "beats": [
+                {"beat": "Recover ledger", "status": "done", "last_chapter_number": 19},
+                {"beat": "Question archive witness", "status": "done", "last_chapter_number": 20},
+                {"beat": "Follow city hall file", "status": "pending"},
+            ],
+            "priority_hooks": [],
+            "guardrails": [],
+        },
+    )
+
+    assert "Whole-book continuation progress" in block
+    assert "Continuation chapters with context: 19-20 (2 packages)" in block
+    assert "Timeline progression: Ch19 Inspector Lin recovered ledger -> Ch20 Archive witness revealed a sealed file" in block
+    assert "Latest character states: Inspector Lin @ Ch20 -> suspicious; Archive Witness @ Ch20 -> afraid" in block
+    assert "Resolved hooks: Old rival returns" in block
+    assert "Open hooks: Sealed file points to city hall" in block
+    assert "Completed plan beats: Recover ledger; Question archive witness" in block
+    assert block.index("Whole-book continuation progress") < block.index("Recent chapter change packages")
+
+
+
+def test_build_remix_continuation_context_block_deduplicates_legacy_generation_and_analysis_packages():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [],
+            "timeline": [],
+            "hard_constraints": [],
+            "story_arcs": [],
+            "foreshadows": [],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_generation",
+                    "chapter_number": 19,
+                    "chapter_title": "Ledger Returns",
+                    "summary": "Generated placeholder summary that should be hidden.",
+                    "timeline_delta": [{"event": "Generated placeholder timeline"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "generated placeholder"}
+                    ],
+                },
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 19,
+                    "chapter_title": "Ledger Returns",
+                    "summary": "Analyzed ledger resolution should win.",
+                    "timeline_delta": [{"event": "Analyzed ledger resolution"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "analysis wins"}
+                    ],
+                    "plan_progress": [{"beat": "Recover ledger", "status": "done"}],
+                },
+            ],
+        },
+        plan={
+            "summary": "Continue from the analyzed state.",
+            "beats": [{"beat": "Recover ledger", "status": "done", "last_chapter_number": 19}],
+            "priority_hooks": [],
+            "guardrails": [],
+        },
+    )
+
+    assert "Continuation chapters with context: 19 (1 packages)" in block
+    assert block.count("Chapter 19: Ledger Returns") == 1
+    assert "Analyzed ledger resolution should win." in block
+    assert "analysis wins" in block
+    assert "Generated placeholder" not in block
+
+
+def test_build_remix_continuation_context_block_preserves_generation_guardrail_when_analysis_wins():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [],
+            "timeline": [],
+            "hard_constraints": [],
+            "story_arcs": [],
+            "foreshadows": [],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_generation",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Aftermath",
+                    "summary": "Generated draft repeated the ledger recovery before guardrail rewrite.",
+                    "timeline_delta": [{"event": "Generated draft repeated ledger recovery"}],
+                    "guardrail_check": {
+                        "applied": True,
+                        "attempts": 1,
+                        "initial_passed": False,
+                        "final_passed": True,
+                        "violations": [
+                            {
+                                "type": "canon_repetition",
+                                "severity": "high",
+                                "description": "repeated confirmed Canon",
+                            }
+                        ],
+                    },
+                },
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Aftermath",
+                    "summary": "Analyzed archive witness state should remain primary.",
+                    "timeline_delta": [{"event": "Archive witness revealed city hall file"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "suspicious"}
+                    ],
+                },
+            ],
+        },
+        plan={
+            "summary": "Continue from the analyzed state.",
+            "beats": [],
+            "priority_hooks": [],
+            "guardrails": [],
+        },
+    )
+
+    assert "Analyzed archive witness state should remain primary." in block
+    assert "Generated draft repeated the ledger recovery" not in block
+    assert "Guardrail rewrite applied: True" in block
+    assert "canon_repetition" in block
+    assert "repeated confirmed Canon" in block
+
+
+def test_build_remix_continuation_context_block_renders_emotional_arc_from_change_package():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [],
+            "timeline": [],
+            "hard_constraints": [],
+            "story_arcs": [],
+            "foreshadows": [],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 21,
+                    "chapter_title": "Archive Pressure",
+                    "summary": "Inspector Lin keeps pressure on the witness.",
+                    "timeline_delta": [{"event": "Archive witness starts to crack"}],
+                    "emotional_arc": {
+                        "tone": "tense restraint",
+                        "intensity": 0.82,
+                        "curve": {"start": 0.4, "end": 0.8},
+                    },
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue the interrogation pressure.",
+            "beats": [],
+            "priority_hooks": [],
+            "guardrails": [],
+        },
+    )
+
+    assert "emotion: tone: tense restraint" in block
+    assert "intensity: 0.82" in block
+    assert "curve" in block
+
+
+def test_build_remix_continuation_progress_summary_deduplicates_legacy_generation_and_analysis_packages():
+    summary = build_remix_continuation_progress_summary(
+        packages=[
+            {
+                "source": "chapter_generation",
+                "chapter_number": 19,
+                "summary": "Generated placeholder summary that should be hidden.",
+                "timeline_delta": [{"event": "Generated placeholder timeline"}],
+                "character_state_changes": [
+                    {"character_name": "Inspector Lin", "state_after": "generated placeholder"}
+                ],
+            },
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 19,
+                "summary": "Analyzed ledger resolution should win.",
+                "timeline_delta": [{"event": "Analyzed ledger resolution"}],
+                "character_state_changes": [
+                    {"character_name": "Inspector Lin", "state_after": "analysis wins"}
+                ],
+                "plan_progress": [{"beat": "Recover ledger", "status": "done"}],
+            },
+        ],
+        plan={"beats": [{"beat": "Recover ledger", "status": "done", "last_chapter_number": 19}]},
+    )
+
+    assert summary["package_count"] == 1
+    assert summary["chapter_range"] == {"start": 19, "end": 19}
+    assert summary["timeline_progression"] == [
+        {"chapter_number": 19, "event": "Analyzed ledger resolution"}
+    ]
+    assert summary["latest_character_states"] == [
+        {"character_name": "Inspector Lin", "chapter_number": 19, "state_after": "analysis wins"}
+    ]
+
+
+
+def test_build_remix_continuation_progress_summary_returns_structured_payload():
+    summary = build_remix_continuation_progress_summary(
+        packages=[
+            {
+                "type": "chapter_change_package",
+                "source": "chapter_analysis",
+                "chapter_number": 19,
+                "chapter_title": "Ledger Returns",
+                "summary": "Inspector Lin recovered the ledger.",
+                "timeline_delta": [{"event": "Inspector Lin recovered ledger"}],
+                "character_state_changes": [
+                    {"character_name": "Inspector Lin", "state_after": "decisive"}
+                ],
+                "foreshadow_changes": [
+                    {"hook": "Old rival returns", "status": "resolved"}
+                ],
+                "plan_progress": [{"beat": "Recover ledger", "status": "done"}],
+            },
+            {
+                "type": "chapter_change_package",
+                "source": "chapter_analysis",
+                "chapter_number": 20,
+                "chapter_title": "Archive Witness",
+                "summary": "Inspector Lin questioned the archive witness.",
+                "timeline_delta": [{"event": "Archive witness revealed a sealed file"}],
+                "character_state_changes": [
+                    {"character_name": "Inspector Lin", "state_after": "suspicious"}
+                ],
+                "foreshadow_changes": [
+                    {"hook": "Sealed file points to city hall", "status": "open"}
+                ],
+                "plan_progress": [{"beat": "Question archive witness", "status": "done"}],
+            },
+        ],
+        plan={
+            "beats": [
+                {"beat": "Recover ledger", "status": "done", "last_chapter_number": 19},
+                {"beat": "Follow city hall file", "status": "pending"},
+            ]
+        },
+    )
+
+    assert summary == {
+        "package_count": 2,
+        "chapter_range": {"start": 19, "end": 20},
+        "timeline_progression": [
+            {"chapter_number": 19, "event": "Inspector Lin recovered ledger"},
+            {"chapter_number": 20, "event": "Archive witness revealed a sealed file"},
+        ],
+        "latest_character_states": [
+            {"character_name": "Inspector Lin", "chapter_number": 20, "state_after": "suspicious"}
+        ],
+        "emotional_progression": [],
+        "resolved_hooks": ["Old rival returns"],
+        "open_hooks": ["Sealed file points to city hall"],
+        "completed_plan_beats": ["Recover ledger", "Question archive witness"],
+        "pending_plan_beats": ["Follow city hall file"],
+    }
+
+
+def test_build_remix_continuation_progress_summary_renders_emotional_progression():
+    summary = build_remix_continuation_progress_summary(
+        packages=[
+            {
+                "type": "chapter_change_package",
+                "source": "chapter_analysis",
+                "chapter_number": 19,
+                "chapter_title": "Ledger Returns",
+                "summary": "Inspector Lin recovered the ledger.",
+                "timeline_delta": [{"event": "Inspector Lin recovered ledger"}],
+                "emotional_arc": {
+                    "tone": "tense restraint",
+                    "intensity": 0.82,
+                    "curve": {"start": 0.4, "end": 0.8},
+                },
+            },
+        ],
+        plan=None,
+    )
+
+    assert summary["emotional_progression"] == [
+        {
+            "chapter_number": 19,
+            "tone": "tense restraint",
+            "intensity": 0.82,
+            "curve": {"start": 0.4, "end": 0.8},
+        }
+    ]

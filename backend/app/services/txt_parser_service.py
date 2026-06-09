@@ -13,10 +13,13 @@ class TxtParserService:
     """TXT 解析服务（规则优先）"""
 
     STRONG_CHAPTER_PATTERNS = [
-        re.compile(r"^第[一二三四五六七八九十百千万零〇两\d]+[章节回卷集部篇].*$"),
+        re.compile(r"^第\s*[一二三四五六七八九十百千万零〇两\d]+\s*[章节回卷集部篇].*$"),
         re.compile(r"^chapter\s*\d+.*$", re.IGNORECASE),
         re.compile(r"^chap\.\s*\d+.*$", re.IGNORECASE),
     ]
+    CHINESE_CHAPTER_MARKER = re.compile(
+        r"^第\s*[一二三四五六七八九十百千万零〇两\d]+\s*[章节回卷集部篇]"
+    )
 
     def decode_bytes(self, content: bytes) -> tuple[str, str]:
         """
@@ -114,6 +117,20 @@ class TxtParserService:
         return self._fallback_split(text)
 
     def _is_strong_heading(self, line: str) -> bool:
+        marker_match = self.CHINESE_CHAPTER_MARKER.match(line)
+        if marker_match:
+            tail = line[marker_match.end() :]
+            if not tail:
+                return True
+            # 标题常见格式：第 12 章 标题 / 第12章：标题 / 第12章-标题。
+            if tail[0].isspace() or tail[0] in "：:、.-—_《【[":
+                return True
+            # 兼容“第十二章逃离”这类无空格标题，但避免把“第一章正文。”
+            # 这种普通句子误判成章节标题。
+            if len(line) <= 25 and not re.search(r"[，。！？；,.!?;]", line):
+                return True
+            return False
+
         return any(pattern.match(line) for pattern in self.STRONG_CHAPTER_PATTERNS)
 
     def _is_weak_heading(self, lines: list[str], idx: int) -> bool:

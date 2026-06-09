@@ -19,6 +19,91 @@ from app.logger import get_logger
 logger = get_logger(__name__)
 
 
+def _truncate_text(text: Optional[str], max_length: int) -> Optional[str]:
+    """裁剪文本长度，保留前段用于上下文注入。"""
+    if not text:
+        return None
+    plain = text.strip()
+    if not plain:
+        return None
+    return plain[:max_length]
+
+
+def _extract_plot_summary(expansion_plan: Optional[str], max_length: int) -> Optional[str]:
+    """从章节规划中提取 plot_summary 作为摘要兜底。"""
+    if not expansion_plan:
+        return None
+    try:
+        plan = json.loads(expansion_plan)
+    except json.JSONDecodeError:
+        return None
+    return _truncate_text(plan.get("plot_summary"), max_length)
+
+
+async def _load_chapter_summary_memory_map(
+    project_id: str,
+    chapter_ids: List[str],
+    db: AsyncSession
+) -> Dict[str, str]:
+    """批量加载章节摘要记忆，减少上下文构建阶段的重复查询。"""
+    normalized_ids = [chapter_id for chapter_id in chapter_ids if chapter_id]
+    if not normalized_ids:
+        return {}
+
+    result = await db.execute(
+        select(StoryMemory.chapter_id, StoryMemory.content)
+        .where(StoryMemory.project_id == project_id)
+        .where(StoryMemory.chapter_id.in_(normalized_ids))
+        .where(StoryMemory.memory_type == 'chapter_summary')
+    )
+
+    summary_map: Dict[str, str] = {}
+    for chapter_id, content in result.all():
+        if chapter_id and content and chapter_id not in summary_map:
+            summary_map[chapter_id] = content
+    return summary_map
+
+
+def _resolve_chapter_summary(
+    chapter_id: str,
+    summary_memory_map: Dict[str, str],
+    chapter_summary: Optional[str],
+    expansion_plan: Optional[str],
+    max_length: int
+) -> Optional[str]:
+    """统一解析章节摘要来源：记忆摘要 -> 章节摘要 -> expansion_plan 摘要。"""
+    if chapter_id in summary_memory_map:
+        return _truncate_text(summary_memory_map[chapter_id], max_length)
+    if chapter_summary:
+        return _truncate_text(chapter_summary, max_length)
+    return _extract_plot_summary(expansion_plan, max_length)
+
+
+def _build_memory_search_query(
+    chapter_outline: str,
+    previous_chapter_summary: Optional[str] = None,
+    recent_chapters_context: Optional[str] = None,
+    max_length: int = 500
+) -> str:
+    """组合记忆检索查询，优先纳入本章目标、上一章承接和最近章节回顾。"""
+    query_parts: List[str] = []
+
+    outline_text = _truncate_text(chapter_outline, 260)
+    previous_summary_text = _truncate_text(previous_chapter_summary, 140)
+    recent_context_text = _truncate_text(recent_chapters_context, 180)
+
+    if outline_text:
+        query_parts.append(f"本章大纲 {outline_text}")
+    if previous_summary_text:
+        query_parts.append(f"上一章摘要 {previous_summary_text}")
+    if recent_context_text:
+        query_parts.append(f"最近章节回顾 {recent_context_text}")
+
+    query_text = " ".join(query_parts)
+    query_text = " ".join(query_text.split())
+    return query_text[:max_length]
+
+
 @dataclass
 class OneToManyContext:
     """
@@ -249,7 +334,9 @@ class OneToManyContextBuilder:
         if self.memory_service:
             context.relevant_memories = await self._get_relevant_memories_enhanced(
                 user_id, project.id, chapter_number,
-                context.chapter_outline, db
+                context.chapter_outline, db,
+                previous_chapter_summary=context.previous_chapter_summary,
+                recent_chapters_context=context.recent_chapters_context
             )
             logger.info(f"  ✅ 相关记忆: {len(context.relevant_memories or '')}字符")
         
@@ -586,7 +673,7 @@ class OneToManyContextBuilder:
         """构建最近10章的expansion_plan摘要"""
         try:
             result = await db.execute(
-                select(Chapter.chapter_number, Chapter.title, Chapter.expansion_plan, Chapter.summary)
+                select(Chapter.id, Chapter.chapter_number, Chapter.title, Chapter.expansion_plan, Chapter.summary)
                 .where(Chapter.project_id == project_id)
                 .where(Chapter.chapter_number < chapter.chapter_number)
                 .order_by(Chapter.chapter_number.desc())
@@ -598,14 +685,27 @@ class OneToManyContextBuilder:
                 return None
             
             # 按章节号正序排列
-            recent_chapters = sorted(recent_chapters, key=lambda x: x[0])
+            recent_chapters = sorted(recent_chapters, key=lambda x: x[1])
+            summary_memory_map = await _load_chapter_summary_memory_map(
+                project_id,
+                [chapter_id for chapter_id, *_ in recent_chapters],
+                db
+            )
             
             lines = ["【最近章节规划】"]
-            for ch_num, ch_title, expansion_plan, summary in recent_chapters:
+            for ch_id, ch_num, ch_title, expansion_plan, summary in recent_chapters:
+                summary_text = _resolve_chapter_summary(
+                    chapter_id=ch_id,
+                    summary_memory_map=summary_memory_map,
+                    chapter_summary=summary,
+                    expansion_plan=expansion_plan,
+                    max_length=100
+                )
+                summary = summary_text or summary
                 if expansion_plan:
                     try:
                         plan = json.loads(expansion_plan)
-                        plot_summary = plan.get('plot_summary', '')
+                        plot_summary = summary_text or plan.get('plot_summary', '')
                         key_events = plan.get('key_events', [])
                         events_str = '；'.join(key_events[:3]) if key_events else ''
                         line = f"第{ch_num}章《{ch_title}》：{plot_summary}"
@@ -613,7 +713,7 @@ class OneToManyContextBuilder:
                             line += f"（关键事件：{events_str}）"
                         lines.append(line)
                     except json.JSONDecodeError:
-                        if summary:
+                        if summary_text:
                             lines.append(f"第{ch_num}章《{ch_title}》：{summary[:100]}")
                 elif summary:
                     lines.append(f"第{ch_num}章《{ch_title}》：{summary[:100]}")
@@ -632,21 +732,30 @@ class OneToManyContextBuilder:
         project_id: str,
         chapter_number: int,
         chapter_outline: str,
-        db: AsyncSession
+        db: AsyncSession,
+        previous_chapter_summary: Optional[str] = None,
+        recent_chapters_context: Optional[str] = None
     ) -> Optional[str]:
         """获取相关记忆（始终启用，相关度>0.6）"""
         if not self.memory_service:
             return None
         
         try:
-            query_text = chapter_outline[:500].replace('\n', ' ')
+            query_text = _build_memory_search_query(
+                chapter_outline=chapter_outline,
+                previous_chapter_summary=previous_chapter_summary,
+                recent_chapters_context=recent_chapters_context,
+                max_length=500
+            )
             
             relevant_memories = await self.memory_service.search_memories(
                 user_id=user_id,
                 project_id=project_id,
                 query=query_text,
                 limit=15,
-                min_importance=0.0
+                min_importance=0.0,
+                current_chapter=chapter_number,
+                memory_scenario="chapter_generation"
             )
             
             # 过滤相关度>0.6
@@ -716,6 +825,13 @@ class OneToManyContextBuilder:
             .limit(1)
         )
         summary_mem = summary_result.scalar_one_or_none()
+        summary_mem = _resolve_chapter_summary(
+            chapter_id=prev_chapter.id,
+            summary_memory_map={prev_chapter.id: summary_mem} if summary_mem else {},
+            chapter_summary=prev_chapter.summary,
+            expansion_plan=prev_chapter.expansion_plan,
+            max_length=300
+        )
         
         if summary_mem:
             result_info['summary'] = summary_mem[:300]
@@ -797,9 +913,14 @@ class OneToManyContextBuilder:
             relevant = await self.memory_service.search_memories(
                 user_id=user_id,
                 project_id=project_id,
-                query=chapter_outline,
+                query=_build_memory_search_query(
+                    chapter_outline=chapter_outline,
+                    max_length=500
+                ),
                 limit=limit,
-                min_importance=self.MEMORY_IMPORTANCE_THRESHOLD
+                min_importance=self.MEMORY_IMPORTANCE_THRESHOLD,
+                current_chapter=chapter_number,
+                memory_scenario="chapter_generation"
             )
             
             return self._format_memories(relevant, max_length=500)
@@ -917,7 +1038,7 @@ class OneToManyContextBuilder:
         """构建故事骨架（每N章采样）"""
         try:
             result = await db.execute(
-                select(Chapter.id, Chapter.chapter_number, Chapter.title)
+                select(Chapter.id, Chapter.chapter_number, Chapter.title, Chapter.summary, Chapter.expansion_plan)
                 .where(Chapter.project_id == project_id)
                 .where(Chapter.chapter_number < chapter_number)
                 .where(Chapter.content != None)
@@ -930,7 +1051,7 @@ class OneToManyContextBuilder:
                 return None
             
             skeleton_lines = ["【故事骨架】"]
-            for i, (ch_id, ch_num, ch_title) in enumerate(chapters):
+            for i, (ch_id, ch_num, ch_title, chapter_summary, expansion_plan) in enumerate(chapters):
                 if i % self.SKELETON_SAMPLE_INTERVAL == 0:
                     summary_result = await db.execute(
                         select(StoryMemory.content)
@@ -940,6 +1061,13 @@ class OneToManyContextBuilder:
                         .limit(1)
                     )
                     summary = summary_result.scalar_one_or_none()
+                    summary = _resolve_chapter_summary(
+                        chapter_id=ch_id,
+                        summary_memory_map={ch_id: summary} if summary else {},
+                        chapter_summary=chapter_summary,
+                        expansion_plan=expansion_plan,
+                        max_length=100
+                    )
                     
                     if summary:
                         skeleton_lines.append(f"第{ch_num}章《{ch_title}》：{summary[:100]}")
@@ -1060,6 +1188,13 @@ class OneToOneContextBuilder:
                     .limit(1)
                 )
                 summary_mem = summary_result.scalar_one_or_none()
+                summary_mem = _resolve_chapter_summary(
+                    chapter_id=prev_chapter.id,
+                    summary_memory_map={prev_chapter.id: summary_mem} if summary_mem else {},
+                    chapter_summary=prev_chapter.summary,
+                    expansion_plan=prev_chapter.expansion_plan,
+                    max_length=300
+                )
                 
                 if summary_mem:
                     context.previous_chapter_summary = summary_mem[:300]
@@ -1139,7 +1274,11 @@ class OneToOneContextBuilder:
         if self.memory_service and context.chapter_outline:
             try:
                 # 使用大纲内容作为查询（截取前500字符以避免过长）
-                query_text = context.chapter_outline[:500].replace('\n', ' ')
+                query_text = _build_memory_search_query(
+                    chapter_outline=context.chapter_outline,
+                    previous_chapter_summary=context.previous_chapter_summary,
+                    max_length=500
+                )
                 logger.info(f"  🔍 记忆查询关键词: {query_text[:100]}...")
                 
                 relevant_memories = await self.memory_service.search_memories(
@@ -1147,7 +1286,9 @@ class OneToOneContextBuilder:
                     project_id=project.id,
                     query=query_text,
                     limit=15,
-                    min_importance=0.0
+                    min_importance=0.0,
+                    current_chapter=chapter_number,
+                    memory_scenario="chapter_generation"
                 )
                 
                 # 过滤相关度阈值为0.6

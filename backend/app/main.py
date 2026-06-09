@@ -13,6 +13,7 @@ from app.logger import setup_logging, get_logger
 from app.middleware import RequestIDMiddleware
 from app.middleware.auth_middleware import AuthMiddleware
 from app.mcp import mcp_client, register_status_sync
+from app.services.builtin_content_sync_service import builtin_content_sync_service
 
 setup_logging(
     level=config_settings.log_level,
@@ -29,6 +30,7 @@ async def lifespan(app: FastAPI):
     """应用生命周期管理"""
     # 注册MCP状态同步服务
     register_status_sync()
+    await builtin_content_sync_service.sync()
     
     logger.info("应用启动完成")
     
@@ -130,7 +132,8 @@ from app.api import (
     wizard_stream, relationships, organizations,
     auth, users, settings, writing_styles, memories,
     mcp_plugins, admin, inspiration, prompt_templates,
-    changelog, careers, foreshadows, prompt_workshop, book_import
+    changelog, careers, foreshadows, prompt_workshop, book_import, book_remix,
+    source_discovery
 )
 
 app.include_router(auth.router, prefix="/api")
@@ -155,6 +158,8 @@ app.include_router(prompt_templates.router, prefix="/api")  # 提示词模板管
 app.include_router(changelog.router, prefix="/api")  # 更新日志API
 app.include_router(prompt_workshop.router, prefix="/api")  # 提示词工坊API
 app.include_router(book_import.router, prefix="/api")  # 拆书导入API
+app.include_router(book_remix.router, prefix="/api")  # 拆书二创API
+app.include_router(source_discovery.router, prefix="/api")  # 公开源发现API
 
 static_dir = Path(__file__).parent.parent / "static"
 if static_dir.exists():

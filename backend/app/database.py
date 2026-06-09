@@ -11,18 +11,12 @@ from app.logger import get_logger
 
 logger = get_logger(__name__)
 
-# 创建基类
+# 鍒涘缓鍩虹被
 Base = declarative_base()
 
-# 导入所有模型，确保 Base.metadata 能够发现它们
-# 这必须在 Base 创建之后、init_db 之前导入
-from app.models import (
-    Project, Outline, Character, Chapter, GenerationHistory,
-    Settings, WritingStyle, ProjectDefaultStyle,
-    RelationshipType, CharacterRelationship, Organization, OrganizationMember,
-    StoryMemory, PlotAnalysis, AnalysisTask, BatchGenerationTask,
-    RegenerationTask, Career, CharacterCareer, User, MCPPlugin, PromptTemplate
-)
+# Models are imported by their own modules and Alembic migrations.
+# Avoid eager aggregation imports here to prevent circular imports between
+# app.models.__init__, project.py, and database.py.
 
 # 引擎缓存：每个用户一个引擎
 _engine_cache: Dict[str, Any] = {}

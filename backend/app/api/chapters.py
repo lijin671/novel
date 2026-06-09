@@ -5,9 +5,11 @@ from sqlalchemy import select, func
 from sqlalchemy.orm import selectinload
 import json
 import asyncio
-from typing import Optional
+import re
+from typing import Any, Optional
 from datetime import datetime
 from asyncio import Queue, Lock
+from pathlib import Path
 
 from app.database import get_db
 from app.api.common import verify_project_access
@@ -22,7 +24,9 @@ from app.models.character import Character
 from app.models.career import Career, CharacterCareer
 from app.models.relationship import CharacterRelationship, Organization, OrganizationMember
 from app.models.generation_history import GenerationHistory
+from app.models.project_default_style import ProjectDefaultStyle
 from app.models.writing_style import WritingStyle
+from app.models.book_remix_bible import BookRemixBible, BookRemixContinuationPlan
 from app.models.analysis_task import AnalysisTask
 from app.models.memory import PlotAnalysis, StoryMemory
 from app.models.batch_generation_task import BatchGenerationTask
@@ -50,17 +54,28 @@ from app.schemas.regeneration import (
     RegenerationTaskStatus
 )
 from app.services.ai_service import AIService
-from app.services.prompt_service import prompt_service, PromptService, WritingStyleManager
+from app.services.prompt_service import prompt_service, PromptService, WritingStyleManager, compose_system_prompt
 from app.services.plot_analyzer import PlotAnalyzer
 from app.services.memory_service import memory_service
 from app.services.foreshadow_service import foreshadow_service
 from app.services.chapter_regenerator import ChapterRegenerator
+from app.services.book_remix_context_service import (
+    book_remix_context_service,
+    build_remix_inspired_context_block,
+)
+from app.services.book_remix_service import book_remix_service
+from app.services.book_remix_continuation_state_service import book_remix_continuation_state_service
+from app.services.chapter_guardrails import apply_chapter_guardrail_check
+from app.services.novel_workflow_service import NovelWorkflowService
+from app.services.source_discovery_service import source_discovery_service
 from app.logger import get_logger
 from app.api.settings import get_user_ai_service
 from app.utils.sse_response import SSEResponse, create_sse_response
 
 router = APIRouter(prefix="/chapters", tags=["章节管理"])
 logger = get_logger(__name__)
+
+PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 # 全局数据库写入锁（每个用户一个锁，用于保护SQLite写入操作）
 db_write_locks: dict[str, Lock] = {}
@@ -72,6 +87,16 @@ async def get_db_write_lock(user_id: str) -> Lock:
         db_write_locks[user_id] = Lock()
         logger.debug(f"🔒 为用户 {user_id} 创建数据库写入锁")
     return db_write_locks[user_id]
+
+
+def _workflow_requires_reanalysis(workflow_result: Any) -> bool:
+    """Return True when workflow rewrote a chapter and invalidated prior analysis."""
+    if not isinstance(workflow_result, dict):
+        return False
+    if workflow_result.get("analysis_stale"):
+        return True
+    aggregate = workflow_result.get("aggregate")
+    return isinstance(aggregate, dict) and bool(aggregate.get("analysis_stale"))
 
 
 @router.post("", response_model=ChapterResponse, summary="创建章节")
@@ -860,6 +885,13 @@ async def analyze_chapter_background(
             logger.error(f"❌ 章节不存在或内容为空: {chapter_id}")
             return False
         
+        chapter_number = chapter.chapter_number
+        chapter_title = chapter.title or ""
+        chapter_content = chapter.content or ""
+        chapter_word_count = chapter.word_count or len(chapter_content)
+        chapter_outline_id = chapter.outline_id
+        chapter_expansion_plan = chapter.expansion_plan
+
         async with write_lock:
             task.progress = 20
             await db_session.commit()
@@ -868,7 +900,7 @@ async def analyze_chapter_background(
         existing_foreshadows = await foreshadow_service.get_planted_foreshadows_for_analysis(
             db=db_session,
             project_id=project_id,
-            current_chapter_number=chapter.chapter_number  # 传入当前章节号以启用智能标记
+            current_chapter_number=chapter_number  # 传入当前章节号以启用智能标记
         )
         logger.info(f"📋 后台分析 - 已获取{len(existing_foreshadows)}个已埋入伏笔用于匹配（含智能回收标记）")
         
@@ -876,9 +908,9 @@ async def analyze_chapter_background(
         filter_character_names = None
         
         # 1-N模式：从expansion_plan中提取character_focus
-        if chapter.expansion_plan:
+        if chapter_expansion_plan:
             try:
-                plan = json.loads(chapter.expansion_plan)
+                plan = json.loads(chapter_expansion_plan)
                 focus_names = plan.get('character_focus', [])
                 if focus_names:
                     filter_character_names = focus_names
@@ -887,10 +919,10 @@ async def analyze_chapter_background(
                 pass
         
         # 1-1模式：从outline.structure中提取characters
-        if not filter_character_names and chapter.outline_id:
+        if not filter_character_names and chapter_outline_id:
             try:
                 outline_result = await db_session.execute(
-                    select(Outline).where(Outline.id == chapter.outline_id)
+                    select(Outline).where(Outline.id == chapter_outline_id)
                 )
                 chapter_outline = outline_result.scalar_one_or_none()
                 if chapter_outline and chapter_outline.structure:
@@ -953,10 +985,10 @@ async def analyze_chapter_background(
         # 3. 使用PlotAnalyzer分析章节（传入已有伏笔列表、角色信息和重试回调）
         analyzer = PlotAnalyzer(ai_service)
         analysis_result = await analyzer.analyze_chapter(
-            chapter_number=chapter.chapter_number,
-            title=chapter.title,
-            content=chapter.content,
-            word_count=chapter.word_count or len(chapter.content),
+            chapter_number=chapter_number,
+            title=chapter_title,
+            content=chapter_content,
+            word_count=chapter_word_count,
             existing_foreshadows=existing_foreshadows,
             on_retry=on_retry_callback,
             characters_info=characters_info
@@ -1062,9 +1094,9 @@ async def analyze_chapter_background(
         memories = analyzer.extract_memories_from_analysis(
             analysis=analysis_result,
             chapter_id=chapter_id,
-            chapter_number=chapter.chapter_number,
-            chapter_content=chapter.content or "",
-            chapter_title=chapter.title or ""
+            chapter_number=chapter_number,
+            chapter_content=chapter_content,
+            chapter_title=chapter_title
         )
         
         # 先删除该章节的旧记忆（写操作，需要锁）
@@ -1106,7 +1138,7 @@ async def analyze_chapter_background(
                     importance_score=mem['metadata'].get('importance_score', 0.5),
                     tags=mem['metadata'].get('tags', []),
                     is_foreshadow=mem['metadata'].get('is_foreshadow', 0),
-                    story_timeline=chapter.chapter_number,
+                    story_timeline=chapter_number,
                     chapter_position=text_position,
                     text_length=text_length,
                     related_characters=mem['metadata'].get('related_characters', []),
@@ -1139,7 +1171,7 @@ async def analyze_chapter_background(
                     project_id=project_id,
                     character_states=analysis_result.get('character_states', []),
                     chapter_id=chapter_id,
-                    chapter_number=chapter.chapter_number
+                    chapter_number=chapter_number
                 )
                 
                 if career_update_result['updated_count'] > 0:
@@ -1170,7 +1202,7 @@ async def analyze_chapter_background(
                         project_id=project_id,
                         character_states=analysis_result.get('character_states', []),
                         chapter_id=chapter_id,
-                        chapter_number=chapter.chapter_number
+                        chapter_number=chapter_number
                     )
                 
                 total_state_changes = (
@@ -1207,7 +1239,7 @@ async def analyze_chapter_background(
                         db=db_session,
                         project_id=project_id,
                         organization_states=analysis_result.get('organization_states', []),
-                        chapter_number=chapter.chapter_number
+                        chapter_number=chapter_number
                     )
                 
                 if org_state_result['updated_count'] > 0:
@@ -1233,7 +1265,7 @@ async def analyze_chapter_background(
                         db=db_session,
                         project_id=project_id,
                         chapter_id=chapter_id,
-                        chapter_number=chapter.chapter_number,
+                        chapter_number=chapter_number,
                         analysis_foreshadows=analysis_result.get('foreshadows', [])
                     )
                 
@@ -1252,6 +1284,19 @@ async def analyze_chapter_background(
             logger.debug("📋 分析结果中无伏笔信息，跳过伏笔自动更新")
         
         # 最终更新任务状态（写操作，需要锁）- 增加重试机制
+        try:
+            async with write_lock:
+                await book_remix_continuation_state_service.sync_chapter_analysis(
+                    db=db_session,
+                    project_id=project_id,
+                    chapter_id=chapter_id,
+                    chapter_number=chapter_number,
+                    chapter_title=chapter_title,
+                    analysis_result=analysis_result,
+                )
+        except Exception as remix_sync_error:
+            logger.error("拆书续写分析状态同步失败: %s", remix_sync_error, exc_info=True)
+
         update_success = False
         for retry in range(3):
             try:
@@ -1316,6 +1361,310 @@ async def analyze_chapter_background(
             await db_session.close()
 
 
+
+def _is_remix_bible_missing_error(error: Exception) -> bool:
+    return (
+        isinstance(error, HTTPException)
+        and error.status_code == 404
+        and str(error.detail or "") == "remix bible draft not found"
+    )
+
+
+async def _has_confirmed_remix_continuation_lineage(*, project: Project, db: AsyncSession) -> bool:
+    bible_result = await db.execute(
+        select(BookRemixBible).where(BookRemixBible.project_id == project.id)
+    )
+    bible = bible_result.scalar_one_or_none()
+    if not bible:
+        return False
+
+    if not str(bible.source_task_id or "").strip():
+        return False
+    if int(bible.source_chapter_count or 0) <= 0:
+        return False
+    if str(bible.generation_status or "").strip().lower() != "confirmed":
+        return False
+
+    plan_result = await db.execute(
+        select(BookRemixContinuationPlan).where(
+            BookRemixContinuationPlan.project_id == project.id
+        )
+    )
+    plan = plan_result.scalar_one_or_none()
+    if not plan:
+        return False
+    if str(plan.status or "").strip().lower() != "confirmed":
+        return False
+    if str(plan.bible_id or "").strip() != str(bible.id):
+        return False
+    if plan.updated_at and bible.updated_at and plan.updated_at < bible.updated_at:
+        return False
+
+    return True
+
+
+async def _enforce_remix_continuation_risk_gate(
+    *,
+    project: Project,
+    db: AsyncSession,
+    force: bool = False,
+) -> None:
+    if force:
+        return
+
+    try:
+        has_lineage = await _has_confirmed_remix_continuation_lineage(project=project, db=db)
+    except Exception as lineage_error:
+        logger.warning(
+            "Remix continuation risk gate lineage detection failed, block generation: %s",
+            lineage_error,
+        )
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "code": "continuation_risk_check_failed",
+                "message": "\u7eed\u5199\u98ce\u9669\u68c0\u67e5\u5931\u8d25\uff0c\u672a\u5f3a\u5236\u7ee7\u7eed\u65f6\u5df2\u505c\u6b62\u751f\u6210\u3002",
+            },
+        ) from lineage_error
+
+    if not has_lineage:
+        return
+
+    try:
+        coverage = await book_remix_service.get_analysis_coverage(project=project, db=db)
+    except Exception as coverage_error:
+        if _is_remix_bible_missing_error(coverage_error):
+            return
+        logger.warning(
+            "Remix continuation risk gate coverage check failed, block generation: %s",
+            coverage_error,
+        )
+        raise HTTPException(
+            status_code=503,
+            detail={
+                "code": "continuation_risk_check_failed",
+                "message": "\u7eed\u5199\u98ce\u9669\u68c0\u67e5\u5931\u8d25\uff0c\u672a\u5f3a\u5236\u7ee7\u7eed\u65f6\u5df2\u505c\u6b62\u751f\u6210\u3002",
+            },
+        ) from coverage_error
+
+    continuation_risk: Any = coverage.get("continuation_risk") if isinstance(coverage, dict) else None
+    if not isinstance(continuation_risk, dict):
+        return
+    if continuation_risk.get("level") != "high":
+        return
+
+    raise HTTPException(
+        status_code=400,
+        detail={
+            "code": "continuation_risk_high",
+            "message": continuation_risk.get("message")
+            or "\u7eed\u5199\u524d\u4ecd\u6709\u963b\u65ad\u7ae0\u8282\uff0c\u5efa\u8bae\u5148\u8865\u9f50\u5168\u4e66\u62c6\u89e3\u7f3a\u53e3\u3002",
+            "continuation_risk": continuation_risk,
+        },
+    )
+
+async def _build_remix_continuation_context_for_prompt(
+    *,
+    project: Project,
+    db: AsyncSession,
+) -> str:
+    try:
+        return await book_remix_context_service.build_project_context_block(
+            project=project,
+            db=db,
+        )
+    except Exception as remix_context_error:
+        logger.warning(
+            "Remix continuation context build failed, skip prompt injection: %s",
+            remix_context_error,
+        )
+        return ""
+
+
+async def _build_remix_context_for_generation_prompt(
+    *,
+    project: Project,
+    db: AsyncSession,
+    style_content: str,
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> str:
+    continuation_context = await _build_remix_continuation_context_for_prompt(
+        project=project,
+        db=db,
+    )
+    if continuation_context:
+        return continuation_context
+
+    return build_remix_inspired_context_block(
+        project_title=project.title,
+        style_content=style_content,
+        source_pattern_pack=source_pattern_pack,
+    )
+
+
+async def _resolve_generation_source_pattern_pack() -> dict[str, Any]:
+    return await source_discovery_service.resolve_fresh_pattern_pack(
+        repo_root=PROJECT_ROOT,
+    )
+
+
+async def _resolve_generation_source_pattern_pack_for_project(
+    *,
+    project: Project,
+    db: AsyncSession,
+) -> Optional[dict[str, Any]]:
+    if not await _has_confirmed_remix_continuation_lineage(project=project, db=db):
+        return None
+    try:
+        return await _resolve_generation_source_pattern_pack()
+    except Exception as source_pack_error:
+        logger.warning(
+            "Source pattern pack resolution skipped for project %s: %s",
+            project.id,
+            source_pack_error,
+        )
+        return None
+
+
+def _is_inspired_generation_style(style_content: str) -> bool:
+    content = (style_content or "").strip()
+    return bool(
+        content
+        and ("同类型创作" in content or "同类型创作总原则" in content)
+        and "源书显性元素禁用清单" in content
+    )
+
+
+async def _resolve_generation_source_pattern_pack_for_style(
+    *,
+    style_content: str,
+) -> Optional[dict[str, Any]]:
+    if not _is_inspired_generation_style(style_content):
+        return None
+    try:
+        return await _resolve_generation_source_pattern_pack()
+    except Exception as source_pack_error:
+        logger.warning(
+            "Inspired source pattern pack resolution skipped: %s",
+            source_pack_error,
+        )
+        return None
+
+
+def _should_apply_batch_remix_style_augmentation(*, has_durable_remix_lineage: bool) -> bool:
+    """Caller gate for remix-only batch continuation style augmentation."""
+    return bool(has_durable_remix_lineage)
+
+
+def _calculate_generation_max_tokens(target_word_count: int) -> int:
+    """按目标字数计算长章节生成的 token 预算。"""
+    normalized_target = max(1, int(target_word_count or 3000))
+    calculated_max_tokens = int(normalized_target * 3)
+    return max(2000, min(calculated_max_tokens, 32000))
+
+
+async def _resolve_generation_style_content(
+    *,
+    db: AsyncSession,
+    project_id: str,
+    user_id: str,
+    style_id: Optional[int],
+) -> str:
+    """优先使用请求风格；未指定时回退到项目默认续写风格。"""
+    resolved_style_id = style_id
+    if not resolved_style_id:
+        default_style_result = await db.execute(
+            select(ProjectDefaultStyle.style_id).where(ProjectDefaultStyle.project_id == project_id)
+        )
+        resolved_style_id = default_style_result.scalar_one_or_none()
+        if resolved_style_id:
+            logger.info(f"使用项目默认写作风格: {resolved_style_id}")
+
+    if not resolved_style_id:
+        logger.info("未指定写作风格，使用原始提示词")
+        return ""
+
+    style_result = await db.execute(
+        select(WritingStyle).where(WritingStyle.id == resolved_style_id)
+    )
+    style = style_result.scalar_one_or_none()
+    if not style:
+        logger.warning(f"未找到风格 {resolved_style_id}")
+        return ""
+
+    if style.user_id is not None and style.user_id != user_id:
+        logger.warning(f"风格 {resolved_style_id} 不属于当前用户，无法使用")
+        return ""
+
+    style_type = "全局预设" if style.user_id is None else "用户自定义"
+    logger.info(f"使用写作风格: {style.name} ({style_type})")
+    return style.prompt_content or ""
+
+
+def _extract_inspired_source_excerpts_from_style(style_content: str) -> list[str]:
+    """从同类创作默认风格中提取源书样本，用于生成后防照搬审查。"""
+    content = (style_content or "").strip()
+    if not content:
+        return []
+    if "【源书语气样本】" not in content:
+        return []
+    if "同类型创作" not in content and "同类创作" not in content:
+        return []
+
+    _, section = content.split("【源书语气样本】", 1)
+    next_heading = section.find("【")
+    if next_heading >= 0:
+        section = section[:next_heading]
+
+    excerpts: list[str] = []
+    for raw_line in section.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        if line.startswith("[样本") and line.endswith("]"):
+            continue
+        if len(line) < 16:
+            continue
+        excerpts.append(line[:260])
+        if len(excerpts) >= 6:
+            break
+    return excerpts
+
+
+def _extract_inspired_forbidden_names_from_style(style_content: str) -> list[str]:
+    """从同类创作默认风格中提取源书显性名称，用于生成后禁用名称审查。"""
+    content = (style_content or "").strip()
+    if not content:
+        return []
+    if "【源书显性元素禁用清单】" not in content:
+        return []
+    if "同类型创作" not in content and "同类创作" not in content:
+        return []
+
+    _, section = content.split("【源书显性元素禁用清单】", 1)
+    next_heading = section.find("【")
+    if next_heading >= 0:
+        section = section[:next_heading]
+
+    names: list[str] = []
+    for raw_line in section.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        if "以下名称" in line or "不得原样沿用" in line or "改造参考" in line:
+            continue
+        line = line.lstrip("-•* \t")
+        for part in re.split(r"[,，、;；\s]+", line):
+            name = part.strip(" ：:;；,.，。()（）[]【】《》\"'")
+            if len(name) < 2:
+                continue
+            if name not in names:
+                names.append(name)
+            if len(names) >= 24:
+                return names
+    return names
+
+
 @router.post("/{chapter_id}/generate-stream", summary="AI创作章节内容（流式）")
 async def generate_chapter_content_stream(
     chapter_id: str,
@@ -1351,6 +1700,14 @@ async def generate_chapter_content_stream(
                 raise HTTPException(status_code=404, detail="章节不存在")
             
             # 检查前置条件
+            user_id = getattr(request.state, "user_id", None)
+            project = await verify_project_access(chapter.project_id, user_id, temp_db)
+            await _enforce_remix_continuation_risk_gate(
+                project=project,
+                db=temp_db,
+                force=generate_request.force_high_risk_continuation,
+            )
+
             can_generate, error_msg, previous_chapters = await check_prerequisites(temp_db, chapter)
             if not can_generate:
                 raise HTTPException(status_code=400, detail=error_msg)
@@ -1429,26 +1786,15 @@ async def generate_chapter_content_stream(
                     )
                 outline = outline_result.scalar_one_or_none()
                 
-                # 获取写作风格
-                style_content = ""
-                if style_id:
-                    # 使用指定的风格
-                    style_result = await db_session.execute(
-                        select(WritingStyle).where(WritingStyle.id == style_id)
-                    )
-                    style = style_result.scalar_one_or_none()
-                    if style:
-                        # 验证风格是否可用：全局预设风格（user_id为NULL）或者当前用户的自定义风格
-                        if style.user_id is None or style.user_id == current_user_id:
-                            style_content = style.prompt_content or ""
-                            style_type = "全局预设" if style.user_id is None else "用户自定义"
-                            logger.info(f"使用指定风格: {style.name} ({style_type})")
-                        else:
-                            logger.warning(f"风格 {style_id} 不属于当前项目，无法使用")
-                    else:
-                        logger.warning(f"未找到风格 {style_id}")
-                else:
-                    logger.info("未指定写作风格，使用原始提示词")
+                # 获取写作风格：请求未指定时回退到项目默认续写风格
+                style_content = await _resolve_generation_style_content(
+                    db=db_session,
+                    project_id=current_chapter.project_id,
+                    user_id=current_user_id,
+                    style_id=style_id,
+                )
+                inspired_source_excerpts = _extract_inspired_source_excerpts_from_style(style_content)
+                inspired_forbidden_names = _extract_inspired_forbidden_names_from_style(style_content)
                 
                 # 🚀 根据大纲模式选择独立的上下文构建器
                 if outline_mode == 'one-to-one':
@@ -1504,6 +1850,24 @@ async def generate_chapter_content_stream(
                     logger.info(f"  - 伏笔提醒: {chapter_context.context_stats.get('foreshadow_length', 0)} 字符")
                     logger.info(f"  - 总长度: {chapter_context.context_stats.get('total_length', 0)} 字符")
             
+                source_pattern_pack = await _resolve_generation_source_pattern_pack_for_project(
+                    project=project,
+                    db=db_session,
+                )
+                if source_pattern_pack is None:
+                    source_pattern_pack = await _resolve_generation_source_pattern_pack_for_style(
+                        style_content=style_content,
+                    )
+                remix_continuation_context = await _build_remix_context_for_generation_prompt(
+                    project=project,
+                    db=db_session,
+                    style_content=style_content,
+                    source_pattern_pack=source_pattern_pack,
+                )
+                chapter_outline_for_commit = getattr(chapter_context, "chapter_outline", "") or ""
+                continuation_point_for_commit = getattr(chapter_context, "continuation_point", "") or ""
+                previous_summary_for_commit = getattr(chapter_context, "previous_chapter_summary", "") or ""
+
                 yield await tracker.loading("上下文构建完成", 0.8)
                 
                 # 🎭 确定使用的叙事人称（临时指定 > 项目默认 > 系统默认）
@@ -1534,7 +1898,8 @@ async def generate_chapter_content_stream(
                             characters_info=chapter_context.chapter_characters or '暂无角色信息',
                             chapter_careers=chapter_context.chapter_careers or '暂无职业信息',
                             foreshadow_reminders=chapter_context.foreshadow_reminders or '暂无需要关注的伏笔',
-                            relevant_memories=chapter_context.relevant_memories or '暂无相关记忆'
+                            relevant_memories=chapter_context.relevant_memories or '暂无相关记忆',
+                            remix_continuation_context=remix_continuation_context
                         )
                         logger.debug(f"创建第{current_chapter.chapter_number}章提示词: {base_prompt}")
                     else:
@@ -1552,7 +1917,8 @@ async def generate_chapter_content_stream(
                             characters_info=chapter_context.chapter_characters or '暂无角色信息',
                             chapter_careers=chapter_context.chapter_careers or '暂无职业信息',
                             foreshadow_reminders=chapter_context.foreshadow_reminders or '暂无需要关注的伏笔',
-                            relevant_memories=chapter_context.relevant_memories or '暂无相关记忆'
+                            relevant_memories=chapter_context.relevant_memories or '暂无相关记忆',
+                            remix_continuation_context=remix_continuation_context
                         )
                         logger.debug(f"创建第一章提示词: {base_prompt}")
                 else:
@@ -1565,6 +1931,7 @@ async def generate_chapter_content_stream(
                         previous_summary = "（无上一章摘要，请根据锚点续写）"
                         if chapter_context.previous_chapter_summary:
                             previous_summary = chapter_context.previous_chapter_summary
+                        previous_summary_for_commit = previous_summary
                         
                         template = await PromptService.get_template("CHAPTER_GENERATION_ONE_TO_MANY_NEXT", current_user_id, db_session)
                         base_prompt = PromptService.format_prompt(
@@ -1582,7 +1949,8 @@ async def generate_chapter_content_stream(
                             foreshadow_reminders=chapter_context.foreshadow_reminders or '暂无需要关注的伏笔',
                             previous_chapter_summary=previous_summary,
                             recent_chapters_context=chapter_context.recent_chapters_context or '',
-                            relevant_memories=chapter_context.relevant_memories or ''
+                            relevant_memories=chapter_context.relevant_memories or '',
+                            remix_continuation_context=remix_continuation_context
                         )
                         logger.debug(f"创建第{current_chapter.chapter_number}章提示词: {base_prompt}")
                     else:
@@ -1601,7 +1969,8 @@ async def generate_chapter_content_stream(
                             characters_info=chapter_context.chapter_characters or '暂无角色信息',
                             chapter_careers=chapter_context.chapter_careers or '暂无职业信息',
                             foreshadow_reminders=chapter_context.foreshadow_reminders or '暂无需要关注的伏笔',
-                            relevant_memories=chapter_context.relevant_memories or '暂无相关记忆'
+                            relevant_memories=chapter_context.relevant_memories or '暂无相关记忆',
+                            remix_continuation_context=remix_continuation_context
                         )
                         logger.debug(f"创建第一章提示词: {base_prompt}")
                 
@@ -1616,29 +1985,23 @@ async def generate_chapter_content_stream(
                 
                 logger.info(f"开始AI流式创作章节 {chapter_id}")
                 
-                # 🎨 方案一：将写作风格注入到系统提示词（最高优先级）
-                system_prompt_with_style = None
+                # 🎨 将写作风格注入到系统提示词（最高优先级）
+                system_prompt_with_style = compose_system_prompt(None, style_content)
                 if style_content:
-                    system_prompt_with_style = f"""【🎨 写作风格要求 - 最高优先级】
-
-{style_content}
-
-⚠️ 请严格遵循上述写作风格要求进行创作，这是最重要的指令！
-确保在整个章节创作过程中始终保持风格的一致性。"""
                     logger.info(f"✅ 已将写作风格注入系统提示词（{len(style_content)}字符）")
                 
                 # 🔢 计算 max_tokens 限制
                 # 中文字符约 1.5-2 个 token，使用 2.5 倍系数确保有足够空间完成段落
                 # 同时设置上限防止过长，下限确保基本可用
-                calculated_max_tokens = int(target_word_count * 3)
-                calculated_max_tokens = max(2000, min(calculated_max_tokens, 16000))  # 限制在 2000-16000 之间
+                calculated_max_tokens = _calculate_generation_max_tokens(target_word_count)
                 logger.info(f"📊 目标字数: {target_word_count}, 计算 max_tokens: {calculated_max_tokens}")
                 
                 # 准备生成参数
                 generate_kwargs = {
                     "prompt": prompt,
                     "system_prompt": system_prompt_with_style,
-                    "tool_choice": "required",
+                    "tool_choice": "required" if generate_request.enable_mcp else "none",
+                    "auto_mcp": generate_request.enable_mcp,
                     "max_tokens": calculated_max_tokens  # 添加 max_tokens 限制
                 }
                 if custom_model:
@@ -1659,10 +2022,7 @@ async def generate_chapter_content_stream(
                 async for chunk in user_ai_service.generate_text_stream(**generate_kwargs):
                     full_content += chunk
                     chunk_count += 1
-                    
-                    # 发送内容块
-                    yield await tracker.generating_chunk(chunk)
-                    
+
                     # 每5个chunk发送一次进度更新
                     if chunk_count % 5 == 0:
                         yield await tracker.generating(
@@ -1676,6 +2036,30 @@ async def generate_chapter_content_stream(
                         yield await tracker.heartbeat()
                     
                     await asyncio.sleep(0)  # 让出控制权
+
+                guardrail_meta = await apply_chapter_guardrail_check(
+                    generated_text=full_content,
+                    ai_service=user_ai_service,
+                    chapter_number=current_chapter.chapter_number,
+                    chapter_title=current_chapter.title or "",
+                    chapter_outline=chapter_outline_for_commit,
+                    target_word_count=target_word_count,
+                    previous_chapter_summary=previous_summary_for_commit,
+                    continuation_point=continuation_point_for_commit,
+                    remix_continuation_context=remix_continuation_context,
+                    inspired_source_excerpts=inspired_source_excerpts,
+                    forbidden_characters=inspired_forbidden_names,
+                    source_pattern_pack=source_pattern_pack,
+                )
+                if isinstance(guardrail_meta, dict):
+                    guarded_content = guardrail_meta.get("content")
+                    if isinstance(guarded_content, str) and guarded_content.strip():
+                        full_content = guarded_content
+
+                # 护栏可能会改写最终正文。这里在护栏完成后再发送正文块，
+                # 避免前端先收到被判定违规的原始生成内容。
+                if full_content:
+                    yield await tracker.generating_chunk(full_content)
                 
                 # === 保存阶段 ===
                 yield await tracker.saving("正在保存章节...", 0.3)
@@ -1719,6 +2103,31 @@ async def generate_chapter_content_stream(
                         logger.info(f"🔮 自动标记伏笔已埋入: {plant_result['planted_count']}个")
                 except Exception as plant_error:
                     logger.warning(f"⚠️ 自动标记伏笔埋入失败: {str(plant_error)}")
+
+                try:
+                    await book_remix_continuation_state_service.commit_generated_chapter(
+                        db=db_session,
+                        project_id=project.id,
+                        chapter_id=chapter_id,
+                        chapter_number=current_chapter.chapter_number,
+                        chapter_title=current_chapter.title or "",
+                        chapter_content=full_content,
+                        chapter_outline=chapter_outline_for_commit,
+                        previous_chapter_summary=previous_summary_for_commit,
+                        continuation_point=continuation_point_for_commit,
+                        guardrail_meta=guardrail_meta,
+                    )
+                except Exception as remix_commit_error:
+                    logger.error(
+                        "Remix generated chapter state sync failed: %s",
+                        remix_commit_error,
+                        exc_info=True,
+                    )
+                    try:
+                        if db_session.in_transaction():
+                            await db_session.rollback()
+                    except Exception as rollback_error:
+                        logger.error("Remix state sync rollback failed: %s", rollback_error)
                 
                 # 创建分析任务
                 analysis_task = AnalysisTask(
@@ -1756,7 +2165,8 @@ async def generate_chapter_content_stream(
                 # 发送结果数据
                 yield await tracker.result({
                     'word_count': new_word_count,
-                    'analysis_task_id': task_id
+                    'analysis_task_id': task_id,
+                    'final_content': full_content,
                 })
                 
                 # 发送分析开始事件（使用自定义事件）
@@ -2490,6 +2900,38 @@ async def batch_generate_chapters_in_order(
     project = await verify_project_access(project_id, user_id, db)
     
     # 获取项目的所有章节，按序号排序
+    await _enforce_remix_continuation_risk_gate(
+        project=project,
+        db=db,
+        force=batch_request.force_high_risk_continuation,
+    )
+
+    has_durable_remix_lineage = False
+    try:
+        has_durable_remix_lineage = await book_remix_context_service.has_project_durable_remix_lineage(
+            project=project,
+            db=db,
+        )
+    except Exception as remix_lineage_error:
+        logger.warning(
+            "Batch generation remix lineage detection failed, fallback to ordinary generation: %s",
+            remix_lineage_error,
+        )
+
+    if _should_apply_batch_remix_style_augmentation(
+        has_durable_remix_lineage=has_durable_remix_lineage,
+    ):
+        try:
+            refreshed_style_id = await book_remix_service.prepare_project_continuation_style(
+                project=project,
+                user_id=user_id,
+                db=db,
+            )
+            if refreshed_style_id and batch_request.style_id is None:
+                batch_request.style_id = refreshed_style_id
+        except Exception as style_error:
+            logger.warning("批量续写前自动提炼拆书续写风格失败，将继续使用现有风格: %s", style_error)
+
     result = await db.execute(
         select(Chapter)
         .where(Chapter.project_id == project_id)
@@ -2529,6 +2971,10 @@ async def batch_generate_chapters_in_order(
         style_id=batch_request.style_id,
         target_word_count=batch_request.target_word_count,
         enable_analysis=batch_request.enable_analysis,
+        enable_workflow=batch_request.enable_workflow,
+        workflow_auto_regenerate=batch_request.workflow_auto_regenerate,
+        workflow_max_rounds=batch_request.workflow_max_rounds,
+        workflow_min_score=batch_request.workflow_min_score,
         max_retries=batch_request.max_retries,
         status='pending',
         total_chapters=len(chapters_to_generate),
@@ -2557,7 +3003,8 @@ async def batch_generate_chapters_in_order(
         batch_id=batch_id,
         user_id=user_id,
         ai_service=user_ai_service,
-        custom_model=batch_request.model
+        custom_model=batch_request.model,
+        enable_mcp=batch_request.enable_mcp
     )
     
     return BatchGenerateResponse(
@@ -2685,7 +3132,8 @@ async def execute_batch_generation_in_order(
     batch_id: str,
     user_id: str,
     ai_service: AIService,
-    custom_model: Optional[str] = None
+    custom_model: Optional[str] = None,
+    enable_mcp: bool = True
 ):
     """
     按顺序执行批量生成任务（后台任务）
@@ -2729,6 +3177,23 @@ async def execute_batch_generation_in_order(
         
         # 维护上一章的摘要，用于传递给下一章（防重复上下文）
         last_generated_summary = None
+        source_pattern_pack: Optional[dict[str, Any]] = None
+        try:
+            if task.project_id:
+                project_result = await db_session.execute(
+                    select(Project).where(Project.id == task.project_id)
+                )
+                project_for_source_pack = project_result.scalar_one_or_none()
+                if project_for_source_pack:
+                    source_pattern_pack = await _resolve_generation_source_pattern_pack_for_project(
+                        project=project_for_source_pack,
+                        db=db_session,
+                    )
+        except Exception as source_pack_error:
+            logger.warning(
+                "Batch source pattern pack resolution skipped: %s",
+                source_pack_error,
+            )
 
         # 按顺序生成每个章节
         for idx, chapter_id in enumerate(task.chapter_ids, 1):
@@ -2788,7 +3253,9 @@ async def execute_batch_generation_in_order(
                         ai_service=ai_service,
                         write_lock=write_lock,
                         custom_model=custom_model,
-                        previous_summary_context=last_generated_summary
+                        previous_summary_context=last_generated_summary,
+                        enable_mcp=enable_mcp,
+                        source_pattern_pack=source_pattern_pack,
                     )
                     
                     # 更新上一章摘要，供下一章使用
@@ -2839,6 +3306,53 @@ async def execute_batch_generation_in_order(
                                     logger.error(f"❌ 章节分析失败: 第{chapter.chapter_number}章")
                                     raise Exception(f"章节分析失败")
                                 
+                                if task.enable_workflow:
+                                    latest_analysis_result = await db_session.execute(
+                                        select(PlotAnalysis)
+                                        .where(PlotAnalysis.chapter_id == chapter_id)
+                                        .order_by(PlotAnalysis.created_at.desc())
+                                        .limit(1)
+                                    )
+                                    latest_analysis = latest_analysis_result.scalar_one_or_none()
+                                    workflow_service = NovelWorkflowService(ai_service)
+                                    workflow_result = await workflow_service.run_chapter_workflow(
+                                        db=db_session,
+                                        chapter=chapter,
+                                        user_id=user_id,
+                                        analysis=latest_analysis,
+                                        workflow_task_id=None,
+                                        source="batch_generate",
+                                        auto_regenerate=bool(task.workflow_auto_regenerate),
+                                        max_rounds=int(task.workflow_max_rounds or 0),
+                                        min_score=float(task.workflow_min_score or 7.8),
+                                        style_id=task.style_id,
+                                    )
+
+                                    if _workflow_requires_reanalysis(workflow_result):
+                                        async with write_lock:
+                                            reanalysis_task = AnalysisTask(
+                                                chapter_id=chapter_id,
+                                                user_id=user_id,
+                                                project_id=task.project_id,
+                                                status='pending',
+                                                progress=0
+                                            )
+                                            db_session.add(reanalysis_task)
+                                            await db_session.commit()
+                                            await db_session.refresh(reanalysis_task)
+
+                                        reanalysis_result = await analyze_chapter_background(
+                                            chapter_id=chapter_id,
+                                            user_id=user_id,
+                                            project_id=task.project_id,
+                                            task_id=reanalysis_task.id,
+                                            ai_service=ai_service
+                                        )
+                                        if not reanalysis_result:
+                                            last_analysis_error = "重写后重新分析失败"
+                                            logger.error(f"重写后重新分析失败：第{chapter.chapter_number}章")
+                                            raise Exception("重写后重新分析失败")
+
                                 # 分析成功
                                 analysis_success = True
                                 logger.info(f"✅ 章节分析成功: 第{chapter.chapter_number}章")
@@ -2971,7 +3485,9 @@ async def generate_single_chapter_for_batch(
     ai_service: AIService,
     write_lock: Lock,
     custom_model: Optional[str] = None,
-    previous_summary_context: Optional[str] = None
+    previous_summary_context: Optional[str] = None,
+    enable_mcp: bool = True,
+    source_pattern_pack: Optional[dict[str, Any]] = None,
 ) -> Optional[str]:
     """
     为批量生成执行单个章节的生成（非流式）
@@ -2991,6 +3507,10 @@ async def generate_single_chapter_for_batch(
     # 获取项目的大纲模式
     outline_mode = project.outline_mode if project else 'one-to-many'
     logger.info(f"📋 批量生成 - 项目大纲模式: {outline_mode}")
+    chapter_id_value = chapter.id
+    chapter_project_id = chapter.project_id
+    chapter_number_value = chapter.chapter_number
+    chapter_title_value = chapter.title or ""
     
     # 获取对应的大纲（优先使用 chapter.outline_id 直接关联）
     if chapter.outline_id:
@@ -3006,16 +3526,15 @@ async def generate_single_chapter_for_batch(
         )
     outline = outline_result.scalar_one_or_none()
     
-    # 获取写作风格
-    style_content = ""
-    if style_id:
-        style_result = await db_session.execute(
-            select(WritingStyle).where(WritingStyle.id == style_id)
-        )
-        style = style_result.scalar_one_or_none()
-        if style:
-            if style.user_id is None or style.user_id == user_id:
-                style_content = style.prompt_content or ""
+    # 获取写作风格：请求未指定时回退到项目默认续写风格
+    style_content = await _resolve_generation_style_content(
+        db=db_session,
+        project_id=chapter.project_id,
+        user_id=user_id,
+        style_id=style_id,
+    )
+    inspired_source_excerpts = _extract_inspired_source_excerpts_from_style(style_content)
+    inspired_forbidden_names = _extract_inspired_forbidden_names_from_style(style_content)
     
     # 🚀 根据大纲模式选择独立的上下文构建器（批量生成）
     if outline_mode == 'one-to-one':
@@ -3050,6 +3569,29 @@ async def generate_single_chapter_for_batch(
             target_word_count=target_word_count
         )
     
+    if source_pattern_pack is None:
+        source_pattern_pack = await _resolve_generation_source_pattern_pack_for_project(
+            project=project,
+            db=db_session,
+        )
+    if source_pattern_pack is None:
+        source_pattern_pack = await _resolve_generation_source_pattern_pack_for_style(
+            style_content=style_content,
+        )
+    remix_continuation_context = await _build_remix_context_for_generation_prompt(
+        project=project,
+        db=db_session,
+        style_content=style_content,
+        source_pattern_pack=source_pattern_pack,
+    )
+    chapter_outline_for_commit = getattr(chapter_context, "chapter_outline", "") or ""
+    continuation_point_for_commit = getattr(chapter_context, "continuation_point", "") or ""
+    previous_summary_for_commit = (
+        getattr(chapter_context, "previous_chapter_summary", "")
+        or previous_summary_context
+        or ""
+    )
+
     # 日志输出统计信息
     logger.info(f"📊 批量生成 - 优化上下文统计:")
     logger.info(f"  - 章节序号: {chapter.chapter_number}")
@@ -3078,7 +3620,8 @@ async def generate_single_chapter_for_batch(
                 chapter_careers=chapter_context.chapter_careers or '暂无职业信息',
                 foreshadow_reminders=chapter_context.foreshadow_reminders or '暂无需要关注的伏笔',
                 relevant_memories=chapter_context.relevant_memories or '暂无相关记忆',
-                previous_chapter_summary=chapter_context.previous_chapter_summary or ''
+                previous_chapter_summary=chapter_context.previous_chapter_summary or '',
+                remix_continuation_context=remix_continuation_context
             )
         else:
             # 第一章
@@ -3095,7 +3638,8 @@ async def generate_single_chapter_for_batch(
                 characters_info=chapter_context.chapter_characters or '暂无角色信息',
                 chapter_careers=chapter_context.chapter_careers or '暂无职业信息',
                 foreshadow_reminders=chapter_context.foreshadow_reminders or '暂无需要关注的伏笔',
-                relevant_memories=chapter_context.relevant_memories or '暂无相关记忆'
+                relevant_memories=chapter_context.relevant_memories or '暂无相关记忆',
+                remix_continuation_context=remix_continuation_context
             )
     else:
         # 1-n模式：使用 context_builder 构建的结果，与单章生成保持一致
@@ -3109,6 +3653,7 @@ async def generate_single_chapter_for_batch(
             elif previous_summary_context:
                 final_prev_summary = previous_summary_context
                     
+            previous_summary_for_commit = final_prev_summary
             template = await PromptService.get_template("CHAPTER_GENERATION_ONE_TO_MANY_NEXT", user_id, db_session)
             base_prompt = PromptService.format_prompt(
                 template,
@@ -3125,7 +3670,8 @@ async def generate_single_chapter_for_batch(
                 foreshadow_reminders=chapter_context.foreshadow_reminders or '暂无需要关注的伏笔',
                 previous_chapter_summary=final_prev_summary,
                 recent_chapters_context=chapter_context.recent_chapters_context or '',
-                relevant_memories=chapter_context.relevant_memories or ''
+                relevant_memories=chapter_context.relevant_memories or '',
+                remix_continuation_context=remix_continuation_context
             )
         else:
             # 第一章，使用无前置内容模板
@@ -3142,7 +3688,8 @@ async def generate_single_chapter_for_batch(
                 characters_info=chapter_context.chapter_characters or '暂无角色信息',
                 chapter_careers=chapter_context.chapter_careers or '暂无职业信息',
                 foreshadow_reminders=chapter_context.foreshadow_reminders or '暂无需要关注的伏笔',
-                relevant_memories=chapter_context.relevant_memories or '暂无相关记忆'
+                relevant_memories=chapter_context.relevant_memories or '暂无相关记忆',
+                remix_continuation_context=remix_continuation_context
             )
     
     # 应用写作风格
@@ -3151,22 +3698,15 @@ async def generate_single_chapter_for_batch(
     else:
         prompt = base_prompt
     
-    # 🎨 方案一：将写作风格注入到系统提示词（批量生成）
-    system_prompt_with_style = None
+    # 🎨 将写作风格注入到系统提示词（批量生成）
+    system_prompt_with_style = compose_system_prompt(None, style_content)
     if style_content:
-        system_prompt_with_style = f"""【🎨 写作风格要求 - 最高优先级】
-
-{style_content}
-
-⚠️ 请严格遵循上述写作风格要求进行创作，这是最重要的指令！
-确保在整个章节创作过程中始终保持风格的一致性。"""
         logger.info(f"✅ 批量生成 - 已将写作风格注入系统提示词（{len(style_content)}字符）")
     
     # 🔢 计算 max_tokens 限制（批量生成）
     # 中文字符约 1.5-2 个 token，使用 2.5 倍系数确保有足够空间完成段落
     # 同时设置上限防止过长，下限确保基本可用
-    calculated_max_tokens = int(target_word_count * 3)
-    calculated_max_tokens = max(2000, min(calculated_max_tokens, 16000))  # 限制在 2000-16000 之间
+    calculated_max_tokens = _calculate_generation_max_tokens(target_word_count)
     logger.info(f"📊 批量生成 - 目标字数: {target_word_count}, 计算 max_tokens: {calculated_max_tokens}")
     
     # 非流式生成内容
@@ -3175,7 +3715,8 @@ async def generate_single_chapter_for_batch(
     generate_kwargs = {
         "prompt": prompt,
         "system_prompt": system_prompt_with_style,
-        "tool_choice": "required",
+        "tool_choice": "required" if enable_mcp else "none",
+        "auto_mcp": enable_mcp,
         "max_tokens": calculated_max_tokens  # 添加 max_tokens 限制
     }
     # 如果传入了自定义模型，使用指定的模型
@@ -3186,6 +3727,25 @@ async def generate_single_chapter_for_batch(
     # 批量生成中的流式生成（非SSE，不需要修改进度显示）
     async for chunk in ai_service.generate_text_stream(**generate_kwargs):
         full_content += chunk
+
+    guardrail_meta = await apply_chapter_guardrail_check(
+        generated_text=full_content,
+        ai_service=ai_service,
+        chapter_number=chapter_number_value,
+        chapter_title=chapter_title_value,
+        chapter_outline=chapter_outline_for_commit,
+        target_word_count=target_word_count,
+        previous_chapter_summary=previous_summary_for_commit,
+        continuation_point=continuation_point_for_commit,
+        remix_continuation_context=remix_continuation_context,
+        inspired_source_excerpts=inspired_source_excerpts,
+        forbidden_characters=inspired_forbidden_names,
+        source_pattern_pack=source_pattern_pack,
+    )
+    if isinstance(guardrail_meta, dict):
+        guarded_content = guardrail_meta.get("content")
+        if isinstance(guarded_content, str) and guarded_content.strip():
+            full_content = guarded_content
     
     # 更新章节内容到数据库（使用锁保护）
     async with write_lock:
@@ -3231,6 +3791,23 @@ async def generate_single_chapter_for_batch(
     except Exception as plant_error:
         logger.warning(f"⚠️ 批量生成 - 自动标记伏笔埋入失败: {str(plant_error)}")
         
+    try:
+        async with write_lock:
+            await book_remix_continuation_state_service.commit_generated_chapter(
+                db=db_session,
+                project_id=chapter_project_id,
+                chapter_id=chapter_id_value,
+                chapter_number=chapter_number_value,
+                chapter_title=chapter_title_value,
+                chapter_content=full_content,
+                chapter_outline=chapter_outline_for_commit,
+                previous_chapter_summary=previous_summary_for_commit,
+                continuation_point=continuation_point_for_commit,
+                guardrail_meta=guardrail_meta,
+            )
+    except Exception as remix_commit_error:
+        logger.error("Remix generated chapter state sync failed: %s", remix_commit_error, exc_info=True)
+
     return summary_preview
 
 

@@ -15,10 +15,58 @@ from app.config import settings
 
 # 中国时区 UTC+8
 CHINA_TZ = timezone(timedelta(hours=8))
+PERMANENT_SESSION_MAX_AGE = 10 * 365 * 24 * 60 * 60  # 10年
 
 def get_china_now():
     """获取中国当前时间"""
     return datetime.now(CHINA_TZ)
+
+
+def is_permanent_session_enabled() -> bool:
+    """SESSION_EXPIRE_MINUTES <= 0 时表示仅手动退出才失效"""
+    return settings.SESSION_EXPIRE_MINUTES <= 0
+
+
+def get_session_cookie_max_age() -> int:
+    """获取登录 Cookie 的持久化时长（秒）"""
+    if is_permanent_session_enabled():
+        return PERMANENT_SESSION_MAX_AGE
+    return settings.SESSION_EXPIRE_MINUTES * 60
+
+
+def get_session_expire_at() -> Optional[int]:
+    """获取会话过期时间戳，长期会话返回 None"""
+    if is_permanent_session_enabled():
+        return None
+
+    expire_time = get_china_now() + timedelta(minutes=settings.SESSION_EXPIRE_MINUTES)
+    return int(expire_time.timestamp())
+
+
+def apply_session_cookies(response: Response, user_id: str) -> Optional[int]:
+    """统一设置登录态 Cookie"""
+    max_age = get_session_cookie_max_age()
+    response.set_cookie(
+        key="user_id",
+        value=user_id,
+        max_age=max_age,
+        httponly=True,
+        samesite="lax"
+    )
+
+    expire_at = get_session_expire_at()
+    if expire_at is None:
+        response.delete_cookie("session_expire_at")
+    else:
+        response.set_cookie(
+            key="session_expire_at",
+            value=str(expire_at),
+            max_age=max_age,
+            httponly=False,  # 前端需要读取
+            samesite="lax"
+        )
+
+    return expire_at
 
 logger = get_logger(__name__)
 
@@ -153,30 +201,11 @@ async def local_login(request: LocalLoginRequest, response: Response):
     
     # Settings 将在首次访问设置页面时自动创建（延迟初始化）
     
-    # 设置 Cookie（2小时有效）
-    max_age = settings.SESSION_EXPIRE_MINUTES * 60
-    response.set_cookie(
-        key="user_id",
-        value=user.user_id,
-        max_age=max_age,
-        httponly=True,
-        samesite="lax"
-    )
-    
-    # 设置过期时间戳 Cookie（用于前端判断）
-    china_now = get_china_now()
-    expire_time = china_now + timedelta(minutes=settings.SESSION_EXPIRE_MINUTES)
-    expire_at = int(expire_time.timestamp())
-    
-    logger.info(f"✅ [登录] 用户 {user.user_id} 登录成功，会话有效期 {settings.SESSION_EXPIRE_MINUTES} 分钟")
-    
-    response.set_cookie(
-        key="session_expire_at",
-        value=str(expire_at),
-        max_age=max_age,
-        httponly=False,  # 前端需要读取
-        samesite="lax"
-    )
+    expire_at = apply_session_cookies(response, user.user_id)
+    if expire_at is None:
+        logger.info(f"✅ [登录] 用户 {user.user_id} 登录成功，会话已设置为长期有效")
+    else:
+        logger.info(f"✅ [登录] 用户 {user.user_id} 登录成功，会话有效期 {settings.SESSION_EXPIRE_MINUTES} 分钟")
     
     return LocalLoginResponse(
         success=True,
@@ -264,30 +293,11 @@ async def _handle_callback(
     logger.info(f"OAuth回调成功，重定向到前端: {redirect_url}")
     redirect_response = RedirectResponse(url=redirect_url)
     
-    # 设置 httponly Cookie（2小时有效）
-    max_age = settings.SESSION_EXPIRE_MINUTES * 60
-    redirect_response.set_cookie(
-        key="user_id",
-        value=user.user_id,
-        max_age=max_age,
-        httponly=True,
-        samesite="lax"
-    )
-    
-    # 设置过期时间戳 Cookie（用于前端判断）
-    china_now = get_china_now()
-    expire_time = china_now + timedelta(minutes=settings.SESSION_EXPIRE_MINUTES)
-    expire_at = int(expire_time.timestamp())
-    
-    logger.info(f"✅ [OAuth登录] 用户 {user.user_id} 登录成功，会话有效期 {settings.SESSION_EXPIRE_MINUTES} 分钟")
-    
-    redirect_response.set_cookie(
-        key="session_expire_at",
-        value=str(expire_at),
-        max_age=max_age,
-        httponly=False,  # 前端需要读取
-        samesite="lax"
-    )
+    expire_at = apply_session_cookies(redirect_response, user.user_id)
+    if expire_at is None:
+        logger.info(f"✅ [OAuth登录] 用户 {user.user_id} 登录成功，会话已设置为长期有效")
+    else:
+        logger.info(f"✅ [OAuth登录] 用户 {user.user_id} 登录成功，会话有效期 {settings.SESSION_EXPIRE_MINUTES} 分钟")
     
     # 如果是首次登录，设置标记 Cookie（5分钟有效，仅用于前端显示初始密码提示）
     if is_first_login:
@@ -333,6 +343,16 @@ async def refresh_session(request: Request, response: Response):
         raise HTTPException(status_code=401, detail="未登录，无法刷新会话")
     
     user = request.state.user
+
+    if is_permanent_session_enabled():
+        apply_session_cookies(response, user.user_id)
+        logger.info(f"[刷新会话] 用户 {user.user_id} 当前为长期会话，无需自动续期")
+        return {
+            "message": "当前登录已设置为长期有效",
+            "expire_at": None,
+            "remaining_minutes": None,
+            "permanent": True
+        }
     
     # 检查当前会话是否即将过期（剩余时间少于阈值）
     session_expire_at = request.cookies.get("session_expire_at")
@@ -348,25 +368,17 @@ async def refresh_session(request: Request, response: Response):
                 return {
                     "message": "会话仍然有效，无需刷新",
                     "remaining_minutes": int(remaining_minutes),
-                    "expire_at": expire_timestamp
+                    "expire_at": expire_timestamp,
+                    "permanent": False
                 }
         except (ValueError, TypeError):
             pass  # Cookie 格式错误，继续刷新
     
     # 刷新 Cookie
-    max_age = settings.SESSION_EXPIRE_MINUTES * 60
-    response.set_cookie(
-        key="user_id",
-        value=user.user_id,
-        max_age=max_age,
-        httponly=True,
-        samesite="lax"
-    )
-    
-    # 更新过期时间戳
+    expire_at = apply_session_cookies(response, user.user_id)
     china_now = get_china_now()
     expire_time = china_now + timedelta(minutes=settings.SESSION_EXPIRE_MINUTES)
-    expire_at = int(expire_time.timestamp())
+    max_age = get_session_cookie_max_age()
     
     logger.info(f"[刷新会话] 用户: {user.user_id}")
     logger.info(f"[刷新会话] 中国当前时间: {china_now.strftime('%Y-%m-%d %H:%M:%S')} (UTC+8)")
@@ -374,19 +386,12 @@ async def refresh_session(request: Request, response: Response):
     logger.info(f"[刷新会话] 过期时间戳 (秒): {expire_at}")
     logger.info(f"[刷新会话] Cookie max_age (秒): {max_age}")
     
-    response.set_cookie(
-        key="session_expire_at",
-        value=str(expire_at),
-        max_age=max_age,
-        httponly=False,
-        samesite="lax"
-    )
-    
     logger.info(f"用户 {user.user_id} 刷新会话成功")
     return {
         "message": "会话刷新成功",
         "expire_at": expire_at,
-        "remaining_minutes": settings.SESSION_EXPIRE_MINUTES
+        "remaining_minutes": settings.SESSION_EXPIRE_MINUTES,
+        "permanent": False
     }
 
 
@@ -526,30 +531,11 @@ async def bind_account_login(request: LocalLoginRequest, response: Response):
     
     # Settings 将在首次访问设置页面时自动创建（延迟初始化）
     
-    # 设置 Cookie（2小时有效）
-    max_age = settings.SESSION_EXPIRE_MINUTES * 60
-    response.set_cookie(
-        key="user_id",
-        value=target_user.user_id,
-        max_age=max_age,
-        httponly=True,
-        samesite="lax"
-    )
-    
-    # 设置过期时间戳 Cookie（用于前端判断）
-    china_now = get_china_now()
-    expire_time = china_now + timedelta(minutes=settings.SESSION_EXPIRE_MINUTES)
-    expire_at = int(expire_time.timestamp())
-    
-    logger.info(f"✅ [绑定账号登录] 用户 {target_user.user_id} ({request.username}) 登录成功，会话有效期 {settings.SESSION_EXPIRE_MINUTES} 分钟")
-    
-    response.set_cookie(
-        key="session_expire_at",
-        value=str(expire_at),
-        max_age=max_age,
-        httponly=False,  # 前端需要读取
-        samesite="lax"
-    )
+    expire_at = apply_session_cookies(response, target_user.user_id)
+    if expire_at is None:
+        logger.info(f"✅ [绑定账号登录] 用户 {target_user.user_id} ({request.username}) 登录成功，会话已设置为长期有效")
+    else:
+        logger.info(f"✅ [绑定账号登录] 用户 {target_user.user_id} ({request.username}) 登录成功，会话有效期 {settings.SESSION_EXPIRE_MINUTES} 分钟")
     
     return LocalLoginResponse(
         success=True,

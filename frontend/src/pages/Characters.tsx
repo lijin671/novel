@@ -6,6 +6,7 @@ import { useCharacterSync } from '../store/hooks';
 import { characterGridConfig } from '../components/CardStyles';
 import { CharacterCard } from '../components/CharacterCard';
 import { SSELoadingOverlay } from '../components/SSELoadingOverlay';
+import { getApiErrorDetailMessage } from '../types';
 import type { Character, ApiError } from '../types';
 import { characterApi } from '../services/api';
 import { SSEPostClient } from '../utils/sseClient';
@@ -151,7 +152,13 @@ export default function Characters() {
     }
   };
 
-  const handleGenerate = async (values: { name?: string; role_type: string; background?: string }) => {
+  const handleGenerate = async (values: {
+    name?: string;
+    role_type: string;
+    background?: string;
+    requirements?: string;
+    enable_mcp?: boolean;
+  }) => {
     try {
       setIsGenerating(true);
       setProgress(0);
@@ -164,6 +171,8 @@ export default function Characters() {
           name: values.name,
           role_type: values.role_type,
           background: values.background,
+          requirements: values.requirements,
+          enable_mcp: values.enable_mcp ?? true,
         },
         {
           onProgress: (msg, prog) => {
@@ -204,6 +213,7 @@ export default function Characters() {
     organization_type?: string;
     background?: string;
     requirements?: string;
+    enable_mcp?: boolean;
   }) => {
     try {
       setIsGenerating(true);
@@ -218,6 +228,7 @@ export default function Characters() {
           organization_type: values.organization_type,
           background: values.background,
           requirements: values.requirements,
+          enable_mcp: values.enable_mcp ?? true,
         },
         {
           onProgress: (msg, prog) => {
@@ -505,14 +516,14 @@ export default function Characters() {
             }
           } catch (error: unknown) {
             const apiError = error as ApiError;
-            message.error(apiError.response?.data?.detail || '导入失败');
+            message.error(getApiErrorDetailMessage(apiError.response?.data?.detail, '导入失败'));
             console.error('导入错误:', error);
           }
         },
       });
     } catch (error: unknown) {
       const apiError = error as ApiError;
-      message.error(apiError.response?.data?.detail || '文件验证失败');
+      message.error(getApiErrorDetailMessage(apiError.response?.data?.detail, '文件验证失败'));
       console.error('验证错误:', error);
     }
   };
@@ -534,6 +545,11 @@ export default function Characters() {
   };
 
   const showGenerateModal = () => {
+    generateForm.resetFields();
+    generateForm.setFieldsValue({
+      role_type: 'supporting',
+      enable_mcp: true,
+    });
     modal.confirm({
       title: 'AI生成角色',
       width: 600,
@@ -558,8 +574,17 @@ export default function Characters() {
             </Select>
           </Form.Item>
           <Form.Item label="背景设定" name="background">
-            <TextArea rows={3} placeholder="简要描述角色背景和故事环境..." />
+            <TextArea rows={3} placeholder="如：现实世界女团偶像，要求按公开资料和现实时间线补全设定..." />
           </Form.Item>
+          <Form.Item label="其他要求" name="requirements">
+            <TextArea rows={2} placeholder="如：补全 IZ*ONE 全员活动期、所属公司与毕业后动向；不要编造未证实信息。" />
+          </Form.Item>
+          <Form.Item name="enable_mcp" valuePropName="checked" style={{ marginBottom: 8 }}>
+            <Checkbox>启用 MCP 联网检索（现实女团、成员名单、出道/退团/解散时间线建议开启）</Checkbox>
+          </Form.Item>
+          <div style={{ marginTop: -4, color: '#8c8c8c', fontSize: 12, lineHeight: 1.6 }}>
+            示例：按现实时间线补全 IZ*ONE、TWICE、(G)I-DLE、ITZY、NMIXX 等组合成员与组织关系。
+          </div>
         </Form>
       ),
       okText: '生成',
@@ -572,6 +597,10 @@ export default function Characters() {
   };
 
   const showGenerateOrgModal = () => {
+    generateOrgForm.resetFields();
+    generateOrgForm.setFieldsValue({
+      enable_mcp: true,
+    });
     modal.confirm({
       title: 'AI生成组织',
       width: 600,
@@ -591,11 +620,17 @@ export default function Characters() {
             <Input placeholder="如：门派、帮派、公司、学院（可选，AI会根据世界观生成）" />
           </Form.Item>
           <Form.Item label="背景设定" name="background">
-            <TextArea rows={3} placeholder="简要描述组织的背景和环境..." />
+            <TextArea rows={3} placeholder="如：现实世界韩国女团，要求按公开资料补全成员、公司与活动时间线..." />
           </Form.Item>
           <Form.Item label="其他要求" name="requirements">
-            <TextArea rows={2} placeholder="其他特殊要求..." />
+            <TextArea rows={2} placeholder="如：按现实时间线补全成员名单、出道日期、活动期、退团/毕业/解散节点。" />
           </Form.Item>
+          <Form.Item name="enable_mcp" valuePropName="checked" style={{ marginBottom: 8 }}>
+            <Checkbox>启用 MCP 联网检索（现实组合、成员补全、组织架构建议开启）</Checkbox>
+          </Form.Item>
+          <div style={{ marginTop: -4, color: '#8c8c8c', fontSize: 12, lineHeight: 1.6 }}>
+            如果你在做真实女团设定，建议保持开启，这样模型会优先查公开资料而不是凭常识脑补。
+          </div>
         </Form>
       ),
       okText: '生成',

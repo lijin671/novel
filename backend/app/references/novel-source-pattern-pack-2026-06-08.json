@@ -1,0 +1,671 @@
+{
+  "bible_enrichment_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "style_signature",
+    "hard_constraints",
+    "organizations",
+    "conflicts",
+    "story_arcs",
+    "foreshadows",
+    "chapter_change_packages"
+  ],
+  "chapter_change_package_hints": [
+    "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
+    "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
+    "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "continuation_prompt_hints": [
+    "续写前先读取圣经草稿中的世界观、时间线、人物卡、组织关系、冲突与伏笔。",
+    "下一章必须承接原书尾章的状态变化，不重置人物关系、情感线和因果线。",
+    "把情感线当作连续状态处理：记录本章前后关系压力、误会、信任和欲望变化。",
+    "组织和势力关系要进入续写约束，避免角色突然脱离已有阵营逻辑。",
+    "每章生成后输出本章变化包，供下一章读取。"
+  ],
+  "continuation_state_hints": [
+    "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
+    "Read recent chapter_change_packages before choosing the next continuation start, conflict, and causal bridge.",
+    "Treat emotional arc as inherited state, not as one-off plot decoration.",
+    "Write back the state snapshot, chapter change package, and unresolved hooks after every continuation pass."
+  ],
+  "generated_at": "2026-06-08T17:20:00+08:00",
+  "inspired_copy_risk_hints": [
+    "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
+    "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
+    "Review each generated chapter for source-copy risk before accepting it."
+  ],
+  "inspired_mapping_targets": [
+    "character_remap",
+    "organization_remap",
+    "world_rule_remap",
+    "plot_thread_remap",
+    "relationship_graph_remap",
+    "style_signature",
+    "emotional_arc"
+  ],
+  "inspired_prompt_hints": [
+    "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
+    "Generate an independent new story with new names, organizations, event chain, core conflict, and world rules.",
+    "Carry the style signature into drafting and review, but do not preserve source facts as canon.",
+    "Draft from a fresh outline/beat sheet; do not reuse the source chapter order as the new chapter order."
+  ],
+  "inspired_transformation_hints": [
+    "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
+    "Replace source organizations, abilities, locations, and plot triggers with transformed equivalents.",
+    "Transform the world rules first, then derive new plot constraints from the transformed world.",
+    "Preserve the emotional function of a relationship beat while changing who causes it and why."
+  ],
+  "safety_constraints": [
+    "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
+    "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
+    "只采集公开元数据和公开摘要；不克隆、不安装、不执行外部项目。",
+    "GitHub 与论坛候选默认按 pattern-only 沉淀，后续吸收必须单独做许可证、安装面和安全边界复核。",
+    "Linux.do 仅使用公开 RSS/页面可访问摘要；不绕过登录、403、429、WAF 或 CAPTCHA。"
+  ],
+  "self_review_gate_hints": [
+    "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
+    "Every revision must explain which canon risk was fixed and which story state was preserved.",
+    "The loop may repeat many times, but it must still stop when the checks stop finding new problems."
+  ],
+  "self_review_policy_hints": [
+    "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
+    "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
+    "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
+  ],
+  "source_candidate_count": 7,
+  "source_titles": [
+    "KazKozDev/NovelGenerator",
+    "voocel/ainovel-cli",
+    "NousResearch/autonovel",
+    "YuanShiJiLoong/author",
+    "raestrada/storycraftr",
+    "brandburner/fabula",
+    "leenbj/novel-creator-skill"
+  ],
+  "style_fidelity_hints": [
+    "Preserve the original voice, cadence, and narrative temperature; style preservation is a hard constraint, not a loose suggestion.",
+    "Keep the source book's flavor by matching sentence rhythm, POV behavior, scene density, and emotional pressure.",
+    "Use the style signature as a guardrail that constrains the rewrite, not as a generic inspiration note."
+  ],
+  "style_signature_hints": [
+    "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
+    "续写要保留原书味道，但只吸收写法模式，不复制外部项目代码或长文本。",
+    "把风格签名作为硬约束写入续写提示词，而不是只写成泛化风格建议。"
+  ],
+  "whole_book_analysis_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "organizations",
+    "conflicts",
+    "story_arcs",
+    "foreshadows",
+    "style_signature",
+    "chapter_change_packages",
+    "emotional_arc",
+    "emotion_curve",
+    "source_state_snapshot"
+  ],
+  "workflow_patterns": [
+    {
+      "candidate_count": 1,
+      "name": "continuation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "book_decomposition",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "chapter_generation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion"
+      ]
+    },
+    {
+      "candidate_count": 4,
+      "name": "worldbuilding",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 66,
+          "source": "github",
+          "stars": 157,
+          "summary": "Author is an AI-powered writing platform for novelists and screenwriters with local-first worldbuilding manager, AI memory, preview, and accept/reject workflow.",
+          "title": "YuanShiJiLoong/author",
+          "trust_flags": [],
+          "url": "https://github.com/YuanShiJiLoong/author"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 62,
+          "source": "github",
+          "stars": 142,
+          "summary": "Open-source AI-powered tool that helps writers craft stories, generate worldbuilding details, create book outlines and chapters through a CLI.",
+          "title": "raestrada/storycraftr",
+          "trust_flags": [],
+          "url": "https://github.com/raestrada/storycraftr"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "timeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion"
+      ]
+    },
+    {
+      "candidate_count": 4,
+      "name": "character_cards",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 1099,
+          "summary": "An autonomous novel writing pipeline by Hermes Agent with characters, style evaluation, review, and manuscript pipeline.",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "license:missing",
+            "downloads:enabled-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 47,
+          "source": "github",
+          "stars": 32,
+          "summary": "Turn television drama into storyworld knowledge graphs with two-pass extraction, entity resolution, character, location, object, organization, event and relationship checks.",
+          "title": "brandburner/fabula",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/brandburner/fabula"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion",
+        "license:missing",
+        "downloads:enabled-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "organization_graph",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 47,
+          "source": "github",
+          "stars": 32,
+          "summary": "Turn television drama into storyworld knowledge graphs with two-pass extraction, entity resolution, character, location, object, organization, event and relationship checks.",
+          "title": "brandburner/fabula",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/brandburner/fabula"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "emotion_arc",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 47,
+          "source": "github",
+          "stars": 32,
+          "summary": "Turn television drama into storyworld knowledge graphs with two-pass extraction, entity resolution, character, location, object, organization, event and relationship checks.",
+          "title": "brandburner/fabula",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/brandburner/fabula"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "style_signature",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 1099,
+          "summary": "An autonomous novel writing pipeline by Hermes Agent with characters, style evaluation, review, and manuscript pipeline.",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "license:missing",
+            "downloads:enabled-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion",
+        "license:missing",
+        "downloads:enabled-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 4,
+      "name": "self_review",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 110,
+          "source": "github",
+          "stars": 134,
+          "summary": "Fiction generator using LLM agents to create complete novels with coherent plots, developed characters, worldbuilding, chapter generation, emotional arcs, and diverse writing styles.",
+          "title": "KazKozDev/NovelGenerator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/KazKozDev/NovelGenerator"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 454,
+          "summary": "Multi-agent automatic AI novel generation CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 1099,
+          "summary": "An autonomous novel writing pipeline by Hermes Agent with characters, style evaluation, review, and manuscript pipeline.",
+          "title": "NousResearch/autonovel",
+          "trust_flags": [
+            "license:missing",
+            "downloads:enabled-high-stars"
+          ],
+          "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 66,
+          "source": "github",
+          "stars": 157,
+          "summary": "Author is an AI-powered writing platform for novelists and screenwriters with local-first worldbuilding manager, AI memory, preview, and accept/reject workflow.",
+          "title": "YuanShiJiLoong/author",
+          "trust_flags": [],
+          "url": "https://github.com/YuanShiJiLoong/author"
+        }
+      ],
+      "top_source_url": "https://github.com/KazKozDev/NovelGenerator",
+      "trust_flags": [
+        "license:noassertion",
+        "license:missing",
+        "downloads:enabled-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "source_discovery",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 18,
+          "source": "github",
+          "stars": 406,
+          "summary": "AI ?????????????????? Smart State???????????????????????RAG/?????????????",
+          "title": "leenbj/novel-creator-skill",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/leenbj/novel-creator-skill"
+        }
+      ],
+      "top_source_url": "https://github.com/leenbj/novel-creator-skill",
+      "trust_flags": [
+        "license:missing"
+      ]
+    }
+  ]
+}

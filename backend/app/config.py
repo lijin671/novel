@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     app_name: str = "MuMuAINovel"
     app_version: str = "1.0.0"
     app_host: str = "0.0.0.0"
-    app_port: int = 8000
+    app_port: int = 18000
     debug: bool = True
     
     # 日志配置
@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     log_backup_count: int = 30  # 保留30个备份文件
     
     # CORS配置
-    cors_origins: list[str] = ["http://localhost:8000", "http://127.0.0.1:8000"]
+    cors_origins: list[str] = ["http://localhost:18000", "http://127.0.0.1:18000"]
     
     # 数据库配置 - PostgreSQL
     database_url: str = DATABASE_URL
@@ -92,7 +92,7 @@ class Settings(BaseSettings):
     # 前端URL配置（用于OAuth回调后重定向）
     # 本地开发: http://localhost:8000
     # 生产环境: https://your-domain.com 或 http://your-ip:8000
-    FRONTEND_URL: str = "http://localhost:8000"
+    FRONTEND_URL: str = "http://localhost:18000"
     
     # 初始管理员配置（LinuxDO user_id）
     INITIAL_ADMIN_LINUXDO_ID: Optional[str] = None
@@ -104,8 +104,8 @@ class Settings(BaseSettings):
     LOCAL_AUTH_DISPLAY_NAME: str = "本地用户"  # 本地用户显示名称
     
     # 会话配置
-    SESSION_EXPIRE_MINUTES: int = 120  # 会话过期时间（分钟），默认2小时
-    SESSION_REFRESH_THRESHOLD_MINUTES: int = 30  # 会话刷新阈值（分钟），剩余时间少于此值时可刷新
+    SESSION_EXPIRE_MINUTES: int = 0  # 会话过期时间（分钟），<= 0 表示长期有效，仅手动退出失效
+    SESSION_REFRESH_THRESHOLD_MINUTES: int = 30  # 会话刷新阈值（分钟），仅在启用自动过期时生效
     
     # 提示词工坊配置
     WORKSHOP_MODE: str = "client"  # client: 本地部署实例, server: 云端中央服务器

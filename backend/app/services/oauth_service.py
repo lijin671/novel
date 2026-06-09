@@ -22,13 +22,13 @@ class LinuxDOOAuthService:
         
         # 如果未配置，使用默认值（本地开发）
         if not self.redirect_uri:
-            self.redirect_uri = "http://localhost:8000/api/auth/callback"
+            self.redirect_uri = "http://localhost:18000/api/auth/callback"
             import logging
             logger = logging.getLogger(__name__)
             logger.warning(
-                "⚠️  LINUXDO_REDIRECT_URI 未配置，使用默认值: http://localhost:8000/api/auth/callback\n"
+                "⚠️  LINUXDO_REDIRECT_URI 未配置，使用默认值: http://localhost:18000/api/auth/callback\n"
                 "如需使用 OAuth 登录，请在 .env 文件中配置：\n"
-                "本地开发: LINUXDO_REDIRECT_URI=http://localhost:8000/api/auth/callback\n"
+                "本地开发: LINUXDO_REDIRECT_URI=http://localhost:18000/api/auth/callback\n"
                 "Docker部署: LINUXDO_REDIRECT_URI=https://your-domain.com/api/auth/callback"
             )
         

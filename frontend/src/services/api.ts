@@ -1,7 +1,39 @@
-import axios from 'axios';
+import axios, { type AxiosRequestConfig } from 'axios';
 import { message } from 'antd';
 import { ssePost } from '../utils/sseClient';
 import type { SSEClientOptions } from '../utils/sseClient';
+import type {
+  MemoryRetrievalConfigResponse,
+  MemoryRetrievalConfigUpdateRequest,
+} from '../types/memoryRetrieval';
+import type {
+  BookRemixCreateProjectPayload,
+  BookRemixCreateProjectResult,
+  BookRemixMode,
+  BookRemixPreview,
+  BookRemixRefreshContinuationPayload,
+  BookRemixRefreshContinuationResult,
+  BookRemixTask,
+} from '../types/bookRemix';
+import type {
+  BookRemixBible,
+  BookRemixBibleUpdatePayload,
+  BookRemixAnalysisCoverage,
+  BookRemixChapterChangePackageList,
+  BookRemixContinuationPlan,
+  BookRemixContinuationPlanGeneratePayload,
+  BookRemixContinuationPlanUpdatePayload,
+  BookRemixContinuationContextPreview,
+  BookRemixContinuationProgressSummary,
+  BookRemixStartMissingAnalysisResult,
+} from '../types/bookRemixBible';
+import type {
+  SourceDiscoveryLatestArtifactResponse,
+  SourceDiscoveryLedgerResponse,
+  SourceDiscoveryRefreshRequest,
+  SourceDiscoveryRefreshResponse,
+  SourceDiscoveryRunRequest,
+} from '../types/sourceDiscovery';
 import type {
   User,
   AuthUrlResponse,
@@ -36,11 +68,15 @@ import type {
   WritingStyleListResponse,
   PromptWorkshopListResponse,
   PromptWorkshopItem,
+  PromptLocalAsset,
+  PromptLocalAssetListResponse,
+  PromptLocalAssetBatchImportResponse,
   PromptSubmission,
   PromptSubmissionCreate,
   MCPPlugin,
   MCPPluginCreate,
   MCPPluginUpdate,
+  ExaRestAdapterInstallRequest,
   MCPTestResult,
   MCPTool,
   MCPToolCallRequest,
@@ -58,7 +94,14 @@ import type {
   BatchAnalysisStatusResponse,
   BatchAnalyzeUnanalyzedRequest,
   BatchAnalyzeUnanalyzedResponse,
+  NovelWorkflowRunRequest,
+  NovelWorkflowRunResponse,
+  NovelWorkflowTaskStatusResponse,
 } from '../types';
+
+type ApiRequestConfig = AxiosRequestConfig & { suppressErrorMessage?: boolean };
+
+const SUPPRESS_ERROR_MESSAGE_CONFIG: ApiRequestConfig = { suppressErrorMessage: true };
 
 interface MCPPluginSimpleCreate {
   config_json: string;
@@ -83,6 +126,21 @@ api.interceptors.request.use(
   }
 );
 
+const getErrorDetailMessage = (detail: unknown, fallback: string): string => {
+  if (typeof detail === 'string') {
+    return detail;
+  }
+
+  if (detail && typeof detail === 'object' && 'message' in detail) {
+    const message = (detail as { message?: unknown }).message;
+    if (typeof message === 'string') {
+      return message;
+    }
+  }
+
+  return fallback;
+};
+
 api.interceptors.response.use(
   (response) => {
     return response.data;
@@ -96,7 +154,7 @@ api.interceptors.response.use(
 
       switch (status) {
         case 400:
-          errorMessage = data?.detail || '请求参数错误';
+          errorMessage = getErrorDetailMessage(data?.detail, '请求参数错误');
           break;
         case 401:
           errorMessage = '未授权，请先登录';
@@ -108,22 +166,22 @@ api.interceptors.response.use(
           errorMessage = '没有权限访问';
           break;
         case 404:
-          errorMessage = data?.detail || '请求的资源不存在';
+          errorMessage = getErrorDetailMessage(data?.detail, '请求的资源不存在');
           break;
         case 422:
-          errorMessage = data?.detail || '请求参数验证失败';
+          errorMessage = getErrorDetailMessage(data?.detail, '请求参数验证失败');
           if (data?.errors) {
             console.error('验证错误详情:', data.errors);
           }
           break;
         case 500:
-          errorMessage = data?.detail || '服务器内部错误';
+          errorMessage = getErrorDetailMessage(data?.detail, '服务器内部错误');
           break;
         case 503:
           errorMessage = '服务暂时不可用，请稍后重试';
           break;
         default:
-          errorMessage = data?.detail || data?.message || `请求失败 (${status})`;
+          errorMessage = getErrorDetailMessage(data?.detail, typeof data?.message === 'string' ? data.message : `请求失败 (${status})`);
       }
     } else if (error.request) {
       errorMessage = '网络错误，请检查网络连接';
@@ -131,7 +189,9 @@ api.interceptors.response.use(
       errorMessage = error.message || '请求失败';
     }
 
-    message.error(errorMessage);
+    if (!(error.config as ApiRequestConfig | undefined)?.suppressErrorMessage) {
+      message.error(errorMessage);
+    }
     console.error('API Error:', errorMessage, error);
 
     return Promise.reject(error);
@@ -164,7 +224,12 @@ export const authApi = {
   initializePassword: (password: string) =>
     api.post<unknown, { success: boolean; message: string }>('/auth/password/initialize', { password }),
 
-  refreshSession: () => api.post<unknown, { message: string; expire_at: number; remaining_minutes: number }>('/auth/refresh'),
+  refreshSession: () => api.post<unknown, {
+    message: string;
+    expire_at: number | null;
+    remaining_minutes: number | null;
+    permanent: boolean;
+  }>('/auth/refresh'),
 
   logout: () => api.post('/auth/logout'),
 };
@@ -282,6 +347,12 @@ export const settingsApi = {
     api.post<unknown, APIKeyPreset>('/settings/presets/from-current', null, {
       params: { name, description }
     }),
+
+  getMemoryRetrievalConfig: () =>
+    api.get<unknown, MemoryRetrievalConfigResponse>('/settings/memory-retrieval'),
+
+  updateMemoryRetrievalConfig: (data: MemoryRetrievalConfigUpdateRequest) =>
+    api.put<unknown, MemoryRetrievalConfigResponse>('/settings/memory-retrieval', data),
 };
 
 export const projectApi = {
@@ -419,6 +490,88 @@ export const bookImportApi = {
     api.delete<unknown, { success: boolean; message: string }>(`/book-import/tasks/${taskId}`),
 };
 
+export const bookRemixApi = {
+  createTask: (params: {
+    file: File;
+    remixMode: BookRemixMode;
+  }) => {
+    const formData = new FormData();
+    formData.append('file', params.file);
+    formData.append('remix_mode', params.remixMode);
+
+    return api.post<unknown, { task_id: string; status: BookRemixTask['status']; remix_mode: BookRemixMode }>(
+      '/book-remix/tasks',
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    );
+  },
+
+  getTaskStatus: (taskId: string) =>
+    api.get<unknown, BookRemixTask>(`/book-remix/tasks/${taskId}`),
+
+  getPreview: (taskId: string) =>
+    api.get<unknown, BookRemixPreview>(`/book-remix/tasks/${taskId}/preview`),
+
+  createProject: (taskId: string, payload: BookRemixCreateProjectPayload) =>
+    api.post<unknown, BookRemixCreateProjectResult>(`/book-remix/tasks/${taskId}/create-project`, payload),
+
+  refreshContinuationProject: (projectId: string, payload: BookRemixRefreshContinuationPayload) =>
+    api.post<unknown, BookRemixRefreshContinuationResult>(`/book-remix/projects/${projectId}/refresh-continuation`, payload),
+
+  getBible: (projectId: string) =>
+    api.get<unknown, BookRemixBible>(`/book-remix/projects/${projectId}/bible`, SUPPRESS_ERROR_MESSAGE_CONFIG),
+
+  updateBible: (projectId: string, payload: BookRemixBibleUpdatePayload) =>
+    api.patch<unknown, BookRemixBible>(`/book-remix/projects/${projectId}/bible`, payload),
+
+  confirmBible: (projectId: string) =>
+    api.post<unknown, BookRemixBible>(`/book-remix/projects/${projectId}/bible/confirm`),
+
+  regenerateBible: (projectId: string) =>
+    api.post<unknown, BookRemixBible>(`/book-remix/projects/${projectId}/bible/regenerate`),
+
+  getContinuationPlan: (projectId: string) =>
+    api.get<unknown, BookRemixContinuationPlan>(`/book-remix/projects/${projectId}/continuation-plan`, SUPPRESS_ERROR_MESSAGE_CONFIG),
+
+  getContinuationProgressSummary: (projectId: string) =>
+    api.get<unknown, BookRemixContinuationProgressSummary>(`/book-remix/projects/${projectId}/continuation-progress-summary`, SUPPRESS_ERROR_MESSAGE_CONFIG),
+
+  getChapterChangePackages: (projectId: string) =>
+    api.get<unknown, BookRemixChapterChangePackageList>(`/book-remix/projects/${projectId}/chapter-change-packages`, SUPPRESS_ERROR_MESSAGE_CONFIG),
+
+  getAnalysisCoverage: (projectId: string) =>
+    api.get<unknown, BookRemixAnalysisCoverage>(`/book-remix/projects/${projectId}/analysis-coverage`, SUPPRESS_ERROR_MESSAGE_CONFIG),
+
+  startMissingAnalysis: (projectId: string) =>
+    api.post<unknown, BookRemixStartMissingAnalysisResult>(`/book-remix/projects/${projectId}/analysis/start-missing`),
+
+  getContinuationContextPreview: (projectId: string) =>
+    api.get<unknown, BookRemixContinuationContextPreview>(`/book-remix/projects/${projectId}/continuation-context-preview`, SUPPRESS_ERROR_MESSAGE_CONFIG),
+
+  generateContinuationPlan: (projectId: string, payload: BookRemixContinuationPlanGeneratePayload) =>
+    api.post<unknown, BookRemixContinuationPlan>(`/book-remix/projects/${projectId}/continuation-plan/generate`, payload),
+
+  updateContinuationPlan: (projectId: string, payload: BookRemixContinuationPlanUpdatePayload) =>
+    api.patch<unknown, BookRemixContinuationPlan>(`/book-remix/projects/${projectId}/continuation-plan`, payload),
+
+  confirmContinuationPlan: (projectId: string) =>
+    api.post<unknown, BookRemixContinuationPlan>(`/book-remix/projects/${projectId}/continuation-plan/confirm`),
+
+  cancelTask: (taskId: string) =>
+    api.delete<unknown, { success: boolean; message: string }>(`/book-remix/tasks/${taskId}`),
+};
+
+export const sourceDiscoveryApi = {
+  getLatest: () =>
+    api.get<unknown, SourceDiscoveryLatestArtifactResponse>('/source-discovery/latest'),
+
+  runLedger: (data: SourceDiscoveryRunRequest = {}) =>
+    api.post<unknown, SourceDiscoveryLedgerResponse>('/source-discovery/ledger/run', data),
+
+  refresh: (data: SourceDiscoveryRefreshRequest = {}) =>
+    api.post<unknown, SourceDiscoveryRefreshResponse>('/source-discovery/refresh', data),
+};
+
 export const outlineApi = {
   getOutlines: (projectId: string) =>
     api.get<unknown, { total: number; items: Outline[] }>(`/outlines/project/${projectId}`).then(res => res.items),
@@ -436,7 +589,22 @@ export const outlineApi = {
     api.post<unknown, { message: string; updated_outlines: number; updated_chapters: number }>('/outlines/reorder', data),
 
   generateOutline: (data: GenerateOutlineRequest) =>
-    api.post<unknown, { total: number; items: Outline[] }>('/outlines/generate', data).then(res => res.items),
+    api.post<unknown, { total: number; items: Outline[] }>('/outlines/generate', {
+      ...data,
+      enable_mcp: data.enable_mcp ?? true,
+    }).then(res => res.items),
+
+  generateOutlineStream: (
+    data: GenerateOutlineRequest,
+    options?: SSEClientOptions
+  ) => ssePost<GenerateOutlineResponse>(
+    '/api/outlines/generate-stream',
+    {
+      ...data,
+      enable_mcp: data.enable_mcp ?? true,
+    },
+    options
+  ),
 
   // 获取大纲关联的章节
   getOutlineChapters: (outlineId: string) =>
@@ -496,6 +664,15 @@ export const outlineApi = {
   // 批量展开大纲
   batchExpandOutlines: (data: BatchOutlineExpansionRequest) =>
     api.post<unknown, BatchOutlineExpansionResponse>('/outlines/batch-expand', data),
+
+  batchExpandOutlinesStream: (
+    data: BatchOutlineExpansionRequest,
+    options?: SSEClientOptions
+  ) => ssePost<BatchOutlineExpansionResponse>(
+    '/api/outlines/batch-expand-stream',
+    data,
+    options
+  ),
 };
 
 export const characterApi = {
@@ -637,6 +814,44 @@ export const chapterApi = {
     }),
 
   // 章节重新生成相关
+  batchGenerate: (
+    projectId: string,
+    data: {
+      start_chapter_number: number;
+      count: number;
+      style_id?: number;
+      target_word_count?: number;
+      enable_analysis?: boolean;
+      enable_workflow?: boolean;
+      workflow_auto_regenerate?: boolean;
+      workflow_max_rounds?: number;
+      workflow_min_score?: number;
+      enable_mcp?: boolean;
+      max_retries?: number;
+      model?: string;
+      force_high_risk_continuation?: boolean;
+    }
+  ) =>
+    api.post<unknown, {
+      batch_id: string;
+      message: string;
+      chapters_to_generate: Array<{
+        chapter_id: string;
+        chapter_number: number;
+        title: string;
+      }>;
+      estimated_time_minutes: number;
+    }>(`/chapters/project/${projectId}/batch-generate`, {
+      ...data,
+      enable_mcp: data.enable_mcp ?? true,
+    }),
+
+  runNovelWorkflow: (projectId: string, data: NovelWorkflowRunRequest) =>
+    api.post<unknown, NovelWorkflowRunResponse>(`/chapters/project/${projectId}/workflow/run`, data),
+
+  getNovelWorkflowStatus: (taskId: string) =>
+    api.get<unknown, NovelWorkflowTaskStatusResponse>(`/chapters/workflow/${taskId}/status`),
+
   getRegenerationTasks: (chapterId: string, limit?: number) =>
     api.get<unknown, {
       chapter_id: string;
@@ -745,6 +960,36 @@ export const promptWorkshopApi = {
   // 获取单个提示词
   getItem: (itemId: string) =>
     api.get<unknown, { success: boolean; data: PromptWorkshopItem }>(`/prompt-workshop/items/${itemId}`),
+
+  // 获取本地提示词资产目录
+  getLocalAssets: (params?: {
+    include_content?: boolean;
+    search?: string;
+    risk_level?: 'low' | 'medium' | 'high';
+    category?: string;
+    sync_status?: 'eligible' | 'catalog_only' | 'blocked_high_risk';
+  }) => api.get<unknown, PromptLocalAssetListResponse>('/prompt-workshop/local-assets', { params }),
+
+  // 获取单个本地提示词资产详情
+  getLocalAsset: (assetId: string, includeContent = true) =>
+    api.get<unknown, { success: boolean; data: PromptLocalAsset }>(
+      `/prompt-workshop/local-assets/${assetId}`,
+      { params: { include_content: includeContent } }
+    ),
+
+  // 导入本地提示词资产到个人写作风格
+  importLocalAsset: (assetId: string, customName?: string) =>
+    api.post<unknown, { success: boolean; message: string; writing_style: WritingStyle }>(
+      `/prompt-workshop/local-assets/${assetId}/import`,
+      { custom_name: customName }
+    ),
+
+  // 批量导入本地提示词资产到个人写作风格
+  importLocalAssetsBatch: (assetIds: string[], skipExisting = true) =>
+    api.post<unknown, PromptLocalAssetBatchImportResponse>(
+      '/prompt-workshop/local-assets/import-batch',
+      { asset_ids: assetIds, skip_existing: skipExisting }
+    ),
 
   // 导入到本地
   importItem: (itemId: string, customName?: string) =>
@@ -1018,6 +1263,10 @@ export const mcpPluginApi = {
   // 简化创建插件（通过标准MCP配置JSON）
   createPluginSimple: (data: MCPPluginSimpleCreate) =>
     api.post<unknown, MCPPlugin>('/mcp/plugins/simple', data),
+
+  // 安装或更新 Exa REST 内置适配器
+  installExaRestAdapter: (data: ExaRestAdapterInstallRequest) =>
+    api.post<unknown, MCPPlugin>('/mcp/plugins/install-exa-rest-adapter', data),
 
   // 更新插件
   updatePlugin: (id: string, data: MCPPluginUpdate) =>

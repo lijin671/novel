@@ -9,6 +9,7 @@ import {
 } from '@ant-design/icons';
 import { AIProjectGenerator, type GenerationConfig } from '../components/AIProjectGenerator';
 import type { WizardBasicInfo } from '../types';
+import { PIPELINE_MEMORY_RETRIEVAL_OPTIONS } from '../utils/memoryRetrieval';
 
 const { TextArea } = Input;
 const { Title, Paragraph } = Typography;
@@ -34,13 +35,39 @@ export default function ProjectWizardNew() {
 
   // 检查URL参数,如果有project_id则恢复生成
   useEffect(() => {
+    if (currentStep !== 'form') {
+      return;
+    }
+
     const projectId = searchParams.get('project_id');
     if (projectId) {
       setResumeProjectId(projectId);
       handleResumeGeneration(projectId);
+      return;
+    }
+
+    try {
+      const cachedStep = localStorage.getItem('wizard_current_step');
+      const cachedProjectId = localStorage.getItem('wizard_project_id');
+      const cachedGenerationData = localStorage.getItem('wizard_generation_data');
+
+      if (cachedStep !== 'generating' || !cachedGenerationData) {
+        return;
+      }
+
+      const cachedConfig = JSON.parse(cachedGenerationData) as GenerationConfig;
+      setResumeProjectId(cachedProjectId || null);
+      setGenerationConfig(cachedConfig);
+      setCurrentStep('generating');
+      message.info('检测到未完成的自动化全流程，已自动恢复');
+    } catch (error) {
+      console.warn('恢复自动化全流程缓存失败:', error);
+      localStorage.removeItem('wizard_project_id');
+      localStorage.removeItem('wizard_generation_data');
+      localStorage.removeItem('wizard_current_step');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [searchParams, currentStep]);
 
   // 恢复未完成项目的生成
   const handleResumeGeneration = async (projectId: string) => {
@@ -52,6 +79,16 @@ export default function ProjectWizardNew() {
         throw new Error('获取项目信息失败');
       }
       const project = await response.json();
+      const cachedProjectId = localStorage.getItem('wizard_project_id');
+      const cachedGenerationData = localStorage.getItem('wizard_generation_data');
+      let cachedConfig: Partial<GenerationConfig> | null = null;
+      if (cachedProjectId === projectId && cachedGenerationData) {
+        try {
+          cachedConfig = JSON.parse(cachedGenerationData) as Partial<GenerationConfig>;
+        } catch (parseError) {
+          console.warn('恢复本地生成配置失败:', parseError);
+        }
+      }
 
       const config: GenerationConfig = {
         title: project.title,
@@ -60,8 +97,14 @@ export default function ProjectWizardNew() {
         genre: project.genre || '',
         narrative_perspective: project.narrative_perspective || '第三人称',
         target_words: project.target_words || 100000,
-        chapter_count: 3,
+        chapter_count: project.outline_mode === 'one-to-one' ? 30 : 3,
         character_count: project.character_count || 5,
+        outline_mode: project.outline_mode || 'one-to-many',
+        auto_pipeline: true,
+        chapters_per_outline: 3,
+        chapter_target_word_count: 3000,
+        enable_chapter_analysis: true,
+        memory_retrieval_preset: cachedConfig?.memory_retrieval_preset || 'keep_current',
       };
 
       setGenerationConfig(config);
@@ -75,6 +118,11 @@ export default function ProjectWizardNew() {
 
   // 开始生成流程
   const handleAutoGenerate = async (values: WizardBasicInfo) => {
+    const outlineMode = values.outline_mode || 'one-to-many';
+    setResumeProjectId(null);
+    localStorage.removeItem('wizard_project_id');
+    localStorage.removeItem('wizard_generation_data');
+    localStorage.removeItem('wizard_current_step');
     const config: GenerationConfig = {
       title: values.title,
       description: values.description,
@@ -82,9 +130,14 @@ export default function ProjectWizardNew() {
       genre: values.genre,
       narrative_perspective: values.narrative_perspective,
       target_words: values.target_words || 100000,
-      chapter_count: 3, // 默认生成3章大纲
+      chapter_count: outlineMode === 'one-to-one' ? 30 : 3,
       character_count: values.character_count || 5,
-      outline_mode: values.outline_mode || 'one-to-many', // 添加大纲模式
+      outline_mode: outlineMode,
+      auto_pipeline: true,
+      chapters_per_outline: 3,
+      chapter_target_word_count: 3000,
+      enable_chapter_analysis: true,
+      memory_retrieval_preset: values.memory_retrieval_preset || 'keep_current',
     };
 
     setGenerationConfig(config);
@@ -98,6 +151,10 @@ export default function ProjectWizardNew() {
 
   // 返回表单页面
   const handleBack = () => {
+    setResumeProjectId(null);
+    localStorage.removeItem('wizard_project_id');
+    localStorage.removeItem('wizard_generation_data');
+    localStorage.removeItem('wizard_current_step');
     setCurrentStep('form');
     setGenerationConfig(null);
   };
@@ -294,6 +351,33 @@ export default function ProjectWizardNew() {
             placeholder="整部小说的目标字数"
           />
         </Form.Item>
+
+        <Form.Item
+          label="记忆召回策略"
+          name="memory_retrieval_preset"
+          initialValue="keep_current"
+          extra="仅在“一键自动化流水线”启动成章时生效，会写入当前账号的默认召回白名单。"
+        >
+          <Select
+            size="large"
+            placeholder="选择默认召回策略"
+            options={PIPELINE_MEMORY_RETRIEVAL_OPTIONS.map((option) => ({
+              value: option.value,
+              label: option.label,
+            }))}
+          />
+        </Form.Item>
+
+        <Card size="small" style={{ marginBottom: 24, borderRadius: 12 }}>
+          <Space direction="vertical" size={6} style={{ width: '100%' }}>
+            {PIPELINE_MEMORY_RETRIEVAL_OPTIONS.map((option) => (
+              <div key={option.value}>
+                <div style={{ fontWeight: 600 }}>{option.label}</div>
+                <div style={{ fontSize: 12, color: '#666' }}>{option.description}</div>
+              </div>
+            ))}
+          </Space>
+        </Card>
 
         <Form.Item>
           <Space direction="vertical" style={{ width: '100%' }} size={12}>

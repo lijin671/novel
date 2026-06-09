@@ -33,6 +33,42 @@ router = APIRouter(prefix="/organizations", tags=["组织管理"])
 logger = get_logger(__name__)
 
 
+def _serialize_organization_members(members_data) -> str:
+    """将组织成员数据规范化为 Character.organization_members 的 JSON 字符串。"""
+    if not members_data:
+        return ""
+
+    if isinstance(members_data, str):
+        stripped = members_data.strip()
+        if not stripped:
+            return ""
+        try:
+            parsed = json.loads(stripped)
+        except json.JSONDecodeError:
+            return json.dumps([stripped], ensure_ascii=False)
+        return _serialize_organization_members(parsed)
+
+    if isinstance(members_data, list):
+        normalized_members = []
+        for item in members_data:
+            if isinstance(item, dict):
+                name = (item.get("character_name") or item.get("name") or "").strip()
+                position = (item.get("position") or "").strip()
+                if not name:
+                    continue
+                normalized_members.append(f"{name}（{position}）" if position else name)
+                continue
+
+            text = str(item).strip()
+            if text:
+                normalized_members.append(text)
+
+        return json.dumps(normalized_members, ensure_ascii=False) if normalized_members else ""
+
+    text = str(members_data).strip()
+    return json.dumps([text], ensure_ascii=False) if text else ""
+
+
 class OrganizationGenerateRequest(BaseModel):
     """AI生成组织的请求模型"""
     project_id: str = Field(..., description="项目ID")
@@ -500,7 +536,11 @@ async def generate_organization_stream(
                 chunk_count = 0
                 estimated_total = max(3000, len(prompt) * 8)
                 
-                async for chunk in user_ai_service.generate_text_stream(prompt=prompt):
+                async for chunk in user_ai_service.generate_text_stream(
+                    prompt=prompt,
+                    tool_choice="auto" if gen_request.enable_mcp else "none",
+                    auto_mcp=gen_request.enable_mcp,
+                ):
                     chunk_count += 1
                     ai_content += chunk
                     
@@ -550,6 +590,10 @@ async def generate_organization_stream(
                 appearance=organization_data.get("appearance", ""),
                 organization_type=organization_data.get("organization_type"),
                 organization_purpose=organization_data.get("organization_purpose"),
+                organization_members=_serialize_organization_members(
+                    organization_data.get("organization_members")
+                    or organization_data.get("initial_members")
+                ) or None,
                 traits=json.dumps(
                     organization_data.get("traits", []), 
                     ensure_ascii=False

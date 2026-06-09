@@ -13,46 +13,52 @@ WarningLevel = Literal["info", "warning", "error"]
 
 class BookImportWarning(BaseModel):
     """导入告警信息"""
+
     code: str = Field(..., description="告警编码")
     message: str = Field(..., description="告警内容")
     level: WarningLevel = Field(default="warning", description="告警等级")
 
 
 class ProjectSuggestion(BaseModel):
-    """项目建议信息（可在预览页修改）"""
+    """项目建议信息，可在预览页修改"""
+
     title: str = Field(..., min_length=1, max_length=200, description="项目标题")
     description: Optional[str] = Field(None, description="项目简介")
     theme: Optional[str] = Field(None, description="主题")
     genre: Optional[str] = Field(None, description="类型")
     narrative_perspective: str = Field(default="第三人称", description="叙事视角")
-    target_words: int = Field(default=100000, ge=1000, description="目标字数（默认10万字）")
+    target_words: int = Field(default=100000, ge=1000, description="目标字数")
 
 
 class BookImportChapter(BaseModel):
     """预览章节"""
+
     title: str = Field(..., min_length=1, max_length=200, description="章节标题")
     content: str = Field(default="", description="章节正文")
     summary: Optional[str] = Field(None, description="章节摘要")
     chapter_number: int = Field(..., ge=1, description="章节序号")
-    outline_title: Optional[str] = Field(None, description="关联大纲标题（可选）")
+    outline_title: Optional[str] = Field(None, description="关联大纲标题")
 
 
 class BookImportOutline(BaseModel):
     """预览大纲"""
+
     title: str = Field(..., min_length=1, max_length=200, description="大纲标题")
     content: Optional[str] = Field(None, description="大纲内容")
     order_index: int = Field(..., ge=1, description="排序序号")
-    structure: Optional[dict[str, Any]] = Field(None, description="结构化大纲（与系统大纲生成结构一致）")
+    structure: Optional[dict[str, Any]] = Field(None, description="结构化大纲")
 
 
 class BookImportTaskCreateResponse(BaseModel):
     """创建任务响应"""
+
     task_id: str
     status: TaskStatus
 
 
 class BookImportTaskStatusResponse(BaseModel):
     """任务状态响应"""
+
     task_id: str
     status: TaskStatus
     progress: int = Field(..., ge=0, le=100)
@@ -64,6 +70,7 @@ class BookImportTaskStatusResponse(BaseModel):
 
 class BookImportPreviewResponse(BaseModel):
     """预览数据响应"""
+
     task_id: str
     project_suggestion: ProjectSuggestion
     chapters: list[BookImportChapter]
@@ -72,7 +79,8 @@ class BookImportPreviewResponse(BaseModel):
 
 
 class BookImportApplyRequest(BaseModel):
-    """确认导入请求（支持前端修订后的数据）"""
+    """确认导入请求，支持前端修改后的数据"""
+
     project_suggestion: ProjectSuggestion
     chapters: list[BookImportChapter]
     outlines: list[BookImportOutline] = Field(default_factory=list)
@@ -81,6 +89,7 @@ class BookImportApplyRequest(BaseModel):
 
 class BookImportApplyResponse(BaseModel):
     """确认导入响应"""
+
     success: bool
     project_id: str
     statistics: dict[str, int]
@@ -89,4 +98,9 @@ class BookImportApplyResponse(BaseModel):
 
 class BookImportRetryRequest(BaseModel):
     """重试失败步骤请求"""
-    steps: list[str] = Field(..., min_length=1, description="需要重试的步骤名列表，如 world_building / career_system / characters")
+
+    steps: list[str] = Field(
+        ...,
+        min_length=1,
+        description="需要重试的步骤列表，例如 world_building / career_system / characters",
+    )

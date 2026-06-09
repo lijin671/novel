@@ -1,0 +1,124 @@
+{
+  "bible_enrichment_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "style_signature",
+    "hard_constraints"
+  ],
+  "chapter_change_package_hints": [
+    "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
+    "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
+    "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "continuation_prompt_hints": [
+    "续写前先读取圣经草稿中的世界观、时间线、人物卡、组织关系、冲突与伏笔。",
+    "下一章必须承接原书尾章的状态变化，不重置人物关系、情感线和因果线。",
+    "每章生成后输出本章变化包，供下一章读取。"
+  ],
+  "continuation_state_hints": [
+    "??????????? state snapshot?????????????????????????????????",
+    "???????????? chapter_change_packages???????????????????"
+  ],
+  "generated_at": "2026-06-01T17:28:43+08:00",
+  "safety_constraints": [
+    "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
+    "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
+    "只采集公开元数据和公开摘要；不克隆、不安装、不执行外部项目。",
+    "GitHub 与论坛候选默认按 pattern-only 沉淀，后续吸收必须单独做许可证、安装面和安全边界复核。",
+    "Linux.do 仅使用公开 RSS/页面可访问摘要；不绕过登录、403、429、WAF 或 CAPTCHA。"
+  ],
+  "self_review_gate_hints": [
+    "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
+    "Every revision must explain which canon risk was fixed and which story state was preserved."
+  ],
+  "self_review_policy_hints": [
+    "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
+    "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。"
+  ],
+  "source_candidate_count": 3,
+  "source_titles": [
+    "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+    "开源 | 青幕 AI 写作 —— 我花 4 个月写的长篇小说记忆型 AI 写作软件",
+    "各位佬，请问有可以免费看与起点中文网小说章节更新同步的地方吗？"
+  ],
+  "style_fidelity_hints": [
+    "Preserve the original voice, cadence, and narrative temperature; style preservation is a hard constraint, not a loose suggestion.",
+    "Keep the source book's flavor by matching sentence rhythm, POV behavior, scene density, and emotional pressure."
+  ],
+  "style_signature_hints": [
+    "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
+    "续写要保留原书味道，但只吸收写法模式，不复制外部项目代码或长文本。"
+  ],
+  "whole_book_analysis_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "organizations",
+    "conflicts",
+    "story_arcs",
+    "foreshadows",
+    "style_signature",
+    "chapter_change_packages"
+  ],
+  "workflow_patterns": [
+    {
+      "candidate_count": 1,
+      "name": "chapter_generation",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 28,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 简介 这是一个多Agent实现的全自动AI生成小说的cli工具 主打就是一个ai全自动, 无需人为干预 废话不多说, 直接看效果 项目地址 github.com GitHub -",
+          "title": "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+          "url": "https://linux.do/t/topic/2267839"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2267839"
+    },
+    {
+      "candidate_count": 1,
+      "name": "character_cards",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 20,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 花了4个月写的AI小说写作软件。 主要针对AI写小说无记忆出现幻觉的问题，这是一个windows桌面版，下载安装即可使用。 github.com GitHub - Mochocy",
+          "title": "开源 | 青幕 AI 写作 —— 我花 4 个月写的长篇小说记忆型 AI 写作软件",
+          "url": "https://linux.do/t/topic/2284228"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2284228"
+    },
+    {
+      "candidate_count": 1,
+      "name": "source_discovery",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "risk_flags": [],
+          "score": 8,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "各位佬，请问有可以免费看与起点中文网小说章节更新同步的地方吗？ 2 个帖子 - 2 位参与者 阅读完整话题",
+          "title": "各位佬，请问有可以免费看与起点中文网小说章节更新同步的地方吗？",
+          "url": "https://linux.do/t/topic/2285488"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2285488"
+    }
+  ]
+}

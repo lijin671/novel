@@ -249,10 +249,17 @@ class MCPTestService:
                     )
             
             # 解析插件名和工具名
-            try:
-                _, tool_name = mcp_client.parse_function_name(tool_name_with_prefix)
-            except ValueError:
-                tool_name = tool_name_with_prefix
+            explicit_prefix = f"{plugin.plugin_name}__tool__"
+            legacy_prefix = f"{plugin.plugin_name}_"
+            if tool_name_with_prefix.startswith(explicit_prefix):
+                tool_name = tool_name_with_prefix[len(explicit_prefix):]
+            elif tool_name_with_prefix.startswith(legacy_prefix):
+                tool_name = tool_name_with_prefix[len(legacy_prefix):]
+            else:
+                try:
+                    _, tool_name = mcp_client.parse_function_name(tool_name_with_prefix)
+                except ValueError:
+                    tool_name = tool_name_with_prefix
             
             logger.info(f"🤖 AI选择的工具: {tool_name}")
             logger.info(f"📝 AI生成的参数: {test_arguments}")

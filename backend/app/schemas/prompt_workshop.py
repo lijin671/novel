@@ -11,6 +11,12 @@ class ImportRequest(BaseModel):
     custom_name: Optional[str] = Field(None, max_length=100, description="自定义名称")
 
 
+class LocalAssetBatchImportRequest(BaseModel):
+    """批量导入本地提示词资产请求"""
+    asset_ids: List[str] = Field(default_factory=list, description="本地资产ID列表")
+    skip_existing: bool = Field(default=True, description="是否跳过已存在的相同内容")
+
+
 class DownloadRequest(BaseModel):
     """记录下载请求（云端使用）"""
     instance_id: str = Field(..., description="实例标识")

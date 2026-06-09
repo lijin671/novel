@@ -16,7 +16,7 @@ class MCPPlugin(Base):
     plugin_name = Column(String(100), nullable=False, comment="插件名称（唯一标识）")
     display_name = Column(String(200), nullable=False, comment="显示名称")
     description = Column(Text, comment="插件描述")
-    plugin_type = Column(String(50), default="http", comment="插件类型：http/stdio")
+    plugin_type = Column(String(50), default="http", comment="插件类型：http/stdio/builtin")
     
     # 连接配置
     server_url = Column(String(500), comment="服务器URL（HTTP类型）")

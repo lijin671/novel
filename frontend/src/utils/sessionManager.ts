@@ -22,10 +22,17 @@ class SessionManager {
    * 启动会话监控
    */
   start() {
+    if (this.checkInterval || this.activityTimeout) {
+      this.stop();
+    }
+
+    this.warningShown = false;
+
     // 先检查是否有有效的会话
     const expireAt = this.getSessionExpireTime();
     
     if (!expireAt) {
+      console.log('[SessionManager] 当前登录为长期有效，不启用过期监控');
       return;
     }
     
@@ -125,6 +132,12 @@ class SessionManager {
     try {
       const result = await authApi.refreshSession();
       this.warningShown = false; // 重置警告状态
+
+      if (result.permanent) {
+        this.stop();
+        console.log('[SessionManager] 当前登录已切换为长期有效');
+        return;
+      }
       
       console.log(`🔄 [会话] 自动续期成功，延长 ${result.remaining_minutes} 分钟`);
       

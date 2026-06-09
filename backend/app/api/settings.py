@@ -16,6 +16,7 @@ from app.database import get_db
 from app.models.settings import Settings
 from app.schemas.settings import (
     SettingsCreate, SettingsUpdate, SettingsResponse,
+    MemoryRetrievalConfigUpdateRequest, MemoryRetrievalConfigResponse,
     APIKeyPreset, APIKeyPresetConfig, PresetCreateRequest,
     PresetUpdateRequest, PresetResponse, PresetListResponse
 )
@@ -23,6 +24,13 @@ from app.user_manager import User
 from app.logger import get_logger
 from app.config import settings as app_settings, PROJECT_ROOT
 from app.services.ai_service import AIService, create_user_ai_service, create_user_ai_service_with_mcp
+from app.services.memory_retrieval_config_service import (
+    SUPPORTED_MEMORY_TYPES,
+    get_default_memory_retrieval_config,
+    get_memory_retrieval_config_from_preferences,
+    invalidate_user_memory_retrieval_config_cache,
+    update_memory_retrieval_preferences,
+)
 
 logger = get_logger(__name__)
 
@@ -164,6 +172,7 @@ async def save_settings(
     
     # 准备数据
     settings_dict = data.model_dump(exclude_unset=True)
+    preferences_changed = "preferences" in settings_dict
     
     if settings:
         # 更新现有设置
@@ -214,8 +223,9 @@ async def save_settings(
         await db.refresh(settings)
         logger.info(f"用户 {user.user_id} 创建设置")
     
+    if preferences_changed:
+        invalidate_user_memory_retrieval_config_cache(user.user_id)
     return settings
-
 
 @router.put("", response_model=SettingsResponse)
 async def update_settings(
@@ -237,6 +247,7 @@ async def update_settings(
     
     # 更新设置
     update_data = data.model_dump(exclude_unset=True)
+    preferences_changed = "preferences" in update_data
     for key, value in update_data.items():
         setattr(settings, key, value)
     
@@ -244,8 +255,9 @@ async def update_settings(
     await db.refresh(settings)
     logger.info(f"用户 {user.user_id} 更新设置")
     
+    if preferences_changed:
+        invalidate_user_memory_retrieval_config_cache(user.user_id)
     return settings
-
 
 @router.delete("")
 async def delete_settings(
@@ -265,6 +277,7 @@ async def delete_settings(
     
     await db.delete(settings)
     await db.commit()
+    invalidate_user_memory_retrieval_config_cache(user.user_id)
     logger.info(f"用户 {user.user_id} 删除设置")
     
     return {"message": "设置已删除", "user_id": user.user_id}
@@ -802,6 +815,54 @@ async def get_user_settings(user_id: str, db: AsyncSession) -> Settings:
         logger.info(f"用户 {user_id} 首次访问，已创建默认设置")
     
     return settings
+
+
+@router.get("/memory-retrieval", response_model=MemoryRetrievalConfigResponse)
+async def get_memory_retrieval_settings(
+    user: User = Depends(require_login),
+    db: AsyncSession = Depends(get_db)
+):
+    """获取当前用户的记忆检索配置。"""
+    settings = await get_user_settings(user.user_id, db)
+    config = get_memory_retrieval_config_from_preferences(
+        settings.preferences,
+        user_id=user.user_id,
+    )
+    default_config = get_default_memory_retrieval_config()
+    return {
+        "version": config["version"],
+        "scenario_types": config["scenario_types"],
+        "supported_memory_types": SUPPORTED_MEMORY_TYPES,
+        "default_scenario_types": default_config["scenario_types"],
+    }
+
+
+@router.put("/memory-retrieval", response_model=MemoryRetrievalConfigResponse)
+async def update_memory_retrieval_settings(
+    data: MemoryRetrievalConfigUpdateRequest,
+    user: User = Depends(require_login),
+    db: AsyncSession = Depends(get_db)
+):
+    """更新当前用户的记忆检索配置。"""
+    settings = await get_user_settings(user.user_id, db)
+    updated_preferences, config = update_memory_retrieval_preferences(
+        settings.preferences,
+        data.scenario_types,
+        user_id=user.user_id,
+    )
+    settings.preferences = updated_preferences
+    await db.commit()
+    await db.refresh(settings)
+    invalidate_user_memory_retrieval_config_cache(user.user_id)
+
+    default_config = get_default_memory_retrieval_config()
+    logger.info(f"用户 {user.user_id} 已更新记忆检索配置，场景数: {len(config['scenario_types'])}")
+    return {
+        "version": config["version"],
+        "scenario_types": config["scenario_types"],
+        "supported_memory_types": SUPPORTED_MEMORY_TYPES,
+        "default_scenario_types": default_config["scenario_types"],
+    }
 
 
 @router.get("/presets", response_model=PresetListResponse)

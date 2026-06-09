@@ -26,6 +26,9 @@ interface ChapterAnalysisProps {
   onClose: () => void;
 }
 
+const ANALYSIS_POLL_INTERVAL_MS = 2000;
+const ANALYSIS_MAX_POLL_MS = 20 * 60 * 1000;
+
 export default function ChapterAnalysis({ chapterId, visible, onClose }: ChapterAnalysisProps) {
   const [task, setTask] = useState<AnalysisTask | null>(null);
   const [analysis, setAnalysis] = useState<ChapterAnalysisResponse | null>(null);
@@ -134,7 +137,8 @@ export default function ChapterAnalysis({ chapterId, visible, onClose }: Chapter
   };
 
   const startPolling = () => {
-    const pollInterval = setInterval(async () => {
+    let finished = false;
+    const pollInterval = window.setInterval(async () => {
       try {
         const response = await fetch(`/api/chapters/${chapterId}/analysis/status`);
         if (!response.ok) return;
@@ -143,21 +147,33 @@ export default function ChapterAnalysis({ chapterId, visible, onClose }: Chapter
         setTask(taskData);
 
         if (taskData.status === 'completed') {
+          finished = true;
           clearInterval(pollInterval);
+          clearTimeout(pollTimeout);
           await fetchAnalysisResult();
           // 🔧 分析完成后刷新章节内容，确保显示最新内容
           await loadChapterInfo();
         } else if (taskData.status === 'failed') {
+          finished = true;
           clearInterval(pollInterval);
+          clearTimeout(pollTimeout);
           setError(taskData.error_message || '分析失败');
         }
       } catch (err) {
         console.error('轮询错误:', err);
       }
-    }, 2000);
+    }, ANALYSIS_POLL_INTERVAL_MS);
 
-    // 5分钟超时
-    setTimeout(() => clearInterval(pollInterval), 300000);
+    // 最长轮询 20 分钟，适配高推理模型
+    const pollTimeout = window.setTimeout(() => {
+      if (finished) {
+        return;
+      }
+
+      finished = true;
+      clearInterval(pollInterval);
+      setError('分析耗时较长，后台仍在继续处理，请稍后刷新查看结果');
+    }, ANALYSIS_MAX_POLL_MS);
   };
 
   const triggerAnalysis = async () => {

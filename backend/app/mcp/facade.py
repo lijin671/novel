@@ -41,6 +41,12 @@ from mcp.client.sse import sse_client
 from anyio import ClosedResourceError
 
 from app.mcp.config import mcp_config
+from app.mcp.internal_adapters import (
+    BuiltinAdapterContext,
+    BuiltinAdapterError,
+    BuiltinToolAdapter,
+    create_builtin_adapter,
+)
 from app.logger import get_logger
 
 logger = get_logger(__name__)
@@ -66,18 +72,22 @@ class MCPPluginConfig:
     user_id: str
     plugin_name: str
     url: str
-    plugin_type: str = "streamable_http"  # streamable_http, sse, http
+    plugin_type: str = "streamable_http"  # streamable_http, sse, http, builtin
     headers: Optional[Dict[str, str]] = None
     env: Optional[Dict[str, str]] = None
+    config: Optional[Dict[str, Any]] = None
     timeout: float = 60.0
 
 
 @dataclass
 class SessionInfo:
     """会话信息"""
-    session: ClientSession
+    session: Optional[ClientSession]
     url: str
     plugin_type: str = "streamable_http"
+    headers: Optional[Dict[str, str]] = None
+    config: Optional[Dict[str, Any]] = None
+    adapter: Optional[BuiltinToolAdapter] = None
     created_at: float = field(default_factory=time.time)
     last_access: float = field(default_factory=time.time)
     request_count: int = 0
@@ -317,43 +327,71 @@ class MCPClientFacade:
                 await self._close_session_unsafe(key)
 
             try:
-                logger.info(f"🔗 连接MCP服务器: {config.plugin_name} -> {config.url} (类型: {config.plugin_type})")
+                if config.plugin_type == "builtin":
+                    logger.info(f"🔌 注册内置适配器: {config.plugin_name} -> {config.url}")
+                    adapter = create_builtin_adapter(
+                        BuiltinAdapterContext(
+                            user_id=config.user_id,
+                            plugin_name=config.plugin_name,
+                            base_url=config.url,
+                            headers=config.headers or {},
+                            config=config.config or {},
+                            timeout=config.timeout,
+                        )
+                    )
+                    await adapter.health_check()
 
-                # 根据类型选择客户端
-                if config.plugin_type == "sse":
-                    # SSE 客户端 - 返回 2 个值
-                    stream_ctx = sse_client(
+                    now = time.time()
+                    info = SessionInfo(
+                        session=None,
                         url=config.url,
+                        plugin_type=config.plugin_type,
                         headers=config.headers,
-                        timeout=config.timeout
+                        config=config.config,
+                        adapter=adapter,
+                        created_at=now,
+                        last_access=now,
                     )
-                    read, write = await stream_ctx.__aenter__()
                 else:
-                    # streamable_http 客户端（默认，也用于 http 类型）- 返回 3 个值
-                    stream_ctx = streamablehttp_client(
+                    logger.info(f"🔗 连接MCP服务器: {config.plugin_name} -> {config.url} (类型: {config.plugin_type})")
+
+                    # 根据类型选择客户端
+                    if config.plugin_type == "sse":
+                        # SSE 客户端 - 返回 2 个值
+                        stream_ctx = sse_client(
+                            url=config.url,
+                            headers=config.headers,
+                            timeout=config.timeout
+                        )
+                        read, write = await stream_ctx.__aenter__()
+                    else:
+                        # streamable_http 客户端（默认，也用于 http 类型）- 返回 3 个值
+                        stream_ctx = streamablehttp_client(
+                            url=config.url,
+                            headers=config.headers,
+                            timeout=config.timeout
+                        )
+                        read, write, _ = await stream_ctx.__aenter__()
+
+                    session = ClientSession(read, write)
+                    await session.__aenter__()
+                    await session.initialize()
+
+                    now = time.time()
+                    info = SessionInfo(
+                        session=session,
                         url=config.url,
+                        plugin_type=config.plugin_type,
                         headers=config.headers,
-                        timeout=config.timeout
+                        config=config.config,
+                        created_at=now,
+                        last_access=now,
+                        _context_stack=[('stream', stream_ctx), ('session', session)]
                     )
-                    read, write, _ = await stream_ctx.__aenter__()
-                
-                session = ClientSession(read, write)
-                await session.__aenter__()
-                await session.initialize()
-                
-                now = time.time()
-                info = SessionInfo(
-                    session=session,
-                    url=config.url,
-                    plugin_type=config.plugin_type,
-                    created_at=now,
-                    last_access=now,
-                    _context_stack=[('stream', stream_ctx), ('session', session)]
-                )
-                
+
                 async with self._session_lock:
                     self._sessions[key] = info
-                
+
                 logger.info(f"✅ MCP会话建立成功: {key}")
                 await self._emit_status_change(config.user_id, config.plugin_name, "inactive", "active", "连接成功")
                 return True
@@ -398,6 +436,12 @@ class MCPClientFacade:
             info = self._sessions.pop(key, None)
         
         if info:
+            if info.adapter is not None:
+                try:
+                    await info.adapter.aclose()
+                except Exception as e:
+                    logger.debug(f"关闭内置适配器时出错: {e}")
+
             # 按LIFO顺序清理上下文
             for ctx_type, ctx in reversed(info._context_stack):
                 try:
@@ -412,6 +456,21 @@ class MCPClientFacade:
             
             logger.info(f"🗑️ 关闭MCP会话: {key}")
     
+    async def _get_session_info(self, user_id: str, plugin_name: str) -> SessionInfo:
+        """获取并刷新会话信息。"""
+        key = self._get_key(user_id, plugin_name)
+
+        info = self._sessions.get(key)
+        if not info:
+            raise ValueError(f"MCP会话不存在: {plugin_name}，请先调用register()")
+
+        if info.status == "error":
+            logger.warning(f"⚠️ 会话 {key} 处于错误状态，可能需要重新注册")
+
+        info.last_access = time.time()
+        info.request_count += 1
+        return info
+
     async def _get_session(self, user_id: str, plugin_name: str) -> ClientSession:
         """
         获取会话
@@ -426,17 +485,9 @@ class MCPClientFacade:
         Raises:
             ValueError: 会话不存在
         """
-        key = self._get_key(user_id, plugin_name)
-        
-        info = self._sessions.get(key)
-        if not info:
-            raise ValueError(f"MCP会话不存在: {plugin_name}，请先调用register()")
-        
-        if info.status == "error":
-            logger.warning(f"⚠️ 会话 {key} 处于错误状态，可能需要重新注册")
-        
-        info.last_access = time.time()
-        info.request_count += 1
+        info = await self._get_session_info(user_id, plugin_name)
+        if info.session is None:
+            raise ValueError(f"MCP会话不存在: {plugin_name} 不是外部MCP会话")
         return info.session
 
     def is_registered(self, user_id: str, plugin_name: str) -> bool:
@@ -475,7 +526,8 @@ class MCPClientFacade:
         plugin_name: str,
         url: str,
         plugin_type: str = "streamable_http",
-        headers: Optional[Dict[str, str]] = None
+        headers: Optional[Dict[str, str]] = None,
+        config: Optional[Dict[str, Any]] = None,
     ) -> bool:
         """
         确保插件已注册（如果未注册则自动注册）
@@ -495,7 +547,13 @@ class MCPClientFacade:
         if key in self._sessions:
             info = self._sessions[key]
             # 检查URL和类型是否变化
-            if info.url == url and info.plugin_type == plugin_type and info.status != "error":
+            if (
+                info.url == url
+                and info.plugin_type == plugin_type
+                and (info.headers or {}) == (headers or {})
+                and (info.config or {}) == (config or {})
+                and info.status != "error"
+            ):
                 return True
         
         # 注册
@@ -504,7 +562,8 @@ class MCPClientFacade:
             plugin_name=plugin_name,
             url=url,
             plugin_type=plugin_type,
-            headers=headers
+            headers=headers,
+            config=config
         ))
     
     async def test_connection(self, user_id: str, plugin_name: str) -> Dict[str, Any]:
@@ -521,14 +580,29 @@ class MCPClientFacade:
         start = time.time()
         
         try:
-            session = await self._get_session(user_id, plugin_name)
-            result = await session.list_tools()
-            
+            info = await self._get_session_info(user_id, plugin_name)
+            if info.plugin_type == "builtin" and info.adapter is not None:
+                health = await info.adapter.health_check()
+                tools = await info.adapter.list_tools()
+                return {
+                    "success": True,
+                    "message": health.get("message", "连接成功"),
+                    "response_time_ms": round((time.time() - start) * 1000, 2),
+                    "tools_count": len(tools),
+                    "tools": tools,
+                    "result_preview": health.get("result_preview"),
+                }
+
+            if info.session is None:
+                raise MCPError(f"插件 {plugin_name} 没有可用会话")
+
+            result = await info.session.list_tools()
+
             tools = [
                 {"name": t.name, "description": t.description or ""}
                 for t in result.tools
             ]
-            
+
             return {
                 "success": True,
                 "message": "连接成功",
@@ -577,18 +651,22 @@ class MCPClientFacade:
                 del self._tool_cache[cache_key]
                 logger.debug(f"⏰ 工具缓存过期: {cache_key}")
         
-        # 从服务器获取
-        session = await self._get_session(user_id, plugin_name)
-        result = await session.list_tools()
-        
-        tools = [
-            {
-                "name": t.name,
-                "description": t.description or "",
-                "inputSchema": t.inputSchema
-            }
-            for t in result.tools
-        ]
+        info = await self._get_session_info(user_id, plugin_name)
+        if info.plugin_type == "builtin" and info.adapter is not None:
+            tools = await info.adapter.list_tools()
+        else:
+            if info.session is None:
+                raise MCPError(f"插件 {plugin_name} 没有可用会话")
+
+            result = await info.session.list_tools()
+            tools = [
+                {
+                    "name": t.name,
+                    "description": t.description or "",
+                    "inputSchema": t.inputSchema
+                }
+                for t in result.tools
+            ]
         
         # 更新缓存
         self._tool_cache[cache_key] = ToolCacheEntry(
@@ -625,10 +703,45 @@ class MCPClientFacade:
         tool_key = f"{plugin_name}.{tool_name}"
         start_time = time.time()
         actual_timeout = timeout or mcp_config.TOOL_CALL_TIMEOUT_SECONDS
+
+        key = self._get_key(user_id, plugin_name)
+        info = self._sessions.get(key)
+        if info and info.plugin_type == "builtin" and info.adapter is not None:
+            info = await self._get_session_info(user_id, plugin_name)
+            try:
+                logger.info(f"调用工具: {tool_key}")
+                logger.debug(f"  参数: {arguments}")
+                output = await asyncio.wait_for(
+                    info.adapter.call_tool(tool_name, arguments),
+                    timeout=actual_timeout
+                )
+                duration_ms = (time.time() - start_time) * 1000
+                self._metrics[tool_key].record_success(duration_ms)
+                logger.info(f"✅ 工具调用成功: {tool_key} ({duration_ms:.2f}ms)")
+                return output
+            except asyncio.TimeoutError:
+                duration_ms = (time.time() - start_time) * 1000
+                self._metrics[tool_key].record_failure(duration_ms)
+                raise MCPError(f"工具调用超时（>{actual_timeout}秒）")
+            except BuiltinAdapterError as e:
+                duration_ms = (time.time() - start_time) * 1000
+                self._metrics[tool_key].record_failure(duration_ms)
+                info.error_count += 1
+                logger.error(f"❌ 内置工具调用失败: {tool_key}: {e}")
+                raise MCPError(str(e)) from e
+            except Exception as e:
+                duration_ms = (time.time() - start_time) * 1000
+                self._metrics[tool_key].record_failure(duration_ms)
+                info.error_count += 1
+                logger.error(f"❌ 工具调用失败: {tool_key}: {e}")
+                raise MCPError(f"工具调用失败: {e}") from e
         
         for attempt in range(max_reconnect_attempts + 1):
             try:
-                session = await self._get_session(user_id, plugin_name)
+                info = await self._get_session_info(user_id, plugin_name)
+                session = info.session
+                if session is None:
+                    raise MCPError(f"插件 {plugin_name} 没有可用会话")
                 
                 logger.info(f"调用工具: {tool_key}")
                 logger.debug(f"  参数: {arguments}")
@@ -675,10 +788,12 @@ class MCPClientFacade:
                     # 使用旧的会话信息重新注册
                     url = old_info.url if old_info else ""
                     plugin_type = old_info.plugin_type if old_info else "streamable_http"
+                    headers = old_info.headers if old_info else None
+                    config = old_info.config if old_info else None
                     
                     if url:
                         success = await self.ensure_registered(
-                            user_id, plugin_name, url, plugin_type
+                            user_id, plugin_name, url, plugin_type, headers=headers, config=config
                         )
                         if success:
                             logger.info(f"✅ MCP会话重新建立成功: {key}")
@@ -707,10 +822,12 @@ class MCPClientFacade:
                     
                     url = old_info.url if old_info else ""
                     plugin_type = old_info.plugin_type if old_info else "streamable_http"
+                    headers = old_info.headers if old_info else None
+                    config = old_info.config if old_info else None
                     
                     if url:
                         success = await self.ensure_registered(
-                            user_id, plugin_name, url, plugin_type
+                            user_id, plugin_name, url, plugin_type, headers=headers, config=config
                         )
                         if success:
                             logger.info(f"✅ MCP会话重新注册成功: {key}")
@@ -913,11 +1030,12 @@ class MCPClientFacade:
         Returns:
             OpenAI格式的工具列表
         """
+        function_name_delimiter = "__tool__"
         return [
             {
                 "type": "function",
                 "function": {
-                    "name": f"{plugin_name}_{tool['name']}",
+                    "name": f"{plugin_name}{function_name_delimiter}{tool['name']}",
                     "description": tool.get("description", ""),
                     "parameters": tool.get("inputSchema", {
                         "type": "object",
@@ -947,6 +1065,12 @@ class MCPClientFacade:
             ValueError: 格式无效
         """
         # 优先尝试用下划线分割
+        explicit_delimiter = "__tool__"
+        if explicit_delimiter in function_name:
+            parts = function_name.split(explicit_delimiter, 1)
+            if len(parts) == 2 and parts[0] and parts[1]:
+                return (parts[0], parts[1])
+
         if "_" in function_name:
             parts = function_name.split("_", 1)
             if len(parts) == 2 and parts[0] and parts[1]:
@@ -1120,6 +1244,7 @@ class MCPClientFacade:
                 {
                     "key": k,
                     "url": s.url,
+                    "plugin_type": s.plugin_type,
                     "status": s.status,
                     "request_count": s.request_count,
                     "error_count": s.error_count,

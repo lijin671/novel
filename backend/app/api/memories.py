@@ -141,12 +141,28 @@ async def analyze_chapter(
         
         # 从分析结果中提取记忆片段
         memories_data = analyzer.extract_memories_from_analysis(
-            analysis_result,
-            chapter_id,
-            chapter.chapter_number
+            analysis=analysis_result,
+            chapter_id=chapter_id,
+            chapter_number=chapter.chapter_number,
+            chapter_content=chapter.content or "",
+            chapter_title=chapter.title or "",
+            chapter_summary_text=chapter.summary or ""
         )
         
         # 保存记忆到数据库和向量库
+        vector_deleted = await memory_service.delete_chapter_memories(
+            user_id=user_id,
+            project_id=project_id,
+            chapter_id=chapter_id
+        )
+        if not vector_deleted:
+            logger.warning(f"⚠️ 清理章节 {chapter_id[:8]} 的向量记忆失败，将继续重建关系库记忆")
+
+        await db.execute(
+            delete(StoryMemory).where(StoryMemory.chapter_id == chapter_id)
+        )
+        await db.flush()
+
         saved_count = 0
         for mem_data in memories_data:
             memory_id = str(uuid.uuid4())

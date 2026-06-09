@@ -1,3 +1,9 @@
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
 :root {
   /* --- 中国风配色方案 (Chinese Style Palette) --- */
 
@@ -91,24 +97,40 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+background: rgba(0, 0, 0, 0.06);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
+background: rgba(0, 0, 0, 0.24);
   border-radius: 4px;
   transition: background 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
+background: rgba(0, 0, 0, 0.34);
 }
 
 /* Firefox 滚动条样式 */
 * {
   scrollbar-width: thin;
-  scrollbar-color: #c1c1c1 #f1f1f1;
+  scrollbar-color: rgba(0, 0, 0, 0.24) rgba(0, 0, 0, 0.06);
+}
+
+[data-theme-resolved='dark'] ::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme-resolved='dark'] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+[data-theme-resolved='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme-resolved='dark'] * {
+  scrollbar-color: rgba(255, 255, 255, 0.28) rgba(255, 255, 255, 0.08);
 }
 
 /* 移动端响应式样式 */
@@ -186,6 +208,108 @@ body {
 
 .ant-tabs-dropdown {
   z-index: 2000 !important;
+}
+
+:root {
+  --theme-transition-duration: 460ms;
+  --theme-transition-easing: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+:root::view-transition-group(root) {
+  animation-duration: var(--theme-transition-duration);
+}
+
+:root[data-theme-transition='to-dark']::view-transition-new(root) {
+  z-index: 2;
+  animation: theme-dark-reveal var(--theme-transition-duration) var(--theme-transition-easing) both;
+}
+
+:root[data-theme-transition='to-dark']::view-transition-old(root) {
+  z-index: 1;
+  animation: theme-old-fade var(--theme-transition-duration) ease both;
+}
+
+:root[data-theme-transition='to-light']::view-transition-old(root) {
+  z-index: 2;
+  animation: theme-light-collapse var(--theme-transition-duration) var(--theme-transition-easing) both;
+}
+
+:root[data-theme-transition='to-light']::view-transition-new(root) {
+  z-index: 1;
+  animation: theme-new-fade var(--theme-transition-duration) ease both;
+}
+
+@keyframes theme-dark-reveal {
+  from {
+    clip-path: circle(0% at 50% 50%);
+    opacity: 0.78;
+  }
+  to {
+    clip-path: circle(150% at 50% 50%);
+    opacity: 1;
+  }
+}
+
+@keyframes theme-light-collapse {
+  from {
+    clip-path: circle(150% at 50% 50%);
+    opacity: 1;
+  }
+  to {
+    clip-path: circle(0% at 50% 50%);
+    opacity: 0.82;
+  }
+}
+
+@keyframes theme-old-fade {
+  from { opacity: 1; }
+  to { opacity: 0.9; }
+}
+
+@keyframes theme-new-fade {
+  from { opacity: 0.92; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root::view-transition-group(root),
+  :root::view-transition-old(root),
+  :root::view-transition-new(root) {
+    animation-duration: 1ms !important;
+  }
+}
+
+.ant-tooltip {
+  max-width: min(420px, calc(100vw - 24px));
+}
+
+.ant-tooltip .ant-tooltip-content,
+.ant-tooltip .ant-tooltip-inner {
+  max-width: inherit;
+}
+
+.ant-tooltip .ant-tooltip-inner {
+  background: var(--app-tooltip-bg, #4D8088);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px var(--app-tooltip-shadow, rgba(77, 128, 136, 0.3));
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  max-height: 50vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .ant-tooltip {
+    max-width: calc(100vw - 16px);
+  }
+
+  .ant-tooltip .ant-tooltip-inner {
+    padding: 8px 12px;
+    max-height: 50vh;
+  }
 }
 
 /* ===== 现代化侧边栏样式 (Modern Sidebar Styles) ===== */

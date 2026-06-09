@@ -4,11 +4,27 @@ import { Card, Input, Button, Space, Typography, message, Spin, Modal } from 'an
 import { SendOutlined, ArrowLeftOutlined, ReloadOutlined } from '@ant-design/icons';
 import { inspirationApi } from '../services/api';
 import { AIProjectGenerator, type GenerationConfig } from '../components/AIProjectGenerator';
+import type { PipelineMemoryRetrievalPresetKey } from '../types/memoryRetrieval';
+import {
+  getMemoryRetrievalPresetTitle,
+  PIPELINE_MEMORY_RETRIEVAL_OPTIONS,
+} from '../utils/memoryRetrieval';
 
 const { Title, Text, Paragraph } = Typography;
 const { TextArea } = Input;
 
-type Step = 'idea' | 'title' | 'description' | 'theme' | 'genre' | 'perspective' | 'outline_mode' | 'confirm' | 'generating' | 'complete';
+type Step =
+  | 'idea'
+  | 'title'
+  | 'description'
+  | 'theme'
+  | 'genre'
+  | 'perspective'
+  | 'outline_mode'
+  | 'memory_retrieval_preset'
+  | 'confirm'
+  | 'generating'
+  | 'complete';
 
 interface Message {
   type: 'ai' | 'user';
@@ -27,6 +43,7 @@ interface WizardData {
   genre: string[];
   narrative_perspective: string;
   outline_mode: 'one-to-one' | 'one-to-many';
+  memory_retrieval_preset: PipelineMemoryRetrievalPresetKey;
 }
 
 // 缓存数据接口
@@ -47,6 +64,75 @@ interface CacheData {
 const CACHE_KEY = 'inspiration_conversation_cache';
 // 缓存有效期：24小时
 const CACHE_EXPIRY = 24 * 60 * 60 * 1000;
+
+const MEMORY_RETRIEVAL_OPTION_LABELS = PIPELINE_MEMORY_RETRIEVAL_OPTIONS.map((option) => option.label);
+const OUTLINE_MODE_OPTIONS = ['一对一模式', '一对多模式'];
+const CONFIRM_OPTIONS = ['确认创建', '重新开始'];
+
+const INSPIRATION_PIPELINE_STORAGE_KEYS = {
+  projectId: 'inspiration_project_id',
+  generationData: 'inspiration_generation_data',
+  currentStep: 'inspiration_current_step',
+};
+
+const getMemoryRetrievalPresetValueFromLabel = (
+  label: string
+): PipelineMemoryRetrievalPresetKey | null => {
+  return (
+    PIPELINE_MEMORY_RETRIEVAL_OPTIONS.find((option) => option.label === label)?.value ||
+    null
+  );
+};
+
+const buildMemoryPresetPrompt = (): Message => ({
+  type: 'ai',
+  content: `很好！现在请先选择这次自动化流水线要使用的记忆召回策略：\n\n${PIPELINE_MEMORY_RETRIEVAL_OPTIONS.map((item, index) => `${index + 1}. ${item.label}：${item.description}`).join('\n\n')}\n\n请选择：`,
+  options: MEMORY_RETRIEVAL_OPTION_LABELS,
+});
+
+const buildOutlineModePrompt = (presetValue: PipelineMemoryRetrievalPresetKey): Message => ({
+  type: 'ai',
+  content: `已记录召回策略：${getMemoryRetrievalPresetTitle(presetValue)}。\n\n现在请选择你想要的大纲模式：\n\n1. 一对一模式：一个大纲对应一个章节，结构简洁。\n\n2. 一对多模式：一个大纲可以展开为多个章节，更适合长篇。\n\n请选择：`,
+  options: OUTLINE_MODE_OPTIONS,
+});
+
+const buildConfirmSummary = (data: WizardData) => {
+  const modeText =
+    data.outline_mode === 'one-to-one'
+      ? '一对一模式'
+      : '一对多模式';
+  const genreText = data.genre.length > 0 ? data.genre.join('、') : '未设置';
+  const presetText = getMemoryRetrievalPresetTitle(
+    data.memory_retrieval_preset || 'keep_current'
+  );
+
+  return [
+    '太棒了！你的小说设定已完成，请确认：',
+    '',
+    `书名：${data.title}`,
+    `简介：${data.description}`,
+    `主题：${data.theme}`,
+    `类型：${genreText}`,
+    `叙事视角：${data.narrative_perspective}`,
+    `召回策略：${presetText}`,
+    `大纲模式：${modeText}`,
+    '',
+    '请选择下一步操作：',
+  ].join('\n');
+};
+
+const isOptionMatch = (value: string, keyword: string) =>
+  value === keyword || value.includes(keyword);
+
+const parseOutlineMode = (value: string): WizardData['outline_mode'] | null => {
+  if (isOptionMatch(value, '一对一')) {
+    return 'one-to-one';
+  }
+  if (isOptionMatch(value, '一对多')) {
+    return 'one-to-many';
+  }
+  return null;
+};
 
 const Inspiration: React.FC = () => {
   const navigate = useNavigate();
@@ -83,6 +169,7 @@ const Inspiration: React.FC = () => {
 
   // 生成配置
   const [generationConfig, setGenerationConfig] = useState<GenerationConfig | null>(null);
+  const [resumeProjectId, setResumeProjectId] = useState<string | null>(null);
 
   // Modal hook
   const [modal, contextHolder] = Modal.useModal();
@@ -186,14 +273,42 @@ const Inspiration: React.FC = () => {
     }
   }, [clearCache]);
 
+  const restorePipelineProgress = useCallback((): boolean => {
+    try {
+      const cachedStep = localStorage.getItem(INSPIRATION_PIPELINE_STORAGE_KEYS.currentStep);
+      const cachedGenerationData = localStorage.getItem(INSPIRATION_PIPELINE_STORAGE_KEYS.generationData);
+      const cachedProjectId = localStorage.getItem(INSPIRATION_PIPELINE_STORAGE_KEYS.projectId);
+
+      if (cachedStep !== 'generating' || !cachedGenerationData) {
+        return false;
+      }
+
+      const cachedConfig = JSON.parse(cachedGenerationData) as GenerationConfig;
+      setGenerationConfig(cachedConfig);
+      setResumeProjectId(cachedProjectId || null);
+      setCurrentStep('generating');
+      message.info('检测到未完成的自动化全流程，已自动恢复', 2);
+      return true;
+    } catch (error) {
+      console.error('恢复自动化全流程缓存失败:', error);
+      localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.projectId);
+      localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.generationData);
+      localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.currentStep);
+      return false;
+    }
+  }, []);
+
   // ==================== 组件挂载时恢复缓存 ====================
 
   useEffect(() => {
     if (!cacheLoaded) {
-      restoreFromCache();
+      const restored = restorePipelineProgress();
+      if (!restored) {
+        restoreFromCache();
+      }
       setCacheLoaded(true);
     }
-  }, [cacheLoaded, restoreFromCache]);
+  }, [cacheLoaded, restoreFromCache, restorePipelineProgress]);
 
   // ==================== 自动保存：状态变化时保存 ====================
 
@@ -350,7 +465,7 @@ const Inspiration: React.FC = () => {
   };
 
   // 步骤顺序
-  const stepOrder: Step[] = ['idea', 'title', 'description', 'theme', 'genre', 'perspective', 'outline_mode', 'confirm'];
+  const stepOrder: Step[] = ['idea', 'title', 'description', 'theme', 'genre', 'perspective', 'memory_retrieval_preset', 'outline_mode', 'confirm'];
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) {
@@ -419,33 +534,35 @@ const Inspiration: React.FC = () => {
   };
 
   const handleSelectOption = async (option: string) => {
-    if (option === '重新生成' && lastFailedRequest) {
+    if (isOptionMatch(option, '重新生成') && lastFailedRequest) {
       await handleRetry();
       return;
     }
 
-    if (option === '我自己输入书名' || option === '我自己输入') {
+    if (isOptionMatch(option, '自己输入')) {
       message.info('请在下方输入框中输入您的内容');
       return;
     }
 
-    // 对于多选类型，不立即禁用选项
     if (currentStep === 'genre') {
       const newSelected = selectedOptions.includes(option)
-        ? selectedOptions.filter(o => o !== option)
+        ? selectedOptions.filter((item) => item !== option)
         : [...selectedOptions, option];
       setSelectedOptions(newSelected);
       return;
     }
 
-    // 立即禁用当前消息的选项（单选场景）
-    setMessages(prev => {
+    setMessages((prev) => {
       const newMessages = [...prev];
-      const lastAiMessageIndex = newMessages.map((m, i) => m.type === 'ai' && m.options ? i : -1).filter(i => i >= 0).pop();
+      const lastAiMessageIndex = newMessages
+        .map((item, index) => (item.type === 'ai' && item.options ? index : -1))
+        .filter((index) => index >= 0)
+        .pop();
+
       if (lastAiMessageIndex !== undefined && lastAiMessageIndex >= 0) {
         newMessages[lastAiMessageIndex] = {
           ...newMessages[lastAiMessageIndex],
-          optionsDisabled: true
+          optionsDisabled: true,
         };
       }
       return newMessages;
@@ -456,90 +573,88 @@ const Inspiration: React.FC = () => {
         type: 'user',
         content: option,
       };
-      setMessages(prev => [...prev, userMessage]);
+      setMessages((prev) => [...prev, userMessage]);
 
       const updatedData = { ...wizardData, narrative_perspective: option };
       setWizardData(updatedData);
+      setMessages((prev) => [...prev, buildMemoryPresetPrompt()]);
+      setCurrentStep('memory_retrieval_preset');
+      return;
+    }
 
-      // 询问大纲模式
-      const aiMessage: Message = {
-        type: 'ai',
-        content: `很好！现在请选择你想要的大纲模式：
+    if (currentStep === 'memory_retrieval_preset') {
+      const presetValue = getMemoryRetrievalPresetValueFromLabel(option);
+      if (!presetValue) {
+        message.warning('请从选项中选择一项召回策略');
+        return;
+      }
 
-📋 一对一模式：传统模式，一个大纲对应一个章节，适合结构清晰、章节独立的小说。
-
-📚 一对多模式：细化模式，一个大纲可以展开成多个章节，适合需要详细展开情节的小说。
-
-请选择：`,
-        options: ['📋 一对一模式', '📚 一对多模式']
+      const userMessage: Message = {
+        type: 'user',
+        content: option,
       };
-      setMessages(prev => [...prev, aiMessage]);
+      setMessages((prev) => [...prev, userMessage]);
+
+      const updatedData = {
+        ...wizardData,
+        genre: wizardData.genre || [],
+        memory_retrieval_preset: presetValue,
+      } as Partial<WizardData>;
+      setWizardData(updatedData);
+      setMessages((prev) => [...prev, buildOutlineModePrompt(presetValue)]);
       setCurrentStep('outline_mode');
       return;
     }
 
     if (currentStep === 'outline_mode') {
+      const modeValue = parseOutlineMode(option);
+      if (!modeValue) {
+        message.warning('请从选项中选择一种大纲模式');
+        return;
+      }
+
       const userMessage: Message = {
         type: 'user',
         content: option,
       };
-      setMessages(prev => [...prev, userMessage]);
-
-      // 将选项转换为实际的模式值
-      const modeValue: 'one-to-one' | 'one-to-many' =
-        option === '📋 一对一模式' ? 'one-to-one' : 'one-to-many';
+      setMessages((prev) => [...prev, userMessage]);
 
       const updatedData = {
         ...wizardData,
         outline_mode: modeValue,
-        genre: wizardData.genre || []
+        genre: wizardData.genre || [],
+        memory_retrieval_preset: wizardData.memory_retrieval_preset || 'keep_current',
       } as WizardData;
       setWizardData(updatedData);
 
-      // 显示摘要
-      const modeText = modeValue === 'one-to-one' ? '一对一模式' : '一对多模式';
-      const summary = `
-太棒了！你的小说设定已完成，请确认：
-
-📖 书名：${updatedData.title}
-📝 简介：${updatedData.description}
-🎯 主题：${updatedData.theme}
-🏷️ 类型：${updatedData.genre.join('、')}
-👁️ 视角：${updatedData.narrative_perspective}
-📋 大纲模式：${modeText}
-
-请选择下一步操作：
-      `.trim();
-
       const aiMessage: Message = {
         type: 'ai',
-        content: summary,
-        options: ['✅ 确认创建', '🔄 重新开始']
+        content: buildConfirmSummary(updatedData),
+        options: CONFIRM_OPTIONS,
       };
-      setMessages(prev => [...prev, aiMessage]);
+      setMessages((prev) => [...prev, aiMessage]);
       setCurrentStep('confirm');
       return;
     }
 
     if (currentStep === 'confirm') {
-      if (option === '✅ 确认创建') {
+      if (isOptionMatch(option, '确认创建')) {
         const userMessage: Message = {
           type: 'user',
           content: '确认创建',
         };
-        setMessages(prev => [...prev, userMessage]);
+        setMessages((prev) => [...prev, userMessage]);
 
         const aiMessage: Message = {
           type: 'ai',
-          content: '好的！正在为你创建项目，这可能需要几分钟时间...'
+          content: '好的！正在为你创建项目，这可能需要几分钟时间...',
         };
-        setMessages(prev => [...prev, aiMessage]);
+        setMessages((prev) => [...prev, aiMessage]);
 
-        // 清除缓存（对话完成，进入生成阶段）
         clearCache();
 
-        // 开始生成项目
         const data = wizardData as WizardData;
+        const outlineMode = data.outline_mode;
         const config: GenerationConfig = {
           title: data.title,
           description: data.description,
@@ -547,24 +662,35 @@ const Inspiration: React.FC = () => {
           genre: data.genre,
           narrative_perspective: data.narrative_perspective,
           target_words: 100000,
-          chapter_count: 3,
+          chapter_count: outlineMode === 'one-to-one' ? 30 : 3,
           character_count: 5,
-          outline_mode: data.outline_mode,
+          outline_mode: outlineMode,
+          auto_pipeline: true,
+          chapters_per_outline: 3,
+          chapter_target_word_count: 3000,
+          enable_chapter_analysis: true,
+          memory_retrieval_preset: data.memory_retrieval_preset || 'keep_current',
         };
+        setResumeProjectId(null);
         setGenerationConfig(config);
         setCurrentStep('generating');
         return;
-      } else if (option === '🔄 重新开始') {
+      }
+
+      if (isOptionMatch(option, '重新开始')) {
         handleRestart();
         return;
       }
+
+      message.warning('请选择“确认创建”或“重新开始”');
+      return;
     }
 
     const userMessage: Message = {
       type: 'user',
       content: option,
     };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
 
     try {
@@ -605,27 +731,17 @@ const Inspiration: React.FC = () => {
       } else if (currentStep === 'perspective') {
         updatedData.narrative_perspective = input;
         setWizardData(updatedData);
-        
-        // 直接进入大纲模式选择
-        const aiMessage: Message = {
-          type: 'ai',
-          content: `很好！现在请选择你想要的大纲模式：
-
-📋 一对一模式：传统模式，一个大纲对应一个章节，适合结构清晰、章节独立的小说。
-
-📚 一对多模式：细化模式，一个大纲可以展开成多个章节，适合需要详细展开情节的小说。
-
-请选择：`,
-          options: ['📋 一对一模式', '📚 一对多模式']
-        };
-        setMessages(prev => [...prev, aiMessage]);
-        setCurrentStep('outline_mode');
-        setLoading(false);
+        setMessages((prev) => [...prev, buildMemoryPresetPrompt()]);
+        setCurrentStep('memory_retrieval_preset');
+        return;
+      } else if (currentStep === 'memory_retrieval_preset') {
+        message.warning('请从选项中选择一项召回策略');
         return;
       } else if (currentStep === 'outline_mode') {
-        // 大纲模式不支持自定义输入
-        message.warning('请从选项中选择一个大纲模式');
-        setLoading(false);
+        message.warning('请从选项中选择一种大纲模式');
+        return;
+      } else if (currentStep === 'confirm') {
+        message.warning('请直接选择“确认创建”或“重新开始”');
         return;
       }
 
@@ -809,6 +925,10 @@ const Inspiration: React.FC = () => {
   const handleRestart = () => {
     // 清除缓存
     clearCache();
+    localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.projectId);
+    localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.generationData);
+    localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.currentStep);
+    setResumeProjectId(null);
 
     setCurrentStep('idea');
     setMessages([
@@ -832,12 +952,17 @@ const Inspiration: React.FC = () => {
     console.log('灵感模式项目创建完成:', projectId);
     // 确保清除缓存
     clearCache();
+    setResumeProjectId(null);
     setCurrentStep('complete');
   };
 
   // 返回对话界面
   const handleBackToChat = () => {
     clearCache();
+    localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.projectId);
+    localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.generationData);
+    localStorage.removeItem(INSPIRATION_PIPELINE_STORAGE_KEYS.currentStep);
+    setResumeProjectId(null);
     setCurrentStep('idea');
     setGenerationConfig(null);
     handleRestart();
@@ -1190,6 +1315,7 @@ const Inspiration: React.FC = () => {
             onComplete={handleComplete}
             onBack={handleBackToChat}
             isMobile={isMobile}
+            resumeProjectId={resumeProjectId || undefined}
           />
         )}
       </div>

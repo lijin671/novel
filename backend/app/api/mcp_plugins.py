@@ -3,7 +3,8 @@
 重构后使用统一的MCPClientFacade门面来管理所有MCP操作。
 """
 import asyncio
-from fastapi import APIRouter, HTTPException, Depends, Query, Request, BackgroundTasks
+from urllib.parse import parse_qsl, urlparse, urlunparse
+from fastapi import APIRouter, HTTPException, Depends, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from sqlalchemy import select, update
 from typing import List, Optional
@@ -16,6 +17,7 @@ from app.schemas.mcp_plugin import (
     MCPPluginSimpleCreate,
     MCPPluginUpdate,
     MCPPluginResponse,
+    ExaRestAdapterInstallRequest,
     MCPToolCall,
     MCPTestResult
 )
@@ -37,6 +39,102 @@ def require_login(request: Request) -> User:
     return request.state.user
 
 
+def _normalize_exa_rest_base_url(raw_url: str) -> str:
+    """把用户可能传入的 /search 地址归一为基础地址。"""
+    base_url = (raw_url or "").strip().rstrip("/")
+    if not base_url:
+        return "https://exa.chengtx.vip"
+
+    parsed = urlparse(base_url)
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return base_url
+
+    path = parsed.path.rstrip("/")
+    for suffix in ("/search", "/answer", "/answers", "/contents"):
+        if path.lower().endswith(suffix):
+            path = path[: -len(suffix)]
+            break
+
+    normalized_url = urlunparse((parsed.scheme, parsed.netloc, path, "", "", "")).rstrip("/")
+    return normalized_url or f"{parsed.scheme}://{parsed.netloc}"
+
+
+def _extract_query_params(raw_url: Optional[str]) -> dict:
+    """从地址中提取 query 参数，兼容 ?exaApiKey=... 这类旧配置。"""
+    if not raw_url:
+        return {}
+
+    parsed = urlparse(raw_url.strip())
+    return {
+        key: value
+        for key, value in parse_qsl(parsed.query, keep_blank_values=True)
+        if key
+    }
+
+
+def _looks_like_exa_rest_url(raw_url: Optional[str]) -> bool:
+    """识别 Exa REST /search 这类非 MCP 端点。"""
+    if not raw_url:
+        return False
+
+    parsed = urlparse(raw_url.strip())
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return False
+
+    path = parsed.path.rstrip("/").lower()
+    if not any(path.endswith(suffix) for suffix in ("/search", "/answer", "/answers", "/contents")):
+        return False
+
+    host = parsed.netloc.lower()
+    query_keys = {key.lower() for key in dict(parse_qsl(parsed.query, keep_blank_values=True)).keys()}
+    return "exa" in host or "exaapikey" in query_keys
+
+
+def _build_facade_plugin_config(
+    *,
+    user_id: str,
+    plugin_name: str,
+    plugin_type: str,
+    server_url: Optional[str],
+    headers: Optional[dict],
+    config: Optional[dict],
+) -> Optional[MCPPluginConfig]:
+    """将数据库插件配置转换为统一门面使用的配置对象。"""
+    if plugin_type != "builtin" and _looks_like_exa_rest_url(server_url):
+        merged_config = dict(config or {})
+        merged_config.setdefault("builtin_adapter", "exa_rest")
+        query_params = _extract_query_params(server_url)
+        if query_params:
+            merged_config["query_params"] = query_params
+
+        return MCPPluginConfig(
+            user_id=user_id,
+            plugin_name=plugin_name,
+            url=_normalize_exa_rest_base_url(server_url or ""),
+            plugin_type="builtin",
+            headers=headers,
+            config=merged_config,
+            timeout=merged_config.get("timeout", 60.0),
+        )
+
+    actual_plugin_type = "streamable_http" if plugin_type == "http" else plugin_type
+    if actual_plugin_type not in ["streamable_http", "sse", "builtin"]:
+        return None
+
+    if not server_url:
+        return None
+
+    return MCPPluginConfig(
+        user_id=user_id,
+        plugin_name=plugin_name,
+        url=server_url,
+        plugin_type=actual_plugin_type,
+        headers=headers,
+        config=config,
+        timeout=config.get("timeout", 60.0) if config else 60.0,
+    )
+
+
 async def _register_plugin_background(
     user_id: str,
     plugin_name: str,
@@ -53,17 +151,15 @@ async def _register_plugin_background(
     try:
         logger.info(f"后台注册MCP插件: {plugin_name}")
 
-        if plugin_type in ["http", "streamable_http", "sse"] and server_url:
-            success = await mcp_client.register(MCPPluginConfig(
-                user_id=user_id,
-                plugin_name=plugin_name,
-                url=server_url,
-                plugin_type=plugin_type,
-                headers=headers,
-                timeout=config.get('timeout', 60.0) if config else 60.0
-            ))
-        else:
-            success = False
+        facade_config = _build_facade_plugin_config(
+            user_id=user_id,
+            plugin_name=plugin_name,
+            plugin_type=plugin_type,
+            server_url=server_url,
+            headers=headers,
+            config=config,
+        )
+        success = await mcp_client.register(facade_config) if facade_config else False
 
         # 更新数据库状态
         engine = await get_engine(user_id)
@@ -123,18 +219,18 @@ async def _register_plugin_to_facade(plugin: MCPPlugin, user_id: str) -> bool:
     Returns:
         是否注册成功
     """
-    if plugin.plugin_type in ["http", "streamable_http", "sse"] and plugin.server_url:
-        return await mcp_client.register(MCPPluginConfig(
-            user_id=user_id,
-            plugin_name=plugin.plugin_name,
-            url=plugin.server_url,
-            plugin_type=plugin.plugin_type,
-            headers=plugin.headers,
-            timeout=plugin.config.get('timeout', 60.0) if plugin.config else 60.0
-        ))
-    else:
+    facade_config = _build_facade_plugin_config(
+        user_id=user_id,
+        plugin_name=plugin.plugin_name,
+        plugin_type=plugin.plugin_type,
+        server_url=plugin.server_url,
+        headers=plugin.headers,
+        config=plugin.config,
+    )
+    if facade_config is None:
         logger.warning(f"暂不支持的插件类型: {plugin.plugin_type}")
         return False
+    return await mcp_client.register(facade_config)
 
 
 @router.get("", response_model=List[MCPPluginResponse])
@@ -217,6 +313,80 @@ async def create_plugin(
     return plugin
 
 
+@router.post("/install-exa-rest-adapter", response_model=MCPPluginResponse)
+async def install_exa_rest_adapter(
+    data: ExaRestAdapterInstallRequest,
+    user: User = Depends(require_login),
+    db: AsyncSession = Depends(get_db)
+):
+    """一键安装或更新 Exa REST 内置适配器。"""
+    plugin_name = "exa_rest"
+    base_url = _normalize_exa_rest_base_url(data.base_url)
+    query_params = _extract_query_params(data.base_url)
+    api_key_header = (data.api_key_header or "x-api-key").strip() or "x-api-key"
+    api_key = (data.api_key or "").strip()
+    headers = {api_key_header: api_key} if api_key else {}
+
+    plugin_payload = {
+        "display_name": "Exa REST 适配器",
+        "description": "项目内置 Exa REST 搜索适配器，可直接接入 /search REST 地址，为现实资料、成员名单与时间线检索提供工具能力。",
+        "plugin_type": "builtin",
+        "server_url": base_url,
+        "headers": headers,
+        "config": {
+            "builtin_adapter": "exa_rest",
+            "api_key_header": api_key_header,
+            "query_params": query_params,
+        },
+        "enabled": data.enabled,
+        "category": data.category or "search",
+    }
+
+    result = await db.execute(
+        select(MCPPlugin).where(
+            MCPPlugin.user_id == user.user_id,
+            MCPPlugin.plugin_name == plugin_name
+        )
+    )
+    plugin = result.scalar_one_or_none()
+
+    if plugin is None:
+        plugin = MCPPlugin(
+            user_id=user.user_id,
+            plugin_name=plugin_name,
+            **plugin_payload,
+        )
+        db.add(plugin)
+    else:
+        for key, value in plugin_payload.items():
+            setattr(plugin, key, value)
+
+    plugin.status = "pending" if plugin.enabled else "inactive"
+    plugin.last_error = None
+
+    await db.commit()
+    await db.refresh(plugin)
+
+    try:
+        await mcp_client.unregister(user.user_id, plugin_name)
+    except Exception as exc:
+        logger.debug(f"更新 Exa REST 适配器前清理旧会话时忽略异常: {exc}")
+
+    if plugin.enabled:
+        success = await _register_plugin_to_facade(plugin, user.user_id)
+        plugin.status = "active" if success else "error"
+        plugin.last_error = None if success else "连接失败"
+    else:
+        plugin.status = "inactive"
+        plugin.last_error = None
+
+    await db.commit()
+    await db.refresh(plugin)
+
+    logger.info(f"用户 {user.user_id} 安装/更新 Exa REST 适配器")
+    return plugin
+
+
 @router.post("/simple", response_model=MCPPluginResponse)
 async def create_plugin_simple(
     data: MCPPluginSimpleCreate,
@@ -279,11 +449,20 @@ async def create_plugin_simple(
         }
         
         if server_type in ["http", "streamable_http", "sse"]:
-            plugin_data["server_url"] = server_config.get("url")
+            raw_url = server_config.get("url")
+            plugin_data["server_url"] = raw_url
             plugin_data["headers"] = server_config.get("headers", {})
             
             if not plugin_data["server_url"]:
                 raise HTTPException(status_code=400, detail=f"{server_type}类型插件必须提供url字段")
+
+            if _looks_like_exa_rest_url(raw_url):
+                plugin_data["plugin_type"] = "builtin"
+                plugin_data["server_url"] = _normalize_exa_rest_base_url(raw_url)
+                plugin_data["config"] = {
+                    "builtin_adapter": "exa_rest",
+                    "query_params": _extract_query_params(raw_url),
+                }
         
         elif server_type == "stdio":
             plugin_data["command"] = server_config.get("command")
@@ -424,7 +603,11 @@ async def update_plugin(
     # 如果插件已启用，重新注册
     if plugin.enabled:
         await mcp_client.unregister(user.user_id, plugin.plugin_name)
-        await _register_plugin_to_facade(plugin, user.user_id)
+        success = await _register_plugin_to_facade(plugin, user.user_id)
+        plugin.status = "active" if success else "error"
+        plugin.last_error = None if success else "加载失败"
+        await db.commit()
+        await db.refresh(plugin)
     
     logger.info(f"用户 {user.user_id} 更新插件: {plugin.plugin_name}")
     return plugin
@@ -501,17 +684,15 @@ async def toggle_plugin(
     if enabled:
         # 启用：注册到统一门面
         try:
-            if plugin_type in ["http", "streamable_http", "sse"] and server_url:
-                success = await mcp_client.register(MCPPluginConfig(
-                    user_id=user.user_id,
-                    plugin_name=plugin_name,
-                    url=server_url,
-                    plugin_type=plugin_type,
-                    headers=headers,
-                    timeout=config.get('timeout', 60.0) if config else 60.0
-                ))
-            else:
-                success = False
+            facade_config = _build_facade_plugin_config(
+                user_id=user.user_id,
+                plugin_name=plugin_name,
+                plugin_type=plugin_type,
+                server_url=server_url,
+                headers=headers,
+                config=config,
+            )
+            success = await mcp_client.register(facade_config) if facade_config else False
             
             # 更新状态
             plugin.status = "active" if success else "error"
@@ -573,34 +754,61 @@ async def test_plugin(
     session_status = mcp_client.get_session_status(user.user_id, plugin.plugin_name)
 
     if not is_registered:
-        # 会话不存在或状态异常，需要在后台注册
-        logger.info(f"插件 {plugin.plugin_name} 会话不存在(状态: {session_status})，启动后台注册")
-
-        # 更新数据库状态为pending
-        plugin.status = "pending"
-        plugin.last_error = None
-        await db.commit()
-
-        # 在后台注册插件
-        asyncio.create_task(_register_plugin_background(
+        facade_config = _build_facade_plugin_config(
             user_id=user.user_id,
             plugin_name=plugin.plugin_name,
             plugin_type=plugin.plugin_type,
             server_url=plugin.server_url,
             headers=plugin.headers,
-            config=plugin.config
-        ))
-
-        return MCPTestResult(
-            success=False,
-            message="正在建立连接...",
-            error="插件会话正在初始化，请稍后重试",
-            suggestions=[
-                "插件正在连接MCP服务器",
-                "请等待2-3秒后再次点击测试",
-                "如果持续失败，请检查服务器地址是否正确"
-            ]
+            config=plugin.config,
         )
+
+        if facade_config and facade_config.plugin_type == "builtin":
+            logger.info(f"插件 {plugin.plugin_name} 为内置适配器，改为同步注册")
+            success = await mcp_client.register(facade_config)
+            if not success:
+                plugin.status = "error"
+                plugin.last_error = "连接失败"
+                await db.commit()
+                return MCPTestResult(
+                    success=False,
+                    message="内置适配器连接失败",
+                    error="请检查 Exa REST 地址、Key Header 和 API Key 是否正确",
+                    suggestions=[
+                        "如果地址包含 /search 或 ?exaApiKey=... 也可以直接使用，系统会自动兼容",
+                        "确认 exa.chengtx.vip/search 可以从当前网络访问",
+                        "如果仍失败，请改用安装 Exa REST 适配器入口重新保存一次配置",
+                    ]
+                )
+        else:
+            # 会话不存在或状态异常，需要在后台注册
+            logger.info(f"插件 {plugin.plugin_name} 会话不存在(状态: {session_status})，启动后台注册")
+
+            # 更新数据库状态为pending
+            plugin.status = "pending"
+            plugin.last_error = None
+            await db.commit()
+
+            # 在后台注册插件
+            asyncio.create_task(_register_plugin_background(
+                user_id=user.user_id,
+                plugin_name=plugin.plugin_name,
+                plugin_type=plugin.plugin_type,
+                server_url=plugin.server_url,
+                headers=plugin.headers,
+                config=plugin.config
+            ))
+
+            return MCPTestResult(
+                success=False,
+                message="正在建立连接...",
+                error="插件会话正在初始化，请稍后重试",
+                suggestions=[
+                    "插件正在连接MCP服务器",
+                    "请等待2-3秒后再次点击测试",
+                    "如果持续失败，请检查服务器地址是否正确"
+                ]
+            )
 
     # 会话已存在，直接执行测试
     try:
@@ -647,13 +855,22 @@ async def _ensure_plugin_registered(
     """
     try:
         # 使用ensure_registered方法，它会检查是否已注册
-        if plugin.plugin_type in ["http", "streamable_http", "sse"] and plugin.server_url:
+        facade_config = _build_facade_plugin_config(
+            user_id=user_id,
+            plugin_name=plugin.plugin_name,
+            plugin_type=plugin.plugin_type,
+            server_url=plugin.server_url,
+            headers=plugin.headers,
+            config=plugin.config,
+        )
+        if facade_config is not None:
             return await mcp_client.ensure_registered(
                 user_id=user_id,
                 plugin_name=plugin.plugin_name,
-                url=plugin.server_url,
-                plugin_type=plugin.plugin_type,
-                headers=plugin.headers
+                url=facade_config.url,
+                plugin_type=facade_config.plugin_type,
+                headers=facade_config.headers,
+                config=facade_config.config,
             )
         return False
     except ValueError as e:

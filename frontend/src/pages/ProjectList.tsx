@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Card, Button, Modal, message, Spin, Space, Tag, Progress, Typography, Alert, Upload, Checkbox, Tooltip, Drawer, Menu } from 'antd';
 import { EditOutlined, DeleteOutlined, BookOutlined, RocketOutlined, CalendarOutlined, FileTextOutlined, TrophyOutlined, SettingOutlined, UploadOutlined, DownloadOutlined, ApiOutlined, BulbOutlined, LoadingOutlined, FileSearchOutlined, MenuUnfoldOutlined, CloseOutlined } from '@ant-design/icons';
 import { projectApi } from '../services/api';
+import type { Project } from '../types';
 import { useStore } from '../store';
 import { useProjectSync } from '../store/hooks';
 import { eventBus, EventNames } from '../store/eventBus';
@@ -10,10 +11,12 @@ import type { ReactNode } from 'react';
 import { cardStyles, cardHoverHandlers } from '../components/CardStyles';
 import UserMenu from '../components/UserMenu';
 import ChangelogFloatingButton from '../components/ChangelogFloatingButton';
+import ThemeSwitch from '../components/ThemeSwitch';
 import SettingsPage from './Settings';
 import MCPPluginsPage from './MCPPlugins';
 import PromptTemplates from './PromptTemplates';
 import BookImport from './BookImport';
+import BookRemix from './BookRemix';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -39,8 +42,9 @@ const formatWordCount = (count: number): string => {
 
 export default function ProjectList() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { projects, loading } = useStore();
-  const [activeView, setActiveView] = useState<'projects' | 'settings' | 'mcp' | 'prompts' | 'book-import'>('projects');
+  const [activeView, setActiveView] = useState<'projects' | 'settings' | 'mcp' | 'prompts' | 'book-import' | 'book-remix'>('projects');
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [modal, contextHolder] = Modal.useModal();
   const [showApiTip, setShowApiTip] = useState(true);
@@ -63,10 +67,43 @@ export default function ProjectList() {
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
+  const switchActiveView = useCallback((
+    nextView: 'projects' | 'settings' | 'mcp' | 'prompts' | 'book-import' | 'book-remix',
+    options?: { projectId?: string | null },
+  ) => {
+    setActiveView(nextView);
+
+    if (nextView === 'book-remix') {
+      const nextParams = new URLSearchParams(searchParams);
+      nextParams.set('view', 'book-remix');
+      if (options?.projectId) {
+        nextParams.set('projectId', options.projectId);
+      } else {
+        nextParams.delete('projectId');
+      }
+      setSearchParams(nextParams, { replace: true });
+      return;
+    }
+
+    if (searchParams.has('view') || searchParams.has('projectId')) {
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
+
+  const isContinuationWorkbenchProject = useCallback((project: Project) => {
+    const title = String(project.title || '');
+    const description = String(project.description || '');
+    return (
+      title.includes('拆书续写工作台')
+      || /\[拆书模式\]\s*continuation/i.test(description)
+      || description.includes('[拆书续写工作台]')
+    );
+  }, []);
+
   // 处理切换到 MCP 视图的事件
   const handleSwitchToMcp = useCallback(() => {
-    setActiveView('mcp');
-  }, []);
+    switchActiveView('mcp');
+  }, [switchActiveView]);
 
   useEffect(() => {
     refreshProjects();
@@ -79,6 +116,12 @@ export default function ProjectList() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handleSwitchToMcp]);
+
+  useEffect(() => {
+    if (searchParams.get('view') === 'book-remix') {
+      setActiveView('book-remix');
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -376,7 +419,7 @@ export default function ProjectList() {
              {/* 模拟 Menu 样式 */}
              <div style={{ padding: '0 12px 12px 12px' }}>
                 <div
-                  onClick={() => setActiveView('projects')}
+                  onClick={() => switchActiveView('projects')}
                   style={{
                     padding: '10px 16px',
                     fontSize: 14,
@@ -401,7 +444,7 @@ export default function ProjectList() {
 
                 <div style={{ padding: '0 12px', fontSize: 12, color: 'rgba(0,0,0,0.45)', marginBottom: 8, marginTop: 16 }}>创作工具</div>
                 <div
-                  onClick={() => setActiveView('book-import')}
+                  onClick={() => switchActiveView('book-import')}
                   style={{
                     padding: '10px 16px',
                     fontSize: 14,
@@ -424,7 +467,30 @@ export default function ProjectList() {
                    拆书导入
                 </div>
                 <div
-                  onClick={() => setActiveView('mcp')}
+                  onClick={() => switchActiveView('book-remix')}
+                  style={{
+                    padding: '10px 16px',
+                    fontSize: 14,
+                    cursor: 'pointer',
+                    borderRadius: 4,
+                    color: activeView === 'book-remix' ? 'var(--color-primary)' : 'rgba(0,0,0,0.85)',
+                    background: activeView === 'book-remix' ? '#e6f7ff' : 'transparent',
+                    fontWeight: 500,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    transition: 'all 0.3s',
+                    marginBottom: 4,
+                    borderRight: activeView === 'book-remix' ? '3px solid var(--color-primary)' : '3px solid transparent'
+                  }}
+                  onMouseEnter={e => activeView !== 'book-remix' && (e.currentTarget.style.background = 'rgba(0,0,0,0.04)')}
+                  onMouseLeave={e => activeView !== 'book-remix' && (e.currentTarget.style.background = 'transparent')}
+                >
+                   <BulbOutlined />
+                   拆书二创
+                </div>
+                <div
+                  onClick={() => switchActiveView('mcp')}
                   style={{
                     padding: '10px 16px',
                     fontSize: 14,
@@ -447,7 +513,7 @@ export default function ProjectList() {
                    MCP 插件
                 </div>
                 <div
-                  onClick={() => setActiveView('prompts')}
+                  onClick={() => switchActiveView('prompts')}
                   style={{
                     padding: '10px 16px',
                     fontSize: 14,
@@ -472,7 +538,7 @@ export default function ProjectList() {
 
                 <div style={{ padding: '0 12px', fontSize: 12, color: 'rgba(0,0,0,0.45)', marginBottom: 8, marginTop: 16 }}>系统设置</div>
                 <div
-                  onClick={() => setActiveView('settings')}
+                  onClick={() => switchActiveView('settings')}
                   style={{
                     padding: '10px 16px',
                     fontSize: 14,
@@ -498,7 +564,8 @@ export default function ProjectList() {
           </div>
 
           {/* 底部用户信息 */}
-          <div style={{ padding: 16, borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ padding: 16, borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column', gap: 12 }}>
+             <ThemeSwitch block />
              <UserMenu />
           </div>
         </div>
@@ -555,6 +622,7 @@ export default function ProjectList() {
                {activeView === 'projects' ? '我的书架' :
                 activeView === 'prompts' ? '提示词模板' :
                 activeView === 'book-import' ? '拆书导入' :
+                activeView === 'book-remix' ? '拆书二创' :
                 activeView === 'mcp' ? 'MCP 插件' : 'API 设置'}
              </span>
           </div>
@@ -602,7 +670,7 @@ export default function ProjectList() {
                 selectedKeys={[activeView]}
                 style={{ borderRight: 0, paddingTop: 8 }}
                 onClick={({ key }) => {
-                  setActiveView(key as 'projects' | 'settings' | 'mcp' | 'prompts' | 'book-import');
+                  switchActiveView(key as 'projects' | 'settings' | 'mcp' | 'prompts' | 'book-import' | 'book-remix');
                   setDrawerVisible(false);
                 }}
                 items={[
@@ -619,6 +687,11 @@ export default function ProjectList() {
                         key: 'book-import',
                         icon: <UploadOutlined />,
                         label: '拆书导入',
+                      },
+                      {
+                        key: 'book-remix',
+                        icon: <BulbOutlined />,
+                        label: '拆书二创',
                       },
                       {
                         key: 'mcp',
@@ -675,7 +748,8 @@ export default function ProjectList() {
             </div>
             
             {/* 底部用户信息 */}
-            <div style={{ padding: 16, borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+            <div style={{ padding: 16, borderTop: '1px solid rgba(0,0,0,0.06)', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              <ThemeSwitch block />
               <UserMenu showFullInfo />
             </div>
           </Drawer>
@@ -707,11 +781,15 @@ export default function ProjectList() {
                 {activeView === 'projects' ? '我的书架' :
                  activeView === 'prompts' ? '提示词模板' :
                  activeView === 'book-import' ? '拆书导入' :
+                 activeView === 'book-remix' ? '拆书二创' :
                  activeView === 'mcp' ? 'MCP 插件' : 'API 设置'}
              </h2>
              
              {activeView === 'projects' && (
-               <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
+                  <div style={{ minWidth: 120 }}>
+                    <ThemeSwitch block />
+                  </div>
                   {/* 导入导出按钮 */}
                   <Space>
                      <Button ghost icon={<UploadOutlined />} onClick={() => setImportModalVisible(true)} style={{ color: '#fff', borderColor: 'rgba(255,255,255,0.6)' }}>导入</Button>
@@ -774,7 +852,7 @@ export default function ProjectList() {
           style={{
             flex: 1,
             overflowY: 'auto',
-            padding: (activeView === 'projects' || activeView === 'book-import')
+            padding: (activeView === 'projects' || activeView === 'book-import' || activeView === 'book-remix')
               ? `${isMobile ? 16 : 24}px ${isMobile ? 16 : 32}px`
               : 0,
             background: 'var(--color-bg-base)',
@@ -787,6 +865,16 @@ export default function ProjectList() {
           {activeView === 'book-import' && (
             <div style={{ maxWidth: 1200, margin: '0 auto', paddingBottom: 60 }}>
               <BookImport />
+            </div>
+          )}
+
+          {activeView === 'book-remix' && (
+            <div style={{ maxWidth: 1200, margin: '0 auto', paddingBottom: 60 }}>
+              <BookRemix
+                initialContinuationProjectId={
+                  searchParams.get('view') === 'book-remix' ? searchParams.get('projectId') : null
+                }
+              />
             </div>
           )}
           
@@ -810,7 +898,7 @@ export default function ProjectList() {
                     <Button
                       size="small"
                       type="primary"
-                      onClick={() => setActiveView('settings')}
+                      onClick={() => switchActiveView('settings')}
                       style={{ flexShrink: 0 }}
                     >
                       去配置
@@ -890,6 +978,7 @@ export default function ProjectList() {
                 {Array.isArray(projects) && projects.map((project) => {
                     const progress = getProgress(project.current_words, project.target_words || 0);
                     const isWizardIncomplete = project.wizard_status === 'incomplete';
+                    const showContinuationWorkbenchEntry = isContinuationWorkbenchProject(project);
                     // 解析标签（假设存储在 genre 字段，用逗号或顿号分隔）
                     const tags = project.genre ? project.genre.split(/[,、，]/).map((t: string) => t.trim()).filter((t: string) => t) : [];
 
@@ -1116,6 +1205,25 @@ export default function ProjectList() {
                                 style={{ padding: isMobile ? '2px 4px' : '4px 8px' }}
                              />
                           </div>
+                          {showContinuationWorkbenchEntry && (
+                            <div style={{
+                              padding: isMobile ? '0 14px 12px' : '0 20px 14px',
+                              borderTop: '1px solid rgba(0,0,0,0.04)',
+                              background: 'rgba(24, 144, 255, 0.04)'
+                            }}>
+                              <Button
+                                type="link"
+                                size="small"
+                                style={{ padding: 0, height: 'auto' }}
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  switchActiveView('book-remix', { projectId: project.id });
+                                }}
+                              >
+                                继续拆书续写工作台
+                              </Button>
+                            </div>
+                          )}
                         </Card>
                       </div>
                     );

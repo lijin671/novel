@@ -106,7 +106,7 @@ COPY backend/scripts/entrypoint.sh /app/entrypoint.sh
 COPY backend/scripts/migrate.py ./scripts/migrate.py
 
 # 赋予执行权限
-RUN chmod +x /app/entrypoint.sh
+RUN sed -i 's/\r$//' /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
 # 创建必要的目录
 RUN mkdir -p /app/data /app/logs

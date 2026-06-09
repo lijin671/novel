@@ -3,12 +3,53 @@ import { Card, Form, Input, Button, Select, Slider, InputNumber, message, Space,
 import { SaveOutlined, DeleteOutlined, ReloadOutlined, InfoCircleOutlined, CheckCircleOutlined, CloseCircleOutlined, ThunderboltOutlined, PlusOutlined, EditOutlined, CopyOutlined, WarningOutlined } from '@ant-design/icons';
 import { settingsApi, mcpPluginApi } from '../services/api';
 import type { SettingsUpdate, APIKeyPreset, PresetCreateRequest, APIKeyPresetConfig } from '../types';
+import type {
+  MemoryRetrievalConfigResponse,
+  MemoryRetrievalPresetKey,
+} from '../types/memoryRetrieval';
 import { eventBus, EventNames } from '../store/eventBus';
+import {
+  buildMemoryRetrievalPresetScenarioTypes,
+  getMemoryRetrievalPresetTitle,
+  MEMORY_RETRIEVAL_PRESETS,
+  normalizeMemoryTypes,
+  normalizeScenarioTypes,
+  normalizeScenarioTypesForKeys,
+} from '../utils/memoryRetrieval';
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 const { useBreakpoint } = Grid;
 const { TextArea } = Input;
+
+const MEMORY_SCENARIO_META: Record<string, { title: string; description: string }> = {
+  chapter_generation: {
+    title: '\u7ae0\u8282\u751f\u6210',
+    description: '\u63a7\u5236\u5199\u6b63\u6587\u65f6\u4f18\u5148\u5141\u8bb8\u53ec\u56de\u54ea\u4e9b\u8bb0\u5fc6\u7c7b\u578b\u3002',
+  },
+  character_context: {
+    title: '\u89d2\u8272\u4e0a\u4e0b\u6587',
+    description: '\u63a7\u5236\u89d2\u8272\u72b6\u6001\u3001\u6210\u957f\u548c\u5173\u7cfb\u76f8\u5173\u573a\u666f\u7684\u53ec\u56de\u8303\u56f4\u3002',
+  },
+  plot_context: {
+    title: '\u60c5\u8282\u4e0a\u4e0b\u6587',
+    description: '\u63a7\u5236\u60c5\u8282\u70b9\u3001\u4f0f\u7b14\u548c\u94a9\u5b50\u7c7b\u573a\u666f\u7684\u53ec\u56de\u8303\u56f4\u3002',
+  },
+};
+
+const MEMORY_TYPE_LABELS: Record<string, string> = {
+  chapter_summary: '\u7ae0\u8282\u6458\u8981',
+  foreshadow: '\u4f0f\u7b14',
+  hook: '\u94a9\u5b50',
+  plot_point: '\u60c5\u8282\u70b9',
+  character_event: '\u89d2\u8272\u4e8b\u4ef6',
+};
+
+type MemoryRetrievalPresetMatch = {
+  presetKey: MemoryRetrievalPresetKey;
+  isExact: boolean;
+  score: number;
+};
 
 export default function SettingsPage() {
   const screens = useBreakpoint();
@@ -50,6 +91,10 @@ export default function SettingsPage() {
   const [fetchingPresetModels, setFetchingPresetModels] = useState(false);
   const [presetModelsFetched, setPresetModelsFetched] = useState(false);
   const [presetModelSearchText, setPresetModelSearchText] = useState('');
+  const [memoryRetrievalLoading, setMemoryRetrievalLoading] = useState(false);
+  const [memoryRetrievalSaving, setMemoryRetrievalSaving] = useState(false);
+  const [memoryRetrievalConfig, setMemoryRetrievalConfig] = useState<MemoryRetrievalConfigResponse | null>(null);
+  const [memoryRetrievalDraft, setMemoryRetrievalDraft] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
     loadSettings();
@@ -62,6 +107,8 @@ export default function SettingsPage() {
   useEffect(() => {
     if (activeTab === 'presets') {
       loadPresets();
+    } else if (activeTab === 'memory-retrieval') {
+      loadMemoryRetrievalConfig();
     } else if (activeTab === 'current') {
       // 切换到当前配置Tab时，刷新设置以获取最新数据
       loadSettings();
@@ -104,6 +151,23 @@ export default function SettingsPage() {
       }
     } finally {
       setInitialLoading(false);
+    }
+  };
+
+  const loadMemoryRetrievalConfig = async () => {
+    setMemoryRetrievalLoading(true);
+    try {
+      const response = await settingsApi.getMemoryRetrievalConfig();
+      const normalized = normalizeScenarioTypes(
+        response.scenario_types,
+        response.supported_memory_types
+      );
+      setMemoryRetrievalConfig(response);
+      setMemoryRetrievalDraft(normalized);
+    } catch {
+      message.error('\u52a0\u8f7d\u8bb0\u5fc6\u68c0\u7d22\u914d\u7f6e\u5931\u8d25');
+    } finally {
+      setMemoryRetrievalLoading(false);
     }
   };
 
@@ -782,6 +846,383 @@ export default function SettingsPage() {
   };
 
   // ========== 渲染预设列表 ==========
+
+  const getMemoryScenarioKeys = () => {
+    const draftKeys = Object.keys(memoryRetrievalDraft);
+    const defaultKeys = Object.keys(memoryRetrievalConfig?.default_scenario_types || {});
+    return Array.from(new Set([...defaultKeys, ...draftKeys]));
+  };
+
+  const hasMemoryRetrievalChanges = () => {
+    if (!memoryRetrievalConfig) {
+      return false;
+    }
+    const normalizedDraft = normalizeScenarioTypes(
+      memoryRetrievalDraft,
+      memoryRetrievalConfig.supported_memory_types
+    );
+    const normalizedCurrent = normalizeScenarioTypes(
+      memoryRetrievalConfig.scenario_types,
+      memoryRetrievalConfig.supported_memory_types
+    );
+    return JSON.stringify(normalizedDraft) !== JSON.stringify(normalizedCurrent);
+  };
+
+  const handleMemoryScenarioChange = (scenario: string, values: string[]) => {
+    const supportedTypes = memoryRetrievalConfig?.supported_memory_types || [];
+    setMemoryRetrievalDraft((prev) => ({
+      ...prev,
+      [scenario]: normalizeMemoryTypes(values, supportedTypes),
+    }));
+  };
+
+  const handleMemoryScenarioReset = (scenario: string) => {
+    if (!memoryRetrievalConfig) {
+      return;
+    }
+    const nextValue = normalizeMemoryTypes(
+      memoryRetrievalConfig.default_scenario_types[scenario] || [],
+      memoryRetrievalConfig.supported_memory_types
+    );
+    setMemoryRetrievalDraft((prev) => ({
+      ...prev,
+      [scenario]: nextValue,
+    }));
+  };
+
+  const handleMemoryRetrievalResetAll = () => {
+    if (!memoryRetrievalConfig) {
+      return;
+    }
+    setMemoryRetrievalDraft(
+      normalizeScenarioTypes(
+        memoryRetrievalConfig.default_scenario_types,
+        memoryRetrievalConfig.supported_memory_types
+      )
+    );
+    message.info('\u5df2\u6062\u590d\u4e3a\u9ed8\u8ba4\u53ec\u56de\u7c7b\u578b\uff0c\u8bf7\u70b9\u51fb\u4fdd\u5b58\u751f\u6548');
+  };
+
+  const handleMemoryRetrievalReload = () => {
+    if (!memoryRetrievalConfig) {
+      loadMemoryRetrievalConfig();
+      return;
+    }
+    setMemoryRetrievalDraft(
+      normalizeScenarioTypes(
+        memoryRetrievalConfig.scenario_types,
+        memoryRetrievalConfig.supported_memory_types
+      )
+    );
+    message.info('\u5df2\u64a4\u9500\u672a\u4fdd\u5b58\u7684\u8bb0\u5fc6\u68c0\u7d22\u4fee\u6539');
+  };
+
+  const getActiveMemoryRetrievalPresetMatch = (
+    config: MemoryRetrievalConfigResponse,
+    draftScenarioTypes: Record<string, string[]>
+  ): MemoryRetrievalPresetMatch | null => {
+    const scenarioKeys = Array.from(
+      new Set([
+        ...Object.keys(config.default_scenario_types),
+        ...Object.keys(config.scenario_types),
+        ...Object.keys(draftScenarioTypes),
+      ])
+    );
+    const normalizedDraft = normalizeScenarioTypesForKeys(
+      draftScenarioTypes,
+      config.supported_memory_types,
+      scenarioKeys
+    );
+    const normalizedDraftSignature = JSON.stringify(normalizedDraft);
+
+    let bestMatch: MemoryRetrievalPresetMatch | null = null;
+
+    for (const preset of MEMORY_RETRIEVAL_PRESETS) {
+      const presetScenarioTypes = normalizeScenarioTypesForKeys(
+        buildMemoryRetrievalPresetScenarioTypes(preset.key, config),
+        config.supported_memory_types,
+        scenarioKeys
+      );
+      const presetSignature = JSON.stringify(presetScenarioTypes);
+      const isExact = presetSignature === normalizedDraftSignature;
+
+      let totalScore = 0;
+      for (const scenario of scenarioKeys) {
+        const draftValues = normalizedDraft[scenario] || [];
+        const presetValues = presetScenarioTypes[scenario] || [];
+        const union = new Set([...draftValues, ...presetValues]);
+
+        if (union.size === 0) {
+          totalScore += 1;
+          continue;
+        }
+
+        const presetValueSet = new Set(presetValues);
+        const intersectionCount = draftValues.filter((value) => presetValueSet.has(value)).length;
+        totalScore += intersectionCount / union.size;
+      }
+
+      const score = scenarioKeys.length > 0 ? totalScore / scenarioKeys.length : 0;
+      const shouldReplace =
+        !bestMatch ||
+        Number(isExact) > Number(bestMatch.isExact) ||
+        (isExact === bestMatch.isExact && score > bestMatch.score);
+
+      if (shouldReplace) {
+        bestMatch = {
+          presetKey: preset.key,
+          isExact,
+          score,
+        };
+      }
+    }
+
+    return bestMatch;
+  };
+
+  const handleApplyMemoryRetrievalPreset = (presetKey: MemoryRetrievalPresetKey) => {
+    if (!memoryRetrievalConfig) {
+      return;
+    }
+
+    const preset = MEMORY_RETRIEVAL_PRESETS.find((item) => item.key === presetKey);
+    if (!preset) {
+      return;
+    }
+
+    setMemoryRetrievalDraft(
+      buildMemoryRetrievalPresetScenarioTypes(presetKey, memoryRetrievalConfig)
+    );
+    message.info(
+      `\u5df2\u5957\u7528\u300c${preset.title}\u300d\u65b9\u6848\uff0c\u8bf7\u70b9\u51fb\u4fdd\u5b58\u751f\u6548`
+    );
+  };
+
+  const handleMemoryRetrievalSave = async () => {
+    if (!memoryRetrievalConfig) {
+      return;
+    }
+
+    setMemoryRetrievalSaving(true);
+    try {
+      const payload = {
+        scenario_types: normalizeScenarioTypes(
+          memoryRetrievalDraft,
+          memoryRetrievalConfig.supported_memory_types
+        ),
+      };
+      const response = await settingsApi.updateMemoryRetrievalConfig(payload);
+      const normalized = normalizeScenarioTypes(
+        response.scenario_types,
+        response.supported_memory_types
+      );
+      setMemoryRetrievalConfig(response);
+      setMemoryRetrievalDraft(normalized);
+      message.success('\u8bb0\u5fc6\u68c0\u7d22\u914d\u7f6e\u5df2\u4fdd\u5b58');
+    } catch {
+      message.error('\u4fdd\u5b58\u8bb0\u5fc6\u68c0\u7d22\u914d\u7f6e\u5931\u8d25');
+    } finally {
+      setMemoryRetrievalSaving(false);
+    }
+  };
+
+  const renderMemoryRetrievalSettings = () => {
+    const config = memoryRetrievalConfig;
+    const scenarioKeys = getMemoryScenarioKeys();
+    const supportedTypes = config?.supported_memory_types || [];
+    const activePresetMatch = config
+      ? getActiveMemoryRetrievalPresetMatch(config, memoryRetrievalDraft)
+      : null;
+    const activePresetTitle = activePresetMatch
+      ? getMemoryRetrievalPresetTitle(activePresetMatch.presetKey)
+      : '';
+    const typeOptions = supportedTypes.map((type) => ({
+      value: type,
+      label: MEMORY_TYPE_LABELS[type] || type,
+    }));
+
+    return (
+      <Spin spinning={memoryRetrievalLoading || memoryRetrievalSaving}>
+        <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+          <Alert
+            message={'\u8bb0\u5fc6\u53ec\u56de\u767d\u540d\u5355'}
+            description={'\u8fd9\u91cc\u63a7\u5236\u4e0d\u540c\u5199\u4f5c\u573a\u666f\u5141\u8bb8\u53ec\u56de\u7684\u8bb0\u5fc6\u7c7b\u578b\u3002\u8303\u56f4\u8d8a\u5c0f\uff0c\u53ec\u56de\u8d8a\u805a\u7126\uff1b\u8303\u56f4\u8d8a\u5927\uff0c\u4fe1\u606f\u8d8a\u4e30\u5bcc\u4f46\u566a\u97f3\u4e5f\u53ef\u80fd\u589e\u52a0\u3002'}
+            type="info"
+            showIcon
+          />
+
+          <Card size="small" style={{ borderRadius: 12 }}>
+            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+              <Space direction="vertical" size={2}>
+                <Text strong>{'\u63a8\u8350\u65b9\u6848'}</Text>
+                <Text type="secondary">
+                  {'\u5148\u5957\u7528\u4e00\u7ec4\u5e38\u7528\u53ec\u56de\u7b56\u7565\uff0c\u518d\u6839\u636e\u9879\u76ee\u9700\u8981\u7ee7\u7eed\u5fae\u8c03\u3002'}
+                </Text>
+                {activePresetMatch && (
+                  <Text type="secondary">
+                    {activePresetMatch.isExact
+                      ? `\u5f53\u524d\u8349\u7a3f\u5df2\u547d\u4e2d\u300c${activePresetTitle}\u300d\u65b9\u6848\u3002`
+                      : `\u5f53\u524d\u8349\u7a3f\u6700\u63a5\u8fd1\u300c${activePresetTitle}\u300d\u65b9\u6848\uff0c\u5339\u914d\u5ea6 ${(activePresetMatch.score * 100).toFixed(0)}%\u3002`}
+                  </Text>
+                )}
+              </Space>
+
+              <Row gutter={[12, 12]}>
+                {MEMORY_RETRIEVAL_PRESETS.map((preset) => {
+                  const isActivePreset = activePresetMatch?.presetKey === preset.key;
+                  const isExactPreset = isActivePreset && activePresetMatch?.isExact;
+
+                  return (
+                    <Col xs={24} md={8} key={preset.key}>
+                      <Card
+                        size="small"
+                        style={{
+                          height: '100%',
+                          borderRadius: 10,
+                          borderColor: isActivePreset ? '#1677ff' : undefined,
+                          background: isActivePreset ? 'rgba(24, 119, 255, 0.04)' : undefined,
+                        }}
+                      >
+                        <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>
+                            <Text strong>{preset.title}</Text>
+                            {isActivePreset && (
+                              <Tag color={isExactPreset ? 'success' : 'processing'}>
+                                {isExactPreset ? '\u5f53\u524d\u547d\u4e2d' : '\u6700\u63a5\u8fd1'}
+                              </Tag>
+                            )}
+                          </div>
+                          <Text type="secondary" style={{ fontSize: 12 }}>
+                            {preset.description}
+                          </Text>
+                          <Button
+                            block
+                            type={isExactPreset ? 'primary' : 'default'}
+                            onClick={() => handleApplyMemoryRetrievalPreset(preset.key)}
+                          >
+                            {isExactPreset ? '\u5f53\u524d\u65b9\u6848' : '\u5e94\u7528\u65b9\u6848'}
+                          </Button>
+                          {isActivePreset && !isExactPreset && activePresetMatch && (
+                            <Text type="secondary" style={{ fontSize: 12 }}>
+                              {`\u5339\u914d\u5ea6 ${(activePresetMatch.score * 100).toFixed(0)}%`}
+                            </Text>
+                          )}
+                        </Space>
+                      </Card>
+                    </Col>
+                  );
+                })}
+              </Row>
+            </Space>
+          </Card>
+
+          <Card size="small" style={{ borderRadius: 12 }}>
+            <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+                <Space direction="vertical" size={2}>
+                  <Text strong>{'\u53ef\u9009\u8bb0\u5fc6\u7c7b\u578b'}</Text>
+                  <Text type="secondary">{`\u5f53\u524d\u914d\u7f6e\u7248\u672c\uff1a${config?.version || '-'}`}</Text>
+                </Space>
+                <Space wrap>
+                  {typeOptions.map((option) => (
+                    <Tag key={option.value} color="blue">
+                      {option.label}
+                    </Tag>
+                  ))}
+                </Space>
+              </div>
+            </Space>
+          </Card>
+
+          {config ? (
+            scenarioKeys.map((scenario) => {
+              const meta = MEMORY_SCENARIO_META[scenario] || {
+                title: scenario,
+                description: '\u81ea\u5b9a\u4e49\u8bb0\u5fc6\u53ec\u56de\u573a\u666f\u3002',
+              };
+              const currentValues = memoryRetrievalDraft[scenario] || [];
+              const defaultValues = config.default_scenario_types[scenario] || [];
+
+              return (
+                <Card
+                  key={scenario}
+                  size="small"
+                  style={{ borderRadius: 12 }}
+                  title={
+                    <Space direction="vertical" size={2}>
+                      <Text strong>{meta.title}</Text>
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        {meta.description}
+                      </Text>
+                    </Space>
+                  }
+                  extra={
+                    <Button size="small" onClick={() => handleMemoryScenarioReset(scenario)}>
+                      {'\u6062\u590d\u9ed8\u8ba4'}
+                    </Button>
+                  }
+                >
+                  <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                    <Select
+                      mode="multiple"
+                      value={currentValues}
+                      options={typeOptions}
+                      onChange={(values) => handleMemoryScenarioChange(scenario, values)}
+                      optionFilterProp="label"
+                      placeholder={'\u9009\u62e9\u8be5\u573a\u666f\u5141\u8bb8\u53ec\u56de\u7684\u8bb0\u5fc6\u7c7b\u578b'}
+                      style={{ width: '100%' }}
+                    />
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        {`\u9ed8\u8ba4\u503c\uff1a${defaultValues.map((type) => MEMORY_TYPE_LABELS[type] || type).join('\u3001') || '\u672a\u8bbe\u7f6e'}`}
+                      </Text>
+                      <Text type="secondary" style={{ fontSize: 12 }}>
+                        {`\u5f53\u524d\u5df2\u9009 ${currentValues.length} \u9879`}
+                      </Text>
+                    </div>
+                  </Space>
+                </Card>
+              );
+            })
+          ) : (
+            <Empty description={'\u6682\u65e0\u8bb0\u5fc6\u68c0\u7d22\u914d\u7f6e'} image={Empty.PRESENTED_IMAGE_SIMPLE} />
+          )}
+
+          <Card size="small" style={{ borderRadius: 12 }}>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 12,
+              flexWrap: 'wrap'
+            }}>
+              <Text type="secondary">
+                {'\u4fdd\u5b58\u540e\uff0c\u65b0\u914d\u7f6e\u4f1a\u76f4\u63a5\u5f71\u54cd\u540e\u7eed\u7ae0\u8282\u751f\u6210\u3001\u89d2\u8272\u4e0a\u4e0b\u6587\u548c\u60c5\u8282\u68c0\u7d22\u3002'}
+              </Text>
+              <Space wrap>
+                <Button onClick={handleMemoryRetrievalReload} disabled={!config}>
+                  {'\u64a4\u9500\u4fee\u6539'}
+                </Button>
+                <Button onClick={handleMemoryRetrievalResetAll} disabled={!config}>
+                  {'\u5168\u90e8\u9ed8\u8ba4'}
+                </Button>
+                <Button
+                  type="primary"
+                  icon={<SaveOutlined />}
+                  onClick={handleMemoryRetrievalSave}
+                  loading={memoryRetrievalSaving}
+                  disabled={!config || !hasMemoryRetrievalChanges()}
+                >
+                  {'\u4fdd\u5b58\u914d\u7f6e'}
+                </Button>
+              </Space>
+            </div>
+          </Card>
+        </Space>
+      </Spin>
+    );
+  };
 
   const renderPresetsList = () => (
     <Spin spinning={presetsLoading}>
@@ -1512,6 +1953,11 @@ export default function SettingsPage() {
                   key: 'presets',
                   label: '配置预设',
                   children: renderPresetsList(),
+                },
+                {
+                  key: 'memory-retrieval',
+                  label: '\u8bb0\u5fc6\u68c0\u7d22',
+                  children: renderMemoryRetrievalSettings(),
                 },
               ]}
             />

@@ -121,12 +121,13 @@ class ChapterGenerateRequest(BaseModel):
     enable_mcp: bool = Field(True, description="是否启用MCP工具增强（搜索参考资料）")
     model: Optional[str] = Field(None, description="指定使用的AI模型，不提供则使用用户默认模型")
     narrative_perspective: Optional[str] = Field(None, description="临时人称视角：first_person/third_person/omniscient，不提供则使用项目默认")
+    force_high_risk_continuation: bool = Field(False, description="是否强制通过高风险续写检查")
 
 
 class BatchGenerateRequest(BaseModel):
     """批量生成章节的请求模型"""
     start_chapter_number: int = Field(..., description="起始章节序号")
-    count: int = Field(..., description="生成章节数量", ge=1, le=20)
+    count: int = Field(..., description="生成章节数量", ge=1, le=800)
     style_id: Optional[int] = Field(None, description="写作风格ID")
     target_word_count: Optional[int] = Field(
         3000,
@@ -135,9 +136,14 @@ class BatchGenerateRequest(BaseModel):
         le=10000
     )
     enable_analysis: bool = Field(False, description="是否启用同步分析")
+    enable_workflow: bool = Field(False, description="是否启用自动章节工作流")
+    workflow_auto_regenerate: bool = Field(True, description="工作流未达标时是否自动重写")
+    workflow_max_rounds: int = Field(2, description="工作流最大重写轮数", ge=0, le=12)
+    workflow_min_score: float = Field(7.8, description="工作流通过评分阈值", ge=1.0, le=10.0)
     enable_mcp: bool = Field(True, description="是否启用MCP工具增强（搜索参考资料）")
     max_retries: int = Field(3, description="每个章节的最大重试次数", ge=0, le=5)
     model: Optional[str] = Field(None, description="指定使用的AI模型，不提供则使用用户默认模型")
+    force_high_risk_continuation: bool = Field(False, description="是否强制通过高风险续写检查")
 
 
 class BatchGenerateResponse(BaseModel):
@@ -156,6 +162,9 @@ class BatchGenerateStatusResponse(BaseModel):
     completed: int
     current_chapter_id: Optional[str] = None
     current_chapter_number: Optional[int] = None
+    current_stage: Optional[str] = None
+    stage_message: Optional[str] = None
+    current_stage_progress: Optional[int] = None
     current_retry_count: Optional[int] = None
     max_retries: Optional[int] = None
     failed_chapters: list[dict] = []

@@ -14,6 +14,42 @@ from app.logger import get_logger
 logger = get_logger(__name__)
 
 
+def _serialize_organization_members(members_data) -> str:
+    """将组织成员数据规范化为 Character.organization_members 的 JSON 字符串。"""
+    if not members_data:
+        return ""
+
+    if isinstance(members_data, str):
+        stripped = members_data.strip()
+        if not stripped:
+            return ""
+        try:
+            parsed = json.loads(stripped)
+        except json.JSONDecodeError:
+            return json.dumps([stripped], ensure_ascii=False)
+        return _serialize_organization_members(parsed)
+
+    if isinstance(members_data, list):
+        normalized_members = []
+        for item in members_data:
+            if isinstance(item, dict):
+                name = (item.get("character_name") or item.get("name") or "").strip()
+                position = (item.get("position") or "").strip()
+                if not name:
+                    continue
+                normalized_members.append(f"{name}（{position}）" if position else name)
+                continue
+
+            text = str(item).strip()
+            if text:
+                normalized_members.append(text)
+
+        return json.dumps(normalized_members, ensure_ascii=False) if normalized_members else ""
+
+    text = str(members_data).strip()
+    return json.dumps([text], ensure_ascii=False) if text else ""
+
+
 class AutoOrganizationService:
     """自动组织引入服务"""
     
@@ -93,6 +129,7 @@ class AutoOrganizationService:
             organization_data = await self.ai_service.call_with_json_retry(
                 prompt=prompt,
                 max_retries=3,
+                auto_mcp=enable_mcp,
             )
             
             org_name = organization_data.get('name', '未知')
@@ -129,6 +166,10 @@ class AutoOrganizationService:
             appearance=organization_data.get("appearance", ""),  # 外在表现
             organization_type=organization_data.get("organization_type"),
             organization_purpose=organization_data.get("organization_purpose"),
+            organization_members=_serialize_organization_members(
+                organization_data.get("organization_members")
+                or organization_data.get("initial_members")
+            ) or None,
             traits=json.dumps(organization_data.get("traits", []), ensure_ascii=False) if organization_data.get("traits") else None
         )
         

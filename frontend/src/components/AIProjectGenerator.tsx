@@ -2,8 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button, Space, Typography, message, Progress } from 'antd';
 import { CheckCircleOutlined, LoadingOutlined } from '@ant-design/icons';
-import { wizardStreamApi } from '../services/api';
-import type { ApiError } from '../types';
+import { chapterApi, outlineApi, settingsApi, wizardStreamApi } from '../services/api';
+import { getApiErrorDetailMessage } from '../types';
+import type { ApiError, BatchOutlineExpansionResponse, GenerateOutlineResponse } from '../types';
+import type { PipelineMemoryRetrievalPresetKey } from '../types/memoryRetrieval';
+import {
+  buildMemoryRetrievalPresetScenarioTypes,
+  getMemoryRetrievalPresetTitle,
+} from '../utils/memoryRetrieval';
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -17,6 +23,11 @@ export interface GenerationConfig {
   chapter_count: number;
   character_count: number;
   outline_mode?: 'one-to-one' | 'one-to-many';  // 大纲章节模式
+  auto_pipeline?: boolean;
+  chapters_per_outline?: number;
+  chapter_target_word_count?: number;
+  enable_chapter_analysis?: boolean;
+  memory_retrieval_preset?: PipelineMemoryRetrievalPresetKey;
 }
 
 interface AIProjectGeneratorProps {
@@ -35,6 +46,8 @@ interface GenerationSteps {
   careers: GenerationStep;
   characters: GenerationStep;
   outline: GenerationStep;
+  outlineExpansion: GenerationStep;
+  chapterGeneration: GenerationStep;
 }
 
 interface WorldBuildingResult {
@@ -43,6 +56,12 @@ interface WorldBuildingResult {
   location: string;
   atmosphere: string;
   rules: string;
+}
+
+interface PipelineChapter {
+  id: string;
+  chapter_number: number;
+  title: string;
 }
 
 export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
@@ -66,13 +85,17 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
     worldBuilding: 'pending',
     careers: 'pending',
     characters: 'pending',
-    outline: 'pending'
+    outline: 'pending',
+    outlineExpansion: 'pending',
+    chapterGeneration: 'pending'
   });
 
   // 保存生成数据，用于重试
   const [generationData, setGenerationData] = useState<GenerationConfig | null>(null);
   // 保存世界观生成结果，用于后续步骤
   const [worldBuildingResult, setWorldBuildingResult] = useState<WorldBuildingResult | null>(null);
+  const [latestOutlineResult, setLatestOutlineResult] = useState<GenerateOutlineResponse | null>(null);
+  const [, setLatestCreatedChapters] = useState<PipelineChapter[]>([]);
 
   // LocalStorage 键名
   const storageKeys = {
@@ -97,6 +120,208 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
     localStorage.removeItem(storageKeys.projectId);
     localStorage.removeItem(storageKeys.generationData);
     localStorage.removeItem(storageKeys.currentStep);
+  };
+
+  const shouldRunAutoPipeline = (data: GenerationConfig) => Boolean(data.auto_pipeline);
+
+  const applyMemoryRetrievalPresetIfNeeded = async (data: GenerationConfig) => {
+    const presetKey = data.memory_retrieval_preset;
+    if (!presetKey || presetKey === 'keep_current') {
+      return;
+    }
+
+    setProgressMessage(`\u6b63\u5728\u5e94\u7528\u300c${getMemoryRetrievalPresetTitle(presetKey)}\u300d\u53ec\u56de\u7b56\u7565...`);
+
+    const configResponse = await settingsApi.getMemoryRetrievalConfig();
+    const scenarioTypes = buildMemoryRetrievalPresetScenarioTypes(presetKey, configResponse);
+
+    await settingsApi.updateMemoryRetrievalConfig({
+      scenario_types: scenarioTypes,
+    });
+  };
+
+  const normalizePipelineChapters = (
+    chapters?: Array<{ id: string; chapter_number: number; title: string }> | null
+  ): PipelineChapter[] => {
+    if (!chapters?.length) {
+      return [];
+    }
+
+    return chapters
+      .filter((chapter) => chapter?.id && Number.isFinite(chapter.chapter_number))
+      .map((chapter) => ({
+        id: chapter.id,
+        chapter_number: chapter.chapter_number,
+        title: chapter.title,
+      }))
+      .sort((left, right) => left.chapter_number - right.chapter_number);
+  };
+
+  const collectExpandedChapters = (result?: BatchOutlineExpansionResponse | null): PipelineChapter[] => {
+    if (!result?.expansion_results?.length) {
+      return [];
+    }
+
+    return normalizePipelineChapters(
+      result.expansion_results.flatMap((item) => item.created_chapters || [])
+    );
+  };
+
+  const buildChapterRange = (chapters: PipelineChapter[]) => {
+    const normalized = normalizePipelineChapters(chapters);
+    if (!normalized.length) {
+      throw new Error('未找到可生成正文的章节');
+    }
+
+    const start = normalized[0].chapter_number;
+    normalized.forEach((chapter, index) => {
+      const expected = start + index;
+      if (chapter.chapter_number !== expected) {
+        throw new Error('自动流水线当前只支持连续章节批量生成');
+      }
+    });
+
+    return {
+      start,
+      count: normalized.length,
+      chapters: normalized,
+    };
+  };
+
+  const finishProjectCreation = (pid: string, target: 'project' | 'chapters') => {
+    clearStorage();
+    setLoading(false);
+    onComplete(pid);
+    setTimeout(() => {
+      navigate(target === 'chapters' ? `/project/${pid}/chapters` : `/project/${pid}`);
+    }, 1000);
+  };
+
+  const finishWithoutAutoPipeline = (pid: string) => {
+    setProgress(100);
+    setProgressMessage('项目创建完成，正在跳转...');
+    message.success('项目创建成功，正在进入项目...');
+    finishProjectCreation(pid, 'project');
+  };
+
+  const startBatchChapterGeneration = async (
+    pid: string,
+    data: GenerationConfig,
+    chapters: PipelineChapter[]
+  ) => {
+    const range = buildChapterRange(chapters);
+
+    setGenerationSteps((prev) => ({ ...prev, chapterGeneration: 'processing' }));
+    setProgress(95);
+    setProgressMessage(`已创建 ${range.count} 章，正在启动批量正文生成...`);
+
+    await chapterApi.batchGenerate(pid, {
+      start_chapter_number: range.start,
+      count: range.count,
+      target_word_count: data.chapter_target_word_count || 3000,
+      enable_analysis: data.enable_chapter_analysis ?? true,
+      enable_workflow: true,
+      workflow_auto_regenerate: true,
+      workflow_max_rounds: 2,
+      workflow_min_score: 7.8,
+      enable_mcp: true,
+      max_retries: 3,
+    });
+
+    setGenerationSteps((prev) => ({ ...prev, chapterGeneration: 'completed' }));
+    setProgress(100);
+    setProgressMessage(`已启动 ${range.count} 章正文生成，正在跳转到章节页...`);
+    message.success(`自动流水线已启动：${range.count} 章正文开始后台生成`);
+    finishProjectCreation(pid, 'chapters');
+  };
+
+  const runAutoPipeline = async (
+    data: GenerationConfig,
+    pid: string,
+    outlineResult?: GenerateOutlineResponse | null
+  ) => {
+    if (!shouldRunAutoPipeline(data)) {
+      finishWithoutAutoPipeline(pid);
+      return;
+    }
+
+    await applyMemoryRetrievalPresetIfNeeded(data);
+
+    const outlineMode = outlineResult?.outline_mode || data.outline_mode || 'one-to-many';
+    let createdChapters = normalizePipelineChapters(outlineResult?.chapters || []);
+
+    if (outlineMode === 'one-to-many') {
+      setGenerationSteps((prev) => ({ ...prev, outlineExpansion: 'processing' }));
+      setProgressMessage('正在将大纲展开为章节...');
+
+      const targetOutlines = outlineResult?.outlines?.length
+        ? outlineResult.outlines
+        : await outlineApi.getOutlines(pid);
+
+      const expansionResult = await outlineApi.batchExpandOutlinesStream(
+        {
+          project_id: pid,
+          outline_ids: targetOutlines.map((item) => item.id),
+          chapters_per_outline: data.chapters_per_outline || 3,
+          expansion_strategy: 'balanced',
+          auto_create_chapters: true,
+        },
+        {
+          onProgress: (msg, prog) => {
+            setProgress(Math.min(95, 70 + Math.round(prog * 0.2)));
+            setProgressMessage(msg || '正在将大纲展开为章节...');
+          },
+        }
+      );
+
+      createdChapters = collectExpandedChapters(expansionResult);
+      setLatestCreatedChapters(createdChapters);
+      setGenerationSteps((prev) => ({ ...prev, outlineExpansion: 'completed' }));
+    } else {
+      setGenerationSteps((prev) => ({ ...prev, outlineExpansion: 'completed' }));
+      setLatestCreatedChapters(createdChapters);
+    }
+
+    await startBatchChapterGeneration(pid, data, createdChapters);
+  };
+
+  const resumeAutoPipelineFromProject = async (data: GenerationConfig, pid: string) => {
+    const existingChapters = await chapterApi.getChapters(pid);
+    const pendingChapters = normalizePipelineChapters(
+      existingChapters
+        .filter((chapter) => !chapter.content || !chapter.content.trim())
+        .map((chapter) => ({
+          id: chapter.id,
+          chapter_number: chapter.chapter_number,
+          title: chapter.title,
+        }))
+    );
+
+    if (pendingChapters.length > 0) {
+      setGenerationSteps((prev) => ({
+        ...prev,
+        outline: 'completed',
+        outlineExpansion: 'completed',
+      }));
+      setLatestCreatedChapters(pendingChapters);
+      await startBatchChapterGeneration(pid, data, pendingChapters);
+      return;
+    }
+
+    if ((data.outline_mode || 'one-to-many') === 'one-to-many') {
+      const outlines = latestOutlineResult?.outlines?.length
+        ? latestOutlineResult.outlines
+        : await outlineApi.getOutlines(pid);
+
+      if (!outlines.length) {
+        throw new Error('未找到可展开的大纲');
+      }
+
+      await runAutoPipeline(data, pid, { outlines } as GenerateOutlineResponse);
+      return;
+    }
+
+    finishWithoutAutoPipeline(pid);
   };
 
   // 开始自动化生成流程
@@ -147,40 +372,49 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
       if (wizardStep === 0) {
         // 从世界观开始
         message.info('从世界观步骤开始生成...');
-        setGenerationSteps({ worldBuilding: 'processing', careers: 'pending', characters: 'pending', outline: 'pending' });
+        setGenerationSteps({ worldBuilding: 'processing', careers: 'pending', characters: 'pending', outline: 'pending', outlineExpansion: 'pending', chapterGeneration: 'pending' });
         await resumeFromWorldBuilding(data);
       } else if (wizardStep === 1) {
         // 世界观已完成，从职业体系开始
         message.info('世界观已完成，从职业体系步骤继续...');
-        setGenerationSteps({ worldBuilding: 'completed', careers: 'processing', characters: 'pending', outline: 'pending' });
+        setGenerationSteps({ worldBuilding: 'completed', careers: 'processing', characters: 'pending', outline: 'pending', outlineExpansion: 'pending', chapterGeneration: 'pending' });
         setWorldBuildingResult(worldResult);
         setProgress(20);
         await resumeFromCareers(data, worldResult);
       } else if (wizardStep === 2) {
         // 职业体系已完成，从角色开始
         message.info('职业体系已完成，从角色步骤继续...');
-        setGenerationSteps({ worldBuilding: 'completed', careers: 'completed', characters: 'processing', outline: 'pending' });
+        setGenerationSteps({ worldBuilding: 'completed', careers: 'completed', characters: 'processing', outline: 'pending', outlineExpansion: 'pending', chapterGeneration: 'pending' });
         setWorldBuildingResult(worldResult);
         setProgress(40);
         await resumeFromCharacters(data, worldResult);
       } else if (wizardStep === 3) {
         // 角色已完成，从大纲开始
         message.info('角色已完成，从大纲步骤继续...');
-        setGenerationSteps({ worldBuilding: 'completed', careers: 'completed', characters: 'completed', outline: 'processing' });
+        setGenerationSteps({ worldBuilding: 'completed', careers: 'completed', characters: 'completed', outline: 'processing', outlineExpansion: 'pending', chapterGeneration: 'pending' });
         setProgress(70);
         await resumeFromOutline(data, projectIdParam);
       } else {
         // 已全部完成
-        message.success('项目已完成,正在跳转...');
-        setProgress(100);
-        onComplete(projectIdParam);
-        setTimeout(() => {
-          navigate(`/project/${projectIdParam}`);
-        }, 1000);
+        if (shouldRunAutoPipeline(data)) {
+          message.info('大纲已完成，继续自动成章...');
+          setGenerationSteps({
+            worldBuilding: 'completed',
+            careers: 'completed',
+            characters: 'completed',
+            outline: 'completed',
+            outlineExpansion: 'processing',
+            chapterGeneration: 'pending',
+          });
+          setProgress(82);
+          await resumeAutoPipelineFromProject(data, projectIdParam);
+        } else {
+          finishWithoutAutoPipeline(projectIdParam);
+        }
       }
     } catch (error) {
       const apiError = error as ApiError;
-      const errorMsg = apiError.response?.data?.detail || apiError.message || '未知错误';
+      const errorMsg = getApiErrorDetailMessage(apiError.response?.data?.detail, apiError.message || '未知错误');
       console.error('恢复生成失败:', errorMsg);
       setErrorDetails(errorMsg);
       message.error('恢复生成失败：' + errorMsg);
@@ -318,7 +552,7 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
     setGenerationSteps(prev => ({ ...prev, outline: 'processing' }));
     setProgressMessage('正在生成大纲...');
 
-    await wizardStreamApi.generateCompleteOutlineStream(
+    const outlineResult = await wizardStreamApi.generateCompleteOutlineStream(
       {
         project_id: pid,
         chapter_count: data.chapter_count,
@@ -331,7 +565,8 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
           setProgress(prog);
           setProgressMessage(msg);
         },
-        onResult: () => {
+        onResult: (result) => {
+          setLatestOutlineResult(result);
           console.log('大纲生成完成');
           setGenerationSteps(prev => ({ ...prev, outline: 'completed' }));
         },
@@ -349,16 +584,7 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
     );
 
     // 全部完成
-    setProgress(100);
-    setProgressMessage('项目创建完成！正在跳转...');
-    message.success('项目创建成功！正在进入项目...');
-    clearStorage();
-    setLoading(false);
-
-    onComplete(pid);
-    setTimeout(() => {
-      navigate(`/project/${pid}`);
-    }, 1000);
+    await runAutoPipeline(data, pid, outlineResult);
   };
 
   // 自动化生成流程
@@ -496,7 +722,7 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
       setGenerationSteps(prev => ({ ...prev, outline: 'processing' }));
       setProgressMessage('正在生成大纲...');
 
-      await wizardStreamApi.generateCompleteOutlineStream(
+      const outlineResult = await wizardStreamApi.generateCompleteOutlineStream(
         {
           project_id: createdProjectId,
           chapter_count: data.chapter_count,
@@ -509,7 +735,8 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
             setProgress(prog);
             setProgressMessage(msg);
           },
-          onResult: () => {
+          onResult: (result) => {
+            setLatestOutlineResult(result);
             console.log('大纲生成完成');
             setGenerationSteps(prev => ({ ...prev, outline: 'completed' }));
           },
@@ -526,23 +753,11 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
         }
       );
 
-      // 全部完成 - 自动跳转到项目详情页
-      setProgress(100);
-      setProgressMessage('项目创建完成！正在跳转...');
-      message.success('项目创建成功！正在进入项目...');
-      clearStorage();
-
-      // 调用完成回调
-      onComplete(createdProjectId);
-
-      // 延迟1秒后自动跳转到项目详情页
-      setTimeout(() => {
-        navigate(`/project/${createdProjectId}`);
-      }, 1000);
+      await runAutoPipeline(data, createdProjectId, outlineResult);
 
     } catch (error) {
       const apiError = error as ApiError;
-      const errorMsg = apiError.response?.data?.detail || apiError.message || '未知错误';
+      const errorMsg = getApiErrorDetailMessage(apiError.response?.data?.detail, apiError.message || '未知错误');
       console.error('创建项目失败:', errorMsg);
       setErrorDetails(errorMsg);
       message.error('创建项目失败：' + errorMsg);
@@ -573,6 +788,15 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
       } else if (generationSteps.outline === 'error') {
         message.info('从大纲步骤继续生成...');
         await retryFromOutline();
+      } else if (generationSteps.outlineExpansion === 'error' || generationSteps.chapterGeneration === 'error') {
+        const pid = (worldBuildingResult?.project_id) || projectId;
+        if (!pid) {
+          message.warning('缺少项目ID，无法继续自动成章');
+          setLoading(false);
+          return;
+        }
+        message.info('从自动成章步骤继续...');
+        await resumeAutoPipelineFromProject(generationData, pid);
       }
     } catch (error) {
       console.error('智能重试失败:', error);
@@ -760,7 +984,7 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
     setGenerationSteps(prev => ({ ...prev, outline: 'processing' }));
     setProgressMessage('重新生成大纲...');
 
-    await wizardStreamApi.generateCompleteOutlineStream(
+    const outlineResult = await wizardStreamApi.generateCompleteOutlineStream(
       {
         project_id: pid,
         chapter_count: generationData.chapter_count,
@@ -773,7 +997,8 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
           setProgress(prog);
           setProgressMessage(msg);
         },
-        onResult: () => {
+        onResult: (result) => {
+          setLatestOutlineResult(result);
           console.log('大纲生成完成');
           setGenerationSteps(prev => ({ ...prev, outline: 'completed' }));
         },
@@ -790,19 +1015,8 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
       }
     );
 
-    setProgress(100);
-    setProgressMessage('项目创建完成！正在跳转...');
-    message.success('项目创建成功！正在进入项目...');
-    setLoading(false);
-
-    // 调用完成回调
     if (pid) {
-      onComplete(pid);
-
-      // 延迟1秒后自动跳转到项目详情页
-      setTimeout(() => {
-        navigate(`/project/${pid}`);
-      }, 1000);
+      await runAutoPipeline(generationData, pid, outlineResult);
     }
   };
 
@@ -900,7 +1114,7 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
     setGenerationSteps(prev => ({ ...prev, outline: 'processing' }));
     setProgressMessage('正在生成大纲...');
 
-    await wizardStreamApi.generateCompleteOutlineStream(
+    const outlineResult = await wizardStreamApi.generateCompleteOutlineStream(
       {
         project_id: pid,
         chapter_count: generationData.chapter_count,
@@ -913,7 +1127,8 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
           setProgress(prog);
           setProgressMessage(msg);
         },
-        onResult: () => {
+        onResult: (result) => {
+          setLatestOutlineResult(result);
           console.log('大纲生成完成');
           setGenerationSteps(prev => ({ ...prev, outline: 'completed' }));
         },
@@ -930,19 +1145,8 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
       }
     );
 
-    setProgress(100);
-    setProgressMessage('项目创建完成！正在跳转...');
-    message.success('项目创建成功！正在进入项目...');
-    setLoading(false);
-
-    // 调用完成回调
     if (pid) {
-      onComplete(pid);
-
-      // 延迟1秒后自动跳转到项目详情页
-      setTimeout(() => {
-        navigate(`/project/${pid}`);
-      }, 1000);
+      await runAutoPipeline(generationData, pid, outlineResult);
     }
   };
 
@@ -958,7 +1162,9 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
   const hasError = generationSteps.worldBuilding === 'error' ||
     generationSteps.careers === 'error' ||
     generationSteps.characters === 'error' ||
-    generationSteps.outline === 'error';
+    generationSteps.outline === 'error' ||
+    generationSteps.outlineExpansion === 'error' ||
+    generationSteps.chapterGeneration === 'error';
 
   // 渲染生成进度页面
   const renderGenerating = () => (
@@ -1048,6 +1254,8 @@ export const AIProjectGenerator: React.FC<AIProjectGeneratorProps> = ({
             { key: 'careers', label: '生成职业体系', step: generationSteps.careers },
             { key: 'characters', label: '生成角色', step: generationSteps.characters },
             { key: 'outline', label: '生成大纲', step: generationSteps.outline },
+            { key: 'outlineExpansion', label: '展开章节', step: generationSteps.outlineExpansion },
+            { key: 'chapterGeneration', label: '启动正文生成', step: generationSteps.chapterGeneration },
           ].map(({ key, label, step }) => {
             const status = getStepStatus(step);
             return (

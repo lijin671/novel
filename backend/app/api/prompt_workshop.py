@@ -12,8 +12,9 @@ from app.models.writing_style import WritingStyle
 from app.models.prompt_workshop import PromptWorkshopItem, PromptSubmission, PromptWorkshopLike
 from app.schemas.prompt_workshop import (
     ImportRequest, DownloadRequest, PromptSubmissionCreate,
-    ReviewRequest, AdminItemCreate, AdminItemUpdate
+    ReviewRequest, AdminItemCreate, AdminItemUpdate, LocalAssetBatchImportRequest
 )
+from app.services.prompt_asset_catalog_service import prompt_asset_catalog_service
 from app.services.workshop_client import workshop_client, WorkshopClientError
 from app.constants.prompt_categories import PROMPT_CATEGORIES
 from app.logger import get_logger
@@ -255,6 +256,210 @@ async def _get_items_local(
             ],
             "categories": categories
         }
+    }
+
+
+@router.get("/local-assets")
+async def get_local_prompt_assets(
+    request: Request,
+    include_content: bool = False,
+    search: Optional[str] = None,
+    risk_level: Optional[str] = None,
+    category: Optional[str] = None,
+    sync_status: Optional[str] = None,
+):
+    """获取本地 promt 目录资产清单。"""
+    get_current_user_id(request)
+
+    allowed_risk_levels = {None, "low", "medium", "high"}
+    if risk_level not in allowed_risk_levels:
+        raise HTTPException(status_code=400, detail="risk_level 仅支持 low、medium、high")
+    if category and category not in PROMPT_CATEGORIES:
+        raise HTTPException(status_code=400, detail="category 不在支持范围内")
+    allowed_sync_status = {None, "eligible", "catalog_only", "blocked_high_risk"}
+    if sync_status not in allowed_sync_status:
+        raise HTTPException(status_code=400, detail="sync_status 仅支持 eligible、catalog_only、blocked_high_risk")
+
+    items = prompt_asset_catalog_service.list_assets(
+        include_content=include_content,
+        search=(search or "").strip() or None,
+        risk_level=risk_level,
+        category=category,
+        sync_status=sync_status,
+    )
+
+    summary = {
+        "total": len(items),
+        "low": sum(1 for item in items if item["risk_level"] == "low"),
+        "medium": sum(1 for item in items if item["risk_level"] == "medium"),
+        "high": sum(1 for item in items if item["risk_level"] == "high"),
+        "eligible": sum(1 for item in items if item["sync_status"] == "eligible"),
+        "catalog_only": sum(1 for item in items if item["sync_status"] == "catalog_only"),
+        "blocked_high_risk": sum(1 for item in items if item["sync_status"] == "blocked_high_risk"),
+    }
+
+    return {
+        "success": True,
+        "data": {
+            "summary": summary,
+            "items": items,
+        }
+    }
+
+
+@router.post("/local-assets/import-batch")
+async def import_local_assets_batch(
+    data: LocalAssetBatchImportRequest,
+    request: Request,
+    db: AsyncSession = Depends(get_db)
+):
+    """批量导入本地提示词资产到个人写作风格。"""
+    user_id = get_current_user_id(request)
+
+    asset_ids = [asset_id.strip() for asset_id in data.asset_ids if asset_id and asset_id.strip()]
+    if not asset_ids:
+        raise HTTPException(status_code=400, detail="asset_ids 不能为空")
+
+    count_result = await db.execute(
+        select(func.count(WritingStyle.id)).where(WritingStyle.user_id == user_id)
+    )
+    next_order = count_result.scalar_one() + 1
+
+    imported_items: list[dict] = []
+    skipped_items: list[dict] = []
+
+    for asset_id in asset_ids:
+        asset = prompt_asset_catalog_service.get_asset(asset_id, include_content=True)
+        if not asset:
+            skipped_items.append({"id": asset_id, "reason": "资产不存在"})
+            continue
+
+        if asset["risk_level"] == "high":
+            skipped_items.append({"id": asset["id"], "name": asset["name"], "reason": "高风险资产不可批量导入"})
+            continue
+
+        prompt_content = asset.get("prompt_content")
+        if not prompt_content:
+            skipped_items.append({"id": asset["id"], "name": asset["name"], "reason": "资产缺少可导入内容"})
+            continue
+
+        if data.skip_existing:
+            existing_result = await db.execute(
+                select(WritingStyle.id).where(
+                    WritingStyle.user_id == user_id,
+                    WritingStyle.prompt_content == prompt_content
+                )
+            )
+            if existing_result.scalar_one_or_none() is not None:
+                skipped_items.append({"id": asset["id"], "name": asset["name"], "reason": "已存在相同内容，已跳过"})
+                continue
+
+        risk_text = "中风险，已标记人工复核" if asset["risk_level"] == "medium" else "低风险，可直接使用"
+        new_style = WritingStyle(
+            user_id=user_id,
+            name=asset["name"],
+            style_type="custom",
+            description=f"从本地提示词资产批量导入: {asset.get('description', '') or ''}（{risk_text}）",
+            prompt_content=prompt_content,
+            order_index=next_order,
+        )
+        db.add(new_style)
+        await db.flush()
+
+        imported_items.append({
+            "id": asset["id"],
+            "name": asset["name"],
+            "writing_style_id": new_style.id,
+        })
+        next_order += 1
+
+    await db.commit()
+
+    return {
+        "success": True,
+        "message": f"批量导入完成，成功 {len(imported_items)} 条，跳过 {len(skipped_items)} 条",
+        "data": {
+            "imported_count": len(imported_items),
+            "skipped_count": len(skipped_items),
+            "imported_items": imported_items,
+            "skipped_items": skipped_items,
+        }
+    }
+
+
+@router.post("/local-assets/{asset_id}/import")
+async def import_local_asset(
+    asset_id: str,
+    data: ImportRequest,
+    request: Request,
+    db: AsyncSession = Depends(get_db)
+):
+    """导入本地提示词资产到个人写作风格。"""
+    user_id = get_current_user_id(request)
+
+    asset = prompt_asset_catalog_service.get_asset(asset_id, include_content=True)
+    if not asset:
+        raise HTTPException(status_code=404, detail="本地提示词资产不存在")
+
+    if asset["risk_level"] == "high":
+        raise HTTPException(status_code=403, detail="高风险本地资产不可直接导入为写作风格")
+
+    prompt_content = asset.get("prompt_content")
+    if not prompt_content:
+        raise HTTPException(status_code=400, detail="本地提示词资产缺少可导入内容")
+
+    count_result = await db.execute(
+        select(func.count(WritingStyle.id)).where(WritingStyle.user_id == user_id)
+    )
+    max_order = count_result.scalar_one()
+
+    risk_text = "中风险，已标记人工复核" if asset["risk_level"] == "medium" else "低风险，可直接使用"
+    new_style = WritingStyle(
+        user_id=user_id,
+        name=data.custom_name or asset["name"],
+        style_type="custom",
+        description=f"从本地提示词资产导入: {asset.get('description', '') or ''}（{risk_text}）",
+        prompt_content=prompt_content,
+        order_index=max_order + 1
+    )
+    db.add(new_style)
+    await db.commit()
+    await db.refresh(new_style)
+
+    return {
+        "success": True,
+        "message": "已导入到本地写作风格",
+        "writing_style": {
+            "id": new_style.id,
+            "name": new_style.name,
+            "style_type": new_style.style_type,
+            "prompt_content": new_style.prompt_content
+        },
+        "asset": {
+            "id": asset["id"],
+            "name": asset["name"],
+            "risk_level": asset["risk_level"],
+            "sync_status": asset["sync_status"],
+        }
+    }
+
+
+@router.get("/local-assets/{asset_id}")
+async def get_local_prompt_asset(
+    asset_id: str,
+    request: Request,
+    include_content: bool = True,
+):
+    """获取单个本地提示词资产详情。"""
+    get_current_user_id(request)
+
+    asset = prompt_asset_catalog_service.get_asset(asset_id, include_content=include_content)
+    if not asset:
+        raise HTTPException(status_code=404, detail="本地提示词资产不存在")
+
+    return {
+        "success": True,
+        "data": asset,
     }
 
 

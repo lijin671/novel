@@ -5,6 +5,10 @@ from typing import List, Dict, Any, Optional
 import json
 from datetime import datetime
 from app.logger import get_logger
+from app.services.memory_retrieval_config_service import (
+    DEFAULT_MEMORY_SCENARIO_TYPES,
+    get_user_memory_retrieval_config,
+)
 import os
 import hashlib
 
@@ -71,6 +75,14 @@ class MemoryService:
     
     _instance = None
     _initialized = False
+    MEMORY_TYPE_WEIGHTS = {
+        "chapter_summary": 1.16,
+        "foreshadow": 1.12,
+        "hook": 1.08,
+        "plot_point": 1.06,
+        "character_event": 1.04,
+    }
+    MEMORY_SCENARIO_TYPES = DEFAULT_MEMORY_SCENARIO_TYPES
     
     def __new__(cls):
         """单例模式"""
@@ -395,6 +407,129 @@ class MemoryService:
             logger.error(f"❌ 批量添加记忆失败: {str(e)}")
             return 0
     
+    @staticmethod
+    def _safe_float(value: Any, default: float = 0.0) -> float:
+        """瀹夊叏杞崲涓烘诞鐐规暟銆?"""
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return default
+
+    @staticmethod
+    def _safe_int(value: Any, default: int = 0) -> int:
+        """瀹夊叏杞崲涓烘暣鏁般€?"""
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return default
+
+    def _get_memory_type_weight(self, memory_type: str) -> float:
+        """鏍规嵁璁板繂绫诲瀷杩斿洖鍙洖鏉冮噸銆?"""
+        normalized_type = (memory_type or "").strip().lower()
+        return self.MEMORY_TYPE_WEIGHTS.get(normalized_type, 1.0)
+
+    def _resolve_memory_types_for_scenario(
+        self,
+        memory_types: Optional[List[str]],
+        memory_scenario: Optional[str]
+    ) -> Optional[List[str]]:
+        """鏍规嵁鍦烘櫙鍜屾樉寮忕被鍨嬬櫧鍚嶅崟瑙ｆ瀽鏈€缁堣妫€绱㈢殑璁板繂绫诲瀷銆?"""
+        scenario_types = self.MEMORY_SCENARIO_TYPES.get(memory_scenario or "")
+        if not scenario_types:
+            return memory_types
+
+        if not memory_types:
+            return list(scenario_types)
+
+        filtered_types = [mem_type for mem_type in memory_types if mem_type in scenario_types]
+        return filtered_types
+
+    async def _resolve_memory_types_for_user_scenario(
+        self,
+        user_id: str,
+        memory_types: Optional[List[str]],
+        memory_scenario: Optional[str]
+    ) -> Optional[List[str]]:
+        """根据用户配置和场景白名单解析最终记忆类型。"""
+        if not memory_scenario:
+            return memory_types
+
+        retrieval_config = await get_user_memory_retrieval_config(user_id)
+        scenario_types_map = retrieval_config.get("scenario_types", {})
+        scenario_types = scenario_types_map.get(memory_scenario)
+        if scenario_types is None:
+            scenario_types = self.MEMORY_SCENARIO_TYPES.get(memory_scenario or "")
+        if scenario_types is None:
+            return memory_types
+
+        if not memory_types:
+            return list(scenario_types)
+
+        filtered_types = [mem_type for mem_type in memory_types if mem_type in scenario_types]
+        return filtered_types
+
+    def _get_chapter_distance_weight(
+        self,
+        chapter_number: int,
+        current_chapter: Optional[int]
+    ) -> tuple[float, Optional[int]]:
+        """鏍规嵁绔犺妭璺濈杩斿洖鏉冮噸锛岄伩鍏嶈繙绔犲拰鏈潵绔犺妭鎸ゅ崰鍙洖銆?"""
+        if current_chapter is None or chapter_number <= 0:
+            return 1.0, None
+
+        distance = current_chapter - chapter_number
+        if distance < 0:
+            return 0.35, abs(distance)
+        if distance == 0:
+            return 1.08, 0
+        if distance == 1:
+            return 1.0, 1
+        if distance <= 3:
+            return 0.94, distance
+        if distance <= 10:
+            return 0.84, distance
+        if distance <= 30:
+            return 0.72, distance
+        return 0.6, distance
+
+    def _rerank_search_memories(
+        self,
+        memories: List[Dict[str, Any]],
+        current_chapter: Optional[int] = None
+    ) -> List[Dict[str, Any]]:
+        """鍩轰簬绫诲瀷鍜岀珷鑺傝窛绂诲鍚戦噺妫€绱㈢粨鏋滆繘琛屼簩娆℃帓搴忋€?"""
+        reranked: List[Dict[str, Any]] = []
+
+        for memory in memories:
+            metadata = memory.get("metadata") or {}
+            similarity = self._safe_float(memory.get("similarity"), 0.0)
+            importance = self._safe_float(metadata.get("importance"), 0.5)
+            memory_type = str(metadata.get("memory_type", "")).strip()
+            chapter_number = self._safe_int(metadata.get("chapter_number"), 0)
+
+            type_weight = self._get_memory_type_weight(memory_type)
+            distance_weight, chapter_distance = self._get_chapter_distance_weight(
+                chapter_number,
+                current_chapter
+            )
+
+            rerank_score = similarity * type_weight * distance_weight + importance * 0.08
+            memory["rerank_score"] = round(rerank_score, 6)
+            memory["type_weight"] = type_weight
+            memory["distance_weight"] = distance_weight
+            memory["chapter_distance"] = chapter_distance
+            reranked.append(memory)
+
+        reranked.sort(
+            key=lambda item: (
+                self._safe_float(item.get("rerank_score"), 0.0),
+                self._safe_float(item.get("similarity"), 0.0),
+                self._safe_float((item.get("metadata") or {}).get("importance"), 0.0),
+            ),
+            reverse=True
+        )
+        return reranked
+
     async def search_memories(
         self,
         user_id: str,
@@ -403,7 +538,9 @@ class MemoryService:
         memory_types: Optional[List[str]] = None,
         limit: int = 10,
         min_importance: float = 0.0,
-        chapter_range: Optional[tuple] = None
+        chapter_range: Optional[tuple] = None,
+        current_chapter: Optional[int] = None,
+        memory_scenario: Optional[str] = None
     ) -> List[Dict[str, Any]]:
         """
         语义搜索相关记忆
@@ -425,13 +562,23 @@ class MemoryService:
             
             # 生成查询向量
             query_embedding = self.embedding_model.encode(query).tolist()
+            resolved_memory_types = await self._resolve_memory_types_for_user_scenario(
+                user_id,
+                memory_types,
+                memory_scenario
+            )
+            if resolved_memory_types == []:
+                logger.info(
+                    f"馃搹 璁板繂妫€绱㈠湪鍦烘櫙 {memory_scenario} 涓嬫病鏈夊彲鐢ㄧ殑绫诲瀷锛岀洿鎺ヨ繑鍥炵┖缁撴灉"
+                )
+                return []
             
             # 构建过滤条件 - ChromaDB要求使用$and组合多个条件
             where_filter = None
             conditions = []
             
-            if memory_types:
-                conditions.append({"memory_type": {"$in": memory_types}})
+            if resolved_memory_types:
+                conditions.append({"memory_type": {"$in": resolved_memory_types}})
             if min_importance > 0:
                 conditions.append({"importance": {"$gte": min_importance}})
             if chapter_range:
@@ -447,9 +594,10 @@ class MemoryService:
                 where_filter = {"$and": conditions}
             
             # 执行向量相似度搜索
+            candidate_limit = min(max(limit * 3, 20), 80)
             results = collection.query(
                 query_embeddings=[query_embedding],
-                n_results=limit,
+                n_results=candidate_limit,
                 where=where_filter
             )
             
@@ -466,6 +614,15 @@ class MemoryService:
                     })
             
             logger.info(f"🔍 语义搜索完成: 查询='{query[:30]}...', 找到{len(memories)}条记忆")
+            memories = self._rerank_search_memories(
+                memories,
+                current_chapter=current_chapter
+            )
+            memories = memories[:limit]
+            logger.info(
+                f"馃攳 璇箟鎼滅储浜屾鎺掑簭瀹屾垚: "
+                f"current_chapter={current_chapter}, 杩斿洖{len(memories)}鏉¤蹇?"
+            )
             return memories
             
         except Exception as e:
@@ -626,7 +783,9 @@ class MemoryService:
             project_id=project_id,
             query=chapter_outline,
             limit=10,
-            min_importance=0.4
+            min_importance=0.4,
+            current_chapter=current_chapter,
+            memory_scenario="chapter_generation"
         )
         
         # 3. 查找未完结伏笔
@@ -643,7 +802,9 @@ class MemoryService:
                 project_id=project_id,
                 query=character_query,
                 memory_types=["character_event", "plot_point"],
-                limit=8
+                limit=8,
+                current_chapter=current_chapter,
+                memory_scenario="character_context"
             )
         
         # 5. 获取重要情节点
@@ -655,7 +816,9 @@ class MemoryService:
                 query="重要 转折 高潮 关键",
                 memory_types=["plot_point", "hook"],
                 limit=5,
-                min_importance=0.7
+                min_importance=0.7,
+                current_chapter=current_chapter,
+                memory_scenario="plot_context"
             )
         except Exception as e:
             logger.error(f"❌ 搜索记忆失败: {str(e)}")
@@ -667,7 +830,9 @@ class MemoryService:
                     project_id=project_id,
                     query="重要 转折 高潮 关键",
                     memory_types=["plot_point", "hook"],
-                    limit=5
+                    limit=5,
+                    current_chapter=current_chapter,
+                    memory_scenario="plot_context"
                 )
             except Exception as e2:
                 logger.warning(f"⚠️ 降级查询也失败: {str(e2)}")
@@ -919,4 +1084,3 @@ class MemoryService:
 
 # 创建全局实例
 memory_service = MemoryService()
-            
