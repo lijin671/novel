@@ -115,6 +115,16 @@ DEFAULT_GITHUB_QUERIES = (
     '("recursive reprompting" OR "recursive reprompting and revision" OR "Plan Draft Rewrite Edit" OR "relevance reranker" OR "coherence reranker") ("long story" OR "story generation") in:name,description,readme',
     '("Chat-Haruhi" OR "character imitation" OR "novel character extraction") ("role-playing" OR "character dialogue") in:name,description,readme',
     '("event-to-sentence" OR "plot events into sentences" OR "slot filling" OR "memory graph") ("story realization" OR "story generation") in:name,description,readme',
+    '("book memory bank" OR "stateless AI" OR "activeContext.md" OR "progress.md") ("book writing" OR "novel") in:name,description,readme',
+    '("Spec Kit" OR "constitution.md" OR "scene-by-scene writing tasks" OR "story bible governance") ("fiction" OR "novel") in:name,description,readme',
+    '("nested chapters" OR "parent section introductions" OR "table of contents") ("ebook summarizer" OR "chapter summaries" OR "book summary") in:name,description,readme',
+    '("two-pass translation" OR "cumulative glossary" OR "previous chapter summary") ("novel translation" OR "serialized novels") in:name,description,readme',
+    '("author notes" OR "edit notes" OR "source of truth") ("markdown files" OR "story framework" OR "fiction") in:name,description,readme',
+    '("temporal knowledge graph" OR "temporal context graph" OR "provenance") ("AI agents" OR "agent memory") in:name,description,readme',
+    '("multi-level memory" OR "long-term memory" OR "session state") ("AI agents" OR "personalized AI") in:name,description,readme',
+    '("GraphRAG" OR "community summaries" OR "extract structured data from unstructured text") ("knowledge graph" OR "RAG") in:name,description,readme',
+    '("dual-level architecture" OR "knowledge graphs" OR "vector embeddings") ("LightRAG" OR "RAG") in:name,description,readme',
+    '("extract nodes" OR "relationships and properties" OR "custom schema") ("LLM graph builder" OR "knowledge graph") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -242,6 +252,16 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/yangkevin2/emnlp22-re3-story-generation",
     "https://github.com/LC1332/Chat-Haruhi-Suzumiya",
     "https://github.com/rajammanabrolu/StoryRealization",
+    "https://github.com/gratajik/book-memory-bank",
+    "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+    "https://github.com/danngalann/llm-ebook-summarizer",
+    "https://github.com/darkautism/ai-novel-translation",
+    "https://github.com/lordjabez/story-framework",
+    "https://github.com/getzep/graphiti",
+    "https://github.com/mem0ai/mem0",
+    "https://github.com/microsoft/graphrag",
+    "https://github.com/HKUDS/LightRAG",
+    "https://github.com/neo4j-labs/llm-graph-builder",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -454,6 +474,16 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("character_dialogue_persona_memory", ("chat-haruhi", "character imitation", "approximate tone", "personality and plot chat", "extracting characters from novels", "novel_collecting", "role datasets")),
     ("event_to_sentence_realization_trace", ("story realization", "plot events into sentences", "event-to-sentence", "event creation", "eventify", "ensemble thresholds", "confidence scores")),
     ("entity_memory_slotfill_grounding", ("slot filling", "slotfilling", "memory graph", "getagentturn", "entities", "entity tracking")),
+    ("book_memory_bank_context_lattice", ("book memory bank", "stateless ai", "memory resets", "projectbrief.md", "story_structure.md", "world_and_characters.md", "activecontext.md", "progress.md", "comprehensive memory bank updating")),
+    ("spec_driven_fiction_scene_tasks", ("spec kit fiction", "story bible governance", "constitution.md", "scene-by-scene writing tasks", "quality gates instead of ci", "pov schedule", "information asymmetry map", "glossary audit", "subplot health dashboard")),
+    ("toc_aware_source_deconstruction", ("llm ebook summarizer", "epub files", "pdf files", "table of contents", "nested chapters", "parent section introductions", "structured markdown notes", "quotes and anecdotes", "merge utility")),
+    ("two_pass_context_glossary_pipeline", ("two-pass translation", "pass 1 (analysis)", "pass 2 (translation)", "previous chapter summary", "cumulative glossary", "proper nouns/terms", "resume support", "prompt templates")),
+    ("inline_author_edit_markup_versioning", ("story framework", "markdown files and git", "source of truth", "continuity/timeline.md", "continuity/facts.md", "process edit notes", "[[pov", "{{fix", "git tag")),
+    ("temporal_canon_context_graph", ("graphiti", "temporal knowledge graph", "temporal context", "episodes", "bi-temporal", "valid_at", "invalid_at", "hybrid search", "provenance tracking")),
+    ("long_term_author_preference_memory", ("mem0", "memory layer", "long-term memory", "user preferences", "session memory", "adaptive personalization", "multi-level memory", "episodic memory")),
+    ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
+    ("dual_level_graph_vector_retrieval", ("lightrag", "dual-level", "dual level", "knowledge graphs", "vector embeddings", "naive", "local", "global", "hybrid", "kg+vector")),
+    ("schema_guided_graph_extraction", ("llm graph builder", "extract nodes", "relationships and properties", "custom schema", "node labels", "relationship types", "source metadata", "neo4j graph")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -935,6 +965,52 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "StoryRealization expands plot events into sentences. Public README describes event creation, slot filling, a memory graph for entities, ensemble thresholds, "
         "confidence scores, and a stale runtime stack. Absorb event-to-sentence trace and entity grounding patterns only; servers, Docker, parsers, datasets, and code are not used."
     ),
+    "gratajik/book-memory-bank": (
+        "Book Memory Bank is a no-license-observed structured documentation system for AI-assisted book writing. Public README describes a persistently updated knowledge base "
+        "for stateless AI, core files for project brief, story structure, world/characters, active context, progress, style guide, master outline, chapter outlines, "
+        "plan-to-actual comparison, and comprehensive memory updates after chapter completion. Absorb the context-lattice and update-checklist pattern only; Cline rules and scripts are not imported."
+    ),
+    "adaumann/speckit-preset-fiction-book-writing": (
+        "Spec Kit Fiction Book Writing Preset exposes a fiction adaptation of Spec-Driven Development. Public README describes story-bible governance through constitution.md, "
+        "story briefs, plans, scene-by-scene writing tasks, POV architecture, information asymmetry maps, quality gates, glossary checks, subplot health, pacing/statistics/sensitivity gates, "
+        "and submission/export workflow. Absorb spec-driven scene tasks and story-bible gates only; installable presets, slash commands, scripts, and Pandoc export are not run."
+    ),
+    "danngalann/llm-ebook-summarizer": (
+        "LLM Ebook Summarizer is a no-license-observed tool for extracting and summarizing EPUB/PDF chapters. Public README describes table-of-contents processing, nested chapters, "
+        "parent section introduction preservation, structured markdown notes with summaries, lessons, quotes, anecdotes, 200-word content filters, translation, and merge-to-book output. "
+        "Absorb TOC-aware source deconstruction only; Ollama/model runtime, package setup, and scripts are not executed."
+    ),
+    "darkautism/ai-novel-translation": (
+        "AI Novel Translation is a no-license-observed Rust tool for serialized novel translation. Public README describes a two-pass workflow: analysis creates chapter summary and extracts terms, "
+        "translation uses the current summary plus cumulative glossary, previous chapter summary, resume detection, configurable prompts, and manual glossary edits. "
+        "Absorb context/glossary consistency and resume patterns only; Rust build, providers, API keys, and translation runtime are not used."
+    ),
+    "lordjabez/story-framework": (
+        "Story Framework is an MIT-0 markdown-and-git fiction workspace. Public README describes planning docs as story source of truth, Continuity/timeline.md, Continuity/facts.md, "
+        "Plot/threads.md, one draft file per chapter, git commits/tags, inline author notes [[...]], edit notes {{...}}, and process-edit-notes revision flow. "
+        "Absorb inline note queues and revision-versioning patterns only; prompt files and host rules are not imported."
+    ),
+    "getzep/graphiti": (
+        "Graphiti is a temporal knowledge-graph memory system for AI agents, useful as a pattern source for novel canon memory. Public project materials describe temporally-aware episodes, entity/relationship extraction, "
+        "hybrid semantic/keyword/graph search, provenance, and context assembly for dynamic agent memory. Absorb temporal canon graph and provenance patterns only; "
+        "database services, server runtime, dependencies, and API surfaces are not used."
+    ),
+    "mem0ai/mem0": (
+        "Mem0 is a long-term memory layer for AI agents and assistants, useful as a pattern source for author preference and novel project memory. Public materials describe user/session memories, adaptive personalization, memory search, "
+        "and multi-level memory workflows. Absorb author preference, project memory, and session-state layering patterns only; hosted service, SDKs, telemetry, and provider calls are not used."
+    ),
+    "microsoft/graphrag": (
+        "GraphRAG is a graph-based retrieval approach for extracting structured data from unstructured text and producing entity/community summaries for global and local search, useful for source-book and novel canon deconstruction. "
+        "Absorb source-book graph deconstruction and community-summary patterns only; indexing pipelines, model calls, storage backends, and CLI runtime are not used."
+    ),
+    "hkuds/lightrag": (
+        "LightRAG is a graph/vector retrieval project that emphasizes dual-level retrieval over knowledge graphs and vector embeddings with local, global, hybrid, and naive query modes for long-form story context. "
+        "Absorb dual-level graph-vector context selection patterns only; dependencies, servers, model calls, and storage/runtime code are not imported."
+    ),
+    "neo4j-labs/llm-graph-builder": (
+        "Neo4j LLM Graph Builder extracts nodes, relationships, and properties from unstructured documents into a graph using schema guidance and source metadata, useful for novel source/canon extraction. "
+        "Absorb schema-guided canon/source graph extraction patterns only; Neo4j services, UI, Docker/runtime pieces, and provider calls are not used."
+    ),
 }
 
 
@@ -1372,6 +1448,16 @@ class NovelSourceDiscoveryService:
             "character_dialogue_persona_memory_hints": self._build_character_dialogue_persona_memory_hints(available_patterns),
             "event_to_sentence_realization_trace_hints": self._build_event_to_sentence_realization_trace_hints(available_patterns),
             "entity_memory_slotfill_grounding_hints": self._build_entity_memory_slotfill_grounding_hints(available_patterns),
+            "book_memory_bank_context_lattice_hints": self._build_book_memory_bank_context_lattice_hints(available_patterns),
+            "spec_driven_fiction_scene_tasks_hints": self._build_spec_driven_fiction_scene_tasks_hints(available_patterns),
+            "toc_aware_source_deconstruction_hints": self._build_toc_aware_source_deconstruction_hints(available_patterns),
+            "two_pass_context_glossary_pipeline_hints": self._build_two_pass_context_glossary_pipeline_hints(available_patterns),
+            "inline_author_edit_markup_versioning_hints": self._build_inline_author_edit_markup_versioning_hints(available_patterns),
+            "temporal_canon_context_graph_hints": self._build_temporal_canon_context_graph_hints(available_patterns),
+            "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
+            "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
+            "dual_level_graph_vector_retrieval_hints": self._build_dual_level_graph_vector_retrieval_hints(available_patterns),
+            "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1948,6 +2034,16 @@ class NovelSourceDiscoveryService:
             "character_dialogue_persona_memory": 66,
             "event_to_sentence_realization_trace": 65,
             "entity_memory_slotfill_grounding": 64,
+            "book_memory_bank_context_lattice": 67,
+            "spec_driven_fiction_scene_tasks": 66,
+            "toc_aware_source_deconstruction": 65,
+            "two_pass_context_glossary_pipeline": 64,
+            "inline_author_edit_markup_versioning": 63,
+            "temporal_canon_context_graph": 68,
+            "long_term_author_preference_memory": 64,
+            "community_graph_source_deconstruction": 66,
+            "dual_level_graph_vector_retrieval": 65,
+            "schema_guided_graph_extraction": 66,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -2174,6 +2270,37 @@ class NovelSourceDiscoveryService:
             targets.append("event_to_sentence_realization_schema")
         if "entity_memory_slotfill_grounding" in patterns:
             targets.append("entity_memory_slotfill_rules")
+        if "book_memory_bank_context_lattice" in patterns:
+            targets.append("book_memory_bank_manifest")
+            targets.append("active_context_progress_rules")
+        if "spec_driven_fiction_scene_tasks" in patterns:
+            targets.append("fiction_constitution")
+            targets.append("scene_task_backlog")
+            targets.append("pov_information_asymmetry_map")
+        if "toc_aware_source_deconstruction" in patterns:
+            targets.append("source_toc_deconstruction_index")
+            targets.append("chapter_summary_evidence_schema")
+        if "two_pass_context_glossary_pipeline" in patterns:
+            targets.append("cumulative_glossary")
+            targets.append("previous_chapter_summary_bridge")
+        if "inline_author_edit_markup_versioning" in patterns:
+            targets.append("inline_author_edit_markup_policy")
+            targets.append("revision_version_milestones")
+        if "temporal_canon_context_graph" in patterns:
+            targets.append("temporal_canon_graph_schema")
+            targets.append("episode_provenance_rules")
+        if "long_term_author_preference_memory" in patterns:
+            targets.append("author_preference_memory_layers")
+            targets.append("session_memory_scope_rules")
+        if "community_graph_source_deconstruction" in patterns:
+            targets.append("source_entity_community_graph")
+            targets.append("community_summary_index")
+        if "dual_level_graph_vector_retrieval" in patterns:
+            targets.append("graph_vector_retrieval_policy")
+            targets.append("local_global_hybrid_query_modes")
+        if "schema_guided_graph_extraction" in patterns:
+            targets.append("canon_graph_extraction_schema")
+            targets.append("source_metadata_link_rules")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -2448,6 +2575,26 @@ class NovelSourceDiscoveryService:
             targets.extend(["event_to_sentence_trace", "plot_event_realization_report", "ensemble_confidence_notes"])
         if "entity_memory_slotfill_grounding" in patterns:
             targets.extend(["entity_memory_slotfill_report", "entity_tracking_findings", "slot_grounding_failures"])
+        if "book_memory_bank_context_lattice" in patterns:
+            targets.extend(["memory_bank_completeness_report", "plan_to_actual_comparison", "active_context_progress_report"])
+        if "spec_driven_fiction_scene_tasks" in patterns:
+            targets.extend(["story_bible_quality_gate_report", "scene_task_coverage_report", "pov_schedule_information_asymmetry_report"])
+        if "toc_aware_source_deconstruction" in patterns:
+            targets.extend(["toc_hierarchy_summary_report", "nested_section_context_report", "source_quote_anecdote_evidence"])
+        if "two_pass_context_glossary_pipeline" in patterns:
+            targets.extend(["two_pass_glossary_consistency_report", "proper_noun_term_drift_findings", "resume_checkpoint_suggestion"])
+        if "inline_author_edit_markup_versioning" in patterns:
+            targets.extend(["inline_edit_note_queue", "author_note_context_map", "revision_diff_milestones"])
+        if "temporal_canon_context_graph" in patterns:
+            targets.extend(["temporal_canon_graph_report", "episode_provenance_trace", "validity_window_conflicts"])
+        if "long_term_author_preference_memory" in patterns:
+            targets.extend(["author_preference_memory_report", "session_memory_drift_findings", "project_memory_scope_audit"])
+        if "community_graph_source_deconstruction" in patterns:
+            targets.extend(["source_community_summary_report", "entity_community_overlap_findings", "global_local_question_coverage"])
+        if "dual_level_graph_vector_retrieval" in patterns:
+            targets.extend(["graph_vector_retrieval_report", "local_global_hybrid_context_selection", "retrieval_mode_failure_notes"])
+        if "schema_guided_graph_extraction" in patterns:
+            targets.extend(["schema_guided_extraction_report", "node_relationship_property_coverage", "source_metadata_grounding_report"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -4232,6 +4379,96 @@ class NovelSourceDiscoveryService:
             "Reject realized prose when slot filling imports source entities or leaves unresolved aliases.",
         ]
 
+    def _build_book_memory_bank_context_lattice_hints(self, patterns: set[str]) -> list[str]:
+        if "book_memory_bank_context_lattice" not in patterns:
+            return []
+        return [
+            "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
+            "Before continuation, read the current active context and progress snapshot; after accepted chapter output, update every affected memory-bank layer.",
+            "Compare each completed chapter against its planned outline so drift becomes an explicit decision instead of hidden context loss.",
+        ]
+
+    def _build_spec_driven_fiction_scene_tasks_hints(self, patterns: set[str]) -> list[str]:
+        if "spec_driven_fiction_scene_tasks" not in patterns:
+            return []
+        return [
+            "Use the fiction constitution/story bible as the governing authority for voice, tense, prose profile, audience, language, and hard style rules.",
+            "Translate the book plan into scene-by-scene tasks with status, POV, information asymmetry, causal beats, and quality gates before drafting.",
+            "Run glossary, subplot, pacing, continuity, and sensitivity-style gates as read-only checks before accepting a chapter or same-type draft.",
+        ]
+
+    def _build_toc_aware_source_deconstruction_hints(self, patterns: set[str]) -> list[str]:
+        if "toc_aware_source_deconstruction" not in patterns:
+            return []
+        return [
+            "When deconstructing a source book, preserve table-of-contents hierarchy so parts, chapters, and sections remain traceable.",
+            "Carry parent-section introductions into the first child summary only; avoid duplicating parent context across sibling sections.",
+            "Separate source summaries, lessons, quotes, anecdotes, and key points so same-type drafting can use abstract craft notes without importing canon.",
+        ]
+
+    def _build_two_pass_context_glossary_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "two_pass_context_glossary_pipeline" not in patterns:
+            return []
+        return [
+            "Run each chapter through an analysis pass before generation: summary, new terms, proper nouns, unresolved context, and glossary deltas.",
+            "Use the current chapter summary, previous chapter summary, and cumulative glossary as inputs to the generation or translation pass.",
+            "Support interrupted jobs by locating the last completed output/glossary pair and resuming from the next stable chapter number.",
+        ]
+
+    def _build_inline_author_edit_markup_versioning_hints(self, patterns: set[str]) -> list[str]:
+        if "inline_author_edit_markup_versioning" not in patterns:
+            return []
+        return [
+            "Allow inline author notes for POV, timeline, mood, active threads, and research context while keeping edit notes as a separate revision queue.",
+            "Process edit-note markers into concrete changes, then remove or resolve them before final manuscript assembly.",
+            "Tag major draft milestones and keep revision diffs inspectable so same-type rewrites and continuation repairs remain reversible.",
+        ]
+
+    def _build_temporal_canon_context_graph_hints(self, patterns: set[str]) -> list[str]:
+        if "temporal_canon_context_graph" not in patterns:
+            return []
+        return [
+            "Store canon facts as temporal graph episodes with source chapter, observed_at, valid_from, invalid_after, and provenance notes.",
+            "Retrieve context through a hybrid of semantic match, entity-neighborhood traversal, chronology window, and explicit relationship edges.",
+            "When a continuation changes facts, add a new episode or validity window instead of overwriting earlier canon evidence.",
+        ]
+
+    def _build_long_term_author_preference_memory_hints(self, patterns: set[str]) -> list[str]:
+        if "long_term_author_preference_memory" not in patterns:
+            return []
+        return [
+            "Separate author preferences, project-level style decisions, session goals, and transient drafting notes into different memory scopes.",
+            "Promote a preference into long-term memory only after it is confirmed or repeatedly used, not from one draft failure.",
+            "During same-type creation, keep user/author preference memory separate from source-book deconstruction notes.",
+        ]
+
+    def _build_community_graph_source_deconstruction_hints(self, patterns: set[str]) -> list[str]:
+        if "community_graph_source_deconstruction" not in patterns:
+            return []
+        return [
+            "Deconstruct a source book into entity communities, relationship clusters, and community summaries before extracting reusable story mechanics.",
+            "Use global graph summaries for whole-book structure questions and local graph neighborhoods for chapter-level continuation context.",
+            "Keep source community reports as analysis evidence; transformed canon needs its own graph and summaries.",
+        ]
+
+    def _build_dual_level_graph_vector_retrieval_hints(self, patterns: set[str]) -> list[str]:
+        if "dual_level_graph_vector_retrieval" not in patterns:
+            return []
+        return [
+            "Select continuation context with dual-level retrieval: vector similarity for related passages and graph traversal for canon-critical entities.",
+            "Choose query mode explicitly: local for character/state facts, global for theme or arc summaries, hybrid for chapter planning, naive only for fallback.",
+            "Log which retrieval mode supplied each context item so weak graph or vector coverage can be repaired.",
+        ]
+
+    def _build_schema_guided_graph_extraction_hints(self, patterns: set[str]) -> list[str]:
+        if "schema_guided_graph_extraction" not in patterns:
+            return []
+        return [
+            "Extract canon/source graphs with a bounded schema: node labels, relationship types, required properties, source location, and confidence.",
+            "Attach source metadata to every extracted node and edge so reviewers can trace it back to chapter, paragraph, or source-note evidence.",
+            "Reject graph mutations that introduce unlabeled nodes, unsupported relationships, or facts without source metadata.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -4472,6 +4709,26 @@ class NovelSourceDiscoveryService:
             targets.append("event_realization_trace_remap")
         if "entity_memory_slotfill_grounding" in patterns:
             targets.append("entity_slotfill_grounding_remap")
+        if "book_memory_bank_context_lattice" in patterns:
+            targets.append("memory_bank_context_remap")
+        if "spec_driven_fiction_scene_tasks" in patterns:
+            targets.append("spec_scene_task_remap")
+        if "toc_aware_source_deconstruction" in patterns:
+            targets.append("source_toc_summary_remap")
+        if "two_pass_context_glossary_pipeline" in patterns:
+            targets.append("glossary_context_remap")
+        if "inline_author_edit_markup_versioning" in patterns:
+            targets.append("inline_markup_revision_remap")
+        if "temporal_canon_context_graph" in patterns:
+            targets.append("temporal_graph_context_remap")
+        if "long_term_author_preference_memory" in patterns:
+            targets.append("author_preference_memory_remap")
+        if "community_graph_source_deconstruction" in patterns:
+            targets.append("source_community_graph_remap")
+        if "dual_level_graph_vector_retrieval" in patterns:
+            targets.append("graph_vector_retrieval_remap")
+        if "schema_guided_graph_extraction" in patterns:
+            targets.append("schema_guided_graph_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -4633,6 +4890,26 @@ class NovelSourceDiscoveryService:
             hints.append("Build a fresh event outline and compressed history for the transformed premise before drafting.")
         if "agentic_story_world_simulation" in patterns:
             hints.append("Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence.")
+        if "book_memory_bank_context_lattice" in patterns:
+            hints.append("Convert source deconstruction into separate memory-bank notes: craft observations, transformed canon, active context, and progress are never mixed.")
+        if "spec_driven_fiction_scene_tasks" in patterns:
+            hints.append("Create transformed scene tasks from the new constitution/story bible; source scene tasks may guide format only, not content or order.")
+        if "toc_aware_source_deconstruction" in patterns:
+            hints.append("Use TOC-aware source summaries as analysis artifacts, then rebuild the new story's chapter hierarchy around new promises and payoffs.")
+        if "two_pass_context_glossary_pipeline" in patterns:
+            hints.append("Run an analysis pass that extracts source term functions, then create a new glossary for transformed names, places, rules, and motifs.")
+        if "inline_author_edit_markup_versioning" in patterns:
+            hints.append("Use inline author notes to control new POV, timeline, mood, and active threads; edit notes should resolve into independent prose.")
+        if "temporal_canon_context_graph" in patterns:
+            hints.append("Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.")
+        if "long_term_author_preference_memory" in patterns:
+            hints.append("Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.")
+        if "community_graph_source_deconstruction" in patterns:
+            hints.append("Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.")
+        if "dual_level_graph_vector_retrieval" in patterns:
+            hints.append("Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.")
+        if "schema_guided_graph_extraction" in patterns:
+            hints.append("Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -4810,6 +5087,26 @@ class NovelSourceDiscoveryService:
             hints.append("Transform plot events before event-to-sentence expansion so realized sentences do not follow source event order.")
         if "entity_memory_slotfill_grounding" in patterns:
             hints.append("Transform entity-memory slots by replacing source entities with new-story names, roles, locations, and objects.")
+        if "book_memory_bank_context_lattice" in patterns:
+            hints.append("Transform source memory-bank fields into new-story project brief, structure, characters, style, active context, and progress files.")
+        if "spec_driven_fiction_scene_tasks" in patterns:
+            hints.append("Transform story-bible constitution, scene tasks, POV schedule, glossary, and quality gates before prose generation.")
+        if "toc_aware_source_deconstruction" in patterns:
+            hints.append("Transform TOC-derived summaries into new chapter functions, not a reused source section hierarchy.")
+        if "two_pass_context_glossary_pipeline" in patterns:
+            hints.append("Transform proper-noun and term glossaries into new names, labels, rules, and motifs before generation uses them.")
+        if "inline_author_edit_markup_versioning" in patterns:
+            hints.append("Transform inline notes into new-story POV/timeline/revision tasks; remove edit markers once the independent revision is accepted.")
+        if "temporal_canon_context_graph" in patterns:
+            hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
+        if "long_term_author_preference_memory" in patterns:
+            hints.append("Transform author preferences into project-local style decisions without recording source-book facts as preferences.")
+        if "community_graph_source_deconstruction" in patterns:
+            hints.append("Transform source communities into new-story communities with different members, labels, causal pressures, and cross-community edges.")
+        if "dual_level_graph_vector_retrieval" in patterns:
+            hints.append("Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.")
+        if "schema_guided_graph_extraction" in patterns:
+            hints.append("Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -4991,6 +5288,26 @@ class NovelSourceDiscoveryService:
             hints.append("Reject realized sentences when the event trace preserves source event order, unique props, or set-piece causality.")
         if "entity_memory_slotfill_grounding" in patterns:
             hints.append("Reject slot-filled prose that imports source entities, aliases, locations, or objects into transformed-story canon.")
+        if "book_memory_bank_context_lattice" in patterns:
+            hints.append("Reject memory-bank updates that mix source analysis notes into transformed canon, active context, or progress state.")
+        if "spec_driven_fiction_scene_tasks" in patterns:
+            hints.append("Reject scene tasks whose IDs, sequence, POV reveals, glossary terms, or quality gates recreate the source route.")
+        if "toc_aware_source_deconstruction" in patterns:
+            hints.append("Reject transformed outlines that preserve source TOC order, heading cadence, quotes, anecdotes, or section hierarchy.")
+        if "two_pass_context_glossary_pipeline" in patterns:
+            hints.append("Reject generated chapters whose glossary keeps source names, terms, locations, titles, or term-introduction order.")
+        if "inline_author_edit_markup_versioning" in patterns:
+            hints.append("Reject inline notes or edit queues that smuggle source scene instructions into final independent prose.")
+        if "temporal_canon_context_graph" in patterns:
+            hints.append("Reject temporal graphs that preserve source event chronology, relationship validity windows, or provenance as transformed canon.")
+        if "long_term_author_preference_memory" in patterns:
+            hints.append("Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.")
+        if "community_graph_source_deconstruction" in patterns:
+            hints.append("Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.")
+        if "dual_level_graph_vector_retrieval" in patterns:
+            hints.append("Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.")
+        if "schema_guided_graph_extraction" in patterns:
+            hints.append("Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -5031,6 +5348,16 @@ class NovelSourceDiscoveryService:
                 "character_dialogue_persona_memory",
                 "event_to_sentence_realization_trace",
                 "entity_memory_slotfill_grounding",
+                "book_memory_bank_context_lattice",
+                "spec_driven_fiction_scene_tasks",
+                "toc_aware_source_deconstruction",
+                "two_pass_context_glossary_pipeline",
+                "inline_author_edit_markup_versioning",
+                "temporal_canon_context_graph",
+                "long_term_author_preference_memory",
+                "community_graph_source_deconstruction",
+                "dual_level_graph_vector_retrieval",
+                "schema_guided_graph_extraction",
             }
         ):
             return True

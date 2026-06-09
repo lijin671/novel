@@ -4796,3 +4796,356 @@ def test_default_discovery_sources_include_story_generation_pipeline_projects():
     assert any("dramatron" in query.lower() and "log line" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("recursive reprompting" in query.lower() and "revision" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("chat-haruhi" in query.lower() and "character" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_source_deconstruction_memory_sources_classify_into_context_and_glossary_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "gratajik/book-memory-bank",
+                "html_url": "https://github.com/gratajik/book-memory-bank",
+                "description": "Book Memory Bank provides a structured documentation system for stateless AI book writing with projectbrief.md, story_structure.md, world_and_characters.md, activeContext.md and progress.md.",
+                "stargazers_count": 39,
+                "license": None,
+                "topics": ["book-writing", "memory-bank", "novel"],
+                "updated_at": "2026-05-10T04:07:22Z",
+                "root_files": ["Core", "Production", "README.md", "Style", "book-memory_bank.md"],
+            },
+            {
+                "full_name": "adaumann/speckit-preset-fiction-book-writing",
+                "html_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+                "description": "Spec Kit Fiction preset uses story bible governance through constitution.md, scene-by-scene writing tasks, POV schedule, information asymmetry map, glossary audit and quality gates.",
+                "stargazers_count": 11,
+                "license": None,
+                "topics": ["fiction", "spec-kit", "novel-writing"],
+                "updated_at": "2026-06-09T15:28:17Z",
+                "root_files": ["README.md", "catalog.community.json", "fiction-book-writing"],
+            },
+            {
+                "full_name": "danngalann/llm-ebook-summarizer",
+                "html_url": "https://github.com/danngalann/llm-ebook-summarizer",
+                "description": "LLM Ebook Summarizer extracts EPUB files and PDF files with table of contents, nested chapters, parent section introductions, structured markdown notes, quotes and anecdotes.",
+                "stargazers_count": 1,
+                "license": None,
+                "topics": ["ebook", "summarizer", "chapters"],
+                "updated_at": "2026-04-25T18:53:52Z",
+                "root_files": ["README.md", "epub_extractor.py", "pdf_extractor.py", "merge_markdowns.py"],
+            },
+            {
+                "full_name": "darkautism/ai-novel-translation",
+                "html_url": "https://github.com/darkautism/ai-novel-translation",
+                "description": "AI Novel Translation uses two-pass translation: Pass 1 (Analysis) creates summary and extracts proper nouns/terms, Pass 2 uses previous chapter summary, cumulative glossary and resume support.",
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["novel", "translation", "glossary"],
+                "updated_at": "2026-02-23T17:47:32Z",
+                "root_files": ["Cargo.toml", "Readme.md", "config.yml", "src"],
+            },
+            {
+                "full_name": "lordjabez/story-framework",
+                "html_url": "https://github.com/lordjabez/story-framework",
+                "description": "Story Framework uses markdown files and git as source of truth with Continuity/timeline.md, Continuity/facts.md, author notes, edit notes, process edit notes and git tag milestones.",
+                "stargazers_count": 2,
+                "license": {"spdx_id": "MIT-0"},
+                "topics": ["fiction", "markdown", "story-framework"],
+                "updated_at": "2026-01-22T00:32:02Z",
+                "root_files": ["README.md", "Characters", "Continuity", "Drafts", "Final", "LICENSE"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T21:10:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["gratajik/book-memory-bank"]["family"] == "novel-automation"
+    assert "book_memory_bank_context_lattice" in by_title["gratajik/book-memory-bank"]["absorbed_patterns"]
+    assert "spec_driven_fiction_scene_tasks" in by_title["adaumann/speckit-preset-fiction-book-writing"]["absorbed_patterns"]
+    assert "toc_aware_source_deconstruction" in by_title["danngalann/llm-ebook-summarizer"]["absorbed_patterns"]
+    assert "two_pass_context_glossary_pipeline" in by_title["darkautism/ai-novel-translation"]["absorbed_patterns"]
+    assert "inline_author_edit_markup_versioning" in by_title["lordjabez/story-framework"]["absorbed_patterns"]
+
+
+def test_source_deconstruction_memory_pattern_pack_exposes_context_glossary_and_edit_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T21:15:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/gratajik/book-memory-bank",
+                "title": "gratajik/book-memory-bank",
+                "summary": "Memory-bank context lattice for stateless AI book writing.",
+                "stars": 39,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["book_memory_bank_context_lattice"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+                "title": "adaumann/speckit-preset-fiction-book-writing",
+                "summary": "Spec-driven fiction tasks, constitution, POV and glossary gates.",
+                "stars": 11,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["spec_driven_fiction_scene_tasks"],
+                "score": 81,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/danngalann/llm-ebook-summarizer",
+                "title": "danngalann/llm-ebook-summarizer",
+                "summary": "TOC-aware source deconstruction for nested chapter summaries.",
+                "stars": 1,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["toc_aware_source_deconstruction"],
+                "score": 80,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/darkautism/ai-novel-translation",
+                "title": "darkautism/ai-novel-translation",
+                "summary": "Two-pass chapter summary and cumulative glossary pipeline.",
+                "stars": 0,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["two_pass_context_glossary_pipeline"],
+                "score": 79,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/lordjabez/story-framework",
+                "title": "lordjabez/story-framework",
+                "summary": "Inline author notes, edit notes and git revision milestones.",
+                "stars": 2,
+                "license": "MIT-0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["inline_author_edit_markup_versioning"],
+                "score": 78,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "book_memory_bank_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "fiction_constitution" in pattern_pack["bible_enrichment_targets"]
+    assert "source_toc_deconstruction_index" in pattern_pack["bible_enrichment_targets"]
+    assert "cumulative_glossary" in pattern_pack["bible_enrichment_targets"]
+    assert "inline_author_edit_markup_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "memory_bank_completeness_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "two_pass_glossary_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "memory_bank_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "glossary_context_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "book_memory_bank_context_lattice_hints" in digest
+    assert "spec_driven_fiction_scene_tasks_hints" in digest
+    assert "toc_aware_source_deconstruction_hints" in digest
+    assert "two_pass_context_glossary_pipeline_hints" in digest
+    assert "inline_author_edit_markup_versioning_hints" in digest
+
+
+def test_default_discovery_sources_include_source_deconstruction_memory_projects():
+    assert "https://github.com/gratajik/book-memory-bank" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/adaumann/speckit-preset-fiction-book-writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/danngalann/llm-ebook-summarizer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/darkautism/ai-novel-translation" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lordjabez/story-framework" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("book memory bank" in query.lower() and "stateless ai" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("spec kit" in query.lower() and "scene-by-scene writing tasks" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("nested chapters" in query.lower() and "parent section introductions" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("two-pass translation" in query.lower() and "cumulative glossary" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_graph_memory_rag_sources_classify_into_temporal_and_retrieval_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "getzep/graphiti",
+                "html_url": "https://github.com/getzep/graphiti",
+                "description": "Graphiti is a temporal knowledge graph for AI agents with episodes, temporal context, provenance tracking, hybrid search and entity relationship extraction for novel canon memory.",
+                "stargazers_count": 15400,
+                "license": None,
+                "topics": ["knowledge-graph", "agent-memory", "rag"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "graphiti_core", "server", "pyproject.toml"],
+            },
+            {
+                "full_name": "mem0ai/mem0",
+                "html_url": "https://github.com/mem0ai/mem0",
+                "description": "Mem0 provides a memory layer for AI agents with long-term memory, user preferences, session memory, adaptive personalization, multi-level memory and episodic memory for author preference memory.",
+                "stargazers_count": 38200,
+                "license": None,
+                "topics": ["memory", "ai-agents", "personalization"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "mem0", "server", "pyproject.toml"],
+            },
+            {
+                "full_name": "microsoft/graphrag",
+                "html_url": "https://github.com/microsoft/graphrag",
+                "description": "GraphRAG extracts structured data from unstructured text into entity extraction, community reports, community summaries, global search and local search for source-book deconstruction.",
+                "stargazers_count": 30100,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["graphrag", "rag", "knowledge-graph"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "graphrag", "pyproject.toml"],
+            },
+            {
+                "full_name": "HKUDS/LightRAG",
+                "html_url": "https://github.com/HKUDS/LightRAG",
+                "description": "LightRAG uses knowledge graphs and vector embeddings in a dual-level architecture with local, global, hybrid and naive query modes for story context retrieval.",
+                "stargazers_count": 24500,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["rag", "knowledge-graph", "vector-search"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "lightrag", "requirements.txt"],
+            },
+            {
+                "full_name": "neo4j-labs/llm-graph-builder",
+                "html_url": "https://github.com/neo4j-labs/llm-graph-builder",
+                "description": "LLM Graph Builder extracts nodes, relationships and properties with custom schema, node labels, relationship types, source metadata and Neo4j graph for novel canon extraction.",
+                "stargazers_count": 3200,
+                "license": None,
+                "topics": ["knowledge-graph", "neo4j", "llm"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "frontend", "backend", "docker-compose.yml"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T22:10:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["getzep/graphiti"]["family"] == "novel-automation"
+    assert "temporal_canon_context_graph" in by_title["getzep/graphiti"]["absorbed_patterns"]
+    assert "long_term_author_preference_memory" in by_title["mem0ai/mem0"]["absorbed_patterns"]
+    assert "community_graph_source_deconstruction" in by_title["microsoft/graphrag"]["absorbed_patterns"]
+    assert "dual_level_graph_vector_retrieval" in by_title["HKUDS/LightRAG"]["absorbed_patterns"]
+    assert "schema_guided_graph_extraction" in by_title["neo4j-labs/llm-graph-builder"]["absorbed_patterns"]
+
+
+def test_graph_memory_rag_pattern_pack_exposes_temporal_graph_and_retrieval_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T22:15:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/getzep/graphiti",
+                "title": "getzep/graphiti",
+                "summary": "Temporal canon graph with episodes and provenance.",
+                "stars": 15400,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["temporal_canon_context_graph"],
+                "score": 92,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/mem0ai/mem0",
+                "title": "mem0ai/mem0",
+                "summary": "Long-term author preference memory layers.",
+                "stars": 38200,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["long_term_author_preference_memory"],
+                "score": 91,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/microsoft/graphrag",
+                "title": "microsoft/graphrag",
+                "summary": "Community graph summaries for source deconstruction.",
+                "stars": 30100,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["community_graph_source_deconstruction"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/HKUDS/LightRAG",
+                "title": "HKUDS/LightRAG",
+                "summary": "Dual-level graph and vector retrieval.",
+                "stars": 24500,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["dual_level_graph_vector_retrieval"],
+                "score": 89,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/neo4j-labs/llm-graph-builder",
+                "title": "neo4j-labs/llm-graph-builder",
+                "summary": "Schema-guided node relationship property extraction.",
+                "stars": 3200,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker"],
+                "absorbed_patterns": ["schema_guided_graph_extraction"],
+                "score": 88,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "temporal_canon_graph_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "author_preference_memory_layers" in pattern_pack["bible_enrichment_targets"]
+    assert "source_entity_community_graph" in pattern_pack["bible_enrichment_targets"]
+    assert "graph_vector_retrieval_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "canon_graph_extraction_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "temporal_canon_graph_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "source_community_summary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "graph_vector_retrieval_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "temporal_graph_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "schema_guided_graph_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "temporal_canon_context_graph_hints" in digest
+    assert "long_term_author_preference_memory_hints" in digest
+    assert "community_graph_source_deconstruction_hints" in digest
+    assert "dual_level_graph_vector_retrieval_hints" in digest
+    assert "schema_guided_graph_extraction_hints" in digest
+
+
+def test_default_discovery_sources_include_graph_memory_rag_projects():
+    assert "https://github.com/getzep/graphiti" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mem0ai/mem0" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/microsoft/graphrag" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/HKUDS/LightRAG" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/neo4j-labs/llm-graph-builder" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("temporal knowledge graph" in query.lower() and "agent memory" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("long-term memory" in query.lower() and "personalized ai" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("graphrag" in query.lower() and "community summaries" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("dual-level architecture" in query.lower() and "lightrag" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

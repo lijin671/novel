@@ -331,6 +331,16 @@ def render_source_pattern_pack_digest(
         "character_dialogue_persona_memory_hints",
         "event_to_sentence_realization_trace_hints",
         "entity_memory_slotfill_grounding_hints",
+        "book_memory_bank_context_lattice_hints",
+        "spec_driven_fiction_scene_tasks_hints",
+        "toc_aware_source_deconstruction_hints",
+        "two_pass_context_glossary_pipeline_hints",
+        "inline_author_edit_markup_versioning_hints",
+        "temporal_canon_context_graph_hints",
+        "long_term_author_preference_memory_hints",
+        "community_graph_source_deconstruction_hints",
+        "dual_level_graph_vector_retrieval_hints",
+        "schema_guided_graph_extraction_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

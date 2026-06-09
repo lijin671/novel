@@ -146,6 +146,14 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_source_deconstruction_memory_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_canon_graph_retrieval_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -416,6 +424,14 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_eval_observability_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_source_deconstruction_memory_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_canon_graph_retrieval_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1462,6 +1478,68 @@ def _append_story_generation_pipeline_audit_section(
         lines.append("- event_to_sentence_realization_trace: preserve plot event, realized sentence, confidence, and rejected alternative trace")
     if "entity_memory_slotfill_grounding" in pattern_names:
         lines.append("- entity_memory_slotfill_grounding: ground names, roles, locations, and objects against entity memory before accepting prose")
+
+
+def _append_source_deconstruction_memory_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render book-memory, source-deconstruction, glossary, and edit-note gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "book_memory_bank_context_lattice",
+        "spec_driven_fiction_scene_tasks",
+        "toc_aware_source_deconstruction",
+        "two_pass_context_glossary_pipeline",
+        "inline_author_edit_markup_versioning",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Source deconstruction memory audit:")
+    if "book_memory_bank_context_lattice" in pattern_names:
+        lines.append("- book_memory_bank_context_lattice: separate source notes, story structure, world/characters, style guide, active context, and progress updates")
+    if "spec_driven_fiction_scene_tasks" in pattern_names:
+        lines.append("- spec_driven_fiction_scene_tasks: derive scene tasks from the story bible/constitution and check POV, glossary, subplot, pacing, and continuity gates")
+    if "toc_aware_source_deconstruction" in pattern_names:
+        lines.append("- toc_aware_source_deconstruction: keep source TOC hierarchy, summaries, quotes, anecdotes, and craft notes outside accepted new-story canon")
+    if "two_pass_context_glossary_pipeline" in pattern_names:
+        lines.append("- two_pass_context_glossary_pipeline: run analysis before generation, then use summary, previous-summary bridge, and cumulative glossary consistently")
+    if "inline_author_edit_markup_versioning" in pattern_names:
+        lines.append("- inline_author_edit_markup_versioning: keep author notes and edit notes visible until processed, reviewed, and versioned")
+
+
+def _append_canon_graph_retrieval_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render temporal graph, memory, GraphRAG, and schema extraction gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "temporal_canon_context_graph",
+        "long_term_author_preference_memory",
+        "community_graph_source_deconstruction",
+        "dual_level_graph_vector_retrieval",
+        "schema_guided_graph_extraction",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Canon graph retrieval audit:")
+    if "temporal_canon_context_graph" in pattern_names:
+        lines.append("- temporal_canon_context_graph: store canon facts as dated/provenanced episodes and resolve validity windows before context use")
+    if "long_term_author_preference_memory" in pattern_names:
+        lines.append("- long_term_author_preference_memory: separate author preferences, project style decisions, session goals, and transient notes")
+    if "community_graph_source_deconstruction" in pattern_names:
+        lines.append("- community_graph_source_deconstruction: use source entity communities as analysis evidence, not transformed-story canon")
+    if "dual_level_graph_vector_retrieval" in pattern_names:
+        lines.append("- dual_level_graph_vector_retrieval: combine vector similarity with graph traversal and log local/global/hybrid mode per context item")
+    if "schema_guided_graph_extraction" in pattern_names:
+        lines.append("- schema_guided_graph_extraction: require bounded node labels, relationship types, properties, source metadata, and confidence for graph updates")
 
 
 def _append_inspectable_rewrite_audit_section(

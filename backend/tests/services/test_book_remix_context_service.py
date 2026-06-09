@@ -195,6 +195,75 @@ def test_build_remix_continuation_context_block_renders_story_generation_pipelin
     assert "without copying source lines" in block
 
 
+def test_build_remix_continuation_context_block_renders_source_deconstruction_memory_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={"hard_constraints": [{"rule": "Preserve accepted canon"}]},
+        plan={"summary": "Deconstruct the source then continue from accepted context."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "book_memory_bank_context_lattice", "candidate_count": 1},
+                {"name": "spec_driven_fiction_scene_tasks", "candidate_count": 1},
+                {"name": "toc_aware_source_deconstruction", "candidate_count": 1},
+                {"name": "two_pass_context_glossary_pipeline", "candidate_count": 1},
+                {"name": "inline_author_edit_markup_versioning", "candidate_count": 1},
+            ],
+            "book_memory_bank_context_lattice_hints": [
+                "Separate source deconstruction, story structure, world/characters, style guide, active context, and progress."
+            ],
+            "toc_aware_source_deconstruction_hints": [
+                "Preserve TOC hierarchy for source summaries without making it new canon."
+            ],
+            "two_pass_context_glossary_pipeline_hints": [
+                "Analyze summary and terms before generation uses the cumulative glossary."
+            ],
+        },
+    )
+
+    assert "Source deconstruction memory audit" in block
+    assert "book_memory_bank_context_lattice" in block
+    assert "spec_driven_fiction_scene_tasks" in block
+    assert "toc_aware_source_deconstruction" in block
+    assert "two_pass_context_glossary_pipeline" in block
+    assert "inline_author_edit_markup_versioning" in block
+    assert "outside accepted new-story canon" in block
+
+
+def test_build_remix_continuation_context_block_renders_canon_graph_retrieval_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={"hard_constraints": [{"rule": "Preserve accepted canon"}]},
+        plan={"summary": "Retrieve canon graph context before continuing."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "temporal_canon_context_graph", "candidate_count": 1},
+                {"name": "long_term_author_preference_memory", "candidate_count": 1},
+                {"name": "community_graph_source_deconstruction", "candidate_count": 1},
+                {"name": "dual_level_graph_vector_retrieval", "candidate_count": 1},
+                {"name": "schema_guided_graph_extraction", "candidate_count": 1},
+            ],
+            "temporal_canon_context_graph_hints": [
+                "Store canon facts as temporal graph episodes with source chapter and provenance."
+            ],
+            "dual_level_graph_vector_retrieval_hints": [
+                "Select continuation context with vector similarity and graph traversal."
+            ],
+            "schema_guided_graph_extraction_hints": [
+                "Extract canon graphs with bounded node labels and relationship types."
+            ],
+        },
+    )
+
+    assert "Canon graph retrieval audit" in block
+    assert "temporal_canon_context_graph" in block
+    assert "long_term_author_preference_memory" in block
+    assert "community_graph_source_deconstruction" in block
+    assert "dual_level_graph_vector_retrieval" in block
+    assert "schema_guided_graph_extraction" in block
+    assert "validity windows" in block
+    assert "local/global/hybrid mode" in block
+
+
 def test_build_remix_inspired_context_block_renders_style_copy_risk_and_pattern_guidance():
     block = build_remix_inspired_context_block(
         project_title="Inspired Draft",

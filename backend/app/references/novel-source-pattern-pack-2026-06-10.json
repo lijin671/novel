@@ -205,6 +205,27 @@
     "tone_personality_plot_chat_boundaries",
     "event_to_sentence_realization_schema",
     "entity_memory_slotfill_rules",
+    "book_memory_bank_manifest",
+    "active_context_progress_rules",
+    "fiction_constitution",
+    "scene_task_backlog",
+    "pov_information_asymmetry_map",
+    "source_toc_deconstruction_index",
+    "chapter_summary_evidence_schema",
+    "cumulative_glossary",
+    "previous_chapter_summary_bridge",
+    "inline_author_edit_markup_policy",
+    "revision_version_milestones",
+    "temporal_canon_graph_schema",
+    "episode_provenance_rules",
+    "author_preference_memory_layers",
+    "session_memory_scope_rules",
+    "source_entity_community_graph",
+    "community_summary_index",
+    "graph_vector_retrieval_policy",
+    "local_global_hybrid_query_modes",
+    "canon_graph_extraction_schema",
+    "source_metadata_link_rules",
     "synopsis_review_gate",
     "retrieval_guided_rewrite_scope",
     "runtime_trace_artifacts",
@@ -246,6 +267,11 @@
     "story_arcs",
     "foreshadows",
     "chapter_change_packages"
+  ],
+  "book_memory_bank_context_lattice_hints": [
+    "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
+    "Before continuation, read the current active context and progress snapshot; after accepted chapter output, update every affected memory-bank layer.",
+    "Compare each completed chapter against its planned outline so drift becomes an explicit decision instead of hidden context loss."
   ],
   "boring_opening_quality_gates_hints": [
     "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
@@ -296,6 +322,11 @@
     "Detect story collapse before acceptance: invalid model output, missing chapter goal, contradictory state, or causality break blocks write-back.",
     "On model failure, retry from the last accepted state and keep the failed attempt as review evidence, not as memory.",
     "Use collapse categories so batch runs stop on repeated structural failure instead of producing more broken chapters."
+  ],
+  "community_graph_source_deconstruction_hints": [
+    "Deconstruct a source book into entity communities, relationship clusters, and community summaries before extracting reusable story mechanics.",
+    "Use global graph summaries for whole-book structure questions and local graph neighborhoods for chapter-level continuation context.",
+    "Keep source community reports as analysis evidence; transformed canon needs its own graph and summaries."
   ],
   "comp_title_market_positioning_hints": [
     "Build a comp-title matrix by genre, subgenre, tone, protagonist promise, market proof, freshness, and reader expectation gap.",
@@ -520,6 +551,11 @@
     "Use a staged ladder: chapter blueprint -> key-information file -> task card -> Draft A -> Draft B -> Draft C -> continuity handoff.",
     "Draft B preserves approved parts while applying directed changes; Draft C removes AI tone without changing canon or source-copy boundaries."
   ],
+  "dual_level_graph_vector_retrieval_hints": [
+    "Select continuation context with dual-level retrieval: vector similarity for related passages and graph traversal for canon-critical entities.",
+    "Choose query mode explicitly: local for character/state facts, global for theme or arc summaries, hybrid for chapter planning, naive only for fallback.",
+    "Log which retrieval mode supplied each context item so weak graph or vector coverage can be repaired."
+  ],
   "editor_notes_feedback_loop_hints": [
     "Persist editor notes as open, deferred, or closed items with the chapter evidence that resolves them.",
     "Next-chapter prompts should include only active notes relevant to the current beat or risk."
@@ -618,6 +654,11 @@
     "Keep pairwise comparisons against neighboring drafts or variants so the judge discriminates real chapter improvements.",
     "Do not promote a draft from pairwise ranking alone when the local rubric shows canon, logic, or style failure."
   ],
+  "inline_author_edit_markup_versioning_hints": [
+    "Allow inline author notes for POV, timeline, mood, active threads, and research context while keeping edit notes as a separate revision queue.",
+    "Process edit-note markers into concrete changes, then remove or resolve them before final manuscript assembly.",
+    "Tag major draft milestones and keep revision diffs inspectable so same-type rewrites and continuation repairs remain reversible."
+  ],
   "inspectable_run_workspace_hints": [
     "Expose writing sessions, storyboard surfaces, manuscript surfaces, character/world views, and editable memory-bank refs.",
     "Each inspectable run should show current phase, selected context, accepted artifacts, pending review, and next action.",
@@ -707,7 +748,17 @@
     "Reject reranker winners whose relevance or coherence comes from source resemblance rather than accepted new-story state.",
     "Reject persona memories that copy source lines, catchphrases, protected character names, or relationship labels.",
     "Reject realized sentences when the event trace preserves source event order, unique props, or set-piece causality.",
-    "Reject slot-filled prose that imports source entities, aliases, locations, or objects into transformed-story canon."
+    "Reject slot-filled prose that imports source entities, aliases, locations, or objects into transformed-story canon.",
+    "Reject memory-bank updates that mix source analysis notes into transformed canon, active context, or progress state.",
+    "Reject scene tasks whose IDs, sequence, POV reveals, glossary terms, or quality gates recreate the source route.",
+    "Reject transformed outlines that preserve source TOC order, heading cadence, quotes, anecdotes, or section hierarchy.",
+    "Reject generated chapters whose glossary keeps source names, terms, locations, titles, or term-introduction order.",
+    "Reject inline notes or edit queues that smuggle source scene instructions into final independent prose.",
+    "Reject temporal graphs that preserve source event chronology, relationship validity windows, or provenance as transformed canon.",
+    "Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.",
+    "Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.",
+    "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
+    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -826,7 +877,17 @@
     "reranker_candidate_selection_remap",
     "character_persona_memory_remap",
     "event_realization_trace_remap",
-    "entity_slotfill_grounding_remap"
+    "entity_slotfill_grounding_remap",
+    "memory_bank_context_remap",
+    "spec_scene_task_remap",
+    "source_toc_summary_remap",
+    "glossary_context_remap",
+    "inline_markup_revision_remap",
+    "temporal_graph_context_remap",
+    "author_preference_memory_remap",
+    "source_community_graph_remap",
+    "graph_vector_retrieval_remap",
+    "schema_guided_graph_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -902,7 +963,17 @@
     "Use specific constraints for the new story's premise, not for recreating source event details.",
     "Transform style axes into new voice, rhythm, POV, pacing, imagery, and closure targets without copying phrases.",
     "Build a fresh event outline and compressed history for the transformed premise before drafting.",
-    "Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence."
+    "Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence.",
+    "Convert source deconstruction into separate memory-bank notes: craft observations, transformed canon, active context, and progress are never mixed.",
+    "Create transformed scene tasks from the new constitution/story bible; source scene tasks may guide format only, not content or order.",
+    "Use TOC-aware source summaries as analysis artifacts, then rebuild the new story's chapter hierarchy around new promises and payoffs.",
+    "Run an analysis pass that extracts source term functions, then create a new glossary for transformed names, places, rules, and motifs.",
+    "Use inline author notes to control new POV, timeline, mood, and active threads; edit notes should resolve into independent prose.",
+    "Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.",
+    "Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.",
+    "Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.",
+    "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
+    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -986,7 +1057,17 @@
     "Transform candidate selection by scoring relevance and coherence against the new plan rather than closeness to source passages.",
     "Transform persona memory into new dialogue evidence, role pressures, and voice boundaries before writing lines.",
     "Transform plot events before event-to-sentence expansion so realized sentences do not follow source event order.",
-    "Transform entity-memory slots by replacing source entities with new-story names, roles, locations, and objects."
+    "Transform entity-memory slots by replacing source entities with new-story names, roles, locations, and objects.",
+    "Transform source memory-bank fields into new-story project brief, structure, characters, style, active context, and progress files.",
+    "Transform story-bible constitution, scene tasks, POV schedule, glossary, and quality gates before prose generation.",
+    "Transform TOC-derived summaries into new chapter functions, not a reused source section hierarchy.",
+    "Transform proper-noun and term glossaries into new names, labels, rules, and motifs before generation uses them.",
+    "Transform inline notes into new-story POV/timeline/revision tasks; remove edit markers once the independent revision is accepted.",
+    "Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.",
+    "Transform author preferences into project-local style decisions without recording source-book facts as preferences.",
+    "Transform source communities into new-story communities with different members, labels, causal pressures, and cross-community edges.",
+    "Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.",
+    "Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1037,6 +1118,11 @@
     "Track long-output quality and output length together; a chapter or batch is not acceptable when it hits word count but loses coherence, canon, or style.",
     "Use length stress tests for long continuation batches: target range, actual length, truncation risk, repeated-section risk, and ending pressure.",
     "For same-type creation, length targets must serve the transformed outline, not force source chapter pacing or section boundaries."
+  ],
+  "long_term_author_preference_memory_hints": [
+    "Separate author preferences, project-level style decisions, session goals, and transient drafting notes into different memory scopes.",
+    "Promote a preference into long-term memory only after it is confirmed or repeatedly used, not from one draft failure.",
+    "During same-type creation, keep user/author preference memory separate from source-book deconstruction notes."
   ],
   "lorebook_context_hints": [
     "Store lorebook entries as compact fact cards with activation keywords, priority, insertion depth, and token budget.",
@@ -1254,9 +1340,7 @@
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
-    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "Story pipeline sources were absorbed as pattern-only from git ls-remote HEAD and raw README/LICENSE checks; no clone, install, dataset download, provider call, Colab/notebook execution, Docker/server launch, or model runtime was used.",
-    "Character/persona and co-writing sources can include role IP, CC BY-NC data, plagiarism/toxicity risk, or stale runtime stacks; MuMuAINovel keeps only repo-native workflow and review patterns."
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。"
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1282,6 +1366,11 @@
     "Declare scene type before drafting: action, emotional, dialogue, investigation, transition, or reveal.",
     "Choose pacing, sensory density, dialogue ratio, and camera distance from the scene type.",
     "Review scene type drift when a scene starts as action but resolves through summary or exposition."
+  ],
+  "schema_guided_graph_extraction_hints": [
+    "Extract canon/source graphs with a bounded schema: node labels, relationship types, required properties, source location, and confidence.",
+    "Attach source metadata to every extracted node and edge so reviewers can trace it back to chapter, paragraph, or source-note evidence.",
+    "Reject graph mutations that introduce unlabeled nodes, unsupported relationships, or facts without source metadata."
   ],
   "schema_validated_state_delta_hints": [
     "Represent canon mutations as typed state deltas and validate them before applying them.",
@@ -1317,7 +1406,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 115,
+  "source_candidate_count": 125,
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
     "Keep fingerprint thresholds separate for names, set-piece labels, long phrases, and structural scene order to reduce false positives.",
@@ -1438,11 +1527,26 @@
     "rajammanabrolu/StoryRealization",
     "lechmazur/writing",
     "Theltn/AICreativityJudge",
-    "dig-team/hanna-benchmark-asg"
+    "dig-team/hanna-benchmark-asg",
+    "gratajik/book-memory-bank",
+    "adaumann/speckit-preset-fiction-book-writing",
+    "danngalann/llm-ebook-summarizer",
+    "darkautism/ai-novel-translation",
+    "lordjabez/story-framework",
+    "getzep/graphiti",
+    "mem0ai/mem0",
+    "microsoft/graphrag",
+    "HKUDS/LightRAG",
+    "neo4j-labs/llm-graph-builder"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
     "Writing-partner actions should propose additions or edits; accepted sourcebook entries become the only reusable canon layer."
+  ],
+  "spec_driven_fiction_scene_tasks_hints": [
+    "Use the fiction constitution/story bible as the governing authority for voice, tense, prose profile, audience, language, and hard style rules.",
+    "Translate the book plan into scene-by-scene tasks with status, POV, information asymmetry, causal beats, and quality gates before drafting.",
+    "Run glossary, subplot, pacing, continuity, and sensitivity-style gates as read-only checks before accepting a chapter or same-type draft."
   ],
   "story_contract_commit_chain_hints": [
     "Treat story contracts as the single source of truth for serialized continuation; drafts become canon only through accepted chapter commits.",
@@ -1497,6 +1601,16 @@
     "Before drafting, list which synopsis notes and refs are active for this chapter and why.",
     "Cross-references should point to canon artifacts, not to source-intake inspiration as story fact."
   ],
+  "temporal_canon_context_graph_hints": [
+    "Store canon facts as temporal graph episodes with source chapter, observed_at, valid_from, invalid_after, and provenance notes.",
+    "Retrieve context through a hybrid of semantic match, entity-neighborhood traversal, chronology window, and explicit relationship edges.",
+    "When a continuation changes facts, add a new episode or validity window instead of overwriting earlier canon evidence."
+  ],
+  "toc_aware_source_deconstruction_hints": [
+    "When deconstructing a source book, preserve table-of-contents hierarchy so parts, chapters, and sections remain traceable.",
+    "Carry parent-section introductions into the first child summary only; avoid duplicating parent context across sibling sections.",
+    "Separate source summaries, lessons, quotes, anecdotes, and key points so same-type drafting can use abstract craft notes without importing canon."
+  ],
   "top_down_story_planning_hints": [
     "Plan top-down: topic or premise -> book spec -> act plan -> chapter plan -> scene list -> scene draft.",
     "Let users or higher-level plans intervene at any scale, but lower-level generation must inherit the active parent plan.",
@@ -1511,6 +1625,11 @@
     "For same-type writing, deconstruct trend patterns into trope, hook, payoff, emotion promise, reader expectation, and reusable module shape.",
     "Transform modules before drafting: preserve emotional function and payoff density, not source names, order, or set pieces.",
     "Keep a module library with provenance and copy-risk notes so commercial-pattern learning stays separate from canon."
+  ],
+  "two_pass_context_glossary_pipeline_hints": [
+    "Run each chapter through an analysis pass before generation: summary, new terms, proper nouns, unresolved context, and glossary deltas.",
+    "Use the current chapter summary, previous chapter summary, and cumulative glossary as inputs to the generation or translation pass.",
+    "Support interrupted jobs by locating the last completed output/glossary pair and resuming from the next stable chapter number."
   ],
   "voice_fingerprint_hints": [
     "Keep a voice fingerprint separate from the general style card: immutable guardrails plus discovered per-book voice traits.",
@@ -1784,6 +1903,36 @@
     "entity_memory_slotfill_report",
     "entity_tracking_findings",
     "slot_grounding_failures",
+    "memory_bank_completeness_report",
+    "plan_to_actual_comparison",
+    "active_context_progress_report",
+    "story_bible_quality_gate_report",
+    "scene_task_coverage_report",
+    "pov_schedule_information_asymmetry_report",
+    "toc_hierarchy_summary_report",
+    "nested_section_context_report",
+    "source_quote_anecdote_evidence",
+    "two_pass_glossary_consistency_report",
+    "proper_noun_term_drift_findings",
+    "resume_checkpoint_suggestion",
+    "inline_edit_note_queue",
+    "author_note_context_map",
+    "revision_diff_milestones",
+    "temporal_canon_graph_report",
+    "episode_provenance_trace",
+    "validity_window_conflicts",
+    "author_preference_memory_report",
+    "session_memory_drift_findings",
+    "project_memory_scope_audit",
+    "source_community_summary_report",
+    "entity_community_overlap_findings",
+    "global_local_question_coverage",
+    "graph_vector_retrieval_report",
+    "local_global_hybrid_context_selection",
+    "retrieval_mode_failure_notes",
+    "schema_guided_extraction_report",
+    "node_relationship_property_coverage",
+    "source_metadata_grounding_report",
     "synopsis_review_gate",
     "chapter_summary_review_status",
     "synopsis_regeneration_options",
@@ -3280,6 +3429,33 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "temporal_canon_context_graph",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 15400,
+          "summary": "Graphiti is a temporal knowledge graph memory pattern source for novel canon: episodes, entity/relationship extraction, hybrid search, temporal validity windows, and provenance tracking.",
+          "title": "getzep/graphiti",
+          "trust_flags": [
+            "license:unconfirmed"
+          ],
+          "url": "https://github.com/getzep/graphiti"
+        }
+      ],
+      "top_source_url": "https://github.com/getzep/graphiti",
+      "trust_flags": [
+        "license:unconfirmed"
+      ]
+    },
+    {
       "candidate_count": 3,
       "name": "contradiction_taxonomy_checker",
       "posture_hint": "metadata-triage",
@@ -3393,6 +3569,33 @@
     },
     {
       "candidate_count": 1,
+      "name": "book_memory_bank_context_lattice",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 39,
+          "summary": "Book Memory Bank uses a structured context lattice for stateless AI book writing: project brief, story structure, world/characters, style guide, active context, progress, and plan-to-actual chapter updates.",
+          "title": "gratajik/book-memory-bank",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/gratajik/book-memory-bank"
+        }
+      ],
+      "top_source_url": "https://github.com/gratajik/book-memory-bank",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
       "name": "recursive_reprompt_revision_loop",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -3416,6 +3619,33 @@
     },
     {
       "candidate_count": 1,
+      "name": "community_graph_source_deconstruction",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 90,
+          "source": "github",
+          "stars": 30100,
+          "summary": "GraphRAG provides source-book deconstruction patterns: structured extraction from unstructured text, entity/community reports, global search, and local graph neighborhood answers.",
+          "title": "microsoft/graphrag",
+          "trust_flags": [
+            "license:unconfirmed"
+          ],
+          "url": "https://github.com/microsoft/graphrag"
+        }
+      ],
+      "top_source_url": "https://github.com/microsoft/graphrag",
+      "trust_flags": [
+        "license:unconfirmed"
+      ]
+    },
+    {
+      "candidate_count": 1,
       "name": "continuity_bridge_window",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -3436,6 +3666,37 @@
       ],
       "top_source_url": "https://github.com/mjbae/awesome-novel-studio",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "schema_guided_graph_extraction",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 88,
+          "source": "github",
+          "stars": 3200,
+          "summary": "Neo4j LLM Graph Builder contributes schema-guided graph extraction patterns: nodes, relationships, properties, source metadata, and bounded graph update review.",
+          "title": "neo4j-labs/llm-graph-builder",
+          "trust_flags": [
+            "license:unconfirmed"
+          ],
+          "url": "https://github.com/neo4j-labs/llm-graph-builder"
+        }
+      ],
+      "top_source_url": "https://github.com/neo4j-labs/llm-graph-builder",
+      "trust_flags": [
+        "license:unconfirmed"
+      ]
     },
     {
       "candidate_count": 1,
@@ -3482,6 +3743,33 @@
       ],
       "top_source_url": "https://github.com/EQ-bench/longform-writing-bench",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "spec_driven_fiction_scene_tasks",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 81,
+          "source": "github",
+          "stars": 11,
+          "summary": "Spec Kit fiction preset adapts specs into story briefs, plans, scene-by-scene writing tasks, POV architecture, story-bible constitution, glossary/subplot/pacing gates, and quality workflow.",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -3708,6 +3996,33 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "dual_level_graph_vector_retrieval",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 89,
+          "source": "github",
+          "stars": 24500,
+          "summary": "LightRAG contributes dual-level graph and vector retrieval patterns for long-form story context: local, global, hybrid, and naive query modes over knowledge graph plus embeddings.",
+          "title": "HKUDS/LightRAG",
+          "trust_flags": [
+            "license:unconfirmed"
+          ],
+          "url": "https://github.com/HKUDS/LightRAG"
+        }
+      ],
+      "top_source_url": "https://github.com/HKUDS/LightRAG",
+      "trust_flags": [
+        "license:unconfirmed"
+      ]
+    },
+    {
       "candidate_count": 2,
       "name": "agentwrite_plan_write_pipeline",
       "posture_hint": "metadata-triage",
@@ -3778,6 +4093,33 @@
       ],
       "top_source_url": "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "toc_aware_source_deconstruction",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 1,
+          "summary": "LLM Ebook Summarizer deconstructs EPUB/PDF sources with table-of-contents hierarchy, nested chapter handling, parent-section context preservation, structured markdown notes, quotes, and anecdotes.",
+          "title": "danngalann/llm-ebook-summarizer",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/danngalann/llm-ebook-summarizer"
+        }
+      ],
+      "top_source_url": "https://github.com/danngalann/llm-ebook-summarizer",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -3910,6 +4252,33 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "long_term_author_preference_memory",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 38200,
+          "summary": "Mem0 provides long-term memory patterns for AI agents: user preferences, session memory, adaptive personalization, multi-level memory scopes, and memory search.",
+          "title": "mem0ai/mem0",
+          "trust_flags": [
+            "license:unconfirmed"
+          ],
+          "url": "https://github.com/mem0ai/mem0"
+        }
+      ],
+      "top_source_url": "https://github.com/mem0ai/mem0",
+      "trust_flags": [
+        "license:unconfirmed"
+      ]
+    },
+    {
       "candidate_count": 2,
       "name": "long_output_length_quality_ruler",
       "posture_hint": "metadata-triage",
@@ -4029,6 +4398,35 @@
       ],
       "top_source_url": "https://github.com/explodinggradients/ragas",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "two_pass_context_glossary_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 79,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI Novel Translation uses a two-pass serialized-chapter pipeline: analysis summary and term extraction first, then generation with previous summary, cumulative glossary, resume detection, and editable glossary JSON.",
+          "title": "darkautism/ai-novel-translation",
+          "trust_flags": [
+            "license:missing",
+            "default-branch:nonstandard"
+          ],
+          "url": "https://github.com/darkautism/ai-novel-translation"
+        }
+      ],
+      "top_source_url": "https://github.com/darkautism/ai-novel-translation",
+      "trust_flags": [
+        "license:missing",
+        "default-branch:nonstandard"
+      ]
     },
     {
       "candidate_count": 1,
@@ -4279,6 +4677,29 @@
         }
       ],
       "top_source_url": "https://github.com/truera/trulens",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "inline_author_edit_markup_versioning",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT-0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story Framework keeps fiction work in markdown and git, with planning docs as source of truth, continuity timeline/facts, author-note markers, edit-note markers, process-edit-notes flow, and revision tags.",
+          "title": "lordjabez/story-framework",
+          "trust_flags": [],
+          "url": "https://github.com/lordjabez/story-framework"
+        }
+      ],
+      "top_source_url": "https://github.com/lordjabez/story-framework",
       "trust_flags": []
     },
     {
