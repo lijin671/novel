@@ -92,6 +92,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("interactive narrative" OR "branching story" OR "choice graph") ("fiction" OR "story" OR "narrative") in:name,description,readme',
     '("dialogue" OR "options" OR "commands" OR "variables") ("interactive fiction" OR "narrative") in:name,description,readme',
     '("passages" OR "links" OR "nonlinear stories" OR "multiple-choice games") ("fiction" OR "story") in:name,description,readme',
+    '("winnowing" OR "document fingerprinting" OR "plagiarism detection") ("text" OR "source" OR "similarity") in:name,description,readme',
+    '("fuzzy string matching" OR "Levenshtein" OR "string metrics") ("text" OR "similarity" OR "copy") in:name,description,readme',
+    '("diff match patch" OR "semantic cleanup" OR "copied spans") ("text" OR "copy" OR "similarity") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -188,6 +191,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/YarnSpinnerTool/YarnSpinner",
     "https://github.com/klembot/twinejs",
     "https://github.com/dfabulich/choicescript",
+    "https://github.com/blingenf/copydetect",
+    "https://github.com/rapidfuzz/RapidFuzz",
+    "https://github.com/google/diff-match-patch",
+    "https://github.com/agranya99/MOSS-winnowing-seqMatcher",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -371,6 +378,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("node_dialogue_state_machine", ("dialogue system", "interactive conversations", "dialogue tool", "lines", "options", "commands", "dialogue scripts", "nodes", "node-based", "entry state", "exit deltas")),
     ("passage_link_navigation_map", ("passages", "links", "passage links", "story formats", "nonlinear stories", "reachable path", "dead-end", "navigation map", "twine")),
     ("choice_stats_consequence_gate", ("stats", "variables", "choice stats", "stat mutation", "achievements", "commands", "visible consequence", "delayed consequence", "choice consequences")),
+    ("source_text_fingerprint_gate", ("winnowing", "document fingerprinting", "fingerprinting", "plagiarism detection", "copied slices", "moss", "source fingerprint", "text fingerprint", "fingerprint overlap")),
+    ("fuzzy_phrase_similarity_gate", ("fuzzy string matching", "levenshtein", "string metrics", "sequence matcher", "sequencematcher", "fuzzy phrase", "phrase similarity")),
+    ("diff_span_copy_review", ("diff match patch", "diff, match and patch", "semantic cleanup", "copied spans", "diff spans", "patch library", "diff_span")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -719,6 +729,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "dfabulich/choicescript": (
         "ChoiceScript is a language for multiple-choice games. Public metadata describes choices, stats, variables, achievements, and consequence-driven story state. "
         "Absorb choice-stat consequence gates only; no runtime code or license-unclear files are imported."
+    ),
+    "blingenf/copydetect": (
+        "Copydetect is an MIT code plagiarism detection tool based on winnowing document fingerprinting and copied-slice reports. "
+        "Absorb fingerprint overlap and source-copy review patterns only; no package install or detector runtime is executed."
+    ),
+    "rapidfuzz/rapidfuzz": (
+        "RapidFuzz is an MIT fuzzy string matching library using Levenshtein distance and string metrics. "
+        "Absorb fuzzy phrase similarity threshold patterns only; native/package runtime is not imported."
+    ),
+    "google/diff-match-patch": (
+        "Diff Match Patch is an Apache-2.0 diff, match, and patch library with semantic cleanup and tests. "
+        "Absorb copied-span diff review patterns only; source ports are not imported."
+    ),
+    "agranya99/moss-winnowing-seqmatcher": (
+        "MOSS-winnowing-seqMatcher is an MIT educational plagiarism checker using winnowing and SequenceMatcher. "
+        "Absorb fingerprint and fuzzy phrase review patterns only; scripts are not executed."
     ),
 }
 
@@ -1128,6 +1154,9 @@ class NovelSourceDiscoveryService:
             "node_dialogue_state_machine_hints": self._build_node_dialogue_state_machine_hints(available_patterns),
             "passage_link_navigation_map_hints": self._build_passage_link_navigation_map_hints(available_patterns),
             "choice_stats_consequence_gate_hints": self._build_choice_stats_consequence_gate_hints(available_patterns),
+            "source_text_fingerprint_gate_hints": self._build_source_text_fingerprint_gate_hints(available_patterns),
+            "fuzzy_phrase_similarity_gate_hints": self._build_fuzzy_phrase_similarity_gate_hints(available_patterns),
+            "diff_span_copy_review_hints": self._build_diff_span_copy_review_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1675,6 +1704,9 @@ class NovelSourceDiscoveryService:
             "node_dialogue_state_machine": 56,
             "passage_link_navigation_map": 49,
             "choice_stats_consequence_gate": 58,
+            "source_text_fingerprint_gate": 63,
+            "fuzzy_phrase_similarity_gate": 62,
+            "diff_span_copy_review": 61,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1820,6 +1852,15 @@ class NovelSourceDiscoveryService:
             targets.append("passage_link_navigation_map")
         if "choice_stats_consequence_gate" in patterns:
             targets.append("choice_stats_consequence_ledger")
+        if "source_text_fingerprint_gate" in patterns:
+            targets.append("source_fingerprint_baseline")
+            targets.append("fingerprint_overlap_thresholds")
+        if "fuzzy_phrase_similarity_gate" in patterns:
+            targets.append("fuzzy_phrase_thresholds")
+            targets.append("phrase_similarity_review_rules")
+        if "diff_span_copy_review" in patterns:
+            targets.append("diff_span_review_rules")
+            targets.append("copied_span_rewrite_policy")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -2036,6 +2077,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["passage_link_navigation_map", "dead_end_passage_findings", "reachable_path_checks"])
         if "choice_stats_consequence_gate" in patterns:
             targets.extend(["choice_stats_consequence_ledger", "visible_delayed_consequence_checks"])
+        if "source_text_fingerprint_gate" in patterns:
+            targets.extend(["source_fingerprint_overlap_report", "fingerprint_false_positive_notes", "fingerprint_threshold_decisions"])
+        if "fuzzy_phrase_similarity_gate" in patterns:
+            targets.extend(["fuzzy_phrase_similarity_report", "paraphrase_similarity_findings", "phrase_threshold_decisions"])
+        if "diff_span_copy_review" in patterns:
+            targets.extend(["diff_span_copy_risk_report", "copied_span_review_notes", "semantic_cleanup_review_findings"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -3559,6 +3606,33 @@ class NovelSourceDiscoveryService:
             "For same-type creation, transform stat categories and consequence timing so source achievements, variables, and thresholds do not copy across.",
         ]
 
+    def _build_source_text_fingerprint_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "source_text_fingerprint_gate" not in patterns:
+            return []
+        return [
+            "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
+            "Keep fingerprint thresholds separate for names, set-piece labels, long phrases, and structural scene order to reduce false positives.",
+            "For continuation, fingerprint checks protect source fidelity boundaries; for same-type creation, they block copied route, wording, and scene topology.",
+        ]
+
+    def _build_fuzzy_phrase_similarity_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "fuzzy_phrase_similarity_gate" not in patterns:
+            return []
+        return [
+            "Apply fuzzy phrase thresholds to catch paraphrased source sentences, renamed proper-noun strings, and near-duplicate dialogue turns.",
+            "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
+            "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording.",
+        ]
+
+    def _build_diff_span_copy_review_hints(self, patterns: set[str]) -> list[str]:
+        if "diff_span_copy_review" not in patterns:
+            return []
+        return [
+            "Inspect diff spans between source exemplars and draft output; copied spans, sentence order, and semantic-cleanup matches require rewrite.",
+            "Store span-level review notes with source ref, draft ref, match reason, decision, and rewrite action before accepting a risky chapter.",
+            "Use diff review as a copy-risk gate only; it must not import source text or train prompts to imitate protected wording.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -3741,6 +3815,12 @@ class NovelSourceDiscoveryService:
             targets.append("passage_navigation_remap")
         if "choice_stats_consequence_gate" in patterns:
             targets.append("choice_stat_consequence_remap")
+        if "source_text_fingerprint_gate" in patterns:
+            targets.append("fingerprint_baseline_remap")
+        if "fuzzy_phrase_similarity_gate" in patterns:
+            targets.append("fuzzy_phrase_threshold_remap")
+        if "diff_span_copy_review" in patterns:
+            targets.append("diff_span_review_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -3846,6 +3926,12 @@ class NovelSourceDiscoveryService:
             hints.append("Build a new passage/link map from the transformed premise; source passage order and link labels remain analysis evidence only.")
         if "choice_stats_consequence_gate" in patterns:
             hints.append("Define new stat categories and consequence gates so choice mechanics support the new story rather than copying source variables.")
+        if "source_text_fingerprint_gate" in patterns:
+            hints.append("Run fingerprint overlap checks against source excerpts and rewrite high-overlap windows before accepting same-type prose.")
+        if "fuzzy_phrase_similarity_gate" in patterns:
+            hints.append("Use fuzzy phrase checks to catch near-copy paraphrases after names and surface labels have been changed.")
+        if "diff_span_copy_review" in patterns:
+            hints.append("Review source-vs-draft diff spans so semantic cleanup does not hide copied sentence order or set-piece wording.")
         if "nrd_task_tree_pipeline" in patterns:
             hints.append("Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.")
         if "story_structure_rag_planning" in patterns:
@@ -3995,6 +4081,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform navigation by rebuilding reachable paths, hidden gates, and dead-end checks around the new story topology.")
         if "choice_stats_consequence_gate" in patterns:
             hints.append("Transform stat consequences by changing the tracked values, trigger thresholds, delayed payoff, and achievement labels.")
+        if "source_text_fingerprint_gate" in patterns:
+            hints.append("Transform or discard any draft window whose fingerprint overlap remains close to source text after entity remapping.")
+        if "fuzzy_phrase_similarity_gate" in patterns:
+            hints.append("Change image clusters, objects, stakes, and causal wording until fuzzy phrase similarity drops below the review threshold.")
+        if "diff_span_copy_review" in patterns:
+            hints.append("Use copied-span review to drive targeted rewrites while preserving only abstract craft function.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -4118,6 +4210,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject passage maps whose visible links, hidden routes, dead ends, or merge sequence mirror the source navigation.")
         if "choice_stats_consequence_gate" in patterns:
             hints.append("Reject stat ledgers that keep source variable names, achievement labels, thresholds, or delayed consequence cadence.")
+        if "source_text_fingerprint_gate" in patterns:
+            hints.append("Reject drafts with high fingerprint overlap in long phrases, scene order, or set-piece labels unless the span is explicit continuation canon.")
+        if "fuzzy_phrase_similarity_gate" in patterns:
+            hints.append("Reject paraphrases that survive fuzzy matching after names, titles, and surface nouns are changed.")
+        if "diff_span_copy_review" in patterns:
+            hints.append("Reject chapters whose copied-span review shows source sentence order, semantic-cleanup matches, or patch-like edits.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -4129,6 +4227,9 @@ class NovelSourceDiscoveryService:
                 "node_dialogue_state_machine",
                 "passage_link_navigation_map",
                 "choice_stats_consequence_gate",
+                "source_text_fingerprint_gate",
+                "fuzzy_phrase_similarity_gate",
+                "diff_span_copy_review",
             }
         ):
             return True
@@ -4201,6 +4302,9 @@ class NovelSourceDiscoveryService:
                 "export_format_fidelity_audit",
                 "preview_toc_packaging",
                 "cover_kdp_metadata_boundary",
+                "source_text_fingerprint_gate",
+                "fuzzy_phrase_similarity_gate",
+                "diff_span_copy_review",
             }
         ) and (
             "style_signature" in patterns
@@ -4266,6 +4370,9 @@ class NovelSourceDiscoveryService:
                 or "node_dialogue_state_machine" in patterns
                 or "passage_link_navigation_map" in patterns
                 or "choice_stats_consequence_gate" in patterns
+                or "source_text_fingerprint_gate" in patterns
+                or "fuzzy_phrase_similarity_gate" in patterns
+                or "diff_span_copy_review" in patterns
             )
         )
 
@@ -4536,7 +4643,26 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if any(keyword.lower() in haystack for keyword in NARRATIVE_PRODUCTION_KEYWORDS):
             return "novel-automation"
+        if self._has_copy_similarity_signal(haystack):
+            return "novel-automation"
         return "pattern-only"
+
+    def _has_copy_similarity_signal(self, haystack: str) -> bool:
+        copy_terms = (
+            "plagiarism",
+            "winnowing",
+            "document fingerprint",
+            "fingerprinting",
+            "fuzzy string matching",
+            "levenshtein",
+            "string metrics",
+            "sequence matcher",
+            "sequencematcher",
+            "diff match patch",
+            "semantic cleanup",
+            "copied slices",
+        )
+        return any(term in haystack for term in copy_terms)
 
     def _absorbed_patterns(self, haystack: str) -> list[str]:
         patterns: list[str] = []

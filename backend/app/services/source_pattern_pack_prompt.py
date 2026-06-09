@@ -302,6 +302,9 @@ def render_source_pattern_pack_digest(
         "node_dialogue_state_machine_hints",
         "passage_link_navigation_map_hints",
         "choice_stats_consequence_gate_hints",
+        "source_text_fingerprint_gate_hints",
+        "fuzzy_phrase_similarity_gate_hints",
+        "diff_span_copy_review_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

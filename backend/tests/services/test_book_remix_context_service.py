@@ -1852,3 +1852,35 @@ def test_build_remix_inspired_context_block_renders_interactive_narrative_audit(
     assert "branching_choice_graph" in block
     assert "Inspired transformation audit" in block
     assert "choice_branch_remap, dialogue_node_remap" in block
+
+
+def test_build_remix_inspired_context_block_renders_copy_similarity_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Copy Safe Inspired Desk",
+        style_content=(
+            "【同类型创作总原则】\n"
+            "- 只保留题材压力和节奏。\n"
+            "【源书语气样本】\n"
+            "- 克制、短句、压住解释。\n"
+            "【源书显性元素禁用清单】\n"
+            "- 禁止复用源书角色名和场景原句。"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "source_text_fingerprint_gate"},
+                {"name": "fuzzy_phrase_similarity_gate"},
+                {"name": "diff_span_copy_review"},
+            ],
+            "source_text_fingerprint_gate_hints": ["Fingerprint source and draft text before accepting same-type prose."],
+            "fuzzy_phrase_similarity_gate_hints": ["Use fuzzy phrase thresholds to catch paraphrased source sentences."],
+            "diff_span_copy_review_hints": ["Review copied spans with semantic cleanup before acceptance."],
+            "inspired_mapping_targets": ["fingerprint_baseline_remap", "fuzzy_phrase_threshold_remap", "diff_span_review_remap"],
+            "inspired_copy_risk_hints": ["Reject copied spans, paraphrased phrases, and source sentence order."],
+        },
+    )
+
+    assert "Copy similarity audit" in block
+    assert "source_text_fingerprint_gate: compare source and draft fingerprints" in block
+    assert "fuzzy_phrase_similarity_gate: apply fuzzy phrase thresholds" in block
+    assert "diff_span_copy_review: inspect diff spans" in block
+    assert "fingerprint_baseline_remap, fuzzy_phrase_threshold_remap, diff_span_review_remap" in block

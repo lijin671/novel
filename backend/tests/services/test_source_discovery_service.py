@@ -3782,3 +3782,136 @@ def test_default_discovery_sources_include_interactive_narrative_projects():
     assert "https://github.com/dfabulich/choicescript" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("interactive narrative" in query.lower() and "branching" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("dialogue" in query.lower() and "variables" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_copy_similarity_sources_are_classified_as_fingerprint_fuzzy_diff_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "blingenf/copydetect",
+                "html_url": "https://github.com/blingenf/copydetect",
+                "description": "Code plagiarism detection tool based on Winnowing document fingerprinting and copied slices.",
+                "stargazers_count": 326,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["plagiarism-detection", "winnowing", "fingerprinting"],
+                "updated_at": "2026-05-31T10:15:00Z",
+                "root_files": ["README.md", "copydetect", "docs"],
+            },
+            {
+                "full_name": "rapidfuzz/RapidFuzz",
+                "html_url": "https://github.com/rapidfuzz/RapidFuzz",
+                "description": "Rapid fuzzy string matching in Python using Levenshtein Distance and string metrics.",
+                "stargazers_count": 3949,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fuzzy-matching", "levenshtein", "string-metrics"],
+                "updated_at": "2026-06-09T22:18:00Z",
+                "root_files": ["README.md", "src", "docs"],
+            },
+            {
+                "full_name": "google/diff-match-patch",
+                "html_url": "https://github.com/google/diff-match-patch",
+                "description": "Diff Match and Patch library with semantic cleanup, matching, patches, and unit tests.",
+                "stargazers_count": 19000,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["diff", "match", "patch"],
+                "updated_at": "2024-08-05T12:00:00Z",
+                "root_files": ["README.md", "python3", "javascript"],
+            },
+            {
+                "full_name": "agranya99/MOSS-winnowing-seqMatcher",
+                "html_url": "https://github.com/agranya99/MOSS-winnowing-seqMatcher",
+                "description": "MOSS implementation using Winnowing and SequenceMatcher plagiarism checker.",
+                "stargazers_count": 50,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["moss", "winnowing", "sequence-matcher"],
+                "updated_at": "2026-05-18T09:20:00Z",
+                "root_files": ["README.md", "winnowing.py", "seqMatcher.py"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T05:20:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "source_text_fingerprint_gate" in by_title["blingenf/copydetect"]["absorbed_patterns"]
+    assert "fuzzy_phrase_similarity_gate" in by_title["rapidfuzz/RapidFuzz"]["absorbed_patterns"]
+    assert "diff_span_copy_review" in by_title["google/diff-match-patch"]["absorbed_patterns"]
+    assert "source_text_fingerprint_gate" in by_title["agranya99/MOSS-winnowing-seqMatcher"]["absorbed_patterns"]
+
+
+def test_copy_similarity_pattern_pack_exposes_copy_risk_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T05:25:00+08:00",
+        "candidate_count": 3,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/blingenf/copydetect",
+                "title": "blingenf/copydetect",
+                "summary": "Winnowing document fingerprinting and copied-slice report for plagiarism detection.",
+                "stars": 326,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["source_text_fingerprint_gate"],
+                "score": 80,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/rapidfuzz/RapidFuzz",
+                "title": "rapidfuzz/RapidFuzz",
+                "summary": "Fuzzy string matching with Levenshtein distance and string metrics.",
+                "stars": 3949,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["fuzzy_phrase_similarity_gate"],
+                "score": 78,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/google/diff-match-patch",
+                "title": "google/diff-match-patch",
+                "summary": "Diff Match and Patch library with semantic cleanup and unit tests.",
+                "stars": 19000,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["diff_span_copy_review"],
+                "score": 76,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "source_fingerprint_overlap_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "fuzzy_phrase_similarity_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "diff_span_copy_risk_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "source_text_fingerprint_gate_hints" in pattern_pack
+    assert "fuzzy_phrase_similarity_gate_hints" in pattern_pack
+    assert "diff_span_copy_review_hints" in pattern_pack
+    assert "fingerprint_baseline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "fuzzy_phrase_threshold_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "diff_span_review_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "source_text_fingerprint_gate_hints" in digest
+    assert "fuzzy_phrase_similarity_gate_hints" in digest
+    assert "diff_span_copy_review_hints" in digest
+
+
+def test_default_discovery_sources_include_copy_similarity_projects():
+    assert "https://github.com/blingenf/copydetect" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/rapidfuzz/RapidFuzz" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/google/diff-match-patch" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/agranya99/MOSS-winnowing-seqMatcher" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("winnowing" in query.lower() and "plagiarism" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("fuzzy string matching" in query.lower() and "levenshtein" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

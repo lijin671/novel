@@ -188,7 +188,13 @@
     "dialogue_node_state_machine",
     "dialogue_entry_exit_deltas",
     "passage_link_navigation_map",
-    "choice_stats_consequence_ledger"
+    "choice_stats_consequence_ledger",
+    "source_fingerprint_baseline",
+    "fingerprint_overlap_thresholds",
+    "fuzzy_phrase_thresholds",
+    "phrase_similarity_review_rules",
+    "diff_span_review_rules",
+    "copied_span_rewrite_policy"
   ],
   "boring_opening_quality_gates_hints": [
     "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
@@ -429,6 +435,11 @@
     "Batch revision should fix recurring cross-chapter patterns without disturbing accepted continuity state."
   ],
   "delivery_manuscript_assembly_hints": [],
+  "diff_span_copy_review_hints": [
+    "Inspect diff spans between source exemplars and draft output; copied spans, sentence order, and semantic-cleanup matches require rewrite.",
+    "Store span-level review notes with source ref, draft ref, match reason, decision, and rewrite action before accepting a risky chapter.",
+    "Use diff review as a copy-risk gate only; it must not import source text or train prompts to imitate protected wording."
+  ],
   "divergence_guidance_hints": [
     "Name the choice or premise change that causes divergence before drafting a branch scene.",
     "Map each divergence to immediate consequence, delayed consequence, and canon facts that stay fixed.",
@@ -472,7 +483,12 @@
     "Use stable frontmatter-like fields for story bible, scene state, continuity questions, promises/payoffs, and chapter drafts.",
     "Keep prose bodies separate from metadata so checks can diff state without parsing the whole manuscript."
   ],
-  "generated_at": "2026-06-10T04:25:00+08:00",
+  "fuzzy_phrase_similarity_gate_hints": [
+    "Apply fuzzy phrase thresholds to catch paraphrased source sentences, renamed proper-noun strings, and near-duplicate dialogue turns.",
+    "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
+    "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
+  ],
+  "generated_at": "2026-06-10T05:25:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -561,7 +577,10 @@
     "Reject copied choice text, option order, branch topology, or consequence labels that make the new route recognizable as the source.",
     "Reject dialogue nodes that preserve source lines, option labels, command names, or speaker-state order under renamed characters.",
     "Reject passage maps whose visible links, hidden routes, dead ends, or merge sequence mirror the source navigation.",
-    "Reject stat ledgers that keep source variable names, achievement labels, thresholds, or delayed consequence cadence."
+    "Reject stat ledgers that keep source variable names, achievement labels, thresholds, or delayed consequence cadence.",
+    "Reject drafts with high fingerprint overlap in long phrases, scene order, or set-piece labels unless the span is explicit continuation canon.",
+    "Reject paraphrases that survive fuzzy matching after names, titles, and surface nouns are changed.",
+    "Reject chapters whose copied-span review shows source sentence order, semantic-cleanup matches, or patch-like edits."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -651,7 +670,10 @@
     "choice_branch_remap",
     "dialogue_node_remap",
     "passage_navigation_remap",
-    "choice_stat_consequence_remap"
+    "choice_stat_consequence_remap",
+    "fingerprint_baseline_remap",
+    "fuzzy_phrase_threshold_remap",
+    "diff_span_review_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -714,7 +736,10 @@
     "Carry over interactive choice pressure only as abstract branch design; create new options, consequences, and merge/reject decisions.",
     "Use node-based dialogue planning for the new cast, with fresh entry conditions, option wording, command hooks, and exit deltas.",
     "Build a new passage/link map from the transformed premise; source passage order and link labels remain analysis evidence only.",
-    "Define new stat categories and consequence gates so choice mechanics support the new story rather than copying source variables."
+    "Define new stat categories and consequence gates so choice mechanics support the new story rather than copying source variables.",
+    "Run fingerprint overlap checks against source excerpts and rewrite high-overlap windows before accepting same-type prose.",
+    "Use fuzzy phrase checks to catch near-copy paraphrases after names and surface labels have been changed.",
+    "Review source-vs-draft diff spans so semantic cleanup does not hide copied sentence order or set-piece wording."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -769,7 +794,10 @@
     "Transform branch edges by changing decision cause, option intent, consequence scope, and merge policy before drafting.",
     "Transform dialogue nodes around new speaker states and new exit deltas; do not preserve source line/order scaffolds.",
     "Transform navigation by rebuilding reachable paths, hidden gates, and dead-end checks around the new story topology.",
-    "Transform stat consequences by changing the tracked values, trigger thresholds, delayed payoff, and achievement labels."
+    "Transform stat consequences by changing the tracked values, trigger thresholds, delayed payoff, and achievement labels.",
+    "Transform or discard any draft window whose fingerprint overlap remains close to source text after entity remapping.",
+    "Change image clusters, objects, stakes, and causal wording until fuzzy phrase similarity drops below the review threshold.",
+    "Use copied-span review to drive targeted rewrites while preserving only abstract craft function."
   ],
   "interrupted_resume_flow_hints": [
     "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
@@ -1031,10 +1059,17 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 84,
+  "source_candidate_count": 88,
   "source_intake_notes": [
     "2026-06-10 interactive narrative intake used public metadata/README summaries only; no clone, install, package hook, MCP server, browser extension, or external code execution.",
-    "Interactive branching patterns are pattern-only and feed continuation/same-type prompt audits through choice graph, dialogue node, passage link, and choice-stat consequence gates."
+    "Interactive branching patterns are pattern-only and feed continuation/same-type prompt audits through choice graph, dialogue node, passage link, and choice-stat consequence gates.",
+    "2026-06-10 copy-similarity intake used public metadata/README summaries and git ls-remote HEAD checks only; no clone, install, package hook, detector execution, or external code import.",
+    "Copy-similarity patterns are pattern-only gates for same-type creation and continuation copy-risk review: fingerprint overlap, fuzzy phrase thresholds, and diff-span copied-text review."
+  ],
+  "source_text_fingerprint_gate_hints": [
+    "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
+    "Keep fingerprint thresholds separate for names, set-piece labels, long phrases, and structural scene order to reduce false positives.",
+    "For continuation, fingerprint checks protect source fidelity boundaries; for same-type creation, they block copied route, wording, and scene topology."
   ],
   "source_titles": [
     "loreum-app/loreum",
@@ -1120,7 +1155,11 @@
     "inkle/ink",
     "YarnSpinnerTool/YarnSpinner",
     "klembot/twinejs",
-    "dfabulich/choicescript"
+    "dfabulich/choicescript",
+    "blingenf/copydetect",
+    "rapidfuzz/RapidFuzz",
+    "google/diff-match-patch",
+    "agranya99/MOSS-winnowing-seqMatcher"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -1566,7 +1605,16 @@
     "dead_end_passage_findings",
     "reachable_path_checks",
     "choice_stats_consequence_ledger",
-    "visible_delayed_consequence_checks"
+    "visible_delayed_consequence_checks",
+    "source_fingerprint_overlap_report",
+    "fingerprint_false_positive_notes",
+    "fingerprint_threshold_decisions",
+    "fuzzy_phrase_similarity_report",
+    "paraphrase_similarity_findings",
+    "phrase_threshold_decisions",
+    "diff_span_copy_risk_report",
+    "copied_span_review_notes",
+    "semantic_cleanup_review_findings"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -8883,6 +8931,114 @@
         }
       ],
       "top_source_url": "https://github.com/inkle/ink",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "source_text_fingerprint_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 326,
+          "summary": "MIT code plagiarism detection tool based on winnowing document fingerprinting and copied-slice HTML reports.",
+          "title": "blingenf/copydetect",
+          "trust_flags": [],
+          "url": "https://github.com/blingenf/copydetect"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 72,
+          "source": "github",
+          "stars": 50,
+          "summary": "MIT educational MOSS-style plagiarism checker using winnowing and SequenceMatcher over cleaned source text.",
+          "title": "agranya99/MOSS-winnowing-seqMatcher",
+          "trust_flags": [],
+          "url": "https://github.com/agranya99/MOSS-winnowing-seqMatcher"
+        }
+      ],
+      "top_source_url": "https://github.com/blingenf/copydetect",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "fuzzy_phrase_similarity_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 3949,
+          "summary": "MIT rapid fuzzy string matching in Python and C++ using Levenshtein distance and string metrics.",
+          "title": "rapidfuzz/RapidFuzz",
+          "trust_flags": [],
+          "url": "https://github.com/rapidfuzz/RapidFuzz"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 72,
+          "source": "github",
+          "stars": 50,
+          "summary": "MIT educational MOSS-style plagiarism checker using winnowing and SequenceMatcher over cleaned source text.",
+          "title": "agranya99/MOSS-winnowing-seqMatcher",
+          "trust_flags": [],
+          "url": "https://github.com/agranya99/MOSS-winnowing-seqMatcher"
+        }
+      ],
+      "top_source_url": "https://github.com/rapidfuzz/RapidFuzz",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "diff_span_copy_review",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 326,
+          "summary": "MIT code plagiarism detection tool based on winnowing document fingerprinting and copied-slice HTML reports.",
+          "title": "blingenf/copydetect",
+          "trust_flags": [],
+          "url": "https://github.com/blingenf/copydetect"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 19000,
+          "summary": "Apache-2.0 diff, match, and patch library with semantic cleanup and unit tests across language ports.",
+          "title": "google/diff-match-patch",
+          "trust_flags": [],
+          "url": "https://github.com/google/diff-match-patch"
+        }
+      ],
+      "top_source_url": "https://github.com/blingenf/copydetect",
       "trust_flags": []
     }
   ],

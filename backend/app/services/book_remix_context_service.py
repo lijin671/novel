@@ -118,6 +118,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_copy_similarity_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -372,6 +376,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_interactive_narrative_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_copy_similarity_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1216,6 +1224,31 @@ def _append_interactive_narrative_audit_section(
         lines.append("- choice_stats_consequence_gate: every choice-stat mutation needs visible consequence, trigger record, stat delta, and payoff window")
 
 
+def _append_copy_similarity_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render source-copy fingerprint, fuzzy phrase, and diff-span gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "source_text_fingerprint_gate",
+        "fuzzy_phrase_similarity_gate",
+        "diff_span_copy_review",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Copy similarity audit:")
+    if "source_text_fingerprint_gate" in pattern_names:
+        lines.append("- source_text_fingerprint_gate: compare source and draft fingerprints; review high-overlap windows before acceptance")
+    if "fuzzy_phrase_similarity_gate" in pattern_names:
+        lines.append("- fuzzy_phrase_similarity_gate: apply fuzzy phrase thresholds to catch paraphrased source sentences and renamed proper-noun strings")
+    if "diff_span_copy_review" in pattern_names:
+        lines.append("- diff_span_copy_review: inspect diff spans for copied wording, source sentence order, semantic-cleanup matches, and patch-like edits")
+
+
 def _append_inspectable_rewrite_audit_section(
     *,
     lines: list[str],
@@ -1660,6 +1693,9 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "node_dialogue_state_machine_hints": "node_dialogue_state_machine",
         "passage_link_navigation_map_hints": "passage_link_navigation_map",
         "choice_stats_consequence_gate_hints": "choice_stats_consequence_gate",
+        "source_text_fingerprint_gate_hints": "source_text_fingerprint_gate",
+        "fuzzy_phrase_similarity_gate_hints": "fuzzy_phrase_similarity_gate",
+        "diff_span_copy_review_hints": "diff_span_copy_review",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):
