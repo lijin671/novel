@@ -195,6 +195,16 @@
     "plan_reflection_gate",
     "character_profile_requirements",
     "human_story_metric_axes",
+    "logline_character_plot_location_dialogue_scaffold",
+    "hierarchical_story_layer_rules",
+    "human_coauthor_edit_policy",
+    "recursive_reprompt_revision_policy",
+    "plan_draft_rewrite_edit_stage_rules",
+    "reranker_candidate_selection_rules",
+    "character_persona_dialogue_evidence",
+    "tone_personality_plot_chat_boundaries",
+    "event_to_sentence_realization_schema",
+    "entity_memory_slotfill_rules",
     "synopsis_review_gate",
     "retrieval_guided_rewrite_scope",
     "runtime_trace_artifacts",
@@ -266,6 +276,11 @@
     "Use character-depth questions before major turns: desire, fear, contradiction, wound, social mask, and pressure source.",
     "Believable character changes require visible cause, cost, and after-state, not just a new trait label.",
     "Store depth answers as character-card evidence only after accepted scenes prove them."
+  ],
+  "character_dialogue_persona_memory_hints": [
+    "Store character voice as evidence-backed tone, personality, relationship pressure, and plot-chat boundaries.",
+    "Use dialogue evidence to preserve voice and role behavior without copying source lines or protected role IP.",
+    "For same-type creation, transform persona memory into new characters with distinct names, facts, relationships, and verbal signatures."
   ],
   "character_quote_attribution_map_hints": [
     "Build a character mention, alias, speaker, and quote-attribution map before judging voice consistency or relationship pressure.",
@@ -509,6 +524,11 @@
     "Persist editor notes as open, deferred, or closed items with the chapter evidence that resolves them.",
     "Next-chapter prompts should include only active notes relevant to the current beat or risk."
   ],
+  "entity_memory_slotfill_grounding_hints": [
+    "Ground slot filling against entity memory so names, roles, locations, and objects stay consistent across realized events.",
+    "Track entity substitutions explicitly when a chapter changes speaker, target, location, or carried object.",
+    "Reject realized prose when slot filling imports source entities or leaves unresolved aliases."
+  ],
   "entity_schema_custom_fields_hints": [
     "Let genre-specific entity schemas add fields beyond the base card: sect, ability, rank, taboo, technology, faction role, or item rule.",
     "Validate custom fields before they enter prompts so missing genre facts are caught during analysis instead of after drafting.",
@@ -525,6 +545,11 @@
   "event_outline_history_compression_hints": [
     "Plan long stories as event outlines and chapter-wise event plans before writing the current chapter.",
     "Compress story history around the current event, keeping the omitted-history list available for continuity review."
+  ],
+  "event_to_sentence_realization_trace_hints": [
+    "Represent chapter prose expansion as event-to-sentence trace: plot event, chosen realization, confidence, and rejected alternatives.",
+    "Use realization confidence to find thin or over-literal sentences that need scene-level rewrite.",
+    "For same-type creation, transform plot events before realization so sentence expansion cannot preserve source event order."
   ],
   "export_format_fidelity_audit_hints": [],
   "fact_snapshot_delta_gate_hints": [
@@ -544,7 +569,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T19:10:00+08:00",
+  "generated_at": "2026-06-10T19:45:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -563,6 +588,16 @@
     "After extraction, detect duplicate entities, orphan lore, stale relationship edges, and provisional nodes.",
     "Treat graph healing candidates as reviewable changes; auto-merge only low-risk duplicates with clear evidence.",
     "Record graph healing history so future contradictions can be traced back to a merge, rename, or cleanup decision."
+  ],
+  "hierarchical_cowriting_story_scaffold_hints": [
+    "Keep logline, character, plot-point, location, and dialogue layers separate; validate upper layers before expanding lower layers.",
+    "Use the scaffold as author-editable material for compilation, editing, and rewriting, not as autonomous final prose.",
+    "For same-type creation, rebuild every layer around the new premise before drafting dialogue or chapter scenes."
+  ],
+  "human_coauthor_edit_boundary_hints": [
+    "Mark AI output as co-writing material that requires human or review-gate compilation, editing, and rewriting before acceptance.",
+    "Check plagiarism, toxicity/offense risk, stereotype drift, and formulaic scene output before writing accepted canon.",
+    "For same-type creation, do not treat source-like inspiration as permission to keep recognizable names, set pieces, or dialogue."
   ],
   "human_story_metric_panel_hints": [
     "Score reader-facing story quality on separate axes: relevance, coherence, empathy, surprise, engagement, and complexity.",
@@ -665,7 +700,14 @@
     "Reject pairwise winners whose margin comes from source familiarity, extra length, or judge preference rather than transformed-story quality.",
     "Reject judge reports that reward verbose, longer, or later-positioned drafts without concrete story evidence.",
     "Reject plan-reflect-character traces that keep source act order, cast functions, or chapter sequence under new names.",
-    "Reject reader-metric fixes that improve engagement by restoring recognizable source hooks or set pieces."
+    "Reject reader-metric fixes that improve engagement by restoring recognizable source hooks or set pieces.",
+    "Reject hierarchical scaffolds whose logline, character function, plot-point order, or location/dialogue sequence mirrors the source.",
+    "Reject co-writing outputs that skip plagiarism, toxicity, stereotype, or formulaic-output review before canon acceptance.",
+    "Reject recursive revisions that repeatedly reprompt source-like outlines instead of changing the underlying plan.",
+    "Reject reranker winners whose relevance or coherence comes from source resemblance rather than accepted new-story state.",
+    "Reject persona memories that copy source lines, catchphrases, protected character names, or relationship labels.",
+    "Reject realized sentences when the event trace preserves source event order, unique props, or set-piece causality.",
+    "Reject slot-filled prose that imports source entities, aliases, locations, or objects into transformed-story canon."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -777,7 +819,14 @@
     "hybrid_elo_judge_remap",
     "judge_bias_mitigation_remap",
     "plan_reflect_character_trace_remap",
-    "human_story_metric_axis_remap"
+    "human_story_metric_axis_remap",
+    "hierarchical_story_scaffold_remap",
+    "coauthor_edit_boundary_remap",
+    "recursive_revision_loop_remap",
+    "reranker_candidate_selection_remap",
+    "character_persona_memory_remap",
+    "event_realization_trace_remap",
+    "entity_slotfill_grounding_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -930,7 +979,14 @@
     "Transform pairwise judging into comparisons among new-story draft variants, not source resemblance versus transformed prose.",
     "Transform judge-bias checks so length, position, verbosity, and ornate prose cannot mask source-copy or canon failures.",
     "Transform the brainstorm-plan-reflect-character-chapter chain around the new premise and new cast before chapter writing.",
-    "Transform reader-facing metric axes into new-story targets for relevance, coherence, empathy, surprise, engagement, and complexity."
+    "Transform reader-facing metric axes into new-story targets for relevance, coherence, empathy, surprise, engagement, and complexity.",
+    "Transform the logline, character, plot-point, location, and dialogue layers before drafting any new prose.",
+    "Transform co-writing output through explicit edit decisions instead of accepting source-like generated material as final.",
+    "Transform recursive revision stages so plan, draft, rewrite, and edit all operate on new-story canon and goals.",
+    "Transform candidate selection by scoring relevance and coherence against the new plan rather than closeness to source passages.",
+    "Transform persona memory into new dialogue evidence, role pressures, and voice boundaries before writing lines.",
+    "Transform plot events before event-to-sentence expansion so realized sentences do not follow source event order.",
+    "Transform entity-memory slots by replacing source entities with new-story names, roles, locations, and objects."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1152,6 +1208,16 @@
     "Allow replanning when retrieved context or review findings contradict the current plan.",
     "Keep the adaptive task tree inspectable so later runs know why a branch was expanded or abandoned."
   ],
+  "recursive_reprompt_revision_loop_hints": [
+    "Run long chapters as explicit stages: plan, draft, rewrite candidates, edit against state, then accept only the verified result.",
+    "Save and reload outline checkpoints so an interrupted continuation resumes from a known plan rather than regenerating hidden context.",
+    "Use dynamic continuation thresholds to decide when to move to the next outline item instead of forcing fixed-length padding."
+  ],
+  "reranker_guided_candidate_selection_hints": [
+    "Generate multiple candidate passages only when review budget allows; score them for relevance to plan and coherence with accepted context.",
+    "Keep candidate-selection logs with rejected reasons, not just the winning prose.",
+    "Do not let reranking optimize local fluency while losing canon, character motive, or source-copy safety."
+  ],
   "research_taxonomy_story_map_hints": [
     "Use the story-generation taxonomy as an index-only coverage map: planning/decomposition, agent collaboration, simulation, multimodal, memory, and evaluation.",
     "Do not inject a large awesome-list into prompts; cite only the method category that explains the current writing choice."
@@ -1189,8 +1255,8 @@
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "GitHub REST API anonymous rate limit returned HTTP 403 during the writing-benchmark pass; no authenticated request, token, cookie, clone, install, or runtime execution was used.",
-    "New writing-benchmark sources were absorbed as pattern-only from git ls-remote HEAD plus raw README/LICENSE checks."
+    "Story pipeline sources were absorbed as pattern-only from git ls-remote HEAD and raw README/LICENSE checks; no clone, install, dataset download, provider call, Colab/notebook execution, Docker/server launch, or model runtime was used.",
+    "Character/persona and co-writing sources can include role IP, CC BY-NC data, plagiarism/toxicity risk, or stale runtime stacks; MuMuAINovel keeps only repo-native workflow and review patterns."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1251,7 +1317,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 111,
+  "source_candidate_count": 115,
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
     "Keep fingerprint thresholds separate for names, set-piece labels, long phrases, and structural scene order to reduce false positives.",
@@ -1301,6 +1367,7 @@
     "inkle/ink",
     "hestudy/snowflake-fiction",
     "zy-zmc/tianming-novel-ai-writer",
+    "google-deepmind/dramatron",
     "booknlp/booknlp",
     "ModernRelay/omnigraph",
     "Ckokoski/authorclaw",
@@ -1346,6 +1413,7 @@
     "langchain-ai/langchain",
     "guchendesigndog/GC-Writer-Assistant",
     "maria-antoniak/goodreads-scraper",
+    "yangkevin2/emnlp22-re3-story-generation",
     "ShmilyWithme/Shmily_novel_skill",
     "envy-ai/ai_rpg",
     "vkbo/novelWriter",
@@ -1354,6 +1422,7 @@
     "lechmazur/writing_styles",
     "davealaw/FictionRefine",
     "clchinkc/story-bench",
+    "LC1332/Chat-Haruhi-Suzumiya",
     "principia-ai/WriteHERE",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "benbrandt/text-splitter",
@@ -1366,6 +1435,7 @@
     "kaigani/codeywood",
     "MaartenGr/BERTopic",
     "dmmiller612/bert-extractive-summarizer",
+    "rajammanabrolu/StoryRealization",
     "lechmazur/writing",
     "Theltn/AICreativityJudge",
     "dig-team/hanna-benchmark-asg"
@@ -1693,6 +1763,27 @@
     "human_story_metric_scores",
     "relevance_coherence_empathy_surprise_engagement_complexity_report",
     "reader_axis_fix_tasks",
+    "hierarchical_story_scaffold_report",
+    "logline_character_plot_location_dialogue_trace",
+    "layer_consistency_findings",
+    "human_coauthor_edit_report",
+    "plagiarism_toxicity_formulaic_risk_notes",
+    "author_rewrite_decisions",
+    "recursive_reprompt_revision_trace",
+    "plan_draft_rewrite_edit_report",
+    "outline_reload_checkpoint",
+    "reranker_candidate_scores",
+    "relevance_coherence_selection_report",
+    "beam_candidate_decision_log",
+    "character_persona_dialogue_report",
+    "tone_personality_plot_chat_evidence",
+    "role_voice_drift_findings",
+    "event_to_sentence_trace",
+    "plot_event_realization_report",
+    "ensemble_confidence_notes",
+    "entity_memory_slotfill_report",
+    "entity_tracking_findings",
+    "slot_grounding_failures",
     "synopsis_review_gate",
     "chapter_summary_review_status",
     "synopsis_regeneration_options",
@@ -1894,7 +1985,7 @@
   ],
   "workflow_patterns": [
     {
-      "candidate_count": 10,
+      "candidate_count": 11,
       "name": "continuation",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -2016,6 +2107,19 @@
           "title": "guchendesigndog/GC-Writer-Assistant",
           "trust_flags": [],
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": null,
+          "summary": "Re3 generates longer stories with recursive reprompting and revision using Plan, Draft, Rewrite, Edit modules, relevance/coherence rerankers, outline reload and dynamic continuation thresholds. Static intake note: Re3 is an MIT long-story generation research codebase. Public READ",
+          "title": "yangkevin2/emnlp22-re3-story-generation",
+          "trust_flags": [],
+          "url": "https://github.com/yangkevin2/emnlp22-re3-story-generation"
         },
         {
           "license": "MIT",
@@ -2782,7 +2886,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 22,
+      "candidate_count": 24,
       "name": "character_cards",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3004,6 +3108,19 @@
           "url": "https://github.com/danjdewhurst/story-skills"
         },
         {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": null,
+          "summary": "Dramatron co-writing system uses hierarchical story generation from log line to character descriptions, plot points, location descriptions and dialogue, with human editing and rewriting. Static intake note: Dramatron is an Apache-2.0/CC-BY co-writing system for scripts. Public RE",
+          "title": "google-deepmind/dramatron",
+          "trust_flags": [],
+          "url": "https://github.com/google-deepmind/dramatron"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3013,9 +3130,7 @@
           "stars": 185,
           "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
           "title": "EQ-bench/longform-writing-bench",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/EQ-bench/longform-writing-bench"
         },
         {
@@ -3060,6 +3175,19 @@
           "url": "https://github.com/bal-spec/sillytavern-character-memory"
         },
         {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 52,
+          "source": "github",
+          "stars": null,
+          "summary": "Chat-Haruhi imitates anime characters with approximate tone, personality and plot chat, includes extracting characters from novels, personality research and role datasets. Static intake note: Chat-Haruhi is an Apache-2.0 character-roleplay project with CC BY-NC data. Public READM",
+          "title": "LC1332/Chat-Haruhi-Suzumiya",
+          "trust_flags": [],
+          "url": "https://github.com/LC1332/Chat-Haruhi-Suzumiya"
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3100,9 +3228,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 3,
@@ -3199,16 +3325,48 @@
           "stars": 185,
           "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
           "title": "EQ-bench/longform-writing-bench",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/EQ-bench/longform-writing-bench"
         }
       ],
       "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "hierarchical_cowriting_story_scaffold",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": null,
+          "summary": "Dramatron co-writing system uses hierarchical story generation from log line to character descriptions, plot points, location descriptions and dialogue, with human editing and rewriting. Static intake note: Dramatron is an Apache-2.0/CC-BY co-writing system for scripts. Public RE",
+          "title": "google-deepmind/dramatron",
+          "trust_flags": [],
+          "url": "https://github.com/google-deepmind/dramatron"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 52,
+          "source": "github",
+          "stars": null,
+          "summary": "Chat-Haruhi imitates anime characters with approximate tone, personality and plot chat, includes extracting characters from novels, personality research and role datasets. Static intake note: Chat-Haruhi is an Apache-2.0 character-roleplay project with CC BY-NC data. Public READM",
+          "title": "LC1332/Chat-Haruhi-Suzumiya",
+          "trust_flags": [],
+          "url": "https://github.com/LC1332/Chat-Haruhi-Suzumiya"
+        }
+      ],
+      "top_source_url": "https://github.com/google-deepmind/dramatron",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -3231,6 +3389,29 @@
         }
       ],
       "top_source_url": "https://github.com/zy-zmc/tianming-novel-ai-writer",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "recursive_reprompt_revision_loop",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": null,
+          "summary": "Re3 generates longer stories with recursive reprompting and revision using Plan, Draft, Rewrite, Edit modules, relevance/coherence rerankers, outline reload and dynamic continuation thresholds. Static intake note: Re3 is an MIT long-story generation research codebase. Public READ",
+          "title": "yangkevin2/emnlp22-re3-story-generation",
+          "trust_flags": [],
+          "url": "https://github.com/yangkevin2/emnlp22-re3-story-generation"
+        }
+      ],
+      "top_source_url": "https://github.com/yangkevin2/emnlp22-re3-story-generation",
       "trust_flags": []
     },
     {
@@ -3295,16 +3476,12 @@
           "stars": 185,
           "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
           "title": "EQ-bench/longform-writing-bench",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/EQ-bench/longform-writing-bench"
         }
       ],
       "top_source_url": "https://github.com/EQ-bench/longform-writing-bench",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -3320,13 +3497,36 @@
           "score": 54,
           "source": "github",
           "stars": 412,
-          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark. ",
+          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark.",
           "title": "X-PLUG/WritingBench",
           "trust_flags": [],
           "url": "https://github.com/X-PLUG/WritingBench"
         }
       ],
       "top_source_url": "https://github.com/X-PLUG/WritingBench",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "character_dialogue_persona_memory",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 52,
+          "source": "github",
+          "stars": null,
+          "summary": "Chat-Haruhi imitates anime characters with approximate tone, personality and plot chat, includes extracting characters from novels, personality research and role datasets. Static intake note: Chat-Haruhi is an Apache-2.0 character-roleplay project with CC BY-NC data. Public READM",
+          "title": "LC1332/Chat-Haruhi-Suzumiya",
+          "trust_flags": [],
+          "url": "https://github.com/LC1332/Chat-Haruhi-Suzumiya"
+        }
+      ],
+      "top_source_url": "https://github.com/LC1332/Chat-Haruhi-Suzumiya",
       "trust_flags": []
     },
     {
@@ -3595,13 +3795,36 @@
           "stars": 293,
           "summary": "Creative Writing Benchmark v3 with hybrid rubric, pairwise matchups, Elo and Glicko-2 scoring, and judge bias mitigation for length, position, verbosity, and poetic incoherence. Static intake note: Creative Writing Benchmark v3 evaluates creative writing with isolated rubric scor",
           "title": "EQ-bench/creative-writing-bench",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/EQ-bench/creative-writing-bench"
         }
       ],
       "top_source_url": "https://github.com/EQ-bench/creative-writing-bench",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "event_to_sentence_realization_trace",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 32,
+          "source": "github",
+          "stars": null,
+          "summary": "Story Realization expands plot events into sentences with event creation, slot filling, a memory graph for entities, ensemble thresholds and confidence scores. Static intake note: StoryRealization expands plot events into sentences. Public README describes event creation, slot fi",
+          "title": "rajammanabrolu/StoryRealization",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/rajammanabrolu/StoryRealization"
+        }
+      ],
+      "top_source_url": "https://github.com/rajammanabrolu/StoryRealization",
       "trust_flags": [
         "license:missing"
       ]
@@ -3723,6 +3946,29 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "human_coauthor_edit_boundary",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": null,
+          "summary": "Dramatron co-writing system uses hierarchical story generation from log line to character descriptions, plot points, location descriptions and dialogue, with human editing and rewriting. Static intake note: Dramatron is an Apache-2.0/CC-BY co-writing system for scripts. Public RE",
+          "title": "google-deepmind/dramatron",
+          "trust_flags": [],
+          "url": "https://github.com/google-deepmind/dramatron"
+        }
+      ],
+      "top_source_url": "https://github.com/google-deepmind/dramatron",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 4,
       "name": "context_faithfulness_eval_gate",
       "posture_hint": "metadata-triage",
@@ -3786,6 +4032,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "reranker_guided_candidate_selection",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": null,
+          "summary": "Re3 generates longer stories with recursive reprompting and revision using Plan, Draft, Rewrite, Edit modules, relevance/coherence rerankers, outline reload and dynamic continuation thresholds. Static intake note: Re3 is an MIT long-story generation research codebase. Public READ",
+          "title": "yangkevin2/emnlp22-re3-story-generation",
+          "trust_flags": [],
+          "url": "https://github.com/yangkevin2/emnlp22-re3-story-generation"
+        }
+      ],
+      "top_source_url": "https://github.com/yangkevin2/emnlp22-re3-story-generation",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "material_grounded_query_refinement",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -3798,7 +4067,7 @@
           "score": 54,
           "source": "github",
           "stars": 412,
-          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark. ",
+          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark.",
           "title": "X-PLUG/WritingBench",
           "trust_flags": [],
           "url": "https://github.com/X-PLUG/WritingBench"
@@ -3806,6 +4075,33 @@
       ],
       "top_source_url": "https://github.com/X-PLUG/WritingBench",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "entity_memory_slotfill_grounding",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 32,
+          "source": "github",
+          "stars": null,
+          "summary": "Story Realization expands plot events into sentences with event creation, slot filling, a memory graph for entities, ensemble thresholds and confidence scores. Static intake note: StoryRealization expands plot events into sentences. Public README describes event creation, slot fi",
+          "title": "rajammanabrolu/StoryRealization",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/rajammanabrolu/StoryRealization"
+        }
+      ],
+      "top_source_url": "https://github.com/rajammanabrolu/StoryRealization",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -3821,7 +4117,7 @@
           "score": 23,
           "source": "github",
           "stars": 81,
-          "summary": "HANNA human-annotated narratives for automatic story generation evaluation with relevance, coherence, empathy, surprise, engagement, complexity, automatic metrics and LLM explanations. Static intake note: HANNA is an MIT human-annotated narrative evaluation dataset for automatic ",
+          "summary": "HANNA human-annotated narratives for automatic story generation evaluation with relevance, coherence, empathy, surprise, engagement, complexity, automatic metrics and LLM explanations. Static intake note: HANNA is an MIT human-annotated narrative evaluation dataset for automatic",
           "title": "dig-team/hanna-benchmark-asg",
           "trust_flags": [],
           "url": "https://github.com/dig-team/hanna-benchmark-asg"
@@ -4001,16 +4297,12 @@
           "stars": 293,
           "summary": "Creative Writing Benchmark v3 with hybrid rubric, pairwise matchups, Elo and Glicko-2 scoring, and judge bias mitigation for length, position, verbosity, and poetic incoherence. Static intake note: Creative Writing Benchmark v3 evaluates creative writing with isolated rubric scor",
           "title": "EQ-bench/creative-writing-bench",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/EQ-bench/creative-writing-bench"
         }
       ],
       "top_source_url": "https://github.com/EQ-bench/creative-writing-bench",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 5,
@@ -5852,7 +6144,7 @@
           "score": 54,
           "source": "github",
           "stars": 412,
-          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark. ",
+          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark.",
           "title": "X-PLUG/WritingBench",
           "trust_flags": [],
           "url": "https://github.com/X-PLUG/WritingBench"
@@ -6634,7 +6926,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "outliner_index_cards",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -6681,6 +6973,19 @@
           "title": "kevboh/longform",
           "trust_flags": [],
           "url": "https://github.com/kevboh/longform"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": null,
+          "summary": "Dramatron co-writing system uses hierarchical story generation from log line to character descriptions, plot points, location descriptions and dialogue, with human editing and rewriting. Static intake note: Dramatron is an Apache-2.0/CC-BY co-writing system for scripts. Public RE",
+          "title": "google-deepmind/dramatron",
+          "trust_flags": [],
+          "url": "https://github.com/google-deepmind/dramatron"
         }
       ],
       "top_source_url": "https://github.com/olivierkes/manuskript",
@@ -7036,7 +7341,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 26,
+      "candidate_count": 27,
       "name": "self_review",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -7349,6 +7654,19 @@
           "title": "jinmawang/claude-novel-writeFlow",
           "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 64,
+          "source": "github",
+          "stars": null,
+          "summary": "Re3 generates longer stories with recursive reprompting and revision using Plan, Draft, Rewrite, Edit modules, relevance/coherence rerankers, outline reload and dynamic continuation thresholds. Static intake note: Re3 is an MIT long-story generation research codebase. Public READ",
+          "title": "yangkevin2/emnlp22-re3-story-generation",
+          "trust_flags": [],
+          "url": "https://github.com/yangkevin2/emnlp22-re3-story-generation"
         },
         {
           "license": "MIT",
@@ -8713,7 +9031,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "scene_asset_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -8774,6 +9092,19 @@
           "title": "Anning01/novelvids",
           "trust_flags": [],
           "url": "https://github.com/Anning01/novelvids"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": null,
+          "summary": "Dramatron co-writing system uses hierarchical story generation from log line to character descriptions, plot points, location descriptions and dialogue, with human editing and rewriting. Static intake note: Dramatron is an Apache-2.0/CC-BY co-writing system for scripts. Public RE",
+          "title": "google-deepmind/dramatron",
+          "trust_flags": [],
+          "url": "https://github.com/google-deepmind/dramatron"
         },
         {
           "license": "unknown",
@@ -9012,16 +9343,12 @@
           "stars": 293,
           "summary": "Creative Writing Benchmark v3 with hybrid rubric, pairwise matchups, Elo and Glicko-2 scoring, and judge bias mitigation for length, position, verbosity, and poetic incoherence. Static intake note: Creative Writing Benchmark v3 evaluates creative writing with isolated rubric scor",
           "title": "EQ-bench/creative-writing-bench",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/EQ-bench/creative-writing-bench"
         }
       ],
       "top_source_url": "https://github.com/dylanhogg/gptauthor",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,

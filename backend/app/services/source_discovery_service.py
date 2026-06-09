@@ -111,6 +111,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("creative writing benchmark" OR "hybrid rubric" OR "Glicko-2" OR "Elo") ("creative writing" OR "story") in:name,description,readme',
     '("longform creative writing benchmark" OR "critical reflection" OR "character profiles") ("longform" OR "story") in:name,description,readme',
     '("HANNA" OR "human-annotated narratives" OR "story evaluation") ("story generation" OR "automatic metrics") in:name,description,readme',
+    '("Dramatron" OR "log line" OR "character descriptions" OR "plot points") ("hierarchical story generation" OR "co-writing") in:name,description,readme',
+    '("recursive reprompting" OR "recursive reprompting and revision" OR "Plan Draft Rewrite Edit" OR "relevance reranker" OR "coherence reranker") ("long story" OR "story generation") in:name,description,readme',
+    '("Chat-Haruhi" OR "character imitation" OR "novel character extraction") ("role-playing" OR "character dialogue") in:name,description,readme',
+    '("event-to-sentence" OR "plot events into sentences" OR "slot filling" OR "memory graph") ("story realization" OR "story generation") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -234,6 +238,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/EQ-bench/creative-writing-bench",
     "https://github.com/EQ-bench/longform-writing-bench",
     "https://github.com/dig-team/hanna-benchmark-asg",
+    "https://github.com/google-deepmind/dramatron",
+    "https://github.com/yangkevin2/emnlp22-re3-story-generation",
+    "https://github.com/LC1332/Chat-Haruhi-Suzumiya",
+    "https://github.com/rajammanabrolu/StoryRealization",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -439,6 +447,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("judge_bias_mitigation_check", ("bias mitigation", "judge biases", "length bias", "position bias", "verbosity", "poetic incoherence", "length, position, verbosity")),
     ("plan_reflect_character_chapter_pipeline", ("longform creative writing benchmark", "brainstorming & planning", "critical reflection", "character profiles", "8 chapters", "complete novella", "narrative construction")),
     ("human_story_metric_panel", ("hanna", "human-annotated narratives", "relevance, coherence", "empathy, surprise", "engagement and complexity", "automatic story evaluation", "human annotated narratives")),
+    ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
+    ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
+    ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
+    ("reranker_guided_candidate_selection", ("relevance reranker", "coherence reranker", "reranker", "max-candidates", "max-beam-size", "continuation-threshold", "dynamic continuation")),
+    ("character_dialogue_persona_memory", ("chat-haruhi", "character imitation", "approximate tone", "personality and plot chat", "extracting characters from novels", "novel_collecting", "role datasets")),
+    ("event_to_sentence_realization_trace", ("story realization", "plot events into sentences", "event-to-sentence", "event creation", "eventify", "ensemble thresholds", "confidence scores")),
+    ("entity_memory_slotfill_grounding", ("slot filling", "slotfilling", "memory graph", "getagentturn", "entities", "entity tracking")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -902,6 +917,24 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "three human raters per story, six criteria (relevance, coherence, empathy, surprise, engagement, complexity), automatic metrics, and LLM explanations. "
         "Absorb reader-facing metric axes only; datasets, notebooks, and metrics code are not imported."
     ),
+    "google-deepmind/dramatron": (
+        "Dramatron is an Apache-2.0/CC-BY co-writing system for scripts. Public README describes hierarchical generation from log line to character descriptions, "
+        "plot points, location descriptions, and dialogue, with human compilation, editing, and rewriting plus plagiarism/toxicity cautions. "
+        "Absorb the layered co-writing scaffold and human edit boundary only; Colab/model interfaces are not used."
+    ),
+    "yangkevin2/emnlp22-re3-story-generation": (
+        "Re3 is an MIT long-story generation research codebase. Public README describes recursive reprompting and revision, Plan/Draft/Rewrite/Edit ablations, "
+        "outline save/load, relevance and coherence rerankers, candidate limits, beam search, and continuation thresholds. "
+        "Absorb recursive revision and reranker-guided candidate-selection patterns only; GPT/API calls, downloads, checkpoints, and training scripts are not used."
+    ),
+    "lc1332/chat-haruhi-suzumiya": (
+        "Chat-Haruhi is an Apache-2.0 character-roleplay project with CC BY-NC data. Public README describes imitating character tone, personality, and plot chat, "
+        "extracting characters from novels, role datasets, and personality research. Absorb persona-memory and dialogue-evidence patterns only; models, datasets, demos, and role IP are not imported."
+    ),
+    "rajammanabrolu/storyrealization": (
+        "StoryRealization expands plot events into sentences. Public README describes event creation, slot filling, a memory graph for entities, ensemble thresholds, "
+        "confidence scores, and a stale runtime stack. Absorb event-to-sentence trace and entity grounding patterns only; servers, Docker, parsers, datasets, and code are not used."
+    ),
 }
 
 
@@ -1332,6 +1365,13 @@ class NovelSourceDiscoveryService:
             "judge_bias_mitigation_check_hints": self._build_judge_bias_mitigation_check_hints(available_patterns),
             "plan_reflect_character_chapter_pipeline_hints": self._build_plan_reflect_character_chapter_pipeline_hints(available_patterns),
             "human_story_metric_panel_hints": self._build_human_story_metric_panel_hints(available_patterns),
+            "hierarchical_cowriting_story_scaffold_hints": self._build_hierarchical_cowriting_story_scaffold_hints(available_patterns),
+            "human_coauthor_edit_boundary_hints": self._build_human_coauthor_edit_boundary_hints(available_patterns),
+            "recursive_reprompt_revision_loop_hints": self._build_recursive_reprompt_revision_loop_hints(available_patterns),
+            "reranker_guided_candidate_selection_hints": self._build_reranker_guided_candidate_selection_hints(available_patterns),
+            "character_dialogue_persona_memory_hints": self._build_character_dialogue_persona_memory_hints(available_patterns),
+            "event_to_sentence_realization_trace_hints": self._build_event_to_sentence_realization_trace_hints(available_patterns),
+            "entity_memory_slotfill_grounding_hints": self._build_entity_memory_slotfill_grounding_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1901,6 +1941,13 @@ class NovelSourceDiscoveryService:
             "judge_bias_mitigation_check": 63,
             "plan_reflect_character_chapter_pipeline": 66,
             "human_story_metric_panel": 64,
+            "hierarchical_cowriting_story_scaffold": 67,
+            "human_coauthor_edit_boundary": 64,
+            "recursive_reprompt_revision_loop": 67,
+            "reranker_guided_candidate_selection": 64,
+            "character_dialogue_persona_memory": 66,
+            "event_to_sentence_realization_trace": 65,
+            "entity_memory_slotfill_grounding": 64,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -2110,6 +2157,23 @@ class NovelSourceDiscoveryService:
             targets.append("character_profile_requirements")
         if "human_story_metric_panel" in patterns:
             targets.append("human_story_metric_axes")
+        if "hierarchical_cowriting_story_scaffold" in patterns:
+            targets.append("logline_character_plot_location_dialogue_scaffold")
+            targets.append("hierarchical_story_layer_rules")
+        if "human_coauthor_edit_boundary" in patterns:
+            targets.append("human_coauthor_edit_policy")
+        if "recursive_reprompt_revision_loop" in patterns:
+            targets.append("recursive_reprompt_revision_policy")
+            targets.append("plan_draft_rewrite_edit_stage_rules")
+        if "reranker_guided_candidate_selection" in patterns:
+            targets.append("reranker_candidate_selection_rules")
+        if "character_dialogue_persona_memory" in patterns:
+            targets.append("character_persona_dialogue_evidence")
+            targets.append("tone_personality_plot_chat_boundaries")
+        if "event_to_sentence_realization_trace" in patterns:
+            targets.append("event_to_sentence_realization_schema")
+        if "entity_memory_slotfill_grounding" in patterns:
+            targets.append("entity_memory_slotfill_rules")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -2370,6 +2434,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["plan_reflection_character_profile_trace", "chapter_sequence_generation_trace", "narrative_consistency_judge_notes"])
         if "human_story_metric_panel" in patterns:
             targets.extend(["human_story_metric_scores", "relevance_coherence_empathy_surprise_engagement_complexity_report", "reader_axis_fix_tasks"])
+        if "hierarchical_cowriting_story_scaffold" in patterns:
+            targets.extend(["hierarchical_story_scaffold_report", "logline_character_plot_location_dialogue_trace", "layer_consistency_findings"])
+        if "human_coauthor_edit_boundary" in patterns:
+            targets.extend(["human_coauthor_edit_report", "plagiarism_toxicity_formulaic_risk_notes", "author_rewrite_decisions"])
+        if "recursive_reprompt_revision_loop" in patterns:
+            targets.extend(["recursive_reprompt_revision_trace", "plan_draft_rewrite_edit_report", "outline_reload_checkpoint"])
+        if "reranker_guided_candidate_selection" in patterns:
+            targets.extend(["reranker_candidate_scores", "relevance_coherence_selection_report", "beam_candidate_decision_log"])
+        if "character_dialogue_persona_memory" in patterns:
+            targets.extend(["character_persona_dialogue_report", "tone_personality_plot_chat_evidence", "role_voice_drift_findings"])
+        if "event_to_sentence_realization_trace" in patterns:
+            targets.extend(["event_to_sentence_trace", "plot_event_realization_report", "ensemble_confidence_notes"])
+        if "entity_memory_slotfill_grounding" in patterns:
+            targets.extend(["entity_memory_slotfill_report", "entity_tracking_findings", "slot_grounding_failures"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -4091,6 +4169,69 @@ class NovelSourceDiscoveryService:
             "For continuation, relevance is local to accepted canon and current chapter intent; for same-type creation, relevance is local to transformed-story promises.",
         ]
 
+    def _build_hierarchical_cowriting_story_scaffold_hints(self, patterns: set[str]) -> list[str]:
+        if "hierarchical_cowriting_story_scaffold" not in patterns:
+            return []
+        return [
+            "Keep logline, character, plot-point, location, and dialogue layers separate; validate upper layers before expanding lower layers.",
+            "Use the scaffold as author-editable material for compilation, editing, and rewriting, not as autonomous final prose.",
+            "For same-type creation, rebuild every layer around the new premise before drafting dialogue or chapter scenes.",
+        ]
+
+    def _build_human_coauthor_edit_boundary_hints(self, patterns: set[str]) -> list[str]:
+        if "human_coauthor_edit_boundary" not in patterns:
+            return []
+        return [
+            "Mark AI output as co-writing material that requires human or review-gate compilation, editing, and rewriting before acceptance.",
+            "Check plagiarism, toxicity/offense risk, stereotype drift, and formulaic scene output before writing accepted canon.",
+            "For same-type creation, do not treat source-like inspiration as permission to keep recognizable names, set pieces, or dialogue.",
+        ]
+
+    def _build_recursive_reprompt_revision_loop_hints(self, patterns: set[str]) -> list[str]:
+        if "recursive_reprompt_revision_loop" not in patterns:
+            return []
+        return [
+            "Run long chapters as explicit stages: plan, draft, rewrite candidates, edit against state, then accept only the verified result.",
+            "Save and reload outline checkpoints so an interrupted continuation resumes from a known plan rather than regenerating hidden context.",
+            "Use dynamic continuation thresholds to decide when to move to the next outline item instead of forcing fixed-length padding.",
+        ]
+
+    def _build_reranker_guided_candidate_selection_hints(self, patterns: set[str]) -> list[str]:
+        if "reranker_guided_candidate_selection" not in patterns:
+            return []
+        return [
+            "Generate multiple candidate passages only when review budget allows; score them for relevance to plan and coherence with accepted context.",
+            "Keep candidate-selection logs with rejected reasons, not just the winning prose.",
+            "Do not let reranking optimize local fluency while losing canon, character motive, or source-copy safety.",
+        ]
+
+    def _build_character_dialogue_persona_memory_hints(self, patterns: set[str]) -> list[str]:
+        if "character_dialogue_persona_memory" not in patterns:
+            return []
+        return [
+            "Store character voice as evidence-backed tone, personality, relationship pressure, and plot-chat boundaries.",
+            "Use dialogue evidence to preserve voice and role behavior without copying source lines or protected role IP.",
+            "For same-type creation, transform persona memory into new characters with distinct names, facts, relationships, and verbal signatures.",
+        ]
+
+    def _build_event_to_sentence_realization_trace_hints(self, patterns: set[str]) -> list[str]:
+        if "event_to_sentence_realization_trace" not in patterns:
+            return []
+        return [
+            "Represent chapter prose expansion as event-to-sentence trace: plot event, chosen realization, confidence, and rejected alternatives.",
+            "Use realization confidence to find thin or over-literal sentences that need scene-level rewrite.",
+            "For same-type creation, transform plot events before realization so sentence expansion cannot preserve source event order.",
+        ]
+
+    def _build_entity_memory_slotfill_grounding_hints(self, patterns: set[str]) -> list[str]:
+        if "entity_memory_slotfill_grounding" not in patterns:
+            return []
+        return [
+            "Ground slot filling against entity memory so names, roles, locations, and objects stay consistent across realized events.",
+            "Track entity substitutions explicitly when a chapter changes speaker, target, location, or carried object.",
+            "Reject realized prose when slot filling imports source entities or leaves unresolved aliases.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -4317,6 +4458,20 @@ class NovelSourceDiscoveryService:
             targets.append("plan_reflect_character_trace_remap")
         if "human_story_metric_panel" in patterns:
             targets.append("human_story_metric_axis_remap")
+        if "hierarchical_cowriting_story_scaffold" in patterns:
+            targets.append("hierarchical_story_scaffold_remap")
+        if "human_coauthor_edit_boundary" in patterns:
+            targets.append("coauthor_edit_boundary_remap")
+        if "recursive_reprompt_revision_loop" in patterns:
+            targets.append("recursive_revision_loop_remap")
+        if "reranker_guided_candidate_selection" in patterns:
+            targets.append("reranker_candidate_selection_remap")
+        if "character_dialogue_persona_memory" in patterns:
+            targets.append("character_persona_memory_remap")
+        if "event_to_sentence_realization_trace" in patterns:
+            targets.append("event_realization_trace_remap")
+        if "entity_memory_slotfill_grounding" in patterns:
+            targets.append("entity_slotfill_grounding_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -4641,6 +4796,20 @@ class NovelSourceDiscoveryService:
             hints.append("Transform the brainstorm-plan-reflect-character-chapter chain around the new premise and new cast before chapter writing.")
         if "human_story_metric_panel" in patterns:
             hints.append("Transform reader-facing metric axes into new-story targets for relevance, coherence, empathy, surprise, engagement, and complexity.")
+        if "hierarchical_cowriting_story_scaffold" in patterns:
+            hints.append("Transform the logline, character, plot-point, location, and dialogue layers before drafting any new prose.")
+        if "human_coauthor_edit_boundary" in patterns:
+            hints.append("Transform co-writing output through explicit edit decisions instead of accepting source-like generated material as final.")
+        if "recursive_reprompt_revision_loop" in patterns:
+            hints.append("Transform recursive revision stages so plan, draft, rewrite, and edit all operate on new-story canon and goals.")
+        if "reranker_guided_candidate_selection" in patterns:
+            hints.append("Transform candidate selection by scoring relevance and coherence against the new plan rather than closeness to source passages.")
+        if "character_dialogue_persona_memory" in patterns:
+            hints.append("Transform persona memory into new dialogue evidence, role pressures, and voice boundaries before writing lines.")
+        if "event_to_sentence_realization_trace" in patterns:
+            hints.append("Transform plot events before event-to-sentence expansion so realized sentences do not follow source event order.")
+        if "entity_memory_slotfill_grounding" in patterns:
+            hints.append("Transform entity-memory slots by replacing source entities with new-story names, roles, locations, and objects.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -4808,6 +4977,20 @@ class NovelSourceDiscoveryService:
             hints.append("Reject plan-reflect-character traces that keep source act order, cast functions, or chapter sequence under new names.")
         if "human_story_metric_panel" in patterns:
             hints.append("Reject reader-metric fixes that improve engagement by restoring recognizable source hooks or set pieces.")
+        if "hierarchical_cowriting_story_scaffold" in patterns:
+            hints.append("Reject hierarchical scaffolds whose logline, character function, plot-point order, or location/dialogue sequence mirrors the source.")
+        if "human_coauthor_edit_boundary" in patterns:
+            hints.append("Reject co-writing outputs that skip plagiarism, toxicity, stereotype, or formulaic-output review before canon acceptance.")
+        if "recursive_reprompt_revision_loop" in patterns:
+            hints.append("Reject recursive revisions that repeatedly reprompt source-like outlines instead of changing the underlying plan.")
+        if "reranker_guided_candidate_selection" in patterns:
+            hints.append("Reject reranker winners whose relevance or coherence comes from source resemblance rather than accepted new-story state.")
+        if "character_dialogue_persona_memory" in patterns:
+            hints.append("Reject persona memories that copy source lines, catchphrases, protected character names, or relationship labels.")
+        if "event_to_sentence_realization_trace" in patterns:
+            hints.append("Reject realized sentences when the event trace preserves source event order, unique props, or set-piece causality.")
+        if "entity_memory_slotfill_grounding" in patterns:
+            hints.append("Reject slot-filled prose that imports source entities, aliases, locations, or objects into transformed-story canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -4841,6 +5024,13 @@ class NovelSourceDiscoveryService:
                 "judge_bias_mitigation_check",
                 "plan_reflect_character_chapter_pipeline",
                 "human_story_metric_panel",
+                "hierarchical_cowriting_story_scaffold",
+                "human_coauthor_edit_boundary",
+                "recursive_reprompt_revision_loop",
+                "reranker_guided_candidate_selection",
+                "character_dialogue_persona_memory",
+                "event_to_sentence_realization_trace",
+                "entity_memory_slotfill_grounding",
             }
         ):
             return True

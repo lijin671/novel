@@ -4646,3 +4646,153 @@ def test_default_discovery_sources_include_creative_writing_benchmark_projects()
     assert any("instance-specific criteria" in query.lower() and "writingbench" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("elo" in query.lower() and "creative writing benchmark" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("hanna" in query.lower() and "story evaluation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_story_generation_pipeline_sources_classify_into_structure_and_persona_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "google-deepmind/dramatron",
+                "html_url": "https://github.com/google-deepmind/dramatron",
+                "description": "Dramatron co-writing system uses hierarchical story generation from log line to character descriptions, plot points, location descriptions and dialogue, with human editing and rewriting.",
+                "stargazers_count": 2320,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["story-generation", "screenplay", "cowriting"],
+                "updated_at": "2026-01-15T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "colab", "dramatron"],
+            },
+            {
+                "full_name": "yangkevin2/emnlp22-re3-story-generation",
+                "html_url": "https://github.com/yangkevin2/emnlp22-re3-story-generation",
+                "description": "Re3 generates longer stories with recursive reprompting and revision using Plan, Draft, Rewrite, Edit modules, relevance/coherence rerankers, outline reload and dynamic continuation thresholds.",
+                "stargazers_count": 522,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-generation", "long-story", "revision"],
+                "updated_at": "2022-12-20T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "scripts", "notebooks", "requirements.txt"],
+            },
+            {
+                "full_name": "LC1332/Chat-Haruhi-Suzumiya",
+                "html_url": "https://github.com/LC1332/Chat-Haruhi-Suzumiya",
+                "description": "Chat-Haruhi imitates anime characters with approximate tone, personality and plot chat, includes extracting characters from novels, personality research and role datasets.",
+                "stargazers_count": 8200,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["role-playing", "character", "dialogue"],
+                "updated_at": "2026-05-20T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "characters", "research", "notebook"],
+            },
+            {
+                "full_name": "rajammanabrolu/StoryRealization",
+                "html_url": "https://github.com/rajammanabrolu/StoryRealization",
+                "description": "Story Realization expands plot events into sentences with event creation, slot filling, a memory graph for entities, ensemble thresholds and confidence scores.",
+                "stargazers_count": 154,
+                "license": None,
+                "topics": ["story-generation", "event-to-sentence", "plot"],
+                "updated_at": "2020-01-01T00:00:00Z",
+                "root_files": ["README.md", "EventCreation", "E2S-Ensemble", "Slotfilling"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T19:30:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["google-deepmind/dramatron"]["family"] == "novel-automation"
+    assert "hierarchical_cowriting_story_scaffold" in by_title["google-deepmind/dramatron"]["absorbed_patterns"]
+    assert "human_coauthor_edit_boundary" in by_title["google-deepmind/dramatron"]["absorbed_patterns"]
+    assert "recursive_reprompt_revision_loop" in by_title["yangkevin2/emnlp22-re3-story-generation"]["absorbed_patterns"]
+    assert "reranker_guided_candidate_selection" in by_title["yangkevin2/emnlp22-re3-story-generation"]["absorbed_patterns"]
+    assert "character_dialogue_persona_memory" in by_title["LC1332/Chat-Haruhi-Suzumiya"]["absorbed_patterns"]
+    assert "event_to_sentence_realization_trace" in by_title["rajammanabrolu/StoryRealization"]["absorbed_patterns"]
+    assert "entity_memory_slotfill_grounding" in by_title["rajammanabrolu/StoryRealization"]["absorbed_patterns"]
+
+
+def test_story_generation_pipeline_pattern_pack_exposes_structure_revision_and_persona_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T19:35:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/google-deepmind/dramatron",
+                "title": "google-deepmind/dramatron",
+                "summary": "Hierarchical co-writing from logline to characters, plot points, locations and dialogue.",
+                "stars": 2320,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["hierarchical_cowriting_story_scaffold", "human_coauthor_edit_boundary"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/yangkevin2/emnlp22-re3-story-generation",
+                "title": "yangkevin2/emnlp22-re3-story-generation",
+                "summary": "Re3 uses Plan, Draft, Rewrite and Edit with relevance/coherence rerankers.",
+                "stars": 522,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["recursive_reprompt_revision_loop", "reranker_guided_candidate_selection"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/LC1332/Chat-Haruhi-Suzumiya",
+                "title": "LC1332/Chat-Haruhi-Suzumiya",
+                "summary": "Character imitation from tone, personality, plot chat and novel character extraction.",
+                "stars": 8200,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["character_dialogue_persona_memory"],
+                "score": 87,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/rajammanabrolu/StoryRealization",
+                "title": "rajammanabrolu/StoryRealization",
+                "summary": "Event-to-sentence realization with slot filling, memory graph, ensemble thresholds and confidence scores.",
+                "stars": 154,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["event_to_sentence_realization_trace", "entity_memory_slotfill_grounding"],
+                "score": 84,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "logline_character_plot_location_dialogue_scaffold" in pattern_pack["bible_enrichment_targets"]
+    assert "recursive_reprompt_revision_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "character_persona_dialogue_evidence" in pattern_pack["bible_enrichment_targets"]
+    assert "event_to_sentence_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "entity_memory_slotfill_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "hierarchical_story_scaffold_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "character_persona_memory_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "hierarchical_cowriting_story_scaffold_hints" in digest
+    assert "recursive_reprompt_revision_loop_hints" in digest
+    assert "character_dialogue_persona_memory_hints" in digest
+    assert "event_to_sentence_realization_trace_hints" in digest
+
+
+def test_default_discovery_sources_include_story_generation_pipeline_projects():
+    assert "https://github.com/google-deepmind/dramatron" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/yangkevin2/emnlp22-re3-story-generation" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/LC1332/Chat-Haruhi-Suzumiya" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/rajammanabrolu/StoryRealization" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("dramatron" in query.lower() and "log line" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("recursive reprompting" in query.lower() and "revision" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chat-haruhi" in query.lower() and "character" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

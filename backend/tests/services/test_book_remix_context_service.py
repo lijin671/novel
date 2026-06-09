@@ -161,6 +161,40 @@ def test_build_remix_continuation_context_block_renders_creative_benchmark_audit
     assert "do not let length bias decide the winner" in block
 
 
+def test_build_remix_continuation_context_block_renders_story_generation_pipeline_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={"hard_constraints": [{"rule": "Preserve accepted canon"}]},
+        plan={"summary": "Continue with recursive revision and character voice evidence."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "hierarchical_cowriting_story_scaffold", "candidate_count": 1},
+                {"name": "recursive_reprompt_revision_loop", "candidate_count": 1},
+                {"name": "character_dialogue_persona_memory", "candidate_count": 1},
+                {"name": "event_to_sentence_realization_trace", "candidate_count": 1},
+                {"name": "entity_memory_slotfill_grounding", "candidate_count": 1},
+            ],
+            "hierarchical_cowriting_story_scaffold_hints": [
+                "Preserve logline, character, plot, location, and dialogue layers as separate checks."
+            ],
+            "recursive_reprompt_revision_loop_hints": [
+                "Run plan, draft, rewrite, and edit as separate evidence-backed stages."
+            ],
+            "character_dialogue_persona_memory_hints": [
+                "Use dialogue evidence to preserve tone and personality without copying source lines."
+            ],
+        },
+    )
+
+    assert "Story generation pipeline audit" in block
+    assert "hierarchical_cowriting_story_scaffold" in block
+    assert "recursive_reprompt_revision_loop" in block
+    assert "character_dialogue_persona_memory" in block
+    assert "event_to_sentence_realization_trace" in block
+    assert "entity_memory_slotfill_grounding" in block
+    assert "without copying source lines" in block
+
+
 def test_build_remix_inspired_context_block_renders_style_copy_risk_and_pattern_guidance():
     block = build_remix_inspired_context_block(
         project_title="Inspired Draft",

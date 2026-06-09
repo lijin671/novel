@@ -142,6 +142,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_story_generation_pipeline_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1421,6 +1425,43 @@ def _append_creative_writing_benchmark_audit_section(
         lines.append("- plan_reflect_character_chapter_pipeline: persist brainstorm, plan critique, and character-profile updates before chapter writing")
     if "human_story_metric_panel" in pattern_names:
         lines.append("- human_story_metric_panel: track relevance, coherence, empathy, surprise, engagement, and complexity as separate reader-facing axes")
+
+
+def _append_story_generation_pipeline_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render hierarchical generation, recursive revision, persona, and event-realization gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "hierarchical_cowriting_story_scaffold",
+        "human_coauthor_edit_boundary",
+        "recursive_reprompt_revision_loop",
+        "reranker_guided_candidate_selection",
+        "character_dialogue_persona_memory",
+        "event_to_sentence_realization_trace",
+        "entity_memory_slotfill_grounding",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Story generation pipeline audit:")
+    if "hierarchical_cowriting_story_scaffold" in pattern_names:
+        lines.append("- hierarchical_cowriting_story_scaffold: validate logline, character, plot-point, location, and dialogue layers separately before prose expansion")
+    if "human_coauthor_edit_boundary" in pattern_names:
+        lines.append("- human_coauthor_edit_boundary: treat generated material as editable co-writing output; inspect plagiarism, toxicity, stereotype, and formulaic risks")
+    if "recursive_reprompt_revision_loop" in pattern_names:
+        lines.append("- recursive_reprompt_revision_loop: keep plan, draft, rewrite, and edit as separate evidence-backed stages")
+    if "reranker_guided_candidate_selection" in pattern_names:
+        lines.append("- reranker_guided_candidate_selection: compare candidates by relevance to plan and coherence with accepted canon before choosing")
+    if "character_dialogue_persona_memory" in pattern_names:
+        lines.append("- character_dialogue_persona_memory: use dialogue evidence for tone and personality without copying source lines")
+    if "event_to_sentence_realization_trace" in pattern_names:
+        lines.append("- event_to_sentence_realization_trace: preserve plot event, realized sentence, confidence, and rejected alternative trace")
+    if "entity_memory_slotfill_grounding" in pattern_names:
+        lines.append("- entity_memory_slotfill_grounding: ground names, roles, locations, and objects against entity memory before accepting prose")
 
 
 def _append_inspectable_rewrite_audit_section(

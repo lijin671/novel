@@ -324,6 +324,13 @@ def render_source_pattern_pack_digest(
         "judge_bias_mitigation_check_hints",
         "plan_reflect_character_chapter_pipeline_hints",
         "human_story_metric_panel_hints",
+        "hierarchical_cowriting_story_scaffold_hints",
+        "human_coauthor_edit_boundary_hints",
+        "recursive_reprompt_revision_loop_hints",
+        "reranker_guided_candidate_selection_hints",
+        "character_dialogue_persona_memory_hints",
+        "event_to_sentence_realization_trace_hints",
+        "entity_memory_slotfill_grounding_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:
