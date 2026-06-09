@@ -130,6 +130,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_eval_observability_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -396,6 +400,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_segmentation_summary_topic_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_eval_observability_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1323,6 +1331,31 @@ def _append_segmentation_summary_topic_audit_section(
         lines.append("- topic_drift_map: map topic clusters across chapters and flag off-arc drift, missing promises, or copied source topic sequence")
 
 
+def _append_eval_observability_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render grounding, trace, and prompt-regression gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "context_faithfulness_eval_gate",
+        "retrieval_trace_observability_gate",
+        "prompt_regression_eval_suite",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Evaluation, trace, and regression audit:")
+    if "context_faithfulness_eval_gate" in pattern_names:
+        lines.append("- context_faithfulness_eval_gate: score generated facts against accepted canon, retrieved context, summary anchors, and grounding evidence before write-back")
+    if "retrieval_trace_observability_gate" in pattern_names:
+        lines.append("- retrieval_trace_observability_gate: persist query, selected chunks, omitted candidates, relevance reason, and generation spans for context review")
+    if "prompt_regression_eval_suite" in pattern_names:
+        lines.append("- prompt_regression_eval_suite: run golden continuation and same-type cases before prompt-pack or context-selection changes")
+
+
 def _append_inspectable_rewrite_audit_section(
     *,
     lines: list[str],
@@ -1777,6 +1810,9 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "semantic_chunk_boundary_map_hints": "semantic_chunk_boundary_map",
         "chapter_summary_anchor_gate_hints": "chapter_summary_anchor_gate",
         "topic_drift_map_hints": "topic_drift_map",
+        "context_faithfulness_eval_gate_hints": "context_faithfulness_eval_gate",
+        "retrieval_trace_observability_gate_hints": "retrieval_trace_observability_gate",
+        "prompt_regression_eval_suite_hints": "prompt_regression_eval_suite",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

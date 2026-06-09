@@ -208,7 +208,13 @@
     "chapter_summary_anchor_index",
     "representative_sentence_refs",
     "topic_cluster_map",
-    "topic_drift_thresholds"
+    "topic_drift_thresholds",
+    "faithfulness_eval_thresholds",
+    "context_grounding_rules",
+    "retrieval_trace_schema",
+    "context_selection_reason_rules",
+    "prompt_regression_suite",
+    "golden_case_dataset"
   ],
   "boring_opening_quality_gates_hints": [
     "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
@@ -601,7 +607,10 @@
     "Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.",
     "Reject transformed context packs that preserve source chunk order, boundary labels, or inclusion sequence under new names.",
     "Reject summaries that preserve source chapter-summary order, representative sentence function, or unresolved-hook sequence.",
-    "Reject topic maps whose cluster sequence, salience curve, or off-arc detours match the source route."
+    "Reject topic maps whose cluster sequence, salience curve, or off-arc detours match the source route.",
+    "Reject faithfulness scores that treat source-analysis notes or source summaries as transformed-story evidence.",
+    "Reject traces that cannot explain why source-like context was selected, omitted, or separated from transformed canon.",
+    "Reject prompt changes that pass quality checks but fail golden copy-risk, grounding, or source-canon leakage cases."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -701,7 +710,10 @@
     "keyphrase_motif_remap",
     "chunk_boundary_remap",
     "summary_anchor_remap",
-    "topic_drift_remap"
+    "topic_drift_remap",
+    "faithfulness_eval_remap",
+    "retrieval_trace_remap",
+    "prompt_regression_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -774,7 +786,10 @@
     "Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.",
     "Use source chunk boundaries as analysis evidence only; rebuild transformed chapter chunks around the new event chain.",
     "Build new summary anchors from transformed accepted chapters before using summaries as drafting context.",
-    "Use topic drift maps to check new-story focus, but change source topic order, salience, and payoff sequence."
+    "Use topic drift maps to check new-story focus, but change source topic order, salience, and payoff sequence.",
+    "Score same-type drafts for faithfulness against transformed canon only; source-analysis notes cannot count as supporting evidence.",
+    "Keep retrieval traces inspectable so reviewers can see whether the prompt used transformed canon or source-analysis material.",
+    "Use golden prompt cases to test context packing, copy-risk rejection, and canon write-back before changing same-type prompts."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -839,7 +854,10 @@
     "Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.",
     "Transform chunk boundaries by changing chapter segmentation, included evidence, and transition logic.",
     "Transform summary anchors by selecting new representative events and sentences from the new story state.",
-    "Transform topic drift by changing topic sequence, cluster labels, and subplot emphasis before drafting."
+    "Transform topic drift by changing topic sequence, cluster labels, and subplot emphasis before drafting.",
+    "Transform faithfulness checks by changing the supporting canon evidence set and expected grounded facts.",
+    "Transform retrieval traces by changing selected evidence, omission reasons, and generation spans for the new story.",
+    "Transform prompt regression cases by using new-story fixtures and expected independence failures."
   ],
   "interrupted_resume_flow_hints": [
     "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
@@ -1046,7 +1064,8 @@
     "本次只使用 public metadata、README 静态摘录、LICENSE/root-file 静态信息和 git ls-remote HEAD 证据；没有安装、克隆、运行或调用外部项目。",
     "故事质量评估与多智能体推演来源默认沉淀为 pattern-only；不导入外部代码、数据集、模型权重、脚本或评测输出长表。",
     "包含 shell、provider config、模型评测或仿真 runtime 的项目继续停留在静态参考层。",
-    "Segmentation, summary, and topic-drift sources remain pattern-only; do not import external splitter, summarizer, topic-model runtime, or model dependencies."
+    "Segmentation, summary, and topic-drift sources remain pattern-only; do not import external splitter, summarizer, topic-model runtime, or model dependencies.",
+    "Eval and observability sources remain pattern-only; do not import external eval runners, tracing services, red-team scanners, provider integrations, or datasets."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1102,14 +1121,16 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 98,
+  "source_candidate_count": 104,
   "source_intake_notes": [
     "2026-06-10 interactive narrative intake used public metadata/README summaries only; no clone, install, package hook, MCP server, browser extension, or external code execution.",
     "Interactive branching patterns are pattern-only and feed continuation/same-type prompt audits through choice graph, dialogue node, passage link, and choice-stat consequence gates.",
     "2026-06-10 copy-similarity intake used public metadata/README summaries and git ls-remote HEAD checks only; no clone, install, package hook, detector execution, or external code import.",
     "Copy-similarity patterns are pattern-only gates for same-type creation and continuation copy-risk review: fingerprint overlap, fuzzy phrase thresholds, and diff-span copied-text review.",
     "2026-06-10 segmentation/summary/topic intake used public metadata plus git ls-remote HEAD checks only; no clone, install, package hook, model/provider call, or external code execution.",
-    "Segmentation, summary, and topic patterns are pattern-only gates for long-text context packing, accepted-chapter summary anchoring, and same-type topic-drift copy-risk review."
+    "Segmentation, summary, and topic patterns are pattern-only gates for long-text context packing, accepted-chapter summary anchoring, and same-type topic-drift copy-risk review.",
+    "2026-06-10 eval/observability intake used public metadata plus git ls-remote HEAD checks only; no clone, install, package hook, provider call, eval execution, or external code import.",
+    "Eval and observability patterns are pattern-only gates for context faithfulness, retrieval trace review, and prompt regression cases in continuation and same-type creation."
   ],
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
@@ -1214,7 +1235,13 @@
     "langchain-ai/langchain",
     "miso-belica/sumy",
     "dmmiller612/bert-extractive-summarizer",
-    "MaartenGr/BERTopic"
+    "MaartenGr/BERTopic",
+    "explodinggradients/ragas",
+    "confident-ai/deepeval",
+    "truera/trulens",
+    "Arize-ai/phoenix",
+    "promptfoo/promptfoo",
+    "openai/evals"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -1690,7 +1717,16 @@
     "summary_anchor_drift_findings",
     "topic_drift_map",
     "topic_cluster_timeline",
-    "off_arc_topic_findings"
+    "off_arc_topic_findings",
+    "context_faithfulness_eval_report",
+    "groundedness_findings",
+    "context_precision_recall_scores",
+    "retrieval_trace_eval_report",
+    "selected_omitted_context_trace",
+    "context_relevance_findings",
+    "prompt_regression_suite",
+    "golden_case_eval_results",
+    "eval_failure_diffs"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -9342,6 +9378,144 @@
           "score": 32
         }
       ]
+    },
+    {
+      "name": "context_faithfulness_eval_gate",
+      "candidate_count": 3,
+      "top_source_url": "https://github.com/explodinggradients/ragas",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "explodinggradients/ragas",
+          "url": "https://github.com/explodinggradients/ragas",
+          "source": "github",
+          "summary": "Apache-2.0 RAG evaluation framework with faithfulness, answer relevancy, context precision, context recall, and testset generation; used as pattern evidence for context grounding gates only.",
+          "stars": 11000,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 82
+        },
+        {
+          "title": "confident-ai/deepeval",
+          "url": "https://github.com/confident-ai/deepeval",
+          "source": "github",
+          "summary": "Apache-2.0 LLM evaluation framework with hallucination metrics, answer relevancy, faithfulness, datasets, GEval, and regression tests; used as pattern evidence for grounding and regression gates only.",
+          "stars": 7600,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 80
+        },
+        {
+          "title": "truera/trulens",
+          "url": "https://github.com/truera/trulens",
+          "source": "github",
+          "summary": "MIT LLM app observability and evaluation framework with groundedness, context relevance, answer relevance, feedback functions, and traces; used as pattern evidence for grounded trace review only.",
+          "stars": 2600,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 79
+        }
+      ]
+    },
+    {
+      "name": "retrieval_trace_observability_gate",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/Arize-ai/phoenix",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "Arize-ai/phoenix",
+          "url": "https://github.com/Arize-ai/phoenix",
+          "source": "github",
+          "summary": "Elastic-2.0 AI observability and evaluation platform with tracing, LLM spans, retrieval traces, datasets, experiments, and evals; used as pattern evidence for retrieval trace review only.",
+          "stars": 5800,
+          "license": "Elastic-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "trust_flags": [],
+          "score": 78
+        },
+        {
+          "title": "truera/trulens",
+          "url": "https://github.com/truera/trulens",
+          "source": "github",
+          "summary": "MIT LLM app observability and evaluation framework with feedback functions, groundedness, context relevance, answer relevance, and traces; used as pattern evidence for retrieval trace gates only.",
+          "stars": 2600,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 79
+        }
+      ]
+    },
+    {
+      "name": "prompt_regression_eval_suite",
+      "candidate_count": 3,
+      "top_source_url": "https://github.com/openai/evals",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "openai/evals",
+          "url": "https://github.com/openai/evals",
+          "source": "github",
+          "summary": "MIT framework for custom evals with datasets, samples, graders, and regression cases; used as pattern evidence for golden-case prompt regression only.",
+          "stars": 16000,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 81
+        },
+        {
+          "title": "promptfoo/promptfoo",
+          "url": "https://github.com/promptfoo/promptfoo",
+          "source": "github",
+          "summary": "MIT prompt testing and eval framework with assertions, golden datasets, regression suites, red-team checks, and CI evaluation; used as pattern evidence for prompt regression only.",
+          "stars": 8500,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 77
+        },
+        {
+          "title": "confident-ai/deepeval",
+          "url": "https://github.com/confident-ai/deepeval",
+          "source": "github",
+          "summary": "Apache-2.0 LLM evaluation framework with datasets, GEval, hallucination metrics, faithfulness, and regression tests; used as pattern evidence for prompt regression gates only.",
+          "stars": 7600,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 80
+        }
+      ]
     }
   ],
   "world_state_tracking_hints": [
@@ -9392,5 +9566,20 @@
     "Map topic clusters across chapters and compare drift against active arcs, promises, motifs, and chapter goals before acceptance.",
     "Topic drift is a review signal: distinguish intentional subplot shift from accidental off-arc wandering or source-topic copying.",
     "For same-type creation, transform topic sequence and salience so the new story does not follow the source's topic timeline."
+  ],
+  "context_faithfulness_eval_gate_hints": [
+    "Evaluate whether generated facts are supported by accepted chapter memory, bible state, retrieved context, and summary anchors before canon write-back.",
+    "Track faithfulness, groundedness, context precision, and context recall as review evidence; low scores create fix tasks, not automatic acceptance or rejection.",
+    "For same-type creation, measure grounding against transformed-story canon only so source inspiration cannot masquerade as faithful context."
+  ],
+  "retrieval_trace_observability_gate_hints": [
+    "Store retrieval traces with query, selected chunks, omitted candidates, context relevance reason, and generation span that used each item.",
+    "Trace review should explain why each context item entered the prompt and which important candidates were omitted.",
+    "For same-type creation, separate source-analysis traces from transformed-canon traces so reviewer can detect accidental source-canon mixing."
+  ],
+  "prompt_regression_eval_suite_hints": [
+    "Keep golden continuation and same-type cases for prompt changes: input state, expected guardrail findings, accepted outputs, and failure diffs.",
+    "Run prompt regression checks before accepting prompt-pack changes that affect context selection, copy-risk gates, or canon write-back.",
+    "Regression cases should include adversarial source-like inputs to prove the prompt rejects copied route, wording, and source-canon leakage."
   ]
 }

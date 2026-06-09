@@ -4213,3 +4213,164 @@ def test_default_discovery_sources_include_segmentation_summary_topic_projects()
     assert any("semantic" in query.lower() and "chunk" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("summarization" in query.lower() and "chapter" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("topic modeling" in query.lower() and "topic drift" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_eval_observability_sources_are_classified_as_eval_and_regression_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "explodinggradients/ragas",
+                "html_url": "https://github.com/explodinggradients/ragas",
+                "description": "Evaluation framework for RAG applications with faithfulness, answer relevancy, context precision, context recall and testset generation.",
+                "stargazers_count": 11000,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["rag", "evaluation", "faithfulness", "context-precision"],
+                "updated_at": "2026-06-10T11:00:00Z",
+                "root_files": ["README.md", "pyproject.toml", "docs", "src"],
+            },
+            {
+                "full_name": "confident-ai/deepeval",
+                "html_url": "https://github.com/confident-ai/deepeval",
+                "description": "LLM evaluation framework with hallucination metrics, answer relevancy, faithfulness, datasets, GEval, and regression tests.",
+                "stargazers_count": 7600,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["llm-evaluation", "hallucination", "regression-testing"],
+                "updated_at": "2026-06-10T10:00:00Z",
+                "root_files": ["README.md", "deepeval", "docs", "tests"],
+            },
+            {
+                "full_name": "truera/trulens",
+                "html_url": "https://github.com/truera/trulens",
+                "description": "LLM app observability and evaluation with feedback functions, groundedness, context relevance, answer relevance, and traces.",
+                "stargazers_count": 2600,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["llm-observability", "evaluation", "groundedness", "tracing"],
+                "updated_at": "2026-06-09T18:00:00Z",
+                "root_files": ["README.md", "src", "docs", "tests"],
+            },
+            {
+                "full_name": "Arize-ai/phoenix",
+                "html_url": "https://github.com/Arize-ai/phoenix",
+                "description": "AI observability and evaluation platform for tracing, LLM spans, retrieval traces, datasets, experiments and evals.",
+                "stargazers_count": 5800,
+                "license": {"spdx_id": "Elastic-2.0"},
+                "topics": ["observability", "tracing", "llm-evals", "experiments"],
+                "updated_at": "2026-06-10T08:00:00Z",
+                "root_files": ["README.md", "app", "packages", "docker-compose.yml"],
+            },
+            {
+                "full_name": "promptfoo/promptfoo",
+                "html_url": "https://github.com/promptfoo/promptfoo",
+                "description": "LLM evals and red teaming with prompt tests, assertions, golden datasets, regression suites and CI evaluation.",
+                "stargazers_count": 8500,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["prompt-testing", "evals", "regression", "red-team"],
+                "updated_at": "2026-06-10T06:00:00Z",
+                "root_files": ["README.md", "package.json", "src", "site"],
+            },
+            {
+                "full_name": "openai/evals",
+                "html_url": "https://github.com/openai/evals",
+                "description": "Framework for evaluating LLMs and building custom evals with datasets, samples, graders and regression cases.",
+                "stargazers_count": 16000,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["evals", "llm", "datasets", "graders"],
+                "updated_at": "2026-06-08T14:00:00Z",
+                "root_files": ["README.md", "evals", "examples", "pyproject.toml"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T16:10:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["explodinggradients/ragas"]["family"] == "novel-automation"
+    assert "context_faithfulness_eval_gate" in by_title["explodinggradients/ragas"]["absorbed_patterns"]
+    assert "context_faithfulness_eval_gate" in by_title["confident-ai/deepeval"]["absorbed_patterns"]
+    assert "prompt_regression_eval_suite" in by_title["confident-ai/deepeval"]["absorbed_patterns"]
+    assert "retrieval_trace_observability_gate" in by_title["truera/trulens"]["absorbed_patterns"]
+    assert "retrieval_trace_observability_gate" in by_title["Arize-ai/phoenix"]["absorbed_patterns"]
+    assert "prompt_regression_eval_suite" in by_title["promptfoo/promptfoo"]["absorbed_patterns"]
+    assert "prompt_regression_eval_suite" in by_title["openai/evals"]["absorbed_patterns"]
+
+
+def test_eval_observability_pattern_pack_exposes_grounding_and_regression_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T16:15:00+08:00",
+        "candidate_count": 3,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/explodinggradients/ragas",
+                "title": "explodinggradients/ragas",
+                "summary": "RAG evaluation with faithfulness, answer relevancy, context precision and context recall.",
+                "stars": 11000,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["context_faithfulness_eval_gate"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/truera/trulens",
+                "title": "truera/trulens",
+                "summary": "LLM app observability with groundedness, context relevance, answer relevance and traces.",
+                "stars": 2600,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["retrieval_trace_observability_gate"],
+                "score": 79,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/promptfoo/promptfoo",
+                "title": "promptfoo/promptfoo",
+                "summary": "Prompt tests, assertions, golden datasets, regression suites and CI evaluation.",
+                "stars": 8500,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["prompt_regression_eval_suite"],
+                "score": 77,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "context_faithfulness_eval_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "retrieval_trace_eval_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "prompt_regression_suite" in pattern_pack["whole_book_analysis_targets"]
+    assert "faithfulness_eval_thresholds" in pattern_pack["bible_enrichment_targets"]
+    assert "context_faithfulness_eval_gate_hints" in pattern_pack
+    assert "retrieval_trace_observability_gate_hints" in pattern_pack
+    assert "prompt_regression_eval_suite_hints" in pattern_pack
+    assert "faithfulness_eval_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "retrieval_trace_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "prompt_regression_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "context_faithfulness_eval_gate_hints" in digest
+    assert "retrieval_trace_observability_gate_hints" in digest
+    assert "prompt_regression_eval_suite_hints" in digest
+
+
+def test_default_discovery_sources_include_eval_observability_projects():
+    assert "https://github.com/explodinggradients/ragas" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/confident-ai/deepeval" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/truera/trulens" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Arize-ai/phoenix" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/promptfoo/promptfoo" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/openai/evals" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("faithfulness" in query.lower() and "context precision" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("observability" in query.lower() and "trace" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("prompt" in query.lower() and "regression" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

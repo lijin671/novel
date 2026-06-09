@@ -1989,3 +1989,52 @@ def test_build_remix_inspired_context_block_renders_segmentation_summary_topic_a
     assert "semantic_chunk_boundary_map" in block
     assert "Inspired transformation audit" in block
     assert "chunk_boundary_remap, summary_anchor_remap, topic_drift_remap" in block
+
+
+def test_build_remix_continuation_context_block_renders_eval_observability_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Eval Continuation Desk",
+        bible={"chapter_change_packages": [{"chapter_number": 9, "summary": "The archive clue was accepted."}]},
+        plan={"summary": "Continue with grounded context evidence."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "context_faithfulness_eval_gate"},
+                {"name": "retrieval_trace_observability_gate"},
+                {"name": "prompt_regression_eval_suite"},
+            ],
+            "context_faithfulness_eval_gate_hints": ["Evaluate generated facts against accepted canon."],
+            "retrieval_trace_observability_gate_hints": ["Store selected and omitted context traces."],
+            "prompt_regression_eval_suite_hints": ["Keep golden prompt cases."],
+        },
+    )
+
+    assert "Evaluation, trace, and regression audit" in block
+    assert "context_faithfulness_eval_gate: score generated facts" in block
+    assert "retrieval_trace_observability_gate: persist query" in block
+    assert "prompt_regression_eval_suite: run golden continuation" in block
+
+
+def test_build_remix_inspired_context_block_renders_eval_observability_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Eval Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Keep source-level intensity while grounding facts in the new canon.\n"
+            "source voice\n"
+            "- Tight clue logic, no unsupported facts.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "context_faithfulness_eval_gate"},
+                {"name": "retrieval_trace_observability_gate"},
+                {"name": "prompt_regression_eval_suite"},
+            ],
+            "inspired_mapping_targets": ["faithfulness_eval_remap", "retrieval_trace_remap", "prompt_regression_remap"],
+            "inspired_copy_risk_hints": ["Reject faithfulness scores that cite source analysis as transformed canon."],
+        },
+    )
+
+    assert "Evaluation, trace, and regression audit" in block
+    assert "context_faithfulness_eval_gate" in block
+    assert "Inspired transformation audit" in block
+    assert "faithfulness_eval_remap, retrieval_trace_remap, prompt_regression_remap" in block

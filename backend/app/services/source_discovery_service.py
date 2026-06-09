@@ -101,6 +101,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("semantic chunk" OR "text splitter" OR "recursive character splitter") ("novel" OR "chapter" OR "long text") in:name,description,readme',
     '("summarization" OR "extractive summarizer" OR "chapter summary") ("novel" OR "book" OR "long text") in:name,description,readme',
     '("topic modeling" OR "dynamic topic" OR "topic drift") ("novel" OR "chapter" OR "narrative") in:name,description,readme',
+    '("faithfulness" OR "context precision" OR "context recall" OR "groundedness") ("RAG" OR "LLM evaluation") in:name,description,readme',
+    '("observability" OR "trace" OR "tracing" OR "retrieval traces") ("LLM" OR "RAG" OR "evals") in:name,description,readme',
+    '("prompt tests" OR "golden dataset" OR "regression suite" OR "custom evals") ("LLM" OR "prompt") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -211,6 +214,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/miso-belica/sumy",
     "https://github.com/dmmiller612/bert-extractive-summarizer",
     "https://github.com/MaartenGr/BERTopic",
+    "https://github.com/explodinggradients/ragas",
+    "https://github.com/confident-ai/deepeval",
+    "https://github.com/truera/trulens",
+    "https://github.com/Arize-ai/phoenix",
+    "https://github.com/promptfoo/promptfoo",
+    "https://github.com/openai/evals",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -404,6 +413,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("semantic_chunk_boundary_map", ("semantic text splitter", "semantic chunk", "semantic chunking", "text splitter", "text splitting", "recursive character text splitter", "recursive character splitter", "chunk capacity", "chunk boundary", "boundary preservation")),
     ("chapter_summary_anchor_gate", ("automatic text summarizer", "extractive summarizer", "extractive summarization", "summarization chains", "lsa", "lexrank", "textrank", "representative sentences", "chapter summary", "summary anchor")),
     ("topic_drift_map", ("topic modeling", "bertopic", "dynamic topic modeling", "dynamic topics", "topic representation", "c-tf-idf", "topic drift", "topic clusters")),
+    ("context_faithfulness_eval_gate", ("faithfulness", "answer relevancy", "answer relevance", "context precision", "context recall", "groundedness", "context relevance", "hallucination metrics", "rag evaluation")),
+    ("retrieval_trace_observability_gate", ("llm app observability", "ai observability", "observability", "tracing", "traces", "retrieval traces", "llm spans", "feedback functions")),
+    ("prompt_regression_eval_suite", ("prompt tests", "golden datasets", "golden dataset", "regression suites", "regression suite", "regression tests", "ci evaluation", "custom evals", "graders")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -808,6 +820,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "maartengr/bertopic": (
         "BERTopic is a topic-modeling framework using transformer embeddings, c-TF-IDF, topic representations, and dynamic topic modeling. "
         "Absorb topic drift and topic-cluster audit patterns only; model/runtime dependencies are not installed."
+    ),
+    "explodinggradients/ragas": (
+        "Ragas is an Apache-2.0 RAG evaluation framework with faithfulness, answer relevancy, context precision, context recall, and testset generation. "
+        "Absorb context faithfulness and grounding-eval gates only; runtime and provider integrations are not imported."
+    ),
+    "confident-ai/deepeval": (
+        "DeepEval is an Apache-2.0 LLM evaluation framework with hallucination, answer relevancy, faithfulness, datasets, GEval, and regression tests. "
+        "Absorb faithfulness and prompt-regression patterns only; test runner/runtime is not installed."
+    ),
+    "truera/trulens": (
+        "TruLens is an MIT LLM app observability and evaluation framework with feedback functions, groundedness, context relevance, answer relevance, and traces. "
+        "Absorb retrieval trace and groundedness review patterns only; runtime instrumentation is not imported."
+    ),
+    "arize-ai/phoenix": (
+        "Phoenix is an AI observability and evaluation platform with tracing, LLM spans, retrieval traces, datasets, experiments, and evals. "
+        "Absorb trace observability patterns only; Docker/runtime services are not launched."
+    ),
+    "promptfoo/promptfoo": (
+        "Promptfoo is an MIT prompt testing and eval framework with assertions, golden datasets, regression suites, red-team checks, and CI evaluation. "
+        "Absorb prompt-regression suite patterns only; node runtime and scanners are not installed."
+    ),
+    "openai/evals": (
+        "OpenAI Evals is an MIT framework for building custom evals with datasets, samples, graders, and regression cases. "
+        "Absorb custom eval and golden-case regression patterns only; eval runtime and provider calls are not used."
     ),
 }
 
@@ -1227,6 +1263,9 @@ class NovelSourceDiscoveryService:
             "semantic_chunk_boundary_map_hints": self._build_semantic_chunk_boundary_map_hints(available_patterns),
             "chapter_summary_anchor_gate_hints": self._build_chapter_summary_anchor_gate_hints(available_patterns),
             "topic_drift_map_hints": self._build_topic_drift_map_hints(available_patterns),
+            "context_faithfulness_eval_gate_hints": self._build_context_faithfulness_eval_gate_hints(available_patterns),
+            "retrieval_trace_observability_gate_hints": self._build_retrieval_trace_observability_gate_hints(available_patterns),
+            "prompt_regression_eval_suite_hints": self._build_prompt_regression_eval_suite_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1784,6 +1823,9 @@ class NovelSourceDiscoveryService:
             "semantic_chunk_boundary_map": 62,
             "chapter_summary_anchor_gate": 61,
             "topic_drift_map": 60,
+            "context_faithfulness_eval_gate": 64,
+            "retrieval_trace_observability_gate": 63,
+            "prompt_regression_eval_suite": 62,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1959,6 +2001,15 @@ class NovelSourceDiscoveryService:
         if "topic_drift_map" in patterns:
             targets.append("topic_cluster_map")
             targets.append("topic_drift_thresholds")
+        if "context_faithfulness_eval_gate" in patterns:
+            targets.append("faithfulness_eval_thresholds")
+            targets.append("context_grounding_rules")
+        if "retrieval_trace_observability_gate" in patterns:
+            targets.append("retrieval_trace_schema")
+            targets.append("context_selection_reason_rules")
+        if "prompt_regression_eval_suite" in patterns:
+            targets.append("prompt_regression_suite")
+            targets.append("golden_case_dataset")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -2195,6 +2246,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["chapter_summary_anchor_report", "representative_sentence_refs", "summary_anchor_drift_findings"])
         if "topic_drift_map" in patterns:
             targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
+        if "context_faithfulness_eval_gate" in patterns:
+            targets.extend(["context_faithfulness_eval_report", "groundedness_findings", "context_precision_recall_scores"])
+        if "retrieval_trace_observability_gate" in patterns:
+            targets.extend(["retrieval_trace_eval_report", "selected_omitted_context_trace", "context_relevance_findings"])
+        if "prompt_regression_eval_suite" in patterns:
+            targets.extend(["prompt_regression_suite", "golden_case_eval_results", "eval_failure_diffs"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -3808,6 +3865,33 @@ class NovelSourceDiscoveryService:
             "For same-type creation, transform topic sequence and salience so the new story does not follow the source's topic timeline.",
         ]
 
+    def _build_context_faithfulness_eval_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "context_faithfulness_eval_gate" not in patterns:
+            return []
+        return [
+            "Evaluate whether generated facts are supported by accepted chapter memory, bible state, retrieved context, and summary anchors before canon write-back.",
+            "Track faithfulness, groundedness, context precision, and context recall as review evidence; low scores create fix tasks, not automatic acceptance or rejection.",
+            "For same-type creation, measure grounding against transformed-story canon only so source inspiration cannot masquerade as faithful context.",
+        ]
+
+    def _build_retrieval_trace_observability_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "retrieval_trace_observability_gate" not in patterns:
+            return []
+        return [
+            "Store retrieval traces with query, selected chunks, omitted candidates, context relevance reason, and generation span that used each item.",
+            "Trace review should explain why each context item entered the prompt and which important candidates were omitted.",
+            "For same-type creation, separate source-analysis traces from transformed-canon traces so reviewer can detect accidental source-canon mixing.",
+        ]
+
+    def _build_prompt_regression_eval_suite_hints(self, patterns: set[str]) -> list[str]:
+        if "prompt_regression_eval_suite" not in patterns:
+            return []
+        return [
+            "Keep golden continuation and same-type cases for prompt changes: input state, expected guardrail findings, accepted outputs, and failure diffs.",
+            "Run prompt regression checks before accepting prompt-pack changes that affect context selection, copy-risk gates, or canon write-back.",
+            "Regression cases should include adversarial source-like inputs to prove the prompt rejects copied route, wording, and source-canon leakage.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -4010,6 +4094,12 @@ class NovelSourceDiscoveryService:
             targets.append("summary_anchor_remap")
         if "topic_drift_map" in patterns:
             targets.append("topic_drift_remap")
+        if "context_faithfulness_eval_gate" in patterns:
+            targets.append("faithfulness_eval_remap")
+        if "retrieval_trace_observability_gate" in patterns:
+            targets.append("retrieval_trace_remap")
+        if "prompt_regression_eval_suite" in patterns:
+            targets.append("prompt_regression_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -4135,6 +4225,12 @@ class NovelSourceDiscoveryService:
             hints.append("Build new summary anchors from transformed accepted chapters before using summaries as drafting context.")
         if "topic_drift_map" in patterns:
             hints.append("Use topic drift maps to check new-story focus, but change source topic order, salience, and payoff sequence.")
+        if "context_faithfulness_eval_gate" in patterns:
+            hints.append("Score same-type drafts for faithfulness against transformed canon only; source-analysis notes cannot count as supporting evidence.")
+        if "retrieval_trace_observability_gate" in patterns:
+            hints.append("Keep retrieval traces inspectable so reviewers can see whether the prompt used transformed canon or source-analysis material.")
+        if "prompt_regression_eval_suite" in patterns:
+            hints.append("Use golden prompt cases to test context packing, copy-risk rejection, and canon write-back before changing same-type prompts.")
         if "nrd_task_tree_pipeline" in patterns:
             hints.append("Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.")
         if "story_structure_rag_planning" in patterns:
@@ -4304,6 +4400,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform summary anchors by selecting new representative events and sentences from the new story state.")
         if "topic_drift_map" in patterns:
             hints.append("Transform topic drift by changing topic sequence, cluster labels, and subplot emphasis before drafting.")
+        if "context_faithfulness_eval_gate" in patterns:
+            hints.append("Transform faithfulness checks by changing the supporting canon evidence set and expected grounded facts.")
+        if "retrieval_trace_observability_gate" in patterns:
+            hints.append("Transform retrieval traces by changing selected evidence, omission reasons, and generation spans for the new story.")
+        if "prompt_regression_eval_suite" in patterns:
+            hints.append("Transform prompt regression cases by using new-story fixtures and expected independence failures.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -4447,6 +4549,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject summaries that preserve source chapter-summary order, representative sentence function, or unresolved-hook sequence.")
         if "topic_drift_map" in patterns:
             hints.append("Reject topic maps whose cluster sequence, salience curve, or off-arc detours match the source route.")
+        if "context_faithfulness_eval_gate" in patterns:
+            hints.append("Reject faithfulness scores that treat source-analysis notes or source summaries as transformed-story evidence.")
+        if "retrieval_trace_observability_gate" in patterns:
+            hints.append("Reject traces that cannot explain why source-like context was selected, omitted, or separated from transformed canon.")
+        if "prompt_regression_eval_suite" in patterns:
+            hints.append("Reject prompt changes that pass quality checks but fail golden copy-risk, grounding, or source-canon leakage cases.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -4468,6 +4576,9 @@ class NovelSourceDiscoveryService:
                 "semantic_chunk_boundary_map",
                 "chapter_summary_anchor_gate",
                 "topic_drift_map",
+                "context_faithfulness_eval_gate",
+                "retrieval_trace_observability_gate",
+                "prompt_regression_eval_suite",
             }
         ):
             return True
@@ -4887,6 +4998,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_segmentation_summary_topic_signal(haystack):
             return "novel-automation"
+        if self._has_eval_observability_signal(haystack):
+            return "novel-automation"
         return "pattern-only"
 
     def _has_copy_similarity_signal(self, haystack: str) -> bool:
@@ -4941,6 +5054,33 @@ class NovelSourceDiscoveryService:
             "bertopic",
             "dynamic topic",
             "topic drift",
+        )
+        return any(term in haystack for term in terms)
+
+    def _has_eval_observability_signal(self, haystack: str) -> bool:
+        terms = (
+            "faithfulness",
+            "answer relevancy",
+            "answer relevance",
+            "context precision",
+            "context recall",
+            "groundedness",
+            "context relevance",
+            "hallucination metrics",
+            "rag evaluation",
+            "llm evaluation",
+            "llm app observability",
+            "ai observability",
+            "retrieval traces",
+            "llm spans",
+            "feedback functions",
+            "prompt tests",
+            "golden datasets",
+            "golden dataset",
+            "regression suites",
+            "regression suite",
+            "custom evals",
+            "graders",
         )
         return any(term in haystack for term in terms)
 

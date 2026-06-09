@@ -312,6 +312,9 @@ def render_source_pattern_pack_digest(
         "semantic_chunk_boundary_map_hints",
         "chapter_summary_anchor_gate_hints",
         "topic_drift_map_hints",
+        "context_faithfulness_eval_gate_hints",
+        "retrieval_trace_observability_gate_hints",
+        "prompt_regression_eval_suite_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:
