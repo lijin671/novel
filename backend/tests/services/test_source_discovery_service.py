@@ -3488,3 +3488,141 @@ def test_default_discovery_sources_include_reader_market_feedback_projects():
     assert any("beta reader" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("comp title" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("micro-tension" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_delivery_packaging_projects_are_classified_as_export_and_assembly_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "arupmaity1/book-writer-mcp",
+                "html_url": "https://github.com/arupmaity1/book-writer-mcp",
+                "description": (
+                    "MCP server for AI-assisted book and manuscript writing with story bible, style guide, "
+                    "continuity checker, HTML preview, Markdown/DOCX export, title page, table of contents, "
+                    "page numbers, configurable fonts, cover design and KDP cover specs."
+                ),
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["mcp", "book-writing", "manuscript", "story-bible", "continuity"],
+                "updated_at": "2026-04-05T02:03:06Z",
+                "root_files": ["README.md", "package.json", "src", "tsconfig.json"],
+            },
+            {
+                "full_name": "vkbo/novelWriter",
+                "html_url": "https://github.com/vkbo/novelWriter",
+                "description": "Plain text editor for novels assembled from many smaller text documents with manuscript outline and export.",
+                "stargazers_count": 2900,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "plain-text", "manuscript", "writing"],
+                "updated_at": "2026-05-17T12:34:00Z",
+                "root_files": ["README.md", "setup.py", "novelwriter"],
+            },
+            {
+                "full_name": "andreafeccomandi/bibisco",
+                "html_url": "https://github.com/andreafeccomandi/bibisco",
+                "description": (
+                    "Open source application for writing novels. Organize chapters and scenes, manage revisions, "
+                    "export novel in pdf, docx, or txt, define premise, fabula, narrative strands and settings."
+                ),
+                "stargazers_count": 2800,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel", "writing", "manuscript", "export"],
+                "updated_at": "2026-03-12T09:20:00Z",
+                "root_files": ["README.md", "package.json", "electron-builder.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T03:30:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "delivery_manuscript_assembly" in by_title["arupmaity1/book-writer-mcp"]["absorbed_patterns"]
+    assert "export_format_fidelity_audit" in by_title["arupmaity1/book-writer-mcp"]["absorbed_patterns"]
+    assert "preview_toc_packaging" in by_title["arupmaity1/book-writer-mcp"]["absorbed_patterns"]
+    assert "cover_kdp_metadata_boundary" in by_title["arupmaity1/book-writer-mcp"]["absorbed_patterns"]
+    assert "delivery_manuscript_assembly" in by_title["vkbo/novelWriter"]["absorbed_patterns"]
+    assert "export_format_fidelity_audit" in by_title["andreafeccomandi/bibisco"]["absorbed_patterns"]
+    assert "license:missing" in by_title["arupmaity1/book-writer-mcp"]["trust_review"]["flags"]
+    assert "mcp_server" in by_title["arupmaity1/book-writer-mcp"]["risk_flags"]
+
+
+def test_delivery_packaging_pattern_pack_exposes_final_txt_and_export_audits():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T03:45:00+08:00",
+        "candidate_count": 3,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/arupmaity1/book-writer-mcp",
+                "title": "arupmaity1/book-writer-mcp",
+                "summary": "Book writer MCP with story bible, continuity checker, HTML preview, DOCX export and KDP cover specs.",
+                "stars": 0,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["mcp_server"],
+                "absorbed_patterns": [
+                    "delivery_manuscript_assembly",
+                    "export_format_fidelity_audit",
+                    "preview_toc_packaging",
+                    "cover_kdp_metadata_boundary",
+                ],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/vkbo/novelWriter",
+                "title": "vkbo/novelWriter",
+                "summary": "Plain text novel editor for projects assembled from many smaller text documents.",
+                "stars": 2900,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["plain_text_project_storage", "delivery_manuscript_assembly"],
+                "score": 80,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/andreafeccomandi/bibisco",
+                "title": "andreafeccomandi/bibisco",
+                "summary": "Organize chapters and scenes, manage revisions, export novel in pdf, docx, or txt.",
+                "stars": 2800,
+                "license": "AGPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["manuscript_export_formats", "export_format_fidelity_audit"],
+                "score": 78,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "final_manuscript_assembly_plan" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_header_normalization_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "export_format_fidelity_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "toc_preview_heading_map" in pattern_pack["whole_book_analysis_targets"]
+    assert "cover_kdp_metadata_spec" in pattern_pack["whole_book_analysis_targets"]
+    assert "delivery_manuscript_assembly_hints" in pattern_pack
+    assert "export_format_fidelity_audit_hints" in pattern_pack
+    assert "preview_toc_packaging_hints" in pattern_pack
+    assert "cover_kdp_metadata_boundary_hints" in pattern_pack
+    assert "delivery_packaging_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "delivery_manuscript_assembly_hints" in digest
+    assert "export_format_fidelity_audit_hints" in digest
+    assert "preview_toc_packaging_hints" in digest
+    assert "cover_kdp_metadata_boundary_hints" in digest
+
+
+def test_default_discovery_sources_include_delivery_packaging_projects():
+    assert "https://github.com/arupmaity1/book-writer-mcp" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("docx" in query.lower() and "table of contents" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("kdp" in query.lower() and "cover" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

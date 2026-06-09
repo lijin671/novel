@@ -110,6 +110,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_delivery_packaging_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1148,6 +1152,34 @@ def _append_manuscript_structure_audit_section(
         lines.append("- manuscript_export_formats: treat PDF/DOCX/TXT/EPUB exports as derived artifacts, not canon sources")
 
 
+def _append_delivery_packaging_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render final manuscript assembly, preview, export, and metadata gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "delivery_manuscript_assembly",
+        "export_format_fidelity_audit",
+        "preview_toc_packaging",
+        "cover_kdp_metadata_boundary",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Delivery packaging audit:")
+    if "delivery_manuscript_assembly" in pattern_names:
+        lines.append("- delivery_manuscript_assembly: assemble only accepted chapters; verify count, order, missing numbers, duplicates, headings, empty titles, and SHA256")
+    if "export_format_fidelity_audit" in pattern_names:
+        lines.append("- export_format_fidelity_audit: verify chapter order, headings, title page, TOC, page numbers, paragraph boundaries, and derived-export manifest")
+    if "preview_toc_packaging" in pattern_names:
+        lines.append("- preview_toc_packaging: generate preview and table-of-contents from the same accepted chapter list used by final export")
+    if "cover_kdp_metadata_boundary" in pattern_names:
+        lines.append("- cover_kdp_metadata_boundary: keep cover and KDP metadata as publication artifacts; never let them mutate canon or chapter text")
+
+
 def _append_inspectable_rewrite_audit_section(
     *,
     lines: list[str],
@@ -1584,6 +1616,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "beta_reader_archetype_panel_hints": "beta_reader_archetype_panel",
         "comp_title_market_positioning_hints": "comp_title_market_positioning",
         "local_reader_experience_editor_hints": "local_reader_experience_editor",
+        "delivery_manuscript_assembly_hints": "delivery_manuscript_assembly",
+        "export_format_fidelity_audit_hints": "export_format_fidelity_audit",
+        "preview_toc_packaging_hints": "preview_toc_packaging",
+        "cover_kdp_metadata_boundary_hints": "cover_kdp_metadata_boundary",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

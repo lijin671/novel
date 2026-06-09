@@ -87,6 +87,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("beta reader" OR "reader feedback" OR "want to continue" OR "stumble point") ("novel" OR "manuscript" OR "author") in:name,description,readme',
     '("comp title" OR "market positioning" OR "genre trends" OR "reader expectations") ("author" OR "novel" OR "book") in:name,description,readme',
     '("micro-tension" OR "reader curiosity" OR "chapter hook" OR "cliffhanger audit") ("novel" OR "manuscript") in:name,description,readme',
+    '("docx" OR "markdown export" OR "table of contents" OR "title page") ("book" OR "manuscript" OR "novel") in:name,description,readme',
+    '("KDP" OR "cover specs" OR "cover design" OR "page numbers") ("book" OR "manuscript" OR "novel") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -178,6 +180,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/maria-antoniak/goodreads-scraper",
     "https://github.com/Ckokoski/authorclaw",
     "https://github.com/f5alcon/The-Novelists-Atelier",
+    "https://github.com/arupmaity1/book-writer-mcp",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -347,6 +350,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("beta_reader_archetype_panel", ("beta reader", "simulated reader", "reader perspectives", "genre fan", "casual reader", "critical reader", "sensitivity reader", "wanttocontinue", "want to continue", "stumble point", "favorite moment", "confusion flags", "ai beta readers", "beta reader panel", "reader trial feedback")),
     ("comp_title_market_positioning", ("comp title", "comparable titles", "market positioning", "genre trends", "reader expectations", "bestseller patterns", "trope requested", "common complaints", "if you liked", "blurb", "amazon description", "keywords", "comp title", "market position", "reader expectation")),
     ("local_reader_experience_editor", ("micro-tension", "reader curiosity tracker", "chapter hook", "cliffhanger audit", "tension & engagement", "scene openings", "scene endings", "white space", "paragraph rhythm", "style dna", "token breakdown", "smart context auto-toggling", "reader experience", "reader curiosity", "chapter hook")),
+    ("delivery_manuscript_assembly", ("assembled from many smaller text", "compile manuscript", "compiles your manuscript", "manuscript-wide statistics", "book_chapter_list", "chapter order", "chapter reorder", "chapter header", "chapter headings", "final manuscript", "accepted chapters", "manuscript assembly", "manuscript surface", "ordered manuscript")),
+    ("export_format_fidelity_audit", ("markdown/docx export", "markdown export", "docx export", "pdf, docx, or txt", "export novel in pdf", "formatted .docx", "title page", "page numbers", "configurable fonts", "export format", "clean markdown", "derived manuscript artifacts")),
+    ("preview_toc_packaging", ("html preview", "built-in html preview", "preview server", "table of contents", "toc", "book typography", "auto-refreshes", "drop caps", "ornamental dividers")),
+    ("cover_kdp_metadata_boundary", ("kdp", "cover specs", "kdp-compliant", "cover design", "cover metadata", "cover prompt", "color palettes", "typography", "book launch copy")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -674,6 +681,11 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "f5alcon/the-novelists-atelier": (
         "The Novelist's Atelier local-browser writing assistant with series/book/chapter context, developmental editing, tension and engagement prompts, reader curiosity tracker, "
         "chapter hook and cliffhanger audits, style DNA, smart context auto-toggling, local text analysis, token breakdown, local storage, backups, and security notes."
+    ),
+    "arupmaity1/book-writer-mcp": (
+        "Book Writer MCP for AI-assisted manuscript work. Public README describes story bible, style guide, continuity checker, chapter create/read/update/list/reorder, "
+        "manuscript-wide statistics, HTML preview, clean Markdown and formatted DOCX export with title page, table of contents, page numbers, fonts/spacing, cover design, and KDP cover specs. "
+        "Absorb delivery packaging and export-audit patterns only; MCP runtime is not started."
     ),
 }
 
@@ -1075,6 +1087,10 @@ class NovelSourceDiscoveryService:
             "beta_reader_archetype_panel_hints": self._build_beta_reader_archetype_panel_hints(available_patterns),
             "comp_title_market_positioning_hints": self._build_comp_title_market_positioning_hints(available_patterns),
             "local_reader_experience_editor_hints": self._build_local_reader_experience_editor_hints(available_patterns),
+            "delivery_manuscript_assembly_hints": self._build_delivery_manuscript_assembly_hints(available_patterns),
+            "export_format_fidelity_audit_hints": self._build_export_format_fidelity_audit_hints(available_patterns),
+            "preview_toc_packaging_hints": self._build_preview_toc_packaging_hints(available_patterns),
+            "cover_kdp_metadata_boundary_hints": self._build_cover_kdp_metadata_boundary_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1614,6 +1630,10 @@ class NovelSourceDiscoveryService:
             "beta_reader_archetype_panel": 62,
             "comp_title_market_positioning": 54,
             "local_reader_experience_editor": 59,
+            "delivery_manuscript_assembly": 61,
+            "export_format_fidelity_audit": 55,
+            "preview_toc_packaging": 48,
+            "cover_kdp_metadata_boundary": 34,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1740,6 +1760,15 @@ class NovelSourceDiscoveryService:
             targets.append("mindmap_nodes")
         if "manuscript_export_formats" in patterns:
             targets.append("export_format_targets")
+        if "delivery_manuscript_assembly" in patterns:
+            targets.append("final_manuscript_assembly_rules")
+            targets.append("chapter_header_normalization")
+        if "export_format_fidelity_audit" in patterns:
+            targets.append("export_fidelity_checks")
+        if "preview_toc_packaging" in patterns:
+            targets.append("preview_toc_rules")
+        if "cover_kdp_metadata_boundary" in patterns:
+            targets.append("cover_kdp_metadata")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -1940,6 +1969,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["mindmap_nodes", "visual_link_edges", "idea_to_outline_promotions"])
         if "manuscript_export_formats" in patterns:
             targets.extend(["export_format_targets", "derived_manuscript_artifacts"])
+        if "delivery_manuscript_assembly" in patterns:
+            targets.extend(["final_manuscript_assembly_plan", "chapter_header_normalization_report", "chapter_order_gap_duplicate_audit"])
+        if "export_format_fidelity_audit" in patterns:
+            targets.extend(["export_format_fidelity_report", "markdown_docx_txt_parity", "derived_export_manifest"])
+        if "preview_toc_packaging" in patterns:
+            targets.extend(["toc_preview_heading_map", "html_preview_checks", "reader_navigation_audit"])
+        if "cover_kdp_metadata_boundary" in patterns:
+            targets.extend(["cover_kdp_metadata_spec", "cover_asset_prompt_boundary", "publication_metadata_review"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -3393,6 +3430,40 @@ class NovelSourceDiscoveryService:
             "Expose token/context breakdown and local analysis notes before expensive full-manuscript review passes.",
         ]
 
+    def _build_delivery_manuscript_assembly_hints(self, patterns: set[str]) -> list[str]:
+        if "delivery_manuscript_assembly" not in patterns:
+            return []
+        return [
+            "Assemble final manuscripts only from accepted chapter artifacts, not from draft buffers, previews, or reviewer notes.",
+            "Normalize chapter headings during assembly and verify chapter count, order, gaps, duplicates, and empty titles after merge.",
+            "Write a delivery manifest with source range, generated range, accepted chapter count, output path, byte size, and SHA256.",
+        ]
+
+    def _build_export_format_fidelity_audit_hints(self, patterns: set[str]) -> list[str]:
+        if "export_format_fidelity_audit" not in patterns:
+            return []
+        return [
+            "Treat TXT, Markdown, DOCX, PDF, and EPUB exports as derived artifacts; canon remains the accepted bible, plan, and chapter commits.",
+            "Verify each export preserves chapter order, headings, title page metadata, table of contents, page numbering, and paragraph boundaries.",
+            "Do not let typography, font, spacing, or format conversion edits mutate story facts, chapter text, or continuity state.",
+        ]
+
+    def _build_preview_toc_packaging_hints(self, patterns: set[str]) -> list[str]:
+        if "preview_toc_packaging" not in patterns:
+            return []
+        return [
+            "Generate a preview and table-of-contents map from the same accepted chapter list used by final export.",
+            "Use preview checks to catch broken headings, duplicate titles, navigation drift, markdown residue, and missing chapter names before delivery.",
+        ]
+
+    def _build_cover_kdp_metadata_boundary_hints(self, patterns: set[str]) -> list[str]:
+        if "cover_kdp_metadata_boundary" not in patterns:
+            return []
+        return [
+            "Keep cover prompts, KDP cover specs, blurbs, keywords, and launch copy as publication metadata; they must not write back into canon.",
+            "Review cover and metadata for genre promise, title consistency, spoiler safety, and asset provenance before export packaging.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -3559,6 +3630,14 @@ class NovelSourceDiscoveryService:
             targets.append("event_outline_remap")
         if "agentic_story_world_simulation" in patterns:
             targets.append("agent_world_simulation_remap")
+        if "delivery_manuscript_assembly" in patterns:
+            targets.append("delivery_packaging_remap")
+        if "export_format_fidelity_audit" in patterns:
+            targets.append("export_fidelity_remap")
+        if "preview_toc_packaging" in patterns:
+            targets.append("preview_toc_remap")
+        if "cover_kdp_metadata_boundary" in patterns:
+            targets.append("publication_metadata_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -3648,6 +3727,14 @@ class NovelSourceDiscoveryService:
             hints.append("Evaluate same-type prompt recipes against independence, continuity, and voice before accepting the best candidate.")
         if "narrative_arc_template_control" in patterns:
             hints.append("Select a narrative arc template, then change premise, cast, cause, cost, and payoff so the arc is independent.")
+        if "delivery_manuscript_assembly" in patterns:
+            hints.append("For same-type creation, rebuild delivery packaging from the transformed chapter list; never reuse source chapter headings or order.")
+        if "export_format_fidelity_audit" in patterns:
+            hints.append("Export checks should prove transformed outputs remain independent while preserving their own chapter order and headings.")
+        if "preview_toc_packaging" in patterns:
+            hints.append("Preview and table-of-contents maps should be generated from transformed chapters only, not from source navigation.")
+        if "cover_kdp_metadata_boundary" in patterns:
+            hints.append("Publication metadata can borrow market promise shape, but titles, cover concepts, blurbs, and keywords must be newly written.")
         if "nrd_task_tree_pipeline" in patterns:
             hints.append("Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.")
         if "story_structure_rag_planning" in patterns:
@@ -3781,6 +3868,14 @@ class NovelSourceDiscoveryService:
             hints.append("Compress only the transformed event history; source event outlines remain comparison material, not context.")
         if "agentic_story_world_simulation" in patterns:
             hints.append("Transform the agent world by changing roles, social graph, environment rules, and conflict incentives before simulation.")
+        if "delivery_manuscript_assembly" in patterns:
+            hints.append("Transform final packaging by rebuilding chapter titles, sequence, acceptance manifest, and output metadata from the new story.")
+        if "export_format_fidelity_audit" in patterns:
+            hints.append("Verify export fidelity against the transformed manuscript rather than matching the source layout or chapter title cadence.")
+        if "preview_toc_packaging" in patterns:
+            hints.append("Regenerate preview navigation and table of contents from the transformed outline after copy-risk checks.")
+        if "cover_kdp_metadata_boundary" in patterns:
+            hints.append("Create publication metadata from the transformed market position; source cover or KDP specs remain format examples only.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -3888,6 +3983,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject compressed histories that import source events as if they happened in the transformed story.")
         if "agentic_story_world_simulation" in patterns:
             hints.append("Reject simulated outcomes that reproduce source character decisions or social graph under renamed labels.")
+        if "delivery_manuscript_assembly" in patterns:
+            hints.append("Reject final manuscripts whose chapter headings, title cadence, or chapter order mirror the source under renamed content.")
+        if "export_format_fidelity_audit" in patterns:
+            hints.append("Reject export polish that changes text toward source phrasing or treats source exports as canonical chapter text.")
+        if "preview_toc_packaging" in patterns:
+            hints.append("Reject TOC or preview navigation that preserves source chapter-name sequence or source section hierarchy.")
+        if "cover_kdp_metadata_boundary" in patterns:
+            hints.append("Reject cover, blurb, keyword, or KDP metadata that reuses source title phrasing, tagline, or recognizable hook language.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -3958,6 +4061,10 @@ class NovelSourceDiscoveryService:
                 "beta_reader_archetype_panel",
                 "comp_title_market_positioning",
                 "local_reader_experience_editor",
+                "delivery_manuscript_assembly",
+                "export_format_fidelity_audit",
+                "preview_toc_packaging",
+                "cover_kdp_metadata_boundary",
             }
         ) and (
             "style_signature" in patterns
@@ -4016,6 +4123,9 @@ class NovelSourceDiscoveryService:
                 or "beta_reader_archetype_panel" in patterns
                 or "comp_title_market_positioning" in patterns
                 or "local_reader_experience_editor" in patterns
+                or "delivery_manuscript_assembly" in patterns
+                or "export_format_fidelity_audit" in patterns
+                or "preview_toc_packaging" in patterns
             )
         )
 

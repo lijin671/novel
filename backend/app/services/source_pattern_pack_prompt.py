@@ -294,6 +294,10 @@ def render_source_pattern_pack_digest(
         "beta_reader_archetype_panel_hints",
         "comp_title_market_positioning_hints",
         "local_reader_experience_editor_hints",
+        "delivery_manuscript_assembly_hints",
+        "export_format_fidelity_audit_hints",
+        "preview_toc_packaging_hints",
+        "cover_kdp_metadata_boundary_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

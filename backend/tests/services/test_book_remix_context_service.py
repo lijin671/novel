@@ -1770,3 +1770,30 @@ def test_build_remix_inspired_context_block_renders_reader_market_feedback_audit
     assert "comp_title_market_positioning" in block
     assert "Inspired transformation audit" in block
     assert "reader_signal_remap, comp_title_positioning_remap" in block
+
+
+def test_build_remix_continuation_context_block_renders_delivery_packaging_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Delivery Desk",
+        bible={
+            "character_cards": [{"name": "Mira", "goal": "finish the serialized archive"}],
+            "timeline": [{"event": "Mira accepted the final manuscript pass", "chapter_number": 88}],
+        },
+        plan={"summary": "Prepare final continuous TXT and exportable manuscript package."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "delivery_manuscript_assembly"},
+                {"name": "export_format_fidelity_audit"},
+                {"name": "preview_toc_packaging"},
+                {"name": "cover_kdp_metadata_boundary"},
+            ],
+            "delivery_manuscript_assembly_hints": ["Assemble only accepted chapters into the final manuscript."],
+            "export_format_fidelity_audit_hints": ["Verify each export preserves chapter order."],
+        },
+    )
+
+    assert "Delivery packaging audit" in block
+    assert "delivery_manuscript_assembly: assemble only accepted chapters" in block
+    assert "export_format_fidelity_audit: verify chapter order, headings" in block
+    assert "preview_toc_packaging: generate preview and table-of-contents" in block
+    assert "cover_kdp_metadata_boundary: keep cover and KDP metadata" in block
