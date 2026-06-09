@@ -32,6 +32,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("review queue" OR "PendingChange" OR "staging area") ("novel" OR "fiction" OR "worldbuilding") in:name,description,readme',
     '("style guide" OR "character voice" OR "scene override") ("novel" OR "fiction" OR "worldbuilding") in:name,description,readme',
     '("ContentRef" OR "graph healing" OR "contradiction detection") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
+    '("premature ending" OR "three-layer memory" OR "plot graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("plotgrid" OR "plotline" OR "scene status") ("novel" OR "fiction" OR "writing") in:name,description,readme',
+    '("gradual reveal" OR "setup/payoff" OR "scene-type directing") ("novel" OR "fiction" OR "writing") in:name,description,readme',
+    '("WorldPkg" OR "alternative timeline" OR "divergence guidance") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("json schema" OR "schema-first" OR "structured generation") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("card" OR "cards" OR "context injection" OR "knowledge graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("workflow agent" OR "workflow studio" OR "progress recovery") ("novel" OR "fiction" OR "story") in:name,description,readme',
@@ -63,6 +67,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "https://github.com/Lanerra/saga",
     "https://github.com/ModernRelay/omnigraph",
+    "https://github.com/doctoroyy/novel-copilot",
+    "https://github.com/PixeroJan/obsidian-storyline",
+    "https://github.com/skyfiredao/dreampowers",
+    "https://github.com/ypcypc/WhatIf",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -143,6 +151,18 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("contradiction_detection", ("contradiction detection", "contradiction analysis", "contradiction", "contradictions", "consistency checks", "timeline issues", "relationship evolution", "abrupt relationship changes", "trait consistency", "矛盾检测", "一致性检查")),
     ("graph_branching_atomicity", ("git-style versioning", "branching", "branch merge", "snapshot isolation", "atomic", "manifest", "multi-table publish", "commit dag", "three-way", "row-level merge", "图分支", "原子提交")),
     ("query_lint_contract", ("query lint", "schema lint", "linter", "typed ir", "query language", ".gq", ".pg", "strict validation", "查询检查", "模式检查")),
+    ("premature_ending_guard", ("premature ending", "premature ending detection", "false ending", "early resolution", "anti-ending", "ending guard", "过早完结", "提前完结", "烂尾检测")),
+    ("layered_memory_model", ("three-layer memory", "three layer memory", "layered memory", "base memory", "character state", "plot graph", "分层记忆", "三层记忆")),
+    ("plot_dependency_graph", ("plot graph", "plot dependency", "dependency graph", "foreshadowing and dependency", "character relationship graph", "setup dependency", "payoff dependency", "情节依赖", "伏笔依赖")),
+    ("plotgrid_scene_matrix", ("plotgrid", "plot grid", "scene matrix", "scene rows", "spreadsheet-style grid", "scenes against plotlines", "场景矩阵", "情节网格")),
+    ("plotline_thread_tracking", ("plotline", "plotlines", "story threads", "thread tracking", "subway map", "shared scenes", "剧情线", "线索追踪")),
+    ("scene_status_dashboard", ("scene status", "status badge", "scene cards", "kanban-style scene cards", "scene progress", "scene dashboard", "场景状态", "场景看板")),
+    ("gradual_reveal_control", ("gradual reveal", "iceberg annotations", "iceberg annotation", "underwater", "reveal check", "信息释放", "冰山", "逐步揭示")),
+    ("setup_payoff_tracking", ("setup/payoff", "setup payoff", "foreshadowing tracking", "payoff", "setup chapter", "expected payoff", "伏笔回收", "埋设回收")),
+    ("scene_type_directing", ("scene-type directing", "scene type directing", "action scene", "emotional scene", "dialogue scene", "camera-language", "scene directing", "场景类型", "动作场景", "情感场景", "对话场景", "镜头语言")),
+    ("worldpkg_export", ("worldpkg", "world package", "structured world data", "extract world data", "lorebook extraction", "entity state transitions", "世界数据包", "世界数据")),
+    ("alternate_timeline_branching", ("alternative timeline", "alternate timeline", "what-if", "choice-driven", "branch storyline", "same world as a player", "timeline management", "平行时间线", "分歧时间线")),
+    ("divergence_guidance", ("divergence guidance", "branch drift", "player choices", "every choice", "choice reshape", "scene adaptation", "改写剧情", "分歧引导")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -205,6 +225,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "modernrelay/omnigraph": (
         "Versioned graph engine useful as a pattern source for novel canon graphs: Git-style snapshots and branches, "
         "atomic graph-level commits, row-level merge conflicts, schema/query linting, and branch-safe mutation contracts."
+    ),
+    "doctoroyy/novel-copilot": (
+        "AI-driven novel writing assistant with Story Bible generation, a three-layer memory model, character state snapshots, "
+        "character relationship graph APIs, plot graph / foreshadowing dependency graph, and premature ending detection."
+    ),
+    "pixerojan/obsidian-storyline": (
+        "Obsidian book planning plugin with plotgrid scene matrix, board scene cards, timeline, plotlines subway map, "
+        "scene status badges, character/location/codex tags, continuous scrivenings view, and progress tracking."
+    ),
+    "skyfiredao/dreampowers": (
+        "Chinese novel writing skill pack. Public README describes gradual reveal, iceberg annotations, three-stage chapter review, "
+        "setup/payoff foreshadow tracking, scene-type directing for action/emotional/dialogue scenes, and camera-language description methodology."
+    ),
+    "ypcypc/whatif": (
+        "Chinese novel-to-interactive-world project that extracts events, characters, locations, items, lorebook data, "
+        "entity state transitions, and WorldPkg packages, then supports choice-driven divergence, alternative timeline management, scene adaptation, and memory compression."
     ),
 }
 
@@ -517,6 +553,18 @@ class NovelSourceDiscoveryService:
             "contradiction_detection_hints": self._build_contradiction_detection_hints(available_patterns),
             "graph_branching_atomicity_hints": self._build_graph_branching_atomicity_hints(available_patterns),
             "query_lint_contract_hints": self._build_query_lint_contract_hints(available_patterns),
+            "premature_ending_guard_hints": self._build_premature_ending_guard_hints(available_patterns),
+            "layered_memory_model_hints": self._build_layered_memory_model_hints(available_patterns),
+            "plot_dependency_graph_hints": self._build_plot_dependency_graph_hints(available_patterns),
+            "plotgrid_scene_matrix_hints": self._build_plotgrid_scene_matrix_hints(available_patterns),
+            "plotline_thread_tracking_hints": self._build_plotline_thread_tracking_hints(available_patterns),
+            "scene_status_dashboard_hints": self._build_scene_status_dashboard_hints(available_patterns),
+            "gradual_reveal_control_hints": self._build_gradual_reveal_control_hints(available_patterns),
+            "setup_payoff_tracking_hints": self._build_setup_payoff_tracking_hints(available_patterns),
+            "scene_type_directing_hints": self._build_scene_type_directing_hints(available_patterns),
+            "worldpkg_export_hints": self._build_worldpkg_export_hints(available_patterns),
+            "alternate_timeline_branching_hints": self._build_alternate_timeline_branching_hints(available_patterns),
+            "divergence_guidance_hints": self._build_divergence_guidance_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -967,6 +1015,18 @@ class NovelSourceDiscoveryService:
             "contradiction_detection": 62,
             "graph_branching_atomicity": 43,
             "query_lint_contract": 39,
+            "premature_ending_guard": 61,
+            "layered_memory_model": 54,
+            "plot_dependency_graph": 56,
+            "plotgrid_scene_matrix": 55,
+            "plotline_thread_tracking": 54,
+            "scene_status_dashboard": 42,
+            "gradual_reveal_control": 59,
+            "setup_payoff_tracking": 60,
+            "scene_type_directing": 50,
+            "worldpkg_export": 44,
+            "alternate_timeline_branching": 46,
+            "divergence_guidance": 45,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1013,6 +1073,31 @@ class NovelSourceDiscoveryService:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
             targets.append("query_lint_rules")
+        if "layered_memory_model" in patterns:
+            targets.append("memory_layers")
+            targets.append("character_state_layer")
+        if "plot_dependency_graph" in patterns:
+            targets.append("plot_dependency_edges")
+        if "plotgrid_scene_matrix" in patterns:
+            targets.append("scene_matrix_fields")
+        if "plotline_thread_tracking" in patterns:
+            targets.append("plotline_threads")
+        if "scene_status_dashboard" in patterns:
+            targets.append("scene_status_catalog")
+        if "gradual_reveal_control" in patterns:
+            targets.append("reveal_budget")
+            targets.append("iceberg_annotations")
+        if "setup_payoff_tracking" in patterns:
+            targets.append("setup_payoff_ledger")
+        if "scene_type_directing" in patterns:
+            targets.append("scene_type_directives")
+        if "worldpkg_export" in patterns:
+            targets.append("worldpkg_schema")
+            targets.append("entity_state_transitions")
+        if "alternate_timeline_branching" in patterns:
+            targets.append("alternate_timeline_branches")
+        if "divergence_guidance" in patterns:
+            targets.append("divergence_guidance_rules")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -1083,6 +1168,30 @@ class NovelSourceDiscoveryService:
             targets.extend(["canon_branch_snapshots", "branch_merge_conflicts", "atomic_state_publish"])
         if "query_lint_contract" in patterns:
             targets.extend(["query_lint_findings", "schema_lint_findings", "mutation_contract_checks"])
+        if "premature_ending_guard" in patterns:
+            targets.extend(["anti_ending_checks", "false_resolution_findings"])
+        if "layered_memory_model" in patterns:
+            targets.extend(["memory_layer_coverage", "character_state_layer", "plot_graph_layer"])
+        if "plot_dependency_graph" in patterns:
+            targets.extend(["plot_dependency_edges", "setup_payoff_dependencies"])
+        if "plotgrid_scene_matrix" in patterns:
+            targets.extend(["plotgrid_scene_matrix", "scene_thread_cells", "pov_location_emotion_columns"])
+        if "plotline_thread_tracking" in patterns:
+            targets.extend(["plotline_threads", "thread_status_map"])
+        if "scene_status_dashboard" in patterns:
+            targets.extend(["scene_status_dashboard", "scene_progress_states"])
+        if "gradual_reveal_control" in patterns:
+            targets.extend(["reveal_budget", "iceberg_annotations", "revealed_hidden_fact_ratio"])
+        if "setup_payoff_tracking" in patterns:
+            targets.extend(["setup_payoff_ledger", "payoff_windows", "unpaid_setup_risk"])
+        if "scene_type_directing" in patterns:
+            targets.extend(["scene_type_directives", "action_emotional_dialogue_modes", "camera_language_notes"])
+        if "worldpkg_export" in patterns:
+            targets.extend(["worldpkg_exports", "lorebook_export_units", "entity_state_transition_exports"])
+        if "alternate_timeline_branching" in patterns:
+            targets.extend(["alternate_timeline_branches", "branch_divergence_points"])
+        if "divergence_guidance" in patterns:
+            targets.extend(["divergence_guidance", "choice_to_consequence_map", "scene_adaptation_notes"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1120,6 +1229,14 @@ class NovelSourceDiscoveryService:
             hints.append("先规划场景列表，再逐场景生成；每个场景只注入本场需要的人物、地点、伏笔和前文切片。")
         if "contradiction_detection" in patterns:
             hints.append("章节进入正史前先检查时间线、人物状态、关系演化和设定规则是否互相冲突。")
+        if "premature_ending_guard" in patterns:
+            hints.append("章节验收前检查是否过早解决主冲突、跳过伏笔回收窗口，或把阶段性胜利误写成全书终局。")
+        if "gradual_reveal_control" in patterns:
+            hints.append("控制信息释放：本章只揭示当前行动能自然暴露的设定，隐藏层设定留给后续触发。")
+        if "setup_payoff_tracking" in patterns:
+            hints.append("每次回收伏笔前先核对 setup/payoff ledger，避免无铺垫回收或重复回收。")
+        if "scene_type_directing" in patterns:
+            hints.append("每个场景先声明动作、情感、对话或转场类型，再选择节奏、镜头感和信息密度。")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -1151,6 +1268,16 @@ class NovelSourceDiscoveryService:
             hints.append("Store large drafts, scene plans, and extraction payloads as external content refs with size and checksum instead of bloating the live state.")
         if "graph_branching_atomicity" in patterns:
             hints.append("Use a branch/snapshot boundary for risky multi-step canon updates; merge only after all state slices pass review.")
+        if "layered_memory_model" in patterns:
+            hints.append("Keep memory layers separate: stable bible, current character state, and plot dependency graph should be updated by different evidence.")
+        if "plot_dependency_graph" in patterns:
+            hints.append("Persist plot dependency edges so a payoff can prove which setup, clue, promise, or unresolved hook authorized it.")
+        if "plotgrid_scene_matrix" in patterns:
+            hints.append("Keep a scene matrix row for each planned scene with plotline, POV, location, emotion, status, and linked hooks.")
+        if "alternate_timeline_branching" in patterns:
+            hints.append("Store alternate timelines as branch state; never merge divergence choices back into faithful continuation canon without explicit approval.")
+        if "worldpkg_export" in patterns:
+            hints.append("Export reusable world packages as derived artifacts; canonical state remains the reviewed bible and chapter change packages.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -1421,6 +1548,114 @@ class NovelSourceDiscoveryService:
             "Fail closed when a generated update cannot prove which entity, chapter, or relationship it intends to mutate.",
         ]
 
+    def _build_premature_ending_guard_hints(self, patterns: set[str]) -> list[str]:
+        if "premature_ending_guard" not in patterns:
+            return []
+        return [
+            "Detect false endings before acceptance: unresolved main conflict, unpaid setup, missing cost, or skipped causal bridge means the chapter is not done.",
+            "Treat a calm or victory scene as a stage beat unless the plan, hooks, and story arcs prove the whole-book endpoint is allowed.",
+            "When the model tries to wrap up too early, revise toward a new complication, consequence, or deferred payoff rather than adding summary closure.",
+        ]
+
+    def _build_layered_memory_model_hints(self, patterns: set[str]) -> list[str]:
+        if "layered_memory_model" not in patterns:
+            return []
+        return [
+            "Keep memory layers separate: stable story bible, current character state, and plot dependency graph should be read and updated independently.",
+            "A chapter may update character state without rewriting world rules; plot dependency updates need explicit setup/payoff evidence.",
+            "Prompt assembly should name which layer each fact came from so stale character state does not override stable canon.",
+        ]
+
+    def _build_plot_dependency_graph_hints(self, patterns: set[str]) -> list[str]:
+        if "plot_dependency_graph" not in patterns:
+            return []
+        return [
+            "Represent hooks, clues, promises, conflicts, and payoffs as dependency edges with source chapter and expected payoff window.",
+            "A payoff must trace to an active setup edge before it can enter canon.",
+            "Review dangling setup edges before long continuation batches so unresolved promises are not forgotten.",
+        ]
+
+    def _build_plotgrid_scene_matrix_hints(self, patterns: set[str]) -> list[str]:
+        if "plotgrid_scene_matrix" not in patterns:
+            return []
+        return [
+            "Track each scene as a matrix row across plotline, POV, location, emotion, status, timeline position, and linked hooks.",
+            "Use the matrix to spot missing thread coverage, repeated scene function, or abrupt POV/location jumps before drafting.",
+            "For same-type creation, remap matrix function and pressure, not the source scene order.",
+        ]
+
+    def _build_plotline_thread_tracking_hints(self, patterns: set[str]) -> list[str]:
+        if "plotline_thread_tracking" not in patterns:
+            return []
+        return [
+            "Keep active, paused, paid-off, and abandoned plotlines visible across scenes.",
+            "Every scene should advance, complicate, reveal, or deliberately rest at least one named thread.",
+            "Before accepting a chapter, check whether any high-priority thread vanished without a state change.",
+        ]
+
+    def _build_scene_status_dashboard_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_status_dashboard" not in patterns:
+            return []
+        return [
+            "Mark scene units by status: planned, drafted, reviewed, accepted, blocked, or rejected.",
+            "Do not let rejected or blocked scenes update bible state, hooks, or future context.",
+            "Use status plus review reason to resume long batches without rereading unrelated drafts.",
+        ]
+
+    def _build_gradual_reveal_control_hints(self, patterns: set[str]) -> list[str]:
+        if "gradual_reveal_control" not in patterns:
+            return []
+        return [
+            "Use a reveal budget: visible facts can enter the chapter, hidden facts stay out unless action/dialogue exposes them.",
+            "Track iceberg annotations so worldbuilding depth exists without dumping it into the next scene.",
+            "Review each chapter for over-explaining lore, premature secret exposure, and missing reader-facing clues.",
+        ]
+
+    def _build_setup_payoff_tracking_hints(self, patterns: set[str]) -> list[str]:
+        if "setup_payoff_tracking" not in patterns:
+            return []
+        return [
+            "Record every setup with source chapter, promised effect, expected payoff window, and current payoff status.",
+            "Payoff acceptance requires a matching setup edge and a visible consequence in character, plot, or world state.",
+            "Flag repeated payoff, orphan setup, and payoff without setup as review blockers.",
+        ]
+
+    def _build_scene_type_directing_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_type_directing" not in patterns:
+            return []
+        return [
+            "Declare scene type before drafting: action, emotional, dialogue, investigation, transition, or reveal.",
+            "Choose pacing, sensory density, dialogue ratio, and camera distance from the scene type.",
+            "Review scene type drift when a scene starts as action but resolves through summary or exposition.",
+        ]
+
+    def _build_worldpkg_export_hints(self, patterns: set[str]) -> list[str]:
+        if "worldpkg_export" not in patterns:
+            return []
+        return [
+            "Export reusable world packages as derived artifacts: events, characters, locations, items, lorebook entries, and entity state transitions.",
+            "Keep WorldPkg-style exports separate from canon write-back; imports must pass review before changing bible state.",
+            "Use exports for replay, what-if branches, or external inspection without granting them authority over confirmed continuation canon.",
+        ]
+
+    def _build_alternate_timeline_branching_hints(self, patterns: set[str]) -> list[str]:
+        if "alternate_timeline_branching" not in patterns:
+            return []
+        return [
+            "Store what-if and same-world divergence as alternate timeline branches, not as faithful continuation state.",
+            "Each branch needs a divergence point, changed assumption, affected entities, and merge/reject decision.",
+            "Never let branch-only events satisfy hooks in the main canon unless an explicit merge is accepted.",
+        ]
+
+    def _build_divergence_guidance_hints(self, patterns: set[str]) -> list[str]:
+        if "divergence_guidance" not in patterns:
+            return []
+        return [
+            "Name the choice or premise change that causes divergence before drafting a branch scene.",
+            "Map each divergence to immediate consequence, delayed consequence, and canon facts that stay fixed.",
+            "For same-type creation, use divergence guidance to create independent causality rather than source-order replay.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -1460,6 +1695,18 @@ class NovelSourceDiscoveryService:
             targets.append("style_signature")
         if "emotion_arc" in patterns:
             targets.append("emotional_arc")
+        if "premature_ending_guard" in patterns:
+            targets.append("ending_guard_remap")
+        if "plot_dependency_graph" in patterns:
+            targets.append("plot_dependency_remap")
+        if "plotgrid_scene_matrix" in patterns or "plotline_thread_tracking" in patterns:
+            targets.append("plotline_matrix_remap")
+        if "gradual_reveal_control" in patterns:
+            targets.append("reveal_budget_remap")
+        if "setup_payoff_tracking" in patterns:
+            targets.append("setup_payoff_remap")
+        if "alternate_timeline_branching" in patterns:
+            targets.append("branch_divergence_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -1487,6 +1734,12 @@ class NovelSourceDiscoveryService:
             hints.append("Build a new voice fingerprint for the new story instead of inheriting source-book wording or signature phrases.")
         if "anti_slop_audit" in patterns:
             hints.append("Anti-slop review should remove generic AI prose without pushing the text back toward copied source phrasing.")
+        if "premature_ending_guard" in patterns:
+            hints.append("Preserve anti-ending pressure: the new story should avoid early total closure even if it borrows a satisfying beat shape.")
+        if "plotgrid_scene_matrix" in patterns:
+            hints.append("Build a new plotline/scene matrix for the new story; do not reuse the source scene rows or payoff order.")
+        if "gradual_reveal_control" in patterns:
+            hints.append("Create a fresh reveal budget so genre secrets unfold independently from the source book.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -1510,6 +1763,12 @@ class NovelSourceDiscoveryService:
             hints.append("Keep/discard decisions should evaluate transformed-story quality and independence together.")
         if "voice_fingerprint" in patterns:
             hints.append("Translate source voice functions into new voice guardrails, not into reused sentence templates.")
+        if "plot_dependency_graph" in patterns:
+            hints.append("Rebuild dependency edges from new promises and clues; a source setup can inspire a function but not a factual dependency.")
+        if "setup_payoff_tracking" in patterns:
+            hints.append("Transform setup/payoff pairs by changing the promise, cost, and payoff consequence.")
+        if "alternate_timeline_branching" in patterns:
+            hints.append("Use branch divergence as a design tool for independent causality, not as a renamed source route.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -1529,10 +1788,33 @@ class NovelSourceDiscoveryService:
             hints.append("Reject voice fingerprints that preserve source catchphrases, proprietary labels, or paragraph-level phrasing.")
         if "anti_slop_audit" in patterns:
             hints.append("Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.")
+        if "plotgrid_scene_matrix" in patterns:
+            hints.append("Reject transformed outlines that preserve the source plotline matrix row order or scene-function sequence.")
+        if "setup_payoff_tracking" in patterns:
+            hints.append("Reject copied setup/payoff timing when the same clue, promise, and payoff window survive under new names.")
+        if "worldpkg_export" in patterns:
+            hints.append("Do not import source WorldPkg facts as new-story canon; exports are analysis artifacts only.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
         if "same_type_creation" in patterns:
+            return True
+        if patterns.intersection(
+            {
+                "premature_ending_guard",
+                "plotgrid_scene_matrix",
+                "plotline_thread_tracking",
+                "gradual_reveal_control",
+                "setup_payoff_tracking",
+                "alternate_timeline_branching",
+                "divergence_guidance",
+            }
+        ) and (
+            "style_signature" in patterns
+            or "chapter_generation" in patterns
+            or "scene_type_directing" in patterns
+            or "worldpkg_export" in patterns
+        ):
             return True
         if "scene_asset_pipeline" in patterns and (
             "style_signature" in patterns

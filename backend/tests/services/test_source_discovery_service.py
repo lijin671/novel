@@ -1572,3 +1572,164 @@ def test_graph_memory_workspace_pattern_pack_exposes_prompt_digest_hints():
     assert "contradiction_detection_hints" in digest
     assert "graph_branching_atomicity_hints" in digest
     assert "query_lint_contract_hints" in digest
+
+
+def test_current_writing_tool_sources_map_to_anti_ending_and_plotgrid_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "doctoroyy/novel-copilot",
+                "html_url": "https://github.com/doctoroyy/novel-copilot",
+                "description": "AI novel copilot with three-layer memory system, Story Bible, character relationship graph, plot graph, and premature ending detection.",
+                "stargazers_count": 9,
+                "license": None,
+                "topics": ["ai-writing", "novel", "story-bible"],
+                "updated_at": "2026-05-15T13:36:07Z",
+                "root_files": ["package.json", "wrangler.toml", "scripts"],
+            },
+            {
+                "full_name": "PixeroJan/obsidian-storyline",
+                "html_url": "https://github.com/PixeroJan/obsidian-storyline",
+                "description": "Book planning tool with board, plotgrid, timeline, plotlines, characters, scenes, locations, and progress tracking.",
+                "stargazers_count": 168,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "writing", "novel"],
+                "updated_at": "2026-06-09T07:04:54Z",
+                "root_files": ["manifest.json", "package.json"],
+            },
+            {
+                "full_name": "skyfiredao/dreampowers",
+                "html_url": "https://github.com/skyfiredao/dreampowers",
+                "description": "Chinese novel writing skill pack with gradual reveal, iceberg annotations, three-stage review, setup/payoff foreshadow tracking, and scene-type directing.",
+                "stargazers_count": 62,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "writing", "opencode", "chinese"],
+                "updated_at": "2026-06-06T17:56:32Z",
+                "root_files": ["install.sh", "uninstall.sh", "skills"],
+            },
+            {
+                "full_name": "ypcypc/WhatIf",
+                "html_url": "https://github.com/ypcypc/WhatIf",
+                "description": "Extract structured world data from a Chinese novel into WorldPkg, then support player choices, divergence guidance, alternative timeline management, scene adaptation, and memory compression.",
+                "stargazers_count": 187,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "lorebook", "game", "ai"],
+                "updated_at": "2026-06-08T13:11:30Z",
+                "root_files": ["start.py", "backend", "frontend", "tools"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T18:40:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert {
+        "premature_ending_guard",
+        "layered_memory_model",
+        "plot_dependency_graph",
+    }.issubset(by_title["doctoroyy/novel-copilot"]["absorbed_patterns"])
+    assert {
+        "plotgrid_scene_matrix",
+        "plotline_thread_tracking",
+        "scene_status_dashboard",
+    }.issubset(by_title["PixeroJan/obsidian-storyline"]["absorbed_patterns"])
+    assert {
+        "gradual_reveal_control",
+        "setup_payoff_tracking",
+        "scene_type_directing",
+    }.issubset(by_title["skyfiredao/dreampowers"]["absorbed_patterns"])
+    assert {
+        "worldpkg_export",
+        "alternate_timeline_branching",
+        "divergence_guidance",
+    }.issubset(by_title["ypcypc/WhatIf"]["absorbed_patterns"])
+
+
+def test_current_writing_tool_pattern_pack_exposes_new_guidance_sections():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-09T18:45:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/doctoroyy/novel-copilot",
+                "title": "doctoroyy/novel-copilot",
+                "summary": "Three-layer memory, plot graph, and premature ending detection.",
+                "stars": 9,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["shell_script"],
+                "absorbed_patterns": ["premature_ending_guard", "layered_memory_model", "plot_dependency_graph"],
+                "score": 94,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/PixeroJan/obsidian-storyline",
+                "title": "PixeroJan/obsidian-storyline",
+                "summary": "Plotgrid, timeline, plotlines, scene status, characters and locations.",
+                "stars": 168,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["browser_extension"],
+                "absorbed_patterns": ["plotgrid_scene_matrix", "plotline_thread_tracking", "scene_status_dashboard"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/skyfiredao/dreampowers",
+                "title": "skyfiredao/dreampowers",
+                "summary": "Gradual reveal, iceberg annotations, three-stage chapter review, setup/payoff tracking, and scene-type directing.",
+                "stars": 62,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["shell_script"],
+                "absorbed_patterns": ["gradual_reveal_control", "setup_payoff_tracking", "scene_type_directing"],
+                "score": 91,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/ypcypc/WhatIf",
+                "title": "ypcypc/WhatIf",
+                "summary": "WorldPkg extraction, choice-driven divergence, alternative timelines, scene adaptation and memory compression.",
+                "stars": 187,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["worldpkg_export", "alternate_timeline_branching", "divergence_guidance"],
+                "score": 88,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "anti_ending_checks" in pattern_pack["whole_book_analysis_targets"]
+    assert "plot_dependency_edges" in pattern_pack["bible_enrichment_targets"]
+    assert "plotgrid_scene_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "setup_payoff_ledger" in pattern_pack["bible_enrichment_targets"]
+    assert "reveal_budget" in pattern_pack["bible_enrichment_targets"]
+    assert "worldpkg_exports" in pattern_pack["whole_book_analysis_targets"]
+    assert "premature_ending_guard_hints" in pattern_pack
+    assert "plotgrid_scene_matrix_hints" in pattern_pack
+    assert "gradual_reveal_control_hints" in pattern_pack
+    assert "setup_payoff_tracking_hints" in pattern_pack
+    assert "scene_type_directing_hints" in pattern_pack
+    assert "alternate_timeline_branching_hints" in pattern_pack
+    assert "divergence_guidance_hints" in pattern_pack
+    assert "worldpkg_export_hints" in pattern_pack
+    assert "ending_guard_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "plotline_matrix_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reveal_budget_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "premature_ending_guard_hints" in digest
+    assert "plotgrid_scene_matrix_hints" in digest
+    assert "setup_payoff_tracking_hints" in digest
+    assert "alternate_timeline_branching_hints" in digest

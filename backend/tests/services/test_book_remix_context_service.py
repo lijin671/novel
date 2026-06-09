@@ -1169,6 +1169,75 @@ def test_build_remix_continuation_context_block_renders_scene_graph_review_audit
     assert "query_lint_contract: lint generated mutations for target entity, relationship type, required fields, and delete/update separation" in block
 
 
+def test_build_remix_continuation_context_block_renders_plotgrid_reveal_and_branch_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Track the archive witness"}],
+            "timeline": [
+                {
+                    "event": "Inspector Lin recovered ledger",
+                    "chapter_number": 19,
+                    "source": "chapter_analysis",
+                },
+            ],
+            "foreshadows": [
+                {"hook": "Sealed file points to city hall", "status": "open", "chapter_number": 20}
+            ],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Witness",
+                    "summary": "Inspector Lin questioned the archive witness.",
+                    "timeline_delta": [{"event": "Archive witness revealed a sealed file"}],
+                },
+            ],
+            "style_signature": {"voice": "tense restraint"},
+        },
+        plan={
+            "summary": "Follow the sealed file lead next.",
+            "beats": [{"beat": "Follow city hall file", "status": "pending"}],
+            "priority_hooks": [{"hook": "Sealed file points to city hall", "status": "pending"}],
+            "guardrails": [{"rule": "No premature final confrontation"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "premature_ending_guard"},
+                {"name": "layered_memory_model"},
+                {"name": "plot_dependency_graph"},
+                {"name": "plotgrid_scene_matrix"},
+                {"name": "plotline_thread_tracking"},
+                {"name": "scene_status_dashboard"},
+                {"name": "gradual_reveal_control"},
+                {"name": "setup_payoff_tracking"},
+                {"name": "scene_type_directing"},
+                {"name": "alternate_timeline_branching"},
+                {"name": "divergence_guidance"},
+                {"name": "worldpkg_export"},
+            ],
+            "premature_ending_guard_hints": ["Detect false resolution before accepting a continuation chapter."],
+            "plotgrid_scene_matrix_hints": ["Map scenes against plotlines, themes, status, POV, emotion, and locations."],
+            "setup_payoff_tracking_hints": ["Track setup/payoff pairs before final acceptance."],
+        },
+    )
+
+    assert "Plotgrid reveal branch audit" in block
+    assert "premature_ending_guard: check whether the draft falsely resolves the main conflict" in block
+    assert "memory_layer_order: story bible -> character state -> plot dependency graph" in block
+    assert "plot_dependency_graph: every payoff should trace back to an active setup" in block
+    assert "plotgrid_scene_matrix: map each scene against plotline, POV, location, emotion, status, and thread coverage" in block
+    assert "plotline_thread_tracking: keep active, paused, paid-off, and abandoned threads visible before drafting" in block
+    assert "scene_status_dashboard: mark scene cards by planned, drafted, reviewed, accepted, or blocked state" in block
+    assert "gradual_reveal_budget: expose world facts through action and dialogue" in block
+    assert "setup_payoff_ledger: record setup chapter, expected payoff window, payoff state, and dependency risk" in block
+    assert "scene_type_directing: declare scene mode before drafting" in block
+    assert "alternate_timeline_branch: branch what-if or same-world divergence state away from faithful continuation canon" in block
+    assert "divergence_guidance: name the player/new-story choice that causes branch drift" in block
+    assert "worldpkg_export_boundary: exported world packages are reusable context artifacts" in block
+
+
 def test_build_remix_continuation_progress_summary_deduplicates_legacy_generation_and_analysis_packages():
     summary = build_remix_continuation_progress_summary(
         packages=[

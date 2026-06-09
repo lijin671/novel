@@ -204,6 +204,27 @@ def render_source_pattern_pack_digest(
         for hint in query_lint_contract_hints[:6]:
             lines.append(f"  - {hint}")
 
+    for key in (
+        "premature_ending_guard_hints",
+        "layered_memory_model_hints",
+        "plot_dependency_graph_hints",
+        "plotgrid_scene_matrix_hints",
+        "plotline_thread_tracking_hints",
+        "scene_status_dashboard_hints",
+        "gradual_reveal_control_hints",
+        "setup_payoff_tracking_hints",
+        "scene_type_directing_hints",
+        "worldpkg_export_hints",
+        "alternate_timeline_branching_hints",
+        "divergence_guidance_hints",
+    ):
+        hints = _as_note_list(source_pattern_pack.get(key))
+        if not hints:
+            continue
+        lines.append(f"- {key}:")
+        for hint in hints[:6]:
+            lines.append(f"  - {hint}")
+
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:

@@ -70,6 +70,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_plotgrid_reveal_branch_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -958,6 +962,58 @@ def _append_scene_graph_review_audit_section(
         lines.append("- query_lint_contract: lint generated mutations for target entity, relationship type, required fields, and delete/update separation")
 
 
+def _append_plotgrid_reveal_branch_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render plotgrid, reveal, setup/payoff, and branch gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "premature_ending_guard",
+        "layered_memory_model",
+        "plot_dependency_graph",
+        "plotgrid_scene_matrix",
+        "plotline_thread_tracking",
+        "scene_status_dashboard",
+        "gradual_reveal_control",
+        "setup_payoff_tracking",
+        "scene_type_directing",
+        "alternate_timeline_branching",
+        "divergence_guidance",
+        "worldpkg_export",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Plotgrid reveal branch audit:")
+    if "premature_ending_guard" in pattern_names:
+        lines.append("- premature_ending_guard: check whether the draft falsely resolves the main conflict, skips payoff windows, or closes the book too early")
+    if "layered_memory_model" in pattern_names:
+        lines.append("- memory_layer_order: story bible -> character state -> plot dependency graph; do not let a lower layer override confirmed canon")
+    if "plot_dependency_graph" in pattern_names:
+        lines.append("- plot_dependency_graph: every payoff should trace back to an active setup, clue, promise, or unresolved hook")
+    if "plotgrid_scene_matrix" in pattern_names:
+        lines.append("- plotgrid_scene_matrix: map each scene against plotline, POV, location, emotion, status, and thread coverage")
+    if "plotline_thread_tracking" in pattern_names:
+        lines.append("- plotline_thread_tracking: keep active, paused, paid-off, and abandoned threads visible before drafting")
+    if "scene_status_dashboard" in pattern_names:
+        lines.append("- scene_status_dashboard: mark scene cards by planned, drafted, reviewed, accepted, or blocked state before write-back")
+    if "gradual_reveal_control" in pattern_names:
+        lines.append("- gradual_reveal_budget: expose world facts through action and dialogue; keep hidden-layer facts out until triggered")
+    if "setup_payoff_tracking" in pattern_names:
+        lines.append("- setup_payoff_ledger: record setup chapter, expected payoff window, payoff state, and dependency risk")
+    if "scene_type_directing" in pattern_names:
+        lines.append("- scene_type_directing: declare scene mode before drafting so pacing, dialogue ratio, camera distance, and sensory density match the scene function")
+    if "alternate_timeline_branching" in pattern_names:
+        lines.append("- alternate_timeline_branch: branch what-if or same-world divergence state away from faithful continuation canon")
+    if "divergence_guidance" in pattern_names:
+        lines.append("- divergence_guidance: name the player/new-story choice that causes branch drift and list which canon facts stay fixed")
+    if "worldpkg_export" in pattern_names:
+        lines.append("- worldpkg_export_boundary: exported world packages are reusable context artifacts, not automatic canon mutations")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1015,6 +1071,18 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "contradiction_detection_hints": "contradiction_detection",
         "graph_branching_atomicity_hints": "graph_branching_atomicity",
         "query_lint_contract_hints": "query_lint_contract",
+        "premature_ending_guard_hints": "premature_ending_guard",
+        "layered_memory_model_hints": "layered_memory_model",
+        "plot_dependency_graph_hints": "plot_dependency_graph",
+        "plotgrid_scene_matrix_hints": "plotgrid_scene_matrix",
+        "plotline_thread_tracking_hints": "plotline_thread_tracking",
+        "scene_status_dashboard_hints": "scene_status_dashboard",
+        "gradual_reveal_control_hints": "gradual_reveal_control",
+        "setup_payoff_tracking_hints": "setup_payoff_tracking",
+        "scene_type_directing_hints": "scene_type_directing",
+        "worldpkg_export_hints": "worldpkg_export",
+        "alternate_timeline_branching_hints": "alternate_timeline_branching",
+        "divergence_guidance_hints": "divergence_guidance",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

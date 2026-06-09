@@ -1,4 +1,9 @@
 {
+  "alternate_timeline_branching_hints": [
+    "Store what-if and same-world divergence as alternate timeline branches, not as faithful continuation state.",
+    "Each branch needs a divergence point, changed assumption, affected entities, and merge/reject decision.",
+    "Never let branch-only events satisfy hooks in the main canon unless an explicit merge is accepted."
+  ],
   "anti_slop_audit_hints": [
     "Audit drafts for word-level AI tells, over-neat explanation, repeated sentence frames, generic wisdom dialogue, and scene-free summary.",
     "Treat anti-slop findings as concrete rewrite tasks, not as a single global quality score.",
@@ -39,6 +44,20 @@
     "contradiction_findings",
     "canon_branch_snapshots",
     "query_lint_rules",
+    "memory_layers",
+    "character_state_layer",
+    "plot_dependency_edges",
+    "scene_matrix_fields",
+    "plotline_threads",
+    "scene_status_catalog",
+    "reveal_budget",
+    "iceberg_annotations",
+    "setup_payoff_ledger",
+    "scene_type_directives",
+    "worldpkg_schema",
+    "entity_state_transitions",
+    "alternate_timeline_branches",
+    "divergence_guidance_rules",
     "organizations",
     "conflicts",
     "story_arcs",
@@ -81,7 +100,11 @@
     "Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.",
     "把拆书、建卡、生成、评审、回写拆成可恢复工作流节点，失败后从最近 checkpoint 继续。",
     "先规划场景列表，再逐场景生成；每个场景只注入本场需要的人物、地点、伏笔和前文切片。",
-    "章节进入正史前先检查时间线、人物状态、关系演化和设定规则是否互相冲突。"
+    "章节进入正史前先检查时间线、人物状态、关系演化和设定规则是否互相冲突。",
+    "章节验收前检查是否过早解决主冲突、跳过伏笔回收窗口，或把阶段性胜利误写成全书终局。",
+    "控制信息释放：本章只揭示当前行动能自然暴露的设定，隐藏层设定留给后续触发。",
+    "每次回收伏笔前先核对 setup/payoff ledger，避免无铺垫回收或重复回收。",
+    "每个场景先声明动作、情感、对话或转场类型，再选择节奏、镜头感和信息密度。"
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -97,19 +120,34 @@
     "Create rollback points before major bible, plan, or chapter-state rewrites so rejected continuations can be reverted.",
     "Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context.",
     "Store large drafts, scene plans, and extraction payloads as external content refs with size and checksum instead of bloating the live state.",
-    "Use a branch/snapshot boundary for risky multi-step canon updates; merge only after all state slices pass review."
+    "Use a branch/snapshot boundary for risky multi-step canon updates; merge only after all state slices pass review.",
+    "Keep memory layers separate: stable bible, current character state, and plot dependency graph should be updated by different evidence.",
+    "Persist plot dependency edges so a payoff can prove which setup, clue, promise, or unresolved hook authorized it.",
+    "Keep a scene matrix row for each planned scene with plotline, POV, location, emotion, status, and linked hooks.",
+    "Store alternate timelines as branch state; never merge divergence choices back into faithful continuation canon without explicit approval.",
+    "Export reusable world packages as derived artifacts; canonical state remains the reviewed bible and chapter change packages."
   ],
   "contradiction_detection_hints": [
     "Check timeline order, location presence, relationship evolution, trait consistency, faction membership, and unresolved hook state before accepting drafts.",
     "Every contradiction should name the conflicting canon facts and the scene or chapter that introduced the drift.",
     "Revision guidance should fix concrete contradictions, then rerun extraction and validation before write-back."
   ],
+  "divergence_guidance_hints": [
+    "Name the choice or premise change that causes divergence before drafting a branch scene.",
+    "Map each divergence to immediate consequence, delayed consequence, and canon facts that stay fixed.",
+    "For same-type creation, use divergence guidance to create independent causality rather than source-order replay."
+  ],
   "entity_schema_custom_fields_hints": [
     "Let genre-specific entity schemas add fields beyond the base card: sect, ability, rank, taboo, technology, faction role, or item rule.",
     "Validate custom fields before they enter prompts so missing genre facts are caught during analysis instead of after drafting.",
     "Use custom fields in same-type creation to transform genre mechanics without copying source names or proprietary labels."
   ],
-  "generated_at": "2026-06-09T18:30:00+08:00",
+  "generated_at": "2026-06-09T18:50:00+08:00",
+  "gradual_reveal_control_hints": [
+    "Use a reveal budget: visible facts can enter the chapter, hidden facts stay out unless action/dialogue exposes them.",
+    "Track iceberg annotations so worldbuilding depth exists without dumping it into the next scene.",
+    "Review each chapter for over-explaining lore, premature secret exposure, and missing reader-facing clues."
+  ],
   "graph_branching_atomicity_hints": [
     "Apply multi-step canon mutations through a branch-like workspace, then publish atomically after validation.",
     "Use snapshots before bulk bible merges or alternate continuation branches so rejected work can roll back state and prose together.",
@@ -127,7 +165,10 @@
     "Run copy-risk checks on structured fields as well as prose, because copied names and set-pieces often enter through planning cards.",
     "Reject drafts whose cited context reference points to source material as if it were new-story canon.",
     "Reject voice fingerprints that preserve source catchphrases, proprietary labels, or paragraph-level phrasing.",
-    "Do not use anti-slop cleanup as a license to paraphrase distinctive source passages."
+    "Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.",
+    "Reject transformed outlines that preserve the source plotline matrix row order or scene-function sequence.",
+    "Reject copied setup/payoff timing when the same clue, promise, and payoff window survive under new names.",
+    "Do not import source WorldPkg facts as new-story canon; exports are analysis artifacts only."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -148,7 +189,13 @@
     "anti_slop_rules",
     "relationship_graph_remap",
     "style_signature",
-    "emotional_arc"
+    "emotional_arc",
+    "ending_guard_remap",
+    "plot_dependency_remap",
+    "plotline_matrix_remap",
+    "reveal_budget_remap",
+    "setup_payoff_remap",
+    "branch_divergence_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -161,7 +208,10 @@
     "Transform scene assets at the level of function and pressure, not at the level of source event sequence.",
     "Use quality scores to decide whether a transformed draft is acceptable; do not lower the threshold because it resembles a source.",
     "Build a new voice fingerprint for the new story instead of inheriting source-book wording or signature phrases.",
-    "Anti-slop review should remove generic AI prose without pushing the text back toward copied source phrasing."
+    "Anti-slop review should remove generic AI prose without pushing the text back toward copied source phrasing.",
+    "Preserve anti-ending pressure: the new story should avoid early total closure even if it borrows a satisfying beat shape.",
+    "Build a new plotline/scene matrix for the new story; do not reuse the source scene rows or payoff order.",
+    "Create a fresh reveal budget so genre secrets unfold independently from the source book."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -172,7 +222,15 @@
     "Check transformed fields against required schema slots so no source-only proper noun or event label survives.",
     "Rebuild each scene asset from a new premise, location, cast, pressure source, and exit hook.",
     "Keep/discard decisions should evaluate transformed-story quality and independence together.",
-    "Translate source voice functions into new voice guardrails, not into reused sentence templates."
+    "Translate source voice functions into new voice guardrails, not into reused sentence templates.",
+    "Rebuild dependency edges from new promises and clues; a source setup can inspire a function but not a factual dependency.",
+    "Transform setup/payoff pairs by changing the promise, cost, and payoff consequence.",
+    "Use branch divergence as a design tool for independent causality, not as a renamed source route."
+  ],
+  "layered_memory_model_hints": [
+    "Keep memory layers separate: stable story bible, current character state, and plot dependency graph should be read and updated independently.",
+    "A chapter may update character state without rewriting world rules; plot dependency updates need explicit setup/payoff evidence.",
+    "Prompt assembly should name which layer each fact came from so stale character state does not override stable canon."
   ],
   "local_first_workspace_hints": [
     "Scope remix analysis, continuation plans, style seeds, prompt choices, and draft state to the active novel/project workspace.",
@@ -189,6 +247,26 @@
     "Create named memory snapshots before risky rewrites, bulk bible merges, or alternate continuation branches.",
     "Treat rollback as a first-class operation: rejected drafts should revert state as well as prose.",
     "When two branches are merged, surface conflicts in canon facts, timeline, relationship state, and unresolved hooks."
+  ],
+  "plot_dependency_graph_hints": [
+    "Represent hooks, clues, promises, conflicts, and payoffs as dependency edges with source chapter and expected payoff window.",
+    "A payoff must trace to an active setup edge before it can enter canon.",
+    "Review dangling setup edges before long continuation batches so unresolved promises are not forgotten."
+  ],
+  "plotgrid_scene_matrix_hints": [
+    "Track each scene as a matrix row across plotline, POV, location, emotion, status, timeline position, and linked hooks.",
+    "Use the matrix to spot missing thread coverage, repeated scene function, or abrupt POV/location jumps before drafting.",
+    "For same-type creation, remap matrix function and pressure, not the source scene order."
+  ],
+  "plotline_thread_tracking_hints": [
+    "Keep active, paused, paid-off, and abandoned plotlines visible across scenes.",
+    "Every scene should advance, complicate, reveal, or deliberately rest at least one named thread.",
+    "Before accepting a chapter, check whether any high-priority thread vanished without a state change."
+  ],
+  "premature_ending_guard_hints": [
+    "Detect false endings before acceptance: unresolved main conflict, unpaid setup, missing cost, or skipped causal bridge means the chapter is not done.",
+    "Treat a calm or victory scene as a stage beat unless the plan, hooks, and story arcs prove the whole-book endpoint is allowed.",
+    "When the model tries to wrap up too early, revise toward a new complication, consequence, or deferred payoff rather than adding summary closure."
   ],
   "prompt_library_hints": [
     "Register task prompts by purpose: book decomposition, scene planning, continuation drafting, style imitation, review, and state write-back.",
@@ -234,6 +312,16 @@
     "Extract state changes at scene granularity so relationship shifts, location moves, and clue reveals stay attributable.",
     "Store large scene drafts externally and keep only lightweight refs in the continuation state."
   ],
+  "scene_status_dashboard_hints": [
+    "Mark scene units by status: planned, drafted, reviewed, accepted, blocked, or rejected.",
+    "Do not let rejected or blocked scenes update bible state, hooks, or future context.",
+    "Use status plus review reason to resume long batches without rereading unrelated drafts."
+  ],
+  "scene_type_directing_hints": [
+    "Declare scene type before drafting: action, emotional, dialogue, investigation, transition, or reveal.",
+    "Choose pacing, sensory density, dialogue ratio, and camera distance from the scene type.",
+    "Review scene type drift when a scene starts as action but resolves through summary or exposition."
+  ],
   "self_review_gate_hints": [
     "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
     "Every revision must explain which canon risk was fixed and which story state was preserved.",
@@ -244,21 +332,34 @@
     "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
     "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
   ],
-  "source_candidate_count": 16,
+  "setup_payoff_tracking_hints": [
+    "Record every setup with source chapter, promised effect, expected payoff window, and current payoff status.",
+    "Payoff acceptance requires a matching setup edge and a visible consequence in character, plot, or world state.",
+    "Flag repeated payoff, orphan setup, and payoff without setup as review blockers."
+  ],
+  "source_candidate_count": 20,
   "source_intake_notes": [
     "MangoLion/plotbunni HEAD 5620cd091c7074365980f457dfce95f02e5fa45f; MIT; static local clone review only.",
     "loreum-app/loreum HEAD c38ade12a664790d10ff3ae847ce2529845f299c; AGPL-3.0; pattern-only static review.",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant HEAD f0469671e0c971325bb8491a6eb1cc43ffb1e88a; dual/nonstandard license text; pattern-only static review.",
     "Lanerra/saga HEAD 865a3912f17b09af9927c0358f9f026020f51673; Apache-2.0; pattern-only static review.",
     "ModernRelay/omnigraph HEAD 5eead8d29eb6a4e7dfb453603aa0efd8e6851c47; MIT; graph transaction pattern-only static review.",
-    "No external project install, package manager, script, Docker, MCP server, browser extension, native binary, provider call, credential, or runtime trial was executed."
+    "No external project install, package manager, script, Docker, MCP server, browser extension, native binary, provider call, credential, or runtime trial was executed.",
+    "doctoroyy/novel-copilot observed via GitHub REST metadata on 2026-06-09; license missing; static metadata/README summary only.",
+    "PixeroJan/obsidian-storyline observed via GitHub REST metadata on 2026-06-09; MIT; Obsidian plugin/browser-extension surface treated as pattern-only.",
+    "skyfiredao/dreampowers observed via GitHub REST metadata on 2026-06-09; GPL-3.0; install/uninstall shell scripts not executed; pattern-only.",
+    "ypcypc/WhatIf observed via GitHub REST metadata on 2026-06-09; MIT; local start/runtime not executed; pattern-only."
   ],
   "source_titles": [
     "loreum-app/loreum",
     "NousResearch/autonovel",
     "voocel/ainovel-cli",
     "RhythmicWave/NovelForge",
+    "doctoroyy/novel-copilot",
+    "skyfiredao/dreampowers",
     "mrigankad/Novel-OS",
+    "ypcypc/WhatIf",
+    "PixeroJan/obsidian-storyline",
     "ModernRelay/omnigraph",
     "MangoLion/plotbunni",
     "KoboldAI/KoboldAI-Client",
@@ -390,16 +491,49 @@
     "query_lint_findings",
     "schema_lint_findings",
     "mutation_contract_checks",
+    "anti_ending_checks",
+    "false_resolution_findings",
+    "memory_layer_coverage",
+    "character_state_layer",
+    "plot_graph_layer",
+    "plot_dependency_edges",
+    "setup_payoff_dependencies",
+    "plotgrid_scene_matrix",
+    "scene_thread_cells",
+    "pov_location_emotion_columns",
+    "plotline_threads",
+    "thread_status_map",
+    "scene_status_dashboard",
+    "scene_progress_states",
+    "reveal_budget",
+    "iceberg_annotations",
+    "revealed_hidden_fact_ratio",
+    "setup_payoff_ledger",
+    "payoff_windows",
+    "unpaid_setup_risk",
+    "scene_type_directives",
+    "action_emotional_dialogue_modes",
+    "camera_language_notes",
+    "worldpkg_exports",
+    "lorebook_export_units",
+    "entity_state_transition_exports",
+    "alternate_timeline_branches",
+    "branch_divergence_points",
+    "divergence_guidance",
+    "choice_to_consequence_map",
+    "scene_adaptation_notes",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
   ],
   "workflow_patterns": [
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "continuation",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "shell_script"
+      ],
       "sources": [
         {
           "license": "MIT",
@@ -415,6 +549,23 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 94,
+          "source": "github",
+          "stars": 9,
+          "summary": "AI novel copilot with Story Bible, three-layer memory system, character state snapshots, character relationship graph, plot graph, foreshadowing dependencies, and premature ending detection.",
+          "title": "doctoroyy/novel-copilot",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/doctoroyy/novel-copilot"
         },
         {
           "license": "Apache-2.0",
@@ -434,7 +585,8 @@
       ],
       "top_source_url": "https://github.com/voocel/ainovel-cli",
       "trust_flags": [
-        "zero-issues-high-stars"
+        "zero-issues-high-stars",
+        "license:missing"
       ]
     },
     {
@@ -680,85 +832,8 @@
       ]
     },
     {
-      "candidate_count": 4,
-      "name": "timeline",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "docker",
-        "mcp_server"
-      ],
-      "sources": [
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "docker",
-            "mcp_server"
-          ],
-          "score": 196,
-          "source": "github",
-          "stars": 1640,
-          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
-          "title": "loreum-app/loreum",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/loreum-app/loreum"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 104,
-          "source": "github",
-          "stars": 1280,
-          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
-          "title": "voocel/ainovel-cli",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/voocel/ainovel-cli"
-        },
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 102,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 35,
-          "source": "github",
-          "stars": 21,
-          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
-          "title": "kaigani/codeywood",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/kaigani/codeywood"
-        }
-      ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ]
-    },
-    {
       "candidate_count": 5,
-      "name": "character_cards",
+      "name": "timeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
@@ -811,6 +886,132 @@
           "title": "RhythmicWave/NovelForge",
           "trust_flags": [],
           "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 86,
+          "source": "github",
+          "stars": 168,
+          "summary": "Obsidian book planning plugin with plotgrid scene matrix, board scene cards, timeline, plotlines subway map, scene status badges, character/location/codex tags, and progress tracking.",
+          "title": "PixeroJan/obsidian-storyline",
+          "trust_flags": [],
+          "url": "https://github.com/PixeroJan/obsidian-storyline"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 7,
+      "name": "character_cards",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server",
+        "shell_script",
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 196,
+          "source": "github",
+          "stars": 1640,
+          "summary": "Fictional worldbuilding database for novels and story projects. Public docs describe entities, relationships, timelines, storyboard, custom entity field schemas, Style Guide layering from base style to scene overrides to character voices, MCP write staging through PendingChange R",
+          "title": "loreum-app/loreum",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 94,
+          "source": "github",
+          "stars": 9,
+          "summary": "AI novel copilot with Story Bible, three-layer memory system, character state snapshots, character relationship graph, plot graph, foreshadowing dependencies, and premature ending detection.",
+          "title": "doctoroyy/novel-copilot",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/doctoroyy/novel-copilot"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 86,
+          "source": "github",
+          "stars": 168,
+          "summary": "Obsidian book planning plugin with plotgrid scene matrix, board scene cards, timeline, plotlines subway map, scene status badges, character/location/codex tags, and progress tracking.",
+          "title": "PixeroJan/obsidian-storyline",
+          "trust_flags": [],
+          "url": "https://github.com/PixeroJan/obsidian-storyline"
         },
         {
           "license": "unknown",
@@ -979,6 +1180,37 @@
       ]
     },
     {
+      "candidate_count": 1,
+      "name": "premature_ending_guard",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 94,
+          "source": "github",
+          "stars": 9,
+          "summary": "AI novel copilot with Story Bible, three-layer memory system, character state snapshots, character relationship graph, plot graph, foreshadowing dependencies, and premature ending detection.",
+          "title": "doctoroyy/novel-copilot",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/doctoroyy/novel-copilot"
+        }
+      ],
+      "top_source_url": "https://github.com/doctoroyy/novel-copilot",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 5,
       "name": "emotion_arc",
       "posture_hint": "metadata-triage",
@@ -1074,6 +1306,60 @@
       ]
     },
     {
+      "candidate_count": 1,
+      "name": "setup_payoff_tracking",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 91,
+          "source": "github",
+          "stars": 62,
+          "summary": "Chinese novel writing skill pack with gradual reveal, iceberg annotations, three-stage chapter review, setup/payoff foreshadow tracking, scene-type directing, and camera-language description methodology.",
+          "title": "skyfiredao/dreampowers",
+          "trust_flags": [],
+          "url": "https://github.com/skyfiredao/dreampowers"
+        }
+      ],
+      "top_source_url": "https://github.com/skyfiredao/dreampowers",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "gradual_reveal_control",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 91,
+          "source": "github",
+          "stars": 62,
+          "summary": "Chinese novel writing skill pack with gradual reveal, iceberg annotations, three-stage chapter review, setup/payoff foreshadow tracking, scene-type directing, and camera-language description methodology.",
+          "title": "skyfiredao/dreampowers",
+          "trust_flags": [],
+          "url": "https://github.com/skyfiredao/dreampowers"
+        }
+      ],
+      "top_source_url": "https://github.com/skyfiredao/dreampowers",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 2,
       "name": "scene_level_generation",
       "posture_hint": "metadata-triage",
@@ -1149,12 +1435,44 @@
       ]
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 1,
+      "name": "plot_dependency_graph",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 94,
+          "source": "github",
+          "stars": 9,
+          "summary": "AI novel copilot with Story Bible, three-layer memory system, character state snapshots, character relationship graph, plot graph, foreshadowing dependencies, and premature ending detection.",
+          "title": "doctoroyy/novel-copilot",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/doctoroyy/novel-copilot"
+        }
+      ],
+      "top_source_url": "https://github.com/doctoroyy/novel-copilot",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 7,
       "name": "style_signature",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
         "mcp_server",
+        "shell_script",
         "browser_extension"
       ],
       "sources": [
@@ -1205,6 +1523,21 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 91,
+          "source": "github",
+          "stars": 62,
+          "summary": "Chinese novel writing skill pack with gradual reveal, iceberg annotations, three-stage chapter review, setup/payoff foreshadow tracking, scene-type directing, and camera-language description methodology.",
+          "title": "skyfiredao/dreampowers",
+          "trust_flags": [],
+          "url": "https://github.com/skyfiredao/dreampowers"
         },
         {
           "license": "MIT",
@@ -1260,6 +1593,91 @@
         "license:missing",
         "license:noassertion"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "plotgrid_scene_matrix",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 86,
+          "source": "github",
+          "stars": 168,
+          "summary": "Obsidian book planning plugin with plotgrid scene matrix, board scene cards, timeline, plotlines subway map, scene status badges, character/location/codex tags, and progress tracking.",
+          "title": "PixeroJan/obsidian-storyline",
+          "trust_flags": [],
+          "url": "https://github.com/PixeroJan/obsidian-storyline"
+        }
+      ],
+      "top_source_url": "https://github.com/PixeroJan/obsidian-storyline",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "layered_memory_model",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 94,
+          "source": "github",
+          "stars": 9,
+          "summary": "AI novel copilot with Story Bible, three-layer memory system, character state snapshots, character relationship graph, plot graph, foreshadowing dependencies, and premature ending detection.",
+          "title": "doctoroyy/novel-copilot",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/doctoroyy/novel-copilot"
+        }
+      ],
+      "top_source_url": "https://github.com/doctoroyy/novel-copilot",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "plotline_thread_tracking",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 86,
+          "source": "github",
+          "stars": 168,
+          "summary": "Obsidian book planning plugin with plotgrid scene matrix, board scene cards, timeline, plotlines subway map, scene status badges, character/location/codex tags, and progress tracking.",
+          "title": "PixeroJan/obsidian-storyline",
+          "trust_flags": [],
+          "url": "https://github.com/PixeroJan/obsidian-storyline"
+        }
+      ],
+      "top_source_url": "https://github.com/PixeroJan/obsidian-storyline",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -1351,12 +1769,13 @@
       ]
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 7,
       "name": "self_review",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
-        "mcp_server"
+        "mcp_server",
+        "shell_script"
       ],
       "sources": [
         {
@@ -1421,6 +1840,21 @@
           "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 91,
+          "source": "github",
+          "stars": 62,
+          "summary": "Chinese novel writing skill pack with gradual reveal, iceberg annotations, three-stage chapter review, setup/payoff foreshadow tracking, scene-type directing, and camera-language description methodology.",
+          "title": "skyfiredao/dreampowers",
+          "trust_flags": [],
+          "url": "https://github.com/skyfiredao/dreampowers"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1456,6 +1890,33 @@
         "zero-issues-high-stars",
         "license:missing"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_type_directing",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 91,
+          "source": "github",
+          "stars": 62,
+          "summary": "Chinese novel writing skill pack with gradual reveal, iceberg annotations, three-stage chapter review, setup/payoff foreshadow tracking, scene-type directing, and camera-language description methodology.",
+          "title": "skyfiredao/dreampowers",
+          "trust_flags": [],
+          "url": "https://github.com/skyfiredao/dreampowers"
+        }
+      ],
+      "top_source_url": "https://github.com/skyfiredao/dreampowers",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -1523,13 +1984,26 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "lorebook_context",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 187,
+          "summary": "Chinese novel-to-interactive-world project that extracts structured world data, events, characters, locations, items, lorebook data, entity state transitions, WorldPkg packages, then supports choice-driven divergence, alternative timelines, scene adaptation, and memory compressio",
+          "title": "ypcypc/WhatIf",
+          "trust_flags": [],
+          "url": "https://github.com/ypcypc/WhatIf"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -1577,7 +2051,7 @@
           "url": "https://github.com/aikohanasaki/SillyTavern-MemoryBooks"
         }
       ],
-      "top_source_url": "https://github.com/KoboldAI/KoboldAI-Client",
+      "top_source_url": "https://github.com/ypcypc/WhatIf",
       "trust_flags": [
         "zero-issues-high-stars",
         "default-branch:nonstandard"
@@ -1636,7 +2110,30 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 1,
+      "name": "alternate_timeline_branching",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 187,
+          "summary": "Chinese novel-to-interactive-world project that extracts structured world data, events, characters, locations, items, lorebook data, entity state transitions, WorldPkg packages, then supports choice-driven divergence, alternative timelines, scene adaptation, and memory compressio",
+          "title": "ypcypc/WhatIf",
+          "trust_flags": [],
+          "url": "https://github.com/ypcypc/WhatIf"
+        }
+      ],
+      "top_source_url": "https://github.com/ypcypc/WhatIf",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 4,
       "name": "world_state_tracking",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1657,6 +2154,19 @@
             "default-branch:nonstandard"
           ],
           "url": "https://github.com/mrigankad/Novel-OS"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 187,
+          "summary": "Chinese novel-to-interactive-world project that extracts structured world data, events, characters, locations, items, lorebook data, entity state transitions, WorldPkg packages, then supports choice-driven divergence, alternative timelines, scene adaptation, and memory compressio",
+          "title": "ypcypc/WhatIf",
+          "trust_flags": [],
+          "url": "https://github.com/ypcypc/WhatIf"
         },
         {
           "license": "unknown",
@@ -1696,6 +2206,29 @@
         "default-branch:nonstandard",
         "license:missing"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "divergence_guidance",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 187,
+          "summary": "Chinese novel-to-interactive-world project that extracts structured world data, events, characters, locations, items, lorebook data, entity state transitions, WorldPkg packages, then supports choice-driven divergence, alternative timelines, scene adaptation, and memory compressio",
+          "title": "ypcypc/WhatIf",
+          "trust_flags": [],
+          "url": "https://github.com/ypcypc/WhatIf"
+        }
+      ],
+      "top_source_url": "https://github.com/ypcypc/WhatIf",
+      "trust_flags": []
     },
     {
       "candidate_count": 3,
@@ -1761,6 +2294,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "worldpkg_export",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 187,
+          "summary": "Chinese novel-to-interactive-world project that extracts structured world data, events, characters, locations, items, lorebook data, entity state transitions, WorldPkg packages, then supports choice-driven divergence, alternative timelines, scene adaptation, and memory compressio",
+          "title": "ypcypc/WhatIf",
+          "trust_flags": [],
+          "url": "https://github.com/ypcypc/WhatIf"
+        }
+      ],
+      "top_source_url": "https://github.com/ypcypc/WhatIf",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "graph_branching_atomicity",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1821,6 +2377,33 @@
       "trust_flags": [
         "default-branch:nonstandard"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_status_dashboard",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 86,
+          "source": "github",
+          "stars": 168,
+          "summary": "Obsidian book planning plugin with plotgrid scene matrix, board scene cards, timeline, plotlines subway map, scene status badges, character/location/codex tags, and progress tracking.",
+          "title": "PixeroJan/obsidian-storyline",
+          "trust_flags": [],
+          "url": "https://github.com/PixeroJan/obsidian-storyline"
+        }
+      ],
+      "top_source_url": "https://github.com/PixeroJan/obsidian-storyline",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -2163,5 +2746,10 @@
     "Track story state by entity type: characters, locations, regions, factions, items, and open scene logs.",
     "After each generated scene, write only the changed entity slices and keep the review log linked to the triggering chapter.",
     "Use world-state diffs to catch impossible location jumps, missing inventory changes, and stale faction control."
+  ],
+  "worldpkg_export_hints": [
+    "Export reusable world packages as derived artifacts: events, characters, locations, items, lorebook entries, and entity state transitions.",
+    "Keep WorldPkg-style exports separate from canon write-back; imports must pass review before changing bible state.",
+    "Use exports for replay, what-if branches, or external inspection without granting them authority over confirmed continuation canon."
   ]
 }
