@@ -98,6 +98,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("quote attribution" OR "character coreference" OR "speaker attribution") ("book" OR "novel" OR "fiction") in:name,description,readme',
     '("readability" OR "sentence length" OR "lexical diversity" OR "lexical richness") ("novel" OR "fiction" OR "text analysis") in:name,description,readme',
     '("keyphrase extraction" OR "keyword extraction" OR "motif extraction") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
+    '("semantic chunk" OR "text splitter" OR "recursive character splitter") ("novel" OR "chapter" OR "long text") in:name,description,readme',
+    '("summarization" OR "extractive summarizer" OR "chapter summary") ("novel" OR "book" OR "long text") in:name,description,readme',
+    '("topic modeling" OR "dynamic topic" OR "topic drift") ("novel" OR "chapter" OR "narrative") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -203,6 +206,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/LSYS/LexicalRichness",
     "https://github.com/HLasse/TextDescriptives",
     "https://github.com/boudinfl/pke",
+    "https://github.com/benbrandt/text-splitter",
+    "https://github.com/langchain-ai/langchain",
+    "https://github.com/miso-belica/sumy",
+    "https://github.com/dmmiller612/bert-extractive-summarizer",
+    "https://github.com/MaartenGr/BERTopic",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -393,6 +401,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("readability_pacing_metric_gate", ("readability", "readability statistics", "sentence length", "paragraph length", "flesch", "gunning fog", "smog index", "text statistics")),
     ("lexical_diversity_voice_audit", ("lexical richness", "lexical diversity", "mtld", "hd-d", "hdd", "type-token", "type token ratio", "vocabulary diversity")),
     ("keyphrase_motif_extraction", ("keyphrase extraction", "keyword extraction", "keyphrase candidates", "candidate weighting", "motif extraction", "motif drift", "topic salience")),
+    ("semantic_chunk_boundary_map", ("semantic text splitter", "semantic chunk", "semantic chunking", "text splitter", "text splitting", "recursive character text splitter", "recursive character splitter", "chunk capacity", "chunk boundary", "boundary preservation")),
+    ("chapter_summary_anchor_gate", ("automatic text summarizer", "extractive summarizer", "extractive summarization", "summarization chains", "lsa", "lexrank", "textrank", "representative sentences", "chapter summary", "summary anchor")),
+    ("topic_drift_map", ("topic modeling", "bertopic", "dynamic topic modeling", "dynamic topics", "topic representation", "c-tf-idf", "topic drift", "topic clusters")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -777,6 +788,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "boudinfl/pke": (
         "PKE is a GPL-3.0 keyphrase extraction module with candidate extraction and weighting. "
         "Absorb keyphrase/motif extraction patterns only; GPL code and runtime are not imported."
+    ),
+    "benbrandt/text-splitter": (
+        "Text Splitter provides semantic text splitting for Markdown, plain text, and code with chunk capacities and boundary preservation. "
+        "Absorb semantic chunk boundary patterns only; Rust/Python/JS packages are not installed."
+    ),
+    "langchain-ai/langchain": (
+        "LangChain includes recursive character text splitters, semantic chunking, document transformers, and summarization chains. "
+        "Absorb chunking and summary-chain patterns only; framework runtime and providers are not imported."
+    ),
+    "miso-belica/sumy": (
+        "Sumy is an Apache-2.0 automatic text summarization library with LSA, LexRank, TextRank, Edmundson, and Luhn summarizers. "
+        "Absorb chapter summary anchor patterns only; package runtime is not imported."
+    ),
+    "dmmiller612/bert-extractive-summarizer": (
+        "BERT Extractive Summarizer selects representative sentences from embeddings for extractive summaries. "
+        "Absorb representative-sentence summary anchor patterns only; model/runtime dependencies are not installed."
+    ),
+    "maartengr/bertopic": (
+        "BERTopic is a topic-modeling framework using transformer embeddings, c-TF-IDF, topic representations, and dynamic topic modeling. "
+        "Absorb topic drift and topic-cluster audit patterns only; model/runtime dependencies are not installed."
     ),
 }
 
@@ -1193,6 +1224,9 @@ class NovelSourceDiscoveryService:
             "readability_pacing_metric_gate_hints": self._build_readability_pacing_metric_gate_hints(available_patterns),
             "lexical_diversity_voice_audit_hints": self._build_lexical_diversity_voice_audit_hints(available_patterns),
             "keyphrase_motif_extraction_hints": self._build_keyphrase_motif_extraction_hints(available_patterns),
+            "semantic_chunk_boundary_map_hints": self._build_semantic_chunk_boundary_map_hints(available_patterns),
+            "chapter_summary_anchor_gate_hints": self._build_chapter_summary_anchor_gate_hints(available_patterns),
+            "topic_drift_map_hints": self._build_topic_drift_map_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1747,6 +1781,9 @@ class NovelSourceDiscoveryService:
             "readability_pacing_metric_gate": 60,
             "lexical_diversity_voice_audit": 59,
             "keyphrase_motif_extraction": 58,
+            "semantic_chunk_boundary_map": 62,
+            "chapter_summary_anchor_gate": 61,
+            "topic_drift_map": 60,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1913,6 +1950,15 @@ class NovelSourceDiscoveryService:
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_ledger")
             targets.append("motif_topic_drift_rules")
+        if "semantic_chunk_boundary_map" in patterns:
+            targets.append("semantic_chunk_boundary_manifest")
+            targets.append("chunk_inclusion_rules")
+        if "chapter_summary_anchor_gate" in patterns:
+            targets.append("chapter_summary_anchor_index")
+            targets.append("representative_sentence_refs")
+        if "topic_drift_map" in patterns:
+            targets.append("topic_cluster_map")
+            targets.append("topic_drift_thresholds")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -2143,6 +2189,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["lexical_diversity_voice_report", "mtld_hdd_voice_baseline", "repeated_vocabulary_findings"])
         if "keyphrase_motif_extraction" in patterns:
             targets.extend(["keyphrase_motif_map", "motif_drift_findings", "topic_keyword_salience"])
+        if "semantic_chunk_boundary_map" in patterns:
+            targets.extend(["semantic_chunk_boundary_report", "chunk_overlap_manifest", "context_boundary_findings"])
+        if "chapter_summary_anchor_gate" in patterns:
+            targets.extend(["chapter_summary_anchor_report", "representative_sentence_refs", "summary_anchor_drift_findings"])
+        if "topic_drift_map" in patterns:
+            targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -3729,6 +3781,33 @@ class NovelSourceDiscoveryService:
             "Same-type creation should transform motif functions into new objects, places, taboos, and stakes rather than reusing source keywords.",
         ]
 
+    def _build_semantic_chunk_boundary_map_hints(self, patterns: set[str]) -> list[str]:
+        if "semantic_chunk_boundary_map" not in patterns:
+            return []
+        return [
+            "Split source and generated chapters at semantic boundaries before context packing, retrieval, or summary compression.",
+            "Each chunk needs source chapter id, boundary reason, overlap policy, token/character size, and inclusion purpose.",
+            "For same-type creation, remap chunk order and boundary function instead of preserving the source chapter segmentation route.",
+        ]
+
+    def _build_chapter_summary_anchor_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_summary_anchor_gate" not in patterns:
+            return []
+        return [
+            "Anchor summaries to accepted chapter ids, representative sentences, source refs, and canon status before using them as prompt context.",
+            "Reject summaries that hide unresolved hooks, merge separate events, or promote draft-only facts into continuation state.",
+            "For same-type creation, rebuild summary anchors around transformed events so source chapter-summary order cannot leak in.",
+        ]
+
+    def _build_topic_drift_map_hints(self, patterns: set[str]) -> list[str]:
+        if "topic_drift_map" not in patterns:
+            return []
+        return [
+            "Map topic clusters across chapters and compare drift against active arcs, promises, motifs, and chapter goals before acceptance.",
+            "Topic drift is a review signal: distinguish intentional subplot shift from accidental off-arc wandering or source-topic copying.",
+            "For same-type creation, transform topic sequence and salience so the new story does not follow the source's topic timeline.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -3925,6 +4004,12 @@ class NovelSourceDiscoveryService:
             targets.append("lexical_diversity_remap")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_remap")
+        if "semantic_chunk_boundary_map" in patterns:
+            targets.append("chunk_boundary_remap")
+        if "chapter_summary_anchor_gate" in patterns:
+            targets.append("summary_anchor_remap")
+        if "topic_drift_map" in patterns:
+            targets.append("topic_drift_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -4044,6 +4129,12 @@ class NovelSourceDiscoveryService:
             hints.append("Carry over only broad lexical diversity range; replace source catchphrases, image clusters, and signature diction.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.")
+        if "semantic_chunk_boundary_map" in patterns:
+            hints.append("Use source chunk boundaries as analysis evidence only; rebuild transformed chapter chunks around the new event chain.")
+        if "chapter_summary_anchor_gate" in patterns:
+            hints.append("Build new summary anchors from transformed accepted chapters before using summaries as drafting context.")
+        if "topic_drift_map" in patterns:
+            hints.append("Use topic drift maps to check new-story focus, but change source topic order, salience, and payoff sequence.")
         if "nrd_task_tree_pipeline" in patterns:
             hints.append("Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.")
         if "story_structure_rag_planning" in patterns:
@@ -4207,6 +4298,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform lexical voice baselines into new narrator and speaker vocabularies before prose expansion.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.")
+        if "semantic_chunk_boundary_map" in patterns:
+            hints.append("Transform chunk boundaries by changing chapter segmentation, included evidence, and transition logic.")
+        if "chapter_summary_anchor_gate" in patterns:
+            hints.append("Transform summary anchors by selecting new representative events and sentences from the new story state.")
+        if "topic_drift_map" in patterns:
+            hints.append("Transform topic drift by changing topic sequence, cluster labels, and subplot emphasis before drafting.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -4344,6 +4441,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject voice audits that keep source catchphrases, repeated vocabulary clusters, or signature metaphor families.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.")
+        if "semantic_chunk_boundary_map" in patterns:
+            hints.append("Reject transformed context packs that preserve source chunk order, boundary labels, or inclusion sequence under new names.")
+        if "chapter_summary_anchor_gate" in patterns:
+            hints.append("Reject summaries that preserve source chapter-summary order, representative sentence function, or unresolved-hook sequence.")
+        if "topic_drift_map" in patterns:
+            hints.append("Reject topic maps whose cluster sequence, salience curve, or off-arc detours match the source route.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -4362,6 +4465,9 @@ class NovelSourceDiscoveryService:
                 "readability_pacing_metric_gate",
                 "lexical_diversity_voice_audit",
                 "keyphrase_motif_extraction",
+                "semantic_chunk_boundary_map",
+                "chapter_summary_anchor_gate",
+                "topic_drift_map",
             }
         ):
             return True
@@ -4779,6 +4885,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_text_analysis_signal(haystack):
             return "novel-automation"
+        if self._has_segmentation_summary_topic_signal(haystack):
+            return "novel-automation"
         return "pattern-only"
 
     def _has_copy_similarity_signal(self, haystack: str) -> bool:
@@ -4817,6 +4925,24 @@ class NovelSourceDiscoveryService:
             "motif extraction",
         )
         return any(term in haystack for term in text_analysis_terms)
+
+    def _has_segmentation_summary_topic_signal(self, haystack: str) -> bool:
+        terms = (
+            "semantic chunk",
+            "semantic chunking",
+            "text splitter",
+            "text splitting",
+            "recursive character text splitter",
+            "summarization",
+            "summarizer",
+            "extractive summarization",
+            "representative sentences",
+            "topic modeling",
+            "bertopic",
+            "dynamic topic",
+            "topic drift",
+        )
+        return any(term in haystack for term in terms)
 
     def _absorbed_patterns(self, haystack: str) -> list[str]:
         patterns: list[str] = []

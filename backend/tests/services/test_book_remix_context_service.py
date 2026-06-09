@@ -1940,3 +1940,52 @@ def test_build_remix_inspired_context_block_renders_text_analysis_audit():
     assert "character_quote_attribution_map" in block
     assert "Inspired transformation audit" in block
     assert "quote_speaker_remap, readability_curve_remap, lexical_diversity_remap, keyphrase_motif_remap" in block
+
+
+def test_build_remix_continuation_context_block_renders_segmentation_summary_topic_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Segmentation Continuation Desk",
+        bible={"chapter_change_packages": [{"chapter_number": 8, "summary": "The archive clue split into two leads."}]},
+        plan={"summary": "Continue from the compressed archive lead."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "semantic_chunk_boundary_map"},
+                {"name": "chapter_summary_anchor_gate"},
+                {"name": "topic_drift_map"},
+            ],
+            "semantic_chunk_boundary_map_hints": ["Split source chapters at semantic boundaries before context packing."],
+            "chapter_summary_anchor_gate_hints": ["Anchor summaries to accepted chapter ids."],
+            "topic_drift_map_hints": ["Track topic drift against active arcs."],
+        },
+    )
+
+    assert "Segmentation, summary, and topic audit" in block
+    assert "semantic_chunk_boundary_map: split source and generated chapters" in block
+    assert "chapter_summary_anchor_gate: anchor every summary" in block
+    assert "topic_drift_map: map topic clusters" in block
+
+
+def test_build_remix_inspired_context_block_renders_segmentation_summary_topic_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Segmentation Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Keep chapter segmentation pressure while changing events.\n"
+            "source voice\n"
+            "- Dense clues, short summaries.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "semantic_chunk_boundary_map"},
+                {"name": "chapter_summary_anchor_gate"},
+                {"name": "topic_drift_map"},
+            ],
+            "inspired_mapping_targets": ["chunk_boundary_remap", "summary_anchor_remap", "topic_drift_remap"],
+            "inspired_copy_risk_hints": ["Reject copied chunk order, summary anchors, or source topic sequence."],
+        },
+    )
+
+    assert "Segmentation, summary, and topic audit" in block
+    assert "semantic_chunk_boundary_map" in block
+    assert "Inspired transformation audit" in block
+    assert "chunk_boundary_remap, summary_anchor_remap, topic_drift_remap" in block

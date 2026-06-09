@@ -4067,3 +4067,149 @@ def test_default_discovery_sources_include_text_analysis_projects():
     assert any("quote attribution" in query.lower() and "character" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("readability" in query.lower() and "lexical" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("keyphrase" in query.lower() and "motif" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_segmentation_summary_topic_sources_are_classified_as_chunk_summary_topic_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "benbrandt/text-splitter",
+                "html_url": "https://github.com/benbrandt/text-splitter",
+                "description": "Semantic text splitter for Markdown, text and code that preserves chunk capacity and boundaries.",
+                "stargazers_count": 1500,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["text-splitting", "chunking", "semantic-chunking"],
+                "updated_at": "2026-06-10T07:00:00Z",
+                "root_files": ["README.md", "Cargo.toml", "crates", "bindings"],
+            },
+            {
+                "full_name": "langchain-ai/langchain",
+                "html_url": "https://github.com/langchain-ai/langchain",
+                "description": "Framework with recursive character text splitter, semantic chunker, document transformers and summarization chains.",
+                "stargazers_count": 111000,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["text-splitters", "summarization", "rag"],
+                "updated_at": "2026-06-10T09:00:00Z",
+                "root_files": ["README.md", "libs", "docs", "pyproject.toml"],
+            },
+            {
+                "full_name": "miso-belica/sumy",
+                "html_url": "https://github.com/miso-belica/sumy",
+                "description": "Automatic text summarizer with LSA, LexRank, TextRank, Edmundson and Luhn summarizers.",
+                "stargazers_count": 3600,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["summarization", "textrank", "lexrank"],
+                "updated_at": "2026-06-04T11:00:00Z",
+                "root_files": ["README.rst", "sumy", "docs", "tests"],
+            },
+            {
+                "full_name": "dmmiller612/bert-extractive-summarizer",
+                "html_url": "https://github.com/dmmiller612/bert-extractive-summarizer",
+                "description": "Extractive summarizer using BERT sentence embeddings to select representative sentences.",
+                "stargazers_count": 3300,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["extractive-summarization", "sentence-embeddings"],
+                "updated_at": "2026-05-27T12:00:00Z",
+                "root_files": ["README.md", "summarizer", "setup.py", "tests"],
+            },
+            {
+                "full_name": "MaartenGr/BERTopic",
+                "html_url": "https://github.com/MaartenGr/BERTopic",
+                "description": "Topic modeling with transformer embeddings, c-TF-IDF, topic representation and dynamic topic modeling.",
+                "stargazers_count": 7200,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["topic-modeling", "bertopic", "dynamic-topics"],
+                "updated_at": "2026-06-09T20:00:00Z",
+                "root_files": ["README.md", "bertopic", "docs", "tests"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T15:10:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "semantic_chunk_boundary_map" in by_title["benbrandt/text-splitter"]["absorbed_patterns"]
+    assert "semantic_chunk_boundary_map" in by_title["langchain-ai/langchain"]["absorbed_patterns"]
+    assert "chapter_summary_anchor_gate" in by_title["miso-belica/sumy"]["absorbed_patterns"]
+    assert "chapter_summary_anchor_gate" in by_title["dmmiller612/bert-extractive-summarizer"]["absorbed_patterns"]
+    assert "topic_drift_map" in by_title["MaartenGr/BERTopic"]["absorbed_patterns"]
+
+
+def test_segmentation_summary_topic_pattern_pack_exposes_context_and_inspired_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T15:15:00+08:00",
+        "candidate_count": 3,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/benbrandt/text-splitter",
+                "title": "benbrandt/text-splitter",
+                "summary": "Semantic text splitting for Markdown/text/code with chunk capacities and boundary preservation.",
+                "stars": 1500,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["semantic_chunk_boundary_map"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/miso-belica/sumy",
+                "title": "miso-belica/sumy",
+                "summary": "Text summarizer with LSA, LexRank, TextRank, Edmundson and Luhn summarizers.",
+                "stars": 3600,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["chapter_summary_anchor_gate"],
+                "score": 80,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/MaartenGr/BERTopic",
+                "title": "MaartenGr/BERTopic",
+                "summary": "Topic modeling with transformer embeddings, c-TF-IDF, topic representation and dynamic topic modeling.",
+                "stars": 7200,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["topic_drift_map"],
+                "score": 78,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "semantic_chunk_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_summary_anchor_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "topic_drift_map" in pattern_pack["whole_book_analysis_targets"]
+    assert "semantic_chunk_boundary_map_hints" in pattern_pack
+    assert "chapter_summary_anchor_gate_hints" in pattern_pack
+    assert "topic_drift_map_hints" in pattern_pack
+    assert "chunk_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "summary_anchor_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "topic_drift_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "semantic_chunk_boundary_map_hints" in digest
+    assert "chapter_summary_anchor_gate_hints" in digest
+    assert "topic_drift_map_hints" in digest
+
+
+def test_default_discovery_sources_include_segmentation_summary_topic_projects():
+    assert "https://github.com/benbrandt/text-splitter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/langchain-ai/langchain" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/miso-belica/sumy" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dmmiller612/bert-extractive-summarizer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/MaartenGr/BERTopic" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("semantic" in query.lower() and "chunk" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("summarization" in query.lower() and "chapter" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("topic modeling" in query.lower() and "topic drift" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

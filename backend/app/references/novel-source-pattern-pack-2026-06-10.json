@@ -202,7 +202,13 @@
     "lexical_diversity_voice_baseline",
     "vocabulary_drift_rules",
     "keyphrase_motif_ledger",
-    "motif_topic_drift_rules"
+    "motif_topic_drift_rules",
+    "semantic_chunk_boundary_manifest",
+    "chunk_inclusion_rules",
+    "chapter_summary_anchor_index",
+    "representative_sentence_refs",
+    "topic_cluster_map",
+    "topic_drift_thresholds"
   ],
   "boring_opening_quality_gates_hints": [
     "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
@@ -592,7 +598,10 @@
     "Reject copied speaker quote distribution, alias clusters, or dialogue-turn ownership that makes the new cast trace back to the source.",
     "Reject transformed chapters that match source readability curves because they also preserve source scene order or payoff cadence.",
     "Reject voice audits that keep source catchphrases, repeated vocabulary clusters, or signature metaphor families.",
-    "Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces."
+    "Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.",
+    "Reject transformed context packs that preserve source chunk order, boundary labels, or inclusion sequence under new names.",
+    "Reject summaries that preserve source chapter-summary order, representative sentence function, or unresolved-hook sequence.",
+    "Reject topic maps whose cluster sequence, salience curve, or off-arc detours match the source route."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -689,7 +698,10 @@
     "quote_speaker_remap",
     "readability_curve_remap",
     "lexical_diversity_remap",
-    "keyphrase_motif_remap"
+    "keyphrase_motif_remap",
+    "chunk_boundary_remap",
+    "summary_anchor_remap",
+    "topic_drift_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -759,7 +771,10 @@
     "Map source quote distribution into new speaker functions, then rewrite aliases, speakers, and dialogue content for the transformed cast.",
     "Use readability and sentence-length curves as rhythm guidance while rebuilding chapter events and scene exits.",
     "Carry over only broad lexical diversity range; replace source catchphrases, image clusters, and signature diction.",
-    "Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes."
+    "Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.",
+    "Use source chunk boundaries as analysis evidence only; rebuild transformed chapter chunks around the new event chain.",
+    "Build new summary anchors from transformed accepted chapters before using summaries as drafting context.",
+    "Use topic drift maps to check new-story focus, but change source topic order, salience, and payoff sequence."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -821,7 +836,10 @@
     "Transform quote attribution by assigning new speakers, aliases, relationship pressure, and dialogue goals before drafting.",
     "Transform pacing metrics into a new readability curve for the new chapter sequence, not a source chapter-order clone.",
     "Transform lexical voice baselines into new narrator and speaker vocabularies before prose expansion.",
-    "Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes."
+    "Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.",
+    "Transform chunk boundaries by changing chapter segmentation, included evidence, and transition logic.",
+    "Transform summary anchors by selecting new representative events and sentences from the new story state.",
+    "Transform topic drift by changing topic sequence, cluster labels, and subplot emphasis before drafting."
   ],
   "interrupted_resume_flow_hints": [
     "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
@@ -1027,7 +1045,8 @@
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
     "本次只使用 public metadata、README 静态摘录、LICENSE/root-file 静态信息和 git ls-remote HEAD 证据；没有安装、克隆、运行或调用外部项目。",
     "故事质量评估与多智能体推演来源默认沉淀为 pattern-only；不导入外部代码、数据集、模型权重、脚本或评测输出长表。",
-    "包含 shell、provider config、模型评测或仿真 runtime 的项目继续停留在静态参考层。"
+    "包含 shell、provider config、模型评测或仿真 runtime 的项目继续停留在静态参考层。",
+    "Segmentation, summary, and topic-drift sources remain pattern-only; do not import external splitter, summarizer, topic-model runtime, or model dependencies."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1083,12 +1102,14 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 93,
+  "source_candidate_count": 98,
   "source_intake_notes": [
     "2026-06-10 interactive narrative intake used public metadata/README summaries only; no clone, install, package hook, MCP server, browser extension, or external code execution.",
     "Interactive branching patterns are pattern-only and feed continuation/same-type prompt audits through choice graph, dialogue node, passage link, and choice-stat consequence gates.",
     "2026-06-10 copy-similarity intake used public metadata/README summaries and git ls-remote HEAD checks only; no clone, install, package hook, detector execution, or external code import.",
-    "Copy-similarity patterns are pattern-only gates for same-type creation and continuation copy-risk review: fingerprint overlap, fuzzy phrase thresholds, and diff-span copied-text review."
+    "Copy-similarity patterns are pattern-only gates for same-type creation and continuation copy-risk review: fingerprint overlap, fuzzy phrase thresholds, and diff-span copied-text review.",
+    "2026-06-10 segmentation/summary/topic intake used public metadata plus git ls-remote HEAD checks only; no clone, install, package hook, model/provider call, or external code execution.",
+    "Segmentation, summary, and topic patterns are pattern-only gates for long-text context packing, accepted-chapter summary anchoring, and same-type topic-drift copy-risk review."
   ],
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
@@ -1188,7 +1209,12 @@
     "textstat/textstat",
     "LSYS/LexicalRichness",
     "HLasse/TextDescriptives",
-    "boudinfl/pke"
+    "boudinfl/pke",
+    "benbrandt/text-splitter",
+    "langchain-ai/langchain",
+    "miso-belica/sumy",
+    "dmmiller612/bert-extractive-summarizer",
+    "MaartenGr/BERTopic"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -1655,7 +1681,16 @@
     "repeated_vocabulary_findings",
     "keyphrase_motif_map",
     "motif_drift_findings",
-    "topic_keyword_salience"
+    "topic_keyword_salience",
+    "semantic_chunk_boundary_report",
+    "chunk_overlap_manifest",
+    "context_boundary_findings",
+    "chapter_summary_anchor_report",
+    "representative_sentence_refs",
+    "summary_anchor_drift_findings",
+    "topic_drift_map",
+    "topic_cluster_timeline",
+    "off_arc_topic_findings"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -9199,6 +9234,114 @@
           "score": 75
         }
       ]
+    },
+    {
+      "name": "semantic_chunk_boundary_map",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/langchain-ai/langchain",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "langchain-ai/langchain",
+          "url": "https://github.com/langchain-ai/langchain",
+          "source": "github",
+          "summary": "MIT framework with recursive character text splitters, semantic chunking, document transformers, and summarization chains; used as pattern evidence for chunk-boundary and summary-chain gates only.",
+          "stars": 111000,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 68
+        },
+        {
+          "title": "benbrandt/text-splitter",
+          "url": "https://github.com/benbrandt/text-splitter",
+          "source": "github",
+          "summary": "MIT semantic text splitter for Markdown, plain text, and code with chunk capacity and boundary preservation; used as pattern evidence for semantic chunk manifests only.",
+          "stars": 1500,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 44
+        }
+      ]
+    },
+    {
+      "name": "chapter_summary_anchor_gate",
+      "candidate_count": 3,
+      "top_source_url": "https://github.com/langchain-ai/langchain",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "langchain-ai/langchain",
+          "url": "https://github.com/langchain-ai/langchain",
+          "source": "github",
+          "summary": "MIT framework with summarization chains and document transformers; used as pattern evidence for chapter-summary anchor gates only.",
+          "stars": 111000,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 68
+        },
+        {
+          "title": "miso-belica/sumy",
+          "url": "https://github.com/miso-belica/sumy",
+          "source": "github",
+          "summary": "Apache-2.0 automatic text summarization library with LSA, LexRank, TextRank, Edmundson, and Luhn summarizers; used as pattern evidence for summary anchors only.",
+          "stars": 3600,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 40
+        },
+        {
+          "title": "dmmiller612/bert-extractive-summarizer",
+          "url": "https://github.com/dmmiller612/bert-extractive-summarizer",
+          "source": "github",
+          "summary": "MIT extractive summarizer selecting representative sentences from embeddings; used as pattern evidence for representative-sentence summary anchoring only.",
+          "stars": 3300,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 32
+        }
+      ]
+    },
+    {
+      "name": "topic_drift_map",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/MaartenGr/BERTopic",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "MaartenGr/BERTopic",
+          "url": "https://github.com/MaartenGr/BERTopic",
+          "source": "github",
+          "summary": "MIT topic-modeling framework using transformer embeddings, c-TF-IDF, topic representations, and dynamic topic modeling; used as pattern evidence for topic-drift maps only.",
+          "stars": 7200,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 32
+        }
+      ]
     }
   ],
   "world_state_tracking_hints": [
@@ -9234,5 +9377,20 @@
     "Extract keyphrases and motif keywords from source, outline, and draft to reveal topic drift, missing promises, and repeated thematic anchors.",
     "Continuation review should compare keyphrase salience against active arcs, foreshadows, and chapter goals before canon write-back.",
     "Same-type creation should transform motif functions into new objects, places, taboos, and stakes rather than reusing source keywords."
+  ],
+  "semantic_chunk_boundary_map_hints": [
+    "Split source and generated chapters at semantic boundaries before context packing, retrieval, or summary compression.",
+    "Each chunk needs source chapter id, boundary reason, overlap policy, token/character size, and inclusion purpose.",
+    "For same-type creation, remap chunk order and boundary function instead of preserving the source chapter segmentation route."
+  ],
+  "chapter_summary_anchor_gate_hints": [
+    "Anchor summaries to accepted chapter ids, representative sentences, source refs, and canon status before using them as prompt context.",
+    "Reject summaries that hide unresolved hooks, merge separate events, or promote draft-only facts into continuation state.",
+    "For same-type creation, rebuild summary anchors around transformed events so source chapter-summary order cannot leak in."
+  ],
+  "topic_drift_map_hints": [
+    "Map topic clusters across chapters and compare drift against active arcs, promises, motifs, and chapter goals before acceptance.",
+    "Topic drift is a review signal: distinguish intentional subplot shift from accidental off-arc wandering or source-topic copying.",
+    "For same-type creation, transform topic sequence and salience so the new story does not follow the source's topic timeline."
   ]
 }

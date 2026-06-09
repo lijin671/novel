@@ -309,6 +309,9 @@ def render_source_pattern_pack_digest(
         "readability_pacing_metric_gate_hints",
         "lexical_diversity_voice_audit_hints",
         "keyphrase_motif_extraction_hints",
+        "semantic_chunk_boundary_map_hints",
+        "chapter_summary_anchor_gate_hints",
+        "topic_drift_map_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

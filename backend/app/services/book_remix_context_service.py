@@ -126,6 +126,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_segmentation_summary_topic_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -388,6 +392,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_text_analysis_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_segmentation_summary_topic_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1290,6 +1298,31 @@ def _append_text_analysis_audit_section(
         lines.append("- keyphrase_motif_extraction: extract keyphrases and motif terms to audit promise coverage, topic drift, and copied source-specific anchors")
 
 
+def _append_segmentation_summary_topic_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render chunking, chapter-summary, and topic-drift gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "semantic_chunk_boundary_map",
+        "chapter_summary_anchor_gate",
+        "topic_drift_map",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Segmentation, summary, and topic audit:")
+    if "semantic_chunk_boundary_map" in pattern_names:
+        lines.append("- semantic_chunk_boundary_map: split source and generated chapters at semantic boundaries with chunk id, overlap policy, boundary reason, and inclusion purpose")
+    if "chapter_summary_anchor_gate" in pattern_names:
+        lines.append("- chapter_summary_anchor_gate: anchor every summary to accepted chapter ids, representative sentences, canon status, and unresolved-hook evidence")
+    if "topic_drift_map" in pattern_names:
+        lines.append("- topic_drift_map: map topic clusters across chapters and flag off-arc drift, missing promises, or copied source topic sequence")
+
+
 def _append_inspectable_rewrite_audit_section(
     *,
     lines: list[str],
@@ -1741,6 +1774,9 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "readability_pacing_metric_gate_hints": "readability_pacing_metric_gate",
         "lexical_diversity_voice_audit_hints": "lexical_diversity_voice_audit",
         "keyphrase_motif_extraction_hints": "keyphrase_motif_extraction",
+        "semantic_chunk_boundary_map_hints": "semantic_chunk_boundary_map",
+        "chapter_summary_anchor_gate_hints": "chapter_summary_anchor_gate",
+        "topic_drift_map_hints": "topic_drift_map",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):
