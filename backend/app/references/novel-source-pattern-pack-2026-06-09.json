@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-09T22:40:00+08:00",
-  "source_candidate_count": 67,
+  "generated_at": "2026-06-09T23:20:00+08:00",
+  "source_candidate_count": 75,
   "source_titles": [
     "loreum-app/loreum",
     "olivierkes/manuskript",
@@ -58,22 +58,30 @@
     "worldwonderer/oh-story-claudecode",
     "lujih/webnovel-writer-opencode",
     "jinmawang/claude-novel-writeFlow",
+    "THU-KEG/StoryWriter",
     "bal-spec/sillytavern-character-memory",
     "guchendesigndog/GC-Writer-Assistant",
     "ShmilyWithme/Shmily_novel_skill",
     "envy-ai/ai_rpg",
     "vkbo/novelWriter",
+    "lechmazur/writing_styles",
     "davealaw/FictionRefine",
+    "clchinkc/story-bench",
     "principia-ai/WriteHERE",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+    "lars76/story-evaluation-llm",
+    "anirudhlakkaraju/cs4_benchmark",
+    "ZJU-LLMs/OpenStory",
     "GOAT-AI-lab/GOAT-Storytelling-Agent",
     "aikohanasaki/SillyTavern-MemoryBooks",
-    "kaigani/codeywood"
+    "kaigani/codeywood",
+    "lechmazur/writing",
+    "Theltn/AICreativityJudge"
   ],
   "workflow_patterns": [
     {
       "name": "continuation",
-      "candidate_count": 9,
+      "candidate_count": 10,
       "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -216,6 +224,19 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 64
+        },
+        {
+          "title": "clchinkc/story-bench",
+          "url": "https://github.com/clchinkc/story-bench",
+          "source": "github",
+          "summary": "Story Theory Benchmark uses objective story theory frameworks, programmatic checks, LLM judge ensemble, beat interpolation, beat revision, constrained continuation, theory conversion and weighted narrative criteria. Static intake note: Story Theory Benchmark using objective story",
+          "stars": null,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 52
         }
       ]
     },
@@ -986,7 +1007,7 @@
     },
     {
       "name": "character_cards",
-      "candidate_count": 19,
+      "candidate_count": 21,
       "top_source_url": "https://github.com/loreum-app/loreum",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -1258,6 +1279,32 @@
           ],
           "trust_flags": [],
           "score": 71
+        },
+        {
+          "title": "lars76/story-evaluation-llm",
+          "url": "https://github.com/lars76/story-evaluation-llm",
+          "source": "github",
+          "summary": "Story evaluation dataset with 15 LLM models, comprehensive quality evaluations, q1-q15 metrics, length score, overall score, character consistency, reader interest, plot resolution and ranked weaknesses. Static intake note: Story evaluation dataset and benchmark for LLM short-sto",
+          "stars": null,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 44
+        },
+        {
+          "title": "ZJU-LLMs/OpenStory",
+          "url": "https://github.com/ZJU-LLMs/OpenStory",
+          "source": "github",
+          "summary": "OpenStory is a multi-agent inference and simulation framework for story worlds, dynamically adding and removing agents and simulating Dream of the Red Chamber character behavior, social interaction and story evolution. Static intake note: OpenStory multi-agent story-world simulat",
+          "stars": null,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 44
         },
         {
           "title": "kaigani/codeywood",
@@ -2589,6 +2636,33 @@
       ]
     },
     {
+      "name": "event_outline_history_compression",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/THU-KEG/StoryWriter",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "license:noassertion"
+      ],
+      "sources": [
+        {
+          "title": "THU-KEG/StoryWriter",
+          "url": "https://github.com/THU-KEG/StoryWriter",
+          "source": "github",
+          "summary": "Multi-agent long story generation framework with Outline Agent, Planning Agent and Writing Agent that dynamically compresses story history to generate coherent new content aligned with current events. Static intake note: Multi-agent long-story generation framework with Outline Ag",
+          "stars": null,
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "score": 72
+        }
+      ]
+    },
+    {
       "name": "rolling_summary_context_trim",
       "candidate_count": 2,
       "top_source_url": "https://github.com/makieali/longform-ai",
@@ -2962,6 +3036,33 @@
       ]
     },
     {
+      "name": "pairwise_story_comparison_ranking",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/lechmazur/writing",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "license:noassertion"
+      ],
+      "sources": [
+        {
+          "title": "lechmazur/writing",
+          "url": "https://github.com/lechmazur/writing",
+          "source": "github",
+          "summary": "LLM Creative Story-Writing Benchmark with head-to-head story comparisons, constrained creative briefs, paired story judgments, visible story order swaps, pairwise margins and evaluator agreement. Static intake note: LLM creative story-writing benchmark with constrained creative b",
+          "stars": null,
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "score": 28
+        }
+      ]
+    },
+    {
       "name": "style_guide_layering",
       "candidate_count": 2,
       "top_source_url": "https://github.com/loreum-app/loreum",
@@ -3069,6 +3170,29 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 52
+        }
+      ]
+    },
+    {
+      "name": "multidimensional_quality_rubric",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/lars76/story-evaluation-llm",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "lars76/story-evaluation-llm",
+          "url": "https://github.com/lars76/story-evaluation-llm",
+          "source": "github",
+          "summary": "Story evaluation dataset with 15 LLM models, comprehensive quality evaluations, q1-q15 metrics, length score, overall score, character consistency, reader interest, plot resolution and ranked weaknesses. Static intake note: Story evaluation dataset and benchmark for LLM short-sto",
+          "stars": null,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 44
         }
       ]
     },
@@ -3186,6 +3310,29 @@
       ]
     },
     {
+      "name": "story_theory_beat_evaluation",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/clchinkc/story-bench",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "clchinkc/story-bench",
+          "url": "https://github.com/clchinkc/story-bench",
+          "source": "github",
+          "summary": "Story Theory Benchmark uses objective story theory frameworks, programmatic checks, LLM judge ensemble, beat interpolation, beat revision, constrained continuation, theory conversion and weighted narrative criteria. Static intake note: Story Theory Benchmark using objective story",
+          "stars": null,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 52
+        }
+      ]
+    },
+    {
       "name": "recursive_adaptive_planning",
       "candidate_count": 1,
       "top_source_url": "https://github.com/principia-ai/WriteHERE",
@@ -3214,7 +3361,7 @@
     },
     {
       "name": "style_signature",
-      "candidate_count": 13,
+      "candidate_count": 14,
       "top_source_url": "https://github.com/loreum-app/loreum",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3409,6 +3556,21 @@
           "score": 71
         },
         {
+          "title": "lechmazur/writing_styles",
+          "url": "https://github.com/lechmazur/writing_styles",
+          "source": "github",
+          "summary": "Flash fiction style benchmark with style fingerprints, within-model diversity, voice and diction, rhythm and syntax, POV and discourse, structure and pacing, tone, imagery, dialogue, experimentation and closure axes. Static intake note: Flash-fiction style and diversity benchmark",
+          "stars": null,
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "score": 52
+        },
+        {
           "title": "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
           "url": "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant",
           "source": "github",
@@ -3514,6 +3676,33 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 80
+        }
+      ]
+    },
+    {
+      "name": "style_axis_diversity_fingerprint",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/lechmazur/writing_styles",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "license:noassertion"
+      ],
+      "sources": [
+        {
+          "title": "lechmazur/writing_styles",
+          "url": "https://github.com/lechmazur/writing_styles",
+          "source": "github",
+          "summary": "Flash fiction style benchmark with style fingerprints, within-model diversity, voice and diction, rhythm and syntax, POV and discourse, structure and pacing, tone, imagery, dialogue, experimentation and closure axes. Static intake note: Flash-fiction style and diversity benchmark",
+          "stars": null,
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "score": 52
         }
       ]
     },
@@ -3686,6 +3875,33 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 74
+        }
+      ]
+    },
+    {
+      "name": "constraint_specificity_creativity_benchmark",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/anirudhlakkaraju/cs4_benchmark",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "anirudhlakkaraju/cs4_benchmark",
+          "url": "https://github.com/anirudhlakkaraju/cs4_benchmark",
+          "source": "github",
+          "summary": "CS4 evaluates LLM creativity in story generation with prompts of varying constraint specificity, measuring creativity, constraint satisfaction, coherence and perplexity. Static intake note: CS4 benchmark for evaluating LLM creativity in story generation under varying constraint s",
+          "stars": null,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 44
         }
       ]
     },
@@ -4682,6 +4898,29 @@
       ]
     },
     {
+      "name": "agentic_story_world_simulation",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/ZJU-LLMs/OpenStory",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "ZJU-LLMs/OpenStory",
+          "url": "https://github.com/ZJU-LLMs/OpenStory",
+          "source": "github",
+          "summary": "OpenStory is a multi-agent inference and simulation framework for story worlds, dynamically adding and removing agents and simulating Dream of the Red Chamber character behavior, social interaction and story evolution. Static intake note: OpenStory multi-agent story-world simulat",
+          "stars": null,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 44
+        }
+      ]
+    },
+    {
       "name": "structured_generation_schema",
       "candidate_count": 4,
       "top_source_url": "https://github.com/Narcooo/inkos",
@@ -5430,6 +5669,80 @@
       ]
     },
     {
+      "name": "humanization_stylometry_levers",
+      "candidate_count": 4,
+      "top_source_url": "https://github.com/harshaneel/humanize",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "trust_flags": [
+        "license:noassertion"
+      ],
+      "sources": [
+        {
+          "title": "harshaneel/humanize",
+          "url": "https://github.com/harshaneel/humanize",
+          "source": "github",
+          "summary": "LLM-agnostic static AI text humanization and detection skill using perplexity, burstiness, stylometry, discourse, watermarking, humanization levers, and factual guardrails.",
+          "stars": 215,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 98
+        },
+        {
+          "title": "THU-KEG/StoryWriter",
+          "url": "https://github.com/THU-KEG/StoryWriter",
+          "source": "github",
+          "summary": "Multi-agent long story generation framework with Outline Agent, Planning Agent and Writing Agent that dynamically compresses story history to generate coherent new content aligned with current events. Static intake note: Multi-agent long-story generation framework with Outline Ag",
+          "stars": null,
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "score": 72
+        },
+        {
+          "title": "lechmazur/writing_styles",
+          "url": "https://github.com/lechmazur/writing_styles",
+          "source": "github",
+          "summary": "Flash fiction style benchmark with style fingerprints, within-model diversity, voice and diction, rhythm and syntax, POV and discourse, structure and pacing, tone, imagery, dialogue, experimentation and closure axes. Static intake note: Flash-fiction style and diversity benchmark",
+          "stars": null,
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "score": 52
+        },
+        {
+          "title": "anirudhlakkaraju/cs4_benchmark",
+          "url": "https://github.com/anirudhlakkaraju/cs4_benchmark",
+          "source": "github",
+          "summary": "CS4 evaluates LLM creativity in story generation with prompts of varying constraint specificity, measuring creativity, constraint satisfaction, coherence and perplexity. Static intake note: CS4 benchmark for evaluating LLM creativity in story generation under varying constraint s",
+          "stars": null,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "trust_flags": [],
+          "score": 44
+        }
+      ]
+    },
+    {
       "name": "graph_branching_atomicity",
       "candidate_count": 2,
       "top_source_url": "https://github.com/kevboh/longform",
@@ -5470,35 +5783,8 @@
       ]
     },
     {
-      "name": "humanization_stylometry_levers",
-      "candidate_count": 1,
-      "top_source_url": "https://github.com/harshaneel/humanize",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "shell_script"
-      ],
-      "trust_flags": [],
-      "sources": [
-        {
-          "title": "harshaneel/humanize",
-          "url": "https://github.com/harshaneel/humanize",
-          "source": "github",
-          "summary": "LLM-agnostic static AI text humanization and detection skill using perplexity, burstiness, stylometry, discourse, watermarking, humanization levers, and factual guardrails.",
-          "stars": 215,
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "shell_script"
-          ],
-          "trust_flags": [],
-          "score": 98
-        }
-      ]
-    },
-    {
       "name": "workflow_agent_pipeline",
-      "candidate_count": 6,
+      "candidate_count": 8,
       "top_source_url": "https://github.com/jncchds/abook",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -5506,7 +5792,9 @@
         "mcp_server",
         "shell_script"
       ],
-      "trust_flags": [],
+      "trust_flags": [
+        "license:noassertion"
+      ],
       "sources": [
         {
           "title": "jncchds/abook",
@@ -5590,6 +5878,34 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 80
+        },
+        {
+          "title": "THU-KEG/StoryWriter",
+          "url": "https://github.com/THU-KEG/StoryWriter",
+          "source": "github",
+          "summary": "Multi-agent long story generation framework with Outline Agent, Planning Agent and Writing Agent that dynamically compresses story history to generate coherent new content aligned with current events. Static intake note: Multi-agent long-story generation framework with Outline Ag",
+          "stars": null,
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "score": 72
+        },
+        {
+          "title": "ZJU-LLMs/OpenStory",
+          "url": "https://github.com/ZJU-LLMs/OpenStory",
+          "source": "github",
+          "summary": "OpenStory is a multi-agent inference and simulation framework for story worlds, dynamically adding and removing agents and simulating Dream of the Red Chamber character behavior, social interaction and story evolution. Static intake note: OpenStory multi-agent story-world simulat",
+          "stars": null,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 44
         }
       ]
     },
@@ -5896,7 +6212,7 @@
     },
     {
       "name": "quality_score_loop",
-      "candidate_count": 4,
+      "candidate_count": 5,
       "top_source_url": "https://github.com/NousResearch/autonovel",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -5960,6 +6276,19 @@
           "risk_flags": [],
           "trust_flags": [],
           "score": 91
+        },
+        {
+          "title": "clchinkc/story-bench",
+          "url": "https://github.com/clchinkc/story-bench",
+          "source": "github",
+          "summary": "Story Theory Benchmark uses objective story theory frameworks, programmatic checks, LLM judge ensemble, beat interpolation, beat revision, constrained continuation, theory conversion and weighted narrative criteria. Static intake note: Story Theory Benchmark using objective story",
+          "stars": null,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 52
         }
       ]
     },
@@ -6652,6 +6981,33 @@
           "score": 74
         }
       ]
+    },
+    {
+      "name": "source_discovery",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/Theltn/AICreativityJudge",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "license:noassertion"
+      ],
+      "sources": [
+        {
+          "title": "Theltn/AICreativityJudge",
+          "url": "https://github.com/Theltn/AICreativityJudge",
+          "source": "github",
+          "summary": "Creative writing judge with five-dimension rubric for lexical richness, syntactic complexity, novelty, imagery and narrative dynamics, plus LLM story evaluation reports. Static intake note: Creative-writing evaluator using a five-dimension rubric: lexical richness, syntactic comp",
+          "stars": null,
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "score": 24
+        }
+      ]
     }
   ],
   "whole_book_analysis_targets": [
@@ -6966,6 +7322,27 @@
     "character_state_snapshot",
     "timeline_event_log",
     "context_trim_manifest",
+    "pairwise_story_comparisons",
+    "matched_variant_briefs",
+    "evaluator_agreement_report",
+    "story_quality_rubric_scores",
+    "ranked_weaknesses",
+    "reader_interest_resolution_scores",
+    "story_theory_task_results",
+    "beat_execution_checks",
+    "constrained_continuation_criteria",
+    "constraint_specificity_level",
+    "constraint_satisfaction_results",
+    "coherence_creativity_balance",
+    "style_axis_fingerprint",
+    "style_diversity_score",
+    "voice_rhythm_pov_axes",
+    "event_outline_graph",
+    "chapter_plan_events",
+    "compressed_history_for_current_event",
+    "simulated_agent_interactions",
+    "character_behavior_state",
+    "story_world_evolution_log",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
@@ -7130,6 +7507,13 @@
     "章节验收同时检查一致性、OOC、节奏、爽点兑现和下一章拉力；流畅但无追读压力不能接受。",
     "按章节蓝图、关键信息、任务卡到 Draft A/B/C 逐级修订；Draft C 只做去 AI 味和语言收束，不改事实。",
     "用 rolling summary、人物状态、时间线事件和裁剪清单控制长上下文，只注入与当前章节有关的片段。",
+    "关键章节可生成同约束变体并做成对比较；验收依据是相同创意简报下的优劣证据，不是单稿直觉。",
+    "章节评审拆成多维指标：语法清晰、因果连接、场景目的、内部一致性、人物动机、对白、读者兴趣和收束。",
+    "用故事理论检查当前节拍是否完成叙事功能；补桥、修节拍和受限续写都要保留前后连续性。",
+    "记录每章硬约束数量和满足情况；在约束更具体时仍需保留新意、连贯性和可读性。",
+    "用风格轴检查输出：声线、句法节奏、视角距离、结构节奏、情绪、意象、对白和收束方式。",
+    "把长篇历史压缩到当前事件相关的事件大纲和章节计划，避免上下文过载导致当前行动失焦。",
+    "多角色推演只作为因果候选；角色行为、社交互动和世界演化必须经过作者验收后才写入正史。",
     "长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。",
     "把章节、笔记、摘要和分析切成稳定文本单元，便于 diff、回滚和人工审阅。",
     "生成前核对本章 synopsis、评论、注释和交叉引用，避免遗漏已标记线索。",
@@ -7205,7 +7589,14 @@
     "Keep projection logs for state/index/summary/memory/vector updates so stale read models are visible before the next prompt.",
     "Track foreshadowing debt with status, expected payoff window, context-budget reservation, and last chapter touched.",
     "Persist Draft A/B/C status and the next-chapter handoff separately from the final accepted prose.",
-    "Store rolling summaries, context trim manifests, and selected relevant passages beside the chapter run for restore and review."
+    "Store rolling summaries, context trim manifests, and selected relevant passages beside the chapter run for restore and review.",
+    "Store matched variant ids, shared brief, evaluator notes, order-swap result, and keep/discard decision for every pairwise comparison.",
+    "Persist rubric scores and top ranked weaknesses so later revisions target the largest quality gaps first.",
+    "Record beat task type, required narrative function, preservation requirements, and pass/fail criteria before accepting a revision.",
+    "Store each required constraint, satisfaction evidence, and coherence tradeoff so highly specific prompts remain auditable.",
+    "Persist style-axis fingerprints per chapter to detect voice narrowing, rhythm drift, or unplanned POV changes across batches.",
+    "Keep compressed history tied to the current event and chapter plan so omitted history can be inspected when continuity breaks.",
+    "Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically."
   ],
   "style_signature_hints": [
     "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
@@ -7689,6 +8080,34 @@
     "Maintain a rolling summary plus character states, timeline events, world state, and relevant passages for each chapter.",
     "When context is trimmed, record dropped items and keep enough evidence to explain why the selected context supports the next beat."
   ],
+  "pairwise_story_comparison_ranking_hints": [
+    "Compare matched chapter variants against the same brief before accepting a high-impact continuation or same-type draft.",
+    "Use order-swapped pairwise notes to reduce position bias; keep the winning rationale as revision evidence, not canon."
+  ],
+  "multidimensional_quality_rubric_hints": [
+    "Score drafts across grammar, clarity, causal connection, scene purpose, internal consistency, character consistency, dialogue, reader interest, and resolution.",
+    "Rank the top weaknesses and convert them into targeted revision tasks instead of relying on a single overall score."
+  ],
+  "story_theory_beat_evaluation_hints": [
+    "Evaluate whether the current beat performs its narrative function and preserves required context before moving to prose polish.",
+    "For beat revision, separate diagnosis, flaw fix, beat satisfaction, preservation, and minimal-change criteria."
+  ],
+  "constraint_specificity_creativity_benchmark_hints": [
+    "Track constraint specificity for each prompt so creativity is judged together with constraint satisfaction and coherence.",
+    "Highly specific briefs should not push the draft into copied source events, checklist prose, or incoherent causal shortcuts."
+  ],
+  "style_axis_diversity_fingerprint_hints": [
+    "Fingerprint style on visible axes: voice/diction, rhythm/syntax, POV/discourse, structure/pacing, tone, imagery, dialogue, experimentation, and closure.",
+    "Use diversity evidence to avoid style collapse across chapters while preserving the target book's accepted voice boundaries."
+  ],
+  "event_outline_history_compression_hints": [
+    "Plan long stories as event outlines and chapter-wise event plans before writing the current chapter.",
+    "Compress story history around the current event, keeping the omitted-history list available for continuity review."
+  ],
+  "agentic_story_world_simulation_hints": [
+    "Use multi-agent story-world simulation as a proposal generator for character behavior, social interaction, and world evolution.",
+    "Simulated outcomes must be reviewed against canon and author direction before they become continuation facts."
+  ],
   "inspired_mapping_targets": [
     "character_remap",
     "organization_remap",
@@ -7759,7 +8178,14 @@
     "foreshadowing_debt_remap",
     "retention_hook_remap",
     "draft_stage_remap",
-    "rolling_context_remap"
+    "rolling_context_remap",
+    "pairwise_variant_remap",
+    "quality_rubric_remap",
+    "story_theory_beat_remap",
+    "constraint_specificity_remap",
+    "style_axis_remap",
+    "event_outline_remap",
+    "agent_world_simulation_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -7806,7 +8232,14 @@
     "Rebuild foreshadowing debt from new hooks and payoff windows instead of copying source mysteries.",
     "Map reader-retention pressure to new hooks, pleasure points, rhythm, and cliffhangers; do not reuse source set pieces.",
     "Use Draft A/B/C stages to improve transformed prose while preserving independence and canon boundaries.",
-    "Build rolling summaries from transformed accepted chapters only; source summaries remain craft references."
+    "Build rolling summaries from transformed accepted chapters only; source summaries remain craft references.",
+    "Compare transformed variants against the same new-story brief; do not choose a variant because it is closer to the source.",
+    "Apply the quality rubric to transformed-story prose and require independence evidence alongside quality improvements.",
+    "Map source beat functions to new beat functions, then change characters, causes, costs, and outcomes.",
+    "Use specific constraints for the new story's premise, not for recreating source event details.",
+    "Transform style axes into new voice, rhythm, POV, pacing, imagery, and closure targets without copying phrases.",
+    "Build a fresh event outline and compressed history for the transformed premise before drafting.",
+    "Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -7845,7 +8278,14 @@
     "Create new foreshadowing debts with different clues, promises, costs, and payoff timing.",
     "Transform retention mechanics into new chapter-end pull, emotional pressure, and reader promise.",
     "Run staged revision on the transformed chapter, not on source text or source-like paraphrase.",
-    "Rewrite rolling summaries around the transformed story's accepted events before using them for continuation."
+    "Rewrite rolling summaries around the transformed story's accepted events before using them for continuation.",
+    "Create candidate variants from the transformed brief and keep the winner for new-story reasons, not source similarity.",
+    "Transform rubric failures into revision tasks that preserve new-story facts and reject copied source dependencies.",
+    "Rebuild beat tasks around the transformed arc so minimal-change repair does not restore source causality.",
+    "Raise constraint specificity with new names, settings, objects, costs, and ending targets rather than source details.",
+    "Use style-axis fingerprints to shape surface craft while changing concrete motifs, metaphors, and dialogue tics.",
+    "Compress only the transformed event history; source event outlines remain comparison material, not context.",
+    "Transform the agent world by changing roles, social graph, environment rules, and conflict incentives before simulation."
   ],
   "inspired_copy_risk_hints": [
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
@@ -7886,7 +8326,14 @@
     "Reject payoff plans that preserve the same clue, debt, and reveal window from the source work.",
     "Reject chapters whose retention score depends on recognizable source set pieces or hook sequence.",
     "Reject Draft B/C polish that merely paraphrases source wording or restores source scene order.",
-    "Reject context packs that use source rolling summaries as new-story canon."
+    "Reject context packs that use source rolling summaries as new-story canon.",
+    "Reject pairwise winners whose advantage is source resemblance rather than transformed-story quality.",
+    "Reject high rubric scores when copied source names, event order, or relationship dynamics remain in structured fields or prose.",
+    "Reject beat conversions that preserve source beat order, named examples, or distinctive set-piece functions.",
+    "Reject constraint sets that encode source-specific clues, objects, locations, or payoff windows.",
+    "Reject style fingerprints that preserve source catchphrases, metaphor clusters, or recognizable closure cadence.",
+    "Reject compressed histories that import source events as if they happened in the transformed story.",
+    "Reject simulated outcomes that reproduce source character decisions or social graph under renamed labels."
   ],
   "self_review_policy_hints": [
     "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
@@ -7907,8 +8354,8 @@
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "本次只使用 public metadata、README 静态摘录和 git ls-remote HEAD 证据；没有安装、克隆、运行或调用外部项目。",
-    "新增序列化网文来源默认沉淀为 pattern-only，不导入外部代码或提示词长段。",
-    "包含 Docker、MCP、脚本、Electron、外部 API 或 provider 表面的项目继续停留在静态参考层。"
+    "本次只使用 public metadata、README 静态摘录、LICENSE/root-file 静态信息和 git ls-remote HEAD 证据；没有安装、克隆、运行或调用外部项目。",
+    "故事质量评估与多智能体推演来源默认沉淀为 pattern-only；不导入外部代码、数据集、模型权重、脚本或评测输出长表。",
+    "包含 shell、provider config、模型评测或仿真 runtime 的项目继续停留在静态参考层。"
   ]
 }

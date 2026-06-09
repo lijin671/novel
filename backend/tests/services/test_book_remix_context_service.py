@@ -1675,3 +1675,37 @@ def test_build_remix_continuation_context_block_renders_serialized_continuity_au
     assert "reader_retention_review_gate: review consistency, OOC, rhythm" in block
     assert "draft_stage_revision_ladder: blueprint -> key info -> task card -> Draft A/B/C" in block
     assert "rolling_summary_context_trim: selected rolling summary" in block
+
+
+def test_build_remix_continuation_context_block_renders_story_quality_eval_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Quality Bench Desk",
+        bible={
+            "character_cards": [{"name": "Mira", "goal": "Choose between truth and safety"}],
+            "timeline": [{"event": "Mira found the sealed map", "chapter_number": 8}],
+        },
+        plan={"summary": "Draft two possible next chapters and choose the stronger one."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "pairwise_story_comparison_ranking"},
+                {"name": "multidimensional_quality_rubric"},
+                {"name": "story_theory_beat_evaluation"},
+                {"name": "constraint_specificity_creativity_benchmark"},
+                {"name": "style_axis_diversity_fingerprint"},
+                {"name": "event_outline_history_compression"},
+                {"name": "agentic_story_world_simulation"},
+            ],
+            "pairwise_story_comparison_ranking_hints": ["Compare matched variants before accepting."],
+            "multidimensional_quality_rubric_hints": ["Use q1-q15-style quality metrics."],
+            "style_axis_diversity_fingerprint_hints": ["Track voice and rhythm axes."],
+        },
+    )
+
+    assert "Story quality evaluation audit" in block
+    assert "pairwise_story_comparison_ranking: compare matched chapter variants" in block
+    assert "multidimensional_quality_rubric: score grammar, clarity, causality" in block
+    assert "story_theory_beat_evaluation: test beat execution" in block
+    assert "constraint_specificity_creativity_benchmark: track required constraints" in block
+    assert "style_axis_diversity_fingerprint: inspect voice, rhythm, POV" in block
+    assert "event_outline_history_compression: align compressed history" in block
+    assert "agentic_story_world_simulation: keep simulated character choices" in block

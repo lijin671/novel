@@ -3091,3 +3091,240 @@ def test_default_discovery_sources_include_serialized_webnovel_projects():
     assert any("foreshadowing debt" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("draft a" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("rolling summary" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_story_quality_eval_projects_are_classified_as_quality_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "lars76/story-evaluation-llm",
+                "html_url": "https://github.com/lars76/story-evaluation-llm",
+                "description": "Story evaluation dataset with 15 LLM models, comprehensive quality evaluations, q1-q15 metrics, length score, overall score, character consistency, reader interest, plot resolution and ranked weaknesses.",
+                "stargazers_count": 13,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story", "evaluation", "llm"],
+                "updated_at": "2026-06-09T14:00:00Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+            {
+                "full_name": "lechmazur/writing",
+                "html_url": "https://github.com/lechmazur/writing",
+                "description": "LLM Creative Story-Writing Benchmark with head-to-head story comparisons, constrained creative briefs, paired story judgments, visible story order swaps, pairwise margins and evaluator agreement.",
+                "stargazers_count": 425,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["creative-writing", "benchmark", "llm"],
+                "updated_at": "2026-06-09T14:01:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "lechmazur/writing_styles",
+                "html_url": "https://github.com/lechmazur/writing_styles",
+                "description": "Flash fiction style benchmark with style fingerprints, within-model diversity, voice and diction, rhythm and syntax, POV and discourse, structure and pacing, tone, imagery, dialogue, experimentation and closure axes.",
+                "stargazers_count": 56,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["style", "fiction", "benchmark"],
+                "updated_at": "2026-06-09T14:02:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "anirudhlakkaraju/cs4_benchmark",
+                "html_url": "https://github.com/anirudhlakkaraju/cs4_benchmark",
+                "description": "CS4 evaluates LLM creativity in story generation with prompts of varying constraint specificity, measuring creativity, constraint satisfaction, coherence and perplexity.",
+                "stargazers_count": 4,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-generation", "creativity", "benchmark"],
+                "updated_at": "2026-06-09T14:03:00Z",
+                "root_files": ["README.md", "LICENSE", "run_evaluations.sh"],
+            },
+            {
+                "full_name": "clchinkc/story-bench",
+                "html_url": "https://github.com/clchinkc/story-bench",
+                "description": "Story Theory Benchmark uses objective story theory frameworks, programmatic checks, LLM judge ensemble, beat interpolation, beat revision, constrained continuation, theory conversion and weighted narrative criteria.",
+                "stargazers_count": 37,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story", "benchmark", "evaluation"],
+                "updated_at": "2026-06-09T14:04:00Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+            {
+                "full_name": "THU-KEG/StoryWriter",
+                "html_url": "https://github.com/THU-KEG/StoryWriter",
+                "description": "Multi-agent long story generation framework with Outline Agent, Planning Agent and Writing Agent that dynamically compresses story history to generate coherent new content aligned with current events.",
+                "stargazers_count": 85,
+                "license": None,
+                "topics": ["long-story", "multi-agent", "llm"],
+                "updated_at": "2026-06-09T14:05:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "ZJU-LLMs/OpenStory",
+                "html_url": "https://github.com/ZJU-LLMs/OpenStory",
+                "description": "OpenStory is a multi-agent inference and simulation framework for story worlds, dynamically adding and removing agents and simulating Dream of the Red Chamber character behavior, social interaction and story evolution.",
+                "stargazers_count": 132,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["multi-agent", "story", "simulation"],
+                "updated_at": "2026-06-09T14:06:00Z",
+                "root_files": ["README.md", "LICENSE", "models_config.yaml"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T01:10:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+
+    assert "multidimensional_quality_rubric" in patterns_by_title["lars76/story-evaluation-llm"]
+    assert "pairwise_story_comparison_ranking" in patterns_by_title["lechmazur/writing"]
+    assert "style_axis_diversity_fingerprint" in patterns_by_title["lechmazur/writing_styles"]
+    assert "constraint_specificity_creativity_benchmark" in patterns_by_title["anirudhlakkaraju/cs4_benchmark"]
+    assert "story_theory_beat_evaluation" in patterns_by_title["clchinkc/story-bench"]
+    assert "event_outline_history_compression" in patterns_by_title["THU-KEG/StoryWriter"]
+    assert "agentic_story_world_simulation" in patterns_by_title["ZJU-LLMs/OpenStory"]
+
+
+def test_story_quality_eval_pattern_pack_exposes_variant_and_rubric_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T01:15:00+08:00",
+        "candidate_count": 6,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/lechmazur/writing",
+                "title": "lechmazur/writing",
+                "summary": "Head-to-head story comparisons with matched creative briefs, order swaps and pairwise margins.",
+                "stars": 425,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["pairwise_story_comparison_ranking", "chapter_generation"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/lars76/story-evaluation-llm",
+                "title": "lars76/story-evaluation-llm",
+                "summary": "q1-q15 quality metrics, overall score and ranked weaknesses for story evaluation.",
+                "stars": 13,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["multidimensional_quality_rubric"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/clchinkc/story-bench",
+                "title": "clchinkc/story-bench",
+                "summary": "Story theory tasks for beat interpolation, revision, constrained continuation and theory conversion.",
+                "stars": 37,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["story_theory_beat_evaluation"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/lechmazur/writing_styles",
+                "title": "lechmazur/writing_styles",
+                "summary": "Style fingerprints and diversity axes for flash fiction.",
+                "stars": 56,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["style_axis_diversity_fingerprint", "style_signature"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/anirudhlakkaraju/cs4_benchmark",
+                "title": "anirudhlakkaraju/cs4_benchmark",
+                "summary": "Constraint specificity benchmark for creativity, constraint satisfaction and coherence.",
+                "stars": 4,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["shell_script"],
+                "absorbed_patterns": ["constraint_specificity_creativity_benchmark"],
+                "score": 80,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/THU-KEG/StoryWriter",
+                "title": "THU-KEG/StoryWriter",
+                "summary": "Outline Agent, Planning Agent, Writing Agent and dynamic story history compression.",
+                "stars": 85,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["event_outline_history_compression"],
+                "score": 78,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/ZJU-LLMs/OpenStory",
+                "title": "ZJU-LLMs/OpenStory",
+                "summary": "Multi-agent story-world simulation with dynamic agents and character interactions.",
+                "stars": 132,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["external_api_surface"],
+                "absorbed_patterns": ["agentic_story_world_simulation"],
+                "score": 76,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "pairwise_story_comparisons" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_quality_rubric_scores" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_theory_task_results" in pattern_pack["whole_book_analysis_targets"]
+    assert "constraint_specificity_level" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_axis_fingerprint" in pattern_pack["whole_book_analysis_targets"]
+    assert "event_outline_graph" in pattern_pack["whole_book_analysis_targets"]
+    assert "simulated_agent_interactions" in pattern_pack["whole_book_analysis_targets"]
+    assert "pairwise_story_comparison_ranking_hints" in pattern_pack
+    assert "multidimensional_quality_rubric_hints" in pattern_pack
+    assert "story_theory_beat_evaluation_hints" in pattern_pack
+    assert "constraint_specificity_creativity_benchmark_hints" in pattern_pack
+    assert "style_axis_diversity_fingerprint_hints" in pattern_pack
+    assert "event_outline_history_compression_hints" in pattern_pack
+    assert "agentic_story_world_simulation_hints" in pattern_pack
+    assert "pairwise_variant_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "quality_rubric_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "style_axis_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "constraint_specificity_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "agent_world_simulation_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "pairwise_story_comparison_ranking_hints" in digest
+    assert "multidimensional_quality_rubric_hints" in digest
+    assert "style_axis_diversity_fingerprint_hints" in digest
+
+
+def test_default_discovery_sources_include_story_quality_eval_projects():
+    assert "https://github.com/lars76/story-evaluation-llm" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lechmazur/writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lechmazur/writing_styles" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/anirudhlakkaraju/cs4_benchmark" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/clchinkc/story-bench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/THU-KEG/StoryWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ZJU-LLMs/OpenStory" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("head-to-head story" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("q1" in query.lower() and "q15" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story theory" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("constraint specificity" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("style fingerprints" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

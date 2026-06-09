@@ -102,6 +102,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_story_quality_evaluation_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -344,6 +348,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_serialized_continuity_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_story_quality_evaluation_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1353,6 +1361,44 @@ def _append_serialized_continuity_audit_section(
     if "rolling_summary_context_trim" in pattern_names:
         lines.append("- rolling_summary_context_trim: selected rolling summary, character state, timeline events, and dropped context need a manifest")
 
+
+def _append_story_quality_evaluation_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render story-quality benchmark, rubric, style-axis, and simulation gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "pairwise_story_comparison_ranking",
+        "multidimensional_quality_rubric",
+        "story_theory_beat_evaluation",
+        "constraint_specificity_creativity_benchmark",
+        "style_axis_diversity_fingerprint",
+        "event_outline_history_compression",
+        "agentic_story_world_simulation",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Story quality evaluation audit:")
+    if "pairwise_story_comparison_ranking" in pattern_names:
+        lines.append("- pairwise_story_comparison_ranking: compare matched chapter variants against the same brief before accepting")
+    if "multidimensional_quality_rubric" in pattern_names:
+        lines.append("- multidimensional_quality_rubric: score grammar, clarity, causality, scene purpose, consistency, character motive, dialogue, reader pull, and resolution")
+    if "story_theory_beat_evaluation" in pattern_names:
+        lines.append("- story_theory_beat_evaluation: test beat execution, preservation, bridge quality, and constrained-continuation criteria")
+    if "constraint_specificity_creativity_benchmark" in pattern_names:
+        lines.append("- constraint_specificity_creativity_benchmark: track required constraints, satisfaction evidence, creativity, and coherence tradeoffs")
+    if "style_axis_diversity_fingerprint" in pattern_names:
+        lines.append("- style_axis_diversity_fingerprint: inspect voice, rhythm, POV, pacing, tone, imagery, dialogue, experimentation, and closure axes")
+    if "event_outline_history_compression" in pattern_names:
+        lines.append("- event_outline_history_compression: align compressed history with the current event outline and chapter plan")
+    if "agentic_story_world_simulation" in pattern_names:
+        lines.append("- agentic_story_world_simulation: keep simulated character choices and social interactions as proposals until canon acceptance")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1487,6 +1533,13 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "reader_retention_review_gate_hints": "reader_retention_review_gate",
         "draft_stage_revision_ladder_hints": "draft_stage_revision_ladder",
         "rolling_summary_context_trim_hints": "rolling_summary_context_trim",
+        "pairwise_story_comparison_ranking_hints": "pairwise_story_comparison_ranking",
+        "multidimensional_quality_rubric_hints": "multidimensional_quality_rubric",
+        "story_theory_beat_evaluation_hints": "story_theory_beat_evaluation",
+        "constraint_specificity_creativity_benchmark_hints": "constraint_specificity_creativity_benchmark",
+        "style_axis_diversity_fingerprint_hints": "style_axis_diversity_fingerprint",
+        "event_outline_history_compression_hints": "event_outline_history_compression",
+        "agentic_story_world_simulation_hints": "agentic_story_world_simulation",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

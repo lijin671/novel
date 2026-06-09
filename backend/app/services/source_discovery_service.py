@@ -77,6 +77,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("foreshadowing debt" OR "follow-up rate" OR "reader retention") ("webnovel" OR "novel") in:name,description,readme',
     '("Draft A" OR "Draft B" OR "Draft C" OR "chapter blueprint") ("web novel" OR "fiction writing") in:name,description,readme',
     '("rolling summary" OR "character state tracking" OR "context trimming") ("long-form" OR "novel") in:name,description,readme',
+    '("head-to-head story" OR "pairwise margins" OR "evaluator agreement") ("creative writing" OR "fiction") in:name,description,readme',
+    '("q1" OR "q15" OR "ranked weaknesses" OR "overall score") ("story evaluation" OR "creative writing") in:name,description,readme',
+    '("story theory" OR "beat interpolation" OR "beat revision" OR "Save the Cat") ("LLM" OR "story generation") in:name,description,readme',
+    '("constraint specificity" OR "constraint satisfaction" OR "CS4") ("story generation" OR "creativity") in:name,description,readme',
+    '("style fingerprints" OR "within-model diversity" OR "style axes") ("flash fiction" OR "creative writing") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -155,6 +160,14 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/DuckTraDo/Novel",
     "https://github.com/makieali/longform-ai",
     "https://github.com/guchendesigndog/GC-Writer-Assistant",
+    "https://github.com/lars76/story-evaluation-llm",
+    "https://github.com/lechmazur/writing",
+    "https://github.com/lechmazur/writing_styles",
+    "https://github.com/anirudhlakkaraju/cs4_benchmark",
+    "https://github.com/Theltn/AICreativityJudge",
+    "https://github.com/clchinkc/story-bench",
+    "https://github.com/THU-KEG/StoryWriter",
+    "https://github.com/ZJU-LLMs/OpenStory",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -312,6 +325,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("reader_retention_review_gate", ("reader retention", "follow-up rate", "追读力", "爽点", "ooc", "节奏", "6 维", "six-dimensional", "reader promise", "读者承诺")),
     ("draft_stage_revision_ladder", ("draft a", "draft b", "draft c", "chapter blueprint", "key-information file", "chapter task card", "初稿", "定向修改", "去ai", "连续性记录", "drafting, revision, and final polish")),
     ("rolling_summary_context_trim", ("rolling summary", "compressed plot summary", "context trimmed", "token budget", "character state tracking", "timeline events", "relevant passages", "session progress", "context trimming", "chapter_summaries", "chapter summaries", "events.jsonl", "timeline.jsonl", "relationship graph", "memory update after each chapter")),
+    ("multidimensional_quality_rubric", ("q1-q15", "q1 to q15", "q1", "q15", "15 quality metrics", "overall score", "ranked weaknesses", "character consistency", "reader interest", "plot resolution", "quality metrics", "quality evaluations")),
+    ("pairwise_story_comparison_ranking", ("head-to-head story", "head to head story", "pairwise judgments", "paired story judgments", "visible story order", "story order swaps", "pairwise margins", "evaluator agreement", "matched creative briefs", "direct story comparisons")),
+    ("style_axis_diversity_fingerprint", ("style fingerprints", "style fingerprint", "within-model diversity", "diversity per model", "style axes", "voice and diction", "rhythm and syntax", "pov and discourse", "structure and pacing", "closure axes")),
+    ("constraint_specificity_creativity_benchmark", ("constraint specificity", "constraint satisfaction", "cs4", "prompts of varying specificity", "specific prompts", "creativity benchmark", "coherence and perplexity", "synthesized constraint specificity")),
+    ("story_theory_beat_evaluation", ("story theory", "hero's journey", "save the cat", "beat interpolation", "beat revision", "multi-beat synthesis", "theory conversion", "constrained continuation", "beat execution", "narrative criteria")),
+    ("event_outline_history_compression", ("outline agent", "planning agent", "writing agent", "event-based outlines", "chapter-wise plans", "dynamically compresses the story history", "story history", "current event", "inter-event relationships")),
+    ("agentic_story_world_simulation", ("story-world simulation", "story world simulation", "multi-agent inference", "multi-agent simulation", "dynamic agents", "dynamically adding and removing agents", "character behavior", "social interaction", "story evolution")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -587,6 +607,38 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "guchendesigndog/gc-writer-assistant": (
         "Chinese web-novel local writing assistant for chapter management, outline extraction, AI polishing, continuation, themed workspaces, and user-facing AI interface setup. "
         "Pattern-only value is lightweight chapter/outline workspace integration rather than runtime scripts."
+    ),
+    "lars76/story-evaluation-llm": (
+        "Story evaluation dataset and benchmark for LLM short-story quality. Public README describes q1-q15 quality metrics, length score, overall score, "
+        "character consistency, reader interest, plot resolution, ranked weaknesses, and averaging across evaluator models."
+    ),
+    "lechmazur/writing": (
+        "LLM creative story-writing benchmark with constrained creative briefs, head-to-head matched story comparisons, paired judgments, visible story-order swaps, "
+        "evaluator agreement, pairwise margins, and comparison-graph ranking rather than single absolute scores."
+    ),
+    "lechmazur/writing_styles": (
+        "Flash-fiction style and diversity benchmark. Public README describes style fingerprints and axes for voice/diction, rhythm/syntax, POV/discourse, "
+        "structure/pacing, tone, imagery, dialogue, experimentation, closure, and content choices."
+    ),
+    "anirudhlakkaraju/cs4_benchmark": (
+        "CS4 benchmark for evaluating LLM creativity in story generation under varying constraint specificity. Public README describes prompt constraints, "
+        "constraint satisfaction, narrative coherence, perplexity, and creativity under increasingly specific briefs."
+    ),
+    "theltn/aicreativityjudge": (
+        "Creative-writing evaluator using a five-dimension rubric: lexical richness, syntactic complexity, novelty, imagery, and narrative dynamics. "
+        "Pattern-only value is rubric decomposition; model training/runtime UI are not imported."
+    ),
+    "clchinkc/story-bench": (
+        "Story Theory Benchmark using objective story-theory frameworks, programmatic checks, LLM judge ensemble, beat interpolation, beat revision, "
+        "multi-beat synthesis, constrained continuation, theory conversion, and weighted narrative criteria."
+    ),
+    "thu-keg/storywriter": (
+        "Multi-agent long-story generation framework with Outline Agent, Planning Agent, and Writing Agent. Public README describes event-based outlines, "
+        "chapter-wise plans, dynamic compression of story history, discourse coherence, narrative complexity, and human/automatic evaluation."
+    ),
+    "zju-llms/openstory": (
+        "OpenStory multi-agent story-world simulation framework. Public README describes dynamic agent addition/removal, character behavior, social interaction, "
+        "story evolution, and Dream of the Red Chamber simulation. Runtime requires provider/config setup and remains out of scope."
     ),
 }
 
@@ -976,6 +1028,13 @@ class NovelSourceDiscoveryService:
             "reader_retention_review_gate_hints": self._build_reader_retention_review_gate_hints(available_patterns),
             "draft_stage_revision_ladder_hints": self._build_draft_stage_revision_ladder_hints(available_patterns),
             "rolling_summary_context_trim_hints": self._build_rolling_summary_context_trim_hints(available_patterns),
+            "pairwise_story_comparison_ranking_hints": self._build_pairwise_story_comparison_ranking_hints(available_patterns),
+            "multidimensional_quality_rubric_hints": self._build_multidimensional_quality_rubric_hints(available_patterns),
+            "story_theory_beat_evaluation_hints": self._build_story_theory_beat_evaluation_hints(available_patterns),
+            "constraint_specificity_creativity_benchmark_hints": self._build_constraint_specificity_creativity_benchmark_hints(available_patterns),
+            "style_axis_diversity_fingerprint_hints": self._build_style_axis_diversity_fingerprint_hints(available_patterns),
+            "event_outline_history_compression_hints": self._build_event_outline_history_compression_hints(available_patterns),
+            "agentic_story_world_simulation_hints": self._build_agentic_story_world_simulation_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1503,6 +1562,13 @@ class NovelSourceDiscoveryService:
             "reader_retention_review_gate": 61,
             "draft_stage_revision_ladder": 56,
             "rolling_summary_context_trim": 59,
+            "pairwise_story_comparison_ranking": 58,
+            "multidimensional_quality_rubric": 57,
+            "story_theory_beat_evaluation": 56,
+            "constraint_specificity_creativity_benchmark": 54,
+            "style_axis_diversity_fingerprint": 55,
+            "event_outline_history_compression": 60,
+            "agentic_story_world_simulation": 49,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1908,6 +1974,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["chapter_blueprint", "key_information_file", "draft_stage_status", "next_chapter_handoff"])
         if "rolling_summary_context_trim" in patterns:
             targets.extend(["rolling_summary", "character_state_snapshot", "timeline_event_log", "context_trim_manifest"])
+        if "pairwise_story_comparison_ranking" in patterns:
+            targets.extend(["pairwise_story_comparisons", "matched_variant_briefs", "evaluator_agreement_report"])
+        if "multidimensional_quality_rubric" in patterns:
+            targets.extend(["story_quality_rubric_scores", "ranked_weaknesses", "reader_interest_resolution_scores"])
+        if "story_theory_beat_evaluation" in patterns:
+            targets.extend(["story_theory_task_results", "beat_execution_checks", "constrained_continuation_criteria"])
+        if "constraint_specificity_creativity_benchmark" in patterns:
+            targets.extend(["constraint_specificity_level", "constraint_satisfaction_results", "coherence_creativity_balance"])
+        if "style_axis_diversity_fingerprint" in patterns:
+            targets.extend(["style_axis_fingerprint", "style_diversity_score", "voice_rhythm_pov_axes"])
+        if "event_outline_history_compression" in patterns:
+            targets.extend(["event_outline_graph", "chapter_plan_events", "compressed_history_for_current_event"])
+        if "agentic_story_world_simulation" in patterns:
+            targets.extend(["simulated_agent_interactions", "character_behavior_state", "story_world_evolution_log"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -2015,6 +2095,20 @@ class NovelSourceDiscoveryService:
             hints.append("按章节蓝图、关键信息、任务卡到 Draft A/B/C 逐级修订；Draft C 只做去 AI 味和语言收束，不改事实。")
         if "rolling_summary_context_trim" in patterns:
             hints.append("用 rolling summary、人物状态、时间线事件和裁剪清单控制长上下文，只注入与当前章节有关的片段。")
+        if "pairwise_story_comparison_ranking" in patterns:
+            hints.append("关键章节可生成同约束变体并做成对比较；验收依据是相同创意简报下的优劣证据，不是单稿直觉。")
+        if "multidimensional_quality_rubric" in patterns:
+            hints.append("章节评审拆成多维指标：语法清晰、因果连接、场景目的、内部一致性、人物动机、对白、读者兴趣和收束。")
+        if "story_theory_beat_evaluation" in patterns:
+            hints.append("用故事理论检查当前节拍是否完成叙事功能；补桥、修节拍和受限续写都要保留前后连续性。")
+        if "constraint_specificity_creativity_benchmark" in patterns:
+            hints.append("记录每章硬约束数量和满足情况；在约束更具体时仍需保留新意、连贯性和可读性。")
+        if "style_axis_diversity_fingerprint" in patterns:
+            hints.append("用风格轴检查输出：声线、句法节奏、视角距离、结构节奏、情绪、意象、对白和收束方式。")
+        if "event_outline_history_compression" in patterns:
+            hints.append("把长篇历史压缩到当前事件相关的事件大纲和章节计划，避免上下文过载导致当前行动失焦。")
+        if "agentic_story_world_simulation" in patterns:
+            hints.append("多角色推演只作为因果候选；角色行为、社交互动和世界演化必须经过作者验收后才写入正史。")
         if "top_down_story_planning" in patterns:
             hints.append("长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。")
         if "plain_text_project_storage" in patterns:
@@ -2166,6 +2260,20 @@ class NovelSourceDiscoveryService:
             hints.append("Persist Draft A/B/C status and the next-chapter handoff separately from the final accepted prose.")
         if "rolling_summary_context_trim" in patterns:
             hints.append("Store rolling summaries, context trim manifests, and selected relevant passages beside the chapter run for restore and review.")
+        if "pairwise_story_comparison_ranking" in patterns:
+            hints.append("Store matched variant ids, shared brief, evaluator notes, order-swap result, and keep/discard decision for every pairwise comparison.")
+        if "multidimensional_quality_rubric" in patterns:
+            hints.append("Persist rubric scores and top ranked weaknesses so later revisions target the largest quality gaps first.")
+        if "story_theory_beat_evaluation" in patterns:
+            hints.append("Record beat task type, required narrative function, preservation requirements, and pass/fail criteria before accepting a revision.")
+        if "constraint_specificity_creativity_benchmark" in patterns:
+            hints.append("Store each required constraint, satisfaction evidence, and coherence tradeoff so highly specific prompts remain auditable.")
+        if "style_axis_diversity_fingerprint" in patterns:
+            hints.append("Persist style-axis fingerprints per chapter to detect voice narrowing, rhythm drift, or unplanned POV changes across batches.")
+        if "event_outline_history_compression" in patterns:
+            hints.append("Keep compressed history tied to the current event and chapter plan so omitted history can be inspected when continuity breaks.")
+        if "agentic_story_world_simulation" in patterns:
+            hints.append("Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -3089,6 +3197,62 @@ class NovelSourceDiscoveryService:
             "When context is trimmed, record dropped items and keep enough evidence to explain why the selected context supports the next beat.",
         ]
 
+    def _build_pairwise_story_comparison_ranking_hints(self, patterns: set[str]) -> list[str]:
+        if "pairwise_story_comparison_ranking" not in patterns:
+            return []
+        return [
+            "Compare matched chapter variants against the same brief before accepting a high-impact continuation or same-type draft.",
+            "Use order-swapped pairwise notes to reduce position bias; keep the winning rationale as revision evidence, not canon.",
+        ]
+
+    def _build_multidimensional_quality_rubric_hints(self, patterns: set[str]) -> list[str]:
+        if "multidimensional_quality_rubric" not in patterns:
+            return []
+        return [
+            "Score drafts across grammar, clarity, causal connection, scene purpose, internal consistency, character consistency, dialogue, reader interest, and resolution.",
+            "Rank the top weaknesses and convert them into targeted revision tasks instead of relying on a single overall score.",
+        ]
+
+    def _build_story_theory_beat_evaluation_hints(self, patterns: set[str]) -> list[str]:
+        if "story_theory_beat_evaluation" not in patterns:
+            return []
+        return [
+            "Evaluate whether the current beat performs its narrative function and preserves required context before moving to prose polish.",
+            "For beat revision, separate diagnosis, flaw fix, beat satisfaction, preservation, and minimal-change criteria.",
+        ]
+
+    def _build_constraint_specificity_creativity_benchmark_hints(self, patterns: set[str]) -> list[str]:
+        if "constraint_specificity_creativity_benchmark" not in patterns:
+            return []
+        return [
+            "Track constraint specificity for each prompt so creativity is judged together with constraint satisfaction and coherence.",
+            "Highly specific briefs should not push the draft into copied source events, checklist prose, or incoherent causal shortcuts.",
+        ]
+
+    def _build_style_axis_diversity_fingerprint_hints(self, patterns: set[str]) -> list[str]:
+        if "style_axis_diversity_fingerprint" not in patterns:
+            return []
+        return [
+            "Fingerprint style on visible axes: voice/diction, rhythm/syntax, POV/discourse, structure/pacing, tone, imagery, dialogue, experimentation, and closure.",
+            "Use diversity evidence to avoid style collapse across chapters while preserving the target book's accepted voice boundaries.",
+        ]
+
+    def _build_event_outline_history_compression_hints(self, patterns: set[str]) -> list[str]:
+        if "event_outline_history_compression" not in patterns:
+            return []
+        return [
+            "Plan long stories as event outlines and chapter-wise event plans before writing the current chapter.",
+            "Compress story history around the current event, keeping the omitted-history list available for continuity review.",
+        ]
+
+    def _build_agentic_story_world_simulation_hints(self, patterns: set[str]) -> list[str]:
+        if "agentic_story_world_simulation" not in patterns:
+            return []
+        return [
+            "Use multi-agent story-world simulation as a proposal generator for character behavior, social interaction, and world evolution.",
+            "Simulated outcomes must be reviewed against canon and author direction before they become continuation facts.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -3229,6 +3393,20 @@ class NovelSourceDiscoveryService:
             targets.append("draft_stage_remap")
         if "rolling_summary_context_trim" in patterns:
             targets.append("rolling_context_remap")
+        if "pairwise_story_comparison_ranking" in patterns:
+            targets.append("pairwise_variant_remap")
+        if "multidimensional_quality_rubric" in patterns:
+            targets.append("quality_rubric_remap")
+        if "story_theory_beat_evaluation" in patterns:
+            targets.append("story_theory_beat_remap")
+        if "constraint_specificity_creativity_benchmark" in patterns:
+            targets.append("constraint_specificity_remap")
+        if "style_axis_diversity_fingerprint" in patterns:
+            targets.append("style_axis_remap")
+        if "event_outline_history_compression" in patterns:
+            targets.append("event_outline_remap")
+        if "agentic_story_world_simulation" in patterns:
+            targets.append("agent_world_simulation_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -3324,6 +3502,20 @@ class NovelSourceDiscoveryService:
             hints.append("Use Draft A/B/C stages to improve transformed prose while preserving independence and canon boundaries.")
         if "rolling_summary_context_trim" in patterns:
             hints.append("Build rolling summaries from transformed accepted chapters only; source summaries remain craft references.")
+        if "pairwise_story_comparison_ranking" in patterns:
+            hints.append("Compare transformed variants against the same new-story brief; do not choose a variant because it is closer to the source.")
+        if "multidimensional_quality_rubric" in patterns:
+            hints.append("Apply the quality rubric to transformed-story prose and require independence evidence alongside quality improvements.")
+        if "story_theory_beat_evaluation" in patterns:
+            hints.append("Map source beat functions to new beat functions, then change characters, causes, costs, and outcomes.")
+        if "constraint_specificity_creativity_benchmark" in patterns:
+            hints.append("Use specific constraints for the new story's premise, not for recreating source event details.")
+        if "style_axis_diversity_fingerprint" in patterns:
+            hints.append("Transform style axes into new voice, rhythm, POV, pacing, imagery, and closure targets without copying phrases.")
+        if "event_outline_history_compression" in patterns:
+            hints.append("Build a fresh event outline and compressed history for the transformed premise before drafting.")
+        if "agentic_story_world_simulation" in patterns:
+            hints.append("Simulate transformed character choices inside the new world state; source character behavior is only abstract craft evidence.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -3403,6 +3595,20 @@ class NovelSourceDiscoveryService:
             hints.append("Run staged revision on the transformed chapter, not on source text or source-like paraphrase.")
         if "rolling_summary_context_trim" in patterns:
             hints.append("Rewrite rolling summaries around the transformed story's accepted events before using them for continuation.")
+        if "pairwise_story_comparison_ranking" in patterns:
+            hints.append("Create candidate variants from the transformed brief and keep the winner for new-story reasons, not source similarity.")
+        if "multidimensional_quality_rubric" in patterns:
+            hints.append("Transform rubric failures into revision tasks that preserve new-story facts and reject copied source dependencies.")
+        if "story_theory_beat_evaluation" in patterns:
+            hints.append("Rebuild beat tasks around the transformed arc so minimal-change repair does not restore source causality.")
+        if "constraint_specificity_creativity_benchmark" in patterns:
+            hints.append("Raise constraint specificity with new names, settings, objects, costs, and ending targets rather than source details.")
+        if "style_axis_diversity_fingerprint" in patterns:
+            hints.append("Use style-axis fingerprints to shape surface craft while changing concrete motifs, metaphors, and dialogue tics.")
+        if "event_outline_history_compression" in patterns:
+            hints.append("Compress only the transformed event history; source event outlines remain comparison material, not context.")
+        if "agentic_story_world_simulation" in patterns:
+            hints.append("Transform the agent world by changing roles, social graph, environment rules, and conflict incentives before simulation.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -3486,6 +3692,20 @@ class NovelSourceDiscoveryService:
             hints.append("Reject Draft B/C polish that merely paraphrases source wording or restores source scene order.")
         if "rolling_summary_context_trim" in patterns:
             hints.append("Reject context packs that use source rolling summaries as new-story canon.")
+        if "pairwise_story_comparison_ranking" in patterns:
+            hints.append("Reject pairwise winners whose advantage is source resemblance rather than transformed-story quality.")
+        if "multidimensional_quality_rubric" in patterns:
+            hints.append("Reject high rubric scores when copied source names, event order, or relationship dynamics remain in structured fields or prose.")
+        if "story_theory_beat_evaluation" in patterns:
+            hints.append("Reject beat conversions that preserve source beat order, named examples, or distinctive set-piece functions.")
+        if "constraint_specificity_creativity_benchmark" in patterns:
+            hints.append("Reject constraint sets that encode source-specific clues, objects, locations, or payoff windows.")
+        if "style_axis_diversity_fingerprint" in patterns:
+            hints.append("Reject style fingerprints that preserve source catchphrases, metaphor clusters, or recognizable closure cadence.")
+        if "event_outline_history_compression" in patterns:
+            hints.append("Reject compressed histories that import source events as if they happened in the transformed story.")
+        if "agentic_story_world_simulation" in patterns:
+            hints.append("Reject simulated outcomes that reproduce source character decisions or social graph under renamed labels.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -3544,6 +3764,13 @@ class NovelSourceDiscoveryService:
                 "reader_retention_review_gate",
                 "draft_stage_revision_ladder",
                 "rolling_summary_context_trim",
+                "pairwise_story_comparison_ranking",
+                "multidimensional_quality_rubric",
+                "story_theory_beat_evaluation",
+                "constraint_specificity_creativity_benchmark",
+                "style_axis_diversity_fingerprint",
+                "event_outline_history_compression",
+                "agentic_story_world_simulation",
             }
         ) and (
             "style_signature" in patterns

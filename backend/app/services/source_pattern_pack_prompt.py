@@ -282,6 +282,13 @@ def render_source_pattern_pack_digest(
         "reader_retention_review_gate_hints",
         "draft_stage_revision_ladder_hints",
         "rolling_summary_context_trim_hints",
+        "pairwise_story_comparison_ranking_hints",
+        "multidimensional_quality_rubric_hints",
+        "story_theory_beat_evaluation_hints",
+        "constraint_specificity_creativity_benchmark_hints",
+        "style_axis_diversity_fingerprint_hints",
+        "event_outline_history_compression_hints",
+        "agentic_story_world_simulation_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:
