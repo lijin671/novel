@@ -372,6 +372,10 @@ def render_source_pattern_pack_digest(
         "trope_graph_expectation_map_hints",
         "trope_density_novelty_budget_hints",
         "trope_source_boundary_review_hints",
+        "source_license_detection_gate_hints",
+        "spdx_reuse_compliance_gate_hints",
+        "public_domain_corpus_boundary_hints",
+        "attribution_derivative_work_gate_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

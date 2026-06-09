@@ -154,6 +154,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("TV Tropes" OR "tvtropes" OR "trope correlation") ("story" OR "fiction" OR "narrative") in:name,description,readme',
     '("trope graph" OR "trope network" OR "trope similarity") ("fiction" OR "story" OR "narrative") in:name,description,readme',
     '("character tropes" OR "trope dataset" OR "movie tropes") ("story" OR "fiction" OR "narrative") in:name,description,readme',
+    '("license detection" OR "SPDX" OR "REUSE") ("source text" OR "corpus" OR "book") in:name,description,readme',
+    '("Project Gutenberg" OR "public domain") ("metadata" OR "corpus" OR "book") in:name,description,readme',
+    '("copyright" OR "license metadata" OR "attribution") ("ebook" OR "source text" OR "corpus") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -345,6 +348,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/slowwavesleep/TvTropesMovieData",
     "https://github.com/rhgarcia/tropescraper",
     "https://github.com/Sirver51/tvtropes-parser",
+    "https://github.com/licensee/licensee",
+    "https://github.com/fsfe/reuse-tool",
+    "https://github.com/spdx/license-list-data",
+    "https://github.com/c-w/Gutenberg",
+    "https://github.com/Imkun-on/gutenberg-corpus-cli",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -598,6 +606,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("trope_graph_expectation_map", ("trope graph", "trope network", "network of tropes", "trope co-occurrence", "trope adjacency", "categories and related tropes")),
     ("trope_density_novelty_budget", ("trope dataset", "movie tropes", "movies and their tropes", "trope inventory", "trope frequency", "trope density")),
     ("trope_source_boundary_review", ("tropescraper", "trope scraper", "tvtropes-parser", "not intended for mass scraping", "page parser for tv tropes", "scrape tv tropes")),
+    ("source_license_detection_gate", ("licensee", "license detection", "detect licenses", "license detector", "license metadata", "license matcher")),
+    ("spdx_reuse_compliance_gate", ("spdx", "reuse", "spdx-license-identifier", "spdx filecopyrighttext", "reuse recommendations", "license list data")),
+    ("public_domain_corpus_boundary", ("project gutenberg", "public domain", "public-domain book corpora", "body of public domain texts", "gutenberg corpus", "gutenberg scraper")),
+    ("attribution_derivative_work_gate", ("attribution", "derivative", "cc-by", "cc-by-sa", "license terms", "copyright", "reuse compliance")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -608,6 +620,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
     ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url")),
+    ("corpus_downloader", ("download texts", "parallel downloads", "gutenberg scraper", "build public-domain book corpora", "full-text search")),
 )
 STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "koboldai/koboldai-client": (
@@ -1346,6 +1359,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "tvtropes-parser parses TV Tropes pages into sections and states it is not intended for mass scraping. "
         "Absorb section-boundary and no-mass-scrape review patterns only; parser code, Kotlin runtime, and page fetching are not executed."
     ),
+    "licensee/licensee": (
+        "Licensee detects repository licenses and is used by GitHub-style license matching. "
+        "Absorb license-detection review patterns only; Ruby runtime, gem execution, and source-code import are not used."
+    ),
+    "fsfe/reuse-tool": (
+        "REUSE is a tool and recommendation set for copyright and licensing metadata using SPDX identifiers, file copyright text, and reusable compliance checks. "
+        "Absorb SPDX/REUSE manifest patterns only; the CLI and package runtime are not executed."
+    ),
+    "spdx/license-list-data": (
+        "SPDX License List Data publishes generated license metadata and machine-readable license list formats. "
+        "Absorb license-id normalization and allowed-license taxonomy patterns only; generated data is not copied into runtime context."
+    ),
+    "c-w/gutenberg": (
+        "Gutenberg is an Apache-2.0 Python project for working with the Project Gutenberg body of public-domain texts, including metadata and text cleaning. "
+        "Absorb public-domain source-boundary and metadata-cleaning review patterns only; downloads and cleaning scripts are not executed."
+    ),
+    "imkun-on/gutenberg-corpus-cli": (
+        "Gutenberg Corpus CLI browses Project Gutenberg metadata and builds public-domain corpora with downloads, local SQLite catalog, and full-text search. "
+        "Absorb public-domain corpus admission and downloader-boundary patterns only; scraper, download, database, and corpus-building runtime are not executed."
+    ),
 }
 
 
@@ -1824,6 +1857,10 @@ class NovelSourceDiscoveryService:
             "trope_graph_expectation_map_hints": self._build_trope_graph_expectation_map_hints(available_patterns),
             "trope_density_novelty_budget_hints": self._build_trope_density_novelty_budget_hints(available_patterns),
             "trope_source_boundary_review_hints": self._build_trope_source_boundary_review_hints(available_patterns),
+            "source_license_detection_gate_hints": self._build_source_license_detection_gate_hints(available_patterns),
+            "spdx_reuse_compliance_gate_hints": self._build_spdx_reuse_compliance_gate_hints(available_patterns),
+            "public_domain_corpus_boundary_hints": self._build_public_domain_corpus_boundary_hints(available_patterns),
+            "attribution_derivative_work_gate_hints": self._build_attribution_derivative_work_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -2441,6 +2478,10 @@ class NovelSourceDiscoveryService:
             "trope_graph_expectation_map": 63,
             "trope_density_novelty_budget": 62,
             "trope_source_boundary_review": 65,
+            "source_license_detection_gate": 68,
+            "spdx_reuse_compliance_gate": 67,
+            "public_domain_corpus_boundary": 66,
+            "attribution_derivative_work_gate": 66,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -2492,6 +2533,18 @@ class NovelSourceDiscoveryService:
             targets.append("trope_density_novelty_budget")
         if "trope_source_boundary_review" in patterns:
             targets.append("trope_source_boundary_policy")
+        if "source_license_detection_gate" in patterns:
+            targets.append("source_license_manifest")
+            targets.append("license_detection_review_policy")
+        if "spdx_reuse_compliance_gate" in patterns:
+            targets.append("spdx_reuse_manifest")
+            targets.append("file_copyright_attribution_ledger")
+        if "public_domain_corpus_boundary" in patterns:
+            targets.append("public_domain_source_manifest")
+            targets.append("source_jurisdiction_review_policy")
+        if "attribution_derivative_work_gate" in patterns:
+            targets.append("attribution_derivative_policy")
+            targets.append("licensed_source_usage_boundary")
         if "graph_branching_atomicity" in patterns:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
@@ -3084,6 +3137,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["trope_density_report", "novelty_budget_findings", "cliche_saturation_notes"])
         if "trope_source_boundary_review" in patterns:
             targets.extend(["trope_source_boundary_report", "scrape_runtime_rejection_notes", "source_text_exclusion_checks"])
+        if "source_license_detection_gate" in patterns:
+            targets.extend(["source_license_review_report", "license_detection_confidence", "unknown_license_blockers"])
+        if "spdx_reuse_compliance_gate" in patterns:
+            targets.extend(["spdx_reuse_compliance_report", "copyright_attribution_gaps", "license_id_normalization_findings"])
+        if "public_domain_corpus_boundary" in patterns:
+            targets.extend(["public_domain_source_report", "gutenberg_metadata_findings", "public_domain_scope_notes"])
+        if "attribution_derivative_work_gate" in patterns:
+            targets.extend(["attribution_derivative_review", "allowed_use_boundary_findings", "licensed_source_exclusion_notes"])
         if "topic_drift_map" in patterns:
             targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
         if "context_faithfulness_eval_gate" in patterns:
@@ -3576,6 +3637,14 @@ class NovelSourceDiscoveryService:
             hints.append("Record trope density, repeated archetype load, and novelty budget per arc before accepting same-type continuation plans.")
         if "trope_source_boundary_review" in patterns:
             hints.append("Store trope-source provenance as metadata only; never keep scraped page prose or live-site fetch output in generation context by default.")
+        if "source_license_detection_gate" in patterns:
+            hints.append("Persist source license status, detector confidence, reviewer decision, and blocked/allowed usage before any source text enters analysis or drafting context.")
+        if "spdx_reuse_compliance_gate" in patterns:
+            hints.append("Store SPDX ids, copyright holders, attribution notes, and file/source-level provenance separately from story canon.")
+        if "public_domain_corpus_boundary" in patterns:
+            hints.append("Record public-domain source, observed metadata, jurisdiction caveat, and extraction settings before using public-domain text for deconstruction.")
+        if "attribution_derivative_work_gate" in patterns:
+            hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -5301,6 +5370,38 @@ class NovelSourceDiscoveryService:
             "If trope labels are used, store source URL, observed date, license/terms uncertainty, and the reason the label helps review rather than generation.",
         ]
 
+    def _build_source_license_detection_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "source_license_detection_gate" not in patterns:
+            return []
+        return [
+            "Detect and record the source license before source-book import, deconstruction, continuation, or same-type imitation uses any long text.",
+            "Unknown, missing, or low-confidence license status blocks copying source passages into prompts; keep only bibliographic metadata until reviewed.",
+        ]
+
+    def _build_spdx_reuse_compliance_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "spdx_reuse_compliance_gate" not in patterns:
+            return []
+        return [
+            "Normalize source rights to SPDX ids and keep copyright/attribution metadata at source-file or source-artifact granularity.",
+            "Treat REUSE-style metadata as a provenance checklist for imported text, not as permission to execute external tooling or import upstream code.",
+        ]
+
+    def _build_public_domain_corpus_boundary_hints(self, patterns: set[str]) -> list[str]:
+        if "public_domain_corpus_boundary" not in patterns:
+            return []
+        return [
+            "Public-domain sources still need a source manifest: title, author, edition/source URL, observed date, extraction format, and jurisdiction caveat.",
+            "Project Gutenberg or other corpus downloaders remain runtime-deferred; metadata can guide admission, but downloader output is not drafting context by default.",
+        ]
+
+    def _build_attribution_derivative_work_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "attribution_derivative_work_gate" not in patterns:
+            return []
+        return [
+            "Before same-type creation, decide whether the source is inspiration, quotation, adaptation, translation, or derivative-risk material.",
+            "Attribution requirements and derivative-use boundaries must be satisfied outside prose generation; do not bury them inside style prompts.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -6103,6 +6204,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform overused trope clusters by adding a local twist, swapped power relation, altered cost, or delayed consequence.")
         if "trope_source_boundary_review" in patterns:
             hints.append("Transform trope references from metadata only; do not fetch, paste, or paraphrase live trope-page prose into a same-type draft.")
+        if "source_license_detection_gate" in patterns:
+            hints.append("Transform source material only after license status is known; unknown-rights text may provide metadata labels, not plot, prose, or style exemplars.")
+        if "spdx_reuse_compliance_gate" in patterns:
+            hints.append("Transform SPDX/REUSE findings into source admission notes and attribution tasks rather than generation content.")
+        if "public_domain_corpus_boundary" in patterns:
+            hints.append("Transform public-domain texts through a source manifest and originality gates; public domain is not a reason to clone chapter order or set pieces.")
+        if "attribution_derivative_work_gate" in patterns:
+            hints.append("Transform adaptation-risk material by separating allowed reference, required attribution, and blocked derivative similarity before drafting.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -6152,6 +6261,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that overload copied trope clusters while adding no local twist, inversion, or new consequence.")
         if "trope_source_boundary_review" in patterns:
             hints.append("Reject any trope-source text copied from crawled pages, live site output, or parser dumps; keep only compact metadata labels.")
+        if "source_license_detection_gate" in patterns:
+            hints.append("Reject drafts or context packs that include long source text from unknown, missing, or low-confidence license sources.")
+        if "spdx_reuse_compliance_gate" in patterns:
+            hints.append("Reject imports that lack source-level SPDX id, copyright holder, attribution status, or reviewer decision.")
+        if "public_domain_corpus_boundary" in patterns:
+            hints.append("Reject public-domain corpus use without title/author/source URL/date/extraction-format provenance and jurisdiction caveat.")
+        if "attribution_derivative_work_gate" in patterns:
+            hints.append("Reject same-type drafts that rely on attribution as a substitute for independent plot, character, setting, and phrasing.")
         if "outliner_index_cards" in patterns:
             hints.append("Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.")
         if "narrative_strand_mapping" in patterns:
@@ -6894,6 +7011,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_trope_signal(haystack):
             return "novel-automation"
+        if self._has_source_rights_signal(haystack):
+            return "novel-automation"
         return "pattern-only"
 
     def _has_copy_similarity_signal(self, haystack: str) -> bool:
@@ -7149,6 +7268,26 @@ class NovelSourceDiscoveryService:
             "trope similarity",
             "tropescraper",
             "tvtropes-parser",
+        )
+        return any(term in haystack for term in terms)
+
+    def _has_source_rights_signal(self, haystack: str) -> bool:
+        terms = (
+            "licensee",
+            "license detection",
+            "license metadata",
+            "spdx",
+            "reuse recommendations",
+            "spdx-license-identifier",
+            "spdx filecopyrighttext",
+            "project gutenberg",
+            "public domain",
+            "public-domain book corpora",
+            "body of public domain texts",
+            "copyright",
+            "attribution",
+            "derivative",
+            "license terms",
         )
         return any(term in haystack for term in terms)
 

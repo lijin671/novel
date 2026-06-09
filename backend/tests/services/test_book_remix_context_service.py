@@ -2610,3 +2610,42 @@ def test_build_remix_context_blocks_render_trope_independence_audit():
         assert "trope_density_novelty_budget" in block
         assert "trope_source_boundary_review" in block
         assert "no live scraping" in block.lower()
+
+
+def test_build_remix_context_blocks_render_source_rights_provenance_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "source_license_detection_gate", "candidate_count": 1},
+            {"name": "spdx_reuse_compliance_gate", "candidate_count": 1},
+            {"name": "public_domain_corpus_boundary", "candidate_count": 1},
+            {"name": "attribution_derivative_work_gate", "candidate_count": 1},
+        ],
+        "source_license_detection_gate_hints": ["Record license confidence before source text import."],
+        "public_domain_corpus_boundary_hints": ["Keep public-domain source metadata separate."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={"hard_constraints": [{"rule": "Preserve accepted canon"}]},
+        plan={"summary": "Continue with source rights gates."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Draft",
+        style_content=(
+            "same-type creation source voice\n"
+            "source voice sample\n"
+            "forbidden source elements\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Source rights provenance audit" in block
+        assert "source_license_detection_gate" in block
+        assert "spdx_reuse_compliance_gate" in block
+        assert "public_domain_corpus_boundary" in block
+        assert "attribution_derivative_work_gate" in block
+        assert "license confidence" in block.lower()
+        assert "public-domain source metadata" in block.lower()

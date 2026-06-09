@@ -44,6 +44,10 @@
     "Record generation experiments in an append-only log with recipe id, parameter set, output id, review score, and decision.",
     "Interrupted sweeps should resume by appending new rows, not by rewriting prior review evidence."
   ],
+  "attribution_derivative_work_gate_hints": [
+    "Before same-type creation, decide whether the source is inspiration, quotation, adaptation, translation, or derivative-risk material.",
+    "Attribution requirements and derivative-use boundaries must be satisfied outside prose generation; do not bury them inside style prompts."
+  ],
   "author_control_boundary_hints": [
     "Separate AI proposals from accepted canon and keep user/author decisions visible in the run state.",
     "When output is AI-generated or synthetic, label it in artifacts instead of presenting it as human-authored final prose."
@@ -330,7 +334,15 @@
     "conflicts",
     "story_arcs",
     "foreshadows",
-    "chapter_change_packages"
+    "chapter_change_packages",
+    "source_license_manifest",
+    "license_detection_review_policy",
+    "spdx_reuse_manifest",
+    "file_copyright_attribution_ledger",
+    "public_domain_source_manifest",
+    "source_jurisdiction_review_policy",
+    "attribution_derivative_policy",
+    "licensed_source_usage_boundary"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -600,7 +612,11 @@
     "Track source and draft trope inventories as abstract genre signals; shared trope count is allowed only when concrete events, names, and order are independent.",
     "Persist trope graph expectation edges separately from canon facts so genre conventions do not become copied plot obligations.",
     "Record trope density, repeated archetype load, and novelty budget per arc before accepting same-type continuation plans.",
-    "Store trope-source provenance as metadata only; never keep scraped page prose or live-site fetch output in generation context by default."
+    "Store trope-source provenance as metadata only; never keep scraped page prose or live-site fetch output in generation context by default.",
+    "Persist source license status, detector confidence, reviewer decision, and blocked/allowed usage before any source text enters analysis or drafting context.",
+    "Store SPDX ids, copyright holders, attribution notes, and file/source-level provenance separately from story canon.",
+    "Record public-domain source, observed metadata, jurisdiction caveat, and extraction settings before using public-domain text for deconstruction.",
+    "Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts."
   ],
   "continuity_bridge_window_hints": [
     "Build a compact continuity bridge from the last accepted chapters, active timeline, open hooks, character state, and editor notes.",
@@ -728,7 +744,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T16:30:00+08:00",
+  "generated_at": "2026-06-10T17:30:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -1535,6 +1551,10 @@
     "Use voice samples to calibrate specificity, rhythm, warmth, and density before polishing prose.",
     "The final prose preflight removes generic AI tells while preserving factual guardrails and character voice."
   ],
+  "public_domain_corpus_boundary_hints": [
+    "Public-domain sources still need a source manifest: title, author, edition/source URL, observed date, extraction format, and jurisdiction caveat.",
+    "Project Gutenberg or other corpus downloaders remain runtime-deferred; metadata can guide admission, but downloader output is not drafting context by default."
+  ],
   "publication_pipeline_hints": [
     "Keep export as a downstream pipeline stage: manuscript, review report, ePub/TXT/PDF, audiobook script, and landing copy are derived artifacts.",
     "Do not let publication artifacts mutate canon; canon changes must flow through bible/state/chapter change packages first."
@@ -1702,11 +1722,15 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 179,
+  "source_candidate_count": 184,
   "source_format_import_manifest_hints": [
     "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
     "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
     "For same-type creation, never reuse source TOC/spine order as the new outline without a transformation step."
+  ],
+  "source_license_detection_gate_hints": [
+    "Detect and record the source license before source-book import, deconstruction, continuation, or same-type imitation uses any long text.",
+    "Unknown, missing, or low-confidence license status blocks copying source passages into prompts; keep only bibliographic metadata until reviewed."
   ],
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
@@ -1892,11 +1916,20 @@
     "jwzimmer-zz/tv-tropes",
     "slowwavesleep/TvTropesMovieData",
     "rhgarcia/tropescraper",
-    "Sirver51/tvtropes-parser"
+    "Sirver51/tvtropes-parser",
+    "licensee/licensee",
+    "fsfe/reuse-tool",
+    "spdx/license-list-data",
+    "c-w/Gutenberg",
+    "Imkun-on/gutenberg-corpus-cli"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
     "Writing-partner actions should propose additions or edits; accepted sourcebook entries become the only reusable canon layer."
+  ],
+  "spdx_reuse_compliance_gate_hints": [
+    "Normalize source rights to SPDX ids and keep copyright/attribution metadata at source-file or source-artifact granularity.",
+    "Treat REUSE-style metadata as a provenance checklist for imported text, not as permission to execute external tooling or import upstream code."
   ],
   "spec_driven_fiction_scene_tasks_hints": [
     "Use the fiction constitution/story bible as the governing authority for voice, tense, prose profile, audience, language, and hard style rules.",
@@ -2599,7 +2632,19 @@
     "token_breakdown_notes",
     "emotional_arc",
     "emotion_curve",
-    "source_state_snapshot"
+    "source_state_snapshot",
+    "source_license_review_report",
+    "license_detection_confidence",
+    "unknown_license_blockers",
+    "spdx_reuse_compliance_report",
+    "copyright_attribution_gaps",
+    "license_id_normalization_findings",
+    "public_domain_source_report",
+    "gutenberg_metadata_findings",
+    "public_domain_scope_notes",
+    "attribution_derivative_review",
+    "allowed_use_boundary_findings",
+    "licensed_source_exclusion_notes"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -3926,6 +3971,29 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "source_license_detection_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 90,
+          "source": "github",
+          "stars": 4000,
+          "summary": "License detection review for source-book admission; Ruby runtime and gem execution excluded.",
+          "title": "licensee/licensee",
+          "trust_flags": [],
+          "url": "https://github.com/licensee/licensee"
+        }
+      ],
+      "top_source_url": "https://github.com/licensee/licensee",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 3,
       "name": "contradiction_taxonomy_checker",
       "posture_hint": "metadata-triage",
@@ -4200,6 +4268,42 @@
         }
       ],
       "top_source_url": "https://github.com/yangkevin2/emnlp22-re3-story-generation",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "spdx_reuse_compliance_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 89,
+          "source": "github",
+          "stars": 1600,
+          "summary": "SPDX and REUSE metadata compliance for copyright and licensing provenance; CLI runtime excluded.",
+          "title": "fsfe/reuse-tool",
+          "trust_flags": [],
+          "url": "https://github.com/fsfe/reuse-tool"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 700,
+          "summary": "SPDX license list metadata for license-id taxonomy, attribution, and derivative-use review; generated data not copied into prompts.",
+          "title": "spdx/license-list-data",
+          "trust_flags": [],
+          "url": "https://github.com/spdx/license-list-data"
+        }
+      ],
+      "top_source_url": "https://github.com/fsfe/reuse-tool",
       "trust_flags": []
     },
     {
@@ -4504,6 +4608,69 @@
       "trust_flags": [
         "license:missing"
       ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "public_domain_corpus_boundary",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 87,
+          "source": "github",
+          "stars": 1400,
+          "summary": "Project Gutenberg public-domain text metadata and cleaning boundary; downloader and cleaning scripts excluded.",
+          "title": "c-w/Gutenberg",
+          "trust_flags": [],
+          "url": "https://github.com/c-w/Gutenberg"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 86,
+          "source": "github",
+          "stars": 4,
+          "summary": "Project Gutenberg corpus builder with downloads, SQLite catalog, and full-text search; runtime remains deferred.",
+          "title": "Imkun-on/gutenberg-corpus-cli",
+          "trust_flags": [],
+          "url": "https://github.com/Imkun-on/gutenberg-corpus-cli"
+        }
+      ],
+      "top_source_url": "https://github.com/c-w/Gutenberg",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "attribution_derivative_work_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 700,
+          "summary": "SPDX license list metadata for license-id taxonomy, attribution, and derivative-use review; generated data not copied into prompts.",
+          "title": "spdx/license-list-data",
+          "trust_flags": [],
+          "url": "https://github.com/spdx/license-list-data"
+        }
+      ],
+      "top_source_url": "https://github.com/spdx/license-list-data",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,

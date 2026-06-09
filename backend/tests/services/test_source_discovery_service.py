@@ -6477,3 +6477,174 @@ def test_default_discovery_sources_include_trope_independence_projects():
     assert "https://github.com/Sirver51/tvtropes-parser" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("tvtropes" in query.lower() and "trope correlation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("trope graph" in query.lower() and "trope similarity" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_source_rights_projects_classify_into_admission_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "licensee/licensee",
+                "html_url": "https://github.com/licensee/licensee",
+                "description": "License detection and license matcher for repository license metadata.",
+                "stargazers_count": 4000,
+                "forks_count": 400,
+                "open_issues_count": 120,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["licensee", "license-detection"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "LICENSE.md"],
+            },
+            {
+                "full_name": "fsfe/reuse-tool",
+                "html_url": "https://github.com/fsfe/reuse-tool",
+                "description": "REUSE compliance tool with SPDX-License-Identifier and SPDX FileCopyrightText recommendations.",
+                "stargazers_count": 1600,
+                "forks_count": 200,
+                "open_issues_count": 80,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["reuse", "spdx"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "pyproject.toml", "LICENSES"],
+            },
+            {
+                "full_name": "spdx/license-list-data",
+                "html_url": "https://github.com/spdx/license-list-data",
+                "description": "SPDX License List Data for license terms, copyright, attribution, and generated license metadata.",
+                "stargazers_count": 700,
+                "license": None,
+                "topics": ["spdx", "license-list"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "json", "templates"],
+            },
+            {
+                "full_name": "c-w/Gutenberg",
+                "html_url": "https://github.com/c-w/Gutenberg",
+                "description": "Project Gutenberg metadata and body of public domain texts for book corpus cleaning.",
+                "stargazers_count": 1400,
+                "forks_count": 180,
+                "open_issues_count": 20,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["gutenberg", "public-domain", "books"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "LICENSE.txt"],
+            },
+            {
+                "full_name": "Imkun-on/gutenberg-corpus-cli",
+                "html_url": "https://github.com/Imkun-on/gutenberg-corpus-cli",
+                "description": "Build public-domain book corpora from Project Gutenberg metadata with download texts, parallel downloads, SQLite catalog, and full-text search.",
+                "stargazers_count": 4,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["gutenberg", "corpus"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T17:10:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["licensee/licensee"]["family"] == "novel-automation"
+    assert "source_license_detection_gate" in by_title["licensee/licensee"]["absorbed_patterns"]
+    assert "spdx_reuse_compliance_gate" in by_title["fsfe/reuse-tool"]["absorbed_patterns"]
+    assert "spdx_reuse_compliance_gate" in by_title["spdx/license-list-data"]["absorbed_patterns"]
+    assert "attribution_derivative_work_gate" in by_title["spdx/license-list-data"]["absorbed_patterns"]
+    assert "public_domain_corpus_boundary" in by_title["c-w/Gutenberg"]["absorbed_patterns"]
+    assert "public_domain_corpus_boundary" in by_title["Imkun-on/gutenberg-corpus-cli"]["absorbed_patterns"]
+    assert "corpus_downloader" in by_title["Imkun-on/gutenberg-corpus-cli"]["risk_flags"]
+
+
+def test_source_rights_pattern_pack_exposes_provenance_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T17:20:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/licensee/licensee",
+                "title": "licensee/licensee",
+                "summary": "License detection for repository source admission.",
+                "stars": 4000,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["source_license_detection_gate"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/fsfe/reuse-tool",
+                "title": "fsfe/reuse-tool",
+                "summary": "SPDX and REUSE metadata compliance for source provenance.",
+                "stars": 1600,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["spdx_reuse_compliance_gate"],
+                "score": 89,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/c-w/Gutenberg",
+                "title": "c-w/Gutenberg",
+                "summary": "Project Gutenberg public-domain corpus metadata boundary.",
+                "stars": 1400,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["public_domain_corpus_boundary"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/spdx/license-list-data",
+                "title": "spdx/license-list-data",
+                "summary": "License terms and attribution metadata for derivative-use review.",
+                "stars": 700,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["attribution_derivative_work_gate"],
+                "score": 87,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "source_license_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "spdx_reuse_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "public_domain_source_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "attribution_derivative_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "source_license_review_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "spdx_reuse_compliance_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "public_domain_source_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "attribution_derivative_review" in pattern_pack["whole_book_analysis_targets"]
+    assert pattern_pack["source_license_detection_gate_hints"]
+    assert pattern_pack["spdx_reuse_compliance_gate_hints"]
+    assert pattern_pack["public_domain_corpus_boundary_hints"]
+    assert pattern_pack["attribution_derivative_work_gate_hints"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "source_license_detection_gate_hints" in digest
+    assert "spdx_reuse_compliance_gate_hints" in digest
+    assert "public_domain_corpus_boundary_hints" in digest
+    assert "attribution_derivative_work_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_source_rights_projects():
+    assert "https://github.com/licensee/licensee" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/fsfe/reuse-tool" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/spdx/license-list-data" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/c-w/Gutenberg" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Imkun-on/gutenberg-corpus-cli" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("license detection" in query.lower() and "spdx" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("project gutenberg" in query.lower() and "public domain" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

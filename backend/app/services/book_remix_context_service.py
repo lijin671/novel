@@ -60,6 +60,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_source_rights_provenance_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_context_activation_audit_section(
         lines=lines,
         bible=bible,
@@ -418,6 +422,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
         title="Source-discovered inspired guidance:",
         include_inspired_guidance=True,
+    )
+    _append_source_rights_provenance_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
     )
     _append_inspired_transformation_audit_section(
         lines=lines,
@@ -1054,6 +1062,34 @@ def _append_source_pattern_pack_section(
     lines.append("")
     lines.append(title)
     lines.extend(digest.splitlines())
+
+
+def _append_source_rights_provenance_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render source rights and provenance admission gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant = {
+        "source_license_detection_gate",
+        "spdx_reuse_compliance_gate",
+        "public_domain_corpus_boundary",
+        "attribution_derivative_work_gate",
+    }
+    if not pattern_names.intersection(relevant):
+        return
+
+    lines.append("")
+    lines.append("Source rights provenance audit:")
+    if "source_license_detection_gate" in pattern_names:
+        lines.append("- source_license_detection_gate: block long source text until license status, detector confidence, and reviewer decision are recorded")
+    if "spdx_reuse_compliance_gate" in pattern_names:
+        lines.append("- spdx_reuse_compliance_gate: keep SPDX ids, copyright holders, attribution notes, and source-file provenance outside story canon")
+    if "public_domain_corpus_boundary" in pattern_names:
+        lines.append("- public_domain_corpus_boundary: public-domain sources still need title, author, source URL, observed date, extraction format, and jurisdiction caveat")
+    if "attribution_derivative_work_gate" in pattern_names:
+        lines.append("- attribution_derivative_work_gate: attribution does not replace independent plot, character, setting, event order, and phrasing checks")
 
 
 def _append_context_activation_audit_section(
@@ -2286,6 +2322,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "trope_graph_expectation_map_hints": "trope_graph_expectation_map",
         "trope_density_novelty_budget_hints": "trope_density_novelty_budget",
         "trope_source_boundary_review_hints": "trope_source_boundary_review",
+        "source_license_detection_gate_hints": "source_license_detection_gate",
+        "spdx_reuse_compliance_gate_hints": "spdx_reuse_compliance_gate",
+        "public_domain_corpus_boundary_hints": "public_domain_corpus_boundary",
+        "attribution_derivative_work_gate_hints": "attribution_derivative_work_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):
