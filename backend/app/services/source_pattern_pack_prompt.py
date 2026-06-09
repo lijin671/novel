@@ -305,6 +305,10 @@ def render_source_pattern_pack_digest(
         "source_text_fingerprint_gate_hints",
         "fuzzy_phrase_similarity_gate_hints",
         "diff_span_copy_review_hints",
+        "character_quote_attribution_map_hints",
+        "readability_pacing_metric_gate_hints",
+        "lexical_diversity_voice_audit_hints",
+        "keyphrase_motif_extraction_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

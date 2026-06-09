@@ -3915,3 +3915,155 @@ def test_default_discovery_sources_include_copy_similarity_projects():
     assert "https://github.com/agranya99/MOSS-winnowing-seqMatcher" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("winnowing" in query.lower() and "plagiarism" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("fuzzy string matching" in query.lower() and "levenshtein" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_text_analysis_sources_are_classified_as_character_readability_keyword_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "booknlp/booknlp",
+                "html_url": "https://github.com/booknlp/booknlp",
+                "description": "BookNLP pipeline for book-length documents with character coreference, quote attribution and entity tokens.",
+                "stargazers_count": 920,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["nlp", "books", "characters", "quote-attribution"],
+                "updated_at": "2026-06-09T17:13:08Z",
+                "root_files": ["README.md", "booknlp", "examples", "setup.py"],
+            },
+            {
+                "full_name": "textstat/textstat",
+                "html_url": "https://github.com/textstat/textstat",
+                "description": "Python package to calculate readability statistics of paragraphs, sentences and articles.",
+                "stargazers_count": 1372,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["readability", "text-statistics"],
+                "updated_at": "2026-06-03T11:56:41Z",
+                "root_files": ["README.md", "docs", "tests", "textstat"],
+            },
+            {
+                "full_name": "LSYS/LexicalRichness",
+                "html_url": "https://github.com/LSYS/LexicalRichness",
+                "description": "Module to compute textual lexical richness and lexical diversity metrics including MTLD and HD-D.",
+                "stargazers_count": 113,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["lexical-diversity", "mtld", "hdd"],
+                "updated_at": "2026-05-07T19:59:03Z",
+                "root_files": ["README.rst", "lexicalrichness", "tests", "docs"],
+            },
+            {
+                "full_name": "boudinfl/pke",
+                "html_url": "https://github.com/boudinfl/pke",
+                "description": "Python Keyphrase Extraction module with unsupervised keyphrase extraction candidates and weighting.",
+                "stargazers_count": 1591,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["keyphrase-extraction", "keywords", "nlp"],
+                "updated_at": "2026-06-08T02:27:10Z",
+                "root_files": ["README.md", "docs", "examples", "pke", "setup.py"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T13:50:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "character_quote_attribution_map" in by_title["booknlp/booknlp"]["absorbed_patterns"]
+    assert "readability_pacing_metric_gate" in by_title["textstat/textstat"]["absorbed_patterns"]
+    assert "lexical_diversity_voice_audit" in by_title["LSYS/LexicalRichness"]["absorbed_patterns"]
+    assert "keyphrase_motif_extraction" in by_title["boudinfl/pke"]["absorbed_patterns"]
+
+
+def test_text_analysis_pattern_pack_exposes_decomposition_and_voice_metric_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T13:55:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/booknlp/booknlp",
+                "title": "booknlp/booknlp",
+                "summary": "Book-length NLP pipeline for character coreference, quote attribution, entity tokens and narrative metadata.",
+                "stars": 920,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["character_quote_attribution_map"],
+                "score": 83,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/textstat/textstat",
+                "title": "textstat/textstat",
+                "summary": "Readability statistics for text objects, paragraphs and sentences.",
+                "stars": 1372,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["readability_pacing_metric_gate"],
+                "score": 79,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/LSYS/LexicalRichness",
+                "title": "LSYS/LexicalRichness",
+                "summary": "Lexical richness and lexical diversity metrics for textual voice analysis.",
+                "stars": 113,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["lexical_diversity_voice_audit"],
+                "score": 77,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/boudinfl/pke",
+                "title": "boudinfl/pke",
+                "summary": "Keyphrase extraction candidates and weighting for motif and topic drift review.",
+                "stars": 1591,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["keyphrase_motif_extraction"],
+                "score": 75,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "character_quote_attribution_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "readability_pacing_curve" in pattern_pack["whole_book_analysis_targets"]
+    assert "lexical_diversity_voice_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "keyphrase_motif_map" in pattern_pack["whole_book_analysis_targets"]
+    assert "character_quote_attribution_map_hints" in pattern_pack
+    assert "readability_pacing_metric_gate_hints" in pattern_pack
+    assert "lexical_diversity_voice_audit_hints" in pattern_pack
+    assert "keyphrase_motif_extraction_hints" in pattern_pack
+    assert "quote_speaker_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "readability_curve_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "lexical_diversity_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "keyphrase_motif_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "character_quote_attribution_map_hints" in digest
+    assert "readability_pacing_metric_gate_hints" in digest
+    assert "lexical_diversity_voice_audit_hints" in digest
+    assert "keyphrase_motif_extraction_hints" in digest
+
+
+def test_default_discovery_sources_include_text_analysis_projects():
+    assert "https://github.com/booknlp/booknlp" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/textstat/textstat" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/LSYS/LexicalRichness" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/HLasse/TextDescriptives" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/boudinfl/pke" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("quote attribution" in query.lower() and "character" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("readability" in query.lower() and "lexical" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("keyphrase" in query.lower() and "motif" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

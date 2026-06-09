@@ -1884,3 +1884,59 @@ def test_build_remix_inspired_context_block_renders_copy_similarity_audit():
     assert "fuzzy_phrase_similarity_gate: apply fuzzy phrase thresholds" in block
     assert "diff_span_copy_review: inspect diff spans" in block
     assert "fingerprint_baseline_remap, fuzzy_phrase_threshold_remap, diff_span_review_remap" in block
+
+
+def test_build_remix_continuation_context_block_renders_text_analysis_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Metric Continuation Desk",
+        bible={"character_cards": [{"name": "Lin", "voice": "short guarded replies"}]},
+        plan={"summary": "Keep the final confrontation readable and character-specific."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "character_quote_attribution_map"},
+                {"name": "readability_pacing_metric_gate"},
+                {"name": "lexical_diversity_voice_audit"},
+                {"name": "keyphrase_motif_extraction"},
+            ],
+            "character_quote_attribution_map_hints": ["Map every quote to speaker and alias before voice review."],
+            "readability_pacing_metric_gate_hints": ["Track readability and sentence-length curve by chapter."],
+        },
+    )
+
+    assert "Text analysis audit" in block
+    assert "character_quote_attribution_map: map mentions, aliases, quotes" in block
+    assert "readability_pacing_metric_gate: compare sentence-length" in block
+    assert "lexical_diversity_voice_audit: monitor lexical diversity" in block
+    assert "keyphrase_motif_extraction: extract keyphrases" in block
+
+
+def test_build_remix_inspired_context_block_renders_text_analysis_audit():
+    block = build_remix_inspired_context_block(
+        project_title="Metric Inspired Desk",
+        style_content=(
+            "same-type creation\n"
+            "- Keep rhythm and sentence-length curve while rebuilding the cast.\n"
+            "source voice\n"
+            "- Short, compressed, restrained emotional release.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "character_quote_attribution_map"},
+                {"name": "readability_pacing_metric_gate"},
+                {"name": "lexical_diversity_voice_audit"},
+                {"name": "keyphrase_motif_extraction"},
+            ],
+            "inspired_mapping_targets": [
+                "quote_speaker_remap",
+                "readability_curve_remap",
+                "lexical_diversity_remap",
+                "keyphrase_motif_remap",
+            ],
+            "inspired_copy_risk_hints": ["Reject copied speaker quote distribution and source motif keywords."],
+        },
+    )
+
+    assert "Text analysis audit" in block
+    assert "character_quote_attribution_map" in block
+    assert "Inspired transformation audit" in block
+    assert "quote_speaker_remap, readability_curve_remap, lexical_diversity_remap, keyphrase_motif_remap" in block

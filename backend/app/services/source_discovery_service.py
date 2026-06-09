@@ -95,6 +95,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("winnowing" OR "document fingerprinting" OR "plagiarism detection") ("text" OR "source" OR "similarity") in:name,description,readme',
     '("fuzzy string matching" OR "Levenshtein" OR "string metrics") ("text" OR "similarity" OR "copy") in:name,description,readme',
     '("diff match patch" OR "semantic cleanup" OR "copied spans") ("text" OR "copy" OR "similarity") in:name,description,readme',
+    '("quote attribution" OR "character coreference" OR "speaker attribution") ("book" OR "novel" OR "fiction") in:name,description,readme',
+    '("readability" OR "sentence length" OR "lexical diversity" OR "lexical richness") ("novel" OR "fiction" OR "text analysis") in:name,description,readme',
+    '("keyphrase extraction" OR "keyword extraction" OR "motif extraction") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -195,6 +198,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/rapidfuzz/RapidFuzz",
     "https://github.com/google/diff-match-patch",
     "https://github.com/agranya99/MOSS-winnowing-seqMatcher",
+    "https://github.com/booknlp/booknlp",
+    "https://github.com/textstat/textstat",
+    "https://github.com/LSYS/LexicalRichness",
+    "https://github.com/HLasse/TextDescriptives",
+    "https://github.com/boudinfl/pke",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -381,6 +389,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("source_text_fingerprint_gate", ("winnowing", "document fingerprinting", "fingerprinting", "plagiarism detection", "copied slices", "moss", "source fingerprint", "text fingerprint", "fingerprint overlap")),
     ("fuzzy_phrase_similarity_gate", ("fuzzy string matching", "levenshtein", "string metrics", "sequence matcher", "sequencematcher", "fuzzy phrase", "phrase similarity")),
     ("diff_span_copy_review", ("diff match patch", "diff, match and patch", "semantic cleanup", "copied spans", "diff spans", "patch library", "diff_span")),
+    ("character_quote_attribution_map", ("booknlp", "book-length documents", "character coreference", "character mentions", "quote attribution", "speaker attribution", "entity tokens", "quote speaker", "speaker map")),
+    ("readability_pacing_metric_gate", ("readability", "readability statistics", "sentence length", "paragraph length", "flesch", "gunning fog", "smog index", "text statistics")),
+    ("lexical_diversity_voice_audit", ("lexical richness", "lexical diversity", "mtld", "hd-d", "hdd", "type-token", "type token ratio", "vocabulary diversity")),
+    ("keyphrase_motif_extraction", ("keyphrase extraction", "keyword extraction", "keyphrase candidates", "candidate weighting", "motif extraction", "motif drift", "topic salience")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -745,6 +757,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "agranya99/moss-winnowing-seqmatcher": (
         "MOSS-winnowing-seqMatcher is an MIT educational plagiarism checker using winnowing and SequenceMatcher. "
         "Absorb fingerprint and fuzzy phrase review patterns only; scripts are not executed."
+    ),
+    "booknlp/booknlp": (
+        "BookNLP is an MIT NLP pipeline for book-length documents. Public README and metadata describe character coreference, "
+        "quote attribution, entity tokens, speaker/mention outputs, and book-oriented processing. Absorb character-quote attribution maps only; runtime models are not installed."
+    ),
+    "textstat/textstat": (
+        "Textstat is an MIT Python library for readability statistics over text, paragraphs, and sentences. "
+        "Absorb readability and sentence/paragraph pacing metric gates only; package runtime is not imported."
+    ),
+    "lsys/lexicalrichness": (
+        "LexicalRichness is an MIT module for lexical richness and diversity metrics such as MTLD, HD-D, and type-token variants. "
+        "Absorb lexical diversity voice-audit patterns only; no dependency is installed."
+    ),
+    "hlasse/textdescriptives": (
+        "TextDescriptives is an Apache-2.0 text-metrics library covering descriptive, readability, coherence, dependency, and quality signals. "
+        "Absorb metric-bundle audit patterns only; spaCy/runtime dependencies are not installed."
+    ),
+    "boudinfl/pke": (
+        "PKE is a GPL-3.0 keyphrase extraction module with candidate extraction and weighting. "
+        "Absorb keyphrase/motif extraction patterns only; GPL code and runtime are not imported."
     ),
 }
 
@@ -1157,6 +1189,10 @@ class NovelSourceDiscoveryService:
             "source_text_fingerprint_gate_hints": self._build_source_text_fingerprint_gate_hints(available_patterns),
             "fuzzy_phrase_similarity_gate_hints": self._build_fuzzy_phrase_similarity_gate_hints(available_patterns),
             "diff_span_copy_review_hints": self._build_diff_span_copy_review_hints(available_patterns),
+            "character_quote_attribution_map_hints": self._build_character_quote_attribution_map_hints(available_patterns),
+            "readability_pacing_metric_gate_hints": self._build_readability_pacing_metric_gate_hints(available_patterns),
+            "lexical_diversity_voice_audit_hints": self._build_lexical_diversity_voice_audit_hints(available_patterns),
+            "keyphrase_motif_extraction_hints": self._build_keyphrase_motif_extraction_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1707,6 +1743,10 @@ class NovelSourceDiscoveryService:
             "source_text_fingerprint_gate": 63,
             "fuzzy_phrase_similarity_gate": 62,
             "diff_span_copy_review": 61,
+            "character_quote_attribution_map": 66,
+            "readability_pacing_metric_gate": 60,
+            "lexical_diversity_voice_audit": 59,
+            "keyphrase_motif_extraction": 58,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1861,6 +1901,18 @@ class NovelSourceDiscoveryService:
         if "diff_span_copy_review" in patterns:
             targets.append("diff_span_review_rules")
             targets.append("copied_span_rewrite_policy")
+        if "character_quote_attribution_map" in patterns:
+            targets.append("character_quote_speaker_map")
+            targets.append("alias_mention_index")
+        if "readability_pacing_metric_gate" in patterns:
+            targets.append("readability_pacing_thresholds")
+            targets.append("sentence_paragraph_curve")
+        if "lexical_diversity_voice_audit" in patterns:
+            targets.append("lexical_diversity_voice_baseline")
+            targets.append("vocabulary_drift_rules")
+        if "keyphrase_motif_extraction" in patterns:
+            targets.append("keyphrase_motif_ledger")
+            targets.append("motif_topic_drift_rules")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -2083,6 +2135,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["fuzzy_phrase_similarity_report", "paraphrase_similarity_findings", "phrase_threshold_decisions"])
         if "diff_span_copy_review" in patterns:
             targets.extend(["diff_span_copy_risk_report", "copied_span_review_notes", "semantic_cleanup_review_findings"])
+        if "character_quote_attribution_map" in patterns:
+            targets.extend(["character_quote_attribution_report", "speaker_alias_map", "quote_voice_distribution"])
+        if "readability_pacing_metric_gate" in patterns:
+            targets.extend(["readability_pacing_curve", "sentence_length_variance_report", "paragraph_density_report"])
+        if "lexical_diversity_voice_audit" in patterns:
+            targets.extend(["lexical_diversity_voice_report", "mtld_hdd_voice_baseline", "repeated_vocabulary_findings"])
+        if "keyphrase_motif_extraction" in patterns:
+            targets.extend(["keyphrase_motif_map", "motif_drift_findings", "topic_keyword_salience"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -3633,6 +3693,42 @@ class NovelSourceDiscoveryService:
             "Use diff review as a copy-risk gate only; it must not import source text or train prompts to imitate protected wording.",
         ]
 
+    def _build_character_quote_attribution_map_hints(self, patterns: set[str]) -> list[str]:
+        if "character_quote_attribution_map" not in patterns:
+            return []
+        return [
+            "Build a character mention, alias, speaker, and quote-attribution map before judging voice consistency or relationship pressure.",
+            "For continuation, verify new dialogue belongs to the current speaker state and does not swap aliases, titles, or pronouns across characters.",
+            "For same-type creation, preserve only quote-distribution function and conflict pressure; rebuild speakers, aliases, and dialogue content.",
+        ]
+
+    def _build_readability_pacing_metric_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "readability_pacing_metric_gate" not in patterns:
+            return []
+        return [
+            "Track readability, sentence length, paragraph length, and scene-density curves across source, draft, and accepted chapters.",
+            "Use metric drift as a pacing review signal, not as a command to flatten prose into uniform easy text.",
+            "For same-type creation, match broad reading rhythm while changing scene order, objects, stakes, and source wording.",
+        ]
+
+    def _build_lexical_diversity_voice_audit_hints(self, patterns: set[str]) -> list[str]:
+        if "lexical_diversity_voice_audit" not in patterns:
+            return []
+        return [
+            "Measure lexical diversity and repeated-vocabulary drift by chapter, narrator, and major speaker before accepting style-sensitive drafts.",
+            "Low diversity, sudden MTLD/HD-D jumps, or repeated word clusters should become targeted voice-review notes.",
+            "Same-type creation may borrow diversity range but must replace source catchphrases, metaphor clusters, and signature diction.",
+        ]
+
+    def _build_keyphrase_motif_extraction_hints(self, patterns: set[str]) -> list[str]:
+        if "keyphrase_motif_extraction" not in patterns:
+            return []
+        return [
+            "Extract keyphrases and motif keywords from source, outline, and draft to reveal topic drift, missing promises, and repeated thematic anchors.",
+            "Continuation review should compare keyphrase salience against active arcs, foreshadows, and chapter goals before canon write-back.",
+            "Same-type creation should transform motif functions into new objects, places, taboos, and stakes rather than reusing source keywords.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -3821,6 +3917,14 @@ class NovelSourceDiscoveryService:
             targets.append("fuzzy_phrase_threshold_remap")
         if "diff_span_copy_review" in patterns:
             targets.append("diff_span_review_remap")
+        if "character_quote_attribution_map" in patterns:
+            targets.append("quote_speaker_remap")
+        if "readability_pacing_metric_gate" in patterns:
+            targets.append("readability_curve_remap")
+        if "lexical_diversity_voice_audit" in patterns:
+            targets.append("lexical_diversity_remap")
+        if "keyphrase_motif_extraction" in patterns:
+            targets.append("keyphrase_motif_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -3932,6 +4036,14 @@ class NovelSourceDiscoveryService:
             hints.append("Use fuzzy phrase checks to catch near-copy paraphrases after names and surface labels have been changed.")
         if "diff_span_copy_review" in patterns:
             hints.append("Review source-vs-draft diff spans so semantic cleanup does not hide copied sentence order or set-piece wording.")
+        if "character_quote_attribution_map" in patterns:
+            hints.append("Map source quote distribution into new speaker functions, then rewrite aliases, speakers, and dialogue content for the transformed cast.")
+        if "readability_pacing_metric_gate" in patterns:
+            hints.append("Use readability and sentence-length curves as rhythm guidance while rebuilding chapter events and scene exits.")
+        if "lexical_diversity_voice_audit" in patterns:
+            hints.append("Carry over only broad lexical diversity range; replace source catchphrases, image clusters, and signature diction.")
+        if "keyphrase_motif_extraction" in patterns:
+            hints.append("Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.")
         if "nrd_task_tree_pipeline" in patterns:
             hints.append("Use the NRD task tree to regenerate arcs, chapters, scenes, and revision passes for the transformed premise.")
         if "story_structure_rag_planning" in patterns:
@@ -4087,6 +4199,14 @@ class NovelSourceDiscoveryService:
             hints.append("Change image clusters, objects, stakes, and causal wording until fuzzy phrase similarity drops below the review threshold.")
         if "diff_span_copy_review" in patterns:
             hints.append("Use copied-span review to drive targeted rewrites while preserving only abstract craft function.")
+        if "character_quote_attribution_map" in patterns:
+            hints.append("Transform quote attribution by assigning new speakers, aliases, relationship pressure, and dialogue goals before drafting.")
+        if "readability_pacing_metric_gate" in patterns:
+            hints.append("Transform pacing metrics into a new readability curve for the new chapter sequence, not a source chapter-order clone.")
+        if "lexical_diversity_voice_audit" in patterns:
+            hints.append("Transform lexical voice baselines into new narrator and speaker vocabularies before prose expansion.")
+        if "keyphrase_motif_extraction" in patterns:
+            hints.append("Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -4216,6 +4336,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject paraphrases that survive fuzzy matching after names, titles, and surface nouns are changed.")
         if "diff_span_copy_review" in patterns:
             hints.append("Reject chapters whose copied-span review shows source sentence order, semantic-cleanup matches, or patch-like edits.")
+        if "character_quote_attribution_map" in patterns:
+            hints.append("Reject copied speaker quote distribution, alias clusters, or dialogue-turn ownership that makes the new cast trace back to the source.")
+        if "readability_pacing_metric_gate" in patterns:
+            hints.append("Reject transformed chapters that match source readability curves because they also preserve source scene order or payoff cadence.")
+        if "lexical_diversity_voice_audit" in patterns:
+            hints.append("Reject voice audits that keep source catchphrases, repeated vocabulary clusters, or signature metaphor families.")
+        if "keyphrase_motif_extraction" in patterns:
+            hints.append("Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -4230,6 +4358,10 @@ class NovelSourceDiscoveryService:
                 "source_text_fingerprint_gate",
                 "fuzzy_phrase_similarity_gate",
                 "diff_span_copy_review",
+                "character_quote_attribution_map",
+                "readability_pacing_metric_gate",
+                "lexical_diversity_voice_audit",
+                "keyphrase_motif_extraction",
             }
         ):
             return True
@@ -4645,6 +4777,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_copy_similarity_signal(haystack):
             return "novel-automation"
+        if self._has_text_analysis_signal(haystack):
+            return "novel-automation"
         return "pattern-only"
 
     def _has_copy_similarity_signal(self, haystack: str) -> bool:
@@ -4663,6 +4797,26 @@ class NovelSourceDiscoveryService:
             "copied slices",
         )
         return any(term in haystack for term in copy_terms)
+
+    def _has_text_analysis_signal(self, haystack: str) -> bool:
+        text_analysis_terms = (
+            "booknlp",
+            "book-length document",
+            "character coreference",
+            "quote attribution",
+            "speaker attribution",
+            "readability",
+            "readability statistics",
+            "sentence length",
+            "lexical richness",
+            "lexical diversity",
+            "mtld",
+            "hd-d",
+            "keyphrase extraction",
+            "keyword extraction",
+            "motif extraction",
+        )
+        return any(term in haystack for term in text_analysis_terms)
 
     def _absorbed_patterns(self, haystack: str) -> list[str]:
         patterns: list[str] = []

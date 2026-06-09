@@ -194,7 +194,15 @@
     "fuzzy_phrase_thresholds",
     "phrase_similarity_review_rules",
     "diff_span_review_rules",
-    "copied_span_rewrite_policy"
+    "copied_span_rewrite_policy",
+    "character_quote_speaker_map",
+    "alias_mention_index",
+    "readability_pacing_thresholds",
+    "sentence_paragraph_curve",
+    "lexical_diversity_voice_baseline",
+    "vocabulary_drift_rules",
+    "keyphrase_motif_ledger",
+    "motif_topic_drift_rules"
   ],
   "boring_opening_quality_gates_hints": [
     "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
@@ -488,7 +496,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T05:25:00+08:00",
+  "generated_at": "2026-06-10T13:55:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -580,7 +588,11 @@
     "Reject stat ledgers that keep source variable names, achievement labels, thresholds, or delayed consequence cadence.",
     "Reject drafts with high fingerprint overlap in long phrases, scene order, or set-piece labels unless the span is explicit continuation canon.",
     "Reject paraphrases that survive fuzzy matching after names, titles, and surface nouns are changed.",
-    "Reject chapters whose copied-span review shows source sentence order, semantic-cleanup matches, or patch-like edits."
+    "Reject chapters whose copied-span review shows source sentence order, semantic-cleanup matches, or patch-like edits.",
+    "Reject copied speaker quote distribution, alias clusters, or dialogue-turn ownership that makes the new cast trace back to the source.",
+    "Reject transformed chapters that match source readability curves because they also preserve source scene order or payoff cadence.",
+    "Reject voice audits that keep source catchphrases, repeated vocabulary clusters, or signature metaphor families.",
+    "Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -673,7 +685,11 @@
     "choice_stat_consequence_remap",
     "fingerprint_baseline_remap",
     "fuzzy_phrase_threshold_remap",
-    "diff_span_review_remap"
+    "diff_span_review_remap",
+    "quote_speaker_remap",
+    "readability_curve_remap",
+    "lexical_diversity_remap",
+    "keyphrase_motif_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -739,7 +755,11 @@
     "Define new stat categories and consequence gates so choice mechanics support the new story rather than copying source variables.",
     "Run fingerprint overlap checks against source excerpts and rewrite high-overlap windows before accepting same-type prose.",
     "Use fuzzy phrase checks to catch near-copy paraphrases after names and surface labels have been changed.",
-    "Review source-vs-draft diff spans so semantic cleanup does not hide copied sentence order or set-piece wording."
+    "Review source-vs-draft diff spans so semantic cleanup does not hide copied sentence order or set-piece wording.",
+    "Map source quote distribution into new speaker functions, then rewrite aliases, speakers, and dialogue content for the transformed cast.",
+    "Use readability and sentence-length curves as rhythm guidance while rebuilding chapter events and scene exits.",
+    "Carry over only broad lexical diversity range; replace source catchphrases, image clusters, and signature diction.",
+    "Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -797,7 +817,11 @@
     "Transform stat consequences by changing the tracked values, trigger thresholds, delayed payoff, and achievement labels.",
     "Transform or discard any draft window whose fingerprint overlap remains close to source text after entity remapping.",
     "Change image clusters, objects, stakes, and causal wording until fuzzy phrase similarity drops below the review threshold.",
-    "Use copied-span review to drive targeted rewrites while preserving only abstract craft function."
+    "Use copied-span review to drive targeted rewrites while preserving only abstract craft function.",
+    "Transform quote attribution by assigning new speakers, aliases, relationship pressure, and dialogue goals before drafting.",
+    "Transform pacing metrics into a new readability curve for the new chapter sequence, not a source chapter-order clone.",
+    "Transform lexical voice baselines into new narrator and speaker vocabularies before prose expansion.",
+    "Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes."
   ],
   "interrupted_resume_flow_hints": [
     "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
@@ -1059,7 +1083,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 88,
+  "source_candidate_count": 93,
   "source_intake_notes": [
     "2026-06-10 interactive narrative intake used public metadata/README summaries only; no clone, install, package hook, MCP server, browser extension, or external code execution.",
     "Interactive branching patterns are pattern-only and feed continuation/same-type prompt audits through choice graph, dialogue node, passage link, and choice-stat consequence gates.",
@@ -1159,7 +1183,12 @@
     "blingenf/copydetect",
     "rapidfuzz/RapidFuzz",
     "google/diff-match-patch",
-    "agranya99/MOSS-winnowing-seqMatcher"
+    "agranya99/MOSS-winnowing-seqMatcher",
+    "booknlp/booknlp",
+    "textstat/textstat",
+    "LSYS/LexicalRichness",
+    "HLasse/TextDescriptives",
+    "boudinfl/pke"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -1614,7 +1643,19 @@
     "phrase_threshold_decisions",
     "diff_span_copy_risk_report",
     "copied_span_review_notes",
-    "semantic_cleanup_review_findings"
+    "semantic_cleanup_review_findings",
+    "character_quote_attribution_report",
+    "speaker_alias_map",
+    "quote_voice_distribution",
+    "readability_pacing_curve",
+    "sentence_length_variance_report",
+    "paragraph_density_report",
+    "lexical_diversity_voice_report",
+    "mtld_hdd_voice_baseline",
+    "repeated_vocabulary_findings",
+    "keyphrase_motif_map",
+    "motif_drift_findings",
+    "topic_keyword_salience"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -9040,6 +9081,124 @@
       ],
       "top_source_url": "https://github.com/blingenf/copydetect",
       "trust_flags": []
+    },
+    {
+      "name": "character_quote_attribution_map",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/booknlp/booknlp",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "booknlp/booknlp",
+          "url": "https://github.com/booknlp/booknlp",
+          "source": "github",
+          "summary": "MIT book-length NLP pipeline with character coreference, quote attribution, entity tokens, and speaker/mention outputs.",
+          "stars": 920,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 83
+        }
+      ]
+    },
+    {
+      "name": "readability_pacing_metric_gate",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/textstat/textstat",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "textstat/textstat",
+          "url": "https://github.com/textstat/textstat",
+          "source": "github",
+          "summary": "MIT readability-statistics library for text, paragraphs, and sentences; useful as a sentence/paragraph pacing metric gate.",
+          "stars": 1372,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 79
+        },
+        {
+          "title": "HLasse/TextDescriptives",
+          "url": "https://github.com/HLasse/TextDescriptives",
+          "source": "github",
+          "summary": "Apache-2.0 text metrics library with descriptive, readability, coherence, dependency, and quality signals for metric-bundle review.",
+          "stars": 366,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 76
+        }
+      ]
+    },
+    {
+      "name": "lexical_diversity_voice_audit",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/LSYS/LexicalRichness",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "LSYS/LexicalRichness",
+          "url": "https://github.com/LSYS/LexicalRichness",
+          "source": "github",
+          "summary": "MIT lexical richness and diversity metrics including MTLD, HD-D, and type-token variants for voice drift review.",
+          "stars": 113,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 77
+        },
+        {
+          "title": "HLasse/TextDescriptives",
+          "url": "https://github.com/HLasse/TextDescriptives",
+          "source": "github",
+          "summary": "Apache-2.0 text metrics library with descriptive, readability, coherence, dependency, and quality signals for metric-bundle review.",
+          "stars": 366,
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 76
+        }
+      ]
+    },
+    {
+      "name": "keyphrase_motif_extraction",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/boudinfl/pke",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [],
+      "sources": [
+        {
+          "title": "boudinfl/pke",
+          "url": "https://github.com/boudinfl/pke",
+          "source": "github",
+          "summary": "GPL-3.0 keyphrase extraction module with candidate extraction and weighting for motif and topic-drift review.",
+          "stars": 1591,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 75
+        }
+      ]
     }
   ],
   "world_state_tracking_hints": [
@@ -9055,5 +9214,25 @@
   "writing_session_goal_tracking_hints": [
     "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
     "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates."
+  ],
+  "character_quote_attribution_map_hints": [
+    "Build a character mention, alias, speaker, and quote-attribution map before judging voice consistency or relationship pressure.",
+    "For continuation, verify new dialogue belongs to the current speaker state and does not swap aliases, titles, or pronouns across characters.",
+    "For same-type creation, preserve only quote-distribution function and conflict pressure; rebuild speakers, aliases, and dialogue content."
+  ],
+  "readability_pacing_metric_gate_hints": [
+    "Track readability, sentence length, paragraph length, and scene-density curves across source, draft, and accepted chapters.",
+    "Use metric drift as a pacing review signal, not as a command to flatten prose into uniform easy text.",
+    "For same-type creation, match broad reading rhythm while changing scene order, objects, stakes, and source wording."
+  ],
+  "lexical_diversity_voice_audit_hints": [
+    "Measure lexical diversity and repeated-vocabulary drift by chapter, narrator, and major speaker before accepting style-sensitive drafts.",
+    "Low diversity, sudden MTLD/HD-D jumps, or repeated word clusters should become targeted voice-review notes.",
+    "Same-type creation may borrow diversity range but must replace source catchphrases, metaphor clusters, and signature diction."
+  ],
+  "keyphrase_motif_extraction_hints": [
+    "Extract keyphrases and motif keywords from source, outline, and draft to reveal topic drift, missing promises, and repeated thematic anchors.",
+    "Continuation review should compare keyphrase salience against active arcs, foreshadows, and chapter goals before canon write-back.",
+    "Same-type creation should transform motif functions into new objects, places, taboos, and stakes rather than reusing source keywords."
   ]
 }

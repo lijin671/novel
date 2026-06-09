@@ -122,6 +122,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_text_analysis_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -383,18 +387,27 @@ def build_remix_inspired_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_text_analysis_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     return "\n".join(lines).strip()
 
 
 def _is_inspired_style_content(style_content: str) -> bool:
-    return bool(
-        ("同类型创作" in style_content or "同类型创作总原则" in style_content)
-        and (
-            "【源书语气样本】" in style_content
-            or "【源书显性元素禁用清单】" in style_content
-        )
+    lowered = style_content.lower()
+    same_type_marker = (
+        "\u540c\u7c7b\u578b\u521b\u4f5c" in style_content
+        or "same-type creation" in lowered
+        or "inspired creation" in lowered
     )
+    source_marker = (
+        "\u6e90\u4e66" in style_content
+        or "source voice" in lowered
+        or "forbidden source" in lowered
+    )
+    return bool(same_type_marker and source_marker)
 
 
 class BookRemixContextService:
@@ -1249,6 +1262,34 @@ def _append_copy_similarity_audit_section(
         lines.append("- diff_span_copy_review: inspect diff spans for copied wording, source sentence order, semantic-cleanup matches, and patch-like edits")
 
 
+def _append_text_analysis_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render character quote, readability, lexical, and motif metric gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "character_quote_attribution_map",
+        "readability_pacing_metric_gate",
+        "lexical_diversity_voice_audit",
+        "keyphrase_motif_extraction",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Text analysis audit:")
+    if "character_quote_attribution_map" in pattern_names:
+        lines.append("- character_quote_attribution_map: map mentions, aliases, quotes, speakers, and quote ownership before voice or relationship review")
+    if "readability_pacing_metric_gate" in pattern_names:
+        lines.append("- readability_pacing_metric_gate: compare sentence-length, paragraph-density, readability, and scene-density curves before acceptance")
+    if "lexical_diversity_voice_audit" in pattern_names:
+        lines.append("- lexical_diversity_voice_audit: monitor lexical diversity, repeated vocabulary clusters, MTLD/HD-D drift, and speaker-specific diction")
+    if "keyphrase_motif_extraction" in pattern_names:
+        lines.append("- keyphrase_motif_extraction: extract keyphrases and motif terms to audit promise coverage, topic drift, and copied source-specific anchors")
+
+
 def _append_inspectable_rewrite_audit_section(
     *,
     lines: list[str],
@@ -1696,6 +1737,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "source_text_fingerprint_gate_hints": "source_text_fingerprint_gate",
         "fuzzy_phrase_similarity_gate_hints": "fuzzy_phrase_similarity_gate",
         "diff_span_copy_review_hints": "diff_span_copy_review",
+        "character_quote_attribution_map_hints": "character_quote_attribution_map",
+        "readability_pacing_metric_gate_hints": "readability_pacing_metric_gate",
+        "lexical_diversity_voice_audit_hints": "lexical_diversity_voice_audit",
+        "keyphrase_motif_extraction_hints": "keyphrase_motif_extraction",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):
