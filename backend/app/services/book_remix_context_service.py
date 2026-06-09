@@ -60,6 +60,12 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_context_activation_audit_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -296,6 +302,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
         title="Source-discovered inspired guidance:",
         include_inspired_guidance=True,
+    )
+    _append_inspired_transformation_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
     )
 
     return "\n".join(lines).strip()
@@ -857,6 +867,172 @@ def _append_source_pattern_pack_section(
     lines.extend(digest.splitlines())
 
 
+def _append_context_activation_audit_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render an explicit audit of which context layers should be active."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if not pattern_names:
+        return
+
+    activated_sections = _activated_context_sections(bible=bible, plan=plan)
+    if not activated_sections:
+        return
+
+    lines.append("")
+    lines.append("Context activation audit:")
+    for label, detail in activated_sections[:12]:
+        lines.append(f"- {label}: {detail}")
+
+    if "lorebook_context" in pattern_names:
+        lines.append("- activated_lore_entries: activate by current chapter goal and keywords; do not inject unrelated lore.")
+    if "context_reference" in pattern_names:
+        lines.append("- context_reference_set: record section/card/chapter and reason before drafting.")
+    if "world_state_tracking" in pattern_names:
+        lines.append("- world_state_slices: update only changed entity, location, faction, or item state after the chapter.")
+    if "author_note_layer" in pattern_names:
+        lines.append("- author_note_layer: next-chapter local style reminder; expires after this chapter.")
+
+    if pattern_names.intersection({"lorebook_context", "context_reference", "world_state_tracking"}):
+        lines.append("")
+        lines.append("Context budget notes:")
+        lines.append("- Prioritize current beat, latest state, open hook, active character, and direct organization/faction constraints.")
+        lines.append("- Leave inactive-but-relevant lore out of the prompt and mention it only in review notes.")
+        lines.append("- Avoid loading full bible/history when a compact card or chapter-change package already proves the state.")
+
+    if "memory_snapshot_versioning" in pattern_names:
+        lines.append("")
+        lines.append("Rollback guidance:")
+        lines.append("- Create a named memory snapshot before risky rewrite, branch merge, or bulk bible update.")
+        lines.append("- Rejected drafts must revert prose plus timeline, character, organization, hook, and plan-progress state.")
+
+
+def _append_inspired_transformation_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render same-type creation gates that keep source inspiration out of canon."""
+    if not isinstance(source_pattern_pack, dict):
+        return
+
+    mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
+    prompt_hints = _as_note_list(source_pattern_pack.get("inspired_prompt_hints"))
+    transformation_hints = _as_note_list(source_pattern_pack.get("inspired_transformation_hints"))
+    copy_risk_hints = _as_note_list(source_pattern_pack.get("inspired_copy_risk_hints"))
+    if not any((mapping_targets, prompt_hints, transformation_hints, copy_risk_hints)):
+        return
+
+    lines.append("")
+    lines.append("Inspired transformation audit:")
+    if mapping_targets:
+        lines.append(f"- required_remaps: {', '.join(mapping_targets[:8])}")
+    if transformation_hints:
+        lines.append(f"- transformation_rule: {_truncate(transformation_hints[0], 220)}")
+    lines.append("- source_canon_boundary: source facts, names, organizations, events, and set pieces remain non-canon.")
+    lines.append("- context_reference_policy: source-pattern references can justify craft choices, not story facts.")
+    if prompt_hints:
+        lines.append(f"- style_transfer_scope: {_truncate(prompt_hints[0], 220)}")
+    if copy_risk_hints:
+        lines.append(f"- copy_risk_gate: {_truncate(copy_risk_hints[0], 220)}")
+
+
+def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[str]:
+    if not isinstance(source_pattern_pack, dict):
+        return set()
+
+    names: set[str] = set()
+    for pattern in _as_dict_list(source_pattern_pack.get("workflow_patterns")):
+        name = _string_value(pattern.get("name"))
+        if name:
+            names.add(name)
+
+    hint_to_name = {
+        "lorebook_context_hints": "lorebook_context",
+        "context_reference_hints": "context_reference",
+        "world_state_tracking_hints": "world_state_tracking",
+        "memory_snapshot_versioning_hints": "memory_snapshot_versioning",
+        "author_note_layer_hints": "author_note_layer",
+    }
+    for hint_key, pattern_name in hint_to_name.items():
+        if _as_note_list(source_pattern_pack.get(hint_key)):
+            names.add(pattern_name)
+
+    return names
+
+
+def _activated_context_sections(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> list[tuple[str, str]]:
+    sections: list[tuple[str, str]] = []
+
+    world_rules = bible.get("world_rules")
+    if isinstance(world_rules, dict) and world_rules:
+        sections.append(("world_rules", f"{len(world_rules)} rules"))
+
+    for label, value, unit in (
+        ("hard_constraints", bible.get("hard_constraints"), "constraints"),
+        ("character_cards", bible.get("character_cards"), "cards"),
+        ("organizations", bible.get("organizations"), "entries"),
+        ("conflicts", bible.get("conflicts"), "arcs"),
+        ("story_arcs", bible.get("story_arcs"), "arcs"),
+    ):
+        count = len(_as_dict_list(value))
+        if count:
+            sections.append((label, f"{count} {unit}"))
+
+    timeline = _as_dict_list(bible.get("timeline"))
+    latest_machine = _latest_chapter_analysis_items(timeline, max_items=1)
+    if latest_machine:
+        chapter = latest_machine[0].get("chapter_number") or latest_machine[0].get("last_chapter_number")
+        suffix = f" through chapter {chapter}" if chapter not in (None, "") else " present"
+        sections.append(("latest_machine_timeline", suffix.strip()))
+    elif timeline:
+        sections.append(("timeline", f"{len(timeline)} anchors"))
+
+    chapter_change_packages = _chapter_analysis_packages(bible.get("chapter_change_packages"))
+    if chapter_change_packages:
+        chapter_numbers = [
+            _int_or_none(package.get("chapter_number"))
+            for package in _sort_by_chapter_asc(chapter_change_packages)
+        ]
+        chapter_numbers = [number for number in chapter_numbers if number is not None]
+        if chapter_numbers:
+            first_chapter = chapter_numbers[0]
+            last_chapter = chapter_numbers[-1]
+            chapter_range = str(first_chapter) if first_chapter == last_chapter else f"{first_chapter}-{last_chapter}"
+            sections.append(("recent_change_packages", f"{len(chapter_change_packages)} packages covering chapter {chapter_range}"))
+        else:
+            sections.append(("recent_change_packages", f"{len(chapter_change_packages)} packages"))
+
+    open_hooks = _status_items(_as_dict_list(bible.get("foreshadows")), done=False, max_items=99)
+    if open_hooks:
+        sections.append(("open_hooks", f"{len(open_hooks)} unresolved hooks"))
+
+    if plan:
+        pending_beats = _status_items(_as_dict_list(plan.get("beats")), done=False, max_items=99)
+        pending_hooks = _status_items(_as_dict_list(plan.get("priority_hooks")), done=False, max_items=99)
+        guardrails = _as_dict_list(plan.get("guardrails"))
+        if pending_beats:
+            sections.append(("pending_plan_beats", f"{len(pending_beats)} beats"))
+        if pending_hooks:
+            sections.append(("pending_priority_hooks", f"{len(pending_hooks)} hooks"))
+        if guardrails:
+            sections.append(("plan_guardrails", f"{len(guardrails)} guardrails"))
+
+    style_signature = bible.get("style_signature")
+    if isinstance(style_signature, dict) and style_signature:
+        sections.append(("style_signature", f"{len(style_signature)} fields"))
+
+    return sections
+
+
 def _append_inspired_style_section(
     *,
     lines: list[str],
@@ -980,6 +1156,17 @@ def _as_dict_list(value: Any) -> list[dict[str, Any]]:
     if not isinstance(value, list):
         return []
     return [item for item in value if isinstance(item, dict)]
+
+
+def _as_note_list(value: Any) -> list[str]:
+    if not isinstance(value, list):
+        return []
+    notes: list[str] = []
+    for item in value:
+        text = _string_value(item)
+        if text:
+            notes.append(text)
+    return notes
 
 
 def _item_to_text(item: dict[str, Any], *, preferred_keys: tuple[str, ...]) -> str:

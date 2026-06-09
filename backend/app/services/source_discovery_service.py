@@ -51,6 +51,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/SillyTavern/SillyTavern",
     "https://github.com/envy-ai/ai_rpg",
     "https://github.com/matrixorigin/Memoria",
+    "https://github.com/mrigankad/Novel-OS",
+    "https://github.com/aikohanasaki/SillyTavern-MemoryBooks",
+    "https://github.com/bal-spec/sillytavern-character-memory",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -109,17 +112,17 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("self_review", ("review", "critique", "评审", "自评", "自我评审", "优化", "rewrite")),
     ("card_workbench", ("card", "cards", "card-based", "card workbench", "卡片", "卡片式", "卡片创作")),
     ("structured_generation_schema", ("schema", "json schema", "schema-first", "structured generation", "结构化", "结构化生成", "动态输出模型", "输出模型")),
-    ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "上下文注入", "上下文引用", "知识图谱", "引用")),
-    ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "persistent workflow", "progress recovery", "工作流", "工作流系统", "中断恢复", "触发器")),
+    ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "vector retrieval", "vector storage", "retrieved automatically", "retrieval", "injection viewer", "上下文注入", "上下文引用", "知识图谱", "引用")),
+    ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
-    ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "score >", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "读者面板", "平台期检测")),
+    ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "读者面板", "平台期检测")),
     ("voice_fingerprint", ("voice fingerprint", "voice analysis", "voice discovery", "voice.md", "声纹", "文风指纹", "语气指纹", "声音发现")),
     ("anti_slop_audit", ("anti-slop", "anti-pattern", "slop scorer", "ai tell", "mechanical slop", "anti-pattern rules", "反 AI", "反套路", "AI 味", "机械感")),
     ("publication_pipeline", ("print-ready", "epub", "audiobook", "landing page", "typeset", "latex", "export", "publish", "publication", "有声书", "排版", "出版", "交付流水线")),
     ("lorebook_context", ("world info", "worldinfo", "lorebook", "memory book", "keyword activation", "recursive scan", "scan depth", "insertion order", "context budget", "世界信息", "设定集", "关键词激活", "递归扫描")),
     ("author_note_layer", ("author's note", "authors note", "author note", "insertion frequency", "in-chat", "chat memory", "作者注释", "作者备注", "提示词层")),
-    ("world_state_tracking", ("solo tabletop game master", "players, locations, regions, and items", "world state", "scene log", "review logs", "structured prompts", "世界状态", "实体状态", "场景日志")),
-    ("memory_snapshot_versioning", ("git for ai agent memory", "snapshot", "branch", "merge", "rollback", "memory versioning", "memory branch", "记忆快照", "记忆分支", "回滚")),
+    ("world_state_tracking", ("solo tabletop game master", "players, locations, regions, and items", "world state", "story state", "persistent state", "central state", "state parser", "event memory", "event memories", "fact memory", "fact memories", "emotional memory", "emotional memories", "relationship memory", "relationship memories", "scene log", "review logs", "structured prompts", "世界状态", "实体状态", "场景日志")),
+    ("memory_snapshot_versioning", ("git for ai agent memory", "snapshot", "branch", "merge", "rollback", "memory versioning", "memory branch", "compaction", "consolidation", "memory rollup", "memory rollups", "multi-tier memory", "记忆快照", "记忆分支", "回滚")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -148,6 +151,19 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "matrixorigin/memoria": (
         "AI agent memory infrastructure with snapshot, branch, merge, rollback, and Git-like memory versioning. "
         "Pattern-only adaptation for long-form novel continuation state snapshots and reversible context changes."
+    ),
+    "mrigankad/novel-os": (
+        "Multi-agent fiction writing framework with persistent story state, central StoryState JSON, "
+        "deterministic continuity engine, five-role editorial pipeline, chapter quality scores, and state parser merge flow."
+    ),
+    "aikohanasaki/sillytavern-memorybooks": (
+        "SillyTavern memory extension for structured memory creation into lorebooks. "
+        "Public README describes scenes as memories, clips, side prompts, JSON summaries, compaction, consolidation, "
+        "lorebook ordering, and multi-tier memory rollups."
+    ),
+    "bal-spec/sillytavern-character-memory": (
+        "SillyTavern character memory extension that extracts structured relationship, event, fact, and emotional memories "
+        "into editable markdown Data Bank files with vector retrieval, injection viewer, token breakdown, health checks, and undoable memory control."
     ),
 }
 

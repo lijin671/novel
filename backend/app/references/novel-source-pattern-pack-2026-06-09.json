@@ -74,7 +74,7 @@
     "Create rollback points before major bible, plan, or chapter-state rewrites so rejected continuations can be reverted.",
     "Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context."
   ],
-  "generated_at": "2026-06-09T12:00:00+08:00",
+  "generated_at": "2026-06-09T13:00:00+08:00",
   "inspired_copy_risk_hints": [
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
     "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
@@ -168,26 +168,18 @@
     "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
     "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
   ],
-  "source_candidate_count": 8,
-  "source_intake_notes": [
-    "RhythmicWave/NovelForge HEAD: 71db1420d919d676521a15f6999090b37db86fb0; posture pattern-only due AGPL-3.0 and runtime surface.",
-    "NousResearch/autonovel HEAD: d165f267a0ffd34f3b0a70a8a72ac38cb8e4a542; posture pattern-only; README read as public text metadata only.",
-    "kaigani/codeywood HEAD: 6eba4f27ca1699ada778ba2cd5af9d8e70700907; posture pattern-only due non-novel runtime and missing license metadata.",
-    "KoboldAI/KoboldAI-Client HEAD: 1ce811c3f9f828ea80274640e866ca3189daf91f; default branch main; license AGPL-3.0; README read as public text metadata only.",
-    "SillyTavern/SillyTavern HEAD: 51ad27fb86d39a3daca3adaa970375c9670c12df; default branch release; license AGPL-3.0; README plus public docs World Info and Author's Note pages read as public text metadata only.",
-    "envy-ai/ai_rpg HEAD: bea1dd19a425c09eca40bf78e0a22589d3d9fb5a; default branch master; license missing/unknown; README read as public text metadata only.",
-    "matrixorigin/Memoria HEAD: 37ca1e773af608c08b00a14f3814752c43df6c41; default branch main; license Apache-2.0; README read as public text metadata only.",
-    "NovelForge, autonovel, KoboldAI, SillyTavern, ai_rpg and Memoria sources were read only as public text metadata; no source code import or runtime trial was performed.",
-    "No clone, install, package hook, Docker stack, MCP server, native binary, shell script, browser extension, provider call, credentials, cookies, or external repository code execution was performed."
-  ],
+  "source_candidate_count": 11,
   "source_titles": [
     "NousResearch/autonovel",
-    "RhythmicWave/NovelForge",
     "voocel/ainovel-cli",
+    "RhythmicWave/NovelForge",
+    "mrigankad/Novel-OS",
     "KoboldAI/KoboldAI-Client",
     "SillyTavern/SillyTavern",
     "matrixorigin/Memoria",
+    "bal-spec/sillytavern-character-memory",
     "envy-ai/ai_rpg",
+    "aikohanasaki/SillyTavern-MemoryBooks",
     "kaigani/codeywood"
   ],
   "structured_generation_hints": [
@@ -320,19 +312,6 @@
       "risk_flags": [],
       "sources": [
         {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 118,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -346,6 +325,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
           "license": "unknown",
@@ -363,7 +355,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
@@ -391,19 +383,6 @@
           "url": "https://github.com/NousResearch/autonovel"
         },
         {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 118,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -417,6 +396,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
         }
       ],
       "top_source_url": "https://github.com/NousResearch/autonovel",
@@ -431,19 +423,6 @@
       "risk_flags": [],
       "sources": [
         {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 118,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -457,6 +436,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
           "license": "unknown",
@@ -489,7 +481,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
@@ -502,19 +494,6 @@
       "risk_flags": [],
       "sources": [
         {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 118,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -528,6 +507,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
           "license": "unknown",
@@ -545,31 +537,20 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "character_cards",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 118,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -584,6 +565,36 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 71,
+          "source": "github",
+          "stars": 58,
+          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
+          "title": "bal-spec/sillytavern-character-memory",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/bal-spec/sillytavern-character-memory"
         },
         {
           "license": "unknown",
@@ -601,7 +612,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
@@ -614,19 +625,6 @@
       "risk_flags": [],
       "sources": [
         {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 118,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -640,6 +638,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
           "license": "unknown",
@@ -657,7 +668,82 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 4,
+      "name": "emotion_arc",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "browser_extension"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1280,
+          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
+          "title": "voocel/ainovel-cli",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 71,
+          "source": "github",
+          "stars": 58,
+          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
+          "title": "bal-spec/sillytavern-character-memory",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/bal-spec/sillytavern-character-memory"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 35,
+          "source": "github",
+          "stars": 21,
+          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
+          "title": "kaigani/codeywood",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/kaigani/codeywood"
+        }
+      ],
+      "top_source_url": "https://github.com/voocel/ainovel-cli",
       "trust_flags": [
         "zero-issues-high-stars",
         "license:missing"
@@ -665,65 +751,11 @@
     },
     {
       "candidate_count": 3,
-      "name": "emotion_arc",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 118,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 104,
-          "source": "github",
-          "stars": 1280,
-          "summary": "AI novel writing CLI with chapter generation, continuation, story bible and style analysis.",
-          "title": "voocel/ainovel-cli",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/voocel/ainovel-cli"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 35,
-          "source": "github",
-          "stars": 21,
-          "summary": "Claude Code based skills for AI filmmaking from idea to production, screenplay planning, storyboard, shot list, scene plan and multi-stage review.",
-          "title": "kaigani/codeywood",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/kaigani/codeywood"
-        }
-      ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 2,
       "name": "style_signature",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
         {
           "license": "MIT",
@@ -754,11 +786,29 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 71,
+          "source": "github",
+          "stars": 58,
+          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
+          "title": "bal-spec/sillytavern-character-memory",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/bal-spec/sillytavern-character-memory"
         }
       ],
       "top_source_url": "https://github.com/NousResearch/autonovel",
       "trust_flags": [
-        "zero-issues-high-stars"
+        "zero-issues-high-stars",
+        "license:missing"
       ]
     },
     {
@@ -783,19 +833,6 @@
           "url": "https://github.com/NousResearch/autonovel"
         },
         {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 118,
-          "source": "github",
-          "stars": 921,
-          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
-          "title": "RhythmicWave/NovelForge",
-          "trust_flags": [],
-          "url": "https://github.com/RhythmicWave/NovelForge"
-        },
-        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -809,6 +846,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 102,
+          "source": "github",
+          "stars": 921,
+          "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
+          "title": "RhythmicWave/NovelForge",
+          "trust_flags": [],
+          "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
           "license": "unknown",
@@ -858,7 +908,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 118,
+          "score": 102,
           "source": "github",
           "stars": 921,
           "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
@@ -871,10 +921,12 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "lorebook_context",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
         {
           "license": "AGPL-3.0",
@@ -894,7 +946,7 @@
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
+          "posture_hint": "defer-trust-review",
           "risk_flags": [],
           "score": 72,
           "source": "github",
@@ -902,14 +954,31 @@
           "summary": "LLM frontend for power users. Static intake note: LLM fiction and roleplay front-end with WorldInfo lorebooks. Official public docs describe World Info / Lorebooks / Memory Books, keyword activation, scan depth, recursive scanning, insertion order, token budget, Author's Note, an",
           "title": "SillyTavern/SillyTavern",
           "trust_flags": [
-            "zero-issues-high-stars"
+            "zero-issues-high-stars",
+            "default-branch:nonstandard"
           ],
           "url": "https://github.com/SillyTavern/SillyTavern"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 42,
+          "source": "github",
+          "stars": 221,
+          "summary": "Saves SillyTavern chat memories to lorebooks. Static intake note: SillyTavern memory extension for structured memory creation into lorebooks. Public README describes scenes as memories, clips, side prompts, JSON summaries, compaction, consolidation, lorebook ordering, and multi-t",
+          "title": "aikohanasaki/SillyTavern-MemoryBooks",
+          "trust_flags": [],
+          "url": "https://github.com/aikohanasaki/SillyTavern-MemoryBooks"
         }
       ],
       "top_source_url": "https://github.com/KoboldAI/KoboldAI-Client",
       "trust_flags": [
-        "zero-issues-high-stars"
+        "zero-issues-high-stars",
+        "default-branch:nonstandard"
       ]
     },
     {
@@ -923,7 +992,7 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 118,
+          "score": 102,
           "source": "github",
           "stars": 921,
           "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
@@ -936,11 +1005,45 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 3,
       "name": "world_state_tracking",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 12,
+          "summary": "Multi-agent AI framework that writes full-length novels with persistent story state, a deterministic continuity engine, and a five-role editorial pipeline. Static intake note: Multi-agent fiction writing framework with persistent story state, central StoryState JSON, deterministi",
+          "title": "mrigankad/Novel-OS",
+          "trust_flags": [
+            "default-branch:nonstandard"
+          ],
+          "url": "https://github.com/mrigankad/Novel-OS"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 71,
+          "source": "github",
+          "stars": 58,
+          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
+          "title": "bal-spec/sillytavern-character-memory",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/bal-spec/sillytavern-character-memory"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -957,23 +1060,26 @@
           "url": "https://github.com/envy-ai/ai_rpg"
         }
       ],
-      "top_source_url": "https://github.com/envy-ai/ai_rpg",
+      "top_source_url": "https://github.com/mrigankad/Novel-OS",
       "trust_flags": [
+        "default-branch:nonstandard",
         "license:missing"
       ]
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "context_reference",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 118,
+          "score": 102,
           "source": "github",
           "stars": 921,
           "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
@@ -984,7 +1090,7 @@
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
+          "posture_hint": "defer-trust-review",
           "risk_flags": [],
           "score": 72,
           "source": "github",
@@ -992,18 +1098,38 @@
           "summary": "LLM frontend for power users. Static intake note: LLM fiction and roleplay front-end with WorldInfo lorebooks. Official public docs describe World Info / Lorebooks / Memory Books, keyword activation, scan depth, recursive scanning, insertion order, token budget, Author's Note, an",
           "title": "SillyTavern/SillyTavern",
           "trust_flags": [
-            "zero-issues-high-stars"
+            "zero-issues-high-stars",
+            "default-branch:nonstandard"
           ],
           "url": "https://github.com/SillyTavern/SillyTavern"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 71,
+          "source": "github",
+          "stars": 58,
+          "summary": "SillyTavern extension that automatically extracts structured character memories from chat and stores them in the Data Bank for vector-based retrieval at generation time. Static intake note: SillyTavern character memory extension that extracts structured relationship, event, fact,",
+          "title": "bal-spec/sillytavern-character-memory",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/bal-spec/sillytavern-character-memory"
         }
       ],
       "top_source_url": "https://github.com/RhythmicWave/NovelForge",
       "trust_flags": [
-        "zero-issues-high-stars"
+        "zero-issues-high-stars",
+        "default-branch:nonstandard",
+        "license:missing"
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "workflow_agent_pipeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1013,17 +1139,34 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 118,
+          "score": 102,
           "source": "github",
           "stars": 921,
           "summary": "AI assisted longform novel creation engine with schema-first card-based creation, JSON Schema structured generation, context injection, knowledge graph, workflow agent, chapter generation, story bible and progress recovery.",
           "title": "RhythmicWave/NovelForge",
           "trust_flags": [],
           "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 12,
+          "summary": "Multi-agent AI framework that writes full-length novels with persistent story state, a deterministic continuity engine, and a five-role editorial pipeline. Static intake note: Multi-agent fiction writing framework with persistent story state, central StoryState JSON, deterministi",
+          "title": "mrigankad/Novel-OS",
+          "trust_flags": [
+            "default-branch:nonstandard"
+          ],
+          "url": "https://github.com/mrigankad/Novel-OS"
         }
       ],
       "top_source_url": "https://github.com/RhythmicWave/NovelForge",
-      "trust_flags": []
+      "trust_flags": [
+        "default-branch:nonstandard"
+      ]
     },
     {
       "candidate_count": 1,
@@ -1053,7 +1196,7 @@
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "quality_score_loop",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1072,19 +1215,52 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 12,
+          "summary": "Multi-agent AI framework that writes full-length novels with persistent story state, a deterministic continuity engine, and a five-role editorial pipeline. Static intake note: Multi-agent fiction writing framework with persistent story state, central StoryState JSON, deterministi",
+          "title": "mrigankad/Novel-OS",
+          "trust_flags": [
+            "default-branch:nonstandard"
+          ],
+          "url": "https://github.com/mrigankad/Novel-OS"
         }
       ],
       "top_source_url": "https://github.com/NousResearch/autonovel",
       "trust_flags": [
-        "zero-issues-high-stars"
+        "zero-issues-high-stars",
+        "default-branch:nonstandard"
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 3,
       "name": "memory_snapshot_versioning",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "browser_extension"
+      ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 12,
+          "summary": "Multi-agent AI framework that writes full-length novels with persistent story state, a deterministic continuity engine, and a five-role editorial pipeline. Static intake note: Multi-agent fiction writing framework with persistent story state, central StoryState JSON, deterministi",
+          "title": "mrigankad/Novel-OS",
+          "trust_flags": [
+            "default-branch:nonstandard"
+          ],
+          "url": "https://github.com/mrigankad/Novel-OS"
+        },
         {
           "license": "Apache-2.0",
           "posture": "pattern-only",
@@ -1099,10 +1275,26 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/matrixorigin/Memoria"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "browser_extension"
+          ],
+          "score": 42,
+          "source": "github",
+          "stars": 221,
+          "summary": "Saves SillyTavern chat memories to lorebooks. Static intake note: SillyTavern memory extension for structured memory creation into lorebooks. Public README describes scenes as memories, clips, side prompts, JSON summaries, compaction, consolidation, lorebook ordering, and multi-t",
+          "title": "aikohanasaki/SillyTavern-MemoryBooks",
+          "trust_flags": [],
+          "url": "https://github.com/aikohanasaki/SillyTavern-MemoryBooks"
         }
       ],
-      "top_source_url": "https://github.com/matrixorigin/Memoria",
+      "top_source_url": "https://github.com/mrigankad/Novel-OS",
       "trust_flags": [
+        "default-branch:nonstandard",
         "zero-issues-high-stars"
       ]
     },
@@ -1163,7 +1355,7 @@
     {
       "candidate_count": 2,
       "name": "author_note_layer",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
         {
@@ -1184,7 +1376,7 @@
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
+          "posture_hint": "defer-trust-review",
           "risk_flags": [],
           "score": 72,
           "source": "github",
@@ -1192,14 +1384,16 @@
           "summary": "LLM frontend for power users. Static intake note: LLM fiction and roleplay front-end with WorldInfo lorebooks. Official public docs describe World Info / Lorebooks / Memory Books, keyword activation, scan depth, recursive scanning, insertion order, token budget, Author's Note, an",
           "title": "SillyTavern/SillyTavern",
           "trust_flags": [
-            "zero-issues-high-stars"
+            "zero-issues-high-stars",
+            "default-branch:nonstandard"
           ],
           "url": "https://github.com/SillyTavern/SillyTavern"
         }
       ],
       "top_source_url": "https://github.com/KoboldAI/KoboldAI-Client",
       "trust_flags": [
-        "zero-issues-high-stars"
+        "zero-issues-high-stars",
+        "default-branch:nonstandard"
       ]
     },
     {

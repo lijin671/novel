@@ -528,6 +528,9 @@ def test_default_discovery_sources_include_structured_writing_and_scene_pipeline
     assert "https://github.com/SillyTavern/SillyTavern" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/envy-ai/ai_rpg" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/matrixorigin/Memoria" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mrigankad/Novel-OS" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/aikohanasaki/SillyTavern-MemoryBooks" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/bal-spec/sillytavern-character-memory" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("json schema" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("context injection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("idea to production" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
@@ -575,6 +578,33 @@ def test_static_context_memory_projects_map_to_lorebook_world_state_and_snapshot
                 "topics": ["memory", "agent", "snapshot"],
                 "updated_at": "2026-06-09T12:00:00Z",
             },
+            {
+                "full_name": "mrigankad/Novel-OS",
+                "html_url": "https://github.com/mrigankad/Novel-OS",
+                "description": "Multi-agent AI framework that writes full-length novels.",
+                "stargazers_count": 12,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing", "multi-agent"],
+                "updated_at": "2026-06-09T12:00:00Z",
+            },
+            {
+                "full_name": "aikohanasaki/SillyTavern-MemoryBooks",
+                "html_url": "https://github.com/aikohanasaki/SillyTavern-MemoryBooks",
+                "description": "Saves SillyTavern chat memories to lorebooks.",
+                "stargazers_count": 221,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["lorebook", "memory", "story"],
+                "updated_at": "2026-06-09T12:00:00Z",
+            },
+            {
+                "full_name": "bal-spec/sillytavern-character-memory",
+                "html_url": "https://github.com/bal-spec/sillytavern-character-memory",
+                "description": "Extracts structured character memories into Data Bank for vector retrieval.",
+                "stargazers_count": 58,
+                "license": None,
+                "topics": ["character-memory", "vector", "story"],
+                "updated_at": "2026-06-09T12:00:00Z",
+            },
         ],
         forum_items=[],
         generated_at="2026-06-09T12:00:00+08:00",
@@ -587,6 +617,14 @@ def test_static_context_memory_projects_map_to_lorebook_world_state_and_snapshot
     assert "author_note_layer" in patterns_by_title["SillyTavern/SillyTavern"]
     assert "world_state_tracking" in patterns_by_title["envy-ai/ai_rpg"]
     assert "memory_snapshot_versioning" in patterns_by_title["matrixorigin/Memoria"]
+    assert "workflow_agent_pipeline" in patterns_by_title["mrigankad/Novel-OS"]
+    assert "world_state_tracking" in patterns_by_title["mrigankad/Novel-OS"]
+    assert "quality_score_loop" in patterns_by_title["mrigankad/Novel-OS"]
+    assert "lorebook_context" in patterns_by_title["aikohanasaki/SillyTavern-MemoryBooks"]
+    assert "memory_snapshot_versioning" in patterns_by_title["aikohanasaki/SillyTavern-MemoryBooks"]
+    assert "character_cards" in patterns_by_title["bal-spec/sillytavern-character-memory"]
+    assert "context_reference" in patterns_by_title["bal-spec/sillytavern-character-memory"]
+    assert "world_state_tracking" in patterns_by_title["bal-spec/sillytavern-character-memory"]
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
     assert "lorebook_entries" in pattern_pack["bible_enrichment_targets"]

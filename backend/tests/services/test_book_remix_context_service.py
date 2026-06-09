@@ -131,6 +131,11 @@ def test_build_remix_inspired_context_block_renders_style_copy_risk_and_pattern_
     assert "inspired_prompt_hints" in block
     assert "Use source style as rhythm and POV guidance only." in block
     assert "Reject copied source names" in block
+    assert "Inspired transformation audit" in block
+    assert "required_remaps: character_remap, organization_remap" in block
+    assert "source_canon_boundary" in block
+    assert "context_reference_policy" in block
+    assert "copy_risk_gate" in block
 
 
 def test_build_remix_inspired_context_block_ignores_ordinary_style_content():
@@ -1043,6 +1048,65 @@ def test_build_remix_continuation_context_block_renders_emotional_arc_from_chang
     assert "emotion: tone: tense restraint" in block
     assert "intensity: 0.82" in block
     assert "curve" in block
+
+
+def test_build_remix_continuation_context_block_renders_context_activation_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "world_rules": {"magic": "Only verified city records are supernatural."},
+            "character_cards": [{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+            "organizations": [{"name": "Archive Office", "role": "controls sealed files"}],
+            "style_signature": {"voice": "tense restraint"},
+            "timeline": [
+                {
+                    "event": "Inspector Lin recovered ledger",
+                    "chapter_number": 19,
+                    "source": "chapter_analysis",
+                },
+            ],
+            "foreshadows": [
+                {"hook": "Archive witness hesitates", "status": "open", "chapter_number": 20}
+            ],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Witness",
+                    "summary": "Inspector Lin questioned the archive witness.",
+                },
+            ],
+        },
+        plan={
+            "summary": "Follow the sealed file lead next.",
+            "beats": [{"beat": "Follow city hall file", "status": "pending"}],
+            "priority_hooks": [{"hook": "Archive witness hesitates", "status": "pending"}],
+            "guardrails": [{"rule": "No new power system"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "lorebook_context"},
+                {"name": "context_reference"},
+                {"name": "world_state_tracking"},
+                {"name": "memory_snapshot_versioning"},
+                {"name": "author_note_layer"},
+            ],
+            "continuation_prompt_hints": ["Keep confirmed continuation canon."],
+        },
+    )
+
+    assert "Context activation audit" in block
+    assert "world_rules: 1 rules" in block
+    assert "character_cards: 1 cards" in block
+    assert "recent_change_packages: 1 packages" in block
+    assert "activated_lore_entries: activate by current chapter goal and keywords" in block
+    assert "context_reference_set: record section/card/chapter and reason" in block
+    assert "world_state_slices: update only changed entity, location, faction, or item state" in block
+    assert "author_note_layer: next-chapter local style reminder; expires after this chapter" in block
+    assert "Context budget notes" in block
+    assert "Rollback guidance" in block
+    assert "snapshot before risky rewrite" in block
 
 
 def test_build_remix_continuation_progress_summary_deduplicates_legacy_generation_and_analysis_packages():

@@ -24,6 +24,9 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/SillyTavern/SillyTavern',
   'https://github.com/envy-ai/ai_rpg',
   'https://github.com/matrixorigin/Memoria',
+  'https://github.com/mrigankad/Novel-OS',
+  'https://github.com/aikohanasaki/SillyTavern-MemoryBooks',
+  'https://github.com/bal-spec/sillytavern-character-memory',
 ];
 
 function parseSeedUrls(value: string): string[] {

@@ -41,5 +41,8 @@ def test_source_discovery_panel_default_seeds_include_context_memory_projects():
         "SillyTavern/SillyTavern",
         "envy-ai/ai_rpg",
         "matrixorigin/Memoria",
+        "mrigankad/Novel-OS",
+        "aikohanasaki/SillyTavern-MemoryBooks",
+        "bal-spec/sillytavern-character-memory",
     ):
         assert repo in panel_text
