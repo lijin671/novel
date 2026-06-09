@@ -227,6 +227,14 @@ def render_source_pattern_pack_digest(
         "interrupted_resume_flow_hints",
         "auto_validation_rewrite_hints",
         "top_down_story_planning_hints",
+        "plain_text_project_storage_hints",
+        "synopsis_cross_reference_hints",
+        "snowflake_premise_expansion_hints",
+        "outliner_index_cards_hints",
+        "narrative_strand_mapping_hints",
+        "character_depth_interview_hints",
+        "mindmap_visual_planning_hints",
+        "manuscript_export_formats_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

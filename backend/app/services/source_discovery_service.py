@@ -41,6 +41,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("trend scanning" OR "deconstruction" OR "AI tone removal") ("web novel" OR "novel writing") in:name,description,readme',
     '("interrupted continuation" OR "resume writing" OR "auto validation") ("novel" OR "chapter") in:name,description,readme',
     '("top down" OR "book spec" OR "chapter scenes") ("storytelling agent" OR "long stories") in:name,description,readme',
+    '("plain text" OR "synopsis" OR "cross-referencing") ("novel" OR "manuscript" OR "fiction") in:name,description,readme',
+    '("snowflake method" OR "index cards" OR "outliner") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
+    '("narrative strands" OR "fabula" OR "character interview") ("novel" OR "writing") in:name,description,readme',
+    '("mind mapping" OR "timeline planning" OR "grid planner") ("creative writing" OR "novel" OR "story") in:name,description,readme',
     '("json schema" OR "schema-first" OR "structured generation") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("card" OR "cards" OR "context injection" OR "knowledge graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("workflow agent" OR "workflow studio" OR "progress recovery") ("novel" OR "fiction" OR "story") in:name,description,readme',
@@ -82,6 +86,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/worldwonderer/oh-story-claudecode",
     "https://github.com/PenglongHuang/chinese-novelist-skill",
     "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent",
+    "https://github.com/vkbo/novelWriter",
+    "https://github.com/olivierkes/manuskript",
+    "https://github.com/andreafeccomandi/bibisco",
+    "https://github.com/wavemakercards/wavemaker-cards-v4",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -184,6 +192,14 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("interrupted_resume_flow", ("interrupted continuation", "resume from breakpoint", "detect unfinished", "resume writing", "interruption", "中断续写", "断点续写")),
     ("auto_validation_rewrite", ("auto validation", "automatic validation", "auto repair", "auto rewrite", "word count and coherence", "not qualified auto rewrite", "自动校验", "自动修复")),
     ("top_down_story_planning", ("top down", "top-down", "book spec", "enhance book spec", "create plot chapters", "enhance plot chapters", "split chapters into scenes", "chapter scenes", "scene scale", "from topic to scene", "顶层设计", "分章分场")),
+    ("plain_text_project_storage", ("plain text", "human readable text files", "many smaller text documents", "version control", "file synchronisation", "minimal formatting syntax", "robustness", "纯文本", "可读文本", "版本控制")),
+    ("synopsis_cross_reference", ("synopsis", "comments", "cross-referencing", "cross reference", "metadata syntax", "notes", "comment", "摘要", "交叉引用")),
+    ("snowflake_premise_expansion", ("snowflake method", "snowflake", "one sentence", "to a paragraph", "full summary", "step-by-step story development", "premise expansion", "premise from one sentence", "雪花法", "一句话", "完整梗概")),
+    ("outliner_index_cards", ("outliner", "outline mode", "index cards", "grid planner", "plot point management", "plot points", "re-organize chapters and scenes", "edit and re-organize", "chapter and scene management", "大纲模式", "索引卡", "章节重排")),
+    ("narrative_strand_mapping", ("narrative strands", "fabula", "premise", "settings: geographic, temporal and social context", "geographic, temporal and social context", "story line", "叙事线", "故事线", "社会背景")),
+    ("character_depth_interview", ("know everything about your characters", "believable characters", "human nature", "character complexity", "character interview", "人物访谈", "人物深描", "可信人物")),
+    ("mindmap_visual_planning", ("mind mapping", "mind map", "interactive visual story planning", "visual story planning", "drag-and-drop node", "visual links", "visualization tools", "脑图", "思维导图")),
+    ("manuscript_export_formats", ("export novel in pdf, docx, or txt", "export formats", "import/export formats", "import and export", "import and export document formats", "document formats", "html, epub, opendocument, docx", "pdf, docx, txt", "markdown export", "json exports", "导出", "文档格式")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -287,6 +303,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "goat-ai-lab/goat-storytelling-agent": (
         "Long-story generation agent. Public README describes a top-down pipeline from topic to book specification, enhanced book spec, plot chapters, enhanced chapter plan, "
         "splitting chapters into scenes, and writing each scene with previous-scene context for scale-controllable storytelling."
+    ),
+    "vkbo/novelwriter": (
+        "Plain-text novel editor for manuscripts assembled from many smaller text documents. Public README describes human-readable file storage, minimal formatting, "
+        "metadata syntax for comments, synopsis, and cross-referencing, and project format suited for version control and file synchronization."
+    ),
+    "olivierkes/manuskript": (
+        "Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlines, index cards, worldbuilding, "
+        "item tracking, chapter/scene reorganization, story line view, templates, writing modes, frequency analyzer, and import/export formats."
+    ),
+    "andreafeccomandi/bibisco": (
+        "Open-source novel writing app. Public README describes chapter and scene organization, revisions, premise, fabula, narrative strands, geographic/temporal/social setting, "
+        "and deep character understanding for believable characters."
+    ),
+    "wavemakercards/wavemaker-cards-v4": (
+        "Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planner, character tracking across scenes, "
+        "plot point management, and Snowflake Method step-by-step story development."
     ),
 }
 
@@ -621,6 +653,14 @@ class NovelSourceDiscoveryService:
             "interrupted_resume_flow_hints": self._build_interrupted_resume_flow_hints(available_patterns),
             "auto_validation_rewrite_hints": self._build_auto_validation_rewrite_hints(available_patterns),
             "top_down_story_planning_hints": self._build_top_down_story_planning_hints(available_patterns),
+            "plain_text_project_storage_hints": self._build_plain_text_project_storage_hints(available_patterns),
+            "synopsis_cross_reference_hints": self._build_synopsis_cross_reference_hints(available_patterns),
+            "snowflake_premise_expansion_hints": self._build_snowflake_premise_expansion_hints(available_patterns),
+            "outliner_index_cards_hints": self._build_outliner_index_cards_hints(available_patterns),
+            "narrative_strand_mapping_hints": self._build_narrative_strand_mapping_hints(available_patterns),
+            "character_depth_interview_hints": self._build_character_depth_interview_hints(available_patterns),
+            "mindmap_visual_planning_hints": self._build_mindmap_visual_planning_hints(available_patterns),
+            "manuscript_export_formats_hints": self._build_manuscript_export_formats_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1093,6 +1133,14 @@ class NovelSourceDiscoveryService:
             "interrupted_resume_flow": 52,
             "auto_validation_rewrite": 51,
             "top_down_story_planning": 59,
+            "plain_text_project_storage": 36,
+            "synopsis_cross_reference": 38,
+            "snowflake_premise_expansion": 54,
+            "outliner_index_cards": 53,
+            "narrative_strand_mapping": 52,
+            "character_depth_interview": 58,
+            "mindmap_visual_planning": 37,
+            "manuscript_export_formats": 24,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -1188,6 +1236,22 @@ class NovelSourceDiscoveryService:
         if "top_down_story_planning" in patterns:
             targets.append("book_spec")
             targets.append("chapter_scene_plan")
+        if "plain_text_project_storage" in patterns:
+            targets.append("manuscript_text_units")
+        if "synopsis_cross_reference" in patterns:
+            targets.append("synopsis_cross_refs")
+        if "snowflake_premise_expansion" in patterns:
+            targets.append("snowflake_premise_chain")
+        if "outliner_index_cards" in patterns:
+            targets.append("index_card_board")
+        if "narrative_strand_mapping" in patterns:
+            targets.append("narrative_strands")
+        if "character_depth_interview" in patterns:
+            targets.append("character_depth_questions")
+        if "mindmap_visual_planning" in patterns:
+            targets.append("mindmap_nodes")
+        if "manuscript_export_formats" in patterns:
+            targets.append("export_format_targets")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -1302,6 +1366,22 @@ class NovelSourceDiscoveryService:
             targets.extend(["auto_validation_results", "rewrite_attempts", "word_count_coherence_checks"])
         if "top_down_story_planning" in patterns:
             targets.extend(["book_spec", "act_plan", "chapter_scene_plan", "previous_scene_context"])
+        if "plain_text_project_storage" in patterns:
+            targets.extend(["manuscript_text_units", "note_text_units", "human_readable_storage_refs"])
+        if "synopsis_cross_reference" in patterns:
+            targets.extend(["synopsis_cross_refs", "comment_refs", "note_backlinks"])
+        if "snowflake_premise_expansion" in patterns:
+            targets.extend(["snowflake_premise_chain", "one_sentence_premise", "paragraph_summary", "full_summary"])
+        if "outliner_index_cards" in patterns:
+            targets.extend(["index_card_board", "chapter_scene_cards", "reorder_operations"])
+        if "narrative_strand_mapping" in patterns:
+            targets.extend(["narrative_strands", "fabula_map", "setting_context_layers"])
+        if "character_depth_interview" in patterns:
+            targets.extend(["character_depth_interviews", "belief_desire_fear_map", "character_contradictions"])
+        if "mindmap_visual_planning" in patterns:
+            targets.extend(["mindmap_nodes", "visual_link_edges", "idea_to_outline_promotions"])
+        if "manuscript_export_formats" in patterns:
+            targets.extend(["export_format_targets", "derived_manuscript_artifacts"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -1365,6 +1445,20 @@ class NovelSourceDiscoveryService:
             hints.append("章节验收包含字数、连贯性、钩子、风格和状态写回；不合格章节进入有限轮次自动重写。")
         if "top_down_story_planning" in patterns:
             hints.append("长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。")
+        if "plain_text_project_storage" in patterns:
+            hints.append("把章节、笔记、摘要和分析切成稳定文本单元，便于 diff、回滚和人工审阅。")
+        if "synopsis_cross_reference" in patterns:
+            hints.append("生成前核对本章 synopsis、评论、注释和交叉引用，避免遗漏已标记线索。")
+        if "snowflake_premise_expansion" in patterns:
+            hints.append("从一句话前提扩展到段落摘要、完整梗概和章节目标，防止续写偏离核心承诺。")
+        if "outliner_index_cards" in patterns:
+            hints.append("把章节和场景作为可重排卡片处理，重排时同步保留人物、伏笔和状态证据。")
+        if "narrative_strand_mapping" in patterns:
+            hints.append("按叙事线、fabula、地理/时间/社会背景检查章节承接，不只看单章爽点。")
+        if "character_depth_interview" in patterns:
+            hints.append("重大人物转折前先核对欲望、恐惧、矛盾、社会面具和压力来源。")
+        if "mindmap_visual_planning" in patterns:
+            hints.append("脑图节点只作为创意候选；进入正史前必须提升为大纲、卡片或圣经字段。")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -1422,6 +1516,16 @@ class NovelSourceDiscoveryService:
             hints.append("Record validation pass/fail status, rewrite count, and remaining retry budget before moving to the next chapter.")
         if "top_down_story_planning" in patterns:
             hints.append("Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale.")
+        if "plain_text_project_storage" in patterns:
+            hints.append("Keep stable ids for manuscript text units so generated changes can be diffed and reverted without losing notes.")
+        if "synopsis_cross_reference" in patterns:
+            hints.append("Persist synopsis and cross-reference links beside chapter state so prompts can cite why a note is relevant.")
+        if "outliner_index_cards" in patterns:
+            hints.append("When outline cards are reordered, record previous order, new order, and affected dependencies.")
+        if "narrative_strand_mapping" in patterns:
+            hints.append("Track narrative strand membership per scene so a strand does not disappear during long continuation.")
+        if "character_depth_interview" in patterns:
+            hints.append("Store character-depth answers separately from transient scene mood; update them only from accepted evidence.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -1889,6 +1993,77 @@ class NovelSourceDiscoveryService:
             "Each scene draft should know its chapter number, scene number, plan role, and previous-scene context.",
         ]
 
+    def _build_plain_text_project_storage_hints(self, patterns: set[str]) -> list[str]:
+        if "plain_text_project_storage" not in patterns:
+            return []
+        return [
+            "Keep chapters, notes, summaries, and analysis as stable human-readable text units with durable ids.",
+            "Prefer diffable manuscript units for long-form state so reviewers can compare, revert, and synchronize changes.",
+            "Generated edits should target a named text unit rather than rewriting an opaque whole-project blob.",
+        ]
+
+    def _build_synopsis_cross_reference_hints(self, patterns: set[str]) -> list[str]:
+        if "synopsis_cross_reference" not in patterns:
+            return []
+        return [
+            "Attach synopsis, comments, notes, and cross-references to the chapter or scene they explain.",
+            "Before drafting, list which synopsis notes and refs are active for this chapter and why.",
+            "Cross-references should point to canon artifacts, not to source-intake inspiration as story fact.",
+        ]
+
+    def _build_snowflake_premise_expansion_hints(self, patterns: set[str]) -> list[str]:
+        if "snowflake_premise_expansion" not in patterns:
+            return []
+        return [
+            "Preserve a premise chain: one-sentence promise -> paragraph summary -> full summary -> chapter goals.",
+            "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
+            "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names.",
+        ]
+
+    def _build_outliner_index_cards_hints(self, patterns: set[str]) -> list[str]:
+        if "outliner_index_cards" not in patterns:
+            return []
+        return [
+            "Represent chapters and scenes as reorderable outline/index cards with goal, conflict, hook, status, and dependencies.",
+            "When a card moves, re-check timeline, setup/payoff, character state, and narrative strand dependencies.",
+            "Use cards to stage structural changes before updating bible state or accepted chapter memory.",
+        ]
+
+    def _build_narrative_strand_mapping_hints(self, patterns: set[str]) -> list[str]:
+        if "narrative_strand_mapping" not in patterns:
+            return []
+        return [
+            "Map premise, fabula, narrative strands, and geographic/temporal/social setting context before accepting arc changes.",
+            "Every scene should declare which narrative strand it advances, complicates, rests, or resolves.",
+            "Same-type writing may borrow strand function, but must rebuild the concrete fabula and setting context.",
+        ]
+
+    def _build_character_depth_interview_hints(self, patterns: set[str]) -> list[str]:
+        if "character_depth_interview" not in patterns:
+            return []
+        return [
+            "Use character-depth questions before major turns: desire, fear, contradiction, wound, social mask, and pressure source.",
+            "Believable character changes require visible cause, cost, and after-state, not just a new trait label.",
+            "Store depth answers as character-card evidence only after accepted scenes prove them.",
+        ]
+
+    def _build_mindmap_visual_planning_hints(self, patterns: set[str]) -> list[str]:
+        if "mindmap_visual_planning" not in patterns:
+            return []
+        return [
+            "Use mindmap nodes for early idea exploration, then promote selected nodes into outline cards, bible entries, or scene tasks.",
+            "Visual links should remain planning evidence until accepted into canon through review.",
+            "Do not inject the whole mindmap into drafting; select the nodes directly relevant to the current chapter goal.",
+        ]
+
+    def _build_manuscript_export_formats_hints(self, patterns: set[str]) -> list[str]:
+        if "manuscript_export_formats" not in patterns:
+            return []
+        return [
+            "Treat PDF, DOCX, TXT, EPUB, Markdown, and JSON exports as derived artifacts, never as automatic canon mutations.",
+            "Exports should include source state version, accepted chapter range, and generation timestamp for replay.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -1951,6 +2126,16 @@ class NovelSourceDiscoveryService:
             targets.append("anti_ai_tone_rules")
         if "top_down_story_planning" in patterns:
             targets.append("plan_hierarchy_remap")
+        if "snowflake_premise_expansion" in patterns:
+            targets.append("premise_chain_remap")
+        if "outliner_index_cards" in patterns:
+            targets.append("outline_card_remap")
+        if "narrative_strand_mapping" in patterns:
+            targets.append("narrative_strand_remap")
+        if "character_depth_interview" in patterns:
+            targets.append("character_depth_remap")
+        if "mindmap_visual_planning" in patterns:
+            targets.append("idea_node_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -1994,6 +2179,14 @@ class NovelSourceDiscoveryService:
             hints.append("Anti-AI-tone polish should make the new prose more specific, not closer to source phrasing.")
         if "top_down_story_planning" in patterns:
             hints.append("Build a fresh top-down plan hierarchy so the new story is not a chapter-by-chapter route clone.")
+        if "snowflake_premise_expansion" in patterns:
+            hints.append("Create a new premise chain before outlining; do not reuse the source promise or summary structure as canon.")
+        if "outliner_index_cards" in patterns:
+            hints.append("Rebuild outline cards around new goals, conflicts, hooks, and dependency order.")
+        if "narrative_strand_mapping" in patterns:
+            hints.append("Borrow strand function only after replacing fabula, social context, and concrete causality.")
+        if "character_depth_interview" in patterns:
+            hints.append("Use character-depth interviews to create new internal contradictions, not renamed source psychology.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -2029,6 +2222,10 @@ class NovelSourceDiscoveryService:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
             hints.append("Build a context pack from the transformed story state; do not retrieve source events as if they were reusable canon.")
+        if "snowflake_premise_expansion" in patterns:
+            hints.append("Transform from the top of the premise chain downward so lower-level scenes inherit a new core promise.")
+        if "character_depth_interview" in patterns:
+            hints.append("Re-answer depth questions for each transformed character before mapping any relationship beat.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -2060,6 +2257,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject context packs that cite source analysis artifacts as new-story facts.")
         if "top_down_story_planning" in patterns:
             hints.append("Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels.")
+        if "outliner_index_cards" in patterns:
+            hints.append("Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.")
+        if "narrative_strand_mapping" in patterns:
+            hints.append("Reject narrative strands that preserve source fabula and setting pressure under surface substitutions.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -2078,6 +2279,11 @@ class NovelSourceDiscoveryService:
                 "context_pack_preview",
                 "critic_verifier_loop",
                 "top_down_story_planning",
+                "snowflake_premise_expansion",
+                "outliner_index_cards",
+                "narrative_strand_mapping",
+                "character_depth_interview",
+                "mindmap_visual_planning",
             }
         ) and (
             "style_signature" in patterns
@@ -2085,6 +2291,22 @@ class NovelSourceDiscoveryService:
             or "scene_type_directing" in patterns
             or "worldpkg_export" in patterns
             or "anti_ai_tone_polish" in patterns
+            or "manuscript_export_formats" in patterns
+            or "plain_text_project_storage" in patterns
+        ):
+            return True
+        if patterns.intersection(
+            {
+                "snowflake_premise_expansion",
+                "outliner_index_cards",
+                "narrative_strand_mapping",
+                "character_depth_interview",
+                "mindmap_visual_planning",
+            }
+        ) and (
+            "narrative_strand_mapping" in patterns
+            or "character_depth_interview" in patterns
+            or "outliner_index_cards" in patterns
         ):
             return True
         if "scene_asset_pipeline" in patterns and (

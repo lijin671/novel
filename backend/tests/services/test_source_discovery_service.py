@@ -1867,3 +1867,177 @@ def test_default_discovery_sources_include_acceptance_loop_projects():
     assert any("trend scanning" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("interrupted continuation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("book spec" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_mature_writing_tool_sources_map_to_manuscript_planning_patterns():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "vkbo/novelWriter",
+                "html_url": "https://github.com/vkbo/novelWriter",
+                "description": "Plain text novel editor with comments, synopsis, cross-referencing and human readable files.",
+                "stargazers_count": 2600,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "writing", "plain-text"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            },
+            {
+                "full_name": "olivierkes/manuskript",
+                "html_url": "https://github.com/olivierkes/manuskript",
+                "description": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats.",
+                "stargazers_count": 2800,
+                "license": {"spdx_id": "GPL-3.0-or-later"},
+                "topics": ["writing", "novel", "outliner"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            },
+            {
+                "full_name": "andreafeccomandi/bibisco",
+                "html_url": "https://github.com/andreafeccomandi/bibisco",
+                "description": "Novel writing software with chapters, scenes, revisions, premise, fabula, narrative strands, settings and believable characters.",
+                "stargazers_count": 1800,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "writing", "characters"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            },
+            {
+                "full_name": "wavemakercards/wavemaker-cards-v4",
+                "html_url": "https://github.com/wavemakercards/wavemaker-cards-v4",
+                "description": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method.",
+                "stargazers_count": 800,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["creative-writing", "novel", "planning"],
+                "updated_at": "2026-06-09T10:00:00Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T20:10:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+    assert {
+        "plain_text_project_storage",
+        "synopsis_cross_reference",
+    }.issubset(patterns_by_title["vkbo/novelWriter"])
+    assert {
+        "snowflake_premise_expansion",
+        "outliner_index_cards",
+        "manuscript_export_formats",
+    }.issubset(patterns_by_title["olivierkes/manuskript"])
+    assert {
+        "narrative_strand_mapping",
+        "character_depth_interview",
+    }.issubset(patterns_by_title["andreafeccomandi/bibisco"])
+    assert {
+        "mindmap_visual_planning",
+        "snowflake_premise_expansion",
+        "outliner_index_cards",
+    }.issubset(patterns_by_title["wavemakercards/wavemaker-cards-v4"])
+
+
+def test_mature_writing_tool_pattern_pack_exposes_manuscript_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-09T20:15:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/vkbo/novelWriter",
+                "title": "vkbo/novelWriter",
+                "summary": "Plain text project storage, synopsis, comments and cross-referencing.",
+                "stars": 2600,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["plain_text_project_storage", "synopsis_cross_reference"],
+                "score": 92,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/olivierkes/manuskript",
+                "title": "olivierkes/manuskript",
+                "summary": "Snowflake premise expansion, outliner, index cards, story line and export formats.",
+                "stars": 2800,
+                "license": "GPL-3.0-or-later",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["snowflake_premise_expansion", "outliner_index_cards", "manuscript_export_formats"],
+                "score": 91,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/andreafeccomandi/bibisco",
+                "title": "andreafeccomandi/bibisco",
+                "summary": "Premise, fabula, narrative strands, setting context and believable character depth.",
+                "stars": 1800,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["narrative_strand_mapping", "character_depth_interview"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/wavemakercards/wavemaker-cards-v4",
+                "title": "wavemakercards/wavemaker-cards-v4",
+                "summary": "Mind mapping, timeline planning, grid planner, character tracking and Snowflake Method.",
+                "stars": 800,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["mindmap_visual_planning", "snowflake_premise_expansion", "outliner_index_cards"],
+                "score": 89,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "manuscript_text_units" in pattern_pack["whole_book_analysis_targets"]
+    assert "synopsis_cross_refs" in pattern_pack["whole_book_analysis_targets"]
+    assert "snowflake_premise_chain" in pattern_pack["whole_book_analysis_targets"]
+    assert "index_card_board" in pattern_pack["whole_book_analysis_targets"]
+    assert "narrative_strands" in pattern_pack["whole_book_analysis_targets"]
+    assert "character_depth_interviews" in pattern_pack["whole_book_analysis_targets"]
+    assert "mindmap_nodes" in pattern_pack["whole_book_analysis_targets"]
+    assert "export_format_targets" in pattern_pack["whole_book_analysis_targets"]
+    assert "plain_text_project_storage_hints" in pattern_pack
+    assert "synopsis_cross_reference_hints" in pattern_pack
+    assert "snowflake_premise_expansion_hints" in pattern_pack
+    assert "outliner_index_cards_hints" in pattern_pack
+    assert "narrative_strand_mapping_hints" in pattern_pack
+    assert "character_depth_interview_hints" in pattern_pack
+    assert "mindmap_visual_planning_hints" in pattern_pack
+    assert "manuscript_export_formats_hints" in pattern_pack
+    assert "premise_chain_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "narrative_strand_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "character_depth_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "plain_text_project_storage_hints" in digest
+    assert "synopsis_cross_reference_hints" in digest
+    assert "snowflake_premise_expansion_hints" in digest
+    assert "outliner_index_cards_hints" in digest
+    assert "narrative_strand_mapping_hints" in digest
+    assert "character_depth_interview_hints" in digest
+    assert "mindmap_visual_planning_hints" in digest
+    assert "manuscript_export_formats_hints" in digest
+
+
+def test_default_discovery_sources_include_mature_writing_tools():
+    assert "https://github.com/vkbo/novelWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/olivierkes/manuskript" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/andreafeccomandi/bibisco" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wavemakercards/wavemaker-cards-v4" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("plain text" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("snowflake method" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("narrative strands" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("mind mapping" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

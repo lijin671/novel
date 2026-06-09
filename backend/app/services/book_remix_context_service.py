@@ -78,6 +78,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_manuscript_structure_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1064,6 +1068,46 @@ def _append_acceptance_loop_audit_section(
         lines.append("- top_down_story_planning: preserve hierarchy from book spec to act, chapter, scene, and previous-scene context")
 
 
+def _append_manuscript_structure_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render mature writing-tool manuscript planning gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "plain_text_project_storage",
+        "synopsis_cross_reference",
+        "snowflake_premise_expansion",
+        "outliner_index_cards",
+        "narrative_strand_mapping",
+        "character_depth_interview",
+        "mindmap_visual_planning",
+        "manuscript_export_formats",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Manuscript structure audit:")
+    if "plain_text_project_storage" in pattern_names:
+        lines.append("- plain_text_project_storage: keep chapters, notes, summaries, and analysis as stable human-readable units")
+    if "synopsis_cross_reference" in pattern_names:
+        lines.append("- synopsis_cross_reference: link synopsis, comments, notes, and chapter refs before drafting")
+    if "snowflake_premise_expansion" in pattern_names:
+        lines.append("- snowflake_premise_expansion: preserve the premise chain from sentence to paragraph to full summary")
+    if "outliner_index_cards" in pattern_names:
+        lines.append("- outliner_index_cards: keep chapter and scene cards reorderable without losing state evidence")
+    if "narrative_strand_mapping" in pattern_names:
+        lines.append("- narrative_strand_mapping: map premise, fabula, narrative strands, and setting context before accepting arc changes")
+    if "character_depth_interview" in pattern_names:
+        lines.append("- character_depth_interview: verify desire, fear, contradiction, social mask, and pressure before major character turns")
+    if "mindmap_visual_planning" in pattern_names:
+        lines.append("- mindmap_visual_planning: keep visual idea nodes separate from canon until accepted into outline or bible")
+    if "manuscript_export_formats" in pattern_names:
+        lines.append("- manuscript_export_formats: treat PDF/DOCX/TXT/EPUB exports as derived artifacts, not canon sources")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -1143,6 +1187,14 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "interrupted_resume_flow_hints": "interrupted_resume_flow",
         "auto_validation_rewrite_hints": "auto_validation_rewrite",
         "top_down_story_planning_hints": "top_down_story_planning",
+        "plain_text_project_storage_hints": "plain_text_project_storage",
+        "synopsis_cross_reference_hints": "synopsis_cross_reference",
+        "snowflake_premise_expansion_hints": "snowflake_premise_expansion",
+        "outliner_index_cards_hints": "outliner_index_cards",
+        "narrative_strand_mapping_hints": "narrative_strand_mapping",
+        "character_depth_interview_hints": "character_depth_interview",
+        "mindmap_visual_planning_hints": "mindmap_visual_planning",
+        "manuscript_export_formats_hints": "manuscript_export_formats",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

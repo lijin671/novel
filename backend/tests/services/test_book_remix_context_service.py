@@ -1301,6 +1301,64 @@ def test_build_remix_continuation_context_block_renders_acceptance_loop_audit():
     assert "top_down_story_planning: preserve hierarchy from book spec to act, chapter, scene" in block
 
 
+def test_build_remix_continuation_context_block_renders_manuscript_structure_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Track the archive witness"}],
+            "timeline": [
+                {
+                    "event": "Inspector Lin recovered ledger",
+                    "chapter_number": 19,
+                    "source": "chapter_analysis",
+                },
+            ],
+            "chapter_change_packages": [
+                {
+                    "type": "chapter_change_package",
+                    "source": "chapter_analysis",
+                    "chapter_number": 20,
+                    "chapter_title": "Archive Witness",
+                    "summary": "Inspector Lin questioned the archive witness.",
+                    "timeline_delta": [{"event": "Archive witness revealed a sealed file"}],
+                },
+            ],
+            "style_signature": {"voice": "tense restraint"},
+        },
+        plan={
+            "summary": "Follow the sealed file lead next.",
+            "beats": [{"beat": "Follow city hall file", "status": "pending"}],
+            "priority_hooks": [{"hook": "Sealed file points to city hall", "status": "pending"}],
+            "guardrails": [{"rule": "No premature final confrontation"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "plain_text_project_storage"},
+                {"name": "synopsis_cross_reference"},
+                {"name": "snowflake_premise_expansion"},
+                {"name": "outliner_index_cards"},
+                {"name": "narrative_strand_mapping"},
+                {"name": "character_depth_interview"},
+                {"name": "mindmap_visual_planning"},
+                {"name": "manuscript_export_formats"},
+            ],
+            "plain_text_project_storage_hints": ["Keep chapters and notes as stable text units."],
+            "snowflake_premise_expansion_hints": ["Grow premise from sentence to summary."],
+            "narrative_strand_mapping_hints": ["Track narrative strands separately."],
+        },
+    )
+
+    assert "Manuscript structure audit" in block
+    assert "plain_text_project_storage: keep chapters, notes, summaries, and analysis as stable human-readable units" in block
+    assert "synopsis_cross_reference: link synopsis, comments, notes, and chapter refs before drafting" in block
+    assert "snowflake_premise_expansion: preserve the premise chain from sentence to paragraph to full summary" in block
+    assert "outliner_index_cards: keep chapter and scene cards reorderable without losing state evidence" in block
+    assert "narrative_strand_mapping: map premise, fabula, narrative strands, and setting context before accepting arc changes" in block
+    assert "character_depth_interview: verify desire, fear, contradiction, social mask, and pressure before major character turns" in block
+    assert "mindmap_visual_planning: keep visual idea nodes separate from canon until accepted into outline or bible" in block
+    assert "manuscript_export_formats: treat PDF/DOCX/TXT/EPUB exports as derived artifacts, not canon sources" in block
+
+
 def test_build_remix_continuation_progress_summary_deduplicates_legacy_generation_and_analysis_packages():
     summary = build_remix_continuation_progress_summary(
         packages=[

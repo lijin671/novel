@@ -87,6 +87,14 @@
     "auto_validation_rules",
     "book_spec",
     "chapter_scene_plan",
+    "manuscript_text_units",
+    "synopsis_cross_refs",
+    "snowflake_premise_chain",
+    "index_card_board",
+    "narrative_strands",
+    "character_depth_questions",
+    "mindmap_nodes",
+    "export_format_targets",
     "organizations",
     "conflicts",
     "story_arcs",
@@ -103,6 +111,11 @@
     "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
     "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
     "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "character_depth_interview_hints": [
+    "Use character-depth questions before major turns: desire, fear, contradiction, wound, social mask, and pressure source.",
+    "Believable character changes require visible cause, cost, and after-state, not just a new trait label.",
+    "Store depth answers as character-card evidence only after accepted scenes prove them."
   ],
   "collapse_prevention_hints": [
     "Detect story collapse before acceptance: invalid model output, missing chapter goal, contradictory state, or causality break blocks write-back.",
@@ -152,7 +165,14 @@
     "最终润色要去 AI 味：减少解释腔、模板句、空泛总结，让动作、对白和细节承担信息。",
     "续写任务恢复时先读取断点、最后验收章节、未完成章节和最近失败原因，再继续生成。",
     "章节验收包含字数、连贯性、钩子、风格和状态写回；不合格章节进入有限轮次自动重写。",
-    "长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。"
+    "长篇规划从 book spec 到卷/章/场景逐级展开，当前场景写作必须承接上一场景文本状态。",
+    "把章节、笔记、摘要和分析切成稳定文本单元，便于 diff、回滚和人工审阅。",
+    "生成前核对本章 synopsis、评论、注释和交叉引用，避免遗漏已标记线索。",
+    "从一句话前提扩展到段落摘要、完整梗概和章节目标，防止续写偏离核心承诺。",
+    "把章节和场景作为可重排卡片处理，重排时同步保留人物、伏笔和状态证据。",
+    "按叙事线、fabula、地理/时间/社会背景检查章节承接，不只看单章爽点。",
+    "重大人物转折前先核对欲望、恐惧、矛盾、社会面具和压力来源。",
+    "脑图节点只作为创意候选；进入正史前必须提升为大纲、卡片或圣经字段。"
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -181,7 +201,12 @@
     "Keep user preference memory separate from canon; apply it as style/format preference, not as story fact.",
     "Every long run should keep a resumable checkpoint: current phase, chapter, scene, accepted artifact, and next action.",
     "Record validation pass/fail status, rewrite count, and remaining retry budget before moving to the next chapter.",
-    "Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale."
+    "Persist the hierarchy from book spec to act, chapter, scene, and previous-scene context so partial generation can resume at the right scale.",
+    "Keep stable ids for manuscript text units so generated changes can be diffed and reverted without losing notes.",
+    "Persist synopsis and cross-reference links beside chapter state so prompts can cite why a note is relevant.",
+    "When outline cards are reordered, record previous order, new order, and affected dependencies.",
+    "Track narrative strand membership per scene so a strand does not disappear during long continuation.",
+    "Store character-depth answers separately from transient scene mood; update them only from accepted evidence."
   ],
   "contradiction_detection_hints": [
     "Check timeline order, location presence, relationship evolution, trait consistency, faction membership, and unresolved hook state before accepting drafts.",
@@ -203,7 +228,7 @@
     "Validate custom fields before they enter prompts so missing genre facts are caught during analysis instead of after drafting.",
     "Use custom fields in same-type creation to transform genre mechanics without copying source names or proprietary labels."
   ],
-  "generated_at": "2026-06-09T19:20:00+08:00",
+  "generated_at": "2026-06-09T20:30:00+08:00",
   "gradual_reveal_control_hints": [
     "Use a reveal budget: visible facts can enter the chapter, hidden facts stay out unless action/dialogue exposes them.",
     "Track iceberg annotations so worldbuilding depth exists without dumping it into the next scene.",
@@ -232,7 +257,9 @@
     "Do not import source WorldPkg facts as new-story canon; exports are analysis artifacts only.",
     "Reject drafts whose trope module library preserves source plot order, named gimmicks, or signature set-piece sequence.",
     "Reject context packs that cite source analysis artifacts as new-story facts.",
-    "Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels."
+    "Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels.",
+    "Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.",
+    "Reject narrative strands that preserve source fabula and setting pressure under surface substitutions."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -265,7 +292,12 @@
     "context_pack_boundary",
     "critic_gate_remap",
     "anti_ai_tone_rules",
-    "plan_hierarchy_remap"
+    "plan_hierarchy_remap",
+    "premise_chain_remap",
+    "outline_card_remap",
+    "narrative_strand_remap",
+    "character_depth_remap",
+    "idea_node_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -286,7 +318,11 @@
     "The new story's context pack must cite transformed canon only; source deconstruction may appear as craft notes, not facts.",
     "Run critic/verifier checks for independence as well as quality before accepting a same-type draft.",
     "Anti-AI-tone polish should make the new prose more specific, not closer to source phrasing.",
-    "Build a fresh top-down plan hierarchy so the new story is not a chapter-by-chapter route clone."
+    "Build a fresh top-down plan hierarchy so the new story is not a chapter-by-chapter route clone.",
+    "Create a new premise chain before outlining; do not reuse the source promise or summary structure as canon.",
+    "Rebuild outline cards around new goals, conflicts, hooks, and dependency order.",
+    "Borrow strand function only after replacing fabula, social context, and concrete causality.",
+    "Use character-depth interviews to create new internal contradictions, not renamed source psychology."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -303,7 +339,9 @@
     "Use branch divergence as a design tool for independent causality, not as a renamed source route.",
     "Transform trope modules by changing desire, obstacle, cost, payoff timing, and reader-facing promise.",
     "Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.",
-    "Build a context pack from the transformed story state; do not retrieve source events as if they were reusable canon."
+    "Build a context pack from the transformed story state; do not retrieve source events as if they were reusable canon.",
+    "Transform from the top of the premise chain downward so lower-level scenes inherit a new core promise.",
+    "Re-answer depth questions for each transformed character before mapping any relationship beat."
   ],
   "interrupted_resume_flow_hints": [
     "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
@@ -326,10 +364,34 @@
     "Record inactive-but-relevant lore candidates so reviewers can see what context was omitted from a draft.",
     "Render activated lore as explicit context references instead of anonymous prompt stuffing."
   ],
+  "manuscript_export_formats_hints": [
+    "Treat PDF, DOCX, TXT, EPUB, Markdown, and JSON exports as derived artifacts, never as automatic canon mutations.",
+    "Exports should include source state version, accepted chapter range, and generation timestamp for replay."
+  ],
   "memory_snapshot_versioning_hints": [
     "Create named memory snapshots before risky rewrites, bulk bible merges, or alternate continuation branches.",
     "Treat rollback as a first-class operation: rejected drafts should revert state as well as prose.",
     "When two branches are merged, surface conflicts in canon facts, timeline, relationship state, and unresolved hooks."
+  ],
+  "mindmap_visual_planning_hints": [
+    "Use mindmap nodes for early idea exploration, then promote selected nodes into outline cards, bible entries, or scene tasks.",
+    "Visual links should remain planning evidence until accepted into canon through review.",
+    "Do not inject the whole mindmap into drafting; select the nodes directly relevant to the current chapter goal."
+  ],
+  "narrative_strand_mapping_hints": [
+    "Map premise, fabula, narrative strands, and geographic/temporal/social setting context before accepting arc changes.",
+    "Every scene should declare which narrative strand it advances, complicates, rests, or resolves.",
+    "Same-type writing may borrow strand function, but must rebuild the concrete fabula and setting context."
+  ],
+  "outliner_index_cards_hints": [
+    "Represent chapters and scenes as reorderable outline/index cards with goal, conflict, hook, status, and dependencies.",
+    "When a card moves, re-check timeline, setup/payoff, character state, and narrative strand dependencies.",
+    "Use cards to stage structural changes before updating bible state or accepted chapter memory."
+  ],
+  "plain_text_project_storage_hints": [
+    "Keep chapters, notes, summaries, and analysis as stable human-readable text units with durable ids.",
+    "Prefer diffable manuscript units for long-form state so reviewers can compare, revert, and synchronize changes.",
+    "Generated edits should target a named text unit rather than rewriting an opaque whole-project blob."
   ],
   "plot_dependency_graph_hints": [
     "Represent hooks, clues, promises, conflicts, and payoffs as dependency edges with source chapter and expected payoff window.",
@@ -384,9 +446,9 @@
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "?????????README ??? git ls-remote HEAD?????????????????",
-    "????????? pattern-only ???MIT??? license?Skill????Docker?provider/runtime ???????????",
-    "??????????????????????????????README ???????"
+    "Only public metadata and public README summaries were used; no external project was cloned, installed, imported, or executed.",
+    "All upstream sources remain untrusted data and are absorbed only as pattern references.",
+    "License-restricted, plugin, script, browser-extension, Docker, MCP, provider, and native-runtime surfaces require a separate safety contract before any runtime trial."
   ],
   "scene_asset_pipeline_hints": [
     "Convert chapter intent into scene assets before drafting: scene goal, pressure source, cast, location, prop, reveal, and exit hook.",
@@ -424,24 +486,23 @@
     "Payoff acceptance requires a matching setup edge and a visible consequence in character, plot, or world state.",
     "Flag repeated payoff, orphan setup, and payoff without setup as review blockers."
   ],
-  "source_candidate_count": 26,
-  "source_intake_notes": [
-    "YfengJ/novel-studio-ai HEAD: 90fbf0681e76afe791d11f21edd1fb1516ee5e1d.",
-    "davealaw/FictionRefine HEAD: 9b3926ff8e57e6b9f9a289c92e0cfd4d5420e020.",
-    "ShmilyWithme/Shmily_novel_skill HEAD: 55bfa76774fd8c52e191025e923d710ae2ce6b7a.",
-    "worldwonderer/oh-story-claudecode HEAD: 7e56ad15e9665a463668791d3c11df887002f687.",
-    "PenglongHuang/chinese-novelist-skill HEAD: eb1185649437f2aaaa765f02be024132ea83d82d.",
-    "GOAT-AI-lab/GOAT-Storytelling-Agent HEAD: 75637b176d1fb2341d6d813b2d8dca217638cbfc.",
-    "No clone, install, package hook, Docker stack, MCP server, native binary, shell script, browser extension, provider call, credential, cookie, or external repository code execution was performed."
+  "snowflake_premise_expansion_hints": [
+    "Preserve a premise chain: one-sentence promise -> paragraph summary -> full summary -> chapter goals.",
+    "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
+    "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
+  "source_candidate_count": 30,
   "source_titles": [
     "loreum-app/loreum",
+    "olivierkes/manuskript",
     "YfengJ/novel-studio-ai",
     "NousResearch/autonovel",
+    "wavemakercards/wavemaker-cards-v4",
     "voocel/ainovel-cli",
     "PenglongHuang/chinese-novelist-skill",
     "RhythmicWave/NovelForge",
     "doctoroyy/novel-copilot",
+    "andreafeccomandi/bibisco",
     "skyfiredao/dreampowers",
     "mrigankad/Novel-OS",
     "ypcypc/WhatIf",
@@ -456,6 +517,7 @@
     "bal-spec/sillytavern-character-memory",
     "ShmilyWithme/Shmily_novel_skill",
     "envy-ai/ai_rpg",
+    "vkbo/novelWriter",
     "davealaw/FictionRefine",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "GOAT-AI-lab/GOAT-Storytelling-Agent",
@@ -493,6 +555,11 @@
     "把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。",
     "用场景/镜头级资产表抽取叙事节奏：每场的目标、冲突、转折、道具和情绪出口都要可追踪。",
     "按全书基础风格、当前场景覆写、出场角色声纹三层组织风格约束。"
+  ],
+  "synopsis_cross_reference_hints": [
+    "Attach synopsis, comments, notes, and cross-references to the chapter or scene they explain.",
+    "Before drafting, list which synopsis notes and refs are active for this chapter and why.",
+    "Cross-references should point to canon artifacts, not to source-intake inspiration as story fact."
   ],
   "top_down_story_planning_hints": [
     "Plan top-down: topic or premise -> book spec -> act plan -> chapter plan -> scene list -> scene draft.",
@@ -650,6 +717,30 @@
     "act_plan",
     "chapter_scene_plan",
     "previous_scene_context",
+    "manuscript_text_units",
+    "note_text_units",
+    "human_readable_storage_refs",
+    "synopsis_cross_refs",
+    "comment_refs",
+    "note_backlinks",
+    "snowflake_premise_chain",
+    "one_sentence_premise",
+    "paragraph_summary",
+    "full_summary",
+    "index_card_board",
+    "chapter_scene_cards",
+    "reorder_operations",
+    "narrative_strands",
+    "fabula_map",
+    "setting_context_layers",
+    "character_depth_interviews",
+    "belief_desire_fear_map",
+    "character_contradictions",
+    "mindmap_nodes",
+    "visual_link_edges",
+    "idea_to_outline_promotions",
+    "export_format_targets",
+    "derived_manuscript_artifacts",
     "emotional_arc",
     "emotion_curve",
     "source_state_snapshot"
@@ -746,7 +837,7 @@
       ]
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 8,
       "name": "book_decomposition",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -773,6 +864,21 @@
           "url": "https://github.com/loreum-app/loreum"
         },
         {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -788,6 +894,19 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
         },
         {
           "license": "MIT",
@@ -913,7 +1032,7 @@
       ]
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 8,
       "name": "worldbuilding",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -940,6 +1059,21 @@
           "url": "https://github.com/loreum-app/loreum"
         },
         {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -955,6 +1089,19 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
         },
         {
           "license": "MIT",
@@ -1022,7 +1169,7 @@
       ]
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 8,
       "name": "timeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1050,6 +1197,21 @@
           "url": "https://github.com/loreum-app/loreum"
         },
         {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1065,6 +1227,19 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
         },
         {
           "license": "MIT",
@@ -1132,7 +1307,7 @@
       ]
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 11,
       "name": "character_cards",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1161,6 +1336,21 @@
           "url": "https://github.com/loreum-app/loreum"
         },
         {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1176,6 +1366,19 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
         },
         {
           "license": "MIT",
@@ -1221,6 +1424,21 @@
             "license:missing"
           ],
           "url": "https://github.com/doctoroyy/novel-copilot"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 1800,
+          "summary": "Novel writing software with chapters, scenes, revisions, premise, fabula, narrative strands, settings and believable characters. Static intake note: Open-source novel writing app. Public README describes chapter and scene organization, revisions, premise, fabula, narrative strand",
+          "title": "andreafeccomandi/bibisco",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/andreafeccomandi/bibisco"
         },
         {
           "license": "MIT",
@@ -1277,7 +1495,7 @@
       ]
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 8,
       "name": "organization_graph",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1304,6 +1522,21 @@
           "url": "https://github.com/loreum-app/loreum"
         },
         {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1319,6 +1552,19 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
         },
         {
           "license": "MIT",
@@ -1347,6 +1593,21 @@
           "title": "RhythmicWave/NovelForge",
           "trust_flags": [],
           "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 1800,
+          "summary": "Novel writing software with chapters, scenes, revisions, premise, fabula, narrative strands, settings and believable characters. Static intake note: Open-source novel writing app. Public README describes chapter and scene organization, revisions, premise, fabula, narrative strand",
+          "title": "andreafeccomandi/bibisco",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/andreafeccomandi/bibisco"
         },
         {
           "license": "unknown",
@@ -1514,7 +1775,7 @@
       ]
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 8,
       "name": "emotion_arc",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -1542,6 +1803,21 @@
           "url": "https://github.com/loreum-app/loreum"
         },
         {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -1557,6 +1833,19 @@
             "license:missing"
           ],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
         },
         {
           "license": "MIT",
@@ -1716,6 +2005,33 @@
       ],
       "top_source_url": "https://github.com/GOAT-AI-lab/GOAT-Storytelling-Agent",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "character_depth_interview",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 1800,
+          "summary": "Novel writing software with chapters, scenes, revisions, premise, fabula, narrative strands, settings and believable characters. Static intake note: Open-source novel writing app. Public README describes chapter and scene organization, revisions, premise, fabula, narrative strand",
+          "title": "andreafeccomandi/bibisco",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/andreafeccomandi/bibisco"
+        }
+      ],
+      "top_source_url": "https://github.com/andreafeccomandi/bibisco",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
     },
     {
       "candidate_count": 2,
@@ -2044,6 +2360,46 @@
     },
     {
       "candidate_count": 2,
+      "name": "snowflake_premise_expansion",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
+        }
+      ],
+      "top_source_url": "https://github.com/olivierkes/manuskript",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 2,
       "name": "layered_memory_model",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -2120,6 +2476,46 @@
     },
     {
       "candidate_count": 2,
+      "name": "outliner_index_cards",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
+        }
+      ],
+      "top_source_url": "https://github.com/olivierkes/manuskript",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 2,
       "name": "local_first_novel_workspace",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -2191,6 +2587,48 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "narrative_strand_mapping",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 92,
+          "source": "github",
+          "stars": 1800,
+          "summary": "Novel writing software with chapters, scenes, revisions, premise, fabula, narrative strands, settings and believable characters. Static intake note: Open-source novel writing app. Public README describes chapter and scene organization, revisions, premise, fabula, narrative strand",
+          "title": "andreafeccomandi/bibisco",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/andreafeccomandi/bibisco"
+        }
+      ],
+      "top_source_url": "https://github.com/olivierkes/manuskript",
       "trust_flags": [
         "zero-issues-high-stars"
       ]
@@ -2283,7 +2721,7 @@
       ]
     },
     {
-      "candidate_count": 11,
+      "candidate_count": 13,
       "name": "self_review",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -2309,6 +2747,21 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
         },
         {
           "license": "unknown",
@@ -2341,6 +2794,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
         },
         {
           "license": "MIT",
@@ -2686,11 +3152,39 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 3,
       "name": "card_workbench",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -2705,8 +3199,10 @@
           "url": "https://github.com/RhythmicWave/NovelForge"
         }
       ],
-      "top_source_url": "https://github.com/RhythmicWave/NovelForge",
-      "trust_flags": []
+      "top_source_url": "https://github.com/olivierkes/manuskript",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
     },
     {
       "candidate_count": 1,
@@ -3161,6 +3657,56 @@
       ]
     },
     {
+      "candidate_count": 1,
+      "name": "synopsis_cross_reference",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 60,
+          "source": "github",
+          "stars": 2600,
+          "summary": "Plain text novel editor with comments, synopsis, cross-referencing and human readable files. Static intake note: Plain-text novel editor for manuscripts assembled from many smaller text documents. Public README describes human-readable file storage, minimal formatting, metadata s",
+          "title": "vkbo/novelWriter",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/vkbo/novelWriter"
+        }
+      ],
+      "top_source_url": "https://github.com/vkbo/novelWriter",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "mindmap_visual_planning",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 800,
+          "summary": "Creative writing suite with mind mapping, timeline planning, grid planner, character tracking, plot points and Snowflake Method. Static intake note: Creative writing and planning suite. Public README describes distraction-free writing, mind mapping, timeline planning, grid planne",
+          "title": "wavemakercards/wavemaker-cards-v4",
+          "trust_flags": [],
+          "url": "https://github.com/wavemakercards/wavemaker-cards-v4"
+        }
+      ],
+      "top_source_url": "https://github.com/wavemakercards/wavemaker-cards-v4",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 4,
       "name": "memory_snapshot_versioning",
       "posture_hint": "metadata-triage",
@@ -3256,6 +3802,33 @@
         }
       ],
       "top_source_url": "https://github.com/NousResearch/autonovel",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "plain_text_project_storage",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 60,
+          "source": "github",
+          "stars": 2600,
+          "summary": "Plain text novel editor with comments, synopsis, cross-referencing and human readable files. Static intake note: Plain-text novel editor for manuscripts assembled from many smaller text documents. Public README describes human-readable file storage, minimal formatting, metadata s",
+          "title": "vkbo/novelWriter",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/vkbo/novelWriter"
+        }
+      ],
+      "top_source_url": "https://github.com/vkbo/novelWriter",
       "trust_flags": [
         "zero-issues-high-stars"
       ]
@@ -3404,10 +3977,52 @@
     },
     {
       "candidate_count": 1,
+      "name": "manuscript_export_formats",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        }
+      ],
+      "top_source_url": "https://github.com/olivierkes/manuskript",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 2,
       "name": "publication_pipeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "GPL-3.0-or-later",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 168,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Writer tool with Snowflake Method, outliner, index cards, characters, plots, worldbuilding, story line and export formats. Static intake note: Open-source writer tool. Public README describes premise growth from one sentence to paragraph to full summary, characters, plots, outlin",
+          "title": "olivierkes/manuskript",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/olivierkes/manuskript"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -3424,7 +4039,7 @@
           "url": "https://github.com/NousResearch/autonovel"
         }
       ],
-      "top_source_url": "https://github.com/NousResearch/autonovel",
+      "top_source_url": "https://github.com/olivierkes/manuskript",
       "trust_flags": [
         "zero-issues-high-stars"
       ]
