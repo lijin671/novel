@@ -138,6 +138,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_creative_writing_benchmark_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -1383,6 +1387,40 @@ def _append_long_output_reward_audit_section(
         lines.append("- long_output_length_quality_ruler: check target length, actual length, truncation, repetition, premature ending, coherence, canon, and style together")
     if "long_context_reward_dimension_gate" in pattern_names:
         lines.append("- long_context_reward_dimension_gate: score helpfulness, logicality, faithfulness, and completeness separately; do not average away blocking failures")
+
+
+def _append_creative_writing_benchmark_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render creative-writing benchmark, judge, and reader-axis gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "instance_specific_writing_criteria_gate",
+        "material_grounded_query_refinement",
+        "hybrid_rubric_pairwise_elo_judge",
+        "judge_bias_mitigation_check",
+        "plan_reflect_character_chapter_pipeline",
+        "human_story_metric_panel",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Creative writing benchmark audit:")
+    if "instance_specific_writing_criteria_gate" in pattern_names:
+        lines.append("- instance_specific_writing_criteria_gate: attach local criteria for canon, requested beat, style target, length/format, and reader promise")
+    if "material_grounded_query_refinement" in pattern_names:
+        lines.append("- material_grounded_query_refinement: prune irrelevant reference material and rewrite ambiguous chapter tasks before drafting")
+    if "hybrid_rubric_pairwise_elo_judge" in pattern_names:
+        lines.append("- hybrid_rubric_pairwise_elo_judge: score candidates by rubric before pairwise comparison; do not let length bias decide the winner")
+    if "judge_bias_mitigation_check" in pattern_names:
+        lines.append("- judge_bias_mitigation_check: swap comparison order and inspect length, position, verbosity, and ornate-prose bias")
+    if "plan_reflect_character_chapter_pipeline" in pattern_names:
+        lines.append("- plan_reflect_character_chapter_pipeline: persist brainstorm, plan critique, and character-profile updates before chapter writing")
+    if "human_story_metric_panel" in pattern_names:
+        lines.append("- human_story_metric_panel: track relevance, coherence, empathy, surprise, engagement, and complexity as separate reader-facing axes")
 
 
 def _append_inspectable_rewrite_audit_section(

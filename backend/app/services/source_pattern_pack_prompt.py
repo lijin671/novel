@@ -318,6 +318,12 @@ def render_source_pattern_pack_digest(
         "agentwrite_plan_write_pipeline_hints",
         "long_output_length_quality_ruler_hints",
         "long_context_reward_dimension_gate_hints",
+        "instance_specific_writing_criteria_gate_hints",
+        "material_grounded_query_refinement_hints",
+        "hybrid_rubric_pairwise_elo_judge_hints",
+        "judge_bias_mitigation_check_hints",
+        "plan_reflect_character_chapter_pipeline_hints",
+        "human_story_metric_panel_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

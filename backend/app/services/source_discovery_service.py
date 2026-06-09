@@ -107,6 +107,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("AgentWrite" OR "LongWriter" OR "LongBench-Write" OR "LongWrite-Ruler") ("long-form" OR "long output" OR "story") in:name,description,readme',
     '("helpfulness" OR "logicality" OR "faithfulness" OR "completeness") ("long-context" OR "long output" OR "writing") in:name,description,readme',
     '("ultra-long" OR "10000+ words" OR "long output quality") ("writing" OR "generation" OR "story") in:name,description,readme',
+    '("WritingBench" OR "instance-specific criteria" OR "requirement-dimension scores") ("writing" OR "generative writing") in:name,description,readme',
+    '("creative writing benchmark" OR "hybrid rubric" OR "Glicko-2" OR "Elo") ("creative writing" OR "story") in:name,description,readme',
+    '("longform creative writing benchmark" OR "critical reflection" OR "character profiles") ("longform" OR "story") in:name,description,readme',
+    '("HANNA" OR "human-annotated narratives" OR "story evaluation") ("story generation" OR "automatic metrics") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -226,6 +230,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/THUDM/LongWriter",
     "https://github.com/THUDM/LongReward",
     "https://github.com/THU-KEG/LongWriter-V",
+    "https://github.com/X-PLUG/WritingBench",
+    "https://github.com/EQ-bench/creative-writing-bench",
+    "https://github.com/EQ-bench/longform-writing-bench",
+    "https://github.com/dig-team/hanna-benchmark-asg",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -425,6 +433,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("agentwrite_plan_write_pipeline", ("agentwrite", "plan.py", "write.py", "plan.txt", "write.txt", "outline_vlm", "automated ultra-long output data construction", "plan and then write")),
     ("long_output_length_quality_ruler", ("longwriter", "longbench-write", "longwrite-ruler", "mmlongbench-write", "ultra-long text generation", "ultra-long output", "10000+ words", "maximum output length", "output length", "long output quality", "length stress test")),
     ("long_context_reward_dimension_gate", ("longreward", "long-context scenarios", "helpfulness", "logicality", "faithfulness", "completeness", "final reward", "reward score", "auto_scorer")),
+    ("instance_specific_writing_criteria_gate", ("writingbench", "instance-specific criteria", "requirement-dimension scores", "requirement dimension scores", "5 instance-specific criteria", "five instance-specific criteria")),
+    ("material_grounded_query_refinement", ("model-augmented query generation", "human-in-the-loop refinement", "query diversification", "query refinement guidance pool", "material collection", "material pruning")),
+    ("hybrid_rubric_pairwise_elo_judge", ("creative writing benchmark v3", "hybrid rubric", "pairwise matchups", "elo scoring", "glicko-2", "win margin", "final elo")),
+    ("judge_bias_mitigation_check", ("bias mitigation", "judge biases", "length bias", "position bias", "verbosity", "poetic incoherence", "length, position, verbosity")),
+    ("plan_reflect_character_chapter_pipeline", ("longform creative writing benchmark", "brainstorming & planning", "critical reflection", "character profiles", "8 chapters", "complete novella", "narrative construction")),
+    ("human_story_metric_panel", ("hanna", "human-annotated narratives", "relevance, coherence", "empathy, surprise", "engagement and complexity", "automatic story evaluation", "human annotated narratives")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -869,6 +883,25 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "MMLongBench-Write for long output quality, and LongWrite-V-Ruler for length stress tests. Absorb outline-first long-output and ruler evaluation patterns only; "
         "vision-language model/runtime/API surfaces are not used."
     ),
+    "x-plug/writingbench": (
+        "WritingBench is an Apache-2.0 generative-writing benchmark. Public README describes 1,000 real-world writing queries, "
+        "5 instance-specific criteria per query, requirement-dimension scores, model-augmented query generation, human-in-the-loop refinement, "
+        "and material pruning. Absorb local acceptance-criteria and material-grounding gates only; critic models, datasets, and provider calls are not used."
+    ),
+    "eq-bench/creative-writing-bench": (
+        "Creative Writing Benchmark v3 evaluates creative writing with isolated rubric scoring, sparse and comprehensive pairwise matchups, "
+        "Elo/Glicko-2 stabilization, win margins, and bias-mitigation notes for length, position, verbosity, and poetic incoherence. "
+        "Absorb judge-design patterns only; runtime benchmark scripts, dependencies, API keys, and provider calls are not used."
+    ),
+    "eq-bench/longform-writing-bench": (
+        "Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection, character profiles, and eight-chapter novella writing "
+        "with narrative consistency and prose-quality judging. Absorb the plan-reflect-character-chapter production trace only; scripts, endpoints, and judge calls are not used."
+    ),
+    "dig-team/hanna-benchmark-asg": (
+        "HANNA is an MIT human-annotated narrative evaluation dataset for automatic story generation. Public README describes 1,056 stories from 96 prompts, "
+        "three human raters per story, six criteria (relevance, coherence, empathy, surprise, engagement, complexity), automatic metrics, and LLM explanations. "
+        "Absorb reader-facing metric axes only; datasets, notebooks, and metrics code are not imported."
+    ),
 }
 
 
@@ -1293,6 +1326,12 @@ class NovelSourceDiscoveryService:
             "agentwrite_plan_write_pipeline_hints": self._build_agentwrite_plan_write_pipeline_hints(available_patterns),
             "long_output_length_quality_ruler_hints": self._build_long_output_length_quality_ruler_hints(available_patterns),
             "long_context_reward_dimension_gate_hints": self._build_long_context_reward_dimension_gate_hints(available_patterns),
+            "instance_specific_writing_criteria_gate_hints": self._build_instance_specific_writing_criteria_gate_hints(available_patterns),
+            "material_grounded_query_refinement_hints": self._build_material_grounded_query_refinement_hints(available_patterns),
+            "hybrid_rubric_pairwise_elo_judge_hints": self._build_hybrid_rubric_pairwise_elo_judge_hints(available_patterns),
+            "judge_bias_mitigation_check_hints": self._build_judge_bias_mitigation_check_hints(available_patterns),
+            "plan_reflect_character_chapter_pipeline_hints": self._build_plan_reflect_character_chapter_pipeline_hints(available_patterns),
+            "human_story_metric_panel_hints": self._build_human_story_metric_panel_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -1856,6 +1895,12 @@ class NovelSourceDiscoveryService:
             "agentwrite_plan_write_pipeline": 65,
             "long_output_length_quality_ruler": 64,
             "long_context_reward_dimension_gate": 63,
+            "instance_specific_writing_criteria_gate": 66,
+            "material_grounded_query_refinement": 64,
+            "hybrid_rubric_pairwise_elo_judge": 65,
+            "judge_bias_mitigation_check": 63,
+            "plan_reflect_character_chapter_pipeline": 66,
+            "human_story_metric_panel": 64,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -2049,6 +2094,22 @@ class NovelSourceDiscoveryService:
         if "long_context_reward_dimension_gate" in patterns:
             targets.append("long_context_reward_dimensions")
             targets.append("helpfulness_logicality_faithfulness_completeness_scores")
+        if "instance_specific_writing_criteria_gate" in patterns:
+            targets.append("instance_specific_writing_criteria")
+            targets.append("requirement_dimension_coverage_rules")
+        if "material_grounded_query_refinement" in patterns:
+            targets.append("material_requirement_notes")
+            targets.append("material_pruning_rules")
+        if "hybrid_rubric_pairwise_elo_judge" in patterns:
+            targets.append("creative_judge_rubric")
+            targets.append("pairwise_comparison_policy")
+        if "judge_bias_mitigation_check" in patterns:
+            targets.append("judge_bias_mitigation_rules")
+        if "plan_reflect_character_chapter_pipeline" in patterns:
+            targets.append("plan_reflection_gate")
+            targets.append("character_profile_requirements")
+        if "human_story_metric_panel" in patterns:
+            targets.append("human_story_metric_axes")
         if "human_synopsis_gate" in patterns:
             targets.append("synopsis_review_gate")
         if "retrieval_guided_span_rewrite" in patterns:
@@ -2297,6 +2358,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["long_output_length_report", "long_output_quality_report", "length_stress_test_results"])
         if "long_context_reward_dimension_gate" in patterns:
             targets.extend(["long_context_reward_scores", "helpfulness_logicality_faithfulness_completeness_report", "reward_dimension_fix_tasks"])
+        if "instance_specific_writing_criteria_gate" in patterns:
+            targets.extend(["instance_specific_criteria_report", "requirement_dimension_coverage", "chapter_acceptance_criteria_failures"])
+        if "material_grounded_query_refinement" in patterns:
+            targets.extend(["material_grounding_pruning_report", "query_requirement_fit_findings", "irrelevant_material_rejections"])
+        if "hybrid_rubric_pairwise_elo_judge" in patterns:
+            targets.extend(["hybrid_rubric_pairwise_elo_report", "pairwise_neighbor_comparisons", "elo_stability_notes"])
+        if "judge_bias_mitigation_check" in patterns:
+            targets.extend(["judge_bias_mitigation_report", "length_position_verbosity_bias_findings", "poetic_incoherence_findings"])
+        if "plan_reflect_character_chapter_pipeline" in patterns:
+            targets.extend(["plan_reflection_character_profile_trace", "chapter_sequence_generation_trace", "narrative_consistency_judge_notes"])
+        if "human_story_metric_panel" in patterns:
+            targets.extend(["human_story_metric_scores", "relevance_coherence_empathy_surprise_engagement_complexity_report", "reader_axis_fix_tasks"])
         if "human_synopsis_gate" in patterns:
             targets.extend(["synopsis_review_gate", "chapter_summary_review_status", "synopsis_regeneration_options"])
         if "retrieval_guided_span_rewrite" in patterns:
@@ -3964,6 +4037,60 @@ class NovelSourceDiscoveryService:
             "For same-type creation, completeness means all transformed-story requirements are covered without importing source-only facts.",
         ]
 
+    def _build_instance_specific_writing_criteria_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "instance_specific_writing_criteria_gate" not in patterns:
+            return []
+        return [
+            "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
+            "Criteria should be instance-specific: canon facts, requested beat, style target, length/format, and reader promise for this chapter.",
+            "Treat requirement-dimension failures as blocking fix tasks even when the prose is fluent or long enough.",
+        ]
+
+    def _build_material_grounded_query_refinement_hints(self, patterns: set[str]) -> list[str]:
+        if "material_grounded_query_refinement" not in patterns:
+            return []
+        return [
+            "Before drafting, separate required materials from optional or noisy reference notes; prune irrelevant evidence from the context pack.",
+            "When a user request is ambiguous or unrealistic, rewrite the local task brief before generation rather than repairing only after failure.",
+            "For same-type creation, keep material requirements as abstract constraints and rebuild concrete people, places, objects, and facts.",
+        ]
+
+    def _build_hybrid_rubric_pairwise_elo_judge_hints(self, patterns: set[str]) -> list[str]:
+        if "hybrid_rubric_pairwise_elo_judge" not in patterns:
+            return []
+        return [
+            "Use rubric scores first, then compare close candidate drafts pairwise; pairwise wins should explain margin, not just choose a favorite.",
+            "Keep pairwise comparisons against neighboring drafts or variants so the judge discriminates real chapter improvements.",
+            "Do not promote a draft from pairwise ranking alone when the local rubric shows canon, logic, or style failure.",
+        ]
+
+    def _build_judge_bias_mitigation_check_hints(self, patterns: set[str]) -> list[str]:
+        if "judge_bias_mitigation_check" not in patterns:
+            return []
+        return [
+            "Audit judge decisions for length, position/order, verbosity, and ornate-but-incoherent prose bias before accepting a winning draft.",
+            "Swap draft order in pairwise review and require concrete evidence for wins on plot, character, style, and continuity.",
+            "Reject evaluations that reward padding or poetic vagueness over usable continuation canon.",
+        ]
+
+    def _build_plan_reflect_character_chapter_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "plan_reflect_character_chapter_pipeline" not in patterns:
+            return []
+        return [
+            "Treat longform drafting as a chain: brainstorm, plan, critique the plan, update character profiles, then write chapter sequence.",
+            "Persist reflection and character-profile changes before chapter generation so later chapters do not invent incompatible motivations.",
+            "For same-type creation, rebuild the plan-reflection-character trace around the new premise rather than preserving the source sequence.",
+        ]
+
+    def _build_human_story_metric_panel_hints(self, patterns: set[str]) -> list[str]:
+        if "human_story_metric_panel" not in patterns:
+            return []
+        return [
+            "Score reader-facing story quality on separate axes: relevance, coherence, empathy, surprise, engagement, and complexity.",
+            "Turn low reader-axis scores into named repairs, such as empathy gap, surprise collapse, engagement drop, or complexity overload.",
+            "For continuation, relevance is local to accepted canon and current chapter intent; for same-type creation, relevance is local to transformed-story promises.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -4178,6 +4305,18 @@ class NovelSourceDiscoveryService:
             targets.append("long_output_ruler_remap")
         if "long_context_reward_dimension_gate" in patterns:
             targets.append("reward_dimension_remap")
+        if "instance_specific_writing_criteria_gate" in patterns:
+            targets.append("instance_criteria_remap")
+        if "material_grounded_query_refinement" in patterns:
+            targets.append("material_grounding_remap")
+        if "hybrid_rubric_pairwise_elo_judge" in patterns:
+            targets.append("hybrid_elo_judge_remap")
+        if "judge_bias_mitigation_check" in patterns:
+            targets.append("judge_bias_mitigation_remap")
+        if "plan_reflect_character_chapter_pipeline" in patterns:
+            targets.append("plan_reflect_character_trace_remap")
+        if "human_story_metric_panel" in patterns:
+            targets.append("human_story_metric_axis_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -4490,6 +4629,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform long-output length targets around the new outline's rhythm instead of matching source chapter or section lengths.")
         if "long_context_reward_dimension_gate" in patterns:
             hints.append("Transform reward checks so helpfulness, logicality, faithfulness, and completeness judge only new-story requirements.")
+        if "instance_specific_writing_criteria_gate" in patterns:
+            hints.append("Transform instance-specific criteria into new-story requirements before drafting; do not reuse source facts as criteria.")
+        if "material_grounded_query_refinement" in patterns:
+            hints.append("Transform material requirements by pruning source-only evidence and rebuilding the useful constraint set for the new story.")
+        if "hybrid_rubric_pairwise_elo_judge" in patterns:
+            hints.append("Transform pairwise judging into comparisons among new-story draft variants, not source resemblance versus transformed prose.")
+        if "judge_bias_mitigation_check" in patterns:
+            hints.append("Transform judge-bias checks so length, position, verbosity, and ornate prose cannot mask source-copy or canon failures.")
+        if "plan_reflect_character_chapter_pipeline" in patterns:
+            hints.append("Transform the brainstorm-plan-reflect-character-chapter chain around the new premise and new cast before chapter writing.")
+        if "human_story_metric_panel" in patterns:
+            hints.append("Transform reader-facing metric axes into new-story targets for relevance, coherence, empathy, surprise, engagement, and complexity.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -4645,6 +4796,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject long outputs that satisfy word count by padding, repeating, prematurely summarizing, or tracking source pacing too closely.")
         if "long_context_reward_dimension_gate" in patterns:
             hints.append("Reject averaged reward scores when faithfulness, logicality, or completeness fails on transformed-story evidence.")
+        if "instance_specific_writing_criteria_gate" in patterns:
+            hints.append("Reject criteria sets that encode source-specific clues, locations, objects, relationship labels, or payoff windows.")
+        if "material_grounded_query_refinement" in patterns:
+            hints.append("Reject context packs whose material grounding still treats source examples or source summaries as new-story facts.")
+        if "hybrid_rubric_pairwise_elo_judge" in patterns:
+            hints.append("Reject pairwise winners whose margin comes from source familiarity, extra length, or judge preference rather than transformed-story quality.")
+        if "judge_bias_mitigation_check" in patterns:
+            hints.append("Reject judge reports that reward verbose, longer, or later-positioned drafts without concrete story evidence.")
+        if "plan_reflect_character_chapter_pipeline" in patterns:
+            hints.append("Reject plan-reflect-character traces that keep source act order, cast functions, or chapter sequence under new names.")
+        if "human_story_metric_panel" in patterns:
+            hints.append("Reject reader-metric fixes that improve engagement by restoring recognizable source hooks or set pieces.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -4672,6 +4835,12 @@ class NovelSourceDiscoveryService:
                 "agentwrite_plan_write_pipeline",
                 "long_output_length_quality_ruler",
                 "long_context_reward_dimension_gate",
+                "instance_specific_writing_criteria_gate",
+                "material_grounded_query_refinement",
+                "hybrid_rubric_pairwise_elo_judge",
+                "judge_bias_mitigation_check",
+                "plan_reflect_character_chapter_pipeline",
+                "human_story_metric_panel",
             }
         ):
             return True

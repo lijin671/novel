@@ -185,6 +185,16 @@
     "length_quality_ruler_thresholds",
     "long_context_reward_dimensions",
     "helpfulness_logicality_faithfulness_completeness_scores",
+    "instance_specific_writing_criteria",
+    "requirement_dimension_coverage_rules",
+    "material_requirement_notes",
+    "material_pruning_rules",
+    "creative_judge_rubric",
+    "pairwise_comparison_policy",
+    "judge_bias_mitigation_rules",
+    "plan_reflection_gate",
+    "character_profile_requirements",
+    "human_story_metric_axes",
     "synopsis_review_gate",
     "retrieval_guided_rewrite_scope",
     "runtime_trace_artifacts",
@@ -534,7 +544,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T18:35:00+08:00",
+  "generated_at": "2026-06-10T19:10:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -554,6 +564,11 @@
     "Treat graph healing candidates as reviewable changes; auto-merge only low-risk duplicates with clear evidence.",
     "Record graph healing history so future contradictions can be traced back to a merge, rename, or cleanup decision."
   ],
+  "human_story_metric_panel_hints": [
+    "Score reader-facing story quality on separate axes: relevance, coherence, empathy, surprise, engagement, and complexity.",
+    "Turn low reader-axis scores into named repairs, such as empathy gap, surprise collapse, engagement drop, or complexity overload.",
+    "For continuation, relevance is local to accepted canon and current chapter intent; for same-type creation, relevance is local to transformed-story promises."
+  ],
   "human_synopsis_gate_hints": [
     "Generate or update the synopsis and chapter summaries before prose, then require explicit accept/edit/regenerate status.",
     "Do not draft from an unreviewed synopsis when the user is doing source-book continuation or same-type imitation.",
@@ -562,6 +577,11 @@
   "humanization_stylometry_levers_hints": [
     "Use stylometry levers only after continuity passes: sentence burstiness, specificity, discourse variation, and AI-transition removal.",
     "Humanization cannot justify copying source phrasing or inventing unsupported facts; keep factual guardrails active."
+  ],
+  "hybrid_rubric_pairwise_elo_judge_hints": [
+    "Use rubric scores first, then compare close candidate drafts pairwise; pairwise wins should explain margin, not just choose a favorite.",
+    "Keep pairwise comparisons against neighboring drafts or variants so the judge discriminates real chapter improvements.",
+    "Do not promote a draft from pairwise ranking alone when the local rubric shows canon, logic, or style failure."
   ],
   "inspectable_run_workspace_hints": [
     "Expose writing sessions, storyboard surfaces, manuscript surfaces, character/world views, and editable memory-bank refs.",
@@ -639,7 +659,13 @@
     "Reject prompt changes that pass quality checks but fail golden copy-risk, grounding, or source-canon leakage cases.",
     "Reject plan-write pipelines whose plan segments, section order, or write-stage prompts mirror the source route.",
     "Reject long outputs that satisfy word count by padding, repeating, prematurely summarizing, or tracking source pacing too closely.",
-    "Reject averaged reward scores when faithfulness, logicality, or completeness fails on transformed-story evidence."
+    "Reject averaged reward scores when faithfulness, logicality, or completeness fails on transformed-story evidence.",
+    "Reject criteria sets that encode source-specific clues, locations, objects, relationship labels, or payoff windows.",
+    "Reject context packs whose material grounding still treats source examples or source summaries as new-story facts.",
+    "Reject pairwise winners whose margin comes from source familiarity, extra length, or judge preference rather than transformed-story quality.",
+    "Reject judge reports that reward verbose, longer, or later-positioned drafts without concrete story evidence.",
+    "Reject plan-reflect-character traces that keep source act order, cast functions, or chapter sequence under new names.",
+    "Reject reader-metric fixes that improve engagement by restoring recognizable source hooks or set pieces."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -745,7 +771,13 @@
     "prompt_regression_remap",
     "plan_write_stage_remap",
     "long_output_ruler_remap",
-    "reward_dimension_remap"
+    "reward_dimension_remap",
+    "instance_criteria_remap",
+    "material_grounding_remap",
+    "hybrid_elo_judge_remap",
+    "judge_bias_mitigation_remap",
+    "plan_reflect_character_trace_remap",
+    "human_story_metric_axis_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -892,12 +924,28 @@
     "Transform prompt regression cases by using new-story fixtures and expected independence failures.",
     "Transform plan-write stages by rebuilding the plan segments, section goals, and write-stage context around the new story.",
     "Transform long-output length targets around the new outline's rhythm instead of matching source chapter or section lengths.",
-    "Transform reward checks so helpfulness, logicality, faithfulness, and completeness judge only new-story requirements."
+    "Transform reward checks so helpfulness, logicality, faithfulness, and completeness judge only new-story requirements.",
+    "Transform instance-specific criteria into new-story requirements before drafting; do not reuse source facts as criteria.",
+    "Transform material requirements by pruning source-only evidence and rebuilding the useful constraint set for the new story.",
+    "Transform pairwise judging into comparisons among new-story draft variants, not source resemblance versus transformed prose.",
+    "Transform judge-bias checks so length, position, verbosity, and ornate prose cannot mask source-copy or canon failures.",
+    "Transform the brainstorm-plan-reflect-character-chapter chain around the new premise and new cast before chapter writing.",
+    "Transform reader-facing metric axes into new-story targets for relevance, coherence, empathy, surprise, engagement, and complexity."
+  ],
+  "instance_specific_writing_criteria_gate_hints": [
+    "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
+    "Criteria should be instance-specific: canon facts, requested beat, style target, length/format, and reader promise for this chapter.",
+    "Treat requirement-dimension failures as blocking fix tasks even when the prose is fluent or long enough."
   ],
   "interrupted_resume_flow_hints": [
     "Before resuming, detect unfinished phase, target chapter, current scene, last accepted artifact, failed attempt, and pending validation.",
     "Resume from the smallest safe unit: scene if a scene is in progress, chapter if the scene boundary is unclear, plan if canon changed.",
     "Do not ask for reconfirmation during automated continuation unless the checkpoint is ambiguous or conflicting."
+  ],
+  "judge_bias_mitigation_check_hints": [
+    "Audit judge decisions for length, position/order, verbosity, and ornate-but-incoherent prose bias before accepting a winning draft.",
+    "Swap draft order in pairwise review and require concrete evidence for wins on plot, character, style, and continuity.",
+    "Reject evaluations that reward padding or poetic vagueness over usable continuation canon."
   ],
   "keyphrase_motif_extraction_hints": [
     "Extract keyphrases and motif keywords from source, outline, and draft to reveal topic drift, missing promises, and repeated thematic anchors.",
@@ -943,6 +991,11 @@
   "manuscript_export_formats_hints": [
     "Treat PDF, DOCX, TXT, EPUB, Markdown, and JSON exports as derived artifacts, never as automatic canon mutations.",
     "Exports should include source state version, accepted chapter range, and generation timestamp for replay."
+  ],
+  "material_grounded_query_refinement_hints": [
+    "Before drafting, separate required materials from optional or noisy reference notes; prune irrelevant evidence from the context pack.",
+    "When a user request is ambiguous or unrealistic, rewrite the local task brief before generation rather than repairing only after failure.",
+    "For same-type creation, keep material requirements as abstract constraints and rebuild concrete people, places, objects, and facts."
   ],
   "memory_snapshot_versioning_hints": [
     "Create named memory snapshots before risky rewrites, bulk bible merges, or alternate continuation branches.",
@@ -1006,6 +1059,11 @@
     "Keep chapters, notes, summaries, and analysis as stable human-readable text units with durable ids.",
     "Prefer diffable manuscript units for long-form state so reviewers can compare, revert, and synchronize changes.",
     "Generated edits should target a named text unit rather than rewriting an opaque whole-project blob."
+  ],
+  "plan_reflect_character_chapter_pipeline_hints": [
+    "Treat longform drafting as a chain: brainstorm, plan, critique the plan, update character profiles, then write chapter sequence.",
+    "Persist reflection and character-profile changes before chapter generation so later chapters do not invent incompatible motivations.",
+    "For same-type creation, rebuild the plan-reflection-character trace around the new premise rather than preserving the source sequence."
   ],
   "plot_dependency_graph_hints": [
     "Represent hooks, clues, promises, conflicts, and payoffs as dependency edges with source chapter and expected payoff window.",
@@ -1131,8 +1189,8 @@
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "Only public GitHub metadata and README/tree signals were used; no clone, install, provider call, model download, dataset download, Docker, MCP, or script execution occurred.",
-    "LongWriter/LongReward/LongWriter-V are absorbed pattern-only for plan-write decomposition, long-output length-quality evaluation, and reward-dimension gates."
+    "GitHub REST API anonymous rate limit returned HTTP 403 during the writing-benchmark pass; no authenticated request, token, cookie, clone, install, or runtime execution was used.",
+    "New writing-benchmark sources were absorbed as pattern-only from git ls-remote HEAD plus raw README/LICENSE checks."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1193,7 +1251,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 107,
+  "source_candidate_count": 111,
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
     "Keep fingerprint thresholds separate for names, set-piece labels, long phrases, and structural scene order to reduce false positives.",
@@ -1248,6 +1306,7 @@
     "Ckokoski/authorclaw",
     "explodinggradients/ragas",
     "YarnSpinnerTool/YarnSpinner",
+    "EQ-bench/longform-writing-bench",
     "forsonny/The-Crucible-Writing-System-For-Claude",
     "THUDM/LongReward",
     "openai/evals",
@@ -1290,6 +1349,8 @@
     "ShmilyWithme/Shmily_novel_skill",
     "envy-ai/ai_rpg",
     "vkbo/novelWriter",
+    "X-PLUG/WritingBench",
+    "EQ-bench/creative-writing-bench",
     "lechmazur/writing_styles",
     "davealaw/FictionRefine",
     "clchinkc/story-bench",
@@ -1306,7 +1367,8 @@
     "MaartenGr/BERTopic",
     "dmmiller612/bert-extractive-summarizer",
     "lechmazur/writing",
-    "Theltn/AICreativityJudge"
+    "Theltn/AICreativityJudge",
+    "dig-team/hanna-benchmark-asg"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -1613,6 +1675,24 @@
     "long_context_reward_scores",
     "helpfulness_logicality_faithfulness_completeness_report",
     "reward_dimension_fix_tasks",
+    "instance_specific_criteria_report",
+    "requirement_dimension_coverage",
+    "chapter_acceptance_criteria_failures",
+    "material_grounding_pruning_report",
+    "query_requirement_fit_findings",
+    "irrelevant_material_rejections",
+    "hybrid_rubric_pairwise_elo_report",
+    "pairwise_neighbor_comparisons",
+    "elo_stability_notes",
+    "judge_bias_mitigation_report",
+    "length_position_verbosity_bias_findings",
+    "poetic_incoherence_findings",
+    "plan_reflection_character_profile_trace",
+    "chapter_sequence_generation_trace",
+    "narrative_consistency_judge_notes",
+    "human_story_metric_scores",
+    "relevance_coherence_empathy_surprise_engagement_complexity_report",
+    "reader_axis_fix_tasks",
     "synopsis_review_gate",
     "chapter_summary_review_status",
     "synopsis_regeneration_options",
@@ -1852,9 +1932,7 @@
           "stars": 125,
           "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
           "title": "forsonny/novel-master-ai",
-          "trust_flags": [
-            "license:custom-text"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/forsonny/novel-master-ai"
         },
         {
@@ -1936,9 +2014,7 @@
           "stars": null,
           "summary": "Chinese web-novel local writing assistant with chapter management, outline extraction, AI polishing, continuation and themed workspaces. Static intake note: Chinese web-novel local writing assistant for chapter management, outline extraction, AI polishing, continuation, themed wo",
           "title": "guchendesigndog/GC-Writer-Assistant",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
         },
         {
@@ -1969,10 +2045,7 @@
         }
       ],
       "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
-      "trust_flags": [
-        "license:custom-text",
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 14,
@@ -2054,9 +2127,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -2088,9 +2159,7 @@
           "stars": 219,
           "summary": "Chinese novel-to-short-drama platform that transforms novels into video content through chapter/script processing, entity extraction, character reference imagery, storyboard/shot planning, and video synthesis.",
           "title": "Anning01/novelvids",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Anning01/novelvids"
         },
         {
@@ -2158,9 +2227,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -2193,10 +2260,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:noassertion",
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 7,
@@ -2229,9 +2293,7 @@
           "stars": null,
           "summary": "Local-first AI novel pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, events.jsonl, timeline.jsonl, chapter_summaries.jsonl, relationship graph, consistency checks, and memory update after each chapter. Static intake note: Local-first AI novel writing p",
           "title": "DuckTraDo/Novel",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/DuckTraDo/Novel"
         },
         {
@@ -2303,9 +2365,7 @@
         }
       ],
       "top_source_url": "https://github.com/NousResearch/autonovel",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -2329,16 +2389,12 @@
           "stars": 140,
           "summary": "SillyTavern story-mode extension with 43 genres, story style and author style controls, mix-and-match settings, narrative arc controls, and scenario blueprint schema.",
           "title": "Prompt-And-Circumstance/StoryMode",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Prompt-And-Circumstance/StoryMode"
         }
       ],
       "top_source_url": "https://github.com/Prompt-And-Circumstance/StoryMode",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 13,
@@ -2417,9 +2473,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -2500,9 +2554,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -2533,9 +2585,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 13,
@@ -2615,9 +2665,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -2630,9 +2678,7 @@
           "stars": null,
           "summary": "Local-first AI novel pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, events.jsonl, timeline.jsonl, chapter_summaries.jsonl, relationship graph, consistency checks, and memory update after each chapter. Static intake note: Local-first AI novel writing p",
           "title": "DuckTraDo/Novel",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/DuckTraDo/Novel"
         },
         {
@@ -2715,9 +2761,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -2735,12 +2779,10 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
-      "candidate_count": 21,
+      "candidate_count": 22,
       "name": "character_cards",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -2818,9 +2860,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -2833,9 +2873,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -2966,6 +3004,21 @@
           "url": "https://github.com/danjdewhurst/story-skills"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 185,
+          "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
+          "title": "EQ-bench/longform-writing-bench",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/EQ-bench/longform-writing-bench"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -2975,9 +3028,7 @@
           "stars": null,
           "summary": "Web novel writing guidance skill with chapter blueprint, key-information file, chapter task card, Draft A, Draft B, Draft C de-AI final pass, continuity record and next-chapter handoff. Static intake note: Web novel writing guidance skill that turns ideas into story-engine design",
           "title": "HZ-KMNO/web-novel-writing-guidance-skill",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill"
         },
         {
@@ -2990,9 +3041,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -3052,7 +3101,7 @@
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
-        "license:noassertion"
+        "license:missing"
       ]
     },
     {
@@ -3071,9 +3120,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -3086,9 +3133,7 @@
           "stars": null,
           "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
           "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         },
         {
@@ -3101,19 +3146,15 @@
           "stars": null,
           "summary": "OpenCode serialized webnovel writer with context preparation, review, anti-AI polish, fact extraction and accepted chapter commit projection flow. Static intake note: OpenCode adaptation of webnovel-writer with long-form serialized writing flow, context preparation, review, anti-",
           "title": "lujih/webnovel-writer-opencode",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lujih/webnovel-writer-opencode"
         }
       ],
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "contradiction_taxonomy_checker",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -3147,10 +3188,27 @@
           "title": "Picrew/ConStory-Bench",
           "trust_flags": [],
           "url": "https://github.com/Picrew/ConStory-Bench"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 185,
+          "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
+          "title": "EQ-bench/longform-writing-bench",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/EQ-bench/longform-writing-bench"
         }
       ],
       "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -3168,16 +3226,12 @@
           "stars": null,
           "summary": "AI novel writing system with 15-dimensional fact snapshots, 12 change declaration classes, 6 generation gates, long-distance recall, unified validation and per-chapter state write-back. Static intake note: AI novel writing system centered on 15-dimensional fact snapshots, 12 chan",
           "title": "zy-zmc/tianming-novel-ai-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/zy-zmc/tianming-novel-ai-writer"
         }
       ],
       "top_source_url": "https://github.com/zy-zmc/tianming-novel-ai-writer",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -3223,6 +3277,56 @@
         }
       ],
       "top_source_url": "https://github.com/booknlp/booknlp",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "plan_reflect_character_chapter_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 185,
+          "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
+          "title": "EQ-bench/longform-writing-bench",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/EQ-bench/longform-writing-bench"
+        }
+      ],
+      "top_source_url": "https://github.com/EQ-bench/longform-writing-bench",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "instance_specific_writing_criteria_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 54,
+          "source": "github",
+          "stars": 412,
+          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark. ",
+          "title": "X-PLUG/WritingBench",
+          "trust_flags": [],
+          "url": "https://github.com/X-PLUG/WritingBench"
+        }
+      ],
+      "top_source_url": "https://github.com/X-PLUG/WritingBench",
       "trust_flags": []
     },
     {
@@ -3302,9 +3406,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -3385,9 +3487,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -3405,9 +3505,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -3482,6 +3580,33 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "hybrid_rubric_pairwise_elo_judge",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 54,
+          "source": "github",
+          "stars": 293,
+          "summary": "Creative Writing Benchmark v3 with hybrid rubric, pairwise matchups, Elo and Glicko-2 scoring, and judge bias mitigation for length, position, verbosity, and poetic incoherence. Static intake note: Creative Writing Benchmark v3 evaluates creative writing with isolated rubric scor",
+          "title": "EQ-bench/creative-writing-bench",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/EQ-bench/creative-writing-bench"
+        }
+      ],
+      "top_source_url": "https://github.com/EQ-bench/creative-writing-bench",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 3,
       "name": "accepted_chapter_memory",
       "posture_hint": "metadata-triage",
@@ -3514,9 +3639,7 @@
           "stars": null,
           "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
           "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         },
         {
@@ -3529,16 +3652,12 @@
           "stars": null,
           "summary": "OpenCode serialized webnovel writer with context preparation, review, anti-AI polish, fact extraction and accepted chapter commit projection flow. Static intake note: OpenCode adaptation of webnovel-writer with long-form serialized writing flow, context preparation, review, anti-",
           "title": "lujih/webnovel-writer-opencode",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lujih/webnovel-writer-opencode"
         }
       ],
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -3663,6 +3782,52 @@
         }
       ],
       "top_source_url": "https://github.com/explodinggradients/ragas",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "material_grounded_query_refinement",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 54,
+          "source": "github",
+          "stars": 412,
+          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark. ",
+          "title": "X-PLUG/WritingBench",
+          "trust_flags": [],
+          "url": "https://github.com/X-PLUG/WritingBench"
+        }
+      ],
+      "top_source_url": "https://github.com/X-PLUG/WritingBench",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "human_story_metric_panel",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 23,
+          "source": "github",
+          "stars": 81,
+          "summary": "HANNA human-annotated narratives for automatic story generation evaluation with relevance, coherence, empathy, surprise, engagement, complexity, automatic metrics and LLM explanations. Static intake note: HANNA is an MIT human-annotated narrative evaluation dataset for automatic ",
+          "title": "dig-team/hanna-benchmark-asg",
+          "trust_flags": [],
+          "url": "https://github.com/dig-team/hanna-benchmark-asg"
+        }
+      ],
+      "top_source_url": "https://github.com/dig-team/hanna-benchmark-asg",
       "trust_flags": []
     },
     {
@@ -3821,6 +3986,33 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "judge_bias_mitigation_check",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 54,
+          "source": "github",
+          "stars": 293,
+          "summary": "Creative Writing Benchmark v3 with hybrid rubric, pairwise matchups, Elo and Glicko-2 scoring, and judge bias mitigation for length, position, verbosity, and poetic incoherence. Static intake note: Creative Writing Benchmark v3 evaluates creative writing with isolated rubric scor",
+          "title": "EQ-bench/creative-writing-bench",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/EQ-bench/creative-writing-bench"
+        }
+      ],
+      "top_source_url": "https://github.com/EQ-bench/creative-writing-bench",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 5,
       "name": "contradiction_detection",
       "posture_hint": "defer-trust-review",
@@ -3857,9 +4049,7 @@
           "stars": null,
           "summary": "Local-first AI novel pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, events.jsonl, timeline.jsonl, chapter_summaries.jsonl, relationship graph, consistency checks, and memory update after each chapter. Static intake note: Local-first AI novel writing p",
           "title": "DuckTraDo/Novel",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/DuckTraDo/Novel"
         },
         {
@@ -3875,9 +4065,7 @@
           "stars": 125,
           "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
           "title": "forsonny/novel-master-ai",
-          "trust_flags": [
-            "license:custom-text"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/forsonny/novel-master-ai"
         },
         {
@@ -3911,10 +4099,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:noassertion",
-        "license:custom-text"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -3932,16 +4117,12 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         }
       ],
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4013,9 +4194,7 @@
           "stars": 70,
           "summary": "AuthorClaw author agent with AI beta readers, reader intelligence, market research, comp titles, deep revision, and book-launch copy.",
           "title": "Ckokoski/authorclaw",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Ckokoski/authorclaw"
         },
         {
@@ -4028,16 +4207,12 @@
           "stars": 11,
           "summary": "Local-browser novel assistant with reader curiosity tracker, chapter hook, cliffhanger audit, micro-tension prompts, style DNA, context scopes, local analysis, and token breakdown.",
           "title": "f5alcon/The-Novelists-Atelier",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/f5alcon/The-Novelists-Atelier"
         }
       ],
       "top_source_url": "https://github.com/Ckokoski/authorclaw",
-      "trust_flags": [
-        "license_declared"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 3,
@@ -4176,9 +4351,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -4191,16 +4364,12 @@
           "stars": null,
           "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
           "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         }
       ],
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -4235,16 +4404,12 @@
           "stars": null,
           "summary": "AI novel writing system with 15-dimensional fact snapshots, 12 change declaration classes, 6 generation gates, long-distance recall, unified validation and per-chapter state write-back. Static intake note: AI novel writing system centered on 15-dimensional fact snapshots, 12 chan",
           "title": "zy-zmc/tianming-novel-ai-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/zy-zmc/tianming-novel-ai-writer"
         }
       ],
       "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4466,9 +4631,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -4481,9 +4644,7 @@
           "stars": null,
           "summary": "Local-first AI novel pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, events.jsonl, timeline.jsonl, chapter_summaries.jsonl, relationship graph, consistency checks, and memory update after each chapter. Static intake note: Local-first AI novel writing p",
           "title": "DuckTraDo/Novel",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/DuckTraDo/Novel"
         },
         {
@@ -4567,9 +4728,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -4602,9 +4761,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 7,
@@ -4625,9 +4782,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -4656,9 +4811,7 @@
           "stars": null,
           "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
           "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         },
         {
@@ -4671,9 +4824,7 @@
           "stars": null,
           "summary": "AI novel writing system with 15-dimensional fact snapshots, 12 change declaration classes, 6 generation gates, long-distance recall, unified validation and per-chapter state write-back. Static intake note: AI novel writing system centered on 15-dimensional fact snapshots, 12 chan",
           "title": "zy-zmc/tianming-novel-ai-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/zy-zmc/tianming-novel-ai-writer"
         },
         {
@@ -4686,9 +4837,7 @@
           "stars": null,
           "summary": "OpenCode serialized webnovel writer with context preparation, review, anti-AI polish, fact extraction and accepted chapter commit projection flow. Static intake note: OpenCode adaptation of webnovel-writer with long-form serialized writing flow, context preparation, review, anti-",
           "title": "lujih/webnovel-writer-opencode",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lujih/webnovel-writer-opencode"
         },
         {
@@ -4701,9 +4850,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -4716,16 +4863,12 @@
           "stars": null,
           "summary": "Chinese web-novel local writing assistant with chapter management, outline extraction, AI polishing, continuation and themed workspaces. Static intake note: Chinese web-novel local writing assistant for chapter management, outline extraction, AI polishing, continuation, themed wo",
           "title": "guchendesigndog/GC-Writer-Assistant",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
         }
       ],
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -4743,9 +4886,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -4758,16 +4899,12 @@
           "stars": null,
           "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
           "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         }
       ],
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 4,
@@ -4815,9 +4952,7 @@
           "stars": null,
           "summary": "Web novel writing guidance skill with chapter blueprint, key-information file, chapter task card, Draft A, Draft B, Draft C de-AI final pass, continuity record and next-chapter handoff. Static intake note: Web novel writing guidance skill that turns ideas into story-engine design",
           "title": "HZ-KMNO/web-novel-writing-guidance-skill",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill"
         },
         {
@@ -4837,9 +4972,7 @@
         }
       ],
       "top_source_url": "https://github.com/skyfiredao/dreampowers",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -4929,16 +5062,12 @@
           "stars": null,
           "summary": "Multi-agent long story generation framework with Outline Agent, Planning Agent and Writing Agent that dynamically compresses story history to generate coherent new content aligned with current events. Static intake note: Multi-agent long-story generation framework with Outline Ag",
           "title": "THU-KEG/StoryWriter",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/THU-KEG/StoryWriter"
         }
       ],
       "top_source_url": "https://github.com/THU-KEG/StoryWriter",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -4979,9 +5108,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -4994,16 +5121,12 @@
           "stars": null,
           "summary": "Local-first AI novel pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, events.jsonl, timeline.jsonl, chapter_summaries.jsonl, relationship graph, consistency checks, and memory update after each chapter. Static intake note: Local-first AI novel writing p",
           "title": "DuckTraDo/Novel",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/DuckTraDo/Novel"
         }
       ],
       "top_source_url": "https://github.com/makieali/longform-ai",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 4,
@@ -5028,9 +5151,7 @@
           "stars": 125,
           "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
           "title": "forsonny/novel-master-ai",
-          "trust_flags": [
-            "license:custom-text"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/forsonny/novel-master-ai"
         },
         {
@@ -5076,9 +5197,7 @@
         }
       ],
       "top_source_url": "https://github.com/forsonny/novel-master-ai",
-      "trust_flags": [
-        "license:custom-text"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -5102,16 +5221,12 @@
           "stars": 125,
           "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
           "title": "forsonny/novel-master-ai",
-          "trust_flags": [
-            "license:custom-text"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/forsonny/novel-master-ai"
         }
       ],
       "top_source_url": "https://github.com/forsonny/novel-master-ai",
-      "trust_flags": [
-        "license:custom-text"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -5215,16 +5330,12 @@
           "stars": 11,
           "summary": "Local-browser novel assistant with reader curiosity tracker, chapter hook, cliffhanger audit, micro-tension prompts, style DNA, context scopes, local analysis, and token breakdown.",
           "title": "f5alcon/The-Novelists-Atelier",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/f5alcon/The-Novelists-Atelier"
         }
       ],
       "top_source_url": "https://github.com/f5alcon/The-Novelists-Atelier",
-      "trust_flags": [
-        "license_declared"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -5466,9 +5577,7 @@
           "stars": 309,
           "summary": "Goodreads dataset code samples for fiction book reviews, recommendation behavior chains, review statistics, and fine-grained spoiler detection.",
           "title": "MengtingWan/goodreads",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/MengtingWan/goodreads"
         },
         {
@@ -5483,16 +5592,12 @@
           "stars": 306,
           "summary": "Goodreads classics scraper and computational reader-review study; README documents metadata/review fields and warns scraper is unmaintained after site changes.",
           "title": "maria-antoniak/goodreads-scraper",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/maria-antoniak/goodreads-scraper"
         }
       ],
       "top_source_url": "https://github.com/zygmuntz/goodbooks-10k",
-      "trust_flags": [
-        "license_declared"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -5533,16 +5638,12 @@
           "stars": null,
           "summary": "LLM Creative Story-Writing Benchmark with head-to-head story comparisons, constrained creative briefs, paired story judgments, visible story order swaps, pairwise margins and evaluator agreement. Static intake note: LLM creative story-writing benchmark with constrained creative b",
           "title": "lechmazur/writing",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lechmazur/writing"
         }
       ],
       "top_source_url": "https://github.com/lechmazur/writing",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -5702,9 +5803,7 @@
           "stars": 70,
           "summary": "AuthorClaw author agent with AI beta readers, reader intelligence, market research, comp titles, deep revision, and book-launch copy.",
           "title": "Ckokoski/authorclaw",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Ckokoski/authorclaw"
         },
         {
@@ -5717,9 +5816,7 @@
           "stars": 309,
           "summary": "Goodreads dataset code samples for fiction book reviews, recommendation behavior chains, review statistics, and fine-grained spoiler detection.",
           "title": "MengtingWan/goodreads",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/MengtingWan/goodreads"
         },
         {
@@ -5734,23 +5831,32 @@
           "stars": 306,
           "summary": "Goodreads classics scraper and computational reader-review study; README documents metadata/review fields and warns scraper is unmaintained after site changes.",
           "title": "maria-antoniak/goodreads-scraper",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/maria-antoniak/goodreads-scraper"
         }
       ],
       "top_source_url": "https://github.com/Ckokoski/authorclaw",
-      "trust_flags": [
-        "license_declared"
-      ]
+      "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "critic_verifier_loop",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 54,
+          "source": "github",
+          "stars": 412,
+          "summary": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement. Static intake note: WritingBench is an Apache-2.0 generative-writing benchmark. ",
+          "title": "X-PLUG/WritingBench",
+          "trust_flags": [],
+          "url": "https://github.com/X-PLUG/WritingBench"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -5765,7 +5871,7 @@
           "url": "https://github.com/davealaw/FictionRefine"
         }
       ],
-      "top_source_url": "https://github.com/davealaw/FictionRefine",
+      "top_source_url": "https://github.com/X-PLUG/WritingBench",
       "trust_flags": []
     },
     {
@@ -5916,16 +6022,12 @@
           "stars": null,
           "summary": "Web novel writing guidance skill with chapter blueprint, key-information file, chapter task card, Draft A, Draft B, Draft C de-AI final pass, continuity record and next-chapter handoff. Static intake note: Web novel writing guidance skill that turns ideas into story-engine design",
           "title": "HZ-KMNO/web-novel-writing-guidance-skill",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill"
         }
       ],
       "top_source_url": "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -6044,9 +6146,7 @@
           "stars": null,
           "summary": "Local-first AI novel pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, events.jsonl, timeline.jsonl, chapter_summaries.jsonl, relationship graph, consistency checks, and memory update after each chapter. Static intake note: Local-first AI novel writing p",
           "title": "DuckTraDo/Novel",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/DuckTraDo/Novel"
         },
         {
@@ -6062,9 +6162,7 @@
           "stars": 140,
           "summary": "SillyTavern story-mode extension with 43 genres, story style and author style controls, mix-and-match settings, narrative arc controls, and scenario blueprint schema.",
           "title": "Prompt-And-Circumstance/StoryMode",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Prompt-And-Circumstance/StoryMode"
         },
         {
@@ -6148,9 +6246,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -6178,9 +6274,7 @@
           "stars": null,
           "summary": "Flash fiction style benchmark with style fingerprints, within-model diversity, voice and diction, rhythm and syntax, POV and discourse, structure and pacing, tone, imagery, dialogue, experimentation and closure axes. Static intake note: Flash-fiction style and diversity benchmark",
           "title": "lechmazur/writing_styles",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lechmazur/writing_styles"
         },
         {
@@ -6200,10 +6294,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:noassertion",
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -6313,16 +6404,12 @@
           "stars": null,
           "summary": "Flash fiction style benchmark with style fingerprints, within-model diversity, voice and diction, rhythm and syntax, POV and discourse, structure and pacing, tone, imagery, dialogue, experimentation and closure axes. Static intake note: Flash-fiction style and diversity benchmark",
           "title": "lechmazur/writing_styles",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lechmazur/writing_styles"
         }
       ],
       "top_source_url": "https://github.com/lechmazur/writing_styles",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 3,
@@ -6407,9 +6494,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -6429,9 +6514,7 @@
         }
       ],
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -6480,16 +6563,12 @@
           "stars": 70,
           "summary": "AuthorClaw author agent with AI beta readers, reader intelligence, market research, comp titles, deep revision, and book-launch copy.",
           "title": "Ckokoski/authorclaw",
-          "trust_flags": [
-            "license_declared"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Ckokoski/authorclaw"
         }
       ],
       "top_source_url": "https://github.com/Ckokoski/authorclaw",
-      "trust_flags": [
-        "license_declared"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -6642,9 +6721,7 @@
           "stars": null,
           "summary": "Local-first AI novel pipeline with memory/story_bible.yaml, characters.yaml, foreshadowing.yaml, events.jsonl, timeline.jsonl, chapter_summaries.jsonl, relationship graph, consistency checks, and memory update after each chapter. Static intake note: Local-first AI novel writing p",
           "title": "DuckTraDo/Novel",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/DuckTraDo/Novel"
         },
         {
@@ -6676,9 +6753,7 @@
           "stars": 77,
           "summary": "Local-first AI writing assistant with project-based authoring, multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, and explicit author control boundary.",
           "title": "StableLlamaAI/AugmentedQuill",
-          "trust_flags": [
-            "default-branch:nonstandard"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/StableLlamaAI/AugmentedQuill"
         },
         {
@@ -6704,17 +6779,12 @@
           "stars": null,
           "summary": "Chinese web-novel local writing assistant with chapter management, outline extraction, AI polishing, continuation and themed workspaces. Static intake note: Chinese web-novel local writing assistant for chapter management, outline extraction, AI polishing, continuation, themed wo",
           "title": "guchendesigndog/GC-Writer-Assistant",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
         }
       ],
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
-      "trust_flags": [
-        "license:noassertion",
-        "default-branch:nonstandard"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -6738,16 +6808,12 @@
           "stars": 140,
           "summary": "SillyTavern story-mode extension with 43 genres, story style and author style controls, mix-and-match settings, narrative arc controls, and scenario blueprint schema.",
           "title": "Prompt-And-Circumstance/StoryMode",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Prompt-And-Circumstance/StoryMode"
         }
       ],
       "top_source_url": "https://github.com/Prompt-And-Circumstance/StoryMode",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -7062,9 +7128,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -7077,9 +7141,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -7092,9 +7154,7 @@
           "stars": null,
           "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
           "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         },
         {
@@ -7274,9 +7334,7 @@
           "stars": null,
           "summary": "OpenCode serialized webnovel writer with context preparation, review, anti-AI polish, fact extraction and accepted chapter commit projection flow. Static intake note: OpenCode adaptation of webnovel-writer with long-form serialized writing flow, context preparation, review, anti-",
           "title": "lujih/webnovel-writer-opencode",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lujih/webnovel-writer-opencode"
         },
         {
@@ -7289,9 +7347,7 @@
           "stars": null,
           "summary": "Claude Code novel workflow with style definition, four-way brainstorm, structured chapter outline, Writer Agent, Style Reviewer, Continuity Reviewer, ±2 chapter context window and safe single-chapter rewrites. Static intake note: Claude Code novel workflow plugin with style defin",
           "title": "jinmawang/claude-novel-writeFlow",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/jinmawang/claude-novel-writeFlow"
         },
         {
@@ -7348,9 +7404,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -7374,9 +7428,7 @@
           "stars": 125,
           "summary": "Novel Master AI workflow with NRD-driven task tree from arcs to chapters to scenes, tagged workflow steps, revision passes, continuity reporting, CLI/MCP surfaces, and structured manuscript planning.",
           "title": "forsonny/novel-master-ai",
-          "trust_flags": [
-            "license:custom-text"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/forsonny/novel-master-ai"
         },
         {
@@ -7394,9 +7446,7 @@
         }
       ],
       "top_source_url": "https://github.com/forsonny/novel-master-ai",
-      "trust_flags": [
-        "license:custom-text"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -7443,9 +7493,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -7458,9 +7506,7 @@
           "stars": null,
           "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
           "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         },
         {
@@ -7480,9 +7526,7 @@
         }
       ],
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -7506,16 +7550,12 @@
           "stars": 77,
           "summary": "Local-first AI writing assistant with project-based authoring, multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, and explicit author control boundary.",
           "title": "StableLlamaAI/AugmentedQuill",
-          "trust_flags": [
-            "default-branch:nonstandard"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/StableLlamaAI/AugmentedQuill"
         }
       ],
       "top_source_url": "https://github.com/StableLlamaAI/AugmentedQuill",
-      "trust_flags": [
-        "default-branch:nonstandard"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -7640,9 +7680,7 @@
           "stars": 140,
           "summary": "SillyTavern story-mode extension with 43 genres, story style and author style controls, mix-and-match settings, narrative arc controls, and scenario blueprint schema.",
           "title": "Prompt-And-Circumstance/StoryMode",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Prompt-And-Circumstance/StoryMode"
         },
         {
@@ -7673,9 +7711,7 @@
         }
       ],
       "top_source_url": "https://github.com/Narcooo/inkos",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 5,
@@ -7695,9 +7731,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -7756,9 +7790,7 @@
         }
       ],
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -7867,16 +7899,12 @@
           "stars": null,
           "summary": "Web novel writing guidance skill with chapter blueprint, key-information file, chapter task card, Draft A, Draft B, Draft C de-AI final pass, continuity record and next-chapter handoff. Static intake note: Web novel writing guidance skill that turns ideas into story-engine design",
           "title": "HZ-KMNO/web-novel-writing-guidance-skill",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill"
         }
       ],
       "top_source_url": "https://github.com/olivierkes/manuskript",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -7894,9 +7922,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -7914,9 +7940,7 @@
         }
       ],
       "top_source_url": "https://github.com/makieali/longform-ai",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -7960,9 +7984,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -8036,9 +8058,7 @@
         }
       ],
       "top_source_url": "https://github.com/makieali/longform-ai",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -8100,9 +8120,7 @@
           "stars": null,
           "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
           "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
         },
         {
@@ -8115,9 +8133,7 @@
           "stars": null,
           "summary": "Long-form generation engine with rolling summary, character state tracking, timeline events, world state, relevant passages, token budget context trimming, chapter status, edit cycle records and session restore. Static intake note: LongForm AI long-form generation engine for nove",
           "title": "makieali/longform-ai",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
         },
         {
@@ -8146,9 +8162,7 @@
           "stars": null,
           "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
           "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         },
         {
@@ -8268,9 +8282,7 @@
         }
       ],
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -8298,10 +8310,7 @@
           "stars": 3760,
           "summary": "AI film production tool with script-to-film batch workflow: script, characters, scenes, director decisions, storyboard/shot planning, and final video. AGPL/Electron/runtime surface keeps it pattern-only.",
           "title": "MemeCalculate/moyin-creator",
-          "trust_flags": [
-            "owner:user-high-star-tool",
-            "downloads:enabled-high-stars"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/MemeCalculate/moyin-creator"
         },
         {
@@ -8317,18 +8326,12 @@
           "stars": 219,
           "summary": "Chinese novel-to-short-drama platform that transforms novels into video content through chapter/script processing, entity extraction, character reference imagery, storyboard/shot planning, and video synthesis.",
           "title": "Anning01/novelvids",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Anning01/novelvids"
         }
       ],
       "top_source_url": "https://github.com/MemeCalculate/moyin-creator",
-      "trust_flags": [
-        "owner:user-high-star-tool",
-        "downloads:enabled-high-stars",
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -8386,9 +8389,7 @@
           "stars": null,
           "summary": "Multi-agent long story generation framework with Outline Agent, Planning Agent and Writing Agent that dynamically compresses story history to generate coherent new content aligned with current events. Static intake note: Multi-agent long-story generation framework with Outline Ag",
           "title": "THU-KEG/StoryWriter",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/THU-KEG/StoryWriter"
         },
         {
@@ -8401,9 +8402,7 @@
           "stars": null,
           "summary": "Flash fiction style benchmark with style fingerprints, within-model diversity, voice and diction, rhythm and syntax, POV and discourse, structure and pacing, tone, imagery, dialogue, experimentation and closure axes. Static intake note: Flash-fiction style and diversity benchmark",
           "title": "lechmazur/writing_styles",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/lechmazur/writing_styles"
         },
         {
@@ -8423,9 +8422,7 @@
         }
       ],
       "top_source_url": "https://github.com/harshaneel/humanize",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -8570,9 +8567,7 @@
           "stars": null,
           "summary": "Multi-agent long story generation framework with Outline Agent, Planning Agent and Writing Agent that dynamically compresses story history to generate coherent new content aligned with current events. Static intake note: Multi-agent long-story generation framework with Outline Ag",
           "title": "THU-KEG/StoryWriter",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/THU-KEG/StoryWriter"
         },
         {
@@ -8590,9 +8585,7 @@
         }
       ],
       "top_source_url": "https://github.com/jncchds/abook",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -8670,9 +8663,7 @@
           "stars": 77,
           "summary": "Local-first AI writing assistant with project-based authoring, multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, and explicit author control boundary.",
           "title": "StableLlamaAI/AugmentedQuill",
-          "trust_flags": [
-            "default-branch:nonstandard"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/StableLlamaAI/AugmentedQuill"
         },
         {
@@ -8690,9 +8681,7 @@
         }
       ],
       "top_source_url": "https://github.com/StableLlamaAI/AugmentedQuill",
-      "trust_flags": [
-        "default-branch:nonstandard"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -8716,16 +8705,12 @@
           "stars": 77,
           "summary": "Local-first AI writing assistant with project-based authoring, multi-book structure, Writing Partner chat, sourcebook entries for characters/scenes/lore/items, and explicit author control boundary.",
           "title": "StableLlamaAI/AugmentedQuill",
-          "trust_flags": [
-            "default-branch:nonstandard"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/StableLlamaAI/AugmentedQuill"
         }
       ],
       "top_source_url": "https://github.com/StableLlamaAI/AugmentedQuill",
-      "trust_flags": [
-        "default-branch:nonstandard"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 4,
@@ -8771,10 +8756,7 @@
           "stars": 3760,
           "summary": "AI film production tool with script-to-film batch workflow: script, characters, scenes, director decisions, storyboard/shot planning, and final video. AGPL/Electron/runtime surface keeps it pattern-only.",
           "title": "MemeCalculate/moyin-creator",
-          "trust_flags": [
-            "owner:user-high-star-tool",
-            "downloads:enabled-high-stars"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/MemeCalculate/moyin-creator"
         },
         {
@@ -8790,9 +8772,7 @@
           "stars": 219,
           "summary": "Chinese novel-to-short-drama platform that transforms novels into video content through chapter/script processing, entity extraction, character reference imagery, storyboard/shot planning, and video synthesis.",
           "title": "Anning01/novelvids",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Anning01/novelvids"
         },
         {
@@ -8810,11 +8790,7 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": [
-        "owner:user-high-star-tool",
-        "downloads:enabled-high-stars",
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -8978,7 +8954,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "synopsis_cross_reference",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -9025,10 +9001,27 @@
           "title": "vkbo/novelWriter",
           "trust_flags": [],
           "url": "https://github.com/vkbo/novelWriter"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 54,
+          "source": "github",
+          "stars": 293,
+          "summary": "Creative Writing Benchmark v3 with hybrid rubric, pairwise matchups, Elo and Glicko-2 scoring, and judge bias mitigation for length, position, verbosity, and poetic incoherence. Static intake note: Creative Writing Benchmark v3 evaluates creative writing with isolated rubric scor",
+          "title": "EQ-bench/creative-writing-bench",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/EQ-bench/creative-writing-bench"
         }
       ],
       "top_source_url": "https://github.com/dylanhogg/gptauthor",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -9208,10 +9201,7 @@
           "stars": 3760,
           "summary": "AI film production tool with script-to-film batch workflow: script, characters, scenes, director decisions, storyboard/shot planning, and final video. AGPL/Electron/runtime surface keeps it pattern-only.",
           "title": "MemeCalculate/moyin-creator",
-          "trust_flags": [
-            "owner:user-high-star-tool",
-            "downloads:enabled-high-stars"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/MemeCalculate/moyin-creator"
         },
         {
@@ -9227,18 +9217,12 @@
           "stars": 219,
           "summary": "Chinese novel-to-short-drama platform that transforms novels into video content through chapter/script processing, entity extraction, character reference imagery, storyboard/shot planning, and video synthesis.",
           "title": "Anning01/novelvids",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Anning01/novelvids"
         }
       ],
       "top_source_url": "https://github.com/MemeCalculate/moyin-creator",
-      "trust_flags": [
-        "owner:user-high-star-tool",
-        "downloads:enabled-high-stars",
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -9486,16 +9470,12 @@
           "stars": 80,
           "summary": "Curated LLM story/novel/script generation index with 232 verified entries and 10 method categories: planning/decomposition, agent collaboration, sandbox/world simulation, multimodal story generation, memory/long-context, and evaluation/benchmark groupings.",
           "title": "Picrew/awesome-llm-story-generation",
-          "trust_flags": [
-            "license:missing"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Picrew/awesome-llm-story-generation"
         }
       ],
       "top_source_url": "https://github.com/Picrew/awesome-llm-story-generation",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "trust_flags": []
     },
     {
       "candidate_count": 5,
@@ -9683,16 +9663,12 @@
           "stars": null,
           "summary": "Creative writing judge with five-dimension rubric for lexical richness, syntactic complexity, novelty, imagery and narrative dynamics, plus LLM story evaluation reports. Static intake note: Creative-writing evaluator using a five-dimension rubric: lexical richness, syntactic comp",
           "title": "Theltn/AICreativityJudge",
-          "trust_flags": [
-            "license:noassertion"
-          ],
+          "trust_flags": [],
           "url": "https://github.com/Theltn/AICreativityJudge"
         }
       ],
       "top_source_url": "https://github.com/Theltn/AICreativityJudge",
-      "trust_flags": [
-        "license:noassertion"
-      ]
+      "trust_flags": []
     }
   ],
   "world_state_tracking_hints": [

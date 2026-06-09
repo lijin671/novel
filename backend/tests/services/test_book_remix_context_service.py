@@ -129,6 +129,38 @@ def test_build_remix_continuation_context_block_renders_long_output_reward_audit
     assert "Track long-output quality and output length together." in block
 
 
+def test_build_remix_continuation_context_block_renders_creative_benchmark_audit():
+    block = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={"hard_constraints": [{"rule": "Preserve accepted canon"}]},
+        plan={"summary": "Review the next chapter against writing benchmark gates."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "instance_specific_writing_criteria_gate", "candidate_count": 1},
+                {"name": "hybrid_rubric_pairwise_elo_judge", "candidate_count": 1},
+                {"name": "judge_bias_mitigation_check", "candidate_count": 1},
+                {"name": "human_story_metric_panel", "candidate_count": 1},
+            ],
+            "instance_specific_writing_criteria_gate_hints": [
+                "Attach five local acceptance criteria to each chapter task."
+            ],
+            "hybrid_rubric_pairwise_elo_judge_hints": [
+                "Use rubric scores before pairwise comparison; do not let length bias decide the winner."
+            ],
+            "human_story_metric_panel_hints": [
+                "Track relevance, coherence, empathy, surprise, engagement, and complexity as separate reader-facing axes."
+            ],
+        },
+    )
+
+    assert "Creative writing benchmark audit" in block
+    assert "instance_specific_writing_criteria_gate" in block
+    assert "hybrid_rubric_pairwise_elo_judge" in block
+    assert "judge_bias_mitigation_check" in block
+    assert "human_story_metric_panel" in block
+    assert "do not let length bias decide the winner" in block
+
+
 def test_build_remix_inspired_context_block_renders_style_copy_risk_and_pattern_guidance():
     block = build_remix_inspired_context_block(
         project_title="Inspired Draft",

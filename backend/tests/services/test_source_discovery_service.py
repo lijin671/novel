@@ -4498,3 +4498,151 @@ def test_default_discovery_sources_include_longwriter_family_projects():
     assert any("agentwrite" in query.lower() and "longwriter" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("helpfulness" in query.lower() and "completeness" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("ultra-long" in query.lower() and "long output quality" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_writing_benchmark_sources_classify_into_creative_eval_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "X-PLUG/WritingBench",
+                "html_url": "https://github.com/X-PLUG/WritingBench",
+                "description": "Comprehensive benchmark for generative writing with real-world queries, 5 instance-specific criteria, requirement-dimension scores, model-augmented query generation, and human-in-the-loop refinement.",
+                "stargazers_count": 412,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["writing", "benchmark", "llm-evaluation"],
+                "updated_at": "2025-11-27T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "benchmark_query", "prompt.py"],
+            },
+            {
+                "full_name": "EQ-bench/creative-writing-bench",
+                "html_url": "https://github.com/EQ-bench/creative-writing-bench",
+                "description": "Creative Writing Benchmark v3 with hybrid rubric, pairwise matchups, Elo and Glicko-2 scoring, and judge bias mitigation for length, position, verbosity, and poetic incoherence.",
+                "stargazers_count": 293,
+                "license": None,
+                "topics": ["creative-writing", "benchmark", "elo"],
+                "updated_at": "2026-06-01T00:00:00Z",
+                "root_files": ["README.md", "requirements.txt", ".env.example", "data"],
+            },
+            {
+                "full_name": "EQ-bench/longform-writing-bench",
+                "html_url": "https://github.com/EQ-bench/longform-writing-bench",
+                "description": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency.",
+                "stargazers_count": 185,
+                "license": None,
+                "topics": ["longform", "creative-writing", "benchmark"],
+                "updated_at": "2026-06-01T00:00:00Z",
+                "root_files": ["README.md", "longform_writing_bench.py", "prompts", "results"],
+            },
+            {
+                "full_name": "dig-team/hanna-benchmark-asg",
+                "html_url": "https://github.com/dig-team/hanna-benchmark-asg",
+                "description": "HANNA human-annotated narratives for automatic story generation evaluation with relevance, coherence, empathy, surprise, engagement, complexity, automatic metrics and LLM explanations.",
+                "stargazers_count": 81,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-generation", "evaluation", "dataset"],
+                "updated_at": "2024-05-13T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "hanna_stories_annotations.csv", "hanna_metrics_scores_llm.csv"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T19:00:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["X-PLUG/WritingBench"]["family"] == "novel-automation"
+    assert "instance_specific_writing_criteria_gate" in by_title["X-PLUG/WritingBench"]["absorbed_patterns"]
+    assert "material_grounded_query_refinement" in by_title["X-PLUG/WritingBench"]["absorbed_patterns"]
+    assert "hybrid_rubric_pairwise_elo_judge" in by_title["EQ-bench/creative-writing-bench"]["absorbed_patterns"]
+    assert "judge_bias_mitigation_check" in by_title["EQ-bench/creative-writing-bench"]["absorbed_patterns"]
+    assert "plan_reflect_character_chapter_pipeline" in by_title["EQ-bench/longform-writing-bench"]["absorbed_patterns"]
+    assert "human_story_metric_panel" in by_title["dig-team/hanna-benchmark-asg"]["absorbed_patterns"]
+
+
+def test_writing_benchmark_pattern_pack_exposes_criteria_elo_and_human_metric_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T19:05:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/X-PLUG/WritingBench",
+                "title": "X-PLUG/WritingBench",
+                "summary": "WritingBench uses 5 instance-specific criteria, requirement dimensions and human-in-the-loop material refinement.",
+                "stars": 412,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["instance_specific_writing_criteria_gate", "material_grounded_query_refinement"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/EQ-bench/creative-writing-bench",
+                "title": "EQ-bench/creative-writing-bench",
+                "summary": "Creative Writing Benchmark v3 uses hybrid rubric, pairwise Elo/Glicko-2 and judge bias mitigation.",
+                "stars": 293,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["hybrid_rubric_pairwise_elo_judge", "judge_bias_mitigation_check"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/EQ-bench/longform-writing-bench",
+                "title": "EQ-bench/longform-writing-bench",
+                "summary": "Longform benchmark chains brainstorm, plan, reflection, character profiles and 8 chapters.",
+                "stars": 185,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["plan_reflect_character_chapter_pipeline"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/dig-team/hanna-benchmark-asg",
+                "title": "dig-team/hanna-benchmark-asg",
+                "summary": "HANNA scores generated stories by relevance, coherence, empathy, surprise, engagement and complexity.",
+                "stars": 81,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["human_story_metric_panel"],
+                "score": 82,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "instance_specific_writing_criteria" in pattern_pack["bible_enrichment_targets"]
+    assert "material_requirement_notes" in pattern_pack["bible_enrichment_targets"]
+    assert "hybrid_rubric_pairwise_elo_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "plan_reflection_character_profile_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "human_story_metric_scores" in pattern_pack["whole_book_analysis_targets"]
+    assert "instance_criteria_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "judge_bias_mitigation_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "instance_specific_writing_criteria_gate_hints" in digest
+    assert "hybrid_rubric_pairwise_elo_judge_hints" in digest
+    assert "human_story_metric_panel_hints" in digest
+
+
+def test_default_discovery_sources_include_creative_writing_benchmark_projects():
+    assert "https://github.com/X-PLUG/WritingBench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/EQ-bench/creative-writing-bench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/EQ-bench/longform-writing-bench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dig-team/hanna-benchmark-asg" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("instance-specific criteria" in query.lower() and "writingbench" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("elo" in query.lower() and "creative writing benchmark" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("hanna" in query.lower() and "story evaluation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
