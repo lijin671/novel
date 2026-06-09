@@ -2571,3 +2571,42 @@ def test_build_remix_inspired_context_block_renders_stylometry_style_overfit_aud
     assert "paraphrase_independence_review_gate" in block
     assert "Inspired transformation audit" in block
     assert "stylometric_fingerprint_remap, function_word_syntax_remap" in block
+
+
+
+def test_build_remix_context_blocks_render_trope_independence_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "trope_inventory_similarity_gate", "candidate_count": 1},
+            {"name": "trope_graph_expectation_map", "candidate_count": 1},
+            {"name": "trope_density_novelty_budget", "candidate_count": 1},
+            {"name": "trope_source_boundary_review", "candidate_count": 1},
+        ],
+        "trope_inventory_similarity_gate_hints": ["Compare source and draft trope inventories."],
+        "trope_source_boundary_review_hints": ["No live trope scraping in prompts."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={"hard_constraints": [{"rule": "Preserve accepted canon"}]},
+        plan={"summary": "Continue with independent trope handling."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Draft",
+        style_content=(
+            "same-type creation source voice\n"
+            "source voice sample\n"
+            "forbidden source elements\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Trope independence audit" in block
+        assert "trope_inventory_similarity_gate" in block
+        assert "trope_graph_expectation_map" in block
+        assert "trope_density_novelty_budget" in block
+        assert "trope_source_boundary_review" in block
+        assert "no live scraping" in block.lower()

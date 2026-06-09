@@ -6315,3 +6315,165 @@ def test_default_discovery_sources_include_dedup_similarity_projects():
     assert any("minhash" in query.lower() and "jaccard" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("simhash" in query.lower() and "hamming distance" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("semantic deduplication" in query.lower() and "faiss" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+
+def test_trope_sources_classify_into_same_type_independence_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "MitchSaltykov/TVTropes-correlation",
+                "html_url": "https://github.com/MitchSaltykov/TVTropes-correlation",
+                "description": "Look at two works and determine how similar they are in terms of the tropes they use.",
+                "stargazers_count": 10,
+                "license": None,
+                "topics": ["tvtropes", "similarity"],
+                "updated_at": "2026-06-09T00:00:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "jwzimmer-zz/tv-tropes",
+                "html_url": "https://github.com/jwzimmer-zz/tv-tropes",
+                "description": "Network of tropes from TV Tropes wiki for trope graph co-occurrence.",
+                "stargazers_count": 5,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["tvtropes", "network"],
+                "updated_at": "2026-06-09T00:00:00Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+            {
+                "full_name": "slowwavesleep/TvTropesMovieData",
+                "html_url": "https://github.com/slowwavesleep/TvTropesMovieData",
+                "description": "Movies and their tropes dataset for trope inventory and trope density review.",
+                "stargazers_count": 5,
+                "license": {"spdx_id": "CC-BY-SA-4.0"},
+                "topics": ["movie-tropes", "dataset"],
+                "updated_at": "2026-06-09T00:00:00Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+            {
+                "full_name": "rhgarcia/tropescraper",
+                "html_url": "https://github.com/rhgarcia/tropescraper",
+                "description": "A tropes scraper for TV Tropes metadata.",
+                "stargazers_count": 34,
+                "license": {"spdx_id": "LGPL-3.0"},
+                "topics": ["tvtropes", "scraper"],
+                "updated_at": "2026-06-09T00:00:00Z",
+                "root_files": ["README.md", "setup.py"],
+            },
+            {
+                "full_name": "Sirver51/tvtropes-parser",
+                "html_url": "https://github.com/Sirver51/tvtropes-parser",
+                "description": "Parses a TV Tropes page into sections. Not intended for mass scraping.",
+                "stargazers_count": 2,
+                "license": None,
+                "topics": ["tvtropes", "parser"],
+                "updated_at": "2026-06-09T00:00:00Z",
+                "root_files": ["README.md", "build.gradle.kts"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T16:00:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert by_title["MitchSaltykov/TVTropes-correlation"]["family"] == "novel-automation"
+    assert "trope_inventory_similarity_gate" in by_title["MitchSaltykov/TVTropes-correlation"]["absorbed_patterns"]
+    assert "trope_graph_expectation_map" in by_title["jwzimmer-zz/tv-tropes"]["absorbed_patterns"]
+    assert "trope_density_novelty_budget" in by_title["slowwavesleep/TvTropesMovieData"]["absorbed_patterns"]
+    assert "trope_source_boundary_review" in by_title["rhgarcia/tropescraper"]["absorbed_patterns"]
+    assert "network_scraper" in by_title["rhgarcia/tropescraper"]["risk_flags"]
+    assert "trope_source_boundary_review" in by_title["Sirver51/tvtropes-parser"]["absorbed_patterns"]
+
+
+def test_trope_pattern_pack_exposes_independence_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T16:10:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/MitchSaltykov/TVTropes-correlation",
+                "title": "MitchSaltykov/TVTropes-correlation",
+                "summary": "Compare two works by trope overlap.",
+                "stars": 10,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["trope_inventory_similarity_gate"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/jwzimmer-zz/tv-tropes",
+                "title": "jwzimmer-zz/tv-tropes",
+                "summary": "Trope graph and network of tropes.",
+                "stars": 5,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["trope_graph_expectation_map"],
+                "score": 87,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/slowwavesleep/TvTropesMovieData",
+                "title": "slowwavesleep/TvTropesMovieData",
+                "summary": "Movie trope dataset for density review.",
+                "stars": 5,
+                "license": "CC-BY-SA-4.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["trope_density_novelty_budget"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/rhgarcia/tropescraper",
+                "title": "rhgarcia/tropescraper",
+                "summary": "Trope scraper for source boundary review.",
+                "stars": 34,
+                "license": "LGPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["network_scraper"],
+                "absorbed_patterns": ["trope_source_boundary_review"],
+                "score": 85,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "trope_inventory_baseline" in pattern_pack["bible_enrichment_targets"]
+    assert "trope_graph_expectation_map" in pattern_pack["bible_enrichment_targets"]
+    assert "trope_density_novelty_budget" in pattern_pack["bible_enrichment_targets"]
+    assert "trope_source_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "trope_similarity_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "trope_density_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "trope_inventory_similarity_gate_hints" in pattern_pack
+    assert "trope_graph_expectation_map_hints" in pattern_pack
+    assert "trope_density_novelty_budget_hints" in pattern_pack
+    assert "trope_source_boundary_review_hints" in pattern_pack
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "trope_inventory_similarity_gate_hints" in digest
+    assert "trope_source_boundary_review_hints" in digest
+    assert "trope_source_boundary_review" in [pattern["name"] for pattern in pattern_pack["workflow_patterns"]]
+
+
+def test_default_discovery_sources_include_trope_independence_projects():
+    assert "https://github.com/MitchSaltykov/TVTropes-correlation" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jwzimmer-zz/tv-tropes" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/slowwavesleep/TvTropesMovieData" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/rhgarcia/tropescraper" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Sirver51/tvtropes-parser" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("tvtropes" in query.lower() and "trope correlation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("trope graph" in query.lower() and "trope similarity" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

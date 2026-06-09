@@ -104,6 +104,11 @@
     "external_content_refs",
     "graph_healing_actions",
     "contradiction_findings",
+    "trope_inventory_baseline",
+    "trope_similarity_thresholds",
+    "trope_graph_expectation_map",
+    "trope_density_novelty_budget",
+    "trope_source_boundary_policy",
     "canon_branch_snapshots",
     "query_lint_rules",
     "memory_layers",
@@ -591,7 +596,11 @@
     "Store each required constraint, satisfaction evidence, and coherence tradeoff so highly specific prompts remain auditable.",
     "Persist style-axis fingerprints per chapter to detect voice narrowing, rhythm drift, or unplanned POV changes across batches.",
     "Keep compressed history tied to the current event and chapter plan so omitted history can be inspected when continuity breaks.",
-    "Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically."
+    "Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically.",
+    "Track source and draft trope inventories as abstract genre signals; shared trope count is allowed only when concrete events, names, and order are independent.",
+    "Persist trope graph expectation edges separately from canon facts so genre conventions do not become copied plot obligations.",
+    "Record trope density, repeated archetype load, and novelty budget per arc before accepting same-type continuation plans.",
+    "Store trope-source provenance as metadata only; never keep scraped page prose or live-site fetch output in generation context by default."
   ],
   "continuity_bridge_window_hints": [
     "Build a compact continuity bridge from the last accepted chapters, active timeline, open hooks, character state, and editor notes.",
@@ -666,7 +675,7 @@
   ],
   "embedding_similarity_independence_gate_hints": [
     "Run embedding-nearest-neighbor style checks against source excerpts and transformed canon before accepting same-type prose.",
-    "A draft should be closest to its own transformed brief, accepted canon, or local outline-not to the source text or source author baseline.",
+    "A draft should be closest to its own transformed brief, accepted canon, or local outline, not to the source text or source author baseline.",
     "Use vector similarity as a triage signal with cited neighbors and thresholds; do not let opaque similarity scores silently rewrite prose."
   ],
   "entity_memory_slotfill_grounding_hints": [
@@ -719,7 +728,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T12:30:00+08:00",
+  "generated_at": "2026-06-10T16:30:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -807,6 +816,10 @@
     "Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence.",
     "Reject context packs that cite source analysis artifacts as new-story facts.",
     "Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels.",
+    "Reject drafts whose trope vector is near-identical to one source work without enough new cast, setting, stakes, and sequence changes.",
+    "Reject outlines that keep the same rare trope pairings and adjacency order as the source under different names.",
+    "Reject drafts that overload copied trope clusters while adding no local twist, inversion, or new consequence.",
+    "Reject any trope-source text copied from crawled pages, live site output, or parser dumps; keep only compact metadata labels.",
     "Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.",
     "Reject narrative strands that preserve source fabula and setting pressure under surface substitutions.",
     "Reject accepted synopses that preserve the source chapter-summary sequence under renamed entities.",
@@ -1296,7 +1309,11 @@
     "Transform author preferences into project-local style decisions without recording source-book facts as preferences.",
     "Transform source communities into new-story communities with different members, labels, causal pressures, and cross-community edges.",
     "Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.",
-    "Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents."
+    "Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents.",
+    "Transform trope overlap by preserving only broad genre expectations; change the concrete cause, cast role, prop, setting, and payoff order.",
+    "Transform trope-graph neighbors into new combinations rather than copying the source work's trope adjacency pattern.",
+    "Transform overused trope clusters by adding a local twist, swapped power relation, altered cost, or delayed consequence.",
+    "Transform trope references from metadata only; do not fetch, paste, or paraphrase live trope-page prose into a same-type draft."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1685,7 +1702,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 174,
+  "source_candidate_count": 179,
   "source_format_import_manifest_hints": [
     "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
     "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
@@ -1870,7 +1887,12 @@
     "rajammanabrolu/StoryRealization",
     "lechmazur/writing",
     "Theltn/AICreativityJudge",
-    "dig-team/hanna-benchmark-asg"
+    "dig-team/hanna-benchmark-asg",
+    "MitchSaltykov/TVTropes-correlation",
+    "jwzimmer-zz/tv-tropes",
+    "slowwavesleep/TvTropesMovieData",
+    "rhgarcia/tropescraper",
+    "Sirver51/tvtropes-parser"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -1968,6 +1990,22 @@
     "For same-type writing, deconstruct trend patterns into trope, hook, payoff, emotion promise, reader expectation, and reusable module shape.",
     "Transform modules before drafting: preserve emotional function and payoff density, not source names, order, or set pieces.",
     "Keep a module library with provenance and copy-risk notes so commercial-pattern learning stays separate from canon."
+  ],
+  "trope_density_novelty_budget_hints": [
+    "Track trope density per arc and reserve a novelty budget for inversions, shifted costs, new symbols, or unexpected payoffs.",
+    "Do not fix cliche saturation by paraphrasing source beats; change the conflict pressure or outcome function."
+  ],
+  "trope_graph_expectation_map_hints": [
+    "Use trope co-occurrence as an expectation map, not a plot route; genre-adjacent trope edges should create options rather than mandatory beats.",
+    "Flag rare trope adjacency chains that mirror the source work so the outline can swap relation, timing, or consequence before prose drafting."
+  ],
+  "trope_inventory_similarity_gate_hints": [
+    "Build a compact trope inventory for source and draft; shared genre-level tropes are allowed, but rare source-specific combinations require rewrite.",
+    "For same-type creation, require independent cast, setting, stakes, causal order, and payoff evidence before accepting a high trope-overlap draft."
+  ],
+  "trope_source_boundary_review_hints": [
+    "Treat trope sites and parsers as metadata-only references by default: no live scraping, no copied page prose, no mass mirroring, and no runtime parser execution.",
+    "If trope labels are used, store source URL, observed date, license/terms uncertainty, and the reason the label helps review rather than generation."
   ],
   "two_pass_context_glossary_pipeline_hints": [
     "Run each chapter through an analysis pass before generation: summary, new terms, proper nouns, unresolved context, and glossary deltas.",
@@ -2267,6 +2305,18 @@
     "chapter_summary_anchor_report",
     "representative_sentence_refs",
     "summary_anchor_drift_findings",
+    "trope_similarity_report",
+    "shared_trope_vector",
+    "source_trope_overlap_decisions",
+    "trope_graph_expectation_report",
+    "trope_cooccurrence_map",
+    "genre_expectation_edges",
+    "trope_density_report",
+    "novelty_budget_findings",
+    "cliche_saturation_notes",
+    "trope_source_boundary_report",
+    "scrape_runtime_rejection_notes",
+    "source_text_exclusion_checks",
     "topic_drift_map",
     "topic_cluster_timeline",
     "off_arc_topic_findings",
@@ -4430,6 +4480,33 @@
     },
     {
       "candidate_count": 1,
+      "name": "trope_inventory_similarity_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 10,
+          "summary": "Trope-set comparison for two works; absorbed as a trope-inventory similarity gate for same-type independence review.",
+          "title": "MitchSaltykov/TVTropes-correlation",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/MitchSaltykov/TVTropes-correlation"
+        }
+      ],
+      "top_source_url": "https://github.com/MitchSaltykov/TVTropes-correlation",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
       "name": "character_quote_attribution_map",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -4925,6 +5002,52 @@
       ],
       "top_source_url": "https://github.com/THUDM/LongWriter",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "trope_source_boundary_review",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "network_scraper"
+      ],
+      "sources": [
+        {
+          "license": "LGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "network_scraper"
+          ],
+          "score": 85,
+          "source": "github",
+          "stars": 34,
+          "summary": "Trope scraper; absorbed only as a source-boundary review gate: no runtime scraping, no copied page prose.",
+          "title": "rhgarcia/tropescraper",
+          "trust_flags": [],
+          "url": "https://github.com/rhgarcia/tropescraper"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "network_scraper"
+          ],
+          "score": 84,
+          "source": "github",
+          "stars": 2,
+          "summary": "TV Tropes page parser that states it is not intended for mass scraping; absorbed as parser/runtime boundary review only.",
+          "title": "Sirver51/tvtropes-parser",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/Sirver51/tvtropes-parser"
+        }
+      ],
+      "top_source_url": "https://github.com/rhgarcia/tropescraper",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 2,
@@ -5843,6 +5966,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "trope_graph_expectation_map",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 87,
+          "source": "github",
+          "stars": 5,
+          "summary": "Trope network / graph source; absorbed as a trope co-occurrence expectation map, not a copied plot route.",
+          "title": "jwzimmer-zz/tv-tropes",
+          "trust_flags": [],
+          "url": "https://github.com/jwzimmer-zz/tv-tropes"
+        }
+      ],
+      "top_source_url": "https://github.com/jwzimmer-zz/tv-tropes",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "long_context_reward_dimension_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -6320,6 +6466,29 @@
         }
       ],
       "top_source_url": "https://github.com/fxsjy/jieba",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "trope_density_novelty_budget",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "CC-BY-SA-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 5,
+          "summary": "Movie-to-trope dataset; absorbed as trope density and novelty-budget review only, with no dataset import.",
+          "title": "slowwavesleep/TvTropesMovieData",
+          "trust_flags": [],
+          "url": "https://github.com/slowwavesleep/TvTropesMovieData"
+        }
+      ],
+      "top_source_url": "https://github.com/slowwavesleep/TvTropesMovieData",
       "trust_flags": []
     },
     {

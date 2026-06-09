@@ -151,6 +151,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("GraphRAG" OR "community summaries" OR "extract structured data from unstructured text") ("knowledge graph" OR "RAG") in:name,description,readme',
     '("dual-level architecture" OR "knowledge graphs" OR "vector embeddings") ("LightRAG" OR "RAG") in:name,description,readme',
     '("extract nodes" OR "relationships and properties" OR "custom schema") ("LLM graph builder" OR "knowledge graph") in:name,description,readme',
+    '("TV Tropes" OR "tvtropes" OR "trope correlation") ("story" OR "fiction" OR "narrative") in:name,description,readme',
+    '("trope graph" OR "trope network" OR "trope similarity") ("fiction" OR "story" OR "narrative") in:name,description,readme',
+    '("character tropes" OR "trope dataset" OR "movie tropes") ("story" OR "fiction" OR "narrative") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -337,6 +340,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/microsoft/graphrag",
     "https://github.com/HKUDS/LightRAG",
     "https://github.com/neo4j-labs/llm-graph-builder",
+    "https://github.com/MitchSaltykov/TVTropes-correlation",
+    "https://github.com/jwzimmer-zz/tv-tropes",
+    "https://github.com/slowwavesleep/TvTropesMovieData",
+    "https://github.com/rhgarcia/tropescraper",
+    "https://github.com/Sirver51/tvtropes-parser",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -586,6 +594,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
     ("dual_level_graph_vector_retrieval", ("lightrag", "dual-level", "dual level", "knowledge graphs", "vector embeddings", "naive", "local", "global", "hybrid", "kg+vector")),
     ("schema_guided_graph_extraction", ("llm graph builder", "extract nodes", "relationships and properties", "custom schema", "node labels", "relationship types", "source metadata", "neo4j graph")),
+    ("trope_inventory_similarity_gate", ("tvtropes", "tv tropes", "trope correlation", "tropes they use", "trope similarity", "trope vector", "two works", "terms of the tropes")),
+    ("trope_graph_expectation_map", ("trope graph", "trope network", "network of tropes", "trope co-occurrence", "trope adjacency", "categories and related tropes")),
+    ("trope_density_novelty_budget", ("trope dataset", "movie tropes", "movies and their tropes", "trope inventory", "trope frequency", "trope density")),
+    ("trope_source_boundary_review", ("tropescraper", "trope scraper", "tvtropes-parser", "not intended for mass scraping", "page parser for tv tropes", "scrape tv tropes")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -595,6 +607,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("native_binary", (".exe", ".dll", ".so", ".dylib")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
+    ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url")),
 )
 STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "koboldai/koboldai-client": (
@@ -1313,6 +1326,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Neo4j LLM Graph Builder extracts nodes, relationships, and properties from unstructured documents into a graph using schema guidance and source metadata, useful for novel source/canon extraction. "
         "Absorb schema-guided canon/source graph extraction patterns only; Neo4j services, UI, Docker/runtime pieces, and provider calls are not used."
     ),
+    "mitchsaltykov/tvtropes-correlation": (
+        "TVTropes-correlation compares two works by their trope sets. Static README describes entering media URLs and measuring similarity by shared tropes. "
+        "Absorb trope-vector similarity and same-type independence review patterns only; the Heroku app, scraping flow, and source site access are not executed."
+    ),
+    "jwzimmer-zz/tv-tropes": (
+        "tv-tropes is a final-project repository for building a network of tropes from TV Tropes wiki material. "
+        "Absorb trope graph / co-occurrence expectation-map patterns only; no wiki crawl, dataset import, or notebook/runtime execution is performed."
+    ),
+    "slowwavesleep/tvtropesmoviedata": (
+        "TvTropesMovieData exposes a CC-BY-SA movie-to-trope dataset. "
+        "Absorb trope inventory, density, and novelty-budget patterns only; dataset rows and downstream training material are not imported into drafting context."
+    ),
+    "rhgarcia/tropescraper": (
+        "Tropescraper is an LGPL Python package for scraping trope metadata. "
+        "Absorb only the admission boundary: public trope sources require no runtime scrape by default, no mass mirroring, and no scraped text in prompts."
+    ),
+    "sirver51/tvtropes-parser": (
+        "tvtropes-parser parses TV Tropes pages into sections and states it is not intended for mass scraping. "
+        "Absorb section-boundary and no-mass-scrape review patterns only; parser code, Kotlin runtime, and page fetching are not executed."
+    ),
 }
 
 
@@ -1787,6 +1820,10 @@ class NovelSourceDiscoveryService:
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
             "dual_level_graph_vector_retrieval_hints": self._build_dual_level_graph_vector_retrieval_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
+            "trope_inventory_similarity_gate_hints": self._build_trope_inventory_similarity_gate_hints(available_patterns),
+            "trope_graph_expectation_map_hints": self._build_trope_graph_expectation_map_hints(available_patterns),
+            "trope_density_novelty_budget_hints": self._build_trope_density_novelty_budget_hints(available_patterns),
+            "trope_source_boundary_review_hints": self._build_trope_source_boundary_review_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -2400,6 +2437,10 @@ class NovelSourceDiscoveryService:
             "community_graph_source_deconstruction": 66,
             "dual_level_graph_vector_retrieval": 65,
             "schema_guided_graph_extraction": 66,
+            "trope_inventory_similarity_gate": 66,
+            "trope_graph_expectation_map": 63,
+            "trope_density_novelty_budget": 62,
+            "trope_source_boundary_review": 65,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -2442,6 +2483,15 @@ class NovelSourceDiscoveryService:
             targets.append("graph_healing_actions")
         if "contradiction_detection" in patterns:
             targets.append("contradiction_findings")
+        if "trope_inventory_similarity_gate" in patterns:
+            targets.append("trope_inventory_baseline")
+            targets.append("trope_similarity_thresholds")
+        if "trope_graph_expectation_map" in patterns:
+            targets.append("trope_graph_expectation_map")
+        if "trope_density_novelty_budget" in patterns:
+            targets.append("trope_density_novelty_budget")
+        if "trope_source_boundary_review" in patterns:
+            targets.append("trope_source_boundary_policy")
         if "graph_branching_atomicity" in patterns:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
@@ -3026,6 +3076,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["semantic_chunk_boundary_report", "chunk_overlap_manifest", "context_boundary_findings"])
         if "chapter_summary_anchor_gate" in patterns:
             targets.extend(["chapter_summary_anchor_report", "representative_sentence_refs", "summary_anchor_drift_findings"])
+        if "trope_inventory_similarity_gate" in patterns:
+            targets.extend(["trope_similarity_report", "shared_trope_vector", "source_trope_overlap_decisions"])
+        if "trope_graph_expectation_map" in patterns:
+            targets.extend(["trope_graph_expectation_report", "trope_cooccurrence_map", "genre_expectation_edges"])
+        if "trope_density_novelty_budget" in patterns:
+            targets.extend(["trope_density_report", "novelty_budget_findings", "cliche_saturation_notes"])
+        if "trope_source_boundary_review" in patterns:
+            targets.extend(["trope_source_boundary_report", "scrape_runtime_rejection_notes", "source_text_exclusion_checks"])
         if "topic_drift_map" in patterns:
             targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
         if "context_faithfulness_eval_gate" in patterns:
@@ -3510,6 +3568,14 @@ class NovelSourceDiscoveryService:
             hints.append("Keep compressed history tied to the current event and chapter plan so omitted history can be inspected when continuity breaks.")
         if "agentic_story_world_simulation" in patterns:
             hints.append("Record simulated agent choices as proposals with source state and acceptance status; do not merge simulated outcomes into canon automatically.")
+        if "trope_inventory_similarity_gate" in patterns:
+            hints.append("Track source and draft trope inventories as abstract genre signals; shared trope count is allowed only when concrete events, names, and order are independent.")
+        if "trope_graph_expectation_map" in patterns:
+            hints.append("Persist trope graph expectation edges separately from canon facts so genre conventions do not become copied plot obligations.")
+        if "trope_density_novelty_budget" in patterns:
+            hints.append("Record trope density, repeated archetype load, and novelty budget per arc before accepting same-type continuation plans.")
+        if "trope_source_boundary_review" in patterns:
+            hints.append("Store trope-source provenance as metadata only; never keep scraped page prose or live-site fetch output in generation context by default.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -5203,6 +5269,38 @@ class NovelSourceDiscoveryService:
             "Reject graph mutations that introduce unlabeled nodes, unsupported relationships, or facts without source metadata.",
         ]
 
+    def _build_trope_inventory_similarity_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "trope_inventory_similarity_gate" not in patterns:
+            return []
+        return [
+            "Build a compact trope inventory for source and draft; shared genre-level tropes are allowed, but rare source-specific combinations require rewrite.",
+            "For same-type creation, require independent cast, setting, stakes, causal order, and payoff evidence before accepting a high trope-overlap draft.",
+        ]
+
+    def _build_trope_graph_expectation_map_hints(self, patterns: set[str]) -> list[str]:
+        if "trope_graph_expectation_map" not in patterns:
+            return []
+        return [
+            "Use trope co-occurrence as an expectation map, not a plot route; genre-adjacent trope edges should create options rather than mandatory beats.",
+            "Flag rare trope adjacency chains that mirror the source work so the outline can swap relation, timing, or consequence before prose drafting.",
+        ]
+
+    def _build_trope_density_novelty_budget_hints(self, patterns: set[str]) -> list[str]:
+        if "trope_density_novelty_budget" not in patterns:
+            return []
+        return [
+            "Track trope density per arc and reserve a novelty budget for inversions, shifted costs, new symbols, or unexpected payoffs.",
+            "Do not fix cliche saturation by paraphrasing source beats; change the conflict pressure or outcome function.",
+        ]
+
+    def _build_trope_source_boundary_review_hints(self, patterns: set[str]) -> list[str]:
+        if "trope_source_boundary_review" not in patterns:
+            return []
+        return [
+            "Treat trope sites and parsers as metadata-only references by default: no live scraping, no copied page prose, no mass mirroring, and no runtime parser execution.",
+            "If trope labels are used, store source URL, observed date, license/terms uncertainty, and the reason the label helps review rather than generation.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -5997,6 +6095,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.")
         if "schema_guided_graph_extraction" in patterns:
             hints.append("Transform graph extraction schemas by replacing source labels, relationship types, and required properties with new-story equivalents.")
+        if "trope_inventory_similarity_gate" in patterns:
+            hints.append("Transform trope overlap by preserving only broad genre expectations; change the concrete cause, cast role, prop, setting, and payoff order.")
+        if "trope_graph_expectation_map" in patterns:
+            hints.append("Transform trope-graph neighbors into new combinations rather than copying the source work's trope adjacency pattern.")
+        if "trope_density_novelty_budget" in patterns:
+            hints.append("Transform overused trope clusters by adding a local twist, swapped power relation, altered cost, or delayed consequence.")
+        if "trope_source_boundary_review" in patterns:
+            hints.append("Transform trope references from metadata only; do not fetch, paste, or paraphrase live trope-page prose into a same-type draft.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -6038,6 +6144,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject context packs that cite source analysis artifacts as new-story facts.")
         if "top_down_story_planning" in patterns:
             hints.append("Reject plan hierarchies that mirror the source act/chapter/scene route under renamed labels.")
+        if "trope_inventory_similarity_gate" in patterns:
+            hints.append("Reject drafts whose trope vector is near-identical to one source work without enough new cast, setting, stakes, and sequence changes.")
+        if "trope_graph_expectation_map" in patterns:
+            hints.append("Reject outlines that keep the same rare trope pairings and adjacency order as the source under different names.")
+        if "trope_density_novelty_budget" in patterns:
+            hints.append("Reject drafts that overload copied trope clusters while adding no local twist, inversion, or new consequence.")
+        if "trope_source_boundary_review" in patterns:
+            hints.append("Reject any trope-source text copied from crawled pages, live site output, or parser dumps; keep only compact metadata labels.")
         if "outliner_index_cards" in patterns:
             hints.append("Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.")
         if "narrative_strand_mapping" in patterns:
@@ -6778,6 +6892,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_long_output_generation_signal(haystack):
             return "novel-automation"
+        if self._has_trope_signal(haystack):
+            return "novel-automation"
         return "pattern-only"
 
     def _has_copy_similarity_signal(self, haystack: str) -> bool:
@@ -7016,6 +7132,23 @@ class NovelSourceDiscoveryService:
             "plan.txt",
             "write.txt",
             "outline_vlm",
+        )
+        return any(term in haystack for term in terms)
+
+    def _has_trope_signal(self, haystack: str) -> bool:
+        terms = (
+            "tvtropes",
+            "tv tropes",
+            "trope correlation",
+            "trope graph",
+            "trope network",
+            "trope dataset",
+            "movie tropes",
+            "movies and their tropes",
+            "tropes they use",
+            "trope similarity",
+            "tropescraper",
+            "tvtropes-parser",
         )
         return any(term in haystack for term in terms)
 

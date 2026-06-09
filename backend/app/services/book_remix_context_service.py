@@ -110,6 +110,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_trope_independence_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_delivery_packaging_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -428,6 +432,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_reader_market_feedback_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_trope_independence_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -2057,6 +2065,34 @@ def _append_reader_market_feedback_audit_section(
         lines.append("- local_reader_experience_editor: audit micro-tension, curiosity thread, hook, cliffhanger, opening/ending, rhythm, and context fit")
 
 
+def _append_trope_independence_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render trope-level independence gates for continuation and same-type creation."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant = {
+        "trope_inventory_similarity_gate",
+        "trope_graph_expectation_map",
+        "trope_density_novelty_budget",
+        "trope_source_boundary_review",
+    }
+    if not pattern_names.intersection(relevant):
+        return
+
+    lines.append("")
+    lines.append("Trope independence audit:")
+    if "trope_inventory_similarity_gate" in pattern_names:
+        lines.append("- trope_inventory_similarity_gate: compare source and draft trope inventories; allow genre overlap only after cast, setting, stakes, causal order, and payoff differ")
+    if "trope_graph_expectation_map" in pattern_names:
+        lines.append("- trope_graph_expectation_map: use trope co-occurrence as expectation options, not as a copied plot route or rare adjacency chain")
+    if "trope_density_novelty_budget" in pattern_names:
+        lines.append("- trope_density_novelty_budget: track trope density and require a local twist, inversion, shifted cost, or new consequence for saturated clusters")
+    if "trope_source_boundary_review" in pattern_names:
+        lines.append("- trope_source_boundary_review: trope sources stay metadata-only by default; no live scraping, parser runtime, copied page prose, or mass mirroring in prompts")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -2246,6 +2282,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "context_faithfulness_eval_gate_hints": "context_faithfulness_eval_gate",
         "retrieval_trace_observability_gate_hints": "retrieval_trace_observability_gate",
         "prompt_regression_eval_suite_hints": "prompt_regression_eval_suite",
+        "trope_inventory_similarity_gate_hints": "trope_inventory_similarity_gate",
+        "trope_graph_expectation_map_hints": "trope_graph_expectation_map",
+        "trope_density_novelty_budget_hints": "trope_density_novelty_budget",
+        "trope_source_boundary_review_hints": "trope_source_boundary_review",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):
