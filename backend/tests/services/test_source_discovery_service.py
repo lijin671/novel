@@ -524,9 +524,87 @@ def test_autonovel_metadata_maps_to_quality_voice_antislop_and_publication_pipel
 def test_default_discovery_sources_include_structured_writing_and_scene_pipeline_projects():
     assert "https://github.com/RhythmicWave/NovelForge" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/kaigani/codeywood" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/KoboldAI/KoboldAI-Client" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/SillyTavern/SillyTavern" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/envy-ai/ai_rpg" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/matrixorigin/Memoria" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("json schema" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("context injection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("idea to production" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("lorebook" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("rollback" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_static_context_memory_projects_map_to_lorebook_world_state_and_snapshot_patterns():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "KoboldAI/KoboldAI-Client",
+                "html_url": "https://github.com/KoboldAI/KoboldAI-Client",
+                "description": "Browser-based front-end for AI-assisted writing.",
+                "stargazers_count": 1700,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["ai-writing", "novel", "story"],
+                "updated_at": "2026-06-09T12:00:00Z",
+            },
+            {
+                "full_name": "SillyTavern/SillyTavern",
+                "html_url": "https://github.com/SillyTavern/SillyTavern",
+                "description": "LLM frontend for power users.",
+                "stargazers_count": 45000,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["llm", "frontend", "roleplay"],
+                "updated_at": "2026-06-09T12:00:00Z",
+            },
+            {
+                "full_name": "envy-ai/ai_rpg",
+                "html_url": "https://github.com/envy-ai/ai_rpg",
+                "description": "AI RPG solo tabletop game master with structured prompts.",
+                "stargazers_count": 120,
+                "license": None,
+                "topics": ["story", "rpg", "worldbuilding"],
+                "updated_at": "2026-06-09T12:00:00Z",
+            },
+            {
+                "full_name": "matrixorigin/Memoria",
+                "html_url": "https://github.com/matrixorigin/Memoria",
+                "description": "Git for AI Agent Memory: Snapshot, Branch, Merge, Rollback.",
+                "stargazers_count": 3600,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["memory", "agent", "snapshot"],
+                "updated_at": "2026-06-09T12:00:00Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-09T12:00:00+08:00",
+    )
+
+    patterns_by_title = {candidate["title"]: set(candidate["absorbed_patterns"]) for candidate in result["candidates"]}
+    assert "lorebook_context" in patterns_by_title["KoboldAI/KoboldAI-Client"]
+    assert "author_note_layer" in patterns_by_title["KoboldAI/KoboldAI-Client"]
+    assert "lorebook_context" in patterns_by_title["SillyTavern/SillyTavern"]
+    assert "author_note_layer" in patterns_by_title["SillyTavern/SillyTavern"]
+    assert "world_state_tracking" in patterns_by_title["envy-ai/ai_rpg"]
+    assert "memory_snapshot_versioning" in patterns_by_title["matrixorigin/Memoria"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "lorebook_entries" in pattern_pack["bible_enrichment_targets"]
+    assert "activated_lore_entries" in pattern_pack["whole_book_analysis_targets"]
+    assert "world_state_entities" in pattern_pack["whole_book_analysis_targets"]
+    assert "memory_snapshots" in pattern_pack["whole_book_analysis_targets"]
+    assert "lorebook_context_hints" in pattern_pack
+    assert "author_note_layer_hints" in pattern_pack
+    assert "world_state_tracking_hints" in pattern_pack
+    assert "memory_snapshot_versioning_hints" in pattern_pack
+    assert "lorebook entries" in " ".join(pattern_pack["lorebook_context_hints"]).lower()
+    assert "rollback" in " ".join(pattern_pack["memory_snapshot_versioning_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "lorebook_context_hints" in digest
+    assert "author_note_layer_hints" in digest
+    assert "world_state_tracking_hints" in digest
+    assert "memory_snapshot_versioning_hints" in digest
 
 
 

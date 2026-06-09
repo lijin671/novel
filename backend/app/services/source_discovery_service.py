@@ -26,6 +26,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("novel cli" OR "fiction generator" OR "story generation") in:name,description,readme',
     '("story bible" OR "worldbuilding" OR "chapter generation") in:name,description,readme',
     '("writing assistant" OR "style analysis" OR "same type creation") in:name,description,readme',
+    '("world info" OR "lorebook" OR "author note" OR "memory book") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("snapshot" OR "branch" OR "rollback") ("memory" OR "context") ("agent" OR "story") in:name,description,readme',
     '("json schema" OR "schema-first" OR "structured generation") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("card" OR "cards" OR "context injection" OR "knowledge graph") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("workflow agent" OR "workflow studio" OR "progress recovery") ("novel" OR "fiction" OR "story") in:name,description,readme',
@@ -45,6 +47,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/brandburner/fabula",
     "https://github.com/RhythmicWave/NovelForge",
     "https://github.com/kaigani/codeywood",
+    "https://github.com/KoboldAI/KoboldAI-Client",
+    "https://github.com/SillyTavern/SillyTavern",
+    "https://github.com/envy-ai/ai_rpg",
+    "https://github.com/matrixorigin/Memoria",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -110,6 +116,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("voice_fingerprint", ("voice fingerprint", "voice analysis", "voice discovery", "voice.md", "声纹", "文风指纹", "语气指纹", "声音发现")),
     ("anti_slop_audit", ("anti-slop", "anti-pattern", "slop scorer", "ai tell", "mechanical slop", "anti-pattern rules", "反 AI", "反套路", "AI 味", "机械感")),
     ("publication_pipeline", ("print-ready", "epub", "audiobook", "landing page", "typeset", "latex", "export", "publish", "publication", "有声书", "排版", "出版", "交付流水线")),
+    ("lorebook_context", ("world info", "worldinfo", "lorebook", "memory book", "keyword activation", "recursive scan", "scan depth", "insertion order", "context budget", "世界信息", "设定集", "关键词激活", "递归扫描")),
+    ("author_note_layer", ("author's note", "authors note", "author note", "insertion frequency", "in-chat", "chat memory", "作者注释", "作者备注", "提示词层")),
+    ("world_state_tracking", ("solo tabletop game master", "players, locations, regions, and items", "world state", "scene log", "review logs", "structured prompts", "世界状态", "实体状态", "场景日志")),
+    ("memory_snapshot_versioning", ("git for ai agent memory", "snapshot", "branch", "merge", "rollback", "memory versioning", "memory branch", "记忆快照", "记忆分支", "回滚")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -120,6 +130,26 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
 )
+STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
+    "koboldai/koboldai-client": (
+        "AI-assisted writing front-end for story and novel use cases. "
+        "Public README describes Memory, Author's Note, World Info, Save & Load, "
+        "regular story writing, novel models, adventure mode, and writing assistant workflows."
+    ),
+    "sillytavern/sillytavern": (
+        "LLM fiction and roleplay front-end with WorldInfo lorebooks. "
+        "Official public docs describe World Info / Lorebooks / Memory Books, keyword activation, "
+        "scan depth, recursive scanning, insertion order, token budget, Author's Note, and context injection."
+    ),
+    "envy-ai/ai_rpg": (
+        "AI RPG turns a model into a solo tabletop game master for story generation. "
+        "Public README describes structured prompts, players, locations, regions, items, world state, settings, and review logs."
+    ),
+    "matrixorigin/memoria": (
+        "AI agent memory infrastructure with snapshot, branch, merge, rollback, and Git-like memory versioning. "
+        "Pattern-only adaptation for long-form novel continuation state snapshots and reversible context changes."
+    ),
+}
 
 
 def _now_iso() -> str:
@@ -415,6 +445,10 @@ class NovelSourceDiscoveryService:
             "voice_fingerprint_hints": self._build_voice_fingerprint_hints(available_patterns),
             "anti_slop_audit_hints": self._build_anti_slop_audit_hints(available_patterns),
             "publication_pipeline_hints": self._build_publication_pipeline_hints(available_patterns),
+            "lorebook_context_hints": self._build_lorebook_context_hints(available_patterns),
+            "author_note_layer_hints": self._build_author_note_layer_hints(available_patterns),
+            "world_state_tracking_hints": self._build_world_state_tracking_hints(available_patterns),
+            "memory_snapshot_versioning_hints": self._build_memory_snapshot_versioning_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -850,6 +884,10 @@ class NovelSourceDiscoveryService:
             "voice_fingerprint": 36,
             "anti_slop_audit": 34,
             "publication_pipeline": 20,
+            "lorebook_context": 48,
+            "author_note_layer": 32,
+            "world_state_tracking": 45,
+            "memory_snapshot_versioning": 37,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -865,6 +903,10 @@ class NovelSourceDiscoveryService:
         if "context_reference" in patterns:
             targets.append("context_reference_index")
             targets.append("knowledge_graph_links")
+        if "lorebook_context" in patterns:
+            targets.append("lorebook_entries")
+            targets.append("activation_keywords")
+            targets.append("context_insertion_rules")
         if "organization_graph" in patterns:
             targets.append("organizations")
         if "emotion_arc" in patterns:
@@ -905,6 +947,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["anti_slop_findings", "anti_pattern_findings"])
         if "publication_pipeline" in patterns:
             targets.extend(["export_targets", "delivery_artifacts"])
+        if "lorebook_context" in patterns:
+            targets.extend(["activated_lore_entries", "context_budget_usage", "recursive_context_links"])
+        if "author_note_layer" in patterns:
+            targets.extend(["author_note_layer", "style_directive_layer", "insertion_frequency"])
+        if "world_state_tracking" in patterns:
+            targets.extend(["world_state_entities", "location_state", "inventory_state", "scene_logs"])
+        if "memory_snapshot_versioning" in patterns:
+            targets.extend(["memory_snapshots", "state_branches", "rollback_points", "merge_conflicts"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -932,6 +982,10 @@ class NovelSourceDiscoveryService:
             hints.append("把人物、组织、地点、伏笔、情感线拆成可复用卡片，章节提示词只引用本章需要的卡片字段。")
         if "context_reference" in patterns:
             hints.append("显式列出本章引用的上下文来源，避免把未检索或未确认的信息写入续写正史。")
+        if "lorebook_context" in patterns:
+            hints.append("Activate lorebook entries by chapter goal and keywords; inject only the entries needed by the current scene.")
+        if "author_note_layer" in patterns:
+            hints.append("Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.")
         if "workflow_agent_pipeline" in patterns:
             hints.append("把拆书、建卡、生成、评审、回写拆成可恢复工作流节点，失败后从最近 checkpoint 继续。")
         return hints
@@ -953,6 +1007,12 @@ class NovelSourceDiscoveryService:
             hints.append("Update card-level fields instead of overwriting the whole bible when one chapter changes only part of a character, faction, or hook.")
         if "context_reference" in patterns:
             hints.append("Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.")
+        if "lorebook_context" in patterns:
+            hints.append("Persist which lorebook entries were activated, why they were selected, and how many context tokens they consumed.")
+        if "world_state_tracking" in patterns:
+            hints.append("Track state by entity and location after each scene so long continuations can update only the affected slice.")
+        if "memory_snapshot_versioning" in patterns:
+            hints.append("Create rollback points before major bible, plan, or chapter-state rewrites so rejected continuations can be reverted.")
         if "workflow_agent_pipeline" in patterns:
             hints.append("Store workflow node status, retry count, and last accepted artifact so long runs can resume without rereading unrelated context.")
         return hints
@@ -1075,6 +1135,44 @@ class NovelSourceDiscoveryService:
         return [
             "Keep export as a downstream pipeline stage: manuscript, review report, ePub/TXT/PDF, audiobook script, and landing copy are derived artifacts.",
             "Do not let publication artifacts mutate canon; canon changes must flow through bible/state/chapter change packages first.",
+        ]
+
+    def _build_lorebook_context_hints(self, patterns: set[str]) -> list[str]:
+        if "lorebook_context" not in patterns:
+            return []
+        hints = [
+            "Store lorebook entries as compact fact cards with activation keywords, priority, insertion depth, and token budget.",
+            "Use recursive activation only for directly related lore; broad always-on entries should stay short and high priority.",
+            "Record inactive-but-relevant lore candidates so reviewers can see what context was omitted from a draft.",
+        ]
+        if "context_reference" in patterns:
+            hints.append("Render activated lore as explicit context references instead of anonymous prompt stuffing.")
+        return hints
+
+    def _build_author_note_layer_hints(self, patterns: set[str]) -> list[str]:
+        if "author_note_layer" not in patterns:
+            return []
+        return [
+            "Keep author notes as a separate prompt layer for transient style, POV, pacing, or scene-temperature nudges.",
+            "Author notes should have scope and expiry; remove or refresh them when the chapter goal changes.",
+        ]
+
+    def _build_world_state_tracking_hints(self, patterns: set[str]) -> list[str]:
+        if "world_state_tracking" not in patterns:
+            return []
+        return [
+            "Track story state by entity type: characters, locations, regions, factions, items, and open scene logs.",
+            "After each generated scene, write only the changed entity slices and keep the review log linked to the triggering chapter.",
+            "Use world-state diffs to catch impossible location jumps, missing inventory changes, and stale faction control.",
+        ]
+
+    def _build_memory_snapshot_versioning_hints(self, patterns: set[str]) -> list[str]:
+        if "memory_snapshot_versioning" not in patterns:
+            return []
+        return [
+            "Create named memory snapshots before risky rewrites, bulk bible merges, or alternate continuation branches.",
+            "Treat rollback as a first-class operation: rejected drafts should revert state as well as prose.",
+            "When two branches are merged, surface conflicts in canon facts, timeline, relationship state, and unresolved hooks.",
         ]
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
@@ -1404,13 +1502,21 @@ class NovelSourceDiscoveryService:
         description = _text(repository.get("description"))
         root_files = _as_list(repository.get("root_files"))
         scripts = repository.get("package_scripts") if isinstance(repository.get("package_scripts"), dict) else {}
-        haystack = _lower_haystack(title, description, " ".join(map(str, topics)), " ".join(map(str, root_files)), json.dumps(scripts, ensure_ascii=False))
+        static_pattern_summary = self._static_repository_pattern_summary(title)
+        haystack = _lower_haystack(
+            title,
+            description,
+            static_pattern_summary,
+            " ".join(map(str, topics)),
+            " ".join(map(str, root_files)),
+            json.dumps(scripts, ensure_ascii=False),
+        )
         trust_review = self._build_github_trust_review(repository)
         return {
             "source": "github",
             "url": _text(repository.get("html_url")),
             "title": title,
-            "summary": description,
+            "summary": self._merge_candidate_summary(description, static_pattern_summary),
             "stars": repository.get("stargazers_count"),
             "license": _text(license_payload.get("spdx_id") or license_payload.get("key") or repository.get("license")),
             "family": self._classify_family(haystack),
@@ -1422,6 +1528,16 @@ class NovelSourceDiscoveryService:
             "updated_at": _text(repository.get("updated_at")),
             "score": self._score_candidate(haystack, stars=repository.get("stargazers_count")),
         }
+
+    def _static_repository_pattern_summary(self, title: str) -> str:
+        return STATIC_REPOSITORY_PATTERN_OVERRIDES.get(title.lower(), "")
+
+    def _merge_candidate_summary(self, description: str, static_pattern_summary: str) -> str:
+        description = _text(description)
+        static_pattern_summary = _text(static_pattern_summary)
+        if description and static_pattern_summary:
+            return f"{description} Static intake note: {static_pattern_summary}"
+        return description or static_pattern_summary
 
     def _candidate_from_forum(self, item: dict[str, Any]) -> dict[str, Any]:
         title = _text(item.get("title"))

@@ -18,6 +18,12 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/raestrada/storycraftr',
   'https://github.com/YuanShiJiLoong/author',
   'https://github.com/brandburner/fabula',
+  'https://github.com/RhythmicWave/NovelForge',
+  'https://github.com/kaigani/codeywood',
+  'https://github.com/KoboldAI/KoboldAI-Client',
+  'https://github.com/SillyTavern/SillyTavern',
+  'https://github.com/envy-ai/ai_rpg',
+  'https://github.com/matrixorigin/Memoria',
 ];
 
 function parseSeedUrls(value: string): string[] {
@@ -184,6 +190,13 @@ export default function BookRemixSourceDiscoveryPanel() {
             {renderHintBlock('Whole-book analysis targets', patternPackPayload?.whole_book_analysis_targets)}
             {renderHintBlock('Continuation state hints', patternPackPayload?.continuation_state_hints)}
             {renderHintBlock('Style fidelity hints', patternPackPayload?.style_fidelity_hints)}
+            {renderHintBlock('Lorebook context hints', patternPackPayload?.lorebook_context_hints)}
+            {renderHintBlock('Author-note layer hints', patternPackPayload?.author_note_layer_hints)}
+            {renderHintBlock('World-state tracking hints', patternPackPayload?.world_state_tracking_hints)}
+            {renderHintBlock('Memory snapshot versioning hints', patternPackPayload?.memory_snapshot_versioning_hints)}
+            {renderHintBlock('Quality score loop hints', patternPackPayload?.quality_score_loop_hints)}
+            {renderHintBlock('Voice fingerprint hints', patternPackPayload?.voice_fingerprint_hints)}
+            {renderHintBlock('Anti-slop audit hints', patternPackPayload?.anti_slop_audit_hints)}
             {renderHintBlock('Inspired mapping targets', patternPackPayload?.inspired_mapping_targets)}
             {renderHintBlock('Inspired prompt hints', patternPackPayload?.inspired_prompt_hints)}
             {renderHintBlock('Inspired transformation hints', patternPackPayload?.inspired_transformation_hints)}

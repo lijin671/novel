@@ -63,6 +63,18 @@ export interface SourceDiscoveryPatternPack {
   continuation_state_hints?: string[];
   style_signature_hints?: string[];
   style_fidelity_hints?: string[];
+  structured_generation_hints?: string[];
+  card_workbench_hints?: string[];
+  context_reference_hints?: string[];
+  scene_asset_pipeline_hints?: string[];
+  quality_score_loop_hints?: string[];
+  voice_fingerprint_hints?: string[];
+  anti_slop_audit_hints?: string[];
+  publication_pipeline_hints?: string[];
+  lorebook_context_hints?: string[];
+  author_note_layer_hints?: string[];
+  world_state_tracking_hints?: string[];
+  memory_snapshot_versioning_hints?: string[];
   inspired_mapping_targets?: string[];
   inspired_prompt_hints?: string[];
   inspired_transformation_hints?: string[];

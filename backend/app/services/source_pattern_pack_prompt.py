@@ -114,6 +114,30 @@ def render_source_pattern_pack_digest(
         for hint in publication_pipeline_hints[:6]:
             lines.append(f"  - {hint}")
 
+    lorebook_context_hints = _as_note_list(source_pattern_pack.get("lorebook_context_hints"))
+    if lorebook_context_hints:
+        lines.append("- lorebook_context_hints:")
+        for hint in lorebook_context_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    author_note_layer_hints = _as_note_list(source_pattern_pack.get("author_note_layer_hints"))
+    if author_note_layer_hints:
+        lines.append("- author_note_layer_hints:")
+        for hint in author_note_layer_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    world_state_tracking_hints = _as_note_list(source_pattern_pack.get("world_state_tracking_hints"))
+    if world_state_tracking_hints:
+        lines.append("- world_state_tracking_hints:")
+        for hint in world_state_tracking_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    memory_snapshot_versioning_hints = _as_note_list(source_pattern_pack.get("memory_snapshot_versioning_hints"))
+    if memory_snapshot_versioning_hints:
+        lines.append("- memory_snapshot_versioning_hints:")
+        for hint in memory_snapshot_versioning_hints[:6]:
+            lines.append(f"  - {hint}")
+
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:
