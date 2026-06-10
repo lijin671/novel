@@ -17,8 +17,8 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/MangoLion/plotbunni',
   'https://github.com/zlx362211854/novelforge-agent',
   'https://github.com/MissingDanial/StyleMuse',
+  'https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag',
   'https://github.com/booknlp/booknlp',
-  'https://github.com/THUDM/LongWriter',
   'https://github.com/google-deepmind/narrativeqa',
 ];
 
@@ -157,6 +157,7 @@ const PINNED_HINT_KEYS = new Set([
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
   'schema_guided_graph_extraction_hints',
+  'counterfactual_story_graph_rag_gate_hints',
   'chinese_segmentation_keyword_gate_hints',
   'chinese_ner_alias_consistency_gate_hints',
   'chinese_text_normalization_gate_hints',
@@ -648,6 +649,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Dual-level graph vector retrieval gates', patternPackPayload?.dual_level_graph_vector_retrieval_hints],
               ['CJK BM25 context retrieval gates', patternPackPayload?.cjk_bm25_context_retrieval_gate_hints],
               ['Schema-guided graph extraction gates', patternPackPayload?.schema_guided_graph_extraction_hints],
+              ['Counterfactual story Graph-RAG gates', patternPackPayload?.counterfactual_story_graph_rag_gate_hints],
               ['Relationship graph global replace gates', patternPackPayload?.relationship_graph_global_replace_gate_hints],
             ])}
             {renderHintGroup('Chinese text processing gates', [

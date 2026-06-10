@@ -200,6 +200,7 @@ export interface SourceDiscoveryPatternPack {
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];
   schema_guided_graph_extraction_hints?: string[];
+  counterfactual_story_graph_rag_gate_hints?: string[];
   chinese_segmentation_keyword_gate_hints?: string[];
   chinese_ner_alias_consistency_gate_hints?: string[];
   chinese_text_normalization_gate_hints?: string[];

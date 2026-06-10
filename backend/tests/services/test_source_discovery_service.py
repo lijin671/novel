@@ -11331,3 +11331,75 @@ def test_stylemuse_storyforge_moyun_sources_add_anti_copy_style_rag_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "anti_copy_style_rag_gate_hints" in digest
+
+
+
+def test_counterfactual_graph_rag_sources_add_story_graph_remix_gates():
+    assert "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/SutraMind/GraphRAG-story" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("counterfactual" in query and "narrative reasoning" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
+                "html_url": "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
+                "description": (
+                    "Modular Graph-RAG pipeline for narrative reasoning and counterfactual story generation "
+                    "over the Sherlock Holmes canon. It extracts propositions from canonical chapter text, "
+                    "builds narrative graph chunks with event, fact, entity, evidence, next_narrative and "
+                    "next_realtime edges, retrieves verified story context, and generates alternative storylines."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["graphrag", "counterfactual", "narrative-reasoning"],
+                "updated_at": "2026-01-26T12:53:25Z",
+                "root_files": ["README.md", "pyproject.toml", "uv.lock", "scripts"],
+            },
+            {
+                "full_name": "SutraMind/GraphRAG-story",
+                "html_url": "https://github.com/SutraMind/GraphRAG-story",
+                "description": (
+                    "Hybrid RAG story analysis system with graph traversal and vector search. It parses story files "
+                    "into chapter and paragraph ids, extracts entities and relationships, builds a Neo4j knowledge graph, "
+                    "routes queries across GRAPH, VECTOR, and HYBRID modes, and validates chapter and relationship counts."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["graphrag", "story-analysis", "hybrid-rag"],
+                "updated_at": "2026-03-29T14:31:23Z",
+                "root_files": ["README.md", "app", "config", "pipeline", "rag", "requirements.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T18:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    sherlock = candidates["mert-ozdemirr/sherlock-counterfactual-modular-graph-rag"]
+    assert "counterfactual_story_graph_rag_gate" in sherlock["absorbed_patterns"]
+    assert "context_reference" in sherlock["absorbed_patterns"]
+    assert "community_graph_source_deconstruction" in sherlock["absorbed_patterns"]
+    assert "license:missing" in sherlock["trust_review"]["flags"]
+
+    story_rag = candidates["SutraMind/GraphRAG-story"]
+    assert "counterfactual_story_graph_rag_gate" in story_rag["absorbed_patterns"]
+    assert "dual_level_graph_vector_retrieval" in story_rag["absorbed_patterns"]
+    assert "community_graph_source_deconstruction" in story_rag["absorbed_patterns"]
+    assert "license:missing" in story_rag["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "counterfactual_divergence_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "verified_story_graph_context_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "counterfactual_divergence_points" in pattern_pack["whole_book_analysis_targets"]
+    assert "narrative_vs_realtime_event_edges" in pattern_pack["whole_book_analysis_targets"]
+    assert "counterfactual_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("divergence card" in hint for hint in pattern_pack["counterfactual_story_graph_rag_gate_hints"])
+    assert any("divergence point" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("source event path" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "counterfactual_story_graph_rag_gate_hints" in digest

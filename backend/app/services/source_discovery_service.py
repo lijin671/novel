@@ -159,6 +159,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("temporal knowledge graph" OR "temporal context graph" OR "provenance") ("AI agents" OR "agent memory") in:name,description,readme',
     '("multi-level memory" OR "long-term memory" OR "session state") ("AI agents" OR "personalized AI") in:name,description,readme',
     '("GraphRAG" OR "community summaries" OR "extract structured data from unstructured text") ("knowledge graph" OR "RAG") in:name,description,readme',
+    '("counterfactual" OR "alternative storyline" OR "narrative reasoning") ("Graph-RAG" OR "story graph" OR "canon") in:name,description,readme',
     '("dual-level architecture" OR "knowledge graphs" OR "vector embeddings") ("LightRAG" OR "RAG") in:name,description,readme',
     '("extract nodes" OR "relationships and properties" OR "custom schema") ("LLM graph builder" OR "knowledge graph") in:name,description,readme',
     '("novel2graph" OR "novel to graph" OR "character relationship graph") ("novel" OR "book" OR "literary text") in:name,description,readme',
@@ -632,6 +633,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/304769384-png/fanqie-novel-skill",
     "https://github.com/leistung/novel-write",
     "https://github.com/VerifiedOrganic/spindle",
+    "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
+    "https://github.com/SutraMind/GraphRAG-story",
     "https://github.com/daveremy/edword",
     "https://github.com/adameya2004-oss/CraftEngine",
     "https://github.com/per-hap-s/webnovel-writing",
@@ -1040,6 +1043,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
     ("dual_level_graph_vector_retrieval", ("lightrag", "dual-level", "dual level", "knowledge graphs", "vector embeddings", "naive", "local", "global", "hybrid", "kg+vector")),
     ("schema_guided_graph_extraction", ("llm graph builder", "extract nodes", "relationships and properties", "custom schema", "node labels", "relationship types", "source metadata", "neo4j graph")),
+    ("counterfactual_story_graph_rag_gate", ("counterfactual", "alternative storyline", "alternative narrative", "narrative reasoning", "narrative graph", "graph-rag", "graph rag", "verified story context", "next_narrative", "next_realtime", "graph traversal", "hybrid rag", "story analysis")),
     ("trope_inventory_similarity_gate", ("tvtropes", "tv tropes", "trope correlation", "tropes they use", "trope similarity", "trope vector", "two works", "terms of the tropes")),
     ("trope_graph_expectation_map", ("trope graph", "trope network", "network of tropes", "trope co-occurrence", "trope adjacency", "categories and related tropes")),
     ("trope_density_novelty_budget", ("trope dataset", "movie tropes", "movies and their tropes", "trope inventory", "trope frequency", "trope density")),
@@ -2248,6 +2252,16 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "CanonKit is a local-first story bible and continuity checker for fiction teams and solo authors, focused on canon drift, structured characters, locations, rules, scenes, JSON import/export, and context packs. "
         "Pattern-only adaptation for canon-drift QA, continuity checks, and scene-focused context pack gates; no browser app, npm install, or sample project import."
     ),
+    "mert-ozdemirr/sherlock-counterfactual-modular-graph-rag": (
+        "Sherlock counterfactual modular Graph-RAG is a no-license-observed prototype for narrative reasoning over literary texts. Public README markers describe proposition extraction, "
+        "agentic narrative chunking, entity/event graph construction, narrative-vs-realtime event edges, verified graph traversal context, and controlled alternative storyline generation. "
+        "Pattern-only adaptation for counterfactual story-graph gates; uv/Python scripts, Neo4j/runtime storage, provider/model calls, Sherlock text processing, and generated alternatives are not run or imported."
+    ),
+    "sutramind/graphrag-story": (
+        "GraphRAG-story is a no-license-observed hybrid story-analysis RAG prototype. Public README markers describe parsing story files into chapter/paragraph ids, entity and relationship extraction, "
+        "Neo4j knowledge graph, vector search, query routing across graph/vector/hybrid modes, and validation that chapter and relationship counts match processed files. "
+        "Pattern-only adaptation for graph/vector story-context routing; requirements, Neo4j, FastAPI, scripts, test queries, embeddings, and model calls are not launched."
+    ),
     "heider-x/vela": (
         "Vela is a GPL AI novel-writing IDE with local-first privacy posture, BYOK model calls, worldbuilding, auto outline, chapter drafting, review/rewrite/refine loops, and local RAG knowledge base. "
         "Pattern-only adaptation for local RAG writing IDE boundaries and retrieval-backed continuity; Electron/Vite app, package hooks, and model calls are not launched."
@@ -3235,6 +3249,7 @@ class NovelSourceDiscoveryService:
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
             "dual_level_graph_vector_retrieval_hints": self._build_dual_level_graph_vector_retrieval_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
+            "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "trope_inventory_similarity_gate_hints": self._build_trope_inventory_similarity_gate_hints(available_patterns),
             "trope_graph_expectation_map_hints": self._build_trope_graph_expectation_map_hints(available_patterns),
             "trope_density_novelty_budget_hints": self._build_trope_density_novelty_budget_hints(available_patterns),
@@ -4068,6 +4083,9 @@ class NovelSourceDiscoveryService:
         if "anti_copy_style_rag_gate" in patterns:
             targets.append("anti_copy_style_rag_policy")
             targets.append("style_retrieval_similarity_review")
+        if "counterfactual_story_graph_rag_gate" in patterns:
+            targets.append("counterfactual_divergence_policy")
+            targets.append("verified_story_graph_context_policy")
         if "draft_candidate_promotion_gate" in patterns:
             targets.append("draft_candidate_state_policy")
             targets.append("confirmed_chapter_promotion_rules")
@@ -4917,6 +4935,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["schema_bound_outputs", "required_fields", "validation_failures"])
         if "context_reference" in patterns:
             targets.extend(["context_references", "knowledge_graph_edges", "retrieval_scope"])
+        if "counterfactual_story_graph_rag_gate" in patterns:
+            targets.extend(["counterfactual_divergence_points", "narrative_vs_realtime_event_edges", "verified_graph_retrieval_context"])
         if "workflow_agent_pipeline" in patterns:
             targets.extend(["workflow_nodes", "workflow_triggers", "resume_checkpoint"])
         if "scene_asset_pipeline" in patterns:
@@ -5634,6 +5654,8 @@ class NovelSourceDiscoveryService:
             hints.append("把人物、组织、地点、伏笔、情感线拆成可复用卡片，章节提示词只引用本章需要的卡片字段。")
         if "context_reference" in patterns:
             hints.append("显式列出本章引用的上下文来源，避免把未检索或未确认的信息写入续写正史。")
+        if "counterfactual_story_graph_rag_gate" in patterns:
+            hints.append("For same-type or What-if continuation, declare the divergence point, preserved facts, changed assumption, graph-retrieval neighborhood, and narrative-vs-realtime order effects before drafting.")
         if "lorebook_context" in patterns:
             hints.append("Activate lorebook entries by chapter goal and keywords; inject only the entries needed by the current scene.")
         if "author_note_layer" in patterns:
@@ -9043,6 +9065,15 @@ class NovelSourceDiscoveryService:
             "Reject graph mutations that introduce unlabeled nodes, unsupported relationships, or facts without source metadata.",
         ]
 
+    def _build_counterfactual_story_graph_rag_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "counterfactual_story_graph_rag_gate" not in patterns:
+            return []
+        return [
+            "For What-if or same-type continuation, first pin the source graph slice: anchor event, neighboring entities, narrative-order edges, realtime-order edges, and evidence ids.",
+            "Draft only after a divergence card names what stays canon-shaped, what changes, which causal links are invalidated, and which new-story state deltas must be written back.",
+            "Use graph/vector retrieval as grounding evidence, not prose material; generated alternatives must cite graph context ids and pass copy-risk review before promotion.",
+        ]
+
     def _build_trope_inventory_similarity_gate_hints(self, patterns: set[str]) -> list[str]:
         if "trope_inventory_similarity_gate" not in patterns:
             return []
@@ -9190,6 +9221,8 @@ class NovelSourceDiscoveryService:
             targets.append("setup_payoff_remap")
         if "alternate_timeline_branching" in patterns:
             targets.append("branch_divergence_remap")
+        if "counterfactual_story_graph_rag_gate" in patterns:
+            targets.append("counterfactual_graph_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -9755,6 +9788,8 @@ class NovelSourceDiscoveryService:
             hints.append("Use style-DNA ids as abstract craft guidance only; generate new premise, cast, conflicts, and phrasing for same-type work.")
         if "anti_copy_style_rag_gate" in patterns:
             hints.append("For style-RAG imitation, pass only chunk ids, abstract style traits, and retrieval reasons into the prompt; copied source passages stay behind the copy-risk gate.")
+        if "counterfactual_story_graph_rag_gate" in patterns:
+            hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -10655,6 +10690,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject style-DNA use that reproduces source phrasing, named set pieces, catchphrases, or a living author's signature sentence pattern.")
         if "anti_copy_style_rag_gate" in patterns:
             hints.append("Reject style-RAG outputs when retrieved chunks, high-overlap phrases, entity order, or post-generation repetition checks show source-passage copying.")
+        if "counterfactual_story_graph_rag_gate" in patterns:
+            hints.append("Reject alternative-story drafts that keep the source event path intact, erase the declared divergence, or treat source graph facts as new-story canon without transformation.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:

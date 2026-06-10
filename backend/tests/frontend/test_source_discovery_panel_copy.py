@@ -128,6 +128,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "community_graph_source_deconstruction_hints",
             "dual_level_graph_vector_retrieval_hints",
             "schema_guided_graph_extraction_hints",
+            "counterfactual_story_graph_rag_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -329,6 +330,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Community graph source deconstruction gates" in panel_text
     assert "Dual-level graph vector retrieval gates" in panel_text
     assert "Schema-guided graph extraction gates" in panel_text
+    assert "Counterfactual story Graph-RAG gates" in panel_text
     assert "Relationship graph global replace gates" in panel_text
     assert "Chinese text processing gates" in panel_text
     assert "Chinese segmentation / keyword gates" in panel_text
@@ -437,8 +439,8 @@ def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_
         "https://github.com/MangoLion/plotbunni",
         "https://github.com/zlx362211854/novelforge-agent",
         "https://github.com/MissingDanial/StyleMuse",
+        "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
         "https://github.com/booknlp/booknlp",
-        "https://github.com/THUDM/LongWriter",
         "https://github.com/google-deepmind/narrativeqa",
     ]
     assert len(fallback_urls) <= 8
