@@ -266,6 +266,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("semantic search" OR "BM25" OR "plot pattern extraction") ("webnovel knowledge base" OR "novel knowledge base") in:name,description,readme',
     '("custom caching protocol" OR "thread-safe concurrency" OR "graceful degradation") ("novel engine" OR "narrative simulation") in:name,description,readme',
     '("Reader Simulator" OR "State Validator" OR "Quality Gate") ("long-context" OR "multi-agent fiction") in:name,description,readme',
+    '("chapter ingestion" OR "context package" OR "foreshadowing" OR "relationship changes") ("long novel" OR "AI writing") in:name,description,readme',
+    '("Parallel Critic Tribunal" OR "Arc Ledger" OR "issue tracking") ("long-form fiction" OR "novel") in:name,description,readme',
+    '("Fitness dashboard" OR "Automated Prompt evolution" OR "Temporal Truth Database") ("novel writing" OR "AI writing") in:name,description,readme',
+    '("golden three chapters" OR "8w" OR "10w" OR "platform compliance") ("Fanqie" OR "Tomato" OR "webnovel") in:name,description,readme',
+    '("outline structural validator" OR "structured change declarations" OR "debate court") ("novel" OR "storyforge") in:name,description,readme',
+    '("AI is the amplifier" OR "consistency checking" OR "AI-taste detection") ("novel" OR "Obsidian") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -627,6 +633,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/yaopushen/webnovel-kb",
     "https://github.com/ohh-000/longform-novel-engine",
     "https://github.com/Jackela/Novel-Engine",
+    "https://github.com/Mochocyang/QMAI",
+    "https://github.com/knoai/knowrite",
+    "https://github.com/AxolDad/novelist",
+    "https://github.com/Nicholas-Yu/InkPilot",
+    "https://github.com/guohei/fanqie-plus",
+    "https://github.com/armchairfuturist-code/novel-writer-harness",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1000,6 +1012,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("webnovel_kb_mcp_runtime_boundary_gate", ("webnovel knowledge base", "webnovel-kb", "?????????", "mcp ???", "semantic search", "bm25", "hybrid search", "plot pattern extraction", "writing template extraction", "style analysis", "????", "????")),
     ("agent_cache_concurrency_recovery_gate", ("custom caching protocol", "avoids duplicate api calls", "thread-safe concurrency", "graceful degradation", "comprehensive logging", "circuit breaker", "raw model output", "run_id", "artifacts/runs")),
     ("long_context_role_boundary_state_validation_gate", ("opening audition", "director blueprint", "writer executes", "critic audits blueprint adherence", "patch reviser", "reader simulator", "archivist", "state validator", "strict-quality", "corrupted long-running story state")),
+    ("chapter_memory_ingestion_context_budget_gate", ("chapter ingestion", "????", "context package", "????", "token budget", "hybrid retrieval", "chapter summary", "ending hook", "relationship changes", "foreshadowing", "graph nodes", "memory units")),
+    ("human_ai_decision_authority_gate", ("ai is the amplifier", "not the voice", "ai 80% + human 20%", "human-ai collaboration", "????????", "human confirmation", "final draft acceptance", "final decisions are yours", "select, adjust", "inject soul", "not a one-click novel generator")),
+    ("parallel_critic_tribunal_issue_gate", ("parallel critic tribunal", "agentic tribunal", "critic agents", "prose, redundancy, arc", "vote on every draft", "beads", "issue tracking", "deep issue tracking")),
+    ("prompt_evolution_fitness_governance_gate", ("fitness dashboard", "five-dimensional fitness", "quality assessment", "automated prompt evolution", "prompt evolution", "temporal truth database", "strict industrial-grade review", "trace debugger")),
+    ("fanqie_checkpoint_compliance_audit_gate", ("fanqie", "tomato-style", "golden three chapters", "8w", "10w", "15w", "platform compliance", "10-chapter consistency audits", "pacing ledger", "fanqie-ready plain text")),
+    ("outline_validator_change_declaration_gate", ("outline structural validator", "character coverage", "foreshadowing completeness", "emotional arc progression", "beat density", "information boundaries", "structured change declarations", "---changes---", "12 categories of state transitions")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -2427,6 +2445,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Novel Engine is a MIT local-first novel writing engine. Public README markers describe chapter Markdown as source of truth, sidecar JSON evidence, artifacts/runs with events and raw model output, review reports, manuscript export, custom caching, thread-safe concurrency, graceful degradation, circuit breakers, and comprehensive logging. "
         "Pattern-only adaptation for cache/concurrency/recovery gates; uv runtime, CLI/API/frontend, provider calls, local workspaces, and artifacts are not launched or read."
     ),
+    "mochocyang/qmai": (
+        "QMAI is a no-license-asserted desktop AI-writing workflow. Public README markers describe chapter ingestion, context packages, token budget, hybrid retrieval, chapter summaries, ending hooks, relationship changes, foreshadowing, graph nodes/edges, and human confirmation before final draft acceptance. "
+        "Pattern-only adaptation for chapter-memory ingestion and context-budget gates; desktop releases, packaged app runtime, provider calls, and local manuscripts are not launched or imported."
+    ),
+    "knoai/knowrite": (
+        "Knowrite is an AGPL-3.0 AI-writing system. Public README markers describe Temporal Truth Database, Author Fingerprint, RAG Memory, five-dimensional Fitness dashboard, Automated Prompt Evolution, Trace debugger, and SQLite/local-file dual-write. "
+        "Pattern-only adaptation for prompt-evolution and truth-database governance gates; AGPL code, Node/Express/Docker runtime, API keys, providers, and local databases are not imported or executed."
+    ),
+    "axoldad/novelist": (
+        "Novelist is a no-license-asserted Streamlit novel workbench. Public README markers describe SQLite memory core, world state, arcs, characters, Parallel Critic Tribunal, Best of 3, prose/redundancy/arc critic votes, Beads issue tracking, and dashboard review. "
+        "Pattern-only adaptation for critic-tribunal and issue-ledger gates; Streamlit runtime, cloud/local backends, provider calls, and local writing databases are not launched or read."
+    ),
+    "nicholas-yu/inkpilot": (
+        "InkPilot is a MIT Obsidian writing plugin. Public README markers describe AI as amplifier not voice, AI 80% plus human 20%, planning/writing/review/iteration phases, consistency checking, AI-taste detection, cost transparency, and foreshadowing tracking. "
+        "Pattern-only adaptation for human-AI authority boundaries; Obsidian plugin install, vault access, provider calls, and local notes are not launched or imported."
+    ),
+    "guohei/fanqie-plus": (
+        "Fanqie Plus is a no-license-observed Fanqie/Tomato webnovel skill package. Public README markers describe reader profiles, platform strategy, golden three chapters, 8w/10w/15w checkpoints, ten-chapter consistency audits, pacing ledger, optional reader simulator diagnostics, and Fanqie-ready plain-text export. "
+        "Pattern-only adaptation for checkpoint compliance and pacing-audit gates; skill install scripts, platform submission, exports, and upstream prompt bodies are not executed or copied."
+    ),
+    "armchairfuturist-code/novel-writer-harness": (
+        "Novel Writer Harness is a no-license-observed long-form writing harness. Public README markers describe outline structural validator, character coverage, foreshadowing completeness, emotional arc progression, beat density, information boundaries, structured ---CHANGES--- JSON, twelve state-transition categories, debate court, and style engine. "
+        "Pattern-only adaptation for outline-validation and structured-change gates; multi-model routing, provider calls, Pandoc/export runtime, and external prompt bodies are not launched or imported."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2782,6 +2824,12 @@ class NovelSourceDiscoveryService:
             "webnovel_kb_mcp_runtime_boundary_gate_hints": self._build_webnovel_kb_mcp_runtime_boundary_gate_hints(available_patterns),
             "agent_cache_concurrency_recovery_gate_hints": self._build_agent_cache_concurrency_recovery_gate_hints(available_patterns),
             "long_context_role_boundary_state_validation_gate_hints": self._build_long_context_role_boundary_state_validation_gate_hints(available_patterns),
+            "chapter_memory_ingestion_context_budget_gate_hints": self._build_chapter_memory_ingestion_context_budget_gate_hints(available_patterns),
+            "human_ai_decision_authority_gate_hints": self._build_human_ai_decision_authority_gate_hints(available_patterns),
+            "parallel_critic_tribunal_issue_gate_hints": self._build_parallel_critic_tribunal_issue_gate_hints(available_patterns),
+            "prompt_evolution_fitness_governance_gate_hints": self._build_prompt_evolution_fitness_governance_gate_hints(available_patterns),
+            "fanqie_checkpoint_compliance_audit_gate_hints": self._build_fanqie_checkpoint_compliance_audit_gate_hints(available_patterns),
+            "outline_validator_change_declaration_gate_hints": self._build_outline_validator_change_declaration_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3764,6 +3812,12 @@ class NovelSourceDiscoveryService:
             "webnovel_kb_mcp_runtime_boundary_gate": 66,
             "agent_cache_concurrency_recovery_gate": 67,
             "long_context_role_boundary_state_validation_gate": 68,
+            "chapter_memory_ingestion_context_budget_gate": 69,
+            "human_ai_decision_authority_gate": 68,
+            "parallel_critic_tribunal_issue_gate": 69,
+            "prompt_evolution_fitness_governance_gate": 68,
+            "fanqie_checkpoint_compliance_audit_gate": 68,
+            "outline_validator_change_declaration_gate": 69,
             "mode_contract_generation_gate": 66,
             "source_study_method_bank_isolation_gate": 66,
             "source_discovery": 10,
@@ -4197,6 +4251,24 @@ class NovelSourceDiscoveryService:
         if "long_context_role_boundary_state_validation_gate" in patterns:
             targets.append("long_context_role_visibility_policy")
             targets.append("state_validator_quality_gate_policy")
+        if "chapter_memory_ingestion_context_budget_gate" in patterns:
+            targets.append("chapter_memory_ingestion_policy")
+            targets.append("context_budget_retrieval_policy")
+        if "human_ai_decision_authority_gate" in patterns:
+            targets.append("human_ai_decision_authority_policy")
+            targets.append("author_final_say_review_log")
+        if "parallel_critic_tribunal_issue_gate" in patterns:
+            targets.append("critic_tribunal_role_policy")
+            targets.append("issue_tracking_arc_ledger")
+        if "prompt_evolution_fitness_governance_gate" in patterns:
+            targets.append("prompt_evolution_fitness_policy")
+            targets.append("temporal_truth_database_policy")
+        if "fanqie_checkpoint_compliance_audit_gate" in patterns:
+            targets.append("fanqie_checkpoint_compliance_policy")
+            targets.append("serial_checkpoint_audit_ladder")
+        if "outline_validator_change_declaration_gate" in patterns:
+            targets.append("outline_validator_change_declaration_policy")
+            targets.append("state_transition_change_schema")
         if "anti_ai_tone_polish" in patterns:
             targets.append("anti_ai_tone_rules")
         if "preference_memory" in patterns:
@@ -4690,6 +4762,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["agent_cache_idempotency_report", "concurrency_recovery_trace", "duplicate_provider_call_prevention_findings"])
         if "long_context_role_boundary_state_validation_gate" in patterns:
             targets.extend(["long_context_role_boundary_report", "state_validator_quality_gate_findings", "hidden_secret_visibility_audit"])
+        if "chapter_memory_ingestion_context_budget_gate" in patterns:
+            targets.extend(["chapter_ingestion_memory_report", "context_package_budget_report", "relationship_foreshadowing_graph_findings"])
+        if "human_ai_decision_authority_gate" in patterns:
+            targets.extend(["human_ai_decision_authority_report", "author_edit_selection_trace", "ai_taste_detection_findings"])
+        if "parallel_critic_tribunal_issue_gate" in patterns:
+            targets.extend(["parallel_critic_tribunal_report", "arc_ledger_issue_trace", "critic_vote_resolution_findings"])
+        if "prompt_evolution_fitness_governance_gate" in patterns:
+            targets.extend(["prompt_evolution_fitness_report", "temporal_truth_database_drift_findings", "trace_debugger_prompt_change_report"])
+        if "fanqie_checkpoint_compliance_audit_gate" in patterns:
+            targets.extend(["fanqie_checkpoint_compliance_report", "golden_three_chapters_audit", "ten_chapter_consistency_pacing_findings"])
+        if "outline_validator_change_declaration_gate" in patterns:
+            targets.extend(["outline_structural_validator_report", "structured_change_declaration_audit", "debate_court_resolution_trace"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -6307,6 +6391,60 @@ class NovelSourceDiscoveryService:
             "Separate Director, Writer, Critic, Reader Simulator, Archivist, and State Validator visibility so hidden secrets, open foreshadowing, and source-study notes do not leak to the wrong role.",
             "A Writer should execute the accepted blueprint; core plot invention, state write-back, and corruption repair belong to explicit reviewer or validator gates.",
             "Long-context packs should be stress-checked for stale canon, role-boundary violations, and state-validator blockers before the next chapter is queued.",
+        ]
+
+    def _build_chapter_memory_ingestion_context_budget_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_memory_ingestion_context_budget_gate" not in patterns:
+            return []
+        return [
+            "Ingest accepted chapters into explicit memory units: summary, ending hook, relationship changes, foreshadowing changes, and graph nodes/edges.",
+            "Assemble each context package with a token budget ledger that separates required canon, recent chapter bridge, retrieval hits, and omitted-but-relevant notes.",
+            "Human confirmation should gate final draft acceptance before chapter memories, relationship edges, or foreshadowing ledgers update the next prompt.",
+        ]
+
+    def _build_human_ai_decision_authority_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "human_ai_decision_authority_gate" not in patterns:
+            return []
+        return [
+            "Treat AI as an amplifier: planning, drafting, review, and iteration can propose options, but the author owns voice, final selection, and canon promotion.",
+            "Record human edits and author decision events separately from generated text so later continuation can tell author canon from AI candidate output.",
+            "Run consistency and AI-taste checks before acceptance; fixes should preserve author intent instead of making prose more generic or more source-like.",
+        ]
+
+    def _build_parallel_critic_tribunal_issue_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "parallel_critic_tribunal_issue_gate" not in patterns:
+            return []
+        return [
+            "Run parallel critics with named jurisdictions such as prose, redundancy, arc, continuity, and reader pull; each critic must cite issue ids.",
+            "A tribunal vote can select or repair a draft only after unresolved Beads/issues, arc ledger entries, and severity are visible to the author.",
+            "Best-of-N drafting should keep losing candidates as evidence but must not let rejected candidates update world state, memory, or future prompts.",
+        ]
+
+    def _build_prompt_evolution_fitness_governance_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "prompt_evolution_fitness_governance_gate" not in patterns:
+            return []
+        return [
+            "Track prompt evolution with a fitness dashboard: dimensions, baseline prompt version, changed variable, result, and rollback decision.",
+            "Temporal Truth Database entries must be updated through evidence-backed events, not by whichever prompt version produced the latest prose.",
+            "Trace debugger output should explain why a prompt changed and which quality or continuity failure it targeted before it becomes a reusable preset.",
+        ]
+
+    def _build_fanqie_checkpoint_compliance_audit_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "fanqie_checkpoint_compliance_audit_gate" not in patterns:
+            return []
+        return [
+            "Use Fanqie/Tomato-style strategy as a checkpoint ladder: golden three chapters, 8w, 10w, and 15w reviews each need separate findings.",
+            "Every ten chapters, audit pacing ledger, reader profile fit, hook debt, consistency drift, and platform-compliance notes before continuing the batch.",
+            "Fanqie-ready text export remains downstream; source discovery may keep the plain-text boundary and audit rubric, not platform automation or submission flow.",
+        ]
+
+    def _build_outline_validator_change_declaration_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "outline_validator_change_declaration_gate" not in patterns:
+            return []
+        return [
+            "Validate outline structure before drafting: character coverage, foreshadowing completeness, emotional arc progression, beat density, and information boundaries.",
+            "Require structured change declarations for state transitions so each canon change names category, old value, new value, evidence, and affected future beats.",
+            "Debate-court review should resolve structural objections before style polish; unresolved validator failures block chapter or outline promotion.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -8641,6 +8779,18 @@ class NovelSourceDiscoveryService:
             targets.append("agent_cache_idempotency_remap")
         if "long_context_role_boundary_state_validation_gate" in patterns:
             targets.append("long_context_role_visibility_remap")
+        if "chapter_memory_ingestion_context_budget_gate" in patterns:
+            targets.append("chapter_memory_context_remap")
+        if "human_ai_decision_authority_gate" in patterns:
+            targets.append("human_ai_authority_remap")
+        if "parallel_critic_tribunal_issue_gate" in patterns:
+            targets.append("critic_tribunal_issue_remap")
+        if "prompt_evolution_fitness_governance_gate" in patterns:
+            targets.append("prompt_fitness_evolution_remap")
+        if "fanqie_checkpoint_compliance_audit_gate" in patterns:
+            targets.append("fanqie_checkpoint_strategy_remap")
+        if "outline_validator_change_declaration_gate" in patterns:
+            targets.append("outline_change_declaration_remap")
         if "draft_stage_revision_ladder" in patterns:
             targets.append("draft_stage_remap")
         if "rolling_summary_context_trim" in patterns:
@@ -9395,6 +9545,18 @@ class NovelSourceDiscoveryService:
             hints.append("Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.")
         if "schema_guided_graph_extraction" in patterns:
             hints.append("Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon.")
+        if "chapter_memory_ingestion_context_budget_gate" in patterns:
+            hints.append("Build a fresh context budget for the transformed story; source chapter memories may inform abstract function only, not new canon facts.")
+        if "human_ai_decision_authority_gate" in patterns:
+            hints.append("Prompt outputs should present author decision points and alternatives rather than claiming the AI can finalize the story voice alone.")
+        if "parallel_critic_tribunal_issue_gate" in patterns:
+            hints.append("Ask critics to judge the transformed draft's local issues, not its similarity to a source book or prior rejected candidate.")
+        if "prompt_evolution_fitness_governance_gate" in patterns:
+            hints.append("Use evolved prompts only after recording which transformed-story metric they improve and which source-leakage risks they must avoid.")
+        if "fanqie_checkpoint_compliance_audit_gate" in patterns:
+            hints.append("Apply Fanqie-style checkpoint pressure to the new reader promise and pacing ledger, not to copied platform examples or source arcs.")
+        if "outline_validator_change_declaration_gate" in patterns:
+            hints.append("Prompt for explicit change declarations when a transformed outline alters character coverage, foreshadowing, emotional arc, or information boundaries.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -9806,6 +9968,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform public-domain texts through a source manifest and originality gates; public domain is not a reason to clone chapter order or set pieces.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Transform adaptation-risk material by separating allowed reference, required attribution, and blocked derivative similarity before drafting.")
+        if "chapter_memory_ingestion_context_budget_gate" in patterns:
+            hints.append("Transform chapter-memory units into a new memory schema with new relationships, hooks, graph nodes, and retrieval priority.")
+        if "human_ai_decision_authority_gate" in patterns:
+            hints.append("Transform AI suggestions through an author decision log so accepted canon reflects human choice rather than automatic draft promotion.")
+        if "parallel_critic_tribunal_issue_gate" in patterns:
+            hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
+        if "prompt_evolution_fitness_governance_gate" in patterns:
+            hints.append("Transform prompt evolution experiments into versioned local presets with fitness evidence and rollback notes for the new story.")
+        if "fanqie_checkpoint_compliance_audit_gate" in patterns:
+            hints.append("Transform checkpoint strategy into new golden-three-chapter, 8w, 10w, and 15w goals; do not reuse source platform copy or chapter order.")
+        if "outline_validator_change_declaration_gate" in patterns:
+            hints.append("Transform outline validators into new structural requirements and state-transition declarations before prose generation.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -10243,6 +10417,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.")
         if "schema_guided_graph_extraction" in patterns:
             hints.append("Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.")
+        if "chapter_memory_ingestion_context_budget_gate" in patterns:
+            hints.append("Reject context packages where source chapter summaries, relationship deltas, or foreshadowing graph edges are indistinguishable from transformed canon.")
+        if "human_ai_decision_authority_gate" in patterns:
+            hints.append("Reject drafts promoted without visible author decision, especially when AI polish hides copied source structure behind smoother wording.")
+        if "parallel_critic_tribunal_issue_gate" in patterns:
+            hints.append("Reject tribunal winners when critic votes ignore unresolved copy-risk, arc-ledger issues, or source-like beat order.")
+        if "prompt_evolution_fitness_governance_gate" in patterns:
+            hints.append("Reject prompt-evolution presets that improve fitness scores by rewarding source resemblance, generic AI taste, or stale truth-database facts.")
+        if "fanqie_checkpoint_compliance_audit_gate" in patterns:
+            hints.append("Reject platform-checkpoint plans that pass pacing audits by copying source chapter hooks, golden-opening sequence, or platform-specific examples.")
+        if "outline_validator_change_declaration_gate" in patterns:
+            hints.append("Reject outlines whose structured change declarations preserve source state transitions, beat density, or information-boundary order under new labels.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -10415,6 +10601,12 @@ class NovelSourceDiscoveryService:
                 "webnovel_kb_mcp_runtime_boundary_gate",
                 "agent_cache_concurrency_recovery_gate",
                 "long_context_role_boundary_state_validation_gate",
+                "chapter_memory_ingestion_context_budget_gate",
+                "human_ai_decision_authority_gate",
+                "parallel_critic_tribunal_issue_gate",
+                "prompt_evolution_fitness_governance_gate",
+                "fanqie_checkpoint_compliance_audit_gate",
+                "outline_validator_change_declaration_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",

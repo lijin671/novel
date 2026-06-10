@@ -10467,3 +10467,156 @@ def test_chinese_webnovel_platform_kb_and_resilient_engine_sources_map_to_retent
     assert "webnovel_kb_mcp_runtime_boundary_gate_hints" in digest
     assert "agent_cache_concurrency_recovery_gate_hints" in digest
     assert "long_context_role_boundary_state_validation_gate_hints" in digest
+
+
+def test_memory_tribunal_checkpoint_sources_map_to_governance_gates():
+    assert "https://github.com/Mochocyang/QMAI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/knoai/knowrite" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/AxolDad/novelist" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Nicholas-Yu/InkPilot" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/guohei/fanqie-plus" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/armchairfuturist-code/novel-writer-harness" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("chapter ingestion" in query.lower() and "context package" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("parallel critic tribunal" in query.lower() and "issue tracking" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("fitness dashboard" in query.lower() and "temporal truth database" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("golden three chapters" in query.lower() and "platform compliance" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("outline structural validator" in query.lower() and "debate court" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ai is the amplifier" in query.lower() and "ai-taste detection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Mochocyang/QMAI",
+                "html_url": "https://github.com/Mochocyang/QMAI",
+                "description": (
+                    "QMAI chapter ingestion workflow with context package, token budget, hybrid retrieval, chapter summary, "
+                    "ending hook, relationship changes, foreshadowing, graph nodes and memory units with human confirmation."
+                ),
+                "stargazers_count": 478,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["ai-writing", "novel", "memory"],
+                "updated_at": "2026-06-11T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "releases"],
+            },
+            {
+                "full_name": "knoai/knowrite",
+                "html_url": "https://github.com/knoai/knowrite",
+                "description": (
+                    "Knowrite uses Temporal Truth Database, Author Fingerprint, RAG Memory, Fitness dashboard, "
+                    "five-dimensional fitness, Automated Prompt Evolution, strict industrial-grade review and trace debugger."
+                ),
+                "stargazers_count": 15,
+                "forks_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["ai-writing", "novel", "rag"],
+                "updated_at": "2026-06-11T00:00:00Z",
+                "root_files": ["README.md", "package.json", "docker-compose.yml"],
+            },
+            {
+                "full_name": "AxolDad/novelist",
+                "html_url": "https://github.com/AxolDad/novelist",
+                "description": (
+                    "Novelist has SQLite memory core, world state, arcs, characters, Parallel Critic Tribunal, "
+                    "agentic tribunal, prose redundancy arc critic agents, vote on every draft and Beads issue tracking."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["streamlit", "novel", "multi-agent"],
+                "updated_at": "2026-06-11T00:00:00Z",
+                "root_files": ["README.md", "requirements.txt", "app.py"],
+            },
+            {
+                "full_name": "Nicholas-Yu/InkPilot",
+                "html_url": "https://github.com/Nicholas-Yu/InkPilot",
+                "description": (
+                    "InkPilot says AI is the amplifier not the voice, AI 80% + Human 20%, human-ai collaboration, "
+                    "final decisions are yours, consistency checking, AI-taste detection and foreshadowing tracker."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "fiction-writing"],
+                "updated_at": "2026-06-11T00:00:00Z",
+                "root_files": ["README.md", "manifest.json"],
+            },
+            {
+                "full_name": "guohei/fanqie-plus",
+                "html_url": "https://github.com/guohei/fanqie-plus",
+                "description": (
+                    "Fanqie/Tomato-style webnovel workflow with golden three chapters, 8w, 10w, 15w checkpoints, "
+                    "platform compliance, 10-chapter consistency audits, pacing ledger and Fanqie-ready plain text."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fanqie", "webnovel", "skill"],
+                "updated_at": "2026-06-11T00:00:00Z",
+                "root_files": ["README.md", "install.sh", "skills"],
+            },
+            {
+                "full_name": "armchairfuturist-code/novel-writer-harness",
+                "html_url": "https://github.com/armchairfuturist-code/novel-writer-harness",
+                "description": (
+                    "Novel writer harness with outline structural validator, character coverage, foreshadowing completeness, "
+                    "emotional arc progression, beat density, information boundaries, structured change declarations, "
+                    "---CHANGES--- JSON, 12 categories of state transitions and debate court."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "storyforge", "outline"],
+                "updated_at": "2026-06-11T00:00:00Z",
+                "root_files": ["README.md", "prompts", "requirements.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T08:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "chapter_memory_ingestion_context_budget_gate" in candidates["Mochocyang/QMAI"]["absorbed_patterns"]
+    assert "human_ai_decision_authority_gate" in candidates["Mochocyang/QMAI"]["absorbed_patterns"]
+    assert "prompt_evolution_fitness_governance_gate" in candidates["knoai/knowrite"]["absorbed_patterns"]
+    assert "parallel_critic_tribunal_issue_gate" in candidates["AxolDad/novelist"]["absorbed_patterns"]
+    assert "human_ai_decision_authority_gate" in candidates["Nicholas-Yu/InkPilot"]["absorbed_patterns"]
+    assert "fanqie_checkpoint_compliance_audit_gate" in candidates["guohei/fanqie-plus"]["absorbed_patterns"]
+    assert "outline_validator_change_declaration_gate" in candidates["armchairfuturist-code/novel-writer-harness"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "chapter_memory_ingestion_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "human_ai_decision_authority_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "critic_tribunal_role_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "prompt_evolution_fitness_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "fanqie_checkpoint_compliance_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "outline_validator_change_declaration_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_ingestion_memory_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "parallel_critic_tribunal_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "prompt_evolution_fitness_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "fanqie_checkpoint_compliance_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "outline_structural_validator_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_memory_ingestion_context_budget_gate_hints" in pattern_pack
+    assert "human_ai_decision_authority_gate_hints" in pattern_pack
+    assert "parallel_critic_tribunal_issue_gate_hints" in pattern_pack
+    assert "prompt_evolution_fitness_governance_gate_hints" in pattern_pack
+    assert "fanqie_checkpoint_compliance_audit_gate_hints" in pattern_pack
+    assert "outline_validator_change_declaration_gate_hints" in pattern_pack
+    assert "chapter_memory_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "human_ai_authority_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "critic_tribunal_issue_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "prompt_fitness_evolution_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "fanqie_checkpoint_strategy_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "outline_change_declaration_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "author decision" in " ".join(pattern_pack["human_ai_decision_authority_gate_hints"]).lower()
+    assert "trace debugger" in " ".join(pattern_pack["prompt_evolution_fitness_governance_gate_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "chapter_memory_ingestion_context_budget_gate_hints" in digest
+    assert "human_ai_decision_authority_gate_hints" in digest
+    assert "parallel_critic_tribunal_issue_gate_hints" in digest
+    assert "prompt_evolution_fitness_governance_gate_hints" in digest
+    assert "fanqie_checkpoint_compliance_audit_gate_hints" in digest
+    assert "outline_validator_change_declaration_gate_hints" in digest
