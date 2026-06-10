@@ -59,6 +59,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("multi-level review" OR "trend tracking" OR "batch-level quality") ("novel" OR "fiction") in:name,description,readme',
     '("voice calibration" OR "final pre-flight" OR "generic AI tells") ("writing" OR "prose") in:name,description,readme',
     '("scene-by-scene objectives" OR "genre guides" OR "writing tasks") ("novel" OR "fiction") in:name,description,readme',
+    '("ideation worksheets" OR "premise discovery" OR "Ghost/Lie/Want/Need") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("sourcebook" OR "source book" OR "writing partner") ("novel" OR "AI writing") in:name,description,readme',
     '("long story consistency" OR "narrative consistency" OR "ConStory") ("LLM" OR "story generation") in:name,description,readme',
     '("cross-chapter redundancy" OR "full-book review" OR "parallel chapter drafting") ("novel" OR "fiction") in:name,description,readme',
@@ -367,6 +368,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
     "https://github.com/forsonny/book-os",
+    "https://github.com/10Legs/novel-template",
     "https://github.com/forjd/better-writing",
     "https://github.com/EdwardAThomson/NovelWriter",
     "https://github.com/StableLlamaAI/AugmentedQuill",
@@ -1016,6 +1018,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("event_to_sentence_realization_trace", ("story realization", "plot events into sentences", "event-to-sentence", "event creation", "eventify", "ensemble thresholds", "confidence scores")),
     ("entity_memory_slotfill_grounding", ("slot filling", "slotfilling", "memory graph", "getagentturn", "entities", "entity tracking")),
     ("book_memory_bank_context_lattice", ("book memory bank", "stateless ai", "memory resets", "projectbrief.md", "story_structure.md", "world_and_characters.md", "activecontext.md", "progress.md", "comprehensive memory bank updating")),
+    ("ideation_worksheet_foundation_gate", ("ideation worksheets", "five ideation worksheets", "premise discovery", "character genesis", "ghost/lie/want/need", "ghost lie want need", "structure blueprint", "theme discovery", "non-skippable", "filled once, referenced always", "what if framework")),
     ("spec_driven_fiction_scene_tasks", ("spec kit fiction", "story bible governance", "constitution.md", "scene-by-scene writing tasks", "quality gates instead of ci", "pov schedule", "information asymmetry map", "glossary audit", "subplot health dashboard")),
     ("toc_aware_source_deconstruction", ("llm ebook summarizer", "epub files", "pdf files", "table of contents", "nested chapters", "parent section introductions", "structured markdown notes", "quotes and anecdotes", "merge utility")),
     ("two_pass_context_glossary_pipeline", ("two-pass translation", "pass 1 (analysis)", "pass 2 (translation)", "previous chapter summary", "cumulative glossary", "proper nouns/terms", "resume support", "prompt templates")),
@@ -1278,6 +1281,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "forsonny/book-os": (
         "Novel-OS structured workflow system. Public README describes AI-tool-agnostic writing context, genre guides, story outlines, scene-by-scene writing tasks, "
         "global standards, novel-specific style, and writing tasks that keep voice and context inspectable."
+    ),
+    "10legs/novel-template": (
+        "novel-template is a Claude Code novel-writing harness. Public README markers describe ideation, outlining, drafting, revision, final polish, 10 specialist agents, 16 slash commands, 9 craft skill knowledge bases, automated workflow hooks, and 5 ideation worksheets: premise discovery, character genesis, world building, structure blueprint, and theme discovery. "
+        "Pattern-only adaptation for ideation worksheet foundation gates; upstream agents, slash commands, hooks, skill bodies, and template files are not imported or executed."
     ),
     "forjd/better-writing": (
         "Agent skill for human prose quality. Public README describes removing generic AI tells, slop structures, voice calibration from writing samples, "
@@ -3253,6 +3260,7 @@ class NovelSourceDiscoveryService:
             "event_to_sentence_realization_trace_hints": self._build_event_to_sentence_realization_trace_hints(available_patterns),
             "entity_memory_slotfill_grounding_hints": self._build_entity_memory_slotfill_grounding_hints(available_patterns),
             "book_memory_bank_context_lattice_hints": self._build_book_memory_bank_context_lattice_hints(available_patterns),
+            "ideation_worksheet_foundation_gate_hints": self._build_ideation_worksheet_foundation_gate_hints(available_patterns),
             "spec_driven_fiction_scene_tasks_hints": self._build_spec_driven_fiction_scene_tasks_hints(available_patterns),
             "toc_aware_source_deconstruction_hints": self._build_toc_aware_source_deconstruction_hints(available_patterns),
             "two_pass_context_glossary_pipeline_hints": self._build_two_pass_context_glossary_pipeline_hints(available_patterns),
@@ -3946,6 +3954,7 @@ class NovelSourceDiscoveryService:
             "event_to_sentence_realization_trace": 65,
             "entity_memory_slotfill_grounding": 64,
             "book_memory_bank_context_lattice": 67,
+            "ideation_worksheet_foundation_gate": 69,
             "spec_driven_fiction_scene_tasks": 66,
             "toc_aware_source_deconstruction": 65,
             "two_pass_context_glossary_pipeline": 64,
@@ -4815,6 +4824,9 @@ class NovelSourceDiscoveryService:
         if "book_memory_bank_context_lattice" in patterns:
             targets.append("book_memory_bank_manifest")
             targets.append("active_context_progress_rules")
+        if "ideation_worksheet_foundation_gate" in patterns:
+            targets.append("ideation_worksheet_policy")
+            targets.append("premise_theme_question_contract")
         if "spec_driven_fiction_scene_tasks" in patterns:
             targets.append("fiction_constitution")
             targets.append("scene_task_backlog")
@@ -5473,6 +5485,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["entity_memory_slotfill_report", "entity_tracking_findings", "slot_grounding_failures"])
         if "book_memory_bank_context_lattice" in patterns:
             targets.extend(["memory_bank_completeness_report", "plan_to_actual_comparison", "active_context_progress_report"])
+        if "ideation_worksheet_foundation_gate" in patterns:
+            targets.extend(["ideation_worksheet_completion_report", "premise_character_world_structure_theme_matrix", "worksheet_to_outline_gap_questions"])
         if "spec_driven_fiction_scene_tasks" in patterns:
             targets.extend(["story_bible_quality_gate_report", "scene_task_coverage_report", "pov_schedule_information_asymmetry_report"])
         if "toc_aware_source_deconstruction" in patterns:
@@ -5786,6 +5800,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before a chapter run, choose the active agent role profile, its allowed context slice, model profile, output artifact, and canon-write permission.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
+        if "ideation_worksheet_foundation_gate" in patterns:
+            hints.append("Before drafting, cite accepted worksheet ids for premise, character Ghost/Lie/Want/Need, world rules, structure blueprint, and theme question.")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             hints.append("Before continuation, classify the next chapter as emotion/action/function, check event cooldowns, name the one visible image, and avoid the most statistically obvious beat unless canon requires it.")
         if "semantic_long_context_search" in patterns:
@@ -6165,6 +6181,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist knowledge document id, sourceType, source artifact, produced/merged status, usedKnowledge, usedSkills, provider/model, usage, and run status before context reuse.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("After chapter acceptance, write knowledge-state deltas: who learned which fact, who still lacks it, evidence id, reveal timing, and any secret-leak blocker.")
+        if "ideation_worksheet_foundation_gate" in patterns:
+            hints.append("Changing a foundation worksheet requires a revision note, impacted outline/character/world ids, and a continuity check before downstream context reuse.")
         if "host_instruction_context_boundary_gate" in patterns:
             hints.append("Persist currentStep, currentChapter, expectedFormat, modelHint, prompt segment ids, context artifact path, and context hash with each generation request.")
         if "schema_review_revision_recovery_gate" in patterns:
@@ -8825,6 +8843,15 @@ class NovelSourceDiscoveryService:
             "Compare each completed chapter against its planned outline so drift becomes an explicit decision instead of hidden context loss.",
         ]
 
+    def _build_ideation_worksheet_foundation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ideation_worksheet_foundation_gate" not in patterns:
+            return []
+        return [
+            "Treat premise discovery, character genesis, world building, structure blueprint, and theme discovery as foundation worksheets that are filled once and referenced throughout the project.",
+            "Drafting should stop when worksheet answers are missing, stale, or contradictory; ask for options and craft patterns instead of generating final prose from vague foundations.",
+            "For?????, transform source premise, Ghost/Lie/Want/Need, world rules, structure beats, and theme question into independent worksheet values before outlining.",
+        ]
+
     def _build_spec_driven_fiction_scene_tasks_hints(self, patterns: set[str]) -> list[str]:
         if "spec_driven_fiction_scene_tasks" not in patterns:
             return []
@@ -9345,6 +9372,8 @@ class NovelSourceDiscoveryService:
             targets.append("counterfactual_graph_remap")
         if "character_knowledge_timeline_gate" in patterns:
             targets.append("character_knowledge_visibility_remap")
+        if "ideation_worksheet_foundation_gate" in patterns:
+            targets.append("ideation_worksheet_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -9924,6 +9953,8 @@ class NovelSourceDiscoveryService:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("For same-type knowledge maps, declare the new secret, new holder, new reveal timing, and changed absence gap before drafting.")
+        if "ideation_worksheet_foundation_gate" in patterns:
+            hints.append("For same-type work, rebuild the five foundation worksheets first; source worksheets may inspire questions, not final answers.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -10385,6 +10416,8 @@ class NovelSourceDiscoveryService:
             hints.append("Build a context pack from the transformed story state; do not retrieve source events as if they were reusable canon.")
         if "snowflake_premise_expansion" in patterns:
             hints.append("Transform from the top of the premise chain downward so lower-level scenes inherit a new core promise.")
+        if "ideation_worksheet_foundation_gate" in patterns:
+            hints.append("Transform foundation worksheets from the top down: new premise, new character wound/lie/want/need, new world rules, new structure, and new theme evidence.")
         if "character_depth_interview" in patterns:
             hints.append("Re-answer depth questions for each transformed character before mapping any relationship beat.")
         if "human_synopsis_gate" in patterns:
@@ -10840,6 +10873,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type runs that reuse source workflow timelines, role briefs, route profiles, retry traces, or memory-curator artifacts as transformed-story authority.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Reject drafts that preserve the source secret matrix, reveal order, character absence gap, or who-knows-what timeline under renamed roles.")
+        if "ideation_worksheet_foundation_gate" in patterns:
+            hints.append("Reject same-type drafts that keep the source premise question, Ghost/Lie/Want/Need grid, world-rule logic, structure blueprint, or theme answer under new names.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:

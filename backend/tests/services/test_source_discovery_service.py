@@ -11654,3 +11654,69 @@ def test_storygraph_source_adds_character_knowledge_timeline_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "character_knowledge_timeline_gate_hints" in digest
+
+
+def test_novel_template_source_adds_ideation_worksheet_foundation_gates():
+    assert "https://github.com/10Legs/novel-template" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("ideation worksheets" in query and "Ghost/Lie/Want/Need" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "10Legs/novel-template",
+                "html_url": "https://github.com/10Legs/novel-template",
+                "description": (
+                    "Claude Code harness for writing novels from blank page to finished manuscript. "
+                    "It guides ideation, outlining, drafting, revision and final polish with "
+                    "10 specialized agents, 16 slash commands, 9 craft skill knowledge bases, "
+                    "automated workflow hooks and 5 ideation worksheets. The worksheets cover "
+                    "premise discovery, character genesis using Ghost/Lie/Want/Need, world building, "
+                    "structure blueprint and theme discovery. The /ideate flow is non-skippable, "
+                    "asks for options and craft patterns, tracks continuity and does not write the novel."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "claude-code", "writing-harness", "ideation"],
+                "updated_at": "2026-06-10T21:48:32Z",
+                "root_files": [
+                    "README.md",
+                    "CLAUDE.md",
+                    "ideation/01-premise-discovery.md",
+                    "ideation/02-character-genesis.md",
+                    "ideation/03-world-building.md",
+                    "ideation/04-structure-blueprint.md",
+                    "ideation/05-theme-discovery.md",
+                    ".claude/agents",
+                    ".claude/commands",
+                    ".claude/skills",
+                    ".claude/hooks",
+                ],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T00:15:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    template = candidates["10Legs/novel-template"]
+    assert "ideation_worksheet_foundation_gate" in template["absorbed_patterns"]
+    assert "skill_install_surface" in template["risk_flags"]
+    assert "license:missing" in template["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "ideation_worksheet_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "premise_theme_question_contract" in pattern_pack["bible_enrichment_targets"]
+    assert "ideation_worksheet_completion_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "premise_character_world_structure_theme_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "worksheet_to_outline_gap_questions" in pattern_pack["whole_book_analysis_targets"]
+    assert "ideation_worksheet_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("worksheet ids" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("foundation worksheet" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("filled once" in hint for hint in pattern_pack["ideation_worksheet_foundation_gate_hints"])
+    assert any("source worksheets" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("Ghost/Lie/Want/Need grid" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "ideation_worksheet_foundation_gate_hints" in digest

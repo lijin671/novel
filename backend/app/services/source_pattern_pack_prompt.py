@@ -407,6 +407,7 @@ def render_source_pattern_pack_digest(
         "event_to_sentence_realization_trace_hints",
         "entity_memory_slotfill_grounding_hints",
         "book_memory_bank_context_lattice_hints",
+        "ideation_worksheet_foundation_gate_hints",
         "spec_driven_fiction_scene_tasks_hints",
         "toc_aware_source_deconstruction_hints",
         "two_pass_context_glossary_pipeline_hints",

@@ -183,6 +183,7 @@ export interface SourceDiscoveryPatternPack {
   event_to_sentence_realization_trace_hints?: string[];
   entity_memory_slotfill_grounding_hints?: string[];
   book_memory_bank_context_lattice_hints?: string[];
+  ideation_worksheet_foundation_gate_hints?: string[];
   spec_driven_fiction_scene_tasks_hints?: string[];
   toc_aware_source_deconstruction_hints?: string[];
   two_pass_context_glossary_pipeline_hints?: string[];
