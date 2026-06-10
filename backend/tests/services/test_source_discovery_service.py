@@ -898,6 +898,20 @@ def test_static_context_memory_projects_map_to_lorebook_world_state_and_snapshot
 
 
 
+def test_default_github_repository_urls_remain_backend_authoritative_for_panel_hydration():
+    normalized_urls = {url.lower() for url in DEFAULT_GITHUB_REPOSITORY_URLS}
+
+    for url in (
+        "https://github.com/arupmaity1/book-writer-mcp",
+        "https://github.com/THUDM/LongWriter",
+        "https://github.com/google-deepmind/narrativeqa",
+        "https://github.com/booknlp/booknlp",
+        "https://github.com/getzep/graphiti",
+        "https://github.com/licensee/licensee",
+    ):
+        assert url.lower() in normalized_urls
+
+
 def test_discover_public_sources_fetches_explicit_github_repository_urls(monkeypatch):
     requested_urls: list[str] = []
 
