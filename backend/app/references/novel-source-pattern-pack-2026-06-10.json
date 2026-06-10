@@ -177,6 +177,12 @@
     "offline_style_mimicry_boundary_rules",
     "atelier_phase_manifest",
     "beat_tree_hook_audit_rules",
+    "book_mining_pattern_library_manifest",
+    "canon_seed_handoff_schema",
+    "multi_book_profile_boundary",
+    "autopilot_stop_condition_policy",
+    "chapter_commit_projection_manifest",
+    "read_model_health_policy",
     "epub_validation_policy",
     "opf_manifest_spine_policy",
     "ebook_accessibility_policy",
@@ -433,6 +439,12 @@
     "style_mimicry_boundary_report",
     "atelier_phase_handoff_trace",
     "beat_tree_hook_audit_report",
+    "book_mining_pattern_index",
+    "genesis_scoring_gate_report",
+    "multi_book_autopilot_session_audit",
+    "periodic_full_book_logic_check_report",
+    "chapter_commit_projection_health_report",
+    "read_model_memory_drift_audit",
     "temporal_canon_graph_schema",
     "episode_provenance_rules",
     "author_preference_memory_layers",
@@ -489,6 +501,11 @@
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
     "Before continuation, read the current active context and progress snapshot; after accepted chapter output, update every affected memory-bank layer.",
     "Compare each completed chapter against its planned outline so drift becomes an explicit decision instead of hidden context loss."
+  ],
+  "book_mining_genesis_automation_gate_hints": [
+    "拆书产物先进入 pattern library：只保留爽点、引擎、结构、人物技法等抽象条目，不让原书设定直接进新书正典。",
+    "立项阶段必须把 pattern assembly、市场/题材判断、评分门禁和 canon seed 分开，低分概念不能进入自动写作。",
+    "自动续写只能读取已验收 canon seed、伏笔账本、人物不变量和复杂度预算；source mining 笔记保持只读参考。"
   ],
   "bookrun_audit_trail_gate_hints": [
     "Treat each long-form generation run as a BookRun-style audit unit with blueprint, chapter plan, judge findings, repair attempts, accepted output, and export manifest.",
@@ -710,7 +727,10 @@
     "Every continuation or revision should write a replayable patch/state record so the latest manuscript can be rebuilt from outline plus patches.",
     "For ad-hoc continuation, convert the user's chapter intent into a single-chapter blueprint before drafting, then settle open threads after finalize.",
     "Inspiration-bank retrieval can guide tone or lore, but continuation prompts must label whether each item is accepted canon, note, or style-only reference.",
-    "Choose the atelier control mode up front: full automation, assisted phase handoff, or manual approval before any agent stage writes canon."
+    "Choose the atelier control mode up front: full automation, assisted phase handoff, or manual approval before any agent stage writes canon.",
+    "Before same-type continuation, separate source-book mining patterns from new canon seeds; only scored and accepted canon-seed fields may drive automation.",
+    "For multi-book runs, bind each continuation to one book profile, visible session, continue limit, and periodic full-book logic check.",
+    "Before drafting, confirm the latest accepted chapter commit has updated state, summaries, memory, and read-model projections."
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -800,6 +820,9 @@
     "Treat open_threads as state buckets: unresolved, partially paid, and development-needed items must be updated only after accepted chapter finalize.",
     "Keep inspiration-bank files outside canon memory until the author accepts a fact; style mimicry output stays in a separate style-boundary record.",
     "Persist each atelier phase handoff as beat tree, hook audit, owner, acceptance decision, and next phase input.",
+    "Store book-mining pattern ids, genesis scores, accepted canon seed, and automation gate decisions as separate state layers.",
+    "Persist per-book profile, session owner, autopilot counters, stop phrases, and full-book check cadence before continuing unattended batches.",
+    "Treat .story-system artifacts as source of truth and .webnovel projections as derived read models with freshness checks.",
     "Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.",
     "Persist source-entity redaction decisions before analysis or drafting so copied names, places, factions, artifacts, and powers cannot silently enter canon.",
     "Store fiction-specific entity labels separately from ordinary NER output: character, faction, location, artifact, title, ability, rank, and invented term.",
@@ -959,7 +982,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T16:20:00+08:00",
+  "generated_at": "2026-06-10T17:45:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -1205,6 +1228,9 @@
     "Reject same-type drafts whose open-thread statuses, payoff windows, or chapter intent route still mirror the source work.",
     "Reject inspiration-bank prompts that blend source passages, local canon, and style goals without source labels and copy-risk review.",
     "Reject atelier outputs that preserve source beat tree order, hook language, phase artifacts, or reviewer decisions under new labels.",
+    "Reject canon seeds that preserve source pattern ids as facts, reuse source payoff order, or skip scoring before automation.",
+    "Reject unattended same-type drafts when the book profile, stop limits, full-book check cadence, or context namespace is missing.",
+    "Reject drafts whose read-model projections are stale, whose chapter commit lineage is unclear, or whose memory scratchpad mixes source and transformed canon.",
     "Reject temporal graphs that preserve source event chronology, relationship validity windows, or provenance as transformed canon.",
     "Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.",
     "Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.",
@@ -1408,6 +1434,9 @@
     "impromptu_thread_pool_remap",
     "inspiration_bank_style_boundary_remap",
     "atelier_phase_beat_tree_remap",
+    "book_mined_pattern_to_canon_seed_remap",
+    "multi_book_profile_boundary_remap",
+    "chapter_commit_projection_remap",
     "temporal_graph_context_remap",
     "author_preference_memory_remap",
     "source_community_graph_remap",
@@ -1565,6 +1594,9 @@
     "For same-type drafting, rebuild the open-thread pool from the transformed story's own hooks instead of carrying source thread statuses.",
     "Use inspiration-bank items as labeled craft references only; same-type prompts must not treat local source files as canon or reusable prose.",
     "Use the atelier phase order as process scaffolding while rebuilding beat tree, hook targets, and role briefs for the new story.",
+    "Use book-mined patterns only after converting them into new canon-seed fields with new cast, engine, stakes, and payoff owners.",
+    "Treat a same-type project as a new book profile; never reuse the source book's session state, autopilot counters, or context files.",
+    "Build new chapter commits and read-model projections for the transformed story instead of replaying source commit state.",
     "Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.",
     "Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.",
     "Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.",
@@ -1733,6 +1765,9 @@
     "Transform source thread pools by changing each promise, partial payoff, and development path before opening the new chapter blueprint.",
     "Transform inspiration-bank references into fresh style constraints and local lore tasks; source documents stay outside accepted canon until reviewed.",
     "Transform atelier handoffs by assigning new phase artifacts, beat ids, hook owners, and reviewer criteria for the independent project.",
+    "Transform mining categories into abstract functions first, then create a distinct canon seed before any chapter automation runs.",
+    "Transform the studio scaffold by assigning a fresh book profile, stop conditions, continuity-check cadence, and per-book context namespace.",
+    "Transform the commit chain by starting a new accepted-commit lineage and derived projections for the independent story.",
     "Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.",
     "Transform author preferences into project-local style decisions without recording source-book facts as preferences.",
     "Transform source communities into new-story communities with different members, labels, causal pressures, and cross-community edges.",
@@ -1827,6 +1862,11 @@
     "Promote a preference into long-term memory only after it is confirmed or repeatedly used, not from one draft failure.",
     "During same-type creation, keep user/author preference memory separate from source-book deconstruction notes."
   ],
+  "longrun_commit_projection_health_gate_hints": [
+    "长跑连载用 chapter commit 作为验收边界：正文、事件、实体、摘要和记忆更新必须从同一 accepted commit 派生。",
+    "将 source-of-truth 文件和 read-model 投影分离；state、index、summary、memory 过期时禁止生成下一章。",
+    "只读 dashboard 展示投影健康、最近事件、记忆覆盖和漂移风险，不应成为修改正典的写入口。"
+  ],
   "lorebook_context_hints": [
     "Store lorebook entries as compact fact cards with activation keywords, priority, insertion depth, and token budget.",
     "Use recursive activation only for directly related lore; broad always-on entries should stay short and high priority.",
@@ -1866,6 +1906,11 @@
     "Use shingled MinHash/LSH-style checks to catch near-duplicate source windows before same-type drafts become accepted chapters.",
     "Review high-Jaccard clusters manually because genre formulas, required names, and boilerplate can be legitimate false positives.",
     "Record shingle size, threshold, and accepted/rewritten decisions so future prompt changes can be regression-tested."
+  ],
+  "multi_book_autopilot_studio_gate_hints": [
+    "多书并行时，每本书必须绑定独立 profile、项目目录、上下文文件和运行窗口，避免串书、串设定、串状态。",
+    "Autopilot 只负责推进已授权批次：继续次数、完成短语、人工停止和模型提问应答都要有可见边界。",
+    "每隔固定批次插入一次全书逻辑检查，先修时间线、人设、伏笔和设定硬伤，再进入下一轮连续写作。"
   ],
   "multi_level_review_trend_hints": [
     "Review at scene, chapter, batch, and cross-chapter trend levels; local pass status cannot hide repeated drift.",
@@ -2141,8 +2186,9 @@
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "Static refresh reconstructed from the previous local pattern pack plus manually reviewed public README/LICENSE metadata for three new repositories.",
-    "No clone, install, package manager, Docker, MCP, browser, provider call, local model, or external runtime was executed."
+    "??????????????????????????????",
+    "GitHub ????? pattern-only ???????????????????",
+    "????? book-mining?multi-book autopilot?longrun commit projection ????????"
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -2238,7 +2284,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 246,
+  "source_candidate_count": 249,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2279,6 +2325,7 @@
     "heider-x/vela",
     "starMagic/webnovel-writer-hermes",
     "makieali/longform-ai",
+    "DinhLucent/webnovel-longrun-aigen-docs",
     "Shine8592/novel-writer-skills",
     "Sigil-Ebook/Sigil",
     "jncchds/abook",
@@ -2417,6 +2464,8 @@
     "HZ-KMNO/web-novel-writing-guidance-skill",
     "truera/trulens",
     "textstat/textstat",
+    "zhitongblog/novel-studio",
+    "cchheerrss/ai-novel-trilogy",
     "darkautism/ai-novel-translation",
     "Arize-ai/phoenix",
     "rapidfuzz/RapidFuzz",
@@ -3100,6 +3149,15 @@
     "atelier_phase_handoff_trace",
     "beat_tree_audit_findings",
     "hook_auditor_notes",
+    "book_mining_pattern_review",
+    "genesis_scoring_findings",
+    "canon_seed_handoff_findings",
+    "multi_book_profile_audit",
+    "autopilot_stop_condition_findings",
+    "full_book_logic_check_notes",
+    "chapter_commit_projection_health",
+    "read_model_staleness_findings",
+    "memory_scratchpad_scope_notes",
     "topic_drift_map",
     "topic_cluster_timeline",
     "off_arc_topic_findings",
@@ -3410,10 +3468,10 @@
     "Compilation should record source scene order, filters/transforms, output path, and source state version.",
     "Keep compilation outputs derived; they must not write back into canon without review."
   ],
-  "workflow_pattern_count": 250,
+  "workflow_pattern_count": 253,
   "workflow_patterns": [
     {
-      "candidate_count": 15,
+      "candidate_count": 16,
       "name": "continuation",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3566,6 +3624,21 @@
             "license:missing"
           ],
           "url": "https://github.com/xindoo/sumeru"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "mcp_server"
+          ],
+          "score": 79,
+          "source": "github",
+          "stars": 1,
+          "summary": "Multi-book webnovel studio with Unterm profile isolation, Codex Claude Gemini CLI orchestration, autopilot, maxAutoContinue, fullCheckEvery, periodic full-book logic check cadence, desktop Tauri, CLI and MCP surfaces. Static intake note: Novel Studio is a MIT multi-book webnovel ",
+          "title": "zhitongblog/novel-studio",
+          "trust_flags": [],
+          "url": "https://github.com/zhitongblog/novel-studio"
         },
         {
           "license": "Apache-2.0",
@@ -4002,12 +4075,13 @@
       ]
     },
     {
-      "candidate_count": 13,
+      "candidate_count": 14,
       "name": "chapter_generation",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
-        "postinstall"
+        "postinstall",
+        "powershell_script"
       ],
       "sources": [
         {
@@ -4190,6 +4264,21 @@
           "title": "mjbae/awesome-novel-studio",
           "trust_flags": [],
           "url": "https://github.com/mjbae/awesome-novel-studio"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "powershell_script"
+          ],
+          "score": 79,
+          "source": "github",
+          "stars": 1,
+          "summary": "Three-system AI webnovel pipeline: book-mining -> novel-genesis -> novel-automation with pattern assembly, market scan, scoring gate, canon-seed handoff and pattern-aware quality gates. Static intake note: AI Novel Trilogy is a MIT three-system Chinese webnovel pipeline: book-min",
+          "title": "cchheerrss/ai-novel-trilogy",
+          "trust_flags": [],
+          "url": "https://github.com/cchheerrss/ai-novel-trilogy"
         }
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
@@ -5506,6 +5595,33 @@
     },
     {
       "candidate_count": 1,
+      "name": "book_mining_genesis_automation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "powershell_script"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "powershell_script"
+          ],
+          "score": 79,
+          "source": "github",
+          "stars": 1,
+          "summary": "Three-system AI webnovel pipeline: book-mining -> novel-genesis -> novel-automation with pattern assembly, market scan, scoring gate, canon-seed handoff and pattern-aware quality gates. Static intake note: AI Novel Trilogy is a MIT three-system Chinese webnovel pipeline: book-min",
+          "title": "cchheerrss/ai-novel-trilogy",
+          "trust_flags": [],
+          "url": "https://github.com/cchheerrss/ai-novel-trilogy"
+        }
+      ],
+      "top_source_url": "https://github.com/cchheerrss/ai-novel-trilogy",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "abstract_style_learning_skill_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -5734,7 +5850,7 @@
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "story_contract_commit_chain",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -5751,6 +5867,19 @@
           "title": "starMagic/webnovel-writer-hermes",
           "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
         },
         {
           "license": "NOASSERTION",
@@ -5780,6 +5909,29 @@
         }
       ],
       "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "longrun_commit_projection_health_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
+        }
+      ],
+      "top_source_url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
       "trust_flags": []
     },
     {
@@ -6597,6 +6749,42 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "community_graph_source_deconstruction",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 90,
+          "source": "github",
+          "stars": 30100,
+          "summary": "GraphRAG provides source-book deconstruction patterns: structured extraction from unstructured text, entity/community reports, global search, and local graph neighborhood answers.",
+          "title": "microsoft/graphrag",
+          "trust_flags": [],
+          "url": "https://github.com/microsoft/graphrag"
+        }
+      ],
+      "top_source_url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "portable_canon_skill_runtime_gate",
       "posture_hint": "metadata-triage",
@@ -6660,7 +6848,7 @@
           "score": 95,
           "source": "github",
           "stars": 1,
-          "summary": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader. Static intake note: Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many ",
+          "summary": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader. Static intake note: Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many",
           "title": "huodebing-alt/Claude-Code-Novel-Agents",
           "trust_flags": [],
           "url": "https://github.com/huodebing-alt/Claude-Code-Novel-Agents"
@@ -6847,29 +7035,6 @@
         }
       ],
       "top_source_url": "https://github.com/computationalstylistics/stylo",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "community_graph_source_deconstruction",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 90,
-          "source": "github",
-          "stars": 30100,
-          "summary": "GraphRAG provides source-book deconstruction patterns: structured extraction from unstructured text, entity/community reports, global search, and local graph neighborhood answers.",
-          "title": "microsoft/graphrag",
-          "trust_flags": [],
-          "url": "https://github.com/microsoft/graphrag"
-        }
-      ],
-      "top_source_url": "https://github.com/microsoft/graphrag",
       "trust_flags": []
     },
     {
@@ -7214,6 +7379,33 @@
         }
       ],
       "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "multi_book_autopilot_studio_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "mcp_server"
+          ],
+          "score": 79,
+          "source": "github",
+          "stars": 1,
+          "summary": "Multi-book webnovel studio with Unterm profile isolation, Codex Claude Gemini CLI orchestration, autopilot, maxAutoContinue, fullCheckEvery, periodic full-book logic check cadence, desktop Tauri, CLI and MCP surfaces. Static intake note: Novel Studio is a MIT multi-book webnovel ",
+          "title": "zhitongblog/novel-studio",
+          "trust_flags": [],
+          "url": "https://github.com/zhitongblog/novel-studio"
+        }
+      ],
+      "top_source_url": "https://github.com/zhitongblog/novel-studio",
       "trust_flags": []
     },
     {
@@ -8889,7 +9081,7 @@
           "score": 95,
           "source": "github",
           "stars": 1,
-          "summary": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader. Static intake note: Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many ",
+          "summary": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader. Static intake note: Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many",
           "title": "huodebing-alt/Claude-Code-Novel-Agents",
           "trust_flags": [],
           "url": "https://github.com/huodebing-alt/Claude-Code-Novel-Agents"
@@ -8925,7 +9117,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "accepted_chapter_memory",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -8946,6 +9138,19 @@
           "title": "YfengJ/novel-studio-ai",
           "trust_flags": [],
           "url": "https://github.com/YfengJ/novel-studio-ai"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
         },
         {
           "license": "NOASSERTION",
@@ -9709,6 +9914,42 @@
       ]
     },
     {
+      "candidate_count": 2,
+      "name": "inline_author_edit_markup_versioning",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
+        },
+        {
+          "license": "MIT-0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 78,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story Framework keeps fiction work in markdown and git, with planning docs as source of truth, continuity timeline/facts, author-note markers, edit-note markers, process-edit-notes flow, and revision tags.",
+          "title": "lordjabez/story-framework",
+          "trust_flags": [],
+          "url": "https://github.com/lordjabez/story-framework"
+        }
+      ],
+      "top_source_url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 3,
       "name": "ebook_accessibility_audit_gate",
       "posture_hint": "metadata-triage",
@@ -10014,29 +10255,6 @@
         }
       ],
       "top_source_url": "https://github.com/truera/trulens",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "inline_author_edit_markup_versioning",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT-0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 78,
-          "source": "github",
-          "stars": 2,
-          "summary": "Story Framework keeps fiction work in markdown and git, with planning docs as source of truth, continuity timeline/facts, author-note markers, edit-note markers, process-edit-notes flow, and revision tags.",
-          "title": "lordjabez/story-framework",
-          "trust_flags": [],
-          "url": "https://github.com/lordjabez/story-framework"
-        }
-      ],
-      "top_source_url": "https://github.com/lordjabez/story-framework",
       "trust_flags": []
     },
     {
@@ -11802,7 +12020,7 @@
       ]
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 7,
       "name": "projection_sync_observability",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -11855,6 +12073,19 @@
           "title": "starMagic/webnovel-writer-hermes",
           "trust_flags": [],
           "url": "https://github.com/starMagic/webnovel-writer-hermes"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
         },
         {
           "license": "NOASSERTION",
@@ -12160,7 +12391,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "user_modifier_project_blueprint_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -12183,6 +12414,19 @@
             "license:missing"
           ],
           "url": "https://github.com/liaoma1993/aiAIfiction"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
         },
         {
           "license": "unknown",
@@ -12653,7 +12897,7 @@
           "score": 95,
           "source": "github",
           "stars": 1,
-          "summary": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader. Static intake note: Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many ",
+          "summary": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader. Static intake note: Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many",
           "title": "huodebing-alt/Claude-Code-Novel-Agents",
           "trust_flags": [],
           "url": "https://github.com/huodebing-alt/Claude-Code-Novel-Agents"
@@ -13120,7 +13364,7 @@
           "score": 95,
           "source": "github",
           "stars": 1,
-          "summary": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader. Static intake note: Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many ",
+          "summary": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader. Static intake note: Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many",
           "title": "huodebing-alt/Claude-Code-Novel-Agents",
           "trust_flags": [],
           "url": "https://github.com/huodebing-alt/Claude-Code-Novel-Agents"
@@ -15838,11 +16082,12 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "trend_deconstruction_pipeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
+        "powershell_script",
         "shell_script"
       ],
       "sources": [
@@ -15886,6 +16131,21 @@
           "title": "lingfengQAQ/webnovel-writer",
           "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "powershell_script"
+          ],
+          "score": 79,
+          "source": "github",
+          "stars": 1,
+          "summary": "Three-system AI webnovel pipeline: book-mining -> novel-genesis -> novel-automation with pattern assembly, market scan, scoring gate, canon-seed handoff and pattern-aware quality gates. Static intake note: AI Novel Trilogy is a MIT three-system Chinese webnovel pipeline: book-min",
+          "title": "cchheerrss/ai-novel-trilogy",
+          "trust_flags": [],
+          "url": "https://github.com/cchheerrss/ai-novel-trilogy"
         },
         {
           "license": "MIT",
@@ -16569,7 +16829,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 23,
+      "candidate_count": 24,
       "name": "context_reference",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -16691,6 +16951,19 @@
           "title": "makieali/longform-ai",
           "trust_flags": [],
           "url": "https://github.com/makieali/longform-ai"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
         },
         {
           "license": "Apache-2.0",
@@ -16913,7 +17186,7 @@
       ]
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "entity_to_visual_asset_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -16924,6 +17197,19 @@
         "external_api_surface"
       ],
       "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, events, entity extraction, .webnovel state.json index.db summaries memory_scratchpad read-model projections, RAG query router and read-only dashboard. Static intake note: Webnovel Longrun AIGen do",
+          "title": "DinhLucent/webnovel-longrun-aigen-docs",
+          "trust_flags": [],
+          "url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -16958,7 +17244,7 @@
           "url": "https://github.com/Anning01/novelvids"
         }
       ],
-      "top_source_url": "https://github.com/MemeCalculate/moyin-creator",
+      "top_source_url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
       "trust_flags": []
     },
     {

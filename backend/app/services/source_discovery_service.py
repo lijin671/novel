@@ -199,6 +199,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("improvised writing" OR "open_threads" OR "single-chapter blueprint") ("novel" OR "web novel" OR "continuation") in:name,description,readme',
     '("inspiration bank" OR "style mimicry" OR "offline creative writing") ("novel" OR "long-form" OR "local RAG") in:name,description,readme',
     '("novel atelier" OR "beat planner" OR "hook auditor" OR "infinite-serial") ("Claude Code" OR "multi-agent novel") in:name,description,readme',
+    '("book-mining" OR "novel-genesis" OR "canon-seed") ("novel-automation" OR "webnovel") in:name,description,readme',
+    '("multi-book" OR "autopilot" OR "full-book logic check") ("novel studio" OR "webnovel") in:name,description,readme',
+    '("CHAPTER_COMMIT" OR ".story-system" OR "read-model") ("webnovel" OR "longrun" OR "novel") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -457,6 +460,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/tuxiangxianzhe/NovelWriter_public",
     "https://github.com/MA-Bihani/Novelia_public",
     "https://github.com/huodebing-alt/Claude-Code-Novel-Agents",
+    "https://github.com/cchheerrss/ai-novel-trilogy",
+    "https://github.com/zhitongblog/novel-studio",
+    "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -742,6 +748,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("impromptu_thread_pool_chapter_gate", ("improvised writing", "即兴写作", "open_threads", "伏笔池", "single-chapter blueprint", "单章蓝图", "chapter intent", "口述意图", "finalize", "已埋未收", "已收未结", "待开发")),
     ("offline_inspiration_bank_style_gate", ("inspiration bank", "100% offline", "offline & private", "offline creative writing", "style mimicry", "dynamic style engine", "local ollama", "local rag pipeline", "lancedb", "inspiration", "rewrite", "continue")),
     ("atelier_phase_pipeline_gate", ("novel atelier", "50 agents", "70 skills", "6-phase pipeline", "beat planner", "hook auditor", "infinite-serial", "human control", "manual mode", "semi mode", "full mode", "developmental editor", "continuity reader")),
+    ("book_mining_genesis_automation_gate", ("book-mining", "book mining", "novel-genesis", "novel automation", "novel-automation", "canon-seed", "canon seed", "pattern assembly", "market scan", "scoring gate", "pattern-aware quality gates", "library/index.yaml")),
+    ("multi_book_autopilot_studio_gate", ("multi-book", "multi book", "autopilot", "full-book logic check", "full book logic check", "fullcheckevery", "maxautocontinue", "unterm profile", "bookshelf", "book shelf", "multi-interface", "多本长篇", "全文逻辑自检")),
+    ("longrun_commit_projection_health_gate", (".story-system", ".webnovel", "chapter_commit", "CHAPTER_COMMIT", "read-model", "read model", "projection writers", "memory_scratchpad", "state.json", "index.db", "longrun aigen", "context agent", "data agent", "read-only dashboard")),
     ("temporal_canon_context_graph", ("graphiti", "temporal knowledge graph", "temporal context", "episodes", "bi-temporal", "valid_at", "invalid_at", "hybrid search", "provenance tracking")),
     ("long_term_author_preference_memory", ("mem0", "memory layer", "long-term memory", "user preferences", "session memory", "adaptive personalization", "multi-level memory", "episodic memory")),
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
@@ -1787,6 +1796,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many specialized agents, skills, a six-phase pipeline, detailed beat planner, hook auditor, outline reviewer, PDF compositor, and infinite-serial mode. "
         "Pattern-only adaptation for phase manifests, beat-tree handoffs, hook audits, and human-control modes; agent definitions, skills, and install/runtime instructions are not imported or executed."
     ),
+    "cchheerrss/ai-novel-trilogy": (
+        "AI Novel Trilogy is a MIT three-system Chinese webnovel pipeline: book-mining extracts reusable patterns, novel-genesis validates concepts and emits canon seed YAML, and novel-automation applies pattern-aware chapter gates. "
+        "Pattern-only adaptation for deconstruction-to-genesis handoff, canon seed separation, scoring gates, and automation boundaries; PowerShell tools, Claude/Codex runtime manifests, and source texts are not executed or imported."
+    ),
+    "zhitongblog/novel-studio": (
+        "Novel Studio is a MIT multi-book webnovel studio that orchestrates Unterm profiles with Codex, Claude Code, and Gemini CLI, exposing desktop/TUI/CLI/MCP surfaces, autopilot continuation, periodic full-book logic checks, and per-book context files. "
+        "Pattern-only adaptation for multi-book session isolation, autopilot stop conditions, periodic continuity audits, and human-visible studio control; npm/Tauri/MCP/runtime surfaces and auth tokens are not launched or read."
+    ),
+    "dinhlucent/webnovel-longrun-aigen-docs": (
+        "Webnovel Longrun AIGen docs describe a long-running webnovel system with .story-system as the source of truth, accepted chapter commits, event extraction, .webnovel read-model projections, RAG/query routing, memory scratchpad, and read-only dashboard. "
+        "Pattern-only adaptation for commit-to-projection health gates and longrun memory hygiene; GPL docs are not copied, and Python/runtime components are not installed."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2301,6 +2322,9 @@ class NovelSourceDiscoveryService:
             "impromptu_thread_pool_chapter_gate_hints": self._build_impromptu_thread_pool_chapter_gate_hints(available_patterns),
             "offline_inspiration_bank_style_gate_hints": self._build_offline_inspiration_bank_style_gate_hints(available_patterns),
             "atelier_phase_pipeline_gate_hints": self._build_atelier_phase_pipeline_gate_hints(available_patterns),
+            "book_mining_genesis_automation_gate_hints": self._build_book_mining_genesis_automation_gate_hints(available_patterns),
+            "multi_book_autopilot_studio_gate_hints": self._build_multi_book_autopilot_studio_gate_hints(available_patterns),
+            "longrun_commit_projection_health_gate_hints": self._build_longrun_commit_projection_health_gate_hints(available_patterns),
             "temporal_canon_context_graph_hints": self._build_temporal_canon_context_graph_hints(available_patterns),
             "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
@@ -2967,6 +2991,9 @@ class NovelSourceDiscoveryService:
             "impromptu_thread_pool_chapter_gate": 68,
             "offline_inspiration_bank_style_gate": 67,
             "atelier_phase_pipeline_gate": 66,
+            "book_mining_genesis_automation_gate": 70,
+            "multi_book_autopilot_studio_gate": 66,
+            "longrun_commit_projection_health_gate": 68,
             "temporal_canon_context_graph": 68,
             "long_term_author_preference_memory": 64,
             "community_graph_source_deconstruction": 66,
@@ -3086,6 +3113,15 @@ class NovelSourceDiscoveryService:
         if "atelier_phase_pipeline_gate" in patterns:
             targets.append("atelier_phase_manifest")
             targets.append("beat_tree_hook_audit_rules")
+        if "book_mining_genesis_automation_gate" in patterns:
+            targets.append("book_mining_pattern_library_manifest")
+            targets.append("canon_seed_handoff_schema")
+        if "multi_book_autopilot_studio_gate" in patterns:
+            targets.append("multi_book_profile_boundary")
+            targets.append("autopilot_stop_condition_policy")
+        if "longrun_commit_projection_health_gate" in patterns:
+            targets.append("chapter_commit_projection_manifest")
+            targets.append("read_model_health_policy")
         if "epub_structure_validation_gate" in patterns:
             targets.append("epub_validation_policy")
             targets.append("opf_manifest_spine_policy")
@@ -3490,6 +3526,15 @@ class NovelSourceDiscoveryService:
         if "atelier_phase_pipeline_gate" in patterns:
             targets.append("atelier_phase_handoff_trace")
             targets.append("beat_tree_hook_audit_report")
+        if "book_mining_genesis_automation_gate" in patterns:
+            targets.append("book_mining_pattern_index")
+            targets.append("genesis_scoring_gate_report")
+        if "multi_book_autopilot_studio_gate" in patterns:
+            targets.append("multi_book_autopilot_session_audit")
+            targets.append("periodic_full_book_logic_check_report")
+        if "longrun_commit_projection_health_gate" in patterns:
+            targets.append("chapter_commit_projection_health_report")
+            targets.append("read_model_memory_drift_audit")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_canon_graph_schema")
             targets.append("episode_provenance_rules")
@@ -3889,6 +3934,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["inspiration_bank_scope_report", "offline_style_mimicry_findings", "local_reference_boundary_notes"])
         if "atelier_phase_pipeline_gate" in patterns:
             targets.extend(["atelier_phase_handoff_trace", "beat_tree_audit_findings", "hook_auditor_notes"])
+        if "book_mining_genesis_automation_gate" in patterns:
+            targets.extend(["book_mining_pattern_review", "genesis_scoring_findings", "canon_seed_handoff_findings"])
+        if "multi_book_autopilot_studio_gate" in patterns:
+            targets.extend(["multi_book_profile_audit", "autopilot_stop_condition_findings", "full_book_logic_check_notes"])
+        if "longrun_commit_projection_health_gate" in patterns:
+            targets.extend(["chapter_commit_projection_health", "read_model_staleness_findings", "memory_scratchpad_scope_notes"])
         if "topic_drift_map" in patterns:
             targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
         if "context_faithfulness_eval_gate" in patterns:
@@ -3967,6 +4018,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["inspiration_bank_scope_report", "offline_style_mimicry_findings", "local_reference_boundary_notes"])
         if "atelier_phase_pipeline_gate" in patterns:
             targets.extend(["atelier_phase_handoff_trace", "beat_tree_audit_findings", "hook_auditor_notes"])
+        if "book_mining_genesis_automation_gate" in patterns:
+            targets.extend(["book_mining_pattern_review", "genesis_scoring_findings", "canon_seed_handoff_findings"])
+        if "multi_book_autopilot_studio_gate" in patterns:
+            targets.extend(["multi_book_profile_audit", "autopilot_stop_condition_findings", "full_book_logic_check_notes"])
+        if "longrun_commit_projection_health_gate" in patterns:
+            targets.extend(["chapter_commit_projection_health", "read_model_staleness_findings", "memory_scratchpad_scope_notes"])
         if "temporal_canon_context_graph" in patterns:
             targets.extend(["temporal_canon_graph_report", "episode_provenance_trace", "validity_window_conflicts"])
         if "long_term_author_preference_memory" in patterns:
@@ -4264,6 +4321,12 @@ class NovelSourceDiscoveryService:
             hints.append("Inspiration-bank retrieval can guide tone or lore, but continuation prompts must label whether each item is accepted canon, note, or style-only reference.")
         if "atelier_phase_pipeline_gate" in patterns:
             hints.append("Choose the atelier control mode up front: full automation, assisted phase handoff, or manual approval before any agent stage writes canon.")
+        if "book_mining_genesis_automation_gate" in patterns:
+            hints.append("Before same-type continuation, separate source-book mining patterns from new canon seeds; only scored and accepted canon-seed fields may drive automation.")
+        if "multi_book_autopilot_studio_gate" in patterns:
+            hints.append("For multi-book runs, bind each continuation to one book profile, visible session, continue limit, and periodic full-book logic check.")
+        if "longrun_commit_projection_health_gate" in patterns:
+            hints.append("Before drafting, confirm the latest accepted chapter commit has updated state, summaries, memory, and read-model projections.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -4441,6 +4504,12 @@ class NovelSourceDiscoveryService:
             hints.append("Keep inspiration-bank files outside canon memory until the author accepts a fact; style mimicry output stays in a separate style-boundary record.")
         if "atelier_phase_pipeline_gate" in patterns:
             hints.append("Persist each atelier phase handoff as beat tree, hook audit, owner, acceptance decision, and next phase input.")
+        if "book_mining_genesis_automation_gate" in patterns:
+            hints.append("Store book-mining pattern ids, genesis scores, accepted canon seed, and automation gate decisions as separate state layers.")
+        if "multi_book_autopilot_studio_gate" in patterns:
+            hints.append("Persist per-book profile, session owner, autopilot counters, stop phrases, and full-book check cadence before continuing unattended batches.")
+        if "longrun_commit_projection_health_gate" in patterns:
+            hints.append("Treat .story-system artifacts as source of truth and .webnovel projections as derived read models with freshness checks.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         if "source_entity_redaction_gate" in patterns:
@@ -6468,6 +6537,33 @@ class NovelSourceDiscoveryService:
             "Hook auditors and continuity readers can block a beat or chapter, but they should emit review findings rather than silently rewriting prose.",
         ]
 
+    def _build_book_mining_genesis_automation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "book_mining_genesis_automation_gate" not in patterns:
+            return []
+        return [
+            "拆书产物先进入 pattern library：只保留爽点、引擎、结构、人物技法等抽象条目，不让原书设定直接进新书正典。",
+            "立项阶段必须把 pattern assembly、市场/题材判断、评分门禁和 canon seed 分开，低分概念不能进入自动写作。",
+            "自动续写只能读取已验收 canon seed、伏笔账本、人物不变量和复杂度预算；source mining 笔记保持只读参考。",
+        ]
+
+    def _build_multi_book_autopilot_studio_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "multi_book_autopilot_studio_gate" not in patterns:
+            return []
+        return [
+            "多书并行时，每本书必须绑定独立 profile、项目目录、上下文文件和运行窗口，避免串书、串设定、串状态。",
+            "Autopilot 只负责推进已授权批次：继续次数、完成短语、人工停止和模型提问应答都要有可见边界。",
+            "每隔固定批次插入一次全书逻辑检查，先修时间线、人设、伏笔和设定硬伤，再进入下一轮连续写作。",
+        ]
+
+    def _build_longrun_commit_projection_health_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "longrun_commit_projection_health_gate" not in patterns:
+            return []
+        return [
+            "长跑连载用 chapter commit 作为验收边界：正文、事件、实体、摘要和记忆更新必须从同一 accepted commit 派生。",
+            "将 source-of-truth 文件和 read-model 投影分离；state、index、summary、memory 过期时禁止生成下一章。",
+            "只读 dashboard 展示投影健康、最近事件、记忆覆盖和漂移风险，不应成为修改正典的写入口。",
+        ]
+
     def _build_temporal_canon_context_graph_hints(self, patterns: set[str]) -> list[str]:
         if "temporal_canon_context_graph" not in patterns:
             return []
@@ -7003,6 +7099,12 @@ class NovelSourceDiscoveryService:
             targets.append("inspiration_bank_style_boundary_remap")
         if "atelier_phase_pipeline_gate" in patterns:
             targets.append("atelier_phase_beat_tree_remap")
+        if "book_mining_genesis_automation_gate" in patterns:
+            targets.append("book_mined_pattern_to_canon_seed_remap")
+        if "multi_book_autopilot_studio_gate" in patterns:
+            targets.append("multi_book_profile_boundary_remap")
+        if "longrun_commit_projection_health_gate" in patterns:
+            targets.append("chapter_commit_projection_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -7322,6 +7424,12 @@ class NovelSourceDiscoveryService:
             hints.append("Use inspiration-bank items as labeled craft references only; same-type prompts must not treat local source files as canon or reusable prose.")
         if "atelier_phase_pipeline_gate" in patterns:
             hints.append("Use the atelier phase order as process scaffolding while rebuilding beat tree, hook targets, and role briefs for the new story.")
+        if "book_mining_genesis_automation_gate" in patterns:
+            hints.append("Use book-mined patterns only after converting them into new canon-seed fields with new cast, engine, stakes, and payoff owners.")
+        if "multi_book_autopilot_studio_gate" in patterns:
+            hints.append("Treat a same-type project as a new book profile; never reuse the source book's session state, autopilot counters, or context files.")
+        if "longrun_commit_projection_health_gate" in patterns:
+            hints.append("Build new chapter commits and read-model projections for the transformed story instead of replaying source commit state.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.")
         if "long_term_author_preference_memory" in patterns:
@@ -7663,6 +7771,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform inspiration-bank references into fresh style constraints and local lore tasks; source documents stay outside accepted canon until reviewed.")
         if "atelier_phase_pipeline_gate" in patterns:
             hints.append("Transform atelier handoffs by assigning new phase artifacts, beat ids, hook owners, and reviewer criteria for the independent project.")
+        if "book_mining_genesis_automation_gate" in patterns:
+            hints.append("Transform mining categories into abstract functions first, then create a distinct canon seed before any chapter automation runs.")
+        if "multi_book_autopilot_studio_gate" in patterns:
+            hints.append("Transform the studio scaffold by assigning a fresh book profile, stop conditions, continuity-check cadence, and per-book context namespace.")
+        if "longrun_commit_projection_health_gate" in patterns:
+            hints.append("Transform the commit chain by starting a new accepted-commit lineage and derived projections for the independent story.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -8040,6 +8154,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject inspiration-bank prompts that blend source passages, local canon, and style goals without source labels and copy-risk review.")
         if "atelier_phase_pipeline_gate" in patterns:
             hints.append("Reject atelier outputs that preserve source beat tree order, hook language, phase artifacts, or reviewer decisions under new labels.")
+        if "book_mining_genesis_automation_gate" in patterns:
+            hints.append("Reject canon seeds that preserve source pattern ids as facts, reuse source payoff order, or skip scoring before automation.")
+        if "multi_book_autopilot_studio_gate" in patterns:
+            hints.append("Reject unattended same-type drafts when the book profile, stop limits, full-book check cadence, or context namespace is missing.")
+        if "longrun_commit_projection_health_gate" in patterns:
+            hints.append("Reject drafts whose read-model projections are stale, whose chapter commit lineage is unclear, or whose memory scratchpad mixes source and transformed canon.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Reject temporal graphs that preserve source event chronology, relationship validity windows, or provenance as transformed canon.")
         if "long_term_author_preference_memory" in patterns:
@@ -8163,6 +8283,9 @@ class NovelSourceDiscoveryService:
                 "impromptu_thread_pool_chapter_gate",
                 "offline_inspiration_bank_style_gate",
                 "atelier_phase_pipeline_gate",
+                "book_mining_genesis_automation_gate",
+                "multi_book_autopilot_studio_gate",
+                "longrun_commit_projection_health_gate",
                 "temporal_canon_context_graph",
                 "long_term_author_preference_memory",
                 "community_graph_source_deconstruction",

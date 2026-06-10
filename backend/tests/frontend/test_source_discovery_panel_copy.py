@@ -63,6 +63,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "impromptu_thread_pool_chapter_gate_hints",
         "offline_inspiration_bank_style_gate_hints",
         "atelier_phase_pipeline_gate_hints",
+        "book_mining_genesis_automation_gate_hints",
+        "multi_book_autopilot_studio_gate_hints",
+        "longrun_commit_projection_health_gate_hints",
     ):
         assert field in types_text
         assert field in panel_text
@@ -100,6 +103,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Impromptu thread-pool chapter gates" in panel_text
     assert "Offline inspiration-bank style gates" in panel_text
     assert "Atelier phase pipeline gates" in panel_text
+    assert "Book-mining / autopilot / longrun gates" in panel_text
+    assert "Book mining genesis automation gates" in panel_text
+    assert "Multi-book autopilot studio gates" in panel_text
+    assert "Longrun commit projection health gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():

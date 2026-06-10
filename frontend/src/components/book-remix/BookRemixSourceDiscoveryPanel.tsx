@@ -67,6 +67,9 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/tuxiangxianzhe/NovelWriter_public',
   'https://github.com/MA-Bihani/Novelia_public',
   'https://github.com/huodebing-alt/Claude-Code-Novel-Agents',
+  'https://github.com/cchheerrss/ai-novel-trilogy',
+  'https://github.com/zhitongblog/novel-studio',
+  'https://github.com/DinhLucent/webnovel-longrun-aigen-docs',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -129,6 +132,9 @@ const PINNED_HINT_KEYS = new Set([
   'impromptu_thread_pool_chapter_gate_hints',
   'offline_inspiration_bank_style_gate_hints',
   'atelier_phase_pipeline_gate_hints',
+  'book_mining_genesis_automation_gate_hints',
+  'multi_book_autopilot_studio_gate_hints',
+  'longrun_commit_projection_health_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -376,6 +382,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Impromptu thread-pool chapter gates', patternPackPayload?.impromptu_thread_pool_chapter_gate_hints],
               ['Offline inspiration-bank style gates', patternPackPayload?.offline_inspiration_bank_style_gate_hints],
               ['Atelier phase pipeline gates', patternPackPayload?.atelier_phase_pipeline_gate_hints],
+            ])}
+            {renderHintGroup('Book-mining / autopilot / longrun gates', [
+              ['Book mining genesis automation gates', patternPackPayload?.book_mining_genesis_automation_gate_hints],
+              ['Multi-book autopilot studio gates', patternPackPayload?.multi_book_autopilot_studio_gate_hints],
+              ['Longrun commit projection health gates', patternPackPayload?.longrun_commit_projection_health_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

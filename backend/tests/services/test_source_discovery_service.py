@@ -8380,3 +8380,72 @@ def test_static_impromptu_offline_atelier_sources_map_to_workflow_gates():
     assert "impromptu_thread_pool_chapter_gate_hints" in digest
     assert "offline_inspiration_bank_style_gate_hints" in digest
     assert "atelier_phase_pipeline_gate_hints" in digest
+
+
+def test_static_book_mining_autopilot_longrun_sources_map_to_workflow_gates():
+    assert "https://github.com/cchheerrss/ai-novel-trilogy" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/zhitongblog/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/DinhLucent/webnovel-longrun-aigen-docs" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("book-mining" in query and "canon-seed" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("multi-book" in query and "autopilot" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("CHAPTER_COMMIT" in query and ".story-system" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "cchheerrss/ai-novel-trilogy",
+                "html_url": "https://github.com/cchheerrss/ai-novel-trilogy",
+                "description": "Three-system AI webnovel pipeline: book-mining -> novel-genesis -> novel-automation with pattern assembly, market scan, scoring gate, canon-seed handoff and pattern-aware quality gates.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "book-mining", "novel-automation"],
+                "updated_at": "2026-06-04T07:36:49Z",
+                "root_files": ["README.md", "LICENSE", "book-mining", "novel-genesis", "novel-automation"],
+            },
+            {
+                "full_name": "zhitongblog/novel-studio",
+                "html_url": "https://github.com/zhitongblog/novel-studio",
+                "description": "Multi-book webnovel studio with Unterm profile isolation, Codex Claude Gemini CLI orchestration, autopilot, maxAutoContinue, fullCheckEvery and full-book logic check cadence.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "autopilot", "multi-book"],
+                "updated_at": "2026-06-09T08:58:23Z",
+                "root_files": ["README.md", "package.json", "mcp.json", "desktop", "src"],
+            },
+            {
+                "full_name": "DinhLucent/webnovel-longrun-aigen-docs",
+                "html_url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
+                "description": "Webnovel Longrun AIGen uses .story-system source of truth, accepted CHAPTER_COMMIT, .webnovel state.json index.db summaries memory_scratchpad read-model projections and read-only dashboard.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["webnovel", "longrun", "memory"],
+                "updated_at": "2026-05-17T06:32:24Z",
+                "root_files": ["README.md", "LICENSE", "docs/assets/system-architecture.svg"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T17:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "book_mining_genesis_automation_gate" in candidates["cchheerrss/ai-novel-trilogy"]["absorbed_patterns"]
+    assert "multi_book_autopilot_studio_gate" in candidates["zhitongblog/novel-studio"]["absorbed_patterns"]
+    assert "longrun_commit_projection_health_gate" in candidates["DinhLucent/webnovel-longrun-aigen-docs"]["absorbed_patterns"]
+    assert "trend_deconstruction_pipeline" in candidates["cchheerrss/ai-novel-trilogy"]["absorbed_patterns"]
+    assert "continuation" in candidates["zhitongblog/novel-studio"]["absorbed_patterns"]
+    assert "accepted_chapter_memory" in candidates["DinhLucent/webnovel-longrun-aigen-docs"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "book_mining_genesis_automation_gate_hints" in pattern_pack
+    assert "multi_book_autopilot_studio_gate_hints" in pattern_pack
+    assert "longrun_commit_projection_health_gate_hints" in pattern_pack
+    assert "canon_seed_handoff_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "multi_book_profile_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_commit_projection_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "book_mining_genesis_automation_gate_hints" in digest
+    assert "multi_book_autopilot_studio_gate_hints" in digest
+    assert "longrun_commit_projection_health_gate_hints" in digest

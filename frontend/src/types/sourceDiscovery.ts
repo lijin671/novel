@@ -122,6 +122,9 @@ export interface SourceDiscoveryPatternPack {
   impromptu_thread_pool_chapter_gate_hints?: string[];
   offline_inspiration_bank_style_gate_hints?: string[];
   atelier_phase_pipeline_gate_hints?: string[];
+  book_mining_genesis_automation_gate_hints?: string[];
+  multi_book_autopilot_studio_gate_hints?: string[];
+  longrun_commit_projection_health_gate_hints?: string[];
   safety_constraints?: string[];
 }
 
