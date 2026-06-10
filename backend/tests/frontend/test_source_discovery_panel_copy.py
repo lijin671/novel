@@ -12,6 +12,14 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     types_text = types.read_text(encoding="utf-8")
 
     for field in (
+        "continuation_prompt_hints",
+        "style_signature_hints",
+        "structured_generation_hints",
+        "card_workbench_hints",
+        "context_reference_hints",
+        "scene_asset_pipeline_hints",
+        "publication_pipeline_hints",
+        "self_review_policy_hints",
         "inspired_mapping_targets",
         "inspired_prompt_hints",
         "inspired_transformation_hints",
@@ -198,6 +206,15 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         assert field in types_text
         assert field in panel_text
 
+    assert "Core remix kernel gates" in panel_text
+    assert "Continuation prompt hints" in panel_text
+    assert "Style signature hints" in panel_text
+    assert "Structured generation hints" in panel_text
+    assert "Card workbench hints" in panel_text
+    assert "Context reference hints" in panel_text
+    assert "Scene asset pipeline hints" in panel_text
+    assert "Publication pipeline hints" in panel_text
+    assert "Self-review policy hints" in panel_text
     assert "Inspired mapping targets" in panel_text
     assert "Inspired copy-risk hints" in panel_text
     assert "Lorebook context hints" in panel_text
@@ -490,6 +507,22 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         assert repo in panel_text
 
 
+def test_source_discovery_panel_default_seeds_match_backend_registry():
+    repo_root = Path(__file__).resolve().parents[3]
+    service = repo_root / "backend" / "app" / "services" / "source_discovery_service.py"
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+
+    service_text = service.read_text(encoding="utf-8")
+    panel_text = panel.read_text(encoding="utf-8")
+
+    service_block = service_text.split("DEFAULT_GITHUB_REPOSITORY_URLS = (", 1)[1].split("\n)", 1)[0]
+    panel_block = panel_text.split("const DEFAULT_GITHUB_REPOSITORY_SEEDS = [", 1)[1].split("\n];", 1)[0]
+    service_urls = set(re.findall(r'"(https://github.com/[^"]+)"', service_block))
+    panel_urls = set(re.findall(r"'(https://github.com/[^']+)'", panel_block))
+
+    assert panel_urls == service_urls
+
+
 def test_source_discovery_panel_default_seeds_include_rights_and_entity_sources():
     repo_root = Path(__file__).resolve().parents[3]
     panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
@@ -752,7 +785,7 @@ def test_source_discovery_panel_has_dynamic_fallback_for_unpinned_hint_groups():
         and key not in explicitly_rendered_fields
     ]
 
-    assert len(dynamic_hint_fields) > 70
+    assert len(dynamic_hint_fields) > 60
     assert "Additional source-discovered gates" in panel_text
     assert "collectAdditionalHintBlocks" in panel_text
     assert "key.endsWith('_hints')" in panel_text
