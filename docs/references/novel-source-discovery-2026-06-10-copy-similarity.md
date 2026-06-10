@@ -63,3 +63,40 @@ chapter.
 - No provider/model call.
 - Similarity gates are acceptance/review patterns, not legal judgments or proof
   of infringement.
+
+## Frontend surfacing addendum - 2026-06-10
+
+Fresh public `git ls-remote --symref HEAD` check ran on
+2026-06-10 19:04 +08:00 and was stored only under
+`tmp/source-intake-copy-style-trope-2026-06-10/head-manifest.json`.
+
+Observed HEADs:
+
+- `blingenf/copydetect`: `ba072818afc876db8b4b65d34ab33ac2260d3d75`
+- `rapidfuzz/RapidFuzz`: `a49aa034bace992b73978e9429bab2b7372a6ff4`
+- `google/diff-match-patch`: `62f2e689f498f9c92dbc588c58750addec9b1654`
+- `agranya99/MOSS-winnowing-seqMatcher`:
+  `a8579f73912592a98b11d162424df81d1196af8d`
+- `ChenghaoMou/text-dedup`: `7538f3ec6a28e72a86de5978e58655175b46a11e`
+- `google-research/deduplicate-text-datasets`:
+  `4e9888ac3f95dc4f6169867a04c4c19df02dafe3`
+- `ekzhu/datasketch`: `f84c431ba6f463302a7f42f48b494b4d3e2287b3`
+- `seomoz/simhash-py`: `cb966253b5ad7a056b3bc9a5d24a4c9ca8153fb8`
+- `1e0ng/simhash`: `78f3b8d5b810d93443269b6e227cae7b95e67316`
+- `MinishLab/semhash`: `986e782990a4913a4b6f854af342c7ee03dea634`
+- `UKPLab/sentence-transformers`: `4e5ea3d01274d12e081ac8cd6455a8239f32f6f9`
+- `facebookresearch/faiss`: `1cdc3709c656eea41ce3725024070f2516e3b30b`
+- `facebookresearch/SemDeDup`: `6b4194511202c29b0e1ac8c730996777449ea2a4`
+
+Project integration delta:
+
+- `BookRemixSourceDiscoveryPanel.tsx` now includes these repositories in the
+  default public GitHub seed list.
+- The source-discovery UI now pins `Copy similarity / near-duplicate gates` for
+  fingerprint, fuzzy phrase, diff-span, MinHash/LSH, SimHash/Hamming, semantic
+  duplicate, and embedding-neighbor independence review.
+- `sourceDiscovery.ts` exposes the corresponding pattern-pack fields so same-
+  type creation can surface copy-risk gates before draft acceptance.
+
+Runtime boundary is unchanged: no detector, model, vector index, native package,
+or similarity pipeline was installed or executed.

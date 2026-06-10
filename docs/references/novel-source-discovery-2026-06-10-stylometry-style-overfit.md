@@ -102,3 +102,41 @@ Projected test coverage:
 - source metadata classification for stylometry/style-overfit sources
 - pattern-pack target and digest exposure
 - continuation and inspired context audit rendering
+
+## Frontend surfacing addendum - 2026-06-10
+
+Fresh public `git ls-remote --symref HEAD` check ran on
+2026-06-10 19:04 +08:00 and was stored only under
+`tmp/source-intake-copy-style-trope-2026-06-10/head-manifest.json`.
+
+Observed HEADs:
+
+- `computationalstylistics/stylo`: `8e18eb1c4e3fc6e0356a9d160b0e87cfd3928290`
+- `fastdatascience/faststylometry`: `89e2b48a674a54ffdcc717e0373ce2571eb7cc0a`
+- `Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis`:
+  `abf3027b75501669dc87eb22d3d289c7ecf7d1b2`
+- `michaeleby1/stylometric-analysis-project-gutenberg`:
+  `644ddeeffd595b7971ba46e87e28ea38d3dc56ce`
+- `pan-webis-de/pan-code`: `c32432d0e9a161450d46d33264df950b5aa3eec0`
+- `mullerpeter/authorstyle`: `234e785d96f8345549edbdad07195243a4704599`
+- `ivannikov-lab/style-change-analysis`: `bf46b65db7fc32b14efcb08592d72e5883db8d98`
+- `sam0jones0/pyantistylometry`: `8f08e609b98509edebc06bf62773fa758d06fa71`
+- `ngpepin/stylometric-transfer`: `1d8d479137516387a643a266435bd5049501b831`
+- `ContextLab/llm-stylometry`: `1411b89d589198d470097e20f986e2c92b200400`
+- `llm-authorship/survey`: `a1f183dfdf5077a5df8fdc3b428bcd6fd7a1da83`
+- `LSYS/LexicalRichness`: `69e6b8f381d6b86ec826911c3f0bb2fb298aac25`
+- `HLasse/TextDescriptives`: `0bbc6600bcdb3b6fcb3b6618375428005e12e133`
+
+Project integration delta:
+
+- `BookRemixSourceDiscoveryPanel.tsx` now includes these repositories in the
+  default public GitHub seed list.
+- The source-discovery UI now pins `Stylometry / style overfit gates` for
+  style-axis diversity, stylometric author fingerprints, function-word/syntax
+  style, authorship similarity, overfit regression, paraphrase independence,
+  and AI-prose fingerprint clusters.
+- `sourceDiscovery.ts` exposes the corresponding pattern-pack fields so
+  source-book style can be used as bounded calibration rather than copied voice.
+
+Runtime boundary is unchanged: no stylometry package, notebook, model, or
+style-transfer pipeline was installed or executed.

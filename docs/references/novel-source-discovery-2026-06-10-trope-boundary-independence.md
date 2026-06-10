@@ -93,3 +93,33 @@ New continuation / inspired prompt section:
 - Continuation and same-type creation context blocks render the trope audit.
 - Default discovery includes the reviewed explicit GitHub sources and search
   queries.
+
+## Frontend surfacing addendum - 2026-06-10
+
+Fresh public `git ls-remote --symref HEAD` check ran on
+2026-06-10 19:04 +08:00 and was stored only under
+`tmp/source-intake-copy-style-trope-2026-06-10/head-manifest.json`.
+
+Observed HEADs:
+
+- `MitchSaltykov/TVTropes-correlation`:
+  `15f69de8447112db5d6f5d8f2f3863c712717097`
+- `jwzimmer-zz/tv-tropes`: `44442b66286eaf2738fc5d863d175d4577da97f4`
+- `slowwavesleep/TvTropesMovieData`:
+  `d4b330ec72bddbd61883d735cc2d62ae6f21f1e2`
+- `rhgarcia/tropescraper`: `20cf2606d348f0dc77d26b99c7f61630abc08fd3`
+- `Sirver51/tvtropes-parser`: `cbfb0cb6abafbcf56bc9ac73cedc6c805252a855`
+
+Project integration delta:
+
+- `BookRemixSourceDiscoveryPanel.tsx` now includes these repositories in the
+  default public GitHub seed list.
+- The source-discovery UI now pins `Trope / genre independence gates` for trope
+  inventory similarity, trope graph expectation maps, density/novelty budgets,
+  and trope-source boundary review.
+- `sourceDiscovery.ts` exposes the corresponding pattern-pack fields so
+  same-type drafts can retain genre promise while proving independent cast,
+  setting, stakes, causal order, and payoff.
+
+Runtime boundary is unchanged: no trope site scrape, parser execution, dataset
+import, browser session, or live-site fetch was performed.

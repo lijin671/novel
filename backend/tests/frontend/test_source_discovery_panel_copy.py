@@ -98,6 +98,24 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "sentiment_arc_emotion_trajectory_gate_hints",
             "cross_context_coreference_gate_hints",
             "character_interaction_network_gate_hints",
+            "source_text_fingerprint_gate_hints",
+            "fuzzy_phrase_similarity_gate_hints",
+            "diff_span_copy_review_hints",
+            "minhash_lsh_near_duplicate_gate_hints",
+            "simhash_hamming_similarity_gate_hints",
+            "semantic_duplicate_cluster_gate_hints",
+            "embedding_similarity_independence_gate_hints",
+            "style_axis_diversity_fingerprint_hints",
+            "stylometric_author_fingerprint_gate_hints",
+            "function_word_syntax_style_gate_hints",
+            "authorship_attribution_similarity_gate_hints",
+            "style_overfit_regression_gate_hints",
+            "paraphrase_independence_review_gate_hints",
+            "ai_prose_fingerprint_cluster_gate_hints",
+            "trope_inventory_similarity_gate_hints",
+            "trope_graph_expectation_map_hints",
+            "trope_density_novelty_budget_hints",
+            "trope_source_boundary_review_hints",
             "prose_lint_style_rule_gate_hints",
             "grammar_spelling_copyedit_gate_hints",
             "copyedit_diagnostic_triage_queue_hints",
@@ -211,6 +229,27 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Sentiment arc / emotion trajectory gates" in panel_text
     assert "Cross-context coreference gates" in panel_text
     assert "Character interaction network gates" in panel_text
+    assert "Copy similarity / near-duplicate gates" in panel_text
+    assert "Source text fingerprint gates" in panel_text
+    assert "Fuzzy phrase similarity gates" in panel_text
+    assert "Diff-span copy review gates" in panel_text
+    assert "MinHash / LSH near-duplicate gates" in panel_text
+    assert "SimHash / Hamming similarity gates" in panel_text
+    assert "Semantic duplicate cluster gates" in panel_text
+    assert "Embedding similarity independence gates" in panel_text
+    assert "Stylometry / style overfit gates" in panel_text
+    assert "Style-axis diversity fingerprint gates" in panel_text
+    assert "Stylometric author fingerprint gates" in panel_text
+    assert "Function-word / syntax style gates" in panel_text
+    assert "Authorship attribution similarity gates" in panel_text
+    assert "Style-overfit regression gates" in panel_text
+    assert "Paraphrase independence review gates" in panel_text
+    assert "AI-prose fingerprint cluster gates" in panel_text
+    assert "Trope / genre independence gates" in panel_text
+    assert "Trope inventory similarity gates" in panel_text
+    assert "Trope graph expectation map gates" in panel_text
+    assert "Trope density novelty-budget gates" in panel_text
+    assert "Trope source boundary review gates" in panel_text
     assert "Prose lint / grammar copyedit gates" in panel_text
     assert "Prose lint style rule gates" in panel_text
     assert "Grammar spelling copyedit gates" in panel_text
@@ -436,6 +475,67 @@ def test_source_discovery_panel_default_seeds_include_prose_copyedit_sources():
         "Automattic/harper",
         "languagetool-org/languagetool",
         "btford/write-good",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_copy_similarity_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "blingenf/copydetect",
+        "rapidfuzz/RapidFuzz",
+        "google/diff-match-patch",
+        "agranya99/MOSS-winnowing-seqMatcher",
+        "ChenghaoMou/text-dedup",
+        "google-research/deduplicate-text-datasets",
+        "ekzhu/datasketch",
+        "seomoz/simhash-py",
+        "1e0ng/simhash",
+        "MinishLab/semhash",
+        "UKPLab/sentence-transformers",
+        "facebookresearch/faiss",
+        "facebookresearch/SemDeDup",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_stylometry_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "computationalstylistics/stylo",
+        "fastdatascience/faststylometry",
+        "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+        "michaeleby1/stylometric-analysis-project-gutenberg",
+        "pan-webis-de/pan-code",
+        "mullerpeter/authorstyle",
+        "ivannikov-lab/style-change-analysis",
+        "sam0jones0/pyantistylometry",
+        "ngpepin/stylometric-transfer",
+        "ContextLab/llm-stylometry",
+        "llm-authorship/survey",
+        "LSYS/LexicalRichness",
+        "HLasse/TextDescriptives",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_trope_independence_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "MitchSaltykov/TVTropes-correlation",
+        "jwzimmer-zz/tv-tropes",
+        "slowwavesleep/TvTropesMovieData",
+        "rhgarcia/tropescraper",
+        "Sirver51/tvtropes-parser",
     ):
         assert repo in panel_text
 
