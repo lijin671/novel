@@ -86,6 +86,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "toc_aware_source_deconstruction_hints",
             "two_pass_context_glossary_pipeline_hints",
             "inline_author_edit_markup_versioning_hints",
+            "long_term_author_preference_memory_hints",
+            "community_graph_source_deconstruction_hints",
+            "dual_level_graph_vector_retrieval_hints",
+            "schema_guided_graph_extraction_hints",
             "reader_reward_channel_gate_hints",
             "tri_modal_workflow_validation_gate_hints",
             "scene_promise_mob_review_gate_hints",
@@ -180,6 +184,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "TOC-aware source deconstruction gates" in panel_text
     assert "Two-pass context glossary pipeline gates" in panel_text
     assert "Inline author edit markup versioning gates" in panel_text
+    assert "Graph memory / retrieval grounding gates" in panel_text
+    assert "Long-term author preference memory gates" in panel_text
+    assert "Community graph source deconstruction gates" in panel_text
+    assert "Dual-level graph vector retrieval gates" in panel_text
+    assert "Schema-guided graph extraction gates" in panel_text
     assert "Reader reward / tri-modal audit gates" in panel_text
     assert "Reader reward channel gates" in panel_text
     assert "Tri-modal workflow validation gates" in panel_text
@@ -370,6 +379,21 @@ def test_source_discovery_panel_default_seeds_include_source_deconstruction_memo
         "danngalann/llm-ebook-summarizer",
         "darkautism/ai-novel-translation",
         "lordjabez/story-framework",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_graph_memory_rag_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "getzep/graphiti",
+        "mem0ai/mem0",
+        "microsoft/graphrag",
+        "HKUDS/LightRAG",
+        "neo4j-labs/llm-graph-builder",
     ):
         assert repo in panel_text
 

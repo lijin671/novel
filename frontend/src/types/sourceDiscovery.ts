@@ -145,6 +145,10 @@ export interface SourceDiscoveryPatternPack {
   toc_aware_source_deconstruction_hints?: string[];
   two_pass_context_glossary_pipeline_hints?: string[];
   inline_author_edit_markup_versioning_hints?: string[];
+  long_term_author_preference_memory_hints?: string[];
+  community_graph_source_deconstruction_hints?: string[];
+  dual_level_graph_vector_retrieval_hints?: string[];
+  schema_guided_graph_extraction_hints?: string[];
   reader_reward_channel_gate_hints?: string[];
   tri_modal_workflow_validation_gate_hints?: string[];
   scene_promise_mob_review_gate_hints?: string[];

@@ -92,6 +92,11 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/danngalann/llm-ebook-summarizer',
   'https://github.com/darkautism/ai-novel-translation',
   'https://github.com/lordjabez/story-framework',
+  'https://github.com/getzep/graphiti',
+  'https://github.com/mem0ai/mem0',
+  'https://github.com/microsoft/graphrag',
+  'https://github.com/HKUDS/LightRAG',
+  'https://github.com/neo4j-labs/llm-graph-builder',
   'https://github.com/google-deepmind/narrativeqa',
   'https://github.com/salesforce/booksum',
   'https://github.com/uci-soe/FairytaleQAData',
@@ -205,6 +210,10 @@ const PINNED_HINT_KEYS = new Set([
   'toc_aware_source_deconstruction_hints',
   'two_pass_context_glossary_pipeline_hints',
   'inline_author_edit_markup_versioning_hints',
+  'long_term_author_preference_memory_hints',
+  'community_graph_source_deconstruction_hints',
+  'dual_level_graph_vector_retrieval_hints',
+  'schema_guided_graph_extraction_hints',
   'reader_reward_channel_gate_hints',
   'tri_modal_workflow_validation_gate_hints',
   'scene_promise_mob_review_gate_hints',
@@ -514,6 +523,13 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['TOC-aware source deconstruction gates', patternPackPayload?.toc_aware_source_deconstruction_hints],
               ['Two-pass context glossary pipeline gates', patternPackPayload?.two_pass_context_glossary_pipeline_hints],
               ['Inline author edit markup versioning gates', patternPackPayload?.inline_author_edit_markup_versioning_hints],
+            ])}
+            {renderHintGroup('Graph memory / retrieval grounding gates', [
+              ['Temporal canon context graph gates', patternPackPayload?.temporal_canon_context_graph_hints],
+              ['Long-term author preference memory gates', patternPackPayload?.long_term_author_preference_memory_hints],
+              ['Community graph source deconstruction gates', patternPackPayload?.community_graph_source_deconstruction_hints],
+              ['Dual-level graph vector retrieval gates', patternPackPayload?.dual_level_graph_vector_retrieval_hints],
+              ['Schema-guided graph extraction gates', patternPackPayload?.schema_guided_graph_extraction_hints],
             ])}
             {renderHintGroup('Reader reward / tri-modal audit gates', [
               ['Reader reward channel gates', patternPackPayload?.reader_reward_channel_gate_hints],

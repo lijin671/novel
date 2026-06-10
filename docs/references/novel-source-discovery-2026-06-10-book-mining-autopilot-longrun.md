@@ -721,3 +721,71 @@ edit-review gates only. They do not authorize package installation,
 EPUB/PDF/translation execution, prompt/provider calls, assistant runtime launch,
 git tag creation, external project workflow execution, or treating source
 analysis notes as transformed-story canon.
+
+## Graph memory / retrieval grounding addendum - 2026-06-10
+
+This addendum records a public GitHub HEAD + raw README static-review pass for
+temporal context graphs, long-term author preference memory, graph/community
+source deconstruction, dual-level graph/vector retrieval, and schema-guided
+entity extraction. No external project was cloned, installed, built, launched,
+indexed, queried, or executed. Scratch evidence was saved under
+`tmp/source-intake-graph-memory-rag-2026-06-10` only.
+
+### Reviewed sources
+
+- `getzep/graphiti`
+  - URL: `https://github.com/getzep/graphiti`
+  - observed HEAD: `4a742cf62ba143ab53ec400d32750ab52b71ed1b`
+  - static evidence: README
+  - absorbed pattern: `temporal_canon_context_graph`
+  - reusable lesson: 续写 canon memory should preserve entity, relationship, fact validity window, episode, and provenance so changed story facts do not overwrite temporal history.
+  - runtime exclusion: graph database startup, MCP server, Docker, package install, provider calls, ingestion, and search queries are not executed.
+
+- `mem0ai/mem0`
+  - URL: `https://github.com/mem0ai/mem0`
+  - observed HEAD: `652193d59908da52bef412ec3ac3cb0242f42f79`
+  - static evidence: README
+  - absorbed pattern: `long_term_author_preference_memory`
+  - reusable lesson: author preference memory should be separated from story canon, session scratch, and source deconstruction notes; preference reuse needs visible provenance.
+  - runtime exclusion: package install, server/Docker launch, cloud signup, embeddings, memory writes, and account/provider calls are not used.
+
+- `microsoft/graphrag`
+  - URL: `https://github.com/microsoft/graphrag`
+  - observed HEAD: `6d02c2355c3fed4c49007572fbe951d73258a37f`
+  - static evidence: README
+  - absorbed pattern: `community_graph_source_deconstruction`
+  - reusable lesson: source-book mining can group entities and relationships into community summaries, but those summaries remain analysis artifacts until transformed into new canon.
+  - runtime exclusion: GraphRAG indexing, CLI quickstarts, package install, provider calls, and private-data pipeline execution are not used.
+
+- `HKUDS/LightRAG`
+  - URL: `https://github.com/HKUDS/LightRAG`
+  - observed HEAD: `fa213a85f8adf9461ed6de2b311da1fd2ce363f9`
+  - static evidence: README
+  - absorbed pattern: `dual_level_graph_vector_retrieval`
+  - reusable lesson: 拆书 and续写 retrieval should label local, global, hybrid, naive, and mixed contexts so source chunks, graph facts, and accepted canon cannot blend silently.
+  - runtime exclusion: Docker, setup wizard, package install, model/provider roles, embedding/indexing, and query execution are not used.
+
+- `neo4j-labs/llm-graph-builder`
+  - URL: `https://github.com/neo4j-labs/llm-graph-builder`
+  - observed HEAD: `4a412f4688cf4096976045c019edc0a7f6ddcb6b`
+  - static evidence: README
+  - absorbed pattern: `schema_guided_graph_extraction`
+  - reusable lesson: graph extraction should require explicit node labels, relationship types, source metadata, duplicate policy, and schema review before it can influence Bible or continuation state.
+  - runtime exclusion: Neo4j/Aura connection, Docker, Ollama, backend/frontend launch, credential entry, API keys, graph extraction, and file ingestion are not used.
+
+### Local projection
+
+The source discovery panel now pins these prompt-safe fields instead of leaving
+them only in the dynamic fallback group:
+
+- `temporal_canon_context_graph_hints`
+- `long_term_author_preference_memory_hints`
+- `community_graph_source_deconstruction_hints`
+- `dual_level_graph_vector_retrieval_hints`
+- `schema_guided_graph_extraction_hints`
+
+These fields are static source-derived graph, memory, and retrieval gates only.
+They do not authorize package installation, graph database startup,
+Docker/service launch, MCP/server launch, source indexing, embedding generation,
+provider calls, account login, credential reads, or treating source graph
+summaries as transformed-story canon.
