@@ -9728,3 +9728,108 @@ def test_static_webnovel_dashboard_skill_publish_sources_map_to_workflow_gates()
     assert "truth_file_phase_dashboard_gate_hints" in digest
     assert "platform_publish_automation_boundary_gate_hints" in digest
     assert "multi_work_style_imitation_mode_gate_hints" in digest
+
+
+def test_static_prose_pov_phase_snapshot_sources_map_to_source_study_gates():
+    assert "https://github.com/prosegrinder/python-prosegrinder" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/oxinabox/NovelPerspective" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/d-wwei/great-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/vulogov/blackInkhaven" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("point of view" in query.lower() and "dialogue" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("6-phase pipeline" in query.lower() and "4-pass polish" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("semantic index" in query.lower() and "versioned snapshots" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "prosegrinder/python-prosegrinder",
+                "html_url": "https://github.com/prosegrinder/python-prosegrinder",
+                "description": (
+                    "Prose text counter for novels with word count, sentence count, paragraph count, "
+                    "syllable count, point of view, dialogue, narrative and readability scores."
+                ),
+                "stargazers_count": 20,
+                "forks_count": 2,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["prose", "readability", "fiction", "text-analysis"],
+                "updated_at": "2026-06-11T02:00:00Z",
+                "root_files": ["README.md", "pyproject.toml", "LICENSE"],
+            },
+            {
+                "full_name": "oxinabox/NovelPerspective",
+                "html_url": "https://github.com/oxinabox/NovelPerspective",
+                "description": (
+                    "NovelPerspective identifies point of view characters in ebook chapters and can "
+                    "include or exclude character story-lines for rereading."
+                ),
+                "stargazers_count": 46,
+                "forks_count": 8,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "point-of-view", "machine-learning"],
+                "updated_at": "2026-06-11T02:05:00Z",
+                "root_files": ["README.md", "LICENSE.md", "proto", "serve"],
+            },
+            {
+                "full_name": "d-wwei/great-writer",
+                "html_url": "https://github.com/d-wwei/great-writer",
+                "description": (
+                    "Great Writer is a bilingual writing system for AI agents with a 6-phase pipeline, "
+                    "9 writing modes, 15 writing principles and 4-pass polish to remove AI traces."
+                ),
+                "stargazers_count": 470,
+                "forks_count": 31,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "ai-agent", "prompting"],
+                "updated_at": "2026-06-11T02:10:00Z",
+                "root_files": ["README.md", "README.zh.md", "LICENSE"],
+            },
+            {
+                "full_name": "vulogov/blackInkhaven",
+                "html_url": "https://github.com/vulogov/blackInkhaven",
+                "description": (
+                    "Inkhaven is a terminal book-writing app with hierarchical Typst manuscript nodes, "
+                    "local semantic index, DuckDB metadata, AI assistant, versioned snapshots, backups, "
+                    "lexicon books for characters and places, and LLM provider routing."
+                ),
+                "stargazers_count": 10,
+                "forks_count": 0,
+                "license": {"spdx_id": "Unlicense"},
+                "topics": ["book-writing", "semantic-search", "local-first"],
+                "updated_at": "2026-06-11T02:15:00Z",
+                "root_files": ["README.md", "Cargo.toml", "Documentation", "LICENSE"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T02:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "prose_metric_pov_dialogue_gate" in candidates["prosegrinder/python-prosegrinder"]["absorbed_patterns"]
+    assert "pov_character_thread_filter_gate" in candidates["oxinabox/NovelPerspective"]["absorbed_patterns"]
+    assert "agent_writing_phase_polish_gate" in candidates["d-wwei/great-writer"]["absorbed_patterns"]
+    assert "hierarchical_semantic_snapshot_workspace_gate" in candidates["vulogov/blackInkhaven"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "prose_metric_baseline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "pov_character_thread_map" in pattern_pack["bible_enrichment_targets"]
+    assert "phase_polish_mode_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "hierarchical_text_node_snapshot_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "pov_dialogue_narrative_metric_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "pov_character_thread_filter_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "phase_polish_ai_trace_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "hierarchical_semantic_snapshot_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "prose_metric_pov_dialogue_gate_hints" in pattern_pack
+    assert "pov_character_thread_filter_gate_hints" in pattern_pack
+    assert "agent_writing_phase_polish_gate_hints" in pattern_pack
+    assert "hierarchical_semantic_snapshot_workspace_gate_hints" in pattern_pack
+    assert "pov_dialogue_metric_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "phase_polish_mode_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "hierarchical_snapshot_namespace_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "prose_metric_pov_dialogue_gate_hints" in digest
+    assert "pov_character_thread_filter_gate_hints" in digest
+    assert "agent_writing_phase_polish_gate_hints" in digest
+    assert "hierarchical_semantic_snapshot_workspace_gate_hints" in digest

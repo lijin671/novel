@@ -240,6 +240,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("truth file" OR "Truth files") ("relationship_graph" OR "current_state" OR "resource_ledger") ("webnovel" OR "novel") in:name,description,readme',
     '("one-click publish" OR "Fanqie publish") ("browser automation" OR "HTTP API upload") ("webnovel" OR "OpenCode") in:name,description,readme',
     '("multi-work" OR "multi work") ("style imitation" OR "manual continuation" OR "automatic continuation") ("novel" OR "agent") in:name,description,readme',
+    '("point of view" OR "pov" OR "dialogue" OR "narrative") ("prose metrics" OR "readability scoring" OR "novel") in:name,description,readme',
+    '("NovelPerspective" OR "point of view characters" OR "character story-line") ("ebook" OR "novel") in:name,description,readme',
+    '("6-phase pipeline" OR "4-pass polish" OR "15 writing principles") ("writing system" OR "AI agent") in:name,description,readme',
+    '("semantic index" OR "versioned snapshots" OR "hierarchical manuscript nodes") ("book writing" OR "long-form documentation") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -572,6 +576,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/dyrcjqlgcj/webnovel-director",
     "https://github.com/Saemer2023/webnovel-writer-opencode",
     "https://github.com/yuzhoubazhu/novel-studio",
+    "https://github.com/prosegrinder/python-prosegrinder",
+    "https://github.com/oxinabox/NovelPerspective",
+    "https://github.com/d-wwei/great-writer",
+    "https://github.com/vulogov/blackInkhaven",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -840,6 +848,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("truth_file_phase_dashboard_gate", ("truth files", "current_state", "resource_ledger", "relationship_graph", "hooks", "p0 project setup", "p1 overview", "p2 outline", "p3 writing pipeline", "l2 l3 review")),
     ("platform_publish_automation_boundary_gate", ("one-click fanqie publish", "one-click publish", "browser automation login", "http api upload", "publish to fanqie", "webnovel-publish", "publication upload")),
     ("multi_work_style_imitation_mode_gate", ("multi-work management", "multi work management", "writing style imitation", "manual continuation", "automatic continuation", "character setting collapse", "plot memory loss", "rigid ai-style wording")),
+    ("prose_metric_pov_dialogue_gate", ("prosegrinder", "prose text counter", "point of view", "pov word count", "dialogue", "narrative", "readability scores", "word count, sentence count, paragraph count")),
+    ("pov_character_thread_filter_gate", ("novelperspective", "point of view characters", "pov characters", "character story-line", "character storyline", "main character of a chapter", "include or exclude characters")),
+    ("agent_writing_phase_polish_gate", ("great writer", "6-phase pipeline", "six-phase pipeline", "9 writing modes", "15 writing principles", "4-pass polish", "remove ai traces", "strips every trace of ai")),
+    ("hierarchical_semantic_snapshot_workspace_gate", ("inkhaven", "blackinkhaven", "hierarchical typst manuscript nodes", "semantic index", "versioned snapshots", "duckdb metadata", "lexicon books", "bund script", "book -> chapter -> subchapter -> paragraph", "book writing app")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -2230,6 +2242,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "novel-studio is an AI Agent platform for novel creators. Public README markers describe reducing character setting collapse, plot memory loss, and rigid AI-style wording, with multi-work management, writing style imitation, and manual/automatic continuation modes. "
         "Pattern-only adaptation for multi-work style-imitation mode selection and anti-collapse gates; runtime is not launched."
     ),
+    "prosegrinder/python-prosegrinder": (
+        "Prosegrinder is a GPL-3.0 prose text counter. Public README markers describe word/sentence/paragraph/syllable counts, point-of-view, dialogue, narrative, readability scores, SHA-256 output, and JSON automation. "
+        "Pattern-only adaptation for POV/dialogue/narrative metric baselines; PyPI install and CLI runtime are not used."
+    ),
+    "oxinabox/novelperspective": (
+        "NovelPerspective is a MIT ebook point-of-view tool. Public README markers describe identifying the main POV character of a chapter and transforming ebooks to include or exclude character story-lines, with copyright-sensitive evaluation data omitted. "
+        "Pattern-only adaptation for POV-character thread maps; web app, pretrained models, and ebook processing runtime are not launched."
+    ),
+    "d-wwei/great-writer": (
+        "Great Writer is a MIT bilingual writing system for AI agents. Public README markers describe a 6-phase pipeline, 9 writing modes, 15 writing principles, 4-pass polish, and AI-trace removal. "
+        "Pattern-only adaptation for phase/polish gates; upstream prompt bodies and agent runtime are not imported or executed."
+    ),
+    "vulogov/blackinkhaven": (
+        "Inkhaven is an Unlicense terminal writing app. Public README markers describe hierarchical Typst manuscript nodes, local DuckDB metadata, full-text/semantic index, versioned snapshots, backups, lexicon books for characters/places/artefacts, Bund scripting, and LLM provider routing. "
+        "Pattern-only adaptation for hierarchical node snapshots and local-index boundaries; binary/runtime, Bund scripts, providers, and local manuscript access are not used."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2565,6 +2593,10 @@ class NovelSourceDiscoveryService:
             "truth_file_phase_dashboard_gate_hints": self._build_truth_file_phase_dashboard_gate_hints(available_patterns),
             "platform_publish_automation_boundary_gate_hints": self._build_platform_publish_automation_boundary_gate_hints(available_patterns),
             "multi_work_style_imitation_mode_gate_hints": self._build_multi_work_style_imitation_mode_gate_hints(available_patterns),
+            "prose_metric_pov_dialogue_gate_hints": self._build_prose_metric_pov_dialogue_gate_hints(available_patterns),
+            "pov_character_thread_filter_gate_hints": self._build_pov_character_thread_filter_gate_hints(available_patterns),
+            "agent_writing_phase_polish_gate_hints": self._build_agent_writing_phase_polish_gate_hints(available_patterns),
+            "hierarchical_semantic_snapshot_workspace_gate_hints": self._build_hierarchical_semantic_snapshot_workspace_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3468,6 +3500,10 @@ class NovelSourceDiscoveryService:
             "truth_file_phase_dashboard_gate": 70,
             "platform_publish_automation_boundary_gate": 68,
             "multi_work_style_imitation_mode_gate": 69,
+            "prose_metric_pov_dialogue_gate": 66,
+            "pov_character_thread_filter_gate": 66,
+            "agent_writing_phase_polish_gate": 65,
+            "hierarchical_semantic_snapshot_workspace_gate": 66,
             "causal_dramatica_agent_pipeline": 68,
             "capture_distillation_production_gate": 66,
             "skill_orchestrated_chinese_novel_workflow": 67,
@@ -3628,6 +3664,18 @@ class NovelSourceDiscoveryService:
         if "multi_work_style_imitation_mode_gate" in patterns:
             targets.append("multi_work_style_imitation_modes")
             targets.append("manual_auto_continuation_policy")
+        if "prose_metric_pov_dialogue_gate" in patterns:
+            targets.append("prose_metric_baseline_policy")
+            targets.append("pov_dialogue_narrative_metric_schema")
+        if "pov_character_thread_filter_gate" in patterns:
+            targets.append("pov_character_thread_map")
+            targets.append("character_thread_inclusion_policy")
+        if "agent_writing_phase_polish_gate" in patterns:
+            targets.append("phase_polish_mode_policy")
+            targets.append("ai_trace_removal_review_rules")
+        if "hierarchical_semantic_snapshot_workspace_gate" in patterns:
+            targets.append("hierarchical_text_node_snapshot_policy")
+            targets.append("local_semantic_index_boundary")
         if "style_guide_layering" in patterns:
             targets.append("style_layers")
             targets.append("character_voice_notes")
@@ -4327,6 +4375,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["publish_automation_boundary_report", "browser_login_upload_surface_findings", "publication_hold_decisions"])
         if "multi_work_style_imitation_mode_gate" in patterns:
             targets.extend(["multi_work_style_mode_report", "manual_auto_continuation_comparison", "anti_collapse_mode_findings"])
+        if "prose_metric_pov_dialogue_gate" in patterns:
+            targets.extend(["pov_dialogue_narrative_metric_report", "readability_pov_baseline_findings", "metric_outlier_review_notes"])
+        if "pov_character_thread_filter_gate" in patterns:
+            targets.extend(["pov_character_thread_filter_report", "chapter_pov_character_map", "excluded_thread_continuity_findings"])
+        if "agent_writing_phase_polish_gate" in patterns:
+            targets.extend(["phase_polish_ai_trace_report", "writing_mode_selection_findings", "polish_pass_acceptance_notes"])
+        if "hierarchical_semantic_snapshot_workspace_gate" in patterns:
+            targets.extend(["hierarchical_semantic_snapshot_report", "text_node_index_snapshot_diff", "lexicon_book_boundary_findings"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -5752,6 +5808,42 @@ class NovelSourceDiscoveryService:
             "Multi-work management must bind style imitation, manual continuation, and automatic continuation to a selected work id and mode contract.",
             "Before automatic continuation, check character-setting collapse, plot memory loss, and rigid AI-style wording against the current work's accepted state.",
             "Manual and automatic continuation modes should emit different evidence: author edits for manual mode, retry/review/state-drift traces for automatic mode.",
+        ]
+
+    def _build_prose_metric_pov_dialogue_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "prose_metric_pov_dialogue_gate" not in patterns:
+            return []
+        return [
+            "Record POV, dialogue, narrative, sentence, paragraph, and readability metrics as review evidence before source-book continuation or same-type drafting.",
+            "Use prose metrics as ranges and outlier signals, not as a target to copy from the source work.",
+            "For same-type creation, remap dialogue/narrative ratio and POV distance into a new baseline after entity and plot transformation.",
+        ]
+
+    def _build_pov_character_thread_filter_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "pov_character_thread_filter_gate" not in patterns:
+            return []
+        return [
+            "Map each chapter to its active POV character and thread before trimming or selecting source context.",
+            "A POV-character filter may hide unrelated source threads for analysis, but it must not delete canon needed for continuation consistency.",
+            "For same-type work, rebuild POV rotation and thread inclusion around the new cast instead of preserving source chapter ownership.",
+        ]
+
+    def _build_agent_writing_phase_polish_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agent_writing_phase_polish_gate" not in patterns:
+            return []
+        return [
+            "Separate thinking, drafting, and polish phases so AI-trace cleanup does not happen before canon, causality, and source-boundary checks.",
+            "Declare the writing mode and polish pass goals before revision; a polish pass must report which AI tell, rhythm issue, or generic structure it changed.",
+            "Do not import upstream prompt bodies; keep only the phase-and-polish contract as a local review gate.",
+        ]
+
+    def _build_hierarchical_semantic_snapshot_workspace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "hierarchical_semantic_snapshot_workspace_gate" not in patterns:
+            return []
+        return [
+            "Index long manuscripts as stable text nodes such as book, chapter, subchapter, and paragraph before retrieval or rewrite.",
+            "Every semantic index hit should carry node id, snapshot id, local boundary label, and inclusion reason before it enters a prompt.",
+            "Versioned snapshots protect continuation and same-type experiments: rejected branches must not update accepted text nodes or lexicon books.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -8331,6 +8423,14 @@ class NovelSourceDiscoveryService:
             targets.append("publish_boundary_remap")
         if "multi_work_style_imitation_mode_gate" in patterns:
             targets.append("style_imitation_mode_remap")
+        if "prose_metric_pov_dialogue_gate" in patterns:
+            targets.append("pov_dialogue_metric_remap")
+        if "pov_character_thread_filter_gate" in patterns:
+            targets.append("pov_thread_filter_remap")
+        if "agent_writing_phase_polish_gate" in patterns:
+            targets.append("phase_polish_mode_remap")
+        if "hierarchical_semantic_snapshot_workspace_gate" in patterns:
+            targets.append("hierarchical_snapshot_namespace_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -9708,6 +9808,10 @@ class NovelSourceDiscoveryService:
                 "truth_file_phase_dashboard_gate",
                 "platform_publish_automation_boundary_gate",
                 "multi_work_style_imitation_mode_gate",
+                "prose_metric_pov_dialogue_gate",
+                "pov_character_thread_filter_gate",
+                "agent_writing_phase_polish_gate",
+                "hierarchical_semantic_snapshot_workspace_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",
