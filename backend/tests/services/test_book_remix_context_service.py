@@ -2865,3 +2865,53 @@ def test_build_remix_context_blocks_render_bookrun_skill_protocol_audit():
         assert "localized speaker register" in block
         assert "needed protocols" in block
         assert "banned vocabulary" in block
+
+
+def test_build_remix_context_blocks_render_project_workbench_memory_diversity_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "user_modifier_project_blueprint_gate", "candidate_count": 1},
+            {"name": "portable_canon_skill_runtime_gate", "candidate_count": 1},
+            {"name": "staged_outline_chunk_window_gate", "candidate_count": 1},
+            {"name": "wiki_canon_graph_lint_gate", "candidate_count": 1},
+            {"name": "plan_draft_log_verify_loop_gate", "candidate_count": 1},
+            {"name": "mcp_scene_index_revision_boundary", "candidate_count": 1},
+            {"name": "verbalized_sampling_diversity_wiki_gate", "candidate_count": 1},
+        ],
+        "user_modifier_project_blueprint_gate_hints": ["Bind project modifiers to blueprint evidence."],
+        "verbalized_sampling_diversity_wiki_gate_hints": ["File selected variants into the writer wiki."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Project Workbench Desk",
+        bible={"hard_constraints": [{"rule": "Accepted changes need indexed evidence"}]},
+        plan={"summary": "Continue with blueprint, canon runtime, wiki lint, scene index, and diversity sampling."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Workbench",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep workbench discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source wiki pages.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Project workbench and memory diversity audit" in block
+        assert "user_modifier_project_blueprint_gate" in block
+        assert "portable_canon_skill_runtime_gate" in block
+        assert "staged_outline_chunk_window_gate" in block
+        assert "wiki_canon_graph_lint_gate" in block
+        assert "plan_draft_log_verify_loop_gate" in block
+        assert "mcp_scene_index_revision_boundary" in block
+        assert "verbalized_sampling_diversity_wiki_gate" in block
+        assert "blueprint id" in block
+        assert "frontmatter" in block
+        assert "current plus adjacent context" in block
+        assert "relationship graph checks" in block
+        assert "foreshadowing checklists" in block
+        assert "reversible diff" in block
+        assert "probability-scored variants" in block

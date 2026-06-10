@@ -411,7 +411,21 @@
     "skill_protocol_route_manifest",
     "progressive_disclosure_loading_policy",
     "anti_slop_rulepack",
-    "prose_rule_triage_policy"
+    "prose_rule_triage_policy",
+    "user_modifier_blueprint_policy",
+    "project_modifier_schema",
+    "portable_canon_runtime_policy",
+    "canon_asset_frontmatter_contract",
+    "staged_outline_chunk_policy",
+    "sliding_window_memory_policy",
+    "wiki_canon_lint_policy",
+    "relationship_graph_lint_manifest",
+    "plan_draft_log_verify_policy",
+    "living_document_update_policy",
+    "scene_index_revision_boundary_policy",
+    "revision_confirmation_git_history_policy",
+    "verbalized_sampling_diversity_policy",
+    "writer_wiki_autofile_policy"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -855,7 +869,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T11:52:01+08:00",
+  "generated_at": "2026-06-10T12:14:05+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -1078,7 +1092,14 @@
     "Reject outlines whose checkpoint sequence, milestone names, or Story Bible deltas mirror the source structure under renamed labels.",
     "Reject localized prose that carries source language artifacts, glossary entries, address terms, or unit conventions into an unrelated setting.",
     "Reject prompts that paste external skill protocols wholesale instead of loading compact project-native steps.",
-    "Reject anti-slop rewrites that smooth text into generic prose or paraphrase distinctive source sentences."
+    "Reject anti-slop rewrites that smooth text into generic prose or paraphrase distinctive source sentences.",
+    "Reject blueprints whose modifier set encodes source-specific cast, setting, title cadence, or chapter route.",
+    "Reject canon imports that preserve source asset paths, frontmatter ids, skill files, or artifact names as transformed-story authority.",
+    "Reject staged outlines whose setup/chunk sequence, adjacent-window summaries, or range-refinement targets match the source route.",
+    "Reject wiki pages or relationship graphs that keep source node names, edge labels, timeline warnings, or setup/payoff ids.",
+    "Reject chapter logs that reproduce source scene order, glossary entries, thread labels, or foreshadowing checklist cadence.",
+    "Reject scene revision bundles that cannot distinguish source scene ids, transformed scene ids, selected context, and accepted diffs.",
+    "Reject diversity samples when their probability set still clusters around source premise, names, sequence, or set pieces."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -1259,7 +1280,14 @@
     "outline_milestone_remap",
     "language_style_profile_remap",
     "skill_protocol_route_remap",
-    "anti_slop_rulepack_remap"
+    "anti_slop_rulepack_remap",
+    "project_blueprint_modifier_remap",
+    "portable_canon_runtime_remap",
+    "staged_outline_window_remap",
+    "wiki_canon_graph_remap",
+    "plan_draft_log_verify_remap",
+    "scene_index_revision_boundary_remap",
+    "verbalized_sampling_diversity_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1394,7 +1422,14 @@
     "Create new outline checkpoints and milestones from transformed stakes, relationship pressure, and payoff route before drafting.",
     "Build localized style profiles for the new cast and setting; source language rules may guide review categories, not voice cloning.",
     "Use progressive protocol loading to keep prompts small while ensuring transformed-story knowledge files are bound before generation.",
-    "Run anti-slop rulepack triage as local prose cleanup after independence checks so specificity rises without copying source cadence."
+    "Run anti-slop rulepack triage as local prose cleanup after independence checks so specificity rises without copying source cadence.",
+    "Define a new modifier blueprint for the transformed project before planning; source dashboards and examples are process references only.",
+    "Create fresh story assets, frontmatter, canon ids, workflow state, and artifact indexes for the transformed book.",
+    "Plan the transformed outline in stage/chapter chunks and keep only current plus adjacent context detailed during drafting.",
+    "Build a new story-bible wiki and relationship graph from transformed facts before using wiki queries in drafting.",
+    "Apply Plan -> Draft -> Log -> Verify to transformed chapters, not to replay the source chapter workflow.",
+    "Use scene-index revision boundaries on transformed scene ids with explicit confirmation and reversible diff evidence.",
+    "Use diversity sampling to escape source-like first ideas; auto-file accepted variants into the transformed writer wiki."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1548,7 +1583,14 @@
     "Transform milestones by changing checkpoint goals, chapter dependencies, causal order, and rollback points.",
     "Transform localization rules into new glossary, unit, honorific, punctuation, and speaker-register decisions.",
     "Transform protocol routing into project-local steps; external skill files remain reference patterns, not imported prompts.",
-    "Transform prose lint findings into revision tasks that preserve character voice and reject generic AI phrasing."
+    "Transform prose lint findings into revision tasks that preserve character voice and reject generic AI phrasing.",
+    "Transform project modifiers into a fresh blueprint with new genre mix, scope, POV, setting, tone, and chapter targets.",
+    "Transform canon runtime by assigning new story asset paths, frontmatter ids, canon JSON keys, workflow state, and artifact lineage.",
+    "Transform staged outlines by changing setup chunks, adjacent-window policy, chapter-range revision scope, and resume checkpoints.",
+    "Transform wiki/graph material by rebuilding pages, graph nodes, lint rules, and continuity queries around new facts.",
+    "Transform the chapter loop by creating new plan logs, scene logs, thread updates, glossary deltas, and verify criteria.",
+    "Transform scene indexes by creating new scene ids, metadata envelopes, edit confirmations, diff records, and review bundles.",
+    "Transform diversity samples by selecting variants that depart from source premise, cast, scene order, and voice before wiki filing."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1629,6 +1671,11 @@
     "Before drafting, separate required materials from optional or noisy reference notes; prune irrelevant evidence from the context pack.",
     "When a user request is ambiguous or unrealistic, rewrite the local task brief before generation rather than repairing only after failure.",
     "For same-type creation, keep material requirements as abstract constraints and rebuild concrete people, places, objects, and facts."
+  ],
+  "mcp_scene_index_revision_boundary_hints": [
+    "Build metadata-first scene indexes before prose edits: scenes, beats, loglines, characters, places, threads, and relationship metadata are query targets.",
+    "Safe scene revision needs selected scene ids, requested edit scope, human confirmation, reversible diff, git/history evidence, and review bundle output.",
+    "For same-type creation, source scene indexes are analysis-only; transformed drafts require their own scene ids and revision ledger."
   ],
   "memory_snapshot_versioning_hints": [
     "Create named memory snapshots before risky rewrites, bulk bible merges, or alternate continuation branches.",
@@ -1727,6 +1774,11 @@
     "Prefer diffable manuscript units for long-form state so reviewers can compare, revert, and synchronize changes.",
     "Generated edits should target a named text unit rather than rewriting an opaque whole-project blob."
   ],
+  "plan_draft_log_verify_loop_gate_hints": [
+    "Use a Plan -> Draft -> Log -> Verify loop for every chapter so scene logs, continuity records, glossary, threads, and foreshadowing debt stay current.",
+    "Session wrap must verify living documents are updated, preview next work, and leave an explicit stop/resume state.",
+    "For same-type creation, the loop verifies the transformed manuscript; source plan/log cadence is not a template to preserve."
+  ],
   "plan_reflect_character_chapter_pipeline_hints": [
     "Treat longform drafting as a chain: brainstorm, plan, critique the plan, update character profiles, then write chapter sequence.",
     "Persist reflection and character-profile changes before chapter generation so later chapters do not invent incompatible motivations.",
@@ -1746,6 +1798,11 @@
     "Keep active, paused, paid-off, and abandoned plotlines visible across scenes.",
     "Every scene should advance, complicate, reveal, or deliberately rest at least one named thread.",
     "Before accepting a chapter, check whether any high-priority thread vanished without a state change."
+  ],
+  "portable_canon_skill_runtime_gate_hints": [
+    "Separate story assets, canon JSON/frontmatter, skill rules, workflow state, artifact index, and exports so each layer can be audited and resumed.",
+    "Canon-sync must record source asset, accepted delta, SQLite/checkpoint id, artifact path, and reviewer result before generated changes become stable context.",
+    "For same-type creation, portable skills and canon layers govern process only; transformed canon needs new ids, frontmatter, and runtime state."
   ],
   "preference_memory_hints": [
     "Store reader/user preferences as separate writing preferences: genre, POV, chapter length, pacing, polish level, and taboo content.",
@@ -1993,7 +2050,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 213,
+  "source_candidate_count": 220,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2225,7 +2282,14 @@
     "zy-zmc/tianming-skill",
     "XZZKANY/StoryForge",
     "Byk3y/no-slop",
-    "spiritLHLS/novelbuilder"
+    "spiritLHLS/novelbuilder",
+    "abrahamp47/storyforge-wiki",
+    "para-droid-ai/NovelizeAI",
+    "hannasdev/mcp-writing",
+    "Moosphan/novel-orchestrator",
+    "xbraindance/Creative-writing-skill",
+    "third-order-labs/longform-plugin",
+    "kirinonakar/Novelgen"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2239,6 +2303,11 @@
     "Use the fiction constitution/story bible as the governing authority for voice, tense, prose profile, audience, language, and hard style rules.",
     "Translate the book plan into scene-by-scene tasks with status, POV, information asymmetry, causal beats, and quality gates before drafting.",
     "Run glossary, subplot, pacing, continuity, and sensitivity-style gates as read-only checks before accepting a chapter or same-type draft."
+  ],
+  "staged_outline_chunk_window_gate_hints": [
+    "For long outlines, generate and review setup plus chapter/part chunks instead of asking one prompt to hold the entire book.",
+    "Drafting context should keep current and adjacent plot chunks detailed while distant chapters stay compressed to title, summary, and constraints.",
+    "Chapter-range refinement must state start/end chapter, adjacent context window, CJK/token budget, resume point, and exact improvement targets."
   ],
   "story_contract_commit_chain_hints": [
     "Treat story contracts as the single source of truth for serialized continuation; drafts become canon only through accepted chapter commits.",
@@ -2358,6 +2427,16 @@
     "Run each chapter through an analysis pass before generation: summary, new terms, proper nouns, unresolved context, and glossary deltas.",
     "Use the current chapter summary, previous chapter summary, and cumulative glossary as inputs to the generation or translation pass.",
     "Support interrupted jobs by locating the last completed output/glossary pair and resuming from the next stable chapter number."
+  ],
+  "user_modifier_project_blueprint_gate_hints": [
+    "Capture project modifiers before planning: genre, target length, chapter word count, POV, tone, themes, setting, pacing, prose complexity, and character count.",
+    "Initial plans, chapter plans, prose, review, revision, timing logs, and project-state export should share one blueprint id so dashboard evidence is replayable.",
+    "For same-type creation, modifiers are a transformed design surface; source modifiers and example outputs cannot become copied plot, cast, or prose."
+  ],
+  "verbalized_sampling_diversity_wiki_gate_hints": [
+    "Use diversity sampling as an ideation/review gate: request multiple probability-scored alternatives, then choose or merge with recorded reasons.",
+    "Auto-file brainstorms, outlines, sketches, drafts, critique, characters, and settings into the project wiki so promising variants stay recoverable.",
+    "For same-type creation, diversity sampling should push away from source mode collapse; reject variants that cluster around source scenes or names."
   ],
   "voice_fingerprint_hints": [
     "Keep a voice fingerprint separate from the general style card: immutable guardrails plus discovered per-book voice traits.",
@@ -3033,7 +3112,33 @@
     "knowledge_base_binding_findings",
     "anti_slop_rulepack_triage_report",
     "banned_vocabulary_exception_ledger",
-    "ai_prose_tell_findings"
+    "ai_prose_tell_findings",
+    "project_modifier_blueprint_report",
+    "dashboard_timing_export_audit",
+    "project_state_export_findings",
+    "portable_canon_runtime_report",
+    "sqlite_checkpoint_artifact_trace",
+    "canon_sync_frontmatter_findings",
+    "staged_outline_chunk_window_report",
+    "chapter_range_refinement_findings",
+    "sliding_window_context_trace",
+    "wiki_canon_graph_lint_report",
+    "continuity_query_conflict_findings",
+    "relationship_graph_quality_findings",
+    "plan_draft_log_verify_report",
+    "living_document_freshness_findings",
+    "foreshadowing_thread_update_findings",
+    "scene_index_revision_boundary_report",
+    "safe_scene_revision_confirmation_log",
+    "metadata_sync_git_history_findings",
+    "verbalized_sampling_diversity_report",
+    "writer_wiki_autofile_findings",
+    "mode_collapse_variety_findings"
+  ],
+  "wiki_canon_graph_lint_gate_hints": [
+    "Maintain a story-bible wiki with health, ingest, lint, query, and relationship-graph checks before adding new continuity-sensitive material.",
+    "Canon lint should surface timeline contradictions, character state mismatches, disconnected lore clusters, unresolved setup/payoff, and graph quality gaps.",
+    "For same-type creation, wiki pages and relationship graphs must be rebuilt from transformed facts rather than copied source pages."
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -3239,7 +3344,7 @@
       ]
     },
     {
-      "candidate_count": 18,
+      "candidate_count": 19,
       "name": "book_decomposition",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3251,6 +3356,19 @@
         "shell_script"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -3508,7 +3626,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
         "license:missing"
       ]
@@ -3661,7 +3779,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 17,
+      "candidate_count": 18,
       "name": "worldbuilding",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -3670,6 +3788,19 @@
         "native_binary"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -3906,13 +4037,13 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
         "license:missing"
       ]
     },
     {
-      "candidate_count": 17,
+      "candidate_count": 18,
       "name": "timeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -3922,6 +4053,19 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -4160,13 +4304,13 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
         "license:missing"
       ]
     },
     {
-      "candidate_count": 29,
+      "candidate_count": 31,
       "name": "character_cards",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -4177,6 +4321,19 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -4344,6 +4501,19 @@
           "title": "voocel/ainovel-cli",
           "trust_flags": [],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 103,
+          "source": "github",
+          "stars": 6,
+          "summary": "Creative writing skill using Verbalized Sampling to avoid mode collapse, distribution of responses with probability score, writer's wiki, auto-files, and automatic character and setting detection. Static intake note: Creative Writing with Verbalized Sampling is a MIT creative-wri",
+          "title": "xbraindance/Creative-writing-skill",
+          "trust_flags": [],
+          "url": "https://github.com/xbraindance/Creative-writing-skill"
         },
         {
           "license": "AGPL-3.0",
@@ -4578,7 +4748,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
         "license:missing"
       ]
@@ -4633,6 +4803,52 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "bookrun_audit_trail_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 120,
+          "source": "github",
+          "stars": 0,
+          "summary": "Novel app with project modifiers, AI-driven initial planning, chapter plan, prose, chapter review, revision, live timings, system log, and project state export JSON. Static intake note: Novelize AI is a web application for turning a seed idea into a multi-chapter novel through pr",
+          "title": "para-droid-ai/NovelizeAI",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/para-droid-ai/NovelizeAI"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 72,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese long-form novel production pipeline with BookRun, Blueprint, Judge/Repair, checkpoints, story memory, export audit, and real LLM smoke gates. Static intake note: StoryForge is a Chinese long-form novel production pipeline. Public README and package metadata describe BookR",
+          "title": "XZZKANY/StoryForge",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/XZZKANY/StoryForge"
+        }
+      ],
+      "top_source_url": "https://github.com/para-droid-ai/NovelizeAI",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 1,
       "name": "temporal_canon_context_graph",
       "posture_hint": "metadata-triage",
@@ -4679,35 +4895,70 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
-      "name": "bookrun_audit_trail_gate",
+      "candidate_count": 4,
+      "name": "contradiction_taxonomy_checker",
       "posture_hint": "metadata-triage",
       "risk_flags": [
-        "docker"
+        "shell_script"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 126,
+          "source": "github",
+          "stars": 1860,
+          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
+          "title": "YILING0013/AI_NovelGenerator",
+          "trust_flags": [],
+          "url": "https://github.com/YILING0013/AI_NovelGenerator"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 410,
+          "summary": "Long-story consistency benchmark and checker with contradiction taxonomy across characterization, factual detail, narrative style, timeline/plot, and world-building/setting.",
+          "title": "Picrew/ConStory-Bench",
+          "trust_flags": [],
+          "url": "https://github.com/Picrew/ConStory-Bench"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "docker"
-          ],
-          "score": 72,
+          "risk_flags": [],
+          "score": 82,
           "source": "github",
-          "stars": 0,
-          "summary": "Chinese long-form novel production pipeline with BookRun, Blueprint, Judge/Repair, checkpoints, story memory, export audit, and real LLM smoke gates. Static intake note: StoryForge is a Chinese long-form novel production pipeline. Public README and package metadata describe BookR",
-          "title": "XZZKANY/StoryForge",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/XZZKANY/StoryForge"
+          "stars": 185,
+          "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
+          "title": "EQ-bench/longform-writing-bench",
+          "trust_flags": [],
+          "url": "https://github.com/EQ-bench/longform-writing-bench"
         }
       ],
-      "top_source_url": "https://github.com/XZZKANY/StoryForge",
-      "trust_flags": [
-        "license:missing"
-      ]
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -4783,59 +5034,6 @@
         }
       ],
       "top_source_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 3,
-      "name": "contradiction_taxonomy_checker",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "shell_script"
-      ],
-      "sources": [
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "shell_script"
-          ],
-          "score": 126,
-          "source": "github",
-          "stars": 1860,
-          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
-          "title": "YILING0013/AI_NovelGenerator",
-          "trust_flags": [],
-          "url": "https://github.com/YILING0013/AI_NovelGenerator"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 106,
-          "source": "github",
-          "stars": 410,
-          "summary": "Long-story consistency benchmark and checker with contradiction taxonomy across characterization, factual detail, narrative style, timeline/plot, and world-building/setting.",
-          "title": "Picrew/ConStory-Bench",
-          "trust_flags": [],
-          "url": "https://github.com/Picrew/ConStory-Bench"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 82,
-          "source": "github",
-          "stars": 185,
-          "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
-          "title": "EQ-bench/longform-writing-bench",
-          "trust_flags": [],
-          "url": "https://github.com/EQ-bench/longform-writing-bench"
-        }
-      ],
-      "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
       "trust_flags": []
     },
     {
@@ -5228,6 +5426,29 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "staged_outline_chunk_window_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 59,
+          "source": "github",
+          "stars": 7,
+          "summary": "AI story generator with sliding-window memory, focused plot context, adjacent parts, CJK-aware counter, start/end chapter range refinement, batch start, and resume interrupted generation. Static intake note: NovelGen AI is a MIT Tauri/Rust desktop story generator with seed-to-plo",
+          "title": "kirinonakar/Novelgen",
+          "trust_flags": [],
+          "url": "https://github.com/kirinonakar/Novelgen"
+        }
+      ],
+      "top_source_url": "https://github.com/kirinonakar/Novelgen",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 2,
       "name": "progressive_spoiler_context_window_gate",
       "posture_hint": "metadata-triage",
@@ -5262,6 +5483,33 @@
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "portable_canon_skill_runtime_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 107,
+          "source": "github",
+          "stars": 5,
+          "summary": "Long-form fiction engine with canon governance, story/*.md, markdown frontmatter, portable skill runtime, SQLite state, artifacts, checkpoints, audit, export, and canon-sync. Static intake note: Novel Orchestrator is a PolyForm Noncommercial long-form writing engine with story/*.",
+          "title": "Moosphan/novel-orchestrator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/Moosphan/novel-orchestrator"
+        }
+      ],
+      "top_source_url": "https://github.com/Moosphan/novel-orchestrator",
+      "trust_flags": [
+        "license:noassertion"
+      ]
     },
     {
       "candidate_count": 1,
@@ -5950,7 +6198,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 16,
+      "candidate_count": 17,
       "name": "organization_graph",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -5959,6 +6207,19 @@
         "native_binary"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -6182,13 +6443,13 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
         "license:missing"
       ]
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "dual_level_graph_vector_retrieval",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -6205,6 +6466,21 @@
           "title": "KKKenChow/ai-novel-writer",
           "trust_flags": [],
           "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 120,
+          "source": "github",
+          "stars": 0,
+          "summary": "Novel app with project modifiers, AI-driven initial planning, chapter plan, prose, chapter review, revision, live timings, system log, and project state export JSON. Static intake note: Novelize AI is a web application for turning a seed idea into a multi-chapter novel through pr",
+          "title": "para-droid-ai/NovelizeAI",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/para-droid-ai/NovelizeAI"
         },
         {
           "license": "GPL-3.0",
@@ -6247,6 +6523,31 @@
         }
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "plan_draft_log_verify_loop_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 99,
+          "source": "github",
+          "stars": 3,
+          "summary": "Longform writing workflow with Plan -> Draft -> Log -> Verify loop, living documents, scene logs, continuity records, glossary, thread tracking, foreshadowing checklists, review and wrap. Static intake note: Longform is a MIT Claude/Cowork writing workflow plugin for novel-length",
+          "title": "third-order-labs/longform-plugin",
+          "trust_flags": [],
+          "url": "https://github.com/third-order-labs/longform-plugin"
+        }
+      ],
+      "top_source_url": "https://github.com/third-order-labs/longform-plugin",
       "trust_flags": []
     },
     {
@@ -6783,11 +7084,24 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "relationship_graph_global_replace_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -6802,7 +7116,30 @@
           "url": "https://github.com/KKKenChow/ai-novel-writer"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "wiki_canon_graph_lint_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        }
+      ],
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": []
     },
     {
@@ -7049,40 +7386,30 @@
       ]
     },
     {
-      "candidate_count": 1,
-      "name": "cross_chapter_redundancy_audit",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "shell_script"
-      ],
-      "sources": [
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "shell_script"
-          ],
-          "score": 112,
-          "source": "github",
-          "stars": 902,
-          "summary": "Long-form AI novel pipeline with premise development, outlining, parallel chapter drafting, chapter review, full-book review, cross-chapter audit, aggregate findings, and revision cycles.",
-          "title": "AutoFiction-AI/AutoFiction",
-          "trust_flags": [],
-          "url": "https://github.com/AutoFiction-AI/AutoFiction"
-        }
-      ],
-      "top_source_url": "https://github.com/AutoFiction-AI/AutoFiction",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "source_format_import_manifest",
       "posture_hint": "metadata-triage",
       "risk_flags": [
-        "docker"
+        "docker",
+        "mcp_server"
       ],
       "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 119,
+          "source": "github",
+          "stars": 11,
+          "summary": "MCP writing service with metadata-first analysis, SQLite-canonical scene files, targeted scene reading, safe scene revision, AI-assisted prose editing with confirmation, git history, review bundles, and Scrivener Direct extraction. Static intake note: mcp-writing is an AGPL-3.0 M",
+          "title": "hannasdev/mcp-writing",
+          "trust_flags": [],
+          "url": "https://github.com/hannasdev/mcp-writing"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -7153,10 +7480,37 @@
           "url": "https://github.com/pymupdf/PyMuPDF"
         }
       ],
-      "top_source_url": "https://github.com/aerkalov/ebooklib",
+      "top_source_url": "https://github.com/hannasdev/mcp-writing",
       "trust_flags": [
         "license:missing"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "cross_chapter_redundancy_audit",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 112,
+          "source": "github",
+          "stars": 902,
+          "summary": "Long-form AI novel pipeline with premise development, outlining, parallel chapter drafting, chapter review, full-book review, cross-chapter audit, aggregate findings, and revision cycles.",
+          "title": "AutoFiction-AI/AutoFiction",
+          "trust_flags": [],
+          "url": "https://github.com/AutoFiction-AI/AutoFiction"
+        }
+      ],
+      "top_source_url": "https://github.com/AutoFiction-AI/AutoFiction",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -7768,6 +8122,35 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "mcp_scene_index_revision_boundary",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 119,
+          "source": "github",
+          "stars": 11,
+          "summary": "MCP writing service with metadata-first analysis, SQLite-canonical scene files, targeted scene reading, safe scene revision, AI-assisted prose editing with confirmation, git history, review bundles, and Scrivener Direct extraction. Static intake note: mcp-writing is an AGPL-3.0 M",
+          "title": "hannasdev/mcp-writing",
+          "trust_flags": [],
+          "url": "https://github.com/hannasdev/mcp-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/hannasdev/mcp-writing",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 2,
       "name": "anti_slop_rulepack_triage_gate",
       "posture_hint": "metadata-triage",
@@ -8080,7 +8463,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 7,
       "name": "contradiction_detection",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -8090,6 +8473,19 @@
         "shell_script"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -8178,7 +8574,7 @@
           "url": "https://github.com/Lanerra/saga"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": []
     },
     {
@@ -8955,7 +9351,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 18,
+      "candidate_count": 20,
       "name": "emotion_arc",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -8966,6 +9362,19 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -9109,6 +9518,22 @@
           "url": "https://github.com/iLearn-Lab/NovelClaw"
         },
         {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 119,
+          "source": "github",
+          "stars": 11,
+          "summary": "MCP writing service with metadata-first analysis, SQLite-canonical scene files, targeted scene reading, safe scene revision, AI-assisted prose editing with confirmation, git history, review bundles, and Scrivener Direct extraction. Static intake note: mcp-writing is an AGPL-3.0 M",
+          "title": "hannasdev/mcp-writing",
+          "trust_flags": [],
+          "url": "https://github.com/hannasdev/mcp-writing"
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -9220,13 +9645,13 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
         "license:missing"
       ]
     },
     {
-      "candidate_count": 10,
+      "candidate_count": 12,
       "name": "agentic_book_planner_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -9234,6 +9659,19 @@
         "mcp_server"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -9307,6 +9745,19 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 103,
+          "source": "github",
+          "stars": 6,
+          "summary": "Creative writing skill using Verbalized Sampling to avoid mode collapse, distribution of responses with probability score, writer's wiki, auto-files, and automatic character and setting detection. Static intake note: Creative Writing with Verbalized Sampling is a MIT creative-wri",
+          "title": "xbraindance/Creative-writing-skill",
+          "trust_flags": [],
+          "url": "https://github.com/xbraindance/Creative-writing-skill"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
           "score": 94,
           "source": "github",
           "stars": 102,
@@ -9368,87 +9819,30 @@
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
-      "name": "projection_sync_observability",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "docker"
-      ],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "docker"
-          ],
-          "score": 154,
-          "source": "github",
-          "stars": 742,
-          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
-          "title": "papysans/Morpheus",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/papysans/Morpheus"
-        },
-        {
-          "license": "NOASSERTION",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 136,
-          "source": "github",
-          "stars": null,
-          "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
-          "title": "starMagic/webnovel-writer-hermes",
-          "trust_flags": [],
-          "url": "https://github.com/starMagic/webnovel-writer-hermes"
-        },
-        {
-          "license": "NOASSERTION",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 128,
-          "source": "github",
-          "stars": null,
-          "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
-          "title": "lingfengQAQ/webnovel-writer",
-          "trust_flags": [],
-          "url": "https://github.com/lingfengQAQ/webnovel-writer"
-        },
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 100,
-          "source": "github",
-          "stars": 0,
-          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
-          "title": "nntrivi2001/wordsmith",
-          "trust_flags": [],
-          "url": "https://github.com/nntrivi2001/wordsmith"
-        }
-      ],
-      "top_source_url": "https://github.com/papysans/Morpheus",
-      "trust_flags": [
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "setup_payoff_tracking",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "shell_script"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "GPL-3.0",
           "posture": "pattern-only",
@@ -9506,8 +9900,146 @@
           "url": "https://github.com/worldwonderer/oh-story-claudecode"
         }
       ],
-      "top_source_url": "https://github.com/skyfiredao/dreampowers",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 5,
+      "name": "projection_sync_observability",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 136,
+          "source": "github",
+          "stars": null,
+          "summary": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review. Static intake note: Hermes Agent adaptation of the webnovel writer flow with story con",
+          "title": "starMagic/webnovel-writer-hermes",
+          "trust_flags": [],
+          "url": "https://github.com/starMagic/webnovel-writer-hermes"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 128,
+          "source": "github",
+          "stars": null,
+          "summary": "Serialized webnovel writing system with Story System contracts, accepted CHAPTER_COMMIT, projection_log, RAG, reviewer, OOC, rhythm and state/index/summary/memory/vector projections. Static intake note: Chinese long-form webnovel writing system for Claude Code with eight skill co",
+          "title": "lingfengQAQ/webnovel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/lingfengQAQ/webnovel-writer"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 120,
+          "source": "github",
+          "stars": 0,
+          "summary": "Novel app with project modifiers, AI-driven initial planning, chapter plan, prose, chapter review, revision, live timings, system log, and project state export JSON. Static intake note: Novelize AI is a web application for turning a seed idea into a multi-chapter novel through pr",
+          "title": "para-droid-ai/NovelizeAI",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/para-droid-ai/NovelizeAI"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 100,
+          "source": "github",
+          "stars": 0,
+          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
+          "title": "nntrivi2001/wordsmith",
+          "trust_flags": [],
+          "url": "https://github.com/nntrivi2001/wordsmith"
+        }
+      ],
+      "top_source_url": "https://github.com/papysans/Morpheus",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "multi_level_review_trend",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 120,
+          "source": "github",
+          "stars": 0,
+          "summary": "Novel app with project modifiers, AI-driven initial planning, chapter plan, prose, chapter review, revision, live timings, system log, and project state export JSON. Static intake note: Novelize AI is a web application for turning a seed idea into a multi-chapter novel through pr",
+          "title": "para-droid-ai/NovelizeAI",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/para-droid-ai/NovelizeAI"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 80,
+          "source": "github",
+          "stars": 576,
+          "summary": "Claude Code long web-novel system to reduce forgetting and hallucination, with RAG configuration, graph-hybrid/BM25 fallback, 7-layer audit gate, audit-agent, chapter_audit CLI and editor_notes cross-chapter feedback.",
+          "title": "XuanRanL/webnovel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/XuanRanL/webnovel-writer"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 74,
+          "source": "github",
+          "stars": 44,
+          "summary": "Python LLM novel-writing app with genre-specific worldbuilding, dynamic factions and locations, agentic multi-agent orchestration, scene/chapter/batch-level review, trend tracking and manuscript combining.",
+          "title": "EdwardAThomson/NovelWriter",
+          "trust_flags": [],
+          "url": "https://github.com/EdwardAThomson/NovelWriter"
+        }
+      ],
+      "top_source_url": "https://github.com/para-droid-ai/NovelizeAI",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -9566,42 +10098,6 @@
         }
       ],
       "top_source_url": "https://github.com/Automattic/harper",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 2,
-      "name": "multi_level_review_trend",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 80,
-          "source": "github",
-          "stars": 576,
-          "summary": "Claude Code long web-novel system to reduce forgetting and hallucination, with RAG configuration, graph-hybrid/BM25 fallback, 7-layer audit gate, audit-agent, chapter_audit CLI and editor_notes cross-chapter feedback.",
-          "title": "XuanRanL/webnovel-writer",
-          "trust_flags": [],
-          "url": "https://github.com/XuanRanL/webnovel-writer"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 74,
-          "source": "github",
-          "stars": 44,
-          "summary": "Python LLM novel-writing app with genre-specific worldbuilding, dynamic factions and locations, agentic multi-agent orchestration, scene/chapter/batch-level review, trend tracking and manuscript combining.",
-          "title": "EdwardAThomson/NovelWriter",
-          "trust_flags": [],
-          "url": "https://github.com/EdwardAThomson/NovelWriter"
-        }
-      ],
-      "top_source_url": "https://github.com/XuanRanL/webnovel-writer",
       "trust_flags": []
     },
     {
@@ -9687,11 +10183,24 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "rolling_summary_context_trim",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -9732,8 +10241,35 @@
           "url": "https://github.com/DuckTraDo/Novel"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "user_modifier_project_blueprint_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 120,
+          "source": "github",
+          "stars": 0,
+          "summary": "Novel app with project modifiers, AI-driven initial planning, chapter plan, prose, chapter review, revision, live timings, system log, and project state export JSON. Static intake note: Novelize AI is a web application for turning a seed idea into a multi-chapter novel through pr",
+          "title": "para-droid-ai/NovelizeAI",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/para-droid-ai/NovelizeAI"
+        }
+      ],
+      "top_source_url": "https://github.com/para-droid-ai/NovelizeAI",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 4,
@@ -10020,6 +10556,85 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 5,
+      "name": "choice_stats_consequence_gate",
+      "posture_hint": "defer-trust-review",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 107,
+          "source": "github",
+          "stars": 5,
+          "summary": "Long-form fiction engine with canon governance, story/*.md, markdown frontmatter, portable skill runtime, SQLite state, artifacts, checkpoints, audit, export, and canon-sync. Static intake note: Novel Orchestrator is a PolyForm Noncommercial long-form writing engine with story/*.",
+          "title": "Moosphan/novel-orchestrator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/Moosphan/novel-orchestrator"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 99,
+          "source": "github",
+          "stars": 3,
+          "summary": "Longform writing workflow with Plan -> Draft -> Log -> Verify loop, living documents, scene logs, continuity records, glossary, thread tracking, foreshadowing checklists, review and wrap. Static intake note: Longform is a MIT Claude/Cowork writing workflow plugin for novel-length",
+          "title": "third-order-labs/longform-plugin",
+          "trust_flags": [],
+          "url": "https://github.com/third-order-labs/longform-plugin"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
+          "title": "YarnSpinnerTool/YarnSpinner",
+          "trust_flags": [],
+          "url": "https://github.com/YarnSpinnerTool/YarnSpinner"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 453,
+          "summary": "ChoiceScript multiple-choice games with choices, stats, variables, and achievements.",
+          "title": "dfabulich/choicescript",
+          "trust_flags": [],
+          "url": "https://github.com/dfabulich/choicescript"
+        }
+      ],
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
+      "trust_flags": [
+        "license:noassertion"
+      ]
+    },
+    {
       "candidate_count": 1,
       "name": "anti_repetition_prompt_rules",
       "posture_hint": "defer-trust-review",
@@ -10046,6 +10661,29 @@
         }
       ],
       "top_source_url": "https://github.com/jncchds/abook",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "verbalized_sampling_diversity_wiki_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 103,
+          "source": "github",
+          "stars": 6,
+          "summary": "Creative writing skill using Verbalized Sampling to avoid mode collapse, distribution of responses with probability score, writer's wiki, auto-files, and automatic character and setting detection. Static intake note: Creative Writing with Verbalized Sampling is a MIT creative-wri",
+          "title": "xbraindance/Creative-writing-skill",
+          "trust_flags": [],
+          "url": "https://github.com/xbraindance/Creative-writing-skill"
+        }
+      ],
+      "top_source_url": "https://github.com/xbraindance/Creative-writing-skill",
       "trust_flags": []
     },
     {
@@ -10217,42 +10855,6 @@
         }
       ],
       "top_source_url": "https://github.com/hestudy/snowflake-fiction",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 2,
-      "name": "choice_stats_consequence_gate",
-      "posture_hint": "defer-trust-review",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 82,
-          "source": "github",
-          "stars": 2800,
-          "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
-          "title": "YarnSpinnerTool/YarnSpinner",
-          "trust_flags": [],
-          "url": "https://github.com/YarnSpinnerTool/YarnSpinner"
-        },
-        {
-          "license": "NOASSERTION",
-          "posture": "pattern-only",
-          "posture_hint": "defer-trust-review",
-          "risk_flags": [],
-          "score": 76,
-          "source": "github",
-          "stars": 453,
-          "summary": "ChoiceScript multiple-choice games with choices, stats, variables, and achievements.",
-          "title": "dfabulich/choicescript",
-          "trust_flags": [],
-          "url": "https://github.com/dfabulich/choicescript"
-        }
-      ],
-      "top_source_url": "https://github.com/YarnSpinnerTool/YarnSpinner",
       "trust_flags": []
     },
     {
@@ -10633,7 +11235,73 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 4,
+      "name": "node_dialogue_state_machine",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 107,
+          "source": "github",
+          "stars": 5,
+          "summary": "Long-form fiction engine with canon governance, story/*.md, markdown frontmatter, portable skill runtime, SQLite state, artifacts, checkpoints, audit, export, and canon-sync. Static intake note: Novel Orchestrator is a PolyForm Noncommercial long-form writing engine with story/*.",
+          "title": "Moosphan/novel-orchestrator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/Moosphan/novel-orchestrator"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 99,
+          "source": "github",
+          "stars": 3,
+          "summary": "Longform writing workflow with Plan -> Draft -> Log -> Verify loop, living documents, scene logs, continuity records, glossary, thread tracking, foreshadowing checklists, review and wrap. Static intake note: Longform is a MIT Claude/Cowork writing workflow plugin for novel-length",
+          "title": "third-order-labs/longform-plugin",
+          "trust_flags": [],
+          "url": "https://github.com/third-order-labs/longform-plugin"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 2800,
+          "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
+          "title": "YarnSpinnerTool/YarnSpinner",
+          "trust_flags": [],
+          "url": "https://github.com/YarnSpinnerTool/YarnSpinner"
+        }
+      ],
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
+      "trust_flags": [
+        "license:noassertion"
+      ]
+    },
+    {
+      "candidate_count": 3,
       "name": "collapse_prevention",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -10650,6 +11318,19 @@
           "title": "Picrew/ConStory-Bench",
           "trust_flags": [],
           "url": "https://github.com/Picrew/ConStory-Bench"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 103,
+          "source": "github",
+          "stars": 6,
+          "summary": "Creative writing skill using Verbalized Sampling to avoid mode collapse, distribution of responses with probability score, writer's wiki, auto-files, and automatic character and setting detection. Static intake note: Creative Writing with Verbalized Sampling is a MIT creative-wri",
+          "title": "xbraindance/Creative-writing-skill",
+          "trust_flags": [],
+          "url": "https://github.com/xbraindance/Creative-writing-skill"
         },
         {
           "license": "MIT",
@@ -10716,29 +11397,6 @@
         }
       ],
       "top_source_url": "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "node_dialogue_state_machine",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 82,
-          "source": "github",
-          "stars": 2800,
-          "summary": "Dialogue system with lines, options, commands, variables, and node-based branching conversations.",
-          "title": "YarnSpinnerTool/YarnSpinner",
-          "trust_flags": [],
-          "url": "https://github.com/YarnSpinnerTool/YarnSpinner"
-        }
-      ],
-      "top_source_url": "https://github.com/YarnSpinnerTool/YarnSpinner",
       "trust_flags": []
     },
     {
@@ -11331,13 +11989,26 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "plotline_thread_tracking",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 99,
+          "source": "github",
+          "stars": 3,
+          "summary": "Longform writing workflow with Plan -> Draft -> Log -> Verify loop, living documents, scene logs, continuity records, glossary, thread tracking, foreshadowing checklists, review and wrap. Static intake note: Longform is a MIT Claude/Cowork writing workflow plugin for novel-length",
+          "title": "third-order-labs/longform-plugin",
+          "trust_flags": [],
+          "url": "https://github.com/third-order-labs/longform-plugin"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -11354,7 +12025,7 @@
           "url": "https://github.com/PixeroJan/obsidian-storyline"
         }
       ],
-      "top_source_url": "https://github.com/PixeroJan/obsidian-storyline",
+      "top_source_url": "https://github.com/third-order-labs/longform-plugin",
       "trust_flags": []
     },
     {
@@ -11895,7 +12566,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 37,
+      "candidate_count": 42,
       "name": "self_review",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -11908,6 +12579,19 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -12090,6 +12774,37 @@
           "url": "https://github.com/dylanhogg/gptauthor"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 120,
+          "source": "github",
+          "stars": 0,
+          "summary": "Novel app with project modifiers, AI-driven initial planning, chapter plan, prose, chapter review, revision, live timings, system log, and project state export JSON. Static intake note: Novelize AI is a web application for turning a seed idea into a multi-chapter novel through pr",
+          "title": "para-droid-ai/NovelizeAI",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/para-droid-ai/NovelizeAI"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "mcp_server"
+          ],
+          "score": 119,
+          "source": "github",
+          "stars": 11,
+          "summary": "MCP writing service with metadata-first analysis, SQLite-canonical scene files, targeted scene reading, safe scene revision, AI-assisted prose editing with confirmation, git history, review bundles, and Scrivener Direct extraction. Static intake note: mcp-writing is an AGPL-3.0 M",
+          "title": "hannasdev/mcp-writing",
+          "trust_flags": [],
+          "url": "https://github.com/hannasdev/mcp-writing"
+        },
+        {
           "license": "Apache-2.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -12170,6 +12885,19 @@
           "url": "https://github.com/PenglongHuang/chinese-novelist-skill"
         },
         {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 103,
+          "source": "github",
+          "stars": 6,
+          "summary": "Creative writing skill using Verbalized Sampling to avoid mode collapse, distribution of responses with probability score, writer's wiki, auto-files, and automatic character and setting detection. Static intake note: Creative Writing with Verbalized Sampling is a MIT creative-wri",
+          "title": "xbraindance/Creative-writing-skill",
+          "trust_flags": [],
+          "url": "https://github.com/xbraindance/Creative-writing-skill"
+        },
+        {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -12196,6 +12924,19 @@
           "title": "brianlmerritt/explore_writing",
           "trust_flags": [],
           "url": "https://github.com/brianlmerritt/explore_writing"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 99,
+          "source": "github",
+          "stars": 3,
+          "summary": "Longform writing workflow with Plan -> Draft -> Log -> Verify loop, living documents, scene logs, continuity records, glossary, thread tracking, foreshadowing checklists, review and wrap. Static intake note: Longform is a MIT Claude/Cowork writing workflow plugin for novel-length",
+          "title": "third-order-labs/longform-plugin",
+          "trust_flags": [],
+          "url": "https://github.com/third-order-labs/longform-plugin"
         },
         {
           "license": "GPL-3.0",
@@ -12423,7 +13164,7 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
         "license:missing",
         "zero-issues-high-stars",
@@ -12431,7 +13172,7 @@
       ]
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 6,
       "name": "frontmatter_story_schema",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -12439,6 +13180,19 @@
         "node_project"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 215,
+          "source": "github",
+          "stars": 2,
+          "summary": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph. Static intake note: Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ",
+          "title": "abrahamp47/storyforge-wiki",
+          "trust_flags": [],
+          "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -12469,6 +13223,21 @@
           "url": "https://github.com/forsonny/novel-master-ai"
         },
         {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 107,
+          "source": "github",
+          "stars": 5,
+          "summary": "Long-form fiction engine with canon governance, story/*.md, markdown frontmatter, portable skill runtime, SQLite state, artifacts, checkpoints, audit, export, and canon-sync. Static intake note: Novel Orchestrator is a PolyForm Noncommercial long-form writing engine with story/*.",
+          "title": "Moosphan/novel-orchestrator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/Moosphan/novel-orchestrator"
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -12495,8 +13264,10 @@
           "url": "https://github.com/danjdewhurst/story-skills"
         }
       ],
-      "top_source_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
-      "trust_flags": []
+      "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
+      "trust_flags": [
+        "license:noassertion"
+      ]
     },
     {
       "candidate_count": 1,
@@ -13046,7 +13817,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 7,
       "name": "world_state_tracking",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -13081,6 +13852,19 @@
           "title": "YILING0013/AI_NovelGenerator",
           "trust_flags": [],
           "url": "https://github.com/YILING0013/AI_NovelGenerator"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 99,
+          "source": "github",
+          "stars": 3,
+          "summary": "Longform writing workflow with Plan -> Draft -> Log -> Verify loop, living documents, scene logs, continuity records, glossary, thread tracking, foreshadowing checklists, review and wrap. Static intake note: Longform is a MIT Claude/Cowork writing workflow plugin for novel-length",
+          "title": "third-order-labs/longform-plugin",
+          "trust_flags": [],
+          "url": "https://github.com/third-order-labs/longform-plugin"
         },
         {
           "license": "MIT",
@@ -14822,7 +15606,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 7,
+      "candidate_count": 9,
       "name": "publication_pipeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -14903,6 +15687,36 @@
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 120,
+          "source": "github",
+          "stars": 0,
+          "summary": "Novel app with project modifiers, AI-driven initial planning, chapter plan, prose, chapter review, revision, live timings, system log, and project state export JSON. Static intake note: Novelize AI is a web application for turning a seed idea into a multi-chapter novel through pr",
+          "title": "para-droid-ai/NovelizeAI",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/para-droid-ai/NovelizeAI"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 107,
+          "source": "github",
+          "stars": 5,
+          "summary": "Long-form fiction engine with canon governance, story/*.md, markdown frontmatter, portable skill runtime, SQLite state, artifacts, checkpoints, audit, export, and canon-sync. Static intake note: Novel Orchestrator is a PolyForm Noncommercial long-form writing engine with story/*.",
+          "title": "Moosphan/novel-orchestrator",
+          "trust_flags": [
+            "license:noassertion"
+          ],
+          "url": "https://github.com/Moosphan/novel-orchestrator"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
           "score": 74,
           "source": "github",
           "stars": 44,
@@ -14931,7 +15745,8 @@
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": [
-        "license:missing"
+        "license:missing",
+        "license:noassertion"
       ]
     },
     {

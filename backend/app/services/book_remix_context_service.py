@@ -142,6 +142,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_project_workbench_memory_diversity_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_interactive_narrative_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -516,6 +520,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_bookrun_skill_protocol_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_project_workbench_memory_diversity_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1537,6 +1545,43 @@ def _append_bookrun_skill_protocol_audit_section(
         lines.append("- anti_slop_rulepack_triage_gate: triage banned vocabulary, inflated copulas, vague attribution, marketing cadence, and repeated AI-prose structure as review tasks")
 
 
+def _append_project_workbench_memory_diversity_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render project-blueprint, canon runtime, staged outline, wiki, scene-index, and diversity gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "user_modifier_project_blueprint_gate",
+        "portable_canon_skill_runtime_gate",
+        "staged_outline_chunk_window_gate",
+        "wiki_canon_graph_lint_gate",
+        "plan_draft_log_verify_loop_gate",
+        "mcp_scene_index_revision_boundary",
+        "verbalized_sampling_diversity_wiki_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Project workbench and memory diversity audit:")
+    if "user_modifier_project_blueprint_gate" in pattern_names:
+        lines.append("- user_modifier_project_blueprint_gate: bind project modifiers, initial plan, chapter plan, prose, review, revision, timing log, and exported state to one blueprint id")
+    if "portable_canon_skill_runtime_gate" in pattern_names:
+        lines.append("- portable_canon_skill_runtime_gate: separate story assets, frontmatter, canon JSON, skill/rule layer, workflow state, checkpoints, artifacts, and export outputs")
+    if "staged_outline_chunk_window_gate" in pattern_names:
+        lines.append("- staged_outline_chunk_window_gate: plan long outlines in setup/part chunks, keep current plus adjacent context detailed, and record chapter-range refinement windows")
+    if "wiki_canon_graph_lint_gate" in pattern_names:
+        lines.append("- wiki_canon_graph_lint_gate: run story-bible wiki health, canon lint, continuity query, timeline contradiction, setup/payoff, and relationship graph checks")
+    if "plan_draft_log_verify_loop_gate" in pattern_names:
+        lines.append("- plan_draft_log_verify_loop_gate: after each chapter, update scene logs, continuity records, glossary, thread tracking, foreshadowing checklists, and wrap/resume state")
+    if "mcp_scene_index_revision_boundary" in pattern_names:
+        lines.append("- mcp_scene_index_revision_boundary: require scene ids, metadata-first context, edit scope, human confirmation, reversible diff, git/history evidence, and review bundle")
+    if "verbalized_sampling_diversity_wiki_gate" in pattern_names:
+        lines.append("- verbalized_sampling_diversity_wiki_gate: sample multiple probability-scored variants, reject source-like clusters, and auto-file accepted ideas into the project writer wiki")
+
+
 def _append_interactive_narrative_audit_section(
     *,
     lines: list[str],
@@ -2515,6 +2560,13 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "language_localization_style_profile_gate_hints": "language_localization_style_profile_gate",
         "progressive_disclosure_skill_protocol_gate_hints": "progressive_disclosure_skill_protocol_gate",
         "anti_slop_rulepack_triage_gate_hints": "anti_slop_rulepack_triage_gate",
+        "user_modifier_project_blueprint_gate_hints": "user_modifier_project_blueprint_gate",
+        "portable_canon_skill_runtime_gate_hints": "portable_canon_skill_runtime_gate",
+        "staged_outline_chunk_window_gate_hints": "staged_outline_chunk_window_gate",
+        "wiki_canon_graph_lint_gate_hints": "wiki_canon_graph_lint_gate",
+        "plan_draft_log_verify_loop_gate_hints": "plan_draft_log_verify_loop_gate",
+        "mcp_scene_index_revision_boundary_hints": "mcp_scene_index_revision_boundary",
+        "verbalized_sampling_diversity_wiki_gate_hints": "verbalized_sampling_diversity_wiki_gate",
         "epub_structure_validation_gate_hints": "epub_structure_validation_gate",
         "ebook_accessibility_audit_gate_hints": "ebook_accessibility_audit_gate",
         "front_back_matter_metadata_gate_hints": "front_back_matter_metadata_gate",

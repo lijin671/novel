@@ -180,6 +180,13 @@ DEFAULT_GITHUB_QUERIES = (
     '("language style guide" OR "localized writing rules" OR "Vietnamese writing patterns") ("webnovel" OR "novel writing") in:name,description,readme',
     '("progressive disclosure" OR "intent-based command routing" OR "protocol files") ("novel" OR "Claude Skill" OR "long-form writing") in:name,description,readme',
     '("no-slop" OR "banned vocabulary" OR "AI writing patterns" OR "prose linter") ("writing" OR "prose" OR "novel") in:name,description,readme',
+    '("project modifiers" OR "AI-driven initial planning" OR "chapter review") ("novel" OR "long-form writing" OR "creative dashboard") in:name,description,readme',
+    '("canon governance" OR "portable skill runtime" OR "SQLite state") ("novel" OR "long-form fiction" OR "agent workflow") in:name,description,readme',
+    '("sliding-window memory" OR "CJK-aware counter" OR "chapter range refinement") ("novel" OR "story generator" OR "continuity") in:name,description,readme',
+    '("story bible wiki" OR "canon lint" OR "relationship graph") ("novel" OR "worldbuilding" OR "continuity") in:name,description,readme',
+    '("Plan Draft Log Verify" OR "foreshadowing checklist" OR "living documents") ("longform" OR "novel" OR "manuscript") in:name,description,readme',
+    '("metadata-first analysis" OR "safe scene revision" OR "git history") ("novel" OR "long-form fiction" OR "MCP") in:name,description,readme',
+    '("Verbalized Sampling" OR "mode collapse" OR "writer wiki") ("creative writing" OR "story" OR "novel") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -405,6 +412,13 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Byk3y/no-slop",
     "https://github.com/nntrivi2001/wordsmith",
     "https://github.com/zy-zmc/tianming-skill",
+    "https://github.com/para-droid-ai/NovelizeAI",
+    "https://github.com/Moosphan/novel-orchestrator",
+    "https://github.com/kirinonakar/Novelgen",
+    "https://github.com/abrahamp47/storyforge-wiki",
+    "https://github.com/third-order-labs/longform-plugin",
+    "https://github.com/hannasdev/mcp-writing",
+    "https://github.com/xbraindance/Creative-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -637,6 +651,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("language_localization_style_profile_gate", ("vietnamese writing patterns", "style_guide_vn", "style guide vn", "localized writing rules", "language style guide", "language-specific style", "units:", "proper nouns/terms", "cumulative glossary", "\u6587\u98ce\u6837\u672c", "\u672c\u5730\u5316")),
     ("progressive_disclosure_skill_protocol_gate", ("progressive disclosure", "intent-based command routing", "protocol files", "protocols/", "codex/", "entry light", "protocol heavy", "knowledge base", "command routing", "\u6e10\u8fdb\u5f0f\u62ab\u9732", "\u6307\u4ee4\u8def\u7531", "\u8fd0\u884c\u534f\u8bae")),
     ("anti_slop_rulepack_triage_gate", ("no-slop", "banned vocabulary", "ai writing patterns", "prose linter", "simple copulas", "marketing language", "vague attribution", "slop", "rulepack", "triage")),
+    ("user_modifier_project_blueprint_gate", ("project modifiers", "target novel length", "target chapter word count", "ai-driven initial planning", "initial plan", "idea spark", "dashboard", "live timings", "system log", "project state", "export json")),
+    ("portable_canon_skill_runtime_gate", ("canon governance", "canon layer", "portable skill runtime", "story/*.md", "markdown frontmatter", "sqlite state", "canon-sync", "artifact index", "project config", "skill runtime")),
+    ("staged_outline_chunk_window_gate", ("sliding-window memory", "focused plot context", "adjacent parts", "cjk-aware counter", "start chapter", "end chapter", "chapter range refinement", "batch start", "resume interrupted generation", "plot token usage")),
+    ("wiki_canon_graph_lint_gate", ("story bible wiki", "worldbuilding wiki", "canon lint", "wiki-query", "wiki-graph", "relationship graph", "continuity warnings", "timeline contradictions", "unresolved setup/payoff", "lore clusters")),
+    ("plan_draft_log_verify_loop_gate", ("plan \u2192 draft \u2192 log \u2192 verify", "plan -> draft -> log -> verify", "plan draft log verify", "living documents", "thread tracking", "foreshadowing checklists", "scene logs", "wrap", "documents are current")),
+    ("mcp_scene_index_revision_boundary", ("metadata-first analysis", "sqlite-canonical", "scene files", "safe scene revision", "ai-assisted prose editing with confirmation", "git history", "review bundles", "scrivener direct extraction", "targeted scene reading", "sync dir")),
+    ("verbalized_sampling_diversity_wiki_gate", ("verbalized sampling", "mode collapse", "distribution of responses", "probability score", "writer's wiki", "auto-files", "automatic character and setting detection", "diverse outlines", "brainstorm", "critic")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -1248,6 +1269,34 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "zy-zmc/tianming-skill": (
         "TianMing Skill is a CC BY-NC-SA long-form novel collaboration skill split from a monolithic prompt into 30+ protocol files with progressive disclosure, intent-based command routing, codex/protocol/knowledge-base layers, and consistency enforcement. "
         "Absorb progressive-disclosure protocol gates and localization/style profile boundaries only; prompt files are not copied and the skill is not installed or treated as runtime authority."
+    ),
+    "para-droid-ai/novelizeai": (
+        "Novelize AI is a web application for turning a seed idea into a multi-chapter novel through project modifiers, AI-driven initial planning, chapter plans, prose, self-review, revisions, dashboard progress, live timing logs, and full project-state export. "
+        "Absorb project-blueprint modifier and timing/export audit gates only; Gemini/provider surfaces, browser local storage, example outputs, and app runtime are not imported or executed."
+    ),
+    "moosphan/novel-orchestrator": (
+        "Novel Orchestrator is a PolyForm Noncommercial long-form writing engine with story/*.md assets, YAML frontmatter, a Canon layer, portable Agent Skill runtime, workflow orchestration, SQLite state, artifacts, checkpoints, inspect/audit/export commands, and canon-sync. "
+        "Absorb portable canon skill-runtime and artifact trace gates only; Python package, model scanning, providers, and CLI runtime are not installed or run."
+    ),
+    "kirinonakar/novelgen": (
+        "NovelGen AI is a MIT Tauri/Rust desktop story generator with seed-to-plot automation, multilingual generation, staged long-outline planning for 13+ chapters, sliding-window chapter context, CJK-aware token counting, interrupted resume, batch jobs, and chapter-range refinement. "
+        "Absorb staged outline chunk windows and chapter-range revision gates only; Tauri, Rust, Node, LM Studio, Gemini, Credential Manager, and app binaries are not launched."
+    ),
+    "abrahamp47/storyforge-wiki": (
+        "Storyforge Wiki is a MIT Claude Code-first story bible and worldbuilding wiki for novels with raw document ingestion, wiki health checks, canon lint, continuity queries, relationship graphs, timeline contradiction detection, and unresolved setup/payoff review. "
+        "Absorb wiki canon-graph lint and continuity-query gates only; slash commands, Quartz publishing, and Claude Code runtime are not run."
+    ),
+    "third-order-labs/longform-plugin": (
+        "Longform is a MIT Claude/Cowork writing workflow plugin for novel-length fiction using a Plan -> Draft -> Log -> Verify -> Repeat loop, living documents, scene logs, continuity records, glossary, thread tracking, foreshadowing checklists, review, and wrap commands. "
+        "Absorb living-document freshness and plan-draft-log-verify gates only; plugin installation and Claude/Cowork runtime are not used."
+    ),
+    "hannasdev/mcp-writing": (
+        "mcp-writing is an AGPL-3.0 MCP service for long-form fiction that builds a metadata-first scene index, SQLite-canonical structural and relationship metadata, compatibility sidecars, targeted scene reading, safe scene revision with human confirmation, git history, review bundles, and Scrivener extraction. "
+        "Absorb scene-index and safe-revision boundary patterns only; MCP server, npm package, Docker, Node runtime, databases, and sync directories are not started or read."
+    ),
+    "xbraindance/creative-writing-skill": (
+        "Creative Writing with Verbalized Sampling is a MIT creative-writing skill that uses verbalized sampling to avoid mode collapse, generate probability-scored diverse ideas/outlines/drafts, and auto-file drafts, characters, settings, and critique outputs into a persistent writer wiki. "
+        "Absorb diversity-sampling and writer-wiki filing gates only; the skill is not installed and prompt files are not copied into runtime context."
     ),
     "pdfminer/pdfminer.six": (
         "Pdfminer.six extracts text and layout information from PDF files. "
@@ -2028,6 +2077,13 @@ class NovelSourceDiscoveryService:
             "language_localization_style_profile_gate_hints": self._build_language_localization_style_profile_gate_hints(available_patterns),
             "progressive_disclosure_skill_protocol_gate_hints": self._build_progressive_disclosure_skill_protocol_gate_hints(available_patterns),
             "anti_slop_rulepack_triage_gate_hints": self._build_anti_slop_rulepack_triage_gate_hints(available_patterns),
+            "user_modifier_project_blueprint_gate_hints": self._build_user_modifier_project_blueprint_gate_hints(available_patterns),
+            "portable_canon_skill_runtime_gate_hints": self._build_portable_canon_skill_runtime_gate_hints(available_patterns),
+            "staged_outline_chunk_window_gate_hints": self._build_staged_outline_chunk_window_gate_hints(available_patterns),
+            "wiki_canon_graph_lint_gate_hints": self._build_wiki_canon_graph_lint_gate_hints(available_patterns),
+            "plan_draft_log_verify_loop_gate_hints": self._build_plan_draft_log_verify_loop_gate_hints(available_patterns),
+            "mcp_scene_index_revision_boundary_hints": self._build_mcp_scene_index_revision_boundary_hints(available_patterns),
+            "verbalized_sampling_diversity_wiki_gate_hints": self._build_verbalized_sampling_diversity_wiki_gate_hints(available_patterns),
             "literary_event_entity_annotation_gate_hints": self._build_literary_event_entity_annotation_gate_hints(available_patterns),
             "narrative_event_evolution_graph_gate_hints": self._build_narrative_event_evolution_graph_gate_hints(available_patterns),
             "sentiment_arc_emotion_trajectory_gate_hints": self._build_sentiment_arc_emotion_trajectory_gate_hints(available_patterns),
@@ -2673,6 +2729,13 @@ class NovelSourceDiscoveryService:
             "language_localization_style_profile_gate": 62,
             "progressive_disclosure_skill_protocol_gate": 66,
             "anti_slop_rulepack_triage_gate": 63,
+            "user_modifier_project_blueprint_gate": 59,
+            "portable_canon_skill_runtime_gate": 66,
+            "staged_outline_chunk_window_gate": 67,
+            "wiki_canon_graph_lint_gate": 64,
+            "plan_draft_log_verify_loop_gate": 65,
+            "mcp_scene_index_revision_boundary": 63,
+            "verbalized_sampling_diversity_wiki_gate": 58,
             "literary_event_entity_annotation_gate": 66,
             "narrative_event_evolution_graph_gate": 65,
             "sentiment_arc_emotion_trajectory_gate": 62,
@@ -2857,6 +2920,27 @@ class NovelSourceDiscoveryService:
         if "anti_slop_rulepack_triage_gate" in patterns:
             targets.append("anti_slop_rulepack")
             targets.append("prose_rule_triage_policy")
+        if "user_modifier_project_blueprint_gate" in patterns:
+            targets.append("user_modifier_blueprint_policy")
+            targets.append("project_modifier_schema")
+        if "portable_canon_skill_runtime_gate" in patterns:
+            targets.append("portable_canon_runtime_policy")
+            targets.append("canon_asset_frontmatter_contract")
+        if "staged_outline_chunk_window_gate" in patterns:
+            targets.append("staged_outline_chunk_policy")
+            targets.append("sliding_window_memory_policy")
+        if "wiki_canon_graph_lint_gate" in patterns:
+            targets.append("wiki_canon_lint_policy")
+            targets.append("relationship_graph_lint_manifest")
+        if "plan_draft_log_verify_loop_gate" in patterns:
+            targets.append("plan_draft_log_verify_policy")
+            targets.append("living_document_update_policy")
+        if "mcp_scene_index_revision_boundary" in patterns:
+            targets.append("scene_index_revision_boundary_policy")
+            targets.append("revision_confirmation_git_history_policy")
+        if "verbalized_sampling_diversity_wiki_gate" in patterns:
+            targets.append("verbalized_sampling_diversity_policy")
+            targets.append("writer_wiki_autofile_policy")
         if "graph_branching_atomicity" in patterns:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
@@ -3467,6 +3551,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["skill_protocol_route_report", "progressive_disclosure_load_trace", "knowledge_base_binding_findings"])
         if "anti_slop_rulepack_triage_gate" in patterns:
             targets.extend(["anti_slop_rulepack_triage_report", "banned_vocabulary_exception_ledger", "ai_prose_tell_findings"])
+        if "user_modifier_project_blueprint_gate" in patterns:
+            targets.extend(["project_modifier_blueprint_report", "dashboard_timing_export_audit", "project_state_export_findings"])
+        if "portable_canon_skill_runtime_gate" in patterns:
+            targets.extend(["portable_canon_runtime_report", "sqlite_checkpoint_artifact_trace", "canon_sync_frontmatter_findings"])
+        if "staged_outline_chunk_window_gate" in patterns:
+            targets.extend(["staged_outline_chunk_window_report", "chapter_range_refinement_findings", "sliding_window_context_trace"])
+        if "wiki_canon_graph_lint_gate" in patterns:
+            targets.extend(["wiki_canon_graph_lint_report", "continuity_query_conflict_findings", "relationship_graph_quality_findings"])
+        if "plan_draft_log_verify_loop_gate" in patterns:
+            targets.extend(["plan_draft_log_verify_report", "living_document_freshness_findings", "foreshadowing_thread_update_findings"])
+        if "mcp_scene_index_revision_boundary" in patterns:
+            targets.extend(["scene_index_revision_boundary_report", "safe_scene_revision_confirmation_log", "metadata_sync_git_history_findings"])
+        if "verbalized_sampling_diversity_wiki_gate" in patterns:
+            targets.extend(["verbalized_sampling_diversity_report", "writer_wiki_autofile_findings", "mode_collapse_variety_findings"])
         if "literary_event_entity_annotation_gate" in patterns:
             targets.extend(["literary_entity_event_annotation_report", "event_participant_role_conflicts", "source_event_annotation_gaps"])
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -5553,6 +5651,69 @@ class NovelSourceDiscoveryService:
             "For same-type creation, anti-slop cleanup must increase local specificity without paraphrasing source sentences or restoring source cadence.",
         ]
 
+    def _build_user_modifier_project_blueprint_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "user_modifier_project_blueprint_gate" not in patterns:
+            return []
+        return [
+            "Capture project modifiers before planning: genre, target length, chapter word count, POV, tone, themes, setting, pacing, prose complexity, and character count.",
+            "Initial plans, chapter plans, prose, review, revision, timing logs, and project-state export should share one blueprint id so dashboard evidence is replayable.",
+            "For same-type creation, modifiers are a transformed design surface; source modifiers and example outputs cannot become copied plot, cast, or prose.",
+        ]
+
+    def _build_portable_canon_skill_runtime_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "portable_canon_skill_runtime_gate" not in patterns:
+            return []
+        return [
+            "Separate story assets, canon JSON/frontmatter, skill rules, workflow state, artifact index, and exports so each layer can be audited and resumed.",
+            "Canon-sync must record source asset, accepted delta, SQLite/checkpoint id, artifact path, and reviewer result before generated changes become stable context.",
+            "For same-type creation, portable skills and canon layers govern process only; transformed canon needs new ids, frontmatter, and runtime state.",
+        ]
+
+    def _build_staged_outline_chunk_window_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "staged_outline_chunk_window_gate" not in patterns:
+            return []
+        return [
+            "For long outlines, generate and review setup plus chapter/part chunks instead of asking one prompt to hold the entire book.",
+            "Drafting context should keep current and adjacent plot chunks detailed while distant chapters stay compressed to title, summary, and constraints.",
+            "Chapter-range refinement must state start/end chapter, adjacent context window, CJK/token budget, resume point, and exact improvement targets.",
+        ]
+
+    def _build_wiki_canon_graph_lint_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "wiki_canon_graph_lint_gate" not in patterns:
+            return []
+        return [
+            "Maintain a story-bible wiki with health, ingest, lint, query, and relationship-graph checks before adding new continuity-sensitive material.",
+            "Canon lint should surface timeline contradictions, character state mismatches, disconnected lore clusters, unresolved setup/payoff, and graph quality gaps.",
+            "For same-type creation, wiki pages and relationship graphs must be rebuilt from transformed facts rather than copied source pages.",
+        ]
+
+    def _build_plan_draft_log_verify_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "plan_draft_log_verify_loop_gate" not in patterns:
+            return []
+        return [
+            "Use a Plan -> Draft -> Log -> Verify loop for every chapter so scene logs, continuity records, glossary, threads, and foreshadowing debt stay current.",
+            "Session wrap must verify living documents are updated, preview next work, and leave an explicit stop/resume state.",
+            "For same-type creation, the loop verifies the transformed manuscript; source plan/log cadence is not a template to preserve.",
+        ]
+
+    def _build_mcp_scene_index_revision_boundary_hints(self, patterns: set[str]) -> list[str]:
+        if "mcp_scene_index_revision_boundary" not in patterns:
+            return []
+        return [
+            "Build metadata-first scene indexes before prose edits: scenes, beats, loglines, characters, places, threads, and relationship metadata are query targets.",
+            "Safe scene revision needs selected scene ids, requested edit scope, human confirmation, reversible diff, git/history evidence, and review bundle output.",
+            "For same-type creation, source scene indexes are analysis-only; transformed drafts require their own scene ids and revision ledger.",
+        ]
+
+    def _build_verbalized_sampling_diversity_wiki_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "verbalized_sampling_diversity_wiki_gate" not in patterns:
+            return []
+        return [
+            "Use diversity sampling as an ideation/review gate: request multiple probability-scored alternatives, then choose or merge with recorded reasons.",
+            "Auto-file brainstorms, outlines, sketches, drafts, critique, characters, and settings into the project wiki so promising variants stay recoverable.",
+            "For same-type creation, diversity sampling should push away from source mode collapse; reject variants that cluster around source scenes or names.",
+        ]
+
     def _build_literary_event_entity_annotation_gate_hints(self, patterns: set[str]) -> list[str]:
         if "literary_event_entity_annotation_gate" not in patterns:
             return []
@@ -6270,6 +6431,20 @@ class NovelSourceDiscoveryService:
             targets.append("skill_protocol_route_remap")
         if "anti_slop_rulepack_triage_gate" in patterns:
             targets.append("anti_slop_rulepack_remap")
+        if "user_modifier_project_blueprint_gate" in patterns:
+            targets.append("project_blueprint_modifier_remap")
+        if "portable_canon_skill_runtime_gate" in patterns:
+            targets.append("portable_canon_runtime_remap")
+        if "staged_outline_chunk_window_gate" in patterns:
+            targets.append("staged_outline_window_remap")
+        if "wiki_canon_graph_lint_gate" in patterns:
+            targets.append("wiki_canon_graph_remap")
+        if "plan_draft_log_verify_loop_gate" in patterns:
+            targets.append("plan_draft_log_verify_remap")
+        if "mcp_scene_index_revision_boundary" in patterns:
+            targets.append("scene_index_revision_boundary_remap")
+        if "verbalized_sampling_diversity_wiki_gate" in patterns:
+            targets.append("verbalized_sampling_diversity_remap")
         if "literary_event_entity_annotation_gate" in patterns:
             targets.append("literary_annotation_role_remap")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6549,6 +6724,20 @@ class NovelSourceDiscoveryService:
             hints.append("Use progressive protocol loading to keep prompts small while ensuring transformed-story knowledge files are bound before generation.")
         if "anti_slop_rulepack_triage_gate" in patterns:
             hints.append("Run anti-slop rulepack triage as local prose cleanup after independence checks so specificity rises without copying source cadence.")
+        if "user_modifier_project_blueprint_gate" in patterns:
+            hints.append("Define a new modifier blueprint for the transformed project before planning; source dashboards and examples are process references only.")
+        if "portable_canon_skill_runtime_gate" in patterns:
+            hints.append("Create fresh story assets, frontmatter, canon ids, workflow state, and artifact indexes for the transformed book.")
+        if "staged_outline_chunk_window_gate" in patterns:
+            hints.append("Plan the transformed outline in stage/chapter chunks and keep only current plus adjacent context detailed during drafting.")
+        if "wiki_canon_graph_lint_gate" in patterns:
+            hints.append("Build a new story-bible wiki and relationship graph from transformed facts before using wiki queries in drafting.")
+        if "plan_draft_log_verify_loop_gate" in patterns:
+            hints.append("Apply Plan -> Draft -> Log -> Verify to transformed chapters, not to replay the source chapter workflow.")
+        if "mcp_scene_index_revision_boundary" in patterns:
+            hints.append("Use scene-index revision boundaries on transformed scene ids with explicit confirmation and reversible diff evidence.")
+        if "verbalized_sampling_diversity_wiki_gate" in patterns:
+            hints.append("Use diversity sampling to escape source-like first ideas; auto-file accepted variants into the transformed writer wiki.")
         if "literary_event_entity_annotation_gate" in patterns:
             hints.append("Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6756,6 +6945,20 @@ class NovelSourceDiscoveryService:
             hints.append("Transform protocol routing into project-local steps; external skill files remain reference patterns, not imported prompts.")
         if "anti_slop_rulepack_triage_gate" in patterns:
             hints.append("Transform prose lint findings into revision tasks that preserve character voice and reject generic AI phrasing.")
+        if "user_modifier_project_blueprint_gate" in patterns:
+            hints.append("Transform project modifiers into a fresh blueprint with new genre mix, scope, POV, setting, tone, and chapter targets.")
+        if "portable_canon_skill_runtime_gate" in patterns:
+            hints.append("Transform canon runtime by assigning new story asset paths, frontmatter ids, canon JSON keys, workflow state, and artifact lineage.")
+        if "staged_outline_chunk_window_gate" in patterns:
+            hints.append("Transform staged outlines by changing setup chunks, adjacent-window policy, chapter-range revision scope, and resume checkpoints.")
+        if "wiki_canon_graph_lint_gate" in patterns:
+            hints.append("Transform wiki/graph material by rebuilding pages, graph nodes, lint rules, and continuity queries around new facts.")
+        if "plan_draft_log_verify_loop_gate" in patterns:
+            hints.append("Transform the chapter loop by creating new plan logs, scene logs, thread updates, glossary deltas, and verify criteria.")
+        if "mcp_scene_index_revision_boundary" in patterns:
+            hints.append("Transform scene indexes by creating new scene ids, metadata envelopes, edit confirmations, diff records, and review bundles.")
+        if "verbalized_sampling_diversity_wiki_gate" in patterns:
+            hints.append("Transform diversity samples by selecting variants that depart from source premise, cast, scene order, and voice before wiki filing.")
         if "delivery_manuscript_assembly" in patterns:
             hints.append("Transform final packaging by rebuilding chapter titles, sequence, acceptance manifest, and output metadata from the new story.")
         if "export_format_fidelity_audit" in patterns:
@@ -7177,6 +7380,20 @@ class NovelSourceDiscoveryService:
             hints.append("Reject prompts that paste external skill protocols wholesale instead of loading compact project-native steps.")
         if "anti_slop_rulepack_triage_gate" in patterns:
             hints.append("Reject anti-slop rewrites that smooth text into generic prose or paraphrase distinctive source sentences.")
+        if "user_modifier_project_blueprint_gate" in patterns:
+            hints.append("Reject blueprints whose modifier set encodes source-specific cast, setting, title cadence, or chapter route.")
+        if "portable_canon_skill_runtime_gate" in patterns:
+            hints.append("Reject canon imports that preserve source asset paths, frontmatter ids, skill files, or artifact names as transformed-story authority.")
+        if "staged_outline_chunk_window_gate" in patterns:
+            hints.append("Reject staged outlines whose setup/chunk sequence, adjacent-window summaries, or range-refinement targets match the source route.")
+        if "wiki_canon_graph_lint_gate" in patterns:
+            hints.append("Reject wiki pages or relationship graphs that keep source node names, edge labels, timeline warnings, or setup/payoff ids.")
+        if "plan_draft_log_verify_loop_gate" in patterns:
+            hints.append("Reject chapter logs that reproduce source scene order, glossary entries, thread labels, or foreshadowing checklist cadence.")
+        if "mcp_scene_index_revision_boundary" in patterns:
+            hints.append("Reject scene revision bundles that cannot distinguish source scene ids, transformed scene ids, selected context, and accepted diffs.")
+        if "verbalized_sampling_diversity_wiki_gate" in patterns:
+            hints.append("Reject diversity samples when their probability set still clusters around source premise, names, sequence, or set pieces.")
         if "front_back_matter_metadata_gate" in patterns:
             hints.append("Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.")
         if "toc_navigation_consistency_gate" in patterns:
@@ -7315,6 +7532,13 @@ class NovelSourceDiscoveryService:
                 "language_localization_style_profile_gate",
                 "progressive_disclosure_skill_protocol_gate",
                 "anti_slop_rulepack_triage_gate",
+                "user_modifier_project_blueprint_gate",
+                "portable_canon_skill_runtime_gate",
+                "staged_outline_chunk_window_gate",
+                "wiki_canon_graph_lint_gate",
+                "plan_draft_log_verify_loop_gate",
+                "mcp_scene_index_revision_boundary",
+                "verbalized_sampling_diversity_wiki_gate",
                 "literary_event_entity_annotation_gate",
                 "narrative_event_evolution_graph_gate",
                 "sentiment_arc_emotion_trajectory_gate",

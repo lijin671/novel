@@ -7657,3 +7657,255 @@ def test_default_discovery_sources_include_bookrun_skill_protocol_projects():
     assert any("language style guide" in query.lower() and "vietnamese writing patterns" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("progressive disclosure" in query.lower() and "protocol files" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("no-slop" in query.lower() and "banned vocabulary" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_project_workbench_memory_sources_map_to_blueprint_and_wiki_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "para-droid-ai/NovelizeAI",
+                "html_url": "https://github.com/para-droid-ai/NovelizeAI",
+                "description": "Novel app with project modifiers, AI-driven initial planning, chapter review, live timings, system log, and project state export JSON.",
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["novel", "writing", "gemini"],
+                "updated_at": "2026-06-10T22:10:00Z",
+                "root_files": ["README.md", "package.json"],
+            },
+            {
+                "full_name": "Moosphan/novel-orchestrator",
+                "html_url": "https://github.com/Moosphan/novel-orchestrator",
+                "description": "Long-form fiction engine with canon governance, story/*.md, markdown frontmatter, portable skill runtime, SQLite state, artifacts, checkpoints, and canon-sync.",
+                "stargazers_count": 5,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "agent", "canon"],
+                "updated_at": "2026-06-10T22:11:00Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml"],
+            },
+            {
+                "full_name": "kirinonakar/Novelgen",
+                "html_url": "https://github.com/kirinonakar/Novelgen",
+                "description": "AI story generator with sliding-window memory, focused plot context, adjacent parts, CJK-aware counter, start/end chapter range refinement, batch start, and resume interrupted generation.",
+                "stargazers_count": 7,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "tauri", "writing"],
+                "updated_at": "2026-06-10T22:12:00Z",
+                "root_files": ["README.md", "LICENSE", "src-tauri"],
+            },
+            {
+                "full_name": "abrahamp47/storyforge-wiki",
+                "html_url": "https://github.com/abrahamp47/storyforge-wiki",
+                "description": "Story bible wiki with canon lint, wiki-query, wiki-graph, continuity warnings, timeline contradictions, unresolved setup/payoff, and relationship graph.",
+                "stargazers_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "worldbuilding", "wiki"],
+                "updated_at": "2026-06-10T22:13:00Z",
+                "root_files": ["README.md", "LICENSE", "wiki", "raw"],
+            },
+            {
+                "full_name": "third-order-labs/longform-plugin",
+                "html_url": "https://github.com/third-order-labs/longform-plugin",
+                "description": "Longform writing workflow with Plan -> Draft -> Log -> Verify loop, living documents, scene logs, thread tracking, foreshadowing checklists, review and wrap.",
+                "stargazers_count": 3,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["longform", "novel", "claude"],
+                "updated_at": "2026-06-10T22:14:00Z",
+                "root_files": ["README.md", "LICENSE", "commands"],
+            },
+            {
+                "full_name": "hannasdev/mcp-writing",
+                "html_url": "https://github.com/hannasdev/mcp-writing",
+                "description": "MCP writing service with metadata-first analysis, SQLite-canonical scene files, targeted scene reading, safe scene revision, AI-assisted prose editing with confirmation, git history, review bundles, and Scrivener Direct extraction.",
+                "stargazers_count": 11,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["mcp", "novel", "writing"],
+                "updated_at": "2026-06-10T22:15:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json"],
+            },
+            {
+                "full_name": "xbraindance/Creative-writing-skill",
+                "html_url": "https://github.com/xbraindance/Creative-writing-skill",
+                "description": "Creative writing skill using Verbalized Sampling to avoid mode collapse, distribution of responses with probability score, writer's wiki, auto-files, and automatic character and setting detection.",
+                "stargazers_count": 6,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["creative-writing", "skill", "novel"],
+                "updated_at": "2026-06-10T22:16:00Z",
+                "root_files": ["README.md", "LICENSE", "SKILL.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T22:16:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+
+    assert "user_modifier_project_blueprint_gate" in patterns_by_title["para-droid-ai/NovelizeAI"]
+    assert "portable_canon_skill_runtime_gate" in patterns_by_title["Moosphan/novel-orchestrator"]
+    assert "staged_outline_chunk_window_gate" in patterns_by_title["kirinonakar/Novelgen"]
+    assert "wiki_canon_graph_lint_gate" in patterns_by_title["abrahamp47/storyforge-wiki"]
+    assert "plan_draft_log_verify_loop_gate" in patterns_by_title["third-order-labs/longform-plugin"]
+    assert "mcp_scene_index_revision_boundary" in patterns_by_title["hannasdev/mcp-writing"]
+    assert "verbalized_sampling_diversity_wiki_gate" in patterns_by_title["xbraindance/Creative-writing-skill"]
+
+
+def test_project_workbench_memory_pattern_pack_exposes_blueprint_wiki_and_scene_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T22:20:00+08:00",
+        "candidate_count": 7,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/para-droid-ai/NovelizeAI",
+                "title": "para-droid-ai/NovelizeAI",
+                "summary": "Project modifiers, initial planning, chapter review, timing log, and project-state export.",
+                "stars": 0,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["provider"],
+                "absorbed_patterns": ["user_modifier_project_blueprint_gate"],
+                "score": 84,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Moosphan/novel-orchestrator",
+                "title": "Moosphan/novel-orchestrator",
+                "summary": "Canon governance, frontmatter, portable skill runtime, SQLite state, artifacts, and canon-sync.",
+                "stars": 5,
+                "license": "PolyForm-Noncommercial",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["provider"],
+                "absorbed_patterns": ["portable_canon_skill_runtime_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/kirinonakar/Novelgen",
+                "title": "kirinonakar/Novelgen",
+                "summary": "Staged long-outline planning, sliding-window memory, CJK-aware token counter, and chapter-range refinement.",
+                "stars": 7,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["provider"],
+                "absorbed_patterns": ["staged_outline_chunk_window_gate"],
+                "score": 85,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/abrahamp47/storyforge-wiki",
+                "title": "abrahamp47/storyforge-wiki",
+                "summary": "Story bible wiki, canon lint, continuity query, timeline contradiction, setup/payoff and relationship graph checks.",
+                "stars": 2,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["wiki_canon_graph_lint_gate"],
+                "score": 83,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/third-order-labs/longform-plugin",
+                "title": "third-order-labs/longform-plugin",
+                "summary": "Plan Draft Log Verify loop with living documents, scene logs, thread tracking and foreshadowing checklists.",
+                "stars": 3,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["plan_draft_log_verify_loop_gate"],
+                "score": 82,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/hannasdev/mcp-writing",
+                "title": "hannasdev/mcp-writing",
+                "summary": "Metadata-first scene index, safe scene revision, confirmation, git history, review bundles and Scrivener import.",
+                "stars": 11,
+                "license": "AGPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["mcp", "docker"],
+                "absorbed_patterns": ["mcp_scene_index_revision_boundary"],
+                "score": 81,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/xbraindance/Creative-writing-skill",
+                "title": "xbraindance/Creative-writing-skill",
+                "summary": "Verbalized Sampling, mode collapse mitigation, probability-scored diverse variants, and writer wiki auto filing.",
+                "stars": 6,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["verbalized_sampling_diversity_wiki_gate"],
+                "score": 80,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "user_modifier_blueprint_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "portable_canon_runtime_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "staged_outline_chunk_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "wiki_canon_lint_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "plan_draft_log_verify_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_index_revision_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "verbalized_sampling_diversity_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "project_modifier_blueprint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "portable_canon_runtime_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "staged_outline_chunk_window_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "wiki_canon_graph_lint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "plan_draft_log_verify_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_index_revision_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "verbalized_sampling_diversity_report" in pattern_pack["whole_book_analysis_targets"]
+    assert pattern_pack["user_modifier_project_blueprint_gate_hints"]
+    assert pattern_pack["portable_canon_skill_runtime_gate_hints"]
+    assert pattern_pack["staged_outline_chunk_window_gate_hints"]
+    assert pattern_pack["wiki_canon_graph_lint_gate_hints"]
+    assert pattern_pack["plan_draft_log_verify_loop_gate_hints"]
+    assert pattern_pack["mcp_scene_index_revision_boundary_hints"]
+    assert pattern_pack["verbalized_sampling_diversity_wiki_gate_hints"]
+    assert "project_blueprint_modifier_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "portable_canon_runtime_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "staged_outline_window_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "wiki_canon_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "plan_draft_log_verify_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "scene_index_revision_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "verbalized_sampling_diversity_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "user_modifier_project_blueprint_gate_hints" in digest
+    assert "portable_canon_skill_runtime_gate_hints" in digest
+    assert "staged_outline_chunk_window_gate_hints" in digest
+    assert "wiki_canon_graph_lint_gate_hints" in digest
+    assert "plan_draft_log_verify_loop_gate_hints" in digest
+    assert "mcp_scene_index_revision_boundary_hints" in digest
+    assert "verbalized_sampling_diversity_wiki_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_project_workbench_memory_projects():
+    assert "https://github.com/para-droid-ai/NovelizeAI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Moosphan/novel-orchestrator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/kirinonakar/Novelgen" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/abrahamp47/storyforge-wiki" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/third-order-labs/longform-plugin" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/hannasdev/mcp-writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/xbraindance/Creative-writing-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("project modifiers" in query.lower() and "chapter review" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("canon governance" in query.lower() and "sqlite state" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("sliding-window memory" in query.lower() and "chapter range refinement" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story bible wiki" in query.lower() and "relationship graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("plan draft log verify" in query.lower() and "living documents" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("metadata-first analysis" in query.lower() and "safe scene revision" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("verbalized sampling" in query.lower() and "writer wiki" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
