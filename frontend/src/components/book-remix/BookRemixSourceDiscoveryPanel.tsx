@@ -55,6 +55,15 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/modoojunko/awesome-novel-skill',
   'https://github.com/langchain-ai/story-writing',
   'https://github.com/EdwardAThomson/StoryDaemon',
+  'https://github.com/datacrystals/AIStoryWriter',
+  'https://github.com/sadasdfsaf/canonkit',
+  'https://github.com/heider-x/vela',
+  'https://github.com/pulpgen-dev/pulpgen',
+  'https://github.com/jim60105/HeartReverie',
+  'https://github.com/wzxsph/Novel-Claude',
+  'https://github.com/liaoma1993/aiAIfiction',
+  'https://github.com/vishnu0120754/ReNovel-AI',
+  'https://github.com/worldwonderer/zenstory',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -108,6 +117,12 @@ const PINNED_HINT_KEYS = new Set([
   'skill_orchestrated_chinese_novel_workflow_hints',
   'langgraph_story_state_machine_hints',
   'story_daemon_evolution_loop_hints',
+  'local_rag_writing_ide_gate_hints',
+  'canon_drift_continuity_qa_gate_hints',
+  'patch_replay_manuscript_state_gate_hints',
+  'microkernel_skill_plugin_isolation_gate_hints',
+  'interactive_reader_writer_loop_gate_hints',
+  'abstract_style_learning_skill_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -342,6 +357,14 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Skill-orchestrated Chinese novel workflow gates', patternPackPayload?.skill_orchestrated_chinese_novel_workflow_hints],
               ['LangGraph story state machine gates', patternPackPayload?.langgraph_story_state_machine_hints],
               ['Story daemon evolution loop gates', patternPackPayload?.story_daemon_evolution_loop_hints],
+            ])}
+            {renderHintGroup('Local RAG / canon QA / patch replay gates', [
+              ['Local RAG writing IDE gates', patternPackPayload?.local_rag_writing_ide_gate_hints],
+              ['Canon drift continuity QA gates', patternPackPayload?.canon_drift_continuity_qa_gate_hints],
+              ['Patch replay manuscript state gates', patternPackPayload?.patch_replay_manuscript_state_gate_hints],
+              ['Microkernel skill plugin isolation gates', patternPackPayload?.microkernel_skill_plugin_isolation_gate_hints],
+              ['Interactive reader-writer loop gates', patternPackPayload?.interactive_reader_writer_loop_gate_hints],
+              ['Abstract style learning skill gates', patternPackPayload?.abstract_style_learning_skill_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

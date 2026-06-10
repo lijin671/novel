@@ -113,6 +113,12 @@ export interface SourceDiscoveryPatternPack {
   skill_orchestrated_chinese_novel_workflow_hints?: string[];
   langgraph_story_state_machine_hints?: string[];
   story_daemon_evolution_loop_hints?: string[];
+  local_rag_writing_ide_gate_hints?: string[];
+  canon_drift_continuity_qa_gate_hints?: string[];
+  patch_replay_manuscript_state_gate_hints?: string[];
+  microkernel_skill_plugin_isolation_gate_hints?: string[];
+  interactive_reader_writer_loop_gate_hints?: string[];
+  abstract_style_learning_skill_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

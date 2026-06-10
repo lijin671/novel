@@ -8165,3 +8165,147 @@ def test_static_causal_state_machine_skill_sources_map_to_workflow_gates():
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "causal_dramatica_agent_pipeline_hints" in digest
     assert "skill_orchestrated_chinese_novel_workflow_hints" in digest
+
+
+
+def test_default_discovery_sources_include_local_rag_canon_patch_projects():
+    assert "https://github.com/datacrystals/AIStoryWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/sadasdfsaf/canonkit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/heider-x/vela" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/pulpgen-dev/pulpgen" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jim60105/HeartReverie" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wzxsph/Novel-Claude" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/liaoma1993/aiAIfiction" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/vishnu0120754/ReNovel-AI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/worldwonderer/zenstory" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("local-first" in query.lower() and "local rag" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("canon drift" in query.lower() and "continuity checker" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("patch-nn" in query.lower() and "outline.xml" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("microkernel" in query.lower() and "eventbus" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_static_local_rag_canon_patch_sources_map_to_workflow_gates():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "datacrystals/AIStoryWriter",
+                "html_url": "https://github.com/datacrystals/AIStoryWriter",
+                "description": "LLM story writer with outline, chapter outline, chapter writer, revision, evaluation and local Ollama model support.",
+                "stargazers_count": 251,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["story", "ai-writing", "long-output"],
+                "updated_at": "2026-06-08T18:52:40Z",
+                "root_files": ["README.md", "requirements.txt", "Write.py", "Evaluate.py", "LICENSE"],
+            },
+            {
+                "full_name": "sadasdfsaf/canonkit",
+                "html_url": "https://github.com/sadasdfsaf/canonkit",
+                "description": "Local-first story bible and continuity checker for fiction teams and solo authors focused on canon drift and scene context packs.",
+                "stargazers_count": 0,
+                "license": {},
+                "topics": ["fiction", "story-bible", "continuity"],
+                "updated_at": "2026-03-30T05:54:12Z",
+                "root_files": ["README.md", "package.json", "src"],
+            },
+            {
+                "full_name": "heider-x/vela",
+                "html_url": "https://github.com/heider-x/vela",
+                "description": "AI novel writing IDE with local-first privacy BYOK local RAG knowledge base, auto outline, chapter drafting, rewrite refine review loop.",
+                "stargazers_count": 367,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "rag", "creative-writing"],
+                "updated_at": "2026-06-09T15:58:51Z",
+                "root_files": ["README.md", "package.json", "electron", "LICENSE"],
+            },
+            {
+                "full_name": "pulpgen-dev/pulpgen",
+                "html_url": "https://github.com/pulpgen-dev/pulpgen",
+                "description": "AI novel drafting agent with outline.xml, patch-NN.xml sequential dispatch logs, final.xml, final.html, version-NN.html and interactive AI-assisted editing.",
+                "stargazers_count": 16,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "drafting-agent", "manuscript"],
+                "updated_at": "2026-03-17T17:17:33Z",
+                "root_files": ["README.md", "pyproject.toml", "pulpgen.py", "LICENSE"],
+            },
+            {
+                "full_name": "jim60105/HeartReverie",
+                "html_url": "https://github.com/jim60105/HeartReverie",
+                "description": "AI interactive novel engine where reader guidance writes stories into chapter files with markdown lore codex and plugin.json hook ecosystem.",
+                "stargazers_count": 2,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["interactive-fiction", "ai-writing"],
+                "updated_at": "2026-06-04T21:48:57Z",
+                "root_files": ["README.md", "deno.json", "Containerfile", "scripts", "plugins"],
+            },
+            {
+                "full_name": "wzxsph/Novel-Claude",
+                "html_url": "https://github.com/wzxsph/Novel-Claude",
+                "description": "Agentic long-form web novel framework with microkernel plugin architecture, EventBus, PluginManager, NovelContext, RAG memory skill and Skill Builder Agent.",
+                "stargazers_count": 5,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "agentic", "plugin"],
+                "updated_at": "2026-06-07T08:49:33Z",
+                "root_files": ["README.md", "requirements.txt", "skills", "prompts", "cli.py"],
+            },
+            {
+                "full_name": "liaoma1993/aiAIfiction",
+                "html_url": "https://github.com/liaoma1993/aiAIfiction",
+                "description": "AI Fiction Studio long-form web novel workbench with style learning Skill, representative sampling, character voice matrix, quality audit and repair dashboard.",
+                "stargazers_count": 8,
+                "license": {},
+                "topics": ["novel", "ai-writing", "style-learning"],
+                "updated_at": "2026-06-10T02:49:08Z",
+                "root_files": ["README.md", "docker-compose.yml", "backend", "frontend", "scripts"],
+            },
+            {
+                "full_name": "vishnu0120754/ReNovel-AI",
+                "html_url": "https://github.com/vishnu0120754/ReNovel-AI",
+                "description": "Novel revision workspace with long-term memory, three-way collaboration, card-based editing, import, automated revisions and narrative expansion.",
+                "stargazers_count": 12,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["rag", "writing", "revision"],
+                "updated_at": "2026-06-10T04:22:53Z",
+                "root_files": ["README.md", "requirements.txt", "Run.bat", "main.py"],
+            },
+            {
+                "full_name": "worldwonderer/zenstory",
+                "html_url": "https://github.com/worldwonderer/zenstory",
+                "description": "AI novel workbench where agents create character cards, deconstruct reference material, plan outlines, write chapters, quality review, material library, hybrid RAG and context compression.",
+                "stargazers_count": 6,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "agents", "rag"],
+                "updated_at": "2026-06-06T19:09:12Z",
+                "root_files": ["README.md", "package.json", "docker-compose.yml", "scripts", "apps"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T15:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "local_rag_writing_ide_gate" in candidates["heider-x/vela"]["absorbed_patterns"]
+    assert "local_rag_writing_ide_gate" in candidates["worldwonderer/zenstory"]["absorbed_patterns"]
+    assert "canon_drift_continuity_qa_gate" in candidates["sadasdfsaf/canonkit"]["absorbed_patterns"]
+    assert "patch_replay_manuscript_state_gate" in candidates["pulpgen-dev/pulpgen"]["absorbed_patterns"]
+    assert "microkernel_skill_plugin_isolation_gate" in candidates["wzxsph/Novel-Claude"]["absorbed_patterns"]
+    assert "interactive_reader_writer_loop_gate" in candidates["jim60105/HeartReverie"]["absorbed_patterns"]
+    assert "interactive_reader_writer_loop_gate" in candidates["vishnu0120754/ReNovel-AI"]["absorbed_patterns"]
+    assert "abstract_style_learning_skill_gate" in candidates["liaoma1993/aiAIfiction"]["absorbed_patterns"]
+    assert "chapter_generation" in candidates["datacrystals/AIStoryWriter"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "local_rag_writing_ide_gate_hints" in pattern_pack
+    assert "canon_drift_continuity_qa_gate_hints" in pattern_pack
+    assert "patch_replay_manuscript_state_gate_hints" in pattern_pack
+    assert "microkernel_skill_plugin_isolation_gate_hints" in pattern_pack
+    assert "interactive_reader_writer_loop_gate_hints" in pattern_pack
+    assert "abstract_style_learning_skill_gate_hints" in pattern_pack
+    assert "canon_drift_rulebook" in pattern_pack["bible_enrichment_targets"]
+    assert "patch_replay_state_log" in pattern_pack["whole_book_analysis_targets"]
+    assert "abstract_style_profile_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "local_rag_writing_ide_gate_hints" in digest
+    assert "abstract_style_learning_skill_gate_hints" in digest

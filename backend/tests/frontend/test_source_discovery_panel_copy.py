@@ -54,6 +54,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "skill_orchestrated_chinese_novel_workflow_hints",
         "langgraph_story_state_machine_hints",
         "story_daemon_evolution_loop_hints",
+        "local_rag_writing_ide_gate_hints",
+        "canon_drift_continuity_qa_gate_hints",
+        "patch_replay_manuscript_state_gate_hints",
+        "microkernel_skill_plugin_isolation_gate_hints",
+        "interactive_reader_writer_loop_gate_hints",
+        "abstract_style_learning_skill_gate_hints",
     ):
         assert field in types_text
         assert field in panel_text
@@ -80,6 +86,13 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Skill-orchestrated Chinese novel workflow gates" in panel_text
     assert "LangGraph story state machine gates" in panel_text
     assert "Story daemon evolution loop gates" in panel_text
+    assert "Local RAG / canon QA / patch replay gates" in panel_text
+    assert "Local RAG writing IDE gates" in panel_text
+    assert "Canon drift continuity QA gates" in panel_text
+    assert "Patch replay manuscript state gates" in panel_text
+    assert "Microkernel skill plugin isolation gates" in panel_text
+    assert "Interactive reader-writer loop gates" in panel_text
+    assert "Abstract style learning skill gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -132,6 +145,15 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "modoojunko/awesome-novel-skill",
         "langchain-ai/story-writing",
         "EdwardAThomson/StoryDaemon",
+        "datacrystals/AIStoryWriter",
+        "sadasdfsaf/canonkit",
+        "heider-x/vela",
+        "pulpgen-dev/pulpgen",
+        "jim60105/HeartReverie",
+        "wzxsph/Novel-Claude",
+        "liaoma1993/aiAIfiction",
+        "vishnu0120754/ReNovel-AI",
+        "worldwonderer/zenstory",
     ):
         assert repo in panel_text
 

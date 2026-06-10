@@ -191,6 +191,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("Capture" OR "Distillation" OR "Production") ("agentic platform" OR "novel" OR "story foundry") in:name,description,readme',
     '("OpenClaw" OR "agent skill") ("Chinese novel" OR "novel-writing" OR "web novel") in:name,description,readme',
     '("LangGraph" OR "story state" OR "story-writing") ("fiction" OR "novel" OR "agent") in:name,description,readme',
+    '("local-first" OR "privacy-first" OR "local RAG") ("novel" OR "web fiction" OR "creative writing") in:name,description,readme',
+    '("story bible" OR "canon drift" OR "continuity checker") ("fiction" OR "novel" OR "long-form") in:name,description,readme',
+    '("patch-NN" OR "outline.xml" OR "final.xml") ("AI novel" OR "drafting agent" OR "manuscript") in:name,description,readme',
+    '("microkernel" OR "plugin architecture" OR "EventBus") ("AI novel" OR "web novel" OR "agentic novel") in:name,description,readme',
+    '("style learning" OR "writing style Skill" OR "technique spectrum") ("novel" OR "webnovel" OR "fiction") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -437,6 +442,15 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/modoojunko/awesome-novel-skill",
     "https://github.com/langchain-ai/story-writing",
     "https://github.com/EdwardAThomson/StoryDaemon",
+    "https://github.com/datacrystals/AIStoryWriter",
+    "https://github.com/sadasdfsaf/canonkit",
+    "https://github.com/heider-x/vela",
+    "https://github.com/pulpgen-dev/pulpgen",
+    "https://github.com/jim60105/HeartReverie",
+    "https://github.com/wzxsph/Novel-Claude",
+    "https://github.com/liaoma1993/aiAIfiction",
+    "https://github.com/vishnu0120754/ReNovel-AI",
+    "https://github.com/worldwonderer/zenstory",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -489,7 +503,7 @@ NARRATIVE_PRODUCTION_KEYWORDS = (
 )
 PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_decomposition", ("拆书", "拆解", "解析", "book decomposition", "book analysis", "source book")),
-    ("chapter_generation", ("chapter generation", "multi-chapter stories", "iterative chapter writing", "autonomous novel pipeline", "novel pipeline", "seed concept to print-ready", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
+    ("chapter_generation", ("chapter generation", "chapter-writing", "chapter writer", "chapter writing", "multi-chapter stories", "iterative chapter writing", "autonomous novel pipeline", "novel pipeline", "seed concept to print-ready", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
     ("continuation", ("continuation", "continue", "续写", "断更续写", "继续写")),
     ("same_type_creation", ("同类型", "inspired", "remix", "二创", "同人", "同类创作", "风格复刻")),
     ("worldbuilding", ("worldbuilding", "世界观", "设定", "world rules")),
@@ -713,6 +727,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("skill_orchestrated_chinese_novel_workflow", ("openclaw skill", "agent-skill", "awesome novel skill", "chinese novel writing", "chinese-novel", "web-novel", "worldbuilding to character shaping", "章节规划", "正文写作", "小说创作搭档")),
     ("langgraph_story_state_machine", ("langgraph", "langchain", "story state flow", "story-writing sample", "langgraph.json", "agent.py", "stateful planning", "story state machine")),
     ("story_daemon_evolution_loop", ("storydaemon", "autonomous agent", "plans, writes, and evolves stories", "evolves stories organically", "organic planning", "long-form fiction through an autonomous agent")),
+    ("local_rag_writing_ide_gate", ("local rag", "hybrid rag", "local-first", "privacy-first", "byok", "million-word local rag", "vector search", "local vector", "local-only", "knowledge base", "semantic vector retrieval")),
+    ("canon_drift_continuity_qa_gate", ("canon drift", "continuity checker", "continuity qa", "story bible and continuity", "contradictions before", "canon qa", "continuity engine", "scene context", "fact mismatch")),
+    ("patch_replay_manuscript_state_gate", ("patch-nn", "patch-01", "outline.xml", "final.xml", "version-nn", "replays these patches", "reconstruct the story's current state", "sequential dispatch logs", "latest.html")),
+    ("microkernel_skill_plugin_isolation_gate", ("microkernel", "plugin architecture", "eventbus", "pluginmanager", "hot-reload", "skill builder agent", "plugin.json", "plugin hook", "stage plugin", "skill isolation")),
+    ("interactive_reader_writer_loop_gate", ("interactive ai-assisted editing", "interactive menu", "reader", "writer", "guide the plot", "story into chapter files", "three-way collaboration", "card-based editing", "reader-writer", "chapter files")),
+    ("abstract_style_learning_skill_gate", ("writing style skill", "style learning", "technique spectrum", "representative sampling", "style sample", "style profile", "character voice matrix", "retention model", "do not copy source prose")),
     ("temporal_canon_context_graph", ("graphiti", "temporal knowledge graph", "temporal context", "episodes", "bi-temporal", "valid_at", "invalid_at", "hybrid search", "provenance tracking")),
     ("long_term_author_preference_memory", ("mem0", "memory layer", "long-term memory", "user preferences", "session memory", "adaptive personalization", "multi-level memory", "episodic memory")),
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
@@ -1710,6 +1730,42 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Autonomous long-form fiction agent that plans, writes, and evolves stories organically with work directories, docs, scripts, and tests. "
         "Pattern-only adaptation for story-daemon evolution loops, organic planning checkpoints, and autonomous-agent review boundaries."
     ),
+    "datacrystals/aistorywriter": (
+        "AIStoryWriter is an AGPL LLM story generator with outline, chapter-outline, chapter-writing, revision, evaluation, and local/Ollama model selection surfaces. "
+        "Pattern-only adaptation for staged long-output generation and quality model separation; requirements, provider calls, prompt files, and scripts are not executed or imported."
+    ),
+    "sadasdfsaf/canonkit": (
+        "CanonKit is a local-first story bible and continuity checker for fiction teams and solo authors, focused on canon drift, structured characters, locations, rules, scenes, JSON import/export, and context packs. "
+        "Pattern-only adaptation for canon-drift QA, continuity checks, and scene-focused context pack gates; no browser app, npm install, or sample project import."
+    ),
+    "heider-x/vela": (
+        "Vela is a GPL AI novel-writing IDE with local-first privacy posture, BYOK model calls, worldbuilding, auto outline, chapter drafting, review/rewrite/refine loops, and local RAG knowledge base. "
+        "Pattern-only adaptation for local RAG writing IDE boundaries and retrieval-backed continuity; Electron/Vite app, package hooks, and model calls are not launched."
+    ),
+    "pulpgen-dev/pulpgen": (
+        "pulpgen-dev/pulpgen is a MIT AI novel drafting agent that turns an idea into outline.xml, patch-NN.xml dispatch logs, final.xml/final.html, and versioned HTML snapshots with interactive editing. "
+        "Pattern-only adaptation for patch replay manuscript state, version snapshots, and idea-to-draft assembly gates; Gemini calls, uv/Python runtime, and exporters are not executed."
+    ),
+    "jim60105/heartreverie": (
+        "HeartReverie is an AGPL AI interactive novel engine using markdown story/prompt/lore files, Git-friendly editing, a plugin.json ecosystem, hooks, prompt fragments, reader progress, and writer surfaces. "
+        "Pattern-only adaptation for file-backed reader-writer loops and plugin boundary gates; Deno, containers, Helm, plugins, scripts, and Agent Skill install commands are not executed."
+    ),
+    "wzxsph/novel-claude": (
+        "Novel-Claude is a GPL agentic long-form web-novel generation framework with microkernel/plugin architecture, EventBus, PluginManager, NovelContext, world_builder, volume_planner, scene_writer, editor agent, RAG memory skill, and skill builder agent. "
+        "Pattern-only adaptation for plugin isolation, context isolation, event-bus stage boundaries, and scene-task gates; Python runtime, prompts, skills, provider calls, and generated plugin code are not imported."
+    ),
+    "liaoma1993/aiaifiction": (
+        "AI Fiction Studio is a Chinese long-form web-novel workbench for project planning, worldbuilding, roles/factions, volume/chapter outlines, style learning Skill, chapter writing, quality audit, repair, memory center, and story graph. "
+        "Pattern-only adaptation for abstract style-skill learning, memory-center QA, and long-form repair dashboards; Docker, backend/frontend services, scripts, uploads, and model configuration are not run."
+    ),
+    "vishnu0120754/renovel-ai": (
+        "ReNovel-AI is a GPL novel revision workspace with long-term memory, three-way collaboration, card-based editing, import, automated revisions, and narrative expansion. "
+        "Pattern-only adaptation for interactive revision loops and memory-backed edit cards; installers, batch files, requirements, and app runtime are not executed."
+    ),
+    "worldwonderer/zenstory": (
+        "ZenStory is a MIT AI-powered novel workbench where agents operate creative files for character cards, reference deconstruction, outline planning, chapter writing, quality review, material library, hybrid RAG retrieval, and context compression. "
+        "Pattern-only adaptation for reference-material deconstruction, local file workspace, hybrid retrieval, and multi-agent writing QA; Docker, apps, scripts, and agent runtime are not launched."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2215,6 +2271,12 @@ class NovelSourceDiscoveryService:
             "skill_orchestrated_chinese_novel_workflow_hints": self._build_skill_orchestrated_chinese_novel_workflow_hints(available_patterns),
             "langgraph_story_state_machine_hints": self._build_langgraph_story_state_machine_hints(available_patterns),
             "story_daemon_evolution_loop_hints": self._build_story_daemon_evolution_loop_hints(available_patterns),
+            "local_rag_writing_ide_gate_hints": self._build_local_rag_writing_ide_gate_hints(available_patterns),
+            "canon_drift_continuity_qa_gate_hints": self._build_canon_drift_continuity_qa_gate_hints(available_patterns),
+            "patch_replay_manuscript_state_gate_hints": self._build_patch_replay_manuscript_state_gate_hints(available_patterns),
+            "microkernel_skill_plugin_isolation_gate_hints": self._build_microkernel_skill_plugin_isolation_gate_hints(available_patterns),
+            "interactive_reader_writer_loop_gate_hints": self._build_interactive_reader_writer_loop_gate_hints(available_patterns),
+            "abstract_style_learning_skill_gate_hints": self._build_abstract_style_learning_skill_gate_hints(available_patterns),
             "temporal_canon_context_graph_hints": self._build_temporal_canon_context_graph_hints(available_patterns),
             "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
@@ -2872,6 +2934,12 @@ class NovelSourceDiscoveryService:
             "skill_orchestrated_chinese_novel_workflow": 67,
             "langgraph_story_state_machine": 65,
             "story_daemon_evolution_loop": 65,
+            "local_rag_writing_ide_gate": 68,
+            "canon_drift_continuity_qa_gate": 70,
+            "patch_replay_manuscript_state_gate": 66,
+            "microkernel_skill_plugin_isolation_gate": 65,
+            "interactive_reader_writer_loop_gate": 64,
+            "abstract_style_learning_skill_gate": 69,
             "temporal_canon_context_graph": 68,
             "long_term_author_preference_memory": 64,
             "community_graph_source_deconstruction": 66,
@@ -2964,6 +3032,24 @@ class NovelSourceDiscoveryService:
         if "proper_noun_leakage_review" in patterns:
             targets.append("proper_noun_blocklist")
             targets.append("proper_noun_allowlist")
+        if "canon_drift_continuity_qa_gate" in patterns:
+            targets.append("canon_drift_rulebook")
+            targets.append("continuity_qa_checklist")
+        if "local_rag_writing_ide_gate" in patterns:
+            targets.append("local_rag_material_scope")
+            targets.append("retrieval_context_boundary")
+        if "patch_replay_manuscript_state_gate" in patterns:
+            targets.append("patch_replay_manifest")
+            targets.append("manuscript_version_snapshot_rules")
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            targets.append("plugin_isolation_policy")
+            targets.append("skill_event_bus_contract")
+        if "interactive_reader_writer_loop_gate" in patterns:
+            targets.append("reader_writer_interaction_log")
+            targets.append("chapter_file_acceptance_state")
+        if "abstract_style_learning_skill_gate" in patterns:
+            targets.append("abstract_style_skill_profile")
+            targets.append("style_sample_boundary_rules")
         if "epub_structure_validation_gate" in patterns:
             targets.append("epub_validation_policy")
             targets.append("opf_manifest_spine_policy")
@@ -3341,6 +3427,24 @@ class NovelSourceDiscoveryService:
         if "story_daemon_evolution_loop" in patterns:
             targets.append("story_evolution_loop_policy")
             targets.append("autonomous_agent_acceptance_boundary")
+        if "local_rag_writing_ide_gate" in patterns:
+            targets.append("local_rag_context_pack_policy")
+            targets.append("source_material_retrieval_boundary")
+        if "canon_drift_continuity_qa_gate" in patterns:
+            targets.append("canon_drift_qa_report")
+            targets.append("scene_continuity_context_pack")
+        if "patch_replay_manuscript_state_gate" in patterns:
+            targets.append("patch_replay_state_log")
+            targets.append("version_snapshot_chain")
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            targets.append("plugin_event_stage_map")
+            targets.append("plugin_failure_isolation_rules")
+        if "interactive_reader_writer_loop_gate" in patterns:
+            targets.append("reader_input_to_chapter_trace")
+            targets.append("interactive_revision_acceptance_log")
+        if "abstract_style_learning_skill_gate" in patterns:
+            targets.append("style_abstraction_evidence")
+            targets.append("style_overfit_boundary_report")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_canon_graph_schema")
             targets.append("episode_provenance_rules")
@@ -3722,6 +3826,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["placeholder_alias_consistency_report", "replacement_collision_findings", "alias_namespace_drift_notes"])
         if "proper_noun_leakage_review" in patterns:
             targets.extend(["proper_noun_leakage_report", "source_name_carryover_findings", "allowed_name_exception_notes"])
+        if "canon_drift_continuity_qa_gate" in patterns:
+            targets.extend(["canon_drift_qa_report", "continuity_context_pack_findings", "scene_fact_mismatch_notes"])
+        if "local_rag_writing_ide_gate" in patterns:
+            targets.extend(["local_rag_context_boundary_report", "source_material_retrieval_trace", "retrieved_context_scope_findings"])
+        if "patch_replay_manuscript_state_gate" in patterns:
+            targets.extend(["patch_replay_state_report", "version_snapshot_diff_trace", "latest_state_reconstruction_findings"])
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            targets.extend(["plugin_isolation_report", "event_bus_stage_trace", "skill_failure_containment_findings"])
+        if "interactive_reader_writer_loop_gate" in patterns:
+            targets.extend(["interactive_reader_writer_trace", "chapter_file_writeback_audit", "revision_acceptance_findings"])
+        if "abstract_style_learning_skill_gate" in patterns:
+            targets.extend(["style_skill_abstraction_report", "source_sample_boundary_findings", "style_copy_leakage_notes"])
         if "topic_drift_map" in patterns:
             targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
         if "context_faithfulness_eval_gate" in patterns:
@@ -3782,6 +3898,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["story_state_machine_report", "checkpoint_transition_trace", "stateful_planning_findings"])
         if "story_daemon_evolution_loop" in patterns:
             targets.extend(["story_daemon_evolution_report", "organic_plan_write_review_trace", "agent_autonomy_boundary_findings"])
+        if "local_rag_writing_ide_gate" in patterns:
+            targets.extend(["local_rag_context_boundary_report", "source_material_retrieval_trace", "retrieved_context_scope_findings"])
+        if "canon_drift_continuity_qa_gate" in patterns:
+            targets.extend(["canon_drift_qa_report", "continuity_context_pack_findings", "scene_fact_mismatch_notes"])
+        if "patch_replay_manuscript_state_gate" in patterns:
+            targets.extend(["patch_replay_state_log", "version_snapshot_diff_trace", "latest_state_reconstruction_findings"])
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            targets.extend(["plugin_isolation_report", "event_bus_stage_trace", "skill_failure_containment_findings"])
+        if "interactive_reader_writer_loop_gate" in patterns:
+            targets.extend(["interactive_reader_writer_trace", "chapter_file_writeback_audit", "revision_acceptance_findings"])
+        if "abstract_style_learning_skill_gate" in patterns:
+            targets.extend(["style_skill_abstraction_report", "source_sample_boundary_findings", "style_copy_leakage_notes"])
         if "temporal_canon_context_graph" in patterns:
             targets.extend(["temporal_canon_graph_report", "episode_provenance_trace", "validity_window_conflicts"])
         if "long_term_author_preference_memory" in patterns:
@@ -4067,6 +4195,12 @@ class NovelSourceDiscoveryService:
             hints.append("LLM 产出的状态增量必须过 schema 校验；坏数据拒绝写入，避免连续性错误滚雪球。")
         if "recursive_adaptive_planning" in patterns:
             hints.append("复杂写作任务按递归规划拆成检索、推理、构思和成文子任务，并允许根据上下文动态重规划。")
+        if "canon_drift_continuity_qa_gate" in patterns:
+            hints.append("Before continuation, produce a scene-focused context pack and turn canon-drift QA failures into hard constraints.")
+        if "local_rag_writing_ide_gate" in patterns:
+            hints.append("Local RAG may recall canon and approved notes, but source-deconstruction material cannot be merged directly into continuation canon.")
+        if "patch_replay_manuscript_state_gate" in patterns:
+            hints.append("Every continuation or revision should write a replayable patch/state record so the latest manuscript can be rebuilt from outline plus patches.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -4230,6 +4364,14 @@ class NovelSourceDiscoveryService:
             hints.append("Store SPDX ids, copyright holders, attribution notes, and file/source-level provenance separately from story canon.")
         if "public_domain_corpus_boundary" in patterns:
             hints.append("Record public-domain source, observed metadata, jurisdiction caveat, and extraction settings before using public-domain text for deconstruction.")
+        if "canon_drift_continuity_qa_gate" in patterns:
+            hints.append("Keep continuity QA findings as state, not prose advice: failed facts block drafting until resolved or explicitly waived.")
+        if "interactive_reader_writer_loop_gate" in patterns:
+            hints.append("Treat reader/user guidance as a new state delta with acceptance status before it changes chapter files or canon memory.")
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            hints.append("Plugin or skill outputs must publish through explicit stage events and cannot mutate canon when their validation or isolation gate fails.")
+        if "abstract_style_learning_skill_gate" in patterns:
+            hints.append("Store style-learning output as abstract craft axes and banned carryover items, never as reusable source phrases or source-specific facts.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         if "source_entity_redaction_gate" in patterns:
@@ -6176,6 +6318,60 @@ class NovelSourceDiscoveryService:
             "Do not let background evolution close arcs, add irreversible lore, or rewrite prior chapters without a named acceptance boundary.",
         ]
 
+    def _build_local_rag_writing_ide_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_rag_writing_ide_gate" not in patterns:
+            return []
+        return [
+            "Keep local RAG as a scoped context layer: accepted canon, author notes, and source-deconstruction material must remain separately labeled.",
+            "Before drafting, preview which retrieved chunks are canon, reference material, or style-only evidence; reject mixed-source context packs.",
+            "BYOK/local-first posture is a runtime boundary, not permission to import external app code, model calls, or private user material.",
+        ]
+
+    def _build_canon_drift_continuity_qa_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "canon_drift_continuity_qa_gate" not in patterns:
+            return []
+        return [
+            "Run canon-drift QA before chapter acceptance: characters, locations, rules, timeline, and scene facts must match the story bible or emit an explicit waiver.",
+            "Build scene-focused context packs from the story bible so prompts receive only the facts needed for the current scene or revision.",
+            "Treat continuity findings as blocking QA evidence; do not hide contradictions inside prose polish or style-review notes.",
+        ]
+
+    def _build_patch_replay_manuscript_state_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "patch_replay_manuscript_state_gate" not in patterns:
+            return []
+        return [
+            "Record every generation and edit as an ordered patch with chapter range, source state, accepted delta, and derived preview artifact.",
+            "The current manuscript must be reconstructable from outline, accepted patches, and version snapshots; direct overwrites need repair evidence.",
+            "Use patch replay to compare continuation branches without merging failed drafts into canon or final manuscript exports.",
+        ]
+
+    def _build_microkernel_skill_plugin_isolation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "microkernel_skill_plugin_isolation_gate" not in patterns:
+            return []
+        return [
+            "Model novel skills as isolated stage plugins with input/output contracts, validation, failure containment, and no implicit canon mutation.",
+            "Event-bus or plugin hooks can propose worldbuilding, RAG memory, review, or scene-writing changes only through explicit accept/apply gates.",
+            "Generated or third-party skills stay pattern-only until reviewed; plugin hot reload or install examples are never a source-intake default.",
+        ]
+
+    def _build_interactive_reader_writer_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "interactive_reader_writer_loop_gate" not in patterns:
+            return []
+        return [
+            "Separate reader guidance, author edits, assistant suggestions, and accepted chapter files so interactive continuation remains auditable.",
+            "Every user-guided plot turn should produce a state delta and acceptance decision before the chapter file or lore codex is updated.",
+            "Interactive revision tools may create candidates, but accepted prose must pass continuity, copy-risk, and patch-replay checks first.",
+        ]
+
+    def _build_abstract_style_learning_skill_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "abstract_style_learning_skill_gate" not in patterns:
+            return []
+        return [
+            "Style-learning skills should extract abstract technique axes: pacing, sentence rhythm, scene construction, dialogue function, emotion landing, and repair rules.",
+            "Keep sampled source text, distinctive names, plot facts, and proprietary expressions out of reusable style profiles and prompts.",
+            "For same-type creation, require evidence that the learned style profile changes craft behavior without preserving source entities, order, or phrasing.",
+        ]
+
     def _build_temporal_canon_context_graph_hints(self, patterns: set[str]) -> list[str]:
         if "temporal_canon_context_graph" not in patterns:
             return []
@@ -6693,6 +6889,18 @@ class NovelSourceDiscoveryService:
             targets.append("story_state_machine_remap")
         if "story_daemon_evolution_loop" in patterns:
             targets.append("story_evolution_loop_remap")
+        if "local_rag_writing_ide_gate" in patterns:
+            targets.append("rag_context_scope_remap")
+        if "canon_drift_continuity_qa_gate" in patterns:
+            targets.append("canon_drift_rule_remap")
+        if "patch_replay_manuscript_state_gate" in patterns:
+            targets.append("patch_replay_branch_remap")
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            targets.append("skill_plugin_stage_remap")
+        if "interactive_reader_writer_loop_gate" in patterns:
+            targets.append("interactive_choice_delta_remap")
+        if "abstract_style_learning_skill_gate" in patterns:
+            targets.append("abstract_style_profile_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -6994,6 +7202,18 @@ class NovelSourceDiscoveryService:
             hints.append("Create a separate transformed-story state machine so source-analysis states cannot be resumed as new-story canon.")
         if "story_daemon_evolution_loop" in patterns:
             hints.append("Let autonomous evolution propose alternatives, but accept only changes that pass transformed-canon and copy-risk gates.")
+        if "local_rag_writing_ide_gate" in patterns:
+            hints.append("Use RAG retrieval to select abstract reference evidence and new-story canon separately; never let source chunks masquerade as transformed canon.")
+        if "canon_drift_continuity_qa_gate" in patterns:
+            hints.append("Run canon-drift QA on the transformed story itself so copied source consistency is not mistaken for valid new-story continuity.")
+        if "patch_replay_manuscript_state_gate" in patterns:
+            hints.append("Record same-type transformations as patches against the new outline so source-analysis edits cannot be replayed into the new manuscript.")
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            hints.append("Let skills/plugins contribute stage outputs only after replacing source entities, causality, and glossary with new-story equivalents.")
+        if "interactive_reader_writer_loop_gate" in patterns:
+            hints.append("Treat interactive reader choices as new-story author inputs, not as permission to preserve source scene route or event order.")
+        if "abstract_style_learning_skill_gate" in patterns:
+            hints.append("Use style learning for technique axes only; same-type prompts must exclude source sample phrasing, proper nouns, and plot facts.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.")
         if "long_term_author_preference_memory" in patterns:
@@ -7317,6 +7537,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform state-machine nodes and transitions so resumed checkpoints belong to the new story, not the source analysis.")
         if "story_daemon_evolution_loop" in patterns:
             hints.append("Transform autonomous evolution proposals into explicit author-review deltas before canon write-back.")
+        if "local_rag_writing_ide_gate" in patterns:
+            hints.append("Transform retrieval contexts by separating source-material chunks from new canon and by rewriting retrieved inspiration into independent scene constraints.")
+        if "canon_drift_continuity_qa_gate" in patterns:
+            hints.append("Transform source continuity rules into a new story bible before QA; copied canon facts are failures unless this is true continuation.")
+        if "patch_replay_manuscript_state_gate" in patterns:
+            hints.append("Transform patch chains by creating new outline and patch ids; do not replay source manuscript patches under renamed files.")
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            hints.append("Transform plugin stage contracts so source skills provide format only while new-story plugins own all names, facts, and event transitions.")
+        if "interactive_reader_writer_loop_gate" in patterns:
+            hints.append("Transform interactive choices into new plot deltas with new stakes, scene goals, and consequences before chapter write-back.")
+        if "abstract_style_learning_skill_gate" in patterns:
+            hints.append("Transform style profiles into measurable craft constraints, then verify that the draft no longer depends on source wording or scene order.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -7676,6 +7908,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject state checkpoints that merge source-analysis state with transformed-story canon or skip transition validation.")
         if "story_daemon_evolution_loop" in patterns:
             hints.append("Reject autonomous evolution outputs that rewrite accepted canon, close arcs, or add lore without replayable review evidence.")
+        if "local_rag_writing_ide_gate" in patterns:
+            hints.append("Reject context packs that mix source chunks, new-story canon, and style guidance without labels, provenance, and copy-risk review.")
+        if "canon_drift_continuity_qa_gate" in patterns:
+            hints.append("Reject same-type drafts that pass continuity only because they preserve source canon, relationship timing, or scene facts.")
+        if "patch_replay_manuscript_state_gate" in patterns:
+            hints.append("Reject patch chains that cannot replay from a new outline or that silently overwrite accepted transformed chapters.")
+        if "microkernel_skill_plugin_isolation_gate" in patterns:
+            hints.append("Reject plugin/skill outputs that bypass stage contracts, mutate canon directly, or import third-party prompt bodies into the project.")
+        if "interactive_reader_writer_loop_gate" in patterns:
+            hints.append("Reject reader-writer loop outputs when the accepted choice, chapter file delta, and continuity/copy-risk checks are not traceable.")
+        if "abstract_style_learning_skill_gate" in patterns:
+            hints.append("Reject style profiles or drafts that retain source phrases, proper nouns, distinctive set pieces, or plot order under the label of style learning.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Reject temporal graphs that preserve source event chronology, relationship validity windows, or provenance as transformed canon.")
         if "long_term_author_preference_memory" in patterns:
@@ -7790,6 +8034,12 @@ class NovelSourceDiscoveryService:
                 "skill_orchestrated_chinese_novel_workflow",
                 "langgraph_story_state_machine",
                 "story_daemon_evolution_loop",
+                "local_rag_writing_ide_gate",
+                "canon_drift_continuity_qa_gate",
+                "patch_replay_manuscript_state_gate",
+                "microkernel_skill_plugin_isolation_gate",
+                "interactive_reader_writer_loop_gate",
+                "abstract_style_learning_skill_gate",
                 "temporal_canon_context_graph",
                 "long_term_author_preference_memory",
                 "community_graph_source_deconstruction",
