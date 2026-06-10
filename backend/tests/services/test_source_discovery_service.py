@@ -10328,3 +10328,142 @@ def test_factual_grounding_long_context_sources_map_to_verification_gates():
     assert "long_context_benchmark_task_suite_gate_hints" in digest
     assert "needle_haystack_context_recall_gate_hints" in digest
     assert "distributed_fact_chain_recall_gate_hints" in digest
+
+
+
+def test_chinese_webnovel_platform_kb_and_resilient_engine_sources_map_to_retention_gates():
+    assert "https://github.com/TianHengZhuang/Chinese-WebNovel-Master" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/tance-mang/chinese-webnovel-skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/yaopushen/webnovel-kb" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ohh-000/longform-novel-engine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Jackela/Novel-Engine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("platform-specific reader preferences" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("????" in query and "????" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("custom caching protocol" in query.lower() and "graceful degradation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("reader simulator" in query.lower() and "quality gate" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "TianHengZhuang/Chinese-WebNovel-Master",
+                "html_url": "https://github.com/TianHengZhuang/Chinese-WebNovel-Master",
+                "description": (
+                    "Chinese WebNovel Master is a multi-agent Chinese web fiction workflow with platform-specific "
+                    "reader preferences, platform suitability for Tomato Novel, Qidian, Feilu and Jinjiang, "
+                    "commercial storytelling workflows, suspense hook systems, retention optimization frameworks, "
+                    "platform-specific tags, titles, synopsis and launch strategy."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["webnovel", "chinese-fiction", "writing"],
+                "updated_at": "2026-05-29T04:27:43Z",
+                "root_files": ["README.md", "SKILL.md", "assets"],
+            },
+            {
+                "full_name": "tance-mang/chinese-webnovel-skills",
+                "html_url": "https://github.com/tance-mang/chinese-webnovel-skills",
+                "description": (
+                    "WebNovel Studio provides 27 Chinese webnovel skills for topic selection, inspiration, outline, "
+                    "golden opening, cheat system, character setup, prose expansion, ????, rhythm labeling, "
+                    "????, de-AI polish, submission review, platform trends, fanfic compliance and export setup."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["claude-code", "webnovel", "skills"],
+                "updated_at": "2026-06-10T14:44:23Z",
+                "root_files": ["README.md", "LICENSE", "skills", "cli"],
+            },
+            {
+                "full_name": "yaopushen/webnovel-kb",
+                "html_url": "https://github.com/yaopushen/webnovel-kb",
+                "description": (
+                    "WebNovel Knowledge Base is a ????????? MCP ??? with TXT import, semantic search, "
+                    "BM25, hybrid search, rerank, plot pattern extraction, writing template extraction, style analysis, "
+                    "chapter outline extraction, classic chapter imitation rewrite, OAuth PKCE and async tasks."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["mcp", "knowledge-base", "webnovel"],
+                "updated_at": "2026-06-10T13:55:51Z",
+                "root_files": ["README.md", "requirements.txt", ".env.example", "webnovel_kb"],
+            },
+            {
+                "full_name": "ohh-000/longform-novel-engine",
+                "html_url": "https://github.com/ohh-000/longform-novel-engine",
+                "description": (
+                    "Longform Novel Engine coordinates Director, Opening Audition, Writer executing the Director blueprint, "
+                    "Critic auditing blueprint adherence, Patch Reviser, Reader Simulator for confusion boredom payoff and "
+                    "next-chapter pull, Archivist, State Validator, strict-quality gates, hidden secrets, open foreshadowing, "
+                    "world rules and corrupted long-running story state prevention."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["long-context", "multi-agent", "fiction"],
+                "updated_at": "2026-05-17T09:49:13Z",
+                "root_files": ["README.md", "pyproject.toml", "engine", "tests"],
+            },
+            {
+                "full_name": "Jackela/Novel-Engine",
+                "html_url": "https://github.com/Jackela/Novel-Engine",
+                "description": (
+                    "Novel Engine is a local-first novel writing engine with complete chapter Markdown source of truth, "
+                    "sidecar JSON evidence, artifacts/runs/{run_id}, events, raw model output, custom caching protocol "
+                    "that avoids duplicate API calls, thread-safe concurrency, graceful degradation, circuit breaker, "
+                    "comprehensive logging, review report and manuscript export."
+                ),
+                "stargazers_count": 6,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "local-first", "multi-agent"],
+                "updated_at": "2026-06-09T05:59:07Z",
+                "root_files": ["README.md", "pyproject.toml", "frontend", "tests"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T07:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "platform_kb_retention_strategy_gate" in candidates["TianHengZhuang/Chinese-WebNovel-Master"]["absorbed_patterns"]
+    assert "chapter_end_hook_retention_ladder_gate" in candidates["TianHengZhuang/Chinese-WebNovel-Master"]["absorbed_patterns"]
+    assert "platform_kb_retention_strategy_gate" in candidates["tance-mang/chinese-webnovel-skills"]["absorbed_patterns"]
+    assert "chapter_end_hook_retention_ladder_gate" in candidates["tance-mang/chinese-webnovel-skills"]["absorbed_patterns"]
+    assert "webnovel_kb_mcp_runtime_boundary_gate" in candidates["yaopushen/webnovel-kb"]["absorbed_patterns"]
+    assert "long_context_role_boundary_state_validation_gate" in candidates["ohh-000/longform-novel-engine"]["absorbed_patterns"]
+    assert "chapter_end_hook_retention_ladder_gate" in candidates["ohh-000/longform-novel-engine"]["absorbed_patterns"]
+    assert "agent_cache_concurrency_recovery_gate" in candidates["Jackela/Novel-Engine"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "platform_reader_preference_matrix" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_end_hook_ladder" in pattern_pack["bible_enrichment_targets"]
+    assert "webnovel_kb_runtime_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "generation_cache_idempotency_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "long_context_role_visibility_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "platform_reader_preference_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_end_hook_ladder_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "webnovel_kb_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "agent_cache_idempotency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "long_context_role_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "platform_kb_retention_strategy_gate_hints" in pattern_pack
+    assert "chapter_end_hook_retention_ladder_gate_hints" in pattern_pack
+    assert "webnovel_kb_mcp_runtime_boundary_gate_hints" in pattern_pack
+    assert "agent_cache_concurrency_recovery_gate_hints" in pattern_pack
+    assert "long_context_role_boundary_state_validation_gate_hints" in pattern_pack
+    assert "platform_reader_preference_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_end_hook_ladder_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "webnovel_kb_namespace_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "agent_cache_idempotency_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "long_context_role_visibility_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "platform_kb_retention_strategy_gate_hints" in digest
+    assert "chapter_end_hook_retention_ladder_gate_hints" in digest
+    assert "webnovel_kb_mcp_runtime_boundary_gate_hints" in digest
+    assert "agent_cache_concurrency_recovery_gate_hints" in digest
+    assert "long_context_role_boundary_state_validation_gate_hints" in digest

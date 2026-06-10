@@ -261,6 +261,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("novel to screenplay" OR "小说转剧本") ("YAML" OR "structure_map" OR "coverage_report") ("Fountain" OR "story_bible") in:name,description,readme',
     '("glossary" OR "terminology") ("contextual translation" OR "EPUB rebuilding") ("light novel" OR "web novel") in:name,description,readme',
     '("term review" OR "batch text replacement" OR "source-residue") ("novel translation" OR "EPUB tools") in:name,description,readme',
+    '("Chinese WebNovel Master" OR "platform-specific reader preferences" OR "commercial storytelling workflows") ("web novel" OR "Chinese web fiction") in:name,description,readme',
+    '("????" OR "????" OR "????") ("????" OR "webnovel") in:name,description,readme',
+    '("semantic search" OR "BM25" OR "plot pattern extraction") ("webnovel knowledge base" OR "novel knowledge base") in:name,description,readme',
+    '("custom caching protocol" OR "thread-safe concurrency" OR "graceful degradation") ("novel engine" OR "narrative simulation") in:name,description,readme',
+    '("Reader Simulator" OR "State Validator" OR "Quality Gate") ("long-context" OR "multi-agent fiction") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -617,6 +622,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/1want2beaQuant/ai-novel2script",
     "https://github.com/Shirochi-stack/Glossarion",
     "https://github.com/oodadoudou/Transoria",
+    "https://github.com/TianHengZhuang/Chinese-WebNovel-Master",
+    "https://github.com/tance-mang/chinese-webnovel-skills",
+    "https://github.com/yaopushen/webnovel-kb",
+    "https://github.com/ohh-000/longform-novel-engine",
+    "https://github.com/Jackela/Novel-Engine",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -985,6 +995,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("custom_entity_label_inventory", ("gliner", "extract any entity types", "custom entity types", "custom pii recognizers", "customizable pipelines", "pretrained pipelines", "named entity recognition", "ner models")),
     ("placeholder_alias_consistency_map", ("anonymous ids", "anonymized", "placeholder", "masking", "surrogate", "replacers", "detectors and postprocessors", "anonymize text")),
     ("proper_noun_leakage_review", ("proper noun", "names, locations", "person names", "locations", "organizations", "entity recognizer", "entity types", "rule based logic", "named entities")),
+    ("platform_kb_retention_strategy_gate", ("chinese webnovel master", "platform-specific reader preferences", "platform suitability", "commercial storytelling workflows", "tomato novel", "qidian", "feilu", "jinjiang", "platform trends", "platform-specific tags", "????", "??", "??", "??", "??")),
+    ("chapter_end_hook_retention_ladder_gate", ("suspense hook systems", "chapter-end hooks", "chapter end hooks", "next-chapter pull", "reader addiction", "reader retention promises", "reader confusion, boredom, payoff", "????", "????", "????", "??", "????")),
+    ("webnovel_kb_mcp_runtime_boundary_gate", ("webnovel knowledge base", "webnovel-kb", "?????????", "mcp ???", "semantic search", "bm25", "hybrid search", "plot pattern extraction", "writing template extraction", "style analysis", "????", "????")),
+    ("agent_cache_concurrency_recovery_gate", ("custom caching protocol", "avoids duplicate api calls", "thread-safe concurrency", "graceful degradation", "comprehensive logging", "circuit breaker", "raw model output", "run_id", "artifacts/runs")),
+    ("long_context_role_boundary_state_validation_gate", ("opening audition", "director blueprint", "writer executes", "critic audits blueprint adherence", "patch reviser", "reader simulator", "archivist", "state validator", "strict-quality", "corrupted long-running story state")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -2392,6 +2407,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Transoria is a no-license-observed desktop novel-translation app. Public README markers describe term extraction, term review, translation, proofreading, batch text replacement, EPUB tools, task IDs, resume/retry, low-confidence sorting, source-residue labels, and copyright/right-use warnings. "
         "Pattern-only adaptation for desktop translation and batch-replacement boundaries; installer, source runtime, user API keys, local files, EPUB operations, and desktop shell are not launched."
     ),
+    "tianhengzhuang/chinese-webnovel-master": (
+        "Chinese WebNovel Master is a no-license-observed Chinese web fiction workflow. Public README markers describe market analysis, platform suitability for Tomato/Qidian/Feilu/Jinjiang, platform-specific reader preferences, title/tag/synopsis generation, suspense hook systems, retention optimization frameworks, and commercial publishing packages. "
+        "Pattern-only adaptation for platform-KB retention gates; skill loading, provider calls, publishing workflows, and upstream knowledge-base bodies are not imported or executed."
+    ),
+    "tance-mang/chinese-webnovel-skills": (
+        "WebNovel Studio is a MIT Chinese web-novel skill toolkit. Public README markers describe topic selection, inspiration, outline, golden opening, cheat system, character setup, prose expansion,????, rhythm labeling, follow-read diagnosis, de-AI polish, submission review, platform trends, fanfic compliance, and cross-model export. "
+        "Pattern-only adaptation for chapter-hook and platform-retention scorecards; plugin marketplace install, CLI/API providers, skill-pack prompt bodies, and platform submission flows are not executed or copied."
+    ),
+    "yaopushen/webnovel-kb": (
+        "WebNovel Knowledge Base is a no-license-observed MCP server for Chinese webnovel analysis. Public README markers describe TXT import, semantic/BM25/hybrid/rerank search, plot-pattern extraction, writing-template extraction, style analysis, chapter outline extraction, classic-chapter imitation rewrites, OAuth PKCE, async tasks, and OpenAI-compatible model surfaces. "
+        "Pattern-only adaptation for local knowledge-base boundaries; MCP/server runtime, package install, OAuth, provider keys, embeddings, external search, and corpus import are not launched or read."
+    ),
+    "ohh-000/longform-novel-engine": (
+        "Longform Novel Engine Template is a MIT long-context multi-agent fiction workflow. Public README markers describe Director, Opening Audition, Writer, Critic, Patch Reviser, Reader Simulator, Archivist, State Validator, strict quality gates, context packs, hidden secrets, foreshadowing, world rules, and long-running state validation. "
+        "Pattern-only adaptation for role-boundary and state-validation gates; Python environment, tests, CLI, model/provider calls, and private story state are not executed or imported."
+    ),
+    "jackela/novel-engine": (
+        "Novel Engine is a MIT local-first novel writing engine. Public README markers describe chapter Markdown as source of truth, sidecar JSON evidence, artifacts/runs with events and raw model output, review reports, manuscript export, custom caching, thread-safe concurrency, graceful degradation, circuit breakers, and comprehensive logging. "
+        "Pattern-only adaptation for cache/concurrency/recovery gates; uv runtime, CLI/API/frontend, provider calls, local workspaces, and artifacts are not launched or read."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2742,6 +2777,11 @@ class NovelSourceDiscoveryService:
             "novel_to_screenplay_structure_coverage_gate_hints": self._build_novel_to_screenplay_structure_coverage_gate_hints(available_patterns),
             "translation_glossary_context_qa_gate_hints": self._build_translation_glossary_context_qa_gate_hints(available_patterns),
             "desktop_translation_batch_replacement_boundary_gate_hints": self._build_desktop_translation_batch_replacement_boundary_gate_hints(available_patterns),
+            "platform_kb_retention_strategy_gate_hints": self._build_platform_kb_retention_strategy_gate_hints(available_patterns),
+            "chapter_end_hook_retention_ladder_gate_hints": self._build_chapter_end_hook_retention_ladder_gate_hints(available_patterns),
+            "webnovel_kb_mcp_runtime_boundary_gate_hints": self._build_webnovel_kb_mcp_runtime_boundary_gate_hints(available_patterns),
+            "agent_cache_concurrency_recovery_gate_hints": self._build_agent_cache_concurrency_recovery_gate_hints(available_patterns),
+            "long_context_role_boundary_state_validation_gate_hints": self._build_long_context_role_boundary_state_validation_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3719,6 +3759,11 @@ class NovelSourceDiscoveryService:
             "custom_entity_label_inventory": 66,
             "placeholder_alias_consistency_map": 65,
             "proper_noun_leakage_review": 67,
+            "platform_kb_retention_strategy_gate": 68,
+            "chapter_end_hook_retention_ladder_gate": 68,
+            "webnovel_kb_mcp_runtime_boundary_gate": 66,
+            "agent_cache_concurrency_recovery_gate": 67,
+            "long_context_role_boundary_state_validation_gate": 68,
             "mode_contract_generation_gate": 66,
             "source_study_method_bank_isolation_gate": 66,
             "source_discovery": 10,
@@ -4137,6 +4182,21 @@ class NovelSourceDiscoveryService:
         if "local_reader_experience_editor" in patterns:
             targets.append("reader_experience_prompts")
             targets.append("micro_tension_hook_rules")
+        if "platform_kb_retention_strategy_gate" in patterns:
+            targets.append("platform_reader_preference_matrix")
+            targets.append("commercial_storytelling_strategy_policy")
+        if "chapter_end_hook_retention_ladder_gate" in patterns:
+            targets.append("chapter_end_hook_ladder")
+            targets.append("read_next_intent_scorecard")
+        if "webnovel_kb_mcp_runtime_boundary_gate" in patterns:
+            targets.append("webnovel_kb_runtime_boundary_policy")
+            targets.append("plot_style_search_namespace_manifest")
+        if "agent_cache_concurrency_recovery_gate" in patterns:
+            targets.append("generation_cache_idempotency_policy")
+            targets.append("concurrent_agent_recovery_policy")
+        if "long_context_role_boundary_state_validation_gate" in patterns:
+            targets.append("long_context_role_visibility_policy")
+            targets.append("state_validator_quality_gate_policy")
         if "anti_ai_tone_polish" in patterns:
             targets.append("anti_ai_tone_rules")
         if "preference_memory" in patterns:
@@ -4620,6 +4680,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["translation_glossary_context_qa_report", "provider_credential_boundary_findings", "epub_rebuild_hold_notes"])
         if "desktop_translation_batch_replacement_boundary_gate" in patterns:
             targets.extend(["desktop_batch_replacement_boundary_report", "term_review_resume_retry_trace", "source_residue_low_confidence_findings"])
+        if "platform_kb_retention_strategy_gate" in patterns:
+            targets.extend(["platform_reader_preference_report", "commercial_storytelling_fit_findings", "platform_tag_title_synopsis_boundary_notes"])
+        if "chapter_end_hook_retention_ladder_gate" in patterns:
+            targets.extend(["chapter_end_hook_ladder_report", "read_next_pull_scorecard", "payoff_boredom_confusion_findings"])
+        if "webnovel_kb_mcp_runtime_boundary_gate" in patterns:
+            targets.extend(["webnovel_kb_boundary_report", "semantic_bm25_hybrid_search_scope", "plot_style_extraction_runtime_hold_notes"])
+        if "agent_cache_concurrency_recovery_gate" in patterns:
+            targets.extend(["agent_cache_idempotency_report", "concurrency_recovery_trace", "duplicate_provider_call_prevention_findings"])
+        if "long_context_role_boundary_state_validation_gate" in patterns:
+            targets.extend(["long_context_role_boundary_report", "state_validator_quality_gate_findings", "hidden_secret_visibility_audit"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -6192,6 +6262,51 @@ class NovelSourceDiscoveryService:
             "Batch replacement, regex replacement, retry, resume, and EPUB tools need task IDs and rollback notes before any translated or revised text is promoted.",
             "Low-confidence groups, source-residue labels, adjacent-duplicate warnings, and copyright/right-use notes should become review blockers, not cosmetic warnings.",
             "Desktop shells, installers, user API keys, local novels, and generated translations stay outside source intake unless a separate runtime safety contract exists.",
+        ]
+
+    def _build_platform_kb_retention_strategy_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "platform_kb_retention_strategy_gate" not in patterns:
+            return []
+        return [
+            "Treat platform knowledge as a strategy matrix: genre trend, target platform, title/tag/synopsis promise, reader preference, and commercial potential must be labeled separately.",
+            "Platform-specific preferences can shape abstract reader promises, but source platform examples, knowledge-base bodies, and successful-book details must not enter same-type canon.",
+            "Before publishing optimization, require a local boundary report that says whether the output is draft-only, review-ready, or held for human platform decision.",
+        ]
+
+    def _build_chapter_end_hook_retention_ladder_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_end_hook_retention_ladder_gate" not in patterns:
+            return []
+        return [
+            "Score every chapter ending for unresolved pressure, immediate question, payoff delay, emotional charge, and read-next pull before accepting continuation output.",
+            "A hook ladder should connect opening audition, chapter promise, mid-chapter escalation, and chapter-end suspense without faking progress or closing the central conflict early.",
+            "For same-type drafting, rebuild hooks from transformed stakes and new-character desire; do not preserve source chapter cliffhanger order or payoff timing.",
+        ]
+
+    def _build_webnovel_kb_mcp_runtime_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "webnovel_kb_mcp_runtime_boundary_gate" not in patterns:
+            return []
+        return [
+            "Knowledge-base retrieval for?? should label corpus, chunk, search mode, rerank reason, and whether the hit is source analysis, style-only evidence, or accepted canon.",
+            "MCP servers, OAuth, embeddings, external search, and provider-backed rerankers are runtime surfaces; source discovery may keep only the boundary contract and static workflow lesson.",
+            "Imitation rewrite examples must stay behind a minimal/light/moderate copy-risk review and cannot be used as grounding for new-story facts.",
+        ]
+
+    def _build_agent_cache_concurrency_recovery_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agent_cache_concurrency_recovery_gate" not in patterns:
+            return []
+        return [
+            "Deduplicate generation calls with a cache key that includes role, prompt digest, context-pack id, model settings, chapter id, and source-boundary mode.",
+            "Concurrent agents need run IDs, lock scope, retry count, circuit-breaker state, and graceful-degradation outcome before their output can be promoted.",
+            "Raw model output and sidecar evidence should remain replay artifacts; accepted manuscript text stays the source of truth after review.",
+        ]
+
+    def _build_long_context_role_boundary_state_validation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "long_context_role_boundary_state_validation_gate" not in patterns:
+            return []
+        return [
+            "Separate Director, Writer, Critic, Reader Simulator, Archivist, and State Validator visibility so hidden secrets, open foreshadowing, and source-study notes do not leak to the wrong role.",
+            "A Writer should execute the accepted blueprint; core plot invention, state write-back, and corruption repair belong to explicit reviewer or validator gates.",
+            "Long-context packs should be stress-checked for stale canon, role-boundary violations, and state-validator blockers before the next chapter is queued.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -8516,6 +8631,16 @@ class NovelSourceDiscoveryService:
             targets.append("comp_title_positioning_remap")
         if "local_reader_experience_editor" in patterns:
             targets.append("reader_experience_hook_remap")
+        if "platform_kb_retention_strategy_gate" in patterns:
+            targets.append("platform_reader_preference_remap")
+        if "chapter_end_hook_retention_ladder_gate" in patterns:
+            targets.append("chapter_end_hook_ladder_remap")
+        if "webnovel_kb_mcp_runtime_boundary_gate" in patterns:
+            targets.append("webnovel_kb_namespace_boundary_remap")
+        if "agent_cache_concurrency_recovery_gate" in patterns:
+            targets.append("agent_cache_idempotency_remap")
+        if "long_context_role_boundary_state_validation_gate" in patterns:
+            targets.append("long_context_role_visibility_remap")
         if "draft_stage_revision_ladder" in patterns:
             targets.append("draft_stage_remap")
         if "rolling_summary_context_trim" in patterns:
@@ -9176,6 +9301,16 @@ class NovelSourceDiscoveryService:
             hints.append("Rebuild foreshadowing debt from new hooks and payoff windows instead of copying source mysteries.")
         if "reader_retention_review_gate" in patterns:
             hints.append("Map reader-retention pressure to new hooks, pleasure points, rhythm, and cliffhangers; do not reuse source set pieces.")
+        if "platform_kb_retention_strategy_gate" in patterns:
+            hints.append("Use platform-KB findings as abstract audience fit constraints; rebuild title, tags, synopsis, and reader promise for the transformed premise.")
+        if "chapter_end_hook_retention_ladder_gate" in patterns:
+            hints.append("Create chapter-end hook ladders from transformed stakes and open questions, then test read-next pull without copying source cliffhanger timing.")
+        if "webnovel_kb_mcp_runtime_boundary_gate" in patterns:
+            hints.append("Keep webnovel-KB retrieval hits labeled as source evidence, style evidence, or transformed canon before any same-type prompt uses them.")
+        if "agent_cache_concurrency_recovery_gate" in patterns:
+            hints.append("Reuse cached transformed-story generation only when role, prompt digest, context pack, and source-boundary mode match exactly.")
+        if "long_context_role_boundary_state_validation_gate" in patterns:
+            hints.append("Build role-specific long-context packs so Writer, Critic, Reader Simulator, Archivist, and State Validator cannot see or mutate the wrong state.")
         if "draft_stage_revision_ladder" in patterns:
             hints.append("Use Draft A/B/C stages to improve transformed prose while preserving independence and canon boundaries.")
         if "rolling_summary_context_trim" in patterns:
@@ -9754,6 +9889,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject comp-title positioning that reuses title phrasing, blurb beats, named tropes as labels, or recognizable hook sequence.")
         if "local_reader_experience_editor" in patterns:
             hints.append("Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence.")
+        if "platform_kb_retention_strategy_gate" in patterns:
+            hints.append("Reject platform-KB plans that reuse title formulas, tag bundles, synopsis beats, or commercial hooks from one source work without transformation.")
+        if "chapter_end_hook_retention_ladder_gate" in patterns:
+            hints.append("Reject chapter-end hooks that preserve the source chapter's unresolved question, reveal delay, or payoff cadence under new names.")
+        if "webnovel_kb_mcp_runtime_boundary_gate" in patterns:
+            hints.append("Reject webnovel-KB context where source chunks, style analyses, search insights, and accepted canon are not explicitly separated.")
+        if "agent_cache_concurrency_recovery_gate" in patterns:
+            hints.append("Reject cached or retried agent outputs if the source-boundary mode, prompt digest, context pack, or reviewer state changed.")
+        if "long_context_role_boundary_state_validation_gate" in patterns:
+            hints.append("Reject long-context role packs that expose hidden secrets, source-study notes, or state write-back authority to the wrong agent role.")
         if "context_pack_preview" in patterns:
             hints.append("Reject context packs that cite source analysis artifacts as new-story facts.")
         if "top_down_story_planning" in patterns:
@@ -10265,6 +10410,11 @@ class NovelSourceDiscoveryService:
                 "novel_to_screenplay_structure_coverage_gate",
                 "translation_glossary_context_qa_gate",
                 "desktop_translation_batch_replacement_boundary_gate",
+                "platform_kb_retention_strategy_gate",
+                "chapter_end_hook_retention_ladder_gate",
+                "webnovel_kb_mcp_runtime_boundary_gate",
+                "agent_cache_concurrency_recovery_gate",
+                "long_context_role_boundary_state_validation_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",
