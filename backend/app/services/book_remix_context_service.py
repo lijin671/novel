@@ -126,6 +126,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_ebook_quality_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_interactive_narrative_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -484,6 +488,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_source_import_extraction_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_ebook_quality_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1379,6 +1387,34 @@ def _append_delivery_packaging_audit_section(
         lines.append("- preview_toc_packaging: generate preview and table-of-contents from the same accepted chapter list used by final export")
     if "cover_kdp_metadata_boundary" in pattern_names:
         lines.append("- cover_kdp_metadata_boundary: keep cover and KDP metadata as publication artifacts; never let them mutate canon or chapter text")
+
+
+def _append_ebook_quality_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render EPUB structure, accessibility, metadata, and navigation gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "epub_structure_validation_gate",
+        "ebook_accessibility_audit_gate",
+        "front_back_matter_metadata_gate",
+        "toc_navigation_consistency_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Ebook quality audit:")
+    if "epub_structure_validation_gate" in pattern_names:
+        lines.append("- epub_structure_validation_gate: verify container, OPF manifest, spine, nav document, media types, and validation report before final EPUB export")
+    if "ebook_accessibility_audit_gate" in pattern_names:
+        lines.append("- ebook_accessibility_audit_gate: review accessibility metadata, landmarks, heading levels, reading order, alt text, language, and hazards")
+    if "front_back_matter_metadata_gate" in pattern_names:
+        lines.append("- front_back_matter_metadata_gate: keep title page, copyright, dedication, endnotes, afterword, colophon, identifiers, and publication metadata in delivery artifacts")
+    if "toc_navigation_consistency_gate" in pattern_names:
+        lines.append("- toc_navigation_consistency_gate: compare accepted chapter headings, TOC/nav/NCX entries, spine order, landmarks, and preview navigation")
 
 
 def _append_interactive_narrative_audit_section(

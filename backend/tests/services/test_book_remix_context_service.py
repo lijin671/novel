@@ -2688,3 +2688,44 @@ def test_build_remix_context_blocks_render_source_entity_redaction_audit():
         assert "proper_noun_leakage_review" in block
         assert "source-specific names" in block.lower()
         assert "source blocklists" in block.lower()
+
+
+def test_build_remix_context_blocks_render_ebook_quality_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "epub_structure_validation_gate", "candidate_count": 1},
+            {"name": "ebook_accessibility_audit_gate", "candidate_count": 1},
+            {"name": "front_back_matter_metadata_gate", "candidate_count": 1},
+            {"name": "toc_navigation_consistency_gate", "candidate_count": 1},
+        ],
+        "epub_structure_validation_gate_hints": ["Validate EPUB structure before export."],
+        "ebook_accessibility_audit_gate_hints": ["Audit accessibility metadata."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Ebook Delivery Desk",
+        bible={"hard_constraints": [{"rule": "Only accepted chapters can be exported"}]},
+        plan={"summary": "Prepare EPUB quality gates."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Ebook",
+        style_content=(
+            "【同类型创作总原则】\n"
+            "- same-type creation must rebuild package structure from transformed chapters.\n"
+            "【源书显性元素禁用清单】\n"
+            "- Do not reuse source chapter titles.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Ebook quality audit" in block
+        assert "epub_structure_validation_gate" in block
+        assert "ebook_accessibility_audit_gate" in block
+        assert "front_back_matter_metadata_gate" in block
+        assert "toc_navigation_consistency_gate" in block
+        assert "OPF manifest" in block
+        assert "accessibility metadata" in block
+        assert "title page" in block
+        assert "TOC/nav/NCX" in block

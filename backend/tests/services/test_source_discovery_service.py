@@ -6822,3 +6822,187 @@ def test_default_discovery_sources_include_entity_redaction_projects():
     assert "https://github.com/explosion/spaCy" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("de-identification" in query.lower() and "redaction" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("zero-shot ner" in query.lower() and "custom entity types" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_ebook_quality_projects_classify_into_publication_quality_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "w3c/epubcheck",
+                "html_url": "https://github.com/w3c/epubcheck",
+                "description": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document.",
+                "stargazers_count": 1800,
+                "forks_count": 400,
+                "license": {"spdx_id": "BSD-3-Clause"},
+                "topics": ["epub", "validation", "ebook"],
+                "updated_at": "2026-06-10T19:00:00Z",
+                "root_files": ["README.md", "LICENSE.md", "pom.xml"],
+            },
+            {
+                "full_name": "daisy/ace",
+                "html_url": "https://github.com/daisy/ace",
+                "description": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards.",
+                "stargazers_count": 650,
+                "forks_count": 120,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["epub", "accessibility", "wcag"],
+                "updated_at": "2026-06-10T19:05:00Z",
+                "root_files": ["README.md", "LICENSE.txt", "package.json"],
+            },
+            {
+                "full_name": "standardebooks/tools",
+                "html_url": "https://github.com/standardebooks/tools",
+                "description": "Tools to produce ebooks with front matter, back matter, titlepage, endnotes, colophon, publication metadata, and build checks.",
+                "stargazers_count": 1430,
+                "forks_count": 210,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["epub", "ebooks", "publishing"],
+                "updated_at": "2026-06-10T19:10:00Z",
+                "root_files": ["README.md", "LICENSE.md"],
+            },
+            {
+                "full_name": "Sigil-Ebook/Sigil",
+                "html_url": "https://github.com/Sigil-Ebook/Sigil",
+                "description": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces.",
+                "stargazers_count": 6000,
+                "forks_count": 700,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["epub", "ebook-editor"],
+                "updated_at": "2026-06-10T19:15:00Z",
+                "root_files": ["README.md", "COPYING.txt"],
+            },
+            {
+                "full_name": "w3c/epub-tests",
+                "html_url": "https://github.com/w3c/epub-tests",
+                "description": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures.",
+                "stargazers_count": 120,
+                "forks_count": 70,
+                "license": {"spdx_id": "W3C"},
+                "topics": ["epub", "tests"],
+                "updated_at": "2026-06-10T19:20:00Z",
+                "root_files": ["README.md", "LICENSE.md"],
+            },
+            {
+                "full_name": "daisy/epub-accessibility-tests",
+                "html_url": "https://github.com/daisy/epub-accessibility-tests",
+                "description": "EPUB accessibility tests for reading system accessibility and reader navigation behavior.",
+                "stargazers_count": 90,
+                "forks_count": 25,
+                "license": None,
+                "topics": ["epub", "accessibility", "tests"],
+                "updated_at": "2026-06-10T19:25:00Z",
+                "root_files": ["README.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T19:30:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "epub_structure_validation_gate" in by_title["w3c/epubcheck"]["absorbed_patterns"]
+    assert "toc_navigation_consistency_gate" in by_title["w3c/epubcheck"]["absorbed_patterns"]
+    assert "ebook_accessibility_audit_gate" in by_title["daisy/ace"]["absorbed_patterns"]
+    assert "front_back_matter_metadata_gate" in by_title["standardebooks/tools"]["absorbed_patterns"]
+    assert "toc_navigation_consistency_gate" in by_title["Sigil-Ebook/Sigil"]["absorbed_patterns"]
+    assert "epub_structure_validation_gate" in by_title["w3c/epub-tests"]["absorbed_patterns"]
+    assert "ebook_accessibility_audit_gate" in by_title["daisy/epub-accessibility-tests"]["absorbed_patterns"]
+    assert "license:missing" in by_title["daisy/epub-accessibility-tests"]["trust_review"]["flags"]
+
+
+def test_ebook_quality_pattern_pack_exposes_delivery_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T19:35:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/w3c/epubcheck",
+                "title": "w3c/epubcheck",
+                "summary": "EPUB conformance validation for OPF, spine, nav, media type, and package structure.",
+                "stars": 1800,
+                "license": "BSD-3-Clause",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["epub_structure_validation_gate"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/daisy/ace",
+                "title": "daisy/ace",
+                "summary": "EPUB accessibility audit for metadata, landmarks, reading order and alt text.",
+                "stars": 650,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["ebook_accessibility_audit_gate"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/standardebooks/tools",
+                "title": "standardebooks/tools",
+                "summary": "Ebook production tools with front matter, back matter, titlepage, endnotes, colophon and metadata checks.",
+                "stars": 1430,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["front_back_matter_metadata_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Sigil-Ebook/Sigil",
+                "title": "Sigil-Ebook/Sigil",
+                "summary": "EPUB editor surfaces for TOC, nav, NCX, spine order and reader navigation.",
+                "stars": 6000,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["toc_navigation_consistency_gate"],
+                "score": 85,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "epub_validation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "ebook_accessibility_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "front_back_matter_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "toc_navigation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "epub_validation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ebook_accessibility_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "front_back_matter_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "toc_navigation_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert pattern_pack["epub_structure_validation_gate_hints"]
+    assert pattern_pack["ebook_accessibility_audit_gate_hints"]
+    assert pattern_pack["front_back_matter_metadata_gate_hints"]
+    assert pattern_pack["toc_navigation_consistency_gate_hints"]
+    assert "epub_validation_delivery_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "epub_structure_validation_gate_hints" in digest
+    assert "ebook_accessibility_audit_gate_hints" in digest
+    assert "front_back_matter_metadata_gate_hints" in digest
+    assert "toc_navigation_consistency_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_ebook_quality_projects():
+    assert "https://github.com/w3c/epubcheck" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/daisy/ace" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/standardebooks/tools" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Sigil-Ebook/Sigil" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/w3c/epub-tests" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/daisy/epub-accessibility-tests" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("epubcheck" in query.lower() and "spine validation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("epub accessibility" in query.lower() and "wcag" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("front matter" in query.lower() and "colophon" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

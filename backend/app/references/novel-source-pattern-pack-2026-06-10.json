@@ -350,7 +350,15 @@
     "placeholder_alias_map",
     "replacement_consistency_policy",
     "proper_noun_blocklist",
-    "proper_noun_allowlist"
+    "proper_noun_allowlist",
+    "epub_validation_policy",
+    "opf_manifest_spine_policy",
+    "ebook_accessibility_policy",
+    "accessibility_metadata_policy",
+    "front_back_matter_manifest",
+    "publication_metadata_policy",
+    "toc_navigation_policy",
+    "spine_nav_heading_policy"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -760,7 +768,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T18:30:00+08:00",
+  "generated_at": "2026-06-10T19:40:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -954,7 +962,11 @@
     "Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.",
     "Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.",
     "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
-    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon."
+    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.",
+    "Reject EPUB exports whose package, OPF manifest, spine, or container metadata no longer matches the accepted transformed chapters.",
+    "Reject accessibility fixes that copy source captions, alt text, landmark labels, or front/back matter wording.",
+    "Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.",
+    "Reject TOC/navigation maps whose chapter titles, order, hierarchy, or reader links mirror the source EPUB instead of the new outline."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -1110,7 +1122,11 @@
     "author_preference_memory_remap",
     "source_community_graph_remap",
     "graph_vector_retrieval_remap",
-    "schema_guided_graph_remap"
+    "schema_guided_graph_remap",
+    "epub_validation_delivery_remap",
+    "ebook_accessibility_remap",
+    "front_back_matter_metadata_remap",
+    "toc_navigation_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1220,7 +1236,11 @@
     "Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.",
     "Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.",
     "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
-    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon."
+    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon.",
+    "Use EPUB validation as a delivery checklist for the transformed manuscript, not as permission to copy source package structure.",
+    "Keep accessibility requirements stable while regenerating captions, alt text, landmarks, and reading-order notes for the new book.",
+    "Rebuild front/back matter and metadata from the transformed book; source titlepage, colophon, and identifiers remain reference evidence only.",
+    "Generate TOC and navigation from the transformed outline after independence checks, not from the source EPUB hierarchy."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1345,7 +1365,11 @@
     "Transform trope overlap by preserving only broad genre expectations; change the concrete cause, cast role, prop, setting, and payoff order.",
     "Transform trope-graph neighbors into new combinations rather than copying the source work's trope adjacency pattern.",
     "Transform overused trope clusters by adding a local twist, swapped power relation, altered cost, or delayed consequence.",
-    "Transform trope references from metadata only; do not fetch, paste, or paraphrase live trope-page prose into a same-type draft."
+    "Transform trope references from metadata only; do not fetch, paste, or paraphrase live trope-page prose into a same-type draft.",
+    "Transform EPUB structure expectations into new validation criteria tied to the transformed chapter list and export target.",
+    "Transform accessibility notes into reader-facing fixes for the new manuscript, with source-specific media and captions replaced.",
+    "Transform publication metadata and front/back matter at the book level before final packaging, not during prose generation.",
+    "Transform navigation by aligning the new outline, accepted headings, spine order, and preview links."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1746,7 +1770,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 189,
+  "source_candidate_count": 195,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -1954,7 +1978,13 @@
     "LeapBeyond/scrubadub",
     "urchade/GLiNER",
     "flairNLP/flair",
-    "explosion/spaCy"
+    "explosion/spaCy",
+    "Sigil-Ebook/Sigil",
+    "w3c/epubcheck",
+    "daisy/ace",
+    "w3c/epub-tests",
+    "standardebooks/tools",
+    "daisy/epub-accessibility-tests"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2689,7 +2719,19 @@
     "alias_namespace_drift_notes",
     "proper_noun_leakage_report",
     "source_name_carryover_findings",
-    "allowed_name_exception_notes"
+    "allowed_name_exception_notes",
+    "epub_validation_report",
+    "opf_spine_manifest_findings",
+    "media_type_container_findings",
+    "ebook_accessibility_report",
+    "alt_text_landmark_findings",
+    "accessibility_metadata_findings",
+    "front_back_matter_report",
+    "title_colophon_copyright_gaps",
+    "publication_metadata_findings",
+    "toc_navigation_consistency_report",
+    "nav_spine_heading_mismatches",
+    "reader_navigation_findings"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -12822,6 +12864,213 @@
       ],
       "top_source_url": "https://github.com/Theltn/AICreativityJudge",
       "trust_flags": []
+    },
+    {
+      "name": "toc_navigation_consistency_gate",
+      "candidate_count": 5,
+      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ],
+      "sources": [
+        {
+          "title": "Sigil-Ebook/Sigil",
+          "url": "https://github.com/Sigil-Ebook/Sigil",
+          "source": "github",
+          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
+          "stars": 6000,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "score": 128
+        },
+        {
+          "title": "w3c/epubcheck",
+          "url": "https://github.com/w3c/epubcheck",
+          "source": "github",
+          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
+          "stars": 1800,
+          "license": "BSD-3-Clause",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "score": 104
+        },
+        {
+          "title": "daisy/ace",
+          "url": "https://github.com/daisy/ace",
+          "source": "github",
+          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
+          "stars": 650,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 70
+        },
+        {
+          "title": "w3c/epub-tests",
+          "url": "https://github.com/w3c/epub-tests",
+          "source": "github",
+          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
+          "stars": 120,
+          "license": "W3C",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 70
+        },
+        {
+          "title": "daisy/epub-accessibility-tests",
+          "url": "https://github.com/daisy/epub-accessibility-tests",
+          "source": "github",
+          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
+          "stars": 90,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 51
+        }
+      ]
+    },
+    {
+      "name": "epub_structure_validation_gate",
+      "candidate_count": 2,
+      "top_source_url": "https://github.com/w3c/epubcheck",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ],
+      "sources": [
+        {
+          "title": "w3c/epubcheck",
+          "url": "https://github.com/w3c/epubcheck",
+          "source": "github",
+          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
+          "stars": 1800,
+          "license": "BSD-3-Clause",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "score": 104
+        },
+        {
+          "title": "w3c/epub-tests",
+          "url": "https://github.com/w3c/epub-tests",
+          "source": "github",
+          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
+          "stars": 120,
+          "license": "W3C",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 70
+        }
+      ]
+    },
+    {
+      "name": "ebook_accessibility_audit_gate",
+      "candidate_count": 3,
+      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ],
+      "sources": [
+        {
+          "title": "Sigil-Ebook/Sigil",
+          "url": "https://github.com/Sigil-Ebook/Sigil",
+          "source": "github",
+          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
+          "stars": 6000,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "score": 128
+        },
+        {
+          "title": "daisy/ace",
+          "url": "https://github.com/daisy/ace",
+          "source": "github",
+          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
+          "stars": 650,
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [],
+          "score": 70
+        },
+        {
+          "title": "daisy/epub-accessibility-tests",
+          "url": "https://github.com/daisy/epub-accessibility-tests",
+          "source": "github",
+          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
+          "stars": 90,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 51
+        }
+      ]
+    },
+    {
+      "name": "front_back_matter_metadata_gate",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/standardebooks/tools",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ],
+      "sources": [
+        {
+          "title": "standardebooks/tools",
+          "url": "https://github.com/standardebooks/tools",
+          "source": "github",
+          "summary": "Tools to produce ebooks with front matter, back matter, titlepage, endnotes, colophon, publication metadata, and build checks. Static intake note: Standard Ebooks tools support producing ebooks with setup, text processing, build, metadata, titlepage, endnotes, colophon, and relea",
+          "stars": 1430,
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "score": 68
+        }
+      ]
     }
   ],
   "world_state_tracking_hints": [
@@ -12837,5 +13086,25 @@
   "writing_session_goal_tracking_hints": [
     "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
     "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates."
+  ],
+  "epub_structure_validation_gate_hints": [
+    "Before final EPUB delivery, validate container, package document, OPF manifest, spine, nav document, media types, and validation errors as one report.",
+    "Treat EPUB validation as a packaging gate over accepted chapters; it must not mutate canon text or silently reorder chapter content.",
+    "For same-type creation, EPUB structure may inspire a delivery checklist, but source TOC, spine, and metadata order must be rebuilt for the new manuscript."
+  ],
+  "ebook_accessibility_audit_gate_hints": [
+    "Audit ebook accessibility metadata, landmarks, heading levels, reading order, alt text, language declarations, and hazard notes before publication export.",
+    "Accessibility findings become author-review tasks; do not auto-rewrite prose or inject external checker output into story canon.",
+    "For same-type creation, keep accessibility and reader-navigation standards while changing source-specific illustrations, captions, and front/back matter text."
+  ],
+  "front_back_matter_metadata_gate_hints": [
+    "Keep title page, copyright, dedication, foreword, endnotes, afterword, colophon, identifiers, and publication metadata in a separate delivery manifest.",
+    "Front/back matter can reference accepted canon and attribution policy, but must not become hidden prompt context for chapter continuation.",
+    "For same-type creation, regenerate title, subtitle, blurb-adjacent metadata, and colophon from the transformed book rather than source packaging."
+  ],
+  "toc_navigation_consistency_gate_hints": [
+    "Compare visible chapter headings, nav TOC, NCX when present, spine order, landmarks, and preview navigation before accepting an ebook export.",
+    "Flag missing, duplicate, empty, or reordered navigation entries separately from prose-quality findings.",
+    "For same-type creation, rebuild navigation from the transformed outline so source chapter titles or section hierarchy cannot leak into delivery."
   ]
 }

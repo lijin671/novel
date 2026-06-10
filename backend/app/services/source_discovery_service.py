@@ -160,6 +160,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("PII" OR "de-identification" OR "anonymization" OR "redaction") ("named entity" OR "source text") in:name,description,readme',
     '("zero-shot NER" OR "custom entity types" OR "named entity recognition") ("fiction" OR "novel" OR "character") in:name,description,readme',
     '("proper noun" OR "entity redaction" OR "anonymize text") ("story" OR "fiction" OR "source text") in:name,description,readme',
+    '("EPUBCheck" OR "EPUB conformance" OR "OPF manifest" OR "spine validation") ("ebook" OR "publication") in:name,description,readme',
+    '("Ace by DAISY" OR "EPUB accessibility" OR "accessibility metadata" OR "WCAG") ("ebook" OR "reading system") in:name,description,readme',
+    '("front matter" OR "back matter" OR "colophon" OR "titlepage") ("ebook" OR "EPUB" OR "manuscript") in:name,description,readme',
+    '("EPUB tests" OR "navigation document" OR "nav toc" OR "spine order") ("ebook" OR "EPUB") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -361,6 +365,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/urchade/GLiNER",
     "https://github.com/flairNLP/flair",
     "https://github.com/explosion/spaCy",
+    "https://github.com/w3c/epubcheck",
+    "https://github.com/daisy/ace",
+    "https://github.com/standardebooks/tools",
+    "https://github.com/Sigil-Ebook/Sigil",
+    "https://github.com/w3c/epub-tests",
+    "https://github.com/daisy/epub-accessibility-tests",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -573,6 +583,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("ocr_scanned_page_import_gate", ("ocr", "ocrmypdf", "tesseract", "scanned pdf", "scanned page", "hocr", "ocr confidence", "deskew", "page image", "image text", "\u626b\u63cf", "\u56fe\u50cf\u8bc6\u522b", "\u8bc6\u522b\u7f6e\u4fe1\u5ea6")),
     ("document_partition_chapter_detection_gate", ("unstructured", "document partition", "partition_pdf", "partition_epub", "document elements", "title element", "heading detection", "section detection", "chapter detection", "layout element", "\u7ae0\u8282\u68c0\u6d4b", "\u6807\u9898\u8bc6\u522b")),
     ("import_provenance_checksum_gate", ("checksum", "hash", "source file", "file provenance", "import manifest", "page range", "extraction settings", "parser version", "input artifact", "conversion log", "\u6821\u9a8c\u548c", "\u6765\u6e90\u8ffd\u6eaf", "\u5bfc\u5165\u6e05\u5355")),
+    ("epub_structure_validation_gate", ("epubcheck", "epub conformance", "epub validation", "opf manifest", "package document", "container.xml", "spine validation", "media-type validation", "validation report", "epub tests", "\u7535\u5b50\u4e66\u6821\u9a8c", "\u51fa\u7248\u6821\u9a8c")),
+    ("ebook_accessibility_audit_gate", ("ace by daisy", "epub accessibility", "accessibility checker", "accessibility metadata", "wcag", "screen reader", "reading system accessibility", "alt text", "landmarks", "hazards", "\u53ef\u8bbf\u95ee\u6027", "\u9605\u8bfb\u7cfb\u7edf")),
+    ("front_back_matter_metadata_gate", ("standard ebooks", "front matter", "back matter", "titlepage", "title page", "colophon", "endnotes", "copyright page", "publication metadata", "dc:title", "dc:creator", "\u524d\u8a00", "\u540e\u8bb0", "\u51fa\u7248\u5143\u6570\u636e")),
+    ("toc_navigation_consistency_gate", ("sigil", "nav toc", "navigation document", "ncx", "spine order", "toc navigation", "table of contents", "heading hierarchy", "reader navigation", "landmarks", "\u76ee\u5f55\u5bfc\u822a", "\u9605\u8bfb\u5bfc\u822a")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -1088,6 +1102,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "aerkalov/ebooklib": (
         "EbookLib handles EPUB reading/writing with OPF metadata, spine, and table-of-contents surfaces. "
         "Absorb EPUB source-import manifest and chapter-spine mapping patterns only; AGPL runtime code is not imported."
+    ),
+    "w3c/epubcheck": (
+        "EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigation, "
+        "media-type, and validation-report surfaces. Absorb EPUB structure validation gates only; Java/library/runtime code is not executed."
+    ),
+    "daisy/ace": (
+        "Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EPUB publications. "
+        "Absorb ebook accessibility audit gates only; npm/runtime checks are not launched."
+    ),
+    "standardebooks/tools": (
+        "Standard Ebooks tools support producing ebooks with setup, text processing, build, metadata, titlepage, endnotes, colophon, and release checks. "
+        "Absorb front/back matter and publication metadata gates only; GPL tools and command-line workflows are not installed."
+    ),
+    "sigil-ebook/sigil": (
+        "Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing surfaces. "
+        "Absorb TOC/navigation consistency review patterns only; Qt/native application code is not built or launched."
+    ),
+    "w3c/epub-tests": (
+        "W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. "
+        "Absorb EPUB structure and navigation regression fixture patterns only; test EPUBs and generators are not imported."
+    ),
+    "daisy/epub-accessibility-tests": (
+        "DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. "
+        "Absorb accessibility fixture and reader-navigation audit patterns only; test books are not downloaded or executed."
     ),
     "pdfminer/pdfminer.six": (
         "Pdfminer.six extracts text and layout information from PDF files. "
@@ -1848,6 +1886,10 @@ class NovelSourceDiscoveryService:
             "ocr_scanned_page_import_gate_hints": self._build_ocr_scanned_page_import_gate_hints(available_patterns),
             "document_partition_chapter_detection_gate_hints": self._build_document_partition_chapter_detection_gate_hints(available_patterns),
             "import_provenance_checksum_gate_hints": self._build_import_provenance_checksum_gate_hints(available_patterns),
+            "epub_structure_validation_gate_hints": self._build_epub_structure_validation_gate_hints(available_patterns),
+            "ebook_accessibility_audit_gate_hints": self._build_ebook_accessibility_audit_gate_hints(available_patterns),
+            "front_back_matter_metadata_gate_hints": self._build_front_back_matter_metadata_gate_hints(available_patterns),
+            "toc_navigation_consistency_gate_hints": self._build_toc_navigation_consistency_gate_hints(available_patterns),
             "literary_event_entity_annotation_gate_hints": self._build_literary_event_entity_annotation_gate_hints(available_patterns),
             "narrative_event_evolution_graph_gate_hints": self._build_narrative_event_evolution_graph_gate_hints(available_patterns),
             "sentiment_arc_emotion_trajectory_gate_hints": self._build_sentiment_arc_emotion_trajectory_gate_hints(available_patterns),
@@ -2473,6 +2515,10 @@ class NovelSourceDiscoveryService:
             "ocr_scanned_page_import_gate": 61,
             "document_partition_chapter_detection_gate": 64,
             "import_provenance_checksum_gate": 62,
+            "epub_structure_validation_gate": 64,
+            "ebook_accessibility_audit_gate": 63,
+            "front_back_matter_metadata_gate": 62,
+            "toc_navigation_consistency_gate": 64,
             "literary_event_entity_annotation_gate": 66,
             "narrative_event_evolution_graph_gate": 65,
             "sentiment_arc_emotion_trajectory_gate": 62,
@@ -2597,6 +2643,18 @@ class NovelSourceDiscoveryService:
         if "proper_noun_leakage_review" in patterns:
             targets.append("proper_noun_blocklist")
             targets.append("proper_noun_allowlist")
+        if "epub_structure_validation_gate" in patterns:
+            targets.append("epub_validation_policy")
+            targets.append("opf_manifest_spine_policy")
+        if "ebook_accessibility_audit_gate" in patterns:
+            targets.append("ebook_accessibility_policy")
+            targets.append("accessibility_metadata_policy")
+        if "front_back_matter_metadata_gate" in patterns:
+            targets.append("front_back_matter_manifest")
+            targets.append("publication_metadata_policy")
+        if "toc_navigation_consistency_gate" in patterns:
+            targets.append("toc_navigation_policy")
+            targets.append("spine_nav_heading_policy")
         if "graph_branching_atomicity" in patterns:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
@@ -3167,6 +3225,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["document_partition_report", "chapter_heading_detection_report", "element_type_sequence"])
         if "import_provenance_checksum_gate" in patterns:
             targets.extend(["import_checksum_report", "parser_setting_manifest", "source_artifact_provenance"])
+        if "epub_structure_validation_gate" in patterns:
+            targets.extend(["epub_validation_report", "opf_spine_manifest_findings", "media_type_container_findings"])
+        if "ebook_accessibility_audit_gate" in patterns:
+            targets.extend(["ebook_accessibility_report", "alt_text_landmark_findings", "accessibility_metadata_findings"])
+        if "front_back_matter_metadata_gate" in patterns:
+            targets.extend(["front_back_matter_report", "title_colophon_copyright_gaps", "publication_metadata_findings"])
+        if "toc_navigation_consistency_gate" in patterns:
+            targets.extend(["toc_navigation_consistency_report", "nav_spine_heading_mismatches", "reader_navigation_findings"])
         if "literary_event_entity_annotation_gate" in patterns:
             targets.extend(["literary_entity_event_annotation_report", "event_participant_role_conflicts", "source_event_annotation_gaps"])
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -5073,6 +5139,42 @@ class NovelSourceDiscoveryService:
             "Keep original, extracted, normalized, and accepted text as separate artifacts with explicit lineage.",
         ]
 
+    def _build_epub_structure_validation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "epub_structure_validation_gate" not in patterns:
+            return []
+        return [
+            "Before final EPUB delivery, validate container, package document, OPF manifest, spine, nav document, media types, and validation errors as one report.",
+            "Treat EPUB validation as a packaging gate over accepted chapters; it must not mutate canon text or silently reorder chapter content.",
+            "For same-type creation, EPUB structure may inspire a delivery checklist, but source TOC, spine, and metadata order must be rebuilt for the new manuscript.",
+        ]
+
+    def _build_ebook_accessibility_audit_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ebook_accessibility_audit_gate" not in patterns:
+            return []
+        return [
+            "Audit ebook accessibility metadata, landmarks, heading levels, reading order, alt text, language declarations, and hazard notes before publication export.",
+            "Accessibility findings become author-review tasks; do not auto-rewrite prose or inject external checker output into story canon.",
+            "For same-type creation, keep accessibility and reader-navigation standards while changing source-specific illustrations, captions, and front/back matter text.",
+        ]
+
+    def _build_front_back_matter_metadata_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "front_back_matter_metadata_gate" not in patterns:
+            return []
+        return [
+            "Keep title page, copyright, dedication, foreword, endnotes, afterword, colophon, identifiers, and publication metadata in a separate delivery manifest.",
+            "Front/back matter can reference accepted canon and attribution policy, but must not become hidden prompt context for chapter continuation.",
+            "For same-type creation, regenerate title, subtitle, blurb-adjacent metadata, and colophon from the transformed book rather than source packaging.",
+        ]
+
+    def _build_toc_navigation_consistency_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "toc_navigation_consistency_gate" not in patterns:
+            return []
+        return [
+            "Compare visible chapter headings, nav TOC, NCX when present, spine order, landmarks, and preview navigation before accepting an ebook export.",
+            "Flag missing, duplicate, empty, or reordered navigation entries separately from prose-quality findings.",
+            "For same-type creation, rebuild navigation from the transformed outline so source chapter titles or section hierarchy cannot leak into delivery.",
+        ]
+
     def _build_literary_event_entity_annotation_gate_hints(self, patterns: set[str]) -> list[str]:
         if "literary_event_entity_annotation_gate" not in patterns:
             return []
@@ -5750,6 +5852,14 @@ class NovelSourceDiscoveryService:
             targets.append("chapter_partition_structure_remap")
         if "import_provenance_checksum_gate" in patterns:
             targets.append("import_provenance_lineage_remap")
+        if "epub_structure_validation_gate" in patterns:
+            targets.append("epub_validation_delivery_remap")
+        if "ebook_accessibility_audit_gate" in patterns:
+            targets.append("ebook_accessibility_remap")
+        if "front_back_matter_metadata_gate" in patterns:
+            targets.append("front_back_matter_metadata_remap")
+        if "toc_navigation_consistency_gate" in patterns:
+            targets.append("toc_navigation_remap")
         if "literary_event_entity_annotation_gate" in patterns:
             targets.append("literary_annotation_role_remap")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -5989,6 +6099,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform source element partitions into new scene/section functions, not copied headings or section boundaries.")
         if "import_provenance_checksum_gate" in patterns:
             hints.append("Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts.")
+        if "epub_structure_validation_gate" in patterns:
+            hints.append("Use EPUB validation as a delivery checklist for the transformed manuscript, not as permission to copy source package structure.")
+        if "ebook_accessibility_audit_gate" in patterns:
+            hints.append("Keep accessibility requirements stable while regenerating captions, alt text, landmarks, and reading-order notes for the new book.")
+        if "front_back_matter_metadata_gate" in patterns:
+            hints.append("Rebuild front/back matter and metadata from the transformed book; source titlepage, colophon, and identifiers remain reference evidence only.")
+        if "toc_navigation_consistency_gate" in patterns:
+            hints.append("Generate TOC and navigation from the transformed outline after independence checks, not from the source EPUB hierarchy.")
         if "literary_event_entity_annotation_gate" in patterns:
             hints.append("Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6246,6 +6364,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform document element sequences into new chapter functions before drafting.")
         if "import_provenance_checksum_gate" in patterns:
             hints.append("Transform provenance links so source artifacts never masquerade as accepted new-story chapters.")
+        if "epub_structure_validation_gate" in patterns:
+            hints.append("Transform EPUB structure expectations into new validation criteria tied to the transformed chapter list and export target.")
+        if "ebook_accessibility_audit_gate" in patterns:
+            hints.append("Transform accessibility notes into reader-facing fixes for the new manuscript, with source-specific media and captions replaced.")
+        if "front_back_matter_metadata_gate" in patterns:
+            hints.append("Transform publication metadata and front/back matter at the book level before final packaging, not during prose generation.")
+        if "toc_navigation_consistency_gate" in patterns:
+            hints.append("Transform navigation by aligning the new outline, accepted headings, spine order, and preview links.")
         if "literary_event_entity_annotation_gate" in patterns:
             hints.append("Transform annotation schemas by replacing source event labels, participant roles, and mention evidence with new-story equivalents.")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6541,6 +6667,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject chapter maps that keep source heading text, partition sequence, or section boundary cadence.")
         if "import_provenance_checksum_gate" in patterns:
             hints.append("Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage.")
+        if "epub_structure_validation_gate" in patterns:
+            hints.append("Reject EPUB exports whose package, OPF manifest, spine, or container metadata no longer matches the accepted transformed chapters.")
+        if "ebook_accessibility_audit_gate" in patterns:
+            hints.append("Reject accessibility fixes that copy source captions, alt text, landmark labels, or front/back matter wording.")
+        if "front_back_matter_metadata_gate" in patterns:
+            hints.append("Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.")
+        if "toc_navigation_consistency_gate" in patterns:
+            hints.append("Reject TOC/navigation maps whose chapter titles, order, hierarchy, or reader links mirror the source EPUB instead of the new outline.")
         if "literary_event_entity_annotation_gate" in patterns:
             hints.append("Reject drafts whose event/entity annotation ledger preserves source participant roles, event labels, or mention order under renamed surface text.")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6655,6 +6789,10 @@ class NovelSourceDiscoveryService:
                 "ocr_scanned_page_import_gate",
                 "document_partition_chapter_detection_gate",
                 "import_provenance_checksum_gate",
+                "epub_structure_validation_gate",
+                "ebook_accessibility_audit_gate",
+                "front_back_matter_metadata_gate",
+                "toc_navigation_consistency_gate",
                 "literary_event_entity_annotation_gate",
                 "narrative_event_evolution_graph_gate",
                 "sentiment_arc_emotion_trajectory_gate",
@@ -7294,6 +7432,21 @@ class NovelSourceDiscoveryService:
             "chapter detection",
             "checksum",
             "import manifest",
+            "epubcheck",
+            "epub conformance",
+            "opf manifest",
+            "package document",
+            "container.xml",
+            "ace by daisy",
+            "epub accessibility",
+            "accessibility metadata",
+            "standard ebooks",
+            "front matter",
+            "back matter",
+            "colophon",
+            "navigation document",
+            "nav toc",
+            "spine order",
         )
         return any(term in haystack for term in terms)
 
