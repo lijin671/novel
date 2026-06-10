@@ -228,6 +228,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("导入小说" OR "txt import" OR "chapter outline" OR "智能解析目录") ("AI小说" OR "web novel") in:name,description,readme',
     '("文笔DNA" OR "style DNA" OR "reference library" OR "风格模仿") ("AI novel" OR "小说") in:name,description,readme',
     '("draft vs confirmed" OR "rewrite candidates" OR "metadata-only index" OR "offline-first") ("novel" OR "writing workbench") in:name,description,readme',
+    '("chapter descriptions" OR "previous chapters" OR "real-time streaming") ("book writing" OR "novel") in:name,description,readme',
+    '("AI beta reader" OR "contextual feedback" OR "previous chapter summaries") ("novel" OR "manuscript") in:name,description,readme',
+    '("citation styles" OR "AI research engine" OR "web search integration") ("research" OR "book writing" OR "manuscript") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -544,6 +547,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-",
     "https://github.com/linnnn89/novel-agent-workbench",
     "https://github.com/qnbs/StoryCraft-Studio",
+    "https://github.com/dlintin/sidekickwriter",
+    "https://github.com/gennitdev/ai-beta-reader-frontend",
+    "https://github.com/gennitdev/ai-beta-reader-backend",
+    "https://github.com/wesleyscholl/book-generator",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -795,6 +802,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("style_dna_reference_library_gate", ("style dna", "writing dna", "writing-dna", "文笔dna", "narrative dna", "拆书知识库", "reference library", "参考库", "学习和模仿", "风格模仿", "风格学习")),
     ("draft_candidate_promotion_gate", ("draft vs confirmed", "confirmed chapters", "rewrite candidates", "candidate comparison", "草稿不会自动覆盖正文", "草稿候选", "确认稿", "重写候选", "人工确认稿", "promoting only approved drafts")),
     ("privacy_preserving_local_index_gate", ("privacy-preserving index", "metadata-only", "metadata only", "never manuscript", "all data stays local", "all data is saved", "offline-first", "本地保存", "本地化数据", "数据优先保存在本机", "草稿不会自动覆盖正文")),
+    ("chapter_description_continuity_bridge_gate", ("chapter descriptions", "chapter-by-chapter outline", "previous chapters for continuity", "awareness of all previous chapters", "previous chapters as context", "structured book", "guided mode", "pro mode")),
+    ("selective_streaming_regeneration_gate", ("real-time streaming", "streaming text", "generate the entire book", "individual chapters", "regenerate specific chapters", "without losing the rest", "inline editing", "save instantly")),
+    ("research_citation_boundary_gate", ("ai research engine", "web search integration", "academic databases", "citation styles", "citations are woven", "quality & plagiarism checks", "plagiarism checks", "source content")),
+    ("beta_reader_summary_context_gate", ("ai beta reader", "contextual ai reviews", "structured summaries", "summaries of previous chapters", "previous chapter summaries", "plot points, characters", "multiple review styles", "fan style")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -884,7 +895,8 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("binary_distribution", (".zip", "release/", "windows packaged", "windows 打包版", "安装包", "客户端")),
     ("auto_update", ("auto upgrade", "automatic update", "自动升级", "upgrade.zip", "在线升级")),
     ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
-    ("provider_key_surface", ("api key", "api keys", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
+    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
+    ("cloud_sync_oauth_surface", ("oauth", "oauth 2.0", "google drive", "cloud sync", "auth0", "jwt token", "pkce", "database_url", "postgres", "neon")),
     ("browser_storage_surface", ("indexeddb", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
@@ -2117,6 +2129,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "AI-Fic-IDE is an Android-native Chinese web-novel writing IDE forked from Operit AI. Public README describes character cards, setting cards, foreshadowing states, AI memory, cross-chapter search/replace, autosave, history snapshots, local models, multi-model providers, MCP plugin market, ADB/root/accessibility surfaces, and APK releases. "
         "Pattern-only adaptation for mobile/offline writing workspace cards and snapshot boundaries; APKs, Android runtime, ADB/root/accessibility, MCP plugins, provider keys, and native binaries are not installed or launched."
     ),
+    "dlintin/sidekickwriter": (
+        "SidekickWriter is an AI-powered book writing platform. Public README describes guided/pro modes, writing style selection, character development, chapter-by-chapter outline generation, chapter descriptions aware of previous chapters for continuity, full-book or per-chapter generation, real-time streaming, inline editing, specific-chapter regeneration, research sources, and citation styles. "
+        "Pattern-only adaptation for chapter-description context bridges, selective regeneration, and research citation boundaries; provider calls and hosted platform use are not performed."
+    ),
+    "gennitdev/ai-beta-reader-frontend": (
+        "AI Beta Reader frontend manages books and chapters, markdown editing, smart chapter summaries that track plot points, characters, and key events, contextual AI reviews using previous chapter summaries, multiple review styles, sql.js/local storage, Google Drive OAuth sync, and OpenAI-backed reviews. "
+        "Pattern-only adaptation for beta-reader summary context review and storage/oauth boundaries; OAuth, Google Drive, local browser storage, and provider calls are not used."
+    ),
+    "gennitdev/ai-beta-reader-backend": (
+        "AI Beta Reader backend is an Express REST API for AI-generated chapter feedback with previous-chapter-summary context, Auth0 JWT, PostgreSQL/Neon, OpenAI Responses API, OPENAI_API_KEY, and DATABASE_URL configuration. "
+        "Pattern-only adaptation for summary-context beta review and credential/database boundaries; API server, database, Auth0, and provider calls are not launched."
+    ),
+    "wesleyscholl/book-generator": (
+        "AI Book Generator is an autonomous book creation pipeline. Public README describes shell-script helpers for topic/title selection, detailed outlines, chapter generation/extension/editing, optional quality and plagiarism checks, full manuscript assembly with title pages, table of contents, copyright pages, appendices, acknowledgements, and EPUB/PDF/KDP-style export. "
+        "Pattern-only adaptation for research citation boundaries and publication assembly gates; shell scripts, providers, ImageMagick, Pandoc, TeX, and KDP workflows are not run."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2435,6 +2463,10 @@ class NovelSourceDiscoveryService:
             "style_dna_reference_library_gate_hints": self._build_style_dna_reference_library_gate_hints(available_patterns),
             "draft_candidate_promotion_gate_hints": self._build_draft_candidate_promotion_gate_hints(available_patterns),
             "privacy_preserving_local_index_gate_hints": self._build_privacy_preserving_local_index_gate_hints(available_patterns),
+            "chapter_description_continuity_bridge_gate_hints": self._build_chapter_description_continuity_bridge_gate_hints(available_patterns),
+            "selective_streaming_regeneration_gate_hints": self._build_selective_streaming_regeneration_gate_hints(available_patterns),
+            "research_citation_boundary_gate_hints": self._build_research_citation_boundary_gate_hints(available_patterns),
+            "beta_reader_summary_context_gate_hints": self._build_beta_reader_summary_context_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3321,6 +3353,10 @@ class NovelSourceDiscoveryService:
             "style_dna_reference_library_gate": 67,
             "draft_candidate_promotion_gate": 69,
             "privacy_preserving_local_index_gate": 64,
+            "chapter_description_continuity_bridge_gate": 67,
+            "selective_streaming_regeneration_gate": 65,
+            "research_citation_boundary_gate": 66,
+            "beta_reader_summary_context_gate": 68,
             "causal_dramatica_agent_pipeline": 68,
             "capture_distillation_production_gate": 66,
             "skill_orchestrated_chinese_novel_workflow": 67,
@@ -3430,6 +3466,18 @@ class NovelSourceDiscoveryService:
         if "privacy_preserving_local_index_gate" in patterns:
             targets.append("local_index_privacy_policy")
             targets.append("metadata_only_search_scope")
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            targets.append("chapter_description_contracts")
+            targets.append("previous_chapter_summary_policy")
+        if "selective_streaming_regeneration_gate" in patterns:
+            targets.append("selective_regeneration_policy")
+            targets.append("streaming_checkpoint_policy")
+        if "research_citation_boundary_gate" in patterns:
+            targets.append("research_citation_policy")
+            targets.append("source_evidence_manifest")
+        if "beta_reader_summary_context_gate" in patterns:
+            targets.append("beta_reader_feedback_styles")
+            targets.append("summary_context_review_policy")
         if "style_guide_layering" in patterns:
             targets.append("style_layers")
             targets.append("character_voice_notes")
@@ -4095,6 +4143,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["mode_contract_matrix", "axis_tag_validation_report", "under_length_rewrite_trace"])
         if "source_study_method_bank_isolation_gate" in patterns:
             targets.extend(["source_study_method_bank_report", "master_study_contamination_audit", "method_insight_promotion_findings"])
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            targets.extend(["chapter_description_context_bridge", "previous_chapter_summary_trace", "description_to_draft_continuity_checks"])
+        if "selective_streaming_regeneration_gate" in patterns:
+            targets.extend(["selective_regeneration_report", "specific_chapter_rewrite_scope", "streaming_checkpoint_recovery"])
+        if "research_citation_boundary_gate" in patterns:
+            targets.extend(["research_citation_manifest", "evidence_source_scope", "fiction_fact_boundary_findings"])
+        if "beta_reader_summary_context_gate" in patterns:
+            targets.extend(["previous_summary_review_context", "beta_reader_feedback_trace", "review_style_effect_findings"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -4611,6 +4667,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["draft_review_rewrite_candidates", "candidate_comparison_log", "confirmed_chapter_acceptance_log"])
         if "privacy_preserving_local_index_gate" in patterns:
             targets.extend(["local_metadata_index_manifest", "privacy_search_fields", "plaintext_exclusion_checks"])
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            targets.extend(["chapter_description_context_bridge", "previous_chapter_summary_trace", "description_to_draft_continuity_checks"])
+        if "selective_streaming_regeneration_gate" in patterns:
+            targets.extend(["selective_regeneration_report", "specific_chapter_rewrite_scope", "streaming_checkpoint_recovery"])
+        if "research_citation_boundary_gate" in patterns:
+            targets.extend(["research_citation_manifest", "evidence_source_scope", "fiction_fact_boundary_findings"])
+        if "beta_reader_summary_context_gate" in patterns:
+            targets.extend(["previous_summary_review_context", "beta_reader_feedback_trace", "review_style_effect_findings"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -4808,6 +4872,14 @@ class NovelSourceDiscoveryService:
             hints.append("Generate continuation as a draft candidate first; review, compare, and promote only after the author or acceptance gate confirms it.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Retrieve local search context through metadata-scoped manifests; prompts should name included fields and exclude plaintext that was not explicitly selected.")
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            hints.append("章节描述只能承接已接受的前文摘要、章节变化包和当前大纲，不用未验收草稿补连续性。")
+        if "selective_streaming_regeneration_gate" in patterns:
+            hints.append("局部重生必须锁定 specific chapter、影响段落和邻近冻结章节，不能覆盖未点名章节或整书状态。")
+        if "research_citation_boundary_gate" in patterns:
+            hints.append("研究引用只作为证据、素材和事实边界；虚构正文采用前要经过作者验收，不能把外部事实直接写成正史。")
+        if "beta_reader_summary_context_gate" in patterns:
+            hints.append("Beta reader 评审提示词必须绑定 previous chapter summaries、当前章节 id 和反馈风格，读者反应不得改写 canon。")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -5013,6 +5085,14 @@ class NovelSourceDiscoveryService:
             hints.append("Keep draft, review, rewrite candidate, rejected, and confirmed chapter states separate so rejected prose cannot update memory.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Local indexes should store metadata, hashes, labels, and retrieval reasons; manuscript plaintext stays in explicit project artifacts.")
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            hints.append("Persist chapter-description contracts with accepted prior-summary ids, outline slot, continuity assumptions, and reviewer decision.")
+        if "selective_streaming_regeneration_gate" in patterns:
+            hints.append("Persist regeneration scope as specific chapter id, protected neighboring chapters, changed spans, checkpoint id, and rollback target.")
+        if "research_citation_boundary_gate" in patterns:
+            hints.append("Persist research citations in a source-evidence manifest with provenance, allowed-use label, fiction-fact boundary, and canon promotion status.")
+        if "beta_reader_summary_context_gate" in patterns:
+            hints.append("Attach beta-reader feedback to previous chapter summaries, review style, current chapter id, and accepted/rejected revision tasks.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         if "source_entity_redaction_gate" in patterns:
@@ -5315,6 +5395,42 @@ class NovelSourceDiscoveryService:
             "Local search indexes should default to metadata-only fields such as title, logline, labels, word count, character names, hashes, and retrieval reasons.",
             "Offline-first or browser-local storage is still a privacy surface: record encryption, export, backup, deletion, and provider-call boundaries.",
             "Before prompt assembly, prove which local plaintext snippets were selected by the user or gate; metadata hits alone should not leak manuscript plaintext.",
+        ]
+
+    def _build_chapter_description_continuity_bridge_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_description_continuity_bridge_gate" not in patterns:
+            return []
+        return [
+            "Treat chapter descriptions as continuity contracts: each description cites accepted previous chapter summaries, outline slot, active character state, and unresolved hooks.",
+            "A generated chapter may elaborate the chapter description, but it must not invent bridge facts missing from accepted summaries or approved chapter-change packages.",
+            "For same-type or拆书续写, remap source chapter functions into new description contracts before drafting, rather than copying source chapter order or labels.",
+        ]
+
+    def _build_selective_streaming_regeneration_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "selective_streaming_regeneration_gate" not in patterns:
+            return []
+        return [
+            "Regeneration scope must name the specific chapter, protected neighboring chapters, affected spans, retry budget, and rollback checkpoint before text starts streaming.",
+            "Streaming output remains a draft candidate until accepted; partial stream failures must not update the rest of the manuscript or derived memory.",
+            "A specific chapter repair may refresh its local summary and change package, but it cannot overwrite other chapters or whole-book canon without a separate review gate.",
+        ]
+
+    def _build_research_citation_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "research_citation_boundary_gate" not in patterns:
+            return []
+        return [
+            "Research sources and citation styles belong in a source-evidence manifest, not in fiction canon by default.",
+            "Use cited material as factual boundary, atmosphere, or craft evidence; promote it into story state only through an accepted decision with provenance and license/posture notes.",
+            "Quality, plagiarism, and citation checks should review source leakage before publication export or same-type drafting acceptance.",
+        ]
+
+    def _build_beta_reader_summary_context_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "beta_reader_summary_context_gate" not in patterns:
+            return []
+        return [
+            "Beta-reader review must bind feedback to previous chapter summaries, current chapter id, spoiler window, and selected review style.",
+            "Separate fan, editorial, and line-note feedback from canon: feedback creates revision tasks, not automatic story facts.",
+            "If previous chapter summaries are stale, regenerate or review the summaries before asking for contextual feedback on the next chapter.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -7859,6 +7975,14 @@ class NovelSourceDiscoveryService:
             targets.append("draft_candidate_promotion_remap")
         if "privacy_preserving_local_index_gate" in patterns:
             targets.append("metadata_index_privacy_remap")
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            targets.append("chapter_description_continuity_remap")
+        if "selective_streaming_regeneration_gate" in patterns:
+            targets.append("selective_regeneration_scope_remap")
+        if "research_citation_boundary_gate" in patterns:
+            targets.append("research_source_citation_remap")
+        if "beta_reader_summary_context_gate" in patterns:
+            targets.append("beta_reader_feedback_context_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -7906,6 +8030,14 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Use metadata-only local search to find relevant project artifacts, then explicitly choose which new-story snippets may enter the prompt.")
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            hints.append("Build transformed chapter descriptions from accepted new-story summaries; source descriptions can supply function, not facts or sequence.")
+        if "selective_streaming_regeneration_gate" in patterns:
+            hints.append("For same-type repairs, regenerate only the named new-story chapter or span; do not pull source-neighbor chapters into the protected manuscript state.")
+        if "research_citation_boundary_gate" in patterns:
+            hints.append("Cited research may guide plausibility and factual boundaries, but the prompt must label it as evidence metadata rather than canon or source prose.")
+        if "beta_reader_summary_context_gate" in patterns:
+            hints.append("Run beta-reader feedback on the transformed chapter using transformed previous summaries and a declared review style.")
         if "card_workbench" in patterns:
             hints.append("Use card structure as the workbench shape, but create new card content for characters, factions, places, and hooks.")
         if "structured_generation_schema" in patterns:
@@ -8593,6 +8725,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform candidate workflows by resetting candidate ids, reviewer decisions, and memory writebacks for the new story lineage.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Transform local-index hits into metadata citations first; only author-approved new-story text can become prompt context or canon.")
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            hints.append("Transform each source chapter description into a new continuity bridge with different actors, causes, stakes, and unresolved hooks.")
+        if "selective_streaming_regeneration_gate" in patterns:
+            hints.append("Transform regeneration decisions as scoped patch plans: new chapter id, new affected spans, and protected accepted chapters.")
+        if "research_citation_boundary_gate" in patterns:
+            hints.append("Transform citations into source-evidence constraints and bibliography tasks, not into copied explanatory paragraphs or source narrative facts.")
+        if "beta_reader_summary_context_gate" in patterns:
+            hints.append("Transform beta-reader objections into local revision tasks tied to the new story's prior summaries and review tone.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -8660,6 +8800,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Reject context packs where metadata-only search results silently pull manuscript plaintext into prompts.")
+        if "chapter_description_continuity_bridge_gate" in patterns:
+            hints.append("Reject chapter descriptions that preserve source chapter order, distinctive labels, or bridge facts under renamed characters.")
+        if "selective_streaming_regeneration_gate" in patterns:
+            hints.append("Reject specific-chapter regeneration that overwrites unrelated chapters, accepted summaries, or memory state without an explicit scope review.")
+        if "research_citation_boundary_gate" in patterns:
+            hints.append("Reject drafts that treat research snippets, citations, or plagiarism-check notes as reusable prose or unreviewed fiction facts.")
+        if "beta_reader_summary_context_gate" in patterns:
+            hints.append("Reject beta-reader fixes that cite stale previous chapter summaries or convert reader preference into canon without an author decision.")
         if "anti_slop_audit" in patterns:
             hints.append("Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.")
         if "plotgrid_scene_matrix" in patterns:
@@ -9153,6 +9301,10 @@ class NovelSourceDiscoveryService:
                 "style_dna_reference_library_gate",
                 "draft_candidate_promotion_gate",
                 "privacy_preserving_local_index_gate",
+                "chapter_description_continuity_bridge_gate",
+                "selective_streaming_regeneration_gate",
+                "research_citation_boundary_gate",
+                "beta_reader_summary_context_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",

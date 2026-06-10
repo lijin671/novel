@@ -9389,3 +9389,94 @@ def test_static_local_prompt_draft_privacy_sources_map_to_workbench_gates():
     assert "style_dna_reference_library_gate_hints" in digest
     assert "draft_candidate_promotion_gate_hints" in digest
     assert "privacy_preserving_local_index_gate_hints" in digest
+
+
+def test_static_book_beta_reader_sources_map_to_context_review_and_research_gates():
+    assert "https://github.com/dlintin/sidekickwriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/gennitdev/ai-beta-reader-frontend" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/gennitdev/ai-beta-reader-backend" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wesleyscholl/book-generator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("chapter descriptions" in query.lower() and "previous chapters" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ai beta reader" in query.lower() and "previous chapter summaries" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("citation styles" in query.lower() and "research" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "dlintin/sidekickwriter",
+                "html_url": "https://github.com/dlintin/sidekickwriter",
+                "description": "AI-powered book writing platform with guided mode, pro mode, writing style selection, character development, chapter-by-chapter outline generation, chapter descriptions aware of previous chapters for continuity, full book generation, real-time streaming text, inline editing, regenerate specific chapters without losing the rest, AI research engine, web search integration, academic databases and citation styles.",
+                "stargazers_count": 106,
+                "license": None,
+                "topics": ["ai-writing", "book-writing", "novel"],
+                "updated_at": "2026-06-10T09:30:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "gennitdev/ai-beta-reader-frontend",
+                "html_url": "https://github.com/gennitdev/ai-beta-reader-frontend",
+                "description": "AI Beta Reader frontend for managing books and chapters, rich markdown editing, smart chapter summaries that track plot points, characters and key events, contextual AI reviews that use summaries of previous chapters as context, multiple review styles, sql.js local storage, Google Drive OAuth cloud sync and OpenAI review services.",
+                "stargazers_count": 3,
+                "license": None,
+                "topics": ["beta-reader", "novel", "vue"],
+                "updated_at": "2026-06-09T14:20:00Z",
+                "root_files": ["README.md", "package.json", "src", "vite.config.ts"],
+            },
+            {
+                "full_name": "gennitdev/ai-beta-reader-backend",
+                "html_url": "https://github.com/gennitdev/ai-beta-reader-backend",
+                "description": "AI Beta Reader Express REST API for getting AI-generated feedback on chapters with context from previous chapter summaries, OpenAI Responses API, Auth0 JWT, PostgreSQL database, OPENAI_API_KEY and DATABASE_URL configuration.",
+                "stargazers_count": 1,
+                "license": None,
+                "topics": ["beta-reader", "express", "openai"],
+                "updated_at": "2026-06-08T08:12:00Z",
+                "root_files": ["README.md", "package.json", ".env.example", "src"],
+            },
+            {
+                "full_name": "wesleyscholl/book-generator",
+                "html_url": "https://github.com/wesleyscholl/book-generator",
+                "description": "Autonomous book creation pipeline using shell scripts and helper tools to pick topics, generate detailed outlines, generate extend and edit chapters, run quality and plagiarism checks, assemble complete manuscript with title pages table of contents copyright pages appendices acknowledgements, and export EPUB PDF for Amazon KDP with configurable provider API keys.",
+                "stargazers_count": 84,
+                "license": None,
+                "topics": ["book-generator", "ai-writing", "publishing"],
+                "updated_at": "2026-06-09T11:45:00Z",
+                "root_files": ["README.md", "requirements.txt", "scripts/generate.sh", "scripts/publish.sh"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T23:59:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "chapter_description_continuity_bridge_gate" in candidates["dlintin/sidekickwriter"]["absorbed_patterns"]
+    assert "selective_streaming_regeneration_gate" in candidates["dlintin/sidekickwriter"]["absorbed_patterns"]
+    assert "research_citation_boundary_gate" in candidates["dlintin/sidekickwriter"]["absorbed_patterns"]
+    assert "beta_reader_summary_context_gate" in candidates["gennitdev/ai-beta-reader-frontend"]["absorbed_patterns"]
+    assert "cloud_sync_oauth_surface" in candidates["gennitdev/ai-beta-reader-frontend"]["risk_flags"]
+    assert "beta_reader_summary_context_gate" in candidates["gennitdev/ai-beta-reader-backend"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["gennitdev/ai-beta-reader-backend"]["risk_flags"]
+    assert "research_citation_boundary_gate" in candidates["wesleyscholl/book-generator"]["absorbed_patterns"]
+    assert "shell_script" in candidates["wesleyscholl/book-generator"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "chapter_description_continuity_bridge_gate_hints" in pattern_pack
+    assert "selective_streaming_regeneration_gate_hints" in pattern_pack
+    assert "research_citation_boundary_gate_hints" in pattern_pack
+    assert "beta_reader_summary_context_gate_hints" in pattern_pack
+    assert "chapter_description_contracts" in pattern_pack["bible_enrichment_targets"]
+    assert "research_citation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "beta_reader_feedback_styles" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_description_context_bridge" in pattern_pack["whole_book_analysis_targets"]
+    assert "previous_summary_review_context" in pattern_pack["whole_book_analysis_targets"]
+    assert "research_citation_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_description_continuity_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "research_source_citation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("previous chapter summaries" in hint.lower() for hint in pattern_pack["beta_reader_summary_context_gate_hints"])
+    assert any("specific chapter" in hint.lower() for hint in pattern_pack["selective_streaming_regeneration_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "chapter_description_continuity_bridge_gate_hints" in digest
+    assert "selective_streaming_regeneration_gate_hints" in digest
+    assert "research_citation_boundary_gate_hints" in digest
+    assert "beta_reader_summary_context_gate_hints" in digest
