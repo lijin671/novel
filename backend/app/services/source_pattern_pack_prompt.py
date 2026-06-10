@@ -420,6 +420,8 @@ def render_source_pattern_pack_digest(
         "style_dna_reference_library_gate_hints",
         "draft_candidate_promotion_gate_hints",
         "privacy_preserving_local_index_gate_hints",
+        "chapter_split_deconstruction_export_gate_hints",
+        "final_prompt_preview_span_revision_gate_hints",
         "chapter_description_continuity_bridge_gate_hints",
         "selective_streaming_regeneration_gate_hints",
         "research_citation_boundary_gate_hints",

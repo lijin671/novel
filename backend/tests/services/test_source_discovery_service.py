@@ -9488,6 +9488,66 @@ def test_static_local_prompt_draft_privacy_sources_map_to_workbench_gates():
     assert "privacy_preserving_local_index_gate_hints" in digest
 
 
+def test_static_ai_auto_novel_source_maps_to_splitter_prompt_preview_gates():
+    assert "https://github.com/wfcz10086/AI-automatically-generates-novels" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("智能拆书" in query and "章节分割" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("最终提示词" in query and "右键润色" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "wfcz10086/AI-automatically-generates-novels",
+                "html_url": "https://github.com/wfcz10086/AI-automatically-generates-novels",
+                "description": (
+                    "Chinese AI novel assistant with smart book decomposition, chapter splitting, "
+                    "custom拆书提示词, per-chapter analysis, export data, final prompt preview, "
+                    "right-click selected_text polishing, prompt variables, shift+L shortcut entries, "
+                    "title and summary generation, API keys, /gen and /gen2 model endpoints."
+                ),
+                "stargazers_count": 881,
+                "forks_count": 180,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["ai-writing", "novel", "prompt"],
+                "updated_at": "2025-07-01T01:34:39Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    "requirements.txt",
+                    "static/book-splitter.js",
+                    "static/prompt-editor.js",
+                    "templates/index.html",
+                ],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T13:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["wfcz10086/AI-automatically-generates-novels"]
+    assert "chapter_split_deconstruction_export_gate" in candidate["absorbed_patterns"]
+    assert "final_prompt_preview_span_revision_gate" in candidate["absorbed_patterns"]
+    assert "prompt_preset_variable_library_gate" in candidate["absorbed_patterns"]
+    assert "provider_key_surface" in candidate["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "chapter_split_deconstruction_export_gate_hints" in pattern_pack
+    assert "final_prompt_preview_span_revision_gate_hints" in pattern_pack
+    assert "chapter_splitter_prompt_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "final_prompt_preview_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_split_deconstruction_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "final_prompt_preview_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_split_deconstruction_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "final_prompt_preview_span_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("export manifest" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("approval packet" in hint.lower() for hint in pattern_pack["final_prompt_preview_span_revision_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "chapter_split_deconstruction_export_gate_hints" in digest
+    assert "final_prompt_preview_span_revision_gate_hints" in digest
+
+
 def test_static_book_beta_reader_sources_map_to_context_review_and_research_gates():
     assert "https://github.com/dlintin/sidekickwriter" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/gennitdev/ai-beta-reader-frontend" in DEFAULT_GITHUB_REPOSITORY_URLS

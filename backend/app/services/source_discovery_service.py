@@ -299,6 +299,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("YAML frontmatter" OR "continuity questions" OR "promises/payoffs") ("story bible" OR "story skills" OR "chapter drafts") in:name,description,readme',
     '("local-first story bible" OR "continuity checker" OR "evidence-backed suggestions") ("fiction" OR "novel") in:name,description,readme',
     '("chainable expert AI" OR "alignment and creativity" OR "expert modules") ("writing framework" OR "AI writing") in:name,description,readme',
+    '("智能拆书" OR "章节分割" OR "拆书提示词") ("AI" OR "小说") in:name,description,readme',
+    '("最终提示词" OR "提示词预览" OR "右键润色" OR "shift+L") ("小说" OR "写作") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -606,6 +608,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/duoyang666/ai_novel",
     "https://github.com/Deng-m1/MaliangAINovalWriter",
     "https://github.com/ponysb/91Writing",
+    "https://github.com/wfcz10086/AI-automatically-generates-novels",
     "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-",
     "https://github.com/linnnn89/novel-agent-workbench",
     "https://github.com/qnbs/StoryCraft-Studio",
@@ -916,6 +919,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("style_dna_reference_library_gate", ("style dna", "writing dna", "writing-dna", "文笔dna", "narrative dna", "拆书知识库", "reference library", "参考库", "学习和模仿", "风格模仿", "风格学习")),
     ("draft_candidate_promotion_gate", ("draft vs confirmed", "confirmed chapters", "rewrite candidates", "candidate comparison", "草稿不会自动覆盖正文", "草稿候选", "确认稿", "重写候选", "人工确认稿", "promoting only approved drafts")),
     ("privacy_preserving_local_index_gate", ("privacy-preserving index", "metadata-only", "metadata only", "never manuscript", "all data stays local", "all data is saved", "offline-first", "本地保存", "本地化数据", "数据优先保存在本机", "草稿不会自动覆盖正文")),
+    ("chapter_split_deconstruction_export_gate", ("chapter splitter", "book splitter", "chapter split", "章节分割", "拆书提示词", "全部拆书", "chapter analysis", "章节概要", "人物分析", "情节解析", "导出数据", "supported encodings", "gbk", "big5")),
+    ("final_prompt_preview_span_revision_gate", ("final prompt", "prompt preview", "最终提示词", "编辑提示词", "右键菜单操作", "selected_text", "选中文本", "右键润色", "send to ai", "replace selected text", "shift+l", "快捷词条")),
     ("chapter_description_continuity_bridge_gate", ("chapter descriptions", "chapter-by-chapter outline", "previous chapters for continuity", "awareness of all previous chapters", "previous chapters as context", "structured book", "guided mode", "pro mode")),
     ("selective_streaming_regeneration_gate", ("real-time streaming", "streaming text", "generate the entire book", "individual chapters", "regenerate specific chapters", "without losing the rest", "inline editing", "save instantly")),
     ("research_citation_boundary_gate", ("ai research engine", "web search integration", "academic databases", "citation styles", "citations are woven", "quality & plagiarism checks", "plagiarism checks", "source content")),
@@ -1455,6 +1460,12 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "StoryCraft Studio is an MIT offline-first writing studio. Public README describes IndexedDB local storage, PWA/desktop modes, story planning, character/world building, revision snapshots, "
         "template remixing, privacy-first local AI/WebLLM/ONNX/Transformers fallbacks, encrypted API keys, and cross-project search that stores lightweight metadata rather than manuscript plaintext. "
         "Pattern-only value is privacy-preserving local indexing and offline-first prompt/context boundaries; Node/Tauri/PWA/runtime assets are not installed or launched."
+    ),
+    "wfcz10086/ai-automatically-generates-novels": (
+        "AI Automatically Generates Novels is an Apache-2.0 Chinese AI novel-writing assistant. Public README and static JS describe smart book decomposition, "
+        "chapter splitting with encoding selection, per-chapter analysis prompts, exportable deconstruction data, final-prompt preview/edit before sending, "
+        "right-click selected-span polishing, prompt-variable substitution, shift+L shortcut entries, title/summary generation, and /gen plus /gen2 model endpoint surfaces. "
+        "Pattern-only value is prompt-preview approval, selected-span revision, and chapter-split deconstruction/export gates; model connectors, requirements, web runtime, and hosted demo are not launched."
     ),
     "arupmaity1/book-writer-mcp": (
         "Book Writer MCP for AI-assisted manuscript work. Public README describes story bible, style guide, continuity checker, chapter create/read/update/list/reorder, "
@@ -2878,6 +2889,8 @@ class NovelSourceDiscoveryService:
             "style_dna_reference_library_gate_hints": self._build_style_dna_reference_library_gate_hints(available_patterns),
             "draft_candidate_promotion_gate_hints": self._build_draft_candidate_promotion_gate_hints(available_patterns),
             "privacy_preserving_local_index_gate_hints": self._build_privacy_preserving_local_index_gate_hints(available_patterns),
+            "chapter_split_deconstruction_export_gate_hints": self._build_chapter_split_deconstruction_export_gate_hints(available_patterns),
+            "final_prompt_preview_span_revision_gate_hints": self._build_final_prompt_preview_span_revision_gate_hints(available_patterns),
             "chapter_description_continuity_bridge_gate_hints": self._build_chapter_description_continuity_bridge_gate_hints(available_patterns),
             "selective_streaming_regeneration_gate_hints": self._build_selective_streaming_regeneration_gate_hints(available_patterns),
             "research_citation_boundary_gate_hints": self._build_research_citation_boundary_gate_hints(available_patterns),
@@ -3833,6 +3846,8 @@ class NovelSourceDiscoveryService:
             "style_dna_reference_library_gate": 67,
             "draft_candidate_promotion_gate": 69,
             "privacy_preserving_local_index_gate": 64,
+            "chapter_split_deconstruction_export_gate": 67,
+            "final_prompt_preview_span_revision_gate": 66,
             "chapter_description_continuity_bridge_gate": 67,
             "selective_streaming_regeneration_gate": 65,
             "research_citation_boundary_gate": 66,
@@ -3995,6 +4010,12 @@ class NovelSourceDiscoveryService:
         if "privacy_preserving_local_index_gate" in patterns:
             targets.append("local_index_privacy_policy")
             targets.append("metadata_only_search_scope")
+        if "chapter_split_deconstruction_export_gate" in patterns:
+            targets.append("chapter_splitter_prompt_policy")
+            targets.append("per_chapter_deconstruction_schema")
+        if "final_prompt_preview_span_revision_gate" in patterns:
+            targets.append("final_prompt_preview_policy")
+            targets.append("selected_span_revision_policy")
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.append("chapter_description_contracts")
             targets.append("previous_chapter_summary_policy")
@@ -5480,6 +5501,10 @@ class NovelSourceDiscoveryService:
             targets.extend(["draft_review_rewrite_candidates", "candidate_comparison_log", "confirmed_chapter_acceptance_log"])
         if "privacy_preserving_local_index_gate" in patterns:
             targets.extend(["local_metadata_index_manifest", "privacy_search_fields", "plaintext_exclusion_checks"])
+        if "chapter_split_deconstruction_export_gate" in patterns:
+            targets.extend(["chapter_split_deconstruction_manifest", "per_chapter_analysis_progress", "deconstruction_export_checksum"])
+        if "final_prompt_preview_span_revision_gate" in patterns:
+            targets.extend(["final_prompt_preview_audit", "selected_span_revision_preview", "quick_snippet_usage_report"])
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.extend(["chapter_description_context_bridge", "previous_chapter_summary_trace", "description_to_draft_continuity_checks"])
         if "selective_streaming_regeneration_gate" in patterns:
@@ -5689,6 +5714,10 @@ class NovelSourceDiscoveryService:
             hints.append("Generate continuation as a draft candidate first; review, compare, and promote only after the author or acceptance gate confirms it.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Retrieve local search context through metadata-scoped manifests; prompts should name included fields and exclude plaintext that was not explicitly selected.")
+        if "chapter_split_deconstruction_export_gate" in patterns:
+            hints.append("For拆书续写, select an explicit chapter split, analysis row, and export manifest before drafting; do not infer source order from raw TXT residue.")
+        if "final_prompt_preview_span_revision_gate" in patterns:
+            hints.append("Preview the resolved final prompt, variables, operation type, and selected span before sending; author edits to the prompt are part of the generation record.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("章节描述只能承接已接受的前文摘要、章节变化包和当前大纲，不用未验收草稿补连续性。")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -5916,6 +5945,10 @@ class NovelSourceDiscoveryService:
             hints.append("Keep draft, review, rewrite candidate, rejected, and confirmed chapter states separate so rejected prose cannot update memory.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Local indexes should store metadata, hashes, labels, and retrieval reasons; manuscript plaintext stays in explicit project artifacts.")
+        if "chapter_split_deconstruction_export_gate" in patterns:
+            hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
+        if "final_prompt_preview_span_revision_gate" in patterns:
+            hints.append("Persist final prompt preview text, resolved variables, selected-span id, author edits, send decision, and replacement target for every local revision.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Persist chapter-description contracts with accepted prior-summary ids, outline slot, continuity assumptions, and reviewer decision.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -6240,6 +6273,24 @@ class NovelSourceDiscoveryService:
             "Local search indexes should default to metadata-only fields such as title, logline, labels, word count, character names, hashes, and retrieval reasons.",
             "Offline-first or browser-local storage is still a privacy surface: record encryption, export, backup, deletion, and provider-call boundaries.",
             "Before prompt assembly, prove which local plaintext snippets were selected by the user or gate; metadata hits alone should not leak manuscript plaintext.",
+        ]
+
+    def _build_chapter_split_deconstruction_export_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_split_deconstruction_export_gate" not in patterns:
+            return []
+        return [
+            "A拆书 splitter should record encoding, chapter title regex, chapter id, original span, analysis status, retry count, prompt version, and export checksum.",
+            "Per-chapter analysis should separate summary, characters, relationship changes, key scenes, turns, themes, foreshadowing, and writing-technique notes before any continuation uses it.",
+            "Exported拆书 data is an analysis artifact, not canon; promote only reviewed findings into bible, outline, or continuation context.",
+        ]
+
+    def _build_final_prompt_preview_span_revision_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "final_prompt_preview_span_revision_gate" not in patterns:
+            return []
+        return [
+            "Before provider calls, show operation type, selected span, prompt template, resolved variables, and editable final prompt as a human-visible approval packet.",
+            "Right-click or selected-span revisions should preview generated replacement text and merge only into the named span, not the whole chapter or story state.",
+            "Shortcut entries such as shift+L should resolve to named snippet ids with provenance and scope so boilerplate cannot hide source text or unsafe instructions.",
         ]
 
     def _build_chapter_description_continuity_bridge_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9383,6 +9434,10 @@ class NovelSourceDiscoveryService:
             targets.append("draft_candidate_promotion_remap")
         if "privacy_preserving_local_index_gate" in patterns:
             targets.append("metadata_index_privacy_remap")
+        if "chapter_split_deconstruction_export_gate" in patterns:
+            targets.append("chapter_split_deconstruction_remap")
+        if "final_prompt_preview_span_revision_gate" in patterns:
+            targets.append("final_prompt_preview_span_remap")
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.append("chapter_description_continuity_remap")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -9507,6 +9562,10 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Use metadata-only local search to find relevant project artifacts, then explicitly choose which new-story snippets may enter the prompt.")
+        if "chapter_split_deconstruction_export_gate" in patterns:
+            hints.append("Use拆书 exports as function cards only; select which abstract scene function, turn, or technique enters the new prompt.")
+        if "final_prompt_preview_span_revision_gate" in patterns:
+            hints.append("For same-type work, expose transformed variable values and selected-span scope in the final prompt preview before generation.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Build transformed chapter descriptions from accepted new-story summaries; source descriptions can supply function, not facts or sequence.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -10276,6 +10335,10 @@ class NovelSourceDiscoveryService:
             hints.append("Transform candidate workflows by resetting candidate ids, reviewer decisions, and memory writebacks for the new story lineage.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Transform local-index hits into metadata citations first; only author-approved new-story text can become prompt context or canon.")
+        if "chapter_split_deconstruction_export_gate" in patterns:
+            hints.append("Transform split-source chapter analyses into new chapter-function cards with changed cast, causes, stakes, hook order, and payoff owners.")
+        if "final_prompt_preview_span_revision_gate" in patterns:
+            hints.append("Transform quick snippets and preview prompts into new-story wording; template structure may remain, but source variables and selected text must change.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Transform each source chapter description into a new continuity bridge with different actors, causes, stakes, and unresolved hooks.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -10387,6 +10450,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Reject context packs where metadata-only search results silently pull manuscript plaintext into prompts.")
+        if "chapter_split_deconstruction_export_gate" in patterns:
+            hints.append("Reject same-type drafts that preserve source split order, chapter titles, scene sequence, or analysis phrasing as new-story authority.")
+        if "final_prompt_preview_span_revision_gate" in patterns:
+            hints.append("Reject outputs where the final prompt preview hides copied source text, unsafe provider instructions, or an unscoped selected-span replacement.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Reject chapter descriptions that preserve source chapter order, distinctive labels, or bridge facts under renamed characters.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -10954,6 +11021,8 @@ class NovelSourceDiscoveryService:
                 "style_dna_reference_library_gate",
                 "draft_candidate_promotion_gate",
                 "privacy_preserving_local_index_gate",
+                "chapter_split_deconstruction_export_gate",
+                "final_prompt_preview_span_revision_gate",
                 "chapter_description_continuity_bridge_gate",
                 "selective_streaming_regeneration_gate",
                 "research_citation_boundary_gate",

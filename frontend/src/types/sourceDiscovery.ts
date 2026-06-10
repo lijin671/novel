@@ -187,6 +187,8 @@ export interface SourceDiscoveryPatternPack {
   toc_aware_source_deconstruction_hints?: string[];
   two_pass_context_glossary_pipeline_hints?: string[];
   inline_author_edit_markup_versioning_hints?: string[];
+  chapter_split_deconstruction_export_gate_hints?: string[];
+  final_prompt_preview_span_revision_gate_hints?: string[];
   long_term_author_preference_memory_hints?: string[];
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];
