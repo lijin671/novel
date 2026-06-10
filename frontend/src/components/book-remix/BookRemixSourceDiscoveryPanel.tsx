@@ -87,6 +87,11 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/yangkevin2/emnlp22-re3-story-generation',
   'https://github.com/LC1332/Chat-Haruhi-Suzumiya',
   'https://github.com/rajammanabrolu/StoryRealization',
+  'https://github.com/gratajik/book-memory-bank',
+  'https://github.com/adaumann/speckit-preset-fiction-book-writing',
+  'https://github.com/danngalann/llm-ebook-summarizer',
+  'https://github.com/darkautism/ai-novel-translation',
+  'https://github.com/lordjabez/story-framework',
   'https://github.com/google-deepmind/narrativeqa',
   'https://github.com/salesforce/booksum',
   'https://github.com/uci-soe/FairytaleQAData',
@@ -195,6 +200,11 @@ const PINNED_HINT_KEYS = new Set([
   'reranker_guided_candidate_selection_hints',
   'event_to_sentence_realization_trace_hints',
   'entity_memory_slotfill_grounding_hints',
+  'book_memory_bank_context_lattice_hints',
+  'spec_driven_fiction_scene_tasks_hints',
+  'toc_aware_source_deconstruction_hints',
+  'two_pass_context_glossary_pipeline_hints',
+  'inline_author_edit_markup_versioning_hints',
   'reader_reward_channel_gate_hints',
   'tri_modal_workflow_validation_gate_hints',
   'scene_promise_mob_review_gate_hints',
@@ -497,6 +507,13 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Reranker-guided candidate selection gates', patternPackPayload?.reranker_guided_candidate_selection_hints],
               ['Event-to-sentence realization trace gates', patternPackPayload?.event_to_sentence_realization_trace_hints],
               ['Entity memory slotfill grounding gates', patternPackPayload?.entity_memory_slotfill_grounding_hints],
+            ])}
+            {renderHintGroup('Source deconstruction / memory glossary gates', [
+              ['Book memory-bank context lattice gates', patternPackPayload?.book_memory_bank_context_lattice_hints],
+              ['Spec-driven fiction scene task gates', patternPackPayload?.spec_driven_fiction_scene_tasks_hints],
+              ['TOC-aware source deconstruction gates', patternPackPayload?.toc_aware_source_deconstruction_hints],
+              ['Two-pass context glossary pipeline gates', patternPackPayload?.two_pass_context_glossary_pipeline_hints],
+              ['Inline author edit markup versioning gates', patternPackPayload?.inline_author_edit_markup_versioning_hints],
             ])}
             {renderHintGroup('Reader reward / tri-modal audit gates', [
               ['Reader reward channel gates', patternPackPayload?.reader_reward_channel_gate_hints],

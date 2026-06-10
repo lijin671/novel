@@ -653,3 +653,71 @@ co-writing gates only. They do not authorize package installation, benchmark
 execution, notebook/script runs, model/provider calls, dataset import, external
 runtime launch, role-play service launch, or copying source prose/persona text
 into prompts.
+
+## Source deconstruction / memory glossary addendum - 2026-06-10
+
+This addendum records a public GitHub HEAD + raw README static-review pass for
+source-book deconstruction, persistent writing memory, spec-driven fiction
+tasks, TOC-aware ebook notes, cumulative glossary pipelines, and inline author
+edit markup. No external project was cloned, installed, built, launched, or
+executed. Scratch evidence was saved under
+`tmp/source-intake-source-deconstruction-memory-2026-06-10` only.
+
+### Reviewed sources
+
+- `gratajik/book-memory-bank`
+  - URL: `https://github.com/gratajik/book-memory-bank`
+  - observed HEAD: `5a1df67c70219dbd76a92eaf8aa5004592aed680`
+  - static evidence: README
+  - absorbed pattern: `book_memory_bank_context_lattice`
+  - reusable lesson: 拆书/续写 context should be split into project brief, story structure, world/character notes, active context, and progress instead of relying on stateless chat memory.
+  - runtime exclusion: Cline automation, prompt execution, file-agent updates, and any assistant runtime are not used.
+
+- `adaumann/speckit-preset-fiction-book-writing`
+  - URL: `https://github.com/adaumann/speckit-preset-fiction-book-writing`
+  - observed HEAD: `c31b629ef8c733eb4e3af8643a5761ee9328fec0`
+  - static evidence: README
+  - absorbed pattern: `spec_driven_fiction_scene_tasks`
+  - reusable lesson: same-type writing should convert story briefs into governed scene tasks with constitution, POV, plot structure, glossary, and quality gates before drafting.
+  - runtime exclusion: Spec Kit workflow runtime, template execution, package tooling, and provider calls are not used.
+
+- `danngalann/llm-ebook-summarizer`
+  - URL: `https://github.com/danngalann/llm-ebook-summarizer`
+  - observed HEAD: `d0b2c1332b9439b3c6cb40192a9f82024cdef16d`
+  - static evidence: README
+  - absorbed pattern: `toc_aware_source_deconstruction`
+  - reusable lesson: source-book notes should preserve TOC hierarchy, nested chapters, parent section introductions, quotes, anecdotes, and rejected boundaries as deconstruction evidence.
+  - runtime exclusion: EPUB/PDF parsing, summarizer calls, script execution, package install, and model calls are not used.
+
+- `darkautism/ai-novel-translation`
+  - URL: `https://github.com/darkautism/ai-novel-translation`
+  - observed HEAD: `5bc73d4b33a54deea348e8d170832f4be79a37cf`
+  - static evidence: README
+  - absorbed pattern: `two_pass_context_glossary_pipeline`
+  - reusable lesson: chapter ingestion should run an analysis pass for summary and term extraction, then use previous summary plus cumulative glossary for transformed context.
+  - runtime exclusion: Rust build, config execution, chapter translation, provider calls, and glossary file mutation are not used.
+
+- `lordjabez/story-framework`
+  - URL: `https://github.com/lordjabez/story-framework`
+  - observed HEAD: `56cdb2ccc4161e9ec24823e95225a5b922c97e81`
+  - static evidence: README
+  - absorbed pattern: `inline_author_edit_markup_versioning`
+  - reusable lesson: author notes, edit markers, continuity facts, timeline files, and git milestone tags should remain reviewer-visible state instead of being silently folded into final prose.
+  - runtime exclusion: git tag mutation, draft processing, assistant edit-note execution, and repository workflow commands are not used.
+
+### Local projection
+
+The source discovery panel now pins these prompt-safe fields instead of leaving
+them only in the dynamic fallback group:
+
+- `book_memory_bank_context_lattice_hints`
+- `spec_driven_fiction_scene_tasks_hints`
+- `toc_aware_source_deconstruction_hints`
+- `two_pass_context_glossary_pipeline_hints`
+- `inline_author_edit_markup_versioning_hints`
+
+These fields are static source-derived deconstruction, memory, glossary, and
+edit-review gates only. They do not authorize package installation,
+EPUB/PDF/translation execution, prompt/provider calls, assistant runtime launch,
+git tag creation, external project workflow execution, or treating source
+analysis notes as transformed-story canon.

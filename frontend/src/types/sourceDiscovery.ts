@@ -140,6 +140,11 @@ export interface SourceDiscoveryPatternPack {
   reranker_guided_candidate_selection_hints?: string[];
   event_to_sentence_realization_trace_hints?: string[];
   entity_memory_slotfill_grounding_hints?: string[];
+  book_memory_bank_context_lattice_hints?: string[];
+  spec_driven_fiction_scene_tasks_hints?: string[];
+  toc_aware_source_deconstruction_hints?: string[];
+  two_pass_context_glossary_pipeline_hints?: string[];
+  inline_author_edit_markup_versioning_hints?: string[];
   reader_reward_channel_gate_hints?: string[];
   tri_modal_workflow_validation_gate_hints?: string[];
   scene_promise_mob_review_gate_hints?: string[];

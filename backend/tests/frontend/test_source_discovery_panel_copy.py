@@ -81,6 +81,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "reranker_guided_candidate_selection_hints",
             "event_to_sentence_realization_trace_hints",
             "entity_memory_slotfill_grounding_hints",
+            "book_memory_bank_context_lattice_hints",
+            "spec_driven_fiction_scene_tasks_hints",
+            "toc_aware_source_deconstruction_hints",
+            "two_pass_context_glossary_pipeline_hints",
+            "inline_author_edit_markup_versioning_hints",
             "reader_reward_channel_gate_hints",
             "tri_modal_workflow_validation_gate_hints",
             "scene_promise_mob_review_gate_hints",
@@ -169,6 +174,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Reranker-guided candidate selection gates" in panel_text
     assert "Event-to-sentence realization trace gates" in panel_text
     assert "Entity memory slotfill grounding gates" in panel_text
+    assert "Source deconstruction / memory glossary gates" in panel_text
+    assert "Book memory-bank context lattice gates" in panel_text
+    assert "Spec-driven fiction scene task gates" in panel_text
+    assert "TOC-aware source deconstruction gates" in panel_text
+    assert "Two-pass context glossary pipeline gates" in panel_text
+    assert "Inline author edit markup versioning gates" in panel_text
     assert "Reader reward / tri-modal audit gates" in panel_text
     assert "Reader reward channel gates" in panel_text
     assert "Tri-modal workflow validation gates" in panel_text
@@ -344,6 +355,21 @@ def test_source_discovery_panel_default_seeds_include_longform_eval_and_cowritin
         "yangkevin2/emnlp22-re3-story-generation",
         "LC1332/Chat-Haruhi-Suzumiya",
         "rajammanabrolu/StoryRealization",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_source_deconstruction_memory_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "gratajik/book-memory-bank",
+        "adaumann/speckit-preset-fiction-book-writing",
+        "danngalann/llm-ebook-summarizer",
+        "darkautism/ai-novel-translation",
+        "lordjabez/story-framework",
     ):
         assert repo in panel_text
 
