@@ -527,3 +527,129 @@ The source discovery panel now pins these prompt-safe fields instead of leaving 
 - `toc_navigation_consistency_gate_hints`
 
 These fields are static source-derived import and publication gates only. They do not authorize package installation, document conversion, OCR execution, PDF/EPUB parsing, validator runs, desktop app launch, native build, external API calls, provider calls, or importing source prose into prompts without the existing rights and entity-leakage gates.
+
+## Longform generation / benchmark / co-writing addendum - 2026-06-10
+
+This addendum records a public GitHub HEAD + raw README static-review pass for
+ultra-long writing, reward/ruler gates, creative-writing benchmarks, human story
+metrics, co-writing scaffolds, recursive revision, persona/dialogue memory, and
+event-to-sentence realization. No external project was cloned, installed, built,
+launched, or executed. Scratch evidence was saved under
+`tmp/source-intake-longform-eval-cowriting-2026-06-10` only.
+
+### Reviewed sources
+
+- `THUDM/LongWriter`
+  - URL: `https://github.com/THUDM/LongWriter`
+  - observed HEAD: `447539b356a8b09760b51eca876e19b6fc1f2dd7`
+  - static evidence: README
+  - absorbed patterns: `agentwrite_plan_write_pipeline`, `long_output_length_quality_ruler`
+  - reusable lesson: 长篇续写 should separate planning artifacts from writing artifacts, then score length, completeness, and long-output quality before accepting a batch.
+  - runtime exclusion: Python package install, model scripts, data construction, and evaluation runs are not executed.
+
+- `THUDM/LongReward`
+  - URL: `https://github.com/THUDM/LongReward`
+  - observed HEAD: `c56577876cff75a963c90b3551df952f095b4c06`
+  - static evidence: README
+  - absorbed pattern: `long_context_reward_dimension_gate`
+  - reusable lesson: long-context chapters need separate helpfulness, logicality, faithfulness, and completeness checks rather than one opaque quality score.
+  - runtime exclusion: scorer runtime, package install, model loading, and benchmark execution are not used.
+
+- `THU-KEG/LongWriter-V`
+  - URL: `https://github.com/THU-KEG/LongWriter-V`
+  - observed HEAD: `ea87eb2af54731375f1384c5fbb961fc1e860820`
+  - static evidence: README
+  - absorbed patterns: `agentwrite_plan_write_pipeline`, `long_output_length_quality_ruler`
+  - reusable lesson: multimodal/long-output writing should preserve outline, chapter plan, and ruler evidence as review artifacts before prose enters续写 context.
+  - runtime exclusion: VLM agents, package install, model calls, and evaluation scripts are not executed.
+
+- `X-PLUG/WritingBench`
+  - URL: `https://github.com/X-PLUG/WritingBench`
+  - observed HEAD: `ae2d5176449b7b769815482641d35926f26793eb`
+  - static evidence: README
+  - absorbed patterns: `instance_specific_writing_criteria_gate`, `material_grounded_query_refinement`
+  - reusable lesson: 仿写/续写 review should attach per-instance criteria and material-grounded requirement notes, not reuse a generic scoring rubric for every book.
+  - runtime exclusion: benchmark data generation, prompt scripts, model calls, and package install are not executed.
+
+- `EQ-bench/creative-writing-bench`
+  - URL: `https://github.com/EQ-bench/creative-writing-bench`
+  - observed HEAD: `13fc250dbff26317d9367601002906e8bb096c09`
+  - static evidence: README
+  - absorbed patterns: `hybrid_rubric_pairwise_elo_judge`, `judge_bias_mitigation_check`
+  - reusable lesson: creative-writing judges need hybrid rubric plus pairwise comparison evidence, with explicit bias checks for length, order, verbosity, and incoherent flourish.
+  - runtime exclusion: pairwise judge runtime, scoring scripts, package install, and model calls are not used.
+
+- `EQ-bench/longform-writing-bench`
+  - URL: `https://github.com/EQ-bench/longform-writing-bench`
+  - observed HEAD: `34f60a028c3f973c19cde98dc5a9e8f9875a87e3`
+  - static evidence: README
+  - absorbed pattern: `plan_reflect_character_chapter_pipeline`
+  - reusable lesson: longform review should preserve brainstorm, plan, reflection, character profile, chapter output, and consistency checks as one traceable pipeline.
+  - runtime exclusion: benchmark execution, prompt execution, package install, and model calls are not used.
+
+- `dig-team/hanna-benchmark-asg`
+  - URL: `https://github.com/dig-team/hanna-benchmark-asg`
+  - observed HEAD: `282f27536a5d05ad4ce14298abcd70c45668fed2`
+  - static evidence: README
+  - absorbed pattern: `human_story_metric_panel`
+  - reusable lesson: generated-story review should expose relevance, coherence, empathy, surprise, engagement, and complexity as separate human-facing metrics.
+  - runtime exclusion: dataset import, metric execution, package install, and model scoring are not used.
+
+- `google-deepmind/dramatron`
+  - URL: `https://github.com/google-deepmind/dramatron`
+  - observed HEAD: `2e7c36afadacf8321b77a468940024371b7a8c7a`
+  - static evidence: README
+  - absorbed patterns: `hierarchical_cowriting_story_scaffold`, `human_coauthor_edit_boundary`
+  - reusable lesson: co-writing workflows should decompose logline, characters, plot points, locations, and dialogue while keeping human edits as first-class boundary decisions.
+  - runtime exclusion: Colab/runtime launch, scripts, provider calls, and package install are not used.
+
+- `yangkevin2/emnlp22-re3-story-generation`
+  - URL: `https://github.com/yangkevin2/emnlp22-re3-story-generation`
+  - observed HEAD: `3a97ebde04e3333962c2825146897efe1dc87dd8`
+  - static evidence: README
+  - absorbed patterns: `recursive_reprompt_revision_loop`, `reranker_guided_candidate_selection`
+  - reusable lesson: long-story generation benefits from plan, draft, rewrite, edit, and rerank stages, but each loop needs a replayable revision trace before replacing accepted text.
+  - runtime exclusion: notebooks, scripts, dependencies, model calls, and reranker execution are not used.
+
+- `LC1332/Chat-Haruhi-Suzumiya`
+  - URL: `https://github.com/LC1332/Chat-Haruhi-Suzumiya`
+  - observed HEAD: `290bf4ad22076156083804013012847a77c0646c`
+  - static evidence: README
+  - absorbed pattern: `character_dialogue_persona_memory`
+  - reusable lesson: character voice should be represented as bounded persona/dialogue memory and evidence notes, not as direct copying of source character prose.
+  - runtime exclusion: dataset import, notebooks, package install, role-play runtime, and model calls are not used.
+
+- `rajammanabrolu/StoryRealization`
+  - URL: `https://github.com/rajammanabrolu/StoryRealization`
+  - observed HEAD: `c01253d42d88783ea5899c68134f442d00b65183`
+  - static evidence: README
+  - absorbed patterns: `event_to_sentence_realization_trace`, `entity_memory_slotfill_grounding`
+  - reusable lesson: event expansion should keep event creation, slot filling, entity memory, confidence, and sentence realization evidence separate from final prose.
+  - runtime exclusion: model/runtime scripts, data import, package install, and ensemble execution are not used.
+
+### Local projection
+
+The source discovery panel now pins these prompt-safe fields instead of leaving
+them only in the dynamic fallback group:
+
+- `agentwrite_plan_write_pipeline_hints`
+- `long_output_length_quality_ruler_hints`
+- `long_context_reward_dimension_gate_hints`
+- `instance_specific_writing_criteria_gate_hints`
+- `material_grounded_query_refinement_hints`
+- `hybrid_rubric_pairwise_elo_judge_hints`
+- `judge_bias_mitigation_check_hints`
+- `plan_reflect_character_chapter_pipeline_hints`
+- `human_story_metric_panel_hints`
+- `hierarchical_cowriting_story_scaffold_hints`
+- `human_coauthor_edit_boundary_hints`
+- `recursive_reprompt_revision_loop_hints`
+- `reranker_guided_candidate_selection_hints`
+- `event_to_sentence_realization_trace_hints`
+- `entity_memory_slotfill_grounding_hints`
+
+These fields are static source-derived planning, reward, benchmark, and
+co-writing gates only. They do not authorize package installation, benchmark
+execution, notebook/script runs, model/provider calls, dataset import, external
+runtime launch, role-play service launch, or copying source prose/persona text
+into prompts.

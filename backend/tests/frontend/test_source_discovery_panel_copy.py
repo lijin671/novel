@@ -66,6 +66,21 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "book_mining_genesis_automation_gate_hints",
             "multi_book_autopilot_studio_gate_hints",
             "longrun_commit_projection_health_gate_hints",
+            "agentwrite_plan_write_pipeline_hints",
+            "long_output_length_quality_ruler_hints",
+            "long_context_reward_dimension_gate_hints",
+            "instance_specific_writing_criteria_gate_hints",
+            "material_grounded_query_refinement_hints",
+            "hybrid_rubric_pairwise_elo_judge_hints",
+            "judge_bias_mitigation_check_hints",
+            "plan_reflect_character_chapter_pipeline_hints",
+            "human_story_metric_panel_hints",
+            "hierarchical_cowriting_story_scaffold_hints",
+            "human_coauthor_edit_boundary_hints",
+            "recursive_reprompt_revision_loop_hints",
+            "reranker_guided_candidate_selection_hints",
+            "event_to_sentence_realization_trace_hints",
+            "entity_memory_slotfill_grounding_hints",
             "reader_reward_channel_gate_hints",
             "tri_modal_workflow_validation_gate_hints",
             "scene_promise_mob_review_gate_hints",
@@ -136,6 +151,24 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Book mining genesis automation gates" in panel_text
     assert "Multi-book autopilot studio gates" in panel_text
     assert "Longrun commit projection health gates" in panel_text
+    assert "Long-output planning / reward gates" in panel_text
+    assert "AgentWrite plan-write pipeline gates" in panel_text
+    assert "Long-output length quality ruler gates" in panel_text
+    assert "Long-context reward dimension gates" in panel_text
+    assert "Writing benchmark / judge gates" in panel_text
+    assert "Instance-specific writing criteria gates" in panel_text
+    assert "Material-grounded query refinement gates" in panel_text
+    assert "Hybrid rubric pairwise Elo judge gates" in panel_text
+    assert "Judge bias mitigation checks" in panel_text
+    assert "Plan-reflect character chapter pipeline gates" in panel_text
+    assert "Human story metric panel gates" in panel_text
+    assert "Co-writing / recursive revision gates" in panel_text
+    assert "Hierarchical co-writing story scaffold gates" in panel_text
+    assert "Human coauthor edit boundaries" in panel_text
+    assert "Recursive reprompt revision loop gates" in panel_text
+    assert "Reranker-guided candidate selection gates" in panel_text
+    assert "Event-to-sentence realization trace gates" in panel_text
+    assert "Entity memory slotfill grounding gates" in panel_text
     assert "Reader reward / tri-modal audit gates" in panel_text
     assert "Reader reward channel gates" in panel_text
     assert "Tri-modal workflow validation gates" in panel_text
@@ -290,6 +323,27 @@ def test_source_discovery_panel_default_seeds_include_source_import_and_ebook_so
         "Sigil-Ebook/Sigil",
         "w3c/epub-tests",
         "daisy/epub-accessibility-tests",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_longform_eval_and_cowriting_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "THUDM/LongWriter",
+        "THUDM/LongReward",
+        "THU-KEG/LongWriter-V",
+        "X-PLUG/WritingBench",
+        "EQ-bench/creative-writing-bench",
+        "EQ-bench/longform-writing-bench",
+        "dig-team/hanna-benchmark-asg",
+        "google-deepmind/dramatron",
+        "yangkevin2/emnlp22-re3-story-generation",
+        "LC1332/Chat-Haruhi-Suzumiya",
+        "rajammanabrolu/StoryRealization",
     ):
         assert repo in panel_text
 
