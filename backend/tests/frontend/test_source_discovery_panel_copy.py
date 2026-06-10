@@ -78,6 +78,14 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "causal_why_explanation_gate_hints",
             "story_commonsense_consistency_gate_hints",
             "query_focused_long_summary_gate_hints",
+            "source_license_detection_gate_hints",
+            "spdx_reuse_compliance_gate_hints",
+            "public_domain_corpus_boundary_hints",
+            "attribution_derivative_work_gate_hints",
+            "source_entity_redaction_gate_hints",
+            "custom_entity_label_inventory_hints",
+            "placeholder_alias_consistency_map_hints",
+            "proper_noun_leakage_review_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -134,6 +142,16 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Causal why-explanation gates" in panel_text
     assert "Story commonsense consistency gates" in panel_text
     assert "Query-focused long-summary gates" in panel_text
+    assert "Rights / corpus admission gates" in panel_text
+    assert "Source license detection gates" in panel_text
+    assert "SPDX / REUSE compliance gates" in panel_text
+    assert "Public-domain corpus boundaries" in panel_text
+    assert "Attribution / derivative-work gates" in panel_text
+    assert "Entity redaction / leakage gates" in panel_text
+    assert "Source entity redaction gates" in panel_text
+    assert "Custom fiction entity label inventories" in panel_text
+    assert "Placeholder alias consistency maps" in panel_text
+    assert "Proper-noun leakage reviews" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -210,6 +228,25 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "StonyBrookNLP/tellmewhy",
         "uwnlp/storycommonsense",
         "nyu-mll/SQuALITY",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_rights_and_entity_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "licensee/licensee",
+        "fsfe/reuse-tool",
+        "spdx/license-list-data",
+        "c-w/Gutenberg",
+        "Imkun-on/gutenberg-corpus-cli",
+        "microsoft/presidio",
+        "LeapBeyond/scrubadub",
+        "urchade/GLiNER",
+        "explosion/spaCy",
     ):
         assert repo in panel_text
 

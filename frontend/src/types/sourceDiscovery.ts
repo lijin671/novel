@@ -137,6 +137,14 @@ export interface SourceDiscoveryPatternPack {
   causal_why_explanation_gate_hints?: string[];
   story_commonsense_consistency_gate_hints?: string[];
   query_focused_long_summary_gate_hints?: string[];
+  source_license_detection_gate_hints?: string[];
+  spdx_reuse_compliance_gate_hints?: string[];
+  public_domain_corpus_boundary_hints?: string[];
+  attribution_derivative_work_gate_hints?: string[];
+  source_entity_redaction_gate_hints?: string[];
+  custom_entity_label_inventory_hints?: string[];
+  placeholder_alias_consistency_map_hints?: string[];
+  proper_noun_leakage_review_hints?: string[];
   safety_constraints?: string[];
 }
 

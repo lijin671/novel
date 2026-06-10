@@ -299,3 +299,105 @@ The pattern pack now exposes these additional prompt-safe hint fields:
 - `query_focused_long_summary_gate_hints`
 
 These fields are static source-derived gates only. They do not authorize any upstream dataset download, script execution, model training/evaluation, package installation, provider call, browser/desktop control, or external account mutation.
+
+## Rights / corpus / entity leakage addendum - 2026-06-10
+
+This addendum records a public GitHub HEAD + raw README/LICENSE static-review pass for source rights admission, SPDX / REUSE metadata, public-domain corpus boundaries, entity redaction, custom NER labels, placeholder consistency, and proper-noun leakage review. No external project was cloned, installed, built, launched, or executed. Scratch evidence was saved under `tmp/source-intake-rights-entity-2026-06-10` only.
+
+### Reviewed sources
+
+- `licensee/licensee`
+  - URL: `https://github.com/licensee/licensee`
+  - observed HEAD: `dad4bb434b80a3d86bf9660f0db0e622a4d5d087`
+  - license: MIT
+  - static evidence: LICENSE metadata and public repository metadata
+  - absorbed pattern: `source_license_detection_gate`
+  - reusable lesson: source-book import,拆书,续写, and同类型仿写 need a license confidence record before any long source text enters prompts.
+  - runtime exclusion: Ruby gems, package install, license scanner execution, and repository scan commands are not executed.
+
+- `fsfe/reuse-tool`
+  - URL: `https://github.com/fsfe/reuse-tool`
+  - observed HEAD: `20e2e152790022891d67f1074c6dbce0494ad7cd`
+  - license: Apache-2.0
+  - static evidence: README
+  - absorbed pattern: `spdx_reuse_compliance_gate`
+  - reusable lesson: SPDX ids and file-level copyright/attribution fields belong in a source manifest, not inside prose-generation prompts.
+  - runtime exclusion: Python package install, REUSE command execution, and repository linting are not executed.
+
+- `spdx/license-list-data`
+  - URL: `https://github.com/spdx/license-list-data`
+  - observed HEAD: `421fbabbe80c94c58c12316af1bc6a2dca2362bc`
+  - license: no license detected from static README/LICENSE fetch
+  - static evidence: README
+  - absorbed patterns: `spdx_reuse_compliance_gate`, `attribution_derivative_work_gate`
+  - reusable lesson: normalize source rights to stable license ids and keep attribution / derivative-use review as an admission gate before同类型仿写.
+  - runtime exclusion: generated license data tooling, build scripts, and package workflows are not executed.
+
+- `c-w/Gutenberg`
+  - URL: `https://github.com/c-w/Gutenberg`
+  - observed HEAD: `123d13435b31a39f6fda3c4df2976a40f74633a1`
+  - license: Apache-2.0
+  - static evidence: README, LICENSE
+  - absorbed pattern: `public_domain_corpus_boundary`
+  - reusable lesson: public-domain metadata still needs title, author, edition/source URL, observed date, extraction format, and jurisdiction notes before it can feed拆书.
+  - runtime exclusion: corpus parsing, downloads, and API/client code are not executed.
+
+- `Imkun-on/gutenberg-corpus-cli`
+  - URL: `https://github.com/Imkun-on/gutenberg-corpus-cli`
+  - observed HEAD: `8bf8ca7260a0a3c1c233a30eb629771beea9639e`
+  - license: MIT
+  - static evidence: README, LICENSE
+  - absorbed pattern: `public_domain_corpus_boundary`
+  - reusable lesson: corpus downloader output is not drafting context by default; downloader use needs a separate runtime and rights review gate.
+  - runtime exclusion: CLI install, text downloads, full-text search build, parallel download jobs, and corpus generation are not executed.
+
+- `microsoft/presidio`
+  - URL: `https://github.com/microsoft/presidio`
+  - observed HEAD: `83ab7eb85609c49d9b0b17c44b5c025575966876`
+  - license: MIT
+  - static evidence: LICENSE and public repository metadata
+  - absorbed patterns: `source_entity_redaction_gate`, `placeholder_alias_consistency_map`
+  - reusable lesson: source-specific names, places, factions, artifacts, powers, titles, and other proper nouns should be redacted into stable placeholders before同类型仿写.
+  - runtime exclusion: Docker, analyzer/anonymizer services, package install, NLP runtime, API server, and sample execution are not used.
+
+- `LeapBeyond/scrubadub`
+  - URL: `https://github.com/LeapBeyond/scrubadub`
+  - observed HEAD: `53772cbef417da290d25c95373031f786ab3b5c6`
+  - license: Apache-2.0
+  - static evidence: README, LICENSE
+  - absorbed patterns: `source_entity_redaction_gate`, `placeholder_alias_consistency_map`
+  - reusable lesson: redaction needs detector output, placeholder id, replacement policy, collision review, and reviewer decision trace.
+  - runtime exclusion: Python install, detectors, replacers, and text-processing runtime are not executed.
+
+- `urchade/GLiNER`
+  - URL: `https://github.com/urchade/GLiNER`
+  - observed HEAD: `3ddf1689ed4ae6544f0e904c447f5dd9d2bb7ca3`
+  - license: Apache-2.0
+  - static evidence: README, LICENSE
+  - absorbed patterns: `custom_entity_label_inventory`, `proper_noun_leakage_review`
+  - reusable lesson: fiction needs custom entity labels beyond PERSON / ORG / LOC, including faction, rank, artifact, power, species, title, invented term, and relationship label.
+  - runtime exclusion: model download, inference, notebook/script execution, and package install are not executed.
+
+- `explosion/spaCy`
+  - URL: `https://github.com/explosion/spaCy`
+  - observed HEAD: `e67199550e365dacee28b109210c3a43e1477638`
+  - license: MIT
+  - static evidence: README, LICENSE
+  - absorbed patterns: `custom_entity_label_inventory`, `proper_noun_leakage_review`
+  - reusable lesson: proper-noun leakage review should compare drafts against source blocklists plus approved exception lists before chapter acceptance.
+  - runtime exclusion: model download, pipeline execution, package install, and NLP runtime are not executed.
+
+### Local projection
+
+The source discovery panel now pins these prompt-safe fields instead of leaving them only in the dynamic fallback group:
+
+- `source_license_detection_gate_hints`
+- `spdx_reuse_compliance_gate_hints`
+- `public_domain_corpus_boundary_hints`
+- `attribution_derivative_work_gate_hints`
+- `source_entity_redaction_gate_hints`
+- `custom_entity_label_inventory_hints`
+- `placeholder_alias_consistency_map_hints`
+- `proper_noun_leakage_review_hints`
+
+These fields are static source-derived admission gates only. They do not authorize corpus download, scanner execution, NER/model inference, package installation, Docker/service launch, provider call, browser/desktop control, external account mutation, or importing source prose into prompts.

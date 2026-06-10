@@ -82,6 +82,15 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/StonyBrookNLP/tellmewhy',
   'https://github.com/uwnlp/storycommonsense',
   'https://github.com/nyu-mll/SQuALITY',
+  'https://github.com/licensee/licensee',
+  'https://github.com/fsfe/reuse-tool',
+  'https://github.com/spdx/license-list-data',
+  'https://github.com/c-w/Gutenberg',
+  'https://github.com/Imkun-on/gutenberg-corpus-cli',
+  'https://github.com/microsoft/presidio',
+  'https://github.com/LeapBeyond/scrubadub',
+  'https://github.com/urchade/GLiNER',
+  'https://github.com/explosion/spaCy',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -159,6 +168,14 @@ const PINNED_HINT_KEYS = new Set([
   'causal_why_explanation_gate_hints',
   'story_commonsense_consistency_gate_hints',
   'query_focused_long_summary_gate_hints',
+  'source_license_detection_gate_hints',
+  'spdx_reuse_compliance_gate_hints',
+  'public_domain_corpus_boundary_hints',
+  'attribution_derivative_work_gate_hints',
+  'source_entity_redaction_gate_hints',
+  'custom_entity_label_inventory_hints',
+  'placeholder_alias_consistency_map_hints',
+  'proper_noun_leakage_review_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -429,6 +446,18 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Causal why-explanation gates', patternPackPayload?.causal_why_explanation_gate_hints],
               ['Story commonsense consistency gates', patternPackPayload?.story_commonsense_consistency_gate_hints],
               ['Query-focused long-summary gates', patternPackPayload?.query_focused_long_summary_gate_hints],
+            ])}
+            {renderHintGroup('Rights / corpus admission gates', [
+              ['Source license detection gates', patternPackPayload?.source_license_detection_gate_hints],
+              ['SPDX / REUSE compliance gates', patternPackPayload?.spdx_reuse_compliance_gate_hints],
+              ['Public-domain corpus boundaries', patternPackPayload?.public_domain_corpus_boundary_hints],
+              ['Attribution / derivative-work gates', patternPackPayload?.attribution_derivative_work_gate_hints],
+            ])}
+            {renderHintGroup('Entity redaction / leakage gates', [
+              ['Source entity redaction gates', patternPackPayload?.source_entity_redaction_gate_hints],
+              ['Custom fiction entity label inventories', patternPackPayload?.custom_entity_label_inventory_hints],
+              ['Placeholder alias consistency maps', patternPackPayload?.placeholder_alias_consistency_map_hints],
+              ['Proper-noun leakage reviews', patternPackPayload?.proper_noun_leakage_review_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>
