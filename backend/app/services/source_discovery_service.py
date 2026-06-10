@@ -244,6 +244,17 @@ DEFAULT_GITHUB_QUERIES = (
     '("NovelPerspective" OR "point of view characters" OR "character story-line") ("ebook" OR "novel") in:name,description,readme',
     '("6-phase pipeline" OR "4-pass polish" OR "15 writing principles") ("writing system" OR "AI agent") in:name,description,readme',
     '("semantic index" OR "versioned snapshots" OR "hierarchical manuscript nodes") ("book writing" OR "long-form documentation") in:name,description,readme',
+    '("rights gate" OR "visual bible" OR "comic adaptation") ("source parsing" OR "narrative bible") ("novel" OR "Codex") in:name,description,readme',
+    '("IndexedDB" OR "flow sessions" OR "story network") ("story bible" OR "fiction writing assistant") ("Ollama" OR "local AI") in:name,description,readme',
+    '("VS Code" OR "vscode") ("prose analysis" OR "contextual manuscript analysis" OR "story bible") ("creative writing" OR "novel") in:name,description,readme',
+    '("offline" OR "PWA") ("chapter-isolated editing" OR "version history" OR "DOCX PDF export") ("novel" OR "manuscript") in:name,description,readme',
+    '("AutoGen" OR "collaborative AI agents" OR "Memory Keeper") ("Outline Creator" OR "Story Planner") ("book generator" OR "novel") in:name,description,readme',
+    '("302.AI" OR "AI-assisted writing" OR "AI writing sidebar") ("intelligent plot planning" OR "real-time editing") ("novel writing") in:name,description,readme',
+    '("character outlines" OR "story synopses" OR "plot outlines") ("scene lists" OR "creative writers toolkit") ("GPT3" OR "AI") in:name,description,readme',
+    '("writers\' room" OR "11-person AI team" OR "stop authority") ("Fountain" OR "screenplay") ("story system" OR "multi-AI harness") in:name,description,readme',
+    '("novel to screenplay" OR "小说转剧本") ("YAML" OR "structure_map" OR "coverage_report") ("Fountain" OR "story_bible") in:name,description,readme',
+    '("glossary" OR "terminology") ("contextual translation" OR "EPUB rebuilding") ("light novel" OR "web novel") in:name,description,readme',
+    '("term review" OR "batch text replacement" OR "source-residue") ("novel translation" OR "EPUB tools") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -580,6 +591,17 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/oxinabox/NovelPerspective",
     "https://github.com/d-wwei/great-writer",
     "https://github.com/vulogov/blackInkhaven",
+    "https://github.com/lhfer/codex-novel-to-comic-studio",
+    "https://github.com/yosrikhiari/Versatile",
+    "https://github.com/okeylanders/prose-minion-vscode",
+    "https://github.com/wwessex/Writer1",
+    "https://github.com/adamwlarson/ai-book-writer",
+    "https://github.com/302ai/302_novel_writing",
+    "https://github.com/christiandarkin/creative-writers-toolkit",
+    "https://github.com/bybren-llc/story-systems-template",
+    "https://github.com/1want2beaQuant/ai-novel2script",
+    "https://github.com/Shirochi-stack/Glossarion",
+    "https://github.com/oodadoudou/Transoria",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -852,6 +874,17 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("pov_character_thread_filter_gate", ("novelperspective", "point of view characters", "pov characters", "character story-line", "character storyline", "main character of a chapter", "include or exclude characters")),
     ("agent_writing_phase_polish_gate", ("great writer", "6-phase pipeline", "six-phase pipeline", "9 writing modes", "15 writing principles", "4-pass polish", "remove ai traces", "strips every trace of ai")),
     ("hierarchical_semantic_snapshot_workspace_gate", ("inkhaven", "blackinkhaven", "hierarchical typst manuscript nodes", "semantic index", "versioned snapshots", "duckdb metadata", "lexicon books", "bund script", "book -> chapter -> subchapter -> paragraph", "book writing app")),
+    ("rights_first_adaptation_pipeline_gate", ("codex novel-to-comic studio", "novel-to-comic", "rights gate", "source parsing", "narrative bible", "visual bible", "page script", "storyboard", "pdf + cbz export", "comic packages")),
+    ("local_flow_story_graph_workspace_gate", ("versatile", "fiction writing assistant", "indexeddb autosave", "flow sessions", "focus mode", "ai spark", "ai polish", "story generator", "story bible", "visual story network", "timeline")),
+    ("editor_context_prose_analysis_gate", ("prose minion", "prose-minion", "vscode", "vs code", "professional-grade prose metrics", "contextual analysis", "manuscript analysis", "chapter analysis", "source analysis", "story bible")),
+    ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
+    ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
+    ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
+    ("creative_scaffold_prompt_sequence_gate", ("creative writers' toolkit", "creative-writers-toolkit", "character outlines", "story synopses", "treatments", "plot outlines", "scene lists", "gpt3", "creative processes")),
+    ("writers_room_stop_authority_gate", ("story systems template", "11-person ai team", "writers' room", "can say \"stop\"", "shared knowledge", "multi-ai harness", "fountain export", "screenplay", "upstream sync")),
+    ("novel_to_screenplay_structure_coverage_gate", ("ai 小说转剧本", "novel to screenplay", "structured screenplay yaml", "structure_map", "story_bible", "adaptation_report", "coverage_report", "quality gates", "fountain export", "场景", "对白")),
+    ("translation_glossary_context_qa_gate", ("glossarion", "context-aware english translations", "contextual translation", "glossary system", "quality assurance suite", "epub rebuilding", "40+ ai providers", "duplicate detection", "light novels", "web novels")),
+    ("desktop_translation_batch_replacement_boundary_gate", ("transoria", "术语提取", "术语审查", "batch text replacement", "批量文本替换", "epub 工具", "task id", "低置信度", "原文残留", "版权与使用声明")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -2258,6 +2291,50 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Inkhaven is an Unlicense terminal writing app. Public README markers describe hierarchical Typst manuscript nodes, local DuckDB metadata, full-text/semantic index, versioned snapshots, backups, lexicon books for characters/places/artefacts, Bund scripting, and LLM provider routing. "
         "Pattern-only adaptation for hierarchical node snapshots and local-index boundaries; binary/runtime, Bund scripts, providers, and local manuscript access are not used."
     ),
+    "lhfer/codex-novel-to-comic-studio": (
+        "Codex Novel-to-Comic Studio is a MIT Codex-first adaptation workflow. Public README markers describe a rights gate, source parsing, narrative bible, visual bible, page scripts, storyboard, QC, and PDF/CBZ export. "
+        "Pattern-only adaptation for source rights gating and narrative/visual bible separation; Codex install, sample assets, image/page generation, and export runtime are not launched."
+    ),
+    "yosrikhiari/versatile": (
+        "Versatile is a browser-based fiction writing assistant with no license file observed in this static pass. Public README markers describe local IndexedDB autosave, flow sessions, focus mode, Ollama-backed Spark/Polish tools, story generator, story bible, timeline, scene cards, and a visual story network graph. "
+        "Pattern-only adaptation for local flow/workspace and story-graph gates; npm/runtime, browser app, Ollama, and local storage are not launched or read."
+    ),
+    "okeylanders/prose-minion-vscode": (
+        "Prose Minion VS Code is a Commons-Clause-licensed creative-writing extension. Public README markers describe professional prose metrics, AI writing assistance, contextual analysis, manuscript/chapter/source analysis, story bible, and model-audit surfaces. "
+        "Pattern-only adaptation for editor-context prose-analysis scopes; extension runtime, VS Code APIs, provider lists, and upstream rule bodies are not imported or executed."
+    ),
+    "wwessex/writer1": (
+        "DraftHarbour Studio / Writer1 is a no-license-observed offline/online novel word processor PWA. Public README markers describe chapter-isolated editing, IndexedDB autosave, optional JSON sync, collaboration permissions, version history, diff previews, restore, and DOCX/PDF/RTF export. "
+        "Pattern-only adaptation for offline chapter document boundaries and revision/export checkpoints; PWA/Tauri/runtime, sync endpoints, and export binaries are not launched."
+    ),
+    "adamwlarson/ai-book-writer": (
+        "AutoGen Book Generator is a no-license-observed Python system for complete books through collaborative AI agents. Public README markers describe Story Planner, World Builder, Memory Keeper, Writer, Editor, Outline Creator, chapter outlines, continuity tracking, and validation. "
+        "Pattern-only adaptation for role-separated outline/continuity review; AutoGen runtime, Python dependencies, provider calls, and prompt bodies are not imported or executed."
+    ),
+    "302ai/302_novel_writing": (
+        "302.AI Novel Writing is an Apache-2.0 open-source AI-assisted novel-writing product. Public README markers describe manual writing, AI writing sidebar, diverse writing styles, intelligent plot planning, real-time editing, local upload/generated cover, online service, and self-deploy options. "
+        "Pattern-only adaptation for hosted-product and AI-sidebar boundaries; online account, deployment, package runtime, and provider surfaces are not launched."
+    ),
+    "christiandarkin/creative-writers-toolkit": (
+        "Creative Writers' Toolkit is a no-license-observed GPT-3-era creative writing toolkit. Public README markers describe creating character outlines, story synopses, treatments, plot outlines, and scene lists for stories, screenplays, and novels. "
+        "Pattern-only adaptation for scaffold sequence checkpoints; GPT-3/OpenAI key, Python runtime, and upstream text/prompt files are not imported or executed."
+    ),
+    "bybren-llc/story-systems-template": (
+        "Story Systems Template is a MIT creative project template for screenplays, novels, and film production. Public README markers describe an 11-person AI team, writers' room stop authority, shared knowledge, multi-AI harnesses, Fountain export, validation, GUI, and upstream sync. "
+        "Pattern-only adaptation for writers-room role boundaries and stop-authority gates; npm/CLI runtime, GUI, provider platforms, upstream sync, and generated screenplay artifacts are not executed."
+    ),
+    "1want2beaquant/ai-novel2script": (
+        "AI 小说转剧本工具 is a MIT AI-assisted novel-to-screenplay converter. Public README markers describe 3+ chapter preflight, structured screenplay YAML, act/scene/action/dialogue/transition conversion, structure_map, story_bible, adaptation_report, coverage_report, quality gates, and Fountain export. "
+        "Pattern-only adaptation for screenplay structure/coverage gates; Python package install, web workbench, OpenAI-compatible enhancement, and export runtime are not launched."
+    ),
+    "shirochi-stack/glossarion": (
+        "Glossarion is a MIT AI-powered translation suite for light novels, web novels, manga, EPUB/TXT/PDF, and documents. Public README markers describe contextual translation, glossary system, quality assurance, EPUB rebuilding, duplicate detection, GUI review controls, and many provider surfaces. "
+        "Pattern-only adaptation for glossary/context/QA gates; PySide GUI, provider calls, credentials, local LLMs, manga/image translation, and EPUB rebuild runtime are not used."
+    ),
+    "oodadoudou/transoria": (
+        "Transoria is a no-license-observed desktop novel-translation app. Public README markers describe term extraction, term review, translation, proofreading, batch text replacement, EPUB tools, task IDs, resume/retry, low-confidence sorting, source-residue labels, and copyright/right-use warnings. "
+        "Pattern-only adaptation for desktop translation and batch-replacement boundaries; installer, source runtime, user API keys, local files, EPUB operations, and desktop shell are not launched."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2597,6 +2674,17 @@ class NovelSourceDiscoveryService:
             "pov_character_thread_filter_gate_hints": self._build_pov_character_thread_filter_gate_hints(available_patterns),
             "agent_writing_phase_polish_gate_hints": self._build_agent_writing_phase_polish_gate_hints(available_patterns),
             "hierarchical_semantic_snapshot_workspace_gate_hints": self._build_hierarchical_semantic_snapshot_workspace_gate_hints(available_patterns),
+            "rights_first_adaptation_pipeline_gate_hints": self._build_rights_first_adaptation_pipeline_gate_hints(available_patterns),
+            "local_flow_story_graph_workspace_gate_hints": self._build_local_flow_story_graph_workspace_gate_hints(available_patterns),
+            "editor_context_prose_analysis_gate_hints": self._build_editor_context_prose_analysis_gate_hints(available_patterns),
+            "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
+            "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
+            "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
+            "creative_scaffold_prompt_sequence_gate_hints": self._build_creative_scaffold_prompt_sequence_gate_hints(available_patterns),
+            "writers_room_stop_authority_gate_hints": self._build_writers_room_stop_authority_gate_hints(available_patterns),
+            "novel_to_screenplay_structure_coverage_gate_hints": self._build_novel_to_screenplay_structure_coverage_gate_hints(available_patterns),
+            "translation_glossary_context_qa_gate_hints": self._build_translation_glossary_context_qa_gate_hints(available_patterns),
+            "desktop_translation_batch_replacement_boundary_gate_hints": self._build_desktop_translation_batch_replacement_boundary_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3504,6 +3592,17 @@ class NovelSourceDiscoveryService:
             "pov_character_thread_filter_gate": 66,
             "agent_writing_phase_polish_gate": 65,
             "hierarchical_semantic_snapshot_workspace_gate": 66,
+            "rights_first_adaptation_pipeline_gate": 68,
+            "local_flow_story_graph_workspace_gate": 66,
+            "editor_context_prose_analysis_gate": 67,
+            "offline_chapter_revision_export_gate": 65,
+            "multi_agent_outline_continuity_review_gate": 68,
+            "hosted_ai_sidebar_product_boundary_gate": 65,
+            "creative_scaffold_prompt_sequence_gate": 64,
+            "writers_room_stop_authority_gate": 68,
+            "novel_to_screenplay_structure_coverage_gate": 69,
+            "translation_glossary_context_qa_gate": 67,
+            "desktop_translation_batch_replacement_boundary_gate": 66,
             "causal_dramatica_agent_pipeline": 68,
             "capture_distillation_production_gate": 66,
             "skill_orchestrated_chinese_novel_workflow": 67,
@@ -3676,6 +3775,39 @@ class NovelSourceDiscoveryService:
         if "hierarchical_semantic_snapshot_workspace_gate" in patterns:
             targets.append("hierarchical_text_node_snapshot_policy")
             targets.append("local_semantic_index_boundary")
+        if "rights_first_adaptation_pipeline_gate" in patterns:
+            targets.append("rights_clearance_adaptation_policy")
+            targets.append("narrative_visual_bible_boundary")
+        if "local_flow_story_graph_workspace_gate" in patterns:
+            targets.append("flow_session_story_graph_policy")
+            targets.append("local_story_workspace_boundary")
+        if "editor_context_prose_analysis_gate" in patterns:
+            targets.append("editor_context_analysis_scope_policy")
+            targets.append("chapter_source_analysis_boundary")
+        if "offline_chapter_revision_export_gate" in patterns:
+            targets.append("offline_chapter_document_boundary")
+            targets.append("revision_export_checkpoint_policy")
+        if "multi_agent_outline_continuity_review_gate" in patterns:
+            targets.append("multi_agent_role_boundary_policy")
+            targets.append("outline_continuity_review_policy")
+        if "hosted_ai_sidebar_product_boundary_gate" in patterns:
+            targets.append("hosted_ai_product_boundary_policy")
+            targets.append("ai_sidebar_action_scope_policy")
+        if "creative_scaffold_prompt_sequence_gate" in patterns:
+            targets.append("creative_scaffold_sequence_policy")
+            targets.append("scaffold_to_canon_promotion_policy")
+        if "writers_room_stop_authority_gate" in patterns:
+            targets.append("writers_room_role_stop_policy")
+            targets.append("shared_knowledge_stop_authority_boundary")
+        if "novel_to_screenplay_structure_coverage_gate" in patterns:
+            targets.append("screenplay_structure_coverage_policy")
+            targets.append("adaptation_structure_map_schema")
+        if "translation_glossary_context_qa_gate" in patterns:
+            targets.append("translation_glossary_context_policy")
+            targets.append("translation_quality_assurance_boundary")
+        if "desktop_translation_batch_replacement_boundary_gate" in patterns:
+            targets.append("batch_replacement_translation_boundary")
+            targets.append("translation_task_resume_retry_policy")
         if "style_guide_layering" in patterns:
             targets.append("style_layers")
             targets.append("character_voice_notes")
@@ -4383,6 +4515,28 @@ class NovelSourceDiscoveryService:
             targets.extend(["phase_polish_ai_trace_report", "writing_mode_selection_findings", "polish_pass_acceptance_notes"])
         if "hierarchical_semantic_snapshot_workspace_gate" in patterns:
             targets.extend(["hierarchical_semantic_snapshot_report", "text_node_index_snapshot_diff", "lexicon_book_boundary_findings"])
+        if "rights_first_adaptation_pipeline_gate" in patterns:
+            targets.extend(["rights_source_adaptation_gate_report", "narrative_visual_bible_boundary_findings", "adaptation_qc_export_hold_notes"])
+        if "local_flow_story_graph_workspace_gate" in patterns:
+            targets.extend(["local_flow_story_graph_report", "flow_session_goal_trace", "story_network_timeline_findings"])
+        if "editor_context_prose_analysis_gate" in patterns:
+            targets.extend(["editor_context_prose_analysis_report", "chapter_context_scope_findings", "source_analysis_redaction_notes"])
+        if "offline_chapter_revision_export_gate" in patterns:
+            targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
+        if "multi_agent_outline_continuity_review_gate" in patterns:
+            targets.extend(["multi_agent_outline_continuity_review_report", "agent_role_handoff_findings", "outline_memory_keeper_conflict_notes"])
+        if "hosted_ai_sidebar_product_boundary_gate" in patterns:
+            targets.extend(["hosted_ai_sidebar_boundary_report", "manual_ai_edit_action_trace", "online_service_self_deploy_surface_findings"])
+        if "creative_scaffold_prompt_sequence_gate" in patterns:
+            targets.extend(["creative_scaffold_sequence_report", "character_synopsis_scene_chain_findings", "scaffold_promotion_hold_notes"])
+        if "writers_room_stop_authority_gate" in patterns:
+            targets.extend(["writers_room_stop_review_report", "role_objection_resolution_trace", "shared_knowledge_sync_findings"])
+        if "novel_to_screenplay_structure_coverage_gate" in patterns:
+            targets.extend(["novel_to_screenplay_structure_map_report", "screenplay_coverage_quality_gate_findings", "fountain_export_hold_notes"])
+        if "translation_glossary_context_qa_gate" in patterns:
+            targets.extend(["translation_glossary_context_qa_report", "provider_credential_boundary_findings", "epub_rebuild_hold_notes"])
+        if "desktop_translation_batch_replacement_boundary_gate" in patterns:
+            targets.extend(["desktop_batch_replacement_boundary_report", "term_review_resume_retry_trace", "source_residue_low_confidence_findings"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -5844,6 +5998,105 @@ class NovelSourceDiscoveryService:
             "Index long manuscripts as stable text nodes such as book, chapter, subchapter, and paragraph before retrieval or rewrite.",
             "Every semantic index hit should carry node id, snapshot id, local boundary label, and inclusion reason before it enters a prompt.",
             "Versioned snapshots protect continuation and same-type experiments: rejected branches must not update accepted text nodes or lexicon books.",
+        ]
+
+    def _build_rights_first_adaptation_pipeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "rights_first_adaptation_pipeline_gate" not in patterns:
+            return []
+        return [
+            "Run a rights and source-boundary gate before any拆书续写, adaptation, visual bible, page script, storyboard, export, or publication package is generated.",
+            "Keep source parsing, narrative bible, visual bible, QC, and export holds as separate states so a source-analysis pass cannot silently become derivative production.",
+            "For同类型仿写, remap only abstract narrative functions; source character likeness, world assets, chapter order, page beats, and export-ready material stay excluded.",
+        ]
+
+    def _build_local_flow_story_graph_workspace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_flow_story_graph_workspace_gate" not in patterns:
+            return []
+        return [
+            "Track local writing sprints with goal, word-count delta, idle/nudge notes, and accepted chapter id before they influence continuation planning.",
+            "Story graph, timeline, scene cards, and story bible entries should share stable IDs so拆书 findings, author edits, and generated drafts do not fork silently.",
+            "Local browser or IndexedDB-style workspaces must keep source-analysis notes, accepted canon, and style-only material in separate namespaces.",
+        ]
+
+    def _build_editor_context_prose_analysis_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "editor_context_prose_analysis_gate" not in patterns:
+            return []
+        return [
+            "Editor-context prose analysis should declare which chapter, selection, source note, and story bible slice were inspected before producing revision advice.",
+            "Keep manuscript/chapter/source analysis reports redacted by scope; do not leak raw source chunks into same-type prompts under a generic prose-analysis label.",
+            "Model or provider recommendation lists are discovery metadata only; runtime model selection stays outside source-discovery pattern packs.",
+        ]
+
+    def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "offline_chapter_revision_export_gate" not in patterns:
+            return []
+        return [
+            "Treat each chapter as an isolated document with autosave, version, diff, and restore metadata before it is accepted into the whole-book continuation state.",
+            "Optional sync, collaboration, and export surfaces need separate hold gates; a local draft revision cannot imply upload or publication readiness.",
+            "Before DOCX/PDF/RTF-style export, record chapter order, accepted revision IDs, source-boundary review status, and unresolved continuation blockers.",
+        ]
+
+    def _build_multi_agent_outline_continuity_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "multi_agent_outline_continuity_review_gate" not in patterns:
+            return []
+        return [
+            "Separate planner, world-builder, memory-keeper, writer, editor, and outline roles in拆书续写 traces; one role cannot silently overwrite another role's evidence.",
+            "Continuation plans should compare outline intent against memory-keeper continuity notes before a writer draft is accepted.",
+            "For同类型仿写, rebuild agent role inputs from transformed canon; source-book outlines and world-building notes stay as method evidence only.",
+        ]
+
+    def _build_hosted_ai_sidebar_product_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "hosted_ai_sidebar_product_boundary_gate" not in patterns:
+            return []
+        return [
+            "Treat AI sidebar actions as scoped edits: generation, rewrite, plot planning, cover generation, and real-time modification need separate action labels and review states.",
+            "Hosted online-service, self-deploy, provider, and local-upload surfaces remain disabled during source intake unless a runtime admission packet exists.",
+            "Manual writing and AI-assisted writing should leave different traces so author edits are not mistaken for model-generated continuation canon.",
+        ]
+
+    def _build_creative_scaffold_prompt_sequence_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "creative_scaffold_prompt_sequence_gate" not in patterns:
+            return []
+        return [
+            "Run creative scaffolds in sequence: character outline, story synopsis, treatment, plot outline, then scene list; later stages must cite accepted earlier stage IDs.",
+            "Scaffold outputs are candidates until promoted; they cannot directly enter story bible, continuation plan, or same-type canon without review.",
+            "Legacy GPT/OpenAI prompt examples are pattern evidence only; do not import prompt text, API-key assumptions, or generated sample bodies.",
+        ]
+
+    def _build_writers_room_stop_authority_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "writers_room_stop_authority_gate" not in patterns:
+            return []
+        return [
+            "Treat a multi-agent writers' room as review structure, not consensus theater: any role with stop authority can block chapter promotion until its objection is resolved.",
+            "Shared knowledge sync should record which role changed story facts, screenplay beats, or production notes before they affect拆书续写 prompts.",
+            "For同类型仿写, rebuild role briefs around transformed canon; source-project team names, film beats, Fountain artifacts, and production metadata stay outside canon.",
+        ]
+
+    def _build_novel_to_screenplay_structure_coverage_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novel_to_screenplay_structure_coverage_gate" not in patterns:
+            return []
+        return [
+            "Before adaptation or续写, map chapters to acts, scenes, action, dialogue, transitions, structure beats, and unresolved questions with stable evidence IDs.",
+            "Coverage and quality reports should block export when chapter coverage, scene objective, conflict, turn, or continuity evidence is missing.",
+            "Fountain/YAML/Markdown exports are downstream artifacts; generating them cannot bypass source-boundary, copyright, or same-type transformation review.",
+        ]
+
+    def _build_translation_glossary_context_qa_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "translation_glossary_context_qa_gate" not in patterns:
+            return []
+        return [
+            "Keep translation glossary, context window, provider settings, QA findings, and EPUB rebuild notes as separate records with provenance and reviewer state.",
+            "Terminology and character-name mappings can inform拆书, but translated source chunks cannot enter same-type prompts without redaction and copy-risk review.",
+            "Provider catalogs, local LLM options, GUI controls, and credential settings are runtime surfaces; source discovery may only record their boundary.",
+        ]
+
+    def _build_desktop_translation_batch_replacement_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "desktop_translation_batch_replacement_boundary_gate" not in patterns:
+            return []
+        return [
+            "Batch replacement, regex replacement, retry, resume, and EPUB tools need task IDs and rollback notes before any translated or revised text is promoted.",
+            "Low-confidence groups, source-residue labels, adjacent-duplicate warnings, and copyright/right-use notes should become review blockers, not cosmetic warnings.",
+            "Desktop shells, installers, user API keys, local novels, and generated translations stay outside source intake unless a separate runtime safety contract exists.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -8431,6 +8684,28 @@ class NovelSourceDiscoveryService:
             targets.append("phase_polish_mode_remap")
         if "hierarchical_semantic_snapshot_workspace_gate" in patterns:
             targets.append("hierarchical_snapshot_namespace_remap")
+        if "rights_first_adaptation_pipeline_gate" in patterns:
+            targets.append("rights_adaptation_boundary_remap")
+        if "local_flow_story_graph_workspace_gate" in patterns:
+            targets.append("local_flow_story_graph_remap")
+        if "editor_context_prose_analysis_gate" in patterns:
+            targets.append("editor_context_analysis_remap")
+        if "offline_chapter_revision_export_gate" in patterns:
+            targets.append("offline_chapter_export_remap")
+        if "multi_agent_outline_continuity_review_gate" in patterns:
+            targets.append("agent_role_continuity_review_remap")
+        if "hosted_ai_sidebar_product_boundary_gate" in patterns:
+            targets.append("hosted_ai_sidebar_boundary_remap")
+        if "creative_scaffold_prompt_sequence_gate" in patterns:
+            targets.append("creative_scaffold_sequence_remap")
+        if "writers_room_stop_authority_gate" in patterns:
+            targets.append("writers_room_role_boundary_remap")
+        if "novel_to_screenplay_structure_coverage_gate" in patterns:
+            targets.append("screenplay_adaptation_structure_remap")
+        if "translation_glossary_context_qa_gate" in patterns:
+            targets.append("translation_glossary_namespace_remap")
+        if "desktop_translation_batch_replacement_boundary_gate" in patterns:
+            targets.append("batch_replacement_boundary_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -9812,6 +10087,17 @@ class NovelSourceDiscoveryService:
                 "pov_character_thread_filter_gate",
                 "agent_writing_phase_polish_gate",
                 "hierarchical_semantic_snapshot_workspace_gate",
+                "rights_first_adaptation_pipeline_gate",
+                "local_flow_story_graph_workspace_gate",
+                "editor_context_prose_analysis_gate",
+                "offline_chapter_revision_export_gate",
+                "multi_agent_outline_continuity_review_gate",
+                "hosted_ai_sidebar_product_boundary_gate",
+                "creative_scaffold_prompt_sequence_gate",
+                "writers_room_stop_authority_gate",
+                "novel_to_screenplay_structure_coverage_gate",
+                "translation_glossary_context_qa_gate",
+                "desktop_translation_batch_replacement_boundary_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",

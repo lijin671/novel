@@ -9833,3 +9833,305 @@ def test_static_prose_pov_phase_snapshot_sources_map_to_source_study_gates():
     assert "pov_character_thread_filter_gate_hints" in digest
     assert "agent_writing_phase_polish_gate_hints" in digest
     assert "hierarchical_semantic_snapshot_workspace_gate_hints" in digest
+
+
+def test_static_book_writing_graph_rights_vscode_sources_map_to_workspace_gates():
+    assert "https://github.com/lhfer/codex-novel-to-comic-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/yosrikhiari/Versatile" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/okeylanders/prose-minion-vscode" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wwessex/Writer1" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("rights gate" in query.lower() and "visual bible" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("indexeddb" in query.lower() and "story network" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("vscode" in query.lower() and "prose analysis" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "lhfer/codex-novel-to-comic-studio",
+                "html_url": "https://github.com/lhfer/codex-novel-to-comic-studio",
+                "description": (
+                    "Codex Novel-to-Comic Studio turns EPUB/TXT novels into comic packages through "
+                    "a rights gate, source parsing, narrative bible, visual bible, page scripts, QC, "
+                    "PDF and CBZ export."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["codex", "novel", "comic", "story-bible"],
+                "updated_at": "2026-06-11T03:00:00Z",
+                "root_files": ["README.md", "README.zh-CN.md", "LICENSE", "docs"],
+            },
+            {
+                "full_name": "yosrikhiari/Versatile",
+                "html_url": "https://github.com/yosrikhiari/Versatile",
+                "description": (
+                    "Versatile is a local fiction writing assistant with IndexedDB autosave, flow sessions, "
+                    "Ollama AI Spark and Polish tools, story generator, story bible, timeline, scene cards, "
+                    "and visual story network graph."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction-writing", "ollama", "story-bible"],
+                "updated_at": "2026-06-11T03:05:00Z",
+                "root_files": ["README.md", "package.json", "src"],
+            },
+            {
+                "full_name": "okeylanders/prose-minion-vscode",
+                "html_url": "https://github.com/okeylanders/prose-minion-vscode",
+                "description": (
+                    "Prose Minion VS Code extension provides AI-powered prose analysis, professional prose metrics, "
+                    "contextual manuscript analysis, chapter analysis, story bible and source analysis inside VS Code."
+                ),
+                "stargazers_count": 19,
+                "forks_count": 1,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["vscode-extension", "creative-writing", "prose-analysis"],
+                "updated_at": "2026-06-11T03:10:00Z",
+                "root_files": ["README.md", "package.json", "LICENSE", "src"],
+            },
+            {
+                "full_name": "wwessex/Writer1",
+                "html_url": "https://github.com/wwessex/Writer1",
+                "description": (
+                    "DraftHarbour Studio is an offline/online novel word processor PWA with chapter-isolated editing, "
+                    "IndexedDB autosave, optional sync, version history, diff previews, restore, and DOCX/PDF/RTF export."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "pwa", "offline"],
+                "updated_at": "2026-06-11T03:15:00Z",
+                "root_files": ["README.md", "package.json", "index.html"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T03:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "rights_first_adaptation_pipeline_gate" in candidates["lhfer/codex-novel-to-comic-studio"]["absorbed_patterns"]
+    assert "local_flow_story_graph_workspace_gate" in candidates["yosrikhiari/Versatile"]["absorbed_patterns"]
+    assert "editor_context_prose_analysis_gate" in candidates["okeylanders/prose-minion-vscode"]["absorbed_patterns"]
+    assert "offline_chapter_revision_export_gate" in candidates["wwessex/Writer1"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "rights_clearance_adaptation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "flow_session_story_graph_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "editor_context_analysis_scope_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "offline_chapter_document_boundary" in pattern_pack["bible_enrichment_targets"]
+    assert "rights_source_adaptation_gate_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "local_flow_story_graph_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "editor_context_prose_analysis_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "offline_revision_export_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "rights_first_adaptation_pipeline_gate_hints" in pattern_pack
+    assert "local_flow_story_graph_workspace_gate_hints" in pattern_pack
+    assert "editor_context_prose_analysis_gate_hints" in pattern_pack
+    assert "offline_chapter_revision_export_gate_hints" in pattern_pack
+    assert "rights_adaptation_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "local_flow_story_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "editor_context_analysis_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "offline_chapter_export_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "rights_first_adaptation_pipeline_gate_hints" in digest
+    assert "local_flow_story_graph_workspace_gate_hints" in digest
+    assert "editor_context_prose_analysis_gate_hints" in digest
+    assert "offline_chapter_revision_export_gate_hints" in digest
+
+
+def test_static_ai_book_writer_product_prompt_sources_map_to_continuation_gates():
+    assert "https://github.com/adamwlarson/ai-book-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/302ai/302_novel_writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/christiandarkin/creative-writers-toolkit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("autogen" in query.lower() and "memory keeper" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("302.ai" in query.lower() and "ai-assisted writing" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("character outlines" in query.lower() and "story synopses" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "adamwlarson/ai-book-writer",
+                "html_url": "https://github.com/adamwlarson/ai-book-writer",
+                "description": (
+                    "AutoGen Book Generator uses collaborative AI agents: Story Planner, World Builder, "
+                    "Memory Keeper, Writer, Editor, and Outline Creator to generate outlines, chapters, "
+                    "continuity and structured narratives."
+                ),
+                "stargazers_count": 20,
+                "forks_count": 2,
+                "license": None,
+                "topics": ["autogen", "book", "multi-agent", "writing"],
+                "updated_at": "2026-06-11T04:00:00Z",
+                "root_files": ["README.md", "requirements.txt", "src"],
+            },
+            {
+                "full_name": "302ai/302_novel_writing",
+                "html_url": "https://github.com/302ai/302_novel_writing",
+                "description": (
+                    "302.AI Novel Writing is an open-source AI-assisted writing product with manual editing, "
+                    "AI writing sidebar, diverse writing styles, intelligent plot planning, real-time editing, "
+                    "cover generation, online service and self-deploy options."
+                ),
+                "stargazers_count": 52,
+                "forks_count": 11,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["ai-writing", "novel", "nextjs"],
+                "updated_at": "2026-06-11T04:05:00Z",
+                "root_files": ["README.md", "README_zh.md", "LICENSE", "package.json"],
+            },
+            {
+                "full_name": "christiandarkin/creative-writers-toolkit",
+                "html_url": "https://github.com/christiandarkin/creative-writers-toolkit",
+                "description": (
+                    "Creative Writers' Toolkit explores GPT-3 creative writing flows that create character outlines, "
+                    "story synopses, treatments, plot outlines and scene lists for stories, screenplays and novels."
+                ),
+                "stargazers_count": 16,
+                "forks_count": 3,
+                "license": None,
+                "topics": ["creative-writing", "gpt3", "story"],
+                "updated_at": "2026-06-11T04:10:00Z",
+                "root_files": ["README.md", "characters", "synopsis", "scenes"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T04:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "multi_agent_outline_continuity_review_gate" in candidates["adamwlarson/ai-book-writer"]["absorbed_patterns"]
+    assert "hosted_ai_sidebar_product_boundary_gate" in candidates["302ai/302_novel_writing"]["absorbed_patterns"]
+    assert "creative_scaffold_prompt_sequence_gate" in candidates["christiandarkin/creative-writers-toolkit"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "multi_agent_role_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "hosted_ai_product_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "creative_scaffold_sequence_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "multi_agent_outline_continuity_review_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "hosted_ai_sidebar_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "creative_scaffold_sequence_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_agent_outline_continuity_review_gate_hints" in pattern_pack
+    assert "hosted_ai_sidebar_product_boundary_gate_hints" in pattern_pack
+    assert "creative_scaffold_prompt_sequence_gate_hints" in pattern_pack
+    assert "agent_role_continuity_review_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "hosted_ai_sidebar_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "creative_scaffold_sequence_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "multi_agent_outline_continuity_review_gate_hints" in digest
+    assert "hosted_ai_sidebar_product_boundary_gate_hints" in digest
+    assert "creative_scaffold_prompt_sequence_gate_hints" in digest
+
+
+def test_static_story_system_script_translation_sources_map_to_adaptation_gates():
+    assert "https://github.com/bybren-llc/story-systems-template" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/1want2beaQuant/ai-novel2script" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Shirochi-stack/Glossarion" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/oodadoudou/Transoria" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("writers' room" in query.lower() and "fountain" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("novel to screenplay" in query.lower() and "yaml" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("glossary" in query.lower() and "epub rebuilding" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "bybren-llc/story-systems-template",
+                "html_url": "https://github.com/bybren-llc/story-systems-template",
+                "description": (
+                    "Story Systems Template is a creative project template for screenplays and novels. "
+                    "It provides an 11-person AI team, writers' room stop authority, shared knowledge, "
+                    "multi-AI harness, Fountain export, scene review, GUI and upstream sync."
+                ),
+                "stargazers_count": 35,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["screenplay", "novel", "multi-ai", "fountain"],
+                "updated_at": "2026-06-11T05:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "agents"],
+            },
+            {
+                "full_name": "1want2beaQuant/ai-novel2script",
+                "html_url": "https://github.com/1want2beaQuant/ai-novel2script",
+                "description": (
+                    "AI 小说转剧本工具 converts 3+ chapter novels to structured screenplay YAML, "
+                    "acts, scenes, action, dialogue, transitions, structure_map, story_bible, "
+                    "adaptation_report, coverage_report, quality gates and Fountain export."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "screenplay", "yaml", "fountain"],
+                "updated_at": "2026-06-11T05:05:00Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml", "src"],
+            },
+            {
+                "full_name": "Shirochi-stack/Glossarion",
+                "html_url": "https://github.com/Shirochi-stack/Glossarion",
+                "description": (
+                    "Glossarion is an AI-powered translation suite for light novels, web novels, manga and documents "
+                    "with contextual translation, glossary system, quality assurance, EPUB rebuilding, 40+ providers, "
+                    "duplicate detection and GUI review controls."
+                ),
+                "stargazers_count": 80,
+                "forks_count": 7,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["translation", "glossary", "epub", "novel"],
+                "updated_at": "2026-06-11T05:10:00Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt", "assets"],
+            },
+            {
+                "full_name": "oodadoudou/Transoria",
+                "html_url": "https://github.com/oodadoudou/Transoria",
+                "description": (
+                    "Transoria is a desktop novel translation app with term extraction, term review, translation, "
+                    "proofreading, batch text replacement, EPUB tools, task IDs, resume/retry, low-confidence sorting, "
+                    "source-residue labels and copyright/right-use warnings."
+                ),
+                "stargazers_count": 30,
+                "forks_count": 1,
+                "license": None,
+                "topics": ["novel-translation", "glossary", "desktop", "epub"],
+                "updated_at": "2026-06-11T05:15:00Z",
+                "root_files": ["README.md", "pyproject.toml", "frontend", "backend"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T05:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "writers_room_stop_authority_gate" in candidates["bybren-llc/story-systems-template"]["absorbed_patterns"]
+    assert "novel_to_screenplay_structure_coverage_gate" in candidates["1want2beaQuant/ai-novel2script"]["absorbed_patterns"]
+    assert "translation_glossary_context_qa_gate" in candidates["Shirochi-stack/Glossarion"]["absorbed_patterns"]
+    assert "desktop_translation_batch_replacement_boundary_gate" in candidates["oodadoudou/Transoria"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "writers_room_role_stop_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "screenplay_structure_coverage_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "translation_glossary_context_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "batch_replacement_translation_boundary" in pattern_pack["bible_enrichment_targets"]
+    assert "writers_room_stop_review_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "novel_to_screenplay_structure_map_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "translation_glossary_context_qa_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "desktop_batch_replacement_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "writers_room_stop_authority_gate_hints" in pattern_pack
+    assert "novel_to_screenplay_structure_coverage_gate_hints" in pattern_pack
+    assert "translation_glossary_context_qa_gate_hints" in pattern_pack
+    assert "desktop_translation_batch_replacement_boundary_gate_hints" in pattern_pack
+    assert "writers_room_role_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "screenplay_adaptation_structure_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "translation_glossary_namespace_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "batch_replacement_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "writers_room_stop_authority_gate_hints" in digest
+    assert "novel_to_screenplay_structure_coverage_gate_hints" in digest
+    assert "translation_glossary_context_qa_gate_hints" in digest
+    assert "desktop_translation_batch_replacement_boundary_gate_hints" in digest
