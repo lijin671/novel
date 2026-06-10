@@ -8058,3 +8058,110 @@ def test_static_voice_timeline_skill_catalog_sources_map_to_safe_postures():
     assert "character_interaction_network_gate_hints" in pattern_pack
     assert "temporal_canon_context_graph_hints" in pattern_pack
     assert "anti_repetition_prompt_rules_hints" in pattern_pack
+
+
+def test_default_discovery_sources_include_causal_state_machine_skill_workflow_projects():
+    assert "https://github.com/ydsgangge-ux/dramatica-flow" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mmunro3318/story-foundry" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Shine8592/novel-writer-skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/modoojunko/awesome-novel-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/langchain-ai/story-writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/EdwardAThomson/StoryDaemon" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("dramatica" in query.lower() and "causal chain" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("capture" in query.lower() and "distillation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("openclaw" in query.lower() and "chinese novel" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("langgraph" in query.lower() and "story state" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_static_causal_state_machine_skill_sources_map_to_workflow_gates():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ydsgangge-ux/dramatica-flow",
+                "html_url": "https://github.com/ydsgangge-ux/dramatica-flow",
+                "description": "AI novel engine with Dramatica theory, causal chain management, multi-line narration and 5-layer Agent pipeline.",
+                "stargazers_count": 163,
+                "license": {},
+                "topics": ["ai-writing", "novel-writing", "dramatica", "story-generation"],
+                "updated_at": "2026-06-10T05:17:18Z",
+                "root_files": ["README.md", "pyproject.toml", "install.sh", "install.bat", "tests"],
+            },
+            {
+                "full_name": "mmunro3318/story-foundry",
+                "html_url": "https://github.com/mmunro3318/story-foundry",
+                "description": "Agentic platform to assist an author in ideation and writing a novel with Capture -> Distillation -> Production stages.",
+                "stargazers_count": 3,
+                "license": {},
+                "topics": [],
+                "updated_at": "2026-05-13T07:29:39Z",
+                "root_files": ["README.md", "CLAUDE.md", "agent-template.md", "workflow"],
+            },
+            {
+                "full_name": "Shine8592/novel-writer-skills",
+                "html_url": "https://github.com/Shine8592/novel-writer-skills",
+                "description": "Zero-cost AI Chinese novel writing with 3 OpenClaw skills, web-novel workflow, and provider budget constraints.",
+                "stargazers_count": 9,
+                "license": {},
+                "topics": ["openclaw-skill", "chinese-novel", "novel-generator", "web-novel"],
+                "updated_at": "2026-06-07T05:41:25Z",
+                "root_files": ["README.md", "SKILL.md"],
+            },
+            {
+                "full_name": "modoojunko/awesome-novel-skill",
+                "html_url": "https://github.com/modoojunko/awesome-novel-skill",
+                "description": "AI agent novel writing partner from worldbuilding to character shaping, chapter planning, prose writing, SKILL.md, agents, memory and templates.",
+                "stargazers_count": 202,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["agent-skill", "ai-fiction", "ai-novel", "novel-writing", "story-generation"],
+                "updated_at": "2026-06-10T03:07:38Z",
+                "root_files": ["README.md", "SKILL.md", "install.sh", "install.ps1", "agents"],
+            },
+            {
+                "full_name": "langchain-ai/story-writing",
+                "html_url": "https://github.com/langchain-ai/story-writing",
+                "description": "LangGraph story-writing sample with story state flow, agent.py and langgraph.json for stateful planning.",
+                "stargazers_count": 155,
+                "license": {},
+                "topics": [],
+                "updated_at": "2026-06-04T14:17:57Z",
+                "root_files": ["README.md", "agent.py", "langgraph.json", "requirements.txt", "test.py"],
+            },
+            {
+                "full_name": "EdwardAThomson/StoryDaemon",
+                "html_url": "https://github.com/EdwardAThomson/StoryDaemon",
+                "description": "StoryDaemon generates long-form fiction through an autonomous agent that plans, writes, and evolves stories organically.",
+                "stargazers_count": 23,
+                "license": {},
+                "topics": ["creative-writing", "llms"],
+                "updated_at": "2026-06-04T11:17:31Z",
+                "root_files": ["README.md", "CLAUDE.md", "requirements.txt", "scripts", "tests"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T14:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "causal_dramatica_agent_pipeline" in candidates["ydsgangge-ux/dramatica-flow"]["absorbed_patterns"]
+    assert "foreshadowing_debt_budget" in candidates["ydsgangge-ux/dramatica-flow"]["absorbed_patterns"]
+    assert "capture_distillation_production_gate" in candidates["mmunro3318/story-foundry"]["absorbed_patterns"]
+    assert "skill_orchestrated_chinese_novel_workflow" in candidates["Shine8592/novel-writer-skills"]["absorbed_patterns"]
+    assert "provider_budget_smoke_gate" in candidates["Shine8592/novel-writer-skills"]["absorbed_patterns"]
+    assert "skill_orchestrated_chinese_novel_workflow" in candidates["modoojunko/awesome-novel-skill"]["absorbed_patterns"]
+    assert "langgraph_story_state_machine" in candidates["langchain-ai/story-writing"]["absorbed_patterns"]
+    assert "story_daemon_evolution_loop" in candidates["EdwardAThomson/StoryDaemon"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "causal_dramatica_agent_pipeline_hints" in pattern_pack
+    assert "capture_distillation_production_gate_hints" in pattern_pack
+    assert "skill_orchestrated_chinese_novel_workflow_hints" in pattern_pack
+    assert "langgraph_story_state_machine_hints" in pattern_pack
+    assert "story_daemon_evolution_loop_hints" in pattern_pack
+    assert "causal_dramatica_thread_map" in pattern_pack["bible_enrichment_targets"]
+    assert "story_state_machine_schema" in pattern_pack["bible_enrichment_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "causal_dramatica_agent_pipeline_hints" in digest
+    assert "skill_orchestrated_chinese_novel_workflow_hints" in digest

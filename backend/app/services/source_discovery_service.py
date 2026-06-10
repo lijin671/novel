@@ -187,6 +187,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("Plan Draft Log Verify" OR "foreshadowing checklist" OR "living documents") ("longform" OR "novel" OR "manuscript") in:name,description,readme',
     '("metadata-first analysis" OR "safe scene revision" OR "git history") ("novel" OR "long-form fiction" OR "MCP") in:name,description,readme',
     '("Verbalized Sampling" OR "mode collapse" OR "writer wiki") ("creative writing" OR "story" OR "novel") in:name,description,readme',
+    '("Dramatica" OR "causal chain" OR "foreshadowing tracking") ("AI novel" OR "novel-writing" OR "story generation") in:name,description,readme',
+    '("Capture" OR "Distillation" OR "Production") ("agentic platform" OR "novel" OR "story foundry") in:name,description,readme',
+    '("OpenClaw" OR "agent skill") ("Chinese novel" OR "novel-writing" OR "web novel") in:name,description,readme',
+    '("LangGraph" OR "story state" OR "story-writing") ("fiction" OR "novel" OR "agent") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -427,6 +431,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/mike-cramblett/novel-novel-generator",
     "https://github.com/denmurray10/Story-Timeline-Builder",
     "https://github.com/jwynia/agent-skills",
+    "https://github.com/ydsgangge-ux/dramatica-flow",
+    "https://github.com/mmunro3318/story-foundry",
+    "https://github.com/Shine8592/novel-writer-skills",
+    "https://github.com/modoojunko/awesome-novel-skill",
+    "https://github.com/langchain-ai/story-writing",
+    "https://github.com/EdwardAThomson/StoryDaemon",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -586,7 +596,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_contract_commit_chain", ("story contract", "story contracts", "chapter_commit", "chapter commit", "合同", "提交链", "故事合同", "唯一的事实源头", "主链", "accepted chapter_commit")),
     ("fact_snapshot_delta_gate", ("fact snapshot", "事实快照", "15维事实快照", "12类变更声明", "state write-back", "fact write-back", "状态回写", "事实回写", "变更声明", "generation gates", "生成门禁", "统一校验")),
     ("projection_sync_observability", ("projection_log", "projection log", "state/index/summary/memory/vector", "投影", "派生视图", "只读视图", "dashboard", "doctor", "preflight", "项目体检", "可视化面板")),
-    ("foreshadowing_debt_budget", ("foreshadowing debt", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
+    ("foreshadowing_debt_budget", ("foreshadowing debt", "foreshadowing tracking", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
     ("reader_retention_review_gate", ("reader retention", "follow-up rate", "追读力", "爽点", "ooc", "节奏", "6 维", "six-dimensional", "reader promise", "读者承诺")),
     ("draft_stage_revision_ladder", ("draft a", "draft b", "draft c", "chapter blueprint", "key-information file", "chapter task card", "初稿", "定向修改", "去ai", "连续性记录", "drafting, revision, and final polish")),
     ("rolling_summary_context_trim", ("rolling summary", "compressed plot summary", "context trimmed", "token budget", "character state tracking", "timeline events", "relevant passages", "session progress", "context trimming", "chapter_summaries", "chapter summaries", "events.jsonl", "timeline.jsonl", "relationship graph", "memory update after each chapter")),
@@ -698,6 +708,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("toc_aware_source_deconstruction", ("llm ebook summarizer", "epub files", "pdf files", "table of contents", "nested chapters", "parent section introductions", "structured markdown notes", "quotes and anecdotes", "merge utility")),
     ("two_pass_context_glossary_pipeline", ("two-pass translation", "pass 1 (analysis)", "pass 2 (translation)", "previous chapter summary", "cumulative glossary", "proper nouns/terms", "resume support", "prompt templates")),
     ("inline_author_edit_markup_versioning", ("story framework", "markdown files and git", "source of truth", "continuity/timeline.md", "continuity/facts.md", "process edit notes", "[[pov", "{{fix", "git tag")),
+    ("causal_dramatica_agent_pipeline", ("dramatica", "causal-driven", "causal driven", "causal chain", "causal-chain management", "5-layer agent", "five-layer agent", "multi-line narration", "deep narrative logic", "因果链", "多线叙事", "伏笔追踪")),
+    ("capture_distillation_production_gate", ("capture -> distillation -> production", "capture distillation production", "capture stage", "distillation stage", "production stages", "story foundry", "agent-template", "agentic platform to assist an author")),
+    ("skill_orchestrated_chinese_novel_workflow", ("openclaw skill", "agent-skill", "awesome novel skill", "chinese novel writing", "chinese-novel", "web-novel", "worldbuilding to character shaping", "章节规划", "正文写作", "小说创作搭档")),
+    ("langgraph_story_state_machine", ("langgraph", "langchain", "story state flow", "story-writing sample", "langgraph.json", "agent.py", "stateful planning", "story state machine")),
+    ("story_daemon_evolution_loop", ("storydaemon", "autonomous agent", "plans, writes, and evolves stories", "evolves stories organically", "organic planning", "long-form fiction through an autonomous agent")),
     ("temporal_canon_context_graph", ("graphiti", "temporal knowledge graph", "temporal context", "episodes", "bi-temporal", "valid_at", "invalid_at", "hybrid search", "provenance tracking")),
     ("long_term_author_preference_memory", ("mem0", "memory layer", "long-term memory", "user preferences", "session memory", "adaptive personalization", "multi-level memory", "episodic memory")),
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
@@ -1667,6 +1682,34 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "spaCy provides industrial NLP pipelines with tokenization, named entity recognition, text classification, and custom pipeline components. "
         "Absorb pipeline-shaped entity review and custom fiction-entity labeling patterns only; models, packages, and runtime pipelines are not installed."
     ),
+    "ydsgangge-ux/dramatica-flow": (
+        "Causal-driven AI novel engine based on Dramatica theory with a five-layer Agent writing pipeline, "
+        "causal-chain management, multi-line narration, foreshadowing tracking, FastAPI/CLI surfaces, and install scripts. "
+        "Pattern-only adaptation for causal dramaturgy gates, foreshadowing debt, and agent-layer handoff checks."
+    ),
+    "mmunro3318/story-foundry": (
+        "Agentic authoring platform for ideation and novel writing with Claude Code / VS Code collaboration, "
+        "agent templates, workflow folder, and Capture -> Distillation -> Production style stages. "
+        "Pattern-only adaptation for staged source capture, distilled story packets, and production gate handoffs."
+    ),
+    "shine8592/novel-writer-skills": (
+        "OpenClaw skill pack for zero-cost Chinese novel writing with multiple skills, Chinese web-novel focus, "
+        "chapter generation, style constraints, and provider-budget positioning. "
+        "Pattern-only adaptation for skill-orchestrated Chinese novel workflows, budget smoke gates, and localization-style checks."
+    ),
+    "modoojunko/awesome-novel-skill": (
+        "Chinese novel-writing skill system for AI agents. Public metadata describes worldbuilding, character shaping, "
+        "chapter planning, prose writing, SKILL.md, agents, memory, templates, tools, and install scripts under GPL-3.0. "
+        "Pattern-only adaptation for skill-orchestrated Chinese novel workflows; no installer or bulk skill import."
+    ),
+    "langchain-ai/story-writing": (
+        "LangGraph / LangChain story-writing sample with agent.py, langgraph.json, app pages, requirements, tests, and story state flow. "
+        "Pattern-only adaptation for graph/state-machine writing loops and stateful planning checkpoints; no package runtime import."
+    ),
+    "edwardathomson/storydaemon": (
+        "Autonomous long-form fiction agent that plans, writes, and evolves stories organically with work directories, docs, scripts, and tests. "
+        "Pattern-only adaptation for story-daemon evolution loops, organic planning checkpoints, and autonomous-agent review boundaries."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2167,6 +2210,11 @@ class NovelSourceDiscoveryService:
             "toc_aware_source_deconstruction_hints": self._build_toc_aware_source_deconstruction_hints(available_patterns),
             "two_pass_context_glossary_pipeline_hints": self._build_two_pass_context_glossary_pipeline_hints(available_patterns),
             "inline_author_edit_markup_versioning_hints": self._build_inline_author_edit_markup_versioning_hints(available_patterns),
+            "causal_dramatica_agent_pipeline_hints": self._build_causal_dramatica_agent_pipeline_hints(available_patterns),
+            "capture_distillation_production_gate_hints": self._build_capture_distillation_production_gate_hints(available_patterns),
+            "skill_orchestrated_chinese_novel_workflow_hints": self._build_skill_orchestrated_chinese_novel_workflow_hints(available_patterns),
+            "langgraph_story_state_machine_hints": self._build_langgraph_story_state_machine_hints(available_patterns),
+            "story_daemon_evolution_loop_hints": self._build_story_daemon_evolution_loop_hints(available_patterns),
             "temporal_canon_context_graph_hints": self._build_temporal_canon_context_graph_hints(available_patterns),
             "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
@@ -2819,6 +2867,11 @@ class NovelSourceDiscoveryService:
             "toc_aware_source_deconstruction": 65,
             "two_pass_context_glossary_pipeline": 64,
             "inline_author_edit_markup_versioning": 63,
+            "causal_dramatica_agent_pipeline": 68,
+            "capture_distillation_production_gate": 66,
+            "skill_orchestrated_chinese_novel_workflow": 67,
+            "langgraph_story_state_machine": 65,
+            "story_daemon_evolution_loop": 65,
             "temporal_canon_context_graph": 68,
             "long_term_author_preference_memory": 64,
             "community_graph_source_deconstruction": 66,
@@ -3273,6 +3326,21 @@ class NovelSourceDiscoveryService:
         if "inline_author_edit_markup_versioning" in patterns:
             targets.append("inline_author_edit_markup_policy")
             targets.append("revision_version_milestones")
+        if "causal_dramatica_agent_pipeline" in patterns:
+            targets.append("causal_dramatica_thread_map")
+            targets.append("agent_layer_handoff_policy")
+        if "capture_distillation_production_gate" in patterns:
+            targets.append("capture_distillation_production_packet")
+            targets.append("source_to_production_promotion_rules")
+        if "skill_orchestrated_chinese_novel_workflow" in patterns:
+            targets.append("skill_orchestrated_chinese_workflow_manifest")
+            targets.append("webnovel_stage_skill_boundaries")
+        if "langgraph_story_state_machine" in patterns:
+            targets.append("story_state_machine_schema")
+            targets.append("checkpoint_transition_rules")
+        if "story_daemon_evolution_loop" in patterns:
+            targets.append("story_evolution_loop_policy")
+            targets.append("autonomous_agent_acceptance_boundary")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_canon_graph_schema")
             targets.append("episode_provenance_rules")
@@ -3704,6 +3772,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["two_pass_glossary_consistency_report", "proper_noun_term_drift_findings", "resume_checkpoint_suggestion"])
         if "inline_author_edit_markup_versioning" in patterns:
             targets.extend(["inline_edit_note_queue", "author_note_context_map", "revision_diff_milestones"])
+        if "causal_dramatica_agent_pipeline" in patterns:
+            targets.extend(["causal_dramatica_thread_report", "agent_layer_handoff_trace", "foreshadowing_causality_findings"])
+        if "capture_distillation_production_gate" in patterns:
+            targets.extend(["capture_distillation_production_report", "distilled_story_packet_findings", "production_promotion_decisions"])
+        if "skill_orchestrated_chinese_novel_workflow" in patterns:
+            targets.extend(["skill_orchestrated_chinese_workflow_report", "webnovel_stage_boundary_findings", "skill_runtime_exclusion_notes"])
+        if "langgraph_story_state_machine" in patterns:
+            targets.extend(["story_state_machine_report", "checkpoint_transition_trace", "stateful_planning_findings"])
+        if "story_daemon_evolution_loop" in patterns:
+            targets.extend(["story_daemon_evolution_report", "organic_plan_write_review_trace", "agent_autonomy_boundary_findings"])
         if "temporal_canon_context_graph" in patterns:
             targets.extend(["temporal_canon_graph_report", "episode_provenance_trace", "validity_window_conflicts"])
         if "long_term_author_preference_memory" in patterns:
@@ -6053,6 +6131,51 @@ class NovelSourceDiscoveryService:
             "Tag major draft milestones and keep revision diffs inspectable so same-type rewrites and continuation repairs remain reversible.",
         ]
 
+    def _build_causal_dramatica_agent_pipeline_hints(self, patterns: set[str]) -> list[str]:
+        if "causal_dramatica_agent_pipeline" not in patterns:
+            return []
+        return [
+            "Before drafting, map each major thread as cause -> pressure -> choice -> consequence rather than a loose sequence of cool events.",
+            "Separate agent layers for premise, causality, scene plan, prose, and review; each layer must cite the accepted artifact it received.",
+            "Foreshadowing tracking should record setup owner, expected payoff window, causal dependency, and unresolved-debt status.",
+        ]
+
+    def _build_capture_distillation_production_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "capture_distillation_production_gate" not in patterns:
+            return []
+        return [
+            "Split author intake into capture, distillation, and production packets so raw ideas and source notes never flow directly into prose.",
+            "Distillation must convert source/reference material into abstract story functions, constraints, and risks before any chapter task is opened.",
+            "Production can draft only from accepted distilled packets plus local canon; rejected or undecided captures stay out of generation context.",
+        ]
+
+    def _build_skill_orchestrated_chinese_novel_workflow_hints(self, patterns: set[str]) -> list[str]:
+        if "skill_orchestrated_chinese_novel_workflow" not in patterns:
+            return []
+        return [
+            "Route Chinese web-novel work by stage: worldbuilding, character shaping, outline, chapter task, prose, polish, and continuity review.",
+            "Skill packs are pattern sources only: do not bulk-import commands, install scripts, provider settings, or hidden runtime assumptions.",
+            "Each stage should emit a small artifact and handoff checklist so long-form continuation survives session breaks and tool changes.",
+        ]
+
+    def _build_langgraph_story_state_machine_hints(self, patterns: set[str]) -> list[str]:
+        if "langgraph_story_state_machine" not in patterns:
+            return []
+        return [
+            "Model the writing loop as explicit state transitions: plan, retrieve, draft, review, repair, accept, and checkpoint.",
+            "Every transition should validate required state fields before moving forward and preserve the rejected branch for debugging.",
+            "For same-type creation, keep source-analysis state separate from transformed-story state so graph checkpoints cannot mix canon layers.",
+        ]
+
+    def _build_story_daemon_evolution_loop_hints(self, patterns: set[str]) -> list[str]:
+        if "story_daemon_evolution_loop" not in patterns:
+            return []
+        return [
+            "Autonomous story evolution must remain bounded by author goals, accepted canon, review gates, and a replayable work directory.",
+            "Organic planning can propose turns, but acceptance requires evidence: plan delta, prose delta, state delta, and reviewer decision.",
+            "Do not let background evolution close arcs, add irreversible lore, or rewrite prior chapters without a named acceptance boundary.",
+        ]
+
     def _build_temporal_canon_context_graph_hints(self, patterns: set[str]) -> list[str]:
         if "temporal_canon_context_graph" not in patterns:
             return []
@@ -6560,6 +6683,16 @@ class NovelSourceDiscoveryService:
             targets.append("glossary_context_remap")
         if "inline_author_edit_markup_versioning" in patterns:
             targets.append("inline_markup_revision_remap")
+        if "causal_dramatica_agent_pipeline" in patterns:
+            targets.append("causal_thread_remap")
+        if "capture_distillation_production_gate" in patterns:
+            targets.append("distilled_packet_remap")
+        if "skill_orchestrated_chinese_novel_workflow" in patterns:
+            targets.append("chinese_webnovel_skill_stage_remap")
+        if "langgraph_story_state_machine" in patterns:
+            targets.append("story_state_machine_remap")
+        if "story_daemon_evolution_loop" in patterns:
+            targets.append("story_evolution_loop_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -6851,6 +6984,16 @@ class NovelSourceDiscoveryService:
             hints.append("Run an analysis pass that extracts source term functions, then create a new glossary for transformed names, places, rules, and motifs.")
         if "inline_author_edit_markup_versioning" in patterns:
             hints.append("Use inline author notes to control new POV, timeline, mood, and active threads; edit notes should resolve into independent prose.")
+        if "causal_dramatica_agent_pipeline" in patterns:
+            hints.append("Rebuild causal threads for the transformed story; source Dramatica-style roles may guide pressure only, not event order.")
+        if "capture_distillation_production_gate" in patterns:
+            hints.append("Convert source captures into distilled craft packets first; production prompts should never ingest raw source notes as canon.")
+        if "skill_orchestrated_chinese_novel_workflow" in patterns:
+            hints.append("Use Chinese web-novel stage skills as workflow shape only; generate new world rules, character arcs, and chapter hooks.")
+        if "langgraph_story_state_machine" in patterns:
+            hints.append("Create a separate transformed-story state machine so source-analysis states cannot be resumed as new-story canon.")
+        if "story_daemon_evolution_loop" in patterns:
+            hints.append("Let autonomous evolution propose alternatives, but accept only changes that pass transformed-canon and copy-risk gates.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.")
         if "long_term_author_preference_memory" in patterns:
@@ -7164,6 +7307,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform proper-noun and term glossaries into new names, labels, rules, and motifs before generation uses them.")
         if "inline_author_edit_markup_versioning" in patterns:
             hints.append("Transform inline notes into new-story POV/timeline/revision tasks; remove edit markers once the independent revision is accepted.")
+        if "causal_dramatica_agent_pipeline" in patterns:
+            hints.append("Transform causal chains by changing drive, conflict source, decision pressure, consequence, and payoff owner.")
+        if "capture_distillation_production_gate" in patterns:
+            hints.append("Transform captured source notes into distilled function cards before any production draft can use them.")
+        if "skill_orchestrated_chinese_novel_workflow" in patterns:
+            hints.append("Transform skill-stage outputs into new web-novel artifacts with independent names, sects, abilities, hooks, and arc pressure.")
+        if "langgraph_story_state_machine" in patterns:
+            hints.append("Transform state-machine nodes and transitions so resumed checkpoints belong to the new story, not the source analysis.")
+        if "story_daemon_evolution_loop" in patterns:
+            hints.append("Transform autonomous evolution proposals into explicit author-review deltas before canon write-back.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -7513,6 +7666,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject generated chapters whose glossary keeps source names, terms, locations, titles, or term-introduction order.")
         if "inline_author_edit_markup_versioning" in patterns:
             hints.append("Reject inline notes or edit queues that smuggle source scene instructions into final independent prose.")
+        if "causal_dramatica_agent_pipeline" in patterns:
+            hints.append("Reject causal maps that keep source event chain, dilemma order, payoff owner, or foreshadowing debt under new labels.")
+        if "capture_distillation_production_gate" in patterns:
+            hints.append("Reject production packets that include raw source captures, pasted source notes, or undecided distillation findings.")
+        if "skill_orchestrated_chinese_novel_workflow" in patterns:
+            hints.append("Reject skill-stage outputs that bulk-import external skill text, installer assumptions, or source-like Chinese web-novel proper nouns.")
+        if "langgraph_story_state_machine" in patterns:
+            hints.append("Reject state checkpoints that merge source-analysis state with transformed-story canon or skip transition validation.")
+        if "story_daemon_evolution_loop" in patterns:
+            hints.append("Reject autonomous evolution outputs that rewrite accepted canon, close arcs, or add lore without replayable review evidence.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Reject temporal graphs that preserve source event chronology, relationship validity windows, or provenance as transformed canon.")
         if "long_term_author_preference_memory" in patterns:
@@ -7622,6 +7785,11 @@ class NovelSourceDiscoveryService:
                 "toc_aware_source_deconstruction",
                 "two_pass_context_glossary_pipeline",
                 "inline_author_edit_markup_versioning",
+                "causal_dramatica_agent_pipeline",
+                "capture_distillation_production_gate",
+                "skill_orchestrated_chinese_novel_workflow",
+                "langgraph_story_state_machine",
+                "story_daemon_evolution_loop",
                 "temporal_canon_context_graph",
                 "long_term_author_preference_memory",
                 "community_graph_source_deconstruction",
@@ -8003,6 +8171,9 @@ class NovelSourceDiscoveryService:
         )
         trust_review = self._build_github_trust_review(repository)
         posture, posture_hint = self._static_repository_posture(title, trust_review["posture_hint"])
+        absorbed_patterns = self._absorbed_patterns(haystack)
+        if posture == "index-only" and posture_hint == "catalog-index-only":
+            absorbed_patterns = ["source_discovery"]
         return {
             "source": "github",
             "url": _text(repository.get("html_url")),
@@ -8015,7 +8186,7 @@ class NovelSourceDiscoveryService:
             "posture_hint": posture_hint,
             "risk_flags": self._risk_flags(haystack),
             "trust_review": trust_review,
-            "absorbed_patterns": self._absorbed_patterns(haystack),
+            "absorbed_patterns": absorbed_patterns,
             "updated_at": _text(repository.get("updated_at")),
             "score": self._score_candidate(haystack, stars=repository.get("stargazers_count")),
         }

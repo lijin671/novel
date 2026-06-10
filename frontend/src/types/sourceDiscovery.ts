@@ -108,6 +108,11 @@ export interface SourceDiscoveryPatternPack {
   character_interaction_network_gate_hints?: string[];
   plotline_thread_tracking_hints?: string[];
   rolling_summary_context_trim_hints?: string[];
+  causal_dramatica_agent_pipeline_hints?: string[];
+  capture_distillation_production_gate_hints?: string[];
+  skill_orchestrated_chinese_novel_workflow_hints?: string[];
+  langgraph_story_state_machine_hints?: string[];
+  story_daemon_evolution_loop_hints?: string[];
   safety_constraints?: string[];
 }
 

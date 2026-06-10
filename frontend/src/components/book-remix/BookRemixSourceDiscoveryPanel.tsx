@@ -49,6 +49,12 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/mike-cramblett/novel-novel-generator',
   'https://github.com/denmurray10/Story-Timeline-Builder',
   'https://github.com/jwynia/agent-skills',
+  'https://github.com/ydsgangge-ux/dramatica-flow',
+  'https://github.com/mmunro3318/story-foundry',
+  'https://github.com/Shine8592/novel-writer-skills',
+  'https://github.com/modoojunko/awesome-novel-skill',
+  'https://github.com/langchain-ai/story-writing',
+  'https://github.com/EdwardAThomson/StoryDaemon',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -97,6 +103,11 @@ const PINNED_HINT_KEYS = new Set([
   'character_interaction_network_gate_hints',
   'plotline_thread_tracking_hints',
   'rolling_summary_context_trim_hints',
+  'causal_dramatica_agent_pipeline_hints',
+  'capture_distillation_production_gate_hints',
+  'skill_orchestrated_chinese_novel_workflow_hints',
+  'langgraph_story_state_machine_hints',
+  'story_daemon_evolution_loop_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -324,6 +335,13 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Character interaction network gates', patternPackPayload?.character_interaction_network_gate_hints],
               ['Plotline thread tracking gates', patternPackPayload?.plotline_thread_tracking_hints],
               ['Rolling summary context trim gates', patternPackPayload?.rolling_summary_context_trim_hints],
+            ])}
+            {renderHintGroup('Causal state-machine / skill workflow gates', [
+              ['Causal Dramatica agent pipeline gates', patternPackPayload?.causal_dramatica_agent_pipeline_hints],
+              ['Capture distillation production gates', patternPackPayload?.capture_distillation_production_gate_hints],
+              ['Skill-orchestrated Chinese novel workflow gates', patternPackPayload?.skill_orchestrated_chinese_novel_workflow_hints],
+              ['LangGraph story state machine gates', patternPackPayload?.langgraph_story_state_machine_hints],
+              ['Story daemon evolution loop gates', patternPackPayload?.story_daemon_evolution_loop_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

@@ -49,6 +49,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "character_interaction_network_gate_hints",
         "plotline_thread_tracking_hints",
         "rolling_summary_context_trim_hints",
+        "causal_dramatica_agent_pipeline_hints",
+        "capture_distillation_production_gate_hints",
+        "skill_orchestrated_chinese_novel_workflow_hints",
+        "langgraph_story_state_machine_hints",
+        "story_daemon_evolution_loop_hints",
     ):
         assert field in types_text
         assert field in panel_text
@@ -69,6 +74,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Character dialogue persona memory gates" in panel_text
     assert "Anti-repetition prompt rule gates" in panel_text
     assert "Temporal canon context graph gates" in panel_text
+    assert "Causal state-machine / skill workflow gates" in panel_text
+    assert "Causal Dramatica agent pipeline gates" in panel_text
+    assert "Capture distillation production gates" in panel_text
+    assert "Skill-orchestrated Chinese novel workflow gates" in panel_text
+    assert "LangGraph story state machine gates" in panel_text
+    assert "Story daemon evolution loop gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -115,6 +126,12 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "mike-cramblett/novel-novel-generator",
         "denmurray10/Story-Timeline-Builder",
         "jwynia/agent-skills",
+        "ydsgangge-ux/dramatica-flow",
+        "mmunro3318/story-foundry",
+        "Shine8592/novel-writer-skills",
+        "modoojunko/awesome-novel-skill",
+        "langchain-ai/story-writing",
+        "EdwardAThomson/StoryDaemon",
     ):
         assert repo in panel_text
 
