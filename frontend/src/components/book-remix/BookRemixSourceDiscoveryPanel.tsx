@@ -196,6 +196,7 @@ const PINNED_HINT_KEYS = new Set([
   'trope_density_novelty_budget_hints',
   'trope_source_boundary_review_hints',
   'reader_retention_review_gate_hints',
+  'serial_reader_reward_contract_gate_hints',
   'reader_rating_signal_model_hints',
   'review_spoiler_sentiment_corpus_hints',
   'beta_reader_archetype_panel_hints',
@@ -705,6 +706,7 @@ export default function BookRemixSourceDiscoveryPanel() {
             ])}
             {renderHintGroup('Reader feedback / market positioning gates', [
               ['Reader retention review gates', patternPackPayload?.reader_retention_review_gate_hints],
+              ['Serial reader-reward contract gates', patternPackPayload?.serial_reader_reward_contract_gate_hints],
               ['Reader rating signal model gates', patternPackPayload?.reader_rating_signal_model_hints],
               ['Review spoiler / sentiment corpus gates', patternPackPayload?.review_spoiler_sentiment_corpus_hints],
               ['Beta-reader archetype panel gates', patternPackPayload?.beta_reader_archetype_panel_hints],

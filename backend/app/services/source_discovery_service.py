@@ -75,6 +75,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("story contract" OR "chapter commit" OR "fact snapshot") ("webnovel" OR "novel" OR "long-form") in:name,description,readme',
     '("fact write-back" OR "state write-back" OR "generation gates") ("web novel" OR "novel writing") in:name,description,readme',
     '("foreshadowing debt" OR "follow-up rate" OR "reader retention") ("webnovel" OR "novel") in:name,description,readme',
+    '("reader reward" OR "commercial serialization" OR "paid conversion" OR "opening hook") ("webnovel" OR "serial fiction") in:name,description,readme',
     '("Draft A" OR "Draft B" OR "Draft C" OR "chapter blueprint") ("web novel" OR "fiction writing") in:name,description,readme',
     '("rolling summary" OR "character state tracking" OR "context trimming") ("long-form" OR "novel") in:name,description,readme',
     '("head-to-head story" OR "pairwise margins" OR "evaluator agreement") ("creative writing" OR "fiction") in:name,description,readme',
@@ -635,6 +636,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/VerifiedOrganic/spindle",
     "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
     "https://github.com/SutraMind/GraphRAG-story",
+    "https://github.com/ansrhkddns-web/k-webnovel-architect",
+    "https://github.com/0503xqy/novel-writer",
     "https://github.com/daveremy/edword",
     "https://github.com/adameya2004-oss/CraftEngine",
     "https://github.com/per-hap-s/webnovel-writing",
@@ -841,6 +844,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("projection_sync_observability", ("projection_log", "projection log", "state/index/summary/memory/vector", "投影", "派生视图", "只读视图", "dashboard", "doctor", "preflight", "项目体检", "可视化面板")),
     ("foreshadowing_debt_budget", ("foreshadowing debt", "foreshadowing tracking", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
     ("reader_retention_review_gate", ("reader retention", "follow-up rate", "追读力", "爽点", "ooc", "节奏", "6 维", "six-dimensional", "reader promise", "读者承诺")),
+    ("serial_reader_reward_contract_gate", ("commercial serialization", "commercial webnovel", "paid conversion", "paid chapter", "free-to-paid", "opening hook", "platform packaging", "chapter production brief", "reader persona demand", "serial strategy", "chapter reward contract", "상업 연재", "독자 보상", "유료화 지점", "회차 로드맵", "회차 집필 지시서", "플랫폼별 패키징", "이탈 위험", "商业网文", "平台连载", "章节合同", "情绪回报", "追读点", "弃读风险", "开篇钩子")),
     ("anti_statistical_center_chapter_type_gate", ("three-type", "chapter type", "a-type emotion", "b-type action", "c-type function", "三型分流", "a型情绪章", "b型动作章", "c型功能章", "概率陷阱", "最可能的续写", "事件冷却矩阵", "唯一画面测试", "story contract", "反向刹车", "3+1熔断", "自创公式检测", "nucleus-first", "seven knives", "golden finger")),
     ("draft_stage_revision_ladder", ("draft a", "draft b", "draft c", "chapter blueprint", "key-information file", "chapter task card", "初稿", "定向修改", "去ai", "连续性记录", "drafting, revision, and final polish")),
     ("rolling_summary_context_trim", ("rolling summary", "compressed plot summary", "context trimmed", "token budget", "character state tracking", "timeline events", "relevant passages", "session progress", "context trimming", "chapter_summaries", "chapter summaries", "events.jsonl", "timeline.jsonl", "relationship graph", "memory update after each chapter")),
@@ -2262,6 +2266,16 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Neo4j knowledge graph, vector search, query routing across graph/vector/hybrid modes, and validation that chapter and relationship counts match processed files. "
         "Pattern-only adaptation for graph/vector story-context routing; requirements, Neo4j, FastAPI, scripts, test queries, embeddings, and model calls are not launched."
     ),
+    "ansrhkddns-web/k-webnovel-architect": (
+        "k-webnovel-architect is an MIT Korean webnovel commercial-serialization planning skill. Public README markers describe genre grammar, reader persona and reward analysis, "
+        "opening hook, episode roadmap, chapter production briefs, paid-conversion points, platform packaging checklists, retention diagnostics, and review/revision rubrics. "
+        "Pattern-only adaptation for serial reader-reward contracts; upstream skill bodies, agents, references, prompts, and install surfaces are not imported or executed."
+    ),
+    "0503xqy/novel-writer": (
+        "novel-writer is a no-license-observed commercial webnovel production skill. Public README markers describe project folders for style, canon, character relations, chapter rhythm, "
+        "opening hooks, chapter contracts, emotional reward, retention risk, and revision ledgers for Chinese or English platform fiction. "
+        "Pattern-only adaptation for serial chapter-contract and retention gates; SKILL.md, agents, references, scripts, and prompt bodies are not imported or executed."
+    ),
     "heider-x/vela": (
         "Vela is a GPL AI novel-writing IDE with local-first privacy posture, BYOK model calls, worldbuilding, auto outline, chapter drafting, review/rewrite/refine loops, and local RAG knowledge base. "
         "Pattern-only adaptation for local RAG writing IDE boundaries and retrieval-backed continuity; Electron/Vite app, package hooks, and model calls are not launched."
@@ -3096,6 +3110,7 @@ class NovelSourceDiscoveryService:
             "projection_sync_observability_hints": self._build_projection_sync_observability_hints(available_patterns),
             "foreshadowing_debt_budget_hints": self._build_foreshadowing_debt_budget_hints(available_patterns),
             "reader_retention_review_gate_hints": self._build_reader_retention_review_gate_hints(available_patterns),
+            "serial_reader_reward_contract_gate_hints": self._build_serial_reader_reward_contract_gate_hints(available_patterns),
             "draft_stage_revision_ladder_hints": self._build_draft_stage_revision_ladder_hints(available_patterns),
             "rolling_summary_context_trim_hints": self._build_rolling_summary_context_trim_hints(available_patterns),
             "pairwise_story_comparison_ranking_hints": self._build_pairwise_story_comparison_ranking_hints(available_patterns),
@@ -3787,6 +3802,7 @@ class NovelSourceDiscoveryService:
             "projection_sync_observability": 60,
             "foreshadowing_debt_budget": 62,
             "reader_retention_review_gate": 61,
+            "serial_reader_reward_contract_gate": 68,
             "draft_stage_revision_ladder": 56,
             "rolling_summary_context_trim": 59,
             "pairwise_story_comparison_ranking": 58,
@@ -4457,6 +4473,9 @@ class NovelSourceDiscoveryService:
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_library")
             targets.append("reader_expectation_profile")
+        if "serial_reader_reward_contract_gate" in patterns:
+            targets.append("serial_reader_reward_contract")
+            targets.append("platform_packaging_boundary_policy")
         if "reader_rating_signal_model" in patterns:
             targets.append("reader_rating_signal_map")
             targets.append("shelf_tag_expectation_profile")
@@ -5551,6 +5570,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["foreshadowing_debt_items", "context_budget_reservations", "unresolved_hook_pressure"])
         if "reader_retention_review_gate" in patterns:
             targets.extend(["reader_retention_score", "pleasure_point_checks", "ooc_rhythm_review", "chapter_hook_strength"])
+        if "serial_reader_reward_contract_gate" in patterns:
+            targets.extend(["reader_reward_map", "opening_hook_contract", "free_to_paid_turning_points", "platform_packaging_fit_report"])
         if "draft_stage_revision_ladder" in patterns:
             targets.extend(["chapter_blueprint", "key_information_file", "draft_stage_status", "next_chapter_handoff"])
         if "rolling_summary_context_trim" in patterns:
@@ -5746,6 +5767,8 @@ class NovelSourceDiscoveryService:
             hints.append("优先召回高债务伏笔，预留上下文预算，并在揭示前标明铺垫、回收窗口和当前状态。")
         if "reader_retention_review_gate" in patterns:
             hints.append("章节验收同时检查一致性、OOC、节奏、爽点兑现和下一章拉力；流畅但无追读压力不能接受。")
+        if "serial_reader_reward_contract_gate" in patterns:
+            hints.append("Serial chapters need a reader-reward contract before drafting: target reader, promised reward, opening hook, delivered scene reward, retention risk, and next-payment trust signal.")
         if "draft_stage_revision_ladder" in patterns:
             hints.append("按章节蓝图、关键信息、任务卡到 Draft A/B/C 逐级修订；Draft C 只做去 AI 味和语言收束，不改事实。")
         if "rolling_summary_context_trim" in patterns:
@@ -5939,6 +5962,8 @@ class NovelSourceDiscoveryService:
             hints.append("Attach beta-reader reports to chapter state with archetype, tension, pacing, want-to-continue, confusion, favorite moment, and stumble point.")
         if "comp_title_market_positioning" in patterns:
             hints.append("Keep comp-title matrices as market-position artifacts, not canon; expire them when genre target, audience, or premise changes.")
+        if "serial_reader_reward_contract_gate" in patterns:
+            hints.append("Persist serial reader-reward contracts as market-facing chapter state: persona demand, promise, hook, reward delivery, paid-turn risk, and platform package boundary.")
         if "local_reader_experience_editor" in patterns:
             hints.append("Persist reader-experience findings as review tasks tied to chapter ids so hook, curiosity, and rhythm fixes can be verified after rewrite.")
         if "sourcebook_author_workbench" in patterns:
@@ -7771,6 +7796,15 @@ class NovelSourceDiscoveryService:
             "Simulated outcomes must be reviewed against canon and author direction before they become continuation facts.",
         ]
 
+    def _build_serial_reader_reward_contract_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "serial_reader_reward_contract_gate" not in patterns:
+            return []
+        return [
+            "Turn commercial-serial planning into a chapter contract: target reader persona, promised reward, opening hook, chapter function, delivered reward, ending hook, and retention risk.",
+            "Treat free-to-paid conversion as a trust check; paid-turn timing and platform packaging stay market artifacts until author-approved changes affect canon.",
+            "For same-type webnovel work, rebuild title, synopsis, platform package, and reader-promise wording from the new premise instead of copying a source work or upstream skill prompt.",
+        ]
+
     def _build_reader_rating_signal_model_hints(self, patterns: set[str]) -> list[str]:
         if "reader_rating_signal_model" not in patterns:
             return []
@@ -9312,6 +9346,8 @@ class NovelSourceDiscoveryService:
             targets.append("foreshadowing_debt_remap")
         if "reader_retention_review_gate" in patterns:
             targets.append("retention_hook_remap")
+        if "serial_reader_reward_contract_gate" in patterns:
+            targets.append("serial_reward_contract_remap")
         if "reader_rating_signal_model" in patterns:
             targets.append("reader_signal_remap")
             targets.append("shelf_tag_expectation_remap")
@@ -10078,6 +10114,8 @@ class NovelSourceDiscoveryService:
             hints.append("Rebuild foreshadowing debt from new hooks and payoff windows instead of copying source mysteries.")
         if "reader_retention_review_gate" in patterns:
             hints.append("Map reader-retention pressure to new hooks, pleasure points, rhythm, and cliffhangers; do not reuse source set pieces.")
+        if "serial_reader_reward_contract_gate" in patterns:
+            hints.append("Rebuild the serial reader-reward contract for the transformed premise: new persona demand, reward ladder, opening hook, free-to-paid turn, and platform package.")
         if "platform_kb_retention_strategy_gate" in patterns:
             hints.append("Use platform-KB findings as abstract audience fit constraints; rebuild title, tags, synopsis, and reader promise for the transformed premise.")
         if "chapter_end_hook_retention_ladder_gate" in patterns:
@@ -10287,6 +10325,8 @@ class NovelSourceDiscoveryService:
             hints.append("Create new foreshadowing debts with different clues, promises, costs, and payoff timing.")
         if "reader_retention_review_gate" in patterns:
             hints.append("Transform retention mechanics into new chapter-end pull, emotional pressure, and reader promise.")
+        if "serial_reader_reward_contract_gate" in patterns:
+            hints.append("Translate paid-conversion and platform-packaging ideas into independent reader promises, not copied chapter order, pricing-turn timing, or title/synopsis language.")
         if "draft_stage_revision_ladder" in patterns:
             hints.append("Run staged revision on the transformed chapter, not on source text or source-like paraphrase.")
         if "rolling_summary_context_trim" in patterns:
@@ -10836,6 +10876,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject payoff plans that preserve the same clue, debt, and reveal window from the source work.")
         if "reader_retention_review_gate" in patterns:
             hints.append("Reject chapters whose retention score depends on recognizable source set pieces or hook sequence.")
+        if "serial_reader_reward_contract_gate" in patterns:
+            hints.append("Reject same-type webnovel drafts that reuse source title formulas, reward order, paid-turn timing, platform package, or reader-promise wording.")
         if "draft_stage_revision_ladder" in patterns:
             hints.append("Reject Draft B/C polish that merely paraphrases source wording or restores source scene order.")
         if "rolling_summary_context_trim" in patterns:
@@ -11400,6 +11442,7 @@ class NovelSourceDiscoveryService:
                 "projection_sync_observability",
                 "foreshadowing_debt_budget",
                 "reader_retention_review_gate",
+                "serial_reader_reward_contract_gate",
                 "draft_stage_revision_ladder",
                 "rolling_summary_context_trim",
                 "pairwise_story_comparison_ranking",
@@ -11485,6 +11528,7 @@ class NovelSourceDiscoveryService:
                 or "voice_fingerprint" in patterns
                 or "anti_slop_audit" in patterns
                 or "reader_rating_signal_model" in patterns
+                or "serial_reader_reward_contract_gate" in patterns
                 or "review_spoiler_sentiment_corpus" in patterns
                 or "beta_reader_archetype_panel" in patterns
                 or "comp_title_market_positioning" in patterns

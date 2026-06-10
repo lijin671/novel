@@ -167,6 +167,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "trope_density_novelty_budget_hints",
             "trope_source_boundary_review_hints",
             "reader_retention_review_gate_hints",
+            "serial_reader_reward_contract_gate_hints",
             "reader_rating_signal_model_hints",
             "review_spoiler_sentiment_corpus_hints",
             "beta_reader_archetype_panel_hints",
@@ -378,6 +379,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Trope source boundary review gates" in panel_text
     assert "Reader feedback / market positioning gates" in panel_text
     assert "Reader retention review gates" in panel_text
+    assert "Serial reader-reward contract gates" in panel_text
     assert "Reader rating signal model gates" in panel_text
     assert "Review spoiler / sentiment corpus gates" in panel_text
     assert "Beta-reader archetype panel gates" in panel_text

@@ -228,6 +228,7 @@ export interface SourceDiscoveryPatternPack {
   trope_density_novelty_budget_hints?: string[];
   trope_source_boundary_review_hints?: string[];
   reader_retention_review_gate_hints?: string[];
+  serial_reader_reward_contract_gate_hints?: string[];
   reader_rating_signal_model_hints?: string[];
   review_spoiler_sentiment_corpus_hints?: string[];
   beta_reader_archetype_panel_hints?: string[];

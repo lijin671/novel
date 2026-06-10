@@ -292,6 +292,7 @@ def render_source_pattern_pack_digest(
         "projection_sync_observability_hints",
         "foreshadowing_debt_budget_hints",
         "reader_retention_review_gate_hints",
+        "serial_reader_reward_contract_gate_hints",
         "draft_stage_revision_ladder_hints",
         "rolling_summary_context_trim_hints",
         "pairwise_story_comparison_ranking_hints",

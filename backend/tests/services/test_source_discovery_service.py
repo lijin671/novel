@@ -11403,3 +11403,71 @@ def test_counterfactual_graph_rag_sources_add_story_graph_remix_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "counterfactual_story_graph_rag_gate_hints" in digest
+
+
+def test_webnovel_architect_sources_add_serial_reader_reward_contract_gates():
+    assert "https://github.com/ansrhkddns-web/k-webnovel-architect" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/0503xqy/novel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("reader reward" in query and "paid conversion" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ansrhkddns-web/k-webnovel-architect",
+                "html_url": "https://github.com/ansrhkddns-web/k-webnovel-architect",
+                "description": (
+                    "Korean webnovel commercial serialization planner with reader persona demand, "
+                    "reader reward, opening hook, episode roadmap, chapter production brief, "
+                    "paid conversion point, platform packaging checklist, and retention diagnostics."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "commercial-serialization", "reader-reward"],
+                "updated_at": "2026-05-07T15:03:53Z",
+                "root_files": ["README.md", "SKILL.md", "agents", "references"],
+            },
+            {
+                "full_name": "0503xqy/novel-writer",
+                "html_url": "https://github.com/0503xqy/novel-writer",
+                "description": (
+                    "Commercial webnovel production skill for platform serial fiction with opening hook, "
+                    "chapter contract, emotional reward, retention risk, paid chapter trust, and revision ledgers."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["webnovel", "chapter-contract", "retention"],
+                "updated_at": "2026-05-21T09:35:25Z",
+                "root_files": ["README.MD", "SKILL.md", "agents", "references", "scripts"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T20:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    architect = candidates["ansrhkddns-web/k-webnovel-architect"]
+    assert "serial_reader_reward_contract_gate" in architect["absorbed_patterns"]
+    assert "reader_reward_channel_gate" in architect["absorbed_patterns"]
+    assert architect["trust_review"]["flags"] == []
+
+    writer = candidates["0503xqy/novel-writer"]
+    assert "serial_reader_reward_contract_gate" in writer["absorbed_patterns"]
+    assert "license:missing" in writer["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "serial_reader_reward_contract" in pattern_pack["bible_enrichment_targets"]
+    assert "platform_packaging_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "reader_reward_map" in pattern_pack["whole_book_analysis_targets"]
+    assert "opening_hook_contract" in pattern_pack["whole_book_analysis_targets"]
+    assert "free_to_paid_turning_points" in pattern_pack["whole_book_analysis_targets"]
+    assert "platform_packaging_fit_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "serial_reward_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("chapter contract" in hint for hint in pattern_pack["serial_reader_reward_contract_gate_hints"])
+    assert any("next-payment trust signal" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("reader-promise wording" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "serial_reader_reward_contract_gate_hints" in digest
