@@ -144,6 +144,8 @@ const PINNED_HINT_KEYS = new Set([
   'inline_author_edit_markup_versioning_hints',
   'chapter_split_deconstruction_export_gate_hints',
   'final_prompt_preview_span_revision_gate_hints',
+  'project_skill_agent_loop_gate_hints',
+  'knowledge_document_writeback_trace_gate_hints',
   'long_term_author_preference_memory_hints',
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
@@ -625,6 +627,8 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Inline author edit markup versioning gates', patternPackPayload?.inline_author_edit_markup_versioning_hints],
               ['Chapter split deconstruction export gates', patternPackPayload?.chapter_split_deconstruction_export_gate_hints],
               ['Final-prompt preview span revision gates', patternPackPayload?.final_prompt_preview_span_revision_gate_hints],
+              ['Project skill agent-loop gates', patternPackPayload?.project_skill_agent_loop_gate_hints],
+              ['Knowledge document writeback trace gates', patternPackPayload?.knowledge_document_writeback_trace_gate_hints],
             ])}
             {renderHintGroup('Graph memory / retrieval grounding gates', [
               ['Temporal canon context graph gates', patternPackPayload?.temporal_canon_context_graph_hints],

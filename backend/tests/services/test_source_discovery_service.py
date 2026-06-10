@@ -11059,3 +11059,67 @@ def test_ai_ism_markdown_canon_chain_sources_map_to_intake_gates():
     assert "canon_evidence_suggestion_review_gate_hints" in digest
     assert "expert_chain_alignment_creativity_gate_hints" in digest
     assert "visual_story_bible_continuity_gate_hints" in digest
+
+
+def test_static_characterarc_source_maps_to_skill_loop_knowledge_trace_gates():
+    assert "https://github.com/uu201/character-arc" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Agent Loop" in query and "skill_load" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("knowledge_save_document" in query and "usedKnowledge" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "uu201/character-arc",
+                "html_url": "https://github.com/uu201/character-arc",
+                "description": (
+                    "CharacterArc desktop AI novel workbench with local SQLite project isolation, "
+                    "project settings, relationship graph, outline timeline, chapter editor versions, "
+                    "knowledge center documents, reference deep analysis, style fingerprint extraction, "
+                    "built-in and project-level Skill packages, Agent Loop, skill_load, tool registry, "
+                    "task progress, AI run records, knowledge_save_document writeback, usedKnowledge, "
+                    "usedSkills, run meta, prompt logs, API keys, txt docx and JSON workspace snapshot export."
+                ),
+                "stargazers_count": 241,
+                "forks_count": 18,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-writing", "novel", "electron", "skill"],
+                "updated_at": "2026-06-10T08:40:33Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    "package.json",
+                    "pnpm-lock.yaml",
+                    "electron/main/ai/agent/streaming-orchestrator.ts",
+                    "electron/main/ai/tasks/reference-deep-analyze.ts",
+                    "electron/main/ai/tasks/style-fingerprint-extract.ts",
+                    "electron/main/ai/runtime/run-meta.ts",
+                    "electron/main/archive/project-archive.ts",
+                ],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T14:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["uu201/character-arc"]
+    assert "project_skill_agent_loop_gate" in candidate["absorbed_patterns"]
+    assert "knowledge_document_writeback_trace_gate" in candidate["absorbed_patterns"]
+    assert "local_first_novel_workspace" in candidate["absorbed_patterns"]
+    assert "provider_key_surface" in candidate["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "project_skill_selection_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "knowledge_document_writeback_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "project_skill_selection_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "knowledge_writeback_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "project_skill_agent_loop_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "knowledge_writeback_trace_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("skill_load" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("typed knowledge documents" in hint for hint in pattern_pack["knowledge_document_writeback_trace_gate_hints"])
+    assert any("max Agent Loop steps" in hint for hint in pattern_pack["project_skill_agent_loop_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "project_skill_agent_loop_gate_hints" in digest
+    assert "knowledge_document_writeback_trace_gate_hints" in digest

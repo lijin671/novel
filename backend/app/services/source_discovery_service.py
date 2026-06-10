@@ -301,6 +301,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("chainable expert AI" OR "alignment and creativity" OR "expert modules") ("writing framework" OR "AI writing") in:name,description,readme',
     '("智能拆书" OR "章节分割" OR "拆书提示词") ("AI" OR "小说") in:name,description,readme',
     '("最终提示词" OR "提示词预览" OR "右键润色" OR "shift+L") ("小说" OR "写作") in:name,description,readme',
+    '("Agent Loop" OR "project-level Skill" OR "skill_load") ("AI novel" OR "novel writing") in:name,description,readme',
+    '("knowledge_save_document" OR "usedKnowledge" OR "AI run records") ("novel" OR "writing workspace") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -322,6 +324,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/MangoLion/plotbunni",
     "https://github.com/loreum-app/loreum",
     "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+    "https://github.com/uu201/character-arc",
     "https://github.com/Lanerra/saga",
     "https://github.com/ModernRelay/omnigraph",
     "https://github.com/doctoroyy/novel-copilot",
@@ -921,6 +924,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("privacy_preserving_local_index_gate", ("privacy-preserving index", "metadata-only", "metadata only", "never manuscript", "all data stays local", "all data is saved", "offline-first", "本地保存", "本地化数据", "数据优先保存在本机", "草稿不会自动覆盖正文")),
     ("chapter_split_deconstruction_export_gate", ("chapter splitter", "book splitter", "chapter split", "章节分割", "拆书提示词", "全部拆书", "chapter analysis", "章节概要", "人物分析", "情节解析", "导出数据", "supported encodings", "gbk", "big5")),
     ("final_prompt_preview_span_revision_gate", ("final prompt", "prompt preview", "最终提示词", "编辑提示词", "右键菜单操作", "selected_text", "选中文本", "右键润色", "send to ai", "replace selected text", "shift+l", "快捷词条")),
+    ("project_skill_agent_loop_gate", ("agent loop", "skill_load", "skill index", "tool registry", "project-level skill", "project skill", "usedskills", "skill usage", "task auto match", "task-specific skill", "built-in skill", "project skills")),
+    ("knowledge_document_writeback_trace_gate", ("knowledge_save_document", "producedknowledgedocuments", "usedknowledge", "ai run records", "run meta", "prompt log", "knowledge center", "reference-summary", "reference-chunk", "canon-fact", "chapter-summary", "workspace json snapshot")),
     ("chapter_description_continuity_bridge_gate", ("chapter descriptions", "chapter-by-chapter outline", "previous chapters for continuity", "awareness of all previous chapters", "previous chapters as context", "structured book", "guided mode", "pro mode")),
     ("selective_streaming_regeneration_gate", ("real-time streaming", "streaming text", "generate the entire book", "individual chapters", "regenerate specific chapters", "without losing the rest", "inline editing", "save instantly")),
     ("research_citation_boundary_gate", ("ai research engine", "web search integration", "academic databases", "citation styles", "citations are woven", "quality & plagiarism checks", "plagiarism checks", "source content")),
@@ -1466,6 +1471,13 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "chapter splitting with encoding selection, per-chapter analysis prompts, exportable deconstruction data, final-prompt preview/edit before sending, "
         "right-click selected-span polishing, prompt-variable substitution, shift+L shortcut entries, title/summary generation, and /gen plus /gen2 model endpoint surfaces. "
         "Pattern-only value is prompt-preview approval, selected-span revision, and chapter-split deconstruction/export gates; model connectors, requirements, web runtime, and hosted demo are not launched."
+    ),
+    "uu201/character-arc": (
+        "CharacterArc is a MIT Electron/Vue desktop AI novel workbench. Public README and selected static files describe local SQLite project isolation, "
+        "project settings, relationship graphs, outline timelines, chapter editor versions, knowledge center documents, reference deep analysis, style fingerprint extraction, "
+        "task-matched built-in/project Skill packages, Agent Loop with skill_load/tool registry, task progress, AI run records, usedKnowledge/usedSkills/run meta, "
+        "knowledge_save_document writeback, prompt logs, and txt/docx/JSON project snapshot export. Pattern-only value is task-scoped skill-agent routing, typed knowledge-document writeback, "
+        "and inspectable AI trace gates; Electron app, pnpm runtime, provider calls, embeddings, API keys, and desktop runtime are not launched."
     ),
     "arupmaity1/book-writer-mcp": (
         "Book Writer MCP for AI-assisted manuscript work. Public README describes story bible, style guide, continuity checker, chapter create/read/update/list/reorder, "
@@ -2891,6 +2903,8 @@ class NovelSourceDiscoveryService:
             "privacy_preserving_local_index_gate_hints": self._build_privacy_preserving_local_index_gate_hints(available_patterns),
             "chapter_split_deconstruction_export_gate_hints": self._build_chapter_split_deconstruction_export_gate_hints(available_patterns),
             "final_prompt_preview_span_revision_gate_hints": self._build_final_prompt_preview_span_revision_gate_hints(available_patterns),
+            "project_skill_agent_loop_gate_hints": self._build_project_skill_agent_loop_gate_hints(available_patterns),
+            "knowledge_document_writeback_trace_gate_hints": self._build_knowledge_document_writeback_trace_gate_hints(available_patterns),
             "chapter_description_continuity_bridge_gate_hints": self._build_chapter_description_continuity_bridge_gate_hints(available_patterns),
             "selective_streaming_regeneration_gate_hints": self._build_selective_streaming_regeneration_gate_hints(available_patterns),
             "research_citation_boundary_gate_hints": self._build_research_citation_boundary_gate_hints(available_patterns),
@@ -3848,6 +3862,8 @@ class NovelSourceDiscoveryService:
             "privacy_preserving_local_index_gate": 64,
             "chapter_split_deconstruction_export_gate": 67,
             "final_prompt_preview_span_revision_gate": 66,
+            "project_skill_agent_loop_gate": 67,
+            "knowledge_document_writeback_trace_gate": 68,
             "chapter_description_continuity_bridge_gate": 67,
             "selective_streaming_regeneration_gate": 65,
             "research_citation_boundary_gate": 66,
@@ -4016,6 +4032,12 @@ class NovelSourceDiscoveryService:
         if "final_prompt_preview_span_revision_gate" in patterns:
             targets.append("final_prompt_preview_policy")
             targets.append("selected_span_revision_policy")
+        if "project_skill_agent_loop_gate" in patterns:
+            targets.append("project_skill_selection_policy")
+            targets.append("agent_loop_iteration_budget")
+        if "knowledge_document_writeback_trace_gate" in patterns:
+            targets.append("knowledge_document_writeback_policy")
+            targets.append("ai_run_trace_schema")
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.append("chapter_description_contracts")
             targets.append("previous_chapter_summary_policy")
@@ -5505,6 +5527,10 @@ class NovelSourceDiscoveryService:
             targets.extend(["chapter_split_deconstruction_manifest", "per_chapter_analysis_progress", "deconstruction_export_checksum"])
         if "final_prompt_preview_span_revision_gate" in patterns:
             targets.extend(["final_prompt_preview_audit", "selected_span_revision_preview", "quick_snippet_usage_report"])
+        if "project_skill_agent_loop_gate" in patterns:
+            targets.extend(["project_skill_selection_audit", "agent_loop_iteration_trace", "skill_usage_memory_report"])
+        if "knowledge_document_writeback_trace_gate" in patterns:
+            targets.extend(["knowledge_writeback_manifest", "ai_run_meta_trace", "produced_knowledge_document_review"])
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.extend(["chapter_description_context_bridge", "previous_chapter_summary_trace", "description_to_draft_continuity_checks"])
         if "selective_streaming_regeneration_gate" in patterns:
@@ -5718,6 +5744,10 @@ class NovelSourceDiscoveryService:
             hints.append("For拆书续写, select an explicit chapter split, analysis row, and export manifest before drafting; do not infer source order from raw TXT residue.")
         if "final_prompt_preview_span_revision_gate" in patterns:
             hints.append("Preview the resolved final prompt, variables, operation type, and selected span before sending; author edits to the prompt are part of the generation record.")
+        if "project_skill_agent_loop_gate" in patterns:
+            hints.append("Select task-scoped project skills before drafting; cap Agent Loop steps and record every skill_load/tool-registry decision used for the chapter.")
+        if "knowledge_document_writeback_trace_gate" in patterns:
+            hints.append("Use reference analysis and style fingerprints through typed knowledge-document ids, not free-floating source notes; prompt context must cite sourceType and inclusion reason.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("章节描述只能承接已接受的前文摘要、章节变化包和当前大纲，不用未验收草稿补连续性。")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -5949,6 +5979,10 @@ class NovelSourceDiscoveryService:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
             hints.append("Persist final prompt preview text, resolved variables, selected-span id, author edits, send decision, and replacement target for every local revision.")
+        if "project_skill_agent_loop_gate" in patterns:
+            hints.append("Persist selected skill ids, task name, max loop steps, tool calls, skill usage hints, and stop reason with each AI run.")
+        if "knowledge_document_writeback_trace_gate" in patterns:
+            hints.append("Persist knowledge document id, sourceType, source artifact, produced/merged status, usedKnowledge, usedSkills, provider/model, usage, and run status before context reuse.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Persist chapter-description contracts with accepted prior-summary ids, outline slot, continuity assumptions, and reviewer decision.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -6291,6 +6325,24 @@ class NovelSourceDiscoveryService:
             "Before provider calls, show operation type, selected span, prompt template, resolved variables, and editable final prompt as a human-visible approval packet.",
             "Right-click or selected-span revisions should preview generated replacement text and merge only into the named span, not the whole chapter or story state.",
             "Shortcut entries such as shift+L should resolve to named snippet ids with provenance and scope so boilerplate cannot hide source text or unsafe instructions.",
+        ]
+
+    def _build_project_skill_agent_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "project_skill_agent_loop_gate" not in patterns:
+            return []
+        return [
+            "Route each AI writing action through a visible task -> skill-selection packet: task name, required capabilities, selected built-in/project skills, and max Agent Loop steps.",
+            "Skill bodies are method inputs, not canon; record skill ids and tool calls, then require chapter or knowledge artifacts to prove what changed.",
+            "Cap loops and keep stop reasons, retry counts, and skill usage memory so long-form generation cannot spin or silently switch methods mid-chapter.",
+        ]
+
+    def _build_knowledge_document_writeback_trace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "knowledge_document_writeback_trace_gate" not in patterns:
+            return []
+        return [
+            "Deconstruction, style fingerprints, canon facts, chapter summaries, and workflow notes should enter context as typed knowledge documents with sourceType and provenance.",
+            "AI writeback must be previewable: produced documents stay drafts until merged, and each merge records source artifact, reviewer decision, and downstream context eligibility.",
+            "Run traces should link task, chapter id, provider/model, usage, usedKnowledge, usedSkills, prompt/response preview, status, and produced knowledge document ids.",
         ]
 
     def _build_chapter_description_continuity_bridge_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9438,6 +9490,10 @@ class NovelSourceDiscoveryService:
             targets.append("chapter_split_deconstruction_remap")
         if "final_prompt_preview_span_revision_gate" in patterns:
             targets.append("final_prompt_preview_span_remap")
+        if "project_skill_agent_loop_gate" in patterns:
+            targets.append("project_skill_agent_loop_remap")
+        if "knowledge_document_writeback_trace_gate" in patterns:
+            targets.append("knowledge_writeback_trace_remap")
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.append("chapter_description_continuity_remap")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -9566,6 +9622,10 @@ class NovelSourceDiscoveryService:
             hints.append("Use拆书 exports as function cards only; select which abstract scene function, turn, or technique enters the new prompt.")
         if "final_prompt_preview_span_revision_gate" in patterns:
             hints.append("For same-type work, expose transformed variable values and selected-span scope in the final prompt preview before generation.")
+        if "project_skill_agent_loop_gate" in patterns:
+            hints.append("For same-type work, route through new-story task skills only; source-project skills may contribute method names but not upstream prompt bodies or source facts.")
+        if "knowledge_document_writeback_trace_gate" in patterns:
+            hints.append("Use knowledge document ids and sourceTypes to separate source deconstruction, abstract style, accepted canon, and draft-only notes before prompt assembly.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Build transformed chapter descriptions from accepted new-story summaries; source descriptions can supply function, not facts or sequence.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -10339,6 +10399,10 @@ class NovelSourceDiscoveryService:
             hints.append("Transform split-source chapter analyses into new chapter-function cards with changed cast, causes, stakes, hook order, and payoff owners.")
         if "final_prompt_preview_span_revision_gate" in patterns:
             hints.append("Transform quick snippets and preview prompts into new-story wording; template structure may remain, but source variables and selected text must change.")
+        if "project_skill_agent_loop_gate" in patterns:
+            hints.append("Transform task-skill manifests by creating new-story skill selections, loop budgets, and tool-call allowlists; do not reuse source project skill state.")
+        if "knowledge_document_writeback_trace_gate" in patterns:
+            hints.append("Transform source analysis documents into new-story knowledge drafts with new ids, new provenance, and explicit canon/style/source-analysis eligibility.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Transform each source chapter description into a new continuity bridge with different actors, causes, stakes, and unresolved hooks.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -10454,6 +10518,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type drafts that preserve source split order, chapter titles, scene sequence, or analysis phrasing as new-story authority.")
         if "final_prompt_preview_span_revision_gate" in patterns:
             hints.append("Reject outputs where the final prompt preview hides copied source text, unsafe provider instructions, or an unscoped selected-span replacement.")
+        if "project_skill_agent_loop_gate" in patterns:
+            hints.append("Reject runs that load upstream skill text, switch task skills without trace, exceed loop budget, or let a method skill mutate canon directly.")
+        if "knowledge_document_writeback_trace_gate" in patterns:
+            hints.append("Reject drafts where source-analysis knowledge documents are merged as canon, produced documents lack reviewer status, or usedKnowledge provenance is missing.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Reject chapter descriptions that preserve source chapter order, distinctive labels, or bridge facts under renamed characters.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -11023,6 +11091,8 @@ class NovelSourceDiscoveryService:
                 "privacy_preserving_local_index_gate",
                 "chapter_split_deconstruction_export_gate",
                 "final_prompt_preview_span_revision_gate",
+                "project_skill_agent_loop_gate",
+                "knowledge_document_writeback_trace_gate",
                 "chapter_description_continuity_bridge_gate",
                 "selective_streaming_regeneration_gate",
                 "research_citation_boundary_gate",
