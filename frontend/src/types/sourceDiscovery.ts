@@ -223,6 +223,7 @@ export interface SourceDiscoveryPatternPack {
   beta_reader_archetype_panel_hints?: string[];
   comp_title_market_positioning_hints?: string[];
   local_reader_experience_editor_hints?: string[];
+  manuscript_health_ai_prep_gate_hints?: string[];
   prose_lint_style_rule_gate_hints?: string[];
   grammar_spelling_copyedit_gate_hints?: string[];
   copyedit_diagnostic_triage_queue_hints?: string[];

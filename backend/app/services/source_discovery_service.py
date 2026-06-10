@@ -236,6 +236,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("draft vs confirmed" OR "rewrite candidates" OR "metadata-only index" OR "offline-first") ("novel" OR "writing workbench") in:name,description,readme',
     '("chapter descriptions" OR "previous chapters" OR "real-time streaming") ("book writing" OR "novel") in:name,description,readme',
     '("AI beta reader" OR "contextual feedback" OR "previous chapter summaries") ("novel" OR "manuscript") in:name,description,readme',
+    '("manuscript health score" OR "story heartbeat" OR "chapter ending analysis" OR "AI preparation pipeline") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
     '("citation styles" OR "AI research engine" OR "web search integration") ("research" OR "book writing" OR "manuscript") in:name,description,readme',
     '("style vocabulary" OR "vocabulary library") ("world cards" OR "worldbuilding extraction" OR "character cards") ("novel" OR "AI writing") in:name,description,readme',
     '("pure-prompt" OR "prompt-only") ("wrap-up mode" OR "continuity guard" OR "stress test") ("novel" OR "fiction") in:name,description,readme',
@@ -629,6 +630,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/lhfer/codex-novel-to-comic-studio",
     "https://github.com/yosrikhiari/Versatile",
     "https://github.com/okeylanders/prose-minion-vscode",
+    "https://github.com/DoktorDaveJoos/manuscript",
     "https://github.com/wwessex/Writer1",
     "https://github.com/adamwlarson/ai-book-writer",
     "https://github.com/302ai/302_novel_writing",
@@ -834,6 +836,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("beta_reader_archetype_panel", ("beta reader", "simulated reader", "reader perspectives", "genre fan", "casual reader", "critical reader", "sensitivity reader", "wanttocontinue", "want to continue", "stumble point", "favorite moment", "confusion flags", "ai beta readers", "beta reader panel", "reader trial feedback")),
     ("comp_title_market_positioning", ("comp title", "comparable titles", "market positioning", "genre trends", "reader expectations", "bestseller patterns", "trope requested", "common complaints", "if you liked", "blurb", "amazon description", "keywords", "comp title", "market position", "reader expectation")),
     ("local_reader_experience_editor", ("micro-tension", "reader curiosity tracker", "chapter hook", "cliffhanger audit", "tension & engagement", "scene openings", "scene endings", "white space", "paragraph rhythm", "style dna", "token breakdown", "smart context auto-toggling", "reader experience", "reader curiosity", "chapter hook")),
+    ("manuscript_health_ai_prep_gate", ("manuscript health score", "story heartbeat canvas", "plot health dashboard", "chapter ending analysis", "ai preparation pipeline", "semantic chunks with overlap", "weighted composite across hook quality", "cliffhanger, soft hook, closed, or dead end")),
     ("delivery_manuscript_assembly", ("assembled from many smaller text", "compile manuscript", "compiles your manuscript", "manuscript-wide statistics", "book_chapter_list", "chapter order", "chapter reorder", "chapter header", "chapter headings", "final manuscript", "accepted chapters", "manuscript assembly", "manuscript surface", "ordered manuscript")),
     ("export_format_fidelity_audit", ("markdown/docx export", "markdown export", "docx export", "pdf, docx, or txt", "export novel in pdf", "formatted .docx", "title page", "page numbers", "configurable fonts", "export format", "clean markdown", "derived manuscript artifacts")),
     ("preview_toc_packaging", ("html preview", "built-in html preview", "preview server", "table of contents", "toc", "book typography", "auto-refreshes", "drop caps", "ornamental dividers")),
@@ -2423,6 +2426,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Prose Minion VS Code is a Commons-Clause-licensed creative-writing extension. Public README markers describe professional prose metrics, AI writing assistance, contextual analysis, manuscript/chapter/source analysis, story bible, and model-audit surfaces. "
         "Pattern-only adaptation for editor-context prose-analysis scopes; extension runtime, VS Code APIs, provider lists, and upstream rule bodies are not imported or executed."
     ),
+    "doktordavejoos/manuscript": (
+        "manuscript is a no-license-observed local-first desktop app for novelists. Public README markers describe manuscript health scores, Story Heartbeat Canvas, Plot Health Dashboard, chapter ending analysis, semantic chunking, RAG, story bible population, style extraction, AI preparation phases, error recovery, and circuit breaker protection. "
+        "Pattern-only adaptation for manuscript-health and AI-preparation gates; Laravel/PHP/Node runtime, agent folders, MCP config, scripts, local files, embeddings, and provider calls are not launched or imported."
+    ),
     "wwessex/writer1": (
         "DraftHarbour Studio / Writer1 is a no-license-observed offline/online novel word processor PWA. Public README markers describe chapter-isolated editing, IndexedDB autosave, optional JSON sync, collaboration permissions, version history, diff previews, restore, and DOCX/PDF/RTF export. "
         "Pattern-only adaptation for offline chapter document boundaries and revision/export checkpoints; PWA/Tauri/runtime, sync endpoints, and export binaries are not launched."
@@ -3013,6 +3020,7 @@ class NovelSourceDiscoveryService:
             "beta_reader_archetype_panel_hints": self._build_beta_reader_archetype_panel_hints(available_patterns),
             "comp_title_market_positioning_hints": self._build_comp_title_market_positioning_hints(available_patterns),
             "local_reader_experience_editor_hints": self._build_local_reader_experience_editor_hints(available_patterns),
+            "manuscript_health_ai_prep_gate_hints": self._build_manuscript_health_ai_prep_gate_hints(available_patterns),
             "delivery_manuscript_assembly_hints": self._build_delivery_manuscript_assembly_hints(available_patterns),
             "export_format_fidelity_audit_hints": self._build_export_format_fidelity_audit_hints(available_patterns),
             "preview_toc_packaging_hints": self._build_preview_toc_packaging_hints(available_patterns),
@@ -3701,6 +3709,7 @@ class NovelSourceDiscoveryService:
             "beta_reader_archetype_panel": 62,
             "comp_title_market_positioning": 54,
             "local_reader_experience_editor": 59,
+            "manuscript_health_ai_prep_gate": 67,
             "delivery_manuscript_assembly": 61,
             "export_format_fidelity_audit": 55,
             "preview_toc_packaging": 48,
@@ -4331,6 +4340,10 @@ class NovelSourceDiscoveryService:
         if "local_reader_experience_editor" in patterns:
             targets.append("reader_experience_prompts")
             targets.append("micro_tension_hook_rules")
+        if "manuscript_health_ai_prep_gate" in patterns:
+            targets.append("manuscript_health_score_axes")
+            targets.append("chapter_ending_taxonomy")
+            targets.append("ai_preparation_phase_policy")
         if "platform_kb_retention_strategy_gate" in patterns:
             targets.append("platform_reader_preference_matrix")
             targets.append("commercial_storytelling_strategy_policy")
@@ -5427,6 +5440,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["comp_title_matrix", "reader_expectation_profile", "genre_gap_statement", "positioning_copy_constraints"])
         if "local_reader_experience_editor" in patterns:
             targets.extend(["micro_tension_findings", "reader_curiosity_threads", "chapter_hook_cliffhanger_audit", "style_dna_context_fit", "token_breakdown_notes"])
+        if "manuscript_health_ai_prep_gate" in patterns:
+            targets.extend(["manuscript_health_score_timeline", "story_heartbeat_canvas_report", "chapter_ending_classification_report", "ai_preparation_recovery_trace"])
         if "inline_human_machine_coauthoring_gate" in patterns:
             targets.extend(["inline_revision_spans", "author_edit_acceptance_log", "localized_diff_review"])
         if "hierarchical_orchestrator_generation_gate" in patterns:
@@ -5536,6 +5551,8 @@ class NovelSourceDiscoveryService:
             hints.append("Use comp titles to calibrate promise, tone, trope expectation, and market gap; do not copy their premise, cast, title language, or review wording.")
         if "local_reader_experience_editor" in patterns:
             hints.append("Before acceptance, audit micro-tension, reader curiosity, chapter hook, cliffhanger, paragraph rhythm, and scene opening/ending strength.")
+        if "manuscript_health_ai_prep_gate" in patterns:
+            hints.append("Before continuation, review the manuscript-health trend and chapter-ending class so the next chapter repairs pacing, tension, hook, or emotional-arc debt instead of blindly extending prose.")
         if "semantic_long_context_search" in patterns:
             hints.append("Use semantic long-context search for chapter-specific recall, but cite the selected sourcebook or knowledge-base refs instead of silently injecting them.")
         if "contradiction_taxonomy_checker" in patterns:
@@ -7525,6 +7542,15 @@ class NovelSourceDiscoveryService:
             "Expose token/context breakdown and local analysis notes before expensive full-manuscript review passes.",
         ]
 
+    def _build_manuscript_health_ai_prep_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "manuscript_health_ai_prep_gate" not in patterns:
+            return []
+        return [
+            "Track a manuscript-health score over accepted chapters: hook quality, pacing, tension, emotional arc, and craft issues must show trend evidence, not one-off taste notes.",
+            "Classify every chapter ending as cliffhanger, soft hook, closed, or dead end before continuation; dead-end endings need a repair plan or an explicit quiet-chapter exception.",
+            "Run AI-preparation as a resumable phase pipeline: semantic chunks, embeddings/RAG index, chapter analysis, story-bible population, style extraction, recovery state, and circuit-breaker status stay visible before generation.",
+        ]
+
     def _build_delivery_manuscript_assembly_hints(self, patterns: set[str]) -> list[str]:
         if "delivery_manuscript_assembly" not in patterns:
             return []
@@ -9004,6 +9030,10 @@ class NovelSourceDiscoveryService:
             targets.append("comp_title_positioning_remap")
         if "local_reader_experience_editor" in patterns:
             targets.append("reader_experience_hook_remap")
+        if "manuscript_health_ai_prep_gate" in patterns:
+            targets.append("manuscript_health_axis_remap")
+            targets.append("chapter_ending_taxonomy_remap")
+            targets.append("ai_preparation_pipeline_remap")
         if "platform_kb_retention_strategy_gate" in patterns:
             targets.append("platform_reader_preference_remap")
         if "chapter_end_hook_retention_ladder_gate" in patterns:
@@ -9508,6 +9538,8 @@ class NovelSourceDiscoveryService:
             hints.append("Comp titles guide positioning and audience promise only; rebuild premise, scene order, and hook language from scratch.")
         if "local_reader_experience_editor" in patterns:
             hints.append("Optimize micro-tension and curiosity in the transformed story without copying a source chapter's cliffhanger shape or ending cadence.")
+        if "manuscript_health_ai_prep_gate" in patterns:
+            hints.append("For same-type creation, remap manuscript-health axes and chapter-ending taxonomy to the new story; do not copy the source ending cadence or recovery route.")
         if "context_pack_preview" in patterns:
             hints.append("The new story's context pack must cite transformed canon only; source deconstruction may appear as craft notes, not facts.")
         if "critic_verifier_loop" in patterns:
@@ -9877,6 +9909,8 @@ class NovelSourceDiscoveryService:
             hints.append("Map each comp-title similarity to a transformed difference: new protagonist pressure, new obstacle, new setting, and new payoff cost.")
         if "local_reader_experience_editor" in patterns:
             hints.append("Rebuild hooks and cliffhangers from the new chapter's active conflict, not from source set-piece timing.")
+        if "manuscript_health_ai_prep_gate" in patterns:
+            hints.append("Convert source health trends and ending classes into the new book's own tension, pacing, hook debt, and AI-preparation recovery trace.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -10358,6 +10392,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject comp-title positioning that reuses title phrasing, blurb beats, named tropes as labels, or recognizable hook sequence.")
         if "local_reader_experience_editor" in patterns:
             hints.append("Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence.")
+        if "manuscript_health_ai_prep_gate" in patterns:
+            hints.append("Reject same-type drafts that preserve the source chapter-ending class sequence, health-score recovery route, or heartbeat/pacing curve.")
         if "platform_kb_retention_strategy_gate" in patterns:
             hints.append("Reject platform-KB plans that reuse title formulas, tag bundles, synopsis beats, or commercial hooks from one source work without transformation.")
         if "chapter_end_hook_retention_ladder_gate" in patterns:
@@ -11013,6 +11049,7 @@ class NovelSourceDiscoveryService:
                 "beta_reader_archetype_panel",
                 "comp_title_market_positioning",
                 "local_reader_experience_editor",
+                "manuscript_health_ai_prep_gate",
                 "delivery_manuscript_assembly",
                 "export_format_fidelity_audit",
                 "preview_toc_packaging",

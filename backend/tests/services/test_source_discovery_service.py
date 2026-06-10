@@ -7611,6 +7611,66 @@ def test_agentic_editorial_craft_projects_classify_into_workbench_patterns():
     assert "license:missing" in by_title["DoktorDaveJoos/manuscript"]["trust_review"]["flags"]
 
 
+def test_static_manuscript_health_ai_prep_source_maps_to_health_gate():
+    assert "https://github.com/DoktorDaveJoos/manuscript" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any(
+        "manuscript health score" in query.lower() and "ai preparation pipeline" in query.lower()
+        for query in DEFAULT_GITHUB_QUERIES
+    )
+
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "DoktorDaveJoos/manuscript",
+                "html_url": "https://github.com/DoktorDaveJoos/manuscript",
+                "description": (
+                    "Local-first desktop app for novelists with manuscript health score, "
+                    "Story Heartbeat Canvas, Plot Health Dashboard, chapter ending analysis, "
+                    "AI preparation pipeline, semantic chunks with overlap, story bible "
+                    "population, style extraction, RAG, error recovery and circuit breaker."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["literature", "novels", "writing", "writing-tool"],
+                "updated_at": "2026-06-10T17:49:04Z",
+                "root_files": ["README.md", "app", "database", "resources"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T09:00:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = by_title["DoktorDaveJoos/manuscript"]
+
+    assert "manuscript_health_ai_prep_gate" in candidate["absorbed_patterns"]
+    assert "license:missing" in candidate["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "manuscript_health_ai_prep_gate_hints" in pattern_pack
+    assert "manuscript_health_score_axes" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_ending_taxonomy" in pattern_pack["bible_enrichment_targets"]
+    assert "ai_preparation_phase_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "manuscript_health_score_timeline" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_heartbeat_canvas_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_ending_classification_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ai_preparation_recovery_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "manuscript_health_axis_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_ending_taxonomy_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "ai_preparation_pipeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("ending cadence" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("health trends" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("heartbeat/pacing curve" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "manuscript_health_ai_prep_gate_hints" in digest
+    assert "chapter_ending_taxonomy_remap" in digest
+
+
 def test_agentic_editorial_craft_pattern_pack_exposes_state_metadata_and_fingerprint_guidance():
     service = NovelSourceDiscoveryService()
     ledger = {
