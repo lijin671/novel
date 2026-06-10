@@ -138,6 +138,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_bookrun_skill_protocol_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_interactive_narrative_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -508,6 +512,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_chinese_longform_control_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_bookrun_skill_protocol_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1492,6 +1500,43 @@ def _append_chinese_longform_control_audit_section(
         lines.append("- relationship_graph_global_replace_gate: regenerate relationship graph and preview global replacements across bible, outline, chapters, memory, and graph before acceptance")
 
 
+def _append_bookrun_skill_protocol_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render BookRun, provider, sidecar, outline, localization, protocol, and anti-slop gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "bookrun_audit_trail_gate",
+        "provider_budget_smoke_gate",
+        "sidecar_memory_profile_boundary",
+        "outline_checkpoint_milestone_gate",
+        "language_localization_style_profile_gate",
+        "progressive_disclosure_skill_protocol_gate",
+        "anti_slop_rulepack_triage_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("BookRun and skill protocol audit:")
+    if "bookrun_audit_trail_gate" in pattern_names:
+        lines.append("- bookrun_audit_trail_gate: keep blueprint, Judge/Repair findings, retry count, accepted chapter, and export audit manifest tied to one replayable run")
+    if "provider_budget_smoke_gate" in pattern_names:
+        lines.append("- provider_budget_smoke_gate: record provider profile, token/time/cost budget, dry-run vs real smoke status, and stop condition before long generation")
+    if "sidecar_memory_profile_boundary" in pattern_names:
+        lines.append("- sidecar_memory_profile_boundary: separate UI/API orchestration, sidecar analysis, graph/vector memory, queues, cache, and provider writes by namespace and profile")
+    if "outline_checkpoint_milestone_gate" in pattern_names:
+        lines.append("- outline_checkpoint_milestone_gate: verify Story Bible version, chapter sequence, checkpoint rollback target, and narrative milestone coverage before drafting")
+    if "language_localization_style_profile_gate" in pattern_names:
+        lines.append("- language_localization_style_profile_gate: enforce language-specific units, honorifics, punctuation, glossary, dialect limits, and localized speaker register")
+    if "progressive_disclosure_skill_protocol_gate" in pattern_names:
+        lines.append("- progressive_disclosure_skill_protocol_gate: route to only needed protocols and bind required knowledge-base files before generation or review")
+    if "anti_slop_rulepack_triage_gate" in pattern_names:
+        lines.append("- anti_slop_rulepack_triage_gate: triage banned vocabulary, inflated copulas, vague attribution, marketing cadence, and repeated AI-prose structure as review tasks")
+
+
 def _append_interactive_narrative_audit_section(
     *,
     lines: list[str],
@@ -2463,6 +2508,13 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "chapter_control_card_writeback_gate_hints": "chapter_control_card_writeback_gate",
         "trace_replay_revision_workspace_gate_hints": "trace_replay_revision_workspace_gate",
         "relationship_graph_global_replace_gate_hints": "relationship_graph_global_replace_gate",
+        "bookrun_audit_trail_gate_hints": "bookrun_audit_trail_gate",
+        "provider_budget_smoke_gate_hints": "provider_budget_smoke_gate",
+        "sidecar_memory_profile_boundary_hints": "sidecar_memory_profile_boundary",
+        "outline_checkpoint_milestone_gate_hints": "outline_checkpoint_milestone_gate",
+        "language_localization_style_profile_gate_hints": "language_localization_style_profile_gate",
+        "progressive_disclosure_skill_protocol_gate_hints": "progressive_disclosure_skill_protocol_gate",
+        "anti_slop_rulepack_triage_gate_hints": "anti_slop_rulepack_triage_gate",
         "epub_structure_validation_gate_hints": "epub_structure_validation_gate",
         "ebook_accessibility_audit_gate_hints": "ebook_accessibility_audit_gate",
         "front_back_matter_metadata_gate_hints": "front_back_matter_metadata_gate",

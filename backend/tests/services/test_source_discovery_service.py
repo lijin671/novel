@@ -7415,3 +7415,245 @@ def test_default_discovery_sources_include_chinese_longform_control_projects():
     assert any("chapter control card" in query.lower() and "dynamic state" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("trace replay" in query.lower() and "chapter workbench" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("global find replace" in query.lower() and "relationship graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_bookrun_skill_protocol_sources_map_to_runtime_boundary_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "XZZKANY/StoryForge",
+                "html_url": "https://github.com/XZZKANY/StoryForge",
+                "description": "BookRun Blueprint Judge/Repair export audit and real LLM smoke gates for Chinese long-form novels.",
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "long-form-writing"],
+                "updated_at": "2026-06-10T21:50:00Z",
+                "root_files": ["README.md", "package.json", "docker-compose.yml", "scripts"],
+            },
+            {
+                "full_name": "spiritLHLS/novelbuilder",
+                "html_url": "https://github.com/spiritLHLS/novelbuilder",
+                "description": "AI long-form fiction workbench with Go API Gateway, Python Sidecar, graph/vector memory, deployment profiles, Qdrant and Neo4j.",
+                "stargazers_count": 9,
+                "forks_count": 1,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "agent", "rag"],
+                "updated_at": "2026-06-10T21:51:00Z",
+                "root_files": ["README.md", "LICENSE", "Dockerfile", "python-sidecar"],
+            },
+            {
+                "full_name": "qiuxinyuan321/novel-writer-master",
+                "html_url": "https://github.com/qiuxinyuan321/novel-writer-master",
+                "description": "AI-assisted novel writing tool with anti-AI-rate engine, layered outline, checkpoint constraints, narrative milestones, and Story Bible truth source.",
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "writing"],
+                "updated_at": "2026-06-10T21:52:00Z",
+                "root_files": ["README.md", "pyproject.toml"],
+            },
+            {
+                "full_name": "Byk3y/no-slop",
+                "html_url": "https://github.com/Byk3y/no-slop",
+                "description": "A prose linter and rulepack for AI writing patterns, banned vocabulary, simple copulas, vague attribution, and triage.",
+                "stargazers_count": 4,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "prose", "claude-code"],
+                "updated_at": "2026-06-10T21:53:00Z",
+                "root_files": ["README.md", "SKILL.md", "banned-vocabulary.md"],
+            },
+            {
+                "full_name": "nntrivi2001/wordsmith",
+                "html_url": "https://github.com/nntrivi2001/wordsmith",
+                "description": "Long-form webnovel system with eight skills, seven agents, local RAG, dashboard, resume, learn workflow, and Vietnamese writing patterns.",
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["webnovel", "claude-code"],
+                "updated_at": "2026-06-10T21:54:00Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt", "wordsmith"],
+            },
+            {
+                "full_name": "zy-zmc/tianming-skill",
+                "html_url": "https://github.com/zy-zmc/tianming-skill",
+                "description": "Long-form novel skill with progressive disclosure, intent-based command routing, protocol files, knowledge base binding, and language style guide.",
+                "stargazers_count": 12,
+                "forks_count": 1,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "skill", "writing"],
+                "updated_at": "2026-06-10T21:55:00Z",
+                "root_files": ["README.md", "SKILL.md", "LICENSE", "protocols", "codex"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T21:55:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+
+    assert {"bookrun_audit_trail_gate", "provider_budget_smoke_gate"}.issubset(
+        patterns_by_title["XZZKANY/StoryForge"]
+    )
+    assert {"sidecar_memory_profile_boundary", "provider_budget_smoke_gate"}.issubset(
+        patterns_by_title["spiritLHLS/novelbuilder"]
+    )
+    assert {"outline_checkpoint_milestone_gate", "anti_slop_rulepack_triage_gate"}.issubset(
+        patterns_by_title["qiuxinyuan321/novel-writer-master"]
+    )
+    assert "anti_slop_rulepack_triage_gate" in patterns_by_title["Byk3y/no-slop"]
+    assert "language_localization_style_profile_gate" in patterns_by_title["nntrivi2001/wordsmith"]
+    assert {
+        "progressive_disclosure_skill_protocol_gate",
+        "language_localization_style_profile_gate",
+    }.issubset(patterns_by_title["zy-zmc/tianming-skill"])
+
+
+def test_bookrun_skill_protocol_pattern_pack_exposes_runtime_and_style_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T21:58:00+08:00",
+        "candidate_count": 7,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/XZZKANY/StoryForge",
+                "title": "XZZKANY/StoryForge",
+                "summary": "BookRun, Blueprint, Judge/Repair, export audit and provider smoke gates.",
+                "stars": 0,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker", "shell_script"],
+                "absorbed_patterns": ["bookrun_audit_trail_gate", "provider_budget_smoke_gate"],
+                "score": 89,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/spiritLHLS/novelbuilder",
+                "title": "spiritLHLS/novelbuilder",
+                "summary": "Go API gateway, Python sidecar, graph/vector memory and deployment profiles.",
+                "stars": 9,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker"],
+                "absorbed_patterns": ["sidecar_memory_profile_boundary", "provider_budget_smoke_gate"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/qiuxinyuan321/novel-writer-master",
+                "title": "qiuxinyuan321/novel-writer-master",
+                "summary": "Layered outline, checkpoint constraints, narrative milestones, and anti-AI prose review.",
+                "stars": 1,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["outline_checkpoint_milestone_gate", "anti_slop_rulepack_triage_gate"],
+                "score": 87,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/Byk3y/no-slop",
+                "title": "Byk3y/no-slop",
+                "summary": "Banned vocabulary, simple copulas, vague attribution, and prose rule triage.",
+                "stars": 4,
+                "license": "MIT",
+                "family": "writing-quality",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["anti_slop_rulepack_triage_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/nntrivi2001/wordsmith",
+                "title": "nntrivi2001/wordsmith",
+                "summary": "Vietnamese writing patterns, skills, agents, local RAG, dashboard, resume and learn workflow.",
+                "stars": 2,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["language_localization_style_profile_gate", "progressive_disclosure_skill_protocol_gate"],
+                "score": 85,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/zy-zmc/tianming-skill",
+                "title": "zy-zmc/tianming-skill",
+                "summary": "Progressive disclosure, protocol files, intent-based command routing, knowledge base and style samples.",
+                "stars": 12,
+                "license": "CC-BY-NC-SA-4.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["progressive_disclosure_skill_protocol_gate", "language_localization_style_profile_gate"],
+                "score": 84,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "bookrun_audit_trail_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "provider_budget_smoke_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "sidecar_memory_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "outline_checkpoint_milestone_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "language_style_profile" in pattern_pack["bible_enrichment_targets"]
+    assert "skill_protocol_route_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "anti_slop_rulepack" in pattern_pack["bible_enrichment_targets"]
+    assert "bookrun_audit_trail_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "provider_budget_smoke_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "sidecar_memory_profile_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "outline_checkpoint_milestone_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "language_style_profile_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "skill_protocol_route_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "anti_slop_rulepack_triage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert pattern_pack["bookrun_audit_trail_gate_hints"]
+    assert pattern_pack["provider_budget_smoke_gate_hints"]
+    assert pattern_pack["sidecar_memory_profile_boundary_hints"]
+    assert pattern_pack["outline_checkpoint_milestone_gate_hints"]
+    assert pattern_pack["language_localization_style_profile_gate_hints"]
+    assert pattern_pack["progressive_disclosure_skill_protocol_gate_hints"]
+    assert pattern_pack["anti_slop_rulepack_triage_gate_hints"]
+    assert "bookrun_audit_trail_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "provider_budget_profile_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "sidecar_memory_profile_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "outline_milestone_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "language_style_profile_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "skill_protocol_route_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "anti_slop_rulepack_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "bookrun_audit_trail_gate_hints" in digest
+    assert "provider_budget_smoke_gate_hints" in digest
+    assert "sidecar_memory_profile_boundary_hints" in digest
+    assert "outline_checkpoint_milestone_gate_hints" in digest
+    assert "language_localization_style_profile_gate_hints" in digest
+    assert "progressive_disclosure_skill_protocol_gate_hints" in digest
+    assert "anti_slop_rulepack_triage_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_bookrun_skill_protocol_projects():
+    assert "https://github.com/XZZKANY/StoryForge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/spiritLHLS/novelbuilder" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/qiuxinyuan321/novel-writer-master" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Byk3y/no-slop" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/nntrivi2001/wordsmith" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/zy-zmc/tianming-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("bookrun" in query.lower() and "judge/repair" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("provider budget" in query.lower() and "smoke gate" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("python sidecar" in query.lower() and "deployment profiles" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("outline checkpoint" in query.lower() and "narrative milestones" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("language style guide" in query.lower() and "vietnamese writing patterns" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("progressive disclosure" in query.lower() and "protocol files" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("no-slop" in query.lower() and "banned vocabulary" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

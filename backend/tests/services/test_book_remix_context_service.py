@@ -2815,3 +2815,53 @@ def test_build_remix_context_blocks_render_chinese_longform_control_audit():
         assert "chapter control card" in block
         assert "downstream impact scope" in block
         assert "preview global replacements" in block
+
+
+def test_build_remix_context_blocks_render_bookrun_skill_protocol_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "bookrun_audit_trail_gate", "candidate_count": 1},
+            {"name": "provider_budget_smoke_gate", "candidate_count": 1},
+            {"name": "sidecar_memory_profile_boundary", "candidate_count": 1},
+            {"name": "outline_checkpoint_milestone_gate", "candidate_count": 1},
+            {"name": "language_localization_style_profile_gate", "candidate_count": 1},
+            {"name": "progressive_disclosure_skill_protocol_gate", "candidate_count": 1},
+            {"name": "anti_slop_rulepack_triage_gate", "candidate_count": 1},
+        ],
+        "bookrun_audit_trail_gate_hints": ["Keep BookRun export audit artifacts replayable."],
+        "anti_slop_rulepack_triage_gate_hints": ["Triage banned vocabulary as review tasks."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="BookRun Skill Protocol Desk",
+        bible={"hard_constraints": [{"rule": "Accepted chapters need replayable evidence"}]},
+        plan={"summary": "Continue with BookRun, provider, sidecar, outline, style, protocol, and prose gates."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired BookRun Workbench",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Use workflow gates only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source memory namespaces.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "BookRun and skill protocol audit" in block
+        assert "bookrun_audit_trail_gate" in block
+        assert "provider_budget_smoke_gate" in block
+        assert "sidecar_memory_profile_boundary" in block
+        assert "outline_checkpoint_milestone_gate" in block
+        assert "language_localization_style_profile_gate" in block
+        assert "progressive_disclosure_skill_protocol_gate" in block
+        assert "anti_slop_rulepack_triage_gate" in block
+        assert "export audit manifest" in block
+        assert "token/time/cost budget" in block
+        assert "graph/vector memory" in block
+        assert "Story Bible version" in block
+        assert "localized speaker register" in block
+        assert "needed protocols" in block
+        assert "banned vocabulary" in block

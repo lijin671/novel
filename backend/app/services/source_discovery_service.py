@@ -173,6 +173,13 @@ DEFAULT_GITHUB_QUERIES = (
     '("permanent bible" OR "chapter-NN" OR "state/current" OR "chapter state") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("section metadata" OR "characters locations items" OR "pacing visualization" OR "plot points") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
     '("AI writing fingerprints" OR "prose pattern scanner" OR "voice drift" OR "cluster detection") ("novel" OR "fiction" OR "manuscript") in:name,description,readme',
+    '("BookRun" OR "Judge/Repair" OR "export audit" OR "real LLM smoke") ("novel" OR "story" OR "long-form writing") in:name,description,readme',
+    '("provider budget" OR "LLM profile routing" OR "cost tracking" OR "smoke gate") ("novel" OR "writing" OR "agent") in:name,description,readme',
+    '("Python sidecar" OR "graph/vector memory" OR "deployment profiles") ("novel" OR "long-form fiction" OR "writing workbench") in:name,description,readme',
+    '("outline checkpoint" OR "narrative milestones" OR "Story Bible truth source") ("novel" OR "AI-assisted writing") in:name,description,readme',
+    '("language style guide" OR "localized writing rules" OR "Vietnamese writing patterns") ("webnovel" OR "novel writing") in:name,description,readme',
+    '("progressive disclosure" OR "intent-based command routing" OR "protocol files") ("novel" OR "Claude Skill" OR "long-form writing") in:name,description,readme',
+    '("no-slop" OR "banned vocabulary" OR "AI writing patterns" OR "prose linter") ("writing" OR "prose" OR "novel") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -392,6 +399,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/jingtai123/Novel-Control-Station-Skill",
     "https://github.com/xindoo/sumeru",
     "https://github.com/AI-Practical-Lab/ai-novel",
+    "https://github.com/XZZKANY/StoryForge",
+    "https://github.com/spiritLHLS/novelbuilder",
+    "https://github.com/qiuxinyuan321/novel-writer-master",
+    "https://github.com/Byk3y/no-slop",
+    "https://github.com/nntrivi2001/wordsmith",
+    "https://github.com/zy-zmc/tianming-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -617,6 +630,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("chapter_control_card_writeback_gate", ("chapter control card", "chapter control cards", "control-card", "control card", "control-cards", "dynamic state file", "dynamic state management", "state write-back", "write back", "chapter title control", "chapter handoff pressure", "\u7ae0\u8282\u63a7\u5236\u5361", "\u52a8\u6001\u72b6\u6001", "\u5199\u56de", "\u6807\u9898\u63a7\u5236", "\u7ed3\u5c3e\u94a9\u5b50")),
     ("trace_replay_revision_workspace_gate", ("trace replay", "decision trace", "chapter workbench", "memory browser", "quality dashboard", "reviewable and traceable", "trajectory replay", "rebuild this chapter", "\u8f68\u8ff9\u56de\u653e", "\u51b3\u7b56\u8ffd\u8e2a", "\u7ae0\u8282\u5de5\u4f5c\u53f0", "\u91cd\u5199\u5f71\u54cd")),
     ("relationship_graph_global_replace_gate", ("global find replace", "global search replace", "find and replace", "one-click replace", "graphviz", "relationship graph", "character relationship graph", "upstream change", "conflict warning", "\u5168\u5c40\u67e5\u627e\u66ff\u6362", "\u5173\u7cfb\u56fe", "\u4eba\u7269\u5173\u7cfb\u56fe", "\u4e00\u952e\u66ff\u6362", "\u51b2\u7a81\u9884\u8b66")),
+    ("bookrun_audit_trail_gate", ("bookrun", "book run", "blueprint", "judge/repair", "judge repair", "export audit", "audit_report.json", "book.md", "checkpoint resume", "real llm smoke", "core verification", "e2e run")),
+    ("provider_budget_smoke_gate", ("provider budget", "llm profile", "llm profile routing", "token budget", "time budget", "cost tracking", "provider fallback", "provider smoke", "real llm smoke", "smoke gate", "budget controls")),
+    ("sidecar_memory_profile_boundary", ("python sidecar", "go api gateway", "graph/vector memory", "graph memory", "vector memory", "deployment profiles", "sqlite-only", "no-graph-vector", "qdrant", "neo4j", "redis", "sidecar")),
+    ("outline_checkpoint_milestone_gate", ("outline checkpoint", "chapter milestone", "narrative milestone", "narrative milestones", "story bible truth source", "story bible as truth source", "checkpoint constraints", "layered outline", "blueprint milestone", "chapter sequence")),
+    ("language_localization_style_profile_gate", ("vietnamese writing patterns", "style_guide_vn", "style guide vn", "localized writing rules", "language style guide", "language-specific style", "units:", "proper nouns/terms", "cumulative glossary", "\u6587\u98ce\u6837\u672c", "\u672c\u5730\u5316")),
+    ("progressive_disclosure_skill_protocol_gate", ("progressive disclosure", "intent-based command routing", "protocol files", "protocols/", "codex/", "entry light", "protocol heavy", "knowledge base", "command routing", "\u6e10\u8fdb\u5f0f\u62ab\u9732", "\u6307\u4ee4\u8def\u7531", "\u8fd0\u884c\u534f\u8bae")),
+    ("anti_slop_rulepack_triage_gate", ("no-slop", "banned vocabulary", "ai writing patterns", "prose linter", "simple copulas", "marketing language", "vague attribution", "slop", "rulepack", "triage")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -1204,6 +1224,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "ai-practical-lab/ai-novel": (
         "AI Novel Assistant is a MIT AI-driven novel creation assistant. Public README describes streaming writing, smart context from setting collections, outlines and previous chapters, structured world/character/outline/chapter management, immersive editor, and local data management. "
         "Absorb structured Chinese novel workflow and context-window lessons only; package scripts, frontend/backend, and provider surfaces are not run."
+    ),
+    "xzzkany/storyforge": (
+        "StoryForge is a Chinese long-form novel production pipeline. Public README and package metadata describe BookRun, Blueprint, Judge/Repair, checkpoint resume, Story Memory, export audit reports, real LLM smoke gates, and core verification workflows. "
+        "Absorb BookRun audit-trail and provider smoke-budget gates only; pnpm, uv, scripts, Docker, workflows, providers, and app runtimes are not executed."
+    ),
+    "spiritlhls/novelbuilder": (
+        "NovelBuilder is an AI long-form fiction workbench with Vue UI, Go API gateway, Python sidecar, task queues, LLM profile routing, optional graph/vector memory via Neo4j/Qdrant, and deployment profiles from SQLite-only to Docker stacks. "
+        "Absorb sidecar memory-profile boundary and provider admission gates only; GPL code, Docker profiles, sidecars, databases, queues, and providers are not launched."
+    ),
+    "qiuxinyuan321/novel-writer-master": (
+        "Novel Writer Master is an AI-assisted novel writing tool with an anti-AI-rate engine, layered outline, checkpoint constraints, narrative milestones, Story Bible truth-source framing, and provider-backed writing surfaces. "
+        "Absorb outline checkpoint and anti-slop review gates only; Streamlit/FastAPI/provider runtimes, vector stores, and package dependencies are not executed."
+    ),
+    "byk3y/no-slop": (
+        "no-slop is a MIT prose linter skill/rulepack that flags AI writing patterns using banned vocabulary, copula substitutions, marketing phrasing, vague attribution, and structural tells. "
+        "Absorb prose rulepack triage gates only; no rule files are copied wholesale and no external skill runtime is installed."
+    ),
+    "nntrivi2001/wordsmith": (
+        "Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, dashboard/resume/learn workflows, and Vietnamese writing style rules. "
+        "Absorb language-localization style-profile and skill workflow boundary patterns only; GPL code, RAG index, dashboard, agents, and plugin paths are not imported."
+    ),
+    "zy-zmc/tianming-skill": (
+        "TianMing Skill is a CC BY-NC-SA long-form novel collaboration skill split from a monolithic prompt into 30+ protocol files with progressive disclosure, intent-based command routing, codex/protocol/knowledge-base layers, and consistency enforcement. "
+        "Absorb progressive-disclosure protocol gates and localization/style profile boundaries only; prompt files are not copied and the skill is not installed or treated as runtime authority."
     ),
     "pdfminer/pdfminer.six": (
         "Pdfminer.six extracts text and layout information from PDF files. "
@@ -1977,6 +2021,13 @@ class NovelSourceDiscoveryService:
             "chapter_control_card_writeback_gate_hints": self._build_chapter_control_card_writeback_gate_hints(available_patterns),
             "trace_replay_revision_workspace_gate_hints": self._build_trace_replay_revision_workspace_gate_hints(available_patterns),
             "relationship_graph_global_replace_gate_hints": self._build_relationship_graph_global_replace_gate_hints(available_patterns),
+            "bookrun_audit_trail_gate_hints": self._build_bookrun_audit_trail_gate_hints(available_patterns),
+            "provider_budget_smoke_gate_hints": self._build_provider_budget_smoke_gate_hints(available_patterns),
+            "sidecar_memory_profile_boundary_hints": self._build_sidecar_memory_profile_boundary_hints(available_patterns),
+            "outline_checkpoint_milestone_gate_hints": self._build_outline_checkpoint_milestone_gate_hints(available_patterns),
+            "language_localization_style_profile_gate_hints": self._build_language_localization_style_profile_gate_hints(available_patterns),
+            "progressive_disclosure_skill_protocol_gate_hints": self._build_progressive_disclosure_skill_protocol_gate_hints(available_patterns),
+            "anti_slop_rulepack_triage_gate_hints": self._build_anti_slop_rulepack_triage_gate_hints(available_patterns),
             "literary_event_entity_annotation_gate_hints": self._build_literary_event_entity_annotation_gate_hints(available_patterns),
             "narrative_event_evolution_graph_gate_hints": self._build_narrative_event_evolution_graph_gate_hints(available_patterns),
             "sentiment_arc_emotion_trajectory_gate_hints": self._build_sentiment_arc_emotion_trajectory_gate_hints(available_patterns),
@@ -2615,6 +2666,13 @@ class NovelSourceDiscoveryService:
             "chapter_control_card_writeback_gate": 67,
             "trace_replay_revision_workspace_gate": 64,
             "relationship_graph_global_replace_gate": 64,
+            "bookrun_audit_trail_gate": 68,
+            "provider_budget_smoke_gate": 65,
+            "sidecar_memory_profile_boundary": 64,
+            "outline_checkpoint_milestone_gate": 67,
+            "language_localization_style_profile_gate": 62,
+            "progressive_disclosure_skill_protocol_gate": 66,
+            "anti_slop_rulepack_triage_gate": 63,
             "literary_event_entity_annotation_gate": 66,
             "narrative_event_evolution_graph_gate": 65,
             "sentiment_arc_emotion_trajectory_gate": 62,
@@ -2778,6 +2836,27 @@ class NovelSourceDiscoveryService:
         if "relationship_graph_global_replace_gate" in patterns:
             targets.append("relationship_graph_update_policy")
             targets.append("global_replace_consistency_policy")
+        if "bookrun_audit_trail_gate" in patterns:
+            targets.append("bookrun_audit_trail_policy")
+            targets.append("judge_repair_acceptance_policy")
+        if "provider_budget_smoke_gate" in patterns:
+            targets.append("provider_budget_smoke_policy")
+            targets.append("llm_profile_budget_limits")
+        if "sidecar_memory_profile_boundary" in patterns:
+            targets.append("sidecar_memory_boundary_policy")
+            targets.append("graph_vector_profile_manifest")
+        if "outline_checkpoint_milestone_gate" in patterns:
+            targets.append("outline_checkpoint_milestone_policy")
+            targets.append("story_bible_truth_source_policy")
+        if "language_localization_style_profile_gate" in patterns:
+            targets.append("language_style_profile")
+            targets.append("localization_rulepack")
+        if "progressive_disclosure_skill_protocol_gate" in patterns:
+            targets.append("skill_protocol_route_manifest")
+            targets.append("progressive_disclosure_loading_policy")
+        if "anti_slop_rulepack_triage_gate" in patterns:
+            targets.append("anti_slop_rulepack")
+            targets.append("prose_rule_triage_policy")
         if "graph_branching_atomicity" in patterns:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
@@ -3374,6 +3453,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["trace_replay_review_report", "chapter_rewrite_impact_findings", "revision_decision_trace_log"])
         if "relationship_graph_global_replace_gate" in patterns:
             targets.extend(["relationship_graph_consistency_report", "global_replace_propagation_findings", "upstream_change_conflict_warnings"])
+        if "bookrun_audit_trail_gate" in patterns:
+            targets.extend(["bookrun_audit_trail_report", "judge_repair_acceptance_log", "export_audit_artifact_manifest"])
+        if "provider_budget_smoke_gate" in patterns:
+            targets.extend(["provider_budget_smoke_report", "llm_profile_cost_trace", "provider_runtime_admission_findings"])
+        if "sidecar_memory_profile_boundary" in patterns:
+            targets.extend(["sidecar_memory_profile_report", "graph_vector_boundary_findings", "deployment_profile_runtime_exclusions"])
+        if "outline_checkpoint_milestone_gate" in patterns:
+            targets.extend(["outline_checkpoint_milestone_report", "story_bible_truth_source_drift_findings", "narrative_milestone_coverage"])
+        if "language_localization_style_profile_gate" in patterns:
+            targets.extend(["language_style_profile_report", "localized_rule_exception_ledger", "glossary_unit_register_findings"])
+        if "progressive_disclosure_skill_protocol_gate" in patterns:
+            targets.extend(["skill_protocol_route_report", "progressive_disclosure_load_trace", "knowledge_base_binding_findings"])
+        if "anti_slop_rulepack_triage_gate" in patterns:
+            targets.extend(["anti_slop_rulepack_triage_report", "banned_vocabulary_exception_ledger", "ai_prose_tell_findings"])
         if "literary_event_entity_annotation_gate" in patterns:
             targets.extend(["literary_entity_event_annotation_report", "event_participant_role_conflicts", "source_event_annotation_gaps"])
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -5397,6 +5490,69 @@ class NovelSourceDiscoveryService:
             "For same-type creation, relationship graphs and replacement maps must use transformed ids so renamed source entities do not leak back through edges or aliases.",
         ]
 
+    def _build_bookrun_audit_trail_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "bookrun_audit_trail_gate" not in patterns:
+            return []
+        return [
+            "Treat each long-form generation run as a BookRun-style audit unit with blueprint, chapter plan, judge findings, repair attempts, accepted output, and export manifest.",
+            "A Judge/Repair pass can only mark a chapter accepted when the failure list, repair diff, retry count, and final validation status are recorded.",
+            "For same-type creation, BookRun traces prove process quality only; source run decisions must not become transformed-story canon or chapter order.",
+        ]
+
+    def _build_provider_budget_smoke_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "provider_budget_smoke_gate" not in patterns:
+            return []
+        return [
+            "Separate provider/runtime admission from prompt planning: record provider profile, token/time/cost budget, smoke-scope, and no-provider dry-run status before any real generation.",
+            "Real LLM smoke gates should be tiny, explicit, and reversible; failing smoke evidence blocks unattended long-run generation.",
+            "For same-type creation, provider budgets constrain experiments only and never justify copying source prose to reduce retries.",
+        ]
+
+    def _build_sidecar_memory_profile_boundary_hints(self, patterns: set[str]) -> list[str]:
+        if "sidecar_memory_profile_boundary" not in patterns:
+            return []
+        return [
+            "Keep UI/API orchestration, sidecar analysis, graph memory, vector memory, queues, and provider routing as separate profiles with explicit runtime exclusions.",
+            "A graph/vector sidecar profile must declare what it may read, write, cache, index, and forget before its outputs can enter continuation context.",
+            "For same-type creation, source sidecar memory remains analysis evidence; transformed canon must use a new profile, namespace, and retrieval boundary.",
+        ]
+
+    def _build_outline_checkpoint_milestone_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "outline_checkpoint_milestone_gate" not in patterns:
+            return []
+        return [
+            "Anchor layered outlines to checkpoints and narrative milestones so chapter drafting cannot skip unresolved setup, relationship pressure, or Story Bible constraints.",
+            "Before each chapter batch, verify milestone coverage, chapter sequence, accepted-bible version, and checkpoint rollback target.",
+            "For same-type creation, rebuild milestones from the transformed promise and conflict; do not reuse the source milestone order.",
+        ]
+
+    def _build_language_localization_style_profile_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "language_localization_style_profile_gate" not in patterns:
+            return []
+        return [
+            "Attach a language/localization style profile to the bible: units, address terms, punctuation, honorifics, dialect limits, glossary, and forbidden cross-language artifacts.",
+            "Localized style rules are review gates, not prose to copy; every exception should be logged with language, scene, speaker, and reason.",
+            "For same-type creation, rebuild localized voice and glossary for the new setting so source language habits do not leak as renamed texture.",
+        ]
+
+    def _build_progressive_disclosure_skill_protocol_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "progressive_disclosure_skill_protocol_gate" not in patterns:
+            return []
+        return [
+            "Use a light entry protocol that routes to only the needed planning, drafting, review, archive, or dashboard procedure for the current request.",
+            "Every protocol load should bind required knowledge-base files, validate missing references, and emit the next command or stop reason.",
+            "For same-type creation, protocol routing governs workflow only; external skill prompts and codex files are not copied into the new book.",
+        ]
+
+    def _build_anti_slop_rulepack_triage_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_slop_rulepack_triage_gate" not in patterns:
+            return []
+        return [
+            "Run AI-prose rulepack triage separately from copy-risk review: banned vocabulary, inflated copulas, vague attribution, marketing cadence, and repeated structure become revision tasks.",
+            "Each prose-lint finding needs accept/ignore/rewrite status so cleanup does not flatten character voice or genre texture.",
+            "For same-type creation, anti-slop cleanup must increase local specificity without paraphrasing source sentences or restoring source cadence.",
+        ]
+
     def _build_literary_event_entity_annotation_gate_hints(self, patterns: set[str]) -> list[str]:
         if "literary_event_entity_annotation_gate" not in patterns:
             return []
@@ -6100,6 +6256,20 @@ class NovelSourceDiscoveryService:
             targets.append("trace_replay_decision_remap")
         if "relationship_graph_global_replace_gate" in patterns:
             targets.append("relationship_graph_replace_remap")
+        if "bookrun_audit_trail_gate" in patterns:
+            targets.append("bookrun_audit_trail_remap")
+        if "provider_budget_smoke_gate" in patterns:
+            targets.append("provider_budget_profile_remap")
+        if "sidecar_memory_profile_boundary" in patterns:
+            targets.append("sidecar_memory_profile_remap")
+        if "outline_checkpoint_milestone_gate" in patterns:
+            targets.append("outline_milestone_remap")
+        if "language_localization_style_profile_gate" in patterns:
+            targets.append("language_style_profile_remap")
+        if "progressive_disclosure_skill_protocol_gate" in patterns:
+            targets.append("skill_protocol_route_remap")
+        if "anti_slop_rulepack_triage_gate" in patterns:
+            targets.append("anti_slop_rulepack_remap")
         if "literary_event_entity_annotation_gate" in patterns:
             targets.append("literary_annotation_role_remap")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6365,6 +6535,20 @@ class NovelSourceDiscoveryService:
             hints.append("Keep source-analysis traces separate from transformed-story workbench decisions, selected context, reviewer findings, and accepted revision evidence.")
         if "relationship_graph_global_replace_gate" in patterns:
             hints.append("Regenerate relationship graphs and global replacement previews from transformed ids before any same-type chapter accepts graph-derived context.")
+        if "bookrun_audit_trail_gate" in patterns:
+            hints.append("Use BookRun-style audit trails for process replay, but rebuild blueprint, judge criteria, repair decisions, and export manifest for the transformed story.")
+        if "provider_budget_smoke_gate" in patterns:
+            hints.append("Set a transformed-story provider budget and smoke scope before experiments; do not spend retries on source-like drafts.")
+        if "sidecar_memory_profile_boundary" in patterns:
+            hints.append("Create a new sidecar/vector/graph namespace for transformed canon; source memory profiles remain read-only analysis evidence.")
+        if "outline_checkpoint_milestone_gate" in patterns:
+            hints.append("Create new outline checkpoints and milestones from transformed stakes, relationship pressure, and payoff route before drafting.")
+        if "language_localization_style_profile_gate" in patterns:
+            hints.append("Build localized style profiles for the new cast and setting; source language rules may guide review categories, not voice cloning.")
+        if "progressive_disclosure_skill_protocol_gate" in patterns:
+            hints.append("Use progressive protocol loading to keep prompts small while ensuring transformed-story knowledge files are bound before generation.")
+        if "anti_slop_rulepack_triage_gate" in patterns:
+            hints.append("Run anti-slop rulepack triage as local prose cleanup after independence checks so specificity rises without copying source cadence.")
         if "literary_event_entity_annotation_gate" in patterns:
             hints.append("Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6558,6 +6742,20 @@ class NovelSourceDiscoveryService:
             hints.append("Transform revision traces into new-story evidence: blueprint, selected context, rewrite direction, reviewer findings, impact scope, and accepted text version.")
         if "relationship_graph_global_replace_gate" in patterns:
             hints.append("Transform relationship graphs and replacement maps by changing ids, aliases, edge labels, centrality, timing, and affected canon surfaces.")
+        if "bookrun_audit_trail_gate" in patterns:
+            hints.append("Transform BookRun artifacts by regenerating blueprint, judge rubric, repair log, acceptance manifest, and export audit for the new story.")
+        if "provider_budget_smoke_gate" in patterns:
+            hints.append("Transform provider profiles into budgeted experiment lanes with explicit dry-run, smoke, and real-generation boundaries.")
+        if "sidecar_memory_profile_boundary" in patterns:
+            hints.append("Transform memory architecture by assigning new graph/vector namespaces, sidecar permissions, and profile-specific read/write limits.")
+        if "outline_checkpoint_milestone_gate" in patterns:
+            hints.append("Transform milestones by changing checkpoint goals, chapter dependencies, causal order, and rollback points.")
+        if "language_localization_style_profile_gate" in patterns:
+            hints.append("Transform localization rules into new glossary, unit, honorific, punctuation, and speaker-register decisions.")
+        if "progressive_disclosure_skill_protocol_gate" in patterns:
+            hints.append("Transform protocol routing into project-local steps; external skill files remain reference patterns, not imported prompts.")
+        if "anti_slop_rulepack_triage_gate" in patterns:
+            hints.append("Transform prose lint findings into revision tasks that preserve character voice and reject generic AI phrasing.")
         if "delivery_manuscript_assembly" in patterns:
             hints.append("Transform final packaging by rebuilding chapter titles, sequence, acceptance manifest, and output metadata from the new story.")
         if "export_format_fidelity_audit" in patterns:
@@ -6965,6 +7163,20 @@ class NovelSourceDiscoveryService:
             hints.append("Reject trace logs that cannot separate source analysis traces from transformed-story decision evidence.")
         if "relationship_graph_global_replace_gate" in patterns:
             hints.append("Reject relationship graphs or global replacements that preserve source aliases, edge labels, centrality, or relationship timing under new names.")
+        if "bookrun_audit_trail_gate" in patterns:
+            hints.append("Reject BookRun traces that replay source blueprint decisions, judge rationales, or repair diffs as transformed-story authority.")
+        if "provider_budget_smoke_gate" in patterns:
+            hints.append("Reject provider smoke results that hide cost, token, model, profile, or real-vs-dry-run status.")
+        if "sidecar_memory_profile_boundary" in patterns:
+            hints.append("Reject context packs that mix source sidecar memory, transformed canon graph, vector cache, or provider profile without namespace evidence.")
+        if "outline_checkpoint_milestone_gate" in patterns:
+            hints.append("Reject outlines whose checkpoint sequence, milestone names, or Story Bible deltas mirror the source structure under renamed labels.")
+        if "language_localization_style_profile_gate" in patterns:
+            hints.append("Reject localized prose that carries source language artifacts, glossary entries, address terms, or unit conventions into an unrelated setting.")
+        if "progressive_disclosure_skill_protocol_gate" in patterns:
+            hints.append("Reject prompts that paste external skill protocols wholesale instead of loading compact project-native steps.")
+        if "anti_slop_rulepack_triage_gate" in patterns:
+            hints.append("Reject anti-slop rewrites that smooth text into generic prose or paraphrase distinctive source sentences.")
         if "front_back_matter_metadata_gate" in patterns:
             hints.append("Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.")
         if "toc_navigation_consistency_gate" in patterns:
@@ -7096,6 +7308,13 @@ class NovelSourceDiscoveryService:
                 "chapter_control_card_writeback_gate",
                 "trace_replay_revision_workspace_gate",
                 "relationship_graph_global_replace_gate",
+                "bookrun_audit_trail_gate",
+                "provider_budget_smoke_gate",
+                "sidecar_memory_profile_boundary",
+                "outline_checkpoint_milestone_gate",
+                "language_localization_style_profile_gate",
+                "progressive_disclosure_skill_protocol_gate",
+                "anti_slop_rulepack_triage_gate",
                 "literary_event_entity_annotation_gate",
                 "narrative_event_evolution_graph_gate",
                 "sentiment_arc_emotion_trajectory_gate",

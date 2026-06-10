@@ -50,6 +50,11 @@
     "Treat anti-slop findings as concrete rewrite tasks, not as a single global quality score.",
     "Run anti-pattern checks before publication or batch merge so low-level prose drift does not accumulate across chapters."
   ],
+  "anti_slop_rulepack_triage_gate_hints": [
+    "Run AI-prose rulepack triage separately from copy-risk review: banned vocabulary, inflated copulas, vague attribution, marketing cadence, and repeated structure become revision tasks.",
+    "Each prose-lint finding needs accept/ignore/rewrite status so cleanup does not flatten character voice or genre texture.",
+    "For same-type creation, anti-slop cleanup must increase local specificity without paraphrasing source sentences or restoring source cadence."
+  ],
   "append_only_generation_review_log_hints": [
     "Record generation experiments in an append-only log with recipe id, parameter set, output id, review score, and decision.",
     "Interrupted sweeps should resume by appending new rows, not by rewriting prior review evidence."
@@ -392,12 +397,31 @@
     "conflicts",
     "story_arcs",
     "foreshadows",
-    "chapter_change_packages"
+    "chapter_change_packages",
+    "bookrun_audit_trail_policy",
+    "judge_repair_acceptance_policy",
+    "provider_budget_smoke_policy",
+    "llm_profile_budget_limits",
+    "sidecar_memory_boundary_policy",
+    "graph_vector_profile_manifest",
+    "outline_checkpoint_milestone_policy",
+    "story_bible_truth_source_policy",
+    "language_style_profile",
+    "localization_rulepack",
+    "skill_protocol_route_manifest",
+    "progressive_disclosure_loading_policy",
+    "anti_slop_rulepack",
+    "prose_rule_triage_policy"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
     "Before continuation, read the current active context and progress snapshot; after accepted chapter output, update every affected memory-bank layer.",
     "Compare each completed chapter against its planned outline so drift becomes an explicit decision instead of hidden context loss."
+  ],
+  "bookrun_audit_trail_gate_hints": [
+    "Treat each long-form generation run as a BookRun-style audit unit with blueprint, chapter plan, judge findings, repair attempts, accepted output, and export manifest.",
+    "A Judge/Repair pass can only mark a chapter accepted when the failure list, repair diff, retry count, and final validation status are recorded.",
+    "For same-type creation, BookRun traces prove process quality only; source run decisions must not become transformed-story canon or chapter order."
   ],
   "boring_opening_quality_gates_hints": [
     "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
@@ -831,7 +855,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T21:40:00+08:00",
+  "generated_at": "2026-06-10T11:52:01+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -1047,7 +1071,14 @@
     "Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.",
     "Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.",
     "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
-    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon."
+    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.",
+    "Reject BookRun traces that replay source blueprint decisions, judge rationales, or repair diffs as transformed-story authority.",
+    "Reject provider smoke results that hide cost, token, model, profile, or real-vs-dry-run status.",
+    "Reject context packs that mix source sidecar memory, transformed canon graph, vector cache, or provider profile without namespace evidence.",
+    "Reject outlines whose checkpoint sequence, milestone names, or Story Bible deltas mirror the source structure under renamed labels.",
+    "Reject localized prose that carries source language artifacts, glossary entries, address terms, or unit conventions into an unrelated setting.",
+    "Reject prompts that paste external skill protocols wholesale instead of loading compact project-native steps.",
+    "Reject anti-slop rewrites that smooth text into generic prose or paraphrase distinctive source sentences."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -1221,7 +1252,14 @@
     "author_preference_memory_remap",
     "source_community_graph_remap",
     "graph_vector_retrieval_remap",
-    "schema_guided_graph_remap"
+    "schema_guided_graph_remap",
+    "bookrun_audit_trail_remap",
+    "provider_budget_profile_remap",
+    "sidecar_memory_profile_remap",
+    "outline_milestone_remap",
+    "language_style_profile_remap",
+    "skill_protocol_route_remap",
+    "anti_slop_rulepack_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1349,7 +1387,14 @@
     "Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.",
     "Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.",
     "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
-    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon."
+    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon.",
+    "Use BookRun-style audit trails for process replay, but rebuild blueprint, judge criteria, repair decisions, and export manifest for the transformed story.",
+    "Set a transformed-story provider budget and smoke scope before experiments; do not spend retries on source-like drafts.",
+    "Create a new sidecar/vector/graph namespace for transformed canon; source memory profiles remain read-only analysis evidence.",
+    "Create new outline checkpoints and milestones from transformed stakes, relationship pressure, and payoff route before drafting.",
+    "Build localized style profiles for the new cast and setting; source language rules may guide review categories, not voice cloning.",
+    "Use progressive protocol loading to keep prompts small while ensuring transformed-story knowledge files are bound before generation.",
+    "Run anti-slop rulepack triage as local prose cleanup after independence checks so specificity rises without copying source cadence."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1496,7 +1541,14 @@
     "Transform source material only after license status is known; unknown-rights text may provide metadata labels, not plot, prose, or style exemplars.",
     "Transform SPDX/REUSE findings into source admission notes and attribution tasks rather than generation content.",
     "Transform public-domain texts through a source manifest and originality gates; public domain is not a reason to clone chapter order or set pieces.",
-    "Transform adaptation-risk material by separating allowed reference, required attribution, and blocked derivative similarity before drafting."
+    "Transform adaptation-risk material by separating allowed reference, required attribution, and blocked derivative similarity before drafting.",
+    "Transform BookRun artifacts by regenerating blueprint, judge rubric, repair log, acceptance manifest, and export audit for the new story.",
+    "Transform provider profiles into budgeted experiment lanes with explicit dry-run, smoke, and real-generation boundaries.",
+    "Transform memory architecture by assigning new graph/vector namespaces, sidecar permissions, and profile-specific read/write limits.",
+    "Transform milestones by changing checkpoint goals, chapter dependencies, causal order, and rollback points.",
+    "Transform localization rules into new glossary, unit, honorific, punctuation, and speaker-register decisions.",
+    "Transform protocol routing into project-local steps; external skill files remain reference patterns, not imported prompts.",
+    "Transform prose lint findings into revision tasks that preserve character voice and reject generic AI phrasing."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1517,6 +1569,11 @@
     "Extract keyphrases and motif keywords from source, outline, and draft to reveal topic drift, missing promises, and repeated thematic anchors.",
     "Continuation review should compare keyphrase salience against active arcs, foreshadows, and chapter goals before canon write-back.",
     "Same-type creation should transform motif functions into new objects, places, taboos, and stakes rather than reusing source keywords."
+  ],
+  "language_localization_style_profile_gate_hints": [
+    "Attach a language/localization style profile to the bible: units, address terms, punctuation, honorifics, dialect limits, glossary, and forbidden cross-language artifacts.",
+    "Localized style rules are review gates, not prose to copy; every exception should be logged with language, scene, speaker, and reason.",
+    "For same-type creation, rebuild localized voice and glossary for the new setting so source language habits do not leak as renamed texture."
   ],
   "layered_memory_model_hints": [
     "Keep memory layers separate: stable story bible, current character state, and plot dependency graph should be read and updated independently.",
@@ -1628,6 +1685,11 @@
     "Route low-confidence OCR text to manual review instead of feeding it directly into canon, glossary, or style extraction.",
     "OCR is a deferred runtime lane; source intake may record the gate but must not launch OCR binaries or download language data."
   ],
+  "outline_checkpoint_milestone_gate_hints": [
+    "Anchor layered outlines to checkpoints and narrative milestones so chapter drafting cannot skip unresolved setup, relationship pressure, or Story Bible constraints.",
+    "Before each chapter batch, verify milestone coverage, chapter sequence, accepted-bible version, and checkpoint rollback target.",
+    "For same-type creation, rebuild milestones from the transformed promise and conflict; do not reuse the source milestone order."
+  ],
   "outliner_index_cards_hints": [
     "Represent chapters and scenes as reorderable outline/index cards with goal, conflict, hook, status, and dependencies.",
     "When a card moves, re-check timeline, setup/payoff, character state, and narrative strand dependencies.",
@@ -1695,6 +1757,11 @@
     "When the model tries to wrap up too early, revise toward a new complication, consequence, or deferred payoff rather than adding summary closure."
   ],
   "preview_toc_packaging_hints": [],
+  "progressive_disclosure_skill_protocol_gate_hints": [
+    "Use a light entry protocol that routes to only the needed planning, drafting, review, archive, or dashboard procedure for the current request.",
+    "Every protocol load should bind required knowledge-base files, validate missing references, and emit the next command or stop reason.",
+    "For same-type creation, protocol routing governs workflow only; external skill prompts and codex files are not copied into the new book."
+  ],
   "progressive_spoiler_context_window_gate_hints": [
     "Select outline, RAG, and previous-chapter context by the current story stage; early chapters should not see late spoilers, ending facts, or future payoff wording.",
     "Record the allowed chapter range, spoiler level, future-context count, and range-validation findings for each generated chapter.",
@@ -1730,6 +1797,11 @@
   "prose_preflight_voice_calibration_hints": [
     "Use voice samples to calibrate specificity, rhythm, warmth, and density before polishing prose.",
     "The final prose preflight removes generic AI tells while preserving factual guardrails and character voice."
+  ],
+  "provider_budget_smoke_gate_hints": [
+    "Separate provider/runtime admission from prompt planning: record provider profile, token/time/cost budget, smoke-scope, and no-provider dry-run status before any real generation.",
+    "Real LLM smoke gates should be tiny, explicit, and reversible; failing smoke evidence blocks unattended long-run generation.",
+    "For same-type creation, provider budgets constrain experiments only and never justify copying source prose to reduce retries."
   ],
   "public_domain_corpus_boundary_hints": [
     "Public-domain sources still need a source manifest: title, author, edition/source URL, observed date, extraction format, and jurisdiction caveat.",
@@ -1827,7 +1899,10 @@
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
-    "Static metadata-only refresh; no clone, install, package hook, Docker stack, MCP server, browser extension, or provider call was executed."
+    "Static metadata-only refresh; no clone, install, package hook, Docker stack, MCP server, browser extension, or provider call was executed.",
+    "只采集公开元数据和公开摘要；不克隆、不安装、不执行外部项目。",
+    "GitHub 与论坛候选默认按 pattern-only 沉淀，后续吸收必须单独做许可证、安装面和安全边界复核。",
+    "Linux.do 仅使用公开 RSS/页面可访问摘要；不绕过登录、403、429、WAF 或 CAPTCHA。"
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1903,6 +1978,11 @@
     "Payoff acceptance requires a matching setup edge and a visible consequence in character, plot, or world state.",
     "Flag repeated payoff, orphan setup, and payoff without setup as review blockers."
   ],
+  "sidecar_memory_profile_boundary_hints": [
+    "Keep UI/API orchestration, sidecar analysis, graph memory, vector memory, queues, and provider routing as separate profiles with explicit runtime exclusions.",
+    "A graph/vector sidecar profile must declare what it may read, write, cache, index, and forget before its outputs can enter continuation context.",
+    "For same-type creation, source sidecar memory remains analysis evidence; transformed canon must use a new profile, namespace, and retrieval boundary."
+  ],
   "simhash_hamming_similarity_gate_hints": [
     "Use SimHash/Hamming-style fingerprints for lightly edited or reordered passages that may evade exact fingerprint checks.",
     "Flag near-duplicate hash windows after entity renaming, translation, or copyedit polishing because those passes can preserve source topology.",
@@ -1913,7 +1993,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 207,
+  "source_candidate_count": 213,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2139,7 +2219,13 @@
     "rajammanabrolu/StoryRealization",
     "lechmazur/writing",
     "Theltn/AICreativityJudge",
-    "dig-team/hanna-benchmark-asg"
+    "dig-team/hanna-benchmark-asg",
+    "qiuxinyuan321/novel-writer-master",
+    "nntrivi2001/wordsmith",
+    "zy-zmc/tianming-skill",
+    "XZZKANY/StoryForge",
+    "Byk3y/no-slop",
+    "spiritLHLS/novelbuilder"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2926,7 +3012,28 @@
     "token_breakdown_notes",
     "emotional_arc",
     "emotion_curve",
-    "source_state_snapshot"
+    "source_state_snapshot",
+    "bookrun_audit_trail_report",
+    "judge_repair_acceptance_log",
+    "export_audit_artifact_manifest",
+    "provider_budget_smoke_report",
+    "llm_profile_cost_trace",
+    "provider_runtime_admission_findings",
+    "sidecar_memory_profile_report",
+    "graph_vector_boundary_findings",
+    "deployment_profile_runtime_exclusions",
+    "outline_checkpoint_milestone_report",
+    "story_bible_truth_source_drift_findings",
+    "narrative_milestone_coverage",
+    "language_style_profile_report",
+    "localized_rule_exception_ledger",
+    "glossary_unit_register_findings",
+    "skill_protocol_route_report",
+    "progressive_disclosure_load_trace",
+    "knowledge_base_binding_findings",
+    "anti_slop_rulepack_triage_report",
+    "banned_vocabulary_exception_ledger",
+    "ai_prose_tell_findings"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -4572,6 +4679,37 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "bookrun_audit_trail_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 72,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese long-form novel production pipeline with BookRun, Blueprint, Judge/Repair, checkpoints, story memory, export audit, and real LLM smoke gates. Static intake note: StoryForge is a Chinese long-form novel production pipeline. Public README and package metadata describe BookR",
+          "title": "XZZKANY/StoryForge",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/XZZKANY/StoryForge"
+        }
+      ],
+      "top_source_url": "https://github.com/XZZKANY/StoryForge",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 2,
       "name": "chapter_control_card_writeback_gate",
       "posture_hint": "metadata-triage",
@@ -4698,6 +4836,29 @@
         }
       ],
       "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "outline_checkpoint_milestone_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI novel writer with anti-AI-rate engine, layered outline, checkpoint constraints, narrative milestones, and Story Bible truth source. Static intake note: Novel Writer Master is an AI-assisted novel writing tool with an anti-AI-rate engine, layered outline, checkpoint constraints",
+          "title": "qiuxinyuan321/novel-writer-master",
+          "trust_flags": [],
+          "url": "https://github.com/qiuxinyuan321/novel-writer-master"
+        }
+      ],
+      "top_source_url": "https://github.com/qiuxinyuan321/novel-writer-master",
       "trust_flags": []
     },
     {
@@ -5378,7 +5539,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "attribution_derivative_work_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -5395,6 +5556,19 @@
           "title": "spdx/license-list-data",
           "trust_flags": [],
           "url": "https://github.com/spdx/license-list-data"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 0,
+          "summary": "Prose linter skill for no-slop banned vocabulary, AI writing patterns, simple copulas, vague attribution, and marketing cadence. Static intake note: no-slop is a MIT prose linter skill/rulepack that flags AI writing patterns using banned vocabulary, copula substitutions, marketin",
+          "title": "Byk3y/no-slop",
+          "trust_flags": [],
+          "url": "https://github.com/Byk3y/no-slop"
         }
       ],
       "top_source_url": "https://github.com/spdx/license-list-data",
@@ -5607,6 +5781,29 @@
         }
       ],
       "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "progressive_disclosure_skill_protocol_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "CC-BY-NC-SA-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 0,
+          "summary": "Long-form novel skill with progressive disclosure, intent-based command routing, protocol files, codex/protocol/knowledge-base layers and localization rules. Static intake note: TianMing Skill is a CC BY-NC-SA long-form novel collaboration skill split from a monolithic prompt int",
+          "title": "zy-zmc/tianming-skill",
+          "trust_flags": [],
+          "url": "https://github.com/zy-zmc/tianming-skill"
+        }
+      ],
+      "top_source_url": "https://github.com/zy-zmc/tianming-skill",
       "trust_flags": []
     },
     {
@@ -5991,7 +6188,7 @@
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "dual_level_graph_vector_retrieval",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -6008,6 +6205,19 @@
           "title": "KKKenChow/ai-novel-writer",
           "trust_flags": [],
           "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 100,
+          "source": "github",
+          "stars": 0,
+          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
+          "title": "nntrivi2001/wordsmith",
+          "trust_flags": [],
+          "url": "https://github.com/nntrivi2001/wordsmith"
         },
         {
           "license": "MIT",
@@ -6436,6 +6646,52 @@
     },
     {
       "candidate_count": 2,
+      "name": "provider_budget_smoke_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 72,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese long-form novel production pipeline with BookRun, Blueprint, Judge/Repair, checkpoints, story memory, export audit, and real LLM smoke gates. Static intake note: StoryForge is a Chinese long-form novel production pipeline. Public README and package metadata describe BookR",
+          "title": "XZZKANY/StoryForge",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/XZZKANY/StoryForge"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 48,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI long-form fiction workbench with Vue UI, Go API gateway, Python sidecar, LLM profile routing, graph/vector memory, and deployment profiles. Static intake note: NovelBuilder is an AI long-form fiction workbench with Vue UI, Go API gateway, Python sidecar, task queues, LLM profi",
+          "title": "spiritLHLS/novelbuilder",
+          "trust_flags": [],
+          "url": "https://github.com/spiritLHLS/novelbuilder"
+        }
+      ],
+      "top_source_url": "https://github.com/XZZKANY/StoryForge",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 2,
       "name": "corpus_leakage_dedup_review_gate",
       "posture_hint": "defer-trust-review",
       "risk_flags": [],
@@ -6820,10 +7076,12 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "source_format_import_manifest",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "docker"
+      ],
       "sources": [
         {
           "license": "AGPL-3.0",
@@ -6850,6 +7108,23 @@
           "title": "jgm/pandoc",
           "trust_flags": [],
           "url": "https://github.com/jgm/pandoc"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 72,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese long-form novel production pipeline with BookRun, Blueprint, Judge/Repair, checkpoints, story memory, export audit, and real LLM smoke gates. Static intake note: StoryForge is a Chinese long-form novel production pipeline. Public README and package metadata describe BookR",
+          "title": "XZZKANY/StoryForge",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/XZZKANY/StoryForge"
         },
         {
           "license": "Apache-2.0",
@@ -6879,7 +7154,9 @@
         }
       ],
       "top_source_url": "https://github.com/aerkalov/ebooklib",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 2,
@@ -7288,6 +7565,33 @@
     },
     {
       "candidate_count": 1,
+      "name": "sidecar_memory_profile_boundary",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 48,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI long-form fiction workbench with Vue UI, Go API gateway, Python sidecar, LLM profile routing, graph/vector memory, and deployment profiles. Static intake note: NovelBuilder is an AI long-form fiction workbench with Vue UI, Go API gateway, Python sidecar, task queues, LLM profi",
+          "title": "spiritLHLS/novelbuilder",
+          "trust_flags": [],
+          "url": "https://github.com/spiritLHLS/novelbuilder"
+        }
+      ],
+      "top_source_url": "https://github.com/spiritLHLS/novelbuilder",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "entity_memory_slotfill_grounding",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -7461,6 +7765,42 @@
         }
       ],
       "top_source_url": "https://github.com/jncchds/abook",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "anti_slop_rulepack_triage_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI novel writer with anti-AI-rate engine, layered outline, checkpoint constraints, narrative milestones, and Story Bible truth source. Static intake note: Novel Writer Master is an AI-assisted novel writing tool with an anti-AI-rate engine, layered outline, checkpoint constraints",
+          "title": "qiuxinyuan321/novel-writer-master",
+          "trust_flags": [],
+          "url": "https://github.com/qiuxinyuan321/novel-writer-master"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 0,
+          "summary": "Prose linter skill for no-slop banned vocabulary, AI writing patterns, simple copulas, vague attribution, and marketing cadence. Static intake note: no-slop is a MIT prose linter skill/rulepack that flags AI writing patterns using banned vocabulary, copula substitutions, marketin",
+          "title": "Byk3y/no-slop",
+          "trust_flags": [],
+          "url": "https://github.com/Byk3y/no-slop"
+        }
+      ],
+      "top_source_url": "https://github.com/qiuxinyuan321/novel-writer-master",
       "trust_flags": []
     },
     {
@@ -7951,6 +8291,29 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "language_localization_style_profile_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 100,
+          "source": "github",
+          "stars": 0,
+          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
+          "title": "nntrivi2001/wordsmith",
+          "trust_flags": [],
+          "url": "https://github.com/nntrivi2001/wordsmith"
+        }
+      ],
+      "top_source_url": "https://github.com/nntrivi2001/wordsmith",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 4,
       "name": "chinese_segmentation_keyword_gate",
       "posture_hint": "metadata-triage",
@@ -8396,7 +8759,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "prose_lint_style_rule_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -8452,6 +8815,19 @@
           "title": "btford/write-good",
           "trust_flags": [],
           "url": "https://github.com/btford/write-good"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 0,
+          "summary": "Prose linter skill for no-slop banned vocabulary, AI writing patterns, simple copulas, vague attribution, and marketing cadence. Static intake note: no-slop is a MIT prose linter skill/rulepack that flags AI writing patterns using banned vocabulary, copula substitutions, marketin",
+          "title": "Byk3y/no-slop",
+          "trust_flags": [],
+          "url": "https://github.com/Byk3y/no-slop"
         }
       ],
       "top_source_url": "https://github.com/vale-cli/vale",
@@ -8850,7 +9226,7 @@
       ]
     },
     {
-      "candidate_count": 9,
+      "candidate_count": 10,
       "name": "agentic_book_planner_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -8912,6 +9288,19 @@
           "title": "lingfengQAQ/webnovel-writer",
           "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI novel writer with anti-AI-rate engine, layered outline, checkpoint constraints, narrative milestones, and Story Bible truth source. Static intake note: Novel Writer Master is an AI-assisted novel writing tool with an anti-AI-rate engine, layered outline, checkpoint constraints",
+          "title": "qiuxinyuan321/novel-writer-master",
+          "trust_flags": [],
+          "url": "https://github.com/qiuxinyuan321/novel-writer-master"
         },
         {
           "license": "MIT",
@@ -8983,7 +9372,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "projection_sync_observability",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -9032,6 +9421,19 @@
           "title": "lingfengQAQ/webnovel-writer",
           "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 100,
+          "source": "github",
+          "stars": 0,
+          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
+          "title": "nntrivi2001/wordsmith",
+          "trust_flags": [],
+          "url": "https://github.com/nntrivi2001/wordsmith"
         }
       ],
       "top_source_url": "https://github.com/papysans/Morpheus",
@@ -9461,7 +9863,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "copyedit_diagnostic_triage_queue",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -9517,6 +9919,19 @@
           "title": "btford/write-good",
           "trust_flags": [],
           "url": "https://github.com/btford/write-good"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 0,
+          "summary": "Prose linter skill for no-slop banned vocabulary, AI writing patterns, simple copulas, vague attribution, and marketing cadence. Static intake note: no-slop is a MIT prose linter skill/rulepack that flags AI writing patterns using banned vocabulary, copula substitutions, marketin",
+          "title": "Byk3y/no-slop",
+          "trust_flags": [],
+          "url": "https://github.com/Byk3y/no-slop"
         }
       ],
       "top_source_url": "https://github.com/vale-cli/vale",
@@ -9940,7 +10355,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "style_guide_layering",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -9963,6 +10378,19 @@
           "title": "loreum-app/loreum",
           "trust_flags": [],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 100,
+          "source": "github",
+          "stars": 0,
+          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
+          "title": "nntrivi2001/wordsmith",
+          "trust_flags": [],
+          "url": "https://github.com/nntrivi2001/wordsmith"
         },
         {
           "license": "MIT",
@@ -10410,7 +10838,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 16,
+      "candidate_count": 18,
       "name": "style_signature",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -10537,6 +10965,19 @@
           "url": "https://github.com/voocel/ainovel-cli"
         },
         {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 100,
+          "source": "github",
+          "stars": 0,
+          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
+          "title": "nntrivi2001/wordsmith",
+          "trust_flags": [],
+          "url": "https://github.com/nntrivi2001/wordsmith"
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -10593,6 +11034,19 @@
             "zero-issues-high-stars"
           ],
           "url": "https://github.com/1e0ng/simhash"
+        },
+        {
+          "license": "CC-BY-NC-SA-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 0,
+          "summary": "Long-form novel skill with progressive disclosure, intent-based command routing, protocol files, codex/protocol/knowledge-base layers and localization rules. Static intake note: TianMing Skill is a CC BY-NC-SA long-form novel collaboration skill split from a monolithic prompt int",
+          "title": "zy-zmc/tianming-skill",
+          "trust_flags": [],
+          "url": "https://github.com/zy-zmc/tianming-skill"
         },
         {
           "license": "NOASSERTION",
@@ -11060,7 +11514,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 7,
+      "candidate_count": 8,
       "name": "local_first_novel_workspace",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -11145,6 +11599,19 @@
           "title": "StableLlamaAI/AugmentedQuill",
           "trust_flags": [],
           "url": "https://github.com/StableLlamaAI/AugmentedQuill"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 100,
+          "source": "github",
+          "stars": 0,
+          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
+          "title": "nntrivi2001/wordsmith",
+          "trust_flags": [],
+          "url": "https://github.com/nntrivi2001/wordsmith"
         },
         {
           "license": "MIT",
@@ -11428,7 +11895,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 36,
+      "candidate_count": 37,
       "name": "self_review",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -11675,6 +12142,19 @@
           "title": "voocel/ainovel-cli",
           "trust_flags": [],
           "url": "https://github.com/voocel/ainovel-cli"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI novel writer with anti-AI-rate engine, layered outline, checkpoint constraints, narrative milestones, and Story Bible truth source. Static intake note: Novel Writer Master is an AI-assisted novel writing tool with an anti-AI-rate engine, layered outline, checkpoint constraints",
+          "title": "qiuxinyuan321/novel-writer-master",
+          "trust_flags": [],
+          "url": "https://github.com/qiuxinyuan321/novel-writer-master"
         },
         {
           "license": "unknown",
@@ -11951,7 +12431,7 @@
       ]
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "frontmatter_story_schema",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -11987,6 +12467,19 @@
           "title": "forsonny/novel-master-ai",
           "trust_flags": [],
           "url": "https://github.com/forsonny/novel-master-ai"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI novel writer with anti-AI-rate engine, layered outline, checkpoint constraints, narrative milestones, and Story Bible truth source. Static intake note: Novel Writer Master is an AI-assisted novel writing tool with an anti-AI-rate engine, layered outline, checkpoint constraints",
+          "title": "qiuxinyuan321/novel-writer-master",
+          "trust_flags": [],
+          "url": "https://github.com/qiuxinyuan321/novel-writer-master"
         },
         {
           "license": "MIT",
@@ -12671,7 +13164,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 17,
+      "candidate_count": 18,
       "name": "context_reference",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -12824,6 +13317,19 @@
           "title": "RhythmicWave/NovelForge",
           "trust_flags": [],
           "url": "https://github.com/RhythmicWave/NovelForge"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 100,
+          "source": "github",
+          "stars": 0,
+          "summary": "Claude Code writing workspace with skills, agents, local RAG, dashboard, resume, learn workflows, Vietnamese writing patterns and style guide. Static intake note: Wordsmith is a GPL-3.0 long-form webnovel system for Claude Code with eight writing skills, seven agents, local RAG, ",
+          "title": "nntrivi2001/wordsmith",
+          "trust_flags": [],
+          "url": "https://github.com/nntrivi2001/wordsmith"
         },
         {
           "license": "unknown",
@@ -13531,7 +14037,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "query_lint_contract",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -13548,6 +14054,19 @@
           "title": "ModernRelay/omnigraph",
           "trust_flags": [],
           "url": "https://github.com/ModernRelay/omnigraph"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 0,
+          "summary": "Prose linter skill for no-slop banned vocabulary, AI writing patterns, simple copulas, vague attribution, and marketing cadence. Static intake note: no-slop is a MIT prose linter skill/rulepack that flags AI writing patterns using banned vocabulary, copula substitutions, marketin",
+          "title": "Byk3y/no-slop",
+          "trust_flags": [],
+          "url": "https://github.com/Byk3y/no-slop"
         }
       ],
       "top_source_url": "https://github.com/ModernRelay/omnigraph",
@@ -14020,7 +14539,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "anti_slop_audit",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -14037,6 +14556,19 @@
           "title": "NousResearch/autonovel",
           "trust_flags": [],
           "url": "https://github.com/NousResearch/autonovel"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 0,
+          "summary": "AI novel writer with anti-AI-rate engine, layered outline, checkpoint constraints, narrative milestones, and Story Bible truth source. Static intake note: Novel Writer Master is an AI-assisted novel writing tool with an anti-AI-rate engine, layered outline, checkpoint constraints",
+          "title": "qiuxinyuan321/novel-writer-master",
+          "trust_flags": [],
+          "url": "https://github.com/qiuxinyuan321/novel-writer-master"
         },
         {
           "license": "MIT",
@@ -14290,7 +14822,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 7,
       "name": "publication_pipeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -14378,6 +14910,23 @@
           "title": "EdwardAThomson/NovelWriter",
           "trust_flags": [],
           "url": "https://github.com/EdwardAThomson/NovelWriter"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 72,
+          "source": "github",
+          "stars": 0,
+          "summary": "Chinese long-form novel production pipeline with BookRun, Blueprint, Judge/Repair, checkpoints, story memory, export audit, and real LLM smoke gates. Static intake note: StoryForge is a Chinese long-form novel production pipeline. Public README and package metadata describe BookR",
+          "title": "XZZKANY/StoryForge",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/XZZKANY/StoryForge"
         }
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
