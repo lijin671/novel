@@ -423,6 +423,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/guerra2fernando/libriscribe",
     "https://github.com/muckelverk/pulpgen",
     "https://github.com/bhed/sentiers-open-source",
+    "https://github.com/rhavekost/author-toolkit",
+    "https://github.com/mike-cramblett/novel-novel-generator",
+    "https://github.com/denmurray10/Story-Timeline-Builder",
+    "https://github.com/jwynia/agent-skills",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1322,6 +1326,25 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "narrative paths, choice consequences, agent quality support, and state snapshots for returning to earlier branches. Absorb author-choice branch graph, consequence, and snapshot gates only; "
         "Claude Code commands, derived Claude Book code, prompts, and runtime agents are not launched or copied."
     ),
+    "rhavekost/author-toolkit": (
+        "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, "
+        "agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, timeline, world facts, internal consistency, "
+        "and genre-specific worldbuilding checks. Absorb editorial-persona and continuity-gate patterns only; plugin installation examples and skill prompts are not imported."
+    ),
+    "mike-cramblett/novel-novel-generator": (
+        "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, "
+        "chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeated phrases and anti-repetition rules, "
+        "state JSON, and PDF manuscript export. Absorb voice-fingerprint, rolling-summary, anti-repetition, and export-audit patterns only; Node runtime and provider calls are not run."
+    ),
+    "denmurray10/story-timeline-builder": (
+        "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, "
+        "dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management, temporal context, and AI continuity-engine support. "
+        "Absorb timeline/relationship-network and temporal-canon context gates only; Django app, hosted service, database, and provider surfaces are not launched."
+    ),
+    "jwynia/agent-skills": (
+        "Agent Skills Collection is a large reusable skills catalog with a creative/narrative fiction and story skills category. Public README/AGENTS.md describe browsing skills by category, "
+        "npx installation examples, context-network source-of-truth workflow, and documentation-first progress checks. Keep it index-only as a discovery catalog; do not install skills wholesale or import prompt bodies."
+    ),
     "pdfminer/pdfminer.six": (
         "Pdfminer.six extracts text and layout information from PDF files. "
         "Absorb page/span/layout extraction gates for source deconstruction only; package runtime is not imported."
@@ -1644,6 +1667,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "spaCy provides industrial NLP pipelines with tokenization, named entity recognition, text classification, and custom pipeline components. "
         "Absorb pipeline-shaped entity review and custom fiction-entity labeling patterns only; models, packages, and runtime pipelines are not installed."
     ),
+}
+
+STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
+    "jwynia/agent-skills": ("index-only", "catalog-index-only"),
 }
 
 
@@ -7975,6 +8002,7 @@ class NovelSourceDiscoveryService:
             json.dumps(scripts, ensure_ascii=False),
         )
         trust_review = self._build_github_trust_review(repository)
+        posture, posture_hint = self._static_repository_posture(title, trust_review["posture_hint"])
         return {
             "source": "github",
             "url": _text(repository.get("html_url")),
@@ -7983,8 +8011,8 @@ class NovelSourceDiscoveryService:
             "stars": repository.get("stargazers_count"),
             "license": _text(license_payload.get("spdx_id") or license_payload.get("key") or repository.get("license")),
             "family": self._classify_family(haystack),
-            "posture": "pattern-only",
-            "posture_hint": trust_review["posture_hint"],
+            "posture": posture,
+            "posture_hint": posture_hint,
             "risk_flags": self._risk_flags(haystack),
             "trust_review": trust_review,
             "absorbed_patterns": self._absorbed_patterns(haystack),
@@ -7994,6 +8022,12 @@ class NovelSourceDiscoveryService:
 
     def _static_repository_pattern_summary(self, title: str) -> str:
         return STATIC_REPOSITORY_PATTERN_OVERRIDES.get(title.lower(), "")
+
+    def _static_repository_posture(self, title: str, fallback_hint: str) -> tuple[str, str]:
+        override = STATIC_REPOSITORY_POSTURE_OVERRIDES.get(title.lower())
+        if override:
+            return override
+        return "pattern-only", fallback_hint
 
     def _merge_candidate_summary(self, description: str, static_pattern_summary: str) -> str:
         description = _text(description)

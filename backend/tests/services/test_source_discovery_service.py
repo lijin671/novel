@@ -7982,3 +7982,79 @@ def test_static_authorial_agent_interactive_delivery_sources_map_to_workflow_gat
     assert any("plan draft log verify" in query.lower() and "living documents" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("metadata-first analysis" in query.lower() and "safe scene revision" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("verbalized sampling" in query.lower() and "writer wiki" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_default_discovery_sources_include_voice_timeline_skill_catalog_projects():
+    assert "https://github.com/rhavekost/author-toolkit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mike-cramblett/novel-novel-generator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/denmurray10/Story-Timeline-Builder" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jwynia/agent-skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("rolling summary" in query.lower() and "character state tracking" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("interactive narrative" in query.lower() and "choice graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_static_voice_timeline_skill_catalog_sources_map_to_safe_postures():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "rhavekost/author-toolkit",
+                "html_url": "https://github.com/rhavekost/author-toolkit",
+                "description": "",
+                "stargazers_count": 3,
+                "license": {},
+                "topics": [],
+                "updated_at": "2026-06-10T03:00:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "mike-cramblett/novel-novel-generator",
+                "html_url": "https://github.com/mike-cramblett/novel-novel-generator",
+                "description": "",
+                "stargazers_count": 4,
+                "license": {},
+                "topics": [],
+                "updated_at": "2026-06-10T03:00:00Z",
+                "root_files": ["README.md", "package.json"],
+            },
+            {
+                "full_name": "denmurray10/Story-Timeline-Builder",
+                "html_url": "https://github.com/denmurray10/Story-Timeline-Builder",
+                "description": "",
+                "stargazers_count": 1,
+                "license": {},
+                "topics": [],
+                "updated_at": "2026-06-10T03:00:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "jwynia/agent-skills",
+                "html_url": "https://github.com/jwynia/agent-skills",
+                "description": "",
+                "stargazers_count": 42,
+                "license": {},
+                "topics": [],
+                "updated_at": "2026-06-10T03:00:00Z",
+                "root_files": ["README.md", "AGENTS.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T13:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert candidates["jwynia/agent-skills"]["posture"] == "index-only"
+    assert candidates["jwynia/agent-skills"]["posture_hint"] == "catalog-index-only"
+    assert candidates["jwynia/agent-skills"]["absorbed_patterns"] == ["source_discovery"]
+    assert "craft_role_pipeline" in candidates["rhavekost/author-toolkit"]["absorbed_patterns"]
+    assert "voice_fingerprint" in candidates["rhavekost/author-toolkit"]["absorbed_patterns"]
+    assert "anti_repetition_prompt_rules" in candidates["mike-cramblett/novel-novel-generator"]["absorbed_patterns"]
+    assert "voice_fingerprint" in candidates["mike-cramblett/novel-novel-generator"]["absorbed_patterns"]
+    assert "character_interaction_network_gate" in candidates["denmurray10/Story-Timeline-Builder"]["absorbed_patterns"]
+    assert "temporal_canon_context_graph" in candidates["denmurray10/Story-Timeline-Builder"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "character_interaction_network_gate_hints" in pattern_pack
+    assert "temporal_canon_context_graph_hints" in pattern_pack
+    assert "anti_repetition_prompt_rules_hints" in pattern_pack

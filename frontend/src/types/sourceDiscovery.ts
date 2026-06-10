@@ -102,6 +102,12 @@ export interface SourceDiscoveryPatternPack {
   choice_stats_consequence_gate_hints?: string[];
   delivery_manuscript_assembly_hints?: string[];
   export_format_fidelity_audit_hints?: string[];
+  character_dialogue_persona_memory_hints?: string[];
+  anti_repetition_prompt_rules_hints?: string[];
+  temporal_canon_context_graph_hints?: string[];
+  character_interaction_network_gate_hints?: string[];
+  plotline_thread_tracking_hints?: string[];
+  rolling_summary_context_trim_hints?: string[];
   safety_constraints?: string[];
 }
 

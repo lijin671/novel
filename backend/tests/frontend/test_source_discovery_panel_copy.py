@@ -43,6 +43,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "choice_stats_consequence_gate_hints",
         "delivery_manuscript_assembly_hints",
         "export_format_fidelity_audit_hints",
+        "character_dialogue_persona_memory_hints",
+        "anti_repetition_prompt_rules_hints",
+        "temporal_canon_context_graph_hints",
+        "character_interaction_network_gate_hints",
+        "plotline_thread_tracking_hints",
+        "rolling_summary_context_trim_hints",
     ):
         assert field in types_text
         assert field in panel_text
@@ -59,6 +65,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Agentic editorial pipeline gates" in panel_text
     assert "Branching choice graph gates" in panel_text
     assert "Export format fidelity audit gates" in panel_text
+    assert "Voice / timeline continuity gates" in panel_text
+    assert "Character dialogue persona memory gates" in panel_text
+    assert "Anti-repetition prompt rule gates" in panel_text
+    assert "Temporal canon context graph gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -101,6 +111,10 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "guerra2fernando/libriscribe",
         "muckelverk/pulpgen",
         "bhed/sentiers-open-source",
+        "rhavekost/author-toolkit",
+        "mike-cramblett/novel-novel-generator",
+        "denmurray10/Story-Timeline-Builder",
+        "jwynia/agent-skills",
     ):
         assert repo in panel_text
 

@@ -45,6 +45,10 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/guerra2fernando/libriscribe',
   'https://github.com/muckelverk/pulpgen',
   'https://github.com/bhed/sentiers-open-source',
+  'https://github.com/rhavekost/author-toolkit',
+  'https://github.com/mike-cramblett/novel-novel-generator',
+  'https://github.com/denmurray10/Story-Timeline-Builder',
+  'https://github.com/jwynia/agent-skills',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -87,6 +91,12 @@ const PINNED_HINT_KEYS = new Set([
   'choice_stats_consequence_gate_hints',
   'delivery_manuscript_assembly_hints',
   'export_format_fidelity_audit_hints',
+  'character_dialogue_persona_memory_hints',
+  'anti_repetition_prompt_rules_hints',
+  'temporal_canon_context_graph_hints',
+  'character_interaction_network_gate_hints',
+  'plotline_thread_tracking_hints',
+  'rolling_summary_context_trim_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -306,6 +316,14 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Choice stats consequence gates', patternPackPayload?.choice_stats_consequence_gate_hints],
               ['Delivery manuscript assembly gates', patternPackPayload?.delivery_manuscript_assembly_hints],
               ['Export format fidelity audit gates', patternPackPayload?.export_format_fidelity_audit_hints],
+            ])}
+            {renderHintGroup('Voice / timeline continuity gates', [
+              ['Character dialogue persona memory gates', patternPackPayload?.character_dialogue_persona_memory_hints],
+              ['Anti-repetition prompt rule gates', patternPackPayload?.anti_repetition_prompt_rules_hints],
+              ['Temporal canon context graph gates', patternPackPayload?.temporal_canon_context_graph_hints],
+              ['Character interaction network gates', patternPackPayload?.character_interaction_network_gate_hints],
+              ['Plotline thread tracking gates', patternPackPayload?.plotline_thread_tracking_hints],
+              ['Rolling summary context trim gates', patternPackPayload?.rolling_summary_context_trim_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

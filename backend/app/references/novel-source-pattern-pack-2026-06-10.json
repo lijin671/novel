@@ -45,7 +45,8 @@
   ],
   "anti_repetition_prompt_rules_hints": [
     "Add anti-repetition rules to prompt and review: repeated phrase, repeated scene shape, repeated causal bridge, and repeated emotional beat.",
-    "Use token/repetition stats as evidence for batch repair, not as a reason to flatten the prose voice."
+    "Use token/repetition stats as evidence for batch repair, not as a reason to flatten the prose voice.",
+    "Maintain a rolling banned-phrase and repeated-beat ledger across chapter batches, then repair only the failing spans."
   ],
   "anti_slop_audit_hints": [
     "Audit drafts for word-level AI tells, over-neat explanation, repeated sentence frames, generic wisdom dialogue, and scene-free summary.",
@@ -484,12 +485,14 @@
   "character_dialogue_persona_memory_hints": [
     "Store character voice as evidence-backed tone, personality, relationship pressure, and plot-chat boundaries.",
     "Use dialogue evidence to preserve voice and role behavior without copying source lines or protected role IP.",
-    "For same-type creation, transform persona memory into new characters with distinct names, facts, relationships, and verbal signatures."
+    "For same-type creation, transform persona memory into new characters with distinct names, facts, relationships, and verbal signatures.",
+    "Treat editorial persona notes as review lenses; only accepted voice facts may enter character memory."
   ],
   "character_interaction_network_gate_hints": [
     "Extract character interaction networks with evidence for co-occurrence, dialogue, sentiment/polarity, faction, and time window.",
     "Review centrality, bridge characters, alliance/conflict polarity, and relationship timing before accepting relationship canon.",
-    "For same-type creation, alter graph topology and relationship timing so renamed characters do not preserve the source network."
+    "For same-type creation, alter graph topology and relationship timing so renamed characters do not preserve the source network.",
+    "Track relationship polarity, interaction frequency, and arc deltas across multi-book timelines before drafting scenes."
   ],
   "character_quote_attribution_map_hints": [
     "Build a character mention, alias, speaker, and quote-attribution map before judging voice consistency or relationship pressure.",
@@ -882,7 +885,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T13:08:00+08:00",
+  "generated_at": "2026-06-10T13:42:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -1958,7 +1961,8 @@
   ],
   "rolling_summary_context_trim_hints": [
     "Maintain a rolling summary plus character states, timeline events, world state, and relevant passages for each chapter.",
-    "When context is trimmed, record dropped items and keep enough evidence to explain why the selected context supports the next beat."
+    "When context is trimmed, record dropped items and keep enough evidence to explain why the selected context supports the next beat.",
+    "Update rolling summaries after each accepted chapter and record why omitted context is safe to drop."
   ],
   "runtime_artifact_trace_hints": [
     "Persist run artifacts for each chapter task: intent, selected context, rule stack, and trace.",
@@ -2063,7 +2067,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 224,
+  "source_candidate_count": 228,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2083,6 +2087,10 @@
     "For continuation, fingerprint checks protect source fidelity boundaries; for same-type creation, they block copied route, wording, and scene topology."
   ],
   "source_titles": [
+    "rhavekost/author-toolkit",
+    "mike-cramblett/novel-novel-generator",
+    "denmurray10/Story-Timeline-Builder",
+    "jwynia/agent-skills",
     "tiny-flowlab/novel-studio-copilot-cli",
     "guerra2fernando/libriscribe",
     "muckelverk/pulpgen",
@@ -2392,7 +2400,8 @@
   "temporal_canon_context_graph_hints": [
     "Store canon facts as temporal graph episodes with source chapter, observed_at, valid_from, invalid_after, and provenance notes.",
     "Retrieve context through a hybrid of semantic match, entity-neighborhood traversal, chronology window, and explicit relationship edges.",
-    "When a continuation changes facts, add a new episode or validity window instead of overwriting earlier canon evidence."
+    "When a continuation changes facts, add a new episode or validity window instead of overwriting earlier canon evidence.",
+    "Compare chronological event order against narrative reveal order before accepting continuation or same-type planning changes."
   ],
   "toc_aware_source_deconstruction_hints": [
     "When deconstructing a source book, preserve table-of-contents hierarchy so parts, chapters, and sections remain traceable.",
@@ -3361,7 +3370,7 @@
       ]
     },
     {
-      "candidate_count": 19,
+      "candidate_count": 21,
       "name": "book_decomposition",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3429,6 +3438,21 @@
           "url": "https://github.com/olivierkes/manuskript"
         },
         {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3457,6 +3481,21 @@
           "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
           "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "unknown",
@@ -3649,9 +3688,9 @@
       ]
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 9,
       "name": "chapter_generation",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "postinstall"
       ],
@@ -3668,6 +3707,21 @@
           "title": "KKKenChow/ai-novel-writer",
           "trust_flags": [],
           "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
         },
         {
           "license": "MIT",
@@ -3764,7 +3818,9 @@
         }
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -3796,9 +3852,9 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 18,
+      "candidate_count": 20,
       "name": "worldbuilding",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
@@ -3861,6 +3917,21 @@
           "url": "https://github.com/olivierkes/manuskript"
         },
         {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3889,6 +3960,21 @@
           "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
           "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "unknown",
@@ -4060,9 +4146,9 @@
       ]
     },
     {
-      "candidate_count": 18,
+      "candidate_count": 20,
       "name": "timeline",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
@@ -4126,6 +4212,21 @@
           "url": "https://github.com/olivierkes/manuskript"
         },
         {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -4154,6 +4255,21 @@
           "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
           "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "unknown",
@@ -4327,7 +4443,7 @@
       ]
     },
     {
-      "candidate_count": 31,
+      "candidate_count": 34,
       "name": "character_cards",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -4394,6 +4510,36 @@
           "url": "https://github.com/olivierkes/manuskript"
         },
         {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -4422,6 +4568,21 @@
           "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
           "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "unknown",
@@ -4866,11 +5027,26 @@
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "temporal_canon_context_graph",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -4885,8 +5061,10 @@
           "url": "https://github.com/getzep/graphiti"
         }
       ],
-      "top_source_url": "https://github.com/getzep/graphiti",
-      "trust_flags": []
+      "top_source_url": "https://github.com/denmurray10/Story-Timeline-Builder",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -6215,9 +6393,9 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 17,
+      "candidate_count": 19,
       "name": "organization_graph",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server",
@@ -6280,6 +6458,21 @@
           "url": "https://github.com/olivierkes/manuskript"
         },
         {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -6308,6 +6501,21 @@
           "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
           "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "unknown",
@@ -8316,11 +8524,26 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "character_interaction_network_gate",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -8348,8 +8571,10 @@
           "url": "https://github.com/devbret/character-interactions"
         }
       ],
-      "top_source_url": "https://github.com/hzjken/character-network",
-      "trust_flags": []
+      "top_source_url": "https://github.com/denmurray10/Story-Timeline-Builder",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 2,
@@ -9398,7 +9623,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 20,
+      "candidate_count": 22,
       "name": "emotion_arc",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -9465,6 +9690,21 @@
           "url": "https://github.com/olivierkes/manuskript"
         },
         {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -9493,6 +9733,21 @@
           "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
           "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "unknown",
@@ -9698,7 +9953,7 @@
       ]
     },
     {
-      "candidate_count": 12,
+      "candidate_count": 14,
       "name": "agentic_book_planner_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -9731,6 +9986,36 @@
           "title": "KKKenChow/ai-novel-writer",
           "trust_flags": [],
           "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "NOASSERTION",
@@ -9867,7 +10152,9 @@
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 5,
@@ -10691,11 +10978,12 @@
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
-        "license:noassertion"
+        "license:noassertion",
+        "license:missing"
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "anti_repetition_prompt_rules",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -10703,6 +10991,21 @@
         "mcp_server"
       ],
       "sources": [
+        {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
         {
           "license": "Apache-2.0",
           "posture": "pattern-only",
@@ -10720,8 +11023,10 @@
           "url": "https://github.com/jncchds/abook"
         }
       ],
-      "top_source_url": "https://github.com/jncchds/abook",
-      "trust_flags": []
+      "top_source_url": "https://github.com/mike-cramblett/novel-novel-generator",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -10770,13 +11075,28 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "craft_role_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
         "postinstall"
       ],
       "sources": [
+        {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -10834,7 +11154,7 @@
           "url": "https://github.com/EdwardAThomson/NovelWriter"
         }
       ],
-      "top_source_url": "https://github.com/tiny-flowlab/novel-studio-copilot-cli",
+      "top_source_url": "https://github.com/rhavekost/author-toolkit",
       "trust_flags": [
         "license:missing"
       ]
@@ -11047,9 +11367,9 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "style_guide_layering",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
         "mcp_server"
@@ -11070,6 +11390,21 @@
           "title": "loreum-app/loreum",
           "trust_flags": [],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
         },
         {
           "license": "GPL-3.0",
@@ -11099,7 +11434,9 @@
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 2,
@@ -11340,7 +11677,7 @@
     {
       "candidate_count": 4,
       "name": "node_dialogue_state_machine",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
         {
@@ -11400,7 +11737,8 @@
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
-        "license:noassertion"
+        "license:noassertion",
+        "license:missing"
       ]
     },
     {
@@ -11618,7 +11956,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 18,
+      "candidate_count": 20,
       "name": "style_signature",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -11645,6 +11983,36 @@
           "title": "loreum-app/loreum",
           "trust_flags": [],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
         },
         {
           "license": "MIT",
@@ -11887,7 +12255,8 @@
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
       "trust_flags": [
-        "zero-issues-high-stars"
+        "zero-issues-high-stars",
+        "license:missing"
       ]
     },
     {
@@ -12178,11 +12547,26 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "genre_parameterized_worldbuilding",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
+        {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -12210,8 +12594,10 @@
           "url": "https://github.com/EdwardAThomson/NovelWriter"
         }
       ],
-      "top_source_url": "https://github.com/forsonny/book-os",
-      "trust_flags": []
+      "top_source_url": "https://github.com/rhavekost/author-toolkit",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -12688,7 +13074,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 42,
+      "candidate_count": 44,
       "name": "self_review",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -12757,6 +13143,21 @@
           "url": "https://github.com/olivierkes/manuskript"
         },
         {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -12785,6 +13186,21 @@
           "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
           "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "unknown",
@@ -13294,7 +13710,7 @@
       ]
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 8,
       "name": "frontmatter_story_schema",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -13316,6 +13732,21 @@
           "url": "https://github.com/abrahamp47/storyforge-wiki"
         },
         {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -13327,6 +13758,21 @@
           "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
           "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
         },
         {
           "license": "MIT-like custom text",
@@ -13388,7 +13834,8 @@
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
-        "license:noassertion"
+        "license:noassertion",
+        "license:missing"
       ]
     },
     {
@@ -13916,11 +14363,26 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "alternate_timeline_branching",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
+        {
+          "title": "denmurray10/Story-Timeline-Builder",
+          "url": "https://github.com/denmurray10/Story-Timeline-Builder",
+          "source": "github",
+          "summary": "Story Timeline Builder is a fiction-author digital story bible for complex multi-book series. Public README describes chronological events versus narrative sequence, dynamic relationship network mapping, character arcs, worldbuilding rules, continuity errors, timeline management,",
+          "stars": 1,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 151
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -13935,8 +14397,10 @@
           "url": "https://github.com/ypcypc/WhatIf"
         }
       ],
-      "top_source_url": "https://github.com/ypcypc/WhatIf",
-      "trust_flags": []
+      "top_source_url": "https://github.com/denmurray10/Story-Timeline-Builder",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 7,
@@ -15256,11 +15720,41 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 4,
       "name": "voice_fingerprint",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
+        {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
+        {
+          "title": "rhavekost/author-toolkit",
+          "url": "https://github.com/rhavekost/author-toolkit",
+          "source": "github",
+          "summary": "Author Toolkit is a Claude Code writing-skill plugin for fiction and narrative authors. Public README describes a fiction workshop with editorial personas, agent roles such as Character Consultant and Continuity Tracker, voice fingerprint consistency, motivation and arc review, t",
+          "stars": 3,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -15288,8 +15782,10 @@
           "url": "https://github.com/forjd/better-writing"
         }
       ],
-      "top_source_url": "https://github.com/NousResearch/autonovel",
-      "trust_flags": []
+      "top_source_url": "https://github.com/mike-cramblett/novel-novel-generator",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 2,
@@ -15728,9 +16224,9 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 9,
+      "candidate_count": 10,
       "name": "publication_pipeline",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker"
       ],
@@ -15760,6 +16256,21 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "title": "mike-cramblett/novel-novel-generator",
+          "url": "https://github.com/mike-cramblett/novel-novel-generator",
+          "source": "github",
+          "summary": "Novel Novel Generator is a whole-novel pipeline with IP intake, Story Bible generation, Stylistic Compression Induction for character voice fingerprints, chapter-by-chapter outline planning, drafting from prior-chapter context, continuity editor audits, rolling summaries, repeate",
+          "stars": 4,
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 155
         },
         {
           "license": "unknown",
@@ -15872,9 +16383,9 @@
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "source_discovery",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
         {
@@ -15889,10 +16400,27 @@
           "title": "Theltn/AICreativityJudge",
           "trust_flags": [],
           "url": "https://github.com/Theltn/AICreativityJudge"
+        },
+        {
+          "title": "jwynia/agent-skills",
+          "url": "https://github.com/jwynia/agent-skills",
+          "source": "github",
+          "summary": "Agent Skills Collection is a large reusable skills catalog with a creative/narrative fiction and story skills category. Public README/AGENTS.md describe browsing skills by category, npx installation examples, context-network source-of-truth workflow, and documentation-first progr",
+          "stars": 42,
+          "license": "unknown",
+          "posture": "index-only",
+          "posture_hint": "catalog-index-only",
+          "risk_flags": [],
+          "trust_flags": [
+            "license:missing"
+          ],
+          "score": 19
         }
       ],
       "top_source_url": "https://github.com/Theltn/AICreativityJudge",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "name": "delivery_manuscript_assembly",
@@ -15937,5 +16465,8 @@
   "writing_session_goal_tracking_hints": [
     "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
     "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates."
+  ],
+  "source_discovery_hints": [
+    "Large creative/narrative skill catalogs stay index-only; promote one bounded pattern only after original source and posture review."
   ]
 }
