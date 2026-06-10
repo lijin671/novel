@@ -82,6 +82,20 @@ export interface SourceDiscoveryPatternPack {
   self_review_policy_hints?: string[];
   self_review_gate_hints?: string[];
   chapter_change_package_hints?: string[];
+  bookrun_audit_trail_gate_hints?: string[];
+  provider_budget_smoke_gate_hints?: string[];
+  sidecar_memory_profile_boundary_hints?: string[];
+  outline_checkpoint_milestone_gate_hints?: string[];
+  language_localization_style_profile_gate_hints?: string[];
+  progressive_disclosure_skill_protocol_gate_hints?: string[];
+  anti_slop_rulepack_triage_gate_hints?: string[];
+  user_modifier_project_blueprint_gate_hints?: string[];
+  portable_canon_skill_runtime_gate_hints?: string[];
+  staged_outline_chunk_window_gate_hints?: string[];
+  wiki_canon_graph_lint_gate_hints?: string[];
+  plan_draft_log_verify_loop_gate_hints?: string[];
+  mcp_scene_index_revision_boundary_hints?: string[];
+  verbalized_sampling_diversity_wiki_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

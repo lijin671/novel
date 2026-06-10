@@ -27,6 +27,19 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/mrigankad/Novel-OS',
   'https://github.com/aikohanasaki/SillyTavern-MemoryBooks',
   'https://github.com/bal-spec/sillytavern-character-memory',
+  'https://github.com/XZZKANY/StoryForge',
+  'https://github.com/spiritLHLS/novelbuilder',
+  'https://github.com/qiuxinyuan321/novel-writer-master',
+  'https://github.com/Byk3y/no-slop',
+  'https://github.com/nntrivi2001/wordsmith',
+  'https://github.com/zy-zmc/tianming-skill',
+  'https://github.com/para-droid-ai/NovelizeAI',
+  'https://github.com/Moosphan/novel-orchestrator',
+  'https://github.com/kirinonakar/Novelgen',
+  'https://github.com/abrahamp47/storyforge-wiki',
+  'https://github.com/third-order-labs/longform-plugin',
+  'https://github.com/hannasdev/mcp-writing',
+  'https://github.com/xbraindance/Creative-writing-skill',
 ];
 
 function parseSeedUrls(value: string): string[] {
@@ -206,6 +219,24 @@ export default function BookRemixSourceDiscoveryPanel() {
             {renderHintBlock('Inspired copy-risk hints', patternPackPayload?.inspired_copy_risk_hints)}
             {renderHintBlock('Self-review gates', patternPackPayload?.self_review_gate_hints)}
             {renderHintBlock('Chapter change package hints', patternPackPayload?.chapter_change_package_hints)}
+            {renderHintGroup('BookRun / skill protocol gates', [
+              ['BookRun audit trail gates', patternPackPayload?.bookrun_audit_trail_gate_hints],
+              ['Provider budget smoke gates', patternPackPayload?.provider_budget_smoke_gate_hints],
+              ['Sidecar memory profile boundaries', patternPackPayload?.sidecar_memory_profile_boundary_hints],
+              ['Outline checkpoint milestone gates', patternPackPayload?.outline_checkpoint_milestone_gate_hints],
+              ['Language localization style profile gates', patternPackPayload?.language_localization_style_profile_gate_hints],
+              ['Progressive disclosure skill protocol gates', patternPackPayload?.progressive_disclosure_skill_protocol_gate_hints],
+              ['Anti-slop rulepack triage gates', patternPackPayload?.anti_slop_rulepack_triage_gate_hints],
+            ])}
+            {renderHintGroup('Project workbench / memory diversity gates', [
+              ['User modifier project blueprint gates', patternPackPayload?.user_modifier_project_blueprint_gate_hints],
+              ['Portable canon skill runtime gates', patternPackPayload?.portable_canon_skill_runtime_gate_hints],
+              ['Staged outline chunk window gates', patternPackPayload?.staged_outline_chunk_window_gate_hints],
+              ['Wiki canon graph lint gates', patternPackPayload?.wiki_canon_graph_lint_gate_hints],
+              ['Plan draft log verify loop gates', patternPackPayload?.plan_draft_log_verify_loop_gate_hints],
+              ['MCP scene index revision boundaries', patternPackPayload?.mcp_scene_index_revision_boundary_hints],
+              ['Verbalized sampling diversity wiki gates', patternPackPayload?.verbalized_sampling_diversity_wiki_gate_hints],
+            ])}
           </Space>
 
           {ledger?.content ? (
@@ -246,6 +277,21 @@ function renderHintBlock(title: string, items?: string[]) {
         dataSource={items.slice(0, 5)}
         renderItem={(item) => <List.Item>{item}</List.Item>}
       />
+    </Card>
+  );
+}
+
+function renderHintGroup(title: string, blocks: Array<[string, string[] | undefined]>) {
+  const visibleBlocks = blocks.filter(([, items]) => Boolean(items?.length));
+  if (!visibleBlocks.length) {
+    return null;
+  }
+
+  return (
+    <Card size="small" title={title}>
+      <Space direction="vertical" size={12} style={{ width: '100%' }}>
+        {visibleBlocks.map(([blockTitle, items]) => renderHintBlock(blockTitle, items))}
+      </Space>
     </Card>
   );
 }
