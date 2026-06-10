@@ -11123,3 +11123,87 @@ def test_static_characterarc_source_maps_to_skill_loop_knowledge_trace_gates():
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "project_skill_agent_loop_gate_hints" in digest
     assert "knowledge_document_writeback_trace_gate_hints" in digest
+
+
+def test_static_novelforge_source_maps_to_host_schema_retrieval_architecture_gates():
+    assert "https://github.com/zlx362211854/novelforge-agent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("modelHint" in query and "prompt caching" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chapter_review" in query and "forceAdvanced" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("BM25" in query and "memory cards" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "zlx362211854/novelforge-agent",
+                "html_url": "https://github.com/zlx362211854/novelforge-agent",
+                "description": (
+                    "Local-first long-form novel workflow engine for MCP hosts and CLI shells. "
+                    "State machine, zod schemas, BM25 retrieval, persistent project state, no LLM dependency, "
+                    "host's LLM generates artifacts, exact instruction and packed context, expectedFormat, "
+                    "modelHint, segments, prompt caching, chapter_review, requiredBeats, chapter_revision, "
+                    "revisionCounts, forceAdvanced, rejected submissions, architecture_extension, plannedTotalChapters, "
+                    "chaptersPerRun, CJK bigram tokenizer, memory cards, story-bible sections."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["mcp", "novel", "fiction", "workflow", "bm25"],
+                "updated_at": "2026-06-10T08:33:52Z",
+                "root_files": [
+                    "README.md",
+                    "README.zh-CN.md",
+                    "LICENSE",
+                    "package.json",
+                    "src/core/workflow.ts",
+                    "src/core/schemas.ts",
+                    "src/core/contextBuilder.ts",
+                    "src/core/agentLog.ts",
+                    "src/mcp/tools.ts",
+                    "scripts/e2e.sh",
+                ],
+                "package_scripts": {
+                    "prepare": "npm run build",
+                    "inspect": "npm run build && npx -y @modelcontextprotocol/inspector node dist/src/mcp/server.js",
+                    "test:e2e": "npm run build && bash scripts/e2e.sh",
+                },
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T15:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["zlx362211854/novelforge-agent"]
+    assert "host_instruction_context_boundary_gate" in candidate["absorbed_patterns"]
+    assert "schema_review_revision_recovery_gate" in candidate["absorbed_patterns"]
+    assert "cjk_bm25_context_retrieval_gate" in candidate["absorbed_patterns"]
+    assert "dynamic_architecture_extension_gate" in candidate["absorbed_patterns"]
+    assert "workflow_agent_pipeline" in candidate["absorbed_patterns"]
+    assert "structured_generation_schema" in candidate["absorbed_patterns"]
+    assert "mcp_server" in candidate["risk_flags"]
+    assert "shell_script" in candidate["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "host_instruction_context_contract" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_acceptance_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "cjk_lexical_retrieval_scope" in pattern_pack["bible_enrichment_targets"]
+    assert "architecture_extension_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "host_instruction_context_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_acceptance_gate_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "cjk_bm25_retrieval_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "architecture_extension_checkpoint" in pattern_pack["whole_book_analysis_targets"]
+    assert "host_instruction_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "schema_review_revision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "cjk_retrieval_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "architecture_extension_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("host LLM" in hint for hint in pattern_pack["host_instruction_context_boundary_gate_hints"])
+    assert any("revisionCounts" in hint for hint in pattern_pack["schema_review_revision_recovery_gate_hints"])
+    assert any("CJK-aware BM25" in hint for hint in pattern_pack["cjk_bm25_context_retrieval_gate_hints"])
+    assert any("architecture_extension" in hint for hint in pattern_pack["dynamic_architecture_extension_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "host_instruction_context_boundary_gate_hints" in digest
+    assert "schema_review_revision_recovery_gate_hints" in digest
+    assert "cjk_bm25_context_retrieval_gate_hints" in digest
+    assert "dynamic_architecture_extension_gate_hints" in digest

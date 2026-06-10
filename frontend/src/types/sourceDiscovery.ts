@@ -191,6 +191,10 @@ export interface SourceDiscoveryPatternPack {
   final_prompt_preview_span_revision_gate_hints?: string[];
   project_skill_agent_loop_gate_hints?: string[];
   knowledge_document_writeback_trace_gate_hints?: string[];
+  host_instruction_context_boundary_gate_hints?: string[];
+  schema_review_revision_recovery_gate_hints?: string[];
+  cjk_bm25_context_retrieval_gate_hints?: string[];
+  dynamic_architecture_extension_gate_hints?: string[];
   long_term_author_preference_memory_hints?: string[];
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];

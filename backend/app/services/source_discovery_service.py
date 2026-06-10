@@ -303,6 +303,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("最终提示词" OR "提示词预览" OR "右键润色" OR "shift+L") ("小说" OR "写作") in:name,description,readme',
     '("Agent Loop" OR "project-level Skill" OR "skill_load") ("AI novel" OR "novel writing") in:name,description,readme',
     '("knowledge_save_document" OR "usedKnowledge" OR "AI run records") ("novel" OR "writing workspace") in:name,description,readme',
+    '("modelHint" OR "segments" OR "prompt caching") ("novel" OR "long-form fiction" OR "MCP host") in:name,description,readme',
+    '("chapter_review" OR "revisionCounts" OR "forceAdvanced") ("novel" OR "chapter revision") in:name,description,readme',
+    '("BM25" OR "CJK bigram tokenizer" OR "memory cards") ("novel" OR "story bible") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -325,6 +328,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/loreum-app/loreum",
     "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "https://github.com/uu201/character-arc",
+    "https://github.com/zlx362211854/novelforge-agent",
     "https://github.com/Lanerra/saga",
     "https://github.com/ModernRelay/omnigraph",
     "https://github.com/doctoroyy/novel-copilot",
@@ -734,7 +738,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("card_workbench", ("card", "cards", "card-based", "card workbench", "卡片", "卡片式", "卡片创作")),
     ("structured_generation_schema", ("schema", "json schema", "schema-first", "structured generation", "结构化", "结构化生成", "动态输出模型", "输出模型")),
     ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "vector retrieval", "vector storage", "retrieved automatically", "retrieval", "retrieve relevant", "rag", "injection viewer", "上下文注入", "上下文引用", "知识图谱", "引用")),
-    ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
+    ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "读者面板", "平台期检测")),
     ("voice_fingerprint", ("voice fingerprint", "voice analysis", "voice discovery", "voice.md", "声纹", "文风指纹", "语气指纹", "声音发现")),
@@ -1064,6 +1068,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("canon_evidence_suggestion_review_gate", ("local-first story bible", "continuity checker", "canon drift", "evidence-backed suggestions", "contradictions", "context packs", "project storage", "JSON import and export", "entity facts")),
     ("expert_chain_alignment_creativity_gate", ("chainable expert AI", "expert AI modules", "perfect alignment", "boundless creativity", "alignment framework", "Special Instruction Set", "deconstructs complex literary creation", "stress-tested", "semi-automated AI writing pipeline")),
     ("visual_story_bible_continuity_gate", ("story bible technology", "visual consistency", "character appearances", "settings and visual elements", "art style", "visual continuity", "visual rules", "image bible")),
+    ("host_instruction_context_boundary_gate", ("host's llm generates", "host llm generates", "returns the exact instruction and packed context", "expectedformat", "modelhint", "segments", "prompt caching", "no model vendor lock-in", "mcp host supplies the llm")),
+    ("schema_review_revision_recovery_gate", ("chapter_review", "requiredbeats", "chapter_revision", "revisioncounts", "forceadvanced", "rejected submissions", ".agent-recovery/failed", "mandatory chapter acceptance gate")),
+    ("cjk_bm25_context_retrieval_gate", ("bm25 lexical retrieval", "bm25-style lexical retrieval", "cjk bigram tokenizer", "memory cards", "minisearch", "lexical retrieval over chapters", "story-bible sections")),
+    ("dynamic_architecture_extension_gate", ("architecture_extension", "plannedtotalchapters", "chaptersperrun", "highest chapter covered", "volume pacing board", "pacing guardrails", "needs planning")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -1478,6 +1486,13 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "task-matched built-in/project Skill packages, Agent Loop with skill_load/tool registry, task progress, AI run records, usedKnowledge/usedSkills/run meta, "
         "knowledge_save_document writeback, prompt logs, and txt/docx/JSON project snapshot export. Pattern-only value is task-scoped skill-agent routing, typed knowledge-document writeback, "
         "and inspectable AI trace gates; Electron app, pnpm runtime, provider calls, embeddings, API keys, and desktop runtime are not launched."
+    ),
+    "zlx362211854/novelforge-agent": (
+        "NovelForge Agent is a MIT local-first long-form fiction workflow engine for MCP hosts and CLI shells. Public README and selected static files describe a host-LLM boundary, "
+        "exact instruction plus packed context return, expectedFormat, modelHint tiers, prompt-cacheable segments, zod schema validation, project-local Markdown/JSON state, "
+        "mandatory chapter_review acceptance gates, chapter_revision loops with revisionCounts and forceAdvanced escape hatch, failed-submission recovery files, "
+        "architecture_extension when planned chapters are exhausted, volume pacing boards, CJK-aware BM25 lexical retrieval over chapters/story-bible sections/memory cards, "
+        "and compact audit logs that summarize sensitive content by length and sha256. Pattern-only value is a schema-gated continuation runtime contract; npx installers, MCP server launch, package scripts, host config edits, and model/provider calls are not executed."
     ),
     "arupmaity1/book-writer-mcp": (
         "Book Writer MCP for AI-assisted manuscript work. Public README describes story bible, style guide, continuity checker, chapter create/read/update/list/reorder, "
@@ -2905,6 +2920,10 @@ class NovelSourceDiscoveryService:
             "final_prompt_preview_span_revision_gate_hints": self._build_final_prompt_preview_span_revision_gate_hints(available_patterns),
             "project_skill_agent_loop_gate_hints": self._build_project_skill_agent_loop_gate_hints(available_patterns),
             "knowledge_document_writeback_trace_gate_hints": self._build_knowledge_document_writeback_trace_gate_hints(available_patterns),
+            "host_instruction_context_boundary_gate_hints": self._build_host_instruction_context_boundary_gate_hints(available_patterns),
+            "schema_review_revision_recovery_gate_hints": self._build_schema_review_revision_recovery_gate_hints(available_patterns),
+            "cjk_bm25_context_retrieval_gate_hints": self._build_cjk_bm25_context_retrieval_gate_hints(available_patterns),
+            "dynamic_architecture_extension_gate_hints": self._build_dynamic_architecture_extension_gate_hints(available_patterns),
             "chapter_description_continuity_bridge_gate_hints": self._build_chapter_description_continuity_bridge_gate_hints(available_patterns),
             "selective_streaming_regeneration_gate_hints": self._build_selective_streaming_regeneration_gate_hints(available_patterns),
             "research_citation_boundary_gate_hints": self._build_research_citation_boundary_gate_hints(available_patterns),
@@ -3864,6 +3883,10 @@ class NovelSourceDiscoveryService:
             "final_prompt_preview_span_revision_gate": 66,
             "project_skill_agent_loop_gate": 67,
             "knowledge_document_writeback_trace_gate": 68,
+            "host_instruction_context_boundary_gate": 68,
+            "schema_review_revision_recovery_gate": 69,
+            "cjk_bm25_context_retrieval_gate": 66,
+            "dynamic_architecture_extension_gate": 67,
             "chapter_description_continuity_bridge_gate": 67,
             "selective_streaming_regeneration_gate": 65,
             "research_citation_boundary_gate": 66,
@@ -4038,6 +4061,18 @@ class NovelSourceDiscoveryService:
         if "knowledge_document_writeback_trace_gate" in patterns:
             targets.append("knowledge_document_writeback_policy")
             targets.append("ai_run_trace_schema")
+        if "host_instruction_context_boundary_gate" in patterns:
+            targets.append("host_instruction_context_contract")
+            targets.append("model_hint_segment_policy")
+        if "schema_review_revision_recovery_gate" in patterns:
+            targets.append("chapter_acceptance_schema")
+            targets.append("revision_recovery_policy")
+        if "cjk_bm25_context_retrieval_gate" in patterns:
+            targets.append("cjk_lexical_retrieval_scope")
+            targets.append("retrieval_hit_citation_policy")
+        if "dynamic_architecture_extension_gate" in patterns:
+            targets.append("architecture_extension_policy")
+            targets.append("volume_pacing_board_schema")
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.append("chapter_description_contracts")
             targets.append("previous_chapter_summary_policy")
@@ -5531,6 +5566,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["project_skill_selection_audit", "agent_loop_iteration_trace", "skill_usage_memory_report"])
         if "knowledge_document_writeback_trace_gate" in patterns:
             targets.extend(["knowledge_writeback_manifest", "ai_run_meta_trace", "produced_knowledge_document_review"])
+        if "host_instruction_context_boundary_gate" in patterns:
+            targets.extend(["host_instruction_context_manifest", "expected_format_model_hint_trace", "prompt_segment_cache_report"])
+        if "schema_review_revision_recovery_gate" in patterns:
+            targets.extend(["chapter_acceptance_gate_report", "revision_count_recovery_trace", "force_advanced_chapter_findings"])
+        if "cjk_bm25_context_retrieval_gate" in patterns:
+            targets.extend(["cjk_bm25_retrieval_report", "retrieved_snippet_scope", "embedding_free_context_trace"])
+        if "dynamic_architecture_extension_gate" in patterns:
+            targets.extend(["architecture_extension_checkpoint", "planned_total_chapter_gap_report", "volume_pacing_guardrail_findings"])
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.extend(["chapter_description_context_bridge", "previous_chapter_summary_trace", "description_to_draft_continuity_checks"])
         if "selective_streaming_regeneration_gate" in patterns:
@@ -5748,6 +5791,14 @@ class NovelSourceDiscoveryService:
             hints.append("Select task-scoped project skills before drafting; cap Agent Loop steps and record every skill_load/tool-registry decision used for the chapter.")
         if "knowledge_document_writeback_trace_gate" in patterns:
             hints.append("Use reference analysis and style fingerprints through typed knowledge-document ids, not free-floating source notes; prompt context must cite sourceType and inclusion reason.")
+        if "host_instruction_context_boundary_gate" in patterns:
+            hints.append("Before drafting, render the exact instruction, expected format, model tier, prompt segments, and packed context id; the host may write prose, but canon only accepts validated artifacts.")
+        if "schema_review_revision_recovery_gate" in patterns:
+            hints.append("A chapter cannot advance into memory or canon until chapter_review passes; failing reviews enter a bounded revision loop and save rejected submissions for inspection.")
+        if "cjk_bm25_context_retrieval_gate" in patterns:
+            hints.append("For Chinese long-form continuation, use CJK-aware lexical retrieval over accepted chapters, story bible sections, and memory cards; cite hits instead of silently injecting context.")
+        if "dynamic_architecture_extension_gate" in patterns:
+            hints.append("If the next chapter is outside the planned outline, pause prose generation and create an architecture extension plus volume pacing board before continuing.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("章节描述只能承接已接受的前文摘要、章节变化包和当前大纲，不用未验收草稿补连续性。")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -5983,6 +6034,14 @@ class NovelSourceDiscoveryService:
             hints.append("Persist selected skill ids, task name, max loop steps, tool calls, skill usage hints, and stop reason with each AI run.")
         if "knowledge_document_writeback_trace_gate" in patterns:
             hints.append("Persist knowledge document id, sourceType, source artifact, produced/merged status, usedKnowledge, usedSkills, provider/model, usage, and run status before context reuse.")
+        if "host_instruction_context_boundary_gate" in patterns:
+            hints.append("Persist currentStep, currentChapter, expectedFormat, modelHint, prompt segment ids, context artifact path, and context hash with each generation request.")
+        if "schema_review_revision_recovery_gate" in patterns:
+            hints.append("Persist revisionCounts, recoveryPath, validation message, failed acceptance fields, and forceAdvanced chapters so review debt remains visible.")
+        if "cjk_bm25_context_retrieval_gate" in patterns:
+            hints.append("Persist retrieval query, tokenizer mode, chapter range, document type filters, hit ids, scores, and inclusion reasons for every context pack.")
+        if "dynamic_architecture_extension_gate" in patterns:
+            hints.append("Persist plannedTotalChapters, chaptersPerRun, runStartChapter, currentChapter, architecture coverage, and volume pacing checkpoint before drafting.")
         if "chapter_description_continuity_bridge_gate" in patterns:
             hints.append("Persist chapter-description contracts with accepted prior-summary ids, outline slot, continuity assumptions, and reviewer decision.")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -6343,6 +6402,42 @@ class NovelSourceDiscoveryService:
             "Deconstruction, style fingerprints, canon facts, chapter summaries, and workflow notes should enter context as typed knowledge documents with sourceType and provenance.",
             "AI writeback must be previewable: produced documents stay drafts until merged, and each merge records source artifact, reviewer decision, and downstream context eligibility.",
             "Run traces should link task, chapter id, provider/model, usage, usedKnowledge, usedSkills, prompt/response preview, status, and produced knowledge document ids.",
+        ]
+
+    def _build_host_instruction_context_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "host_instruction_context_boundary_gate" not in patterns:
+            return []
+        return [
+            "Separate the writing runtime from the model: the project returns instruction, expected format, modelHint, prompt segments, and packed context; the host LLM generates the artifact.",
+            "Treat modelHint and cacheable/non-cacheable segments as routing metadata only; they cannot override source-boundary, canon, or review gates.",
+            "Large instruction/context payloads should use preview plus full artifact path, with length and hash summaries available for audit instead of echoing raw chapters in tool output.",
+        ]
+
+    def _build_schema_review_revision_recovery_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "schema_review_revision_recovery_gate" not in patterns:
+            return []
+        return [
+            "Validate every structured artifact with a schema before state advances; rejected outputs stay in recovery with the validation error and do not update canon.",
+            "Chapter review is a mandatory acceptance gate: missing beats, failed consistency, weak hook, repetition, or prose-rhythm failure routes to chapter_revision before memory writeback.",
+            "Bound revision loops with revisionCounts and explicit force-advanced markers so a chapter can be deferred without pretending it passed clean review.",
+        ]
+
+    def _build_cjk_bm25_context_retrieval_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "cjk_bm25_context_retrieval_gate" not in patterns:
+            return []
+        return [
+            "Use CJK-aware BM25 lexical retrieval over accepted chapters, story-bible sections, and memory cards before assembling continuation context.",
+            "Record retrieval query, type filters, chapter range, hit ids, and why each hit is included; retrieval hits are context evidence, not canon by themselves.",
+            "Embedding/model-backed retrieval remains optional runtime; source-discovery pattern packs may rely on lexical/static retrieval contracts without provider calls.",
+        ]
+
+    def _build_dynamic_architecture_extension_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "dynamic_architecture_extension_gate" not in patterns:
+            return []
+        return [
+            "When the next chapter is not covered by the accepted chapter architecture, stop drafting and require an architecture_extension artifact first.",
+            "Track plannedTotalChapters, targetChapters, chaptersPerRun, and currentChapter so open-ended serials advance by explicit planning windows, not hidden continuation drift.",
+            "Volume pacing boards should block non-final chapters that combine too many irreversible reveals, major power jumps, battles, region launches, or antagonist escalations.",
         ]
 
     def _build_chapter_description_continuity_bridge_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9494,6 +9589,14 @@ class NovelSourceDiscoveryService:
             targets.append("project_skill_agent_loop_remap")
         if "knowledge_document_writeback_trace_gate" in patterns:
             targets.append("knowledge_writeback_trace_remap")
+        if "host_instruction_context_boundary_gate" in patterns:
+            targets.append("host_instruction_context_remap")
+        if "schema_review_revision_recovery_gate" in patterns:
+            targets.append("schema_review_revision_remap")
+        if "cjk_bm25_context_retrieval_gate" in patterns:
+            targets.append("cjk_retrieval_context_remap")
+        if "dynamic_architecture_extension_gate" in patterns:
+            targets.append("architecture_extension_remap")
         if "chapter_description_continuity_bridge_gate" in patterns:
             targets.append("chapter_description_continuity_remap")
         if "selective_streaming_regeneration_gate" in patterns:
@@ -11093,6 +11196,10 @@ class NovelSourceDiscoveryService:
                 "final_prompt_preview_span_revision_gate",
                 "project_skill_agent_loop_gate",
                 "knowledge_document_writeback_trace_gate",
+                "host_instruction_context_boundary_gate",
+                "schema_review_revision_recovery_gate",
+                "cjk_bm25_context_retrieval_gate",
+                "dynamic_architecture_extension_gate",
                 "chapter_description_continuity_bridge_gate",
                 "selective_streaming_regeneration_gate",
                 "research_citation_boundary_gate",
