@@ -173,3 +173,56 @@ Rules:
 - No scripts or installers.
 - No Tauri, MCP, CLI, browser, provider, local model, or dashboard runtime.
 - No source prose, pattern library body, or prompt file copied into runtime.
+
+## Scene promise / serial simulation review addendum - 2026-06-10
+
+This addendum records a public GitHub metadata + raw README/static file review pass for additional fiction-writing, webnovel, simulation, and manuscript-review sources. No external project was cloned, installed, built, launched, or executed. Scratch evidence was saved under `tmp/source-intake-*` only.
+
+### Reviewed sources
+
+- `Deland78/Claude-Writing-Skills`
+  - URL: `https://github.com/Deland78/Claude-Writing-Skills`
+  - observed HEAD: `e8f2a83ccf47e279e9c980b6765d92fda7c5d55e`
+  - license: no license detected from public metadata
+  - static evidence: README, `docs/mob_protocol.md`, `.claude/skills/scene-architect/SKILL.md`, tree metadata
+  - absorbed pattern: `scene_promise_mob_review_gate`
+  - reusable lesson: chapter promise -> scene cards -> draft -> cited mob review -> accepted canon commit. Specialist comments are queued one at a time and require citations/author resolution before they may mutate bible, relationships, timeline, or chapter plan.
+  - runtime exclusion: Claude hooks, shell scripts, skill files, agents, and command protocols are not imported or executed.
+
+- `netflypsb/webnovel-mcp`
+  - URL: `https://github.com/netflypsb/webnovel-mcp`
+  - observed HEAD: `7fd8ce5b9a061a8f49a435a5f36d10430af3b4be`
+  - license: MIT
+  - static evidence: README, `webnovel-author/SKILL.md`, `style-guide.md`, tree metadata
+  - absorbed pattern: `webnovel_genre_tracker_gate`
+  - reusable lesson: serial fiction needs explicit project structure plus genre-specific trackers for foreshadowing, timeline, LitRPG stats/inventory/quests, romance stages, cliffhanger rotation, stale characters, and chapter gaps.
+  - runtime exclusion: uvx/pip install, MCP server launch, marketplace/license-key paths, and MCP tool calls are not executed.
+
+- `hackertaco/novel-generator`
+  - URL: `https://github.com/hackertaco/novel-generator`
+  - observed HEAD: `eeac60fe9e41c144004a81f4764988f573188755`
+  - license: no license detected from public metadata
+  - static evidence: README, `docs/novel-engine-cli-library-parity.md`, tree metadata
+  - absorbed pattern: `simulation_causal_ledger_verification_gate`
+  - reusable lesson: long-form generation should advance world truth, character memory, belief state, utterance history, causal ledger, chapter summaries, and run metadata together, then verify long-horizon contradictions before accepting autopilot output.
+  - runtime exclusion: npm/tsx scripts, provider calls, env files, Python legacy CLI, web routes, and API wrappers are not executed.
+
+- `eristoddle/git-write`
+  - URL: `https://github.com/eristoddle/git-write`
+  - observed HEAD: `adf28c6f1bdd99fd1bdd95479b2f72413c9ebc4c`
+  - license: MIT
+  - static evidence: README, `docs/USER_GUIDE.md`, tree metadata
+  - absorbed pattern: `writer_git_exploration_review_gate`
+  - reusable lesson: risky rewrites should be treated as explorations/branches with word-level review, author-controlled accept/reject/modify decisions, beta-reader annotation provenance, and replayable merge history.
+  - runtime exclusion: pip/poetry/npm install, Docker/compose, deploy scripts, API server, web app, and demo credentials are not used.
+
+### Local projection
+
+The pattern pack now exposes these additional prompt-safe hint fields:
+
+- `scene_promise_mob_review_gate_hints`
+- `webnovel_genre_tracker_gate_hints`
+- `simulation_causal_ledger_verification_gate_hints`
+- `writer_git_exploration_review_gate_hints`
+
+These fields are static source-derived gates only. They do not authorize any upstream runtime, MCP server, package installation, provider call, browser/desktop control, or external account mutation.

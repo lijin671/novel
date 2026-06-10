@@ -127,6 +127,10 @@ export interface SourceDiscoveryPatternPack {
   longrun_commit_projection_health_gate_hints?: string[];
   reader_reward_channel_gate_hints?: string[];
   tri_modal_workflow_validation_gate_hints?: string[];
+  scene_promise_mob_review_gate_hints?: string[];
+  webnovel_genre_tracker_gate_hints?: string[];
+  simulation_causal_ledger_verification_gate_hints?: string[];
+  writer_git_exploration_review_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

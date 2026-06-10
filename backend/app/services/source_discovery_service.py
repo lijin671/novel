@@ -204,6 +204,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("CHAPTER_COMMIT" OR ".story-system" OR "read-model") ("webnovel" OR "longrun" OR "novel") in:name,description,readme',
     '("four reward channels" OR "reader-sim" OR "style-creator" OR "chronicler") ("creative writing" OR "novel") in:name,description,readme',
     '("tri-modal" OR "pre-writing checklist" OR "automated audit chain") ("novel" OR "story bible" OR "chapter") in:name,description,readme',
+    '("chapter promise" OR "scene architect" OR "mob review" OR "character truth") ("fiction writing" OR "novel") in:name,description,readme',
+    '("foreshadowing tracker" OR "LitRPG stats" OR "romance arc tracker") ("webnovel" OR "serial fiction") in:name,description,readme',
+    '("simulation-first" OR "causal ledger" OR "belief state" OR "utterance history") ("novel generator" OR "long-form fiction") in:name,description,readme',
+    '("writer-friendly git" OR "beta reader annotations" OR "word-by-word comparison") ("manuscript" OR "novel") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -467,6 +471,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
     "https://github.com/haowjy/creative-writing-skills",
     "https://github.com/jblemee/bmad-book-builder",
+    "https://github.com/Deland78/Claude-Writing-Skills",
+    "https://github.com/netflypsb/webnovel-mcp",
+    "https://github.com/hackertaco/novel-generator",
+    "https://github.com/eristoddle/git-write",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -757,6 +765,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("longrun_commit_projection_health_gate", (".story-system", ".webnovel", "chapter_commit", "CHAPTER_COMMIT", "read-model", "read model", "projection writers", "memory_scratchpad", "state.json", "index.db", "longrun aigen", "context agent", "data agent", "read-only dashboard")),
     ("reader_reward_channel_gate", ("four reward channels", "reader reward", "reader-sim", "reader sim", "transportation", "aesthetic", "social simulation", "flow", "simulated reader reactions", "moment-by-moment")),
     ("tri_modal_workflow_validation_gate", ("tri-modal", "tri modal", "create/edit/validate", "create + edit + validate", "pre-writing checklist", "automated audit chain", "living bible update", "character-specific audits", "rhythm analysis")),
+    ("scene_promise_mob_review_gate", ("chapter promise", "scene architect", "character truth", "mob session", "comment queue", "lead editor", "citation enforcement", "five commandments", "value shift")),
+    ("webnovel_genre_tracker_gate", ("webnovel-mcp", "foreshadowing tracker", "timeline tracker", "litrpg stats", "litrpg stat blocks", "romance arc tracker", "stale characters", "chapter gaps", "xianxia", "progression fantasy")),
+    ("simulation_causal_ledger_verification_gate", ("simulation-first", "world truth", "belief state", "utterance history", "causal ledger", "verify-long-form", "canonical validation", "300-episode", "long-form verification")),
+    ("writer_git_exploration_review_gate", ("gitwrite", "writer-friendly git", "explorations", "word-by-word comparison", "beta reader annotations", "author control", "selective integration", "cherry-pick individual changes")),
     ("temporal_canon_context_graph", ("graphiti", "temporal knowledge graph", "temporal context", "episodes", "bi-temporal", "valid_at", "invalid_at", "hybrid search", "provenance tracking")),
     ("long_term_author_preference_memory", ("mem0", "memory layer", "long-term memory", "user preferences", "session memory", "adaptive personalization", "multi-level memory", "episodic memory")),
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
@@ -1824,6 +1836,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "automated post-chapter audit chain, living-bible updates, per-character contradiction audits, theme tracking, rhythm analysis, and reality checks. "
         "Pattern-only adaptation for tri-modal workflow gates and post-chapter audit chains; BMAD CLI, npm installers, custom modules, agents, and workflow files are not installed or copied."
     ),
+    "deland78/claude-writing-skills": (
+        "Claude-Writing-Skills is a fiction co-author skill system for Claude Code with story bible files, chapter promise, scene architect, scene draft, character truth pass, "
+        "voice anchor, tension curve, AI-filter humanize, and a mob-session protocol where a lead editor queues specialist comments with citations before committing canon changes. "
+        "Pattern-only adaptation for promise-to-scene cards and cited human-in-the-loop review; Claude hooks, shell scripts, skills, agents, and runtime commands are not imported or executed."
+    ),
+    "netflypsb/webnovel-mcp": (
+        "webnovel-mcp is a MIT MCP server and webnovel author skill for serial fiction projects. Public README/SKILL describe project scaffolding, character/chapter/world/style resources, "
+        "foreshadowing reports, continuity checks, timeline tracking, LitRPG stat blocks, romance arc tracking, and style-guide rules for cliffhangers and power progression. "
+        "Pattern-only adaptation for serial-genre trackers and project-structure admission; uvx/pip install, MCP server launch, license-key paths, and tool calls are not executed."
+    ),
+    "hackertaco/novel-generator": (
+        "Kakao Novel Generator is a simulation-first long-form novel engine with explicit world truth, character memory, belief state, utterance history, causal ledgers, chapter summaries, "
+        "shared CLI/library workflow contracts, and long-form verification over a deterministic 300-episode scenario. "
+        "Pattern-only adaptation for causal-ledger verification and surface-parity artifacts; npm/tsx scripts, provider calls, env files, legacy Python CLI, and web/API surfaces are not executed."
+    ),
+    "eristoddle/git-write": (
+        "GitWrite is a MIT writer-friendly abstraction over Git for writers, editors, and beta readers. Public README/User Guide describe save/history, explorations as branches, "
+        "word-by-word diff, author-controlled review, selective integration, beta-reader annotations as commits, and export/version checkpoints. "
+        "Pattern-only adaptation for manuscript branch review and annotation provenance; pip/poetry/npm install, Docker/compose, deploy scripts, API server, and demo credentials are not used."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2343,6 +2375,10 @@ class NovelSourceDiscoveryService:
             "longrun_commit_projection_health_gate_hints": self._build_longrun_commit_projection_health_gate_hints(available_patterns),
             "reader_reward_channel_gate_hints": self._build_reader_reward_channel_gate_hints(available_patterns),
             "tri_modal_workflow_validation_gate_hints": self._build_tri_modal_workflow_validation_gate_hints(available_patterns),
+            "scene_promise_mob_review_gate_hints": self._build_scene_promise_mob_review_gate_hints(available_patterns),
+            "webnovel_genre_tracker_gate_hints": self._build_webnovel_genre_tracker_gate_hints(available_patterns),
+            "simulation_causal_ledger_verification_gate_hints": self._build_simulation_causal_ledger_verification_gate_hints(available_patterns),
+            "writer_git_exploration_review_gate_hints": self._build_writer_git_exploration_review_gate_hints(available_patterns),
             "temporal_canon_context_graph_hints": self._build_temporal_canon_context_graph_hints(available_patterns),
             "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
@@ -6600,6 +6636,42 @@ class NovelSourceDiscoveryService:
             "Declare workflow mode before mutation: Create may add bible/plan/chapter facts, Edit may patch scoped fields, and Validate may only emit findings unless explicitly applied.",
             "Run a pre-writing checklist before chapter drafting: canon inputs, voice baseline, continuity risks, character states, theme intent, rhythm target, and copy-risk boundary.",
             "After each accepted chapter, run the audit chain in order: review, bible/state update, per-character contradiction audit, theme progression, rhythm/pacing check, then next-chapter handoff.",
+        ]
+
+    def _build_scene_promise_mob_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_promise_mob_review_gate" not in patterns:
+            return []
+        return [
+            "Turn each chapter promise into 3-7 scene cards with POV, location, time, goal, obstacle, tactic, crisis, value shift, cost, exit emotion, and next hook.",
+            "Before canon mutation, run a cited review queue: plot, character, theme, continuity, and prose each raise one focused comment for accept/reject/revise/park.",
+            "Only accepted, citation-backed mob-review decisions may update the bible, relationships, timeline, or chapter plan; chat-only advice stays scratch.",
+        ]
+
+    def _build_webnovel_genre_tracker_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "webnovel_genre_tracker_gate" not in patterns:
+            return []
+        return [
+            "Before serial chapter drafting, confirm project structure exists: novel config, chapter folder, character sheets, world entries, style guide, and editable outline.",
+            "Track genre-specific state separately: foreshadowing seeds/payoffs, timeline events, LitRPG stats/inventory/quests, and romance-stage beats.",
+            "Continuity checks should flag overdue foreshadowing, stale characters, chapter gaps, unresolved power milestones, and cliffhanger-type repetition before accepting the chapter.",
+        ]
+
+    def _build_simulation_causal_ledger_verification_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "simulation_causal_ledger_verification_gate" not in patterns:
+            return []
+        return [
+            "Model long-form continuation as simulation state: world truth, character memory, belief state, utterance history, causal ledger, and chapter summaries must advance together.",
+            "Every generation surface should emit replayable artifacts such as result.json, chapter text, chapter summary, causal-ledger.json, and run metadata.",
+            "Run a long-horizon verification gate before trusting autopilot: canonical validation failures, causal contradictions, and foreshadow quality failures block acceptance.",
+        ]
+
+    def _build_writer_git_exploration_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "writer_git_exploration_review_gate" not in patterns:
+            return []
+        return [
+            "Treat risky rewrite directions as explorations/branches, not direct overwrites of the accepted manuscript or source-derived canon.",
+            "Review chapter changes at word or paragraph level with author-controlled accept/reject/modify decisions before merging into the main manuscript.",
+            "Beta-reader annotations, editor notes, and alternate endings should carry provenance as review commits or change packages so accepted changes remain replayable.",
         ]
 
     def _build_temporal_canon_context_graph_hints(self, patterns: set[str]) -> list[str]:

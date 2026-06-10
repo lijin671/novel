@@ -68,6 +68,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "longrun_commit_projection_health_gate_hints",
             "reader_reward_channel_gate_hints",
             "tri_modal_workflow_validation_gate_hints",
+            "scene_promise_mob_review_gate_hints",
+            "webnovel_genre_tracker_gate_hints",
+            "simulation_causal_ledger_verification_gate_hints",
+            "writer_git_exploration_review_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -112,6 +116,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Reader reward / tri-modal audit gates" in panel_text
     assert "Reader reward channel gates" in panel_text
     assert "Tri-modal workflow validation gates" in panel_text
+    assert "Scene promise / serial simulation review gates" in panel_text
+    assert "Scene promise mob-review gates" in panel_text
+    assert "Webnovel genre tracker gates" in panel_text
+    assert "Simulation causal-ledger verification gates" in panel_text
+    assert "Writer Git exploration review gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -178,6 +187,10 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "huodebing-alt/Claude-Code-Novel-Agents",
         "haowjy/creative-writing-skills",
         "jblemee/bmad-book-builder",
+        "Deland78/Claude-Writing-Skills",
+        "netflypsb/webnovel-mcp",
+        "hackertaco/novel-generator",
+        "eristoddle/git-write",
     ):
         assert repo in panel_text
 

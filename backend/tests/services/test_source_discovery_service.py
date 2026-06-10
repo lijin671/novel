@@ -296,6 +296,90 @@ def test_reader_reward_and_tri_modal_audit_sources_feed_prompt_pack():
     assert "tri_modal_workflow_validation_gate_hints" in digest
 
 
+def test_scene_serial_simulation_and_writer_git_sources_feed_prompt_pack():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Deland78/Claude-Writing-Skills",
+                "html_url": "https://github.com/Deland78/Claude-Writing-Skills",
+                "description": (
+                    "Fiction co-author system with chapter promise, scene architect, "
+                    "character truth pass, mob session comment queue, lead editor, "
+                    "citation enforcement, and Five Commandments value shift."
+                ),
+                "stargazers_count": 1,
+                "license": None,
+                "topics": ["fiction-writing", "claude-skills", "novel"],
+                "updated_at": "2026-02-15T05:04:27Z",
+            },
+            {
+                "full_name": "netflypsb/webnovel-mcp",
+                "html_url": "https://github.com/netflypsb/webnovel-mcp",
+                "description": (
+                    "webnovel-mcp serial fiction project scaffolding with foreshadowing "
+                    "tracker, timeline tracker, LitRPG stat blocks, romance arc tracker, "
+                    "stale characters, chapter gaps, xianxia, and progression fantasy."
+                ),
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "mcp", "serial-fiction"],
+                "updated_at": "2026-03-30T02:32:35Z",
+            },
+            {
+                "full_name": "hackertaco/novel-generator",
+                "html_url": "https://github.com/hackertaco/novel-generator",
+                "description": (
+                    "Simulation-first long-form novel generator with world truth, "
+                    "belief state, utterance history, causal ledger, verify-long-form, "
+                    "canonical validation, and a 300-episode verification horizon."
+                ),
+                "stargazers_count": 1,
+                "license": None,
+                "topics": ["novel-generator", "long-form-fiction"],
+                "updated_at": "2026-06-07T16:26:59Z",
+            },
+            {
+                "full_name": "eristoddle/git-write",
+                "html_url": "https://github.com/eristoddle/git-write",
+                "description": (
+                    "Writer-friendly Git with explorations, word-by-word comparison, "
+                    "beta reader annotations, author control, selective integration, "
+                    "and cherry-pick individual changes for manuscripts."
+                ),
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["manuscript", "writing", "git"],
+                "updated_at": "2025-09-17T01:23:22Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T20:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "scene_promise_mob_review_gate" in candidates["Deland78/Claude-Writing-Skills"]["absorbed_patterns"]
+    assert "webnovel_genre_tracker_gate" in candidates["netflypsb/webnovel-mcp"]["absorbed_patterns"]
+    assert "simulation_causal_ledger_verification_gate" in candidates["hackertaco/novel-generator"]["absorbed_patterns"]
+    assert "writer_git_exploration_review_gate" in candidates["eristoddle/git-write"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "scene_promise_mob_review_gate_hints" in pattern_pack
+    assert "webnovel_genre_tracker_gate_hints" in pattern_pack
+    assert "simulation_causal_ledger_verification_gate_hints" in pattern_pack
+    assert "writer_git_exploration_review_gate_hints" in pattern_pack
+    assert "scene cards" in " ".join(pattern_pack["scene_promise_mob_review_gate_hints"]).lower()
+    assert "foreshadowing" in " ".join(pattern_pack["webnovel_genre_tracker_gate_hints"]).lower()
+    assert "causal ledger" in " ".join(pattern_pack["simulation_causal_ledger_verification_gate_hints"]).lower()
+    assert "branches" in " ".join(pattern_pack["writer_git_exploration_review_gate_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "scene_promise_mob_review_gate_hints" in digest
+    assert "webnovel_genre_tracker_gate_hints" in digest
+    assert "simulation_causal_ledger_verification_gate_hints" in digest
+    assert "writer_git_exploration_review_gate_hints" in digest
+
+
 def test_composite_writing_chain_patterns_expose_inspired_guidance_without_explicit_remix():
     service = NovelSourceDiscoveryService()
     ledger = {
@@ -8437,6 +8521,10 @@ def test_static_book_mining_autopilot_longrun_sources_map_to_workflow_gates():
     assert "https://github.com/cchheerrss/ai-novel-trilogy" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/zhitongblog/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/DinhLucent/webnovel-longrun-aigen-docs" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Deland78/Claude-Writing-Skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/netflypsb/webnovel-mcp" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/hackertaco/novel-generator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/eristoddle/git-write" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("book-mining" in query and "canon-seed" in query for query in DEFAULT_GITHUB_QUERIES)
     assert any("multi-book" in query and "autopilot" in query for query in DEFAULT_GITHUB_QUERIES)
     assert any("CHAPTER_COMMIT" in query and ".story-system" in query for query in DEFAULT_GITHUB_QUERIES)

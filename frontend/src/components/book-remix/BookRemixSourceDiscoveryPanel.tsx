@@ -72,6 +72,10 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/DinhLucent/webnovel-longrun-aigen-docs',
   'https://github.com/haowjy/creative-writing-skills',
   'https://github.com/jblemee/bmad-book-builder',
+  'https://github.com/Deland78/Claude-Writing-Skills',
+  'https://github.com/netflypsb/webnovel-mcp',
+  'https://github.com/hackertaco/novel-generator',
+  'https://github.com/eristoddle/git-write',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -139,6 +143,10 @@ const PINNED_HINT_KEYS = new Set([
   'longrun_commit_projection_health_gate_hints',
   'reader_reward_channel_gate_hints',
   'tri_modal_workflow_validation_gate_hints',
+  'scene_promise_mob_review_gate_hints',
+  'webnovel_genre_tracker_gate_hints',
+  'simulation_causal_ledger_verification_gate_hints',
+  'writer_git_exploration_review_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -395,6 +403,12 @@ export default function BookRemixSourceDiscoveryPanel() {
             {renderHintGroup('Reader reward / tri-modal audit gates', [
               ['Reader reward channel gates', patternPackPayload?.reader_reward_channel_gate_hints],
               ['Tri-modal workflow validation gates', patternPackPayload?.tri_modal_workflow_validation_gate_hints],
+            ])}
+            {renderHintGroup('Scene promise / serial simulation review gates', [
+              ['Scene promise mob-review gates', patternPackPayload?.scene_promise_mob_review_gate_hints],
+              ['Webnovel genre tracker gates', patternPackPayload?.webnovel_genre_tracker_gate_hints],
+              ['Simulation causal-ledger verification gates', patternPackPayload?.simulation_causal_ledger_verification_gate_hints],
+              ['Writer Git exploration review gates', patternPackPayload?.writer_git_exploration_review_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

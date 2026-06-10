@@ -2214,6 +2214,11 @@
     "Extract state changes at scene granularity so relationship shifts, location moves, and clue reveals stay attributable.",
     "Store large scene drafts externally and keep only lightweight refs in the continuation state."
   ],
+  "scene_promise_mob_review_gate_hints": [
+    "Turn each chapter promise into 3-7 scene cards with POV, location, time, goal, obstacle, tactic, crisis, value shift, cost, exit emotion, and next hook.",
+    "Before canon mutation, run a cited review queue: plot, character, theme, continuity, and prose each raise one focused comment for accept/reject/revise/park.",
+    "Only accepted, citation-backed mob-review decisions may update the bible, relationships, timeline, or chapter plan; chat-only advice stays scratch."
+  ],
   "scene_status_dashboard_hints": [
     "Mark scene units by status: planned, drafted, reviewed, accepted, blocked, or rejected.",
     "Do not let rejected or blocked scenes update bible state, hooks, or future context.",
@@ -2283,6 +2288,11 @@
     "Flag near-duplicate hash windows after entity renaming, translation, or copyedit polishing because those passes can preserve source topology.",
     "Keep Hamming thresholds separate for short dialogue, long prose windows, and outline beats to avoid over-blocking stock genre language."
   ],
+  "simulation_causal_ledger_verification_gate_hints": [
+    "Model long-form continuation as simulation state: world truth, character memory, belief state, utterance history, causal ledger, and chapter summaries must advance together.",
+    "Every generation surface should emit replayable artifacts such as result.json, chapter text, chapter summary, causal-ledger.json, and run metadata.",
+    "Run a long-horizon verification gate before trusting autopilot: canonical validation failures, causal contradictions, and foreshadow quality failures block acceptance."
+  ],
   "skill_orchestrated_chinese_novel_workflow_hints": [
     "Route Chinese web-novel work by stage: worldbuilding, character shaping, outline, chapter task, prose, polish, and continuity review.",
     "Skill packs are pattern sources only: do not bulk-import commands, install scripts, provider settings, or hidden runtime assumptions.",
@@ -2293,7 +2303,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 251,
+  "source_candidate_count": 255,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2563,7 +2573,11 @@
     "dig-team/hanna-benchmark-asg",
     "jwynia/agent-skills",
     "haowjy/creative-writing-skills",
-    "jblemee/bmad-book-builder"
+    "jblemee/bmad-book-builder",
+    "Deland78/Claude-Writing-Skills",
+    "hackertaco/novel-generator",
+    "eristoddle/git-write",
+    "netflypsb/webnovel-mcp"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2730,6 +2744,11 @@
   "voice_table_polish_axis_hints": [
     "Create a voice table with diction, sentence endings, rhythm, nonverbal palette, taboo phrases, and motivation pressure per character.",
     "Polish dialogue against the table after continuity checks, not by flattening every character into one narrative voice."
+  ],
+  "webnovel_genre_tracker_gate_hints": [
+    "Before serial chapter drafting, confirm project structure exists: novel config, chapter folder, character sheets, world entries, style guide, and editable outline.",
+    "Track genre-specific state separately: foreshadowing seeds/payoffs, timeline events, LitRPG stats/inventory/quests, and romance-stage beats.",
+    "Continuity checks should flag overdue foreshadowing, stale characters, chapter gaps, unresolved power milestones, and cliffhanger-type repetition before accepting the chapter."
   ],
   "whole_book_analysis_targets": [
     "world_rules",
@@ -3487,7 +3506,7 @@
     "Compilation should record source scene order, filters/transforms, output path, and source state version.",
     "Keep compilation outputs derived; they must not write back into canon without review."
   ],
-  "workflow_pattern_count": 255,
+  "workflow_pattern_count": 259,
   "workflow_patterns": [
     {
       "candidate_count": 1,
@@ -18970,6 +18989,110 @@
       "trust_flags": [
         "license:missing"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_promise_mob_review_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 227,
+          "source": "github",
+          "stars": 1,
+          "summary": "Fiction co-author system with chapter promise, scene architect, character truth pass, mob session comment queue, lead editor, citation enforcement, and Five Commandments value shift. Static intake note: Claude-Writing-Skills is a fiction co-author skill system for Claude Code wit",
+          "title": "Deland78/Claude-Writing-Skills",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/Deland78/Claude-Writing-Skills"
+        }
+      ],
+      "top_source_url": "https://github.com/Deland78/Claude-Writing-Skills",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "webnovel_genre_tracker_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "mcp_server"
+          ],
+          "score": 80,
+          "source": "github",
+          "stars": 0,
+          "summary": "webnovel-mcp serial fiction project scaffolding with foreshadowing tracker, timeline tracker, LitRPG stat blocks, romance arc tracker, stale characters, chapter gaps, xianxia, and progression fantasy. Static intake note: webnovel-mcp is a MIT MCP server and webnovel author skill ",
+          "title": "netflypsb/webnovel-mcp",
+          "trust_flags": [],
+          "url": "https://github.com/netflypsb/webnovel-mcp"
+        }
+      ],
+      "top_source_url": "https://github.com/netflypsb/webnovel-mcp",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "simulation_causal_ledger_verification_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 131,
+          "source": "github",
+          "stars": 1,
+          "summary": "Simulation-first long-form novel generator with world truth, belief state, utterance history, causal ledger, verify-long-form, canonical validation, and a 300-episode verification horizon. Static intake note: Kakao Novel Generator is a simulation-first long-form novel engine with",
+          "title": "hackertaco/novel-generator",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hackertaco/novel-generator"
+        }
+      ],
+      "top_source_url": "https://github.com/hackertaco/novel-generator",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "writer_git_exploration_review_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 108,
+          "source": "github",
+          "stars": 0,
+          "summary": "Writer-friendly Git with explorations, word-by-word comparison, beta reader annotations, author control, selective integration, and cherry-pick individual changes for manuscripts. Static intake note: GitWrite is a MIT writer-friendly abstraction over Git for writers, editors, and",
+          "title": "eristoddle/git-write",
+          "trust_flags": [],
+          "url": "https://github.com/eristoddle/git-write"
+        }
+      ],
+      "top_source_url": "https://github.com/eristoddle/git-write",
+      "trust_flags": []
     }
   ],
   "world_state_tracking_hints": [
@@ -18981,6 +19104,11 @@
     "Export reusable world packages as derived artifacts: events, characters, locations, items, lorebook entries, and entity state transitions.",
     "Keep WorldPkg-style exports separate from canon write-back; imports must pass review before changing bible state.",
     "Use exports for replay, what-if branches, or external inspection without granting them authority over confirmed continuation canon."
+  ],
+  "writer_git_exploration_review_gate_hints": [
+    "Treat risky rewrite directions as explorations/branches, not direct overwrites of the accepted manuscript or source-derived canon.",
+    "Review chapter changes at word or paragraph level with author-controlled accept/reject/modify decisions before merging into the main manuscript.",
+    "Beta-reader annotations, editor notes, and alternate endings should carry provenance as review commits or change packages so accepted changes remain replayable."
   ],
   "writing_session_goal_tracking_hints": [
     "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
