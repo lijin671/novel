@@ -10135,3 +10135,196 @@ def test_static_story_system_script_translation_sources_map_to_adaptation_gates(
     assert "novel_to_screenplay_structure_coverage_gate_hints" in digest
     assert "translation_glossary_context_qa_gate_hints" in digest
     assert "desktop_translation_batch_replacement_boundary_gate_hints" in digest
+
+
+def test_factual_grounding_long_context_sources_map_to_verification_gates():
+    assert "https://github.com/shmsw25/FActScore" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/potsawee/selfcheckgpt" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/amazon-science/RefChecker" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/THUDM/LongBench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/NVIDIA/RULER" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/gkamradt/LLMTest_NeedleInAHaystack" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/booydar/babilong" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/OpenBMB/InfiniteBench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/princeton-nlp/HELMET" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("factscore" in query.lower() and "atomic facts" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("selfcheckgpt" in query.lower() and "hallucination" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("refchecker" in query.lower() and "claim" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("needle" in query.lower() and "haystack" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("babilong" in query.lower() and "distributed facts" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "shmsw25/FActScore",
+                "html_url": "https://github.com/shmsw25/FActScore",
+                "description": (
+                    "FActScore evaluates factuality of long-form generation by decomposing biographies "
+                    "into atomic facts and estimating factual precision using retrieval and support decisions."
+                ),
+                "stargazers_count": 441,
+                "forks_count": 58,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["factuality", "long-form-generation", "atomic-facts"],
+                "updated_at": "2025-04-13T20:41:02Z",
+                "root_files": ["README.md", "LICENSE", "factscore", "setup.py"],
+            },
+            {
+                "full_name": "potsawee/selfcheckgpt",
+                "html_url": "https://github.com/potsawee/selfcheckgpt",
+                "description": (
+                    "SelfCheckGPT detects hallucinations with zero-resource black-box self-consistency checks "
+                    "across sampled passages, sentence-level scores and factual consistency signals."
+                ),
+                "stargazers_count": 619,
+                "forks_count": 80,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["hallucination-detection", "self-consistency", "llm"],
+                "updated_at": "2024-06-26T16:17:02Z",
+                "root_files": ["README.md", "LICENSE", "selfcheckgpt", "setup.py"],
+            },
+            {
+                "full_name": "amazon-science/RefChecker",
+                "html_url": "https://github.com/amazon-science/RefChecker",
+                "description": (
+                    "RefChecker performs fine-grained hallucination detection by extracting claims and "
+                    "checking claim consistency against reference documents with benchmark and evaluation tools."
+                ),
+                "stargazers_count": 380,
+                "forks_count": 39,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["hallucination", "claim-checking", "factual-consistency"],
+                "updated_at": "2025-11-10T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "refchecker", "requirements.txt"],
+            },
+            {
+                "full_name": "THUDM/LongBench",
+                "html_url": "https://github.com/THUDM/LongBench",
+                "description": (
+                    "LongBench is a benchmark for bilingual and multitask long context understanding with "
+                    "retrieval, QA, summarization and long-context evaluation."
+                ),
+                "stargazers_count": 4200,
+                "forks_count": 420,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["long-context", "benchmark", "retrieval"],
+                "updated_at": "2026-01-15T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt", "pred.py"],
+            },
+            {
+                "full_name": "NVIDIA/RULER",
+                "html_url": "https://github.com/NVIDIA/RULER",
+                "description": (
+                    "RULER evaluates long context language models with synthetic tasks, needle in a haystack, "
+                    "variable tracking, aggregation, QA and multi-hop retrieval stress tests."
+                ),
+                "stargazers_count": 1700,
+                "forks_count": 180,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["long-context", "needle-in-a-haystack", "benchmark"],
+                "updated_at": "2026-06-05T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "scripts", "requirements.txt"],
+            },
+            {
+                "full_name": "gkamradt/LLMTest_NeedleInAHaystack",
+                "html_url": "https://github.com/gkamradt/LLMTest_NeedleInAHaystack",
+                "description": (
+                    "Needle In A Haystack tests whether an LLM can retrieve a hidden fact from long context "
+                    "at different context lengths and insertion depths."
+                ),
+                "stargazers_count": 3100,
+                "forks_count": 380,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["needle-in-a-haystack", "long-context", "retrieval"],
+                "updated_at": "2024-11-20T00:00:00Z",
+                "root_files": ["README.md", "LICENSE.txt", "main.py"],
+            },
+            {
+                "full_name": "booydar/babilong",
+                "html_url": "https://github.com/booydar/babilong",
+                "description": (
+                    "BABILong evaluates models on long context question answering where distributed facts "
+                    "must be found and reasoned over across long-form documents."
+                ),
+                "stargazers_count": 320,
+                "forks_count": 30,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["long-context", "qa", "distributed-facts"],
+                "updated_at": "2025-09-12T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "babilong"],
+            },
+            {
+                "full_name": "OpenBMB/InfiniteBench",
+                "html_url": "https://github.com/OpenBMB/InfiniteBench",
+                "description": (
+                    "InfiniteBench evaluates extremely long context models on retrieval, QA, synthetic tasks, "
+                    "code, math and summarization across very large context windows."
+                ),
+                "stargazers_count": 1500,
+                "forks_count": 130,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["long-context", "benchmark", "qa"],
+                "updated_at": "2025-10-10T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "src"],
+            },
+            {
+                "full_name": "princeton-nlp/HELMET",
+                "html_url": "https://github.com/princeton-nlp/HELMET",
+                "description": (
+                    "HELMET is a holistic evaluation suite for long-context language models with retrieval, "
+                    "question answering, summarization, multi-hop and benchmark aggregation."
+                ),
+                "stargazers_count": 540,
+                "forks_count": 45,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["long-context", "benchmark", "evaluation"],
+                "updated_at": "2025-03-22T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "helmet"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T06:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "atomic_fact_precision_gate" in candidates["shmsw25/FActScore"]["absorbed_patterns"]
+    assert "self_consistency_hallucination_gate" in candidates["potsawee/selfcheckgpt"]["absorbed_patterns"]
+    assert "reference_claim_verification_gate" in candidates["amazon-science/RefChecker"]["absorbed_patterns"]
+    assert "long_context_benchmark_task_suite_gate" in candidates["THUDM/LongBench"]["absorbed_patterns"]
+    assert "needle_haystack_context_recall_gate" in candidates["NVIDIA/RULER"]["absorbed_patterns"]
+    assert "needle_haystack_context_recall_gate" in candidates["gkamradt/LLMTest_NeedleInAHaystack"]["absorbed_patterns"]
+    assert "distributed_fact_chain_recall_gate" in candidates["booydar/babilong"]["absorbed_patterns"]
+    assert "long_context_benchmark_task_suite_gate" in candidates["OpenBMB/InfiniteBench"]["absorbed_patterns"]
+    assert "long_context_benchmark_task_suite_gate" in candidates["princeton-nlp/HELMET"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "atomic_fact_ledger_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "self_consistency_hallucination_review_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "reference_claim_grounding_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "long_context_recall_probe_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "distributed_fact_chain_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "atomic_fact_precision_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "self_consistency_hallucination_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "reference_claim_verification_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "long_context_recall_stress_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "distributed_fact_chain_recall_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "atomic_fact_precision_gate_hints" in pattern_pack
+    assert "self_consistency_hallucination_gate_hints" in pattern_pack
+    assert "reference_claim_verification_gate_hints" in pattern_pack
+    assert "long_context_benchmark_task_suite_gate_hints" in pattern_pack
+    assert "needle_haystack_context_recall_gate_hints" in pattern_pack
+    assert "distributed_fact_chain_recall_gate_hints" in pattern_pack
+    assert "atomic_fact_precision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reference_claim_grounding_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "long_context_recall_probe_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "distributed_fact_chain_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "atomic_fact_precision_gate_hints" in digest
+    assert "self_consistency_hallucination_gate_hints" in digest
+    assert "reference_claim_verification_gate_hints" in digest
+    assert "long_context_benchmark_task_suite_gate_hints" in digest
+    assert "needle_haystack_context_recall_gate_hints" in digest
+    assert "distributed_fact_chain_recall_gate_hints" in digest

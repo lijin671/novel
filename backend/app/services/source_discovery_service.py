@@ -132,10 +132,16 @@ DEFAULT_GITHUB_QUERIES = (
     '("summarization" OR "extractive summarizer" OR "chapter summary") ("novel" OR "book" OR "long text") in:name,description,readme',
     '("topic modeling" OR "dynamic topic" OR "topic drift") ("novel" OR "chapter" OR "narrative") in:name,description,readme',
     '("faithfulness" OR "context precision" OR "context recall" OR "groundedness") ("RAG" OR "LLM evaluation") in:name,description,readme',
+    '("FActScore" OR "atomic facts" OR "factual precision") ("long-form generation" OR "factuality") in:name,description,readme',
+    '("SelfCheckGPT" OR "self-consistency" OR "hallucination detection") ("factual" OR "passage") in:name,description,readme',
+    '("RefChecker" OR "claim consistency" OR "fine-grained hallucination") ("reference" OR "claims") in:name,description,readme',
     '("observability" OR "trace" OR "tracing" OR "retrieval traces") ("LLM" OR "RAG" OR "evals") in:name,description,readme',
     '("prompt tests" OR "golden dataset" OR "regression suite" OR "custom evals") ("LLM" OR "prompt") in:name,description,readme',
     '("AgentWrite" OR "LongWriter" OR "LongBench-Write" OR "LongWrite-Ruler") ("long-form" OR "long output" OR "story") in:name,description,readme',
     '("helpfulness" OR "logicality" OR "faithfulness" OR "completeness") ("long-context" OR "long output" OR "writing") in:name,description,readme',
+    '("needle" OR "haystack" OR "RULER") ("long context" OR "retrieval stress") in:name,description,readme',
+    '("BABILong" OR "distributed facts" OR "long context question answering") ("fact" OR "QA") in:name,description,readme',
+    '("LongBench" OR "InfiniteBench" OR "HELMET") ("long context" OR "benchmark" OR "retrieval") in:name,description,readme',
     '("ultra-long" OR "10000+ words" OR "long output quality") ("writing" OR "generation" OR "story") in:name,description,readme',
     '("WritingBench" OR "instance-specific criteria" OR "requirement-dimension scores") ("writing" OR "generative writing") in:name,description,readme',
     '("creative writing benchmark" OR "hybrid rubric" OR "Glicko-2" OR "Elo") ("creative writing" OR "story") in:name,description,readme',
@@ -445,6 +451,15 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Arize-ai/phoenix",
     "https://github.com/promptfoo/promptfoo",
     "https://github.com/openai/evals",
+    "https://github.com/shmsw25/FActScore",
+    "https://github.com/potsawee/selfcheckgpt",
+    "https://github.com/amazon-science/RefChecker",
+    "https://github.com/THUDM/LongBench",
+    "https://github.com/NVIDIA/RULER",
+    "https://github.com/gkamradt/LLMTest_NeedleInAHaystack",
+    "https://github.com/booydar/babilong",
+    "https://github.com/OpenBMB/InfiniteBench",
+    "https://github.com/princeton-nlp/HELMET",
     "https://github.com/THUDM/LongWriter",
     "https://github.com/THUDM/LongReward",
     "https://github.com/THU-KEG/LongWriter-V",
@@ -894,11 +909,17 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("chapter_summary_anchor_gate", ("automatic text summarizer", "extractive summarizer", "extractive summarization", "summarization chains", "lsa", "lexrank", "textrank", "representative sentences", "chapter summary", "summary anchor")),
     ("topic_drift_map", ("topic modeling", "bertopic", "dynamic topic modeling", "dynamic topics", "topic representation", "c-tf-idf", "topic drift", "topic clusters")),
     ("context_faithfulness_eval_gate", ("faithfulness", "answer relevancy", "answer relevance", "context precision", "context recall", "groundedness", "context relevance", "hallucination metrics", "rag evaluation")),
+    ("atomic_fact_precision_gate", ("factscore", "atomic facts", "atomic fact", "factual precision", "long-form generation", "factuality of long-form", "supported atomic facts", "retrieval and support decisions")),
+    ("self_consistency_hallucination_gate", ("selfcheckgpt", "self-check gpt", "zero-resource", "black-box hallucination", "self-consistency", "sampled passages", "sentence-level hallucination", "factual consistency signals")),
+    ("reference_claim_verification_gate", ("refchecker", "reference checker", "fine-grained hallucination", "claim consistency", "extracting claims", "claim checking", "checking claim consistency", "reference documents", "factual consistency")),
     ("retrieval_trace_observability_gate", ("llm app observability", "ai observability", "observability", "tracing", "traces", "retrieval traces", "llm spans", "feedback functions")),
     ("prompt_regression_eval_suite", ("prompt tests", "golden datasets", "golden dataset", "regression suites", "regression suite", "regression tests", "ci evaluation", "custom evals", "graders")),
     ("agentwrite_plan_write_pipeline", ("agentwrite", "plan.py", "write.py", "plan.txt", "write.txt", "outline_vlm", "automated ultra-long output data construction", "plan and then write")),
     ("long_output_length_quality_ruler", ("longwriter", "longbench-write", "longwrite-ruler", "mmlongbench-write", "ultra-long text generation", "ultra-long output", "10000+ words", "maximum output length", "output length", "long output quality", "length stress test")),
     ("long_context_reward_dimension_gate", ("longreward", "long-context scenarios", "helpfulness", "logicality", "faithfulness", "completeness", "final reward", "reward score", "auto_scorer")),
+    ("long_context_benchmark_task_suite_gate", ("longbench", "infinitebench", "helmet", "long context understanding", "long context benchmark", "long-context evaluation", "retrieval", "qa", "summarization", "benchmark aggregation")),
+    ("needle_haystack_context_recall_gate", ("needle in a haystack", "needle-in-a-haystack", "needle", "haystack", "hidden fact", "insertion depths", "context lengths", "ruler", "variable tracking", "multi-hop retrieval")),
+    ("distributed_fact_chain_recall_gate", ("babilong", "distributed facts", "long context question answering", "reasoned over across long-form documents", "long-form documents", "multi-hop facts", "fact chain")),
     ("instance_specific_writing_criteria_gate", ("writingbench", "instance-specific criteria", "requirement-dimension scores", "requirement dimension scores", "5 instance-specific criteria", "five instance-specific criteria")),
     ("material_grounded_query_refinement", ("model-augmented query generation", "human-in-the-loop refinement", "query diversification", "query refinement guidance pool", "material collection", "material pruning")),
     ("hybrid_rubric_pairwise_elo_judge", ("creative writing benchmark v3", "hybrid rubric", "pairwise matchups", "elo scoring", "glicko-2", "win margin", "final elo")),
@@ -1853,6 +1874,42 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "openai/evals": (
         "OpenAI Evals is an MIT framework for building custom evals with datasets, samples, graders, and regression cases. "
         "Absorb custom eval and golden-case regression patterns only; eval runtime and provider calls are not used."
+    ),
+    "shmsw25/factscore": (
+        "FActScore is an MIT package for evaluating factuality of long-form generation through atomic fact decomposition and factual precision. "
+        "Pattern-only adaptation for atomic fact ledgers and support decisions; retrieval/runtime, datasets, models, and provider calls are not used."
+    ),
+    "potsawee/selfcheckgpt": (
+        "SelfCheckGPT is an MIT zero-resource black-box hallucination detection project using self-consistency over sampled passages and sentence-level scores. "
+        "Pattern-only adaptation for sampled self-consistency hallucination review; package runtime, model calls, datasets, and generated samples are not executed."
+    ),
+    "amazon-science/refchecker": (
+        "RefChecker provides Apache-2.0 fine-grained hallucination detection by extracting claims and checking them against reference documents. "
+        "Pattern-only adaptation for reference-claim verification gates; benchmark scripts, model integrations, and datasets are not run."
+    ),
+    "thudm/longbench": (
+        "LongBench is an Apache-2.0 benchmark for bilingual and multitask long-context understanding across retrieval, QA, summarization, and evaluation. "
+        "Pattern-only adaptation for long-context task-suite coverage; benchmark runtime, datasets, and model calls are not used."
+    ),
+    "nvidia/ruler": (
+        "RULER is an Apache-2.0 long-context benchmark with synthetic tasks such as needle-in-a-haystack, variable tracking, aggregation, QA, and multi-hop retrieval. "
+        "Pattern-only adaptation for recall stress probes; synthetic task generation, benchmark runtime, and model calls are not executed."
+    ),
+    "gkamradt/llmtest_needleinahaystack": (
+        "LLMTest Needle In A Haystack is an MIT long-context retrieval test that hides a fact at different context lengths and insertion depths. "
+        "Pattern-only adaptation for hidden-fact recall probes; scripts, model calls, and context-generation runtime are not run."
+    ),
+    "booydar/babilong": (
+        "BABILong is an Apache-2.0 benchmark for long-context QA where distributed facts must be found and reasoned over across long-form documents. "
+        "Pattern-only adaptation for distributed fact-chain recall checks; dataset/runtime/model calls are not used."
+    ),
+    "openbmb/infinitebench": (
+        "InfiniteBench is an Apache-2.0 benchmark for extremely long-context models across retrieval, QA, synthetic tasks, code, math, and summarization. "
+        "Pattern-only adaptation for long-context task-suite stress coverage; benchmark data, code, and model runtime are not executed."
+    ),
+    "princeton-nlp/helmet": (
+        "HELMET is an MIT holistic evaluation suite for long-context language models covering retrieval, QA, summarization, multi-hop, and benchmark aggregation. "
+        "Pattern-only adaptation for holistic long-context evaluation coverage; benchmark scripts, datasets, and model calls are not run."
     ),
     "thudm/longwriter": (
         "LongWriter is an Apache-2.0 long-output generation project. Public README describes AgentWrite under agentwrite/ with plan.py then write.py, "
@@ -2856,11 +2913,17 @@ class NovelSourceDiscoveryService:
             "chapter_summary_anchor_gate_hints": self._build_chapter_summary_anchor_gate_hints(available_patterns),
             "topic_drift_map_hints": self._build_topic_drift_map_hints(available_patterns),
             "context_faithfulness_eval_gate_hints": self._build_context_faithfulness_eval_gate_hints(available_patterns),
+            "atomic_fact_precision_gate_hints": self._build_atomic_fact_precision_gate_hints(available_patterns),
+            "self_consistency_hallucination_gate_hints": self._build_self_consistency_hallucination_gate_hints(available_patterns),
+            "reference_claim_verification_gate_hints": self._build_reference_claim_verification_gate_hints(available_patterns),
             "retrieval_trace_observability_gate_hints": self._build_retrieval_trace_observability_gate_hints(available_patterns),
             "prompt_regression_eval_suite_hints": self._build_prompt_regression_eval_suite_hints(available_patterns),
             "agentwrite_plan_write_pipeline_hints": self._build_agentwrite_plan_write_pipeline_hints(available_patterns),
             "long_output_length_quality_ruler_hints": self._build_long_output_length_quality_ruler_hints(available_patterns),
             "long_context_reward_dimension_gate_hints": self._build_long_context_reward_dimension_gate_hints(available_patterns),
+            "long_context_benchmark_task_suite_gate_hints": self._build_long_context_benchmark_task_suite_gate_hints(available_patterns),
+            "needle_haystack_context_recall_gate_hints": self._build_needle_haystack_context_recall_gate_hints(available_patterns),
+            "distributed_fact_chain_recall_gate_hints": self._build_distributed_fact_chain_recall_gate_hints(available_patterns),
             "instance_specific_writing_criteria_gate_hints": self._build_instance_specific_writing_criteria_gate_hints(available_patterns),
             "material_grounded_query_refinement_hints": self._build_material_grounded_query_refinement_hints(available_patterns),
             "hybrid_rubric_pairwise_elo_judge_hints": self._build_hybrid_rubric_pairwise_elo_judge_hints(available_patterns),
@@ -3538,11 +3601,17 @@ class NovelSourceDiscoveryService:
             "chapter_summary_anchor_gate": 61,
             "topic_drift_map": 60,
             "context_faithfulness_eval_gate": 64,
+            "atomic_fact_precision_gate": 66,
+            "self_consistency_hallucination_gate": 65,
+            "reference_claim_verification_gate": 66,
             "retrieval_trace_observability_gate": 63,
             "prompt_regression_eval_suite": 62,
             "agentwrite_plan_write_pipeline": 65,
             "long_output_length_quality_ruler": 64,
             "long_context_reward_dimension_gate": 63,
+            "long_context_benchmark_task_suite_gate": 65,
+            "needle_haystack_context_recall_gate": 66,
+            "distributed_fact_chain_recall_gate": 66,
             "instance_specific_writing_criteria_gate": 66,
             "material_grounded_query_refinement": 64,
             "hybrid_rubric_pairwise_elo_judge": 65,
@@ -3907,6 +3976,20 @@ class NovelSourceDiscoveryService:
         if "story_question_answer_validation_gate" in patterns:
             targets.append("story_element_qa_schema")
             targets.append("section_grounding_evidence_policy")
+        if "atomic_fact_precision_gate" in patterns:
+            targets.append("atomic_fact_ledger_policy")
+            targets.append("fact_support_decision_schema")
+        if "self_consistency_hallucination_gate" in patterns:
+            targets.append("self_consistency_hallucination_review_policy")
+        if "reference_claim_verification_gate" in patterns:
+            targets.append("reference_claim_grounding_policy")
+            targets.append("claim_reference_scope_schema")
+        if "long_context_benchmark_task_suite_gate" in patterns:
+            targets.append("long_context_task_suite_policy")
+        if "needle_haystack_context_recall_gate" in patterns:
+            targets.append("long_context_recall_probe_policy")
+        if "distributed_fact_chain_recall_gate" in patterns:
+            targets.append("distributed_fact_chain_policy")
         if "causal_why_explanation_gate" in patterns:
             targets.append("causal_why_answer_ledger")
             targets.append("helpful_sentence_grounding_policy")
@@ -4763,6 +4846,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["chapter_summary_alignment_report", "book_chapter_summary_consistency", "causal_temporal_summary_gap_findings"])
         if "story_question_answer_validation_gate" in patterns:
             targets.extend(["story_element_qa_report", "section_grounded_answer_gaps", "narrative_element_coverage_findings"])
+        if "atomic_fact_precision_gate" in patterns:
+            targets.extend(["atomic_fact_precision_report", "unsupported_atomic_fact_findings", "fact_support_decision_trace"])
+        if "self_consistency_hallucination_gate" in patterns:
+            targets.extend(["self_consistency_hallucination_report", "sample_disagreement_findings", "sentence_level_uncertainty_notes"])
+        if "reference_claim_verification_gate" in patterns:
+            targets.extend(["reference_claim_verification_report", "unsupported_claim_findings", "reference_scope_mismatch_notes"])
+        if "long_context_benchmark_task_suite_gate" in patterns:
+            targets.extend(["long_context_task_suite_report", "retrieval_qa_summary_stress_findings", "benchmark_coverage_notes"])
+        if "needle_haystack_context_recall_gate" in patterns:
+            targets.extend(["long_context_recall_stress_report", "hidden_fact_depth_findings", "context_length_recall_failures"])
+        if "distributed_fact_chain_recall_gate" in patterns:
+            targets.extend(["distributed_fact_chain_recall_report", "multi_hop_fact_link_findings", "long_context_reasoning_gaps"])
         if "causal_why_explanation_gate" in patterns:
             targets.extend(["causal_why_explanation_report", "helpful_sentence_grounding_findings", "plausible_answer_validity_notes"])
         if "story_commonsense_consistency_gate" in patterns:
@@ -7597,6 +7692,33 @@ class NovelSourceDiscoveryService:
             "For same-type creation, measure grounding against transformed-story canon only so source inspiration cannot masquerade as faithful context.",
         ]
 
+    def _build_atomic_fact_precision_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "atomic_fact_precision_gate" not in patterns:
+            return []
+        return [
+            "Decompose continuation claims into atomic facts before canon write-back; each important fact needs accepted source, bible, chapter, or user-decision support.",
+            "Track unsupported, contradicted, and unverifiable atomic facts separately so a fluent chapter cannot hide factual drift.",
+            "For same-type creation, rebuild the atomic fact ledger from transformed canon; source-work facts can guide functions but cannot count as support.",
+        ]
+
+    def _build_self_consistency_hallucination_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "self_consistency_hallucination_gate" not in patterns:
+            return []
+        return [
+            "Use sampled self-consistency as a hallucination review signal for high-impact chapter facts, motives, timeline claims, and world-rule statements.",
+            "Sentence-level disagreement creates review tasks; it does not automatically authorize rewriting from source material or calling external providers.",
+            "For same-type creation, self-consistency checks must compare against new-story state and reviewer notes, not source summaries or extracted source facts.",
+        ]
+
+    def _build_reference_claim_verification_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "reference_claim_verification_gate" not in patterns:
+            return []
+        return [
+            "Extract claims from generated chapters and verify each against a named reference scope: accepted canon, source boundary, research evidence, or user-approved fiction decision.",
+            "Claim checks should report supported, unsupported, contradicted, and out-of-scope claims before the draft updates bible, timeline, relationship graph, or summaries.",
+            "For same-type creation, reference documents are transformed-story artifacts only; original-source documents remain contamination-risk evidence, not grounding support.",
+        ]
+
     def _build_retrieval_trace_observability_gate_hints(self, patterns: set[str]) -> list[str]:
         if "retrieval_trace_observability_gate" not in patterns:
             return []
@@ -7640,6 +7762,33 @@ class NovelSourceDiscoveryService:
             "Evaluate long-context outputs on separate dimensions: helpfulness to the current writing goal, logicality, faithfulness, and completeness.",
             "Low reward dimensions become named fix tasks; do not average away a faithfulness or logicality failure in a long chapter.",
             "For same-type creation, completeness means all transformed-story requirements are covered without importing source-only facts.",
+        ]
+
+    def _build_long_context_benchmark_task_suite_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "long_context_benchmark_task_suite_gate" not in patterns:
+            return []
+        return [
+            "Stress long-form context packs with separate retrieval, QA, summarization, and multi-hop checks before trusting them for batch continuation.",
+            "Benchmark-style coverage should name which task family failed; one good summary score cannot prove hidden clue recall or cross-chapter reasoning.",
+            "For same-type creation, long-context tasks should use transformed-canon fixtures so source order and source facts do not leak into acceptance checks.",
+        ]
+
+    def _build_needle_haystack_context_recall_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "needle_haystack_context_recall_gate" not in patterns:
+            return []
+        return [
+            "Run hidden-fact recall probes across long chapter ranges: vary clue depth, clue distance, context length, and distractor density before large-batch drafting.",
+            "A missed needle becomes a context-pack repair task, especially for foreshadowing, relationship state, object ownership, and timeline constraints.",
+            "For same-type creation, replace source needles with transformed-story facts; source-specific hidden facts must not appear in new-story recall probes.",
+        ]
+
+    def _build_distributed_fact_chain_recall_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "distributed_fact_chain_recall_gate" not in patterns:
+            return []
+        return [
+            "Check distributed fact chains that require evidence from multiple chapters before accepting long-form reasoning, payoff, or reveal decisions.",
+            "Multi-hop fact failures should identify the missing link: source chapter, accepted chapter, summary, relationship graph, timeline, or bible rule.",
+            "For same-type creation, rebuild multi-hop chains over transformed events so causal reasoning is new, even when the abstract function was inspired by a source.",
         ]
 
     def _build_instance_specific_writing_criteria_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -8706,6 +8855,18 @@ class NovelSourceDiscoveryService:
             targets.append("translation_glossary_namespace_remap")
         if "desktop_translation_batch_replacement_boundary_gate" in patterns:
             targets.append("batch_replacement_boundary_remap")
+        if "atomic_fact_precision_gate" in patterns:
+            targets.append("atomic_fact_precision_remap")
+        if "self_consistency_hallucination_gate" in patterns:
+            targets.append("self_consistency_hallucination_remap")
+        if "reference_claim_verification_gate" in patterns:
+            targets.append("reference_claim_grounding_remap")
+        if "long_context_benchmark_task_suite_gate" in patterns:
+            targets.append("long_context_task_suite_remap")
+        if "needle_haystack_context_recall_gate" in patterns:
+            targets.append("long_context_recall_probe_remap")
+        if "distributed_fact_chain_recall_gate" in patterns:
+            targets.append("distributed_fact_chain_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -10013,11 +10174,17 @@ class NovelSourceDiscoveryService:
                 "chapter_summary_anchor_gate",
                 "topic_drift_map",
                 "context_faithfulness_eval_gate",
+                "atomic_fact_precision_gate",
+                "self_consistency_hallucination_gate",
+                "reference_claim_verification_gate",
                 "retrieval_trace_observability_gate",
                 "prompt_regression_eval_suite",
                 "agentwrite_plan_write_pipeline",
                 "long_output_length_quality_ruler",
                 "long_context_reward_dimension_gate",
+                "long_context_benchmark_task_suite_gate",
+                "needle_haystack_context_recall_gate",
+                "distributed_fact_chain_recall_gate",
                 "instance_specific_writing_criteria_gate",
                 "material_grounded_query_refinement",
                 "hybrid_rubric_pairwise_elo_judge",
@@ -10818,6 +10985,14 @@ class NovelSourceDiscoveryService:
             "groundedness",
             "context relevance",
             "hallucination metrics",
+            "hallucination detection",
+            "factuality",
+            "factual precision",
+            "atomic facts",
+            "factscore",
+            "selfcheckgpt",
+            "claim consistency",
+            "refchecker",
             "rag evaluation",
             "llm evaluation",
             "llm app observability",
@@ -10832,6 +11007,15 @@ class NovelSourceDiscoveryService:
             "regression suite",
             "custom evals",
             "graders",
+            "long context benchmark",
+            "long-context evaluation",
+            "long context understanding",
+            "needle in a haystack",
+            "needle-in-a-haystack",
+            "babilong",
+            "distributed facts",
+            "infinitebench",
+            "helmet",
         )
         return any(term in haystack for term in terms)
 
