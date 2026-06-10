@@ -11471,3 +11471,67 @@ def test_webnovel_architect_sources_add_serial_reader_reward_contract_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "serial_reader_reward_contract_gate_hints" in digest
+
+
+def test_inkwell_source_adds_living_codex_editorial_workbench_gates():
+    assert "https://github.com/Meryouc/inkwell" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("living codex" in query and "editorial passes" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Meryouc/inkwell",
+                "html_url": "https://github.com/Meryouc/inkwell",
+                "description": (
+                    "Inkwell is a local-first manuscript workshop and VS Code fork for fiction. "
+                    "It has a manuscript tree for acts, chapters and scenes, a living codex for "
+                    "characters, places, items, lore and factions with YAML frontmatter, a continuity "
+                    "engine for timeline math, geography, promise/payoff and relationship-state evolution, "
+                    "plus editorial passes for developmental, line and copy editing with pacing curve, "
+                    "emotional tempo, POV balance, sentence-length histogram and dialogue ratio diagnostics, "
+                    "and BYOK provider API keys stored in the OS keystore."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction", "manuscript", "living-codex", "editorial"],
+                "updated_at": "2026-05-31T12:05:02Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE-INKWELL.md",
+                    "LICENSE.txt",
+                    "package.json",
+                    "launch-inkwell.bat",
+                    "src/vs/inkwell/browser",
+                ],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T22:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    inkwell = candidates["Meryouc/inkwell"]
+    assert "living_codex_editorial_workbench_gate" in inkwell["absorbed_patterns"]
+    assert "local_first_novel_workspace" in inkwell["absorbed_patterns"]
+    assert "editor_context_prose_analysis_gate" in inkwell["absorbed_patterns"]
+    assert "provider_key_surface" in inkwell["risk_flags"]
+    assert "windows_script" in inkwell["risk_flags"]
+    assert inkwell["trust_review"]["flags"] == []
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "living_codex_scene_link_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "editorial_pass_diagnostic_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "manuscript_tree_scene_map" in pattern_pack["whole_book_analysis_targets"]
+    assert "codex_scene_reference_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "editorial_pass_diagnostics" in pattern_pack["whole_book_analysis_targets"]
+    assert "continuity_engine_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "living_codex_scene_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("manuscript tree node" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("editorial pass type" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("typed diagnostics" in hint for hint in pattern_pack["living_codex_editorial_workbench_gate_hints"])
+    assert any("codex backlink map" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "living_codex_editorial_workbench_gate_hints" in digest

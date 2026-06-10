@@ -454,6 +454,7 @@ def render_source_pattern_pack_digest(
         "rights_first_adaptation_pipeline_gate_hints",
         "local_flow_story_graph_workspace_gate_hints",
         "editor_context_prose_analysis_gate_hints",
+        "living_codex_editorial_workbench_gate_hints",
         "offline_chapter_revision_export_gate_hints",
         "multi_agent_outline_continuity_review_gate_hints",
         "hosted_ai_sidebar_product_boundary_gate_hints",

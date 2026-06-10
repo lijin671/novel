@@ -153,6 +153,7 @@ const PINNED_HINT_KEYS = new Set([
   'cjk_bm25_context_retrieval_gate_hints',
   'dynamic_architecture_extension_gate_hints',
   'anti_copy_style_rag_gate_hints',
+  'living_codex_editorial_workbench_gate_hints',
   'long_term_author_preference_memory_hints',
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
@@ -595,6 +596,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Microkernel skill plugin isolation gates', patternPackPayload?.microkernel_skill_plugin_isolation_gate_hints],
               ['Interactive reader-writer loop gates', patternPackPayload?.interactive_reader_writer_loop_gate_hints],
               ['Abstract style learning skill gates', patternPackPayload?.abstract_style_learning_skill_gate_hints],
+              ['Living codex editorial workbench gates', patternPackPayload?.living_codex_editorial_workbench_gate_hints],
             ])}
             {renderHintGroup('Impromptu / offline / atelier gates', [
               ['Impromptu thread-pool chapter gates', patternPackPayload?.impromptu_thread_pool_chapter_gate_hints],

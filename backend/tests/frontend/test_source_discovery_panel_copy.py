@@ -129,6 +129,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "dual_level_graph_vector_retrieval_hints",
             "schema_guided_graph_extraction_hints",
             "counterfactual_story_graph_rag_gate_hints",
+            "living_codex_editorial_workbench_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -332,6 +333,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Dual-level graph vector retrieval gates" in panel_text
     assert "Schema-guided graph extraction gates" in panel_text
     assert "Counterfactual story Graph-RAG gates" in panel_text
+    assert "Living codex editorial workbench gates" in panel_text
     assert "Relationship graph global replace gates" in panel_text
     assert "Chinese text processing gates" in panel_text
     assert "Chinese segmentation / keyword gates" in panel_text

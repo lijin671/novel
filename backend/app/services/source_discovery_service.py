@@ -258,6 +258,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("IndexedDB" OR "flow sessions" OR "story network") ("story bible" OR "fiction writing assistant") ("Ollama" OR "local AI") in:name,description,readme',
     '("VS Code" OR "vscode") ("prose analysis" OR "contextual manuscript analysis" OR "story bible") ("creative writing" OR "novel") in:name,description,readme',
     '("offline" OR "PWA") ("chapter-isolated editing" OR "version history" OR "DOCX PDF export") ("novel" OR "manuscript") in:name,description,readme',
+    '("living codex" OR "manuscript tree" OR "editorial passes" OR "continuity engine") ("novel" OR "fiction" OR "manuscript") in:name,description,readme',
     '("AutoGen" OR "collaborative AI agents" OR "Memory Keeper") ("Outline Creator" OR "Story Planner") ("book generator" OR "novel") in:name,description,readme',
     '("302.AI" OR "AI-assisted writing" OR "AI writing sidebar") ("intelligent plot planning" OR "real-time editing") ("novel writing") in:name,description,readme',
     '("character outlines" OR "story synopses" OR "plot outlines") ("scene lists" OR "creative writers toolkit") ("GPT3" OR "AI") in:name,description,readme',
@@ -653,6 +654,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/yosrikhiari/Versatile",
     "https://github.com/okeylanders/prose-minion-vscode",
     "https://github.com/DoktorDaveJoos/manuscript",
+    "https://github.com/Meryouc/inkwell",
     "https://github.com/wwessex/Writer1",
     "https://github.com/adamwlarson/ai-book-writer",
     "https://github.com/302ai/302_novel_writing",
@@ -966,6 +968,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("rights_first_adaptation_pipeline_gate", ("codex novel-to-comic studio", "novel-to-comic", "rights gate", "source parsing", "narrative bible", "visual bible", "page script", "storyboard", "pdf + cbz export", "comic packages")),
     ("local_flow_story_graph_workspace_gate", ("versatile", "fiction writing assistant", "indexeddb autosave", "flow sessions", "focus mode", "ai spark", "ai polish", "story generator", "story bible", "visual story network", "timeline")),
     ("editor_context_prose_analysis_gate", ("prose minion", "prose-minion", "vscode", "vs code", "professional-grade prose metrics", "contextual analysis", "manuscript analysis", "chapter analysis", "source analysis", "story bible")),
+    ("living_codex_editorial_workbench_gate", ("living codex", "manuscript tree", "continuity engine", "editorial passes", "developmental pass", "line pass", "copy pass", "pacing curve", "emotional tempo", "pov balance", "dialogue ratio", "paragraph-level history", "acts, chapters, scenes", "yaml frontmatter", "promise/payoff")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -1698,6 +1701,12 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "doktordavejoos/manuscript": (
         "Manuscript is a local-first desktop app for novelists with structural analysis, pacing visualization, prose refinement, AI-assisted review, local SQLite storage, acts, beats, and chapter models. "
         "Absorb offline structural/pacing workbench patterns only; app code, AI providers, queues, and dependencies are not executed."
+    ),
+    "meryouc/inkwell": (
+        "Inkwell is a MIT VS Code fork reshaped as a local-first manuscript workbench for fiction. Public README markers describe Plan/Write/Edit modes, "
+        "plain Markdown projects, a manuscript tree of acts/chapters/scenes, living codex entries for characters/places/items/lore/factions with YAML frontmatter, "
+        "continuity-engine checks for attributes, timeline math, geography, promise/payoff, and relationship-state evolution, plus editorial passes and diagnostics for pacing curve, emotional tempo, POV balance, sentence-length histogram, and dialogue ratio. "
+        "Pattern-only adaptation is a living-codex editorial workbench gate; VS Code/Electron build tooling, npm scripts, launch batch files, provider keys, OS keystore access, and AI/editor runtime are not executed."
     ),
     "geobond13/fiction-forge": (
         "Fiction Forge is a MIT prose pattern scanner and MCP context-server toolkit for AI-assisted novels, detecting AI writing fingerprints, voice drift, severity clusters, story-bible access, and publishing outputs. "
@@ -2997,6 +3006,7 @@ class NovelSourceDiscoveryService:
             "rights_first_adaptation_pipeline_gate_hints": self._build_rights_first_adaptation_pipeline_gate_hints(available_patterns),
             "local_flow_story_graph_workspace_gate_hints": self._build_local_flow_story_graph_workspace_gate_hints(available_patterns),
             "editor_context_prose_analysis_gate_hints": self._build_editor_context_prose_analysis_gate_hints(available_patterns),
+            "living_codex_editorial_workbench_gate_hints": self._build_living_codex_editorial_workbench_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -3964,6 +3974,7 @@ class NovelSourceDiscoveryService:
             "rights_first_adaptation_pipeline_gate": 68,
             "local_flow_story_graph_workspace_gate": 66,
             "editor_context_prose_analysis_gate": 67,
+            "living_codex_editorial_workbench_gate": 69,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4204,6 +4215,9 @@ class NovelSourceDiscoveryService:
         if "editor_context_prose_analysis_gate" in patterns:
             targets.append("editor_context_analysis_scope_policy")
             targets.append("chapter_source_analysis_boundary")
+        if "living_codex_editorial_workbench_gate" in patterns:
+            targets.append("living_codex_scene_link_policy")
+            targets.append("editorial_pass_diagnostic_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5032,6 +5046,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["local_flow_story_graph_report", "flow_session_goal_trace", "story_network_timeline_findings"])
         if "editor_context_prose_analysis_gate" in patterns:
             targets.extend(["editor_context_prose_analysis_report", "chapter_context_scope_findings", "source_analysis_redaction_notes"])
+        if "living_codex_editorial_workbench_gate" in patterns:
+            targets.extend(["manuscript_tree_scene_map", "codex_scene_reference_report", "editorial_pass_diagnostics", "continuity_engine_findings"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -5733,6 +5749,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before acceptance, audit micro-tension, reader curiosity, chapter hook, cliffhanger, paragraph rhythm, and scene opening/ending strength.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("Before continuation, review the manuscript-health trend and chapter-ending class so the next chapter repairs pacing, tension, hook, or emotional-arc debt instead of blindly extending prose.")
+        if "living_codex_editorial_workbench_gate" in patterns:
+            hints.append("Before drafting, choose the manuscript tree node, linked living-codex entries, continuity findings, and editorial pass type that constrain the scene.")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             hints.append("Before continuation, classify the next chapter as emotion/action/function, check event cooldowns, name the one visible image, and avoid the most statistically obvious beat unless canon requires it.")
         if "semantic_long_context_search" in patterns:
@@ -6098,6 +6116,8 @@ class NovelSourceDiscoveryService:
             hints.append("Keep draft, review, rewrite candidate, rejected, and confirmed chapter states separate so rejected prose cannot update memory.")
         if "privacy_preserving_local_index_gate" in patterns:
             hints.append("Local indexes should store metadata, hashes, labels, and retrieval reasons; manuscript plaintext stays in explicit project artifacts.")
+        if "living_codex_editorial_workbench_gate" in patterns:
+            hints.append("Persist manuscript tree node id, linked codex entry ids, continuity finding ids, editorial pass type, diagnostic snapshot, and author acceptance status before reuse.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -6735,6 +6755,15 @@ class NovelSourceDiscoveryService:
             "Editor-context prose analysis should declare which chapter, selection, source note, and story bible slice were inspected before producing revision advice.",
             "Keep manuscript/chapter/source analysis reports redacted by scope; do not leak raw source chunks into same-type prompts under a generic prose-analysis label.",
             "Model or provider recommendation lists are discovery metadata only; runtime model selection stays outside source-discovery pattern packs.",
+        ]
+
+    def _build_living_codex_editorial_workbench_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "living_codex_editorial_workbench_gate" not in patterns:
+            return []
+        return [
+            "Bind every manuscript tree scene to living-codex entries for characters, places, items, lore, factions, and active promise/payoff before drafting or revision.",
+            "Treat developmental, line, and copy passes as typed diagnostics with evidence: pacing curve, emotional tempo, POV balance, beat alignment, sentence-length histogram, and dialogue ratio.",
+            "Invocation-only AI suggestions can annotate or propose alternatives, but accepted canon, codex links, and manuscript text change only through explicit author acceptance.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9751,6 +9780,8 @@ class NovelSourceDiscoveryService:
             targets.append("local_flow_story_graph_remap")
         if "editor_context_prose_analysis_gate" in patterns:
             targets.append("editor_context_analysis_remap")
+        if "living_codex_editorial_workbench_gate" in patterns:
+            targets.append("living_codex_scene_remap")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_export_remap")
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -9824,6 +9855,8 @@ class NovelSourceDiscoveryService:
             hints.append("Use style-DNA ids as abstract craft guidance only; generate new premise, cast, conflicts, and phrasing for same-type work.")
         if "anti_copy_style_rag_gate" in patterns:
             hints.append("For style-RAG imitation, pass only chunk ids, abstract style traits, and retrieval reasons into the prompt; copied source passages stay behind the copy-risk gate.")
+        if "living_codex_editorial_workbench_gate" in patterns:
+            hints.append("For living-codex workbench prompts, name the scene node, codex backlinks, continuity warnings, and editorial pass scope instead of pasting raw source scene text.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "draft_candidate_promotion_gate" in patterns:
@@ -10581,6 +10614,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform source thread pools by changing each promise, partial payoff, and development path before opening the new chapter blueprint.")
         if "offline_inspiration_bank_style_gate" in patterns:
             hints.append("Transform inspiration-bank references into fresh style constraints and local lore tasks; source documents stay outside accepted canon until reviewed.")
+        if "living_codex_editorial_workbench_gate" in patterns:
+            hints.append("Transform manuscript tree and living-codex links by rebuilding scene ids, codex entries, continuity warnings, and editorial diagnostics around the new premise.")
         if "atelier_phase_pipeline_gate" in patterns:
             hints.append("Transform atelier handoffs by assigning new phase artifacts, beat ids, hook owners, and reviewer criteria for the independent project.")
         if "book_mining_genesis_automation_gate" in patterns:
@@ -10732,6 +10767,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject style-RAG outputs when retrieved chunks, high-overlap phrases, entity order, or post-generation repetition checks show source-passage copying.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("Reject alternative-story drafts that keep the source event path intact, erase the declared divergence, or treat source graph facts as new-story canon without transformation.")
+        if "living_codex_editorial_workbench_gate" in patterns:
+            hints.append("Reject drafts that mirror a source manuscript tree, codex backlink map, diagnostic curve, POV balance, or dialogue-ratio rhythm under renamed scene labels.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -11346,6 +11383,7 @@ class NovelSourceDiscoveryService:
                 "rights_first_adaptation_pipeline_gate",
                 "local_flow_story_graph_workspace_gate",
                 "editor_context_prose_analysis_gate",
+                "living_codex_editorial_workbench_gate",
                 "offline_chapter_revision_export_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",
