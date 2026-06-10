@@ -7195,3 +7195,223 @@ def test_default_discovery_sources_include_agentic_editorial_craft_projects():
     assert any("permanent bible" in query.lower() and "chapter state" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("section metadata" in query.lower() and "pacing visualization" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("ai writing fingerprints" in query.lower() and "cluster detection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_chinese_longform_control_projects_classify_into_control_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "WENZIZZHENG/story-spec",
+                "html_url": "https://github.com/WENZIZZHENG/story-spec",
+                "description": "Chinese long-form fiction co-creation workbench.",
+                "stargazers_count": 216,
+                "forks_count": 19,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-writing", "creative-writing", "novel"],
+                "updated_at": "2026-06-10T21:00:00Z",
+                "root_files": ["README.md", "package.json", "agents", "docs"],
+            },
+            {
+                "full_name": "KKKenChow/ai-novel-writer",
+                "html_url": "https://github.com/KKKenChow/ai-novel-writer",
+                "description": "Chinese full-chain local RAG novel tool with staged chapter generation.",
+                "stargazers_count": 580,
+                "forks_count": 65,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "rag", "creative-writing"],
+                "updated_at": "2026-06-10T21:05:00Z",
+                "root_files": ["README.md", "app.py", "requirements.txt"],
+            },
+            {
+                "full_name": "papysans/Morpheus",
+                "html_url": "https://github.com/papysans/Morpheus",
+                "description": "Chinese multi-agent long-form writing workbench.",
+                "stargazers_count": 742,
+                "forks_count": 59,
+                "license": None,
+                "topics": ["novel", "multi-agent", "long-form-writing"],
+                "updated_at": "2026-06-10T21:10:00Z",
+                "root_files": ["README.md", "backend", "frontend", "docker-compose.yml"],
+            },
+            {
+                "full_name": "jingtai123/Novel-Control-Station-Skill",
+                "html_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
+                "description": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back.",
+                "stargazers_count": 68,
+                "forks_count": 7,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "claude-code-skill", "writing"],
+                "updated_at": "2026-06-10T21:15:00Z",
+                "root_files": ["README.md", "SKILL.md", "scripts"],
+            },
+            {
+                "full_name": "xindoo/sumeru",
+                "html_url": "https://github.com/xindoo/sumeru",
+                "description": "Chinese webnovel AI Agent skill collection.",
+                "stargazers_count": 91,
+                "forks_count": 8,
+                "license": None,
+                "topics": ["webnovel", "ai-agent", "writing"],
+                "updated_at": "2026-06-10T21:20:00Z",
+                "root_files": ["README.md", ".sumeru", "skills"],
+            },
+            {
+                "full_name": "AI-Practical-Lab/ai-novel",
+                "html_url": "https://github.com/AI-Practical-Lab/ai-novel",
+                "description": "AI-driven novel creation assistant with structured world, character, outline, and chapter management.",
+                "stargazers_count": 102,
+                "forks_count": 13,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-writing", "novel", "creative-writing"],
+                "updated_at": "2026-06-10T21:25:00Z",
+                "root_files": ["README.md", "frontend", "backend", "package.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T21:30:00+08:00",
+    )
+
+    patterns_by_title = {
+        candidate["title"]: set(candidate["absorbed_patterns"])
+        for candidate in result["candidates"]
+    }
+
+    assert "author_candidate_canon_confirmation_gate" in patterns_by_title["WENZIZZHENG/story-spec"]
+    assert {
+        "progressive_spoiler_context_window_gate",
+        "relationship_graph_global_replace_gate",
+    }.issubset(patterns_by_title["KKKenChow/ai-novel-writer"])
+    assert "trace_replay_revision_workspace_gate" in patterns_by_title["papysans/Morpheus"]
+    assert "chapter_control_card_writeback_gate" in patterns_by_title["jingtai123/Novel-Control-Station-Skill"]
+    assert {
+        "chapter_control_card_writeback_gate",
+        "continuation",
+        "self_review",
+    }.issubset(patterns_by_title["xindoo/sumeru"])
+    assert "progressive_spoiler_context_window_gate" in patterns_by_title["AI-Practical-Lab/ai-novel"]
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "license:missing" in by_title["papysans/Morpheus"]["trust_review"]["flags"]
+    assert "license:missing" in by_title["xindoo/sumeru"]["trust_review"]["flags"]
+
+
+def test_chinese_longform_control_pattern_pack_exposes_confirmation_spoiler_writeback_trace_and_graph_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T21:35:00+08:00",
+        "candidate_count": 5,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/WENZIZZHENG/story-spec",
+                "title": "WENZIZZHENG/story-spec",
+                "summary": "Candidate-not-canon preview/confirm/apply workbench.",
+                "stars": 216,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["author_candidate_canon_confirmation_gate"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/KKKenChow/ai-novel-writer",
+                "title": "KKKenChow/ai-novel-writer",
+                "summary": "Spoiler filtering, future chapter validation, global replacement, and relationship graphs.",
+                "stars": 580,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["progressive_spoiler_context_window_gate", "relationship_graph_global_replace_gate"],
+                "score": 87,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/papysans/Morpheus",
+                "title": "papysans/Morpheus",
+                "summary": "Trace replay and chapter revision workspace.",
+                "stars": 742,
+                "license": "unknown",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker"],
+                "absorbed_patterns": ["trace_replay_revision_workspace_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
+                "title": "jingtai123/Novel-Control-Station-Skill",
+                "summary": "Chapter control card and dynamic state write-back.",
+                "stars": 68,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["chapter_control_card_writeback_gate"],
+                "score": 85,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/AI-Practical-Lab/ai-novel",
+                "title": "AI-Practical-Lab/ai-novel",
+                "summary": "Structured Chinese novel workflow and context-window lessons.",
+                "stars": 102,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["progressive_spoiler_context_window_gate"],
+                "score": 84,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "candidate_canon_confirmation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "spoiler_context_window_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_control_card_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "trace_replay_review_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "relationship_graph_update_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "candidate_canon_confirmation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "future_chapter_leakage_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "dynamic_state_writeback_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "revision_decision_trace_log" in pattern_pack["whole_book_analysis_targets"]
+    assert "global_replace_propagation_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert pattern_pack["author_candidate_canon_confirmation_gate_hints"]
+    assert pattern_pack["progressive_spoiler_context_window_gate_hints"]
+    assert pattern_pack["chapter_control_card_writeback_gate_hints"]
+    assert pattern_pack["trace_replay_revision_workspace_gate_hints"]
+    assert pattern_pack["relationship_graph_global_replace_gate_hints"]
+    assert "candidate_canon_decision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "spoiler_context_window_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_control_card_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "trace_replay_decision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "relationship_graph_replace_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "author_candidate_canon_confirmation_gate_hints" in digest
+    assert "progressive_spoiler_context_window_gate_hints" in digest
+    assert "chapter_control_card_writeback_gate_hints" in digest
+    assert "trace_replay_revision_workspace_gate_hints" in digest
+    assert "relationship_graph_global_replace_gate_hints" in digest
+    assert "candidate canon decisions" in digest
+    assert "source-analysis traces" in digest
+
+
+def test_default_discovery_sources_include_chinese_longform_control_projects():
+    assert "https://github.com/WENZIZZHENG/story-spec" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/KKKenChow/ai-novel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/papysans/Morpheus" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jingtai123/Novel-Control-Station-Skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/xindoo/sumeru" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/AI-Practical-Lab/ai-novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("preview confirm apply" in query.lower() and "candidate is not canon" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("spoiler filtering" in query.lower() and "future chapter" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chapter control card" in query.lower() and "dynamic state" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("trace replay" in query.lower() and "chapter workbench" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("global find replace" in query.lower() and "relationship graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

@@ -165,6 +165,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("front matter" OR "back matter" OR "colophon" OR "titlepage") ("ebook" OR "EPUB" OR "manuscript") in:name,description,readme',
     '("EPUB tests" OR "navigation document" OR "nav toc" OR "spine order") ("ebook" OR "EPUB") in:name,description,readme',
     '("multi-agent framework" OR "seven specialized AI agents" OR "editorial pipeline") ("novel" OR "book" OR "fiction") in:name,description,readme',
+    '("candidate is not canon" OR "preview confirm apply" OR "confirmed true") ("novel" OR "story" OR "creative writing") in:name,description,readme',
+    '("spoiler filtering" OR "future chapter" OR "six-stage" OR "anti-rushing") ("novel" OR "chapter generation") in:name,description,readme',
+    '("chapter control card" OR "control-cards" OR "dynamic state") ("Chinese long-form fiction" OR "webnovel" OR "novel") in:name,description,readme',
+    '("trace replay" OR "chapter workbench" OR "Memory Browser") ("novel" OR "long-form writing") in:name,description,readme',
+    '("global find replace" OR "Graphviz" OR "relationship graph") ("novel" OR "character" OR "writing") in:name,description,readme',
     '("permanent bible" OR "chapter-NN" OR "state/current" OR "chapter state") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("section metadata" OR "characters locations items" OR "pacing visualization" OR "plot points") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
     '("AI writing fingerprints" OR "prose pattern scanner" OR "voice drift" OR "cluster detection") ("novel" OR "fiction" OR "manuscript") in:name,description,readme',
@@ -381,6 +386,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/geobond13/fiction-forge",
     "https://github.com/shenminglinyi/PlotPilot",
     "https://github.com/peter88213/novelibre",
+    "https://github.com/WENZIZZHENG/story-spec",
+    "https://github.com/KKKenChow/ai-novel-writer",
+    "https://github.com/papysans/Morpheus",
+    "https://github.com/jingtai123/Novel-Control-Station-Skill",
+    "https://github.com/xindoo/sumeru",
+    "https://github.com/AI-Practical-Lab/ai-novel",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -601,6 +612,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("chapter_state_archive_ladder", ("permanent bible", "transient state", "versioned per chapter", "chapter-nn", "archived states", "state/current", "state file templates", "timeline/history", "chapter state", "current symlink", "\u7ae0\u8282\u72b6\u6001", "\u72b6\u6001\u5f52\u6863")),
     ("section_metadata_traceability_gate", ("section metadata", "characters, locations, and items", "characters locations items", "plot lines", "plot points", "pacing visualization", "structural analysis", "acts", "beats", "chapter metadata", "narrative dag", "knowledge graph", "\u77e5\u8bc6\u56fe\u8c31", "\u7ae0\u8282\u5143\u6570\u636e")),
     ("ai_prose_fingerprint_cluster_gate", ("ai writing fingerprints", "prose pattern scanner", "overused patterns", "em-dashes", "show-then-tell", "hedging language", "voice drift", "severity scoring", "cluster detection", "defingerprint", "prose scanner", "\u673a\u5473", "\u98ce\u683c\u6f02\u79fb")),
+    ("author_candidate_canon_confirmation_gate", ("candidate is not canon", "candidates are not canon", "candidate-not-canon", "preview confirm apply", "preview / confirm / apply", "preview/confirm/apply", "confirmed true", "source: user-explicit", "ai-suggested", "clarification rollback", "candidate outline", "canon review", "\u5019\u9009\u4e0d\u5165\u6b63\u5178", "\u9884\u89c8\u786e\u8ba4\u5e94\u7528", "\u5019\u9009\u5927\u7eb2", "\u4f5c\u8005\u786e\u8ba4", "\u56de\u6eda")),
+    ("progressive_spoiler_context_window_gate", ("spoiler filtering", "spoiler filter", "future chapter", "future chapters", "future-chapter", "six-stage", "six stage", "stage-aware", "progressive pacing", "strict moderate minimal none", "range validation", "context window", "context-window", "anti-rushing", "\u5267\u900f\u8fc7\u6ee4", "\u672a\u6765\u7ae0\u8282", "\u9636\u6bb5\u611f\u77e5", "\u4e0a\u4e0b\u6587\u7a97\u53e3", "rag\u8303\u56f4", "\u9632\u62a2\u8dd1")),
+    ("chapter_control_card_writeback_gate", ("chapter control card", "chapter control cards", "control-card", "control card", "control-cards", "dynamic state file", "dynamic state management", "state write-back", "write back", "chapter title control", "chapter handoff pressure", "\u7ae0\u8282\u63a7\u5236\u5361", "\u52a8\u6001\u72b6\u6001", "\u5199\u56de", "\u6807\u9898\u63a7\u5236", "\u7ed3\u5c3e\u94a9\u5b50")),
+    ("trace_replay_revision_workspace_gate", ("trace replay", "decision trace", "chapter workbench", "memory browser", "quality dashboard", "reviewable and traceable", "trajectory replay", "rebuild this chapter", "\u8f68\u8ff9\u56de\u653e", "\u51b3\u7b56\u8ffd\u8e2a", "\u7ae0\u8282\u5de5\u4f5c\u53f0", "\u91cd\u5199\u5f71\u54cd")),
+    ("relationship_graph_global_replace_gate", ("global find replace", "global search replace", "find and replace", "one-click replace", "graphviz", "relationship graph", "character relationship graph", "upstream change", "conflict warning", "\u5168\u5c40\u67e5\u627e\u66ff\u6362", "\u5173\u7cfb\u56fe", "\u4eba\u7269\u5173\u7cfb\u56fe", "\u4e00\u952e\u66ff\u6362", "\u51b2\u7a81\u9884\u8b66")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -1164,6 +1180,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "peter88213/novelibre": (
         "novelibre is a GPL novel organizer that keeps section metadata associated with manuscript chapters, relates characters, locations, items, plot lines, and plot points, and supports large-novel planning. "
         "Absorb section metadata traceability patterns only; LibreOffice/OpenOffice add-ons and runtime files are not executed."
+    ),
+    "wenzizzheng/story-spec": (
+        "StorySpec is a MIT Chinese long-form fiction co-creation workbench. Public README describes preserving author ideas, offering consequence-bearing candidates, preview/confirm/apply flows, candidate-not-canon status, rollback, story specs, plans, drafts, tracking files, and agent guides. "
+        "Absorb author-candidate canon confirmation gates only; npm package, app server, workers, and agent integrations are not installed or run."
+    ),
+    "kkkenchow/ai-novel-writer": (
+        "AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive pacing, four-level spoiler filtering, future-chapter range validation, global find/replace, consistency checks, Graphviz relationship graphs, and Markdown export. "
+        "Absorb progressive spoiler context windows, relationship graph, and propagation gates only; Streamlit/API/vector runtimes and providers are not launched."
+    ),
+    "papysans/morpheus": (
+        "Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, trace replay, dashboard metrics, review/consistency subsystems, and import/export. "
+        "Absorb trace replay and revision workspace gates only; backend, frontend, LanceDB, providers, and services are not started."
+    ),
+    "jingtai123/novel-control-station-skill": (
+        "Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-line structure control, document-driven truth layer, chapter control cards, dynamic state write-back after each chapter, graph recall views, title/hook control, style module scheduling, anti-AI revision, and marathon continuation scripts. "
+        "Absorb chapter-control-card and write-back gates only; skill runtime and marathon scripts are not executed."
+    ),
+    "xindoo/sumeru": (
+        "Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final validation, stage skipping, interrupted resume, and .sumeru intermediate state. "
+        "Absorb Chinese webnovel control-card, batch-review, and resume patterns only; skill pack and install paths are not imported."
+    ),
+    "ai-practical-lab/ai-novel": (
+        "AI Novel Assistant is a MIT AI-driven novel creation assistant. Public README describes streaming writing, smart context from setting collections, outlines and previous chapters, structured world/character/outline/chapter management, immersive editor, and local data management. "
+        "Absorb structured Chinese novel workflow and context-window lessons only; package scripts, frontend/backend, and provider surfaces are not run."
     ),
     "pdfminer/pdfminer.six": (
         "Pdfminer.six extracts text and layout information from PDF files. "
@@ -1932,6 +1972,11 @@ class NovelSourceDiscoveryService:
             "chapter_state_archive_ladder_hints": self._build_chapter_state_archive_ladder_hints(available_patterns),
             "section_metadata_traceability_gate_hints": self._build_section_metadata_traceability_gate_hints(available_patterns),
             "ai_prose_fingerprint_cluster_gate_hints": self._build_ai_prose_fingerprint_cluster_gate_hints(available_patterns),
+            "author_candidate_canon_confirmation_gate_hints": self._build_author_candidate_canon_confirmation_gate_hints(available_patterns),
+            "progressive_spoiler_context_window_gate_hints": self._build_progressive_spoiler_context_window_gate_hints(available_patterns),
+            "chapter_control_card_writeback_gate_hints": self._build_chapter_control_card_writeback_gate_hints(available_patterns),
+            "trace_replay_revision_workspace_gate_hints": self._build_trace_replay_revision_workspace_gate_hints(available_patterns),
+            "relationship_graph_global_replace_gate_hints": self._build_relationship_graph_global_replace_gate_hints(available_patterns),
             "literary_event_entity_annotation_gate_hints": self._build_literary_event_entity_annotation_gate_hints(available_patterns),
             "narrative_event_evolution_graph_gate_hints": self._build_narrative_event_evolution_graph_gate_hints(available_patterns),
             "sentiment_arc_emotion_trajectory_gate_hints": self._build_sentiment_arc_emotion_trajectory_gate_hints(available_patterns),
@@ -2565,6 +2610,11 @@ class NovelSourceDiscoveryService:
             "chapter_state_archive_ladder": 66,
             "section_metadata_traceability_gate": 64,
             "ai_prose_fingerprint_cluster_gate": 65,
+            "author_candidate_canon_confirmation_gate": 67,
+            "progressive_spoiler_context_window_gate": 66,
+            "chapter_control_card_writeback_gate": 67,
+            "trace_replay_revision_workspace_gate": 64,
+            "relationship_graph_global_replace_gate": 64,
             "literary_event_entity_annotation_gate": 66,
             "narrative_event_evolution_graph_gate": 65,
             "sentiment_arc_emotion_trajectory_gate": 62,
@@ -2713,6 +2763,21 @@ class NovelSourceDiscoveryService:
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             targets.append("ai_prose_fingerprint_scan_policy")
             targets.append("fingerprint_exception_ledger")
+        if "author_candidate_canon_confirmation_gate" in patterns:
+            targets.append("candidate_canon_confirmation_policy")
+            targets.append("preview_confirm_apply_review_log")
+        if "progressive_spoiler_context_window_gate" in patterns:
+            targets.append("spoiler_context_window_policy")
+            targets.append("stage_aware_future_context_limits")
+        if "chapter_control_card_writeback_gate" in patterns:
+            targets.append("chapter_control_card_schema")
+            targets.append("dynamic_state_writeback_policy")
+        if "trace_replay_revision_workspace_gate" in patterns:
+            targets.append("trace_replay_review_policy")
+            targets.append("chapter_revision_workspace_policy")
+        if "relationship_graph_global_replace_gate" in patterns:
+            targets.append("relationship_graph_update_policy")
+            targets.append("global_replace_consistency_policy")
         if "graph_branching_atomicity" in patterns:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
@@ -3299,6 +3364,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["section_metadata_coverage_report", "cast_location_item_section_gaps", "plotline_section_trace_findings"])
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             targets.extend(["ai_prose_fingerprint_cluster_report", "voice_drift_cluster_findings", "accepted_exception_pattern_ledger"])
+        if "author_candidate_canon_confirmation_gate" in patterns:
+            targets.extend(["candidate_canon_confirmation_report", "unconfirmed_ai_candidate_findings", "preview_apply_decision_log"])
+        if "progressive_spoiler_context_window_gate" in patterns:
+            targets.extend(["spoiler_context_window_report", "future_chapter_leakage_findings", "stage_context_range_validation"])
+        if "chapter_control_card_writeback_gate" in patterns:
+            targets.extend(["chapter_control_card_coverage_report", "dynamic_state_writeback_findings", "next_chapter_handoff_pressure_log"])
+        if "trace_replay_revision_workspace_gate" in patterns:
+            targets.extend(["trace_replay_review_report", "chapter_rewrite_impact_findings", "revision_decision_trace_log"])
+        if "relationship_graph_global_replace_gate" in patterns:
+            targets.extend(["relationship_graph_consistency_report", "global_replace_propagation_findings", "upstream_change_conflict_warnings"])
         if "literary_event_entity_annotation_gate" in patterns:
             targets.extend(["literary_entity_event_annotation_report", "event_participant_role_conflicts", "source_event_annotation_gaps"])
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -5277,6 +5352,51 @@ class NovelSourceDiscoveryService:
             "For same-type creation, reduce machine-prose fingerprints while preserving independence from source phrasing and source cadence.",
         ]
 
+    def _build_author_candidate_canon_confirmation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "author_candidate_canon_confirmation_gate" not in patterns:
+            return []
+        return [
+            "Treat AI suggestions, candidate outlines, scene cards, and style alternatives as non-canon until previewed, confirmed, and applied by the author/reviewer boundary.",
+            "Persist candidate id, source, confirmation status, decision reason, and rollback path so unconfirmed ideas cannot silently enter bible, plan, or chapter prompts.",
+            "For same-type creation, source-derived candidates remain craft options only; accepted transformed canon must have new names, stakes, and evidence.",
+        ]
+
+    def _build_progressive_spoiler_context_window_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "progressive_spoiler_context_window_gate" not in patterns:
+            return []
+        return [
+            "Select outline, RAG, and previous-chapter context by the current story stage; early chapters should not see late spoilers, ending facts, or future payoff wording.",
+            "Record the allowed chapter range, spoiler level, future-context count, and range-validation findings for each generated chapter.",
+            "For same-type creation, stage windows should protect the transformed story from copying the source chapter order, reveal timing, or ending route.",
+        ]
+
+    def _build_chapter_control_card_writeback_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_control_card_writeback_gate" not in patterns:
+            return []
+        return [
+            "Before drafting, create a chapter control card that states what must change, which line advances, which debt returns, the conflict, title intent, and ending hook.",
+            "After acceptance, write back event, character, relationship, plotline, foreshadow, world-rule, emotional-debt, and next-chapter pressure deltas.",
+            "For same-type creation, rebuild chapter cards from transformed goals and hooks; source control cards cannot become new-story tasks.",
+        ]
+
+    def _build_trace_replay_revision_workspace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "trace_replay_revision_workspace_gate" not in patterns:
+            return []
+        return [
+            "Keep chapter workbench decisions traceable: selected context, blueprint, conflict warnings, rewrite direction, reviewer findings, and final accepted text version.",
+            "When redoing a chapter after later chapters exist, record impact scope and require downstream consistency review before canon write-back.",
+            "For same-type creation, trace replay may explain craft choices but source traces must not be replayed as transformed-story decisions.",
+        ]
+
+    def _build_relationship_graph_global_replace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "relationship_graph_global_replace_gate" not in patterns:
+            return []
+        return [
+            "Track character relationship graphs as derived review surfaces tied to current setting, outline, and accepted chapters; regenerate after upstream edits.",
+            "Global find/replace must preview every affected bible, outline, chapter, vector-memory, and graph entry, then run consistency checks before acceptance.",
+            "For same-type creation, relationship graphs and replacement maps must use transformed ids so renamed source entities do not leak back through edges or aliases.",
+        ]
+
     def _build_literary_event_entity_annotation_gate_hints(self, patterns: set[str]) -> list[str]:
         if "literary_event_entity_annotation_gate" not in patterns:
             return []
@@ -5970,6 +6090,16 @@ class NovelSourceDiscoveryService:
             targets.append("section_metadata_traceability_remap")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             targets.append("prose_fingerprint_threshold_remap")
+        if "author_candidate_canon_confirmation_gate" in patterns:
+            targets.append("candidate_canon_decision_remap")
+        if "progressive_spoiler_context_window_gate" in patterns:
+            targets.append("spoiler_context_window_remap")
+        if "chapter_control_card_writeback_gate" in patterns:
+            targets.append("chapter_control_card_remap")
+        if "trace_replay_revision_workspace_gate" in patterns:
+            targets.append("trace_replay_decision_remap")
+        if "relationship_graph_global_replace_gate" in patterns:
+            targets.append("relationship_graph_replace_remap")
         if "literary_event_entity_annotation_gate" in patterns:
             targets.append("literary_annotation_role_remap")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6225,6 +6355,16 @@ class NovelSourceDiscoveryService:
             hints.append("Regenerate section metadata for new cast, locations, items, plotlines, beats, and pacing before same-type drafting.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Clean AI-prose fingerprints through local revision while preserving transformed-story identity and avoiding source-like cadence.")
+        if "author_candidate_canon_confirmation_gate" in patterns:
+            hints.append("Keep AI suggestions and source-derived ideas as candidates until the transformed story records preview, confirmation, apply status, and rollback path.")
+        if "progressive_spoiler_context_window_gate" in patterns:
+            hints.append("Choose context by transformed chapter stage so source late-book spoilers, ending routes, and payoff timing cannot steer early chapters.")
+        if "chapter_control_card_writeback_gate" in patterns:
+            hints.append("Create chapter control cards from transformed goals, line pressure, debt return, conflict, title intent, and hook before drafting.")
+        if "trace_replay_revision_workspace_gate" in patterns:
+            hints.append("Keep source-analysis traces separate from transformed-story workbench decisions, selected context, reviewer findings, and accepted revision evidence.")
+        if "relationship_graph_global_replace_gate" in patterns:
+            hints.append("Regenerate relationship graphs and global replacement previews from transformed ids before any same-type chapter accepts graph-derived context.")
         if "literary_event_entity_annotation_gate" in patterns:
             hints.append("Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6408,6 +6548,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform section metadata into new cast, location, item, plotline, beat, pacing, and status fields.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Transform prose-fingerprint findings into local revision targets instead of copying source sentence rhythm.")
+        if "author_candidate_canon_confirmation_gate" in patterns:
+            hints.append("Transform candidate canon decisions by assigning new-story candidate ids, reviewer decisions, and rollback notes before updating bible, plan, or chapter state.")
+        if "progressive_spoiler_context_window_gate" in patterns:
+            hints.append("Transform spoiler windows by changing reveal range, future-context budget, and payoff route for the new story before retrieval is allowed.")
+        if "chapter_control_card_writeback_gate" in patterns:
+            hints.append("Transform chapter control cards by rewriting must-change beats, line pressure, emotional debt, title intent, and next-chapter handoff for the new outline.")
+        if "trace_replay_revision_workspace_gate" in patterns:
+            hints.append("Transform revision traces into new-story evidence: blueprint, selected context, rewrite direction, reviewer findings, impact scope, and accepted text version.")
+        if "relationship_graph_global_replace_gate" in patterns:
+            hints.append("Transform relationship graphs and replacement maps by changing ids, aliases, edge labels, centrality, timing, and affected canon surfaces.")
         if "delivery_manuscript_assembly" in patterns:
             hints.append("Transform final packaging by rebuilding chapter titles, sequence, acceptance manifest, and output metadata from the new story.")
         if "export_format_fidelity_audit" in patterns:
@@ -6805,6 +6955,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject section metadata that keeps source cast, location, item, plotline, beat, or pacing ids under renamed prose.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Reject fingerprint cleanup that merely paraphrases source passages or preserves a source-like chapter cadence under smoother prose.")
+        if "author_candidate_canon_confirmation_gate" in patterns:
+            hints.append("Reject drafts that treat unconfirmed source candidates, AI suggestions, or preview-only material as transformed canon.")
+        if "progressive_spoiler_context_window_gate" in patterns:
+            hints.append("Reject chapters that reveal future facts, ending routes, or payoff timing because the source work revealed them in that order.")
+        if "chapter_control_card_writeback_gate" in patterns:
+            hints.append("Reject chapter cards whose must-change beat, line pressure, debt return, title hook, or handoff mirrors the source card sequence.")
+        if "trace_replay_revision_workspace_gate" in patterns:
+            hints.append("Reject trace logs that cannot separate source analysis traces from transformed-story decision evidence.")
+        if "relationship_graph_global_replace_gate" in patterns:
+            hints.append("Reject relationship graphs or global replacements that preserve source aliases, edge labels, centrality, or relationship timing under new names.")
         if "front_back_matter_metadata_gate" in patterns:
             hints.append("Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.")
         if "toc_navigation_consistency_gate" in patterns:
@@ -6931,6 +7091,11 @@ class NovelSourceDiscoveryService:
                 "chapter_state_archive_ladder",
                 "section_metadata_traceability_gate",
                 "ai_prose_fingerprint_cluster_gate",
+                "author_candidate_canon_confirmation_gate",
+                "progressive_spoiler_context_window_gate",
+                "chapter_control_card_writeback_gate",
+                "trace_replay_revision_workspace_gate",
+                "relationship_graph_global_replace_gate",
                 "literary_event_entity_annotation_gate",
                 "narrative_event_evolution_graph_gate",
                 "sentiment_arc_emotion_trajectory_gate",

@@ -58,6 +58,11 @@
     "Before same-type creation, decide whether the source is inspiration, quotation, adaptation, translation, or derivative-risk material.",
     "Attribution requirements and derivative-use boundaries must be satisfied outside prose generation; do not bury them inside style prompts."
   ],
+  "author_candidate_canon_confirmation_gate_hints": [
+    "Treat AI suggestions, candidate outlines, scene cards, and style alternatives as non-canon until previewed, confirmed, and applied by the author/reviewer boundary.",
+    "Persist candidate id, source, confirmation status, decision reason, and rollback path so unconfirmed ideas cannot silently enter bible, plan, or chapter prompts.",
+    "For same-type creation, source-derived candidates remain craft options only; accepted transformed canon must have new names, stakes, and evidence."
+  ],
   "author_control_boundary_hints": [
     "Separate AI proposals from accepted canon and keep user/author decisions visible in the run state.",
     "When output is AI-generated or synthetic, label it in artifacts instead of presenting it as human-authored final prose."
@@ -123,6 +128,48 @@
     "trope_graph_expectation_map",
     "trope_density_novelty_budget",
     "trope_source_boundary_policy",
+    "source_license_manifest",
+    "license_detection_review_policy",
+    "spdx_reuse_manifest",
+    "file_copyright_attribution_ledger",
+    "public_domain_source_manifest",
+    "source_jurisdiction_review_policy",
+    "attribution_derivative_policy",
+    "licensed_source_usage_boundary",
+    "source_entity_redaction_manifest",
+    "entity_leakage_review_policy",
+    "custom_fiction_entity_label_set",
+    "source_entity_inventory",
+    "placeholder_alias_map",
+    "replacement_consistency_policy",
+    "proper_noun_blocklist",
+    "proper_noun_allowlist",
+    "epub_validation_policy",
+    "opf_manifest_spine_policy",
+    "ebook_accessibility_policy",
+    "accessibility_metadata_policy",
+    "front_back_matter_manifest",
+    "publication_metadata_policy",
+    "toc_navigation_policy",
+    "spine_nav_heading_policy",
+    "editorial_role_manifest",
+    "author_decision_boundary_policy",
+    "chapter_state_archive_policy",
+    "permanent_bible_transient_state_boundary",
+    "section_metadata_schema",
+    "cast_location_item_section_index",
+    "ai_prose_fingerprint_scan_policy",
+    "fingerprint_exception_ledger",
+    "candidate_canon_confirmation_policy",
+    "preview_confirm_apply_review_log",
+    "spoiler_context_window_policy",
+    "stage_aware_future_context_limits",
+    "chapter_control_card_schema",
+    "dynamic_state_writeback_policy",
+    "trace_replay_review_policy",
+    "chapter_revision_workspace_policy",
+    "relationship_graph_update_policy",
+    "global_replace_consistency_policy",
     "canon_branch_snapshots",
     "query_lint_rules",
     "memory_layers",
@@ -171,6 +218,7 @@
     "character_depth_questions",
     "mindmap_nodes",
     "export_format_targets",
+    "export_fidelity_checks",
     "choice_branch_graph",
     "branch_decision_points",
     "dialogue_node_state_machine",
@@ -344,39 +392,7 @@
     "conflicts",
     "story_arcs",
     "foreshadows",
-    "chapter_change_packages",
-    "source_license_manifest",
-    "license_detection_review_policy",
-    "spdx_reuse_manifest",
-    "file_copyright_attribution_ledger",
-    "public_domain_source_manifest",
-    "source_jurisdiction_review_policy",
-    "attribution_derivative_policy",
-    "licensed_source_usage_boundary",
-    "source_entity_redaction_manifest",
-    "entity_leakage_review_policy",
-    "custom_fiction_entity_label_set",
-    "source_entity_inventory",
-    "placeholder_alias_map",
-    "replacement_consistency_policy",
-    "proper_noun_blocklist",
-    "proper_noun_allowlist",
-    "epub_validation_policy",
-    "opf_manifest_spine_policy",
-    "ebook_accessibility_policy",
-    "accessibility_metadata_policy",
-    "front_back_matter_manifest",
-    "publication_metadata_policy",
-    "toc_navigation_policy",
-    "spine_nav_heading_policy",
-    "editorial_role_manifest",
-    "author_decision_boundary_policy",
-    "chapter_state_archive_policy",
-    "permanent_bible_transient_state_boundary",
-    "section_metadata_schema",
-    "cast_location_item_section_index",
-    "ai_prose_fingerprint_scan_policy",
-    "fingerprint_exception_ledger"
+    "chapter_change_packages"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -402,6 +418,11 @@
     "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
     "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
     "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "chapter_control_card_writeback_gate_hints": [
+    "Before drafting, create a chapter control card that states what must change, which line advances, which debt returns, the conflict, title intent, and ending hook.",
+    "After acceptance, write back event, character, relationship, plotline, foreshadow, world-rule, emotional-debt, and next-chapter pressure deltas.",
+    "For same-type creation, rebuild chapter cards from transformed goals and hooks; source control cards cannot become new-story tasks."
   ],
   "chapter_state_archive_ladder_hints": [
     "Keep permanent bible files separate from transient per-chapter state; archive the state snapshot after each accepted chapter.",
@@ -778,7 +799,11 @@
     "Use realization confidence to find thin or over-literal sentences that need scene-level rewrite.",
     "For same-type creation, transform plot events before realization so sentence expansion cannot preserve source event order."
   ],
-  "export_format_fidelity_audit_hints": [],
+  "export_format_fidelity_audit_hints": [
+    "Treat TXT, Markdown, DOCX, PDF, and EPUB exports as derived artifacts; canon remains the accepted bible, plan, and chapter commits.",
+    "Verify each export preserves chapter order, headings, title page metadata, table of contents, page numbering, and paragraph boundaries.",
+    "Do not let typography, font, spacing, or format conversion edits mutate story facts, chapter text, or continuity state."
+  ],
   "fact_snapshot_delta_gate_hints": [
     "Before prose, assemble fact snapshots; after prose, emit typed change declarations and validate them through generation gates.",
     "Reject chapter state write-back when snapshot fields are missing, deltas conflict, or validation cannot explain the after-state."
@@ -806,7 +831,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T20:40:00+08:00",
+  "generated_at": "2026-06-10T21:40:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -898,6 +923,14 @@
     "Reject outlines that keep the same rare trope pairings and adjacency order as the source under different names.",
     "Reject drafts that overload copied trope clusters while adding no local twist, inversion, or new consequence.",
     "Reject any trope-source text copied from crawled pages, live site output, or parser dumps; keep only compact metadata labels.",
+    "Reject drafts or context packs that include long source text from unknown, missing, or low-confidence license sources.",
+    "Reject imports that lack source-level SPDX id, copyright holder, attribution status, or reviewer decision.",
+    "Reject public-domain corpus use without title/author/source URL/date/extraction-format provenance and jurisdiction caveat.",
+    "Reject same-type drafts that rely on attribution as a substitute for independent plot, character, setting, and phrasing.",
+    "Reject prompts, plans, or drafts that carry unredacted source-specific names, places, factions, artifacts, powers, or titles without continuation approval.",
+    "Reject entity inventories that only rename PERSON/ORG/LOC while leaving source-specific faction, artifact, rank, ability, or invented-term labels intact.",
+    "Reject partially redacted context where placeholders, aliases, nicknames, and titles map inconsistently across chapters.",
+    "Reject final drafts with distinctive source proper nouns unless each name appears in an approved exception list.",
     "Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.",
     "Reject narrative strands that preserve source fabula and setting pressure under surface substitutions.",
     "Reject accepted synopses that preserve the source chapter-summary sequence under renamed entities.",
@@ -931,6 +964,7 @@
     "Reject style fingerprints that preserve source catchphrases, metaphor clusters, or recognizable closure cadence.",
     "Reject compressed histories that import source events as if they happened in the transformed story.",
     "Reject simulated outcomes that reproduce source character decisions or social graph under renamed labels.",
+    "Reject export polish that changes text toward source phrasing or treats source exports as canonical chapter text.",
     "Reject copied choice text, option order, branch topology, or consequence labels that make the new route recognizable as the source.",
     "Reject dialogue nodes that preserve source lines, option labels, command names, or speaker-state order under renamed characters.",
     "Reject passage maps whose visible links, hidden routes, dead ends, or merge sequence mirror the source navigation.",
@@ -964,6 +998,19 @@
     "Reject generations based on unreviewed low-confidence OCR spans or hallucinated fixes to unreadable pages.",
     "Reject chapter maps that keep source heading text, partition sequence, or section boundary cadence.",
     "Reject context packs that mix original, extracted, normalized, and accepted text without explicit lineage.",
+    "Reject EPUB exports whose package, OPF manifest, spine, or container metadata no longer matches the accepted transformed chapters.",
+    "Reject accessibility fixes that copy source captions, alt text, landmark labels, or front/back matter wording.",
+    "Reject agent-role outputs that skip author/reviewer acceptance or paste source-analysis conclusions as new-story canon.",
+    "Reject context packs where permanent bible, transient state, source state snapshots, and current chapter deltas are mixed without lineage.",
+    "Reject section metadata that keeps source cast, location, item, plotline, beat, or pacing ids under renamed prose.",
+    "Reject fingerprint cleanup that merely paraphrases source passages or preserves a source-like chapter cadence under smoother prose.",
+    "Reject drafts that treat unconfirmed source candidates, AI suggestions, or preview-only material as transformed canon.",
+    "Reject chapters that reveal future facts, ending routes, or payoff timing because the source work revealed them in that order.",
+    "Reject chapter cards whose must-change beat, line pressure, debt return, title hook, or handoff mirrors the source card sequence.",
+    "Reject trace logs that cannot separate source analysis traces from transformed-story decision evidence.",
+    "Reject relationship graphs or global replacements that preserve source aliases, edge labels, centrality, or relationship timing under new names.",
+    "Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.",
+    "Reject TOC/navigation maps whose chapter titles, order, hierarchy, or reader links mirror the source EPUB instead of the new outline.",
     "Reject drafts whose event/entity annotation ledger preserves source participant roles, event labels, or mention order under renamed surface text.",
     "Reject transformed outlines whose causal/event graph keeps source event order, dependency edges, or script-like next-event predictions.",
     "Reject emotion arcs that mirror source turning-point sequence, valence curve, or character-trigger mapping too closely.",
@@ -1000,15 +1047,7 @@
     "Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.",
     "Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.",
     "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
-    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.",
-    "Reject EPUB exports whose package, OPF manifest, spine, or container metadata no longer matches the accepted transformed chapters.",
-    "Reject accessibility fixes that copy source captions, alt text, landmark labels, or front/back matter wording.",
-    "Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.",
-    "Reject TOC/navigation maps whose chapter titles, order, hierarchy, or reader links mirror the source EPUB instead of the new outline.",
-    "Reject agent-role outputs that skip author/reviewer acceptance or paste source-analysis conclusions as new-story canon.",
-    "Reject context packs where permanent bible, transient state, source state snapshots, and current chapter deltas are mixed without lineage.",
-    "Reject section metadata that keeps source cast, location, item, plotline, beat, or pacing ids under renamed prose.",
-    "Reject fingerprint cleanup that merely paraphrases source passages or preserves a source-like chapter cadence under smoother prose."
+    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -1095,6 +1134,7 @@
     "style_axis_remap",
     "event_outline_remap",
     "agent_world_simulation_remap",
+    "export_fidelity_remap",
     "choice_branch_remap",
     "dialogue_node_remap",
     "passage_navigation_remap",
@@ -1121,6 +1161,10 @@
     "keyphrase_motif_remap",
     "chinese_segmentation_dictionary_remap",
     "chinese_entity_alias_remap",
+    "source_entity_redaction_remap",
+    "custom_entity_label_remap",
+    "placeholder_alias_namespace_remap",
+    "proper_noun_blocklist_remap",
     "chinese_normalization_policy_remap",
     "chinese_correction_exception_remap",
     "source_import_structure_remap",
@@ -1128,6 +1172,19 @@
     "ocr_uncertainty_review_remap",
     "chapter_partition_structure_remap",
     "import_provenance_lineage_remap",
+    "epub_validation_delivery_remap",
+    "ebook_accessibility_remap",
+    "front_back_matter_metadata_remap",
+    "toc_navigation_remap",
+    "editorial_role_boundary_remap",
+    "chapter_state_ladder_remap",
+    "section_metadata_traceability_remap",
+    "prose_fingerprint_threshold_remap",
+    "candidate_canon_decision_remap",
+    "spoiler_context_window_remap",
+    "chapter_control_card_remap",
+    "trace_replay_decision_remap",
+    "relationship_graph_replace_remap",
     "literary_annotation_role_remap",
     "event_chain_causality_remap",
     "sentiment_arc_emotion_remap",
@@ -1164,15 +1221,7 @@
     "author_preference_memory_remap",
     "source_community_graph_remap",
     "graph_vector_retrieval_remap",
-    "schema_guided_graph_remap",
-    "epub_validation_delivery_remap",
-    "ebook_accessibility_remap",
-    "front_back_matter_metadata_remap",
-    "toc_navigation_remap",
-    "editorial_role_boundary_remap",
-    "chapter_state_ladder_remap",
-    "section_metadata_traceability_remap",
-    "prose_fingerprint_threshold_remap"
+    "schema_guided_graph_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1217,6 +1266,7 @@
     "Anti-repetition checks should reject both generic loops and source-like repeated beat sequences.",
     "Evaluate same-type prompt recipes against independence, continuity, and voice before accepting the best candidate.",
     "Select a narrative arc template, then change premise, cast, cause, cost, and payoff so the arc is independent.",
+    "Export checks should prove transformed outputs remain independent while preserving their own chapter order and headings.",
     "Carry over interactive choice pressure only as abstract branch design; create new options, consequences, and merge/reject decisions.",
     "Use node-based dialogue planning for the new cast, with fresh entry conditions, option wording, command hooks, and exit deltas.",
     "Build a new passage/link map from the transformed premise; source passage order and link labels remain analysis evidence only.",
@@ -1240,6 +1290,10 @@
     "Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.",
     "Rebuild custom dictionaries and keyword profiles for the transformed story so source names and invented terms are not carried over.",
     "Transform Chinese entity clusters by replacing names, aliases, sects, places, and relationship labels before context reuse.",
+    "Redact source-specific entities before same-type drafting; only transformed placeholders or approved continuation names may enter prompts.",
+    "Build custom fiction entity labels for the new story before generation so source factions, artifacts, ranks, powers, and titles are not reused.",
+    "Use a stable placeholder map during transformation and resolve replacements into a new alias namespace before prose drafting.",
+    "Run a proper-noun leak check against source blocklists after entity remap and before final same-type acceptance.",
     "Normalize only for comparison; regenerate visible orthography and punctuation policy for the new manuscript.",
     "Treat Chinese correction suggestions as local review tasks, not automatic rewrites toward source diction.",
     "Transform imported TOC/spine evidence into a new outline structure instead of preserving source chapter order.",
@@ -1247,6 +1301,19 @@
     "Keep OCR uncertainty out of new-story canon; only reviewed source evidence may influence transformation choices.",
     "Transform source element partitions into new scene/section functions, not copied headings or section boundaries.",
     "Carry import provenance as evidence only; transformed drafts need their own lineage and accepted-text artifacts.",
+    "Use EPUB validation as a delivery checklist for the transformed manuscript, not as permission to copy source package structure.",
+    "Keep accessibility requirements stable while regenerating captions, alt text, landmarks, and reading-order notes for the new book.",
+    "Rebuild front/back matter and metadata from the transformed book; source titlepage, colophon, and identifiers remain reference evidence only.",
+    "Generate TOC and navigation from the transformed outline after independence checks, not from the source EPUB hierarchy.",
+    "Use editorial roles to separate planning, drafting, review, copy-edit, and compile decisions; do not let a source-analysis role write canon directly.",
+    "Use a fresh chapter-state archive for the new story and keep source-state snapshots as reference evidence only.",
+    "Regenerate section metadata for new cast, locations, items, plotlines, beats, and pacing before same-type drafting.",
+    "Clean AI-prose fingerprints through local revision while preserving transformed-story identity and avoiding source-like cadence.",
+    "Keep AI suggestions and source-derived ideas as candidates until the transformed story records preview, confirmation, apply status, and rollback path.",
+    "Choose context by transformed chapter stage so source late-book spoilers, ending routes, and payoff timing cannot steer early chapters.",
+    "Create chapter control cards from transformed goals, line pressure, debt return, conflict, title intent, and hook before drafting.",
+    "Keep source-analysis traces separate from transformed-story workbench decisions, selected context, reviewer findings, and accepted revision evidence.",
+    "Regenerate relationship graphs and global replacement previews from transformed ids before any same-type chapter accepts graph-derived context.",
     "Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.",
     "Remap event chains by changing causes, blockers, decision points, and payoff edges instead of preserving source chronology.",
     "Use emotion arcs as pressure-shape evidence only; rebuild turning points, valence shifts, and character triggers for the new story.",
@@ -1282,15 +1349,7 @@
     "Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.",
     "Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.",
     "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
-    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon.",
-    "Use EPUB validation as a delivery checklist for the transformed manuscript, not as permission to copy source package structure.",
-    "Keep accessibility requirements stable while regenerating captions, alt text, landmarks, and reading-order notes for the new book.",
-    "Rebuild front/back matter and metadata from the transformed book; source titlepage, colophon, and identifiers remain reference evidence only.",
-    "Generate TOC and navigation from the transformed outline after independence checks, not from the source EPUB hierarchy.",
-    "Use editorial roles to separate planning, drafting, review, copy-edit, and compile decisions; do not let a source-analysis role write canon directly.",
-    "Use a fresh chapter-state archive for the new story and keep source-state snapshots as reference evidence only.",
-    "Regenerate section metadata for new cast, locations, items, plotlines, beats, and pacing before same-type drafting.",
-    "Clean AI-prose fingerprints through local revision while preserving transformed-story identity and avoiding source-like cadence."
+    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1342,6 +1401,16 @@
     "Use style-axis fingerprints to shape surface craft while changing concrete motifs, metaphors, and dialogue tics.",
     "Compress only the transformed event history; source event outlines remain comparison material, not context.",
     "Transform the agent world by changing roles, social graph, environment rules, and conflict incentives before simulation.",
+    "Transform editorial handoffs by requiring each role to operate on new-story artifacts and accepted reviewer decisions.",
+    "Transform chapter state by creating a new bible/state/archive ladder before generating or revising chapters.",
+    "Transform section metadata into new cast, location, item, plotline, beat, pacing, and status fields.",
+    "Transform prose-fingerprint findings into local revision targets instead of copying source sentence rhythm.",
+    "Transform candidate canon decisions by assigning new-story candidate ids, reviewer decisions, and rollback notes before updating bible, plan, or chapter state.",
+    "Transform spoiler windows by changing reveal range, future-context budget, and payoff route for the new story before retrieval is allowed.",
+    "Transform chapter control cards by rewriting must-change beats, line pressure, emotional debt, title intent, and next-chapter handoff for the new outline.",
+    "Transform revision traces into new-story evidence: blueprint, selected context, rewrite direction, reviewer findings, impact scope, and accepted text version.",
+    "Transform relationship graphs and replacement maps by changing ids, aliases, edge labels, centrality, timing, and affected canon surfaces.",
+    "Verify export fidelity against the transformed manuscript rather than matching the source layout or chapter title cadence.",
     "Transform branch edges by changing decision cause, option intent, consequence scope, and merge policy before drafting.",
     "Transform dialogue nodes around new speaker states and new exit deltas; do not preserve source line/order scaffolds.",
     "Transform navigation by rebuilding reachable paths, hidden gates, and dead-end checks around the new story topology.",
@@ -1368,6 +1437,10 @@
     "Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.",
     "Transform segmentation dictionaries before generating or retrieving context, especially names, skills, sects, places, and invented compounds.",
     "Transform entity aliases and title systems before any same-type draft becomes canon.",
+    "Transform source entity detections into placeholders first, then create fresh names, places, factions, artifacts, powers, and titles.",
+    "Transform custom entity labels into a new inventory and require every copied source label to be replaced or explicitly allowed.",
+    "Transform placeholder ids into a consistent new alias namespace; do not leave mixed source aliases and new aliases in one context pack.",
+    "Transform proper-noun review findings into concrete renames, allowlist notes, or blocked draft sections.",
     "Transform normalization policy into a new manuscript style guide instead of using source orthography as default.",
     "Transform correction exceptions around the new cast, dialect, invented terms, and genre vocabulary.",
     "Transform source import manifests by changing TOC hierarchy, chapter grouping, metadata use, and skipped-section policy.",
@@ -1375,6 +1448,10 @@
     "Transform OCR-derived uncertainty into review tasks, not generation context.",
     "Transform document element sequences into new chapter functions before drafting.",
     "Transform provenance links so source artifacts never masquerade as accepted new-story chapters.",
+    "Transform EPUB structure expectations into new validation criteria tied to the transformed chapter list and export target.",
+    "Transform accessibility notes into reader-facing fixes for the new manuscript, with source-specific media and captions replaced.",
+    "Transform publication metadata and front/back matter at the book level before final packaging, not during prose generation.",
+    "Transform navigation by aligning the new outline, accepted headings, spine order, and preview links.",
     "Transform annotation schemas by replacing source event labels, participant roles, and mention evidence with new-story equivalents.",
     "Transform event-evolution graphs by altering edge type, event order, actor intent, and consequence scope.",
     "Transform emotion trajectories by changing who feels the shift, why it turns, and which scene pays it off.",
@@ -1416,14 +1493,10 @@
     "Transform trope-graph neighbors into new combinations rather than copying the source work's trope adjacency pattern.",
     "Transform overused trope clusters by adding a local twist, swapped power relation, altered cost, or delayed consequence.",
     "Transform trope references from metadata only; do not fetch, paste, or paraphrase live trope-page prose into a same-type draft.",
-    "Transform EPUB structure expectations into new validation criteria tied to the transformed chapter list and export target.",
-    "Transform accessibility notes into reader-facing fixes for the new manuscript, with source-specific media and captions replaced.",
-    "Transform publication metadata and front/back matter at the book level before final packaging, not during prose generation.",
-    "Transform navigation by aligning the new outline, accepted headings, spine order, and preview links.",
-    "Transform editorial handoffs by requiring each role to operate on new-story artifacts and accepted reviewer decisions.",
-    "Transform chapter state by creating a new bible/state/archive ladder before generating or revising chapters.",
-    "Transform section metadata into new cast, location, item, plotline, beat, pacing, and status fields.",
-    "Transform prose-fingerprint findings into local revision targets instead of copying source sentence rhythm."
+    "Transform source material only after license status is known; unknown-rights text may provide metadata labels, not plot, prose, or style exemplars.",
+    "Transform SPDX/REUSE findings into source admission notes and attribution tasks rather than generation content.",
+    "Transform public-domain texts through a source manifest and originality gates; public domain is not a reason to clone chapter order or set pieces.",
+    "Transform adaptation-risk material by separating allowed reference, required attribution, and blocked derivative similarity before drafting."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1622,6 +1695,11 @@
     "When the model tries to wrap up too early, revise toward a new complication, consequence, or deferred payoff rather than adding summary closure."
   ],
   "preview_toc_packaging_hints": [],
+  "progressive_spoiler_context_window_gate_hints": [
+    "Select outline, RAG, and previous-chapter context by the current story stage; early chapters should not see late spoilers, ending facts, or future payoff wording.",
+    "Record the allowed chapter range, spoiler level, future-context count, and range-validation findings for each generated chapter.",
+    "For same-type creation, stage windows should protect the transformed story from copying the source chapter order, reveal timing, or ending route."
+  ],
   "projection_sync_observability_hints": [
     "Keep read models such as state, index, summaries, memory, vectors, and dashboard views derived from accepted commits.",
     "Projection logs should name which derived view synced, failed, or went stale so the next chapter does not read inconsistent state."
@@ -1702,6 +1780,11 @@
     "Save and reload outline checkpoints so an interrupted continuation resumes from a known plan rather than regenerating hidden context.",
     "Use dynamic continuation thresholds to decide when to move to the next outline item instead of forcing fixed-length padding."
   ],
+  "relationship_graph_global_replace_gate_hints": [
+    "Track character relationship graphs as derived review surfaces tied to current setting, outline, and accepted chapters; regenerate after upstream edits.",
+    "Global find/replace must preview every affected bible, outline, chapter, vector-memory, and graph entry, then run consistency checks before acceptance.",
+    "For same-type creation, relationship graphs and replacement maps must use transformed ids so renamed source entities do not leak back through edges or aliases."
+  ],
   "reranker_guided_candidate_selection_hints": [
     "Generate multiple candidate passages only when review budget allows; score them for relevance to plan and coherence with accepted context.",
     "Keep candidate-selection logs with rejected reasons, not just the winning prose.",
@@ -1743,7 +1826,8 @@
   "safety_constraints": [
     "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
     "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
-    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。"
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
+    "Static metadata-only refresh; no clone, install, package hook, Docker stack, MCP server, browser extension, or provider call was executed."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -1829,7 +1913,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 201,
+  "source_candidate_count": 207,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -1849,13 +1933,17 @@
     "For continuation, fingerprint checks protect source fidelity boundaries; for same-type creation, they block copied route, wording, and scene topology."
   ],
   "source_titles": [
+    "KKKenChow/ai-novel-writer",
     "loreum-app/loreum",
     "olivierkes/manuskript",
+    "papysans/Morpheus",
+    "jingtai123/Novel-Control-Station-Skill",
     "YfengJ/novel-studio-ai",
     "Narcooo/inkos",
     "NousResearch/autonovel",
     "starMagic/webnovel-writer-hermes",
     "makieali/longform-ai",
+    "Sigil-Ebook/Sigil",
     "jncchds/abook",
     "lingfengQAQ/webnovel-writer",
     "DuckTraDo/Novel",
@@ -1871,6 +1959,7 @@
     "arian-emami/NovelDreamer",
     "wavemakercards/wavemaker-cards-v4",
     "Picrew/ConStory-Bench",
+    "w3c/epubcheck",
     "voocel/ainovel-cli",
     "PenglongHuang/chinese-novelist-skill",
     "RhythmicWave/NovelForge",
@@ -1879,49 +1968,73 @@
     "kevboh/longform",
     "harshaneel/humanize",
     "MaoXiaoYuZ/Long-Novel-GPT",
+    "ThomasHoussin/Claude-Book",
     "fxsjy/jieba",
+    "AI-Practical-Lab/ai-novel",
     "Picrew/awesome-llm-story-generation",
     "doctoroyy/novel-copilot",
     "hankcs/HanLP",
+    "john-paul-ruf/novel-engine",
     "jgm/pandoc",
     "getzep/graphiti",
     "andreafeccomandi/bibisco",
     "mem0ai/mem0",
     "HIT-SCIR/ltp",
+    "shenminglinyi/PlotPilot",
     "skyfiredao/dreampowers",
     "mrigankad/Novel-OS",
     "microsoft/graphrag",
     "vale-cli/vale",
+    "microsoft/presidio",
     "shibing624/pycorrector",
+    "licensee/licensee",
     "computationalstylistics/stylo",
     "howells/fiction",
     "HKUDS/LightRAG",
     "BYVoid/OpenCC",
     "Automattic/harper",
+    "urchade/GLiNER",
+    "fsfe/reuse-tool",
     "textlint/textlint",
     "neo4j-labs/llm-graph-builder",
     "messense/jieba-rs",
+    "spdx/license-list-data",
+    "LeapBeyond/scrubadub",
     "dbamman/litbank",
     "mjbae/awesome-novel-studio",
     "pan-webis-de/pan-code",
     "ypcypc/WhatIf",
     "Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
+    "peter88213/novelibre",
+    "MitchSaltykov/TVTropes-correlation",
+    "flairNLP/flair",
     "languagetool-org/languagetool",
+    "c-w/Gutenberg",
+    "geobond13/fiction-forge",
+    "jwzimmer-zz/tv-tropes",
+    "explosion/spaCy",
     "amperser/proselint",
     "THUDM/LongWriter",
+    "WENZIZZHENG/story-spec",
     "PixeroJan/obsidian-storyline",
     "eecrazy/ConstructingNEEG_IJCAI_2018",
     "danjdewhurst/story-skills",
     "fastdatascience/faststylometry",
+    "slowwavesleep/TvTropesMovieData",
+    "Imkun-on/gutenberg-corpus-cli",
     "btford/write-good",
+    "rhgarcia/tropescraper",
     "inkle/ink",
     "mjockers/syuzhet",
     "hestudy/snowflake-fiction",
     "mullerpeter/authorstyle",
+    "DoktorDaveJoos/manuscript",
+    "Sirver51/tvtropes-parser",
     "zy-zmc/tianming-novel-ai-writer",
     "google-deepmind/dramatron",
     "booknlp/booknlp",
     "ModernRelay/omnigraph",
+    "xindoo/sumeru",
     "Ckokoski/authorclaw",
     "explodinggradients/ragas",
     "YarnSpinnerTool/YarnSpinner",
@@ -1981,9 +2094,12 @@
     "jinmawang/claude-novel-writeFlow",
     "THU-KEG/StoryWriter",
     "bal-spec/sillytavern-character-memory",
+    "daisy/ace",
+    "w3c/epub-tests",
     "langchain-ai/langchain",
     "facebookresearch/faiss",
     "pdfminer/pdfminer.six",
+    "standardebooks/tools",
     "guchendesigndog/GC-Writer-Assistant",
     "maria-antoniak/goodreads-scraper",
     "Unstructured-IO/unstructured",
@@ -2004,6 +2120,7 @@
     "davealaw/FictionRefine",
     "clchinkc/story-bench",
     "LC1332/Chat-Haruhi-Suzumiya",
+    "daisy/epub-accessibility-tests",
     "principia-ai/WriteHERE",
     "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "MinishLab/semhash",
@@ -2022,34 +2139,7 @@
     "rajammanabrolu/StoryRealization",
     "lechmazur/writing",
     "Theltn/AICreativityJudge",
-    "dig-team/hanna-benchmark-asg",
-    "MitchSaltykov/TVTropes-correlation",
-    "jwzimmer-zz/tv-tropes",
-    "slowwavesleep/TvTropesMovieData",
-    "rhgarcia/tropescraper",
-    "Sirver51/tvtropes-parser",
-    "licensee/licensee",
-    "fsfe/reuse-tool",
-    "spdx/license-list-data",
-    "c-w/Gutenberg",
-    "Imkun-on/gutenberg-corpus-cli",
-    "microsoft/presidio",
-    "LeapBeyond/scrubadub",
-    "urchade/GLiNER",
-    "flairNLP/flair",
-    "explosion/spaCy",
-    "Sigil-Ebook/Sigil",
-    "w3c/epubcheck",
-    "daisy/ace",
-    "w3c/epub-tests",
-    "standardebooks/tools",
-    "daisy/epub-accessibility-tests",
-    "john-paul-ruf/novel-engine",
-    "ThomasHoussin/Claude-Book",
-    "DoktorDaveJoos/manuscript",
-    "geobond13/fiction-forge",
-    "shenminglinyi/PlotPilot",
-    "peter88213/novelibre"
+    "dig-team/hanna-benchmark-asg"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2151,6 +2241,11 @@
     "Map topic clusters across chapters and compare drift against active arcs, promises, motifs, and chapter goals before acceptance.",
     "Topic drift is a review signal: distinguish intentional subplot shift from accidental off-arc wandering or source-topic copying.",
     "For same-type creation, transform topic sequence and salience so the new story does not follow the source's topic timeline."
+  ],
+  "trace_replay_revision_workspace_gate_hints": [
+    "Keep chapter workbench decisions traceable: selected context, blueprint, conflict warnings, rewrite direction, reviewer findings, and final accepted text version.",
+    "When redoing a chapter after later chapters exist, record impact scope and require downstream consistency review before canon write-back.",
+    "For same-type creation, trace replay may explain craft choices but source traces must not be replayed as transformed-story decisions."
   ],
   "trend_deconstruction_pipeline_hints": [
     "For same-type writing, deconstruct trend patterns into trope, hook, payoff, emotion promise, reader expectation, and reusable module shape.",
@@ -2352,6 +2447,9 @@
     "idea_to_outline_promotions",
     "export_format_targets",
     "derived_manuscript_artifacts",
+    "export_format_fidelity_report",
+    "markdown_docx_txt_parity",
+    "derived_export_manifest",
     "choice_branch_graph",
     "branch_decision_points",
     "branch_merge_reject_notes",
@@ -2450,6 +2548,45 @@
     "import_checksum_report",
     "parser_setting_manifest",
     "source_artifact_provenance",
+    "epub_validation_report",
+    "opf_spine_manifest_findings",
+    "media_type_container_findings",
+    "ebook_accessibility_report",
+    "alt_text_landmark_findings",
+    "accessibility_metadata_findings",
+    "front_back_matter_report",
+    "title_colophon_copyright_gaps",
+    "publication_metadata_findings",
+    "toc_navigation_consistency_report",
+    "nav_spine_heading_mismatches",
+    "reader_navigation_findings",
+    "editorial_pipeline_report",
+    "agent_role_handoff_findings",
+    "author_decision_boundary_findings",
+    "chapter_state_archive_diff_report",
+    "permanent_bible_state_drift_findings",
+    "current_state_pointer_findings",
+    "section_metadata_coverage_report",
+    "cast_location_item_section_gaps",
+    "plotline_section_trace_findings",
+    "ai_prose_fingerprint_cluster_report",
+    "voice_drift_cluster_findings",
+    "accepted_exception_pattern_ledger",
+    "candidate_canon_confirmation_report",
+    "unconfirmed_ai_candidate_findings",
+    "preview_apply_decision_log",
+    "spoiler_context_window_report",
+    "future_chapter_leakage_findings",
+    "stage_context_range_validation",
+    "chapter_control_card_coverage_report",
+    "dynamic_state_writeback_findings",
+    "next_chapter_handoff_pressure_log",
+    "trace_replay_review_report",
+    "chapter_rewrite_impact_findings",
+    "revision_decision_trace_log",
+    "relationship_graph_consistency_report",
+    "global_replace_propagation_findings",
+    "upstream_change_conflict_warnings",
     "literary_entity_event_annotation_report",
     "event_participant_role_conflicts",
     "source_event_annotation_gaps",
@@ -2483,6 +2620,30 @@
     "trope_source_boundary_report",
     "scrape_runtime_rejection_notes",
     "source_text_exclusion_checks",
+    "source_license_review_report",
+    "license_detection_confidence",
+    "unknown_license_blockers",
+    "spdx_reuse_compliance_report",
+    "copyright_attribution_gaps",
+    "license_id_normalization_findings",
+    "public_domain_source_report",
+    "gutenberg_metadata_findings",
+    "public_domain_scope_notes",
+    "attribution_derivative_review",
+    "allowed_use_boundary_findings",
+    "licensed_source_exclusion_notes",
+    "source_entity_redaction_report",
+    "unredacted_source_entity_findings",
+    "redaction_review_decisions",
+    "custom_entity_label_inventory",
+    "fiction_entity_type_coverage",
+    "unmapped_entity_findings",
+    "placeholder_alias_consistency_report",
+    "replacement_collision_findings",
+    "alias_namespace_drift_notes",
+    "proper_noun_leakage_report",
+    "source_name_carryover_findings",
+    "allowed_name_exception_notes",
     "topic_drift_map",
     "topic_cluster_timeline",
     "off_arc_topic_findings",
@@ -2765,55 +2926,7 @@
     "token_breakdown_notes",
     "emotional_arc",
     "emotion_curve",
-    "source_state_snapshot",
-    "source_license_review_report",
-    "license_detection_confidence",
-    "unknown_license_blockers",
-    "spdx_reuse_compliance_report",
-    "copyright_attribution_gaps",
-    "license_id_normalization_findings",
-    "public_domain_source_report",
-    "gutenberg_metadata_findings",
-    "public_domain_scope_notes",
-    "attribution_derivative_review",
-    "allowed_use_boundary_findings",
-    "licensed_source_exclusion_notes",
-    "source_entity_redaction_report",
-    "unredacted_source_entity_findings",
-    "redaction_review_decisions",
-    "custom_entity_label_inventory",
-    "fiction_entity_type_coverage",
-    "unmapped_entity_findings",
-    "placeholder_alias_consistency_report",
-    "replacement_collision_findings",
-    "alias_namespace_drift_notes",
-    "proper_noun_leakage_report",
-    "source_name_carryover_findings",
-    "allowed_name_exception_notes",
-    "epub_validation_report",
-    "opf_spine_manifest_findings",
-    "media_type_container_findings",
-    "ebook_accessibility_report",
-    "alt_text_landmark_findings",
-    "accessibility_metadata_findings",
-    "front_back_matter_report",
-    "title_colophon_copyright_gaps",
-    "publication_metadata_findings",
-    "toc_navigation_consistency_report",
-    "nav_spine_heading_mismatches",
-    "reader_navigation_findings",
-    "editorial_pipeline_report",
-    "agent_role_handoff_findings",
-    "author_decision_boundary_findings",
-    "chapter_state_archive_diff_report",
-    "permanent_bible_state_drift_findings",
-    "current_state_pointer_findings",
-    "section_metadata_coverage_report",
-    "cast_location_item_section_gaps",
-    "plotline_section_trace_findings",
-    "ai_prose_fingerprint_cluster_report",
-    "voice_drift_cluster_findings",
-    "accepted_exception_pattern_ledger"
+    "source_state_snapshot"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -2822,7 +2935,7 @@
   ],
   "workflow_patterns": [
     {
-      "candidate_count": 11,
+      "candidate_count": 13,
       "name": "continuation",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -2832,6 +2945,19 @@
         "postinstall"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -2920,6 +3046,21 @@
           "url": "https://github.com/howells/fiction"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
+        },
+        {
           "license": "Apache-2.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -2985,11 +3126,13 @@
           "url": "https://github.com/clchinkc/story-bench"
         }
       ],
-      "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
-      "trust_flags": []
+      "top_source_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
-      "candidate_count": 14,
+      "candidate_count": 18,
       "name": "book_decomposition",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3001,6 +3144,19 @@
         "shell_script"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -3029,6 +3185,36 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "unknown",
@@ -3159,6 +3345,21 @@
           "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3200,17 +3401,32 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
-      "candidate_count": 7,
+      "candidate_count": 8,
       "name": "chapter_generation",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "postinstall"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -3305,7 +3521,7 @@
           "url": "https://github.com/mjbae/awesome-novel-studio"
         }
       ],
-      "top_source_url": "https://github.com/NousResearch/autonovel",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": []
     },
     {
@@ -3338,7 +3554,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 13,
+      "candidate_count": 17,
       "name": "worldbuilding",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -3347,6 +3563,19 @@
         "native_binary"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -3375,6 +3604,36 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "unknown",
@@ -3486,6 +3745,21 @@
           "url": "https://github.com/danjdewhurst/story-skills"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3525,11 +3799,13 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
-      "candidate_count": 13,
+      "candidate_count": 17,
       "name": "timeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -3539,6 +3815,19 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -3567,6 +3856,36 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "unknown",
@@ -3693,6 +4012,21 @@
           "url": "https://github.com/PixeroJan/obsidian-storyline"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3719,11 +4053,13 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
-      "candidate_count": 24,
+      "candidate_count": 29,
       "name": "character_cards",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3734,6 +4070,19 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -3762,6 +4111,36 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "unknown",
@@ -3889,6 +4268,19 @@
           "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT"
         },
         {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 94,
+          "source": "github",
+          "stars": 102,
+          "summary": "AI-driven novel creation assistant with structured world, character, outline, and chapter management. Static intake note: AI Novel Assistant is a MIT AI-driven novel creation assistant. Public README describes streaming writing, smart context from setting collections, outlines an",
+          "title": "AI-Practical-Lab/ai-novel",
+          "trust_flags": [],
+          "url": "https://github.com/AI-Practical-Lab/ai-novel"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -3956,6 +4348,21 @@
           "title": "google-deepmind/dramatron",
           "trust_flags": [],
           "url": "https://github.com/google-deepmind/dramatron"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
         },
         {
           "license": "unknown",
@@ -4064,8 +4471,10 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 3,
@@ -4164,42 +4573,131 @@
     },
     {
       "candidate_count": 2,
-      "name": "source_entity_redaction_gate",
+      "name": "chapter_control_card_writeback_gate",
       "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "docker"
-      ],
+      "risk_flags": [],
       "sources": [
         {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "docker"
-          ],
-          "score": 90,
+          "risk_flags": [],
+          "score": 151,
           "source": "github",
-          "stars": 8527,
-          "summary": "PII/entity detection, redaction, masking, and anonymization pipeline; absorbed as source-entity redaction and leakage review only.",
-          "title": "microsoft/presidio",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
           "trust_flags": [],
-          "url": "https://github.com/microsoft/presidio"
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
-          "license": "Apache-2.0",
+          "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 88,
+          "score": 83,
           "source": "github",
-          "stars": 425,
-          "summary": "PII cleaning with detectors, postprocessors, replacers, and anonymous ids; absorbed as placeholder and alias-consistency review only.",
-          "title": "LeapBeyond/scrubadub",
-          "trust_flags": [],
-          "url": "https://github.com/LeapBeyond/scrubadub"
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
         }
       ],
-      "top_source_url": "https://github.com/microsoft/presidio",
+      "top_source_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "fact_snapshot_delta_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": null,
+          "summary": "AI novel writing system with 15-dimensional fact snapshots, 12 change declaration classes, 6 generation gates, long-distance recall, unified validation and per-chapter state write-back. Static intake note: AI novel writing system centered on 15-dimensional fact snapshots, 12 chan",
+          "title": "zy-zmc/tianming-novel-ai-writer",
+          "trust_flags": [],
+          "url": "https://github.com/zy-zmc/tianming-novel-ai-writer"
+        }
+      ],
+      "top_source_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "contradiction_taxonomy_checker",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script"
+          ],
+          "score": 126,
+          "source": "github",
+          "stars": 1860,
+          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
+          "title": "YILING0013/AI_NovelGenerator",
+          "trust_flags": [],
+          "url": "https://github.com/YILING0013/AI_NovelGenerator"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 106,
+          "source": "github",
+          "stars": 410,
+          "summary": "Long-story consistency benchmark and checker with contradiction taxonomy across characterization, factual detail, narrative style, timeline/plot, and world-building/setting.",
+          "title": "Picrew/ConStory-Bench",
+          "trust_flags": [],
+          "url": "https://github.com/Picrew/ConStory-Bench"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 82,
+          "source": "github",
+          "stars": 185,
+          "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
+          "title": "EQ-bench/longform-writing-bench",
+          "trust_flags": [],
+          "url": "https://github.com/EQ-bench/longform-writing-bench"
+        }
+      ],
+      "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
       "trust_flags": []
     },
     {
@@ -4269,60 +4767,28 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
-      "name": "custom_entity_label_inventory",
+      "candidate_count": 2,
+      "name": "source_entity_redaction_gate",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "docker"
+      ],
       "sources": [
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 89,
-          "source": "github",
-          "stars": 3264,
-          "summary": "Generalist NER for extracting arbitrary entity types; absorbed as custom fiction entity label inventory and proper-noun leakage review only.",
-          "title": "urchade/GLiNER",
-          "trust_flags": [],
-          "url": "https://github.com/urchade/GLiNER"
-        },
-        {
-          "license": "NOASSERTION",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 87,
-          "source": "github",
-          "stars": 14376,
-          "summary": "NLP sequence labeling and NER models across languages; absorbed as multilingual proper-noun inventory review only.",
-          "title": "flairNLP/flair",
-          "trust_flags": [],
-          "url": "https://github.com/flairNLP/flair"
-        },
         {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 86,
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 90,
           "source": "github",
-          "stars": 33643,
-          "summary": "NLP pipelines with named entity recognition and custom pipeline components; absorbed as fiction entity labeling and leakage review only.",
-          "title": "explosion/spaCy",
+          "stars": 8527,
+          "summary": "PII/entity detection, redaction, masking, and anonymization pipeline; absorbed as source-entity redaction and leakage review only.",
+          "title": "microsoft/presidio",
           "trust_flags": [],
-          "url": "https://github.com/explosion/spaCy"
-        }
-      ],
-      "top_source_url": "https://github.com/urchade/GLiNER",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "placeholder_alias_consistency_map",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
+          "url": "https://github.com/microsoft/presidio"
+        },
         {
           "license": "Apache-2.0",
           "posture": "pattern-only",
@@ -4337,60 +4803,43 @@
           "url": "https://github.com/LeapBeyond/scrubadub"
         }
       ],
-      "top_source_url": "https://github.com/LeapBeyond/scrubadub",
+      "top_source_url": "https://github.com/microsoft/presidio",
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
-      "name": "contradiction_taxonomy_checker",
+      "candidate_count": 2,
+      "name": "spdx_reuse_compliance_gate",
       "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "shell_script"
-      ],
+      "risk_flags": [],
       "sources": [
         {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "shell_script"
-          ],
-          "score": 126,
-          "source": "github",
-          "stars": 1860,
-          "summary": "Automatic novel generation tool with setting workshop, state tracking, semantic search, vector long-term context consistency, knowledge-base integration, and proofreading for plot contradictions/logical conflicts.",
-          "title": "YILING0013/AI_NovelGenerator",
-          "trust_flags": [],
-          "url": "https://github.com/YILING0013/AI_NovelGenerator"
-        },
-        {
-          "license": "MIT",
+          "license": "Apache-2.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 106,
+          "score": 89,
           "source": "github",
-          "stars": 410,
-          "summary": "Long-story consistency benchmark and checker with contradiction taxonomy across characterization, factual detail, narrative style, timeline/plot, and world-building/setting.",
-          "title": "Picrew/ConStory-Bench",
+          "stars": 1600,
+          "summary": "SPDX and REUSE metadata compliance for copyright and licensing provenance; CLI runtime excluded.",
+          "title": "fsfe/reuse-tool",
           "trust_flags": [],
-          "url": "https://github.com/Picrew/ConStory-Bench"
+          "url": "https://github.com/fsfe/reuse-tool"
         },
         {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 82,
+          "score": 88,
           "source": "github",
-          "stars": 185,
-          "summary": "Longform Creative Writing Benchmark evaluates brainstorming and planning, critical reflection, character profiles, 8 chapter novella writing, and narrative consistency. Static intake note: Longform Creative Writing Benchmark evaluates brainstorming, planning, critical reflection,",
-          "title": "EQ-bench/longform-writing-bench",
+          "stars": 700,
+          "summary": "SPDX license list metadata for license-id taxonomy, attribution, and derivative-use review; generated data not copied into prompts.",
+          "title": "spdx/license-list-data",
           "trust_flags": [],
-          "url": "https://github.com/EQ-bench/longform-writing-bench"
+          "url": "https://github.com/spdx/license-list-data"
         }
       ],
-      "top_source_url": "https://github.com/YILING0013/AI_NovelGenerator",
+      "top_source_url": "https://github.com/fsfe/reuse-tool",
       "trust_flags": []
     },
     {
@@ -4473,6 +4922,29 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "author_candidate_canon_confirmation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 216,
+          "summary": "Chinese long-form fiction co-creation workbench. Static intake note: StorySpec is a MIT Chinese long-form fiction co-creation workbench. Public README describes preserving author ideas, offering consequence-bearing candidates, preview/confirm/apply flows, candidate-not-canon stat",
+          "title": "WENZIZZHENG/story-spec",
+          "trust_flags": [],
+          "url": "https://github.com/WENZIZZHENG/story-spec"
+        }
+      ],
+      "top_source_url": "https://github.com/WENZIZZHENG/story-spec",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 2,
       "name": "hierarchical_cowriting_story_scaffold",
       "posture_hint": "metadata-triage",
@@ -4506,29 +4978,6 @@
         }
       ],
       "top_source_url": "https://github.com/google-deepmind/dramatron",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "fact_snapshot_delta_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "NOASSERTION",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 84,
-          "source": "github",
-          "stars": null,
-          "summary": "AI novel writing system with 15-dimensional fact snapshots, 12 change declaration classes, 6 generation gates, long-distance recall, unified validation and per-chapter state write-back. Static intake note: AI novel writing system centered on 15-dimensional fact snapshots, 12 chan",
-          "title": "zy-zmc/tianming-novel-ai-writer",
-          "trust_flags": [],
-          "url": "https://github.com/zy-zmc/tianming-novel-ai-writer"
-        }
-      ],
-      "top_source_url": "https://github.com/zy-zmc/tianming-novel-ai-writer",
       "trust_flags": []
     },
     {
@@ -4619,38 +5068,61 @@
     },
     {
       "candidate_count": 2,
-      "name": "spdx_reuse_compliance_gate",
+      "name": "progressive_spoiler_context_window_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
         {
-          "license": "Apache-2.0",
+          "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 89,
+          "score": 202,
           "source": "github",
-          "stars": 1600,
-          "summary": "SPDX and REUSE metadata compliance for copyright and licensing provenance; CLI runtime excluded.",
-          "title": "fsfe/reuse-tool",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
           "trust_flags": [],
-          "url": "https://github.com/fsfe/reuse-tool"
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
         },
         {
-          "license": "unknown",
+          "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
-          "score": 88,
+          "score": 94,
           "source": "github",
-          "stars": 700,
-          "summary": "SPDX license list metadata for license-id taxonomy, attribution, and derivative-use review; generated data not copied into prompts.",
-          "title": "spdx/license-list-data",
+          "stars": 102,
+          "summary": "AI-driven novel creation assistant with structured world, character, outline, and chapter management. Static intake note: AI Novel Assistant is a MIT AI-driven novel creation assistant. Public README describes streaming writing, smart context from setting collections, outlines an",
+          "title": "AI-Practical-Lab/ai-novel",
           "trust_flags": [],
-          "url": "https://github.com/spdx/license-list-data"
+          "url": "https://github.com/AI-Practical-Lab/ai-novel"
         }
       ],
-      "top_source_url": "https://github.com/fsfe/reuse-tool",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "chapter_state_archive_ladder",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 96,
+          "source": "github",
+          "stars": 88,
+          "summary": "Claude Book multi-agent novel framework with orchestrator, reusable skills, agents, permanent bible, transient chapter state, and timeline surfaces. Static intake note: absorb role handoff and chapter-state archive patterns only; no Claude Code agents are run.",
+          "title": "ThomasHoussin/Claude-Book",
+          "trust_flags": [],
+          "url": "https://github.com/ThomasHoussin/Claude-Book"
+        }
+      ],
+      "top_source_url": "https://github.com/ThomasHoussin/Claude-Book",
       "trust_flags": []
     },
     {
@@ -4857,6 +5329,78 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 3,
+      "name": "custom_entity_label_inventory",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 89,
+          "source": "github",
+          "stars": 3264,
+          "summary": "Generalist NER for extracting arbitrary entity types; absorbed as custom fiction entity label inventory and proper-noun leakage review only.",
+          "title": "urchade/GLiNER",
+          "trust_flags": [],
+          "url": "https://github.com/urchade/GLiNER"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 87,
+          "source": "github",
+          "stars": 14376,
+          "summary": "NLP sequence labeling and NER models across languages; absorbed as multilingual proper-noun inventory review only.",
+          "title": "flairNLP/flair",
+          "trust_flags": [],
+          "url": "https://github.com/flairNLP/flair"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 33643,
+          "summary": "NLP pipelines with named entity recognition and custom pipeline components; absorbed as fiction entity labeling and leakage review only.",
+          "title": "explosion/spaCy",
+          "trust_flags": [],
+          "url": "https://github.com/explosion/spaCy"
+        }
+      ],
+      "top_source_url": "https://github.com/urchade/GLiNER",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "attribution_derivative_work_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 700,
+          "summary": "SPDX license list metadata for license-id taxonomy, attribution, and derivative-use review; generated data not copied into prompts.",
+          "title": "spdx/license-list-data",
+          "trust_flags": [],
+          "url": "https://github.com/spdx/license-list-data"
+        }
+      ],
+      "top_source_url": "https://github.com/spdx/license-list-data",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "continuity_bridge_window",
       "posture_hint": "metadata-triage",
@@ -4994,29 +5538,6 @@
         }
       ],
       "top_source_url": "https://github.com/c-w/Gutenberg",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "attribution_derivative_work_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 88,
-          "source": "github",
-          "stars": 700,
-          "summary": "SPDX license list metadata for license-id taxonomy, attribution, and derivative-use review; generated data not copied into prompts.",
-          "title": "spdx/license-list-data",
-          "trust_flags": [],
-          "url": "https://github.com/spdx/license-list-data"
-        }
-      ],
-      "top_source_url": "https://github.com/spdx/license-list-data",
       "trust_flags": []
     },
     {
@@ -5232,7 +5753,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 12,
+      "candidate_count": 16,
       "name": "organization_graph",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -5241,6 +5762,19 @@
         "native_binary"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -5269,6 +5803,36 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "unknown",
@@ -5380,6 +5944,21 @@
           "url": "https://github.com/andreafeccomandi/bibisco"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -5406,15 +5985,43 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 3,
       "name": "dual_level_graph_vector_retrieval",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 94,
+          "source": "github",
+          "stars": 102,
+          "summary": "AI-driven novel creation assistant with structured world, character, outline, and chapter management. Static intake note: AI Novel Assistant is a MIT AI-driven novel creation assistant. Public README describes streaming writing, smart context from setting collections, outlines an",
+          "title": "AI-Practical-Lab/ai-novel",
+          "trust_flags": [],
+          "url": "https://github.com/AI-Practical-Lab/ai-novel"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -5429,7 +6036,93 @@
           "url": "https://github.com/HKUDS/LightRAG"
         }
       ],
-      "top_source_url": "https://github.com/HKUDS/LightRAG",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "agentic_editorial_pipeline_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 96,
+          "source": "github",
+          "stars": 88,
+          "summary": "Claude Book multi-agent novel framework with orchestrator, reusable skills, agents, permanent bible, transient chapter state, and timeline surfaces. Static intake note: absorb role handoff and chapter-state archive patterns only; no Claude Code agents are run.",
+          "title": "ThomasHoussin/Claude-Book",
+          "trust_flags": [],
+          "url": "https://github.com/ThomasHoussin/Claude-Book"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 93,
+          "source": "github",
+          "stars": 40,
+          "summary": "Novel Engine desktop book-building workflow with human author boundary and seven specialized editorial agents for pitch, scaffold, draft, analysis, revision, copy-edit, and export. Static intake note: absorb editorial pipeline gates only; AGPL runtime is not imported.",
+          "title": "john-paul-ruf/novel-engine",
+          "trust_flags": [],
+          "url": "https://github.com/john-paul-ruf/novel-engine"
+        }
+      ],
+      "top_source_url": "https://github.com/ThomasHoussin/Claude-Book",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "placeholder_alias_consistency_map",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 425,
+          "summary": "PII cleaning with detectors, postprocessors, replacers, and anonymous ids; absorbed as placeholder and alias-consistency review only.",
+          "title": "LeapBeyond/scrubadub",
+          "trust_flags": [],
+          "url": "https://github.com/LeapBeyond/scrubadub"
+        }
+      ],
+      "top_source_url": "https://github.com/LeapBeyond/scrubadub",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "ai_prose_fingerprint_cluster_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "mcp_runtime_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "mcp_runtime_surface"
+          ],
+          "score": 87,
+          "source": "github",
+          "stars": 12,
+          "summary": "Fiction Forge prose pattern scanner detects AI writing fingerprints, overused patterns, voice drift, severity scoring, and clusters for novel-length manuscripts. Static intake note: absorb prose fingerprint cluster gates only; MCP/scanner/publisher runtimes are not run.",
+          "title": "geobond13/fiction-forge",
+          "trust_flags": [],
+          "url": "https://github.com/geobond13/fiction-forge"
+        }
+      ],
+      "top_source_url": "https://github.com/geobond13/fiction-forge",
       "trust_flags": []
     },
     {
@@ -5689,7 +6382,7 @@
           "score": 56,
           "source": "github",
           "stars": 1273,
-          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning. ",
+          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning.",
           "title": "google-research/deduplicate-text-datasets",
           "trust_flags": [
             "zero-issues-high-stars",
@@ -5771,7 +6464,7 @@
           "score": 56,
           "source": "github",
           "stars": 1273,
-          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning. ",
+          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning.",
           "title": "google-research/deduplicate-text-datasets",
           "trust_flags": [
             "zero-issues-high-stars",
@@ -5834,6 +6527,135 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "relationship_graph_global_replace_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        }
+      ],
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 4,
+      "name": "section_metadata_traceability_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 1060,
+          "summary": "PlotPilot narrative-engine kernel exposes persistent memory, knowledge graph, DAG workflow, and creator review surfaces for long-form AI creation. Static intake note: absorb narrative metadata traceability only; services and workflows are not launched.",
+          "title": "shenminglinyi/PlotPilot",
+          "trust_flags": [
+            "license:needs-review"
+          ],
+          "url": "https://github.com/shenminglinyi/PlotPilot"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 42,
+          "summary": "novelibre keeps section metadata associated with chapters and relates characters, locations, items, plot lines, and plot points to manuscript sections. Static intake note: absorb section traceability only; GPL/OpenOffice runtimes are not executed.",
+          "title": "peter88213/novelibre",
+          "trust_flags": [],
+          "url": "https://github.com/peter88213/novelibre"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": 4,
+          "summary": "Manuscript local-first desktop app for novelists provides structural analysis, pacing visualization, local SQLite storage, acts, beats, plot points, and chapter models. Static intake note: absorb local structural workbench patterns only; dependencies and AI providers are not run.",
+          "title": "DoktorDaveJoos/manuscript",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/DoktorDaveJoos/Manuscript"
+        }
+      ],
+      "top_source_url": "https://github.com/papysans/Morpheus",
+      "trust_flags": [
+        "license:missing",
+        "license:needs-review"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "trace_replay_revision_workspace_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        }
+      ],
+      "top_source_url": "https://github.com/papysans/Morpheus",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 3,
       "name": "accepted_chapter_memory",
       "posture_hint": "metadata-triage",
@@ -5885,6 +6707,90 @@
       ],
       "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 5,
+      "name": "toc_navigation_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 128,
+          "source": "github",
+          "stars": 6000,
+          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
+          "title": "Sigil-Ebook/Sigil",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Sigil-Ebook/Sigil"
+        },
+        {
+          "license": "BSD-3-Clause",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1800,
+          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
+          "title": "w3c/epubcheck",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/w3c/epubcheck"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 70,
+          "source": "github",
+          "stars": 650,
+          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
+          "title": "daisy/ace",
+          "trust_flags": [],
+          "url": "https://github.com/daisy/ace"
+        },
+        {
+          "license": "W3C",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 70,
+          "source": "github",
+          "stars": 120,
+          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
+          "title": "w3c/epub-tests",
+          "trust_flags": [],
+          "url": "https://github.com/w3c/epub-tests"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 51,
+          "source": "github",
+          "stars": 90,
+          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
+          "title": "daisy/epub-accessibility-tests",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/daisy/epub-accessibility-tests"
+        }
+      ],
+      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -5974,6 +6880,46 @@
       ],
       "top_source_url": "https://github.com/aerkalov/ebooklib",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "epub_structure_validation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "BSD-3-Clause",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1800,
+          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
+          "title": "w3c/epubcheck",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/w3c/epubcheck"
+        },
+        {
+          "license": "W3C",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 70,
+          "source": "github",
+          "stars": 120,
+          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
+          "title": "w3c/epub-tests",
+          "trust_flags": [],
+          "url": "https://github.com/w3c/epub-tests"
+        }
+      ],
+      "top_source_url": "https://github.com/w3c/epubcheck",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
     },
     {
       "candidate_count": 1,
@@ -6387,13 +7333,30 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "context_pack_preview",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker"
       ],
       "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -6410,8 +7373,66 @@
           "url": "https://github.com/YfengJ/novel-studio-ai"
         }
       ],
-      "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
-      "trust_flags": []
+      "top_source_url": "https://github.com/papysans/Morpheus",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "ebook_accessibility_audit_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 128,
+          "source": "github",
+          "stars": 6000,
+          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
+          "title": "Sigil-Ebook/Sigil",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/Sigil-Ebook/Sigil"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 70,
+          "source": "github",
+          "stars": 650,
+          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
+          "title": "daisy/ace",
+          "trust_flags": [],
+          "url": "https://github.com/daisy/ace"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 51,
+          "source": "github",
+          "stars": 90,
+          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
+          "title": "daisy/epub-accessibility-tests",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/daisy/epub-accessibility-tests"
+        }
+      ],
+      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -6719,7 +7740,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "contradiction_detection",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -6729,6 +7750,19 @@
         "shell_script"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -6804,7 +7838,7 @@
           "url": "https://github.com/Lanerra/saga"
         }
       ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": []
     },
     {
@@ -7203,6 +8237,33 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "front_back_matter_metadata_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 1430,
+          "summary": "Tools to produce ebooks with front matter, back matter, titlepage, endnotes, colophon, publication metadata, and build checks. Static intake note: Standard Ebooks tools support producing ebooks with setup, text processing, build, metadata, titlepage, endnotes, colophon, and relea",
+          "title": "standardebooks/tools",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/standardebooks/tools"
+        }
+      ],
+      "top_source_url": "https://github.com/standardebooks/tools",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
       "candidate_count": 2,
       "name": "reader_retention_review_gate",
       "posture_hint": "metadata-triage",
@@ -7518,7 +8579,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 14,
+      "candidate_count": 18,
       "name": "emotion_arc",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -7529,6 +8590,19 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -7557,6 +8631,36 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "unknown",
@@ -7684,6 +8788,21 @@
           "url": "https://github.com/MaoXiaoYuZ/Long-Novel-GPT"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -7725,11 +8844,13 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
-      "trust_flags": []
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
-      "candidate_count": 7,
+      "candidate_count": 9,
       "name": "agentic_book_planner_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -7737,6 +8858,19 @@
         "mcp_server"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "NOASSERTION",
           "posture": "pattern-only",
@@ -7778,6 +8912,19 @@
           "title": "lingfengQAQ/webnovel-writer",
           "trust_flags": [],
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 94,
+          "source": "github",
+          "stars": 102,
+          "summary": "AI-driven novel creation assistant with structured world, character, outline, and chapter management. Static intake note: AI Novel Assistant is a MIT AI-driven novel creation assistant. Public README describes streaming writing, smart context from setting collections, outlines an",
+          "title": "AI-Practical-Lab/ai-novel",
+          "trust_flags": [],
+          "url": "https://github.com/AI-Practical-Lab/ai-novel"
         },
         {
           "license": "NOASSERTION",
@@ -7832,15 +8979,34 @@
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
         }
       ],
-      "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "projection_sync_observability",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "docker"
+      ],
       "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
         {
           "license": "NOASSERTION",
           "posture": "pattern-only",
@@ -7868,8 +9034,10 @@
           "url": "https://github.com/lingfengQAQ/webnovel-writer"
         }
       ],
-      "top_source_url": "https://github.com/starMagic/webnovel-writer-hermes",
-      "trust_flags": []
+      "top_source_url": "https://github.com/papysans/Morpheus",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 4,
@@ -8117,11 +9285,24 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "rolling_summary_context_trim",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "NOASSERTION",
           "posture": "pattern-only",
@@ -8149,7 +9330,7 @@
           "url": "https://github.com/DuckTraDo/Novel"
         }
       ],
-      "top_source_url": "https://github.com/makieali/longform-ai",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": []
     },
     {
@@ -8801,6 +9982,42 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 2,
+      "name": "boring_opening_quality_gates",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": 310,
+          "summary": "Chinese Claude Code novel plugin with Snowflake orchestration, concept validation, scene planning partial rerun, chapter-write continuation, boring-detect, opening checks, quality checks and export.",
+          "title": "hestudy/snowflake-fiction",
+          "trust_flags": [],
+          "url": "https://github.com/hestudy/snowflake-fiction"
+        }
+      ],
+      "top_source_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "schema_validated_state_delta",
       "posture_hint": "metadata-triage",
@@ -8870,29 +10087,6 @@
         }
       ],
       "top_source_url": "https://github.com/inkle/ink",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "boring_opening_quality_gates",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 84,
-          "source": "github",
-          "stars": 310,
-          "summary": "Chinese Claude Code novel plugin with Snowflake orchestration, concept validation, scene planning partial rerun, chapter-write continuation, boring-detect, opening checks, quality checks and export.",
-          "title": "hestudy/snowflake-fiction",
-          "trust_flags": [],
-          "url": "https://github.com/hestudy/snowflake-fiction"
-        }
-      ],
-      "top_source_url": "https://github.com/hestudy/snowflake-fiction",
       "trust_flags": []
     },
     {
@@ -9193,7 +10387,30 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 15,
+      "candidate_count": 1,
+      "name": "export_format_fidelity_audit",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        }
+      ],
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 16,
       "name": "style_signature",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -9220,6 +10437,19 @@
           "title": "loreum-app/loreum",
           "trust_flags": [],
           "url": "https://github.com/loreum-app/loreum"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "unknown",
@@ -9830,7 +11060,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 6,
+      "candidate_count": 7,
       "name": "local_first_novel_workspace",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -9839,6 +11069,23 @@
         "shell_script"
       ],
       "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -9926,8 +11173,10 @@
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
         }
       ],
-      "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
-      "trust_flags": []
+      "top_source_url": "https://github.com/papysans/Morpheus",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -10179,7 +11428,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 32,
+      "candidate_count": 36,
       "name": "self_review",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -10192,6 +11441,19 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "AGPL-3.0",
           "posture": "pattern-only",
@@ -10220,6 +11482,36 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "unknown",
@@ -10456,6 +11748,21 @@
           "url": "https://github.com/howells/fiction"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
+        },
+        {
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -10601,7 +11908,7 @@
           "score": 56,
           "source": "github",
           "stars": 1273,
-          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning. ",
+          "summary": "Deduplicating training data with ExactSubstr and NearDup to remove repeated sequences from language model datasets. Static intake note: Deduplicating Training Data Makes Language Models Better releases ExactSubstr deduplication and NearDup cluster artifacts for dataset cleaning.",
           "title": "google-research/deduplicate-text-datasets",
           "trust_flags": [
             "zero-issues-high-stars",
@@ -10636,14 +11943,15 @@
           "url": "https://github.com/kaigani/codeywood"
         }
       ],
-      "top_source_url": "https://github.com/loreum-app/loreum",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": [
+        "license:missing",
         "zero-issues-high-stars",
         "repo:archived"
       ]
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "frontmatter_story_schema",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -10651,6 +11959,19 @@
         "node_project"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
+        },
         {
           "license": "MIT-like custom text",
           "posture": "pattern-only",
@@ -10681,7 +12002,7 @@
           "url": "https://github.com/danjdewhurst/story-skills"
         }
       ],
-      "top_source_url": "https://github.com/forsonny/novel-master-ai",
+      "top_source_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
       "trust_flags": []
     },
     {
@@ -11081,7 +12402,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 6,
       "name": "card_workbench",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -11098,6 +12419,19 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 151,
+          "source": "github",
+          "stars": 68,
+          "summary": "Chinese long-form fiction control skill with chapter control cards and dynamic state write-back. Static intake note: Novel Control Station is a MIT Chinese long-form fiction control skill. Public README describes opening interviews, complete outlines and character files, multi-li",
+          "title": "jingtai123/Novel-Control-Station-Skill",
+          "trust_flags": [],
+          "url": "https://github.com/jingtai123/Novel-Control-Station-Skill"
         },
         {
           "license": "MIT",
@@ -11126,6 +12460,21 @@
           "url": "https://github.com/RhythmicWave/NovelForge"
         },
         {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 83,
+          "source": "github",
+          "stars": 91,
+          "summary": "Chinese webnovel AI Agent skill collection. Static intake note: Sumeru Writing is a Chinese webnovel AI Agent skill collection. Public README describes topic selection, outline design, chapter writing, continuation/rewrite, batch parallel creation, logic review, polishing, final ",
+          "title": "xindoo/sumeru",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/xindoo/sumeru"
+        },
+        {
           "license": "NOASSERTION",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
@@ -11140,7 +12489,9 @@
         }
       ],
       "top_source_url": "https://github.com/olivierkes/manuskript",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 2,
@@ -11320,7 +12671,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 15,
+      "candidate_count": 17,
       "name": "context_reference",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -11331,6 +12682,36 @@
         "browser_extension"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -11547,8 +12928,9 @@
           "url": "https://github.com/principia-ai/WriteHERE"
         }
       ],
-      "top_source_url": "https://github.com/YfengJ/novel-studio-ai",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": [
+        "license:missing",
         "zero-issues-high-stars"
       ]
     },
@@ -11733,7 +13115,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 9,
       "name": "workflow_agent_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -11742,6 +13124,23 @@
         "shell_script"
       ],
       "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
+        },
         {
           "license": "Apache-2.0",
           "posture": "pattern-only",
@@ -11852,8 +13251,10 @@
           "url": "https://github.com/ZJU-LLMs/OpenStory"
         }
       ],
-      "top_source_url": "https://github.com/jncchds/abook",
-      "trust_flags": []
+      "top_source_url": "https://github.com/papysans/Morpheus",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -12351,7 +13752,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "memory_snapshot_versioning",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -12370,6 +13771,19 @@
           "title": "mrigankad/Novel-OS",
           "trust_flags": [],
           "url": "https://github.com/mrigankad/Novel-OS"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 216,
+          "summary": "Chinese long-form fiction co-creation workbench. Static intake note: StorySpec is a MIT Chinese long-form fiction co-creation workbench. Public README describes preserving author ideas, offering consequence-bearing candidates, preview/confirm/apply flows, candidate-not-canon stat",
+          "title": "WENZIZZHENG/story-spec",
+          "trust_flags": [],
+          "url": "https://github.com/WENZIZZHENG/story-spec"
         },
         {
           "license": "MIT",
@@ -12755,7 +14169,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "manuscript_export_formats",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -12763,6 +14177,19 @@
         "mcp_server"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "GPL-3.0-or-later",
           "posture": "pattern-only",
@@ -12832,7 +14259,7 @@
           "url": "https://github.com/EdwardAThomson/NovelWriter"
         }
       ],
-      "top_source_url": "https://github.com/olivierkes/manuskript",
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": []
     },
     {
@@ -12863,11 +14290,26 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 6,
       "name": "publication_pipeline",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "docker"
+      ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
         {
           "license": "GPL-3.0-or-later",
           "posture": "pattern-only",
@@ -12880,6 +14322,23 @@
           "title": "olivierkes/manuskript",
           "trust_flags": [],
           "url": "https://github.com/olivierkes/manuskript"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 154,
+          "source": "github",
+          "stars": 742,
+          "summary": "Chinese multi-agent long-form writing workbench. Static intake note: Morpheus is a Chinese multi-agent long-form writing workbench. Public README describes project setup, batch generation, chapter workbench rewrites, L1/L2/L3 memory, open threads, context packs, knowledge graph, ",
+          "title": "papysans/Morpheus",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/papysans/Morpheus"
         },
         {
           "license": "MIT",
@@ -12921,8 +14380,10 @@
           "url": "https://github.com/EdwardAThomson/NovelWriter"
         }
       ],
-      "top_source_url": "https://github.com/olivierkes/manuskript",
-      "trust_flags": []
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -12945,354 +14406,6 @@
         }
       ],
       "top_source_url": "https://github.com/Theltn/AICreativityJudge",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 5,
-      "name": "toc_navigation_consistency_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 128,
-          "source": "github",
-          "stars": 6000,
-          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
-          "title": "Sigil-Ebook/Sigil",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/Sigil-Ebook/Sigil"
-        },
-        {
-          "license": "BSD-3-Clause",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 104,
-          "source": "github",
-          "stars": 1800,
-          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
-          "title": "w3c/epubcheck",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/w3c/epubcheck"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 70,
-          "source": "github",
-          "stars": 650,
-          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
-          "title": "daisy/ace",
-          "trust_flags": [],
-          "url": "https://github.com/daisy/ace"
-        },
-        {
-          "license": "W3C",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 70,
-          "source": "github",
-          "stars": 120,
-          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
-          "title": "w3c/epub-tests",
-          "trust_flags": [],
-          "url": "https://github.com/w3c/epub-tests"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 51,
-          "source": "github",
-          "stars": 90,
-          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
-          "title": "daisy/epub-accessibility-tests",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/daisy/epub-accessibility-tests"
-        }
-      ],
-      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "epub_structure_validation_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "BSD-3-Clause",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 104,
-          "source": "github",
-          "stars": 1800,
-          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
-          "title": "w3c/epubcheck",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/w3c/epubcheck"
-        },
-        {
-          "license": "W3C",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 70,
-          "source": "github",
-          "stars": 120,
-          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
-          "title": "w3c/epub-tests",
-          "trust_flags": [],
-          "url": "https://github.com/w3c/epub-tests"
-        }
-      ],
-      "top_source_url": "https://github.com/w3c/epubcheck",
-      "trust_flags": [
-        "zero-issues-high-stars"
-      ]
-    },
-    {
-      "candidate_count": 3,
-      "name": "ebook_accessibility_audit_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 128,
-          "source": "github",
-          "stars": 6000,
-          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
-          "title": "Sigil-Ebook/Sigil",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/Sigil-Ebook/Sigil"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 70,
-          "source": "github",
-          "stars": 650,
-          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
-          "title": "daisy/ace",
-          "trust_flags": [],
-          "url": "https://github.com/daisy/ace"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 51,
-          "source": "github",
-          "stars": 90,
-          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
-          "title": "daisy/epub-accessibility-tests",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/daisy/epub-accessibility-tests"
-        }
-      ],
-      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "front_back_matter_metadata_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 68,
-          "source": "github",
-          "stars": 1430,
-          "summary": "Tools to produce ebooks with front matter, back matter, titlepage, endnotes, colophon, publication metadata, and build checks. Static intake note: Standard Ebooks tools support producing ebooks with setup, text processing, build, metadata, titlepage, endnotes, colophon, and relea",
-          "title": "standardebooks/tools",
-          "trust_flags": [
-            "zero-issues-high-stars"
-          ],
-          "url": "https://github.com/standardebooks/tools"
-        }
-      ],
-      "top_source_url": "https://github.com/standardebooks/tools",
-      "trust_flags": [
-        "zero-issues-high-stars"
-      ]
-    },
-    {
-      "candidate_count": 2,
-      "name": "agentic_editorial_pipeline_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 96,
-          "source": "github",
-          "stars": 88,
-          "summary": "Claude Book multi-agent novel framework with orchestrator, reusable skills, agents, permanent bible, transient chapter state, and timeline surfaces. Static intake note: absorb role handoff and chapter-state archive patterns only; no Claude Code agents are run.",
-          "title": "ThomasHoussin/Claude-Book",
-          "trust_flags": [],
-          "url": "https://github.com/ThomasHoussin/Claude-Book"
-        },
-        {
-          "license": "AGPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 93,
-          "source": "github",
-          "stars": 40,
-          "summary": "Novel Engine desktop book-building workflow with human author boundary and seven specialized editorial agents for pitch, scaffold, draft, analysis, revision, copy-edit, and export. Static intake note: absorb editorial pipeline gates only; AGPL runtime is not imported.",
-          "title": "john-paul-ruf/novel-engine",
-          "trust_flags": [],
-          "url": "https://github.com/john-paul-ruf/novel-engine"
-        }
-      ],
-      "top_source_url": "https://github.com/ThomasHoussin/Claude-Book",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "chapter_state_archive_ladder",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 95,
-          "source": "github",
-          "stars": 88,
-          "summary": "Claude Book separates permanent bible files from transient per-chapter state, latest current state, archived chapter states, state templates, and timeline history. Static intake note: absorb state archive ladder only; provider/runtime agents are not launched.",
-          "title": "ThomasHoussin/Claude-Book",
-          "trust_flags": [],
-          "url": "https://github.com/ThomasHoussin/Claude-Book"
-        }
-      ],
-      "top_source_url": "https://github.com/ThomasHoussin/Claude-Book",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 3,
-      "name": "section_metadata_traceability_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "NOASSERTION",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 91,
-          "source": "github",
-          "stars": 1060,
-          "summary": "PlotPilot narrative-engine kernel exposes persistent memory, knowledge graph, DAG workflow, and creator review surfaces for long-form AI creation. Static intake note: absorb narrative metadata traceability only; services and workflows are not launched.",
-          "title": "shenminglinyi/PlotPilot",
-          "trust_flags": [
-            "license:needs-review"
-          ],
-          "url": "https://github.com/shenminglinyi/PlotPilot"
-        },
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 88,
-          "source": "github",
-          "stars": 42,
-          "summary": "novelibre keeps section metadata associated with chapters and relates characters, locations, items, plot lines, and plot points to manuscript sections. Static intake note: absorb section traceability only; GPL/OpenOffice runtimes are not executed.",
-          "title": "peter88213/novelibre",
-          "trust_flags": [],
-          "url": "https://github.com/peter88213/novelibre"
-        },
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 84,
-          "source": "github",
-          "stars": 4,
-          "summary": "Manuscript local-first desktop app for novelists provides structural analysis, pacing visualization, local SQLite storage, acts, beats, plot points, and chapter models. Static intake note: absorb local structural workbench patterns only; dependencies and AI providers are not run.",
-          "title": "DoktorDaveJoos/manuscript",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/DoktorDaveJoos/Manuscript"
-        }
-      ],
-      "top_source_url": "https://github.com/shenminglinyi/PlotPilot",
-      "trust_flags": [
-        "license:needs-review"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "ai_prose_fingerprint_cluster_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "mcp_runtime_surface"
-      ],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "mcp_runtime_surface"
-          ],
-          "score": 87,
-          "source": "github",
-          "stars": 12,
-          "summary": "Fiction Forge prose pattern scanner detects AI writing fingerprints, overused patterns, voice drift, severity scoring, and clusters for novel-length manuscripts. Static intake note: absorb prose fingerprint cluster gates only; MCP/scanner/publisher runtimes are not run.",
-          "title": "geobond13/fiction-forge",
-          "trust_flags": [],
-          "url": "https://github.com/geobond13/fiction-forge"
-        }
-      ],
-      "top_source_url": "https://github.com/geobond13/fiction-forge",
       "trust_flags": []
     }
   ],

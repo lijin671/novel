@@ -2771,3 +2771,47 @@ def test_build_remix_context_blocks_render_agentic_editorial_craft_audit():
         assert "permanent bible" in block
         assert "cast, location, item" in block
         assert "voice drift" in block
+
+
+def test_build_remix_context_blocks_render_chinese_longform_control_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "author_candidate_canon_confirmation_gate", "candidate_count": 1},
+            {"name": "progressive_spoiler_context_window_gate", "candidate_count": 1},
+            {"name": "chapter_control_card_writeback_gate", "candidate_count": 1},
+            {"name": "trace_replay_revision_workspace_gate", "candidate_count": 1},
+            {"name": "relationship_graph_global_replace_gate", "candidate_count": 1},
+        ],
+        "author_candidate_canon_confirmation_gate_hints": ["Confirm candidates before canon."],
+        "relationship_graph_global_replace_gate_hints": ["Preview global graph replacements."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Chinese Longform Control Desk",
+        bible={"hard_constraints": [{"rule": "Only confirmed candidates enter canon"}]},
+        plan={"summary": "Continue with spoiler windows, chapter cards, trace replay, and graph review."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Control Workbench",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Use craft gates only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source relationship graph.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Chinese long-form control audit" in block
+        assert "author_candidate_canon_confirmation_gate" in block
+        assert "progressive_spoiler_context_window_gate" in block
+        assert "chapter_control_card_writeback_gate" in block
+        assert "trace_replay_revision_workspace_gate" in block
+        assert "relationship_graph_global_replace_gate" in block
+        assert "preview, confirm, and apply" in block
+        assert "block premature spoiler leakage" in block
+        assert "chapter control card" in block
+        assert "downstream impact scope" in block
+        assert "preview global replacements" in block

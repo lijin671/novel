@@ -134,6 +134,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_chinese_longform_control_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_interactive_narrative_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -500,6 +504,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_agentic_editorial_craft_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_chinese_longform_control_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1451,6 +1459,37 @@ def _append_agentic_editorial_craft_audit_section(
         lines.append("- section_metadata_traceability_gate: attach cast, location, item, plotline, beat, pacing, status, and evidence metadata to every section")
     if "ai_prose_fingerprint_cluster_gate" in pattern_names:
         lines.append("- ai_prose_fingerprint_cluster_gate: review machine-prose fingerprints, severity clusters, voice drift, overused punctuation, hedging, and show-then-tell patterns")
+
+
+def _append_chinese_longform_control_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render Chinese long-form canon-control, spoiler-window, writeback, trace, and graph gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "author_candidate_canon_confirmation_gate",
+        "progressive_spoiler_context_window_gate",
+        "chapter_control_card_writeback_gate",
+        "trace_replay_revision_workspace_gate",
+        "relationship_graph_global_replace_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Chinese long-form control audit:")
+    if "author_candidate_canon_confirmation_gate" in pattern_names:
+        lines.append("- author_candidate_canon_confirmation_gate: keep AI suggestions and source-derived ideas as candidates until preview, confirm, and apply are recorded")
+    if "progressive_spoiler_context_window_gate" in pattern_names:
+        lines.append("- progressive_spoiler_context_window_gate: select outline/RAG/future context by current story stage and block premature spoiler leakage")
+    if "chapter_control_card_writeback_gate" in pattern_names:
+        lines.append("- chapter_control_card_writeback_gate: require a chapter control card before drafting and write back accepted event, relationship, foreshadow, world-rule, and next-pressure deltas")
+    if "trace_replay_revision_workspace_gate" in pattern_names:
+        lines.append("- trace_replay_revision_workspace_gate: preserve blueprint, selected context, rewrite direction, reviewer findings, and downstream impact scope for each revision")
+    if "relationship_graph_global_replace_gate" in pattern_names:
+        lines.append("- relationship_graph_global_replace_gate: regenerate relationship graph and preview global replacements across bible, outline, chapters, memory, and graph before acceptance")
 
 
 def _append_interactive_narrative_audit_section(
@@ -2419,6 +2458,11 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "chapter_state_archive_ladder_hints": "chapter_state_archive_ladder",
         "section_metadata_traceability_gate_hints": "section_metadata_traceability_gate",
         "ai_prose_fingerprint_cluster_gate_hints": "ai_prose_fingerprint_cluster_gate",
+        "author_candidate_canon_confirmation_gate_hints": "author_candidate_canon_confirmation_gate",
+        "progressive_spoiler_context_window_gate_hints": "progressive_spoiler_context_window_gate",
+        "chapter_control_card_writeback_gate_hints": "chapter_control_card_writeback_gate",
+        "trace_replay_revision_workspace_gate_hints": "trace_replay_revision_workspace_gate",
+        "relationship_graph_global_replace_gate_hints": "relationship_graph_global_replace_gate",
         "epub_structure_validation_gate_hints": "epub_structure_validation_gate",
         "ebook_accessibility_audit_gate_hints": "ebook_accessibility_audit_gate",
         "front_back_matter_metadata_gate_hints": "front_back_matter_metadata_gate",
