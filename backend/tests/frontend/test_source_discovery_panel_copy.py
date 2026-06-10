@@ -327,6 +327,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Community graph source deconstruction gates" in panel_text
     assert "Dual-level graph vector retrieval gates" in panel_text
     assert "Schema-guided graph extraction gates" in panel_text
+    assert "Relationship graph global replace gates" in panel_text
     assert "Chinese text processing gates" in panel_text
     assert "Chinese segmentation / keyword gates" in panel_text
     assert "Chinese NER / alias consistency gates" in panel_text

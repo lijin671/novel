@@ -128,6 +128,7 @@ export interface SourceDiscoveryPatternPack {
   graph_healing_hints?: string[];
   contradiction_detection_hints?: string[];
   graph_branching_atomicity_hints?: string[];
+  relationship_graph_global_replace_gate_hints?: string[];
   query_lint_contract_hints?: string[];
   premature_ending_guard_hints?: string[];
   layered_memory_model_hints?: string[];

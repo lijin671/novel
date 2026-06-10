@@ -151,6 +151,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("GraphRAG" OR "community summaries" OR "extract structured data from unstructured text") ("knowledge graph" OR "RAG") in:name,description,readme',
     '("dual-level architecture" OR "knowledge graphs" OR "vector embeddings") ("LightRAG" OR "RAG") in:name,description,readme',
     '("extract nodes" OR "relationships and properties" OR "custom schema") ("LLM graph builder" OR "knowledge graph") in:name,description,readme',
+    '("novel2graph" OR "novel to graph" OR "character relationship graph") ("novel" OR "book" OR "literary text") in:name,description,readme',
+    '("relationship graph" OR "event graph" OR "natural language search") ("novel" OR "fiction" OR "story bible") in:name,description,readme',
     '("TV Tropes" OR "tvtropes" OR "trope correlation") ("story" OR "fiction" OR "narrative") in:name,description,readme',
     '("trope graph" OR "trope network" OR "trope similarity") ("fiction" OR "story" OR "narrative") in:name,description,readme',
     '("character tropes" OR "trope dataset" OR "movie tropes") ("story" OR "fiction" OR "narrative") in:name,description,readme',
@@ -406,6 +408,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/microsoft/graphrag",
     "https://github.com/HKUDS/LightRAG",
     "https://github.com/neo4j-labs/llm-graph-builder",
+    "https://github.com/IDSIA/novel2graph",
+    "https://github.com/Drwei3155/story-graph",
     "https://github.com/MitchSaltykov/TVTropes-correlation",
     "https://github.com/jwzimmer-zz/tv-tropes",
     "https://github.com/slowwavesleep/TvTropesMovieData",
@@ -1695,6 +1699,16 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "neo4j-labs/llm-graph-builder": (
         "Neo4j LLM Graph Builder extracts nodes, relationships, and properties from unstructured documents into a graph using schema guidance and source metadata, useful for novel source/canon extraction. "
         "Absorb schema-guided canon/source graph extraction patterns only; Neo4j services, UI, Docker/runtime pieces, and provider calls are not used."
+    ),
+    "idsia/novel2graph": (
+        "NOVEL2GRAPH is a literary-text knowledge-graph workflow. Public README describes receiving a book as input, discovering main characters, main relations, "
+        "knowledge graph material, static and dynamic embeddings, relation reports, character occurrence clusters, character network views, character interactions, chapter slices, and an interface for monitoring results. "
+        "Absorb full-book source decomposition, character relationship graph, narrative event graph, and schema-guided graph extraction patterns: extract nodes, relationships and properties with source metadata. Stanford NLP downloads, Python scripts, GUI runtime, scraping, and datasets are not executed."
+    ),
+    "drwei3155/story-graph": (
+        "Story Graph is a Chinese novel relationship-graph workbench. Public README describes entering a novel name, AI-generated visual character relationship network, "
+        "natural-language graph search, relationship-path explanation, multi-book comparison, event timeline, manual graph edits, statistics, and PNG export. "
+        "Absorb relationship-graph review, event-timeline deconstruction, source comparison, and editable graph-audit UI patterns only; Node server, DeepSeek/API keys, browser sessionStorage, provider calls, and hosted app are not used."
     ),
     "mitchsaltykov/tvtropes-correlation": (
         "TVTropes-correlation compares two works by their trope sets. Static README describes entering media URLs and measuring similarity by shared tropes. "

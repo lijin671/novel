@@ -83,6 +83,7 @@ const PINNED_HINT_KEYS = new Set([
   'graph_healing_hints',
   'contradiction_detection_hints',
   'graph_branching_atomicity_hints',
+  'relationship_graph_global_replace_gate_hints',
   'query_lint_contract_hints',
   'premature_ending_guard_hints',
   'layered_memory_model_hints',
@@ -623,6 +624,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Community graph source deconstruction gates', patternPackPayload?.community_graph_source_deconstruction_hints],
               ['Dual-level graph vector retrieval gates', patternPackPayload?.dual_level_graph_vector_retrieval_hints],
               ['Schema-guided graph extraction gates', patternPackPayload?.schema_guided_graph_extraction_hints],
+              ['Relationship graph global replace gates', patternPackPayload?.relationship_graph_global_replace_gate_hints],
             ])}
             {renderHintGroup('Chinese text processing gates', [
               ['Chinese segmentation / keyword gates', patternPackPayload?.chinese_segmentation_keyword_gate_hints],

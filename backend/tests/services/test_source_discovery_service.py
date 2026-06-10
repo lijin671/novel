@@ -912,6 +912,70 @@ def test_default_github_repository_urls_remain_backend_authoritative_for_panel_h
         assert url.lower() in normalized_urls
 
 
+def test_novel_graph_refresh_sources_map_to_deconstruction_and_graph_review_patterns():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "IDSIA/novel2graph",
+                "html_url": "https://github.com/IDSIA/novel2graph",
+                "description": "A workflow to extract Knowledge Graph from literary text.",
+                "stargazers_count": 84,
+                "license": None,
+                "topics": ["novel", "knowledge-graph", "literary-text"],
+                "updated_at": "2026-06-10T00:00:00Z",
+            },
+            {
+                "full_name": "Drwei3155/story-graph",
+                "html_url": "https://github.com/Drwei3155/story-graph",
+                "description": "AI auto-generates a visual character relationship graph for novels with natural language search and historical event timeline.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "relationship-graph", "story"],
+                "updated_at": "2026-05-20T15:58:36Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T18:30:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert {
+        "book_decomposition",
+        "character_cards",
+        "relationship_graph_global_replace_gate",
+        "character_interaction_network_gate",
+        "narrative_event_evolution_graph_gate",
+        "schema_guided_graph_extraction",
+    }.issubset(by_title["IDSIA/novel2graph"]["absorbed_patterns"])
+    assert {
+        "book_decomposition",
+        "timeline",
+        "relationship_graph_global_replace_gate",
+        "character_interaction_network_gate",
+    }.issubset(by_title["Drwei3155/story-graph"]["absorbed_patterns"])
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "relationship_graph_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "narrative_event_chain_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "schema_guided_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert pattern_pack["relationship_graph_global_replace_gate_hints"]
+    assert pattern_pack["schema_guided_graph_extraction_hints"]
+    assert pattern_pack["character_interaction_network_gate_hints"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "relationship_graph_global_replace_gate_hints" in digest
+    assert "schema_guided_graph_extraction_hints" in digest
+
+
+def test_default_discovery_sources_include_novel_graph_refresh_projects():
+    assert "https://github.com/IDSIA/novel2graph" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Drwei3155/story-graph" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("novel2graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("character relationship graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
 def test_discover_public_sources_fetches_explicit_github_repository_urls(monkeypatch):
     requested_urls: list[str] = []
 

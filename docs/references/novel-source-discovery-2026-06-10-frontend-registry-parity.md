@@ -54,6 +54,6 @@ The backend `DEFAULT_GITHUB_REPOSITORY_URLS` registry is the authoritative seed 
 
 `BookRemixSourceDiscoveryPanel.tsx` now keeps only a compact static fallback with representative sources for AI novel tooling, workbench planning, BookNLP, long-form generation, and NarrativeQA. On load, `/api/source-discovery/latest` hydrates the textarea from `default_github_repository_urls`, `default_github_queries`, and `default_linux_do_rss_urls` when the user has not manually edited those fields.
 
-This preserves the existing manual-edit boundary and avoids copying the 267-entry backend registry into the frontend artifact.
+This preserves the existing manual-edit boundary and avoids copying the full backend registry into the frontend artifact.
 
 Runtime boundary remains unchanged: no clone, no install, no package hook, no Docker stack, no MCP server, no browser extension, no provider call, and no external project execution.
