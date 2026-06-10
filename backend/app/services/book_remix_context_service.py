@@ -130,6 +130,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_agentic_editorial_craft_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_interactive_narrative_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -492,6 +496,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_ebook_quality_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_agentic_editorial_craft_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1415,6 +1423,34 @@ def _append_ebook_quality_audit_section(
         lines.append("- front_back_matter_metadata_gate: keep title page, copyright, dedication, endnotes, afterword, colophon, identifiers, and publication metadata in delivery artifacts")
     if "toc_navigation_consistency_gate" in pattern_names:
         lines.append("- toc_navigation_consistency_gate: compare accepted chapter headings, TOC/nav/NCX entries, spine order, landmarks, and preview navigation")
+
+
+def _append_agentic_editorial_craft_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render agentic editorial, state archive, section metadata, and prose fingerprint gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "agentic_editorial_pipeline_gate",
+        "chapter_state_archive_ladder",
+        "section_metadata_traceability_gate",
+        "ai_prose_fingerprint_cluster_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Agentic editorial and craft workbench audit:")
+    if "agentic_editorial_pipeline_gate" in pattern_names:
+        lines.append("- agentic_editorial_pipeline_gate: separate planner, architect, writer, reviewer, copy-editor, and compiler roles; canon changes require author/reviewer acceptance")
+    if "chapter_state_archive_ladder" in pattern_names:
+        lines.append("- chapter_state_archive_ladder: keep permanent bible separate from transient chapter state; archive every accepted chapter state and current pointer")
+    if "section_metadata_traceability_gate" in pattern_names:
+        lines.append("- section_metadata_traceability_gate: attach cast, location, item, plotline, beat, pacing, status, and evidence metadata to every section")
+    if "ai_prose_fingerprint_cluster_gate" in pattern_names:
+        lines.append("- ai_prose_fingerprint_cluster_gate: review machine-prose fingerprints, severity clusters, voice drift, overused punctuation, hedging, and show-then-tell patterns")
 
 
 def _append_interactive_narrative_audit_section(
@@ -2379,6 +2415,14 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "ocr_scanned_page_import_gate_hints": "ocr_scanned_page_import_gate",
         "document_partition_chapter_detection_gate_hints": "document_partition_chapter_detection_gate",
         "import_provenance_checksum_gate_hints": "import_provenance_checksum_gate",
+        "agentic_editorial_pipeline_gate_hints": "agentic_editorial_pipeline_gate",
+        "chapter_state_archive_ladder_hints": "chapter_state_archive_ladder",
+        "section_metadata_traceability_gate_hints": "section_metadata_traceability_gate",
+        "ai_prose_fingerprint_cluster_gate_hints": "ai_prose_fingerprint_cluster_gate",
+        "epub_structure_validation_gate_hints": "epub_structure_validation_gate",
+        "ebook_accessibility_audit_gate_hints": "ebook_accessibility_audit_gate",
+        "front_back_matter_metadata_gate_hints": "front_back_matter_metadata_gate",
+        "toc_navigation_consistency_gate_hints": "toc_navigation_consistency_gate",
         "literary_event_entity_annotation_gate_hints": "literary_event_entity_annotation_gate",
         "narrative_event_evolution_graph_gate_hints": "narrative_event_evolution_graph_gate",
         "sentiment_arc_emotion_trajectory_gate_hints": "sentiment_arc_emotion_trajectory_gate",

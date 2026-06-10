@@ -8,6 +8,11 @@
     "Keep book-planning roles separate: Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker.",
     "Writer output should cite the accepted planning artifacts it used, and Editor/Continuity findings should remain review records until accepted."
   ],
+  "agentic_editorial_pipeline_gate_hints": [
+    "Treat planner, architect, writer, reviewer, copy-editor, and compiler roles as separate review stages with explicit handoff artifacts.",
+    "The human author remains the creative authority; automated roles may propose changes, but accepted canon changes require an author/reviewer decision boundary.",
+    "For same-type creation, rebuild the role pipeline around the transformed premise rather than replaying source analysis outputs as draft instructions."
+  ],
   "agentic_story_world_simulation_hints": [
     "Use multi-agent story-world simulation as a proposal generator for character behavior, social interaction, and world evolution.",
     "Simulated outcomes must be reviewed against canon and author direction before they become continuation facts."
@@ -16,6 +21,11 @@
     "Split ultra-long generation into a planning artifact and a writing artifact; validate the plan before prose expansion starts.",
     "Each write stage should cite the plan segment, target section length, accepted context, and post-write change package.",
     "For same-type creation, transform the plan-write stage boundaries so the new book does not follow the source outline order."
+  ],
+  "ai_prose_fingerprint_cluster_gate_hints": [
+    "Scan accepted and candidate chapters for repeated AI-prose fingerprints, severity clusters, voice drift, hedging, overused punctuation, and show-then-tell patterns.",
+    "Fingerprint findings become targeted revision tasks with accepted/ignored exceptions; they must not auto-rewrite author voice or invented terms.",
+    "For same-type creation, reduce machine-prose fingerprints while preserving independence from source phrasing and source cadence."
   ],
   "alternate_timeline_branching_hints": [
     "Store what-if and same-world divergence as alternate timeline branches, not as faithful continuation state.",
@@ -358,7 +368,15 @@
     "front_back_matter_manifest",
     "publication_metadata_policy",
     "toc_navigation_policy",
-    "spine_nav_heading_policy"
+    "spine_nav_heading_policy",
+    "editorial_role_manifest",
+    "author_decision_boundary_policy",
+    "chapter_state_archive_policy",
+    "permanent_bible_transient_state_boundary",
+    "section_metadata_schema",
+    "cast_location_item_section_index",
+    "ai_prose_fingerprint_scan_policy",
+    "fingerprint_exception_ledger"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -384,6 +402,11 @@
     "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
     "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
     "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "chapter_state_archive_ladder_hints": [
+    "Keep permanent bible files separate from transient per-chapter state; archive the state snapshot after each accepted chapter.",
+    "A current-state pointer can speed prompting, but it must be reproducible from the chapter archive and must not overwrite historical states.",
+    "For same-type creation, create a fresh state ladder for the new story; source chapter state can inform structure only after entity and plot remap."
   ],
   "chapter_summary_anchor_gate_hints": [
     "Anchor summaries to accepted chapter ids, representative sentences, source refs, and canon status before using them as prompt context.",
@@ -709,6 +732,11 @@
     "Choose query mode explicitly: local for character/state facts, global for theme or arc summaries, hybrid for chapter planning, naive only for fallback.",
     "Log which retrieval mode supplied each context item so weak graph or vector coverage can be repaired."
   ],
+  "ebook_accessibility_audit_gate_hints": [
+    "Audit ebook accessibility metadata, landmarks, heading levels, reading order, alt text, language declarations, and hazard notes before publication export.",
+    "Accessibility findings become author-review tasks; do not auto-rewrite prose or inject external checker output into story canon.",
+    "For same-type creation, keep accessibility and reader-navigation standards while changing source-specific illustrations, captions, and front/back matter text."
+  ],
   "editor_notes_feedback_loop_hints": [
     "Persist editor notes as open, deferred, or closed items with the chapter evidence that resolves them.",
     "Next-chapter prompts should include only active notes relevant to the current beat or risk."
@@ -736,6 +764,11 @@
     "Range rewrites must calculate downstream impact before editing: affected chapters, polish axes, state deltas, and acceptance gates.",
     "Do not silently rewrite outside the requested range; emit a separate impact proposal for dependent chapters."
   ],
+  "epub_structure_validation_gate_hints": [
+    "Before final EPUB delivery, validate container, package document, OPF manifest, spine, nav document, media types, and validation errors as one report.",
+    "Treat EPUB validation as a packaging gate over accepted chapters; it must not mutate canon text or silently reorder chapter content.",
+    "For same-type creation, EPUB structure may inspire a delivery checklist, but source TOC, spine, and metadata order must be rebuilt for the new manuscript."
+  ],
   "event_outline_history_compression_hints": [
     "Plan long stories as event outlines and chapter-wise event plans before writing the current chapter.",
     "Compress story history around the current event, keeping the omitted-history list available for continuity review."
@@ -754,6 +787,11 @@
     "Score open foreshadowing as debt and reserve context budget for high-debt hooks before drafting related chapters.",
     "A payoff attempt must cite its setup, expected payoff window, current debt status, and whether the hook remains open or resolved."
   ],
+  "front_back_matter_metadata_gate_hints": [
+    "Keep title page, copyright, dedication, foreword, endnotes, afterword, colophon, identifiers, and publication metadata in a separate delivery manifest.",
+    "Front/back matter can reference accepted canon and attribution policy, but must not become hidden prompt context for chapter continuation.",
+    "For same-type creation, regenerate title, subtitle, blurb-adjacent metadata, and colophon from the transformed book rather than source packaging."
+  ],
   "frontmatter_story_schema_hints": [
     "Use stable frontmatter-like fields for story bible, scene state, continuity questions, promises/payoffs, and chapter drafts.",
     "Keep prose bodies separate from metadata so checks can diff state without parsing the whole manuscript."
@@ -768,7 +806,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T19:40:00+08:00",
+  "generated_at": "2026-06-10T20:40:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -966,7 +1004,11 @@
     "Reject EPUB exports whose package, OPF manifest, spine, or container metadata no longer matches the accepted transformed chapters.",
     "Reject accessibility fixes that copy source captions, alt text, landmark labels, or front/back matter wording.",
     "Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.",
-    "Reject TOC/navigation maps whose chapter titles, order, hierarchy, or reader links mirror the source EPUB instead of the new outline."
+    "Reject TOC/navigation maps whose chapter titles, order, hierarchy, or reader links mirror the source EPUB instead of the new outline.",
+    "Reject agent-role outputs that skip author/reviewer acceptance or paste source-analysis conclusions as new-story canon.",
+    "Reject context packs where permanent bible, transient state, source state snapshots, and current chapter deltas are mixed without lineage.",
+    "Reject section metadata that keeps source cast, location, item, plotline, beat, or pacing ids under renamed prose.",
+    "Reject fingerprint cleanup that merely paraphrases source passages or preserves a source-like chapter cadence under smoother prose."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -1126,7 +1168,11 @@
     "epub_validation_delivery_remap",
     "ebook_accessibility_remap",
     "front_back_matter_metadata_remap",
-    "toc_navigation_remap"
+    "toc_navigation_remap",
+    "editorial_role_boundary_remap",
+    "chapter_state_ladder_remap",
+    "section_metadata_traceability_remap",
+    "prose_fingerprint_threshold_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1240,7 +1286,11 @@
     "Use EPUB validation as a delivery checklist for the transformed manuscript, not as permission to copy source package structure.",
     "Keep accessibility requirements stable while regenerating captions, alt text, landmarks, and reading-order notes for the new book.",
     "Rebuild front/back matter and metadata from the transformed book; source titlepage, colophon, and identifiers remain reference evidence only.",
-    "Generate TOC and navigation from the transformed outline after independence checks, not from the source EPUB hierarchy."
+    "Generate TOC and navigation from the transformed outline after independence checks, not from the source EPUB hierarchy.",
+    "Use editorial roles to separate planning, drafting, review, copy-edit, and compile decisions; do not let a source-analysis role write canon directly.",
+    "Use a fresh chapter-state archive for the new story and keep source-state snapshots as reference evidence only.",
+    "Regenerate section metadata for new cast, locations, items, plotlines, beats, and pacing before same-type drafting.",
+    "Clean AI-prose fingerprints through local revision while preserving transformed-story identity and avoiding source-like cadence."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1369,7 +1419,11 @@
     "Transform EPUB structure expectations into new validation criteria tied to the transformed chapter list and export target.",
     "Transform accessibility notes into reader-facing fixes for the new manuscript, with source-specific media and captions replaced.",
     "Transform publication metadata and front/back matter at the book level before final packaging, not during prose generation.",
-    "Transform navigation by aligning the new outline, accepted headings, spine order, and preview links."
+    "Transform navigation by aligning the new outline, accepted headings, spine order, and preview links.",
+    "Transform editorial handoffs by requiring each role to operate on new-story artifacts and accepted reviewer decisions.",
+    "Transform chapter state by creating a new bible/state/archive ladder before generating or revising chapters.",
+    "Transform section metadata into new cast, location, item, plotline, beat, pacing, and status fields.",
+    "Transform prose-fingerprint findings into local revision targets instead of copying source sentence rhythm."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1726,6 +1780,11 @@
     "Reject malformed or out-of-range deltas rather than normalizing them into canon silently.",
     "Apply accepted deltas immutably so review can compare before-state, delta, and after-state."
   ],
+  "section_metadata_traceability_gate_hints": [
+    "Attach section/chapter metadata for cast, locations, items, plotlines, beats, pacing, status, and source evidence before generation or review.",
+    "Flag sections whose metadata lacks a matching accepted chapter, timeline event, or character/location/item reference.",
+    "For same-type creation, remap section metadata into new cast, places, objects, and plotline ids before drafting prose."
+  ],
   "self_review_gate_hints": [
     "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
     "Every revision must explain which canon risk was fixed and which story state was preserved.",
@@ -1770,7 +1829,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 195,
+  "source_candidate_count": 201,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -1984,7 +2043,13 @@
     "daisy/ace",
     "w3c/epub-tests",
     "standardebooks/tools",
-    "daisy/epub-accessibility-tests"
+    "daisy/epub-accessibility-tests",
+    "john-paul-ruf/novel-engine",
+    "ThomasHoussin/Claude-Book",
+    "DoktorDaveJoos/manuscript",
+    "geobond13/fiction-forge",
+    "shenminglinyi/PlotPilot",
+    "peter88213/novelibre"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2071,6 +2136,11 @@
     "When deconstructing a source book, preserve table-of-contents hierarchy so parts, chapters, and sections remain traceable.",
     "Carry parent-section introductions into the first child summary only; avoid duplicating parent context across sibling sections.",
     "Separate source summaries, lessons, quotes, anecdotes, and key points so same-type drafting can use abstract craft notes without importing canon."
+  ],
+  "toc_navigation_consistency_gate_hints": [
+    "Compare visible chapter headings, nav TOC, NCX when present, spine order, landmarks, and preview navigation before accepting an ebook export.",
+    "Flag missing, duplicate, empty, or reordered navigation entries separately from prose-quality findings.",
+    "For same-type creation, rebuild navigation from the transformed outline so source chapter titles or section hierarchy cannot leak into delivery."
   ],
   "top_down_story_planning_hints": [
     "Plan top-down: topic or premise -> book spec -> act plan -> chapter plan -> scene list -> scene draft.",
@@ -2731,7 +2801,19 @@
     "publication_metadata_findings",
     "toc_navigation_consistency_report",
     "nav_spine_heading_mismatches",
-    "reader_navigation_findings"
+    "reader_navigation_findings",
+    "editorial_pipeline_report",
+    "agent_role_handoff_findings",
+    "author_decision_boundary_findings",
+    "chapter_state_archive_diff_report",
+    "permanent_bible_state_drift_findings",
+    "current_state_pointer_findings",
+    "section_metadata_coverage_report",
+    "cast_location_item_section_gaps",
+    "plotline_section_trace_findings",
+    "ai_prose_fingerprint_cluster_report",
+    "voice_drift_cluster_findings",
+    "accepted_exception_pattern_ledger"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -12866,211 +12948,352 @@
       "trust_flags": []
     },
     {
-      "name": "toc_navigation_consistency_gate",
       "candidate_count": 5,
-      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
+      "name": "toc_navigation_consistency_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ],
       "sources": [
         {
-          "title": "Sigil-Ebook/Sigil",
-          "url": "https://github.com/Sigil-Ebook/Sigil",
-          "source": "github",
-          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
-          "stars": 6000,
           "license": "GPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 128,
+          "source": "github",
+          "stars": 6000,
+          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
+          "title": "Sigil-Ebook/Sigil",
           "trust_flags": [
             "zero-issues-high-stars"
           ],
-          "score": 128
+          "url": "https://github.com/Sigil-Ebook/Sigil"
         },
         {
-          "title": "w3c/epubcheck",
-          "url": "https://github.com/w3c/epubcheck",
-          "source": "github",
-          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
-          "stars": 1800,
           "license": "BSD-3-Clause",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1800,
+          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
+          "title": "w3c/epubcheck",
           "trust_flags": [
             "zero-issues-high-stars"
           ],
-          "score": 104
+          "url": "https://github.com/w3c/epubcheck"
         },
         {
-          "title": "daisy/ace",
-          "url": "https://github.com/daisy/ace",
-          "source": "github",
-          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
-          "stars": 650,
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 70,
+          "source": "github",
+          "stars": 650,
+          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
+          "title": "daisy/ace",
           "trust_flags": [],
-          "score": 70
+          "url": "https://github.com/daisy/ace"
         },
         {
-          "title": "w3c/epub-tests",
-          "url": "https://github.com/w3c/epub-tests",
-          "source": "github",
-          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
-          "stars": 120,
           "license": "W3C",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 70,
+          "source": "github",
+          "stars": 120,
+          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
+          "title": "w3c/epub-tests",
           "trust_flags": [],
-          "score": 70
+          "url": "https://github.com/w3c/epub-tests"
         },
         {
-          "title": "daisy/epub-accessibility-tests",
-          "url": "https://github.com/daisy/epub-accessibility-tests",
-          "source": "github",
-          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
-          "stars": 90,
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 51,
+          "source": "github",
+          "stars": 90,
+          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
+          "title": "daisy/epub-accessibility-tests",
           "trust_flags": [
             "license:missing"
           ],
-          "score": 51
+          "url": "https://github.com/daisy/epub-accessibility-tests"
         }
+      ],
+      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
       ]
     },
     {
-      "name": "epub_structure_validation_gate",
       "candidate_count": 2,
-      "top_source_url": "https://github.com/w3c/epubcheck",
+      "name": "epub_structure_validation_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
-      "trust_flags": [
-        "zero-issues-high-stars"
-      ],
       "sources": [
         {
-          "title": "w3c/epubcheck",
-          "url": "https://github.com/w3c/epubcheck",
-          "source": "github",
-          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
-          "stars": 1800,
           "license": "BSD-3-Clause",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 1800,
+          "summary": "EPUB conformance checker validating OPF manifest, package document, container.xml, spine validation, media-type validation, and navigation document. Static intake note: EPUBCheck is the W3C EPUB conformance checker for EPUB publications with package, OPF, manifest, spine, navigat",
+          "title": "w3c/epubcheck",
           "trust_flags": [
             "zero-issues-high-stars"
           ],
-          "score": 104
+          "url": "https://github.com/w3c/epubcheck"
         },
         {
-          "title": "w3c/epub-tests",
-          "url": "https://github.com/w3c/epub-tests",
-          "source": "github",
-          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
-          "stars": 120,
           "license": "W3C",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 70,
+          "source": "github",
+          "stars": 120,
+          "summary": "EPUB tests for EPUB 3 specifications covering package document, navigation document, spine order, and validation fixtures. Static intake note: W3C EPUB tests validate implementability of EPUB 3 specifications with focused EPUB fixtures and documentation. Absorb EPUB structure and",
+          "title": "w3c/epub-tests",
           "trust_flags": [],
-          "score": 70
+          "url": "https://github.com/w3c/epub-tests"
         }
+      ],
+      "top_source_url": "https://github.com/w3c/epubcheck",
+      "trust_flags": [
+        "zero-issues-high-stars"
       ]
     },
     {
-      "name": "ebook_accessibility_audit_gate",
       "candidate_count": 3,
-      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
+      "name": "ebook_accessibility_audit_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
-      "trust_flags": [
-        "zero-issues-high-stars",
-        "license:missing"
-      ],
       "sources": [
         {
-          "title": "Sigil-Ebook/Sigil",
-          "url": "https://github.com/Sigil-Ebook/Sigil",
-          "source": "github",
-          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
-          "stars": 6000,
           "license": "GPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 128,
+          "source": "github",
+          "stars": 6000,
+          "summary": "EPUB editor with nav TOC, NCX, table of contents, spine order, heading hierarchy, landmarks, and reader navigation surfaces. Static intake note: Sigil is an open-source EPUB editor for EPUB 2 and EPUB 3 with book browser, manifest, spine, metadata, and table-of-contents editing s",
+          "title": "Sigil-Ebook/Sigil",
           "trust_flags": [
             "zero-issues-high-stars"
           ],
-          "score": 128
+          "url": "https://github.com/Sigil-Ebook/Sigil"
         },
         {
-          "title": "daisy/ace",
-          "url": "https://github.com/daisy/ace",
-          "source": "github",
-          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
-          "stars": 650,
           "license": "MIT",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 70,
+          "source": "github",
+          "stars": 650,
+          "summary": "Ace by DAISY is an EPUB accessibility checker for accessibility metadata, WCAG, screen reader behavior, landmarks, alt text, and hazards. Static intake note: Ace by DAISY is an EPUB accessibility checking tool. Public README/package materials describe accessibility reports for EP",
+          "title": "daisy/ace",
           "trust_flags": [],
-          "score": 70
+          "url": "https://github.com/daisy/ace"
         },
         {
-          "title": "daisy/epub-accessibility-tests",
-          "url": "https://github.com/daisy/epub-accessibility-tests",
-          "source": "github",
-          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
-          "stars": 90,
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 51,
+          "source": "github",
+          "stars": 90,
+          "summary": "EPUB accessibility tests for reading system accessibility and reader navigation behavior. Static intake note: DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. Absorb accessibility fixture and reader-navigation audit patterns only; te",
+          "title": "daisy/epub-accessibility-tests",
           "trust_flags": [
             "license:missing"
           ],
-          "score": 51
+          "url": "https://github.com/daisy/epub-accessibility-tests"
         }
+      ],
+      "top_source_url": "https://github.com/Sigil-Ebook/Sigil",
+      "trust_flags": [
+        "zero-issues-high-stars",
+        "license:missing"
       ]
     },
     {
-      "name": "front_back_matter_metadata_gate",
       "candidate_count": 1,
-      "top_source_url": "https://github.com/standardebooks/tools",
+      "name": "front_back_matter_metadata_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
-      "trust_flags": [
-        "zero-issues-high-stars"
-      ],
       "sources": [
         {
-          "title": "standardebooks/tools",
-          "url": "https://github.com/standardebooks/tools",
-          "source": "github",
-          "summary": "Tools to produce ebooks with front matter, back matter, titlepage, endnotes, colophon, publication metadata, and build checks. Static intake note: Standard Ebooks tools support producing ebooks with setup, text processing, build, metadata, titlepage, endnotes, colophon, and relea",
-          "stars": 1430,
           "license": "GPL-3.0",
           "posture": "pattern-only",
           "posture_hint": "metadata-triage",
           "risk_flags": [],
+          "score": 68,
+          "source": "github",
+          "stars": 1430,
+          "summary": "Tools to produce ebooks with front matter, back matter, titlepage, endnotes, colophon, publication metadata, and build checks. Static intake note: Standard Ebooks tools support producing ebooks with setup, text processing, build, metadata, titlepage, endnotes, colophon, and relea",
+          "title": "standardebooks/tools",
           "trust_flags": [
             "zero-issues-high-stars"
           ],
-          "score": 68
+          "url": "https://github.com/standardebooks/tools"
         }
+      ],
+      "top_source_url": "https://github.com/standardebooks/tools",
+      "trust_flags": [
+        "zero-issues-high-stars"
       ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "agentic_editorial_pipeline_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 96,
+          "source": "github",
+          "stars": 88,
+          "summary": "Claude Book multi-agent novel framework with orchestrator, reusable skills, agents, permanent bible, transient chapter state, and timeline surfaces. Static intake note: absorb role handoff and chapter-state archive patterns only; no Claude Code agents are run.",
+          "title": "ThomasHoussin/Claude-Book",
+          "trust_flags": [],
+          "url": "https://github.com/ThomasHoussin/Claude-Book"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 93,
+          "source": "github",
+          "stars": 40,
+          "summary": "Novel Engine desktop book-building workflow with human author boundary and seven specialized editorial agents for pitch, scaffold, draft, analysis, revision, copy-edit, and export. Static intake note: absorb editorial pipeline gates only; AGPL runtime is not imported.",
+          "title": "john-paul-ruf/novel-engine",
+          "trust_flags": [],
+          "url": "https://github.com/john-paul-ruf/novel-engine"
+        }
+      ],
+      "top_source_url": "https://github.com/ThomasHoussin/Claude-Book",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "chapter_state_archive_ladder",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 95,
+          "source": "github",
+          "stars": 88,
+          "summary": "Claude Book separates permanent bible files from transient per-chapter state, latest current state, archived chapter states, state templates, and timeline history. Static intake note: absorb state archive ladder only; provider/runtime agents are not launched.",
+          "title": "ThomasHoussin/Claude-Book",
+          "trust_flags": [],
+          "url": "https://github.com/ThomasHoussin/Claude-Book"
+        }
+      ],
+      "top_source_url": "https://github.com/ThomasHoussin/Claude-Book",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "section_metadata_traceability_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 91,
+          "source": "github",
+          "stars": 1060,
+          "summary": "PlotPilot narrative-engine kernel exposes persistent memory, knowledge graph, DAG workflow, and creator review surfaces for long-form AI creation. Static intake note: absorb narrative metadata traceability only; services and workflows are not launched.",
+          "title": "shenminglinyi/PlotPilot",
+          "trust_flags": [
+            "license:needs-review"
+          ],
+          "url": "https://github.com/shenminglinyi/PlotPilot"
+        },
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 42,
+          "summary": "novelibre keeps section metadata associated with chapters and relates characters, locations, items, plot lines, and plot points to manuscript sections. Static intake note: absorb section traceability only; GPL/OpenOffice runtimes are not executed.",
+          "title": "peter88213/novelibre",
+          "trust_flags": [],
+          "url": "https://github.com/peter88213/novelibre"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 84,
+          "source": "github",
+          "stars": 4,
+          "summary": "Manuscript local-first desktop app for novelists provides structural analysis, pacing visualization, local SQLite storage, acts, beats, plot points, and chapter models. Static intake note: absorb local structural workbench patterns only; dependencies and AI providers are not run.",
+          "title": "DoktorDaveJoos/manuscript",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/DoktorDaveJoos/Manuscript"
+        }
+      ],
+      "top_source_url": "https://github.com/shenminglinyi/PlotPilot",
+      "trust_flags": [
+        "license:needs-review"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "ai_prose_fingerprint_cluster_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "mcp_runtime_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "mcp_runtime_surface"
+          ],
+          "score": 87,
+          "source": "github",
+          "stars": 12,
+          "summary": "Fiction Forge prose pattern scanner detects AI writing fingerprints, overused patterns, voice drift, severity scoring, and clusters for novel-length manuscripts. Static intake note: absorb prose fingerprint cluster gates only; MCP/scanner/publisher runtimes are not run.",
+          "title": "geobond13/fiction-forge",
+          "trust_flags": [],
+          "url": "https://github.com/geobond13/fiction-forge"
+        }
+      ],
+      "top_source_url": "https://github.com/geobond13/fiction-forge",
+      "trust_flags": []
     }
   ],
   "world_state_tracking_hints": [
@@ -13086,25 +13309,5 @@
   "writing_session_goal_tracking_hints": [
     "Track session-level word-count goals, accepted word counts, and progress status separately from quality gates.",
     "A word-count goal can guide scope, but it cannot override continuity, copy-risk, or synopsis gates."
-  ],
-  "epub_structure_validation_gate_hints": [
-    "Before final EPUB delivery, validate container, package document, OPF manifest, spine, nav document, media types, and validation errors as one report.",
-    "Treat EPUB validation as a packaging gate over accepted chapters; it must not mutate canon text or silently reorder chapter content.",
-    "For same-type creation, EPUB structure may inspire a delivery checklist, but source TOC, spine, and metadata order must be rebuilt for the new manuscript."
-  ],
-  "ebook_accessibility_audit_gate_hints": [
-    "Audit ebook accessibility metadata, landmarks, heading levels, reading order, alt text, language declarations, and hazard notes before publication export.",
-    "Accessibility findings become author-review tasks; do not auto-rewrite prose or inject external checker output into story canon.",
-    "For same-type creation, keep accessibility and reader-navigation standards while changing source-specific illustrations, captions, and front/back matter text."
-  ],
-  "front_back_matter_metadata_gate_hints": [
-    "Keep title page, copyright, dedication, foreword, endnotes, afterword, colophon, identifiers, and publication metadata in a separate delivery manifest.",
-    "Front/back matter can reference accepted canon and attribution policy, but must not become hidden prompt context for chapter continuation.",
-    "For same-type creation, regenerate title, subtitle, blurb-adjacent metadata, and colophon from the transformed book rather than source packaging."
-  ],
-  "toc_navigation_consistency_gate_hints": [
-    "Compare visible chapter headings, nav TOC, NCX when present, spine order, landmarks, and preview navigation before accepting an ebook export.",
-    "Flag missing, duplicate, empty, or reordered navigation entries separately from prose-quality findings.",
-    "For same-type creation, rebuild navigation from the transformed outline so source chapter titles or section hierarchy cannot leak into delivery."
   ]
 }

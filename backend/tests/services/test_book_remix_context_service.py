@@ -2729,3 +2729,45 @@ def test_build_remix_context_blocks_render_ebook_quality_audit():
         assert "accessibility metadata" in block
         assert "title page" in block
         assert "TOC/nav/NCX" in block
+
+
+
+def test_build_remix_context_blocks_render_agentic_editorial_craft_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "agentic_editorial_pipeline_gate", "candidate_count": 1},
+            {"name": "chapter_state_archive_ladder", "candidate_count": 1},
+            {"name": "section_metadata_traceability_gate", "candidate_count": 1},
+            {"name": "ai_prose_fingerprint_cluster_gate", "candidate_count": 1},
+        ],
+        "agentic_editorial_pipeline_gate_hints": ["Separate writing roles before accepting canon."],
+        "ai_prose_fingerprint_cluster_gate_hints": ["Scan voice drift clusters."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Editorial Workbench Desk",
+        bible={"hard_constraints": [{"rule": "Accepted canon changes need review"}]},
+        plan={"summary": "Continue with role handoffs, state archives, and section metadata."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Editorial Workbench",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep craft pressure only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source state snapshots.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Agentic editorial and craft workbench audit" in block
+        assert "agentic_editorial_pipeline_gate" in block
+        assert "chapter_state_archive_ladder" in block
+        assert "section_metadata_traceability_gate" in block
+        assert "ai_prose_fingerprint_cluster_gate" in block
+        assert "author/reviewer acceptance" in block
+        assert "permanent bible" in block
+        assert "cast, location, item" in block
+        assert "voice drift" in block

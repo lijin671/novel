@@ -164,6 +164,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("Ace by DAISY" OR "EPUB accessibility" OR "accessibility metadata" OR "WCAG") ("ebook" OR "reading system") in:name,description,readme',
     '("front matter" OR "back matter" OR "colophon" OR "titlepage") ("ebook" OR "EPUB" OR "manuscript") in:name,description,readme',
     '("EPUB tests" OR "navigation document" OR "nav toc" OR "spine order") ("ebook" OR "EPUB") in:name,description,readme',
+    '("multi-agent framework" OR "seven specialized AI agents" OR "editorial pipeline") ("novel" OR "book" OR "fiction") in:name,description,readme',
+    '("permanent bible" OR "chapter-NN" OR "state/current" OR "chapter state") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
+    '("section metadata" OR "characters locations items" OR "pacing visualization" OR "plot points") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
+    '("AI writing fingerprints" OR "prose pattern scanner" OR "voice drift" OR "cluster detection") ("novel" OR "fiction" OR "manuscript") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -371,6 +375,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Sigil-Ebook/Sigil",
     "https://github.com/w3c/epub-tests",
     "https://github.com/daisy/epub-accessibility-tests",
+    "https://github.com/john-paul-ruf/novel-engine",
+    "https://github.com/ThomasHoussin/Claude-Book",
+    "https://github.com/DoktorDaveJoos/Manuscript",
+    "https://github.com/geobond13/fiction-forge",
+    "https://github.com/shenminglinyi/PlotPilot",
+    "https://github.com/peter88213/novelibre",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -587,6 +597,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("ebook_accessibility_audit_gate", ("ace by daisy", "epub accessibility", "accessibility checker", "accessibility metadata", "wcag", "screen reader", "reading system accessibility", "alt text", "landmarks", "hazards", "\u53ef\u8bbf\u95ee\u6027", "\u9605\u8bfb\u7cfb\u7edf")),
     ("front_back_matter_metadata_gate", ("standard ebooks", "front matter", "back matter", "titlepage", "title page", "colophon", "endnotes", "copyright page", "publication metadata", "dc:title", "dc:creator", "\u524d\u8a00", "\u540e\u8bb0", "\u51fa\u7248\u5143\u6570\u636e")),
     ("toc_navigation_consistency_gate", ("sigil", "nav toc", "navigation document", "ncx", "spine order", "toc navigation", "table of contents", "heading hierarchy", "reader navigation", "landmarks", "\u76ee\u5f55\u5bfc\u822a", "\u9605\u8bfb\u5bfc\u822a")),
+    ("agentic_editorial_pipeline_gate", ("multi-agent framework", "seven specialized ai agents", "editorial production pipeline", "editorial pipeline", "professional editorial team", "book-building system", "planner writer reviewer", "copy-edit", "compile your manuscript", "claude book framework", "\u591a\u667a\u80fd\u4f53", "\u7f16\u8f91\u6d41\u6c34\u7ebf")),
+    ("chapter_state_archive_ladder", ("permanent bible", "transient state", "versioned per chapter", "chapter-nn", "archived states", "state/current", "state file templates", "timeline/history", "chapter state", "current symlink", "\u7ae0\u8282\u72b6\u6001", "\u72b6\u6001\u5f52\u6863")),
+    ("section_metadata_traceability_gate", ("section metadata", "characters, locations, and items", "characters locations items", "plot lines", "plot points", "pacing visualization", "structural analysis", "acts", "beats", "chapter metadata", "narrative dag", "knowledge graph", "\u77e5\u8bc6\u56fe\u8c31", "\u7ae0\u8282\u5143\u6570\u636e")),
+    ("ai_prose_fingerprint_cluster_gate", ("ai writing fingerprints", "prose pattern scanner", "overused patterns", "em-dashes", "show-then-tell", "hedging language", "voice drift", "severity scoring", "cluster detection", "defingerprint", "prose scanner", "\u673a\u5473", "\u98ce\u683c\u6f02\u79fb")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -1126,6 +1140,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "daisy/epub-accessibility-tests": (
         "DAISY EPUB accessibility tests provide EPUB fixtures for reading-system accessibility behavior. "
         "Absorb accessibility fixture and reader-navigation audit patterns only; test books are not downloaded or executed."
+    ),
+    "john-paul-ruf/novel-engine": (
+        "Novel Engine is an AGPL desktop book-building system with a human-author creative boundary and seven specialized AI editorial agents for pitch, scaffold, draft, analysis, revision, copy-edit, and export. "
+        "Absorb agentic editorial pipeline gates only; Electron/Claude/Pandoc runtimes are not installed or launched."
+    ),
+    "thomashoussin/claude-book": (
+        "Claude Book is a MIT Claude Code multi-agent framework for novel writing with reusable skills, agents, permanent bible files, transient per-chapter state, timeline history, and chapter archives. "
+        "Absorb role handoff and chapter-state archive patterns only; no Claude Code agents or generation providers are run."
+    ),
+    "doktordavejoos/manuscript": (
+        "Manuscript is a local-first desktop app for novelists with structural analysis, pacing visualization, prose refinement, AI-assisted review, local SQLite storage, acts, beats, and chapter models. "
+        "Absorb offline structural/pacing workbench patterns only; app code, AI providers, queues, and dependencies are not executed."
+    ),
+    "geobond13/fiction-forge": (
+        "Fiction Forge is a MIT prose pattern scanner and MCP context-server toolkit for AI-assisted novels, detecting AI writing fingerprints, voice drift, severity clusters, story-bible access, and publishing outputs. "
+        "Absorb prose fingerprint cluster gates only; MCP server, scanners, publisher, and image-generation tools are not run."
+    ),
+    "shenminglinyi/plotpilot": (
+        "PlotPilot is a narrative-engine kernel for long-form AI creation with persistent memory, knowledge graph, DAG workflows, and creator review surfaces. "
+        "Absorb section metadata and narrative traceability patterns only; services, models, and workflows are not launched."
+    ),
+    "peter88213/novelibre": (
+        "novelibre is a GPL novel organizer that keeps section metadata associated with manuscript chapters, relates characters, locations, items, plot lines, and plot points, and supports large-novel planning. "
+        "Absorb section metadata traceability patterns only; LibreOffice/OpenOffice add-ons and runtime files are not executed."
     ),
     "pdfminer/pdfminer.six": (
         "Pdfminer.six extracts text and layout information from PDF files. "
@@ -1890,6 +1928,10 @@ class NovelSourceDiscoveryService:
             "ebook_accessibility_audit_gate_hints": self._build_ebook_accessibility_audit_gate_hints(available_patterns),
             "front_back_matter_metadata_gate_hints": self._build_front_back_matter_metadata_gate_hints(available_patterns),
             "toc_navigation_consistency_gate_hints": self._build_toc_navigation_consistency_gate_hints(available_patterns),
+            "agentic_editorial_pipeline_gate_hints": self._build_agentic_editorial_pipeline_gate_hints(available_patterns),
+            "chapter_state_archive_ladder_hints": self._build_chapter_state_archive_ladder_hints(available_patterns),
+            "section_metadata_traceability_gate_hints": self._build_section_metadata_traceability_gate_hints(available_patterns),
+            "ai_prose_fingerprint_cluster_gate_hints": self._build_ai_prose_fingerprint_cluster_gate_hints(available_patterns),
             "literary_event_entity_annotation_gate_hints": self._build_literary_event_entity_annotation_gate_hints(available_patterns),
             "narrative_event_evolution_graph_gate_hints": self._build_narrative_event_evolution_graph_gate_hints(available_patterns),
             "sentiment_arc_emotion_trajectory_gate_hints": self._build_sentiment_arc_emotion_trajectory_gate_hints(available_patterns),
@@ -2519,6 +2561,10 @@ class NovelSourceDiscoveryService:
             "ebook_accessibility_audit_gate": 63,
             "front_back_matter_metadata_gate": 62,
             "toc_navigation_consistency_gate": 64,
+            "agentic_editorial_pipeline_gate": 65,
+            "chapter_state_archive_ladder": 66,
+            "section_metadata_traceability_gate": 64,
+            "ai_prose_fingerprint_cluster_gate": 65,
             "literary_event_entity_annotation_gate": 66,
             "narrative_event_evolution_graph_gate": 65,
             "sentiment_arc_emotion_trajectory_gate": 62,
@@ -2655,6 +2701,18 @@ class NovelSourceDiscoveryService:
         if "toc_navigation_consistency_gate" in patterns:
             targets.append("toc_navigation_policy")
             targets.append("spine_nav_heading_policy")
+        if "agentic_editorial_pipeline_gate" in patterns:
+            targets.append("editorial_role_manifest")
+            targets.append("author_decision_boundary_policy")
+        if "chapter_state_archive_ladder" in patterns:
+            targets.append("chapter_state_archive_policy")
+            targets.append("permanent_bible_transient_state_boundary")
+        if "section_metadata_traceability_gate" in patterns:
+            targets.append("section_metadata_schema")
+            targets.append("cast_location_item_section_index")
+        if "ai_prose_fingerprint_cluster_gate" in patterns:
+            targets.append("ai_prose_fingerprint_scan_policy")
+            targets.append("fingerprint_exception_ledger")
         if "graph_branching_atomicity" in patterns:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
@@ -3233,6 +3291,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["front_back_matter_report", "title_colophon_copyright_gaps", "publication_metadata_findings"])
         if "toc_navigation_consistency_gate" in patterns:
             targets.extend(["toc_navigation_consistency_report", "nav_spine_heading_mismatches", "reader_navigation_findings"])
+        if "agentic_editorial_pipeline_gate" in patterns:
+            targets.extend(["editorial_pipeline_report", "agent_role_handoff_findings", "author_decision_boundary_findings"])
+        if "chapter_state_archive_ladder" in patterns:
+            targets.extend(["chapter_state_archive_diff_report", "permanent_bible_state_drift_findings", "current_state_pointer_findings"])
+        if "section_metadata_traceability_gate" in patterns:
+            targets.extend(["section_metadata_coverage_report", "cast_location_item_section_gaps", "plotline_section_trace_findings"])
+        if "ai_prose_fingerprint_cluster_gate" in patterns:
+            targets.extend(["ai_prose_fingerprint_cluster_report", "voice_drift_cluster_findings", "accepted_exception_pattern_ledger"])
         if "literary_event_entity_annotation_gate" in patterns:
             targets.extend(["literary_entity_event_annotation_report", "event_participant_role_conflicts", "source_event_annotation_gaps"])
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -5175,6 +5241,42 @@ class NovelSourceDiscoveryService:
             "For same-type creation, rebuild navigation from the transformed outline so source chapter titles or section hierarchy cannot leak into delivery.",
         ]
 
+    def _build_agentic_editorial_pipeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agentic_editorial_pipeline_gate" not in patterns:
+            return []
+        return [
+            "Treat planner, architect, writer, reviewer, copy-editor, and compiler roles as separate review stages with explicit handoff artifacts.",
+            "The human author remains the creative authority; automated roles may propose changes, but accepted canon changes require an author/reviewer decision boundary.",
+            "For same-type creation, rebuild the role pipeline around the transformed premise rather than replaying source analysis outputs as draft instructions.",
+        ]
+
+    def _build_chapter_state_archive_ladder_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_state_archive_ladder" not in patterns:
+            return []
+        return [
+            "Keep permanent bible files separate from transient per-chapter state; archive the state snapshot after each accepted chapter.",
+            "A current-state pointer can speed prompting, but it must be reproducible from the chapter archive and must not overwrite historical states.",
+            "For same-type creation, create a fresh state ladder for the new story; source chapter state can inform structure only after entity and plot remap.",
+        ]
+
+    def _build_section_metadata_traceability_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "section_metadata_traceability_gate" not in patterns:
+            return []
+        return [
+            "Attach section/chapter metadata for cast, locations, items, plotlines, beats, pacing, status, and source evidence before generation or review.",
+            "Flag sections whose metadata lacks a matching accepted chapter, timeline event, or character/location/item reference.",
+            "For same-type creation, remap section metadata into new cast, places, objects, and plotline ids before drafting prose.",
+        ]
+
+    def _build_ai_prose_fingerprint_cluster_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ai_prose_fingerprint_cluster_gate" not in patterns:
+            return []
+        return [
+            "Scan accepted and candidate chapters for repeated AI-prose fingerprints, severity clusters, voice drift, hedging, overused punctuation, and show-then-tell patterns.",
+            "Fingerprint findings become targeted revision tasks with accepted/ignored exceptions; they must not auto-rewrite author voice or invented terms.",
+            "For same-type creation, reduce machine-prose fingerprints while preserving independence from source phrasing and source cadence.",
+        ]
+
     def _build_literary_event_entity_annotation_gate_hints(self, patterns: set[str]) -> list[str]:
         if "literary_event_entity_annotation_gate" not in patterns:
             return []
@@ -5860,6 +5962,14 @@ class NovelSourceDiscoveryService:
             targets.append("front_back_matter_metadata_remap")
         if "toc_navigation_consistency_gate" in patterns:
             targets.append("toc_navigation_remap")
+        if "agentic_editorial_pipeline_gate" in patterns:
+            targets.append("editorial_role_boundary_remap")
+        if "chapter_state_archive_ladder" in patterns:
+            targets.append("chapter_state_ladder_remap")
+        if "section_metadata_traceability_gate" in patterns:
+            targets.append("section_metadata_traceability_remap")
+        if "ai_prose_fingerprint_cluster_gate" in patterns:
+            targets.append("prose_fingerprint_threshold_remap")
         if "literary_event_entity_annotation_gate" in patterns:
             targets.append("literary_annotation_role_remap")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6107,6 +6217,14 @@ class NovelSourceDiscoveryService:
             hints.append("Rebuild front/back matter and metadata from the transformed book; source titlepage, colophon, and identifiers remain reference evidence only.")
         if "toc_navigation_consistency_gate" in patterns:
             hints.append("Generate TOC and navigation from the transformed outline after independence checks, not from the source EPUB hierarchy.")
+        if "agentic_editorial_pipeline_gate" in patterns:
+            hints.append("Use editorial roles to separate planning, drafting, review, copy-edit, and compile decisions; do not let a source-analysis role write canon directly.")
+        if "chapter_state_archive_ladder" in patterns:
+            hints.append("Use a fresh chapter-state archive for the new story and keep source-state snapshots as reference evidence only.")
+        if "section_metadata_traceability_gate" in patterns:
+            hints.append("Regenerate section metadata for new cast, locations, items, plotlines, beats, and pacing before same-type drafting.")
+        if "ai_prose_fingerprint_cluster_gate" in patterns:
+            hints.append("Clean AI-prose fingerprints through local revision while preserving transformed-story identity and avoiding source-like cadence.")
         if "literary_event_entity_annotation_gate" in patterns:
             hints.append("Transform literary entity/event annotations into new roles, event functions, and participant slots before drafting.")
         if "narrative_event_evolution_graph_gate" in patterns:
@@ -6282,6 +6400,14 @@ class NovelSourceDiscoveryService:
             hints.append("Compress only the transformed event history; source event outlines remain comparison material, not context.")
         if "agentic_story_world_simulation" in patterns:
             hints.append("Transform the agent world by changing roles, social graph, environment rules, and conflict incentives before simulation.")
+        if "agentic_editorial_pipeline_gate" in patterns:
+            hints.append("Transform editorial handoffs by requiring each role to operate on new-story artifacts and accepted reviewer decisions.")
+        if "chapter_state_archive_ladder" in patterns:
+            hints.append("Transform chapter state by creating a new bible/state/archive ladder before generating or revising chapters.")
+        if "section_metadata_traceability_gate" in patterns:
+            hints.append("Transform section metadata into new cast, location, item, plotline, beat, pacing, and status fields.")
+        if "ai_prose_fingerprint_cluster_gate" in patterns:
+            hints.append("Transform prose-fingerprint findings into local revision targets instead of copying source sentence rhythm.")
         if "delivery_manuscript_assembly" in patterns:
             hints.append("Transform final packaging by rebuilding chapter titles, sequence, acceptance manifest, and output metadata from the new story.")
         if "export_format_fidelity_audit" in patterns:
@@ -6671,6 +6797,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject EPUB exports whose package, OPF manifest, spine, or container metadata no longer matches the accepted transformed chapters.")
         if "ebook_accessibility_audit_gate" in patterns:
             hints.append("Reject accessibility fixes that copy source captions, alt text, landmark labels, or front/back matter wording.")
+        if "agentic_editorial_pipeline_gate" in patterns:
+            hints.append("Reject agent-role outputs that skip author/reviewer acceptance or paste source-analysis conclusions as new-story canon.")
+        if "chapter_state_archive_ladder" in patterns:
+            hints.append("Reject context packs where permanent bible, transient state, source state snapshots, and current chapter deltas are mixed without lineage.")
+        if "section_metadata_traceability_gate" in patterns:
+            hints.append("Reject section metadata that keeps source cast, location, item, plotline, beat, or pacing ids under renamed prose.")
+        if "ai_prose_fingerprint_cluster_gate" in patterns:
+            hints.append("Reject fingerprint cleanup that merely paraphrases source passages or preserves a source-like chapter cadence under smoother prose.")
         if "front_back_matter_metadata_gate" in patterns:
             hints.append("Reject packaging that preserves source titlepage, colophon, copyright text, identifiers, or publication metadata under new labels.")
         if "toc_navigation_consistency_gate" in patterns:
@@ -6793,6 +6927,10 @@ class NovelSourceDiscoveryService:
                 "ebook_accessibility_audit_gate",
                 "front_back_matter_metadata_gate",
                 "toc_navigation_consistency_gate",
+                "agentic_editorial_pipeline_gate",
+                "chapter_state_archive_ladder",
+                "section_metadata_traceability_gate",
+                "ai_prose_fingerprint_cluster_gate",
                 "literary_event_entity_annotation_gate",
                 "narrative_event_evolution_graph_gate",
                 "sentiment_arc_emotion_trajectory_gate",

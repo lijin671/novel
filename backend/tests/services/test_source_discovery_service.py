@@ -7006,3 +7006,192 @@ def test_default_discovery_sources_include_ebook_quality_projects():
     assert any("epubcheck" in query.lower() and "spine validation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("epub accessibility" in query.lower() and "wcag" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("front matter" in query.lower() and "colophon" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+
+def test_agentic_editorial_craft_projects_classify_into_workbench_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "john-paul-ruf/novel-engine",
+                "html_url": "https://github.com/john-paul-ruf/novel-engine",
+                "description": "Novel Engine is a book-building system with seven specialized AI agents, an editorial production pipeline, professional editorial team, copy-editing and manuscript compile steps.",
+                "stargazers_count": 40,
+                "forks_count": 4,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["ai-writing", "creative-writing", "multi-agent", "novel-writing"],
+                "updated_at": "2026-06-10T20:00:00Z",
+                "root_files": ["README.md", "package.json", "src"],
+            },
+            {
+                "full_name": "ThomasHoussin/Claude-Book",
+                "html_url": "https://github.com/ThomasHoussin/Claude-Book",
+                "description": "Claude Book is a multi-agent framework for writing novels with Claude Code, permanent bible files, transient state, state/current, chapter-NN archived states, timeline history, and state file templates.",
+                "stargazers_count": 88,
+                "forks_count": 10,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["claude-code", "creative-writing", "multiagent-systems"],
+                "updated_at": "2026-06-10T20:05:00Z",
+                "root_files": ["README.md", "CLAUDE.md", ".claude", "agents", "bible", "state"],
+            },
+            {
+                "full_name": "DoktorDaveJoos/manuscript",
+                "html_url": "https://github.com/DoktorDaveJoos/Manuscript",
+                "description": "Local-first desktop app for novelists with structural analysis, pacing visualization, prose refinement, local SQLite storage, acts, beats, plot points and chapters.",
+                "stargazers_count": 4,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novels", "writing", "writing-tool"],
+                "updated_at": "2026-06-10T20:10:00Z",
+                "root_files": ["README.md", "app", "database", "resources"],
+            },
+            {
+                "full_name": "geobond13/fiction-forge",
+                "html_url": "https://github.com/geobond13/fiction-forge",
+                "description": "Fiction Forge includes a prose pattern scanner for AI writing fingerprints, overused patterns, em-dashes, show-then-tell, hedging language, voice drift, severity scoring and cluster detection.",
+                "stargazers_count": 12,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-editing", "fiction", "mcp", "novel", "prose-linting"],
+                "updated_at": "2026-06-10T20:15:00Z",
+                "root_files": ["README.md", "pyproject.toml", "mcp", "templates"],
+            },
+            {
+                "full_name": "shenminglinyi/PlotPilot",
+                "html_url": "https://github.com/shenminglinyi/PlotPilot",
+                "description": "PlotPilot is a narrative engine kernel for AI long-form creation with persistent memory, knowledge graph, narrative DAG workflows and customized review pipelines.",
+                "stargazers_count": 1060,
+                "forks_count": 100,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "ai-writing"],
+                "updated_at": "2026-06-10T20:20:00Z",
+                "root_files": ["README.md", "backend", "frontend", "docs"],
+            },
+            {
+                "full_name": "peter88213/novelibre",
+                "html_url": "https://github.com/peter88213/novelibre",
+                "description": "novelibre keeps section metadata associated with chapters, relates characters, locations and items to sections, and assigns plot lines and plot points for large-novel planning.",
+                "stargazers_count": 42,
+                "forks_count": 9,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "novel-writing", "writer-tools"],
+                "updated_at": "2026-06-10T20:25:00Z",
+                "root_files": ["README.md", "src", "docs", "LICENSE"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T20:30:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "agentic_editorial_pipeline_gate" in by_title["john-paul-ruf/novel-engine"]["absorbed_patterns"]
+    assert "agentic_editorial_pipeline_gate" in by_title["ThomasHoussin/Claude-Book"]["absorbed_patterns"]
+    assert "chapter_state_archive_ladder" in by_title["ThomasHoussin/Claude-Book"]["absorbed_patterns"]
+    assert "section_metadata_traceability_gate" in by_title["DoktorDaveJoos/manuscript"]["absorbed_patterns"]
+    assert "ai_prose_fingerprint_cluster_gate" in by_title["geobond13/fiction-forge"]["absorbed_patterns"]
+    assert "section_metadata_traceability_gate" in by_title["shenminglinyi/PlotPilot"]["absorbed_patterns"]
+    assert "section_metadata_traceability_gate" in by_title["peter88213/novelibre"]["absorbed_patterns"]
+    assert "license:missing" in by_title["DoktorDaveJoos/manuscript"]["trust_review"]["flags"]
+
+
+def test_agentic_editorial_craft_pattern_pack_exposes_state_metadata_and_fingerprint_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T20:35:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/john-paul-ruf/novel-engine",
+                "title": "john-paul-ruf/novel-engine",
+                "summary": "Agentic editorial pipeline with author boundary and manuscript compile stages.",
+                "stars": 40,
+                "license": "AGPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["agentic_editorial_pipeline_gate"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/ThomasHoussin/Claude-Book",
+                "title": "ThomasHoussin/Claude-Book",
+                "summary": "Permanent bible and per-chapter archived transient state ladder.",
+                "stars": 88,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["chapter_state_archive_ladder"],
+                "score": 87,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/peter88213/novelibre",
+                "title": "peter88213/novelibre",
+                "summary": "Section metadata traceability for cast, locations, items, plot lines and plot points.",
+                "stars": 42,
+                "license": "GPL-3.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["section_metadata_traceability_gate"],
+                "score": 86,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/geobond13/fiction-forge",
+                "title": "geobond13/fiction-forge",
+                "summary": "AI prose fingerprint scanner with severity clusters and voice drift findings.",
+                "stars": 12,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["ai_prose_fingerprint_cluster_gate"],
+                "score": 85,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "editorial_role_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_state_archive_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "section_metadata_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "ai_prose_fingerprint_scan_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "editorial_pipeline_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_state_archive_diff_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "section_metadata_coverage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ai_prose_fingerprint_cluster_report" in pattern_pack["whole_book_analysis_targets"]
+    assert pattern_pack["agentic_editorial_pipeline_gate_hints"]
+    assert pattern_pack["chapter_state_archive_ladder_hints"]
+    assert pattern_pack["section_metadata_traceability_gate_hints"]
+    assert pattern_pack["ai_prose_fingerprint_cluster_gate_hints"]
+    assert "editorial_role_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_state_ladder_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "section_metadata_traceability_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "prose_fingerprint_threshold_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "agentic_editorial_pipeline_gate_hints" in digest
+    assert "chapter_state_archive_ladder_hints" in digest
+    assert "section_metadata_traceability_gate_hints" in digest
+    assert "ai_prose_fingerprint_cluster_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_agentic_editorial_craft_projects():
+    assert "https://github.com/john-paul-ruf/novel-engine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ThomasHoussin/Claude-Book" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/DoktorDaveJoos/Manuscript" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/geobond13/fiction-forge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/shenminglinyi/PlotPilot" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/peter88213/novelibre" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("multi-agent framework" in query.lower() and "editorial pipeline" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("permanent bible" in query.lower() and "chapter state" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("section metadata" in query.lower() and "pacing visualization" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ai writing fingerprints" in query.lower() and "cluster detection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
