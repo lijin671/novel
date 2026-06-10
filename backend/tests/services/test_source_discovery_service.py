@@ -11720,3 +11720,80 @@ def test_novel_template_source_adds_ideation_worksheet_foundation_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "ideation_worksheet_foundation_gate_hints" in digest
+
+
+
+def test_inkos_source_adds_confirmed_action_audit_recovery_gates():
+    assert "https://github.com/Narcooo/inkos" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("37-dimension audit" in query and "JSON Delta" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Narcooo/inkos",
+                "html_url": "https://github.com/Narcooo/inkos",
+                "description": (
+                    "InkOS is a local AI creation system for long-form novels, fan fiction, "
+                    "style imitation, continuation, and interactive worlds. Studio Chat, CLI, "
+                    "and TUI share an action surface; heavy actions require confirmation, "
+                    "completion is based on real tool results, context is protected / compressible, "
+                    "the Continuity Auditor runs a 37-dimension audit, at most one automatic "
+                    "revision pass is allowed, unresolved critical findings remain visible, "
+                    "the Writer emits a pre-write checklist and post-write settlement table, "
+                    "automatic state snapshots support rollback, file locking prevents concurrent "
+                    "writes, provider API keys and custom endpoints are configured by users, "
+                    "and JSON deltas go through applyRuntimeStateDelta and validateRuntimeState."
+                ),
+                "stargazers_count": 7110,
+                "forks_count": 1344,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["ai-novel-writing", "novel-generator", "creative-writing-ai", "openclaw-skill"],
+                "updated_at": "2026-06-10T23:19:22Z",
+                "root_files": [
+                    "README.md",
+                    "README.en.md",
+                    "LICENSE",
+                    "package.json",
+                    "pnpm-lock.yaml",
+                    "skills/SKILL.md",
+                    ".env.example",
+                    "scripts",
+                ],
+                "package_scripts": {
+                    "build": "pnpm -r build",
+                    "dev": "pnpm -r --parallel dev",
+                    "test": "pnpm -r test",
+                    "release": "pnpm build && pnpm test",
+                },
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T09:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    inkos = candidates["Narcooo/inkos"]
+    assert "confirmed_action_audit_recovery_gate" in inkos["absorbed_patterns"]
+    assert "same_type_creation" in inkos["absorbed_patterns"]
+    assert "schema_validated_state_delta" in inkos["absorbed_patterns"]
+    assert "memory_snapshot_versioning" in inkos["absorbed_patterns"]
+    assert "provider_key_surface" in inkos["risk_flags"]
+    assert "skill_install_surface" in inkos["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "confirmed_action_surface_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "audit_revision_recovery_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "action_confirmation_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "pre_write_checklist" in pattern_pack["whole_book_analysis_targets"]
+    assert "unresolved_critical_findings_queue" in pattern_pack["whole_book_analysis_targets"]
+    assert "immutable_state_delta_validation" in pattern_pack["whole_book_analysis_targets"]
+    assert "confirmed_action_recovery_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("confirmed action" in hint for hint in pattern_pack["confirmed_action_audit_recovery_gate_hints"])
+    assert any("completion must come from artifacts" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("unresolved critical findings" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("action/audit contract" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("revision debt" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "confirmed_action_audit_recovery_gate_hints" in digest

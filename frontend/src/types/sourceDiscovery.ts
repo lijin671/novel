@@ -199,6 +199,7 @@ export interface SourceDiscoveryPatternPack {
   anti_copy_style_rag_gate_hints?: string[];
   living_codex_editorial_workbench_gate_hints?: string[];
   agent_role_profile_workflow_gate_hints?: string[];
+  confirmed_action_audit_recovery_gate_hints?: string[];
   long_term_author_preference_memory_hints?: string[];
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];

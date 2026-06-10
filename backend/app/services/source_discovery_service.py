@@ -208,6 +208,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("OpenClaw" OR "agent skill") ("Chinese novel" OR "novel-writing" OR "web novel") in:name,description,readme',
     '("LangGraph" OR "story state" OR "story-writing") ("fiction" OR "novel" OR "agent") in:name,description,readme',
     '("agent-level LLM routing" OR "workflow timeline" OR "run details" OR "memory curator") ("LangGraph" OR "novel" OR "fiction") in:name,description,readme',
+    '("action surface" OR "37-dimension audit" OR "JSON Delta" OR "one automatic revision pass") ("novel" OR "continuation" OR "style imitation") in:name,description,readme',
     '("local-first" OR "privacy-first" OR "local RAG") ("novel" OR "web fiction" OR "creative writing") in:name,description,readme',
     '("story bible" OR "canon drift" OR "continuity checker") ("fiction" OR "novel" OR "long-form") in:name,description,readme',
     '("patch-NN" OR "outline.xml" OR "final.xml") ("AI novel" OR "drafting agent" OR "manuscript") in:name,description,readme',
@@ -355,7 +356,6 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/olivierkes/manuskript",
     "https://github.com/andreafeccomandi/bibisco",
     "https://github.com/wavemakercards/wavemaker-cards-v4",
-    "https://github.com/Narcooo/inkos",
     "https://github.com/MaoXiaoYuZ/Long-Novel-GPT",
     "https://github.com/dylanhogg/gptauthor",
     "https://github.com/kevboh/longform",
@@ -661,6 +661,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/DoktorDaveJoos/manuscript",
     "https://github.com/Meryouc/inkwell",
     "https://github.com/ayermac/novelos",
+    "https://github.com/Narcooo/inkos",
     "https://github.com/wwessex/Writer1",
     "https://github.com/adamwlarson/ai-book-writer",
     "https://github.com/302ai/302_novel_writing",
@@ -976,6 +977,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("editor_context_prose_analysis_gate", ("prose minion", "prose-minion", "vscode", "vs code", "professional-grade prose metrics", "contextual analysis", "manuscript analysis", "chapter analysis", "source analysis", "story bible")),
     ("living_codex_editorial_workbench_gate", ("living codex", "manuscript tree", "continuity engine", "editorial passes", "developmental pass", "line pass", "copy pass", "pacing curve", "emotional tempo", "pov balance", "dialogue ratio", "paragraph-level history", "acts, chapters, scenes", "yaml frontmatter", "promise/payoff")),
     ("agent_role_profile_workflow_gate", ("novelos", "agent chapter workflow", "planner, screenwriter, author, polisher, editor, memory curator, and publisher", "memory curator", "publisher", "workflow timeline", "run details", "run observability", "node events", "run doctor", "agent-level llm routing", "agent llm", "llm profiles")),
+    ("confirmed_action_audit_recovery_gate", ("inkos", "action surface", "heavy actions require confirmation", "completion is based on real tool results", "37-dimension audit", "37 dimension audit", "one automatic revision pass", "unresolved critical findings", "pre-write checklist", "post-write settlement table", "json deltas", "json delta", "applyruntimestatedelta", "validateruntimestate", "automatic state snapshot", "file locking", "protected / compressible", "style imitation", "continuation")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2299,6 +2301,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "StoryGraph is a MIT backend platform concept for converting long-form fiction into a validated narrative graph. Public README markers describe manuscript -> chapters -> scenes -> narrative events -> characters -> relationships -> plotlines -> timelines -> analytical queries, plus causal links, character states, knowledge states, timeline versions, unresolved plotlines, character absence gaps, and human review. "
         "Pattern-only adaptation for character-knowledge timeline gates; .NET/PostgreSQL/Docker/runtime services, AI extraction workers, and any real manuscript data are not launched or imported."
     ),
+    "narcooo/inkos": (
+        "InkOS is an AGPL-3.0 story-creation agent system for long-form novels, fan fiction, style imitation, continuation, and interactive worlds. Public README markers describe unified action surfaces, heavy-action confirmation, completion from tool results, protected/compressible context, 37-dimension audits, one automatic revision pass, unresolved critical findings, pre-write checklists, post-write settlement tables, automatic state snapshots, file locking, and schema-validated JSON deltas. "
+        "Pattern-only adaptation for confirmable chapter action, audit/revision recovery, and immutable state-delta gates; npm package install, ClawHub skill install, Studio/TUI/CLI runtime, provider calls, secrets, and generated project files are not launched or imported."
+    ),
     "ansrhkddns-web/k-webnovel-architect": (
         "k-webnovel-architect is an MIT Korean webnovel commercial-serialization planning skill. Public README markers describe genre grammar, reader persona and reward analysis, "
         "opening hook, episode roadmap, chapter production briefs, paid-conversion points, platform packaging checklists, retention diagnostics, and review/revision rubrics. "
@@ -3032,6 +3038,7 @@ class NovelSourceDiscoveryService:
             "editor_context_prose_analysis_gate_hints": self._build_editor_context_prose_analysis_gate_hints(available_patterns),
             "living_codex_editorial_workbench_gate_hints": self._build_living_codex_editorial_workbench_gate_hints(available_patterns),
             "agent_role_profile_workflow_gate_hints": self._build_agent_role_profile_workflow_gate_hints(available_patterns),
+            "confirmed_action_audit_recovery_gate_hints": self._build_confirmed_action_audit_recovery_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4004,6 +4011,7 @@ class NovelSourceDiscoveryService:
             "editor_context_prose_analysis_gate": 67,
             "living_codex_editorial_workbench_gate": 69,
             "agent_role_profile_workflow_gate": 68,
+            "confirmed_action_audit_recovery_gate": 70,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4254,6 +4262,9 @@ class NovelSourceDiscoveryService:
         if "agent_role_profile_workflow_gate" in patterns:
             targets.append("agent_role_profile_policy")
             targets.append("workflow_timeline_event_policy")
+        if "confirmed_action_audit_recovery_gate" in patterns:
+            targets.append("confirmed_action_surface_policy")
+            targets.append("audit_revision_recovery_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -4827,6 +4838,9 @@ class NovelSourceDiscoveryService:
         if "ideation_worksheet_foundation_gate" in patterns:
             targets.append("ideation_worksheet_policy")
             targets.append("premise_theme_question_contract")
+        if "confirmed_action_audit_recovery_gate" in patterns:
+            targets.append("action_surface_confirmation_policy")
+            targets.append("immutable_state_delta_policy")
         if "spec_driven_fiction_scene_tasks" in patterns:
             targets.append("fiction_constitution")
             targets.append("scene_task_backlog")
@@ -5091,6 +5105,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["manuscript_tree_scene_map", "codex_scene_reference_report", "editorial_pass_diagnostics", "continuity_engine_findings"])
         if "agent_role_profile_workflow_gate" in patterns:
             targets.extend(["agent_role_profile_matrix", "workflow_timeline_run_trace", "agent_llm_route_audit", "memory_curator_publish_boundary_findings"])
+        if "confirmed_action_audit_recovery_gate" in patterns:
+            targets.extend(["action_confirmation_trace", "pre_write_checklist", "post_write_settlement_table", "unresolved_critical_findings_queue", "immutable_state_delta_validation"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -5798,6 +5814,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before drafting, choose the manuscript tree node, linked living-codex entries, continuity findings, and editorial pass type that constrain the scene.")
         if "agent_role_profile_workflow_gate" in patterns:
             hints.append("Before a chapter run, choose the active agent role profile, its allowed context slice, model profile, output artifact, and canon-write permission.")
+        if "confirmed_action_audit_recovery_gate" in patterns:
+            hints.append("Before write/rewrite/continue actions, record the user-confirmed action label, context scope, accepted source refs, pre-write checklist, and recovery snapshot id; completion must come from artifacts, not model prose.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -6171,6 +6189,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist manuscript tree node id, linked codex entry ids, continuity finding ids, editorial pass type, diagnostic snapshot, and author acceptance status before reuse.")
         if "agent_role_profile_workflow_gate" in patterns:
             hints.append("Persist workflow timeline events with role id, node id, run id, artifact ids, route profile, retry/recovery state, token/latency counters, and promotion status.")
+        if "confirmed_action_audit_recovery_gate" in patterns:
+            hints.append("Persist action confirmation id, state snapshot id, audit dimension verdicts, revision pass count, unresolved critical findings, state-delta checksum, and rollback pointer with every accepted chapter action.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -6830,6 +6850,15 @@ class NovelSourceDiscoveryService:
             "Define planner, screenwriter, author, polisher, editor, memory curator, and publisher as role profiles with allowed inputs, output artifacts, model profile, and canon-write permission.",
             "Every workflow timeline event should record role, node id, artifact id, retry/recovery status, token/latency/cost budget, and whether it is diagnostic-only or canon-promoting.",
             "Memory-curator and publisher roles may package accepted state only; they cannot turn draft, source-analysis, or rejected role output into future context without reviewer acceptance.",
+        ]
+
+    def _build_confirmed_action_audit_recovery_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "confirmed_action_audit_recovery_gate" not in patterns:
+            return []
+        return [
+            "Treat each write, rewrite, continuation, style-imitation, and state-edit request as a confirmed action with explicit scope before any heavy generation starts.",
+            "Audit every draft with a fixed dimension list and allow at most one automatic revision pass; unresolved critical findings stay visible for human review instead of being buried by another rewrite.",
+            "Promote chapter state only through schema-validated immutable deltas backed by a pre-write snapshot, post-write settlement table, and rollback pointer.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9374,6 +9403,8 @@ class NovelSourceDiscoveryService:
             targets.append("character_knowledge_visibility_remap")
         if "ideation_worksheet_foundation_gate" in patterns:
             targets.append("ideation_worksheet_remap")
+        if "confirmed_action_audit_recovery_gate" in patterns:
+            targets.append("confirmed_action_recovery_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -9949,6 +9980,8 @@ class NovelSourceDiscoveryService:
             hints.append("For living-codex workbench prompts, name the scene node, codex backlinks, continuity warnings, and editorial pass scope instead of pasting raw source scene text.")
         if "agent_role_profile_workflow_gate" in patterns:
             hints.append("For role-profile workflows, route each prompt through the transformed story's own planner/screenwriter/author/editor/memory-curator brief instead of reusing source run state.")
+        if "confirmed_action_audit_recovery_gate" in patterns:
+            hints.append("For same-type work, rebuild the action/audit contract around the new story: confirmation labels, audit dimensions, revision limit, and unresolved findings cannot be copied from the source project.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -10871,6 +10904,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that mirror a source manuscript tree, codex backlink map, diagnostic curve, POV balance, or dialogue-ratio rhythm under renamed scene labels.")
         if "agent_role_profile_workflow_gate" in patterns:
             hints.append("Reject same-type runs that reuse source workflow timelines, role briefs, route profiles, retry traces, or memory-curator artifacts as transformed-story authority.")
+        if "confirmed_action_audit_recovery_gate" in patterns:
+            hints.append("Reject drafts when action confirmation is missing, revision debt is hidden, unresolved critical findings are dropped, or source audit wording/AI-tell lists become new-story canon.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Reject drafts that preserve the source secret matrix, reveal order, character absence gap, or who-knows-what timeline under renamed roles.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -11491,6 +11526,7 @@ class NovelSourceDiscoveryService:
                 "editor_context_prose_analysis_gate",
                 "living_codex_editorial_workbench_gate",
                 "agent_role_profile_workflow_gate",
+                "confirmed_action_audit_recovery_gate",
                 "offline_chapter_revision_export_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",
