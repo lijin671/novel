@@ -11,7 +11,9 @@
   "agentic_editorial_pipeline_gate_hints": [
     "Treat planner, architect, writer, reviewer, copy-editor, and compiler roles as separate review stages with explicit handoff artifacts.",
     "The human author remains the creative authority; automated roles may propose changes, but accepted canon changes require an author/reviewer decision boundary.",
-    "For same-type creation, rebuild the role pipeline around the transformed premise rather than replaying source analysis outputs as draft instructions."
+    "For same-type creation, rebuild the role pipeline around the transformed premise rather than replaying source analysis outputs as draft instructions.",
+    "Use editorial roles to separate planning, drafting, continuity review, copy-edit, and acceptance; source-analysis roles may not write canon directly.",
+    "Keep external agent packs as pattern-only evidence; project canon changes still require local workbench acceptance."
   ],
   "agentic_story_world_simulation_hints": [
     "Use multi-agent story-world simulation as a proposal generator for character behavior, social interaction, and world evolution.",
@@ -444,7 +446,9 @@
   "branching_choice_graph_hints": [
     "Model choices as explicit branch edges with source node, selected option, consequence scope, and merge/reject decision.",
     "Faithful continuation keeps optional branches outside main canon unless a branch edge is explicitly accepted.",
-    "For same-type creation, rebuild branch pressure and option intent without copying source option text or branch order."
+    "For same-type creation, rebuild branch pressure and option intent without copying source option text or branch order.",
+    "Model author-selected branches as alternatives until accepted; rejected branches remain non-canon.",
+    "For same-type creation, rebuild branch causes and merge points around the new premise instead of copying source topology."
   ],
   "card_workbench_hints": [
     "Represent reusable canon as editable cards: character, organization, location, hook, relationship, style, and chapter-state cards.",
@@ -515,7 +519,9 @@
   "choice_stats_consequence_gate_hints": [
     "Every choice-stat mutation needs a visible immediate or delayed consequence, plus a ledger entry naming trigger, stat delta, and payoff window.",
     "Reject hidden variable drift: no branch may change canon, relationship, or world state without an explicit consequence record.",
-    "For same-type creation, transform stat categories and consequence timing so source achievements, variables, and thresholds do not copy across."
+    "For same-type creation, transform stat categories and consequence timing so source achievements, variables, and thresholds do not copy across.",
+    "Record changed state, delayed consequence, and merge/reject decision for each interactive branch.",
+    "Redesign stat names, thresholds, and payoff cadence for transformed stories instead of inheriting source variables."
   ],
   "collapse_prevention_hints": [
     "Detect story collapse before acceptance: invalid model output, missing chapter goal, contradictory state, or causality break blocks write-back.",
@@ -746,7 +752,9 @@
   "cover_kdp_metadata_boundary_hints": [],
   "craft_role_pipeline_hints": [
     "Separate craft roles: architecture, character, prose, continuity, review, editing, and export should produce distinct artifacts.",
-    "A review role may request changes, but canon write-back stays with the owning generation or state-sync step."
+    "A review role may request changes, but canon write-back stays with the owning generation or state-sync step.",
+    "Expose which role owns outline, scene, continuity, prose, review, and export artifacts before batch generation.",
+    "Reject role handoffs that paste external prompts or generated samples into the local runtime context."
   ],
   "critic_verifier_loop_hints": [
     "Separate writer/reviser output from critic/verifier feedback so review findings cannot silently become canon.",
@@ -766,7 +774,11 @@
     "Use custom fiction entity labels beyond PERSON/ORG/LOC: faction, rank, artifact, power, species, place-type, title, invented term, and relationship label.",
     "Keep the source entity inventory as analysis evidence; same-type creation must rebuild an independent inventory before outlining."
   ],
-  "delivery_manuscript_assembly_hints": [],
+  "delivery_manuscript_assembly_hints": [
+    "Assemble final manuscripts only from accepted chapter/state artifacts with explicit order, heading, and metadata checks.",
+    "Keep state files, generated chapter files, and final export as separately auditable artifacts.",
+    "Do not reuse source table-of-contents order for same-type delivery; rebuild delivery order from the transformed outline."
+  ],
   "diff_span_copy_review_hints": [
     "Inspect diff spans between source exemplars and draft output; copied spans, sentence order, and semantic-cleanup matches require rewrite.",
     "Store span-level review notes with source ref, draft ref, match reason, decision, and rewrite action before accepting a risky chapter.",
@@ -840,7 +852,8 @@
   "export_format_fidelity_audit_hints": [
     "Treat TXT, Markdown, DOCX, PDF, and EPUB exports as derived artifacts; canon remains the accepted bible, plan, and chapter commits.",
     "Verify each export preserves chapter order, headings, title page metadata, table of contents, page numbering, and paragraph boundaries.",
-    "Do not let typography, font, spacing, or format conversion edits mutate story facts, chapter text, or continuity state."
+    "Do not let typography, font, spacing, or format conversion edits mutate story facts, chapter text, or continuity state.",
+    "Treat HTML/DOCX/TXT/EPUB outputs as derived artifacts that need format, metadata, heading, and independence checks."
   ],
   "fact_snapshot_delta_gate_hints": [
     "Before prose, assemble fact snapshots; after prose, emit typed change declarations and validate them through generation gates.",
@@ -869,7 +882,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T12:14:05+08:00",
+  "generated_at": "2026-06-10T13:08:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -2050,7 +2063,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 220,
+  "source_candidate_count": 224,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2070,6 +2083,10 @@
     "For continuation, fingerprint checks protect source fidelity boundaries; for same-type creation, they block copied route, wording, and scene topology."
   ],
   "source_titles": [
+    "tiny-flowlab/novel-studio-copilot-cli",
+    "guerra2fernando/libriscribe",
+    "muckelverk/pulpgen",
+    "bhed/sentiers-open-source",
     "KKKenChow/ai-novel-writer",
     "loreum-app/loreum",
     "olivierkes/manuskript",
@@ -6551,11 +6568,39 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 4,
       "name": "agentic_editorial_pipeline_gate",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 6,
+          "summary": "MIT multi-agent novel studio for Copilot CLI with 13 specialized agents, AGENTS.md auto-loading, @agent invocation, planning, writing, editing, continuity, and quality-control orchestration. Static intake note: absorb editorial role routing only; no Copilot CLI, hooks, prompts, or agents are run.",
+          "title": "tiny-flowlab/novel-studio-copilot-cli",
+          "trust_flags": [],
+          "url": "https://github.com/tiny-flowlab/novel-studio-copilot-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 2,
+          "summary": "Multi-agent book writing assistant with project manager, outliner, writer/editor roles, worldbuilding, draft generation, interactive editing, prompt files, and execution-cost logging. Static intake note: absorb craft-role handoff and budget visibility only; no prompts, providers, or CLI runtime are imported.",
+          "title": "guerra2fernando/libriscribe",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/guerra2fernando/libriscribe"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -6583,8 +6628,10 @@
           "url": "https://github.com/john-paul-ruf/novel-engine"
         }
       ],
-      "top_source_url": "https://github.com/ThomasHoussin/Claude-Book",
-      "trust_flags": []
+      "top_source_url": "https://github.com/tiny-flowlab/novel-studio-copilot-cli",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -10556,7 +10603,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "choice_stats_consequence_gate",
       "posture_hint": "defer-trust-review",
       "risk_flags": [],
@@ -10573,6 +10620,19 @@
           "title": "abrahamp47/storyforge-wiki",
           "trust_flags": [],
           "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 108,
+          "source": "github",
+          "stars": 3,
+          "summary": "MIT Claude Code-based agentic novel-writing system centered on author agency, interactive branch choices, author-selected narrative paths, choice consequences, literary-quality agents, and state snapshots for returning to earlier branches. Static intake note: absorb branch graph and consequence gates only; no Claude Code commands or agents are launched.",
+          "title": "bhed/sentiers-open-source",
+          "trust_flags": [],
+          "url": "https://github.com/bhed/sentiers-open-source"
         },
         {
           "license": "NOASSERTION",
@@ -10710,13 +10770,41 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 4,
       "name": "craft_role_pipeline",
-      "posture_hint": "metadata-triage",
+      "posture_hint": "defer-trust-review",
       "risk_flags": [
         "postinstall"
       ],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "github",
+          "stars": 6,
+          "summary": "MIT multi-agent novel studio for Copilot CLI with 13 specialized agents, AGENTS.md auto-loading, @agent invocation, planning, writing, editing, continuity, and quality-control orchestration. Static intake note: absorb editorial role routing only; no Copilot CLI, hooks, prompts, or agents are run.",
+          "title": "tiny-flowlab/novel-studio-copilot-cli",
+          "trust_flags": [],
+          "url": "https://github.com/tiny-flowlab/novel-studio-copilot-cli"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "defer-trust-review",
+          "risk_flags": [],
+          "score": 104,
+          "source": "github",
+          "stars": 2,
+          "summary": "Multi-agent book writing assistant with project manager, outliner, writer/editor roles, worldbuilding, draft generation, interactive editing, prompt files, and execution-cost logging. Static intake note: absorb craft-role handoff and budget visibility only; no prompts, providers, or CLI runtime are imported.",
+          "title": "guerra2fernando/libriscribe",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/guerra2fernando/libriscribe"
+        },
         {
           "license": "unknown",
           "posture": "pattern-only",
@@ -10746,8 +10834,10 @@
           "url": "https://github.com/EdwardAThomson/NovelWriter"
         }
       ],
-      "top_source_url": "https://github.com/howells/fiction",
-      "trust_flags": []
+      "top_source_url": "https://github.com/tiny-flowlab/novel-studio-copilot-cli",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 1,
@@ -11071,11 +11161,24 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 3,
+      "candidate_count": 4,
       "name": "branching_choice_graph",
       "posture_hint": "defer-trust-review",
       "risk_flags": [],
       "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 108,
+          "source": "github",
+          "stars": 3,
+          "summary": "MIT Claude Code-based agentic novel-writing system centered on author agency, interactive branch choices, author-selected narrative paths, choice consequences, literary-quality agents, and state snapshots for returning to earlier branches. Static intake note: absorb branch graph and consequence gates only; no Claude Code commands or agents are launched.",
+          "title": "bhed/sentiers-open-source",
+          "trust_flags": [],
+          "url": "https://github.com/bhed/sentiers-open-source"
+        },
         {
           "license": "MIT",
           "posture": "pattern-only",
@@ -11116,7 +11219,7 @@
           "url": "https://github.com/dfabulich/choicescript"
         }
       ],
-      "top_source_url": "https://github.com/inkle/ink",
+      "top_source_url": "https://github.com/bhed/sentiers-open-source",
       "trust_flags": []
     },
     {
@@ -11473,10 +11576,13 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "export_format_fidelity_audit",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "python_project",
+        "external_api_surface"
+      ],
       "sources": [
         {
           "license": "MIT",
@@ -11490,6 +11596,22 @@
           "title": "KKKenChow/ai-novel-writer",
           "trust_flags": [],
           "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project",
+            "external_api_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 10,
+          "summary": "MIT AI novel drafting agent with idea-to-outline, chapter writing, interactive editing, XML state files, project folders, final.html manuscript output, and derived manuscript artifacts. Static intake note: absorb manuscript assembly and export boundary gates only; no Gemini/provider or Python runtime is executed.",
+          "title": "muckelverk/pulpgen",
+          "trust_flags": [],
+          "url": "https://github.com/muckelverk/pulpgen"
         }
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
@@ -15771,6 +15893,35 @@
       ],
       "top_source_url": "https://github.com/Theltn/AICreativityJudge",
       "trust_flags": []
+    },
+    {
+      "name": "delivery_manuscript_assembly",
+      "candidate_count": 1,
+      "top_source_url": "https://github.com/muckelverk/pulpgen",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "python_project",
+        "external_api_surface"
+      ],
+      "trust_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project",
+            "external_api_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 10,
+          "summary": "MIT AI novel drafting agent with idea-to-outline, chapter writing, interactive editing, XML state files, project folders, final.html manuscript output, and derived manuscript artifacts. Static intake note: absorb manuscript assembly and export boundary gates only; no Gemini/provider or Python runtime is executed.",
+          "title": "muckelverk/pulpgen",
+          "trust_flags": [],
+          "url": "https://github.com/muckelverk/pulpgen"
+        }
+      ]
     }
   ],
   "world_state_tracking_hints": [

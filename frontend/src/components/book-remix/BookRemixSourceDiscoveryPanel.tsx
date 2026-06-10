@@ -41,6 +41,10 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/third-order-labs/longform-plugin',
   'https://github.com/hannasdev/mcp-writing',
   'https://github.com/xbraindance/Creative-writing-skill',
+  'https://github.com/tiny-flowlab/novel-studio-copilot-cli',
+  'https://github.com/guerra2fernando/libriscribe',
+  'https://github.com/muckelverk/pulpgen',
+  'https://github.com/bhed/sentiers-open-source',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -77,6 +81,12 @@ const PINNED_HINT_KEYS = new Set([
   'plan_draft_log_verify_loop_gate_hints',
   'mcp_scene_index_revision_boundary_hints',
   'verbalized_sampling_diversity_wiki_gate_hints',
+  'agentic_editorial_pipeline_gate_hints',
+  'craft_role_pipeline_hints',
+  'branching_choice_graph_hints',
+  'choice_stats_consequence_gate_hints',
+  'delivery_manuscript_assembly_hints',
+  'export_format_fidelity_audit_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -243,6 +253,9 @@ export default function BookRemixSourceDiscoveryPanel() {
 
           {workflowPatternEvidence.length ? (
             <Card size="small" title="Workflow pattern evidence">
+              <Text type="secondary">
+                {'证据只用于 pattern-only 静态吸收：不 clone、不安装、不执行，不把外部代码、长 README 或提示词直接导入运行时。'}
+              </Text>
               <List
                 size="small"
                 dataSource={workflowPatternEvidence}
@@ -285,6 +298,14 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Plan draft log verify loop gates', patternPackPayload?.plan_draft_log_verify_loop_gate_hints],
               ['MCP scene index revision boundaries', patternPackPayload?.mcp_scene_index_revision_boundary_hints],
               ['Verbalized sampling diversity wiki gates', patternPackPayload?.verbalized_sampling_diversity_wiki_gate_hints],
+            ])}
+            {renderHintGroup('Authorial agents / interactive delivery gates', [
+              ['Agentic editorial pipeline gates', patternPackPayload?.agentic_editorial_pipeline_gate_hints],
+              ['Craft role pipeline gates', patternPackPayload?.craft_role_pipeline_hints],
+              ['Branching choice graph gates', patternPackPayload?.branching_choice_graph_hints],
+              ['Choice stats consequence gates', patternPackPayload?.choice_stats_consequence_gate_hints],
+              ['Delivery manuscript assembly gates', patternPackPayload?.delivery_manuscript_assembly_hints],
+              ['Export format fidelity audit gates', patternPackPayload?.export_format_fidelity_audit_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

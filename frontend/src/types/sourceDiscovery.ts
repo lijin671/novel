@@ -96,6 +96,12 @@ export interface SourceDiscoveryPatternPack {
   plan_draft_log_verify_loop_gate_hints?: string[];
   mcp_scene_index_revision_boundary_hints?: string[];
   verbalized_sampling_diversity_wiki_gate_hints?: string[];
+  agentic_editorial_pipeline_gate_hints?: string[];
+  craft_role_pipeline_hints?: string[];
+  branching_choice_graph_hints?: string[];
+  choice_stats_consequence_gate_hints?: string[];
+  delivery_manuscript_assembly_hints?: string[];
+  export_format_fidelity_audit_hints?: string[];
   safety_constraints?: string[];
 }
 

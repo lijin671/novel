@@ -419,6 +419,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/third-order-labs/longform-plugin",
     "https://github.com/hannasdev/mcp-writing",
     "https://github.com/xbraindance/Creative-writing-skill",
+    "https://github.com/tiny-flowlab/novel-studio-copilot-cli",
+    "https://github.com/guerra2fernando/libriscribe",
+    "https://github.com/muckelverk/pulpgen",
+    "https://github.com/bhed/sentiers-open-source",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1297,6 +1301,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "xbraindance/creative-writing-skill": (
         "Creative Writing with Verbalized Sampling is a MIT creative-writing skill that uses verbalized sampling to avoid mode collapse, generate probability-scored diverse ideas/outlines/drafts, and auto-file drafts, characters, settings, and critique outputs into a persistent writer wiki. "
         "Absorb diversity-sampling and writer-wiki filing gates only; the skill is not installed and prompt files are not copied into runtime context."
+    ),
+    "tiny-flowlab/novel-studio-copilot-cli": (
+        "Novel Studio for Copilot CLI is a MIT multi-agent novel creation system. Public README/AGENTS.md describe 13 specialized agents, AGENTS.md auto-loading, "
+        "@agent invocation, planning, writing, editing, continuity, and quality-control orchestration. Absorb agentic editorial pipeline and craft-role routing gates only; "
+        "Copilot CLI, agents, hooks, prompts, and runtime command files are not installed, invoked, or copied into runtime context."
+    ),
+    "guerra2fernando/libriscribe": (
+        "LibriScribe is a multi-agent book writing assistant. Public README describes multi-agent orchestration, specialized agent roles, a project manager, outliner, writer/editor roles, worldbuilding, draft generation, "
+        "interactive editing, prompt files, and execution-cost logging. Absorb craft-role handoff, budget visibility, and editable-review-loop patterns only; provider calls, "
+        "agent prompts, CLI runtime, and generated sample content are not imported."
+    ),
+    "muckelverk/pulpgen": (
+        "pulpgen is a MIT AI novel drafting agent. Public README and project files describe idea-to-outline, chapter writing, interactive editing, XML state files, "
+        "project folders, final.html manuscript output, export format boundaries, and derived manuscript artifacts. Absorb outline/state-file and manuscript assembly gates only; Gemini/provider calls, Python runtime, "
+        "dependencies, and generated manuscript examples are not executed or imported."
+    ),
+    "bhed/sentiers-open-source": (
+        "Sentiers is a MIT Claude Code-based agentic novel-writing system centered on author agency. Public README describes interactive branch choices, author-selected "
+        "narrative paths, choice consequences, agent quality support, and state snapshots for returning to earlier branches. Absorb author-choice branch graph, consequence, and snapshot gates only; "
+        "Claude Code commands, derived Claude Book code, prompts, and runtime agents are not launched or copied."
     ),
     "pdfminer/pdfminer.six": (
         "Pdfminer.six extracts text and layout information from PDF files. "

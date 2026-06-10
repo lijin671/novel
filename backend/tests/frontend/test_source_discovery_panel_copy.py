@@ -37,6 +37,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "plan_draft_log_verify_loop_gate_hints",
         "mcp_scene_index_revision_boundary_hints",
         "verbalized_sampling_diversity_wiki_gate_hints",
+        "agentic_editorial_pipeline_gate_hints",
+        "craft_role_pipeline_hints",
+        "branching_choice_graph_hints",
+        "choice_stats_consequence_gate_hints",
+        "delivery_manuscript_assembly_hints",
+        "export_format_fidelity_audit_hints",
     ):
         assert field in types_text
         assert field in panel_text
@@ -49,6 +55,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Project workbench / memory diversity gates" in panel_text
     assert "Provider budget smoke gates" in panel_text
     assert "Wiki canon graph lint gates" in panel_text
+    assert "Authorial agents / interactive delivery gates" in panel_text
+    assert "Agentic editorial pipeline gates" in panel_text
+    assert "Branching choice graph gates" in panel_text
+    assert "Export format fidelity audit gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -87,6 +97,10 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "third-order-labs/longform-plugin",
         "hannasdev/mcp-writing",
         "xbraindance/Creative-writing-skill",
+        "tiny-flowlab/novel-studio-copilot-cli",
+        "guerra2fernando/libriscribe",
+        "muckelverk/pulpgen",
+        "bhed/sentiers-open-source",
     ):
         assert repo in panel_text
 
@@ -128,3 +142,5 @@ def test_source_discovery_panel_surfaces_workflow_pattern_evidence():
     assert "pattern.top_source_url" in panel_text
     assert "pattern.sources" in panel_text
     assert "source.posture" in panel_text
+    assert "pattern-only 静态吸收" in panel_text
+    assert "不 clone、不安装、不执行" in panel_text

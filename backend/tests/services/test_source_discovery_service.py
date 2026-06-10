@@ -7906,6 +7906,79 @@ def test_default_discovery_sources_include_project_workbench_memory_projects():
     assert any("canon governance" in query.lower() and "sqlite state" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("sliding-window memory" in query.lower() and "chapter range refinement" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("story bible wiki" in query.lower() and "relationship graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_default_discovery_sources_include_authorial_agent_interactive_delivery_projects():
+    assert "https://github.com/tiny-flowlab/novel-studio-copilot-cli" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/guerra2fernando/libriscribe" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/muckelverk/pulpgen" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/bhed/sentiers-open-source" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("interactive narrative" in query.lower() and "choice graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_static_authorial_agent_interactive_delivery_sources_map_to_workflow_gates():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "tiny-flowlab/novel-studio-copilot-cli",
+                "html_url": "https://github.com/tiny-flowlab/novel-studio-copilot-cli",
+                "description": "",
+                "stargazers_count": 6,
+                "license": {"spdx_id": "MIT"},
+                "topics": [],
+                "updated_at": "2026-06-10T03:00:00Z",
+                "root_files": ["README.md", "AGENTS.md", "LICENSE"],
+            },
+            {
+                "full_name": "guerra2fernando/libriscribe",
+                "html_url": "https://github.com/guerra2fernando/libriscribe",
+                "description": "",
+                "stargazers_count": 2,
+                "license": {},
+                "topics": [],
+                "updated_at": "2026-06-10T03:00:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "muckelverk/pulpgen",
+                "html_url": "https://github.com/muckelverk/pulpgen",
+                "description": "",
+                "stargazers_count": 10,
+                "license": {"spdx_id": "MIT"},
+                "topics": [],
+                "updated_at": "2026-06-10T03:00:00Z",
+                "root_files": ["README.md", "pyproject.toml", "LICENSE"],
+            },
+            {
+                "full_name": "bhed/sentiers-open-source",
+                "html_url": "https://github.com/bhed/sentiers-open-source",
+                "description": "",
+                "stargazers_count": 3,
+                "license": {"spdx_id": "MIT"},
+                "topics": [],
+                "updated_at": "2026-06-10T03:00:00Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T12:00:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "agentic_editorial_pipeline_gate" in candidates["tiny-flowlab/novel-studio-copilot-cli"]["absorbed_patterns"]
+    assert "craft_role_pipeline" in candidates["tiny-flowlab/novel-studio-copilot-cli"]["absorbed_patterns"]
+    assert "craft_role_pipeline" in candidates["guerra2fernando/libriscribe"]["absorbed_patterns"]
+    assert "delivery_manuscript_assembly" in candidates["muckelverk/pulpgen"]["absorbed_patterns"]
+    assert "export_format_fidelity_audit" in candidates["muckelverk/pulpgen"]["absorbed_patterns"]
+    assert "branching_choice_graph" in candidates["bhed/sentiers-open-source"]["absorbed_patterns"]
+    assert "choice_stats_consequence_gate" in candidates["bhed/sentiers-open-source"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "agentic_editorial_pipeline_gate_hints" in pattern_pack
+    assert "branching_choice_graph_hints" in pattern_pack
+    assert "delivery_manuscript_assembly_hints" in pattern_pack
     assert any("plan draft log verify" in query.lower() and "living documents" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("metadata-first analysis" in query.lower() and "safe scene revision" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("verbalized sampling" in query.lower() and "writer wiki" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
