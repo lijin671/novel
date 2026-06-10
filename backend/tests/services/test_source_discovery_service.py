@@ -434,6 +434,118 @@ def test_fresh_context_story_pipeline_sources_feed_prompt_pack():
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "fresh_context_chapter_iteration_gate_hints" in digest
 
+
+def test_author_control_webnovel_handbook_sources_feed_prompt_pack():
+    assert "https://github.com/fopearcano/storyplanner" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/giapnguyen74/xnovelist" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/waylean/plotrail" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/XINGANLIU/web-novel-writing-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/miserylee/webnovel-handbook" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ungden/truyencity2" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("AI is off by default" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("golden-three-chapters" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("PSYKE Story Bible" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "fopearcano/storyplanner",
+                "html_url": "https://github.com/fopearcano/storyplanner",
+                "description": "Creative writing tool with Narrative Engine, Story Grid, PSYKE Story Bible, continuity graph, and propose-then-confirm assistant actions.",
+                "stargazers_count": 1,
+                "license": None,
+                "topics": ["creative-writing", "story-planning"],
+                "updated_at": "2026-06-10T14:00:53Z",
+                "root_files": ["README.md", "requirements.txt", "run.py", "scripts"],
+            },
+            {
+                "full_name": "giapnguyen74/xnovelist",
+                "html_url": "https://github.com/giapnguyen74/xnovelist",
+                "description": "Local-first privacy-first novel editor where AI is off by default, workspace level caps AI reach, automatic snapshots, line-level diff, and drafts await review.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "local-first", "writing"],
+                "updated_at": "2026-06-08T14:31:50Z",
+                "root_files": ["README.md", "LICENSE", "package.json"],
+            },
+            {
+                "full_name": "waylean/plotrail",
+                "html_url": "https://github.com/waylean/plotrail",
+                "description": "Canon-aware AI novel writing skill with story bible before drafting, approved chapter contracts, memory ledgers, and continuity review for every chapter.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "fiction", "skill"],
+                "updated_at": "2026-06-07T07:11:03Z",
+                "root_files": ["README.md", "README.zh-CN.md", "LICENSE", "novel-writer"],
+            },
+            {
+                "full_name": "XINGANLIU/web-novel-writing-skill",
+                "html_url": "https://github.com/XINGANLIU/web-novel-writing-skill",
+                "description": "Chinese web novel writing skill with 10-stage pipeline, 7 expert roles, 4-layer anti-hallucination, state-sync memory, golden-three-chapters, and anti-AI-pattern gates.",
+                "stargazers_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["web-novel", "agentic", "chinese-novel"],
+                "updated_at": "2026-06-07T08:49:27Z",
+                "root_files": ["README.md", "AGENTS.md", "CLAUDE.md", "plugin.json", "skills"],
+            },
+            {
+                "full_name": "miserylee/webnovel-handbook",
+                "html_url": "https://github.com/miserylee/webnovel-handbook",
+                "description": "AI-agent handbook for Chinese webnovel workflows with docs/00-index.md routing and integrated drafting beta-reader feedback review revision workflow.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "handbook", "agent-workflow"],
+                "updated_at": "2026-06-09T19:07:10Z",
+                "root_files": ["README.md", "AGENTS.md", "SAFETY.md", "docs", "skills"],
+            },
+            {
+                "full_name": "ungden/truyencity2",
+                "html_url": "https://github.com/ungden/truyencity2",
+                "description": "AI-powered Vietnamese webnovel platform with Story Engine v2, Story Factory, 1000-chapter workflow, foreshadowing, timeline, power-system canon, autopilot, and prompt cache cost controls.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["webnovel", "story-factory", "autopilot"],
+                "updated_at": "2026-06-10T08:23:34Z",
+                "root_files": ["README.md", "package.json", "scripts", "supabase"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T23:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "narrative_strand_mapping" in candidates["fopearcano/storyplanner"]["absorbed_patterns"]
+    assert "author_candidate_canon_confirmation_gate" in candidates["fopearcano/storyplanner"]["absorbed_patterns"]
+    assert "local_first_novel_workspace" in candidates["giapnguyen74/xnovelist"]["absorbed_patterns"]
+    assert "review_queue_staging" in candidates["giapnguyen74/xnovelist"]["absorbed_patterns"]
+    assert "author_candidate_canon_confirmation_gate" in candidates["giapnguyen74/xnovelist"]["absorbed_patterns"]
+    assert "canon_drift_continuity_qa_gate" in candidates["waylean/plotrail"]["absorbed_patterns"]
+    assert "story_contract_commit_chain" in candidates["waylean/plotrail"]["absorbed_patterns"]
+    assert "skill_orchestrated_chinese_novel_workflow" in candidates["XINGANLIU/web-novel-writing-skill"]["absorbed_patterns"]
+    assert "boring_opening_quality_gates" in candidates["XINGANLIU/web-novel-writing-skill"]["absorbed_patterns"]
+    assert "anti_slop_rulepack_triage_gate" in candidates["XINGANLIU/web-novel-writing-skill"]["absorbed_patterns"]
+    assert "progressive_disclosure_skill_protocol_gate" in candidates["miserylee/webnovel-handbook"]["absorbed_patterns"]
+    assert "webnovel_genre_tracker_gate" in candidates["ungden/truyencity2"]["absorbed_patterns"]
+    assert "multi_book_autopilot_studio_gate" in candidates["ungden/truyencity2"]["absorbed_patterns"]
+    assert "provider_budget_smoke_gate" in candidates["ungden/truyencity2"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert pattern_pack["author_candidate_canon_confirmation_gate_hints"]
+    assert pattern_pack["progressive_disclosure_skill_protocol_gate_hints"]
+    assert pattern_pack["webnovel_genre_tracker_gate_hints"]
+    assert pattern_pack["provider_budget_smoke_gate_hints"]
+    assert "candidate_canon_confirmation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "multi_book_profile_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "preview" in " ".join(pattern_pack["author_candidate_canon_confirmation_gate_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "author_candidate_canon_confirmation_gate_hints" in digest
+    assert "progressive_disclosure_skill_protocol_gate_hints" in digest
+    assert "webnovel_genre_tracker_gate_hints" in digest
+    assert "provider_budget_smoke_gate_hints" in digest
+
     assert "https://github.com/dorakingx/novelpilot" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/heaversm/ralph-storywriter" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("continuity detective" in query.lower() and "foreshadowing tracker" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

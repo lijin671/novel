@@ -218,6 +218,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("TellMeWhy" OR "why-questions" OR "helpful sentences") ("narratives" OR "story") in:name,description,readme',
     '("Story Commonsense" OR "naive psychology" OR "character motivations") ("story" OR "narrative") in:name,description,readme',
     '("SQuALITY" OR "question-focused" OR "multi-reference summarization") ("long-document" OR "story") in:name,description,readme',
+    '("AI is off by default" OR "workspace level" OR "line-level diff") ("novel" OR "fiction") in:name,description,readme',
+    '("canon-aware" OR "chapter contracts" OR "drafts/reviews/research") ("novel" OR "long-form fiction") in:name,description,readme',
+    '("state-sync memory" OR "golden-three-chapters" OR "anti-AI-pattern") ("web novel" OR "long-form fiction") in:name,description,readme',
+    '("AI-agent handbook" OR "integrated drafting beta review revision") ("Chinese webnovel" OR "webnovel") in:name,description,readme',
+    '("PSYKE Story Bible" OR "Narrative Engine" OR "Story Grid") ("creative writing" OR "novel") in:name,description,readme',
+    '("Story Engine v2" OR "1000-chapter" OR "prompt cache") ("webnovel" OR "story factory") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -495,6 +501,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/netflypsb/webnovel-mcp",
     "https://github.com/hackertaco/novel-generator",
     "https://github.com/eristoddle/git-write",
+    "https://github.com/fopearcano/storyplanner",
+    "https://github.com/giapnguyen74/xnovelist",
+    "https://github.com/waylean/plotrail",
+    "https://github.com/XINGANLIU/web-novel-writing-skill",
+    "https://github.com/miserylee/webnovel-handbook",
+    "https://github.com/ungden/truyencity2",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -570,10 +582,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("author_note_layer", ("author's note", "authors note", "author note", "insertion frequency", "in-chat", "chat memory", "作者注释", "作者备注", "提示词层")),
     ("world_state_tracking", ("solo tabletop game master", "players, locations, regions, and items", "world state", "story state", "persistent state", "central state", "state parser", "event memory", "event memories", "fact memory", "fact memories", "emotional memory", "emotional memories", "relationship memory", "relationship memories", "scene log", "review logs", "structured prompts", "世界状态", "实体状态", "场景日志")),
     ("memory_snapshot_versioning", ("git for ai agent memory", "snapshot", "branch", "merge", "rollback", "memory versioning", "memory branch", "compaction", "consolidation", "memory rollup", "memory rollups", "multi-tier memory", "记忆快照", "记忆分支", "回滚")),
-    ("local_first_novel_workspace", ("local-first", "local first", "offline access", "indexeddb", "multi-novel", "active novel", "workspace", "local data persistence", "novel workspace", "本地优先", "离线访问", "多小说工作区")),
+    ("local_first_novel_workspace", ("local-first", "local first", "privacy-first", "offline access", "indexeddb", "multi-novel", "active novel", "workspace", "local data persistence", "novel workspace", "own every word", "no subscription", "your prose stays on your device", "local model", "本地优先", "离线访问", "多小说工作区")),
     ("prompt_library", ("prompt manager", "prompt library", "task-specific prompt", "task prompts", "system prompt", "reset prompts", "prompt template", "提示词库", "提示词管理", "任务提示词")),
     ("scene_level_generation", ("scene-level generation", "scene level generation", "scene-by-scene", "scene drafts", "plan scenes", "draft scene", "scene text writing", "generate prose for each scene", "场景级生成", "逐场景生成")),
-    ("review_queue_staging", ("review queue", "pendingchange", "pending change", "staging area", "diff view", "accept edit reject", "accept all", "staged not applied", "审查队列", "暂存区", "待审核变更")),
+    ("review_queue_staging", ("review queue", "pendingchange", "pending change", "staging area", "diff view", "line-level diff", "automatic snapshots", "draft awaiting your review", "accept edit reject", "accept all", "staged not applied", "审查队列", "暂存区", "待审核变更")),
     ("style_guide_layering", ("style guide", "base style guide", "scene override", "scene overrides", "character voice", "character voices", "voicenotes", "voice notes", "pov conventions", "dialogue rules", "风格指南", "场景覆写", "角色语音")),
     ("entity_schema_custom_fields", ("custom entity types", "custom entity type", "custom fields", "custom field schemas", "fieldschema", "field schema", "entity types", "field schemas", "自定义实体", "自定义字段", "字段模式")),
     ("content_ref_externalization", ("contentref", "content ref", "content externalization", "externalized content", "large text blobs", ".saga/content", "lightweight checkpoints", "外置内容", "内容引用")),
@@ -607,7 +619,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("synopsis_cross_reference", ("synopsis", "comments", "cross-referencing", "cross reference", "metadata syntax", "notes", "comment", "摘要", "交叉引用")),
     ("snowflake_premise_expansion", ("snowflake method", "snowflake", "one sentence", "to a paragraph", "full summary", "step-by-step story development", "premise expansion", "premise from one sentence", "雪花法", "一句话", "完整梗概")),
     ("outliner_index_cards", ("outliner", "outline mode", "index cards", "grid planner", "plot point management", "plot points", "reorderable nestable scenes", "reorderable, nestable list", "reorderable scenes", "nestable scenes", "re-organize chapters and scenes", "edit and re-organize", "chapter and scene management", "大纲模式", "索引卡", "章节重排")),
-    ("narrative_strand_mapping", ("narrative strands", "fabula", "premise", "settings: geographic, temporal and social context", "geographic, temporal and social context", "story line", "叙事线", "故事线", "社会背景")),
+    ("narrative_strand_mapping", ("narrative strands", "narrative engine", "story grid", "multi-plot", "act/beat analysis", "fabula", "premise", "settings: geographic, temporal and social context", "geographic, temporal and social context", "story line", "叙事线", "故事线", "社会背景")),
     ("character_depth_interview", ("know everything about your characters", "believable characters", "human nature", "character complexity", "character interview", "人物访谈", "人物深描", "可信人物")),
     ("mindmap_visual_planning", ("mind mapping", "mind map", "interactive visual story planning", "visual story planning", "drag-and-drop node", "visual links", "visualization tools", "脑图", "思维导图")),
     ("manuscript_export_formats", ("export novel in pdf, docx, or txt", "export formats", "import/export formats", "import and export", "import and export document formats", "document formats", "html, epub, opendocument, docx", "pdf, docx, txt", "markdown export", "markdown and html export", "html export", "json exports", "导出", "文档格式")),
@@ -624,7 +636,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("continuity_bridge_window", ("continuity bridge", "previous 2 episodes", "previous two episodes", "collects timeline", "feeds it to the creation agent", "progress.md", "continuity state")),
     ("episode_range_rewrite_scope", ("episode range", "ep001-ep010", "range arguments", "impact scope", "rewrite episodes", "auto-calculates impact scope", "after design changes")),
     ("voice_table_polish_axis", ("voice table", "speech patterns", "sentence endings", "non-verbal palette", "voice consistency", "voice checker", "voice axis", "polish axes")),
-    ("boring_opening_quality_gates", ("boring detect", "boring-detect", "running-log", "opening check", "opening-check", "golden three chapters", "quality check", "hook", "reader experience")),
+    ("boring_opening_quality_gates", ("boring detect", "boring-detect", "running-log", "opening check", "opening-check", "golden three chapters", "golden-three-chapters", "quality check", "hook", "reader experience")),
     ("beat_strand_framework", ("36-beat", "36 beat", "three interwoven strands", "quest", "fire", "constellation", "forge points", "apex", "mercy engine", "narrative framework")),
     ("anti_hallucination_plan_check", ("anti-hallucination", "strict verification against planning documents", "verification against planning documents", "hallucination", "forgetting", "reduce forgetting", "memory and hallucination guard")),
     ("backup_restore_checkpoint", ("automatic backups", "restore from backup", "crucible-restore", "git backup", "backup", "restore", "never lose your work")),
@@ -651,7 +663,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("nrd_task_tree_pipeline", ("nrd", "arcs/chapters/scenes", "revision passes", "tagged workflow", "continuity reporting", "task tree", "novel master")),
     ("sampling_parameter_quality_sweep", ("sampling grid", "temperature", "top_p", "top-k", "sampling parameter", "quality sweep", "parameter sweep")),
     ("story_structure_rag_planning", ("wikiquote", "hero's journey", "freytag", "story structure rag", "style/thematic samples", "acts/chapters pre-planning", "thematic samples")),
-    ("story_contract_commit_chain", ("story contract", "story contracts", "chapter_commit", "chapter commit", "合同", "提交链", "故事合同", "唯一的事实源头", "主链", "accepted chapter_commit")),
+    ("story_contract_commit_chain", ("story contract", "story contracts", "chapter contract", "chapter contracts", "chapter_commit", "chapter commit", "approved chapter contract", "合同", "提交链", "故事合同", "唯一的事实源头", "主链", "accepted chapter_commit")),
     ("fact_snapshot_delta_gate", ("fact snapshot", "事实快照", "15维事实快照", "12类变更声明", "state write-back", "fact write-back", "状态回写", "事实回写", "变更声明", "generation gates", "生成门禁", "统一校验")),
     ("projection_sync_observability", ("projection_log", "projection log", "state/index/summary/memory/vector", "投影", "派生视图", "只读视图", "dashboard", "doctor", "preflight", "项目体检", "可视化面板")),
     ("foreshadowing_debt_budget", ("foreshadowing debt", "foreshadowing tracking", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
@@ -715,18 +727,18 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("chapter_state_archive_ladder", ("permanent bible", "transient state", "versioned per chapter", "chapter-nn", "archived states", "state/current", "state file templates", "timeline/history", "chapter state", "current symlink", "\u7ae0\u8282\u72b6\u6001", "\u72b6\u6001\u5f52\u6863")),
     ("section_metadata_traceability_gate", ("section metadata", "characters, locations, and items", "characters locations items", "plot lines", "plot points", "pacing visualization", "structural analysis", "acts", "beats", "chapter metadata", "narrative dag", "knowledge graph", "\u77e5\u8bc6\u56fe\u8c31", "\u7ae0\u8282\u5143\u6570\u636e")),
     ("ai_prose_fingerprint_cluster_gate", ("ai writing fingerprints", "prose pattern scanner", "overused patterns", "em-dashes", "show-then-tell", "hedging language", "voice drift", "severity scoring", "cluster detection", "defingerprint", "prose scanner", "\u673a\u5473", "\u98ce\u683c\u6f02\u79fb")),
-    ("author_candidate_canon_confirmation_gate", ("candidate is not canon", "candidates are not canon", "candidate-not-canon", "preview confirm apply", "preview / confirm / apply", "preview/confirm/apply", "confirmed true", "source: user-explicit", "ai-suggested", "clarification rollback", "candidate outline", "canon review", "\u5019\u9009\u4e0d\u5165\u6b63\u5178", "\u9884\u89c8\u786e\u8ba4\u5e94\u7528", "\u5019\u9009\u5927\u7eb2", "\u4f5c\u8005\u786e\u8ba4", "\u56de\u6eda")),
+    ("author_candidate_canon_confirmation_gate", ("candidate is not canon", "candidates are not canon", "candidate-not-canon", "preview confirm apply", "preview / confirm / apply", "preview/confirm/apply", "propose-then-confirm", "safe propose-then-confirm", "ai is off by default", "ai levels", "workspace level", "level 0 to 5", "single dial", "ai prose, in a slot you defined", "confirmed true", "source: user-explicit", "ai-suggested", "clarification rollback", "candidate outline", "canon review", "候选不入正典", "预览确认应用", "候选大纲", "作者确认", "回滚")),
     ("progressive_spoiler_context_window_gate", ("spoiler filtering", "spoiler filter", "future chapter", "future chapters", "future-chapter", "six-stage", "six stage", "stage-aware", "progressive pacing", "strict moderate minimal none", "range validation", "context window", "context-window", "anti-rushing", "\u5267\u900f\u8fc7\u6ee4", "\u672a\u6765\u7ae0\u8282", "\u9636\u6bb5\u611f\u77e5", "\u4e0a\u4e0b\u6587\u7a97\u53e3", "rag\u8303\u56f4", "\u9632\u62a2\u8dd1")),
     ("chapter_control_card_writeback_gate", ("chapter control card", "chapter control cards", "control-card", "control card", "control-cards", "dynamic state file", "dynamic state management", "state write-back", "write back", "chapter title control", "chapter handoff pressure", "\u7ae0\u8282\u63a7\u5236\u5361", "\u52a8\u6001\u72b6\u6001", "\u5199\u56de", "\u6807\u9898\u63a7\u5236", "\u7ed3\u5c3e\u94a9\u5b50")),
     ("trace_replay_revision_workspace_gate", ("trace replay", "decision trace", "chapter workbench", "memory browser", "quality dashboard", "reviewable and traceable", "trajectory replay", "rebuild this chapter", "\u8f68\u8ff9\u56de\u653e", "\u51b3\u7b56\u8ffd\u8e2a", "\u7ae0\u8282\u5de5\u4f5c\u53f0", "\u91cd\u5199\u5f71\u54cd")),
     ("relationship_graph_global_replace_gate", ("global find replace", "global search replace", "find and replace", "one-click replace", "graphviz", "relationship graph", "character relationship graph", "upstream change", "conflict warning", "\u5168\u5c40\u67e5\u627e\u66ff\u6362", "\u5173\u7cfb\u56fe", "\u4eba\u7269\u5173\u7cfb\u56fe", "\u4e00\u952e\u66ff\u6362", "\u51b2\u7a81\u9884\u8b66")),
     ("bookrun_audit_trail_gate", ("bookrun", "book run", "blueprint", "judge/repair", "judge repair", "export audit", "audit_report.json", "book.md", "checkpoint resume", "real llm smoke", "core verification", "e2e run")),
-    ("provider_budget_smoke_gate", ("provider budget", "llm profile", "llm profile routing", "token budget", "time budget", "cost tracking", "provider fallback", "provider smoke", "real llm smoke", "smoke gate", "budget controls")),
+    ("provider_budget_smoke_gate", ("provider budget", "llm profile", "llm profile routing", "token budget", "time budget", "cost tracking", "prompt cache", "cache hit", "cost per 1000-chapter", "provider fallback", "provider smoke", "real llm smoke", "smoke gate", "budget controls")),
     ("sidecar_memory_profile_boundary", ("python sidecar", "go api gateway", "graph/vector memory", "graph memory", "vector memory", "deployment profiles", "sqlite-only", "no-graph-vector", "qdrant", "neo4j", "redis", "sidecar")),
     ("outline_checkpoint_milestone_gate", ("outline checkpoint", "chapter milestone", "narrative milestone", "narrative milestones", "story bible truth source", "story bible as truth source", "checkpoint constraints", "layered outline", "blueprint milestone", "chapter sequence")),
     ("language_localization_style_profile_gate", ("vietnamese writing patterns", "style_guide_vn", "style guide vn", "localized writing rules", "language style guide", "language-specific style", "units:", "proper nouns/terms", "cumulative glossary", "\u6587\u98ce\u6837\u672c", "\u672c\u5730\u5316")),
-    ("progressive_disclosure_skill_protocol_gate", ("progressive disclosure", "intent-based command routing", "protocol files", "protocols/", "codex/", "entry light", "protocol heavy", "knowledge base", "command routing", "\u6e10\u8fdb\u5f0f\u62ab\u9732", "\u6307\u4ee4\u8def\u7531", "\u8fd0\u884c\u534f\u8bae")),
-    ("anti_slop_rulepack_triage_gate", ("no-slop", "banned vocabulary", "ai writing patterns", "prose linter", "simple copulas", "marketing language", "vague attribution", "slop", "rulepack", "triage")),
+    ("progressive_disclosure_skill_protocol_gate", ("progressive disclosure", "intent-based command routing", "protocol files", "protocols/", "codex/", "entry light", "protocol heavy", "knowledge base", "agent workflow handbook", "agent should not put the entire repo", "docs/00-index.md", "command routing", "渐进式披露", "指令路由", "运行协议")),
+    ("anti_slop_rulepack_triage_gate", ("no-slop", "banned vocabulary", "ai writing patterns", "anti-ai-pattern", "anti ai pattern", "prose linter", "simple copulas", "marketing language", "vague attribution", "slop", "rulepack", "triage", "反 ai 痕迹")),
     ("user_modifier_project_blueprint_gate", ("project modifiers", "target novel length", "target chapter word count", "ai-driven initial planning", "initial plan", "idea spark", "dashboard", "live timings", "system log", "project state", "export json")),
     ("portable_canon_skill_runtime_gate", ("canon governance", "canon layer", "portable skill runtime", "story/*.md", "markdown frontmatter", "sqlite state", "canon-sync", "artifact index", "project config", "skill runtime")),
     ("staged_outline_chunk_window_gate", ("sliding-window memory", "focused plot context", "adjacent parts", "cjk-aware counter", "start chapter", "end chapter", "chapter range refinement", "batch start", "resume interrupted generation", "plot token usage")),
@@ -768,7 +780,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("inline_author_edit_markup_versioning", ("story framework", "markdown files and git", "source of truth", "continuity/timeline.md", "continuity/facts.md", "process edit notes", "[[pov", "{{fix", "git tag")),
     ("causal_dramatica_agent_pipeline", ("dramatica", "causal-driven", "causal driven", "causal chain", "causal-chain management", "5-layer agent", "five-layer agent", "multi-line narration", "deep narrative logic", "因果链", "多线叙事", "伏笔追踪")),
     ("capture_distillation_production_gate", ("capture -> distillation -> production", "capture distillation production", "capture stage", "distillation stage", "production stages", "story foundry", "agent-template", "agentic platform to assist an author")),
-    ("skill_orchestrated_chinese_novel_workflow", ("openclaw skill", "agent-skill", "awesome novel skill", "chinese novel writing", "chinese-novel", "web-novel", "worldbuilding to character shaping", "章节规划", "正文写作", "小说创作搭档")),
+    ("skill_orchestrated_chinese_novel_workflow", ("openclaw skill", "agent-skill", "awesome novel skill", "web novel writing skill", "chinese novel writing", "chinese-novel", "web-novel", "10-stage pipeline", "7 expert roles", "4-layer anti-hallucination", "state-sync memory", "golden-three-chapters", "worldbuilding to character shaping", "章节规划", "正文写作", "小说创作搭档")),
     ("langgraph_story_state_machine", ("langgraph", "langchain", "story state flow", "story-writing sample", "langgraph.json", "agent.py", "stateful planning", "story state machine")),
     ("story_daemon_evolution_loop", ("storydaemon", "autonomous agent", "plans, writes, and evolves stories", "evolves stories organically", "organic planning", "long-form fiction through an autonomous agent")),
     ("local_rag_writing_ide_gate", ("local rag", "hybrid rag", "local-first", "privacy-first", "byok", "million-word local rag", "vector search", "local vector", "local-only", "knowledge base", "semantic vector retrieval")),
@@ -787,7 +799,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("reader_reward_channel_gate", ("four reward channels", "reader reward", "reader-sim", "reader sim", "transportation", "aesthetic", "social simulation", "flow", "simulated reader reactions", "moment-by-moment")),
     ("tri_modal_workflow_validation_gate", ("tri-modal", "tri modal", "create/edit/validate", "create + edit + validate", "pre-writing checklist", "automated audit chain", "living bible update", "character-specific audits", "rhythm analysis")),
     ("scene_promise_mob_review_gate", ("chapter promise", "scene architect", "character truth", "mob session", "comment queue", "lead editor", "citation enforcement", "five commandments", "value shift")),
-    ("webnovel_genre_tracker_gate", ("webnovel-mcp", "foreshadowing tracker", "timeline tracker", "litrpg stats", "litrpg stat blocks", "romance arc tracker", "stale characters", "chapter gaps", "xianxia", "progression fantasy")),
+    ("webnovel_genre_tracker_gate", ("webnovel-mcp", "story engine v2", "story factory", "1000-chapter", "foreshadowing tracker", "timeline tracker", "volume", "climax ladder", "cast database", "power-system canon", "plot twists", "litrpg stats", "litrpg stat blocks", "romance arc tracker", "stale characters", "chapter gaps", "xianxia", "progression fantasy")),
     ("simulation_causal_ledger_verification_gate", ("simulation-first", "world truth", "belief state", "utterance history", "causal ledger", "verify-long-form", "canonical validation", "300-episode", "long-form verification")),
     ("writer_git_exploration_review_gate", ("gitwrite", "writer-friendly git", "explorations", "word-by-word comparison", "beta reader annotations", "author control", "selective integration", "cherry-pick individual changes")),
     ("narrative_qa_comprehension_gate", ("narrativeqa", "reading comprehension challenge", "questions and answers", "qaps.csv", "document_id", "wikipedia summaries", "full stories")),
@@ -1924,6 +1936,36 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "nyu-mll/squality": (
         "SQuALITY is a question-focused long-document multi-reference summarization dataset over Project Gutenberg short stories, with plot questions and multiple human reference summaries. "
         "Pattern-only adaptation for query-focused summary and plot-question review; training scripts, data files, and dataset consumption code are not executed or imported."
+    ),
+    "fopearcano/storyplanner": (
+        "Storyplanner is a local-first creative writing tool with narrative engines for novel, screenplay, stage script, and graphic novel structures, "
+        "a PSYKE Story Bible, story grid, multi-plot, timeline, motif/causality/continuity graph, and safe propose-then-confirm assistant actions. "
+        "Pattern-only adaptation for engine-aware decomposition, story-bible graph context, and author-confirmed AI actions; scripts and local API runtime are not executed."
+    ),
+    "giapnguyen74/xnovelist": (
+        "xnovelist is an MIT local-first novel editor where prose stays on the device, AI is off by default, and a workspace level from 0 to 5 caps AI authority. "
+        "Public README describes Story Bible entities, voice/continuity capture, automatic snapshots, line-level diff, and drafts awaiting review. "
+        "Pattern-only adaptation for author-controlled AI levels, local manuscript ownership, and staged review; Next.js/package scripts are not installed or run."
+    ),
+    "waylean/plotrail": (
+        "PlotRail is an MIT canon-aware reusable SKILL.md workflow for long-form fiction. Public README describes canon files, approved chapter contracts, "
+        "drafts/reviews/research folders, memory ledgers, story bible before drafting, and continuity review for every chapter. "
+        "Pattern-only adaptation for chapter contract rails and continuity QA; external skill files are not installed or copied."
+    ),
+    "xinganliu/web-novel-writing-skill": (
+        "Web Novel Writing Skill is an MIT Chinese web-novel agentic workflow with a 10-stage pipeline, 7 expert roles, 4-layer anti-hallucination, "
+        "state-sync memory, golden-three-chapters strategy, and anti-AI-pattern quality gates. "
+        "Pattern-only adaptation for Chinese web-novel workflow routing and anti-slop gates; AGENTS/CLAUDE/plugin skill surfaces are not installed or imported."
+    ),
+    "miserylee/webnovel-handbook": (
+        "webnovel-handbook is an MIT AI-agent handbook for Chinese webnovel workflows. Public README says agents should not load the whole repo; they route through README, AGENTS, docs/00-index, "
+        "then task-specific docs such as integrated drafting, beta-reader feedback, review, and revision workflows. "
+        "Pattern-only adaptation for progressive handbook routing and reader-review loops; scripts and skill packs are not executed or copied."
+    ),
+    "ungden/truyencity2": (
+        "TruyenCity2 is an Apache-2.0 AI webnovel platform with Story Engine v2 for long serials. Public README describes 5-layer canon/plan/state/memory/quality/context/pipeline architecture, "
+        "1000-chapter Story Factory workflow, foreshadowing, timeline, cast database, power-system canon, plot-twist tables, batch writing, autopilot, and prompt-cache cost controls. "
+        "Pattern-only adaptation for serial genre state trackers, longrun autopilot gates, and provider-budget smoke boundaries; app, Supabase, edge functions, and scripts are not run."
     ),
 }
 
