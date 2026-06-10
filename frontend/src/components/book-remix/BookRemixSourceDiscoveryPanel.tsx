@@ -190,6 +190,7 @@ const PINNED_HINT_KEYS = new Set([
   'comp_title_market_positioning_hints',
   'local_reader_experience_editor_hints',
   'manuscript_health_ai_prep_gate_hints',
+  'anti_statistical_center_chapter_type_gate_hints',
   'prose_lint_style_rule_gate_hints',
   'grammar_spelling_copyedit_gate_hints',
   'copyedit_diagnostic_triage_queue_hints',
@@ -688,6 +689,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Comp-title market positioning gates', patternPackPayload?.comp_title_market_positioning_hints],
               ['Local reader-experience editor gates', patternPackPayload?.local_reader_experience_editor_hints],
               ['Manuscript health / AI prep gates', patternPackPayload?.manuscript_health_ai_prep_gate_hints],
+              ['Chapter type / anti-statistical-center gates', patternPackPayload?.anti_statistical_center_chapter_type_gate_hints],
             ])}
             {renderHintGroup('Prose lint / grammar copyedit gates', [
               ['Prose lint style rule gates', patternPackPayload?.prose_lint_style_rule_gate_hints],

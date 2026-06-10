@@ -3423,6 +3423,16 @@ def test_serialized_webnovel_projects_are_classified_as_continuity_patterns():
                 "root_files": ["README.md"],
             },
             {
+                "full_name": "RTY798/agent-novel",
+                "html_url": "https://github.com/RTY798/agent-novel",
+                "description": "Chinese webnovel agent skill with 三型分流, 概率陷阱, event cooldown matrix, unique image test, Story Contract, reverse brake, 3+1 circuit breaker and golden-finger methods.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["agent-skill", "ai-writing", "chinese-webnovel", "nucleus-first", "writing-tool"],
+                "updated_at": "2026-06-10T18:16:41Z",
+                "root_files": ["README.md", "SKILL.md", "references"],
+            },
+            {
                 "full_name": "starMagic/webnovel-writer-hermes",
                 "html_url": "https://github.com/starMagic/webnovel-writer-hermes",
                 "description": "Hermes webnovel writer with story contracts, three-tier memory, foreshadowing DebtTracker, dynamic context budget, entity graph RAG, time-sliced state query and six-dimensional parallel review.",
@@ -3476,6 +3486,7 @@ def test_serialized_webnovel_projects_are_classified_as_continuity_patterns():
     assert "projection_sync_observability" in patterns_by_title["lingfengQAQ/webnovel-writer"]
     assert "reader_retention_review_gate" in patterns_by_title["lingfengQAQ/webnovel-writer"]
     assert "fact_snapshot_delta_gate" in patterns_by_title["zy-zmc/tianming-novel-ai-writer"]
+    assert "anti_statistical_center_chapter_type_gate" in patterns_by_title["RTY798/agent-novel"]
     assert "foreshadowing_debt_budget" in patterns_by_title["starMagic/webnovel-writer-hermes"]
     assert "draft_stage_revision_ladder" in patterns_by_title["HZ-KMNO/web-novel-writing-guidance-skill"]
     assert "rolling_summary_context_trim" in patterns_by_title["DuckTraDo/Novel"]
@@ -3519,6 +3530,19 @@ def test_serialized_webnovel_pattern_pack_exposes_contract_and_review_guidance()
                 "risk_flags": [],
                 "absorbed_patterns": ["fact_snapshot_delta_gate", "semantic_long_context_search"],
                 "score": 91,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/RTY798/agent-novel",
+                "title": "RTY798/agent-novel",
+                "summary": "Three-type chapter routing, probability trap, event cooldown matrix, unique-image test, Story Contract and reverse brake.",
+                "stars": 1,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["prompt_pack"],
+                "absorbed_patterns": ["anti_statistical_center_chapter_type_gate", "chapter_generation", "continuation"],
+                "score": 90,
             },
             {
                 "source": "github",
@@ -3568,6 +3592,9 @@ def test_serialized_webnovel_pattern_pack_exposes_contract_and_review_guidance()
     assert "accepted_chapter_commits" in pattern_pack["whole_book_analysis_targets"]
     assert "fact_snapshot_dimensions" in pattern_pack["whole_book_analysis_targets"]
     assert "generation_gate_results" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_type_distribution_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "event_cooldown_violation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "unique_image_contract_verification_report" in pattern_pack["whole_book_analysis_targets"]
     assert "projection_sync_log" in pattern_pack["whole_book_analysis_targets"]
     assert "foreshadowing_debt_items" in pattern_pack["whole_book_analysis_targets"]
     assert "reader_retention_score" in pattern_pack["whole_book_analysis_targets"]
@@ -3575,6 +3602,10 @@ def test_serialized_webnovel_pattern_pack_exposes_contract_and_review_guidance()
     assert "rolling_summary" in pattern_pack["whole_book_analysis_targets"]
     assert "story_contract_commit_chain_hints" in pattern_pack
     assert "fact_snapshot_delta_gate_hints" in pattern_pack
+    assert "anti_statistical_center_chapter_type_gate_hints" in pattern_pack
+    assert "chapter_type_minimal_flow_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "event_cooldown_matrix" in pattern_pack["bible_enrichment_targets"]
+    assert "unique_image_story_contract_policy" in pattern_pack["bible_enrichment_targets"]
     assert "projection_sync_observability_hints" in pattern_pack
     assert "foreshadowing_debt_budget_hints" in pattern_pack
     assert "reader_retention_review_gate_hints" in pattern_pack
@@ -3582,17 +3613,22 @@ def test_serialized_webnovel_pattern_pack_exposes_contract_and_review_guidance()
     assert "rolling_summary_context_trim_hints" in pattern_pack
     assert "commit_chain_remap" in pattern_pack["inspired_mapping_targets"]
     assert "fact_delta_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_type_flow_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "event_cooldown_matrix_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "unique_image_contract_remap" in pattern_pack["inspired_mapping_targets"]
     assert "retention_hook_remap" in pattern_pack["inspired_mapping_targets"]
 
     digest = render_source_pattern_pack_digest(pattern_pack)
     assert "story_contract_commit_chain_hints" in digest
     assert "fact_snapshot_delta_gate_hints" in digest
+    assert "anti_statistical_center_chapter_type_gate_hints" in digest
     assert "rolling_summary_context_trim_hints" in digest
 
 
 def test_default_discovery_sources_include_serialized_webnovel_projects():
     assert "https://github.com/lingfengQAQ/webnovel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/zy-zmc/tianming-novel-ai-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/RTY798/agent-novel" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/lujih/webnovel-writer-opencode" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/starMagic/webnovel-writer-hermes" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
@@ -3601,6 +3637,7 @@ def test_default_discovery_sources_include_serialized_webnovel_projects():
     assert "https://github.com/makieali/longform-ai" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/guchendesigndog/GC-Writer-Assistant" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("story contract" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("event cooldown" in query.lower() and "story contract" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("fact write-back" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("foreshadowing debt" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("draft a" in query.lower() for query in DEFAULT_GITHUB_QUERIES)

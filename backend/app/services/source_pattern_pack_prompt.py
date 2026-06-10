@@ -307,6 +307,7 @@ def render_source_pattern_pack_digest(
         "comp_title_market_positioning_hints",
         "local_reader_experience_editor_hints",
         "manuscript_health_ai_prep_gate_hints",
+        "anti_statistical_center_chapter_type_gate_hints",
         "delivery_manuscript_assembly_hints",
         "export_format_fidelity_audit_hints",
         "preview_toc_packaging_hints",

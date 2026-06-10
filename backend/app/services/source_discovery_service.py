@@ -237,6 +237,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("chapter descriptions" OR "previous chapters" OR "real-time streaming") ("book writing" OR "novel") in:name,description,readme',
     '("AI beta reader" OR "contextual feedback" OR "previous chapter summaries") ("novel" OR "manuscript") in:name,description,readme',
     '("manuscript health score" OR "story heartbeat" OR "chapter ending analysis" OR "AI preparation pipeline") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
+    '("three-type" OR "chapter type" OR "event cooldown" OR "unique image test" OR "Story Contract" OR "概率陷阱" OR "三型分流") ("AI writing" OR "novel" OR "webnovel") in:name,description,readme',
     '("citation styles" OR "AI research engine" OR "web search integration") ("research" OR "book writing" OR "manuscript") in:name,description,readme',
     '("style vocabulary" OR "vocabulary library") ("world cards" OR "worldbuilding extraction" OR "character cards") ("novel" OR "AI writing") in:name,description,readme',
     '("pure-prompt" OR "prompt-only") ("wrap-up mode" OR "continuity guard" OR "stress test") ("novel" OR "fiction") in:name,description,readme',
@@ -365,6 +366,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/arian-emami/NovelDreamer",
     "https://github.com/lingfengQAQ/webnovel-writer",
     "https://github.com/zy-zmc/tianming-novel-ai-writer",
+    "https://github.com/RTY798/agent-novel",
     "https://github.com/lujih/webnovel-writer-opencode",
     "https://github.com/starMagic/webnovel-writer-hermes",
     "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill",
@@ -822,6 +824,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("projection_sync_observability", ("projection_log", "projection log", "state/index/summary/memory/vector", "投影", "派生视图", "只读视图", "dashboard", "doctor", "preflight", "项目体检", "可视化面板")),
     ("foreshadowing_debt_budget", ("foreshadowing debt", "foreshadowing tracking", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
     ("reader_retention_review_gate", ("reader retention", "follow-up rate", "追读力", "爽点", "ooc", "节奏", "6 维", "six-dimensional", "reader promise", "读者承诺")),
+    ("anti_statistical_center_chapter_type_gate", ("three-type", "chapter type", "a-type emotion", "b-type action", "c-type function", "三型分流", "a型情绪章", "b型动作章", "c型功能章", "概率陷阱", "最可能的续写", "事件冷却矩阵", "唯一画面测试", "story contract", "反向刹车", "3+1熔断", "自创公式检测", "nucleus-first", "seven knives", "golden finger")),
     ("draft_stage_revision_ladder", ("draft a", "draft b", "draft c", "chapter blueprint", "key-information file", "chapter task card", "初稿", "定向修改", "去ai", "连续性记录", "drafting, revision, and final polish")),
     ("rolling_summary_context_trim", ("rolling summary", "compressed plot summary", "context trimmed", "token budget", "character state tracking", "timeline events", "relevant passages", "session progress", "context trimming", "chapter_summaries", "chapter summaries", "events.jsonl", "timeline.jsonl", "relationship graph", "memory update after each chapter")),
     ("multidimensional_quality_rubric", ("q1-q15", "q1 to q15", "q1", "q15", "15 quality metrics", "overall score", "ranked weaknesses", "character consistency", "reader interest", "plot resolution", "quality metrics", "quality evaluations")),
@@ -1313,6 +1316,12 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "zy-zmc/tianming-novel-ai-writer": (
         "AI novel writing system centered on 15-dimensional fact snapshots, 12 change declaration classes, six generation gates, closed-loop chapter writing, "
         "long-distance recall, unified validation, local semantic search, and per-chapter state write-back for thousands of chapters."
+    ),
+    "rty798/agent-novel": (
+        "Agent Novel Skill is a MIT Chinese webnovel agent-skill package. Public README markers describe three-type chapter routing, probability-trap awareness, "
+        "event cooldown matrix, unique-image test, Story Contract pre/post verification, reverse brake for non-final chapters, narrative-fingerprint protection, "
+        "self-formula checks, 3+1 circuit breaker, HOT/WARM/COLD context loading, anti-AI detection, and golden-finger technique families. "
+        "Pattern-only adaptation for anti-statistical-center chapter planning; upstream SKILL.md, prompt/reference bodies, Claude/Cursor/Windsurf runtime, and generated project scaffolds are not imported or executed."
     ),
     "lujih/webnovel-writer-opencode": (
         "OpenCode adaptation of webnovel-writer with long-form serialized writing flow, context preparation, review, anti-AI polish, fact extraction, "
@@ -3021,6 +3030,7 @@ class NovelSourceDiscoveryService:
             "comp_title_market_positioning_hints": self._build_comp_title_market_positioning_hints(available_patterns),
             "local_reader_experience_editor_hints": self._build_local_reader_experience_editor_hints(available_patterns),
             "manuscript_health_ai_prep_gate_hints": self._build_manuscript_health_ai_prep_gate_hints(available_patterns),
+            "anti_statistical_center_chapter_type_gate_hints": self._build_anti_statistical_center_chapter_type_gate_hints(available_patterns),
             "delivery_manuscript_assembly_hints": self._build_delivery_manuscript_assembly_hints(available_patterns),
             "export_format_fidelity_audit_hints": self._build_export_format_fidelity_audit_hints(available_patterns),
             "preview_toc_packaging_hints": self._build_preview_toc_packaging_hints(available_patterns),
@@ -3710,6 +3720,7 @@ class NovelSourceDiscoveryService:
             "comp_title_market_positioning": 54,
             "local_reader_experience_editor": 59,
             "manuscript_health_ai_prep_gate": 67,
+            "anti_statistical_center_chapter_type_gate": 64,
             "delivery_manuscript_assembly": 61,
             "export_format_fidelity_audit": 55,
             "preview_toc_packaging": 48,
@@ -4344,6 +4355,11 @@ class NovelSourceDiscoveryService:
             targets.append("manuscript_health_score_axes")
             targets.append("chapter_ending_taxonomy")
             targets.append("ai_preparation_phase_policy")
+        if "anti_statistical_center_chapter_type_gate" in patterns:
+            targets.append("chapter_type_minimal_flow_policy")
+            targets.append("event_cooldown_matrix")
+            targets.append("unique_image_story_contract_policy")
+            targets.append("anti_statistical_center_policy")
         if "platform_kb_retention_strategy_gate" in patterns:
             targets.append("platform_reader_preference_matrix")
             targets.append("commercial_storytelling_strategy_policy")
@@ -5442,6 +5458,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["micro_tension_findings", "reader_curiosity_threads", "chapter_hook_cliffhanger_audit", "style_dna_context_fit", "token_breakdown_notes"])
         if "manuscript_health_ai_prep_gate" in patterns:
             targets.extend(["manuscript_health_score_timeline", "story_heartbeat_canvas_report", "chapter_ending_classification_report", "ai_preparation_recovery_trace"])
+        if "anti_statistical_center_chapter_type_gate" in patterns:
+            targets.extend(["chapter_type_distribution_report", "event_cooldown_violation_report", "unique_image_contract_verification_report", "statistical_center_drift_report"])
         if "inline_human_machine_coauthoring_gate" in patterns:
             targets.extend(["inline_revision_spans", "author_edit_acceptance_log", "localized_diff_review"])
         if "hierarchical_orchestrator_generation_gate" in patterns:
@@ -5553,6 +5571,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before acceptance, audit micro-tension, reader curiosity, chapter hook, cliffhanger, paragraph rhythm, and scene opening/ending strength.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("Before continuation, review the manuscript-health trend and chapter-ending class so the next chapter repairs pacing, tension, hook, or emotional-arc debt instead of blindly extending prose.")
+        if "anti_statistical_center_chapter_type_gate" in patterns:
+            hints.append("Before continuation, classify the next chapter as emotion/action/function, check event cooldowns, name the one visible image, and avoid the most statistically obvious beat unless canon requires it.")
         if "semantic_long_context_search" in patterns:
             hints.append("Use semantic long-context search for chapter-specific recall, but cite the selected sourcebook or knowledge-base refs instead of silently injecting them.")
         if "contradiction_taxonomy_checker" in patterns:
@@ -7551,6 +7571,15 @@ class NovelSourceDiscoveryService:
             "Run AI-preparation as a resumable phase pipeline: semantic chunks, embeddings/RAG index, chapter analysis, story-bible population, style extraction, recovery state, and circuit-breaker status stay visible before generation.",
         ]
 
+    def _build_anti_statistical_center_chapter_type_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_statistical_center_chapter_type_gate" not in patterns:
+            return []
+        return [
+            "Classify each chapter before drafting as emotion, action, or function, then load only the minimal flow and checks needed for that chapter type.",
+            "Maintain an event-cooldown matrix across accepted chapters so reveals, fights, negotiations, emotional ruptures, and setup/payoff beats do not repeat from model habit.",
+            "Use a unique-image test plus Story Contract: name the one visible image and three chapter promises before drafting, then verify them after drafting with reverse-brake pressure on non-final chapters.",
+        ]
+
     def _build_delivery_manuscript_assembly_hints(self, patterns: set[str]) -> list[str]:
         if "delivery_manuscript_assembly" not in patterns:
             return []
@@ -9034,6 +9063,10 @@ class NovelSourceDiscoveryService:
             targets.append("manuscript_health_axis_remap")
             targets.append("chapter_ending_taxonomy_remap")
             targets.append("ai_preparation_pipeline_remap")
+        if "anti_statistical_center_chapter_type_gate" in patterns:
+            targets.append("chapter_type_flow_remap")
+            targets.append("event_cooldown_matrix_remap")
+            targets.append("unique_image_contract_remap")
         if "platform_kb_retention_strategy_gate" in patterns:
             targets.append("platform_reader_preference_remap")
         if "chapter_end_hook_retention_ladder_gate" in patterns:
@@ -9540,6 +9573,8 @@ class NovelSourceDiscoveryService:
             hints.append("Optimize micro-tension and curiosity in the transformed story without copying a source chapter's cliffhanger shape or ending cadence.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("For same-type creation, remap manuscript-health axes and chapter-ending taxonomy to the new story; do not copy the source ending cadence or recovery route.")
+        if "anti_statistical_center_chapter_type_gate" in patterns:
+            hints.append("For same-type creation, reuse chapter-type control, event-cooldown thinking, and unique-image contracts only as method; do not preserve the source chapter-type sequence or event rhythm.")
         if "context_pack_preview" in patterns:
             hints.append("The new story's context pack must cite transformed canon only; source deconstruction may appear as craft notes, not facts.")
         if "critic_verifier_loop" in patterns:
@@ -9911,6 +9946,8 @@ class NovelSourceDiscoveryService:
             hints.append("Rebuild hooks and cliffhangers from the new chapter's active conflict, not from source set-piece timing.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("Convert source health trends and ending classes into the new book's own tension, pacing, hook debt, and AI-preparation recovery trace.")
+        if "anti_statistical_center_chapter_type_gate" in patterns:
+            hints.append("Transform a source chapter's function into a new chapter type, different event category, fresh visible image, and new unresolved question before drafting prose.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -10394,6 +10431,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source chapter-ending class sequence, health-score recovery route, or heartbeat/pacing curve.")
+        if "anti_statistical_center_chapter_type_gate" in patterns:
+            hints.append("Reject same-type drafts that preserve the source chapter-type sequence, event-cooldown route, unique-image motif, or Story Contract promise order.")
         if "platform_kb_retention_strategy_gate" in patterns:
             hints.append("Reject platform-KB plans that reuse title formulas, tag bundles, synopsis beats, or commercial hooks from one source work without transformation.")
         if "chapter_end_hook_retention_ladder_gate" in patterns:
@@ -11050,6 +11089,7 @@ class NovelSourceDiscoveryService:
                 "comp_title_market_positioning",
                 "local_reader_experience_editor",
                 "manuscript_health_ai_prep_gate",
+                "anti_statistical_center_chapter_type_gate",
                 "delivery_manuscript_assembly",
                 "export_format_fidelity_audit",
                 "preview_toc_packaging",
