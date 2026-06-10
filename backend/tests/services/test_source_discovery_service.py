@@ -9480,3 +9480,138 @@ def test_static_book_beta_reader_sources_map_to_context_review_and_research_gate
     assert "selective_streaming_regeneration_gate_hints" in digest
     assert "research_citation_boundary_gate_hints" in digest
     assert "beta_reader_summary_context_gate_hints" in digest
+
+
+def test_static_style_continuation_sources_map_to_audit_and_verification_gates():
+    assert "https://github.com/Boundless-Fang/StyleSync-Novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/eluckydog/DreamQuill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/304769384-png/fanqie-novel-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/leistung/novel-write" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/VerifiedOrganic/spindle" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/daveremy/edword" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/adameya2004-oss/CraftEngine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("style vocabulary" in query.lower() and "world cards" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("pure-prompt" in query.lower() and "wrap-up mode" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("delta extraction" in query.lower() and "chain-of-verification" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("22-book" in query.lower() and "style preset" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Boundless-Fang/StyleSync-Novel",
+                "html_url": "https://github.com/Boundless-Fang/StyleSync-Novel",
+                "description": "Chinese StyleSync-Novel prototype for AI novel creation with style analysis, vocabulary library, worldbuilding extraction, character card extraction, setting completion, chapter outline generation, body generation, chapter-local modification, prompt injection tuning, DeepSeek API key and SiliconFlow API key.",
+                "stargazers_count": 5,
+                "license": None,
+                "topics": ["novel", "style-imitation", "ai-writing"],
+                "updated_at": "2026-06-08T16:42:35Z",
+                "root_files": ["README.md", "requirements.txt", ".env.example"],
+            },
+            {
+                "full_name": "eluckydog/DreamQuill",
+                "html_url": "https://github.com/eluckydog/DreamQuill",
+                "description": "Pure-prompt novel writing agent with no install and no API key. It measures prompt-only capability boundaries, continuity guard, setting cards, 10 chapter stress test, 5000-6000 character wrap-up mode, comfort zone decay and limits of prompt-only systems.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["prompt", "novel", "style-imitation"],
+                "updated_at": "2026-05-28T14:18:50Z",
+                "root_files": ["README.md", "LICENSE", "prompts/startup.md"],
+            },
+            {
+                "full_name": "304769384-png/fanqie-novel-skill",
+                "html_url": "https://github.com/304769384-png/fanqie-novel-skill",
+                "description": "Fanqie novel skill with AI de-flavoring by replacement, progress tracking dashboard, minimum audit set, chapter checks, battle scene audit, dialogue ratio monitor, cycle pattern detection every 5 chapters, full audit every 10 chapters, chapter summaries and style guide.",
+                "stargazers_count": 14,
+                "license": None,
+                "topics": ["webnovel", "skill", "ai-writing"],
+                "updated_at": "2026-06-10T08:40:19Z",
+                "root_files": ["README.md", "outline.md", "chapter_summaries.md", "style_guide.md"],
+            },
+            {
+                "full_name": "leistung/novel-write",
+                "html_url": "https://github.com/leistung/novel-write",
+                "description": "LangChain and LangGraph AI novel writing assistant with Architect, Writer, Consistency Checker and Author agents. Supports creation, next chapter continuation, chapter rewrite, rewrite from chapter n, outline change impact analysis, reject retry up to 3 times, score below 80 returning to planning, current state and pending hooks.",
+                "stargazers_count": 5,
+                "license": None,
+                "topics": ["novel", "langgraph", "multi-agent"],
+                "updated_at": "2026-05-17T08:06:26Z",
+                "root_files": ["README.md", "requirements.txt", ".env.example"],
+            },
+            {
+                "full_name": "VerifiedOrganic/spindle",
+                "html_url": "https://github.com/VerifiedOrganic/spindle",
+                "description": "Local-first MCP fiction planning companion with story bible, context packet assembly, recent chapter summaries, narrative promises, branch and save points, restore earlier scene versions, continuity and consistency checks, dual-persona editorial reviews, canonical fact extraction and EPUB export.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["mcp", "story-bible", "novel"],
+                "updated_at": "2026-06-04T01:51:38Z",
+                "root_files": ["README.md", "LICENSE", "Cargo.toml"],
+            },
+            {
+                "full_name": "daveremy/edword",
+                "html_url": "https://github.com/daveremy/edword",
+                "description": "AI-powered editorial analysis for book manuscripts using memory-augmented extraction with chain-of-verification. Builds index chapter by chapter, extracts structured facts from current chapter, deterministic accumulation into a knowledge graph, verifies candidate findings with targeted questions, continuity checking, codex validation and incremental processing.",
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["manuscript", "analysis", "mcp"],
+                "updated_at": "2026-01-27T04:16:05Z",
+                "root_files": ["README.md", "pyproject.toml"],
+            },
+            {
+                "full_name": "adameya2004-oss/CraftEngine",
+                "html_url": "https://github.com/adameya2004-oss/CraftEngine",
+                "description": "SillyTavern extension that scores writing quality using metrics from 22 published novels, smart rewriter below threshold, style presets from 22-book statistical analysis, imported book style learning, character voice profiles, rhythm, sensory density, slop detection, dialogue, repetition and ending quality metrics.",
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["style", "quality", "rewriter"],
+                "updated_at": "2026-03-26T10:11:19Z",
+                "root_files": ["README.md", "manifest.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T00:45:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "style_vocab_world_card_extraction_gate" in candidates["Boundless-Fang/StyleSync-Novel"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["Boundless-Fang/StyleSync-Novel"]["risk_flags"]
+    assert "prompt_only_decay_ceiling_gate" in candidates["eluckydog/DreamQuill"]["absorbed_patterns"]
+    assert "serial_platform_minimum_audit_gate" in candidates["304769384-png/fanqie-novel-skill"]["absorbed_patterns"]
+    assert "multi_agent_reject_retry_review_gate" in candidates["leistung/novel-write"]["absorbed_patterns"]
+    assert "story_bible_context_packet_branch_gate" in candidates["VerifiedOrganic/spindle"]["absorbed_patterns"]
+    assert "mcp_server" in candidates["VerifiedOrganic/spindle"]["risk_flags"]
+    assert "memory_augmented_delta_verification_gate" in candidates["daveremy/edword"]["absorbed_patterns"]
+    assert "statistical_style_benchmark_rewrite_gate" in candidates["adameya2004-oss/CraftEngine"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "style_vocab_world_card_extraction_gate_hints" in pattern_pack
+    assert "multi_agent_reject_retry_review_gate_hints" in pattern_pack
+    assert "prompt_only_decay_ceiling_gate_hints" in pattern_pack
+    assert "serial_platform_minimum_audit_gate_hints" in pattern_pack
+    assert "story_bible_context_packet_branch_gate_hints" in pattern_pack
+    assert "memory_augmented_delta_verification_gate_hints" in pattern_pack
+    assert "statistical_style_benchmark_rewrite_gate_hints" in pattern_pack
+    assert "style_vocabulary_library" in pattern_pack["bible_enrichment_targets"]
+    assert "minimum_chapter_audit_set" in pattern_pack["bible_enrichment_targets"]
+    assert "delta_fact_index" in pattern_pack["bible_enrichment_targets"]
+    assert "story_bible_context_packet" in pattern_pack["bible_enrichment_targets"]
+    assert "statistical_style_benchmark_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "pure_prompt_decay_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_agent_retry_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "delta_extraction_verification_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_benchmark_rewrite_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_vocabulary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "statistical_style_benchmark_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("deterministic accumulation" in hint.lower() for hint in pattern_pack["memory_augmented_delta_verification_gate_hints"])
+    assert any("22-book" in hint.lower() for hint in pattern_pack["statistical_style_benchmark_rewrite_gate_hints"])
+    assert any("prompt-only" in hint.lower() for hint in pattern_pack["prompt_only_decay_ceiling_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "style_vocab_world_card_extraction_gate_hints" in digest
+    assert "multi_agent_reject_retry_review_gate_hints" in digest
+    assert "prompt_only_decay_ceiling_gate_hints" in digest
+    assert "serial_platform_minimum_audit_gate_hints" in digest
+    assert "story_bible_context_packet_branch_gate_hints" in digest
+    assert "memory_augmented_delta_verification_gate_hints" in digest
+    assert "statistical_style_benchmark_rewrite_gate_hints" in digest

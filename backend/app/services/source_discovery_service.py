@@ -231,6 +231,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("chapter descriptions" OR "previous chapters" OR "real-time streaming") ("book writing" OR "novel") in:name,description,readme',
     '("AI beta reader" OR "contextual feedback" OR "previous chapter summaries") ("novel" OR "manuscript") in:name,description,readme',
     '("citation styles" OR "AI research engine" OR "web search integration") ("research" OR "book writing" OR "manuscript") in:name,description,readme',
+    '("style vocabulary" OR "vocabulary library") ("world cards" OR "worldbuilding extraction" OR "character cards") ("novel" OR "AI writing") in:name,description,readme',
+    '("pure-prompt" OR "prompt-only") ("wrap-up mode" OR "continuity guard" OR "stress test") ("novel" OR "fiction") in:name,description,readme',
+    '("delta extraction" OR "memory-augmented extraction") ("chain-of-verification" OR "deterministic accumulation") ("manuscript" OR "novel") in:name,description,readme',
+    '("22-book" OR "22 published novels") ("style preset" OR "style presets" OR "smart rewriter") ("writing quality" OR "novel") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -551,6 +555,13 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/gennitdev/ai-beta-reader-frontend",
     "https://github.com/gennitdev/ai-beta-reader-backend",
     "https://github.com/wesleyscholl/book-generator",
+    "https://github.com/Boundless-Fang/StyleSync-Novel",
+    "https://github.com/eluckydog/DreamQuill",
+    "https://github.com/304769384-png/fanqie-novel-skill",
+    "https://github.com/leistung/novel-write",
+    "https://github.com/VerifiedOrganic/spindle",
+    "https://github.com/daveremy/edword",
+    "https://github.com/adameya2004-oss/CraftEngine",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -806,6 +817,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("selective_streaming_regeneration_gate", ("real-time streaming", "streaming text", "generate the entire book", "individual chapters", "regenerate specific chapters", "without losing the rest", "inline editing", "save instantly")),
     ("research_citation_boundary_gate", ("ai research engine", "web search integration", "academic databases", "citation styles", "citations are woven", "quality & plagiarism checks", "plagiarism checks", "source content")),
     ("beta_reader_summary_context_gate", ("ai beta reader", "contextual ai reviews", "structured summaries", "summaries of previous chapters", "previous chapter summaries", "plot points, characters", "multiple review styles", "fan style")),
+    ("style_vocab_world_card_extraction_gate", ("style vocabulary", "vocabulary library", "world cards", "worldbuilding extraction", "worldview extraction", "setting completion", "character card extraction", "chapter-local modification")),
+    ("prompt_only_decay_ceiling_gate", ("pure-prompt", "prompt-only", "prompt only", "no install and no api key", "comfort zone decay", "wrap-up mode", "10 chapter stress test", "5000-6000 character")),
+    ("serial_platform_minimum_audit_gate", ("minimum audit set", "battle scene audit", "dialogue ratio monitor", "cycle pattern detection", "full audit every 10 chapters", "every 5 chapters", "ai de-flavoring", "chapter checks")),
+    ("multi_agent_reject_retry_review_gate", ("reject retry", "reject retry up to 3 times", "score below 80", "returning to planning", "consistency checker", "outline change impact analysis", "architect, writer", "langchain and langgraph")),
+    ("story_bible_context_packet_branch_gate", ("context packet assembly", "context packet", "recent chapter summaries", "branch and save points", "save points", "restore earlier scene versions", "dual-persona editorial reviews", "canonical fact extraction")),
+    ("memory_augmented_delta_verification_gate", ("memory-augmented extraction", "chain-of-verification", "deterministic accumulation", "delta extraction", "structured facts from current chapter", "targeted questions", "incremental processing", "codex validation")),
+    ("statistical_style_benchmark_rewrite_gate", ("22-book", "22 published novels", "22-book statistical analysis", "style presets", "smart rewriter", "quality analyzer", "character voice profiles", "sensory density")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -2145,6 +2163,34 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "AI Book Generator is an autonomous book creation pipeline. Public README describes shell-script helpers for topic/title selection, detailed outlines, chapter generation/extension/editing, optional quality and plagiarism checks, full manuscript assembly with title pages, table of contents, copyright pages, appendices, acknowledgements, and EPUB/PDF/KDP-style export. "
         "Pattern-only adaptation for research citation boundaries and publication assembly gates; shell scripts, providers, ImageMagick, Pandoc, TeX, and KDP workflows are not run."
     ),
+    "boundless-fang/stylesync-novel": (
+        "StyleSync-Novel is a Chinese AI novel prototype. Public README markers describe style analysis, style vocabulary libraries, worldbuilding extraction, character-card extraction, setting completion, chapter outline generation, body generation, and chapter-local modification. "
+        "Pattern-only adaptation for style-vocabulary/world-card extraction and scoped rewrite gates; DeepSeek/SiliconFlow provider keys, scripts, and runtime are not used."
+    ),
+    "eluckydog/dreamquill": (
+        "DreamQuill is a MIT pure-prompt novel writing agent. Public README markers describe prompt-only operation, continuity guards, setting cards, ten-chapter stress testing, 5000-6000 character wrap-up mode, and prompt-only capability decay. "
+        "Pattern-only adaptation for prompt-only decay ceilings and continuation stress reports; no prompts are bulk-imported or executed."
+    ),
+    "304769384-png/fanqie-novel-skill": (
+        "fanqie-novel-skill is a Chinese serial-webnovel skill pack. Public README markers describe AI de-flavoring, progress tracking, minimum audit sets, battle-scene audit, dialogue-ratio monitoring, loop/cycle detection every five chapters, and full audit every ten chapters. "
+        "Pattern-only adaptation for serial platform audit gates; upstream skill bodies, prompts, and runtime commands are not imported."
+    ),
+    "leistung/novel-write": (
+        "novel-write is a LangChain/LangGraph multi-agent novel-writing assistant. Public README markers describe Architect, Writer, Consistency Checker, and Author agents, next-chapter continuation, rewrite-from-chapter-n, outline-impact analysis, reject/retry loops, and score-below-80 return-to-planning behavior. "
+        "Pattern-only adaptation for multi-agent reject/retry review gates; provider keys, .env configuration, and runtime graph execution are not used."
+    ),
+    "verifiedorganic/spindle": (
+        "spindle is a MIT local-first fiction planning companion. Public README markers describe story bible, context-packet assembly, recent summaries, narrative promises, branch/save points, restoreable scene versions, continuity checks, dual-persona editorial review, canonical fact extraction, EPUB export, and MCP server surfaces. "
+        "Pattern-only adaptation for story-bible context packets and branch checkpoints; MCP server, Rust binary/runtime, and exports are not launched."
+    ),
+    "daveremy/edword": (
+        "edword is an editorial-analysis project for book manuscripts. Public README markers describe memory-augmented extraction, chapter-by-chapter indexing, structured fact extraction from the current chapter, deterministic accumulation into a knowledge graph, Chain-of-Verification, targeted questions, continuity checking, and incremental processing. "
+        "Pattern-only adaptation for delta fact indexing and verification reports; CLI, MCP, provider calls, and manuscript runtime analysis are not executed."
+    ),
+    "adameya2004-oss/craftengine": (
+        "CraftEngine is a SillyTavern extension. Public README markers describe writing-quality analysis from 22 published novels, 22-book style presets, smart rewriting below thresholds, imported book style learning, character voice profiles, rhythm/sensory-density metrics, slop detection, dialogue checks, repetition checks, and ending-quality metrics. "
+        "Pattern-only adaptation for statistical style benchmark rewrite gates; browser extension and SillyTavern runtime are not installed or launched."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2467,6 +2513,13 @@ class NovelSourceDiscoveryService:
             "selective_streaming_regeneration_gate_hints": self._build_selective_streaming_regeneration_gate_hints(available_patterns),
             "research_citation_boundary_gate_hints": self._build_research_citation_boundary_gate_hints(available_patterns),
             "beta_reader_summary_context_gate_hints": self._build_beta_reader_summary_context_gate_hints(available_patterns),
+            "style_vocab_world_card_extraction_gate_hints": self._build_style_vocab_world_card_extraction_gate_hints(available_patterns),
+            "prompt_only_decay_ceiling_gate_hints": self._build_prompt_only_decay_ceiling_gate_hints(available_patterns),
+            "serial_platform_minimum_audit_gate_hints": self._build_serial_platform_minimum_audit_gate_hints(available_patterns),
+            "multi_agent_reject_retry_review_gate_hints": self._build_multi_agent_reject_retry_review_gate_hints(available_patterns),
+            "story_bible_context_packet_branch_gate_hints": self._build_story_bible_context_packet_branch_gate_hints(available_patterns),
+            "memory_augmented_delta_verification_gate_hints": self._build_memory_augmented_delta_verification_gate_hints(available_patterns),
+            "statistical_style_benchmark_rewrite_gate_hints": self._build_statistical_style_benchmark_rewrite_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3357,6 +3410,13 @@ class NovelSourceDiscoveryService:
             "selective_streaming_regeneration_gate": 65,
             "research_citation_boundary_gate": 66,
             "beta_reader_summary_context_gate": 68,
+            "style_vocab_world_card_extraction_gate": 69,
+            "prompt_only_decay_ceiling_gate": 64,
+            "serial_platform_minimum_audit_gate": 67,
+            "multi_agent_reject_retry_review_gate": 69,
+            "story_bible_context_packet_branch_gate": 69,
+            "memory_augmented_delta_verification_gate": 70,
+            "statistical_style_benchmark_rewrite_gate": 68,
             "causal_dramatica_agent_pipeline": 68,
             "capture_distillation_production_gate": 66,
             "skill_orchestrated_chinese_novel_workflow": 67,
@@ -3478,6 +3538,27 @@ class NovelSourceDiscoveryService:
         if "beta_reader_summary_context_gate" in patterns:
             targets.append("beta_reader_feedback_styles")
             targets.append("summary_context_review_policy")
+        if "style_vocab_world_card_extraction_gate" in patterns:
+            targets.append("style_vocabulary_library")
+            targets.append("world_card_extraction_policy")
+        if "prompt_only_decay_ceiling_gate" in patterns:
+            targets.append("prompt_only_decay_policy")
+            targets.append("wrap_up_mode_boundary")
+        if "serial_platform_minimum_audit_gate" in patterns:
+            targets.append("minimum_chapter_audit_set")
+            targets.append("serial_platform_audit_cadence")
+        if "multi_agent_reject_retry_review_gate" in patterns:
+            targets.append("multi_agent_retry_review_policy")
+            targets.append("reject_retry_budget")
+        if "story_bible_context_packet_branch_gate" in patterns:
+            targets.append("story_bible_context_packet")
+            targets.append("branch_savepoint_policy")
+        if "memory_augmented_delta_verification_gate" in patterns:
+            targets.append("delta_fact_index")
+            targets.append("chain_of_verification_policy")
+        if "statistical_style_benchmark_rewrite_gate" in patterns:
+            targets.append("statistical_style_benchmark_policy")
+            targets.append("style_benchmark_thresholds")
         if "style_guide_layering" in patterns:
             targets.append("style_layers")
             targets.append("character_voice_notes")
@@ -4151,6 +4232,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["research_citation_manifest", "evidence_source_scope", "fiction_fact_boundary_findings"])
         if "beta_reader_summary_context_gate" in patterns:
             targets.extend(["previous_summary_review_context", "beta_reader_feedback_trace", "review_style_effect_findings"])
+        if "style_vocab_world_card_extraction_gate" in patterns:
+            targets.extend(["style_vocabulary_extraction_report", "world_card_extraction_report", "chapter_local_style_patch_scope"])
+        if "prompt_only_decay_ceiling_gate" in patterns:
+            targets.extend(["pure_prompt_decay_report", "prompt_only_stress_test_findings", "wrap_up_mode_boundary_findings"])
+        if "serial_platform_minimum_audit_gate" in patterns:
+            targets.extend(["minimum_audit_cadence_report", "dialogue_ratio_loop_findings", "battle_scene_audit_findings"])
+        if "multi_agent_reject_retry_review_gate" in patterns:
+            targets.extend(["multi_agent_retry_trace", "reject_reason_report", "score_below_threshold_planning_return"])
+        if "story_bible_context_packet_branch_gate" in patterns:
+            targets.extend(["story_bible_context_packet_report", "branch_savepoint_trace", "dual_persona_editorial_findings"])
+        if "memory_augmented_delta_verification_gate" in patterns:
+            targets.extend(["delta_extraction_verification_report", "deterministic_accumulation_trace", "targeted_question_findings"])
+        if "statistical_style_benchmark_rewrite_gate" in patterns:
+            targets.extend(["style_benchmark_rewrite_report", "style_preset_threshold_findings", "voice_profile_metric_report"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -4880,6 +4975,20 @@ class NovelSourceDiscoveryService:
             hints.append("研究引用只作为证据、素材和事实边界；虚构正文采用前要经过作者验收，不能把外部事实直接写成正史。")
         if "beta_reader_summary_context_gate" in patterns:
             hints.append("Beta reader 评审提示词必须绑定 previous chapter summaries、当前章节 id 和反馈风格，读者反应不得改写 canon。")
+        if "style_vocab_world_card_extraction_gate" in patterns:
+            hints.append("Build the continuation prompt from reviewed style vocabulary, world cards, character cards, and chapter-local patch scope; keep each layer visible.")
+        if "prompt_only_decay_ceiling_gate" in patterns:
+            hints.append("If using prompt-only continuation, state the chapter-count ceiling, decay risks, and wrap-up mode trigger before drafting.")
+        if "serial_platform_minimum_audit_gate" in patterns:
+            hints.append("Include the minimum serial audit checklist in the prompt so the draft targets hook, dialogue ratio, anti-loop, battle logic, and AI-tone cleanup.")
+        if "multi_agent_reject_retry_review_gate" in patterns:
+            hints.append("Ask each agent pass to return score, reject reason, retry count, and planning-return decision instead of only revised prose.")
+        if "story_bible_context_packet_branch_gate" in patterns:
+            hints.append("Name the story-bible context packet, branch id, recent summaries, promises, and savepoint before any continuation or rewrite.")
+        if "memory_augmented_delta_verification_gate" in patterns:
+            hints.append("Request chapter deltas separately from prose and verify them with targeted questions before they can seed the next prompt.")
+        if "statistical_style_benchmark_rewrite_gate" in patterns:
+            hints.append("Use statistical style benchmarks as threshold labels for rhythm, sensory density, dialogue, repetition, and voice drift; never paste benchmark prose.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -5093,6 +5202,20 @@ class NovelSourceDiscoveryService:
             hints.append("Persist research citations in a source-evidence manifest with provenance, allowed-use label, fiction-fact boundary, and canon promotion status.")
         if "beta_reader_summary_context_gate" in patterns:
             hints.append("Attach beta-reader feedback to previous chapter summaries, review style, current chapter id, and accepted/rejected revision tasks.")
+        if "style_vocab_world_card_extraction_gate" in patterns:
+            hints.append("Persist style vocabulary, world cards, character cards, and local rewrite spans as separate state records with reviewer provenance.")
+        if "prompt_only_decay_ceiling_gate" in patterns:
+            hints.append("Persist prompt-only run length, decay findings, wrap-up mode entry, and the point where refreshed context becomes mandatory.")
+        if "serial_platform_minimum_audit_gate" in patterns:
+            hints.append("Persist audit cadence results: per-chapter minimum checks, five-chapter loop checks, and ten-chapter full audit decisions.")
+        if "multi_agent_reject_retry_review_gate" in patterns:
+            hints.append("Persist multi-agent retry trace with role, score, reject reason, retry budget, and return-to-planning marker.")
+        if "story_bible_context_packet_branch_gate" in patterns:
+            hints.append("Persist context packet lineage, branch/savepoint ids, restore targets, recent summaries, promises, and fact-extraction decisions.")
+        if "memory_augmented_delta_verification_gate" in patterns:
+            hints.append("Persist every extracted delta with chapter id, previous value, proposed value, deterministic accumulation order, and verification result.")
+        if "statistical_style_benchmark_rewrite_gate" in patterns:
+            hints.append("Persist style benchmark policy, failed metric, style preset, rewrite span, and overfit/copy-risk decision for every rewrite.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         if "source_entity_redaction_gate" in patterns:
@@ -5431,6 +5554,69 @@ class NovelSourceDiscoveryService:
             "Beta-reader review must bind feedback to previous chapter summaries, current chapter id, spoiler window, and selected review style.",
             "Separate fan, editorial, and line-note feedback from canon: feedback creates revision tasks, not automatic story facts.",
             "If previous chapter summaries are stale, regenerate or review the summaries before asking for contextual feedback on the next chapter.",
+        ]
+
+    def _build_style_vocab_world_card_extraction_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "style_vocab_world_card_extraction_gate" not in patterns:
+            return []
+        return [
+            "Extract style vocabulary, world cards, character cards, and chapter-local modification scopes into separate reviewed artifacts before drafting.",
+            "A style vocabulary library may guide diction and rhythm, but worldbuilding facts must enter canon only through reviewed world-card updates.",
+            "For same-type creation, remap source style vocabulary into abstract levers and create new world cards instead of carrying source proper nouns or facts.",
+        ]
+
+    def _build_prompt_only_decay_ceiling_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "prompt_only_decay_ceiling_gate" not in patterns:
+            return []
+        return [
+            "Track prompt-only continuation as a bounded mode: record chapter count, context loss, comfort-zone decay, and wrap-up mode triggers.",
+            "Prompt-only runs need an explicit ceiling; after the stress-test window, require refreshed bible/context packets rather than relying on chat residue.",
+            "Use wrap-up mode only as a controlled recovery path, not as proof that a prompt-only workflow can sustain long-form canon.",
+        ]
+
+    def _build_serial_platform_minimum_audit_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "serial_platform_minimum_audit_gate" not in patterns:
+            return []
+        return [
+            "Define a minimum chapter audit set before serial continuation: AI-tone cleanup, battle logic, dialogue ratio, loop pattern, hook, and chapter summary.",
+            "Run lightweight cadence checks every few chapters and a full audit window every ten chapters before updating long-run plans.",
+            "Platform-flavored de-AI rewriting should emit findings and diffs; it must not silently flatten voice or overwrite accepted canon.",
+        ]
+
+    def _build_multi_agent_reject_retry_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "multi_agent_reject_retry_review_gate" not in patterns:
+            return []
+        return [
+            "Multi-agent drafting needs a reject/retry trace: actor, score, failed criterion, retry count, and whether the work returns to planning.",
+            "Cap rewrite retries and require a planning handoff when consistency or author review remains below threshold after the budget is spent.",
+            "Architect, writer, consistency checker, and author roles should exchange structured findings, not mutate bible or chapter text out of order.",
+        ]
+
+    def _build_story_bible_context_packet_branch_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_bible_context_packet_branch_gate" not in patterns:
+            return []
+        return [
+            "Assemble each drafting context packet from story bible, recent summaries, active promises, branch id, savepoint, and allowed restore target.",
+            "Branch and savepoint metadata must travel with context packets so rejected rewrites can roll back prose, bible deltas, and summaries together.",
+            "Dual-persona editorial review can propose fact extraction, but canonical fact write-back requires accepted evidence and branch lineage.",
+        ]
+
+    def _build_memory_augmented_delta_verification_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "memory_augmented_delta_verification_gate" not in patterns:
+            return []
+        return [
+            "Use memory-augmented delta extraction chapter by chapter: extract current-chapter facts, stage deltas, then verify with targeted questions.",
+            "Deterministic accumulation into a delta fact index must keep source chapter id, previous value, proposed value, verification result, and rejection reason.",
+            "Chain-of-Verification findings should gate continuity acceptance before deltas can update the knowledge graph or next-chapter context.",
+        ]
+
+    def _build_statistical_style_benchmark_rewrite_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "statistical_style_benchmark_rewrite_gate" not in patterns:
+            return []
+        return [
+            "Use 22-book or similar statistical benchmarks as abstract style thresholds, not as copied prose, scene inventory, or source-specific voice.",
+            "A smart rewriter should record which metric failed, the target style preset, the rewritten span, and whether the rewrite improved or overfit.",
+            "Style benchmark gates should cover rhythm, sensory density, dialogue, repetition, slop, ending quality, and character voice profile drift.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -7983,6 +8169,21 @@ class NovelSourceDiscoveryService:
             targets.append("research_source_citation_remap")
         if "beta_reader_summary_context_gate" in patterns:
             targets.append("beta_reader_feedback_context_remap")
+        if "style_vocab_world_card_extraction_gate" in patterns:
+            targets.append("style_vocabulary_remap")
+            targets.append("world_card_boundary_remap")
+        if "prompt_only_decay_ceiling_gate" in patterns:
+            targets.append("prompt_only_ceiling_remap")
+        if "serial_platform_minimum_audit_gate" in patterns:
+            targets.append("serial_audit_cadence_remap")
+        if "multi_agent_reject_retry_review_gate" in patterns:
+            targets.append("multi_agent_retry_trace_remap")
+        if "story_bible_context_packet_branch_gate" in patterns:
+            targets.append("context_packet_branch_remap")
+        if "memory_augmented_delta_verification_gate" in patterns:
+            targets.append("delta_fact_index_remap")
+        if "statistical_style_benchmark_rewrite_gate" in patterns:
+            targets.append("statistical_style_benchmark_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -8038,6 +8239,20 @@ class NovelSourceDiscoveryService:
             hints.append("Cited research may guide plausibility and factual boundaries, but the prompt must label it as evidence metadata rather than canon or source prose.")
         if "beta_reader_summary_context_gate" in patterns:
             hints.append("Run beta-reader feedback on the transformed chapter using transformed previous summaries and a declared review style.")
+        if "style_vocab_world_card_extraction_gate" in patterns:
+            hints.append("Prompt from abstracted style vocabulary and newly created world cards; source world facts and proper nouns remain outside the new-story canon.")
+        if "prompt_only_decay_ceiling_gate" in patterns:
+            hints.append("For same-type prompts, declare the prompt-only ceiling and require refreshed transformed context before the draft drifts into source-like shortcuts.")
+        if "serial_platform_minimum_audit_gate" in patterns:
+            hints.append("Ask for serial-platform audit evidence on the transformed draft: loop risk, dialogue ratio, battle logic, AI-tone cleanup, and chapter-hook pressure.")
+        if "multi_agent_reject_retry_review_gate" in patterns:
+            hints.append("Route transformed drafts through role-separated review so reject/retry evidence is about the new story rather than source resemblance.")
+        if "story_bible_context_packet_branch_gate" in patterns:
+            hints.append("Build a new-story context packet and branch savepoint before drafting; source packets can inform shape only, not facts.")
+        if "memory_augmented_delta_verification_gate" in patterns:
+            hints.append("Ask for transformed fact deltas and targeted verification questions before any delta can update the new story bible.")
+        if "statistical_style_benchmark_rewrite_gate" in patterns:
+            hints.append("Use statistical style presets as quality thresholds while requiring independence checks against copied phrasing and source-scene rhythm.")
         if "card_workbench" in patterns:
             hints.append("Use card structure as the workbench shape, but create new card content for characters, factions, places, and hooks.")
         if "structured_generation_schema" in patterns:
@@ -8733,6 +8948,20 @@ class NovelSourceDiscoveryService:
             hints.append("Transform citations into source-evidence constraints and bibliography tasks, not into copied explanatory paragraphs or source narrative facts.")
         if "beta_reader_summary_context_gate" in patterns:
             hints.append("Transform beta-reader objections into local revision tasks tied to the new story's prior summaries and review tone.")
+        if "style_vocab_world_card_extraction_gate" in patterns:
+            hints.append("Transform source vocabulary into abstract style levers, then build new world cards, character cards, and local rewrite scopes from new-story facts.")
+        if "prompt_only_decay_ceiling_gate" in patterns:
+            hints.append("Transform prompt-only lessons into a ceiling policy: when context decays, refresh the new-story bible instead of borrowing source shortcuts.")
+        if "serial_platform_minimum_audit_gate" in patterns:
+            hints.append("Transform serial audit cadence into new-story acceptance gates with different hooks, battles, dialogue beats, and loop-risk evidence.")
+        if "multi_agent_reject_retry_review_gate" in patterns:
+            hints.append("Transform agent roles and retry budgets, but reset all scores, reject reasons, and planning decisions for the new-story lineage.")
+        if "story_bible_context_packet_branch_gate" in patterns:
+            hints.append("Transform context-packet assembly by creating new branch ids, savepoints, promises, and recent summaries before generation.")
+        if "memory_augmented_delta_verification_gate" in patterns:
+            hints.append("Transform extracted deltas into new fact candidates and verify each one before it can enter the new-story delta index.")
+        if "statistical_style_benchmark_rewrite_gate" in patterns:
+            hints.append("Transform style benchmark presets into target metric ranges; do not preserve source example text, scene order, or signature voice artifacts.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -8808,6 +9037,20 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that treat research snippets, citations, or plagiarism-check notes as reusable prose or unreviewed fiction facts.")
         if "beta_reader_summary_context_gate" in patterns:
             hints.append("Reject beta-reader fixes that cite stale previous chapter summaries or convert reader preference into canon without an author decision.")
+        if "style_vocab_world_card_extraction_gate" in patterns:
+            hints.append("Reject style-vocabulary or world-card extraction that carries source proper nouns, unique setting rules, or chapter-local source facts into new canon.")
+        if "prompt_only_decay_ceiling_gate" in patterns:
+            hints.append("Reject prompt-only continuation when decay causes recycled source beats, premature wrap-up, or unsupported canon guesses.")
+        if "serial_platform_minimum_audit_gate" in patterns:
+            hints.append("Reject drafts that pass surface de-AI cleanup while failing loop detection, dialogue-ratio, battle-logic, or chapter-hook audit evidence.")
+        if "multi_agent_reject_retry_review_gate" in patterns:
+            hints.append("Reject multi-agent outputs where retry logs are missing, scores are below threshold, or rejected drafts update bible/context state.")
+        if "story_bible_context_packet_branch_gate" in patterns:
+            hints.append("Reject context packets without branch lineage, savepoint, restore target, and separation between source pattern notes and new-story canon.")
+        if "memory_augmented_delta_verification_gate" in patterns:
+            hints.append("Reject extracted deltas that skip targeted verification or merge into the knowledge graph without deterministic accumulation trace.")
+        if "statistical_style_benchmark_rewrite_gate" in patterns:
+            hints.append("Reject style-benchmark rewrites that overfit to 22-book presets, reproduce benchmark examples, or improve metrics by flattening character voice.")
         if "anti_slop_audit" in patterns:
             hints.append("Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.")
         if "plotgrid_scene_matrix" in patterns:
@@ -9305,6 +9548,13 @@ class NovelSourceDiscoveryService:
                 "selective_streaming_regeneration_gate",
                 "research_citation_boundary_gate",
                 "beta_reader_summary_context_gate",
+                "style_vocab_world_card_extraction_gate",
+                "prompt_only_decay_ceiling_gate",
+                "serial_platform_minimum_audit_gate",
+                "multi_agent_reject_retry_review_gate",
+                "story_bible_context_packet_branch_gate",
+                "memory_augmented_delta_verification_gate",
+                "statistical_style_benchmark_rewrite_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",
