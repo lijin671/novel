@@ -495,11 +495,16 @@ export default function BookRemixSourceDiscoveryPanel() {
   const [running, setRunning] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [repositorySeeds, setRepositorySeeds] = useState(DEFAULT_GITHUB_REPOSITORY_SEEDS.join('\n'));
+  const [repositorySeedsEdited, setRepositorySeedsEdited] = useState(false);
 
   const loadLatest = async () => {
     setLoading(true);
     try {
-      setValue(await sourceDiscoveryApi.getLatest());
+      const result = await sourceDiscoveryApi.getLatest();
+      setValue(result);
+      if (!repositorySeedsEdited && result.default_github_repository_urls?.length) {
+        setRepositorySeeds(result.default_github_repository_urls.join('\n'));
+      }
     } finally {
       setLoading(false);
     }
@@ -601,9 +606,15 @@ export default function BookRemixSourceDiscoveryPanel() {
               <TextArea
                 rows={3}
                 value={repositorySeeds}
-                onChange={(event) => setRepositorySeeds(event.target.value)}
+                onChange={(event) => {
+                  setRepositorySeedsEdited(true);
+                  setRepositorySeeds(event.target.value);
+                }}
                 placeholder="https://github.com/voocel/ainovel-cli"
               />
+              <Text type="secondary">
+                {`后端默认 seed：${value?.default_github_repository_urls?.length ?? DEFAULT_GITHUB_REPOSITORY_SEEDS.length} 个；手动编辑后本次页面会保留你的输入。`}
+              </Text>
             </Space>
           </Card>
 

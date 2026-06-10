@@ -96,3 +96,4 @@ class SourceDiscoveryLatestArtifactResponse(BaseModel):
     pattern_pack: dict = Field(default_factory=dict)
     ledger: dict = Field(default_factory=dict)
     refresh_policy: dict = Field(default_factory=dict)
+    default_github_repository_urls: list[str] = Field(default_factory=list)

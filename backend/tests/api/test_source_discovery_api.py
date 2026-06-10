@@ -270,6 +270,8 @@ async def test_get_latest_source_discovery_artifacts_returns_pattern_pack_and_le
     assert payload["refresh_policy"]["age_hours"] == 2.5
     assert payload["ledger"]["found"] is True
     assert "voocel/ainovel-cli" in payload["ledger"]["content"]
+    assert "https://github.com/voocel/ainovel-cli" in payload["default_github_repository_urls"]
+    assert "https://github.com/arupmaity1/book-writer-mcp" in payload["default_github_repository_urls"]
 
 
 @pytest.mark.asyncio

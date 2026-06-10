@@ -315,4 +315,5 @@ export interface SourceDiscoveryLatestArtifactResponse {
   pattern_pack: SourceDiscoveryPatternPackArtifact;
   ledger: SourceDiscoveryLedgerArtifact;
   refresh_policy: SourceDiscoveryRefreshPolicy;
+  default_github_repository_urls?: string[];
 }

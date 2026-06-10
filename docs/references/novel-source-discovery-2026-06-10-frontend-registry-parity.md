@@ -32,3 +32,9 @@ The change only exposes already-recorded public GitHub metadata seeds and patter
 - Frontend seed registry equals backend `DEFAULT_GITHUB_REPOSITORY_URLS`.
 - Core remix hint fields exist in both TypeScript type definitions and the panel copy.
 - Dynamic fallback still retains enough unpinned hint coverage for future intake.
+
+## API hydration addendum - 2026-06-10
+
+The latest-artifact endpoint now returns `default_github_repository_urls` from the backend registry. The frontend hydrates its seed textarea from that backend value while preserving manual user edits after the user changes the textarea.
+
+This keeps the backend registry as the authoritative runtime default for future GitHub intake refreshes. The frontend static list remains only as a local fallback before the latest-artifact response arrives.
