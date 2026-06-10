@@ -293,6 +293,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
     '("小说" OR "写作" OR "创作") "AI" in:name,description,readme',
+    '("detect-only" OR "edit-in-place" OR "voice profile") ("AI writing patterns" OR "AI-isms" OR "prose fingerprints") in:name,description,readme',
+    '("YAML frontmatter" OR "continuity questions" OR "promises/payoffs") ("story bible" OR "story skills" OR "chapter drafts") in:name,description,readme',
+    '("local-first story bible" OR "continuity checker" OR "evidence-backed suggestions") ("fiction" OR "novel") in:name,description,readme',
+    '("chainable expert AI" OR "alignment and creativity" OR "expert modules") ("writing framework" OR "AI writing") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -650,6 +654,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/senjinthedragon/Smart-Memory",
     "https://github.com/astrapi69/bibliogon",
     "https://github.com/rxb123ahuan/codexwriteskill",
+    "https://github.com/conorbronsdon/avoid-ai-writing",
+    "https://github.com/Lance-517/ChainWriter-Framework",
+    "https://github.com/Kronic90/Mimirs-Memory-Hub",
+    "https://github.com/awzheng/Mangaroo",
+    "https://github.com/aileks/realm-sync",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1034,6 +1043,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("tiered_memory_fact_retirement_gate", ("long-term memory", "session memory", "short-term memory", "memory context budget", "activation triggers", "fact retirement", "retired and replaced", "relationship history", "entity state", "scene history", "story arcs", "rolling summaries")),
     ("entity_mention_arc_timeline_gate", ("@-mentions", "@mentions", "appearance tracker", "arc view", "swim-lane timeline", "entity disappears", "absence gap", "auto-detect", "link automatically", "continuity polylines", "story bible markdown export")),
     ("codex_story_skill_project_scaffold_gate", ("codex-readable", "story.md", ".codex-story", "tracking files", "story-long-analyze", "story-short-analyze", "story-long-scan", "story-short-scan", "codex skills", "story-setup")),
+    ("ai_ism_detect_edit_convergence_gate", ("detect-only", "edit-in-place", "voice profile", "iterate-to-convergence", "AI writing patterns", "AI-isms", "prose fingerprints", "fingerprint clusters", "voice drift", "severity scoring")),
+    ("markdown_skill_story_project_contract_gate", ("story skills", "agent skills", "YAML frontmatter", "story bible", "continuity questions", "promises/payoffs", "scene state", "chapter drafts", "story validate", "markdown project format")),
+    ("canon_evidence_suggestion_review_gate", ("local-first story bible", "continuity checker", "canon drift", "evidence-backed suggestions", "contradictions", "context packs", "project storage", "JSON import and export", "entity facts")),
+    ("expert_chain_alignment_creativity_gate", ("chainable expert AI", "expert AI modules", "perfect alignment", "boundless creativity", "alignment framework", "Special Instruction Set", "deconstructs complex literary creation", "stress-tested", "semi-automated AI writing pipeline")),
+    ("visual_story_bible_continuity_gate", ("story bible technology", "visual consistency", "character appearances", "settings and visual elements", "art style", "visual continuity", "visual rules", "image bible")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -2509,6 +2523,27 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "codexwriteskill is a MIT Codex port of oh-story Claude Code writing skills. Public README markers describe Codex-readable STORY.md, .codex-story/rules, tracking files, story-long-analyze, story-short-analyze, story-long-scan, story-short-scan, and Codex skill installer commands. "
         "Pattern-only adaptation for Codex project scaffolding and deconstruction/market-scan route vocabulary; skill installation, upstream skill bodies, and runtime commands are not imported or executed."
     ),
+    "conorbronsdon/avoid-ai-writing": (
+        "Portable MIT writing skill for AI-ism audit and rewrite. Public README/SKILL describe detect-only and edit-in-place modes, "
+        "voice profiles, iterate-to-convergence, pattern categories, novelty inflation, AI-tool fingerprint leakage, and copy/publishing guardrails."
+    ),
+    "lance-517/chainwriter-framework": (
+        "MIT ChainWriter framework for semi-automated AI writing. Public README describes four chainable expert AI modules, "
+        "alignment-vs-creativity governance, Special Instruction Set boundaries, and source deconstruction without exposing protected case-study material."
+    ),
+    "kronic90/mimirs-memory-hub": (
+        "Mimir's Memory Hub is a multi-agent persistent memory surface with emotional weight, importance scores, novelty boost, and memory decay. "
+        "Pattern-only adaptation for memory salience and retirement; no hub, model, API key, or SillyTavern compatibility runtime is launched."
+    ),
+    "awzheng/mangaroo": (
+        "PDF-to-illustration / story visualizer with Story Bible logic for characters, settings, visual elements, consistent art style, and character appearances. "
+        "Pattern-only adaptation for visual-story-bible continuity; Gemini/API/web app surfaces remain runtime-deferred."
+    ),
+    "aileks/realm-sync": (
+        "Realm Sync is a canon-tracking app for TTRPG, fiction, and game-design projects that extracts entities/facts, tracks canon consistency, "
+        "and flags continuity errors with evidence-backed suggestions. Pattern-only adaptation; Convex/OpenRouter/app runtime is not launched."
+    ),
+
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2875,6 +2910,11 @@ class NovelSourceDiscoveryService:
             "tiered_memory_fact_retirement_gate_hints": self._build_tiered_memory_fact_retirement_gate_hints(available_patterns),
             "entity_mention_arc_timeline_gate_hints": self._build_entity_mention_arc_timeline_gate_hints(available_patterns),
             "codex_story_skill_project_scaffold_gate_hints": self._build_codex_story_skill_project_scaffold_gate_hints(available_patterns),
+            "ai_ism_detect_edit_convergence_gate_hints": self._build_ai_ism_detect_edit_convergence_gate_hints(available_patterns),
+            "markdown_skill_story_project_contract_gate_hints": self._build_markdown_skill_story_project_contract_gate_hints(available_patterns),
+            "canon_evidence_suggestion_review_gate_hints": self._build_canon_evidence_suggestion_review_gate_hints(available_patterns),
+            "expert_chain_alignment_creativity_gate_hints": self._build_expert_chain_alignment_creativity_gate_hints(available_patterns),
+            "visual_story_bible_continuity_gate_hints": self._build_visual_story_bible_continuity_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3868,6 +3908,11 @@ class NovelSourceDiscoveryService:
             "tiered_memory_fact_retirement_gate": 69,
             "entity_mention_arc_timeline_gate": 68,
             "codex_story_skill_project_scaffold_gate": 66,
+            "ai_ism_detect_edit_convergence_gate": 68,
+            "markdown_skill_story_project_contract_gate": 69,
+            "canon_evidence_suggestion_review_gate": 70,
+            "expert_chain_alignment_creativity_gate": 68,
+            "visual_story_bible_continuity_gate": 66,
             "mode_contract_generation_gate": 66,
             "source_study_method_bank_isolation_gate": 66,
             "source_discovery": 10,
@@ -4334,6 +4379,21 @@ class NovelSourceDiscoveryService:
         if "codex_story_skill_project_scaffold_gate" in patterns:
             targets.append("codex_story_project_scaffold")
             targets.append("story_rule_tracking_files")
+        if "ai_ism_detect_edit_convergence_gate" in patterns:
+            targets.append("ai_ism_detection_policy")
+            targets.append("voice_profile_convergence_policy")
+        if "markdown_skill_story_project_contract_gate" in patterns:
+            targets.append("markdown_story_file_contract")
+            targets.append("scene_state_frontmatter_schema")
+        if "canon_evidence_suggestion_review_gate" in patterns:
+            targets.append("evidence_backed_canon_warning_policy")
+            targets.append("canon_suggestion_acceptance_ledger")
+        if "expert_chain_alignment_creativity_gate" in patterns:
+            targets.append("expert_chain_stage_contracts")
+            targets.append("alignment_creativity_scorecard")
+        if "visual_story_bible_continuity_gate" in patterns:
+            targets.append("visual_story_bible_policy")
+            targets.append("character_appearance_continuity_rules")
         if "anti_ai_tone_polish" in patterns:
             targets.append("anti_ai_tone_rules")
         if "preference_memory" in patterns:
@@ -4849,6 +4909,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["entity_appearance_gap_report", "arc_timeline_continuity_findings", "unlinked_entity_mention_findings"])
         if "codex_story_skill_project_scaffold_gate" in patterns:
             targets.extend(["codex_story_scaffold_audit", "skill_scope_runtime_exclusion_notes", "story_tracking_file_completeness"])
+        if "ai_ism_detect_edit_convergence_gate" in patterns:
+            targets.extend(["ai_ism_detection_report", "voice_profile_convergence_log", "edit_in_place_diff_review"])
+        if "markdown_skill_story_project_contract_gate" in patterns:
+            targets.extend(["markdown_story_contract_audit", "yaml_frontmatter_scene_state_findings", "continuity_question_payoff_register"])
+        if "canon_evidence_suggestion_review_gate" in patterns:
+            targets.extend(["evidence_backed_canon_warning_report", "continuity_suggestion_review_log", "context_pack_canon_scope_findings"])
+        if "expert_chain_alignment_creativity_gate" in patterns:
+            targets.extend(["expert_chain_stage_outputs", "alignment_creativity_balance_report", "module_boundary_failure_findings"])
+        if "visual_story_bible_continuity_gate" in patterns:
+            targets.extend(["visual_story_bible_report", "character_appearance_drift_findings", "setting_visual_continuity_audit"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -6565,6 +6635,51 @@ class NovelSourceDiscoveryService:
             "A Codex-oriented story workspace should make the source of truth explicit: STORY.md, rule files, tracking ledgers, analysis reports, and chapter tasks have separate owners.",
             "Long/short deconstruction and market-scan skills are route vocabulary only until their data sources, rights boundary, command allowlist, and output artifacts are declared.",
             "Do not install upstream skill packs during intake; project-native scaffolds should be freshly generated and verified against local story workflow tests.",
+        ]
+
+    def _build_ai_ism_detect_edit_convergence_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ai_ism_detect_edit_convergence_gate" not in patterns:
+            return []
+        return [
+            "Run AI-ism audit in detect-only mode first: pattern category, severity, span id, speaker/narrator context, and whether the issue is generic prose or true voice drift.",
+            "Edit-in-place passes need a voice profile and convergence stop: change only flagged spans, preserve canon facts, and stop when remaining findings are accepted or explicitly deferred.",
+            "Fingerprint and cluster findings are copy-risk signals too; anti-AI cleanup must not push same-type drafts toward source phrasing, source cadence, or source set pieces.",
+        ]
+
+    def _build_markdown_skill_story_project_contract_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "markdown_skill_story_project_contract_gate" not in patterns:
+            return []
+        return [
+            "Store story bible, characters, world files, factions, artifacts, arcs, scenes, and chapters as inspectable markdown with YAML frontmatter instead of hidden chat state.",
+            "Each scene/chapter file should declare POV, location, scene state, promises/payoffs, continuity questions, and dependent canon ids before it can feed continuation prompts.",
+            "Skill bundles and CLI installers remain source-intake references; local story contracts should be repo-native and validated without importing upstream skill bodies.",
+        ]
+
+    def _build_canon_evidence_suggestion_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "canon_evidence_suggestion_review_gate" not in patterns:
+            return []
+        return [
+            "Continuity warnings need evidence: conflicting fact ids, chapter/scene refs, confidence, suggested repair, and the manuscript span affected by the warning.",
+            "Treat checker suggestions as pending changes; author or reviewer acceptance is required before they update bible, context pack, memory, or chapter text.",
+            "Local-first canon checks may inspect project artifacts only; provider-backed extraction, collaboration sync, and hosted databases stay runtime-deferred during intake.",
+        ]
+
+    def _build_expert_chain_alignment_creativity_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "expert_chain_alignment_creativity_gate" not in patterns:
+            return []
+        return [
+            "Split high-risk writing into expert-chain stages such as deconstruction, alignment contract, creative recomposition, and final verifier; each stage emits a bounded artifact.",
+            "Alignment means satisfying accepted canon, mode contract, and source-boundary rules; creativity means changing premise specifics, causality, objects, scene order, and wording.",
+            "A stage cannot pass by sounding fluent alone: record alignment failures, creativity failures, and copy-risk failures before promoting a draft to the next stage.",
+        ]
+
+    def _build_visual_story_bible_continuity_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "visual_story_bible_continuity_gate" not in patterns:
+            return []
+        return [
+            "When a novel workflow produces visual or adaptation artifacts, keep a visual story bible for character appearance, setting look, props, mood, and style continuity.",
+            "Visual bible entries are derived from accepted prose and cards; they may not silently rewrite story canon or import source/reference character designs.",
+            "Image, PDF, Gemini, browser, or hosted illustration surfaces remain runtime-deferred unless a separate safety and rights packet authorizes them.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -8921,6 +9036,16 @@ class NovelSourceDiscoveryService:
             targets.append("entity_appearance_arc_remap")
         if "codex_story_skill_project_scaffold_gate" in patterns:
             targets.append("codex_story_scaffold_remap")
+        if "ai_ism_detect_edit_convergence_gate" in patterns:
+            targets.append("ai_ism_convergence_remap")
+        if "markdown_skill_story_project_contract_gate" in patterns:
+            targets.append("markdown_story_contract_remap")
+        if "canon_evidence_suggestion_review_gate" in patterns:
+            targets.append("canon_evidence_suggestion_remap")
+        if "expert_chain_alignment_creativity_gate" in patterns:
+            targets.append("expert_chain_stage_remap")
+        if "visual_story_bible_continuity_gate" in patterns:
+            targets.append("visual_bible_continuity_remap")
         if "draft_stage_revision_ladder" in patterns:
             targets.append("draft_stage_remap")
         if "rolling_summary_context_trim" in patterns:
@@ -9339,6 +9464,16 @@ class NovelSourceDiscoveryService:
             hints.append("Build a new-story context packet and branch savepoint before drafting; source packets can inform shape only, not facts.")
         if "memory_augmented_delta_verification_gate" in patterns:
             hints.append("Ask for transformed fact deltas and targeted verification questions before any delta can update the new story bible.")
+        if "ai_ism_detect_edit_convergence_gate" in patterns:
+            hints.append("Declare detect-only AI-ism categories and the target voice profile before rewriting; anti-AI cleanup must preserve new-story canon and independence.")
+        if "markdown_skill_story_project_contract_gate" in patterns:
+            hints.append("Prompt from transformed markdown contracts and frontmatter scene state, not from source project files or upstream skill text.")
+        if "canon_evidence_suggestion_review_gate" in patterns:
+            hints.append("Require evidence-backed canon warnings and reviewer decisions before a same-type draft can update bible, context pack, or memory.")
+        if "expert_chain_alignment_creativity_gate" in patterns:
+            hints.append("Use expert-chain stages to first prove alignment to transformed canon, then prove creativity by replacing concrete source events and wording.")
+        if "visual_story_bible_continuity_gate" in patterns:
+            hints.append("If visual planning is present, create fresh appearance and setting rules for the transformed cast rather than copying source visuals.")
         if "statistical_style_benchmark_rewrite_gate" in patterns:
             hints.append("Use statistical style presets as quality thresholds while requiring independence checks against copied phrasing and source-scene rhythm.")
         if "card_workbench" in patterns:
@@ -9812,6 +9947,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform section metadata into new cast, location, item, plotline, beat, pacing, and status fields.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Transform prose-fingerprint findings into local revision targets instead of copying source sentence rhythm.")
+        if "ai_ism_detect_edit_convergence_gate" in patterns:
+            hints.append("Transform AI-ism findings into bounded local edits with a voice-profile convergence log; never rewrite by paraphrasing source passages.")
+        if "markdown_skill_story_project_contract_gate" in patterns:
+            hints.append("Transform the story project contract by creating new frontmatter ids, continuity questions, promises, and payoff registers.")
+        if "canon_evidence_suggestion_review_gate" in patterns:
+            hints.append("Transform canon suggestions into pending review items with new-story evidence before any suggestion mutates accepted state.")
+        if "expert_chain_alignment_creativity_gate" in patterns:
+            hints.append("Transform each expert-chain artifact so the creative module changes actors, causality, objects, and payoff sequence before verifier review.")
+        if "visual_story_bible_continuity_gate" in patterns:
+            hints.append("Transform visual bible rules into fresh character appearance, setting palette, and prop continuity for the new story.")
         if "author_candidate_canon_confirmation_gate" in patterns:
             hints.append("Transform candidate canon decisions by assigning new-story candidate ids, reviewer decisions, and rollback notes before updating bible, plan, or chapter state.")
         if "progressive_spoiler_context_window_gate" in patterns:
@@ -10415,6 +10560,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject relationship graphs or global replacements that preserve source aliases, edge labels, centrality, or relationship timing under new names.")
         if "bookrun_audit_trail_gate" in patterns:
             hints.append("Reject BookRun traces that replay source blueprint decisions, judge rationales, or repair diffs as transformed-story authority.")
+        if "ai_ism_detect_edit_convergence_gate" in patterns:
+            hints.append("Reject anti-AI edits that make prose closer to source cadence, source imagery, or copied set-piece wording while only removing generic AI tells.")
+        if "markdown_skill_story_project_contract_gate" in patterns:
+            hints.append("Reject markdown contracts that preserve source frontmatter ids, continuity questions, chapter headings, or promise/payoff labels under renamed content.")
+        if "canon_evidence_suggestion_review_gate" in patterns:
+            hints.append("Reject canon-fix suggestions that lack evidence refs, author/reviewer acceptance, or separation between source facts and transformed canon.")
+        if "expert_chain_alignment_creativity_gate" in patterns:
+            hints.append("Reject expert-chain outputs that satisfy alignment by keeping source scene order or satisfy creativity by adding surface novelty on top of copied structure.")
+        if "visual_story_bible_continuity_gate" in patterns:
+            hints.append("Reject visual bible entries that preserve source character designs, unique props, scene compositions, or style references as new-story canon.")
         if "provider_budget_smoke_gate" in patterns:
             hints.append("Reject provider smoke results that hide cost, token, model, profile, or real-vs-dry-run status.")
         if "sidecar_memory_profile_boundary" in patterns:
@@ -10772,6 +10927,11 @@ class NovelSourceDiscoveryService:
                 "tiered_memory_fact_retirement_gate",
                 "entity_mention_arc_timeline_gate",
                 "codex_story_skill_project_scaffold_gate",
+                "ai_ism_detect_edit_convergence_gate",
+                "markdown_skill_story_project_contract_gate",
+                "canon_evidence_suggestion_review_gate",
+                "expert_chain_alignment_creativity_gate",
+                "visual_story_bible_continuity_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",

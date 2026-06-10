@@ -10770,3 +10770,135 @@ def test_deconstruction_platform_memory_and_codex_sources_map_to_intake_gates():
     assert "tiered_memory_fact_retirement_gate_hints" in digest
     assert "entity_mention_arc_timeline_gate_hints" in digest
     assert "codex_story_skill_project_scaffold_gate_hints" in digest
+
+
+def test_ai_ism_markdown_canon_chain_sources_map_to_intake_gates():
+    assert "https://github.com/conorbronsdon/avoid-ai-writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Lance-517/ChainWriter-Framework" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Kronic90/Mimirs-Memory-Hub" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/awzheng/Mangaroo" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/aileks/realm-sync" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("detect-only" in query.lower() and "voice profile" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("yaml frontmatter" in query.lower() and "promises/payoffs" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("local-first story bible" in query.lower() and "evidence-backed suggestions" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chainable expert ai" in query.lower() and "expert modules" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "conorbronsdon/avoid-ai-writing",
+                "html_url": "https://github.com/conorbronsdon/avoid-ai-writing",
+                "description": (
+                    "Portable MIT writing skill for AI writing patterns, AI-isms, detect-only, edit-in-place, "
+                    "voice profile, iterate-to-convergence, prose fingerprints, voice drift, severity scoring, "
+                    "novelty inflation and publishing copy guardrails."
+                ),
+                "stargazers_count": 1766,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "ai-writing", "skill"],
+                "updated_at": "2026-06-10T19:46:02Z",
+                "root_files": ["README.md", "LICENSE", "SKILL.md", "package.json"],
+            },
+            {
+                "full_name": "danjdewhurst/story-skills",
+                "html_url": "https://github.com/danjdewhurst/story-skills",
+                "description": (
+                    "Agent Skills project format with story bible, markdown files, YAML frontmatter, "
+                    "continuity questions, promises/payoffs, scene state, chapter drafts, story validate, "
+                    "factions, artifacts and timelines."
+                ),
+                "stargazers_count": 64,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-bible", "agent-skills", "writing"],
+                "updated_at": "2026-06-10T18:25:55Z",
+                "root_files": ["README.md", "LICENSE", "package.json"],
+            },
+            {
+                "full_name": "sadasdfsaf/canonkit",
+                "html_url": "https://github.com/sadasdfsaf/canonkit",
+                "description": (
+                    "Local-first story bible and continuity checker for fiction teams and solo authors, "
+                    "canon drift, evidence-backed suggestions, contradictions, context packs, project storage, "
+                    "JSON import and export, entity facts and local-first browser persistence."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["story-bible", "continuity", "fiction"],
+                "updated_at": "2026-03-30T05:54:12Z",
+                "root_files": ["README.md", "package.json"],
+            },
+            {
+                "full_name": "Lance-517/ChainWriter-Framework",
+                "html_url": "https://github.com/Lance-517/ChainWriter-Framework",
+                "description": (
+                    "ChainWriter semi-automated AI writing pipeline with chainable expert AI modules, "
+                    "perfect alignment, boundless creativity, alignment framework, Special Instruction Set, "
+                    "deconstructs complex literary creation and stress-tested module boundaries."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-writing", "framework", "fiction"],
+                "updated_at": "2025-11-24T15:30:03Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+            {
+                "full_name": "awzheng/Mangaroo",
+                "html_url": "https://github.com/awzheng/Mangaroo",
+                "description": (
+                    "Story visualizer with Story Bible Technology, visual consistency, character appearances, "
+                    "settings and visual elements, art style, visual continuity, visual rules, image bible, "
+                    "Gemini API key and PDF illustrator app surfaces."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["story-bible", "illustration", "visual"],
+                "updated_at": "2026-03-30T18:35:14Z",
+                "root_files": ["README.md", "package.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T10:00:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "ai_ism_detect_edit_convergence_gate" in candidates["conorbronsdon/avoid-ai-writing"]["absorbed_patterns"]
+    assert "markdown_skill_story_project_contract_gate" in candidates["danjdewhurst/story-skills"]["absorbed_patterns"]
+    assert "canon_evidence_suggestion_review_gate" in candidates["sadasdfsaf/canonkit"]["absorbed_patterns"]
+    assert "expert_chain_alignment_creativity_gate" in candidates["Lance-517/ChainWriter-Framework"]["absorbed_patterns"]
+    assert "visual_story_bible_continuity_gate" in candidates["awzheng/Mangaroo"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "ai_ism_detection_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "markdown_story_file_contract" in pattern_pack["bible_enrichment_targets"]
+    assert "evidence_backed_canon_warning_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "expert_chain_stage_contracts" in pattern_pack["bible_enrichment_targets"]
+    assert "visual_story_bible_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "ai_ism_detection_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "markdown_story_contract_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "evidence_backed_canon_warning_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "expert_chain_stage_outputs" in pattern_pack["whole_book_analysis_targets"]
+    assert "visual_story_bible_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ai_ism_convergence_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "markdown_story_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "canon_evidence_suggestion_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "expert_chain_stage_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "visual_bible_continuity_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "detect-only" in " ".join(pattern_pack["ai_ism_detect_edit_convergence_gate_hints"]).lower()
+    assert "yaml frontmatter" in " ".join(pattern_pack["markdown_skill_story_project_contract_gate_hints"]).lower()
+    assert "evidence" in " ".join(pattern_pack["canon_evidence_suggestion_review_gate_hints"]).lower()
+    assert "alignment" in " ".join(pattern_pack["expert_chain_alignment_creativity_gate_hints"]).lower()
+    assert "visual story bible" in " ".join(pattern_pack["visual_story_bible_continuity_gate_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "ai_ism_detect_edit_convergence_gate_hints" in digest
+    assert "markdown_skill_story_project_contract_gate_hints" in digest
+    assert "canon_evidence_suggestion_review_gate_hints" in digest
+    assert "expert_chain_alignment_creativity_gate_hints" in digest
+    assert "visual_story_bible_continuity_gate_hints" in digest
