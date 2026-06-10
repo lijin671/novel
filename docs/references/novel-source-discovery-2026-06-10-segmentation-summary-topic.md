@@ -86,3 +86,31 @@ This is static source intake only.
 Future runtime trial requires a separate local safety contract covering scope,
 license, dependency graph, secrets/auth surface, network behavior, cleanup,
 rollback, and verification.
+
+## Frontend surfacing addendum - 2026-06-10
+
+A fresh public HEAD refresh was recorded under
+`tmp/source-intake-segmentation-rag-eval-2026-06-10/head-manifest.json`.
+No repository was cloned, installed, or executed.
+
+Current reachable HEADs used for the UI surfacing pass:
+
+- `benbrandt/text-splitter`: `822f059123e716476d141b64b85b99e36ac85afc`
+- `langchain-ai/langchain`: `bee470cc29fec53216891f71e47217ee4eec3694`
+- `miso-belica/sumy`: `bbc540476970903b707309c28aa316be9a9c3511`
+- `dmmiller612/bert-extractive-summarizer`: `84f27333aef33629444589c24933b76448777d4f`
+- `MaartenGr/BERTopic`: `f9697602d57fc6acb8ac304026ac3c9aecd8a031`
+
+Frontend integration delta:
+
+- Added the above segmentation / summary / topic projects to the visible
+  BookRemix source-discovery seed list when they were missing from the UI.
+- Pinned the corresponding pattern-pack keys so they no longer fall into the
+  generic additional-gates bucket.
+- Added an explicit `Segmentation / summary / RAG eval gates` group for
+  semantic chunk boundaries, chapter summary anchors, topic drift maps,
+  context faithfulness checks, retrieval traces, and prompt regression suites.
+
+Runtime boundary remains unchanged: this pass is metadata/static-pattern intake
+only. It does not authorize dependency installation, external eval execution,
+provider/model calls, tracing services, scripts, Docker stacks, or code import.

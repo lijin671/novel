@@ -106,6 +106,16 @@ export interface SourceDiscoveryPatternPack {
   anti_repetition_prompt_rules_hints?: string[];
   temporal_canon_context_graph_hints?: string[];
   character_interaction_network_gate_hints?: string[];
+  character_quote_attribution_map_hints?: string[];
+  readability_pacing_metric_gate_hints?: string[];
+  lexical_diversity_voice_audit_hints?: string[];
+  keyphrase_motif_extraction_hints?: string[];
+  semantic_chunk_boundary_map_hints?: string[];
+  chapter_summary_anchor_gate_hints?: string[];
+  topic_drift_map_hints?: string[];
+  context_faithfulness_eval_gate_hints?: string[];
+  retrieval_trace_observability_gate_hints?: string[];
+  prompt_regression_eval_suite_hints?: string[];
   plotline_thread_tracking_hints?: string[];
   rolling_summary_context_trim_hints?: string[];
   causal_dramatica_agent_pipeline_hints?: string[];

@@ -88,3 +88,34 @@ This is static source intake only.
 Future runtime trial requires a separate local safety contract covering scope,
 license, dependency graph, provider/auth surface, network behavior, cleanup,
 rollback, and verification.
+
+## Frontend surfacing addendum - 2026-06-10
+
+A fresh public HEAD and GitHub metadata refresh was recorded under
+`tmp/source-intake-segmentation-rag-eval-2026-06-10/`.
+No repository was cloned, installed, or executed.
+
+Current reachable HEADs used for the UI surfacing pass:
+
+- `explodinggradients/ragas`: `298b68274234c060deacab3cf5fb52aa3a20e885`
+  - GitHub API currently reports the canonical HTML URL as
+    `https://github.com/vibrantlabsai/ragas`; the legacy repository URL remains
+    reachable and points at the same HEAD.
+- `confident-ai/deepeval`: `c399fb4034ae7a321544826f5fcc6624abf9cc57`
+- `truera/trulens`: `3fb807eea0ddf25cac5e65b1418a5af33f719586`
+- `Arize-ai/phoenix`: `ab8d2c1cd5056139ec6867690c5ccf1b10e4acf6`
+- `promptfoo/promptfoo`: `49a175a877b828893f2a9e03420816d192cdbb5f`
+- `openai/evals`: `8eac7a7de5215c907fbddc30efdaf316913eccdd`
+
+Frontend integration delta:
+
+- Added the eval / observability / prompt-regression projects to the visible
+  BookRemix source-discovery seed list when they were missing from the UI.
+- Surfaced faithfulness, trace observability, and prompt-regression fields in
+  the new `Segmentation / summary / RAG eval gates` UI group.
+- Kept all eval engines as `pattern-only` evidence; the UI exposes review
+  vocabulary, not runnable evaluation tools.
+
+Runtime boundary remains unchanged: no external eval runner, tracing backend,
+red-team scanner, provider call, model call, dataset import, or prompt set import
+is authorized by this source-intake pass.

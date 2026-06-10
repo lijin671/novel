@@ -98,6 +98,16 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "sentiment_arc_emotion_trajectory_gate_hints",
             "cross_context_coreference_gate_hints",
             "character_interaction_network_gate_hints",
+            "character_quote_attribution_map_hints",
+            "readability_pacing_metric_gate_hints",
+            "lexical_diversity_voice_audit_hints",
+            "keyphrase_motif_extraction_hints",
+            "semantic_chunk_boundary_map_hints",
+            "chapter_summary_anchor_gate_hints",
+            "topic_drift_map_hints",
+            "context_faithfulness_eval_gate_hints",
+            "retrieval_trace_observability_gate_hints",
+            "prompt_regression_eval_suite_hints",
             "source_text_fingerprint_gate_hints",
             "fuzzy_phrase_similarity_gate_hints",
             "diff_span_copy_review_hints",
@@ -235,6 +245,18 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Sentiment arc / emotion trajectory gates" in panel_text
     assert "Cross-context coreference gates" in panel_text
     assert "Character interaction network gates" in panel_text
+    assert "Book NLP / readability / motif gates" in panel_text
+    assert "Character quote attribution maps" in panel_text
+    assert "Readability pacing metric gates" in panel_text
+    assert "Lexical diversity voice audits" in panel_text
+    assert "Keyphrase motif extraction gates" in panel_text
+    assert "Segmentation / summary / RAG eval gates" in panel_text
+    assert "Semantic chunk boundary maps" in panel_text
+    assert "Chapter summary anchor gates" in panel_text
+    assert "Topic drift maps" in panel_text
+    assert "Context faithfulness eval gates" in panel_text
+    assert "Retrieval trace observability gates" in panel_text
+    assert "Prompt regression eval suites" in panel_text
     assert "Copy similarity / near-duplicate gates" in panel_text
     assert "Source text fingerprint gates" in panel_text
     assert "Fuzzy phrase similarity gates" in panel_text
@@ -472,6 +494,30 @@ def test_source_discovery_panel_default_seeds_include_reader_market_feedback_sou
         "maria-antoniak/goodreads-scraper",
         "Ckokoski/authorclaw",
         "f5alcon/The-Novelists-Atelier",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_segmentation_summary_rag_eval_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "booknlp/booknlp",
+        "textstat/textstat",
+        "boudinfl/pke",
+        "benbrandt/text-splitter",
+        "langchain-ai/langchain",
+        "miso-belica/sumy",
+        "dmmiller612/bert-extractive-summarizer",
+        "MaartenGr/BERTopic",
+        "explodinggradients/ragas",
+        "confident-ai/deepeval",
+        "truera/trulens",
+        "Arize-ai/phoenix",
+        "promptfoo/promptfoo",
+        "openai/evals",
     ):
         assert repo in panel_text
 
