@@ -9615,3 +9615,116 @@ def test_static_style_continuation_sources_map_to_audit_and_verification_gates()
     assert "story_bible_context_packet_branch_gate_hints" in digest
     assert "memory_augmented_delta_verification_gate_hints" in digest
     assert "statistical_style_benchmark_rewrite_gate_hints" in digest
+
+
+def test_static_webnovel_dashboard_skill_publish_sources_map_to_workflow_gates():
+    assert "https://github.com/per-hap-s/webnovel-writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/imerzzhu/ai-novel-writing-skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dyrcjqlgcj/webnovel-director" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Saemer2023/webnovel-writer-opencode" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/yuzhoubazhu/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("web dashboard" in query.lower() and ".webnovel" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("webnovel skills" in query.lower() and "hot memes" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("truth file" in query.lower() and "relationship_graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("one-click publish" in query.lower() and "browser automation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("multi-work" in query.lower() and "manual continuation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "per-hap-s/webnovel-writing",
+                "html_url": "https://github.com/per-hap-s/webnovel-writing",
+                "description": "AI-assisted long-form webnovel workbench with Web Dashboard, task orchestration for init plan write review repair query resume, quality review panels, .webnovel state directory, revision backups, reports, Windows bat and PowerShell launchers, consistency continuity OOC pacing and reader pull checks.",
+                "stargazers_count": 1,
+                "license": None,
+                "topics": ["webnovel", "dashboard", "ai-writing"],
+                "updated_at": "2026-06-10T10:20:00Z",
+                "root_files": ["README.md", "tools/Start-Webnovel-Writer.bat", "tools/Launch-Webnovel-Dashboard.ps1"],
+            },
+            {
+                "full_name": "imerzzhu/ai-novel-writing-skills",
+                "html_url": "https://github.com/imerzzhu/ai-novel-writing-skills",
+                "description": "MIT public Codex Skills package for Chinese webnovel writing with webnovel skills for topic planning, outlining, chapter drafting, continuation, expansion, rewrite, story logic review, prose polish, final manuscript checks, webnovel-hot-memes, platform voice, comment-section energy, webnovel-female-radar emotional rhythm, relationship tension and open source boundary excluding private rank snapshots.",
+                "stargazers_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["codex-skills", "webnovel", "ai-writing"],
+                "updated_at": "2026-06-11T07:45:00Z",
+                "root_files": ["README.md", "LICENSE", "skills/webnovel-write/SKILL.md"],
+            },
+            {
+                "full_name": "dyrcjqlgcj/webnovel-director",
+                "html_url": "https://github.com/dyrcjqlgcj/webnovel-director",
+                "description": "Chinese structured webnovel scheduler that splits material selection, outline, writing, review and writeback into independent phases. Supports OpenClaw and Claude Code skill install, provider API key configuration, dashboard P0 project setup P1 overview P2 outline management P3 writing pipeline, L2 L3 review, task packages, Truth files including current_state resource_ledger relationship_graph hooks.",
+                "stargazers_count": 9,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "openclaw", "dashboard"],
+                "updated_at": "2026-06-10T18:12:00Z",
+                "root_files": ["README.md", "SKILL.md", "requirements.txt"],
+            },
+            {
+                "full_name": "Saemer2023/webnovel-writer-opencode",
+                "html_url": "https://github.com/Saemer2023/webnovel-writer-opencode",
+                "description": "OpenCode long-form webnovel AI creation system with RAG context management, 10 writing skills, 6 dedicated agents, quality checks for consistency OOC pleasure density pacing and reader pull, 37 templates, dashboard, one-click Fanqie publish, browser automation login, HTTP API upload, upstream read-only source plus sync-upstream.ps1, install.py interactive installer.",
+                "stargazers_count": 18,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["opencode", "webnovel", "rag"],
+                "updated_at": "2026-06-09T09:30:00Z",
+                "root_files": ["README.md", "LICENSE", "CLAUDE.md", "install.py", "sync-upstream.ps1"],
+            },
+            {
+                "full_name": "yuzhoubazhu/novel-studio",
+                "html_url": "https://github.com/yuzhoubazhu/novel-studio",
+                "description": "AI Agent platform for novel creators solving character setting collapse, plot memory loss and rigid AI-style wording. Supports multi-work management, writing style imitation, manual continuation and automatic continuation modes for long-form writing.",
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["novel", "agent", "style-imitation"],
+                "updated_at": "2026-06-10T05:20:00Z",
+                "root_files": ["README.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T01:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "dashboard_task_quality_resume_gate" in candidates["per-hap-s/webnovel-writing"]["absorbed_patterns"]
+    assert "powershell_script" in candidates["per-hap-s/webnovel-writing"]["risk_flags"]
+    assert "webnovel_skill_suite_release_boundary_gate" in candidates["imerzzhu/ai-novel-writing-skills"]["absorbed_patterns"]
+    assert "platform_voice_meme_emotion_gate" in candidates["imerzzhu/ai-novel-writing-skills"]["absorbed_patterns"]
+    assert "skill_install_surface" in candidates["imerzzhu/ai-novel-writing-skills"]["risk_flags"]
+    assert "truth_file_phase_dashboard_gate" in candidates["dyrcjqlgcj/webnovel-director"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["dyrcjqlgcj/webnovel-director"]["risk_flags"]
+    assert "platform_publish_automation_boundary_gate" in candidates["Saemer2023/webnovel-writer-opencode"]["absorbed_patterns"]
+    assert "platform_publish_automation_surface" in candidates["Saemer2023/webnovel-writer-opencode"]["risk_flags"]
+    assert "python_installer" in candidates["Saemer2023/webnovel-writer-opencode"]["risk_flags"]
+    assert "multi_work_style_imitation_mode_gate" in candidates["yuzhoubazhu/novel-studio"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "dashboard_task_quality_resume_gate_hints" in pattern_pack
+    assert "webnovel_skill_suite_release_boundary_gate_hints" in pattern_pack
+    assert "truth_file_phase_dashboard_gate_hints" in pattern_pack
+    assert "platform_publish_automation_boundary_gate_hints" in pattern_pack
+    assert "multi_work_style_imitation_mode_gate_hints" in pattern_pack
+    assert "webnovel_task_orchestration_state" in pattern_pack["bible_enrichment_targets"]
+    assert "skill_suite_release_boundary" in pattern_pack["bible_enrichment_targets"]
+    assert "truth_file_canon_ledgers" in pattern_pack["bible_enrichment_targets"]
+    assert "publish_automation_safety_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "multi_work_style_imitation_modes" in pattern_pack["bible_enrichment_targets"]
+    assert "dashboard_resume_quality_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "skill_suite_stage_coverage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "truth_file_writeback_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "publish_automation_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_work_style_mode_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_imitation_mode_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "truth_file_relationship_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any(".webnovel" in hint.lower() for hint in pattern_pack["dashboard_task_quality_resume_gate_hints"])
+    assert any("truth file" in hint.lower() for hint in pattern_pack["truth_file_phase_dashboard_gate_hints"])
+    assert any("one-click publish" in hint.lower() for hint in pattern_pack["platform_publish_automation_boundary_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "dashboard_task_quality_resume_gate_hints" in digest
+    assert "webnovel_skill_suite_release_boundary_gate_hints" in digest
+    assert "truth_file_phase_dashboard_gate_hints" in digest
+    assert "platform_publish_automation_boundary_gate_hints" in digest
+    assert "multi_work_style_imitation_mode_gate_hints" in digest

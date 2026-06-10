@@ -235,6 +235,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("pure-prompt" OR "prompt-only") ("wrap-up mode" OR "continuity guard" OR "stress test") ("novel" OR "fiction") in:name,description,readme',
     '("delta extraction" OR "memory-augmented extraction") ("chain-of-verification" OR "deterministic accumulation") ("manuscript" OR "novel") in:name,description,readme',
     '("22-book" OR "22 published novels") ("style preset" OR "style presets" OR "smart rewriter") ("writing quality" OR "novel") in:name,description,readme',
+    '("web dashboard" OR "dashboard") (".webnovel" OR "resume") ("webnovel" OR "long-form writing") in:name,description,readme',
+    '("webnovel skills" OR "Codex Skills") ("hot memes" OR "female radar" OR "platform voice") in:name,description,readme',
+    '("truth file" OR "Truth files") ("relationship_graph" OR "current_state" OR "resource_ledger") ("webnovel" OR "novel") in:name,description,readme',
+    '("one-click publish" OR "Fanqie publish") ("browser automation" OR "HTTP API upload") ("webnovel" OR "OpenCode") in:name,description,readme',
+    '("multi-work" OR "multi work") ("style imitation" OR "manual continuation" OR "automatic continuation") ("novel" OR "agent") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -562,6 +567,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/VerifiedOrganic/spindle",
     "https://github.com/daveremy/edword",
     "https://github.com/adameya2004-oss/CraftEngine",
+    "https://github.com/per-hap-s/webnovel-writing",
+    "https://github.com/imerzzhu/ai-novel-writing-skills",
+    "https://github.com/dyrcjqlgcj/webnovel-director",
+    "https://github.com/Saemer2023/webnovel-writer-opencode",
+    "https://github.com/yuzhoubazhu/novel-studio",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -824,6 +834,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_bible_context_packet_branch_gate", ("context packet assembly", "context packet", "recent chapter summaries", "branch and save points", "save points", "restore earlier scene versions", "dual-persona editorial reviews", "canonical fact extraction")),
     ("memory_augmented_delta_verification_gate", ("memory-augmented extraction", "chain-of-verification", "deterministic accumulation", "delta extraction", "structured facts from current chapter", "targeted questions", "incremental processing", "codex validation")),
     ("statistical_style_benchmark_rewrite_gate", ("22-book", "22 published novels", "22-book statistical analysis", "style presets", "smart rewriter", "quality analyzer", "character voice profiles", "sensory density")),
+    ("dashboard_task_quality_resume_gate", ("web dashboard", "dashboard", "task orchestration", "init plan write review repair query resume", ".webnovel", "quality review panels", "revision backups", "reader pull checks")),
+    ("webnovel_skill_suite_release_boundary_gate", ("webnovel skills", "codex skills package", "topic planning", "outlining, chapter drafting", "story logic review", "prose polish", "final manuscript checks", "open source boundary")),
+    ("platform_voice_meme_emotion_gate", ("webnovel-hot-memes", "hot memes", "platform voice", "comment-section energy", "female radar", "emotional rhythm", "relationship tension", "platform语感")),
+    ("truth_file_phase_dashboard_gate", ("truth files", "current_state", "resource_ledger", "relationship_graph", "hooks", "p0 project setup", "p1 overview", "p2 outline", "p3 writing pipeline", "l2 l3 review")),
+    ("platform_publish_automation_boundary_gate", ("one-click fanqie publish", "one-click publish", "browser automation login", "http api upload", "publish to fanqie", "webnovel-publish", "publication upload")),
+    ("multi_work_style_imitation_mode_gate", ("multi-work management", "multi work management", "writing style imitation", "manual continuation", "automatic continuation", "character setting collapse", "plot memory loss", "rigid ai-style wording")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -918,6 +934,9 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("browser_storage_surface", ("indexeddb", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
+    ("skill_install_surface", ("codex skills", "clawhub install", ".codex\\skills", ".claude/skills", "copy-item -recurse", "skill install", "openclaw")),
+    ("python_installer", ("install.py", "interactive installer")),
+    ("platform_publish_automation_surface", ("browser automation login", "http api upload", "one-click publish", "webnovel-publish", "publish to fanqie", "fanqie publish")),
     ("device_control", ("adb", "root", "accessibility", "plugin marketplace")),
     ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url")),
     ("corpus_downloader", ("download texts", "parallel downloads", "gutenberg scraper", "build public-domain book corpora", "full-text search")),
@@ -2191,6 +2210,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "CraftEngine is a SillyTavern extension. Public README markers describe writing-quality analysis from 22 published novels, 22-book style presets, smart rewriting below thresholds, imported book style learning, character voice profiles, rhythm/sensory-density metrics, slop detection, dialogue checks, repetition checks, and ending-quality metrics. "
         "Pattern-only adaptation for statistical style benchmark rewrite gates; browser extension and SillyTavern runtime are not installed or launched."
     ),
+    "per-hap-s/webnovel-writing": (
+        "webnovel-writing is a Chinese long-form webnovel AI workbench. Public README markers describe a Web Dashboard, task orchestration across init/plan/write/review/repair/query/resume, quality panels, .webnovel state, revision backups, reports, consistency/continuity/OOC/pacing/reader-pull checks, and Windows bat/PowerShell launchers. "
+        "Pattern-only adaptation for dashboard task orchestration, quality review, and resumable state gates; Windows scripts, dashboard runtime, and local workspace access are not launched."
+    ),
+    "imerzzhu/ai-novel-writing-skills": (
+        "ai-novel-writing-skills is a MIT public Codex Skills package for Chinese webnovel writing. Public README markers describe topic planning, outlining, chapter drafting, continuation/expansion/rewrite, story-logic review, prose polish, final checks, hot-meme/platform voice adaptation, female-emotion radar, and an open-source boundary excluding private rank snapshots and local source cards. "
+        "Pattern-only adaptation for public skill-suite boundaries and platform voice/emotion gates; upstream skills are not installed or imported."
+    ),
+    "dyrcjqlgcj/webnovel-director": (
+        "webnovel-director is a Chinese structured webnovel scheduler. Public README markers describe splitting material selection, outline, writing, review, and writeback into independent phases; OpenClaw/Claude skill install; API key surfaces; dashboard P0/P1/P2/P3 panels; L2/L3 review; task packages; and Truth files such as current_state, resource_ledger, relationship_graph, and hooks. "
+        "Pattern-only adaptation for Truth-file phase dashboards and writeback gates; skill install, provider calls, dashboard server, and CLI runtime are not used."
+    ),
+    "saemer2023/webnovel-writer-opencode": (
+        "webnovel-writer-opencode is an OpenCode long-form webnovel system. Public README markers describe RAG context management, ten writing skills, six dedicated agents, quality checks, templates, dashboard, batch writing, resume state, one-click Fanqie publishing, browser automation login, HTTP API upload, read-only upstream source, sync-upstream.ps1, and install.py. "
+        "Pattern-only adaptation for publish automation boundaries and runtime safety gates; installer, PowerShell sync, OpenCode runtime, browser automation, login, and upload APIs are not executed."
+    ),
+    "yuzhoubazhu/novel-studio": (
+        "novel-studio is an AI Agent platform for novel creators. Public README markers describe reducing character setting collapse, plot memory loss, and rigid AI-style wording, with multi-work management, writing style imitation, and manual/automatic continuation modes. "
+        "Pattern-only adaptation for multi-work style-imitation mode selection and anti-collapse gates; runtime is not launched."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2520,6 +2559,12 @@ class NovelSourceDiscoveryService:
             "story_bible_context_packet_branch_gate_hints": self._build_story_bible_context_packet_branch_gate_hints(available_patterns),
             "memory_augmented_delta_verification_gate_hints": self._build_memory_augmented_delta_verification_gate_hints(available_patterns),
             "statistical_style_benchmark_rewrite_gate_hints": self._build_statistical_style_benchmark_rewrite_gate_hints(available_patterns),
+            "dashboard_task_quality_resume_gate_hints": self._build_dashboard_task_quality_resume_gate_hints(available_patterns),
+            "webnovel_skill_suite_release_boundary_gate_hints": self._build_webnovel_skill_suite_release_boundary_gate_hints(available_patterns),
+            "platform_voice_meme_emotion_gate_hints": self._build_platform_voice_meme_emotion_gate_hints(available_patterns),
+            "truth_file_phase_dashboard_gate_hints": self._build_truth_file_phase_dashboard_gate_hints(available_patterns),
+            "platform_publish_automation_boundary_gate_hints": self._build_platform_publish_automation_boundary_gate_hints(available_patterns),
+            "multi_work_style_imitation_mode_gate_hints": self._build_multi_work_style_imitation_mode_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3417,6 +3462,12 @@ class NovelSourceDiscoveryService:
             "story_bible_context_packet_branch_gate": 69,
             "memory_augmented_delta_verification_gate": 70,
             "statistical_style_benchmark_rewrite_gate": 68,
+            "dashboard_task_quality_resume_gate": 67,
+            "webnovel_skill_suite_release_boundary_gate": 66,
+            "platform_voice_meme_emotion_gate": 65,
+            "truth_file_phase_dashboard_gate": 70,
+            "platform_publish_automation_boundary_gate": 68,
+            "multi_work_style_imitation_mode_gate": 69,
             "causal_dramatica_agent_pipeline": 68,
             "capture_distillation_production_gate": 66,
             "skill_orchestrated_chinese_novel_workflow": 67,
@@ -3559,6 +3610,24 @@ class NovelSourceDiscoveryService:
         if "statistical_style_benchmark_rewrite_gate" in patterns:
             targets.append("statistical_style_benchmark_policy")
             targets.append("style_benchmark_thresholds")
+        if "dashboard_task_quality_resume_gate" in patterns:
+            targets.append("webnovel_task_orchestration_state")
+            targets.append("dashboard_quality_resume_policy")
+        if "webnovel_skill_suite_release_boundary_gate" in patterns:
+            targets.append("skill_suite_release_boundary")
+            targets.append("webnovel_skill_stage_map")
+        if "platform_voice_meme_emotion_gate" in patterns:
+            targets.append("platform_voice_meme_emotion_policy")
+            targets.append("relationship_tension_register")
+        if "truth_file_phase_dashboard_gate" in patterns:
+            targets.append("truth_file_canon_ledgers")
+            targets.append("phase_dashboard_writeback_policy")
+        if "platform_publish_automation_boundary_gate" in patterns:
+            targets.append("publish_automation_safety_policy")
+            targets.append("publication_upload_hold_gate")
+        if "multi_work_style_imitation_mode_gate" in patterns:
+            targets.append("multi_work_style_imitation_modes")
+            targets.append("manual_auto_continuation_policy")
         if "style_guide_layering" in patterns:
             targets.append("style_layers")
             targets.append("character_voice_notes")
@@ -4246,6 +4315,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["delta_extraction_verification_report", "deterministic_accumulation_trace", "targeted_question_findings"])
         if "statistical_style_benchmark_rewrite_gate" in patterns:
             targets.extend(["style_benchmark_rewrite_report", "style_preset_threshold_findings", "voice_profile_metric_report"])
+        if "dashboard_task_quality_resume_gate" in patterns:
+            targets.extend(["dashboard_resume_quality_report", "task_orchestration_trace", "webnovel_state_backup_findings"])
+        if "webnovel_skill_suite_release_boundary_gate" in patterns:
+            targets.extend(["skill_suite_stage_coverage_report", "public_skill_boundary_findings", "stage_handoff_gap_report"])
+        if "platform_voice_meme_emotion_gate" in patterns:
+            targets.extend(["platform_voice_meme_emotion_report", "relationship_tension_rhythm_findings", "meme_register_boundary_notes"])
+        if "truth_file_phase_dashboard_gate" in patterns:
+            targets.extend(["truth_file_writeback_report", "current_state_resource_relationship_hook_drift", "phase_dashboard_review_findings"])
+        if "platform_publish_automation_boundary_gate" in patterns:
+            targets.extend(["publish_automation_boundary_report", "browser_login_upload_surface_findings", "publication_hold_decisions"])
+        if "multi_work_style_imitation_mode_gate" in patterns:
+            targets.extend(["multi_work_style_mode_report", "manual_auto_continuation_comparison", "anti_collapse_mode_findings"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -5617,6 +5698,60 @@ class NovelSourceDiscoveryService:
             "Use 22-book or similar statistical benchmarks as abstract style thresholds, not as copied prose, scene inventory, or source-specific voice.",
             "A smart rewriter should record which metric failed, the target style preset, the rewritten span, and whether the rewrite improved or overfit.",
             "Style benchmark gates should cover rhythm, sensory density, dialogue, repetition, slop, ending quality, and character voice profile drift.",
+        ]
+
+    def _build_dashboard_task_quality_resume_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "dashboard_task_quality_resume_gate" not in patterns:
+            return []
+        return [
+            "Represent the webnovel workflow as resumable tasks: init, plan, write, review, repair, query, and resume all write named state into .webnovel.",
+            "Dashboard quality panels should read task state, reports, revision backups, and reader-pull checks; they should not mutate canon without an accepted action.",
+            "Resume must prove the last accepted task, failed task, backup path, and next safe command before generating or repairing a chapter.",
+        ]
+
+    def _build_webnovel_skill_suite_release_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "webnovel_skill_suite_release_boundary_gate" not in patterns:
+            return []
+        return [
+            "Treat public webnovel skill suites as stage maps: topic, outline, write, review, polish, finalize, and worldbuilder are reusable workflow boundaries.",
+            "Open-source skill packages must keep private rank snapshots, local source cards, prompt caches, and generated bytecode outside the reusable project state.",
+            "Do not install upstream skills during intake; project-native gates should selectively reimplement the public stage contract and safety rules.",
+        ]
+
+    def _build_platform_voice_meme_emotion_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "platform_voice_meme_emotion_gate" not in patterns:
+            return []
+        return [
+            "Platform voice, hot-meme energy, and comment-section rhythm are register hints; they cannot override character voice, canon, or age/content boundaries.",
+            "Relationship tension and emotional rhythm need explicit scene goals, agency checks, and payoff timing before being used in chapter prompts.",
+            "For same-type creation, remap meme/register energy into new dialogue pressure and reader expectation rather than copied buzzwords or platform-specific private data.",
+        ]
+
+    def _build_truth_file_phase_dashboard_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "truth_file_phase_dashboard_gate" not in patterns:
+            return []
+        return [
+            "Truth files such as current_state, resource_ledger, relationship_graph, and hooks should be updated only by accepted phase outputs.",
+            "P0/P1/P2/P3 dashboard phases need separate permissions: setup, overview, outline management, writing pipeline, review, and writeback are not the same mutation.",
+            "L2/L3 review findings should produce task packages and writeback proposals before any Truth file or relationship_graph change is applied.",
+        ]
+
+    def _build_platform_publish_automation_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "platform_publish_automation_boundary_gate" not in patterns:
+            return []
+        return [
+            "One-click publish, browser automation login, and HTTP API upload are release surfaces; keep them disabled unless a separate publication safety packet exists.",
+            "Publishing automation must require an explicit hold gate with target platform, account boundary, chapter ids, rendered text hash, rollback plan, and reviewer.",
+            "Drafting, review, export, and upload should remain separate states so a generated chapter cannot auto-publish by passing writing checks.",
+        ]
+
+    def _build_multi_work_style_imitation_mode_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "multi_work_style_imitation_mode_gate" not in patterns:
+            return []
+        return [
+            "Multi-work management must bind style imitation, manual continuation, and automatic continuation to a selected work id and mode contract.",
+            "Before automatic continuation, check character-setting collapse, plot memory loss, and rigid AI-style wording against the current work's accepted state.",
+            "Manual and automatic continuation modes should emit different evidence: author edits for manual mode, retry/review/state-drift traces for automatic mode.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -8184,6 +8319,18 @@ class NovelSourceDiscoveryService:
             targets.append("delta_fact_index_remap")
         if "statistical_style_benchmark_rewrite_gate" in patterns:
             targets.append("statistical_style_benchmark_remap")
+        if "dashboard_task_quality_resume_gate" in patterns:
+            targets.append("dashboard_task_state_remap")
+        if "webnovel_skill_suite_release_boundary_gate" in patterns:
+            targets.append("webnovel_skill_stage_remap")
+        if "platform_voice_meme_emotion_gate" in patterns:
+            targets.append("platform_voice_meme_emotion_remap")
+        if "truth_file_phase_dashboard_gate" in patterns:
+            targets.append("truth_file_relationship_graph_remap")
+        if "platform_publish_automation_boundary_gate" in patterns:
+            targets.append("publish_boundary_remap")
+        if "multi_work_style_imitation_mode_gate" in patterns:
+            targets.append("style_imitation_mode_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -9555,6 +9702,12 @@ class NovelSourceDiscoveryService:
                 "story_bible_context_packet_branch_gate",
                 "memory_augmented_delta_verification_gate",
                 "statistical_style_benchmark_rewrite_gate",
+                "dashboard_task_quality_resume_gate",
+                "webnovel_skill_suite_release_boundary_gate",
+                "platform_voice_meme_emotion_gate",
+                "truth_file_phase_dashboard_gate",
+                "platform_publish_automation_boundary_gate",
+                "multi_work_style_imitation_mode_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",
