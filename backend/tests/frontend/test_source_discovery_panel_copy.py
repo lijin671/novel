@@ -116,6 +116,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "trope_graph_expectation_map_hints",
             "trope_density_novelty_budget_hints",
             "trope_source_boundary_review_hints",
+            "reader_retention_review_gate_hints",
+            "reader_rating_signal_model_hints",
+            "review_spoiler_sentiment_corpus_hints",
+            "beta_reader_archetype_panel_hints",
+            "comp_title_market_positioning_hints",
+            "local_reader_experience_editor_hints",
             "prose_lint_style_rule_gate_hints",
             "grammar_spelling_copyedit_gate_hints",
             "copyedit_diagnostic_triage_queue_hints",
@@ -250,6 +256,13 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Trope graph expectation map gates" in panel_text
     assert "Trope density novelty-budget gates" in panel_text
     assert "Trope source boundary review gates" in panel_text
+    assert "Reader feedback / market positioning gates" in panel_text
+    assert "Reader retention review gates" in panel_text
+    assert "Reader rating signal model gates" in panel_text
+    assert "Review spoiler / sentiment corpus gates" in panel_text
+    assert "Beta-reader archetype panel gates" in panel_text
+    assert "Comp-title market positioning gates" in panel_text
+    assert "Local reader-experience editor gates" in panel_text
     assert "Prose lint / grammar copyedit gates" in panel_text
     assert "Prose lint style rule gates" in panel_text
     assert "Grammar spelling copyedit gates" in panel_text
@@ -444,6 +457,21 @@ def test_source_discovery_panel_default_seeds_include_source_deconstruction_memo
         "danngalann/llm-ebook-summarizer",
         "darkautism/ai-novel-translation",
         "lordjabez/story-framework",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_reader_market_feedback_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "zygmuntz/goodbooks-10k",
+        "MengtingWan/goodreads",
+        "maria-antoniak/goodreads-scraper",
+        "Ckokoski/authorclaw",
+        "f5alcon/The-Novelists-Atelier",
     ):
         assert repo in panel_text
 
