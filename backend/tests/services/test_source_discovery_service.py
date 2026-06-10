@@ -8309,3 +8309,74 @@ def test_static_local_rag_canon_patch_sources_map_to_workflow_gates():
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "local_rag_writing_ide_gate_hints" in digest
     assert "abstract_style_learning_skill_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_impromptu_offline_atelier_projects():
+    assert "https://github.com/tuxiangxianzhe/NovelWriter_public" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/MA-Bihani/Novelia_public" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/huodebing-alt/Claude-Code-Novel-Agents" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("open_threads" in query and "single-chapter blueprint" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("inspiration bank" in query.lower() and "style mimicry" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("novel atelier" in query.lower() and "hook auditor" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_static_impromptu_offline_atelier_sources_map_to_workflow_gates():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "tuxiangxianzhe/NovelWriter_public",
+                "html_url": "https://github.com/tuxiangxianzhe/NovelWriter_public",
+                "description": "AI novel platform with improvised writing mode, open_threads foreshadowing pool, single-chapter blueprint, scene segmented generation, style imitation, continuation expansion and AI tone removal.",
+                "stargazers_count": 73,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel", "ai-writing", "continuation"],
+                "updated_at": "2026-05-26T09:00:00Z",
+                "root_files": ["README.md", "LICENSE", "backend", "frontend", "docker-compose.yml"],
+            },
+            {
+                "full_name": "MA-Bihani/Novelia_public",
+                "html_url": "https://github.com/MA-Bihani/Novelia_public",
+                "description": "Local-first offline creative writing environment with Ollama local RAG, Inspiration bank, Continue and Rewrite modes, style mimicry, dynamic style engine and filesystem book chapter storage.",
+                "stargazers_count": 4,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["creative-writing", "local-rag", "style-mimicry"],
+                "updated_at": "2026-06-10T04:10:00Z",
+                "root_files": ["README.md", "package.json", "electron", "src"],
+            },
+            {
+                "full_name": "huodebing-alt/Claude-Code-Novel-Agents",
+                "html_url": "https://github.com/huodebing-alt/Claude-Code-Novel-Agents",
+                "description": "Claude Code novel atelier with 50 agents, 70 skills, 6-phase pipeline, detailed beat planner, hook auditor, infinite-serial mode, full semi manual human control modes and continuity reader.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["claude-code", "novel", "agents"],
+                "updated_at": "2026-06-07T13:41:58Z",
+                "root_files": ["README.md", "LICENSE", "agents", "skills", "docs"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T16:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "impromptu_thread_pool_chapter_gate" in candidates["tuxiangxianzhe/NovelWriter_public"]["absorbed_patterns"]
+    assert "offline_inspiration_bank_style_gate" in candidates["MA-Bihani/Novelia_public"]["absorbed_patterns"]
+    assert "atelier_phase_pipeline_gate" in candidates["huodebing-alt/Claude-Code-Novel-Agents"]["absorbed_patterns"]
+    assert "continuation" in candidates["tuxiangxianzhe/NovelWriter_public"]["absorbed_patterns"]
+    assert "style_signature" in candidates["MA-Bihani/Novelia_public"]["absorbed_patterns"]
+    assert "craft_role_pipeline" in candidates["huodebing-alt/Claude-Code-Novel-Agents"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "impromptu_thread_pool_chapter_gate_hints" in pattern_pack
+    assert "offline_inspiration_bank_style_gate_hints" in pattern_pack
+    assert "atelier_phase_pipeline_gate_hints" in pattern_pack
+    assert "open_thread_pool_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "inspiration_bank_scope_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "atelier_phase_beat_tree_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "impromptu_thread_pool_chapter_gate_hints" in digest
+    assert "offline_inspiration_bank_style_gate_hints" in digest
+    assert "atelier_phase_pipeline_gate_hints" in digest

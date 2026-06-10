@@ -119,6 +119,9 @@ export interface SourceDiscoveryPatternPack {
   microkernel_skill_plugin_isolation_gate_hints?: string[];
   interactive_reader_writer_loop_gate_hints?: string[];
   abstract_style_learning_skill_gate_hints?: string[];
+  impromptu_thread_pool_chapter_gate_hints?: string[];
+  offline_inspiration_bank_style_gate_hints?: string[];
+  atelier_phase_pipeline_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

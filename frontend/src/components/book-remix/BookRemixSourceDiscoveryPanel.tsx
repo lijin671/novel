@@ -64,6 +64,9 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/liaoma1993/aiAIfiction',
   'https://github.com/vishnu0120754/ReNovel-AI',
   'https://github.com/worldwonderer/zenstory',
+  'https://github.com/tuxiangxianzhe/NovelWriter_public',
+  'https://github.com/MA-Bihani/Novelia_public',
+  'https://github.com/huodebing-alt/Claude-Code-Novel-Agents',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -123,6 +126,9 @@ const PINNED_HINT_KEYS = new Set([
   'microkernel_skill_plugin_isolation_gate_hints',
   'interactive_reader_writer_loop_gate_hints',
   'abstract_style_learning_skill_gate_hints',
+  'impromptu_thread_pool_chapter_gate_hints',
+  'offline_inspiration_bank_style_gate_hints',
+  'atelier_phase_pipeline_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -365,6 +371,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Microkernel skill plugin isolation gates', patternPackPayload?.microkernel_skill_plugin_isolation_gate_hints],
               ['Interactive reader-writer loop gates', patternPackPayload?.interactive_reader_writer_loop_gate_hints],
               ['Abstract style learning skill gates', patternPackPayload?.abstract_style_learning_skill_gate_hints],
+            ])}
+            {renderHintGroup('Impromptu / offline / atelier gates', [
+              ['Impromptu thread-pool chapter gates', patternPackPayload?.impromptu_thread_pool_chapter_gate_hints],
+              ['Offline inspiration-bank style gates', patternPackPayload?.offline_inspiration_bank_style_gate_hints],
+              ['Atelier phase pipeline gates', patternPackPayload?.atelier_phase_pipeline_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

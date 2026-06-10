@@ -196,6 +196,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("patch-NN" OR "outline.xml" OR "final.xml") ("AI novel" OR "drafting agent" OR "manuscript") in:name,description,readme',
     '("microkernel" OR "plugin architecture" OR "EventBus") ("AI novel" OR "web novel" OR "agentic novel") in:name,description,readme',
     '("style learning" OR "writing style Skill" OR "technique spectrum") ("novel" OR "webnovel" OR "fiction") in:name,description,readme',
+    '("improvised writing" OR "open_threads" OR "single-chapter blueprint") ("novel" OR "web novel" OR "continuation") in:name,description,readme',
+    '("inspiration bank" OR "style mimicry" OR "offline creative writing") ("novel" OR "long-form" OR "local RAG") in:name,description,readme',
+    '("novel atelier" OR "beat planner" OR "hook auditor" OR "infinite-serial") ("Claude Code" OR "multi-agent novel") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -451,6 +454,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/liaoma1993/aiAIfiction",
     "https://github.com/vishnu0120754/ReNovel-AI",
     "https://github.com/worldwonderer/zenstory",
+    "https://github.com/tuxiangxianzhe/NovelWriter_public",
+    "https://github.com/MA-Bihani/Novelia_public",
+    "https://github.com/huodebing-alt/Claude-Code-Novel-Agents",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -733,6 +739,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("microkernel_skill_plugin_isolation_gate", ("microkernel", "plugin architecture", "eventbus", "pluginmanager", "hot-reload", "skill builder agent", "plugin.json", "plugin hook", "stage plugin", "skill isolation")),
     ("interactive_reader_writer_loop_gate", ("interactive ai-assisted editing", "interactive menu", "reader", "writer", "guide the plot", "story into chapter files", "three-way collaboration", "card-based editing", "reader-writer", "chapter files")),
     ("abstract_style_learning_skill_gate", ("writing style skill", "style learning", "technique spectrum", "representative sampling", "style sample", "style profile", "character voice matrix", "retention model", "do not copy source prose")),
+    ("impromptu_thread_pool_chapter_gate", ("improvised writing", "即兴写作", "open_threads", "伏笔池", "single-chapter blueprint", "单章蓝图", "chapter intent", "口述意图", "finalize", "已埋未收", "已收未结", "待开发")),
+    ("offline_inspiration_bank_style_gate", ("inspiration bank", "100% offline", "offline & private", "offline creative writing", "style mimicry", "dynamic style engine", "local ollama", "local rag pipeline", "lancedb", "inspiration", "rewrite", "continue")),
+    ("atelier_phase_pipeline_gate", ("novel atelier", "50 agents", "70 skills", "6-phase pipeline", "beat planner", "hook auditor", "infinite-serial", "human control", "manual mode", "semi mode", "full mode", "developmental editor", "continuity reader")),
     ("temporal_canon_context_graph", ("graphiti", "temporal knowledge graph", "temporal context", "episodes", "bi-temporal", "valid_at", "invalid_at", "hybrid search", "provenance tracking")),
     ("long_term_author_preference_memory", ("mem0", "memory layer", "long-term memory", "user preferences", "session memory", "adaptive personalization", "multi-level memory", "episodic memory")),
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
@@ -1766,6 +1775,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "ZenStory is a MIT AI-powered novel workbench where agents operate creative files for character cards, reference deconstruction, outline planning, chapter writing, quality review, material library, hybrid RAG retrieval, and context compression. "
         "Pattern-only adaptation for reference-material deconstruction, local file workspace, hybrid retrieval, and multi-agent writing QA; Docker, apps, scripts, and agent runtime are not launched."
     ),
+    "tuxiangxianzhe/novelwriter_public": (
+        "NovelWriter_public is an AGPL Vue/FastAPI AI novel platform with outline and improvised-writing modes, open_threads foreshadowing pool, single-chapter blueprints, scene-segmented generation, context-injected revision, backups, narrative DNA, style imitation, continuation expansion, and AI-tone removal. "
+        "Pattern-only adaptation for impromptu continuation gates, scene-density drafting, and thread-pool settlement; Docker, frontend/backend services, scripts, providers, and prompts are not executed or imported."
+    ),
+    "ma-bihani/novelia_public": (
+        "Novelia_public is a local-first Electron/React creative-writing environment described as offline/private with Ollama local RAG, an Inspiration bank for PDF/DOCX lore and notes, Continue/Rewrite modes, dynamic style engine, and filesystem book/chapter storage. "
+        "Pattern-only adaptation for offline inspiration-bank boundaries and style-mimicry isolation; Electron app, LangChain/LanceDB pipeline, local model calls, and document ingestion are not launched."
+    ),
+    "huodebing-alt/claude-code-novel-agents": (
+        "Claude-Code-Novel-Agents is a MIT Claude Code novel atelier with many specialized agents, skills, a six-phase pipeline, detailed beat planner, hook auditor, outline reviewer, PDF compositor, and infinite-serial mode. "
+        "Pattern-only adaptation for phase manifests, beat-tree handoffs, hook audits, and human-control modes; agent definitions, skills, and install/runtime instructions are not imported or executed."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2277,6 +2298,9 @@ class NovelSourceDiscoveryService:
             "microkernel_skill_plugin_isolation_gate_hints": self._build_microkernel_skill_plugin_isolation_gate_hints(available_patterns),
             "interactive_reader_writer_loop_gate_hints": self._build_interactive_reader_writer_loop_gate_hints(available_patterns),
             "abstract_style_learning_skill_gate_hints": self._build_abstract_style_learning_skill_gate_hints(available_patterns),
+            "impromptu_thread_pool_chapter_gate_hints": self._build_impromptu_thread_pool_chapter_gate_hints(available_patterns),
+            "offline_inspiration_bank_style_gate_hints": self._build_offline_inspiration_bank_style_gate_hints(available_patterns),
+            "atelier_phase_pipeline_gate_hints": self._build_atelier_phase_pipeline_gate_hints(available_patterns),
             "temporal_canon_context_graph_hints": self._build_temporal_canon_context_graph_hints(available_patterns),
             "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
@@ -2940,6 +2964,9 @@ class NovelSourceDiscoveryService:
             "microkernel_skill_plugin_isolation_gate": 65,
             "interactive_reader_writer_loop_gate": 64,
             "abstract_style_learning_skill_gate": 69,
+            "impromptu_thread_pool_chapter_gate": 68,
+            "offline_inspiration_bank_style_gate": 67,
+            "atelier_phase_pipeline_gate": 66,
             "temporal_canon_context_graph": 68,
             "long_term_author_preference_memory": 64,
             "community_graph_source_deconstruction": 66,
@@ -3050,6 +3077,15 @@ class NovelSourceDiscoveryService:
         if "abstract_style_learning_skill_gate" in patterns:
             targets.append("abstract_style_skill_profile")
             targets.append("style_sample_boundary_rules")
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            targets.append("open_thread_pool_schema")
+            targets.append("single_chapter_blueprint_rules")
+        if "offline_inspiration_bank_style_gate" in patterns:
+            targets.append("inspiration_bank_scope_policy")
+            targets.append("offline_style_mimicry_boundary_rules")
+        if "atelier_phase_pipeline_gate" in patterns:
+            targets.append("atelier_phase_manifest")
+            targets.append("beat_tree_hook_audit_rules")
         if "epub_structure_validation_gate" in patterns:
             targets.append("epub_validation_policy")
             targets.append("opf_manifest_spine_policy")
@@ -3445,6 +3481,15 @@ class NovelSourceDiscoveryService:
         if "abstract_style_learning_skill_gate" in patterns:
             targets.append("style_abstraction_evidence")
             targets.append("style_overfit_boundary_report")
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            targets.append("impromptu_chapter_intent_trace")
+            targets.append("open_thread_settlement_report")
+        if "offline_inspiration_bank_style_gate" in patterns:
+            targets.append("inspiration_bank_retrieval_scope")
+            targets.append("style_mimicry_boundary_report")
+        if "atelier_phase_pipeline_gate" in patterns:
+            targets.append("atelier_phase_handoff_trace")
+            targets.append("beat_tree_hook_audit_report")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_canon_graph_schema")
             targets.append("episode_provenance_rules")
@@ -3838,6 +3883,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["interactive_reader_writer_trace", "chapter_file_writeback_audit", "revision_acceptance_findings"])
         if "abstract_style_learning_skill_gate" in patterns:
             targets.extend(["style_skill_abstraction_report", "source_sample_boundary_findings", "style_copy_leakage_notes"])
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            targets.extend(["impromptu_chapter_intent_trace", "open_thread_pool_findings", "finalize_thread_settlement_notes"])
+        if "offline_inspiration_bank_style_gate" in patterns:
+            targets.extend(["inspiration_bank_scope_report", "offline_style_mimicry_findings", "local_reference_boundary_notes"])
+        if "atelier_phase_pipeline_gate" in patterns:
+            targets.extend(["atelier_phase_handoff_trace", "beat_tree_audit_findings", "hook_auditor_notes"])
         if "topic_drift_map" in patterns:
             targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
         if "context_faithfulness_eval_gate" in patterns:
@@ -3910,6 +3961,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["interactive_reader_writer_trace", "chapter_file_writeback_audit", "revision_acceptance_findings"])
         if "abstract_style_learning_skill_gate" in patterns:
             targets.extend(["style_skill_abstraction_report", "source_sample_boundary_findings", "style_copy_leakage_notes"])
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            targets.extend(["impromptu_chapter_intent_trace", "open_thread_pool_findings", "finalize_thread_settlement_notes"])
+        if "offline_inspiration_bank_style_gate" in patterns:
+            targets.extend(["inspiration_bank_scope_report", "offline_style_mimicry_findings", "local_reference_boundary_notes"])
+        if "atelier_phase_pipeline_gate" in patterns:
+            targets.extend(["atelier_phase_handoff_trace", "beat_tree_audit_findings", "hook_auditor_notes"])
         if "temporal_canon_context_graph" in patterns:
             targets.extend(["temporal_canon_graph_report", "episode_provenance_trace", "validity_window_conflicts"])
         if "long_term_author_preference_memory" in patterns:
@@ -4201,6 +4258,12 @@ class NovelSourceDiscoveryService:
             hints.append("Local RAG may recall canon and approved notes, but source-deconstruction material cannot be merged directly into continuation canon.")
         if "patch_replay_manuscript_state_gate" in patterns:
             hints.append("Every continuation or revision should write a replayable patch/state record so the latest manuscript can be rebuilt from outline plus patches.")
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            hints.append("For ad-hoc continuation, convert the user's chapter intent into a single-chapter blueprint before drafting, then settle open threads after finalize.")
+        if "offline_inspiration_bank_style_gate" in patterns:
+            hints.append("Inspiration-bank retrieval can guide tone or lore, but continuation prompts must label whether each item is accepted canon, note, or style-only reference.")
+        if "atelier_phase_pipeline_gate" in patterns:
+            hints.append("Choose the atelier control mode up front: full automation, assisted phase handoff, or manual approval before any agent stage writes canon.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -4372,6 +4435,12 @@ class NovelSourceDiscoveryService:
             hints.append("Plugin or skill outputs must publish through explicit stage events and cannot mutate canon when their validation or isolation gate fails.")
         if "abstract_style_learning_skill_gate" in patterns:
             hints.append("Store style-learning output as abstract craft axes and banned carryover items, never as reusable source phrases or source-specific facts.")
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            hints.append("Treat open_threads as state buckets: unresolved, partially paid, and development-needed items must be updated only after accepted chapter finalize.")
+        if "offline_inspiration_bank_style_gate" in patterns:
+            hints.append("Keep inspiration-bank files outside canon memory until the author accepts a fact; style mimicry output stays in a separate style-boundary record.")
+        if "atelier_phase_pipeline_gate" in patterns:
+            hints.append("Persist each atelier phase handoff as beat tree, hook audit, owner, acceptance decision, and next phase input.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         if "source_entity_redaction_gate" in patterns:
@@ -6372,6 +6441,33 @@ class NovelSourceDiscoveryService:
             "For same-type creation, require evidence that the learned style profile changes craft behavior without preserving source entities, order, or phrasing.",
         ]
 
+    def _build_impromptu_thread_pool_chapter_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "impromptu_thread_pool_chapter_gate" not in patterns:
+            return []
+        return [
+            "Support impromptu continuation by turning the current author instruction into a single-chapter blueprint before prose drafting.",
+            "Maintain an open-thread pool with unresolved, partially paid, and development-needed buckets; finalize moves only accepted deltas.",
+            "Scene or outline revisions should preserve untouched blueprint fields and record why any thread was opened, advanced, or resolved.",
+        ]
+
+    def _build_offline_inspiration_bank_style_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "offline_inspiration_bank_style_gate" not in patterns:
+            return []
+        return [
+            "Separate local inspiration-bank materials from accepted canon, author notes, and style-only references before any Continue or Rewrite action.",
+            "Style mimicry should compile an abstract boundary profile and banned carryover list, not inject source passages or proprietary phrasing.",
+            "Offline/local-first posture protects privacy but does not relax license, provenance, copy-risk, or source-material labeling gates.",
+        ]
+
+    def _build_atelier_phase_pipeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "atelier_phase_pipeline_gate" not in patterns:
+            return []
+        return [
+            "Model the novel atelier as explicit phases with named role outputs, beat-tree revisions, hook-audit findings, and author acceptance points.",
+            "Human control mode is part of state: full, assisted, or manual approval changes which agent outputs may advance to canon.",
+            "Hook auditors and continuity readers can block a beat or chapter, but they should emit review findings rather than silently rewriting prose.",
+        ]
+
     def _build_temporal_canon_context_graph_hints(self, patterns: set[str]) -> list[str]:
         if "temporal_canon_context_graph" not in patterns:
             return []
@@ -6901,6 +6997,12 @@ class NovelSourceDiscoveryService:
             targets.append("interactive_choice_delta_remap")
         if "abstract_style_learning_skill_gate" in patterns:
             targets.append("abstract_style_profile_remap")
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            targets.append("impromptu_thread_pool_remap")
+        if "offline_inspiration_bank_style_gate" in patterns:
+            targets.append("inspiration_bank_style_boundary_remap")
+        if "atelier_phase_pipeline_gate" in patterns:
+            targets.append("atelier_phase_beat_tree_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -7214,6 +7316,12 @@ class NovelSourceDiscoveryService:
             hints.append("Treat interactive reader choices as new-story author inputs, not as permission to preserve source scene route or event order.")
         if "abstract_style_learning_skill_gate" in patterns:
             hints.append("Use style learning for technique axes only; same-type prompts must exclude source sample phrasing, proper nouns, and plot facts.")
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            hints.append("For same-type drafting, rebuild the open-thread pool from the transformed story's own hooks instead of carrying source thread statuses.")
+        if "offline_inspiration_bank_style_gate" in patterns:
+            hints.append("Use inspiration-bank items as labeled craft references only; same-type prompts must not treat local source files as canon or reusable prose.")
+        if "atelier_phase_pipeline_gate" in patterns:
+            hints.append("Use the atelier phase order as process scaffolding while rebuilding beat tree, hook targets, and role briefs for the new story.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.")
         if "long_term_author_preference_memory" in patterns:
@@ -7549,6 +7657,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform interactive choices into new plot deltas with new stakes, scene goals, and consequences before chapter write-back.")
         if "abstract_style_learning_skill_gate" in patterns:
             hints.append("Transform style profiles into measurable craft constraints, then verify that the draft no longer depends on source wording or scene order.")
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            hints.append("Transform source thread pools by changing each promise, partial payoff, and development path before opening the new chapter blueprint.")
+        if "offline_inspiration_bank_style_gate" in patterns:
+            hints.append("Transform inspiration-bank references into fresh style constraints and local lore tasks; source documents stay outside accepted canon until reviewed.")
+        if "atelier_phase_pipeline_gate" in patterns:
+            hints.append("Transform atelier handoffs by assigning new phase artifacts, beat ids, hook owners, and reviewer criteria for the independent project.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -7920,6 +8034,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject reader-writer loop outputs when the accepted choice, chapter file delta, and continuity/copy-risk checks are not traceable.")
         if "abstract_style_learning_skill_gate" in patterns:
             hints.append("Reject style profiles or drafts that retain source phrases, proper nouns, distinctive set pieces, or plot order under the label of style learning.")
+        if "impromptu_thread_pool_chapter_gate" in patterns:
+            hints.append("Reject same-type drafts whose open-thread statuses, payoff windows, or chapter intent route still mirror the source work.")
+        if "offline_inspiration_bank_style_gate" in patterns:
+            hints.append("Reject inspiration-bank prompts that blend source passages, local canon, and style goals without source labels and copy-risk review.")
+        if "atelier_phase_pipeline_gate" in patterns:
+            hints.append("Reject atelier outputs that preserve source beat tree order, hook language, phase artifacts, or reviewer decisions under new labels.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Reject temporal graphs that preserve source event chronology, relationship validity windows, or provenance as transformed canon.")
         if "long_term_author_preference_memory" in patterns:
@@ -8040,6 +8160,9 @@ class NovelSourceDiscoveryService:
                 "microkernel_skill_plugin_isolation_gate",
                 "interactive_reader_writer_loop_gate",
                 "abstract_style_learning_skill_gate",
+                "impromptu_thread_pool_chapter_gate",
+                "offline_inspiration_bank_style_gate",
+                "atelier_phase_pipeline_gate",
                 "temporal_canon_context_graph",
                 "long_term_author_preference_memory",
                 "community_graph_source_deconstruction",

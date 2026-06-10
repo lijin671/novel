@@ -60,6 +60,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "microkernel_skill_plugin_isolation_gate_hints",
         "interactive_reader_writer_loop_gate_hints",
         "abstract_style_learning_skill_gate_hints",
+        "impromptu_thread_pool_chapter_gate_hints",
+        "offline_inspiration_bank_style_gate_hints",
+        "atelier_phase_pipeline_gate_hints",
     ):
         assert field in types_text
         assert field in panel_text
@@ -93,6 +96,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Microkernel skill plugin isolation gates" in panel_text
     assert "Interactive reader-writer loop gates" in panel_text
     assert "Abstract style learning skill gates" in panel_text
+    assert "Impromptu / offline / atelier gates" in panel_text
+    assert "Impromptu thread-pool chapter gates" in panel_text
+    assert "Offline inspiration-bank style gates" in panel_text
+    assert "Atelier phase pipeline gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -154,6 +161,9 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "liaoma1993/aiAIfiction",
         "vishnu0120754/ReNovel-AI",
         "worldwonderer/zenstory",
+        "tuxiangxianzhe/NovelWriter_public",
+        "MA-Bihani/Novelia_public",
+        "huodebing-alt/Claude-Code-Novel-Agents",
     ):
         assert repo in panel_text
 
