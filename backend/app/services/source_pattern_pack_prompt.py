@@ -407,6 +407,7 @@ def render_source_pattern_pack_digest(
         "book_mining_genesis_automation_gate_hints",
         "multi_book_autopilot_studio_gate_hints",
         "longrun_commit_projection_health_gate_hints",
+        "fresh_context_chapter_iteration_gate_hints",
         "reader_reward_channel_gate_hints",
         "tri_modal_workflow_validation_gate_hints",
         "scene_promise_mob_review_gate_hints",

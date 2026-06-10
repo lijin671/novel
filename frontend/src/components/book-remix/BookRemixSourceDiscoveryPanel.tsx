@@ -121,6 +121,7 @@ const PINNED_HINT_KEYS = new Set([
   'book_mining_genesis_automation_gate_hints',
   'multi_book_autopilot_studio_gate_hints',
   'longrun_commit_projection_health_gate_hints',
+  'fresh_context_chapter_iteration_gate_hints',
   'agentwrite_plan_write_pipeline_hints',
   'long_output_length_quality_ruler_hints',
   'long_context_reward_dimension_gate_hints',
@@ -589,6 +590,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Book mining genesis automation gates', patternPackPayload?.book_mining_genesis_automation_gate_hints],
               ['Multi-book autopilot studio gates', patternPackPayload?.multi_book_autopilot_studio_gate_hints],
               ['Longrun commit projection health gates', patternPackPayload?.longrun_commit_projection_health_gate_hints],
+              ['Fresh-context chapter iteration gates', patternPackPayload?.fresh_context_chapter_iteration_gate_hints],
             ])}
             {renderHintGroup('Long-output planning / reward gates', [
               ['AgentWrite plan-write pipeline gates', patternPackPayload?.agentwrite_plan_write_pipeline_hints],

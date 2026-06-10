@@ -380,6 +380,66 @@ def test_scene_serial_simulation_and_writer_git_sources_feed_prompt_pack():
     assert "writer_git_exploration_review_gate_hints" in digest
 
 
+def test_fresh_context_story_pipeline_sources_feed_prompt_pack():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "dorakingx/novelpilot",
+                "html_url": "https://github.com/dorakingx/novelpilot",
+                "description": (
+                    "Gemma-powered AI writing agent with a nine-agent pipeline: "
+                    "Premise Architect, Character Director, World Builder, Plot Strategist, "
+                    "Chapter Architect, Prose Writer, Style Editor, Continuity Detective, "
+                    "Publisher Agent, typed JSON outputs, Story Bible, Foreshadowing Tracker, "
+                    "completed novel reader, PDF and Markdown export."
+                ),
+                "stargazers_count": 3,
+                "license": None,
+                "topics": ["novel", "ai-writing", "story-bible"],
+                "updated_at": "2026-05-27T00:18:28Z",
+            },
+            {
+                "full_name": "heaversm/ralph-storywriter",
+                "html_url": "https://github.com/heaversm/ralph-storywriter",
+                "description": (
+                    "Ralph Story Writer runs fiction mode chapter by chapter with fresh context, "
+                    "no memory fatigue, reads prd.json to find next incomplete chapter, "
+                    "reads STORY_BIBLE.md and progress.txt, then Plan -> Write -> Review -> Revise "
+                    "with a skill ensemble until all chapters complete."
+                ),
+                "stargazers_count": 11,
+                "license": None,
+                "topics": ["fiction", "story-writing", "claude-code"],
+                "updated_at": "2026-02-03T01:21:38Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T21:45:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "craft_role_pipeline" in candidates["dorakingx/novelpilot"]["absorbed_patterns"]
+    assert "setup_payoff_tracking" in candidates["dorakingx/novelpilot"]["absorbed_patterns"]
+    assert "canon_drift_continuity_qa_gate" in candidates["dorakingx/novelpilot"]["absorbed_patterns"]
+    assert "fresh_context_chapter_iteration_gate" in candidates["heaversm/ralph-storywriter"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "fresh_context_chapter_iteration_gate_hints" in pattern_pack
+    assert "fresh context" in " ".join(pattern_pack["fresh_context_chapter_iteration_gate_hints"]).lower()
+    assert "next incomplete chapter" in " ".join(pattern_pack["fresh_context_chapter_iteration_gate_hints"]).lower()
+    assert "fresh_context_iteration_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "fresh_context_loop_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "fresh_context_chapter_iteration_gate_hints" in digest
+
+    assert "https://github.com/dorakingx/novelpilot" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/heaversm/ralph-storywriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("continuity detective" in query.lower() and "foreshadowing tracker" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("fresh context" in query.lower() and "progress.txt" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
 def test_narrative_qa_summary_causality_sources_feed_prompt_pack():
     service = NovelSourceDiscoveryService()
     result = service.build_ledger_from_metadata(

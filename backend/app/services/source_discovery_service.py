@@ -204,6 +204,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("book-mining" OR "novel-genesis" OR "canon-seed") ("novel-automation" OR "webnovel") in:name,description,readme',
     '("multi-book" OR "autopilot" OR "full-book logic check") ("novel studio" OR "webnovel") in:name,description,readme',
     '("CHAPTER_COMMIT" OR ".story-system" OR "read-model") ("webnovel" OR "longrun" OR "novel") in:name,description,readme',
+    '("nine-agent pipeline" OR "Continuity Detective" OR "Foreshadowing Tracker") ("novel" OR "story" OR "fiction") in:name,description,readme',
+    '("fresh context" OR "no memory fatigue" OR "next incomplete chapter" OR "progress.txt") ("fiction" OR "story bible" OR "chapter") in:name,description,readme',
     '("four reward channels" OR "reader-sim" OR "style-creator" OR "chronicler") ("creative writing" OR "novel") in:name,description,readme',
     '("tri-modal" OR "pre-writing checklist" OR "automated audit chain") ("novel" OR "story bible" OR "chapter") in:name,description,readme',
     '("chapter promise" OR "scene architect" OR "mob review" OR "character truth") ("fiction writing" OR "novel") in:name,description,readme',
@@ -485,6 +487,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/cchheerrss/ai-novel-trilogy",
     "https://github.com/zhitongblog/novel-studio",
     "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
+    "https://github.com/dorakingx/novelpilot",
+    "https://github.com/heaversm/ralph-storywriter",
     "https://github.com/haowjy/creative-writing-skills",
     "https://github.com/jblemee/bmad-book-builder",
     "https://github.com/Deland78/Claude-Writing-Skills",
@@ -584,7 +588,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("plotline_thread_tracking", ("plotline", "plotlines", "story threads", "thread tracking", "subway map", "shared scenes", "剧情线", "线索追踪")),
     ("scene_status_dashboard", ("scene status", "status badge", "scene cards", "kanban-style scene cards", "scene progress", "scene dashboard", "场景状态", "场景看板")),
     ("gradual_reveal_control", ("gradual reveal", "iceberg annotations", "iceberg annotation", "underwater", "reveal check", "信息释放", "冰山", "逐步揭示")),
-    ("setup_payoff_tracking", ("setup/payoff", "setup payoff", "foreshadowing tracking", "payoff", "setup chapter", "expected payoff", "伏笔回收", "埋设回收")),
+    ("setup_payoff_tracking", ("setup/payoff", "setup payoff", "foreshadowing tracking", "foreshadowing tracker", "planned payoffs", "payoff", "setup chapter", "expected payoff", "伏笔回收", "埋设回收")),
     ("scene_type_directing", ("scene-type directing", "scene type directing", "action scene", "emotional scene", "dialogue scene", "camera-language", "scene directing", "场景类型", "动作场景", "情感场景", "对话场景", "镜头语言")),
     ("worldpkg_export", ("worldpkg", "world package", "structured world data", "extract world data", "lorebook extraction", "entity state transitions", "世界数据包", "世界数据")),
     ("alternate_timeline_branching", ("alternative timeline", "alternate timeline", "what-if", "choice-driven", "branch storyline", "same world as a player", "timeline management", "平行时间线", "分歧时间线")),
@@ -615,7 +619,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("workflow_manuscript_compilation", ("workflow-based compilation", "compile manuscripts", "compilation tool", "ordered manuscript", "ordered series of scenes", "manuscript compilation", "编译手稿", "场景编译")),
     ("writing_session_goal_tracking", ("writing session goals", "daily writing session goals", "word counts", "scene/draft/project word counts", "writing goals", "字数目标", "写作目标")),
     ("inspectable_run_workspace", ("inspectable writing workspace", "inspectable runs", "sessions, storyboards, manuscript surfaces", "editable memory banks", "storyboards", "manuscript surfaces", "memory-aware writing control", "可检查工作区", "运行会话")),
-    ("craft_role_pipeline", ("specialized agents", "architecture, characters, prose, review, editing, continuity", "agent roles", "review agents", "multi-agent orchestration", "tool selection", "craft-aware feedback", "production system", "specialist agents")),
+    ("craft_role_pipeline", ("specialized agents", "architecture, characters, prose, review, editing, continuity", "agent roles", "review agents", "multi-agent orchestration", "tool selection", "craft-aware feedback", "production system", "specialist agents", "nine-agent pipeline", "premise architect", "character director", "world builder", "plot strategist", "chapter architect", "prose writer", "style editor", "publisher agent")),
     ("frontmatter_story_schema", ("yaml frontmatter", "frontmatter", "shared project format", "story bible", "character files", "scene state", "continuity questions", "plain markdown with yaml")),
     ("continuity_bridge_window", ("continuity bridge", "previous 2 episodes", "previous two episodes", "collects timeline", "feeds it to the creation agent", "progress.md", "continuity state")),
     ("episode_range_rewrite_scope", ("episode range", "ep001-ep010", "range arguments", "impact scope", "rewrite episodes", "auto-calculates impact scope", "after design changes")),
@@ -768,7 +772,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("langgraph_story_state_machine", ("langgraph", "langchain", "story state flow", "story-writing sample", "langgraph.json", "agent.py", "stateful planning", "story state machine")),
     ("story_daemon_evolution_loop", ("storydaemon", "autonomous agent", "plans, writes, and evolves stories", "evolves stories organically", "organic planning", "long-form fiction through an autonomous agent")),
     ("local_rag_writing_ide_gate", ("local rag", "hybrid rag", "local-first", "privacy-first", "byok", "million-word local rag", "vector search", "local vector", "local-only", "knowledge base", "semantic vector retrieval")),
-    ("canon_drift_continuity_qa_gate", ("canon drift", "continuity checker", "continuity qa", "story bible and continuity", "contradictions before", "canon qa", "continuity engine", "scene context", "fact mismatch")),
+    ("canon_drift_continuity_qa_gate", ("canon drift", "continuity checker", "continuity detective", "continuity qa", "story bible and continuity", "contradictions before", "canon qa", "continuity engine", "scene context", "fact mismatch")),
     ("patch_replay_manuscript_state_gate", ("patch-nn", "patch-01", "outline.xml", "final.xml", "version-nn", "replays these patches", "reconstruct the story's current state", "sequential dispatch logs", "latest.html")),
     ("microkernel_skill_plugin_isolation_gate", ("microkernel", "plugin architecture", "eventbus", "pluginmanager", "hot-reload", "skill builder agent", "plugin.json", "plugin hook", "stage plugin", "skill isolation")),
     ("interactive_reader_writer_loop_gate", ("interactive ai-assisted editing", "interactive menu", "reader", "writer", "guide the plot", "story into chapter files", "three-way collaboration", "card-based editing", "reader-writer", "chapter files")),
@@ -779,6 +783,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_mining_genesis_automation_gate", ("book-mining", "book mining", "novel-genesis", "novel automation", "novel-automation", "canon-seed", "canon seed", "pattern assembly", "market scan", "scoring gate", "pattern-aware quality gates", "library/index.yaml")),
     ("multi_book_autopilot_studio_gate", ("multi-book", "multi book", "autopilot", "full-book logic check", "full book logic check", "fullcheckevery", "maxautocontinue", "unterm profile", "bookshelf", "book shelf", "multi-interface", "多本长篇", "全文逻辑自检")),
     ("longrun_commit_projection_health_gate", (".story-system", ".webnovel", "chapter_commit", "CHAPTER_COMMIT", "read-model", "read model", "projection writers", "memory_scratchpad", "state.json", "index.db", "longrun aigen", "context agent", "data agent", "read-only dashboard")),
+    ("fresh_context_chapter_iteration_gate", ("fresh context", "no memory fatigue", "next incomplete chapter", "find next incomplete chapter", "progress.txt", "prd.json", "story_bible", "plan write review revise", "plan → write → review → revise", "skill ensemble", "loop until all chapters complete")),
     ("reader_reward_channel_gate", ("four reward channels", "reader reward", "reader-sim", "reader sim", "transportation", "aesthetic", "social simulation", "flow", "simulated reader reactions", "moment-by-moment")),
     ("tri_modal_workflow_validation_gate", ("tri-modal", "tri modal", "create/edit/validate", "create + edit + validate", "pre-writing checklist", "automated audit chain", "living bible update", "character-specific audits", "rhythm analysis")),
     ("scene_promise_mob_review_gate", ("chapter promise", "scene architect", "character truth", "mob session", "comment queue", "lead editor", "citation enforcement", "five commandments", "value shift")),
@@ -1027,6 +1032,14 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "jncchds/abook": (
         "Agentic book-writing workspace. Public README describes seven agents across Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker; "
         "RAG context retrieval, full synopsis spine, anti-repetition prompt rules, token stats, and export surfaces. Docker/MCP/runtime surface keeps it pattern-only."
+    ),
+    "dorakingx/novelpilot": (
+        "NovelPilot is a Gemma-powered AI writing agent with a nine-agent pipeline from Premise Architect through Publisher Agent. Public README describes typed JSON outputs, "
+        "Story Bible, Foreshadowing Tracker, Continuity Detective, completed novel reader, Markdown export, and optional live provider mode. Treat provider/runtime surfaces as pattern-only."
+    ),
+    "heaversm/ralph-storywriter": (
+        "Ralph Story Writer is a Claude Code loop for fiction and dissertation projects. Public README describes fresh context per iteration, no memory fatigue, prd.json chapter manifests, "
+        "STORY_BIBLE.md, progress.txt, Plan -> Write -> Review -> Revise skill ensemble, chapter save/update loops, and shell scripts. Treat scripts/provider auth as non-executable pattern evidence."
     ),
     "prompt-and-circumstance/storymode": (
         "SillyTavern story-mode extension. Public README describes 43 genres, story style and author style controls, mix-and-match story settings, narrative arc controls, "
@@ -2429,6 +2442,7 @@ class NovelSourceDiscoveryService:
             "book_mining_genesis_automation_gate_hints": self._build_book_mining_genesis_automation_gate_hints(available_patterns),
             "multi_book_autopilot_studio_gate_hints": self._build_multi_book_autopilot_studio_gate_hints(available_patterns),
             "longrun_commit_projection_health_gate_hints": self._build_longrun_commit_projection_health_gate_hints(available_patterns),
+            "fresh_context_chapter_iteration_gate_hints": self._build_fresh_context_chapter_iteration_gate_hints(available_patterns),
             "reader_reward_channel_gate_hints": self._build_reader_reward_channel_gate_hints(available_patterns),
             "tri_modal_workflow_validation_gate_hints": self._build_tri_modal_workflow_validation_gate_hints(available_patterns),
             "scene_promise_mob_review_gate_hints": self._build_scene_promise_mob_review_gate_hints(available_patterns),
@@ -3110,6 +3124,7 @@ class NovelSourceDiscoveryService:
             "book_mining_genesis_automation_gate": 70,
             "multi_book_autopilot_studio_gate": 66,
             "longrun_commit_projection_health_gate": 68,
+            "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
             "tri_modal_workflow_validation_gate": 67,
             "scene_promise_mob_review_gate": 67,
@@ -3250,6 +3265,9 @@ class NovelSourceDiscoveryService:
         if "longrun_commit_projection_health_gate" in patterns:
             targets.append("chapter_commit_projection_manifest")
             targets.append("read_model_health_policy")
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            targets.append("fresh_context_iteration_manifest")
+            targets.append("chapter_progress_log_policy")
         if "narrative_qa_comprehension_gate" in patterns:
             targets.append("narrative_question_answer_ledger")
             targets.append("source_summary_question_coverage_policy")
@@ -3681,6 +3699,9 @@ class NovelSourceDiscoveryService:
         if "longrun_commit_projection_health_gate" in patterns:
             targets.append("chapter_commit_projection_health_report")
             targets.append("read_model_memory_drift_audit")
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            targets.append("fresh_context_chapter_loop_audit")
+            targets.append("next_incomplete_chapter_manifest")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_canon_graph_schema")
             targets.append("episode_provenance_rules")
@@ -4098,6 +4119,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["multi_book_profile_audit", "autopilot_stop_condition_findings", "full_book_logic_check_notes"])
         if "longrun_commit_projection_health_gate" in patterns:
             targets.extend(["chapter_commit_projection_health", "read_model_staleness_findings", "memory_scratchpad_scope_notes"])
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            targets.extend(["fresh_context_iteration_report", "chapter_manifest_progress_findings", "memory_fatigue_reset_notes"])
         if "topic_drift_map" in patterns:
             targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
         if "context_faithfulness_eval_gate" in patterns:
@@ -4182,6 +4205,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["multi_book_profile_audit", "autopilot_stop_condition_findings", "full_book_logic_check_notes"])
         if "longrun_commit_projection_health_gate" in patterns:
             targets.extend(["chapter_commit_projection_health", "read_model_staleness_findings", "memory_scratchpad_scope_notes"])
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            targets.extend(["fresh_context_iteration_report", "next_incomplete_chapter_detection", "progress_log_update_findings"])
         if "temporal_canon_context_graph" in patterns:
             targets.extend(["temporal_canon_graph_report", "episode_provenance_trace", "validity_window_conflicts"])
         if "long_term_author_preference_memory" in patterns:
@@ -4485,6 +4510,8 @@ class NovelSourceDiscoveryService:
             hints.append("For multi-book runs, bind each continuation to one book profile, visible session, continue limit, and periodic full-book logic check.")
         if "longrun_commit_projection_health_gate" in patterns:
             hints.append("Before drafting, confirm the latest accepted chapter commit has updated state, summaries, memory, and read-model projections.")
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            hints.append("Start each chapter pass from fresh context: story bible, manifest, progress log, and the next incomplete chapter, not from chat-memory residue.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -4668,6 +4695,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist per-book profile, session owner, autopilot counters, stop phrases, and full-book check cadence before continuing unattended batches.")
         if "longrun_commit_projection_health_gate" in patterns:
             hints.append("Treat .story-system artifacts as source of truth and .webnovel projections as derived read models with freshness checks.")
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            hints.append("Store the chapter manifest, last completed chapter, review result, and progress.txt update before scheduling the next fresh-context pass.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         if "source_entity_redaction_gate" in patterns:
@@ -6722,6 +6751,15 @@ class NovelSourceDiscoveryService:
             "只读 dashboard 展示投影健康、最近事件、记忆覆盖和漂移风险，不应成为修改正典的写入口。",
         ]
 
+    def _build_fresh_context_chapter_iteration_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "fresh_context_chapter_iteration_gate" not in patterns:
+            return []
+        return [
+            "Run each chapter iteration from a fresh context packet: story bible, chapter manifest, progress log, previous accepted chapter, and explicit next-chapter brief.",
+            "Detect the next incomplete chapter from the manifest before writing; never rely on chat memory or an agent's last answer as the completion source.",
+            "After review/revise, update the progress log and chapter status only for accepted text; failed drafts remain outside canon and outside the next fresh-context packet.",
+        ]
+
     def _build_reader_reward_channel_gate_hints(self, patterns: set[str]) -> list[str]:
         if "reader_reward_channel_gate" not in patterns:
             return []
@@ -7371,6 +7409,8 @@ class NovelSourceDiscoveryService:
             targets.append("multi_book_profile_boundary_remap")
         if "longrun_commit_projection_health_gate" in patterns:
             targets.append("chapter_commit_projection_remap")
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            targets.append("fresh_context_loop_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -7696,6 +7736,8 @@ class NovelSourceDiscoveryService:
             hints.append("Treat a same-type project as a new book profile; never reuse the source book's session state, autopilot counters, or context files.")
         if "longrun_commit_projection_health_gate" in patterns:
             hints.append("Build new chapter commits and read-model projections for the transformed story instead of replaying source commit state.")
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            hints.append("Create a new manifest and progress log for the transformed book before any fresh-context chapter loop runs.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.")
         if "long_term_author_preference_memory" in patterns:
@@ -8043,6 +8085,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform the studio scaffold by assigning a fresh book profile, stop conditions, continuity-check cadence, and per-book context namespace.")
         if "longrun_commit_projection_health_gate" in patterns:
             hints.append("Transform the commit chain by starting a new accepted-commit lineage and derived projections for the independent story.")
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            hints.append("Transform fresh-context loops by building a new chapter manifest, progress log, and acceptance criteria instead of replaying the source run loop.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -8426,6 +8470,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject unattended same-type drafts when the book profile, stop limits, full-book check cadence, or context namespace is missing.")
         if "longrun_commit_projection_health_gate" in patterns:
             hints.append("Reject drafts whose read-model projections are stale, whose chapter commit lineage is unclear, or whose memory scratchpad mixes source and transformed canon.")
+        if "fresh_context_chapter_iteration_gate" in patterns:
+            hints.append("Reject same-type chapter loops that reuse the source prd.json, progress log, story bible, or completed-chapter status as transformed-story authority.")
         if "narrative_qa_comprehension_gate" in patterns:
             hints.append("Reject same-type QA packs where source-book questions or answers can still pass under renamed entities.")
         if "chapter_summary_alignment_gate" in patterns:
@@ -8564,6 +8610,7 @@ class NovelSourceDiscoveryService:
                 "book_mining_genesis_automation_gate",
                 "multi_book_autopilot_studio_gate",
                 "longrun_commit_projection_health_gate",
+                "fresh_context_chapter_iteration_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",

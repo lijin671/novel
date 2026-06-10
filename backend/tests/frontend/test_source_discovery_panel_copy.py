@@ -103,6 +103,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "book_mining_genesis_automation_gate_hints",
             "multi_book_autopilot_studio_gate_hints",
             "longrun_commit_projection_health_gate_hints",
+            "fresh_context_chapter_iteration_gate_hints",
             "agentwrite_plan_write_pipeline_hints",
             "long_output_length_quality_ruler_hints",
             "long_context_reward_dimension_gate_hints",
@@ -298,6 +299,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Book mining genesis automation gates" in panel_text
     assert "Multi-book autopilot studio gates" in panel_text
     assert "Longrun commit projection health gates" in panel_text
+    assert "Fresh-context chapter iteration gates" in panel_text
     assert "Long-output planning / reward gates" in panel_text
     assert "AgentWrite plan-write pipeline gates" in panel_text
     assert "Long-output length quality ruler gates" in panel_text

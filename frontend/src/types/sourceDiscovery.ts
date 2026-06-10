@@ -166,6 +166,7 @@ export interface SourceDiscoveryPatternPack {
   book_mining_genesis_automation_gate_hints?: string[];
   multi_book_autopilot_studio_gate_hints?: string[];
   longrun_commit_projection_health_gate_hints?: string[];
+  fresh_context_chapter_iteration_gate_hints?: string[];
   agentwrite_plan_write_pipeline_hints?: string[];
   long_output_length_quality_ruler_hints?: string[];
   long_context_reward_dimension_gate_hints?: string[];
