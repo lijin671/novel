@@ -9088,3 +9088,91 @@ def test_static_document_conversion_literary_similarity_sources_map_to_import_ga
     assert "source_format_import_manifest_hints" in digest
     assert "chinese_ner_alias_consistency_gate_hints" in digest
     assert "stylometric_author_fingerprint_gate_hints" in digest
+
+
+
+def test_static_mode_contract_source_study_workspace_sources_map_to_generation_gates():
+    assert "https://github.com/FURUYAN1234/story-maker" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/yuanbw2025/storyforge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dedyrio/novelwriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/qq1375828505/AI-Fic-IDE" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("mode contract" in query.lower() and "style analyzer" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("masterworks" in query.lower() and "chapter beats" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("world model" in query.lower() and "style consistent" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ai-fic-ide" in query.lower() and "history snapshots" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "FURUYAN1234/story-maker",
+                "html_url": "https://github.com/FURUYAN1234/story-maker",
+                "description": "Static story generator with output mode, visible creative axes, audience, ending style, narrator, source material, optional style analysis, selected-mode priority, mode contract and under-length rewrite handling.",
+                "stargazers_count": 18,
+                "license": None,
+                "topics": ["story-generator", "creative-writing", "style-analysis"],
+                "updated_at": "2026-06-10T14:29:00Z",
+                "root_files": ["README.md", "package.json", "src", "vite.config.ts"],
+            },
+            {
+                "full_name": "yuanbw2025/storyforge",
+                "html_url": "https://github.com/yuanbw2025/storyforge",
+                "description": "Offline browser AI writing studio with visible editable savable prompt templates, prompt workflows, IndexedDB, chunked import, three-layer memory, consistency checks, master study, masterWorks, masterChapterBeats, masterStyleMetrics and masterInsights that do not pollute creative data.",
+                "stargazers_count": 101,
+                "license": None,
+                "topics": ["novel", "prompt-workflows", "offline"],
+                "updated_at": "2026-06-10T13:25:52Z",
+                "root_files": ["README.md", "CLAUDE.md", "docs", "package.json", "src"],
+            },
+            {
+                "full_name": "dedyrio/novelwriter",
+                "html_url": "https://github.com/dedyrio/novelwriter",
+                "description": "AI story writer that imports existing stories, extracts characters relationships and world details, keeps a clear world model, applies story rules, preserves style consistent continuation, and ships Windows installer download links.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel", "ai-writing", "world-model"],
+                "updated_at": "2026-06-10T11:56:49Z",
+                "root_files": ["README.md", "LICENSE", "web", "docs", "Dockerfile"],
+            },
+            {
+                "full_name": "qq1375828505/AI-Fic-IDE",
+                "html_url": "https://github.com/qq1375828505/AI-Fic-IDE",
+                "description": "Android native web novel writing IDE with character cards, setting cards, foreshadowing states, AI memory, cross-chapter global search replace, autosave, history snapshots, local models, MCP plugin marketplace, ADB, Root and accessibility surfaces.",
+                "stargazers_count": 0,
+                "license": {"spdx_id": "LGPL-3.0"},
+                "topics": ["android", "webnovel", "ai-writing"],
+                "updated_at": "2026-06-10T14:29:08Z",
+                "root_files": ["README.md", "LICENSE", "app", "gradle", "AndroidManifest.xml"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T23:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "mode_contract_generation_gate" in candidates["FURUYAN1234/story-maker"]["absorbed_patterns"]
+    assert "style_signature" in candidates["FURUYAN1234/story-maker"]["absorbed_patterns"]
+    assert "source_study_method_bank_isolation_gate" in candidates["yuanbw2025/storyforge"]["absorbed_patterns"]
+    assert "prompt_library" in candidates["yuanbw2025/storyforge"]["absorbed_patterns"]
+    assert "world_state_tracking" in candidates["dedyrio/novelwriter"]["absorbed_patterns"]
+    assert "style_signature" in candidates["dedyrio/novelwriter"]["absorbed_patterns"]
+    assert "memory_snapshot_versioning" in candidates["qq1375828505/AI-Fic-IDE"]["absorbed_patterns"]
+    assert "relationship_graph_global_replace_gate" in candidates["qq1375828505/AI-Fic-IDE"]["absorbed_patterns"]
+    assert "mcp_server" in candidates["qq1375828505/AI-Fic-IDE"]["risk_flags"]
+    assert "device_control" in candidates["qq1375828505/AI-Fic-IDE"]["risk_flags"]
+    assert "docker" in candidates["dedyrio/novelwriter"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "mode_contract_generation_gate_hints" in pattern_pack
+    assert "source_study_method_bank_isolation_gate_hints" in pattern_pack
+    assert "generation_mode_contracts" in pattern_pack["bible_enrichment_targets"]
+    assert "source_study_method_bank" in pattern_pack["bible_enrichment_targets"]
+    assert "mode_contract_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "source_study_method_bank_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "mode_contract_axis_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "method_bank_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "mode_contract_generation_gate_hints" in digest
+    assert "source_study_method_bank_isolation_gate_hints" in digest

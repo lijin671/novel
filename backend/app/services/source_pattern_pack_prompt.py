@@ -150,6 +150,18 @@ def render_source_pattern_pack_digest(
         for hint in prompt_library_hints[:6]:
             lines.append(f"  - {hint}")
 
+    mode_contract_generation_gate_hints = _as_note_list(source_pattern_pack.get("mode_contract_generation_gate_hints"))
+    if mode_contract_generation_gate_hints:
+        lines.append("- mode_contract_generation_gate_hints:")
+        for hint in mode_contract_generation_gate_hints[:6]:
+            lines.append(f"  - {hint}")
+
+    source_study_method_bank_isolation_gate_hints = _as_note_list(source_pattern_pack.get("source_study_method_bank_isolation_gate_hints"))
+    if source_study_method_bank_isolation_gate_hints:
+        lines.append("- source_study_method_bank_isolation_gate_hints:")
+        for hint in source_study_method_bank_isolation_gate_hints[:6]:
+            lines.append(f"  - {hint}")
+
     style_guide_layering_hints = _as_note_list(source_pattern_pack.get("style_guide_layering_hints"))
     if style_guide_layering_hints:
         lines.append("- style_guide_layering_hints:")

@@ -216,6 +216,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("foreshadowing tracker" OR "LitRPG stats" OR "romance arc tracker") ("webnovel" OR "serial fiction") in:name,description,readme',
     '("simulation-first" OR "causal ledger" OR "belief state" OR "utterance history") ("novel generator" OR "long-form fiction") in:name,description,readme',
     '("writer-friendly git" OR "beta reader annotations" OR "word-by-word comparison") ("manuscript" OR "novel") in:name,description,readme',
+    '("mode contract" OR "output mode" OR "visible creative axes" OR "style analyzer") ("story generator" OR "creative writing") in:name,description,readme',
+    '("master study" OR "masterWorks" OR "chapter beats" OR "style metrics") ("novel" OR "writing workbench") in:name,description,readme',
+    '("world model" OR "story rules" OR "style consistent") ("AI novel" OR "story writing") in:name,description,readme',
+    '("AI-Fic-IDE" OR "Android native" OR "history snapshots" OR "AI memory") ("web novel" OR "AI writing") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -518,6 +522,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/XINGANLIU/web-novel-writing-skill",
     "https://github.com/miserylee/webnovel-handbook",
     "https://github.com/ungden/truyencity2",
+    "https://github.com/FURUYAN1234/story-maker",
+    "https://github.com/yuanbw2025/storyforge",
+    "https://github.com/dedyrio/novelwriter",
+    "https://github.com/qq1375828505/AI-Fic-IDE",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -591,10 +599,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("publication_pipeline", ("print-ready", "epub", "audiobook", "landing page", "typeset", "latex", "export", "publish", "publication", "有声书", "排版", "出版", "交付流水线")),
     ("lorebook_context", ("world info", "worldinfo", "lorebook", "memory book", "keyword activation", "recursive scan", "scan depth", "insertion order", "context budget", "世界信息", "设定集", "关键词激活", "递归扫描")),
     ("author_note_layer", ("author's note", "authors note", "author note", "insertion frequency", "in-chat", "chat memory", "作者注释", "作者备注", "提示词层")),
-    ("world_state_tracking", ("solo tabletop game master", "players, locations, regions, and items", "world state", "story state", "persistent state", "central state", "state parser", "event memory", "event memories", "fact memory", "fact memories", "emotional memory", "emotional memories", "relationship memory", "relationship memories", "scene log", "review logs", "structured prompts", "世界状态", "实体状态", "场景日志")),
+    ("world_state_tracking", ("solo tabletop game master", "players, locations, regions, and items", "world state", "story state", "story world", "world model", "story rules", "clear world model", "characters relationships", "persistent state", "central state", "state parser", "event memory", "event memories", "fact memory", "fact memories", "emotional memory", "emotional memories", "relationship memory", "relationship memories", "scene log", "review logs", "structured prompts", "世界状态", "实体状态", "场景日志")),
     ("memory_snapshot_versioning", ("git for ai agent memory", "snapshot", "branch", "merge", "rollback", "memory versioning", "memory branch", "compaction", "consolidation", "memory rollup", "memory rollups", "multi-tier memory", "记忆快照", "记忆分支", "回滚")),
     ("local_first_novel_workspace", ("local-first", "local first", "privacy-first", "offline access", "indexeddb", "multi-novel", "active novel", "workspace", "local data persistence", "novel workspace", "own every word", "no subscription", "your prose stays on your device", "local model", "本地优先", "离线访问", "多小说工作区")),
-    ("prompt_library", ("prompt manager", "prompt library", "task-specific prompt", "task prompts", "system prompt", "reset prompts", "prompt template", "提示词库", "提示词管理", "任务提示词")),
+    ("prompt_library", ("prompt manager", "prompt library", "task-specific prompt", "task prompts", "system prompt", "reset prompts", "prompt template", "prompttemplates", "prompt workflows", "visible, editable, and savable", "visible editable savable", "system/user/parameters", "saveTarget", "提示词库", "提示词管理", "任务提示词")),
     ("scene_level_generation", ("scene-level generation", "scene level generation", "scene-by-scene", "scene drafts", "plan scenes", "draft scene", "scene text writing", "generate prose for each scene", "场景级生成", "逐场景生成")),
     ("review_queue_staging", ("review queue", "pendingchange", "pending change", "staging area", "diff view", "line-level diff", "automatic snapshots", "draft awaiting your review", "accept edit reject", "accept all", "staged not applied", "审查队列", "暂存区", "待审核变更")),
     ("style_guide_layering", ("style guide", "base style guide", "scene override", "scene overrides", "character voice", "character voices", "voicenotes", "voice notes", "pov conventions", "dialogue rules", "风格指南", "场景覆写", "角色语音")),
@@ -757,6 +765,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("plan_draft_log_verify_loop_gate", ("plan \u2192 draft \u2192 log \u2192 verify", "plan -> draft -> log -> verify", "plan draft log verify", "living documents", "thread tracking", "foreshadowing checklists", "scene logs", "wrap", "documents are current")),
     ("mcp_scene_index_revision_boundary", ("metadata-first analysis", "sqlite-canonical", "scene files", "safe scene revision", "ai-assisted prose editing with confirmation", "git history", "review bundles", "scrivener direct extraction", "targeted scene reading", "sync dir")),
     ("verbalized_sampling_diversity_wiki_gate", ("verbalized sampling", "mode collapse", "distribution of responses", "probability score", "writer's wiki", "auto-files", "automatic character and setting detection", "diverse outlines", "brainstorm", "critic")),
+    ("mode_contract_generation_gate", ("mode contract", "mode-specific contract", "public mode contract", "selected-mode priority", "selected-mode-first", "selected mode", "output mode", "output modes", "visible axes", "creative axes", "axis tags", "audience", "ending style", "narrator", "point of view", "under-length", "rewrite handling", "draft length", "structured generation contract")),
+    ("source_study_method_bank_isolation_gate", ("master study", "masterworks", "masterchunkanalysis", "masterchapterbeats", "masterstylemetrics", "masterinsights", "methodology library", "method bank", "source study", "independent data table", "does not pollute creative data", "not pollute creative data")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -845,6 +855,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("native_binary", (".exe", ".dll", ".so", ".dylib")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
+    ("device_control", ("adb", "root", "accessibility", "plugin marketplace")),
     ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url")),
     ("corpus_downloader", ("download texts", "parallel downloads", "gutenberg scraper", "build public-domain book corpora", "full-text search")),
 )
@@ -2008,6 +2019,23 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "1000-chapter Story Factory workflow, foreshadowing, timeline, cast database, power-system canon, plot-twist tables, batch writing, autopilot, and prompt-cache cost controls. "
         "Pattern-only adaptation for serial genre state trackers, longrun autopilot gates, and provider-budget smoke boundaries; app, Supabase, edge functions, and scripts are not run."
     ),
+    "furuyan1234/story-maker": (
+        "Story Maker is a static creative-text web app that builds generation from visible axes: output mode, theme, genre, worldview, audience, era, ending style, narrator, characters, source material, image material, and optional style analysis. "
+        "Public README describes selected-mode-first contracts, mode-specific output shapes, under-length draft rewrite handling, axis tags, provider key safety, and explicit legal/publication caveats. "
+        "Pattern-only adaptation for mode-contract generation gates and anti-generic prose checks; Vite app, GitHub Pages deployment, provider calls, keys, and browser runtime are not used."
+    ),
+    "yuanbw2025/storyforge": (
+        "StoryForge is a Chinese privacy-first offline browser writing studio. Public README describes visible/editable/savable prompt templates, prompt workflows, IndexedDB storage, 11 BYOK providers, chain workflows, chunked million-word import, three-layer memory, consistency checks, and master-study tables. "
+        "Pattern-only adaptation for transparent prompt workflow libraries and source-study method-bank isolation; npm app, provider calls, private prompts, local data, and docs/CLAUDE startup instructions are not imported or run."
+    ),
+    "dedyrio/novelwriter": (
+        "novelwriter is an AGPL-3.0 AI story tool whose public README says it imports existing stories, extracts characters and relationships, maintains a world model, applies story rules, and preserves style consistency. "
+        "Pattern-only adaptation for world-model rule gates and style-consistent continuation; Windows installer downloads, Docker instructions, ZIP/EXE artifacts, provider keys, and app runtime are not downloaded or executed."
+    ),
+    "qq1375828505/ai-fic-ide": (
+        "AI-Fic-IDE is an Android-native Chinese web-novel writing IDE forked from Operit AI. Public README describes character cards, setting cards, foreshadowing states, AI memory, cross-chapter search/replace, autosave, history snapshots, local models, multi-model providers, MCP plugin market, ADB/root/accessibility surfaces, and APK releases. "
+        "Pattern-only adaptation for mobile/offline writing workspace cards and snapshot boundaries; APKs, Android runtime, ADB/root/accessibility, MCP plugins, provider keys, and native binaries are not installed or launched."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2314,6 +2342,8 @@ class NovelSourceDiscoveryService:
             "memory_snapshot_versioning_hints": self._build_memory_snapshot_versioning_hints(available_patterns),
             "local_first_workspace_hints": self._build_local_first_workspace_hints(available_patterns),
             "prompt_library_hints": self._build_prompt_library_hints(available_patterns),
+            "mode_contract_generation_gate_hints": self._build_mode_contract_generation_gate_hints(available_patterns),
+            "source_study_method_bank_isolation_gate_hints": self._build_source_study_method_bank_isolation_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3237,6 +3267,8 @@ class NovelSourceDiscoveryService:
             "custom_entity_label_inventory": 66,
             "placeholder_alias_consistency_map": 65,
             "proper_noun_leakage_review": 67,
+            "mode_contract_generation_gate": 66,
+            "source_study_method_bank_isolation_gate": 66,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -3261,6 +3293,12 @@ class NovelSourceDiscoveryService:
             targets.append("project_local_state")
         if "prompt_library" in patterns:
             targets.append("task_prompt_templates")
+        if "mode_contract_generation_gate" in patterns:
+            targets.append("generation_mode_contracts")
+            targets.append("mode_axis_validation_rules")
+        if "source_study_method_bank_isolation_gate" in patterns:
+            targets.append("source_study_method_bank")
+            targets.append("source_study_contamination_policy")
         if "style_guide_layering" in patterns:
             targets.append("style_layers")
             targets.append("character_voice_notes")
@@ -3922,6 +3960,10 @@ class NovelSourceDiscoveryService:
             targets.extend(["local_workspace_scope", "active_project_state", "workspace_metadata"])
         if "prompt_library" in patterns:
             targets.extend(["task_prompt_library", "prompt_template_versions", "prompt_scope"])
+        if "mode_contract_generation_gate" in patterns:
+            targets.extend(["mode_contract_matrix", "axis_tag_validation_report", "under_length_rewrite_trace"])
+        if "source_study_method_bank_isolation_gate" in patterns:
+            targets.extend(["source_study_method_bank_report", "master_study_contamination_audit", "method_insight_promotion_findings"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -4974,6 +5016,24 @@ class NovelSourceDiscoveryService:
             "Register task prompts by purpose: book decomposition, scene planning, continuation drafting, style imitation, review, and state write-back.",
             "Version prompt templates and record which template produced each accepted chapter or card update.",
             "Separate global system guidance from task-specific prompts so same-type creation and continuation do not reuse the wrong instruction layer.",
+        ]
+
+    def _build_mode_contract_generation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "mode_contract_generation_gate" not in patterns:
+            return []
+        return [
+            "Before generation, choose a visible mode contract: output shape, genre, audience, POV/narrator, ending style, source-material role, and minimum completeness threshold.",
+            "Selected mode wins over incidental words in the prompt; mode, axis tags, and rewrite reason should be recorded with each generated draft.",
+            "Reject under-length or generic drafts by asking for a bounded rewrite from the same accepted inputs, not by adding source-specific people, places, or plot facts.",
+        ]
+
+    def _build_source_study_method_bank_isolation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "source_study_method_bank_isolation_gate" not in patterns:
+            return []
+        return [
+            "Keep source-study outputs in a separate method bank: chunk analysis, chapter beats, style metrics, and extracted techniques do not directly mutate creative canon.",
+            "Promote only abstract methods into planning: beat function, pacing device, reveal technique, reader promise, and craft rule; raw source facts stay out.",
+            "For same-type creation, cite method-bank ids in prompts so reviewers can verify inspiration without loading source passages as context.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -7214,6 +7274,10 @@ class NovelSourceDiscoveryService:
             targets.append("experiment_log_remap")
         if "narrative_arc_template_control" in patterns:
             targets.append("narrative_arc_remap")
+        if "mode_contract_generation_gate" in patterns:
+            targets.append("mode_contract_axis_remap")
+        if "source_study_method_bank_isolation_gate" in patterns:
+            targets.append("method_bank_remap")
         if "nrd_task_tree_pipeline" in patterns:
             targets.append("nrd_task_tree_remap")
         if "sampling_parameter_quality_sweep" in patterns:
@@ -7517,6 +7581,10 @@ class NovelSourceDiscoveryService:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
             hints.append("Draft from a fresh outline/beat sheet; do not reuse the source chapter order as the new chapter order.")
+        if "mode_contract_generation_gate" in patterns:
+            hints.append("Use mode contracts as visible output-shape constraints, then fill them with transformed characters, conflicts, and setting rather than source specifics.")
+        if "source_study_method_bank_isolation_gate" in patterns:
+            hints.append("Load source-study insights as method ids and craft pressure only; do not load raw study chunks or source facts into the generation prompt.")
         if "card_workbench" in patterns:
             hints.append("Use card structure as the workbench shape, but create new card content for characters, factions, places, and hooks.")
         if "structured_generation_schema" in patterns:
@@ -7854,6 +7922,10 @@ class NovelSourceDiscoveryService:
             hints.append("Keep/discard decisions should evaluate transformed-story quality and independence together.")
         if "voice_fingerprint" in patterns:
             hints.append("Translate source voice functions into new voice guardrails, not into reused sentence templates.")
+        if "mode_contract_generation_gate" in patterns:
+            hints.append("Transform each output mode by changing mode inputs first: audience, POV, ending target, conflict source, and minimum completeness threshold.")
+        if "source_study_method_bank_isolation_gate" in patterns:
+            hints.append("Transform source-study findings into a new method bank entry before any chapter plan can cite them.")
         if "plot_dependency_graph" in patterns:
             hints.append("Rebuild dependency edges from new promises and clues; a source setup can inspire a function but not a factual dependency.")
         if "setup_payoff_tracking" in patterns:
@@ -8213,6 +8285,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts whose cited context reference points to source material as if it were new-story canon.")
         if "voice_fingerprint" in patterns:
             hints.append("Reject voice fingerprints that preserve source catchphrases, proprietary labels, or paragraph-level phrasing.")
+        if "mode_contract_generation_gate" in patterns:
+            hints.append("Reject mode-contract outputs when mode tags are satisfied by reusing source set pieces, ending cadence, or character-function order.")
+        if "source_study_method_bank_isolation_gate" in patterns:
+            hints.append("Reject prompts that paste source-study chunks, original beat text, or raw style metrics as drafting context instead of citing abstract method ids.")
         if "anti_slop_audit" in patterns:
             hints.append("Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.")
         if "plotgrid_scene_matrix" in patterns:
@@ -8694,6 +8770,8 @@ class NovelSourceDiscoveryService:
                 "multi_book_autopilot_studio_gate",
                 "longrun_commit_projection_health_gate",
                 "fresh_context_chapter_iteration_gate",
+                "mode_contract_generation_gate",
+                "source_study_method_bank_isolation_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",
@@ -8705,6 +8783,8 @@ class NovelSourceDiscoveryService:
                 "community_graph_source_deconstruction",
                 "dual_level_graph_vector_retrieval",
                 "schema_guided_graph_extraction",
+                "mode_contract_generation_gate",
+                "source_study_method_bank_isolation_gate",
             }
         ):
             return True
