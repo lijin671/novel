@@ -149,6 +149,14 @@ export interface SourceDiscoveryPatternPack {
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];
   schema_guided_graph_extraction_hints?: string[];
+  chinese_segmentation_keyword_gate_hints?: string[];
+  chinese_ner_alias_consistency_gate_hints?: string[];
+  chinese_text_normalization_gate_hints?: string[];
+  chinese_error_correction_review_gate_hints?: string[];
+  literary_event_entity_annotation_gate_hints?: string[];
+  narrative_event_evolution_graph_gate_hints?: string[];
+  sentiment_arc_emotion_trajectory_gate_hints?: string[];
+  cross_context_coreference_gate_hints?: string[];
   prose_lint_style_rule_gate_hints?: string[];
   grammar_spelling_copyedit_gate_hints?: string[];
   copyedit_diagnostic_triage_queue_hints?: string[];

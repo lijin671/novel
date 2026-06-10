@@ -114,3 +114,32 @@ Before any runtime trial:
 - prohibit source-book text upload unless separately approved
 - set timeout and cleanup
 - verify no installer, package hook, native build, or service launch occurs
+
+## Frontend surfacing addendum - 2026-06-10
+
+Fresh public `git ls-remote --symref HEAD` check ran on
+2026-06-10 18:54 +08:00 and was stored only under
+`tmp/source-intake-chinese-narrative-2026-06-10/head-manifest.json`.
+
+Observed HEADs:
+
+- `fxsjy/jieba`: `67fa2e36e72f69d9134b8a1037b83fbb070b9775`
+- `messense/jieba-rs`: `1e77e50d0f1d62a545c535b8e2d2e00348c39e11`
+- `hankcs/HanLP`: `ddb1299bddff079e447af52ec12549c50636bfa8`
+  on observed default branch `doc-zh`
+- `HIT-SCIR/ltp`: `1f042d48b0a785ff7875b2e63c1439ef8c78995c`
+- `BYVoid/OpenCC`: `3bf661989c6980884bc52c34bda245e55ea3664f`
+- `shibing624/pycorrector`: `7e3caeaf03c42cdb7473ed7e966b62bdc6c69309`
+
+Project integration delta:
+
+- `BookRemixSourceDiscoveryPanel.tsx` now includes these repositories in the
+  default public GitHub seed list.
+- The source-discovery UI now pins a `Chinese text processing gates` group for:
+  segmentation/keyword review, Chinese NER/alias consistency, text
+  normalization, and Chinese correction triage.
+- `sourceDiscovery.ts` exposes the corresponding pattern-pack fields so the
+  frontend contract matches the backend pack.
+
+Runtime boundary is unchanged: these projects are evidence sources only. No
+tokenizer, model, native build, package, or correction pipeline was executed.

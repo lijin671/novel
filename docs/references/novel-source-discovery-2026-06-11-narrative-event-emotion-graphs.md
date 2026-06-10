@@ -140,3 +140,39 @@ Runtime use remains blocked until a separate local safety contract exists for:
 - graph artifact checksum
 - manual review before canon write-back
 - explicit same-type transformation audit
+
+## Frontend surfacing addendum - 2026-06-10
+
+Fresh public `git ls-remote --symref HEAD` check ran on
+2026-06-10 18:54 +08:00 and was stored only under
+`tmp/source-intake-chinese-narrative-2026-06-10/head-manifest.json`.
+
+Observed HEADs:
+
+- `dbamman/litbank`: `3e50db0ffc033d7ccbb94f4d88f6b99210328ed8`
+- `eecrazy/ConstructingNEEG_IJCAI_2018`:
+  `97b133685fbca89ce908977857e056481a9deadf`
+- `acolas1/EventNarrative`: `a6e2b06e998ac2709cce36ff25ae8ffaa3d9b425`
+- `doug919/narrative_graph_emnlp2020`:
+  `f63a17ff7ef0d2d71630230e3c1af7a26894fdb3`
+- `mjockers/syuzhet`: `73ec7d852e1f368661069e1b75e6c8c12a9f2133`
+- `jon-chun/sentimentarcs_notebooks`:
+  `f427bedd93b712d9574ae1d0cd60345cd3a342a9`
+- `SapienzaNLP/xcore`: `9a5713b210abaaa6ded158966b200740ea1bfbfc`
+- `anastasia-zhukova/XCoref`: `f62e9ddbe63290228cdc4cbd49f8c94105b1cf15`
+- `hzjken/character-network`: `3f48c059b7aadc9fe9492961a54fcc0fa226b2d5`
+- `devbret/character-interactions`: `68e1b8c88029a77e04007f73adc82da268fa377f`
+
+Project integration delta:
+
+- `BookRemixSourceDiscoveryPanel.tsx` now includes these repositories in the
+  default public GitHub seed list.
+- The source-discovery UI now pins a `Narrative event / emotion graph gates`
+  group for literary event/entity annotation, event evolution graphs, sentiment
+  arcs, cross-context coreference, and character interaction networks.
+- `sourceDiscovery.ts` exposes the corresponding pattern-pack fields so the
+  frontend contract matches the backend pack.
+
+For same-type creation, these graph and arc artifacts remain transformation
+evidence only. They must not preserve source event order, emotional triggers,
+relationship topology, or character cluster boundaries.

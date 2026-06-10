@@ -131,6 +131,22 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/Sigil-Ebook/Sigil',
   'https://github.com/w3c/epub-tests',
   'https://github.com/daisy/epub-accessibility-tests',
+  'https://github.com/fxsjy/jieba',
+  'https://github.com/messense/jieba-rs',
+  'https://github.com/hankcs/HanLP',
+  'https://github.com/HIT-SCIR/ltp',
+  'https://github.com/BYVoid/OpenCC',
+  'https://github.com/shibing624/pycorrector',
+  'https://github.com/dbamman/litbank',
+  'https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018',
+  'https://github.com/acolas1/EventNarrative',
+  'https://github.com/doug919/narrative_graph_emnlp2020',
+  'https://github.com/mjockers/syuzhet',
+  'https://github.com/jon-chun/sentimentarcs_notebooks',
+  'https://github.com/SapienzaNLP/xcore',
+  'https://github.com/anastasia-zhukova/XCoref',
+  'https://github.com/hzjken/character-network',
+  'https://github.com/devbret/character-interactions',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -176,7 +192,6 @@ const PINNED_HINT_KEYS = new Set([
   'character_dialogue_persona_memory_hints',
   'anti_repetition_prompt_rules_hints',
   'temporal_canon_context_graph_hints',
-  'character_interaction_network_gate_hints',
   'plotline_thread_tracking_hints',
   'rolling_summary_context_trim_hints',
   'causal_dramatica_agent_pipeline_hints',
@@ -220,6 +235,15 @@ const PINNED_HINT_KEYS = new Set([
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
   'schema_guided_graph_extraction_hints',
+  'chinese_segmentation_keyword_gate_hints',
+  'chinese_ner_alias_consistency_gate_hints',
+  'chinese_text_normalization_gate_hints',
+  'chinese_error_correction_review_gate_hints',
+  'literary_event_entity_annotation_gate_hints',
+  'narrative_event_evolution_graph_gate_hints',
+  'sentiment_arc_emotion_trajectory_gate_hints',
+  'cross_context_coreference_gate_hints',
+  'character_interaction_network_gate_hints',
   'prose_lint_style_rule_gate_hints',
   'grammar_spelling_copyedit_gate_hints',
   'copyedit_diagnostic_triage_queue_hints',
@@ -476,7 +500,6 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Character dialogue persona memory gates', patternPackPayload?.character_dialogue_persona_memory_hints],
               ['Anti-repetition prompt rule gates', patternPackPayload?.anti_repetition_prompt_rules_hints],
               ['Temporal canon context graph gates', patternPackPayload?.temporal_canon_context_graph_hints],
-              ['Character interaction network gates', patternPackPayload?.character_interaction_network_gate_hints],
               ['Plotline thread tracking gates', patternPackPayload?.plotline_thread_tracking_hints],
               ['Rolling summary context trim gates', patternPackPayload?.rolling_summary_context_trim_hints],
             ])}
@@ -539,6 +562,19 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Community graph source deconstruction gates', patternPackPayload?.community_graph_source_deconstruction_hints],
               ['Dual-level graph vector retrieval gates', patternPackPayload?.dual_level_graph_vector_retrieval_hints],
               ['Schema-guided graph extraction gates', patternPackPayload?.schema_guided_graph_extraction_hints],
+            ])}
+            {renderHintGroup('Chinese text processing gates', [
+              ['Chinese segmentation / keyword gates', patternPackPayload?.chinese_segmentation_keyword_gate_hints],
+              ['Chinese NER / alias consistency gates', patternPackPayload?.chinese_ner_alias_consistency_gate_hints],
+              ['Chinese text normalization gates', patternPackPayload?.chinese_text_normalization_gate_hints],
+              ['Chinese correction review gates', patternPackPayload?.chinese_error_correction_review_gate_hints],
+            ])}
+            {renderHintGroup('Narrative event / emotion graph gates', [
+              ['Literary event/entity annotation gates', patternPackPayload?.literary_event_entity_annotation_gate_hints],
+              ['Narrative event evolution graph gates', patternPackPayload?.narrative_event_evolution_graph_gate_hints],
+              ['Sentiment arc / emotion trajectory gates', patternPackPayload?.sentiment_arc_emotion_trajectory_gate_hints],
+              ['Cross-context coreference gates', patternPackPayload?.cross_context_coreference_gate_hints],
+              ['Character interaction network gates', patternPackPayload?.character_interaction_network_gate_hints],
             ])}
             {renderHintGroup('Prose lint / grammar copyedit gates', [
               ['Prose lint style rule gates', patternPackPayload?.prose_lint_style_rule_gate_hints],

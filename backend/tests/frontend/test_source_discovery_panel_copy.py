@@ -46,7 +46,6 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "character_dialogue_persona_memory_hints",
         "anti_repetition_prompt_rules_hints",
         "temporal_canon_context_graph_hints",
-        "character_interaction_network_gate_hints",
         "plotline_thread_tracking_hints",
         "rolling_summary_context_trim_hints",
         "causal_dramatica_agent_pipeline_hints",
@@ -90,6 +89,15 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "community_graph_source_deconstruction_hints",
             "dual_level_graph_vector_retrieval_hints",
             "schema_guided_graph_extraction_hints",
+            "chinese_segmentation_keyword_gate_hints",
+            "chinese_ner_alias_consistency_gate_hints",
+            "chinese_text_normalization_gate_hints",
+            "chinese_error_correction_review_gate_hints",
+            "literary_event_entity_annotation_gate_hints",
+            "narrative_event_evolution_graph_gate_hints",
+            "sentiment_arc_emotion_trajectory_gate_hints",
+            "cross_context_coreference_gate_hints",
+            "character_interaction_network_gate_hints",
             "prose_lint_style_rule_gate_hints",
             "grammar_spelling_copyedit_gate_hints",
             "copyedit_diagnostic_triage_queue_hints",
@@ -192,6 +200,17 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Community graph source deconstruction gates" in panel_text
     assert "Dual-level graph vector retrieval gates" in panel_text
     assert "Schema-guided graph extraction gates" in panel_text
+    assert "Chinese text processing gates" in panel_text
+    assert "Chinese segmentation / keyword gates" in panel_text
+    assert "Chinese NER / alias consistency gates" in panel_text
+    assert "Chinese text normalization gates" in panel_text
+    assert "Chinese correction review gates" in panel_text
+    assert "Narrative event / emotion graph gates" in panel_text
+    assert "Literary event/entity annotation gates" in panel_text
+    assert "Narrative event evolution graph gates" in panel_text
+    assert "Sentiment arc / emotion trajectory gates" in panel_text
+    assert "Cross-context coreference gates" in panel_text
+    assert "Character interaction network gates" in panel_text
     assert "Prose lint / grammar copyedit gates" in panel_text
     assert "Prose lint style rule gates" in panel_text
     assert "Grammar spelling copyedit gates" in panel_text
@@ -417,6 +436,42 @@ def test_source_discovery_panel_default_seeds_include_prose_copyedit_sources():
         "Automattic/harper",
         "languagetool-org/languagetool",
         "btford/write-good",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_chinese_text_processing_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "fxsjy/jieba",
+        "messense/jieba-rs",
+        "hankcs/HanLP",
+        "HIT-SCIR/ltp",
+        "BYVoid/OpenCC",
+        "shibing624/pycorrector",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_narrative_event_graph_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "dbamman/litbank",
+        "eecrazy/ConstructingNEEG_IJCAI_2018",
+        "acolas1/EventNarrative",
+        "doug919/narrative_graph_emnlp2020",
+        "mjockers/syuzhet",
+        "jon-chun/sentimentarcs_notebooks",
+        "SapienzaNLP/xcore",
+        "anastasia-zhukova/XCoref",
+        "hzjken/character-network",
+        "devbret/character-interactions",
     ):
         assert repo in panel_text
 
