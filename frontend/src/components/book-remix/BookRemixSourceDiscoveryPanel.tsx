@@ -154,6 +154,7 @@ const PINNED_HINT_KEYS = new Set([
   'dynamic_architecture_extension_gate_hints',
   'anti_copy_style_rag_gate_hints',
   'living_codex_editorial_workbench_gate_hints',
+  'agent_role_profile_workflow_gate_hints',
   'long_term_author_preference_memory_hints',
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
@@ -587,6 +588,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Capture distillation production gates', patternPackPayload?.capture_distillation_production_gate_hints],
               ['Skill-orchestrated Chinese novel workflow gates', patternPackPayload?.skill_orchestrated_chinese_novel_workflow_hints],
               ['LangGraph story state machine gates', patternPackPayload?.langgraph_story_state_machine_hints],
+              ['Agent role profile workflow gates', patternPackPayload?.agent_role_profile_workflow_gate_hints],
               ['Story daemon evolution loop gates', patternPackPayload?.story_daemon_evolution_loop_hints],
             ])}
             {renderHintGroup('Local RAG / canon QA / patch replay gates', [

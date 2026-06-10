@@ -205,6 +205,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("Capture" OR "Distillation" OR "Production") ("agentic platform" OR "novel" OR "story foundry") in:name,description,readme',
     '("OpenClaw" OR "agent skill") ("Chinese novel" OR "novel-writing" OR "web novel") in:name,description,readme',
     '("LangGraph" OR "story state" OR "story-writing") ("fiction" OR "novel" OR "agent") in:name,description,readme',
+    '("agent-level LLM routing" OR "workflow timeline" OR "run details" OR "memory curator") ("LangGraph" OR "novel" OR "fiction") in:name,description,readme',
     '("local-first" OR "privacy-first" OR "local RAG") ("novel" OR "web fiction" OR "creative writing") in:name,description,readme',
     '("story bible" OR "canon drift" OR "continuity checker") ("fiction" OR "novel" OR "long-form") in:name,description,readme',
     '("patch-NN" OR "outline.xml" OR "final.xml") ("AI novel" OR "drafting agent" OR "manuscript") in:name,description,readme',
@@ -655,6 +656,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/okeylanders/prose-minion-vscode",
     "https://github.com/DoktorDaveJoos/manuscript",
     "https://github.com/Meryouc/inkwell",
+    "https://github.com/ayermac/novelos",
     "https://github.com/wwessex/Writer1",
     "https://github.com/adamwlarson/ai-book-writer",
     "https://github.com/302ai/302_novel_writing",
@@ -969,6 +971,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("local_flow_story_graph_workspace_gate", ("versatile", "fiction writing assistant", "indexeddb autosave", "flow sessions", "focus mode", "ai spark", "ai polish", "story generator", "story bible", "visual story network", "timeline")),
     ("editor_context_prose_analysis_gate", ("prose minion", "prose-minion", "vscode", "vs code", "professional-grade prose metrics", "contextual analysis", "manuscript analysis", "chapter analysis", "source analysis", "story bible")),
     ("living_codex_editorial_workbench_gate", ("living codex", "manuscript tree", "continuity engine", "editorial passes", "developmental pass", "line pass", "copy pass", "pacing curve", "emotional tempo", "pov balance", "dialogue ratio", "paragraph-level history", "acts, chapters, scenes", "yaml frontmatter", "promise/payoff")),
+    ("agent_role_profile_workflow_gate", ("novelos", "agent chapter workflow", "planner, screenwriter, author, polisher, editor, memory curator, and publisher", "memory curator", "publisher", "workflow timeline", "run details", "run observability", "node events", "run doctor", "agent-level llm routing", "agent llm", "llm profiles")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -1707,6 +1710,13 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "plain Markdown projects, a manuscript tree of acts/chapters/scenes, living codex entries for characters/places/items/lore/factions with YAML frontmatter, "
         "continuity-engine checks for attributes, timeline math, geography, promise/payoff, and relationship-state evolution, plus editorial passes and diagnostics for pacing curve, emotional tempo, POV balance, sentence-length histogram, and dialogue ratio. "
         "Pattern-only adaptation is a living-codex editorial workbench gate; VS Code/Electron build tooling, npm scripts, launch batch files, provider keys, OS keystore access, and AI/editor runtime are not executed."
+    ),
+    "ayermac/novelos": (
+        "Novelos is a MIT local-first AI workbench for long-form fiction with Electron, React, FastAPI, SQLite, and LangGraph. "
+        "Public README markers describe a planner, screenwriter, author, polisher, editor, memory curator, and publisher agent chapter workflow, "
+        "workflow timeline and run details, project memory, quality diagnosis, node events, artifacts, LLM latency/tokens, Run Doctor recovery, "
+        "reusable LLM profiles, LLM profile routing, and agent-level LLM routing. "
+        "Pattern-only adaptation is an agent-role profile workflow gate; Electron/FastAPI/LangGraph runtimes, npm/pip installs, scripts, provider credentials, safeStorage/API-key access, and model calls are not executed."
     ),
     "geobond13/fiction-forge": (
         "Fiction Forge is a MIT prose pattern scanner and MCP context-server toolkit for AI-assisted novels, detecting AI writing fingerprints, voice drift, severity clusters, story-bible access, and publishing outputs. "
@@ -3007,6 +3017,7 @@ class NovelSourceDiscoveryService:
             "local_flow_story_graph_workspace_gate_hints": self._build_local_flow_story_graph_workspace_gate_hints(available_patterns),
             "editor_context_prose_analysis_gate_hints": self._build_editor_context_prose_analysis_gate_hints(available_patterns),
             "living_codex_editorial_workbench_gate_hints": self._build_living_codex_editorial_workbench_gate_hints(available_patterns),
+            "agent_role_profile_workflow_gate_hints": self._build_agent_role_profile_workflow_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -3975,6 +3986,7 @@ class NovelSourceDiscoveryService:
             "local_flow_story_graph_workspace_gate": 66,
             "editor_context_prose_analysis_gate": 67,
             "living_codex_editorial_workbench_gate": 69,
+            "agent_role_profile_workflow_gate": 68,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4218,6 +4230,9 @@ class NovelSourceDiscoveryService:
         if "living_codex_editorial_workbench_gate" in patterns:
             targets.append("living_codex_scene_link_policy")
             targets.append("editorial_pass_diagnostic_policy")
+        if "agent_role_profile_workflow_gate" in patterns:
+            targets.append("agent_role_profile_policy")
+            targets.append("workflow_timeline_event_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5048,6 +5063,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["editor_context_prose_analysis_report", "chapter_context_scope_findings", "source_analysis_redaction_notes"])
         if "living_codex_editorial_workbench_gate" in patterns:
             targets.extend(["manuscript_tree_scene_map", "codex_scene_reference_report", "editorial_pass_diagnostics", "continuity_engine_findings"])
+        if "agent_role_profile_workflow_gate" in patterns:
+            targets.extend(["agent_role_profile_matrix", "workflow_timeline_run_trace", "agent_llm_route_audit", "memory_curator_publish_boundary_findings"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -5751,6 +5768,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before continuation, review the manuscript-health trend and chapter-ending class so the next chapter repairs pacing, tension, hook, or emotional-arc debt instead of blindly extending prose.")
         if "living_codex_editorial_workbench_gate" in patterns:
             hints.append("Before drafting, choose the manuscript tree node, linked living-codex entries, continuity findings, and editorial pass type that constrain the scene.")
+        if "agent_role_profile_workflow_gate" in patterns:
+            hints.append("Before a chapter run, choose the active agent role profile, its allowed context slice, model profile, output artifact, and canon-write permission.")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             hints.append("Before continuation, classify the next chapter as emotion/action/function, check event cooldowns, name the one visible image, and avoid the most statistically obvious beat unless canon requires it.")
         if "semantic_long_context_search" in patterns:
@@ -6118,6 +6137,8 @@ class NovelSourceDiscoveryService:
             hints.append("Local indexes should store metadata, hashes, labels, and retrieval reasons; manuscript plaintext stays in explicit project artifacts.")
         if "living_codex_editorial_workbench_gate" in patterns:
             hints.append("Persist manuscript tree node id, linked codex entry ids, continuity finding ids, editorial pass type, diagnostic snapshot, and author acceptance status before reuse.")
+        if "agent_role_profile_workflow_gate" in patterns:
+            hints.append("Persist workflow timeline events with role id, node id, run id, artifact ids, route profile, retry/recovery state, token/latency counters, and promotion status.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -6764,6 +6785,15 @@ class NovelSourceDiscoveryService:
             "Bind every manuscript tree scene to living-codex entries for characters, places, items, lore, factions, and active promise/payoff before drafting or revision.",
             "Treat developmental, line, and copy passes as typed diagnostics with evidence: pacing curve, emotional tempo, POV balance, beat alignment, sentence-length histogram, and dialogue ratio.",
             "Invocation-only AI suggestions can annotate or propose alternatives, but accepted canon, codex links, and manuscript text change only through explicit author acceptance.",
+        ]
+
+    def _build_agent_role_profile_workflow_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agent_role_profile_workflow_gate" not in patterns:
+            return []
+        return [
+            "Define planner, screenwriter, author, polisher, editor, memory curator, and publisher as role profiles with allowed inputs, output artifacts, model profile, and canon-write permission.",
+            "Every workflow timeline event should record role, node id, artifact id, retry/recovery status, token/latency/cost budget, and whether it is diagnostic-only or canon-promoting.",
+            "Memory-curator and publisher roles may package accepted state only; they cannot turn draft, source-analysis, or rejected role output into future context without reviewer acceptance.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9782,6 +9812,8 @@ class NovelSourceDiscoveryService:
             targets.append("editor_context_analysis_remap")
         if "living_codex_editorial_workbench_gate" in patterns:
             targets.append("living_codex_scene_remap")
+        if "agent_role_profile_workflow_gate" in patterns:
+            targets.append("agent_role_profile_remap")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_export_remap")
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -9857,6 +9889,8 @@ class NovelSourceDiscoveryService:
             hints.append("For style-RAG imitation, pass only chunk ids, abstract style traits, and retrieval reasons into the prompt; copied source passages stay behind the copy-risk gate.")
         if "living_codex_editorial_workbench_gate" in patterns:
             hints.append("For living-codex workbench prompts, name the scene node, codex backlinks, continuity warnings, and editorial pass scope instead of pasting raw source scene text.")
+        if "agent_role_profile_workflow_gate" in patterns:
+            hints.append("For role-profile workflows, route each prompt through the transformed story's own planner/screenwriter/author/editor/memory-curator brief instead of reusing source run state.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "draft_candidate_promotion_gate" in patterns:
@@ -10616,6 +10650,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform inspiration-bank references into fresh style constraints and local lore tasks; source documents stay outside accepted canon until reviewed.")
         if "living_codex_editorial_workbench_gate" in patterns:
             hints.append("Transform manuscript tree and living-codex links by rebuilding scene ids, codex entries, continuity warnings, and editorial diagnostics around the new premise.")
+        if "agent_role_profile_workflow_gate" in patterns:
+            hints.append("Transform agent role profiles by rewriting each role's brief, context visibility, route profile, and output authority around the new story's accepted artifacts.")
         if "atelier_phase_pipeline_gate" in patterns:
             hints.append("Transform atelier handoffs by assigning new phase artifacts, beat ids, hook owners, and reviewer criteria for the independent project.")
         if "book_mining_genesis_automation_gate" in patterns:
@@ -10769,6 +10805,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject alternative-story drafts that keep the source event path intact, erase the declared divergence, or treat source graph facts as new-story canon without transformation.")
         if "living_codex_editorial_workbench_gate" in patterns:
             hints.append("Reject drafts that mirror a source manuscript tree, codex backlink map, diagnostic curve, POV balance, or dialogue-ratio rhythm under renamed scene labels.")
+        if "agent_role_profile_workflow_gate" in patterns:
+            hints.append("Reject same-type runs that reuse source workflow timelines, role briefs, route profiles, retry traces, or memory-curator artifacts as transformed-story authority.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -11384,6 +11422,7 @@ class NovelSourceDiscoveryService:
                 "local_flow_story_graph_workspace_gate",
                 "editor_context_prose_analysis_gate",
                 "living_codex_editorial_workbench_gate",
+                "agent_role_profile_workflow_gate",
                 "offline_chapter_revision_export_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",

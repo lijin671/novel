@@ -11535,3 +11535,65 @@ def test_inkwell_source_adds_living_codex_editorial_workbench_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "living_codex_editorial_workbench_gate_hints" in digest
+
+
+def test_novelos_source_adds_agent_role_profile_workflow_gates():
+    assert "https://github.com/ayermac/novelos" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("agent-level llm routing" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ayermac/novelos",
+                "html_url": "https://github.com/ayermac/novelos",
+                "description": (
+                    "Novelos is a local-first AI workbench for long-form fiction. "
+                    "It uses a LangGraph agent chapter workflow with planner, screenwriter, "
+                    "author, polisher, editor, memory curator, and publisher roles. "
+                    "The workbench shows workflow timeline and run details with node events, "
+                    "artifacts, LLM latency/tokens, Run Doctor recovery, project memory, "
+                    "LLM profiles, LLM profile routing, agent-level LLM routing, and API keys."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "fiction", "langgraph", "multi-agent"],
+                "updated_at": "2026-06-10T16:24:51Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    "pyproject.toml",
+                    "frontend/package.json",
+                    "desktop/package.json",
+                    "packaging/scripts/build-desktop-mac.sh",
+                ],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T23:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    novelos = candidates["ayermac/novelos"]
+    assert "agent_role_profile_workflow_gate" in novelos["absorbed_patterns"]
+    assert "workflow_agent_pipeline" in novelos["absorbed_patterns"]
+    assert "provider_budget_smoke_gate" in novelos["absorbed_patterns"]
+    assert "provider_key_surface" in novelos["risk_flags"]
+    assert "shell_script" in novelos["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "agent_role_profile_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "workflow_timeline_event_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "agent_role_profile_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "workflow_timeline_run_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "agent_llm_route_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "memory_curator_publish_boundary_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "agent_role_profile_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("role profile" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("workflow timeline events" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("canon-write permission" in hint for hint in pattern_pack["agent_role_profile_workflow_gate_hints"])
+    assert any("route profiles" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "agent_role_profile_workflow_gate_hints" in digest
