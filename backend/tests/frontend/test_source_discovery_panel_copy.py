@@ -113,3 +113,18 @@ def test_source_discovery_panel_has_dynamic_fallback_for_unpinned_hint_groups():
     assert "collectAdditionalHintBlocks" in panel_text
     assert "key.endsWith('_hints')" in panel_text
     assert "!PINNED_HINT_KEYS.has(key)" in panel_text
+
+
+def test_source_discovery_panel_surfaces_workflow_pattern_evidence():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    assert "Workflow pattern evidence" in panel_text
+    assert "collectWorkflowPatternEvidence" in panel_text
+    assert "renderWorkflowPatternEvidence" in panel_text
+    assert "WORKFLOW_PATTERN_EVIDENCE_LIMIT" in panel_text
+    assert "WORKFLOW_PATTERN_SOURCE_LIMIT" in panel_text
+    assert "pattern.top_source_url" in panel_text
+    assert "pattern.sources" in panel_text
+    assert "source.posture" in panel_text

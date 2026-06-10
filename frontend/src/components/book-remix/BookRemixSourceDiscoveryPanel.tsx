@@ -44,6 +44,8 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
+const WORKFLOW_PATTERN_EVIDENCE_LIMIT = 12;
+const WORKFLOW_PATTERN_SOURCE_LIMIT = 3;
 const PINNED_HINT_KEYS = new Set([
   'whole_book_analysis_targets',
   'continuation_state_hints',
@@ -150,6 +152,7 @@ export default function BookRemixSourceDiscoveryPanel() {
   const trustReviewPatterns = (patternPackPayload?.workflow_patterns || [])
     .filter((pattern) => pattern.posture_hint === 'defer-trust-review' || Boolean(pattern.trust_flags?.length));
   const additionalHintBlocks = collectAdditionalHintBlocks(patternPackPayload);
+  const workflowPatternEvidence = collectWorkflowPatternEvidence(patternPackPayload?.workflow_patterns);
 
   return (
     <Card
@@ -234,6 +237,16 @@ export default function BookRemixSourceDiscoveryPanel() {
                 size="small"
                 dataSource={trustReviewPatterns.slice(0, 6)}
                 renderItem={renderTrustReviewPattern}
+              />
+            </Card>
+          ) : null}
+
+          {workflowPatternEvidence.length ? (
+            <Card size="small" title="Workflow pattern evidence">
+              <List
+                size="small"
+                dataSource={workflowPatternEvidence}
+                renderItem={renderWorkflowPatternEvidence}
               />
             </Card>
           ) : null}
@@ -359,6 +372,47 @@ function collectAdditionalHintBlocks(patternPack?: SourceDiscoveryPatternPack | 
 function formatHintTitle(key: string) {
   const base = key.replace(/_hints$/, '').replace(/_/g, ' ');
   return base.replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function collectWorkflowPatternEvidence(patterns?: SourceDiscoveryWorkflowPattern[]) {
+  return [...(patterns || [])]
+    .filter((pattern) => pattern.name && pattern.candidate_count > 0)
+    .sort((left, right) => right.candidate_count - left.candidate_count || left.name.localeCompare(right.name))
+    .slice(0, WORKFLOW_PATTERN_EVIDENCE_LIMIT);
+}
+
+function renderWorkflowPatternEvidence(pattern: SourceDiscoveryWorkflowPattern) {
+  const sources = pattern.sources || [];
+  const flags = [...(pattern.trust_flags || []), ...(pattern.risk_flags || [])];
+
+  return (
+    <List.Item>
+      <Space direction="vertical" size={4} style={{ width: '100%' }}>
+        <Space wrap>
+          <Text strong>{pattern.name}</Text>
+          <Tag color="blue">{'candidates'} {pattern.candidate_count}</Tag>
+          {pattern.posture_hint ? <Tag color="purple">{pattern.posture_hint}</Tag> : null}
+          {flags.slice(0, 4).map((flag) => (
+            <Tag key={`pattern-evidence-${pattern.name}-${flag}`} color="volcano">{flag}</Tag>
+          ))}
+        </Space>
+        {pattern.top_source_url ? (
+          <Text type="secondary" copyable={{ text: pattern.top_source_url }}>
+            {pattern.top_source_url}
+          </Text>
+        ) : null}
+        {sources.length ? (
+          <Space direction="vertical" size={2}>
+            {sources.slice(0, WORKFLOW_PATTERN_SOURCE_LIMIT).map((source) => (
+              <Text key={`${pattern.name}-${source.url}`} type="secondary">
+                {source.title} · {source.posture} · score {source.score}
+              </Text>
+            ))}
+          </Space>
+        ) : null}
+      </Space>
+    </List.Item>
+  );
 }
 
 function renderTrustReviewPattern(pattern: SourceDiscoveryWorkflowPattern) {
