@@ -112,13 +112,17 @@ DEFAULT_GITHUB_QUERIES = (
     '("PDF text extraction" OR "layout analysis" OR "text blocks" OR "page coordinates") ("book" OR "novel" OR "manuscript") in:name,description,readme',
     '("OCR" OR "scanned PDF" OR "hOCR" OR "Tesseract") ("book" OR "novel" OR "manuscript") in:name,description,readme',
     '("document partition" OR "partition_pdf" OR "partition_epub" OR "document elements") ("book" OR "chapter" OR "manuscript") in:name,description,readme',
+    '("MarkItDown" OR "Docling" OR "MinerU" OR "marker") ("PDF" OR "DOCX" OR "Markdown" OR "LLM-ready") in:name,description,readme',
+    '("pdf to markdown" OR "pdf-to-json" OR "document parser" OR "document conversion") ("book" OR "manuscript" OR "chapter import") in:name,description,readme',
     '("Pandoc" OR "format conversion" OR "metadata" OR "checksum") ("manuscript" OR "book" OR "chapter import") in:name,description,readme',
+    '("Chinese Literature NER" OR "discourse-level NER" OR "relation extraction") ("literature" OR "novel" OR "fiction") in:name,description,readme',
     '("LitBank" OR "literary event detection" OR "literary entities") ("fiction" OR "literature" OR "novel") in:name,description,readme',
     '("narrative event evolutionary graph" OR "narrative event chain" OR "script event prediction") ("story" OR "event graph") in:name,description,readme',
     '("sentiment arcs" OR "sentiment-based plot arcs" OR "emotion in text over time") ("fiction" OR "novel" OR "text") in:name,description,readme',
     '("cross-context coreference" OR "cross-document coreference" OR "XCoref") ("entity" OR "event" OR "literature") in:name,description,readme',
     '("character network" OR "fictional character network" OR "character interactions") ("novel" OR "literary" OR "fiction") in:name,description,readme',
     '("stylometry" OR "computational stylistics" OR "Burrows Delta") ("authorship attribution" OR "author style" OR "fiction") in:name,description,readme',
+    '("text reuse" OR "Burrow\'s delta" OR "pydelta") ("source similarity" OR "author style" OR "manuscript") in:name,description,readme',
     '("function words" OR "syntactic features" OR "lexical richness") ("authorship attribution" OR "writing style" OR "stylometry") in:name,description,readme',
     '("style change detection" OR "style breach detection" OR "intrinsic plagiarism") ("stylometry" OR "PAN") in:name,description,readme',
     '("stylometric transfer" OR "author-style transfer" OR "style fingerprint") ("LLM" OR "writing" OR "text") in:name,description,readme',
@@ -321,6 +325,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/klembot/twinejs",
     "https://github.com/dfabulich/choicescript",
     "https://github.com/blingenf/copydetect",
+    "https://github.com/ropensci/textreuse",
     "https://github.com/rapidfuzz/RapidFuzz",
     "https://github.com/google/diff-match-patch",
     "https://github.com/agranya99/MOSS-winnowing-seqMatcher",
@@ -353,6 +358,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ocrmypdf/OCRmyPDF",
     "https://github.com/tesseract-ocr/tesseract",
     "https://github.com/Unstructured-IO/unstructured",
+    "https://github.com/microsoft/markitdown",
+    "https://github.com/docling-project/docling",
+    "https://github.com/opendatalab/MinerU",
+    "https://github.com/datalab-to/marker",
     "https://github.com/jgm/pandoc",
     "https://github.com/google-deepmind/narrativeqa",
     "https://github.com/salesforce/booksum",
@@ -360,6 +369,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/StonyBrookNLP/tellmewhy",
     "https://github.com/uwnlp/storycommonsense",
     "https://github.com/nyu-mll/SQuALITY",
+    "https://github.com/lancopku/Chinese-Literature-NER-RE-Dataset",
     "https://github.com/dbamman/litbank",
     "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018",
     "https://github.com/acolas1/EventNarrative",
@@ -372,6 +382,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/devbret/character-interactions",
     "https://github.com/computationalstylistics/stylo",
     "https://github.com/fastdatascience/faststylometry",
+    "https://github.com/cophi-wue/pydelta",
     "https://github.com/Hassaan-Elahi/Writing-Styles-Classification-Using-Stylometric-Analysis",
     "https://github.com/michaeleby1/stylometric-analysis-project-gutenberg",
     "https://github.com/pan-webis-de/pan-code",
@@ -690,7 +701,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("node_dialogue_state_machine", ("dialogue system", "interactive conversations", "dialogue tool", "lines", "options", "commands", "dialogue scripts", "nodes", "node-based", "entry state", "exit deltas")),
     ("passage_link_navigation_map", ("passages", "links", "passage links", "story formats", "nonlinear stories", "reachable path", "dead-end", "navigation map", "twine")),
     ("choice_stats_consequence_gate", ("stats", "variables", "choice stats", "stat mutation", "achievements", "commands", "visible consequence", "delayed consequence", "choice consequences")),
-    ("source_text_fingerprint_gate", ("winnowing", "document fingerprinting", "fingerprinting", "plagiarism detection", "copied slices", "moss", "source fingerprint", "text fingerprint", "fingerprint overlap")),
+    ("source_text_fingerprint_gate", ("winnowing", "document fingerprinting", "fingerprinting", "plagiarism detection", "copied slices", "moss", "source fingerprint", "text fingerprint", "fingerprint overlap", "textreuse", "text reuse", "document similarity", "text alignment")),
     ("fuzzy_phrase_similarity_gate", ("fuzzy string matching", "levenshtein", "string metrics", "sequence matcher", "sequencematcher", "fuzzy phrase", "phrase similarity")),
     ("diff_span_copy_review", ("diff match patch", "diff, match and patch", "semantic cleanup", "copied spans", "diff spans", "patch library", "diff_span")),
     ("minhash_lsh_near_duplicate_gate", ("minhash", "lsh", "locality sensitive hashing", "jaccard similarity", "near duplicate", "near-duplicate", "text dedup", "deduplication", "text-dedup", "datasketch")),
@@ -704,20 +715,20 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("grammar_spelling_copyedit_gate", ("grammar checker", "spelling and grammar", "spell checker", "spellcheck", "spelling", "languagetool", "harper", "proofreading", "copyedit", "copyediting", "grammar engine", "offline grammar", "\u8bed\u6cd5\u68c0\u67e5", "\u62fc\u5199\u68c0\u67e5", "\u6821\u5bf9")),
     ("copyedit_diagnostic_triage_queue", ("lint diagnostics", "style diagnostics", "copyedit suggestions", "diagnostics", "suggestions", "rule violations", "ignore rules", "suppression", "accepted ignored", "triage", "diagnostic queue", "revision queue", "\u6821\u5bf9\u961f\u5217", "\u8bca\u65ad\u961f\u5217", "\u91c7\u7eb3\u5ffd\u7565")),
     ("lexical_diversity_voice_audit", ("lexical richness", "lexical diversity", "mtld", "hd-d", "hdd", "type-token", "type token ratio", "vocabulary diversity")),
-    ("stylometric_author_fingerprint_gate", ("stylometry", "computational stylistics", "stylometric analyses", "stylometric analysis", "style fingerprint", "stylometric profile", "author fingerprint", "author-style transfer", "stylometric transfer", "authorship attribution", "burrows delta", "distance metrics", "style model")),
+    ("stylometric_author_fingerprint_gate", ("stylometry", "computational stylistics", "stylometric analyses", "stylometric analysis", "style fingerprint", "stylometric profile", "author fingerprint", "author-style transfer", "stylometric transfer", "authorship attribution", "burrows delta", "burrow's delta", "pydelta", "distance metrics", "style model")),
     ("function_word_syntax_style_gate", ("function words", "most frequent words", "mfw", "sentence length", "word length", "punctuation frequency", "pos tags", "syntactic features", "readability scores", "vocabulary richness", "style metrics", "stylometric features", "character n-grams")),
     ("authorship_attribution_similarity_gate", ("authorship attribution", "author identification", "author verification", "author profiling", "style similarity", "cosine similarity between titles", "pan corpora", "pan shared tasks", "burrows delta", "cross-entropy", "llm stylometry")),
     ("style_overfit_regression_gate", ("style change detection", "style breach detection", "intrinsic plagiarism", "style change", "style breach", "detecting exact indices", "neighboring paragraphs", "cluster change", "style differences", "overfit", "overfitting", "style leakage")),
     ("paraphrase_independence_review_gate", ("anti-stylometry", "style anonymization", "stylometric transfer", "author-style transfer", "humanization", "similarity methods", "style constraints", "style transfer", "paraphrase", "paraphrase independence", "copy-risk", "author voice mimicry")),
     ("keyphrase_motif_extraction", ("keyphrase extraction", "keyword extraction", "keyphrase candidates", "candidate weighting", "motif extraction", "motif drift", "topic salience")),
     ("chinese_segmentation_keyword_gate", ("chinese word segmentation", "jieba", "hanlp", "ltp", "tokenization", "tokenizer", "segmentation", "word segment", "keyword extraction", "tf-idf", "textrank", "custom dictionary", "user dictionary", "\u4e2d\u6587\u5206\u8bcd", "\u5173\u952e\u8bcd\u63d0\u53d6", "\u81ea\u5b9a\u4e49\u8bcd\u5178")),
-    ("chinese_ner_alias_consistency_gate", ("chinese ner", "named entity recognition", "ner", "hanlp", "ltp", "entity recognition", "person name", "location name", "organization name", "alias", "coreference", "entity linking", "\u5b9e\u4f53\u8bc6\u522b", "\u4eba\u540d", "\u5730\u540d", "\u7ec4\u7ec7\u540d", "\u522b\u540d")),
+    ("chinese_ner_alias_consistency_gate", ("chinese ner", "named entity recognition", "ner", "hanlp", "ltp", "chinese-literature-ner-re-dataset", "discourse-level named entity", "literature text", "relation extraction", "entity recognition", "person name", "location name", "organization name", "alias", "coreference", "entity linking", "\u5b9e\u4f53\u8bc6\u522b", "\u4eba\u540d", "\u5730\u540d", "\u7ec4\u7ec7\u540d", "\u522b\u540d")),
     ("chinese_text_normalization_gate", ("opencc", "simplified chinese", "traditional chinese", "chinese conversion", "text normalization", "normalization", "punctuation normalization", "fullwidth", "halfwidth", "variant characters", "\u7b80\u7e41\u8f6c\u6362", "\u6587\u672c\u89c4\u8303\u5316", "\u5168\u89d2", "\u534a\u89d2")),
     ("chinese_error_correction_review_gate", ("chinese spelling correction", "chinese text correction", "pycorrector", "confusion set", "error correction", "spelling correction", "grammar correction", "proofreading", "bert correction", "\u4e2d\u6587\u7ea0\u9519", "\u9519\u522b\u5b57", "\u6df7\u6dc6\u96c6")),
-    ("source_format_import_manifest", ("epub", "ebook", "ebooklib", "pandoc", "format conversion", "mobi", "azw3", "docx", "opf", "spine", "table of contents", "toc", "metadata", "chapter import", "source import", "\u7535\u5b50\u4e66", "\u76ee\u5f55", "\u7ae0\u8282\u5bfc\u5165")),
-    ("pdf_layout_text_extraction_gate", ("pdfminer", "pymupdf", "pdf text extraction", "layout analysis", "text blocks", "page coordinates", "reading order", "page spans", "pdf pages", "\u7248\u9762", "\u9875\u7801", "\u6587\u672c\u5757")),
-    ("ocr_scanned_page_import_gate", ("ocr", "ocrmypdf", "tesseract", "scanned pdf", "scanned page", "hocr", "ocr confidence", "deskew", "page image", "image text", "\u626b\u63cf", "\u56fe\u50cf\u8bc6\u522b", "\u8bc6\u522b\u7f6e\u4fe1\u5ea6")),
-    ("document_partition_chapter_detection_gate", ("unstructured", "document partition", "partition_pdf", "partition_epub", "document elements", "title element", "heading detection", "section detection", "chapter detection", "layout element", "\u7ae0\u8282\u68c0\u6d4b", "\u6807\u9898\u8bc6\u522b")),
+    ("source_format_import_manifest", ("epub", "ebook", "ebooklib", "pandoc", "markitdown", "docling", "mineru", "marker", "format conversion", "document conversion", "office documents", "llm-ready markdown", "llm-ready markdown/json", "pdf to markdown", "pdf-to-markdown", "mobi", "azw3", "docx", "opf", "spine", "table of contents", "toc", "metadata", "chapter import", "source import", "\u7535\u5b50\u4e66", "\u76ee\u5f55", "\u7ae0\u8282\u5bfc\u5165")),
+    ("pdf_layout_text_extraction_gate", ("pdfminer", "pymupdf", "docling", "mineru", "marker", "pdf text extraction", "layout analysis", "document analysis", "layout model", "pdf parser", "pdf converter", "pdf extractor", "pdf-to-json", "pdf-to-text", "text blocks", "page coordinates", "reading order", "page spans", "pdf pages", "\u7248\u9762", "\u9875\u7801", "\u6587\u672c\u5757")),
+    ("ocr_scanned_page_import_gate", ("ocr", "ocrmypdf", "tesseract", "mineru", "marker", "scanned pdf", "scanned page", "hocr", "ocr confidence", "deskew", "page image", "image text", "\u626b\u63cf", "\u56fe\u50cf\u8bc6\u522b", "\u8bc6\u522b\u7f6e\u4fe1\u5ea6")),
+    ("document_partition_chapter_detection_gate", ("unstructured", "docling", "mineru", "marker", "document parser", "document parsing", "document partition", "partition_pdf", "partition_epub", "document elements", "title element", "heading detection", "section detection", "chapter detection", "layout element", "\u7ae0\u8282\u68c0\u6d4b", "\u6807\u9898\u8bc6\u522b")),
     ("import_provenance_checksum_gate", ("checksum", "hash", "source file", "file provenance", "import manifest", "page range", "extraction settings", "parser version", "input artifact", "conversion log", "\u6821\u9a8c\u548c", "\u6765\u6e90\u8ffd\u6eaf", "\u5bfc\u5165\u6e05\u5355")),
     ("epub_structure_validation_gate", ("epubcheck", "epub conformance", "epub validation", "opf manifest", "package document", "container.xml", "spine validation", "media-type validation", "validation report", "epub tests", "\u7535\u5b50\u4e66\u6821\u9a8c", "\u51fa\u7248\u6821\u9a8c")),
     ("ebook_accessibility_audit_gate", ("ace by daisy", "epub accessibility", "accessibility checker", "accessibility metadata", "wcag", "screen reader", "reading system accessibility", "alt text", "landmarks", "hazards", "\u53ef\u8bbf\u95ee\u6027", "\u9605\u8bfb\u7cfb\u7edf")),
@@ -1188,6 +1199,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Copydetect is an MIT code plagiarism detection tool based on winnowing document fingerprinting and copied-slice reports. "
         "Absorb fingerprint overlap and source-copy review patterns only; no package install or detector runtime is executed."
     ),
+    "ropensci/textreuse": (
+        "textreuse detects text reuse and document similarity, with public README markers for pairwise comparisons, MinHashing, locality-sensitive hashing, and text alignment. "
+        "Absorb reuse-alignment and near-duplicate gates only; R package runtime and example corpora are not executed."
+    ),
     "rapidfuzz/rapidfuzz": (
         "RapidFuzz is an MIT fuzzy string matching library using Levenshtein distance and string metrics. "
         "Absorb fuzzy phrase similarity threshold patterns only; native/package runtime is not imported."
@@ -1483,9 +1498,31 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Unstructured partitions PDFs, EPUBs, HTML, DOCX, and other documents into typed elements. "
         "Absorb document-element partition and chapter-heading detection patterns only; package runtime is not imported."
     ),
+    "microsoft/markitdown": (
+        "MarkItDown is a MIT Microsoft Python tool for converting files and Office documents to Markdown. "
+        "Static README/root markers mention command-line use, optional dependencies, Dockerfile, PDF, EPUB, DOCX, OCR, and JSON-related surfaces. "
+        "Absorb LLM-ready Markdown import-manifest and format-conversion gates only; package, optional converters, Docker, and provider integrations are not run."
+    ),
+    "docling-project/docling": (
+        "Docling is a MIT document parser/converter for GenAI-ready documents. "
+        "Static metadata/root markers show PDF/DOCX/HTML/PPTX/XLSX, markdown/json, OCR/layout/table extraction, Dockerfile, and agent prompt files. "
+        "Absorb document partition, layout, and chapter-heading validation gates only; AGENTS/CLAUDE files, scripts, Docker, and runtime models are not imported."
+    ),
+    "opendatalab/mineru": (
+        "MinerU transforms complex PDFs and Office docs into LLM-ready Markdown/JSON with layout-analysis, OCR, PDF parser/extractor, and document-analysis surfaces. "
+        "Absorb PDF layout/OCR/import-manifest gates only; NOASSERTION license status, demos, Docker, model/runtime assets, and online services stay runtime-deferred."
+    ),
+    "datalab-to/marker": (
+        "Marker converts PDF to Markdown and JSON and exposes chunk conversion, extraction app/server files, OCR, layout, and PDF/DOCX/EPUB marker surfaces. "
+        "Absorb high-accuracy PDF-to-Markdown review and chunk boundary patterns only; GPL runtime, apps, servers, model dependencies, and commercial-service paths are not imported."
+    ),
     "jgm/pandoc": (
         "Pandoc converts between document formats and preserves metadata boundaries across manuscript formats. "
         "Absorb format conversion provenance patterns only; GPL runtime is not installed."
+    ),
+    "lancopku/chinese-literature-ner-re-dataset": (
+        "Chinese-Literature-NER-RE-Dataset is a discourse-level Chinese literary NER and relation-extraction dataset with entity, relation, and annotation-format docs. "
+        "Absorb Chinese literary alias/entity/relation review vocabulary only; dataset files are not imported and no model training/runtime is run."
     ),
     "dbamman/litbank": (
         "LitBank is an annotated dataset of 100 works of fiction covering literary entities, literary events, and coreference in English literature. "
@@ -1534,6 +1571,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "fastdatascience/faststylometry": (
         "FastStylometry is a Python NLP library for fast stylometric authorship and style-similarity analysis. "
         "Absorb Burrows-Delta/style-distance review gates only; package runtime is not installed."
+    ),
+    "cophi-wue/pydelta": (
+        "pydelta is an experimental Python implementation of Burrow's Delta for computational stylistics. "
+        "Absorb author-style distance and source-voice overfit review vocabulary only; notebooks/package runtime are not executed."
     ),
     "hassaan-elahi/writing-styles-classification-using-stylometric-analysis": (
         "This stylometric analysis project classifies style shifts inside one document using sentence length, readability, vocabulary richness, and frequencies. "
@@ -9155,6 +9196,10 @@ class NovelSourceDiscoveryService:
             "hamming distance",
             "semantic deduplication",
             "semantic duplicates",
+            "textreuse",
+            "text reuse",
+            "document similarity",
+            "text alignment",
             "sentence-transformers",
             "embedding similarity",
             "similarity search",
@@ -9195,6 +9240,8 @@ class NovelSourceDiscoveryService:
             "author verification",
             "author profiling",
             "burrows delta",
+            "burrow's delta",
+            "pydelta",
             "function words",
             "style change detection",
             "style breach detection",
@@ -9240,6 +9287,9 @@ class NovelSourceDiscoveryService:
             "opencc",
             "pycorrector",
             "chinese ner",
+            "chinese-literature-ner-re-dataset",
+            "discourse-level named entity",
+            "relation extraction",
             "chinese text correction",
             "chinese spelling correction",
             "simplified chinese",
@@ -9263,6 +9313,21 @@ class NovelSourceDiscoveryService:
             "ocrmypdf",
             "tesseract",
             "unstructured",
+            "markitdown",
+            "docling",
+            "mineru",
+            "marker",
+            "document parser",
+            "document parsing",
+            "document conversion",
+            "office documents",
+            "llm-ready markdown",
+            "pdf to markdown",
+            "pdf-to-markdown",
+            "pdf-to-json",
+            "pdf-to-text",
+            "pdf converter",
+            "pdf parser",
             "pandoc",
             "table of contents",
             "spine",

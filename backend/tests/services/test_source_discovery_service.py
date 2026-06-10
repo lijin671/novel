@@ -8967,3 +8967,124 @@ def test_static_book_mining_autopilot_longrun_sources_map_to_workflow_gates():
     assert "book_mining_genesis_automation_gate_hints" in digest
     assert "multi_book_autopilot_studio_gate_hints" in digest
     assert "longrun_commit_projection_health_gate_hints" in digest
+
+
+def test_static_document_conversion_literary_similarity_sources_map_to_import_gates():
+    assert "https://github.com/microsoft/markitdown" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/docling-project/docling" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/opendatalab/MinerU" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/datalab-to/marker" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lancopku/Chinese-Literature-NER-RE-Dataset" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ropensci/textreuse" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/cophi-wue/pydelta" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("markitdown" in query.lower() and "llm-ready" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("pdf to markdown" in query.lower() and "document parser" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("discourse-level ner" in query.lower() and "relation extraction" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("text reuse" in query.lower() and "pydelta" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "microsoft/markitdown",
+                "html_url": "https://github.com/microsoft/markitdown",
+                "description": "Python tool for converting files and office documents to Markdown with PDF, EPUB, DOCX, OCR and JSON optional surfaces for chapter import.",
+                "stargazers_count": 149957,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["markdown", "microsoft-office", "pdf", "autogen"],
+                "updated_at": "2026-06-10T14:20:51Z",
+                "root_files": ["README.md", "LICENSE", "Dockerfile", "packages"],
+            },
+            {
+                "full_name": "docling-project/docling",
+                "html_url": "https://github.com/docling-project/docling",
+                "description": "Document parser for GenAI-ready conversion: PDF, DOCX, HTML, markdown, JSON, OCR, layout analysis, pdf-to-json, pdf-to-text and document parsing.",
+                "stargazers_count": 61313,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["document-parser", "pdf-to-json", "pdf-to-text", "markdown"],
+                "updated_at": "2026-06-10T14:14:33Z",
+                "root_files": ["README.md", "LICENSE", "Dockerfile", "AGENTS.md", "docling"],
+            },
+            {
+                "full_name": "opendatalab/MinerU",
+                "html_url": "https://github.com/opendatalab/MinerU",
+                "description": "Transforms complex PDFs and Office docs into LLM-ready markdown and JSON with layout analysis, OCR, pdf parser and pdf extractor surfaces.",
+                "stargazers_count": 67126,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["pdf", "ocr", "layout-analysis", "pdf-parser"],
+                "updated_at": "2026-06-10T14:15:34Z",
+                "root_files": ["README.md", "README_zh-CN.md", "LICENSE.md", "docker", "mineru"],
+            },
+            {
+                "full_name": "datalab-to/marker",
+                "html_url": "https://github.com/datalab-to/marker",
+                "description": "Convert PDF to markdown and JSON with high accuracy, OCR, layout, chunk conversion, PDF-to-Markdown, DOCX and EPUB import surfaces.",
+                "stargazers_count": 35954,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["pdf", "markdown", "ocr"],
+                "updated_at": "2026-06-10T14:01:51Z",
+                "root_files": ["README.md", "LICENSE", "chunk_convert.py", "marker_app.py", "marker_server.py"],
+            },
+            {
+                "full_name": "lancopku/Chinese-Literature-NER-RE-Dataset",
+                "html_url": "https://github.com/lancopku/Chinese-Literature-NER-RE-Dataset",
+                "description": "A discourse-level named entity recognition and relation extraction dataset for Chinese literature text with entity and relation annotation format.",
+                "stargazers_count": 424,
+                "license": None,
+                "topics": ["chinese-literature", "ner", "relation-extraction"],
+                "updated_at": "2026-05-26T11:52:04Z",
+                "root_files": ["README.md", "ner", "relation_extraction"],
+            },
+            {
+                "full_name": "ropensci/textreuse",
+                "html_url": "https://github.com/ropensci/textreuse",
+                "description": "Detect text reuse and document similarity using pairwise comparisons, MinHash, locality sensitive hashing and text alignment.",
+                "stargazers_count": 200,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["textreuse", "text-reuse", "similarity"],
+                "updated_at": "2026-05-07T15:22:57Z",
+                "root_files": ["README.md", "DESCRIPTION", "LICENSE", "R"],
+            },
+            {
+                "full_name": "cophi-wue/pydelta",
+                "html_url": "https://github.com/cophi-wue/pydelta",
+                "description": "Experimental implementation of Burrow's Delta in Python 3 for computational stylistics and author style distance metrics.",
+                "stargazers_count": 22,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["stylometry", "burrows-delta"],
+                "updated_at": "2026-04-22T08:49:29Z",
+                "root_files": ["README.rst", "licence.txt", "Delta-Intro.ipynb", "delta"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T22:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "source_format_import_manifest" in candidates["microsoft/markitdown"]["absorbed_patterns"]
+    assert "document_partition_chapter_detection_gate" in candidates["docling-project/docling"]["absorbed_patterns"]
+    assert "pdf_layout_text_extraction_gate" in candidates["opendatalab/MinerU"]["absorbed_patterns"]
+    assert "ocr_scanned_page_import_gate" in candidates["datalab-to/marker"]["absorbed_patterns"]
+    assert "chinese_ner_alias_consistency_gate" in candidates["lancopku/Chinese-Literature-NER-RE-Dataset"]["absorbed_patterns"]
+    assert "source_text_fingerprint_gate" in candidates["ropensci/textreuse"]["absorbed_patterns"]
+    assert "minhash_lsh_near_duplicate_gate" in candidates["ropensci/textreuse"]["absorbed_patterns"]
+    assert "stylometric_author_fingerprint_gate" in candidates["cophi-wue/pydelta"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "source_format_import_manifest_hints" in pattern_pack
+    assert "pdf_layout_text_extraction_gate_hints" in pattern_pack
+    assert "ocr_scanned_page_import_gate_hints" in pattern_pack
+    assert "document_partition_chapter_detection_gate_hints" in pattern_pack
+    assert "chinese_ner_alias_consistency_gate_hints" in pattern_pack
+    assert "source_text_fingerprint_gate_hints" in pattern_pack
+    assert "stylometric_author_fingerprint_gate_hints" in pattern_pack
+    assert "source_import_manifest_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "source_import_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "chinese_entity_alias_ledger" in pattern_pack["bible_enrichment_targets"]
+    assert "stylometric_author_fingerprint_report" in pattern_pack["whole_book_analysis_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "source_format_import_manifest_hints" in digest
+    assert "chinese_ner_alias_consistency_gate_hints" in digest
+    assert "stylometric_author_fingerprint_gate_hints" in digest
