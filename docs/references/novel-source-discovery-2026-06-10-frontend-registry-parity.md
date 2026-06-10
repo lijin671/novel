@@ -38,3 +38,11 @@ The change only exposes already-recorded public GitHub metadata seeds and patter
 The latest-artifact endpoint now returns `default_github_repository_urls` from the backend registry. The frontend hydrates its seed textarea from that backend value while preserving manual user edits after the user changes the textarea.
 
 This keeps the backend registry as the authoritative runtime default for future GitHub intake refreshes. The frontend static list remains only as a local fallback before the latest-artifact response arrives.
+
+## Query/RSS hydration addendum - 2026-06-10
+
+The latest-artifact endpoint also returns `default_github_queries` and `default_linux_do_rss_urls`. The frontend now exposes both as editable source-discovery inputs.
+
+GitHub Search queries are newline-delimited because valid GitHub qualifiers such as `in:name,description,readme` contain commas. RSS URLs keep the URL parser path and can be split by newline or comma.
+
+Runtime boundary remains unchanged: these fields are discovery metadata controls only. They do not authorize cloning, package installation, script execution, provider calls, browser control, login bypass, or reading private feeds.

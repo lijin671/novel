@@ -489,6 +489,13 @@ function parseSeedUrls(value: string): string[] {
     .filter(Boolean);
 }
 
+function parseLineItems(value: string): string[] {
+  return value
+    .split(/\n+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 export default function BookRemixSourceDiscoveryPanel() {
   const [value, setValue] = useState<SourceDiscoveryLatestArtifactResponse | null>(null);
   const [loading, setLoading] = useState(false);
@@ -496,14 +503,24 @@ export default function BookRemixSourceDiscoveryPanel() {
   const [refreshing, setRefreshing] = useState(false);
   const [repositorySeeds, setRepositorySeeds] = useState(DEFAULT_GITHUB_REPOSITORY_SEEDS.join('\n'));
   const [repositorySeedsEdited, setRepositorySeedsEdited] = useState(false);
+  const [githubQueries, setGithubQueries] = useState('');
+  const [githubQueriesEdited, setGithubQueriesEdited] = useState(false);
+  const [linuxDoRssUrls, setLinuxDoRssUrls] = useState('');
+  const [linuxDoRssUrlsEdited, setLinuxDoRssUrlsEdited] = useState(false);
 
   const loadLatest = async () => {
     setLoading(true);
     try {
       const result = await sourceDiscoveryApi.getLatest();
       setValue(result);
+      if (!githubQueriesEdited && result.default_github_queries?.length) {
+        setGithubQueries(result.default_github_queries.join('\n'));
+      }
       if (!repositorySeedsEdited && result.default_github_repository_urls?.length) {
         setRepositorySeeds(result.default_github_repository_urls.join('\n'));
+      }
+      if (!linuxDoRssUrlsEdited && result.default_linux_do_rss_urls?.length) {
+        setLinuxDoRssUrls(result.default_linux_do_rss_urls.join('\n'));
       }
     } finally {
       setLoading(false);
@@ -515,7 +532,9 @@ export default function BookRemixSourceDiscoveryPanel() {
     try {
       await sourceDiscoveryApi.runLedger({
         write_to_docs: true,
+        github_queries: githubQueriesEdited || githubQueries.trim() ? parseLineItems(githubQueries) : undefined,
         github_repository_urls: parseSeedUrls(repositorySeeds),
+        linux_do_rss_urls: linuxDoRssUrlsEdited || linuxDoRssUrls.trim() ? parseSeedUrls(linuxDoRssUrls) : undefined,
       });
       await loadLatest();
       message.success('\u6765\u6e90\u53d1\u73b0\u5df2\u5237\u65b0\uff0c\u65b0\u7684\u6a21\u5f0f\u5305\u4f1a\u88ab\u540e\u7eed Bible / \u7eed\u5199\u8ba1\u5212\u8bfb\u53d6');
@@ -528,7 +547,9 @@ export default function BookRemixSourceDiscoveryPanel() {
     setRefreshing(true);
     try {
       const result = await sourceDiscoveryApi.refresh({
+        github_queries: githubQueriesEdited || githubQueries.trim() ? parseLineItems(githubQueries) : undefined,
         github_repository_urls: parseSeedUrls(repositorySeeds),
+        linux_do_rss_urls: linuxDoRssUrlsEdited || linuxDoRssUrls.trim() ? parseSeedUrls(linuxDoRssUrls) : undefined,
       });
       await loadLatest();
       if (result.refreshed) {
@@ -614,6 +635,46 @@ export default function BookRemixSourceDiscoveryPanel() {
               />
               <Text type="secondary">
                 {`后端默认 seed：${value?.default_github_repository_urls?.length ?? DEFAULT_GITHUB_REPOSITORY_SEEDS.length} 个；手动编辑后本次页面会保留你的输入。`}
+              </Text>
+            </Space>
+          </Card>
+
+          <Card size="small" title="GitHub Search 查询">
+            <Space direction="vertical" size={8} style={{ width: '100%' }}>
+              <Text type="secondary">
+                {'每行一个 GitHub Search 查询。查询内含 in:name,description,readme 这类逗号语法，所以这里只按换行拆分。'}
+              </Text>
+              <TextArea
+                rows={4}
+                value={githubQueries}
+                onChange={(event) => {
+                  setGithubQueriesEdited(true);
+                  setGithubQueries(event.target.value);
+                }}
+                placeholder={'("ai novel" OR "novel writing") in:name,description,readme'}
+              />
+              <Text type="secondary">
+                {`后端默认查询：${value?.default_github_queries?.length ?? 0} 个；清空后刷新会跳过 GitHub Search，只保留显式仓库。`}
+              </Text>
+            </Space>
+          </Card>
+
+          <Card size="small" title="Community RSS 来源">
+            <Space direction="vertical" size={8} style={{ width: '100%' }}>
+              <Text type="secondary">
+                {'每行或逗号分隔一个公开 RSS URL。只读公开摘要，不绕过登录、403、429、WAF 或 CAPTCHA。'}
+              </Text>
+              <TextArea
+                rows={2}
+                value={linuxDoRssUrls}
+                onChange={(event) => {
+                  setLinuxDoRssUrlsEdited(true);
+                  setLinuxDoRssUrls(event.target.value);
+                }}
+                placeholder="https://linux.do/latest.rss"
+              />
+              <Text type="secondary">
+                {`后端默认 RSS：${value?.default_linux_do_rss_urls?.length ?? 0} 个；手动编辑后本次页面会保留你的输入。`}
               </Text>
             </Space>
           </Card>

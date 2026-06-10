@@ -207,10 +207,19 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         assert field in panel_text
 
     assert "Core remix kernel gates" in panel_text
+    assert "default_github_queries" in types_text
+    assert "default_github_queries" in panel_text
     assert "default_github_repository_urls" in types_text
     assert "default_github_repository_urls" in panel_text
+    assert "default_linux_do_rss_urls" in types_text
+    assert "default_linux_do_rss_urls" in panel_text
     assert "repositorySeedsEdited" in panel_text
+    assert "githubQueriesEdited" in panel_text
+    assert "linuxDoRssUrlsEdited" in panel_text
     assert "后端默认 seed" in panel_text
+    assert "GitHub Search 查询" in panel_text
+    assert "Community RSS 来源" in panel_text
+    assert "只按换行拆分" in panel_text
     assert "Continuation prompt hints" in panel_text
     assert "Style signature hints" in panel_text
     assert "Structured generation hints" in panel_text

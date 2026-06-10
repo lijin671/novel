@@ -315,5 +315,7 @@ export interface SourceDiscoveryLatestArtifactResponse {
   pattern_pack: SourceDiscoveryPatternPackArtifact;
   ledger: SourceDiscoveryLedgerArtifact;
   refresh_policy: SourceDiscoveryRefreshPolicy;
+  default_github_queries?: string[];
   default_github_repository_urls?: string[];
+  default_linux_do_rss_urls?: string[];
 }

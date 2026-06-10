@@ -132,5 +132,7 @@ async def get_latest_source_discovery_artifacts(request: Request):
         "refresh_policy": source_discovery_service.evaluate_refresh_need(
             repo_root=PROJECT_ROOT,
         ),
+        "default_github_queries": list(DEFAULT_GITHUB_QUERIES),
         "default_github_repository_urls": list(DEFAULT_GITHUB_REPOSITORY_URLS),
+        "default_linux_do_rss_urls": list(DEFAULT_LINUX_DO_RSS_URLS),
     }
