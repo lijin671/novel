@@ -59,6 +59,44 @@ No external repository was cloned, installed, executed, or imported. Review used
   - Source-of-truth files and read-model projections must be separated with freshness checks.
   - Dashboard/read-model surfaces are observational, not canon write surfaces.
 
+## 2026-06-10 reader reward / tri-modal audit addendum
+
+Static pass added two public GitHub sources for the next拆书续写 / 同类型仿写 quality loop.
+
+### `haowjy/creative-writing-skills`
+
+- URL: https://github.com/haowjy/creative-writing-skills
+- Observed HEAD: `81fa0be02eeb985404bb3ffc361e62dcba0385e6`
+- License: Apache-2.0
+- Family: creative-writing skill pack / reader-response review / project knowledge maintenance
+- Posture: pattern-only
+- Static evidence:
+  - README describes muse-led exploration, writer/critic/revision-writer loops, reader-sim feedback, continuity checking, style reference creation, and chronicler knowledge-base updates.
+  - Public metadata confirms an external plugin / skill runtime surface, so no skill files, zip files, marketplace commands, or agents were installed or imported.
+- Absorbed pattern:
+  - `reader_reward_channel_gate`
+- Local adaptation:
+  - Review pivotal scenes on separate reader channels: immersion/transportation, prose aesthetics, social-simulation believability, and flow.
+  - Treat reader-sim output as diagnostic evidence only; confusion or boredom becomes a bounded revision task, not an automatic rewrite.
+  - For同类型仿写, require reader reward and independence evidence together.
+
+### `jblemee/bmad-book-builder`
+
+- URL: https://github.com/jblemee/bmad-book-builder
+- Observed HEAD: `678c13f61a39f672308e920333709ade08829502`
+- License: WTFPL
+- Family: AI-assisted novel workflow module / chapter audit chain
+- Posture: pattern-only
+- Static evidence:
+  - README describes 8 specialized agents, 17 workflows, Create/Edit/Validate modes, a pre-writing checklist, quantitative style metrics, automated post-chapter audits, living-bible update, character audits, theme tracking, rhythm analysis, and reality checks.
+  - Public metadata confirms BMAD CLI / custom module install surface, so no CLI, npm installer, local module, workflow file, or agent runtime was installed or imported.
+- Absorbed pattern:
+  - `tri_modal_workflow_validation_gate`
+- Local adaptation:
+  - Declare workflow mode before any mutation: Create, Edit, or Validate.
+  - Run pre-writing checklist before drafting.
+  - After chapter acceptance, run review -> bible/state update -> character audit -> theme/rhythm audit -> next-chapter handoff.
+
 ## Deferred / duplicate sources
 
 - `Saemer2023/webnovel-writer-opencode`: overlaps with existing `lujih/webnovel-writer-opencode`; useful as sibling evidence only. GPL/runtime installer surface keeps it pattern-only and not newly promoted.
@@ -97,6 +135,26 @@ Rules:
 - Accepted chapter commit is the state mutation boundary.
 - Derived projections must trace to the latest accepted commit.
 - Stale projections or mixed source/new canon memory block next-chapter generation.
+
+### `reader_reward_channel_gate`
+
+Use when a continuation or same-type draft needs reader-facing quality feedback.
+
+Rules:
+
+- Score pivotal scenes on reader reward channels separately.
+- Convert reader-sim issues into scoped revision tasks.
+- Never let source resemblance count as reader pull in同类型仿写.
+
+### `tri_modal_workflow_validation_gate`
+
+Use when a workflow can create, edit, or validate bible / plan / chapter state.
+
+Rules:
+
+- Create, Edit, and Validate have different write permissions.
+- Pre-writing checklist gates chapter drafting.
+- Post-chapter audit chain gates canon/state write-back.
 
 ## Artifacts updated
 

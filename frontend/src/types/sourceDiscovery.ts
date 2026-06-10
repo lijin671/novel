@@ -125,6 +125,8 @@ export interface SourceDiscoveryPatternPack {
   book_mining_genesis_automation_gate_hints?: string[];
   multi_book_autopilot_studio_gate_hints?: string[];
   longrun_commit_projection_health_gate_hints?: string[];
+  reader_reward_channel_gate_hints?: string[];
+  tri_modal_workflow_validation_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

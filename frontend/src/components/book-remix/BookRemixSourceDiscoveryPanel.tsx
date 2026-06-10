@@ -70,6 +70,8 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/cchheerrss/ai-novel-trilogy',
   'https://github.com/zhitongblog/novel-studio',
   'https://github.com/DinhLucent/webnovel-longrun-aigen-docs',
+  'https://github.com/haowjy/creative-writing-skills',
+  'https://github.com/jblemee/bmad-book-builder',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -135,6 +137,8 @@ const PINNED_HINT_KEYS = new Set([
   'book_mining_genesis_automation_gate_hints',
   'multi_book_autopilot_studio_gate_hints',
   'longrun_commit_projection_health_gate_hints',
+  'reader_reward_channel_gate_hints',
+  'tri_modal_workflow_validation_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -387,6 +391,10 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Book mining genesis automation gates', patternPackPayload?.book_mining_genesis_automation_gate_hints],
               ['Multi-book autopilot studio gates', patternPackPayload?.multi_book_autopilot_studio_gate_hints],
               ['Longrun commit projection health gates', patternPackPayload?.longrun_commit_projection_health_gate_hints],
+            ])}
+            {renderHintGroup('Reader reward / tri-modal audit gates', [
+              ['Reader reward channel gates', patternPackPayload?.reader_reward_channel_gate_hints],
+              ['Tri-modal workflow validation gates', patternPackPayload?.tri_modal_workflow_validation_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

@@ -245,6 +245,57 @@ def test_same_type_creation_pattern_pack_exposes_inspired_guidance():
     assert "inspired_copy_risk_hints" in digest
 
 
+def test_reader_reward_and_tri_modal_audit_sources_feed_prompt_pack():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "haowjy/creative-writing-skills",
+                "html_url": "https://github.com/haowjy/creative-writing-skills",
+                "description": (
+                    "Creative writing skills for novels with muse, writer, critic, "
+                    "revision-writer, reader-sim, style-creator, chronicler, "
+                    "continuity-checker, four reward channels, and kb updates."
+                ),
+                "stargazers_count": 241,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["creative-writing", "novel", "claude-skills"],
+                "updated_at": "2026-06-08T15:08:29Z",
+            },
+            {
+                "full_name": "jblemee/bmad-book-builder",
+                "html_url": "https://github.com/jblemee/bmad-book-builder",
+                "description": (
+                    "AI-assisted novel development with tri-modal Create/Edit/Validate "
+                    "workflows, pre-writing checklist, automated audit chain, living "
+                    "bible update, character-specific audits, rhythm analysis, and "
+                    "continuity editor."
+                ),
+                "stargazers_count": 30,
+                "license": {"spdx_id": "WTFPL"},
+                "topics": ["novel", "writing", "bmad"],
+                "updated_at": "2026-06-06T19:30:12Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T18:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "reader_reward_channel_gate" in candidates["haowjy/creative-writing-skills"]["absorbed_patterns"]
+    assert "tri_modal_workflow_validation_gate" in candidates["jblemee/bmad-book-builder"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "reader_reward_channel_gate_hints" in pattern_pack
+    assert "tri_modal_workflow_validation_gate_hints" in pattern_pack
+    assert "transportation" in " ".join(pattern_pack["reader_reward_channel_gate_hints"]).lower()
+    assert "pre-writing checklist" in " ".join(pattern_pack["tri_modal_workflow_validation_gate_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "reader_reward_channel_gate_hints" in digest
+    assert "tri_modal_workflow_validation_gate_hints" in digest
+
+
 def test_composite_writing_chain_patterns_expose_inspired_guidance_without_explicit_remix():
     service = NovelSourceDiscoveryService()
     ledger = {

@@ -495,7 +495,10 @@
     "conflicts",
     "story_arcs",
     "foreshadows",
-    "chapter_change_packages"
+    "chapter_change_packages",
+    "reader_reward_review_axes",
+    "tri_modal_workflow_policy",
+    "post_chapter_audit_chain_policy"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -982,7 +985,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T17:45:00+08:00",
+  "generated_at": "2026-06-10T16:30:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -2129,6 +2132,11 @@
     "Fold beta-reader confusion and want-to-continue findings into retention revision tasks before acceptance.",
     "Treat micro-tension, curiosity, hook, and cliffhanger findings as reader-retention evidence, not optional polish."
   ],
+  "reader_reward_channel_gate_hints": [
+    "Review each high-impact scene on separate reader channels: immersion/transportation, prose aesthetics, social-simulation believability, and flow.",
+    "Reader-sim output is a diagnostic signal, not canon: convert confusion, boredom, pull, or emotional miss into bounded revision tasks before accepting prose.",
+    "For same-type creation, score transformed chapters for reader reward and independence together; source resemblance must not count as reader pull."
+  ],
   "recursive_adaptive_planning_hints": [
     "Break long-form tasks recursively into retrieval, reasoning, planning, composition, and review subtasks.",
     "Allow replanning when retrieved context or review findings contradict the current plan.",
@@ -2188,7 +2196,8 @@
     "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
     "??????????????????????????????",
     "GitHub ????? pattern-only ???????????????????",
-    "????? book-mining?multi-book autopilot?longrun commit projection ????????"
+    "????? book-mining?multi-book autopilot?longrun commit projection ????????",
+    "Creative-writing skill packs and BMAD modules are pattern-only during source intake; plugin installs, agent runtimes, package managers, and prompt bodies are not imported."
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -2284,7 +2293,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 249,
+  "source_candidate_count": 251,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2552,7 +2561,9 @@
     "lechmazur/writing",
     "Theltn/AICreativityJudge",
     "dig-team/hanna-benchmark-asg",
-    "jwynia/agent-skills"
+    "jwynia/agent-skills",
+    "haowjy/creative-writing-skills",
+    "jblemee/bmad-book-builder"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2674,6 +2685,11 @@
     "For same-type writing, deconstruct trend patterns into trope, hook, payoff, emotion promise, reader expectation, and reusable module shape.",
     "Transform modules before drafting: preserve emotional function and payoff density, not source names, order, or set pieces.",
     "Keep a module library with provenance and copy-risk notes so commercial-pattern learning stays separate from canon."
+  ],
+  "tri_modal_workflow_validation_gate_hints": [
+    "Declare workflow mode before mutation: Create may add bible/plan/chapter facts, Edit may patch scoped fields, and Validate may only emit findings unless explicitly applied.",
+    "Run a pre-writing checklist before chapter drafting: canon inputs, voice baseline, continuity risks, character states, theme intent, rhythm target, and copy-risk boundary.",
+    "After each accepted chapter, run the audit chain in order: review, bible/state update, per-character contradiction audit, theme progression, rhythm/pacing check, then next-chapter handoff."
   ],
   "trope_density_novelty_budget_hints": [
     "Track trope density per arc and reserve a novelty budget for inversions, shifted costs, new symbols, or unexpected payoffs.",
@@ -3456,7 +3472,10 @@
     "token_breakdown_notes",
     "emotional_arc",
     "emotion_curve",
-    "source_state_snapshot"
+    "source_state_snapshot",
+    "reader_reward_channel_report",
+    "workflow_mode_validation_log",
+    "post_chapter_audit_chain_report"
   ],
   "wiki_canon_graph_lint_gate_hints": [
     "Maintain a story-bible wiki with health, ingest, lint, query, and relationship-graph checks before adding new continuity-sensitive material.",
@@ -3468,8 +3487,78 @@
     "Compilation should record source scene order, filters/transforms, output path, and source state version.",
     "Keep compilation outputs derived; they must not write back into canon without review."
   ],
-  "workflow_pattern_count": 253,
+  "workflow_pattern_count": 255,
   "workflow_patterns": [
+    {
+      "candidate_count": 1,
+      "name": "tri_modal_workflow_validation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "package_install_examples",
+        "external_agent_runtime"
+      ],
+      "sources": [
+        {
+          "license": "WTFPL",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "package_install_examples",
+            "external_agent_runtime"
+          ],
+          "score": 411,
+          "source": "github",
+          "stars": 30,
+          "summary": "BMAD novel module with Create/Edit/Validate workflow modes, pre-writing checklist, quantitative style metrics, automated post-chapter audit chain, living-bible update, character audits, and rhythm analysis.",
+          "title": "jblemee/bmad-book-builder",
+          "trust_flags": [
+            "public_readme",
+            "observed_head"
+          ],
+          "url": "https://github.com/jblemee/bmad-book-builder"
+        }
+      ],
+      "top_source_url": "https://github.com/jblemee/bmad-book-builder",
+      "trust_flags": [
+        "public_readme",
+        "observed_head"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "reader_reward_channel_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "external_skill_runtime",
+        "package_install_examples"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "external_skill_runtime",
+            "package_install_examples"
+          ],
+          "score": 492,
+          "source": "github",
+          "stars": 241,
+          "summary": "Claude/Cowork/Meridian creative-writing skills with muse-led writer/critic/revision loops, reader-sim four-channel feedback, style references, continuity checks, and chronicler knowledge-base updates.",
+          "title": "haowjy/creative-writing-skills",
+          "trust_flags": [
+            "public_readme",
+            "observed_head"
+          ],
+          "url": "https://github.com/haowjy/creative-writing-skills"
+        }
+      ],
+      "top_source_url": "https://github.com/haowjy/creative-writing-skills",
+      "trust_flags": [
+        "public_readme",
+        "observed_head"
+      ]
+    },
     {
       "candidate_count": 16,
       "name": "continuation",

@@ -202,6 +202,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("book-mining" OR "novel-genesis" OR "canon-seed") ("novel-automation" OR "webnovel") in:name,description,readme',
     '("multi-book" OR "autopilot" OR "full-book logic check") ("novel studio" OR "webnovel") in:name,description,readme',
     '("CHAPTER_COMMIT" OR ".story-system" OR "read-model") ("webnovel" OR "longrun" OR "novel") in:name,description,readme',
+    '("four reward channels" OR "reader-sim" OR "style-creator" OR "chronicler") ("creative writing" OR "novel") in:name,description,readme',
+    '("tri-modal" OR "pre-writing checklist" OR "automated audit chain") ("novel" OR "story bible" OR "chapter") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -463,6 +465,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/cchheerrss/ai-novel-trilogy",
     "https://github.com/zhitongblog/novel-studio",
     "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
+    "https://github.com/haowjy/creative-writing-skills",
+    "https://github.com/jblemee/bmad-book-builder",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -751,6 +755,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_mining_genesis_automation_gate", ("book-mining", "book mining", "novel-genesis", "novel automation", "novel-automation", "canon-seed", "canon seed", "pattern assembly", "market scan", "scoring gate", "pattern-aware quality gates", "library/index.yaml")),
     ("multi_book_autopilot_studio_gate", ("multi-book", "multi book", "autopilot", "full-book logic check", "full book logic check", "fullcheckevery", "maxautocontinue", "unterm profile", "bookshelf", "book shelf", "multi-interface", "多本长篇", "全文逻辑自检")),
     ("longrun_commit_projection_health_gate", (".story-system", ".webnovel", "chapter_commit", "CHAPTER_COMMIT", "read-model", "read model", "projection writers", "memory_scratchpad", "state.json", "index.db", "longrun aigen", "context agent", "data agent", "read-only dashboard")),
+    ("reader_reward_channel_gate", ("four reward channels", "reader reward", "reader-sim", "reader sim", "transportation", "aesthetic", "social simulation", "flow", "simulated reader reactions", "moment-by-moment")),
+    ("tri_modal_workflow_validation_gate", ("tri-modal", "tri modal", "create/edit/validate", "create + edit + validate", "pre-writing checklist", "automated audit chain", "living bible update", "character-specific audits", "rhythm analysis")),
     ("temporal_canon_context_graph", ("graphiti", "temporal knowledge graph", "temporal context", "episodes", "bi-temporal", "valid_at", "invalid_at", "hybrid search", "provenance tracking")),
     ("long_term_author_preference_memory", ("mem0", "memory layer", "long-term memory", "user preferences", "session memory", "adaptive personalization", "multi-level memory", "episodic memory")),
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
@@ -1808,6 +1814,16 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Webnovel Longrun AIGen docs describe a long-running webnovel system with .story-system as the source of truth, accepted chapter commits, event extraction, .webnovel read-model projections, RAG/query routing, memory scratchpad, and read-only dashboard. "
         "Pattern-only adaptation for commit-to-projection health gates and longrun memory hygiene; GPL docs are not copied, and Python/runtime components are not installed."
     ),
+    "haowjy/creative-writing-skills": (
+        "Creative Writing Skills is an Apache-2.0 Claude/Cowork/Meridian skill pack for novels, short stories, and serial fiction. Public README describes muse-led brainstorming, "
+        "writer/critic/revision loops, reader-sim feedback across four reward channels, continuity checks, style-creator voice references, and chronicler knowledge-base updates. "
+        "Pattern-only adaptation for reader-reward review, style/reference boundaries, and accepted-fact sync; plugin installs, agents, zips, and runtime commands are not imported or executed."
+    ),
+    "jblemee/bmad-book-builder": (
+        "BMad Book Builder is a WTFPL BMAD module for AI-assisted novels with 8 specialized agents, 17 workflows, Create/Edit/Validate modes, pre-writing checklist, quantitative style metrics, "
+        "automated post-chapter audit chain, living-bible updates, per-character contradiction audits, theme tracking, rhythm analysis, and reality checks. "
+        "Pattern-only adaptation for tri-modal workflow gates and post-chapter audit chains; BMAD CLI, npm installers, custom modules, agents, and workflow files are not installed or copied."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2325,6 +2341,8 @@ class NovelSourceDiscoveryService:
             "book_mining_genesis_automation_gate_hints": self._build_book_mining_genesis_automation_gate_hints(available_patterns),
             "multi_book_autopilot_studio_gate_hints": self._build_multi_book_autopilot_studio_gate_hints(available_patterns),
             "longrun_commit_projection_health_gate_hints": self._build_longrun_commit_projection_health_gate_hints(available_patterns),
+            "reader_reward_channel_gate_hints": self._build_reader_reward_channel_gate_hints(available_patterns),
+            "tri_modal_workflow_validation_gate_hints": self._build_tri_modal_workflow_validation_gate_hints(available_patterns),
             "temporal_canon_context_graph_hints": self._build_temporal_canon_context_graph_hints(available_patterns),
             "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
@@ -2994,6 +3012,8 @@ class NovelSourceDiscoveryService:
             "book_mining_genesis_automation_gate": 70,
             "multi_book_autopilot_studio_gate": 66,
             "longrun_commit_projection_health_gate": 68,
+            "reader_reward_channel_gate": 65,
+            "tri_modal_workflow_validation_gate": 67,
             "temporal_canon_context_graph": 68,
             "long_term_author_preference_memory": 64,
             "community_graph_source_deconstruction": 66,
@@ -6562,6 +6582,24 @@ class NovelSourceDiscoveryService:
             "长跑连载用 chapter commit 作为验收边界：正文、事件、实体、摘要和记忆更新必须从同一 accepted commit 派生。",
             "将 source-of-truth 文件和 read-model 投影分离；state、index、summary、memory 过期时禁止生成下一章。",
             "只读 dashboard 展示投影健康、最近事件、记忆覆盖和漂移风险，不应成为修改正典的写入口。",
+        ]
+
+    def _build_reader_reward_channel_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "reader_reward_channel_gate" not in patterns:
+            return []
+        return [
+            "Review each high-impact scene on separate reader channels: immersion/transportation, prose aesthetics, social-simulation believability, and flow.",
+            "Reader-sim output is a diagnostic signal, not canon: convert confusion, boredom, pull, or emotional miss into bounded revision tasks before accepting prose.",
+            "For same-type creation, score transformed chapters for reader reward and independence together; source resemblance must not count as reader pull.",
+        ]
+
+    def _build_tri_modal_workflow_validation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "tri_modal_workflow_validation_gate" not in patterns:
+            return []
+        return [
+            "Declare workflow mode before mutation: Create may add bible/plan/chapter facts, Edit may patch scoped fields, and Validate may only emit findings unless explicitly applied.",
+            "Run a pre-writing checklist before chapter drafting: canon inputs, voice baseline, continuity risks, character states, theme intent, rhythm target, and copy-risk boundary.",
+            "After each accepted chapter, run the audit chain in order: review, bible/state update, per-character contradiction audit, theme progression, rhythm/pacing check, then next-chapter handoff.",
         ]
 
     def _build_temporal_canon_context_graph_hints(self, patterns: set[str]) -> list[str]:
