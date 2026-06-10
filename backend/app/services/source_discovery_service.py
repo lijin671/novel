@@ -272,6 +272,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("golden three chapters" OR "8w" OR "10w" OR "platform compliance") ("Fanqie" OR "Tomato" OR "webnovel") in:name,description,readme',
     '("outline structural validator" OR "structured change declarations" OR "debate court") ("novel" OR "storyforge") in:name,description,readme',
     '("AI is the amplifier" OR "consistency checking" OR "AI-taste detection") ("novel" OR "Obsidian") in:name,description,readme',
+    '("novel deconstruction" OR "AI拆书" OR "scene-level deconstruction") ("chapter" OR "web novel" OR "writing research") in:name,description,readme',
+    '("qidian" OR "起点") ("ranking" OR "chapter structure" OR "book deconstruction") ("web novel" OR "writing research") in:name,description,readme',
+    '("memory context budget" OR "activation triggers" OR "fact retirement") ("long stories" OR "AI roleplay" OR "fiction") in:name,description,readme',
+    '("@-mentions" OR "appearance tracker" OR "Arc View" OR "entity disappears") ("story bible" OR "book authoring") in:name,description,readme',
+    '("STORY.md" OR ".codex-story" OR "story-long-analyze") ("Codex" OR "novel" OR "writing skill") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -639,6 +644,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Nicholas-Yu/InkPilot",
     "https://github.com/guohei/fanqie-plus",
     "https://github.com/armchairfuturist-code/novel-writer-harness",
+    "https://github.com/QQ-L-XX/novel-deconstruct",
+    "https://github.com/d3nnywong/qidian-mcp-server",
+    "https://github.com/KanishkaV25/StorySync",
+    "https://github.com/senjinthedragon/Smart-Memory",
+    "https://github.com/astrapi69/bibliogon",
+    "https://github.com/rxb123ahuan/codexwriteskill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -966,7 +977,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("langgraph_story_state_machine", ("langgraph", "langchain", "story state flow", "story-writing sample", "langgraph.json", "agent.py", "stateful planning", "story state machine")),
     ("story_daemon_evolution_loop", ("storydaemon", "autonomous agent", "plans, writes, and evolves stories", "evolves stories organically", "organic planning", "long-form fiction through an autonomous agent")),
     ("local_rag_writing_ide_gate", ("local rag", "hybrid rag", "local-first", "privacy-first", "byok", "million-word local rag", "vector search", "local vector", "local-only", "knowledge base", "semantic vector retrieval")),
-    ("canon_drift_continuity_qa_gate", ("canon drift", "continuity checker", "continuity detective", "continuity qa", "story bible and continuity", "contradictions before", "canon qa", "continuity engine", "scene context", "fact mismatch")),
+    ("canon_drift_continuity_qa_gate", ("canon drift", "continuity checker", "continuity checking", "continuity analysis", "continuity detective", "continuity qa", "story bible and continuity", "contradictions before", "canon qa", "continuity engine", "scene context", "fact mismatch")),
     ("patch_replay_manuscript_state_gate", ("patch-nn", "patch-01", "outline.xml", "final.xml", "version-nn", "replays these patches", "reconstruct the story's current state", "sequential dispatch logs", "latest.html")),
     ("microkernel_skill_plugin_isolation_gate", ("microkernel", "plugin architecture", "eventbus", "pluginmanager", "hot-reload", "skill builder agent", "plugin.json", "plugin hook", "stage plugin", "skill isolation")),
     ("interactive_reader_writer_loop_gate", ("interactive ai-assisted editing", "interactive menu", "reader", "writer", "guide the plot", "story into chapter files", "three-way collaboration", "card-based editing", "reader-writer", "chapter files")),
@@ -1018,6 +1029,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("prompt_evolution_fitness_governance_gate", ("fitness dashboard", "five-dimensional fitness", "quality assessment", "automated prompt evolution", "prompt evolution", "temporal truth database", "strict industrial-grade review", "trace debugger")),
     ("fanqie_checkpoint_compliance_audit_gate", ("fanqie", "tomato-style", "golden three chapters", "8w", "10w", "15w", "platform compliance", "10-chapter consistency audits", "pacing ledger", "fanqie-ready plain text")),
     ("outline_validator_change_declaration_gate", ("outline structural validator", "character coverage", "foreshadowing completeness", "emotional arc progression", "beat density", "information boundaries", "structured change declarations", "---changes---", "12 categories of state transitions")),
+    ("scene_deconstruction_theory_report_gate", ("novel deconstruction", "ai拆书", "拆书", "scene-level deconstruction", "scene-level deep deconstruction", "逐章定量扫描", "场景级深度拆解", "18章结构化报告", "quantitative scan", "mckee", "robert mckee", "许荣哲")),
+    ("platform_ranking_research_boundary_gate", ("qidian", "起点", "ranking", "rankings", "排行榜", "品类", "book details", "chapter structure", "free chapters", "market research", "writing research", "qidian_scan_ranking", "qidian_chapter_structure", "qidian_deconstruct")),
+    ("tiered_memory_fact_retirement_gate", ("long-term memory", "session memory", "short-term memory", "memory context budget", "activation triggers", "fact retirement", "retired and replaced", "relationship history", "entity state", "scene history", "story arcs", "rolling summaries")),
+    ("entity_mention_arc_timeline_gate", ("@-mentions", "@mentions", "appearance tracker", "arc view", "swim-lane timeline", "entity disappears", "absence gap", "auto-detect", "link automatically", "continuity polylines", "story bible markdown export")),
+    ("codex_story_skill_project_scaffold_gate", ("codex-readable", "story.md", ".codex-story", "tracking files", "story-long-analyze", "story-short-analyze", "story-long-scan", "story-short-scan", "codex skills", "story-setup")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -2469,6 +2485,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Novel Writer Harness is a no-license-observed long-form writing harness. Public README markers describe outline structural validator, character coverage, foreshadowing completeness, emotional arc progression, beat density, information boundaries, structured ---CHANGES--- JSON, twelve state-transition categories, debate court, and style engine. "
         "Pattern-only adaptation for outline-validation and structured-change gates; multi-model routing, provider calls, Pandoc/export runtime, and external prompt bodies are not launched or imported."
     ),
+    "qq-l-xx/novel-deconstruct": (
+        "Novel Deconstruct is a MIT Claude Code skill for AI 拆书. Public README markers describe Novel Deconstruction, scene-level deep analysis, chapter-by-chapter quantitative scan, 18-chapter structured reports, McKee story theory, Xu Rongzhe novel-course framing, Fanqie URL input, font decoding, API capture, and dependency install commands. "
+        "Pattern-only adaptation for scene-deconstruction theory reports and quantitative scan schemas; clone, skill install, font decoding, platform capture, OCR, requests, and upstream prompt bodies are not executed or copied."
+    ),
+    "d3nnywong/qidian-mcp-server": (
+        "Qidian MCP Server is a no-license-observed MCP server for Qidian webnovel research. Public README markers describe ranking scans across榜单/品类, book details, chapter structure, free-chapter content, qidian_deconstruct, Playwright, MCP configuration, and an optional ANTHROPIC_API_KEY surface. "
+        "Pattern-only adaptation for platform-ranking research boundaries and market-signal provenance; MCP runtime, Playwright browser, provider calls, chapter scraping, login/session access, and platform automation are not launched."
+    ),
+    "kanishkav25/storysync": (
+        "StorySync is a no-license-observed RAG continuity assistant for fiction writers. Public README markers describe story bible generation, structured memory facts, semantic retrieval, ChromaDB vector memory, continuity checking, rewrite assistance, and Gemini API key setup. "
+        "Pattern-only adaptation for continuity retrieval and memory fact review; dependency install, vector database, embeddings, document processing, provider calls, and user manuscripts are not imported or executed."
+    ),
+    "senjinthedragon/smart-memory": (
+        "Smart Memory is an AGPL-3.0 SillyTavern extension. Public README markers describe long-term, session, and short-term memories, token usage display, memory context budget, auto-tune budgets, activation triggers, fact retirement/replacement, per-character memory stores, entity state, relationship history, scene history, story arcs, and rolling summaries. "
+        "Pattern-only adaptation for tiered memory and fact-supersession gates; AGPL extension code, browser/runtime install, model calls, embeddings, chat logs, and private roleplay data are not used."
+    ),
+    "astrapi69/bibliogon": (
+        "Bibliogon is a MIT self-publishing and book-authoring platform. Public README markers describe Story Bible entities, @-mentions in chapters, auto-detect and link automatically, appearance tracker, Arc View swim-lane timelines, continuity warnings for disappearance and long absence gaps, Markdown export, publishing metadata, plugin ZIP install, encrypted credential storage, and Git sync. "
+        "Pattern-only adaptation for entity-mention appearance indexes and arc-timeline continuity gaps; web app, plugins, credentials, AI providers, Git sync, and export runtimes are not launched."
+    ),
+    "rxb123ahuan/codexwriteskill": (
+        "codexwriteskill is a MIT Codex port of oh-story Claude Code writing skills. Public README markers describe Codex-readable STORY.md, .codex-story/rules, tracking files, story-long-analyze, story-short-analyze, story-long-scan, story-short-scan, and Codex skill installer commands. "
+        "Pattern-only adaptation for Codex project scaffolding and deconstruction/market-scan route vocabulary; skill installation, upstream skill bodies, and runtime commands are not imported or executed."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2830,6 +2870,11 @@ class NovelSourceDiscoveryService:
             "prompt_evolution_fitness_governance_gate_hints": self._build_prompt_evolution_fitness_governance_gate_hints(available_patterns),
             "fanqie_checkpoint_compliance_audit_gate_hints": self._build_fanqie_checkpoint_compliance_audit_gate_hints(available_patterns),
             "outline_validator_change_declaration_gate_hints": self._build_outline_validator_change_declaration_gate_hints(available_patterns),
+            "scene_deconstruction_theory_report_gate_hints": self._build_scene_deconstruction_theory_report_gate_hints(available_patterns),
+            "platform_ranking_research_boundary_gate_hints": self._build_platform_ranking_research_boundary_gate_hints(available_patterns),
+            "tiered_memory_fact_retirement_gate_hints": self._build_tiered_memory_fact_retirement_gate_hints(available_patterns),
+            "entity_mention_arc_timeline_gate_hints": self._build_entity_mention_arc_timeline_gate_hints(available_patterns),
+            "codex_story_skill_project_scaffold_gate_hints": self._build_codex_story_skill_project_scaffold_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3818,6 +3863,11 @@ class NovelSourceDiscoveryService:
             "prompt_evolution_fitness_governance_gate": 68,
             "fanqie_checkpoint_compliance_audit_gate": 68,
             "outline_validator_change_declaration_gate": 69,
+            "scene_deconstruction_theory_report_gate": 70,
+            "platform_ranking_research_boundary_gate": 67,
+            "tiered_memory_fact_retirement_gate": 69,
+            "entity_mention_arc_timeline_gate": 68,
+            "codex_story_skill_project_scaffold_gate": 66,
             "mode_contract_generation_gate": 66,
             "source_study_method_bank_isolation_gate": 66,
             "source_discovery": 10,
@@ -4269,6 +4319,21 @@ class NovelSourceDiscoveryService:
         if "outline_validator_change_declaration_gate" in patterns:
             targets.append("outline_validator_change_declaration_policy")
             targets.append("state_transition_change_schema")
+        if "scene_deconstruction_theory_report_gate" in patterns:
+            targets.append("scene_deconstruction_axis_policy")
+            targets.append("chapter_quant_scan_schema")
+        if "platform_ranking_research_boundary_gate" in patterns:
+            targets.append("platform_ranking_research_policy")
+            targets.append("free_chapter_scope_boundary")
+        if "tiered_memory_fact_retirement_gate" in patterns:
+            targets.append("tiered_memory_budget_policy")
+            targets.append("fact_retirement_supersession_rules")
+        if "entity_mention_arc_timeline_gate" in patterns:
+            targets.append("entity_mention_appearance_index")
+            targets.append("arc_timeline_gap_policy")
+        if "codex_story_skill_project_scaffold_gate" in patterns:
+            targets.append("codex_story_project_scaffold")
+            targets.append("story_rule_tracking_files")
         if "anti_ai_tone_polish" in patterns:
             targets.append("anti_ai_tone_rules")
         if "preference_memory" in patterns:
@@ -4774,6 +4839,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["fanqie_checkpoint_compliance_report", "golden_three_chapters_audit", "ten_chapter_consistency_pacing_findings"])
         if "outline_validator_change_declaration_gate" in patterns:
             targets.extend(["outline_structural_validator_report", "structured_change_declaration_audit", "debate_court_resolution_trace"])
+        if "scene_deconstruction_theory_report_gate" in patterns:
+            targets.extend(["scene_deconstruction_theory_report", "chapter_scene_quantitative_scan", "platform_source_access_boundary_findings"])
+        if "platform_ranking_research_boundary_gate" in patterns:
+            targets.extend(["platform_ranking_research_report", "free_paid_content_boundary_findings", "market_signal_provenance_ledger"])
+        if "tiered_memory_fact_retirement_gate" in patterns:
+            targets.extend(["tiered_memory_budget_report", "fact_retirement_supersession_findings", "activation_trigger_context_trace"])
+        if "entity_mention_arc_timeline_gate" in patterns:
+            targets.extend(["entity_appearance_gap_report", "arc_timeline_continuity_findings", "unlinked_entity_mention_findings"])
+        if "codex_story_skill_project_scaffold_gate" in patterns:
+            targets.extend(["codex_story_scaffold_audit", "skill_scope_runtime_exclusion_notes", "story_tracking_file_completeness"])
         if "style_guide_layering" in patterns:
             targets.extend(["style_layers", "scene_style_overrides", "character_voice_notes"])
         if "review_queue_staging" in patterns:
@@ -6445,6 +6520,51 @@ class NovelSourceDiscoveryService:
             "Validate outline structure before drafting: character coverage, foreshadowing completeness, emotional arc progression, beat density, and information boundaries.",
             "Require structured change declarations for state transitions so each canon change names category, old value, new value, evidence, and affected future beats.",
             "Debate-court review should resolve structural objections before style polish; unresolved validator failures block chapter or outline promotion.",
+        ]
+
+    def _build_scene_deconstruction_theory_report_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_deconstruction_theory_report_gate" not in patterns:
+            return []
+        return [
+            "For 拆书, separate source access from analysis: keep chapter/scene metadata, quantitative scan fields, and theory-axis labels without importing protected prose.",
+            "Scene-level reports should map function, conflict turn, desire/obstacle, value shift, hook, payoff, and craft note; later续写 uses only transformed function contracts.",
+            "Platform-specific capture such as font decoding, OCR, API calls, or full-chapter scraping stays outside runtime unless an explicit source-rights and safety packet exists.",
+        ]
+
+    def _build_platform_ranking_research_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "platform_ranking_research_boundary_gate" not in patterns:
+            return []
+        return [
+            "Treat Qidian/Fanqie ranking and category data as market signals with platform,榜单,品类, observed date, and free/paid chapter scope recorded.",
+            "Market research can suggest genre promise, reader expectation, pacing pressure, and trope saturation; it cannot justify copying book details, chapter text, titles, or proprietary tags.",
+            "MCP/browser/provider surfaces for platform research remain runtime-deferred; static intake keeps only provenance, field schema, and exclusion rules.",
+        ]
+
+    def _build_tiered_memory_fact_retirement_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "tiered_memory_fact_retirement_gate" not in patterns:
+            return []
+        return [
+            "Separate long-term facts, session details, short-term recap, entity state, relationship history, and story-arc memory so continuation can fit the context budget intentionally.",
+            "When a new accepted chapter changes a fact, retire or supersede the old memory with evidence instead of leaving contradictory memories side by side.",
+            "Activation triggers should boost relevant memories but must expose omitted, trimmed, and superseded facts in the continuation audit.",
+        ]
+
+    def _build_entity_mention_arc_timeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "entity_mention_arc_timeline_gate" not in patterns:
+            return []
+        return [
+            "Link characters, places, items, lore, and plot points to chapter appearances through explicit mentions before running continuity or absence-gap checks.",
+            "Arc timelines should flag entities that disappear, return after long gaps, change role/mood unexpectedly, or appear in a chapter with no supporting context.",
+            "For same-type creation, transform appearance rhythm and arc function into new entities and timelines rather than copying the source cast route.",
+        ]
+
+    def _build_codex_story_skill_project_scaffold_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "codex_story_skill_project_scaffold_gate" not in patterns:
+            return []
+        return [
+            "A Codex-oriented story workspace should make the source of truth explicit: STORY.md, rule files, tracking ledgers, analysis reports, and chapter tasks have separate owners.",
+            "Long/short deconstruction and market-scan skills are route vocabulary only until their data sources, rights boundary, command allowlist, and output artifacts are declared.",
+            "Do not install upstream skill packs during intake; project-native scaffolds should be freshly generated and verified against local story workflow tests.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -8791,6 +8911,16 @@ class NovelSourceDiscoveryService:
             targets.append("fanqie_checkpoint_strategy_remap")
         if "outline_validator_change_declaration_gate" in patterns:
             targets.append("outline_change_declaration_remap")
+        if "scene_deconstruction_theory_report_gate" in patterns:
+            targets.append("scene_function_theory_axis_remap")
+        if "platform_ranking_research_boundary_gate" in patterns:
+            targets.append("market_signal_boundary_remap")
+        if "tiered_memory_fact_retirement_gate" in patterns:
+            targets.append("memory_tier_supersession_remap")
+        if "entity_mention_arc_timeline_gate" in patterns:
+            targets.append("entity_appearance_arc_remap")
+        if "codex_story_skill_project_scaffold_gate" in patterns:
+            targets.append("codex_story_scaffold_remap")
         if "draft_stage_revision_ladder" in patterns:
             targets.append("draft_stage_remap")
         if "rolling_summary_context_trim" in patterns:
@@ -9557,6 +9687,16 @@ class NovelSourceDiscoveryService:
             hints.append("Apply Fanqie-style checkpoint pressure to the new reader promise and pacing ledger, not to copied platform examples or source arcs.")
         if "outline_validator_change_declaration_gate" in patterns:
             hints.append("Prompt for explicit change declarations when a transformed outline alters character coverage, foreshadowing, emotional arc, or information boundaries.")
+        if "scene_deconstruction_theory_report_gate" in patterns:
+            hints.append("Prompt from source scene functions and theory-axis abstractions only; never include captured source prose, platform-only text, or distinctive scene labels.")
+        if "platform_ranking_research_boundary_gate" in patterns:
+            hints.append("Use platform rankings as date-stamped market pressure and reader-expectation signals, not as chapter text, title, or plot-route input.")
+        if "tiered_memory_fact_retirement_gate" in patterns:
+            hints.append("Ask for tiered transformed memory: stable facts, session deltas, short recap, retired facts, activation triggers, and omitted-context notes.")
+        if "entity_mention_arc_timeline_gate" in patterns:
+            hints.append("Generate new entity appearance and arc-timeline targets so each chapter has fresh continuity anchors rather than copied source cast routes.")
+        if "codex_story_skill_project_scaffold_gate" in patterns:
+            hints.append("Create Codex-native STORY.md/rules/tracking scaffolds for the transformed project before invoking any deconstruction or market-scan workflow.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -9980,6 +10120,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform checkpoint strategy into new golden-three-chapter, 8w, 10w, and 15w goals; do not reuse source platform copy or chapter order.")
         if "outline_validator_change_declaration_gate" in patterns:
             hints.append("Transform outline validators into new structural requirements and state-transition declarations before prose generation.")
+        if "scene_deconstruction_theory_report_gate" in patterns:
+            hints.append("Transform each source scene into a new scene function card with changed cast, conflict object, value turn, hook, and payoff path.")
+        if "platform_ranking_research_boundary_gate" in patterns:
+            hints.append("Transform platform market signals into a new promise matrix; change premise, protagonist desire, set pieces, and checkpoint route.")
+        if "tiered_memory_fact_retirement_gate" in patterns:
+            hints.append("Transform memory tiers by writing new-story facts first, then marking any source-inspired facts as blocked, retired, or abstraction-only.")
+        if "entity_mention_arc_timeline_gate" in patterns:
+            hints.append("Transform appearance cadence by assigning new entities, absence gaps, mood shifts, and arc returns instead of preserving source timelines.")
+        if "codex_story_skill_project_scaffold_gate" in patterns:
+            hints.append("Transform skill scaffolds into local files and reports; do not copy upstream skill command text or installer behavior into the project.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -10429,6 +10579,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject platform-checkpoint plans that pass pacing audits by copying source chapter hooks, golden-opening sequence, or platform-specific examples.")
         if "outline_validator_change_declaration_gate" in patterns:
             hints.append("Reject outlines whose structured change declarations preserve source state transitions, beat density, or information-boundary order under new labels.")
+        if "scene_deconstruction_theory_report_gate" in patterns:
+            hints.append("Reject same-type drafts that follow source scene order, exact conflict turns, chapter report labels, or platform-captured wording.")
+        if "platform_ranking_research_boundary_gate" in patterns:
+            hints.append("Reject plans that copy ranked-book titles, category-specific proprietary hooks, free-chapter structures, or platform sample text.")
+        if "tiered_memory_fact_retirement_gate" in patterns:
+            hints.append("Reject context packs where source facts are stored as long-term transformed canon instead of abstraction-only or retired notes.")
+        if "entity_mention_arc_timeline_gate" in patterns:
+            hints.append("Reject entity timelines that preserve source character disappearance gaps, reunion timing, relationship turns, or appearance sequence.")
+        if "codex_story_skill_project_scaffold_gate" in patterns:
+            hints.append("Reject imported skill-pack instructions or tracking files that silently become project canon without local author review.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -10607,6 +10767,11 @@ class NovelSourceDiscoveryService:
                 "prompt_evolution_fitness_governance_gate",
                 "fanqie_checkpoint_compliance_audit_gate",
                 "outline_validator_change_declaration_gate",
+                "scene_deconstruction_theory_report_gate",
+                "platform_ranking_research_boundary_gate",
+                "tiered_memory_fact_retirement_gate",
+                "entity_mention_arc_timeline_gate",
+                "codex_story_skill_project_scaffold_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",

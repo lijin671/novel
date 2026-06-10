@@ -10620,3 +10620,153 @@ def test_memory_tribunal_checkpoint_sources_map_to_governance_gates():
     assert "prompt_evolution_fitness_governance_gate_hints" in digest
     assert "fanqie_checkpoint_compliance_audit_gate_hints" in digest
     assert "outline_validator_change_declaration_gate_hints" in digest
+
+
+def test_deconstruction_platform_memory_and_codex_sources_map_to_intake_gates():
+    assert "https://github.com/QQ-L-XX/novel-deconstruct" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/d3nnywong/qidian-mcp-server" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/KanishkaV25/StorySync" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/senjinthedragon/Smart-Memory" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/astrapi69/bibliogon" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/rxb123ahuan/codexwriteskill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("novel deconstruction" in query.lower() and "scene-level deconstruction" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("qidian" in query.lower() and "chapter structure" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("memory context budget" in query.lower() and "activation triggers" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("@-mentions" in query.lower() and "appearance tracker" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story.md" in query.lower() and ".codex-story" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "QQ-L-XX/novel-deconstruct",
+                "html_url": "https://github.com/QQ-L-XX/novel-deconstruct",
+                "description": (
+                    "Novel Deconstruction AI拆书 skill with scene-level deep deconstruction, chapter-by-chapter "
+                    "quantitative scan, 18-chapter structured report, McKee, Xu Rongzhe, Fanqie URL input, "
+                    "font decoding, API capture and OCR dependencies."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "deconstruction", "writing-research"],
+                "updated_at": "2026-06-11T08:30:00Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt"],
+            },
+            {
+                "full_name": "d3nnywong/qidian-mcp-server",
+                "html_url": "https://github.com/d3nnywong/qidian-mcp-server",
+                "description": (
+                    "Qidian MCP server for rankings, book details, qidian_scan_ranking, qidian_chapter_structure, "
+                    "free chapters, qidian_deconstruct, market research and ANTHROPIC_API_KEY."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["qidian", "mcp", "webnovel"],
+                "updated_at": "2026-04-20T03:32:26Z",
+                "root_files": ["README.md", "server.py", "pyproject.toml"],
+            },
+            {
+                "full_name": "KanishkaV25/StorySync",
+                "html_url": "https://github.com/KanishkaV25/StorySync",
+                "description": (
+                    "StorySync continuity assistant for fiction writers with story bible generation, structured memory facts, "
+                    "semantic retrieval, ChromaDB vector memory, continuity checking and rewrite assistance."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "rag", "continuity"],
+                "updated_at": "2026-06-09T19:24:54Z",
+                "root_files": ["README.md", "requirements.txt", ".env.example"],
+            },
+            {
+                "full_name": "senjinthedragon/Smart-Memory",
+                "html_url": "https://github.com/senjinthedragon/Smart-Memory",
+                "description": (
+                    "Smart Memory extension with long-term memory, session memory, short-term memory, memory context budget, "
+                    "activation triggers, fact retirement, retired and replaced facts, entity state, relationship history, "
+                    "scene history, story arcs and rolling summaries."
+                ),
+                "stargazers_count": 20,
+                "forks_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["sillytavern", "memory", "story"],
+                "updated_at": "2026-06-08T11:11:42Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "manifest.json"],
+            },
+            {
+                "full_name": "astrapi69/bibliogon",
+                "html_url": "https://github.com/astrapi69/bibliogon",
+                "description": (
+                    "Bibliogon book authoring platform with Story Bible, @-mentions, auto-detect, link automatically, "
+                    "appearance tracker, Arc View swim-lane timeline, entity disappears warnings, absence gap checks, "
+                    "continuity polylines and Story Bible Markdown export."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["book", "story-bible", "authoring"],
+                "updated_at": "2026-06-10T17:38:16Z",
+                "root_files": ["README.md", "LICENSE", "package.json"],
+            },
+            {
+                "full_name": "rxb123ahuan/codexwriteskill",
+                "html_url": "https://github.com/rxb123ahuan/codexwriteskill",
+                "description": (
+                    "Codex-readable story workspace with STORY.md, .codex-story rules, tracking files, story-long-analyze, "
+                    "story-short-analyze, story-long-scan, story-short-scan and Codex Skills installer commands."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["codex", "skills", "novel"],
+                "updated_at": "2026-05-16T16:28:01Z",
+                "root_files": ["README.md", "LICENSE", "skills"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T09:00:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "scene_deconstruction_theory_report_gate" in candidates["QQ-L-XX/novel-deconstruct"]["absorbed_patterns"]
+    assert "platform_ranking_research_boundary_gate" in candidates["d3nnywong/qidian-mcp-server"]["absorbed_patterns"]
+    assert "tiered_memory_fact_retirement_gate" in candidates["senjinthedragon/Smart-Memory"]["absorbed_patterns"]
+    assert "entity_mention_arc_timeline_gate" in candidates["astrapi69/bibliogon"]["absorbed_patterns"]
+    assert "codex_story_skill_project_scaffold_gate" in candidates["rxb123ahuan/codexwriteskill"]["absorbed_patterns"]
+    assert "canon_drift_continuity_qa_gate" in candidates["KanishkaV25/StorySync"]["absorbed_patterns"]
+    assert "mcp_server" in candidates["d3nnywong/qidian-mcp-server"]["risk_flags"]
+    assert "provider_key_surface" in candidates["d3nnywong/qidian-mcp-server"]["risk_flags"]
+    assert "skill_install_surface" in candidates["rxb123ahuan/codexwriteskill"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "scene_deconstruction_axis_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "platform_ranking_research_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "tiered_memory_budget_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "entity_mention_appearance_index" in pattern_pack["bible_enrichment_targets"]
+    assert "codex_story_project_scaffold" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_deconstruction_theory_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "platform_ranking_research_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "tiered_memory_budget_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "entity_appearance_gap_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "codex_story_scaffold_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_function_theory_axis_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "market_signal_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "memory_tier_supersession_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "entity_appearance_arc_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "codex_story_scaffold_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "source access" in " ".join(pattern_pack["scene_deconstruction_theory_report_gate_hints"]).lower()
+    assert "qidian" in " ".join(pattern_pack["platform_ranking_research_boundary_gate_hints"]).lower()
+    assert "supersede" in " ".join(pattern_pack["tiered_memory_fact_retirement_gate_hints"]).lower()
+    assert "absence-gap" in " ".join(pattern_pack["entity_mention_arc_timeline_gate_hints"]).lower()
+    assert "story.md" in " ".join(pattern_pack["codex_story_skill_project_scaffold_gate_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "scene_deconstruction_theory_report_gate_hints" in digest
+    assert "platform_ranking_research_boundary_gate_hints" in digest
+    assert "tiered_memory_fact_retirement_gate_hints" in digest
+    assert "entity_mention_arc_timeline_gate_hints" in digest
+    assert "codex_story_skill_project_scaffold_gate_hints" in digest
