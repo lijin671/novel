@@ -2649,3 +2649,42 @@ def test_build_remix_context_blocks_render_source_rights_provenance_audit():
         assert "attribution_derivative_work_gate" in block
         assert "license confidence" in block.lower()
         assert "public-domain source metadata" in block.lower()
+
+
+def test_build_remix_context_blocks_render_source_entity_redaction_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "source_entity_redaction_gate", "candidate_count": 1},
+            {"name": "custom_entity_label_inventory", "candidate_count": 1},
+            {"name": "placeholder_alias_consistency_map", "candidate_count": 1},
+            {"name": "proper_noun_leakage_review", "candidate_count": 1},
+        ],
+        "source_entity_redaction_gate_hints": ["Redact source-specific names before same-type drafting."],
+        "proper_noun_leakage_review_hints": ["Compare drafts against source blocklists."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={"hard_constraints": [{"rule": "Preserve accepted canon"}]},
+        plan={"summary": "Continue with entity redaction gates."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Draft",
+        style_content=(
+            "same-type creation source voice\n"
+            "source voice sample\n"
+            "forbidden source elements\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Source entity redaction audit" in block
+        assert "source_entity_redaction_gate" in block
+        assert "custom_entity_label_inventory" in block
+        assert "placeholder_alias_consistency_map" in block
+        assert "proper_noun_leakage_review" in block
+        assert "source-specific names" in block.lower()
+        assert "source blocklists" in block.lower()

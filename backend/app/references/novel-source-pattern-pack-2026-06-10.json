@@ -342,7 +342,15 @@
     "public_domain_source_manifest",
     "source_jurisdiction_review_policy",
     "attribution_derivative_policy",
-    "licensed_source_usage_boundary"
+    "licensed_source_usage_boundary",
+    "source_entity_redaction_manifest",
+    "entity_leakage_review_policy",
+    "custom_fiction_entity_label_set",
+    "source_entity_inventory",
+    "placeholder_alias_map",
+    "replacement_consistency_policy",
+    "proper_noun_blocklist",
+    "proper_noun_allowlist"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -616,7 +624,11 @@
     "Persist source license status, detector confidence, reviewer decision, and blocked/allowed usage before any source text enters analysis or drafting context.",
     "Store SPDX ids, copyright holders, attribution notes, and file/source-level provenance separately from story canon.",
     "Record public-domain source, observed metadata, jurisdiction caveat, and extraction settings before using public-domain text for deconstruction.",
-    "Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts."
+    "Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.",
+    "Persist source-entity redaction decisions before analysis or drafting so copied names, places, factions, artifacts, and powers cannot silently enter canon.",
+    "Store fiction-specific entity labels separately from ordinary NER output: character, faction, location, artifact, title, ability, rank, and invented term.",
+    "Keep a stable placeholder and alias map for redacted sources, and review replacement collisions before any remapped context is reused.",
+    "Record source proper-noun blocklists and approved exceptions as review metadata before accepting continuation or same-type drafts."
   ],
   "continuity_bridge_window_hints": [
     "Build a compact continuity bridge from the last accepted chapters, active timeline, open hooks, character state, and editor notes.",
@@ -659,6 +671,10 @@
     "Maintain cross-chapter and cross-document mention clusters for people, places, events, and abstract concepts before context reuse.",
     "Flag ambiguous or drifting clusters instead of writing them back into canon, especially across imported source and generated chapters.",
     "For same-type creation, regenerate aliases and cluster boundaries around the transformed cast and event set."
+  ],
+  "custom_entity_label_inventory_hints": [
+    "Use custom fiction entity labels beyond PERSON/ORG/LOC: faction, rank, artifact, power, species, place-type, title, invented term, and relationship label.",
+    "Keep the source entity inventory as analysis evidence; same-type creation must rebuild an independent inventory before outlining."
   ],
   "delivery_manuscript_assembly_hints": [],
   "diff_span_copy_review_hints": [
@@ -744,7 +760,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T17:30:00+08:00",
+  "generated_at": "2026-06-10T18:30:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -1489,6 +1505,10 @@
     "Flag headers, footers, page numbers, footnotes, two-column order, and missing text before summaries or style analysis use PDF text.",
     "Do not accept PDF extraction as faithful source text without a reading-order and gap review."
   ],
+  "placeholder_alias_consistency_map_hints": [
+    "Maintain stable placeholders and replacement ids across chapters so source aliases, nicknames, and titles do not drift back into prompts under partial redaction.",
+    "Review placeholder collisions when two source entities collapse into one replacement or one source entity receives multiple replacements."
+  ],
   "plain_text_project_storage_hints": [
     "Keep chapters, notes, summaries, and analysis as stable human-readable text units with durable ids.",
     "Prefer diffable manuscript units for long-form state so reviewers can compare, revert, and synchronize changes.",
@@ -1541,6 +1561,10 @@
     "Keep golden continuation and same-type cases for prompt changes: input state, expected guardrail findings, accepted outputs, and failure diffs.",
     "Run prompt regression checks before accepting prompt-pack changes that affect context selection, copy-risk gates, or canon write-back.",
     "Regression cases should include adversarial source-like inputs to prove the prompt rejects copied route, wording, and source-canon leakage."
+  ],
+  "proper_noun_leakage_review_hints": [
+    "Run a proper-noun leakage review on drafts against source blocklists and approved exception lists before accepting chapters.",
+    "Names that are common genre terms need reviewer notes; distinctive names, titles, places, factions, and artifacts require replacement unless explicitly allowed."
   ],
   "prose_lint_style_rule_gate_hints": [
     "Treat prose lint rules as project-local house style, not universal truth; every warning needs chapter, speaker, and scene context.",
@@ -1722,7 +1746,11 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 184,
+  "source_candidate_count": 189,
+  "source_entity_redaction_gate_hints": [
+    "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
+    "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
+  ],
   "source_format_import_manifest_hints": [
     "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
     "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
@@ -1921,7 +1949,12 @@
     "fsfe/reuse-tool",
     "spdx/license-list-data",
     "c-w/Gutenberg",
-    "Imkun-on/gutenberg-corpus-cli"
+    "Imkun-on/gutenberg-corpus-cli",
+    "microsoft/presidio",
+    "LeapBeyond/scrubadub",
+    "urchade/GLiNER",
+    "flairNLP/flair",
+    "explosion/spaCy"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2644,7 +2677,19 @@
     "public_domain_scope_notes",
     "attribution_derivative_review",
     "allowed_use_boundary_findings",
-    "licensed_source_exclusion_notes"
+    "licensed_source_exclusion_notes",
+    "source_entity_redaction_report",
+    "unredacted_source_entity_findings",
+    "redaction_review_decisions",
+    "custom_entity_label_inventory",
+    "fiction_entity_type_coverage",
+    "unmapped_entity_findings",
+    "placeholder_alias_consistency_report",
+    "replacement_collision_findings",
+    "alias_namespace_drift_notes",
+    "proper_noun_leakage_report",
+    "source_name_carryover_findings",
+    "allowed_name_exception_notes"
   ],
   "workflow_manuscript_compilation_hints": [
     "Compile manuscripts from ordered accepted scenes through an explicit workflow, not by concatenating draft buffers.",
@@ -3991,6 +4036,184 @@
         }
       ],
       "top_source_url": "https://github.com/licensee/licensee",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "source_entity_redaction_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 90,
+          "source": "github",
+          "stars": 8527,
+          "summary": "PII/entity detection, redaction, masking, and anonymization pipeline; absorbed as source-entity redaction and leakage review only.",
+          "title": "microsoft/presidio",
+          "trust_flags": [],
+          "url": "https://github.com/microsoft/presidio"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 425,
+          "summary": "PII cleaning with detectors, postprocessors, replacers, and anonymous ids; absorbed as placeholder and alias-consistency review only.",
+          "title": "LeapBeyond/scrubadub",
+          "trust_flags": [],
+          "url": "https://github.com/LeapBeyond/scrubadub"
+        }
+      ],
+      "top_source_url": "https://github.com/microsoft/presidio",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 4,
+      "name": "proper_noun_leakage_review",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 90,
+          "source": "github",
+          "stars": 8527,
+          "summary": "PII/entity detection, redaction, masking, and anonymization pipeline; absorbed as source-entity redaction and leakage review only.",
+          "title": "microsoft/presidio",
+          "trust_flags": [],
+          "url": "https://github.com/microsoft/presidio"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 89,
+          "source": "github",
+          "stars": 3264,
+          "summary": "Generalist NER for extracting arbitrary entity types; absorbed as custom fiction entity label inventory and proper-noun leakage review only.",
+          "title": "urchade/GLiNER",
+          "trust_flags": [],
+          "url": "https://github.com/urchade/GLiNER"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 87,
+          "source": "github",
+          "stars": 14376,
+          "summary": "NLP sequence labeling and NER models across languages; absorbed as multilingual proper-noun inventory review only.",
+          "title": "flairNLP/flair",
+          "trust_flags": [],
+          "url": "https://github.com/flairNLP/flair"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 33643,
+          "summary": "NLP pipelines with named entity recognition and custom pipeline components; absorbed as fiction entity labeling and leakage review only.",
+          "title": "explosion/spaCy",
+          "trust_flags": [],
+          "url": "https://github.com/explosion/spaCy"
+        }
+      ],
+      "top_source_url": "https://github.com/microsoft/presidio",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "custom_entity_label_inventory",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 89,
+          "source": "github",
+          "stars": 3264,
+          "summary": "Generalist NER for extracting arbitrary entity types; absorbed as custom fiction entity label inventory and proper-noun leakage review only.",
+          "title": "urchade/GLiNER",
+          "trust_flags": [],
+          "url": "https://github.com/urchade/GLiNER"
+        },
+        {
+          "license": "NOASSERTION",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 87,
+          "source": "github",
+          "stars": 14376,
+          "summary": "NLP sequence labeling and NER models across languages; absorbed as multilingual proper-noun inventory review only.",
+          "title": "flairNLP/flair",
+          "trust_flags": [],
+          "url": "https://github.com/flairNLP/flair"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 86,
+          "source": "github",
+          "stars": 33643,
+          "summary": "NLP pipelines with named entity recognition and custom pipeline components; absorbed as fiction entity labeling and leakage review only.",
+          "title": "explosion/spaCy",
+          "trust_flags": [],
+          "url": "https://github.com/explosion/spaCy"
+        }
+      ],
+      "top_source_url": "https://github.com/urchade/GLiNER",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "placeholder_alias_consistency_map",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 88,
+          "source": "github",
+          "stars": 425,
+          "summary": "PII cleaning with detectors, postprocessors, replacers, and anonymous ids; absorbed as placeholder and alias-consistency review only.",
+          "title": "LeapBeyond/scrubadub",
+          "trust_flags": [],
+          "url": "https://github.com/LeapBeyond/scrubadub"
+        }
+      ],
+      "top_source_url": "https://github.com/LeapBeyond/scrubadub",
       "trust_flags": []
     },
     {

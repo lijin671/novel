@@ -157,6 +157,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("license detection" OR "SPDX" OR "REUSE") ("source text" OR "corpus" OR "book") in:name,description,readme',
     '("Project Gutenberg" OR "public domain") ("metadata" OR "corpus" OR "book") in:name,description,readme',
     '("copyright" OR "license metadata" OR "attribution") ("ebook" OR "source text" OR "corpus") in:name,description,readme',
+    '("PII" OR "de-identification" OR "anonymization" OR "redaction") ("named entity" OR "source text") in:name,description,readme',
+    '("zero-shot NER" OR "custom entity types" OR "named entity recognition") ("fiction" OR "novel" OR "character") in:name,description,readme',
+    '("proper noun" OR "entity redaction" OR "anonymize text") ("story" OR "fiction" OR "source text") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -353,6 +356,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/spdx/license-list-data",
     "https://github.com/c-w/Gutenberg",
     "https://github.com/Imkun-on/gutenberg-corpus-cli",
+    "https://github.com/microsoft/presidio",
+    "https://github.com/LeapBeyond/scrubadub",
+    "https://github.com/urchade/GLiNER",
+    "https://github.com/flairNLP/flair",
+    "https://github.com/explosion/spaCy",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -610,6 +618,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("spdx_reuse_compliance_gate", ("spdx", "reuse", "spdx-license-identifier", "spdx filecopyrighttext", "reuse recommendations", "license list data")),
     ("public_domain_corpus_boundary", ("project gutenberg", "public domain", "public-domain book corpora", "body of public domain texts", "gutenberg corpus", "gutenberg scraper")),
     ("attribution_derivative_work_gate", ("attribution", "derivative", "cc-by", "cc-by-sa", "license terms", "copyright", "reuse compliance")),
+    ("source_entity_redaction_gate", ("presidio", "pii de-identification", "sensitive data", "redacting", "redaction", "anonymizing", "anonymization", "scrubadub", "personally identifiable information")),
+    ("custom_entity_label_inventory", ("gliner", "extract any entity types", "custom entity types", "custom pii recognizers", "customizable pipelines", "pretrained pipelines", "named entity recognition", "ner models")),
+    ("placeholder_alias_consistency_map", ("anonymous ids", "anonymized", "placeholder", "masking", "surrogate", "replacers", "detectors and postprocessors", "anonymize text")),
+    ("proper_noun_leakage_review", ("proper noun", "names, locations", "person names", "locations", "organizations", "entity recognizer", "entity types", "rule based logic", "named entities")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -1379,6 +1391,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Gutenberg Corpus CLI browses Project Gutenberg metadata and builds public-domain corpora with downloads, local SQLite catalog, and full-text search. "
         "Absorb public-domain corpus admission and downloader-boundary patterns only; scraper, download, database, and corpus-building runtime are not executed."
     ),
+    "microsoft/presidio": (
+        "Presidio detects, redacts, masks, and anonymizes sensitive data with NLP, pattern matching, custom recognizers, and anonymizer operators. "
+        "Absorb source-entity redaction and proper-noun leakage review patterns only; Docker, services, image redaction, and package runtime are not executed."
+    ),
+    "leapbeyond/scrubadub": (
+        "Scrubadub removes personally identifiable information from text with detectors, postprocessors, replacers, and anonymous ids. "
+        "Absorb placeholder and alias-consistency redaction patterns only; optional detector packages and runtime dependencies are not installed."
+    ),
+    "urchade/gliner": (
+        "GLiNER is a generalist lightweight named entity recognition project for extracting arbitrary entity types from text. "
+        "Absorb custom entity-label inventory patterns for fictional names, places, factions, artifacts, and powers only; models and package runtime are not downloaded."
+    ),
+    "flairnlp/flair": (
+        "Flair provides NLP sequence labeling and named entity recognition models across languages. "
+        "Absorb multilingual proper-noun inventory and leakage-review patterns only; trained models and framework runtime are not imported."
+    ),
+    "explosion/spacy": (
+        "spaCy provides industrial NLP pipelines with tokenization, named entity recognition, text classification, and custom pipeline components. "
+        "Absorb pipeline-shaped entity review and custom fiction-entity labeling patterns only; models, packages, and runtime pipelines are not installed."
+    ),
 }
 
 
@@ -1861,6 +1893,10 @@ class NovelSourceDiscoveryService:
             "spdx_reuse_compliance_gate_hints": self._build_spdx_reuse_compliance_gate_hints(available_patterns),
             "public_domain_corpus_boundary_hints": self._build_public_domain_corpus_boundary_hints(available_patterns),
             "attribution_derivative_work_gate_hints": self._build_attribution_derivative_work_gate_hints(available_patterns),
+            "source_entity_redaction_gate_hints": self._build_source_entity_redaction_gate_hints(available_patterns),
+            "custom_entity_label_inventory_hints": self._build_custom_entity_label_inventory_hints(available_patterns),
+            "placeholder_alias_consistency_map_hints": self._build_placeholder_alias_consistency_map_hints(available_patterns),
+            "proper_noun_leakage_review_hints": self._build_proper_noun_leakage_review_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -2482,6 +2518,10 @@ class NovelSourceDiscoveryService:
             "spdx_reuse_compliance_gate": 67,
             "public_domain_corpus_boundary": 66,
             "attribution_derivative_work_gate": 66,
+            "source_entity_redaction_gate": 67,
+            "custom_entity_label_inventory": 66,
+            "placeholder_alias_consistency_map": 65,
+            "proper_noun_leakage_review": 67,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -2545,6 +2585,18 @@ class NovelSourceDiscoveryService:
         if "attribution_derivative_work_gate" in patterns:
             targets.append("attribution_derivative_policy")
             targets.append("licensed_source_usage_boundary")
+        if "source_entity_redaction_gate" in patterns:
+            targets.append("source_entity_redaction_manifest")
+            targets.append("entity_leakage_review_policy")
+        if "custom_entity_label_inventory" in patterns:
+            targets.append("custom_fiction_entity_label_set")
+            targets.append("source_entity_inventory")
+        if "placeholder_alias_consistency_map" in patterns:
+            targets.append("placeholder_alias_map")
+            targets.append("replacement_consistency_policy")
+        if "proper_noun_leakage_review" in patterns:
+            targets.append("proper_noun_blocklist")
+            targets.append("proper_noun_allowlist")
         if "graph_branching_atomicity" in patterns:
             targets.append("canon_branch_snapshots")
         if "query_lint_contract" in patterns:
@@ -3145,6 +3197,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["public_domain_source_report", "gutenberg_metadata_findings", "public_domain_scope_notes"])
         if "attribution_derivative_work_gate" in patterns:
             targets.extend(["attribution_derivative_review", "allowed_use_boundary_findings", "licensed_source_exclusion_notes"])
+        if "source_entity_redaction_gate" in patterns:
+            targets.extend(["source_entity_redaction_report", "unredacted_source_entity_findings", "redaction_review_decisions"])
+        if "custom_entity_label_inventory" in patterns:
+            targets.extend(["custom_entity_label_inventory", "fiction_entity_type_coverage", "unmapped_entity_findings"])
+        if "placeholder_alias_consistency_map" in patterns:
+            targets.extend(["placeholder_alias_consistency_report", "replacement_collision_findings", "alias_namespace_drift_notes"])
+        if "proper_noun_leakage_review" in patterns:
+            targets.extend(["proper_noun_leakage_report", "source_name_carryover_findings", "allowed_name_exception_notes"])
         if "topic_drift_map" in patterns:
             targets.extend(["topic_drift_map", "topic_cluster_timeline", "off_arc_topic_findings"])
         if "context_faithfulness_eval_gate" in patterns:
@@ -3645,6 +3705,14 @@ class NovelSourceDiscoveryService:
             hints.append("Record public-domain source, observed metadata, jurisdiction caveat, and extraction settings before using public-domain text for deconstruction.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
+        if "source_entity_redaction_gate" in patterns:
+            hints.append("Persist source-entity redaction decisions before analysis or drafting so copied names, places, factions, artifacts, and powers cannot silently enter canon.")
+        if "custom_entity_label_inventory" in patterns:
+            hints.append("Store fiction-specific entity labels separately from ordinary NER output: character, faction, location, artifact, title, ability, rank, and invented term.")
+        if "placeholder_alias_consistency_map" in patterns:
+            hints.append("Keep a stable placeholder and alias map for redacted sources, and review replacement collisions before any remapped context is reused.")
+        if "proper_noun_leakage_review" in patterns:
+            hints.append("Record source proper-noun blocklists and approved exceptions as review metadata before accepting continuation or same-type drafts.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -5402,6 +5470,38 @@ class NovelSourceDiscoveryService:
             "Attribution requirements and derivative-use boundaries must be satisfied outside prose generation; do not bury them inside style prompts.",
         ]
 
+    def _build_source_entity_redaction_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "source_entity_redaction_gate" not in patterns:
+            return []
+        return [
+            "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
+            "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation.",
+        ]
+
+    def _build_custom_entity_label_inventory_hints(self, patterns: set[str]) -> list[str]:
+        if "custom_entity_label_inventory" not in patterns:
+            return []
+        return [
+            "Use custom fiction entity labels beyond PERSON/ORG/LOC: faction, rank, artifact, power, species, place-type, title, invented term, and relationship label.",
+            "Keep the source entity inventory as analysis evidence; same-type creation must rebuild an independent inventory before outlining.",
+        ]
+
+    def _build_placeholder_alias_consistency_map_hints(self, patterns: set[str]) -> list[str]:
+        if "placeholder_alias_consistency_map" not in patterns:
+            return []
+        return [
+            "Maintain stable placeholders and replacement ids across chapters so source aliases, nicknames, and titles do not drift back into prompts under partial redaction.",
+            "Review placeholder collisions when two source entities collapse into one replacement or one source entity receives multiple replacements.",
+        ]
+
+    def _build_proper_noun_leakage_review_hints(self, patterns: set[str]) -> list[str]:
+        if "proper_noun_leakage_review" not in patterns:
+            return []
+        return [
+            "Run a proper-noun leakage review on drafts against source blocklists and approved exception lists before accepting chapters.",
+            "Names that are common genre terms need reviewer notes; distinctive names, titles, places, factions, and artifacts require replacement unless explicitly allowed.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -5628,6 +5728,14 @@ class NovelSourceDiscoveryService:
             targets.append("chinese_segmentation_dictionary_remap")
         if "chinese_ner_alias_consistency_gate" in patterns:
             targets.append("chinese_entity_alias_remap")
+        if "source_entity_redaction_gate" in patterns:
+            targets.append("source_entity_redaction_remap")
+        if "custom_entity_label_inventory" in patterns:
+            targets.append("custom_entity_label_remap")
+        if "placeholder_alias_consistency_map" in patterns:
+            targets.append("placeholder_alias_namespace_remap")
+        if "proper_noun_leakage_review" in patterns:
+            targets.append("proper_noun_blocklist_remap")
         if "chinese_text_normalization_gate" in patterns:
             targets.append("chinese_normalization_policy_remap")
         if "chinese_error_correction_review_gate" in patterns:
@@ -5859,6 +5967,14 @@ class NovelSourceDiscoveryService:
             hints.append("Rebuild custom dictionaries and keyword profiles for the transformed story so source names and invented terms are not carried over.")
         if "chinese_ner_alias_consistency_gate" in patterns:
             hints.append("Transform Chinese entity clusters by replacing names, aliases, sects, places, and relationship labels before context reuse.")
+        if "source_entity_redaction_gate" in patterns:
+            hints.append("Redact source-specific entities before same-type drafting; only transformed placeholders or approved continuation names may enter prompts.")
+        if "custom_entity_label_inventory" in patterns:
+            hints.append("Build custom fiction entity labels for the new story before generation so source factions, artifacts, ranks, powers, and titles are not reused.")
+        if "placeholder_alias_consistency_map" in patterns:
+            hints.append("Use a stable placeholder map during transformation and resolve replacements into a new alias namespace before prose drafting.")
+        if "proper_noun_leakage_review" in patterns:
+            hints.append("Run a proper-noun leak check against source blocklists after entity remap and before final same-type acceptance.")
         if "chinese_text_normalization_gate" in patterns:
             hints.append("Normalize only for comparison; regenerate visible orthography and punctuation policy for the new manuscript.")
         if "chinese_error_correction_review_gate" in patterns:
@@ -6108,6 +6224,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform segmentation dictionaries before generating or retrieving context, especially names, skills, sects, places, and invented compounds.")
         if "chinese_ner_alias_consistency_gate" in patterns:
             hints.append("Transform entity aliases and title systems before any same-type draft becomes canon.")
+        if "source_entity_redaction_gate" in patterns:
+            hints.append("Transform source entity detections into placeholders first, then create fresh names, places, factions, artifacts, powers, and titles.")
+        if "custom_entity_label_inventory" in patterns:
+            hints.append("Transform custom entity labels into a new inventory and require every copied source label to be replaced or explicitly allowed.")
+        if "placeholder_alias_consistency_map" in patterns:
+            hints.append("Transform placeholder ids into a consistent new alias namespace; do not leave mixed source aliases and new aliases in one context pack.")
+        if "proper_noun_leakage_review" in patterns:
+            hints.append("Transform proper-noun review findings into concrete renames, allowlist notes, or blocked draft sections.")
         if "chinese_text_normalization_gate" in patterns:
             hints.append("Transform normalization policy into a new manuscript style guide instead of using source orthography as default.")
         if "chinese_error_correction_review_gate" in patterns:
@@ -6269,6 +6393,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject public-domain corpus use without title/author/source URL/date/extraction-format provenance and jurisdiction caveat.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Reject same-type drafts that rely on attribution as a substitute for independent plot, character, setting, and phrasing.")
+        if "source_entity_redaction_gate" in patterns:
+            hints.append("Reject prompts, plans, or drafts that carry unredacted source-specific names, places, factions, artifacts, powers, or titles without continuation approval.")
+        if "custom_entity_label_inventory" in patterns:
+            hints.append("Reject entity inventories that only rename PERSON/ORG/LOC while leaving source-specific faction, artifact, rank, ability, or invented-term labels intact.")
+        if "placeholder_alias_consistency_map" in patterns:
+            hints.append("Reject partially redacted context where placeholders, aliases, nicknames, and titles map inconsistently across chapters.")
+        if "proper_noun_leakage_review" in patterns:
+            hints.append("Reject final drafts with distinctive source proper nouns unless each name appears in an approved exception list.")
         if "outliner_index_cards" in patterns:
             hints.append("Reject outline-card boards whose card order, scene function, and hook sequence mirror the source.")
         if "narrative_strand_mapping" in patterns:
@@ -7013,6 +7145,8 @@ class NovelSourceDiscoveryService:
             return "novel-automation"
         if self._has_source_rights_signal(haystack):
             return "novel-automation"
+        if self._has_entity_redaction_signal(haystack):
+            return "novel-automation"
         return "pattern-only"
 
     def _has_copy_similarity_signal(self, haystack: str) -> bool:
@@ -7288,6 +7422,30 @@ class NovelSourceDiscoveryService:
             "attribution",
             "derivative",
             "license terms",
+        )
+        return any(term in haystack for term in terms)
+
+    def _has_entity_redaction_signal(self, haystack: str) -> bool:
+        terms = (
+            "presidio",
+            "scrubadub",
+            "gliner",
+            "flair",
+            "spacy",
+            "pii de-identification",
+            "sensitive data",
+            "redacting",
+            "redaction",
+            "anonymizing",
+            "anonymization",
+            "named entity recognition",
+            "ner models",
+            "extract any entity types",
+            "custom entity types",
+            "anonymous ids",
+            "personally identifiable information",
+            "entity recognizer",
+            "proper noun",
         )
         return any(term in haystack for term in terms)
 

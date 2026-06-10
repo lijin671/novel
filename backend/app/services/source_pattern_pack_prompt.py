@@ -376,6 +376,10 @@ def render_source_pattern_pack_digest(
         "spdx_reuse_compliance_gate_hints",
         "public_domain_corpus_boundary_hints",
         "attribution_derivative_work_gate_hints",
+        "source_entity_redaction_gate_hints",
+        "custom_entity_label_inventory_hints",
+        "placeholder_alias_consistency_map_hints",
+        "proper_noun_leakage_review_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

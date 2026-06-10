@@ -64,6 +64,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_source_entity_redaction_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_context_activation_audit_section(
         lines=lines,
         bible=bible,
@@ -424,6 +428,10 @@ def build_remix_inspired_context_block(
         include_inspired_guidance=True,
     )
     _append_source_rights_provenance_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_source_entity_redaction_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1090,6 +1098,34 @@ def _append_source_rights_provenance_audit_section(
         lines.append("- public_domain_corpus_boundary: public-domain sources still need title, author, source URL, observed date, extraction format, and jurisdiction caveat")
     if "attribution_derivative_work_gate" in pattern_names:
         lines.append("- attribution_derivative_work_gate: attribution does not replace independent plot, character, setting, event order, and phrasing checks")
+
+
+def _append_source_entity_redaction_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render source entity redaction and proper-noun leakage gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant = {
+        "source_entity_redaction_gate",
+        "custom_entity_label_inventory",
+        "placeholder_alias_consistency_map",
+        "proper_noun_leakage_review",
+    }
+    if not pattern_names.intersection(relevant):
+        return
+
+    lines.append("")
+    lines.append("Source entity redaction audit:")
+    if "source_entity_redaction_gate" in pattern_names:
+        lines.append("- source_entity_redaction_gate: redact source-specific names, places, factions, artifacts, powers, titles, and proper nouns before same-type drafting")
+    if "custom_entity_label_inventory" in pattern_names:
+        lines.append("- custom_entity_label_inventory: track fiction labels beyond PERSON/ORG/LOC, including faction, rank, artifact, power, species, title, and invented term")
+    if "placeholder_alias_consistency_map" in pattern_names:
+        lines.append("- placeholder_alias_consistency_map: keep stable placeholders and replacement ids across chapters; review alias collisions before context reuse")
+    if "proper_noun_leakage_review" in pattern_names:
+        lines.append("- proper_noun_leakage_review: compare drafts against source blocklists and approved exceptions before accepting continuation or same-type prose")
 
 
 def _append_context_activation_audit_section(
@@ -2326,6 +2362,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "spdx_reuse_compliance_gate_hints": "spdx_reuse_compliance_gate",
         "public_domain_corpus_boundary_hints": "public_domain_corpus_boundary",
         "attribution_derivative_work_gate_hints": "attribution_derivative_work_gate",
+        "source_entity_redaction_gate_hints": "source_entity_redaction_gate",
+        "custom_entity_label_inventory_hints": "custom_entity_label_inventory",
+        "placeholder_alias_consistency_map_hints": "placeholder_alias_consistency_map",
+        "proper_noun_leakage_review_hints": "proper_noun_leakage_review",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

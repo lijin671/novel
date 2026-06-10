@@ -6648,3 +6648,177 @@ def test_default_discovery_sources_include_source_rights_projects():
     assert "https://github.com/Imkun-on/gutenberg-corpus-cli" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("license detection" in query.lower() and "spdx" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("project gutenberg" in query.lower() and "public domain" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+
+def test_entity_redaction_projects_classify_into_leakage_patterns():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "microsoft/presidio",
+                "html_url": "https://github.com/microsoft/presidio",
+                "description": "Framework for detecting, redacting, masking, and anonymizing sensitive data across text with NLP, pattern matching, and customizable pipelines.",
+                "stargazers_count": 8527,
+                "forks_count": 1000,
+                "open_issues_count": 200,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["pii", "redaction", "anonymization", "nlp"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.MD", "LICENSE", "docker-compose.yml", "presidio-analyzer", "presidio-anonymizer"],
+            },
+            {
+                "full_name": "LeapBeyond/scrubadub",
+                "html_url": "https://github.com/LeapBeyond/scrubadub",
+                "description": "Clean personally identifiable information from text with detectors, postprocessors, replacers, and anonymous IDs.",
+                "stargazers_count": 425,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["pii", "anonymization"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.rst", "LICENSE", "setup.py"],
+            },
+            {
+                "full_name": "urchade/GLiNER",
+                "html_url": "https://github.com/urchade/GLiNER",
+                "description": "Generalist and Lightweight Model for Named Entity Recognition. Extract any entity types from texts.",
+                "stargazers_count": 3264,
+                "forks_count": 300,
+                "open_issues_count": 50,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["named-entity-recognition", "ner"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "gliner"],
+            },
+            {
+                "full_name": "flairNLP/flair",
+                "html_url": "https://github.com/flairNLP/flair",
+                "description": "NLP framework with named entity recognition and NER models across languages.",
+                "stargazers_count": 14376,
+                "forks_count": 1500,
+                "open_issues_count": 300,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["nlp", "ner"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "flair"],
+            },
+            {
+                "full_name": "explosion/spaCy",
+                "html_url": "https://github.com/explosion/spaCy",
+                "description": "Industrial-strength NLP in Python with pretrained pipelines, named entity recognition, text classification, and custom pipeline components.",
+                "stargazers_count": 33643,
+                "forks_count": 5000,
+                "open_issues_count": 400,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["nlp", "ner", "pipeline"],
+                "updated_at": "2026-06-10T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T18:10:00+08:00",
+    )
+
+    by_title = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "source_entity_redaction_gate" in by_title["microsoft/presidio"]["absorbed_patterns"]
+    assert "placeholder_alias_consistency_map" in by_title["microsoft/presidio"]["absorbed_patterns"]
+    assert "docker" in by_title["microsoft/presidio"]["risk_flags"]
+    assert "source_entity_redaction_gate" in by_title["LeapBeyond/scrubadub"]["absorbed_patterns"]
+    assert "placeholder_alias_consistency_map" in by_title["LeapBeyond/scrubadub"]["absorbed_patterns"]
+    assert "custom_entity_label_inventory" in by_title["urchade/GLiNER"]["absorbed_patterns"]
+    assert "proper_noun_leakage_review" in by_title["urchade/GLiNER"]["absorbed_patterns"]
+    assert "custom_entity_label_inventory" in by_title["flairNLP/flair"]["absorbed_patterns"]
+    assert "custom_entity_label_inventory" in by_title["explosion/spaCy"]["absorbed_patterns"]
+
+
+def test_entity_redaction_pattern_pack_exposes_leakage_guidance():
+    service = NovelSourceDiscoveryService()
+    ledger = {
+        "generated_at": "2026-06-10T18:20:00+08:00",
+        "candidate_count": 4,
+        "candidates": [
+            {
+                "source": "github",
+                "url": "https://github.com/microsoft/presidio",
+                "title": "microsoft/presidio",
+                "summary": "Detect and redact source-specific entities before drafting.",
+                "stars": 8527,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": ["docker"],
+                "absorbed_patterns": ["source_entity_redaction_gate"],
+                "score": 90,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/urchade/GLiNER",
+                "title": "urchade/GLiNER",
+                "summary": "Custom fiction entity labels for source inventories.",
+                "stars": 3264,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["custom_entity_label_inventory"],
+                "score": 89,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/LeapBeyond/scrubadub",
+                "title": "LeapBeyond/scrubadub",
+                "summary": "Placeholder and anonymous id consistency for redacted source text.",
+                "stars": 425,
+                "license": "Apache-2.0",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["placeholder_alias_consistency_map"],
+                "score": 88,
+            },
+            {
+                "source": "github",
+                "url": "https://github.com/explosion/spaCy",
+                "title": "explosion/spaCy",
+                "summary": "Proper noun and entity leakage review for fiction drafts.",
+                "stars": 33643,
+                "license": "MIT",
+                "family": "novel-automation",
+                "posture": "pattern-only",
+                "risk_flags": [],
+                "absorbed_patterns": ["proper_noun_leakage_review"],
+                "score": 87,
+            },
+        ],
+    }
+
+    pattern_pack = service.build_pattern_pack_from_ledger(ledger)
+
+    assert "source_entity_redaction_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "custom_fiction_entity_label_set" in pattern_pack["bible_enrichment_targets"]
+    assert "placeholder_alias_map" in pattern_pack["bible_enrichment_targets"]
+    assert "proper_noun_blocklist" in pattern_pack["bible_enrichment_targets"]
+    assert "source_entity_redaction_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "custom_entity_label_inventory" in pattern_pack["whole_book_analysis_targets"]
+    assert "placeholder_alias_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "proper_noun_leakage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert pattern_pack["source_entity_redaction_gate_hints"]
+    assert pattern_pack["custom_entity_label_inventory_hints"]
+    assert pattern_pack["placeholder_alias_consistency_map_hints"]
+    assert pattern_pack["proper_noun_leakage_review_hints"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "source_entity_redaction_gate_hints" in digest
+    assert "custom_entity_label_inventory_hints" in digest
+    assert "placeholder_alias_consistency_map_hints" in digest
+    assert "proper_noun_leakage_review_hints" in digest
+
+
+def test_default_discovery_sources_include_entity_redaction_projects():
+    assert "https://github.com/microsoft/presidio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/LeapBeyond/scrubadub" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/urchade/GLiNER" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/flairNLP/flair" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/explosion/spaCy" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("de-identification" in query.lower() and "redaction" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("zero-shot ner" in query.lower() and "custom entity types" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
