@@ -52,3 +52,32 @@ Updated native MuMuAINovel code rather than importing upstream code:
 - GPL / AGPL / license-unclear sources are pattern-only.
 - No external runtime code was copied into MuMuAINovel.
 - Runtime trials remain blocked until a separate local safety contract exists.
+
+## Frontend surfacing addendum - 2026-06-10
+
+A fresh public HEAD / metadata refresh was recorded under
+`tmp/source-intake-writing-workbench-2026-06-10/`.
+No repository was cloned, installed, or executed.
+
+Current reachable HEADs used for the UI surfacing pass:
+
+- `vkbo/novelWriter`: `5a66c19033124285a2ab3777731cc1876d663392`
+- `olivierkes/manuskript`: `0ebee3ed69a8ae54215126345cd4715e8f1f35b3`
+- `andreafeccomandi/bibisco`: `14717969e301fc5a48cd2cda802075979a82ba2b`
+- `wavemakercards/wavemaker-cards-v4`: `cae81e8fcf995a1cda04752e5084fa4f98371cc4`
+  - GitHub API currently reports the canonical HTML URL as
+    `https://github.com/wavemakercards/wavemaker-v4`; the recorded seed URL
+    remains reachable for static review.
+
+Frontend integration delta:
+
+- Added mature manuscript planning tools to the visible BookRemix seed list.
+- Pinned plain-text project storage, synopsis cross-reference, Snowflake,
+  outliner/index-card, narrative-strand, character-depth, mindmap, and export
+  format pattern-pack keys.
+- Added an explicit `Mature manuscript planning gates` UI group so source
+  decomposition and same-type remapping can inspect planning artifacts directly.
+
+Runtime boundary remains unchanged: desktop/editor tools are only pattern
+sources here; no install, packaging step, plugin execution, external document
+import, or runtime code import is authorized.

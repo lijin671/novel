@@ -62,3 +62,30 @@ Updated native MuMuAINovel code rather than importing upstream code:
 - AGPL / nonstandard license sources are pattern-only.
 - No external runtime code was copied into MuMuAINovel.
 - Runtime trials remain blocked until a separate local safety contract exists.
+
+## Frontend surfacing addendum - 2026-06-10
+
+A fresh public HEAD / metadata refresh was recorded under
+`tmp/source-intake-writing-workbench-2026-06-10/`.
+No repository was cloned, installed, or executed.
+
+Current reachable HEADs used for the UI surfacing pass:
+
+- `MangoLion/plotbunni`: `5620cd091c7074365980f457dfce95f02e5fa45f`
+- `loreum-app/loreum`: `c38ade12a664790d10ff3ae847ce2529845f299c`
+- `Lanerra/saga`: `865a3912f17b09af9927c0358f9f026020f51673`
+- `ModernRelay/omnigraph`: `f799d4578c83e38e01564b0eed4dbc676863c1b3`
+
+Frontend integration delta:
+
+- Added the workbench / graph-memory projects to the visible BookRemix
+  source-discovery seed list.
+- Pinned workspace, prompt-library, scene-generation, review-queue, style-layer,
+  ContentRef, graph-healing, contradiction, graph-branching, and query-lint
+  pattern-pack keys.
+- Added an explicit `Workspace / scene planning gates` UI group so these signals
+  no longer appear only as generic additional gates.
+
+Runtime boundary remains unchanged: pattern-only static intake; no install,
+MCP/server launch, browser extension, script, Docker stack, provider call, or
+external code import is authorized.

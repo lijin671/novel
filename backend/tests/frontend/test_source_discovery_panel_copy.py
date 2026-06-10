@@ -48,6 +48,36 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "temporal_canon_context_graph_hints",
         "plotline_thread_tracking_hints",
         "rolling_summary_context_trim_hints",
+        "local_first_workspace_hints",
+        "prompt_library_hints",
+        "scene_level_generation_hints",
+        "review_queue_staging_hints",
+        "style_guide_layering_hints",
+        "entity_schema_custom_fields_hints",
+        "content_ref_externalization_hints",
+        "graph_healing_hints",
+        "contradiction_detection_hints",
+        "graph_branching_atomicity_hints",
+        "query_lint_contract_hints",
+        "premature_ending_guard_hints",
+        "layered_memory_model_hints",
+        "plot_dependency_graph_hints",
+        "plotgrid_scene_matrix_hints",
+        "scene_status_dashboard_hints",
+        "gradual_reveal_control_hints",
+        "setup_payoff_tracking_hints",
+        "scene_type_directing_hints",
+        "worldpkg_export_hints",
+        "alternate_timeline_branching_hints",
+        "divergence_guidance_hints",
+        "plain_text_project_storage_hints",
+        "synopsis_cross_reference_hints",
+        "snowflake_premise_expansion_hints",
+        "outliner_index_cards_hints",
+        "narrative_strand_mapping_hints",
+        "character_depth_interview_hints",
+        "mindmap_visual_planning_hints",
+        "manuscript_export_formats_hints",
         "causal_dramatica_agent_pipeline_hints",
         "capture_distillation_production_gate_hints",
         "skill_orchestrated_chinese_novel_workflow_hints",
@@ -184,6 +214,39 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Character dialogue persona memory gates" in panel_text
     assert "Anti-repetition prompt rule gates" in panel_text
     assert "Temporal canon context graph gates" in panel_text
+    assert "Workspace / scene planning gates" in panel_text
+    assert "Local-first workspace gates" in panel_text
+    assert "Prompt library gates" in panel_text
+    assert "Scene-level generation gates" in panel_text
+    assert "Review queue staging gates" in panel_text
+    assert "Style guide layering gates" in panel_text
+    assert "Entity schema custom field gates" in panel_text
+    assert "ContentRef externalization gates" in panel_text
+    assert "Graph healing gates" in panel_text
+    assert "Contradiction detection gates" in panel_text
+    assert "Graph branching atomicity gates" in panel_text
+    assert "Query lint contract gates" in panel_text
+    assert "Plotgrid / reveal / branch gates" in panel_text
+    assert "Premature ending guards" in panel_text
+    assert "Layered memory model gates" in panel_text
+    assert "Plot dependency graph gates" in panel_text
+    assert "Plotgrid scene matrix gates" in panel_text
+    assert "Scene status dashboard gates" in panel_text
+    assert "Gradual reveal control gates" in panel_text
+    assert "Setup / payoff tracking gates" in panel_text
+    assert "Scene type directing gates" in panel_text
+    assert "WorldPkg export gates" in panel_text
+    assert "Alternate timeline branching gates" in panel_text
+    assert "Divergence guidance gates" in panel_text
+    assert "Mature manuscript planning gates" in panel_text
+    assert "Plain text project storage gates" in panel_text
+    assert "Synopsis cross-reference gates" in panel_text
+    assert "Snowflake premise expansion gates" in panel_text
+    assert "Outliner index-card gates" in panel_text
+    assert "Narrative strand mapping gates" in panel_text
+    assert "Character depth interview gates" in panel_text
+    assert "Mindmap visual planning gates" in panel_text
+    assert "Manuscript export format gates" in panel_text
     assert "Causal state-machine / skill workflow gates" in panel_text
     assert "Causal Dramatica agent pipeline gates" in panel_text
     assert "Capture distillation production gates" in panel_text
@@ -340,6 +403,28 @@ def test_source_discovery_panel_default_seeds_include_context_memory_projects():
         "mrigankad/Novel-OS",
         "aikohanasaki/SillyTavern-MemoryBooks",
         "bal-spec/sillytavern-character-memory",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_workbench_planning_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "MangoLion/plotbunni",
+        "loreum-app/loreum",
+        "Lanerra/saga",
+        "ModernRelay/omnigraph",
+        "doctoroyy/novel-copilot",
+        "PixeroJan/obsidian-storyline",
+        "skyfiredao/dreampowers",
+        "ypcypc/WhatIf",
+        "vkbo/novelWriter",
+        "olivierkes/manuskript",
+        "andreafeccomandi/bibisco",
+        "wavemakercards/wavemaker-cards-v4",
     ):
         assert repo in panel_text
 
@@ -667,7 +752,7 @@ def test_source_discovery_panel_has_dynamic_fallback_for_unpinned_hint_groups():
         and key not in explicitly_rendered_fields
     ]
 
-    assert len(dynamic_hint_fields) > 100
+    assert len(dynamic_hint_fields) > 70
     assert "Additional source-discovered gates" in panel_text
     assert "collectAdditionalHintBlocks" in panel_text
     assert "key.endsWith('_hints')" in panel_text

@@ -54,3 +54,30 @@ Updated native MuMuAINovel code rather than importing upstream code:
 - License-missing, GPL, plugin, browser-extension, script, and runtime surfaces remain pattern-only.
 - No external runtime code was copied into MuMuAINovel.
 - Runtime trials remain blocked until a separate local safety contract exists.
+
+## Frontend surfacing addendum - 2026-06-10
+
+A fresh public HEAD / metadata refresh was recorded under
+`tmp/source-intake-writing-workbench-2026-06-10/`.
+No repository was cloned, installed, or executed.
+
+Current reachable HEADs used for the UI surfacing pass:
+
+- `doctoroyy/novel-copilot`: `ea671b090e191e0586b0ff96d75f6928d0fe97b4`
+- `PixeroJan/obsidian-storyline`: `338fe8a6cb42f4c5153ad98bb15b2730ca534906`
+- `skyfiredao/dreampowers`: `963c439a4a002e4d7365437503a8e2487bc3733e`
+- `ypcypc/WhatIf`: `e398ded70506e281733ffd1ffa853435b18746ce`
+
+Frontend integration delta:
+
+- Added the plotgrid / reveal / branch sources to the visible BookRemix seed
+  list.
+- Pinned premature-ending, layered-memory, plot-dependency, plotgrid,
+  scene-status, gradual-reveal, setup/payoff, scene-type, WorldPkg,
+  alternate-timeline, and divergence pattern-pack keys.
+- Added an explicit `Plotgrid / reveal / branch gates` UI group for
+  continuation and same-type transformation review.
+
+Runtime boundary remains unchanged: plugin/browser-extension, shell-script,
+backend/frontend app, and tool directories are only metadata signals here; no
+runtime launch, install, script execution, or code import is authorized.
