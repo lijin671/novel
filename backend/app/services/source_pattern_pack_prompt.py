@@ -418,6 +418,7 @@ def render_source_pattern_pack_digest(
         "prompt_preset_variable_library_gate_hints",
         "imported_manuscript_migration_outline_gate_hints",
         "style_dna_reference_library_gate_hints",
+        "anti_copy_style_rag_gate_hints",
         "draft_candidate_promotion_gate_hints",
         "privacy_preserving_local_index_gate_hints",
         "chapter_split_deconstruction_export_gate_hints",

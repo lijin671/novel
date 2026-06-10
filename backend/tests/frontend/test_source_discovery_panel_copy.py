@@ -436,6 +436,7 @@ def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_
         "https://github.com/NousResearch/autonovel",
         "https://github.com/MangoLion/plotbunni",
         "https://github.com/zlx362211854/novelforge-agent",
+        "https://github.com/MissingDanial/StyleMuse",
         "https://github.com/booknlp/booknlp",
         "https://github.com/THUDM/LongWriter",
         "https://github.com/google-deepmind/narrativeqa",

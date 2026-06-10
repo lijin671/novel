@@ -11207,3 +11207,127 @@ def test_static_novelforge_source_maps_to_host_schema_retrieval_architecture_gat
     assert "schema_review_revision_recovery_gate_hints" in digest
     assert "cjk_bm25_context_retrieval_gate_hints" in digest
     assert "dynamic_architecture_extension_gate_hints" in digest
+
+
+def test_stylemuse_storyforge_moyun_sources_add_anti_copy_style_rag_gates():
+    assert "https://github.com/MissingDanial/StyleMuse" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/91zgaoge/StoryForge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wuyinglai/moyun-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("style imitation" in query and "anti-copy" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "MissingDanial/StyleMuse",
+                "html_url": "https://github.com/MissingDanial/StyleMuse",
+                "description": (
+                    "StyleMuse is a RAG based author style imitation system for epub/txt uploads. "
+                    "It analyzes writing style, builds a vector index, retrieves relevant passages, "
+                    "uses retrieval filtering, post-generation repetition detection, prompt constraints, "
+                    "anti-copy and plagiarism prevention before generating original imitation prose, "
+                    "with OpenAI-compatible providers and user API keys."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["style-imitation", "rag", "writing", "novel"],
+                "updated_at": "2026-06-09T09:11:35Z",
+                "root_files": [
+                    "README.md",
+                    "Dockerfile",
+                    "docker-compose.yml",
+                    ".env.example",
+                    "requirements.txt",
+                    "app.py",
+                    "main.py",
+                    "prompts",
+                    "skills",
+                    "tests",
+                ],
+            },
+            {
+                "full_name": "91zgaoge/StoryForge",
+                "html_url": "https://github.com/91zgaoge/StoryForge",
+                "description": (
+                    "StoryForge is an AI director-style novel creation system with backstage story, "
+                    "character, scene and worldbuilding management, frontstage immersive drafting, "
+                    "knowledge graph, foreshadowing tracking, StyleDNA, collaboration, and seven-stage workflow."
+                ),
+                "stargazers_count": 31,
+                "forks_count": 8,
+                "license": None,
+                "topics": ["novel", "tauri", "storyforge", "styledna"],
+                "updated_at": "2026-06-10T10:01:26Z",
+                "root_files": [
+                    "README.md",
+                    "Cargo.toml",
+                    "package.json",
+                    "docker-compose.yml",
+                    "deploy.sh",
+                    "run-dev.ps1",
+                    "src-tauri",
+                    "src-frontend",
+                    ".env.example",
+                ],
+            },
+            {
+                "full_name": "wuyinglai/moyun-studio",
+                "html_url": "https://github.com/wuyinglai/moyun-studio",
+                "description": (
+                    "Moyun Studio is a local-first AI fiction writing studio with scene-level sec-*.md writing, "
+                    "candidate-based safe revision, story memory files recent-context.md and story-state.md, "
+                    "Lite and Professional entry points, YAML prompt pipelines, and local workspace file storage."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction", "local-first", "safe-revision"],
+                "updated_at": "2026-06-10T17:35:14Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    ".env.example",
+                    "backend",
+                    "frontend",
+                    "prompts",
+                    "scripts",
+                    "kill_port_8000.ps1",
+                    "tests",
+                ],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T17:50:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    stylemuse = candidates["MissingDanial/StyleMuse"]
+    assert "same_type_creation" in stylemuse["absorbed_patterns"]
+    assert "anti_copy_style_rag_gate" in stylemuse["absorbed_patterns"]
+    assert "context_reference" in stylemuse["absorbed_patterns"]
+    assert "docker" in stylemuse["risk_flags"]
+    assert "provider_key_surface" in stylemuse["risk_flags"]
+
+    storyforge = candidates["91zgaoge/StoryForge"]
+    assert "style_dna_reference_library_gate" in storyforge["absorbed_patterns"]
+    assert "setup_payoff_tracking" in storyforge["absorbed_patterns"]
+    assert "docker" in storyforge["risk_flags"]
+    assert "shell_script" in storyforge["risk_flags"]
+    assert "powershell_script" in storyforge["risk_flags"]
+
+    moyun = candidates["wuyinglai/moyun-studio"]
+    assert "local_first_novel_workspace" in moyun["absorbed_patterns"]
+    assert "draft_candidate_promotion_gate" in moyun["absorbed_patterns"]
+    assert "workflow_agent_pipeline" in moyun["absorbed_patterns"]
+    assert "powershell_script" in moyun["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "anti_copy_style_rag_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "style_retrieval_similarity_review" in pattern_pack["bible_enrichment_targets"]
+    assert "anti_copy_style_rag_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("style-imitation RAG" in hint for hint in pattern_pack["anti_copy_style_rag_gate_hints"])
+    assert any("retrieved chunks" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "anti_copy_style_rag_gate_hints" in digest

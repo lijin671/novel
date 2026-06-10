@@ -306,6 +306,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("modelHint" OR "segments" OR "prompt caching") ("novel" OR "long-form fiction" OR "MCP host") in:name,description,readme',
     '("chapter_review" OR "revisionCounts" OR "forceAdvanced") ("novel" OR "chapter revision") in:name,description,readme',
     '("BM25" OR "CJK bigram tokenizer" OR "memory cards") ("novel" OR "story bible") in:name,description,readme',
+    '("style imitation" OR "style mimicry" OR "RAG") ("anti-copy" OR "plagiarism" OR "repetition detection") ("novel" OR "writing") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -329,6 +330,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "https://github.com/uu201/character-arc",
     "https://github.com/zlx362211854/novelforge-agent",
+    "https://github.com/MissingDanial/StyleMuse",
+    "https://github.com/91zgaoge/StoryForge",
+    "https://github.com/wuyinglai/moyun-studio",
     "https://github.com/Lanerra/saga",
     "https://github.com/ModernRelay/omnigraph",
     "https://github.com/doctoroyy/novel-copilot",
@@ -727,7 +731,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_decomposition", ("拆书", "拆解", "解析", "book decomposition", "book analysis", "source book")),
     ("chapter_generation", ("chapter generation", "chapter-writing", "chapter writer", "chapter writing", "multi-chapter stories", "iterative chapter writing", "autonomous novel pipeline", "novel pipeline", "seed concept to print-ready", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
     ("continuation", ("continuation", "continue", "续写", "断更续写", "继续写")),
-    ("same_type_creation", ("同类型", "same type creation", "same-type creation", "inspired", "remix", "二创", "同人", "同类创作", "风格复刻")),
+    ("same_type_creation", ("同类型", "same type creation", "same-type creation", "style imitation", "style mimicry", "inspired", "remix", "二创", "同人", "同类创作", "风格复刻")),
     ("worldbuilding", ("worldbuilding", "世界观", "设定", "world rules")),
     ("timeline", ("timeline", "时间线", "chronology")),
     ("character_cards", ("character", "人物", "角色", "人物卡")),
@@ -738,7 +742,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("card_workbench", ("card", "cards", "card-based", "card workbench", "卡片", "卡片式", "卡片创作")),
     ("structured_generation_schema", ("schema", "json schema", "schema-first", "structured generation", "结构化", "结构化生成", "动态输出模型", "输出模型")),
     ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "vector retrieval", "vector storage", "retrieved automatically", "retrieval", "retrieve relevant", "rag", "injection viewer", "上下文注入", "上下文引用", "知识图谱", "引用")),
-    ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
+    ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "prompt pipeline", "prompt pipelines", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "读者面板", "平台期检测")),
     ("voice_fingerprint", ("voice fingerprint", "voice analysis", "voice discovery", "voice.md", "声纹", "文风指纹", "语气指纹", "声音发现")),
@@ -923,8 +927,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("local_author_data_boundary_gate", ("local data management", "local data", "offline data", "本地数据", "本地ollama", "local ollama", "local desktop", "windows packaged", "windows 打包版", "automatic update", "自动升级", "upgrade.zip")),
     ("prompt_preset_variable_library_gate", ("prompt preset", "prompt presets", "prompt variable", "prompt variables", "prompt template", "prompt-template", "variable system", "template import", "usage stats", "提示词库", "提示词管理", "预设管理", "系统提示词", "用户提示词", "变量系统", "动态变量", "template library", "模板导入", "提示词效果追踪")),
     ("imported_manuscript_migration_outline_gate", ("imported manuscript", "manuscript import", "txt import", "txt 导入", "导入小说", "智能解析目录", "generate each chapter outline", "每章大纲", "quickly migrate existing work", "迁移现有作品", "选择性导入")),
-    ("style_dna_reference_library_gate", ("style dna", "writing dna", "writing-dna", "文笔dna", "narrative dna", "拆书知识库", "reference library", "参考库", "学习和模仿", "风格模仿", "风格学习")),
-    ("draft_candidate_promotion_gate", ("draft vs confirmed", "confirmed chapters", "rewrite candidates", "candidate comparison", "草稿不会自动覆盖正文", "草稿候选", "确认稿", "重写候选", "人工确认稿", "promoting only approved drafts")),
+    ("style_dna_reference_library_gate", ("style dna", "styledna", "writing dna", "writing-dna", "文笔dna", "narrative dna", "拆书知识库", "reference library", "参考库", "学习和模仿", "风格模仿", "风格学习")),
+    ("anti_copy_style_rag_gate", ("style imitation", "style mimicry", "rag style imitation", "anti-copy", "anti plagiarism", "plagiarism prevention", "repetition detection", "retrieval filtering", "chunking")),
+    ("draft_candidate_promotion_gate", ("draft vs confirmed", "confirmed chapters", "rewrite candidates", "candidate-based safe revision", "candidate comparison", "草稿不会自动覆盖正文", "草稿候选", "确认稿", "重写候选", "人工确认稿", "promoting only approved drafts")),
     ("privacy_preserving_local_index_gate", ("privacy-preserving index", "metadata-only", "metadata only", "never manuscript", "all data stays local", "all data is saved", "offline-first", "本地保存", "本地化数据", "数据优先保存在本机", "草稿不会自动覆盖正文")),
     ("chapter_split_deconstruction_export_gate", ("chapter splitter", "book splitter", "chapter split", "章节分割", "拆书提示词", "全部拆书", "chapter analysis", "章节概要", "人物分析", "情节解析", "导出数据", "supported encodings", "gbk", "big5")),
     ("final_prompt_preview_span_revision_gate", ("final prompt", "prompt preview", "最终提示词", "编辑提示词", "右键菜单操作", "selected_text", "选中文本", "右键润色", "send to ai", "replace selected text", "shift+l", "快捷词条")),
@@ -1493,6 +1498,21 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "mandatory chapter_review acceptance gates, chapter_revision loops with revisionCounts and forceAdvanced escape hatch, failed-submission recovery files, "
         "architecture_extension when planned chapters are exhausted, volume pacing boards, CJK-aware BM25 lexical retrieval over chapters/story-bible sections/memory cards, "
         "and compact audit logs that summarize sensitive content by length and sha256. Pattern-only value is a schema-gated continuation runtime contract; npx installers, MCP server launch, package scripts, host config edits, and model/provider calls are not executed."
+    ),
+    "missingdanial/stylemuse": (
+        "StyleMuse is a style-imitation RAG workspace for uploading epub/txt author works, analyzing writing style, building a vector index, retrieving relevant passages, "
+        "and generating original imitation prose. Public README markers describe style guides, example fragments, chunked source processing, retrieval filtering, post-generation repetition detection, "
+        "prompt constraints, user-configured OpenAI-compatible providers, Docker files, requirements.txt, and .env.example. Pattern-only value is anti-copy style-RAG governance: source passages can support abstract style learning, "
+        "but generated same-type prose needs retrieval provenance, copied-span thresholds, and rejection before promotion; provider calls, Docker, package installs, and uploaded corpus processing are not executed."
+    ),
+    "91zgaoge/storyforge": (
+        "StoryForge is a desktop AI novel creation system. Public metadata and README markers describe backstage management for story, characters, scenes, worldbuilding, and AI configuration; "
+        "frontstage immersive drafting; knowledge graph, foreshadowing tracking, StyleDNA, collaboration, and a seven-stage creation workflow. The repository exposes Tauri/Rust, npm, Docker, shell, PowerShell, and host-agent files. "
+        "Pattern-only value is frontstage/backstage separation and director-style workflow visibility; app runtimes, scripts, Docker, package managers, and provider/model calls are not executed."
+    ),
+    "wuyinglai/moyun-studio": (
+        "Moyun Studio is a MIT local-first AI fiction studio. Public README markers describe scene-level sec-*.md writing units, candidate-based safe revision, story memory files such as recent-context.md and story-state.md, "
+        "Lite and Professional entry points, YAML prompt pipelines, and local workspace file storage. Pattern-only value is draft-candidate promotion, local story-memory boundaries, and safe revision staging; scripts, PowerShell helpers, tests, package managers, and provider calls are not executed."
     ),
     "arupmaity1/book-writer-mcp": (
         "Book Writer MCP for AI-assisted manuscript work. Public README describes story bible, style guide, continuity checker, chapter create/read/update/list/reorder, "
@@ -2914,6 +2934,7 @@ class NovelSourceDiscoveryService:
             "prompt_preset_variable_library_gate_hints": self._build_prompt_preset_variable_library_gate_hints(available_patterns),
             "imported_manuscript_migration_outline_gate_hints": self._build_imported_manuscript_migration_outline_gate_hints(available_patterns),
             "style_dna_reference_library_gate_hints": self._build_style_dna_reference_library_gate_hints(available_patterns),
+            "anti_copy_style_rag_gate_hints": self._build_anti_copy_style_rag_gate_hints(available_patterns),
             "draft_candidate_promotion_gate_hints": self._build_draft_candidate_promotion_gate_hints(available_patterns),
             "privacy_preserving_local_index_gate_hints": self._build_privacy_preserving_local_index_gate_hints(available_patterns),
             "chapter_split_deconstruction_export_gate_hints": self._build_chapter_split_deconstruction_export_gate_hints(available_patterns),
@@ -3877,6 +3898,7 @@ class NovelSourceDiscoveryService:
             "prompt_preset_variable_library_gate": 63,
             "imported_manuscript_migration_outline_gate": 66,
             "style_dna_reference_library_gate": 67,
+            "anti_copy_style_rag_gate": 70,
             "draft_candidate_promotion_gate": 69,
             "privacy_preserving_local_index_gate": 64,
             "chapter_split_deconstruction_export_gate": 67,
@@ -4043,6 +4065,9 @@ class NovelSourceDiscoveryService:
         if "style_dna_reference_library_gate" in patterns:
             targets.append("style_dna_reference_library")
             targets.append("style_abstraction_policy")
+        if "anti_copy_style_rag_gate" in patterns:
+            targets.append("anti_copy_style_rag_policy")
+            targets.append("style_retrieval_similarity_review")
         if "draft_candidate_promotion_gate" in patterns:
             targets.append("draft_candidate_state_policy")
             targets.append("confirmed_chapter_promotion_rules")
@@ -6348,6 +6373,15 @@ class NovelSourceDiscoveryService:
             "A style-DNA library stores abstract craft features such as rhythm, scene density, dialogue pressure, and payoff shape, not source paragraphs.",
             "Each reference-library item needs provenance, license/posture, allowed-use label, abstraction summary, and copy-risk review before it informs same-type creation.",
             "For imitation-like work, cite style-DNA ids and novelty requirements; never ask the model to reproduce a named author or source passage.",
+        ]
+
+    def _build_anti_copy_style_rag_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_copy_style_rag_gate" not in patterns:
+            return []
+        return [
+            "For style-imitation RAG, store source chunks as protected reference evidence: prompts may cite chunk ids, style traits, and retrieval reasons, not paste source prose as generation material.",
+            "Run copy-risk review after generation with lexical overlap, repeated phrase, named-entity, and retrieved-span checks before a same-type draft can be promoted.",
+            "If a draft is too close to a retrieved source passage, regenerate from abstract style constraints, lower source proximity, and record the rejected span with similarity evidence.",
         ]
 
     def _build_draft_candidate_promotion_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9577,6 +9611,8 @@ class NovelSourceDiscoveryService:
             targets.append("imported_outline_boundary_remap")
         if "style_dna_reference_library_gate" in patterns:
             targets.append("style_dna_abstraction_remap")
+        if "anti_copy_style_rag_gate" in patterns:
+            targets.append("anti_copy_style_rag_remap")
         if "draft_candidate_promotion_gate" in patterns:
             targets.append("draft_candidate_promotion_remap")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -9717,6 +9753,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform imported chapter maps into a new outline spine before drafting; do not preserve original chapter order unless the task is faithful continuation.")
         if "style_dna_reference_library_gate" in patterns:
             hints.append("Use style-DNA ids as abstract craft guidance only; generate new premise, cast, conflicts, and phrasing for same-type work.")
+        if "anti_copy_style_rag_gate" in patterns:
+            hints.append("For style-RAG imitation, pass only chunk ids, abstract style traits, and retrieval reasons into the prompt; copied source passages stay behind the copy-risk gate.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -10494,6 +10532,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform imported outlines into independent chapter slots with new causes, costs, relationships, and payoff owners.")
         if "style_dna_reference_library_gate" in patterns:
             hints.append("Transform style-DNA notes into new voice guardrails; source examples may define an axis but not sentence templates.")
+        if "anti_copy_style_rag_gate" in patterns:
+            hints.append("Transform retrieved source-neighbor passages into negative examples and abstract constraints, then verify the new draft does not reuse their phrasing or entity sequence.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Transform candidate workflows by resetting candidate ids, reviewer decisions, and memory writebacks for the new story lineage.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -10613,6 +10653,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type drafts that preserve imported chapter order, chapter titles, parser fragments, or outline wording from the source manuscript.")
         if "style_dna_reference_library_gate" in patterns:
             hints.append("Reject style-DNA use that reproduces source phrasing, named set pieces, catchphrases, or a living author's signature sentence pattern.")
+        if "anti_copy_style_rag_gate" in patterns:
+            hints.append("Reject style-RAG outputs when retrieved chunks, high-overlap phrases, entity order, or post-generation repetition checks show source-passage copying.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -11190,6 +11232,7 @@ class NovelSourceDiscoveryService:
                 "prompt_preset_variable_library_gate",
                 "imported_manuscript_migration_outline_gate",
                 "style_dna_reference_library_gate",
+                "anti_copy_style_rag_gate",
                 "draft_candidate_promotion_gate",
                 "privacy_preserving_local_index_gate",
                 "chapter_split_deconstruction_export_gate",

@@ -16,6 +16,7 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/NousResearch/autonovel',
   'https://github.com/MangoLion/plotbunni',
   'https://github.com/zlx362211854/novelforge-agent',
+  'https://github.com/MissingDanial/StyleMuse',
   'https://github.com/booknlp/booknlp',
   'https://github.com/THUDM/LongWriter',
   'https://github.com/google-deepmind/narrativeqa',
@@ -151,6 +152,7 @@ const PINNED_HINT_KEYS = new Set([
   'schema_review_revision_recovery_gate_hints',
   'cjk_bm25_context_retrieval_gate_hints',
   'dynamic_architecture_extension_gate_hints',
+  'anti_copy_style_rag_gate_hints',
   'long_term_author_preference_memory_hints',
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
@@ -637,6 +639,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Host instruction/context boundary gates', patternPackPayload?.host_instruction_context_boundary_gate_hints],
               ['Schema review/revision recovery gates', patternPackPayload?.schema_review_revision_recovery_gate_hints],
               ['Dynamic architecture extension gates', patternPackPayload?.dynamic_architecture_extension_gate_hints],
+              ['Anti-copy style RAG gates', patternPackPayload?.anti_copy_style_rag_gate_hints],
             ])}
             {renderHintGroup('Graph memory / retrieval grounding gates', [
               ['Temporal canon context graph gates', patternPackPayload?.temporal_canon_context_graph_hints],
