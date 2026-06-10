@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { sourceDiscoveryApi } from '../../services/api';
 import type {
   SourceDiscoveryLatestArtifactResponse,
+  SourceDiscoveryPatternPack,
   SourceDiscoveryWorkflowPattern,
 } from '../../types/sourceDiscovery';
 
@@ -41,6 +42,40 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/hannasdev/mcp-writing',
   'https://github.com/xbraindance/Creative-writing-skill',
 ];
+
+const ADDITIONAL_HINT_GROUP_LIMIT = 24;
+const PINNED_HINT_KEYS = new Set([
+  'whole_book_analysis_targets',
+  'continuation_state_hints',
+  'style_fidelity_hints',
+  'lorebook_context_hints',
+  'author_note_layer_hints',
+  'world_state_tracking_hints',
+  'memory_snapshot_versioning_hints',
+  'quality_score_loop_hints',
+  'voice_fingerprint_hints',
+  'anti_slop_audit_hints',
+  'inspired_mapping_targets',
+  'inspired_prompt_hints',
+  'inspired_transformation_hints',
+  'inspired_copy_risk_hints',
+  'self_review_gate_hints',
+  'chapter_change_package_hints',
+  'bookrun_audit_trail_gate_hints',
+  'provider_budget_smoke_gate_hints',
+  'sidecar_memory_profile_boundary_hints',
+  'outline_checkpoint_milestone_gate_hints',
+  'language_localization_style_profile_gate_hints',
+  'progressive_disclosure_skill_protocol_gate_hints',
+  'anti_slop_rulepack_triage_gate_hints',
+  'user_modifier_project_blueprint_gate_hints',
+  'portable_canon_skill_runtime_gate_hints',
+  'staged_outline_chunk_window_gate_hints',
+  'wiki_canon_graph_lint_gate_hints',
+  'plan_draft_log_verify_loop_gate_hints',
+  'mcp_scene_index_revision_boundary_hints',
+  'verbalized_sampling_diversity_wiki_gate_hints',
+]);
 
 function parseSeedUrls(value: string): string[] {
   return value
@@ -114,6 +149,7 @@ export default function BookRemixSourceDiscoveryPanel() {
   };
   const trustReviewPatterns = (patternPackPayload?.workflow_patterns || [])
     .filter((pattern) => pattern.posture_hint === 'defer-trust-review' || Boolean(pattern.trust_flags?.length));
+  const additionalHintBlocks = collectAdditionalHintBlocks(patternPackPayload);
 
   return (
     <Card
@@ -237,6 +273,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['MCP scene index revision boundaries', patternPackPayload?.mcp_scene_index_revision_boundary_hints],
               ['Verbalized sampling diversity wiki gates', patternPackPayload?.verbalized_sampling_diversity_wiki_gate_hints],
             ])}
+            {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>
 
           {ledger?.content ? (
@@ -294,6 +331,34 @@ function renderHintGroup(title: string, blocks: Array<[string, string[] | undefi
       </Space>
     </Card>
   );
+}
+
+function collectAdditionalHintBlocks(patternPack?: SourceDiscoveryPatternPack | null): Array<[string, string[]]> {
+  if (!patternPack) {
+    return [];
+  }
+
+  const payload = patternPack as Record<string, unknown>;
+  return Object.keys(payload)
+    .filter((key) => key.endsWith('_hints') && !PINNED_HINT_KEYS.has(key))
+    .sort()
+    .map((key): [string, string[]] | null => {
+      const value = payload[key];
+      const items = Array.isArray(value)
+        ? value.filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+        : [];
+      if (!items.length) {
+        return null;
+      }
+      return [formatHintTitle(key), items.slice(0, 3)];
+    })
+    .filter((block): block is [string, string[]] => Boolean(block))
+    .slice(0, ADDITIONAL_HINT_GROUP_LIMIT);
+}
+
+function formatHintTitle(key: string) {
+  const base = key.replace(/_hints$/, '').replace(/_/g, ' ');
+  return base.replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 function renderTrustReviewPattern(pattern: SourceDiscoveryWorkflowPattern) {

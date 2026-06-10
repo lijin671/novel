@@ -1,3 +1,5 @@
+import json
+import re
 from pathlib import Path
 
 
@@ -87,3 +89,27 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "xbraindance/Creative-writing-skill",
     ):
         assert repo in panel_text
+
+
+def test_source_discovery_panel_has_dynamic_fallback_for_unpinned_hint_groups():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    pattern_pack = repo_root / "backend" / "app" / "references" / "novel-source-pattern-pack-2026-06-10.json"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    pack = json.loads(pattern_pack.read_text(encoding="utf-8"))
+    explicitly_rendered_fields = set(re.findall(r"patternPackPayload\?\.([a-zA-Z0-9_]+)", panel_text))
+    dynamic_hint_fields = [
+        key
+        for key, value in pack.items()
+        if key.endswith("_hints")
+        and isinstance(value, list)
+        and value
+        and key not in explicitly_rendered_fields
+    ]
+
+    assert len(dynamic_hint_fields) > 100
+    assert "Additional source-discovered gates" in panel_text
+    assert "collectAdditionalHintBlocks" in panel_text
+    assert "key.endsWith('_hints')" in panel_text
+    assert "!PINNED_HINT_KEYS.has(key)" in panel_text
