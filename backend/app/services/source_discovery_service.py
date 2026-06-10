@@ -220,6 +220,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("master study" OR "masterWorks" OR "chapter beats" OR "style metrics") ("novel" OR "writing workbench") in:name,description,readme',
     '("world model" OR "story rules" OR "style consistent") ("AI novel" OR "story writing") in:name,description,readme',
     '("AI-Fic-IDE" OR "Android native" OR "history snapshots" OR "AI memory") ("web novel" OR "AI writing") in:name,description,readme',
+    '("human-machine co-creation" OR "inline edit" OR "precise modification" OR "AI polishing") ("AI novel" OR "web novel") in:name,description,readme',
+    '("orchestrator" OR "hierarchical planning" OR "volume" OR "arc" OR "memory weave") ("AI novel" OR "long-form writing") in:name,description,readme',
+    '("batch generation" OR "progress tracking" OR "auto continuation" OR "homogeneity") ("AI novel" OR "web novel") in:name,description,readme',
+    '("本地数据" OR "自动升级" OR "批量生成" OR "进度追踪") ("AI小说" OR "网文") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -526,6 +530,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/yuanbw2025/storyforge",
     "https://github.com/dedyrio/novelwriter",
     "https://github.com/qq1375828505/AI-Fic-IDE",
+    "https://github.com/leehong0704/ai-novel",
+    "https://github.com/wynnforthework/ai-novel-weaver",
+    "https://github.com/fuchen2020/BatchScribe",
+    "https://github.com/xy9144/flutter-novel-main",
+    "https://github.com/duoyang666/ai_novel",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -580,7 +589,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_decomposition", ("拆书", "拆解", "解析", "book decomposition", "book analysis", "source book")),
     ("chapter_generation", ("chapter generation", "chapter-writing", "chapter writer", "chapter writing", "multi-chapter stories", "iterative chapter writing", "autonomous novel pipeline", "novel pipeline", "seed concept to print-ready", "章节生成", "生成章节", "章节创作", "小说生成", "创作平台", "写作平台")),
     ("continuation", ("continuation", "continue", "续写", "断更续写", "继续写")),
-    ("same_type_creation", ("同类型", "inspired", "remix", "二创", "同人", "同类创作", "风格复刻")),
+    ("same_type_creation", ("同类型", "same type creation", "same-type creation", "inspired", "remix", "二创", "同人", "同类创作", "风格复刻")),
     ("worldbuilding", ("worldbuilding", "世界观", "设定", "world rules")),
     ("timeline", ("timeline", "时间线", "chronology")),
     ("character_cards", ("character", "人物", "角色", "人物卡")),
@@ -767,6 +776,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("verbalized_sampling_diversity_wiki_gate", ("verbalized sampling", "mode collapse", "distribution of responses", "probability score", "writer's wiki", "auto-files", "automatic character and setting detection", "diverse outlines", "brainstorm", "critic")),
     ("mode_contract_generation_gate", ("mode contract", "mode-specific contract", "public mode contract", "selected-mode priority", "selected-mode-first", "selected mode", "output mode", "output modes", "visible axes", "creative axes", "axis tags", "audience", "ending style", "narrator", "point of view", "under-length", "rewrite handling", "draft length", "structured generation contract")),
     ("source_study_method_bank_isolation_gate", ("master study", "masterworks", "masterchunkanalysis", "masterchapterbeats", "masterstylemetrics", "masterinsights", "methodology library", "method bank", "source study", "independent data table", "does not pollute creative data", "not pollute creative data")),
+    ("inline_human_machine_coauthoring_gate", ("human-machine co-creation", "human machine co creation", "precise modification", "inline edit", "micro adjustment", "ai polishing", "生成即起点", "微调见真章", "人机共创", "精细化", "局部修改", "润色")),
+    ("hierarchical_orchestrator_generation_gate", ("orchestrator-driven", "orchestrator driven", "orchestrator", "hierarchical planning", "volume and arc", "new volume", "new arc", "memory weave", "生成 → 验证 → 改进", "分层规划", "编排器", "卷和情节弧线", "作品发布")),
+    ("batch_continuation_progress_queue_gate", ("batch generation", "batch generate", "batch scribe", "batchscribe", "批量生成", "批量创作", "批量续写", "progress tracking", "auto continuation", "自动判定进度续写", "进度追踪", "自动续写")),
+    ("homogeneity_prompt_variation_gate", ("homogeneity", "samey", "同质化", "random title", "random topic", "随机生成书名", "随机生成题材", "prompt variation", "prompt revision", "修改了提示词")),
+    ("local_author_data_boundary_gate", ("local data management", "local data", "offline data", "本地数据", "本地ollama", "local ollama", "local desktop", "windows packaged", "windows 打包版", "automatic update", "自动升级", "upgrade.zip")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -853,6 +867,8 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("shell_script", (".sh", "install.sh", "setup.sh")),
     ("powershell_script", (".ps1", "install.ps1", "setup.ps1")),
     ("native_binary", (".exe", ".dll", ".so", ".dylib")),
+    ("binary_distribution", (".zip", "release/", "windows packaged", "windows 打包版", "安装包", "客户端")),
+    ("auto_update", ("auto upgrade", "automatic update", "自动升级", "upgrade.zip", "在线升级")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
     ("device_control", ("adb", "root", "accessibility", "plugin marketplace")),
@@ -1184,6 +1200,29 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "f5alcon/the-novelists-atelier": (
         "The Novelist's Atelier local-browser writing assistant with series/book/chapter context, developmental editing, tension and engagement prompts, reader curiosity tracker, "
         "chapter hook and cliffhanger audits, style DNA, smart context auto-toggling, local text analysis, token breakdown, local storage, backups, and security notes."
+    ),
+    "leehong0704/ai-novel": (
+        "AI Novel Tool is a Chinese desktop webnovel assistant. Public README describes human-machine co-creation, outline/body generation, "
+        "AI polishing, precise modification, local memory/history, and a Windows packaged zip. Pattern-only value is inline author-controlled revision "
+        "with explicit diff review; packaged binaries and runtime are not used."
+    ),
+    "wynnforthework/ai-novel-weaver": (
+        "AI Novel Weaver is a web-based long-novel platform. Public README describes an orchestrator-driven generation/validation/improvement loop, "
+        "hierarchical planning from volumes and arcs to chapters, memory weave, one-click book decomposition, local deployment, and prompt/agent coordination. "
+        "Pattern-only value is hierarchical orchestration and book-decomposition gates; local server/runtime are not launched."
+    ),
+    "fuchen2020/batchscribe": (
+        "BatchScribe is a Windows-only AI novel generator under AGPL-3.0. Public README describes batch generation, continuation, story type/style controls, "
+        "prompt configuration, memory-like context, chapter generation, and user review. Pattern-only value is batch continuation queue governance; Windows runtime is not used."
+    ),
+    "xy9144/flutter-novel-main": (
+        "Flutter Novel Generator is a cross-platform AI novel wrapper inspired by a public 52pojie thread. Public README describes outline -> volume plan -> range plan -> "
+        "chapter plan -> chapter text, automatic progress-based continuation, progress tracking, prompt revisions after homogeneous multi-chapter output, and local Ollama interface notes. "
+        "Pattern-only value is progress queue and homogeneity prompt variation; forum source and app runtime are not imported."
+    ),
+    "duoyang666/ai_novel": (
+        "duoyang666/ai_novel is a Chinese AI writing and knowledge-base app with public README markers for local software downloads, auto-upgrade zip, Feishu tutorials, "
+        "webnovel features such as outline, chapter generation, continuation, batch writing, and pleasure-point/rhythm support. Pattern-only value is local author-data boundary and update-surface risk review; downloads and auto-updaters are not executed."
     ),
     "arupmaity1/book-writer-mcp": (
         "Book Writer MCP for AI-assisted manuscript work. Public README describes story bible, style guide, continuity checker, chapter create/read/update/list/reorder, "
@@ -2344,6 +2383,11 @@ class NovelSourceDiscoveryService:
             "prompt_library_hints": self._build_prompt_library_hints(available_patterns),
             "mode_contract_generation_gate_hints": self._build_mode_contract_generation_gate_hints(available_patterns),
             "source_study_method_bank_isolation_gate_hints": self._build_source_study_method_bank_isolation_gate_hints(available_patterns),
+            "inline_human_machine_coauthoring_gate_hints": self._build_inline_human_machine_coauthoring_gate_hints(available_patterns),
+            "hierarchical_orchestrator_generation_gate_hints": self._build_hierarchical_orchestrator_generation_gate_hints(available_patterns),
+            "batch_continuation_progress_queue_gate_hints": self._build_batch_continuation_progress_queue_gate_hints(available_patterns),
+            "homogeneity_prompt_variation_gate_hints": self._build_homogeneity_prompt_variation_gate_hints(available_patterns),
+            "local_author_data_boundary_gate_hints": self._build_local_author_data_boundary_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3220,6 +3264,11 @@ class NovelSourceDiscoveryService:
             "toc_aware_source_deconstruction": 65,
             "two_pass_context_glossary_pipeline": 64,
             "inline_author_edit_markup_versioning": 63,
+            "inline_human_machine_coauthoring_gate": 66,
+            "hierarchical_orchestrator_generation_gate": 68,
+            "batch_continuation_progress_queue_gate": 66,
+            "homogeneity_prompt_variation_gate": 65,
+            "local_author_data_boundary_gate": 67,
             "causal_dramatica_agent_pipeline": 68,
             "capture_distillation_production_gate": 66,
             "skill_orchestrated_chinese_novel_workflow": 67,
@@ -3299,6 +3348,21 @@ class NovelSourceDiscoveryService:
         if "source_study_method_bank_isolation_gate" in patterns:
             targets.append("source_study_method_bank")
             targets.append("source_study_contamination_policy")
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            targets.append("inline_revision_policy")
+            targets.append("author_acceptance_diff_rules")
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            targets.append("hierarchical_generation_plan")
+            targets.append("orchestrator_stage_contracts")
+        if "batch_continuation_progress_queue_gate" in patterns:
+            targets.append("batch_continuation_queue")
+            targets.append("progress_tracking_policy")
+        if "homogeneity_prompt_variation_gate" in patterns:
+            targets.append("homogeneity_variation_policy")
+            targets.append("prompt_variation_axes")
+        if "local_author_data_boundary_gate" in patterns:
+            targets.append("local_author_data_boundary")
+            targets.append("update_surface_review_policy")
         if "style_guide_layering" in patterns:
             targets.append("style_layers")
             targets.append("character_voice_notes")
@@ -4460,6 +4524,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["comp_title_matrix", "reader_expectation_profile", "genre_gap_statement", "positioning_copy_constraints"])
         if "local_reader_experience_editor" in patterns:
             targets.extend(["micro_tension_findings", "reader_curiosity_threads", "chapter_hook_cliffhanger_audit", "style_dna_context_fit", "token_breakdown_notes"])
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            targets.extend(["inline_revision_spans", "author_edit_acceptance_log", "localized_diff_review"])
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            targets.extend(["volume_arc_chapter_plan", "orchestrator_loop_trace", "generation_validation_improvement_cycles"])
+        if "batch_continuation_progress_queue_gate" in patterns:
+            targets.extend(["batch_continuation_jobs", "auto_continuation_progress_state", "queue_retry_boundaries"])
+        if "homogeneity_prompt_variation_gate" in patterns:
+            targets.extend(["homogeneity_findings", "prompt_variation_report", "random_topic_title_seed_log"])
+        if "local_author_data_boundary_gate" in patterns:
+            targets.extend(["local_author_data_manifest", "download_update_surface_risk_review", "runtime_trial_blockers"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -4637,6 +4711,16 @@ class NovelSourceDiscoveryService:
             hints.append("Before drafting, confirm the latest accepted chapter commit has updated state, summaries, memory, and read-model projections.")
         if "fresh_context_chapter_iteration_gate" in patterns:
             hints.append("Start each chapter pass from fresh context: story bible, manifest, progress log, and the next incomplete chapter, not from chat-memory residue.")
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            hints.append("Use inline human-machine edits for localized continuation repair; preserve accepted chapter context and rerun review on only the changed spans.")
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            hints.append("Select the continuation scope explicitly: new volume, new arc, next chapter, or scene repair; do not let an orchestrator guess the hierarchy silently.")
+        if "batch_continuation_progress_queue_gate" in patterns:
+            hints.append("For batch continuation, consume the next queued chapter only after its prior chapter is accepted and progress state is current.")
+        if "homogeneity_prompt_variation_gate" in patterns:
+            hints.append("Before continuing multiple chapters, vary pressure source, POV distance, scene function, and payoff style to prevent samey chapter templates.")
+        if "local_author_data_boundary_gate" in patterns:
+            hints.append("Treat local packaged apps, upgrade links, and model endpoint settings as runtime surfaces; use only static pattern notes in drafting prompts.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -4822,6 +4906,16 @@ class NovelSourceDiscoveryService:
             hints.append("Treat .story-system artifacts as source of truth and .webnovel projections as derived read models with freshness checks.")
         if "fresh_context_chapter_iteration_gate" in patterns:
             hints.append("Store the chapter manifest, last completed chapter, review result, and progress.txt update before scheduling the next fresh-context pass.")
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            hints.append("Persist localized revision spans with author decision, reason, and downstream state impact instead of flattening them into an untraceable new chapter.")
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            hints.append("Persist hierarchy state for volume, arc, chapter, and scene scopes so a continuation run can resume at the right level.")
+        if "batch_continuation_progress_queue_gate" in patterns:
+            hints.append("Persist queue cursor, completed chapter ids, failed attempts, retry limits, and skipped chapters before any batch continuation advances.")
+        if "homogeneity_prompt_variation_gate" in patterns:
+            hints.append("Store homogeneity findings across chapter windows so repeated rhythm, hook, and payoff shapes can be fixed before they propagate.")
+        if "local_author_data_boundary_gate" in patterns:
+            hints.append("Keep local author data, external source metadata, generated drafts, and update/download evidence in separate manifests.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         if "source_entity_redaction_gate" in patterns:
@@ -5034,6 +5128,51 @@ class NovelSourceDiscoveryService:
             "Keep source-study outputs in a separate method bank: chunk analysis, chapter beats, style metrics, and extracted techniques do not directly mutate creative canon.",
             "Promote only abstract methods into planning: beat function, pacing device, reveal technique, reader promise, and craft rule; raw source facts stay out.",
             "For same-type creation, cite method-bank ids in prompts so reviewers can verify inspiration without loading source passages as context.",
+        ]
+
+    def _build_inline_human_machine_coauthoring_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "inline_human_machine_coauthoring_gate" not in patterns:
+            return []
+        return [
+            "Treat generated prose as a starting point: author edits, localized polishing, and precise modifications must stay visible as reviewable spans.",
+            "Inline revision should record before/after text, edit intent, affected canon fields, and whether the author accepted or rejected the change.",
+            "Do not regenerate a whole chapter when only one paragraph, hook, or dialogue beat needs repair; localize the edit and rerun copy-risk review on the changed span.",
+        ]
+
+    def _build_hierarchical_orchestrator_generation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "hierarchical_orchestrator_generation_gate" not in patterns:
+            return []
+        return [
+            "Drive long-form writing from hierarchy: book premise -> volume -> arc -> chapter plan -> scene/draft, with a trace for every orchestrator decision.",
+            "Each generate/validate/improve loop should name its stage, input artifacts, failed checks, accepted output, and next planned scope.",
+            "Do not let a high-level orchestrator silently skip author approval when it creates a new volume, arc, or canon-changing chapter branch.",
+        ]
+
+    def _build_batch_continuation_progress_queue_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "batch_continuation_progress_queue_gate" not in patterns:
+            return []
+        return [
+            "Represent batch continuation as a queue of chapter jobs with source state, retry budget, validation status, and next incomplete chapter pointer.",
+            "Auto-continuation may advance only from accepted progress state; failed or logic-confused chapters stay pending until reviewed.",
+            "Batch jobs should preserve user prompt, outline slice, chapter plan, and generated artifact id so interrupted runs can resume without guessing.",
+        ]
+
+    def _build_homogeneity_prompt_variation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "homogeneity_prompt_variation_gate" not in patterns:
+            return []
+        return [
+            "Track samey outputs across adjacent chapters: repeated openings, conflict shape, sentence rhythm, payoff cadence, and character reaction loops.",
+            "Variation fixes should change prompt axes such as topic seed, pressure source, POV distance, scene type, or information release—not just synonyms.",
+            "For same-type creation, novelty budget must be checked before batch generation so copied genre beats do not harden into a repeated template.",
+        ]
+
+    def _build_local_author_data_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_author_data_boundary_gate" not in patterns:
+            return []
+        return [
+            "Keep local author data boundaries explicit: project files, prompts, model endpoints, packaged binaries, update channels, and backups are separate review surfaces.",
+            "Static intake can record download/update risks, but it must not execute packaged apps, auto-updaters, or local model connectors without a runtime contract.",
+            "Before any source material enters drafting, record whether it is accepted canon, author-owned note, public metadata, or blocked external text.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -7558,6 +7697,16 @@ class NovelSourceDiscoveryService:
             targets.append("chapter_commit_projection_remap")
         if "fresh_context_chapter_iteration_gate" in patterns:
             targets.append("fresh_context_loop_remap")
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            targets.append("inline_revision_span_remap")
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            targets.append("volume_arc_chapter_hierarchy_remap")
+        if "batch_continuation_progress_queue_gate" in patterns:
+            targets.append("batch_queue_progress_remap")
+        if "homogeneity_prompt_variation_gate" in patterns:
+            targets.append("variation_axis_remap")
+        if "local_author_data_boundary_gate" in patterns:
+            targets.append("author_data_boundary_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -7585,6 +7734,16 @@ class NovelSourceDiscoveryService:
             hints.append("Use mode contracts as visible output-shape constraints, then fill them with transformed characters, conflicts, and setting rather than source specifics.")
         if "source_study_method_bank_isolation_gate" in patterns:
             hints.append("Load source-study insights as method ids and craft pressure only; do not load raw study chunks or source facts into the generation prompt.")
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            hints.append("Ask for localized revision candidates with span ids and author decision points instead of whole-chapter regeneration when only one beat fails.")
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            hints.append("State whether the prompt is operating at volume, arc, chapter, or scene scope, and include only artifacts from that scope plus required parent context.")
+        if "batch_continuation_progress_queue_gate" in patterns:
+            hints.append("For batch runs, include queue cursor and previous accepted chapter id so each prompt knows exactly what it may continue from.")
+        if "homogeneity_prompt_variation_gate" in patterns:
+            hints.append("Include variation axes in the prompt—pressure source, scene function, POV distance, rhythm, and payoff style—before generating adjacent chapters.")
+        if "local_author_data_boundary_gate" in patterns:
+            hints.append("Label all local files, source notes, and generated drafts by boundary class before they enter the prompt: canon, author note, pattern metadata, or blocked runtime surface.")
         if "card_workbench" in patterns:
             hints.append("Use card structure as the workbench shape, but create new card content for characters, factions, places, and hooks.")
         if "structured_generation_schema" in patterns:
@@ -7889,6 +8048,16 @@ class NovelSourceDiscoveryService:
             hints.append("Build new chapter commits and read-model projections for the transformed story instead of replaying source commit state.")
         if "fresh_context_chapter_iteration_gate" in patterns:
             hints.append("Create a new manifest and progress log for the transformed book before any fresh-context chapter loop runs.")
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            hints.append("Create transformed inline revision spans with new-story text and author decision points; do not reuse source edit spans as draft material.")
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            hints.append("Transform the hierarchy first: new volume goals, arc pressure, chapter slots, and scene tasks must exist before prose generation.")
+        if "batch_continuation_progress_queue_gate" in patterns:
+            hints.append("Transform batch queues into new chapter jobs with fresh progress state instead of copying source job order or retry history.")
+        if "homogeneity_prompt_variation_gate" in patterns:
+            hints.append("Transform adjacent chapters by changing variation axes, not by paraphrasing the same source-like chapter template.")
+        if "local_author_data_boundary_gate" in patterns:
+            hints.append("Transform local source files into boundary-labeled metadata or author-approved notes before any same-type prompt can cite them.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Build a new temporal graph for the transformed story; source graph episodes may guide abstraction only.")
         if "long_term_author_preference_memory" in patterns:
@@ -8242,6 +8411,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform the commit chain by starting a new accepted-commit lineage and derived projections for the independent story.")
         if "fresh_context_chapter_iteration_gate" in patterns:
             hints.append("Transform fresh-context loops by building a new chapter manifest, progress log, and acceptance criteria instead of replaying the source run loop.")
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            hints.append("Transform inline coauthor edits into new localized spans, then require author acceptance and copy-risk checks before merging.")
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            hints.append("Transform orchestrator stages by changing volume/arc/chapter ownership, parent context, and acceptance gates for the new book.")
+        if "batch_continuation_progress_queue_gate" in patterns:
+            hints.append("Transform continuation queues by resetting progress cursor, chapter ids, retry budget, and accepted-state lineage for the new project.")
+        if "homogeneity_prompt_variation_gate" in patterns:
+            hints.append("Transform samey output repairs by changing the structural axis—scene purpose, conflict entry, rhythm, and payoff—not just wording.")
+        if "local_author_data_boundary_gate" in patterns:
+            hints.append("Transform local-data notes through explicit boundary labels so packaged-app artifacts or updater evidence cannot become story canon.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -8289,6 +8468,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject mode-contract outputs when mode tags are satisfied by reusing source set pieces, ending cadence, or character-function order.")
         if "source_study_method_bank_isolation_gate" in patterns:
             hints.append("Reject prompts that paste source-study chunks, original beat text, or raw style metrics as drafting context instead of citing abstract method ids.")
+        if "inline_human_machine_coauthoring_gate" in patterns:
+            hints.append("Reject inline edits that hide source-like replacement spans inside accepted prose without author decision and copied-span review.")
+        if "hierarchical_orchestrator_generation_gate" in patterns:
+            hints.append("Reject orchestrator outputs that preserve source volume/arc/chapter order while only renaming stage labels.")
+        if "batch_continuation_progress_queue_gate" in patterns:
+            hints.append("Reject batch continuation that advances from rejected, failed, or source-derived progress state.")
+        if "homogeneity_prompt_variation_gate" in patterns:
+            hints.append("Reject adjacent chapters with repeated scene openings, conflict cadence, hook shape, or payoff rhythm unless a variation decision explains it.")
+        if "local_author_data_boundary_gate" in patterns:
+            hints.append("Reject context packs that mix packaged-app files, updater/download notes, source metadata, and accepted canon without boundary labels.")
         if "anti_slop_audit" in patterns:
             hints.append("Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.")
         if "plotgrid_scene_matrix" in patterns:
@@ -8772,6 +8961,11 @@ class NovelSourceDiscoveryService:
                 "fresh_context_chapter_iteration_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",
+                "inline_human_machine_coauthoring_gate",
+                "hierarchical_orchestrator_generation_gate",
+                "batch_continuation_progress_queue_gate",
+                "homogeneity_prompt_variation_gate",
+                "local_author_data_boundary_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",

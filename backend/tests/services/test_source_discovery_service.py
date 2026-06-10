@@ -9176,3 +9176,107 @@ def test_static_mode_contract_source_study_workspace_sources_map_to_generation_g
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "mode_contract_generation_gate_hints" in digest
     assert "source_study_method_bank_isolation_gate_hints" in digest
+
+
+def test_static_human_machine_batch_workspace_sources_map_to_continuation_gates():
+    assert "https://github.com/leehong0704/ai-novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wynnforthework/ai-novel-weaver" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/fuchen2020/BatchScribe" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/xy9144/flutter-novel-main" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/duoyang666/ai_novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("inline edit" in query.lower() and "ai polishing" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("hierarchical planning" in query.lower() and "memory weave" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("batch generation" in query.lower() and "homogeneity" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("本地数据" in query and "进度追踪" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "leehong0704/ai-novel",
+                "html_url": "https://github.com/leehong0704/ai-novel",
+                "description": "AI小说生成器 desktop tool for human-machine co-creation, 生成即起点, 微调见真章, AI polishing, precise modification, local memory and chapter generation.",
+                "stargazers_count": 19,
+                "license": {"spdx_id": "EPL-1.0"},
+                "topics": ["ai-novel", "webnovel", "desktop"],
+                "updated_at": "2026-06-09T20:28:53Z",
+                "root_files": ["README.md", "LICENSE", "release/ai-novel.zip", "requirements.txt"],
+            },
+            {
+                "full_name": "wynnforthework/ai-novel-weaver",
+                "html_url": "https://github.com/wynnforthework/ai-novel-weaver",
+                "description": "AI Novel Weaver web platform with orchestrator-driven generate validate improve loop, hierarchical planning from volume and arc to chapter, memory weave, one-click 拆书 and local deployment.",
+                "stargazers_count": 36,
+                "license": None,
+                "topics": ["ai-novel", "orchestrator", "writing"],
+                "updated_at": "2026-06-10T12:23:28Z",
+                "root_files": ["README.md", "package.json", "src", "public"],
+            },
+            {
+                "full_name": "fuchen2020/BatchScribe",
+                "html_url": "https://github.com/fuchen2020/BatchScribe",
+                "description": "BatchScribe Windows AI novel generator supports batch generation, continuation, same type creation, story type, style controls, prompt configuration, copy review and chapter memory.",
+                "stargazers_count": 14,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["ai-writing", "novel", "windows"],
+                "updated_at": "2026-06-06T03:06:07Z",
+                "root_files": ["README.md", "README_EN.md", "LICENSE", "requirements.txt"],
+            },
+            {
+                "full_name": "xy9144/flutter-novel-main",
+                "html_url": "https://github.com/xy9144/flutter-novel-main",
+                "description": "Flutter AI小说生成器 with outline, volume planning, range planning, chapter planning, auto continuation, progress tracking, homogeneity prompt revision, random title and random topic, local Ollama interface.",
+                "stargazers_count": 63,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["flutter", "ai-writing", "novel"],
+                "updated_at": "2026-06-10T13:18:11Z",
+                "root_files": ["README.md", "LICENSE", "pubspec.yaml", "android", "windows"],
+            },
+            {
+                "full_name": "duoyang666/ai_novel",
+                "html_url": "https://github.com/duoyang666/ai_novel",
+                "description": "Chinese AI writing and knowledge-base app with local data, public download links, 自动升级 upgrade.zip, batch writing, continuation, 爽点, rhythm and chapter generation.",
+                "stargazers_count": 726,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["ai-novel", "knowledge-base", "writing"],
+                "updated_at": "2026-06-10T02:18:30Z",
+                "root_files": ["README.md", "LICENSE", "group", "upgrade.zip"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T23:45:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "inline_human_machine_coauthoring_gate" in candidates["leehong0704/ai-novel"]["absorbed_patterns"]
+    assert "binary_distribution" in candidates["leehong0704/ai-novel"]["risk_flags"]
+    assert "hierarchical_orchestrator_generation_gate" in candidates["wynnforthework/ai-novel-weaver"]["absorbed_patterns"]
+    assert "book_decomposition" in candidates["wynnforthework/ai-novel-weaver"]["absorbed_patterns"]
+    assert "batch_continuation_progress_queue_gate" in candidates["fuchen2020/BatchScribe"]["absorbed_patterns"]
+    assert "same_type_creation" in candidates["fuchen2020/BatchScribe"]["absorbed_patterns"]
+    assert "homogeneity_prompt_variation_gate" in candidates["xy9144/flutter-novel-main"]["absorbed_patterns"]
+    assert "local_author_data_boundary_gate" in candidates["xy9144/flutter-novel-main"]["absorbed_patterns"]
+    assert "local_author_data_boundary_gate" in candidates["duoyang666/ai_novel"]["absorbed_patterns"]
+    assert "auto_update" in candidates["duoyang666/ai_novel"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "inline_human_machine_coauthoring_gate_hints" in pattern_pack
+    assert "hierarchical_orchestrator_generation_gate_hints" in pattern_pack
+    assert "batch_continuation_progress_queue_gate_hints" in pattern_pack
+    assert "homogeneity_prompt_variation_gate_hints" in pattern_pack
+    assert "local_author_data_boundary_gate_hints" in pattern_pack
+    assert "inline_revision_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "hierarchical_generation_plan" in pattern_pack["bible_enrichment_targets"]
+    assert "batch_continuation_queue" in pattern_pack["bible_enrichment_targets"]
+    assert "local_author_data_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "volume_arc_chapter_plan" in pattern_pack["whole_book_analysis_targets"]
+    assert "inline_revision_span_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "variation_axis_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "inline_human_machine_coauthoring_gate_hints" in digest
+    assert "hierarchical_orchestrator_generation_gate_hints" in digest
+    assert "batch_continuation_progress_queue_gate_hints" in digest
+    assert "homogeneity_prompt_variation_gate_hints" in digest
+    assert "local_author_data_boundary_gate_hints" in digest
