@@ -91,6 +91,19 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/LeapBeyond/scrubadub',
   'https://github.com/urchade/GLiNER',
   'https://github.com/explosion/spaCy',
+  'https://github.com/aerkalov/ebooklib',
+  'https://github.com/pdfminer/pdfminer.six',
+  'https://github.com/pymupdf/PyMuPDF',
+  'https://github.com/ocrmypdf/OCRmyPDF',
+  'https://github.com/tesseract-ocr/tesseract',
+  'https://github.com/Unstructured-IO/unstructured',
+  'https://github.com/jgm/pandoc',
+  'https://github.com/w3c/epubcheck',
+  'https://github.com/daisy/ace',
+  'https://github.com/standardebooks/tools',
+  'https://github.com/Sigil-Ebook/Sigil',
+  'https://github.com/w3c/epub-tests',
+  'https://github.com/daisy/epub-accessibility-tests',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -176,6 +189,15 @@ const PINNED_HINT_KEYS = new Set([
   'custom_entity_label_inventory_hints',
   'placeholder_alias_consistency_map_hints',
   'proper_noun_leakage_review_hints',
+  'source_format_import_manifest_hints',
+  'pdf_layout_text_extraction_gate_hints',
+  'ocr_scanned_page_import_gate_hints',
+  'document_partition_chapter_detection_gate_hints',
+  'import_provenance_checksum_gate_hints',
+  'epub_structure_validation_gate_hints',
+  'ebook_accessibility_audit_gate_hints',
+  'front_back_matter_metadata_gate_hints',
+  'toc_navigation_consistency_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -458,6 +480,19 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Custom fiction entity label inventories', patternPackPayload?.custom_entity_label_inventory_hints],
               ['Placeholder alias consistency maps', patternPackPayload?.placeholder_alias_consistency_map_hints],
               ['Proper-noun leakage reviews', patternPackPayload?.proper_noun_leakage_review_hints],
+            ])}
+            {renderHintGroup('Source import / chapter extraction gates', [
+              ['Source format import manifests', patternPackPayload?.source_format_import_manifest_hints],
+              ['PDF layout text extraction gates', patternPackPayload?.pdf_layout_text_extraction_gate_hints],
+              ['OCR scanned-page import gates', patternPackPayload?.ocr_scanned_page_import_gate_hints],
+              ['Document partition chapter detection gates', patternPackPayload?.document_partition_chapter_detection_gate_hints],
+              ['Import provenance checksum gates', patternPackPayload?.import_provenance_checksum_gate_hints],
+            ])}
+            {renderHintGroup('EPUB structure / publication QA gates', [
+              ['EPUB structure validation gates', patternPackPayload?.epub_structure_validation_gate_hints],
+              ['Ebook accessibility audit gates', patternPackPayload?.ebook_accessibility_audit_gate_hints],
+              ['Front/back matter metadata gates', patternPackPayload?.front_back_matter_metadata_gate_hints],
+              ['TOC navigation consistency gates', patternPackPayload?.toc_navigation_consistency_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

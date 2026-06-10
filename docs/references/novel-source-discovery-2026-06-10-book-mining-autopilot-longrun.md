@@ -401,3 +401,129 @@ The source discovery panel now pins these prompt-safe fields instead of leaving 
 - `proper_noun_leakage_review_hints`
 
 These fields are static source-derived admission gates only. They do not authorize corpus download, scanner execution, NER/model inference, package installation, Docker/service launch, provider call, browser/desktop control, external account mutation, or importing source prose into prompts.
+
+## Source import / EPUB QA addendum - 2026-06-10
+
+This addendum records a public GitHub HEAD + raw README/LICENSE static-review pass for ebook import, PDF layout extraction, OCR, document partitioning, provenance checksums, EPUB conformance, accessibility, front/back matter, and navigation QA. No external project was cloned, installed, built, launched, or executed. Scratch evidence was saved under `tmp/source-intake-source-import-ebook-2026-06-10` only.
+
+### Reviewed sources
+
+- `aerkalov/ebooklib`
+  - URL: `https://github.com/aerkalov/ebooklib`
+  - observed HEAD: `a50289fb9d4039224d54bf7d92698eb03cd68254`
+  - static evidence: README
+  - absorbed pattern: `source_format_import_manifest`
+  - reusable lesson:拆书 import needs a source-format manifest with EPUB/OPF/spine/TOC/metadata evidence before chapter boundaries feed analysis.
+  - runtime exclusion: Python package install, EPUB parsing, and conversion code are not executed.
+
+- `pdfminer/pdfminer.six`
+  - URL: `https://github.com/pdfminer/pdfminer.six`
+  - observed HEAD: `a18de2a9c479b4c847538500017b449ddaec177e`
+  - static evidence: README
+  - absorbed pattern: `pdf_layout_text_extraction_gate`
+  - reusable lesson: PDF拆书 should preserve page span, reading order, text block, and layout-gap findings instead of treating extracted text as already clean chapters.
+  - runtime exclusion: Python package install and PDF extraction are not executed.
+
+- `pymupdf/PyMuPDF`
+  - URL: `https://github.com/pymupdf/PyMuPDF`
+  - observed HEAD: `d981d87e87924962f7975dc2ed746e6c627e6cf6`
+  - static evidence: README
+  - absorbed pattern: `pdf_layout_text_extraction_gate`
+  - reusable lesson: page-coordinate extraction can support reviewer-visible boundary evidence for source chapters, quotes, images, and missing text gaps.
+  - runtime exclusion: package install, PDF/image extraction, and native bindings are not executed.
+
+- `ocrmypdf/OCRmyPDF`
+  - URL: `https://github.com/ocrmypdf/OCRmyPDF`
+  - observed HEAD: `5cb5d7a682095700aa28eb592a94c0fe28e94fd0`
+  - static evidence: README
+  - absorbed pattern: `ocr_scanned_page_import_gate`
+  - reusable lesson: scanned-source import needs OCR confidence, hOCR/text-layer evidence, manual review items, and page-level uncertainty before it can feed续写 context.
+  - runtime exclusion: OCR pipeline, Tesseract calls, package install, and file mutation are not executed.
+
+- `tesseract-ocr/tesseract`
+  - URL: `https://github.com/tesseract-ocr/tesseract`
+  - observed HEAD: `f4afb2cc9545f622a07812b09e1b72fc78f85a64`
+  - static evidence: README
+  - absorbed pattern: `ocr_scanned_page_import_gate`
+  - reusable lesson: OCR text from images should be labeled as uncertain source evidence until confidence and manual review pass.
+  - runtime exclusion: native build, model data download, OCR execution, and image processing are not executed.
+
+- `Unstructured-IO/unstructured`
+  - URL: `https://github.com/Unstructured-IO/unstructured`
+  - observed HEAD: `dedf144192347a89bb70ddc8a896eeeaa7440be0`
+  - static evidence: README
+  - absorbed pattern: `document_partition_chapter_detection_gate`
+  - reusable lesson: document partitioning should output element sequence, title/heading confidence, chapter candidates, and rejected boundary evidence.
+  - runtime exclusion: package install, partition pipelines, model/runtime services, and external API calls are not executed.
+
+- `jgm/pandoc`
+  - URL: `https://github.com/jgm/pandoc`
+  - observed HEAD: `912bfa5e2e3f5c74eb125dfc19404f67c61ca58b`
+  - static evidence: README
+  - absorbed pattern: `import_provenance_checksum_gate`
+  - reusable lesson: format conversion should record input artifact, parser/converter version, settings, output checksum, and conversion log before source text is trusted.
+  - runtime exclusion: binary execution, document conversion, package install, and filter execution are not used.
+
+- `w3c/epubcheck`
+  - URL: `https://github.com/w3c/epubcheck`
+  - observed HEAD: `82b174ec319ea3e6c9d2488f84155fa4a9171fc2`
+  - static evidence: README
+  - absorbed patterns: `epub_structure_validation_gate`, `toc_navigation_consistency_gate`
+  - reusable lesson: EPUB output should validate OPF manifest, spine, media types, navigation document, heading hierarchy, and reader navigation before release.
+  - runtime exclusion: Java/runtime execution, validator execution, and build tooling are not used.
+
+- `daisy/ace`
+  - URL: `https://github.com/daisy/ace`
+  - observed HEAD: `dfa87b528f598a034f98e8a3126bf4b5bf9203bf`
+  - static evidence: README
+  - absorbed pattern: `ebook_accessibility_audit_gate`
+  - reusable lesson: exported books need accessibility metadata, alt text, landmarks, reading-order notes, and hazard review separate from prose quality.
+  - runtime exclusion: npm install, accessibility checker execution, and browser/runtime tooling are not executed.
+
+- `standardebooks/tools`
+  - URL: `https://github.com/standardebooks/tools`
+  - observed HEAD: `89e81b956216d3ddf49f5fd0b397847b711b0aa7`
+  - static evidence: README
+  - absorbed pattern: `front_back_matter_metadata_gate`
+  - reusable lesson: front matter, back matter, title page, colophon, endnotes, author/source metadata, and identifiers must be regenerated from the transformed book.
+  - runtime exclusion: tools install, build commands, lint commands, and publication workflows are not executed.
+
+- `Sigil-Ebook/Sigil`
+  - URL: `https://github.com/Sigil-Ebook/Sigil`
+  - observed HEAD: `79ca6771be61305673b9123c8c0a0ee74bd044ee`
+  - static evidence: README
+  - absorbed pattern: `toc_navigation_consistency_gate`
+  - reusable lesson: a reviewer-visible book browser / manifest / spine / TOC model helps catch navigation drift between chapter files and packaged ebook output.
+  - runtime exclusion: desktop app, installers, native build, and EPUB editing runtime are not executed.
+
+- `w3c/epub-tests`
+  - URL: `https://github.com/w3c/epub-tests`
+  - observed HEAD: `45feac979d9b12b502f124db7bc5056977628417`
+  - static evidence: README
+  - absorbed pattern: `epub_structure_validation_gate`
+  - reusable lesson: EPUB validation should treat conformance as a separate gate from manuscript acceptance and preserve a failure category report.
+  - runtime exclusion: test suite execution, package workflows, and reading-system tests are not executed.
+
+- `daisy/epub-accessibility-tests`
+  - URL: `https://github.com/daisy/epub-accessibility-tests`
+  - observed HEAD: `6ecadf3393083dd93fa79d8b62e0281957a7b05e`
+  - static evidence: README
+  - absorbed pattern: `ebook_accessibility_audit_gate`
+  - reusable lesson: accessibility fixtures should become a release checklist for metadata, semantics, navigation, and reader-facing hazards, not drafting instructions.
+  - runtime exclusion: accessibility test execution, reading-system runtime, and package workflows are not executed.
+
+### Local projection
+
+The source discovery panel now pins these prompt-safe fields instead of leaving them only in the dynamic fallback group:
+
+- `source_format_import_manifest_hints`
+- `pdf_layout_text_extraction_gate_hints`
+- `ocr_scanned_page_import_gate_hints`
+- `document_partition_chapter_detection_gate_hints`
+- `import_provenance_checksum_gate_hints`
+- `epub_structure_validation_gate_hints`
+- `ebook_accessibility_audit_gate_hints`
+- `front_back_matter_metadata_gate_hints`
+- `toc_navigation_consistency_gate_hints`
+
+These fields are static source-derived import and publication gates only. They do not authorize package installation, document conversion, OCR execution, PDF/EPUB parsing, validator runs, desktop app launch, native build, external API calls, provider calls, or importing source prose into prompts without the existing rights and entity-leakage gates.

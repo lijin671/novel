@@ -145,6 +145,15 @@ export interface SourceDiscoveryPatternPack {
   custom_entity_label_inventory_hints?: string[];
   placeholder_alias_consistency_map_hints?: string[];
   proper_noun_leakage_review_hints?: string[];
+  source_format_import_manifest_hints?: string[];
+  pdf_layout_text_extraction_gate_hints?: string[];
+  ocr_scanned_page_import_gate_hints?: string[];
+  document_partition_chapter_detection_gate_hints?: string[];
+  import_provenance_checksum_gate_hints?: string[];
+  epub_structure_validation_gate_hints?: string[];
+  ebook_accessibility_audit_gate_hints?: string[];
+  front_back_matter_metadata_gate_hints?: string[];
+  toc_navigation_consistency_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

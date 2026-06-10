@@ -86,6 +86,15 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "custom_entity_label_inventory_hints",
             "placeholder_alias_consistency_map_hints",
             "proper_noun_leakage_review_hints",
+            "source_format_import_manifest_hints",
+            "pdf_layout_text_extraction_gate_hints",
+            "ocr_scanned_page_import_gate_hints",
+            "document_partition_chapter_detection_gate_hints",
+            "import_provenance_checksum_gate_hints",
+            "epub_structure_validation_gate_hints",
+            "ebook_accessibility_audit_gate_hints",
+            "front_back_matter_metadata_gate_hints",
+            "toc_navigation_consistency_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -152,6 +161,17 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Custom fiction entity label inventories" in panel_text
     assert "Placeholder alias consistency maps" in panel_text
     assert "Proper-noun leakage reviews" in panel_text
+    assert "Source import / chapter extraction gates" in panel_text
+    assert "Source format import manifests" in panel_text
+    assert "PDF layout text extraction gates" in panel_text
+    assert "OCR scanned-page import gates" in panel_text
+    assert "Document partition chapter detection gates" in panel_text
+    assert "Import provenance checksum gates" in panel_text
+    assert "EPUB structure / publication QA gates" in panel_text
+    assert "EPUB structure validation gates" in panel_text
+    assert "Ebook accessibility audit gates" in panel_text
+    assert "Front/back matter metadata gates" in panel_text
+    assert "TOC navigation consistency gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -247,6 +267,29 @@ def test_source_discovery_panel_default_seeds_include_rights_and_entity_sources(
         "LeapBeyond/scrubadub",
         "urchade/GLiNER",
         "explosion/spaCy",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_source_import_and_ebook_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "aerkalov/ebooklib",
+        "pdfminer/pdfminer.six",
+        "pymupdf/PyMuPDF",
+        "ocrmypdf/OCRmyPDF",
+        "tesseract-ocr/tesseract",
+        "Unstructured-IO/unstructured",
+        "jgm/pandoc",
+        "w3c/epubcheck",
+        "daisy/ace",
+        "standardebooks/tools",
+        "Sigil-Ebook/Sigil",
+        "w3c/epub-tests",
+        "daisy/epub-accessibility-tests",
     ):
         assert repo in panel_text
 
