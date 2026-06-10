@@ -129,6 +129,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "dual_level_graph_vector_retrieval_hints",
             "schema_guided_graph_extraction_hints",
             "counterfactual_story_graph_rag_gate_hints",
+            "character_knowledge_timeline_gate_hints",
             "living_codex_editorial_workbench_gate_hints",
             "agent_role_profile_workflow_gate_hints",
             "chinese_segmentation_keyword_gate_hints",

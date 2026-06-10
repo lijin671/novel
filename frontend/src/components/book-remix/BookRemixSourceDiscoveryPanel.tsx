@@ -160,6 +160,7 @@ const PINNED_HINT_KEYS = new Set([
   'dual_level_graph_vector_retrieval_hints',
   'schema_guided_graph_extraction_hints',
   'counterfactual_story_graph_rag_gate_hints',
+  'character_knowledge_timeline_gate_hints',
   'chinese_segmentation_keyword_gate_hints',
   'chinese_ner_alias_consistency_gate_hints',
   'chinese_text_normalization_gate_hints',

@@ -521,6 +521,7 @@ def render_source_pattern_pack_digest(
         "dual_level_graph_vector_retrieval_hints",
         "schema_guided_graph_extraction_hints",
         "counterfactual_story_graph_rag_gate_hints",
+        "character_knowledge_timeline_gate_hints",
         "trope_inventory_similarity_gate_hints",
         "trope_graph_expectation_map_hints",
         "trope_density_novelty_budget_hints",

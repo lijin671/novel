@@ -161,6 +161,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("multi-level memory" OR "long-term memory" OR "session state") ("AI agents" OR "personalized AI") in:name,description,readme',
     '("GraphRAG" OR "community summaries" OR "extract structured data from unstructured text") ("knowledge graph" OR "RAG") in:name,description,readme',
     '("counterfactual" OR "alternative storyline" OR "narrative reasoning") ("Graph-RAG" OR "story graph" OR "canon") in:name,description,readme',
+    '("knowledge states" OR "facts are known by which characters" OR "state of the story world") ("novel" OR "long-form fiction" OR "narrative graph") in:name,description,readme',
     '("dual-level architecture" OR "knowledge graphs" OR "vector embeddings") ("LightRAG" OR "RAG") in:name,description,readme',
     '("extract nodes" OR "relationships and properties" OR "custom schema") ("LLM graph builder" OR "knowledge graph") in:name,description,readme',
     '("novel2graph" OR "novel to graph" OR "character relationship graph") ("novel" OR "book" OR "literary text") in:name,description,readme',
@@ -638,6 +639,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/VerifiedOrganic/spindle",
     "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
     "https://github.com/SutraMind/GraphRAG-story",
+    "https://github.com/v-saprykin/storygraph",
     "https://github.com/ansrhkddns-web/k-webnovel-architect",
     "https://github.com/0503xqy/novel-writer",
     "https://github.com/daveremy/edword",
@@ -1054,6 +1056,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("dual_level_graph_vector_retrieval", ("lightrag", "dual-level", "dual level", "knowledge graphs", "vector embeddings", "naive", "local", "global", "hybrid", "kg+vector")),
     ("schema_guided_graph_extraction", ("llm graph builder", "extract nodes", "relationships and properties", "custom schema", "node labels", "relationship types", "source metadata", "neo4j graph")),
     ("counterfactual_story_graph_rag_gate", ("counterfactual", "alternative storyline", "alternative narrative", "narrative reasoning", "narrative graph", "graph-rag", "graph rag", "verified story context", "next_narrative", "next_realtime", "graph traversal", "hybrid rag", "story analysis")),
+    ("character_knowledge_timeline_gate", ("storygraph", "knowledge states", "knowledge state", "facts are known by which characters", "which facts are known", "state of the story world", "characters disappear for too long", "timeline versions")),
     ("trope_inventory_similarity_gate", ("tvtropes", "tv tropes", "trope correlation", "tropes they use", "trope similarity", "trope vector", "two works", "terms of the tropes")),
     ("trope_graph_expectation_map", ("trope graph", "trope network", "network of tropes", "trope co-occurrence", "trope adjacency", "categories and related tropes")),
     ("trope_density_novelty_budget", ("trope dataset", "movie tropes", "movies and their tropes", "trope inventory", "trope frequency", "trope density")),
@@ -2285,6 +2288,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Neo4j knowledge graph, vector search, query routing across graph/vector/hybrid modes, and validation that chapter and relationship counts match processed files. "
         "Pattern-only adaptation for graph/vector story-context routing; requirements, Neo4j, FastAPI, scripts, test queries, embeddings, and model calls are not launched."
     ),
+    "v-saprykin/storygraph": (
+        "StoryGraph is a MIT backend platform concept for converting long-form fiction into a validated narrative graph. Public README markers describe manuscript -> chapters -> scenes -> narrative events -> characters -> relationships -> plotlines -> timelines -> analytical queries, plus causal links, character states, knowledge states, timeline versions, unresolved plotlines, character absence gaps, and human review. "
+        "Pattern-only adaptation for character-knowledge timeline gates; .NET/PostgreSQL/Docker/runtime services, AI extraction workers, and any real manuscript data are not launched or imported."
+    ),
     "ansrhkddns-web/k-webnovel-architect": (
         "k-webnovel-architect is an MIT Korean webnovel commercial-serialization planning skill. Public README markers describe genre grammar, reader persona and reward analysis, "
         "opening hook, episode roadmap, chapter production briefs, paid-conversion points, platform packaging checklists, retention diagnostics, and review/revision rubrics. "
@@ -3286,6 +3293,7 @@ class NovelSourceDiscoveryService:
             "dual_level_graph_vector_retrieval_hints": self._build_dual_level_graph_vector_retrieval_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
+            "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
             "trope_inventory_similarity_gate_hints": self._build_trope_inventory_similarity_gate_hints(available_patterns),
             "trope_graph_expectation_map_hints": self._build_trope_graph_expectation_map_hints(available_patterns),
             "trope_density_novelty_budget_hints": self._build_trope_density_novelty_budget_hints(available_patterns),
@@ -4030,6 +4038,7 @@ class NovelSourceDiscoveryService:
             "community_graph_source_deconstruction": 66,
             "dual_level_graph_vector_retrieval": 65,
             "schema_guided_graph_extraction": 66,
+            "character_knowledge_timeline_gate": 69,
             "trope_inventory_similarity_gate": 66,
             "trope_graph_expectation_map": 63,
             "trope_density_novelty_budget": 62,
@@ -4125,6 +4134,9 @@ class NovelSourceDiscoveryService:
         if "counterfactual_story_graph_rag_gate" in patterns:
             targets.append("counterfactual_divergence_policy")
             targets.append("verified_story_graph_context_policy")
+        if "character_knowledge_timeline_gate" in patterns:
+            targets.append("character_knowledge_state_policy")
+            targets.append("pov_secret_visibility_policy")
         if "draft_candidate_promotion_gate" in patterns:
             targets.append("draft_candidate_state_policy")
             targets.append("confirmed_chapter_promotion_rules")
@@ -4985,6 +4997,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["context_references", "knowledge_graph_edges", "retrieval_scope"])
         if "counterfactual_story_graph_rag_gate" in patterns:
             targets.extend(["counterfactual_divergence_points", "narrative_vs_realtime_event_edges", "verified_graph_retrieval_context"])
+        if "character_knowledge_timeline_gate" in patterns:
+            targets.extend(["character_knowledge_timeline", "secret_visibility_matrix", "non_state_changing_scene_findings", "missing_character_presence_report"])
         if "workflow_agent_pipeline" in patterns:
             targets.extend(["workflow_nodes", "workflow_triggers", "resume_checkpoint"])
         if "scene_asset_pipeline" in patterns:
@@ -5770,6 +5784,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before drafting, choose the manuscript tree node, linked living-codex entries, continuity findings, and editorial pass type that constrain the scene.")
         if "agent_role_profile_workflow_gate" in patterns:
             hints.append("Before a chapter run, choose the active agent role profile, its allowed context slice, model profile, output artifact, and canon-write permission.")
+        if "character_knowledge_timeline_gate" in patterns:
+            hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             hints.append("Before continuation, classify the next chapter as emotion/action/function, check event cooldowns, name the one visible image, and avoid the most statistically obvious beat unless canon requires it.")
         if "semantic_long_context_search" in patterns:
@@ -6147,6 +6163,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist selected skill ids, task name, max loop steps, tool calls, skill usage hints, and stop reason with each AI run.")
         if "knowledge_document_writeback_trace_gate" in patterns:
             hints.append("Persist knowledge document id, sourceType, source artifact, produced/merged status, usedKnowledge, usedSkills, provider/model, usage, and run status before context reuse.")
+        if "character_knowledge_timeline_gate" in patterns:
+            hints.append("After chapter acceptance, write knowledge-state deltas: who learned which fact, who still lacks it, evidence id, reveal timing, and any secret-leak blocker.")
         if "host_instruction_context_boundary_gate" in patterns:
             hints.append("Persist currentStep, currentChapter, expectedFormat, modelHint, prompt segment ids, context artifact path, and context hash with each generation request.")
         if "schema_review_revision_recovery_gate" in patterns:
@@ -9167,6 +9185,15 @@ class NovelSourceDiscoveryService:
             "Use graph/vector retrieval as grounding evidence, not prose material; generated alternatives must cite graph context ids and pass copy-risk review before promotion.",
         ]
 
+    def _build_character_knowledge_timeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "character_knowledge_timeline_gate" not in patterns:
+            return []
+        return [
+            "Build a knowledge-state timeline per character: event id, fact known, evidence id, reveal scope, timeline version, and uncertainty status.",
+            "Before accepting a scene, verify no character acts on facts they have not learned and no POV narration leaks secrets outside the current visibility window.",
+            "For????, remap secrets, holders, reveal timing, and absence gaps into new-story facts; the source graph is diagnostic structure only.",
+        ]
+
     def _build_trope_inventory_similarity_gate_hints(self, patterns: set[str]) -> list[str]:
         if "trope_inventory_similarity_gate" not in patterns:
             return []
@@ -9316,6 +9343,8 @@ class NovelSourceDiscoveryService:
             targets.append("branch_divergence_remap")
         if "counterfactual_story_graph_rag_gate" in patterns:
             targets.append("counterfactual_graph_remap")
+        if "character_knowledge_timeline_gate" in patterns:
+            targets.append("character_knowledge_visibility_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -9893,6 +9922,8 @@ class NovelSourceDiscoveryService:
             hints.append("For role-profile workflows, route each prompt through the transformed story's own planner/screenwriter/author/editor/memory-curator brief instead of reusing source run state.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
+        if "character_knowledge_timeline_gate" in patterns:
+            hints.append("For same-type knowledge maps, declare the new secret, new holder, new reveal timing, and changed absence gap before drafting.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -10807,6 +10838,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that mirror a source manuscript tree, codex backlink map, diagnostic curve, POV balance, or dialogue-ratio rhythm under renamed scene labels.")
         if "agent_role_profile_workflow_gate" in patterns:
             hints.append("Reject same-type runs that reuse source workflow timelines, role briefs, route profiles, retry traces, or memory-curator artifacts as transformed-story authority.")
+        if "character_knowledge_timeline_gate" in patterns:
+            hints.append("Reject drafts that preserve the source secret matrix, reveal order, character absence gap, or who-knows-what timeline under renamed roles.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:

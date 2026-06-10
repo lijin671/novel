@@ -11597,3 +11597,60 @@ def test_novelos_source_adds_agent_role_profile_workflow_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "agent_role_profile_workflow_gate_hints" in digest
+
+
+def test_storygraph_source_adds_character_knowledge_timeline_gates():
+    assert "https://github.com/v-saprykin/storygraph" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("knowledge states" in query and "narrative graph" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "v-saprykin/storygraph",
+                "html_url": "https://github.com/v-saprykin/storygraph",
+                "description": (
+                    "StoryGraph converts long-form fiction into a validated narrative graph: "
+                    "manuscript text to chapters, scenes, narrative events, characters, "
+                    "relationships, plotlines, timelines and analytical queries. "
+                    "It asks which facts are known by which characters at a given point, "
+                    "which plotlines have no clear resolution, which characters disappear "
+                    "for too long, which scenes do not change the state of the story world, "
+                    "and what breaks if a key event is changed. It models causal links, "
+                    "character states, knowledge states, timeline versions and human review."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "fiction", "narrative-graph", "knowledge-states"],
+                "updated_at": "2026-06-10T23:30:00Z",
+                "root_files": ["README.md", "LICENSE", "ROADMAP.md", "docker-compose.yml"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T23:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    storygraph = candidates["v-saprykin/storygraph"]
+    assert "character_knowledge_timeline_gate" in storygraph["absorbed_patterns"]
+    assert "counterfactual_story_graph_rag_gate" in storygraph["absorbed_patterns"]
+    assert "plotline_thread_tracking" in storygraph["absorbed_patterns"]
+    assert "docker" in storygraph["risk_flags"]
+    assert storygraph["trust_review"]["flags"] == []
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "character_knowledge_state_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "pov_secret_visibility_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "character_knowledge_timeline" in pattern_pack["whole_book_analysis_targets"]
+    assert "secret_visibility_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "non_state_changing_scene_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "missing_character_presence_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "character_knowledge_visibility_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("allowed to know" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("knowledge-state deltas" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("knowledge-state timeline" in hint for hint in pattern_pack["character_knowledge_timeline_gate_hints"])
+    assert any("secret matrix" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "character_knowledge_timeline_gate_hints" in digest
