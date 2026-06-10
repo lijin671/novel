@@ -9280,3 +9280,112 @@ def test_static_human_machine_batch_workspace_sources_map_to_continuation_gates(
     assert "batch_continuation_progress_queue_gate_hints" in digest
     assert "homogeneity_prompt_variation_gate_hints" in digest
     assert "local_author_data_boundary_gate_hints" in digest
+
+
+
+def test_static_local_prompt_draft_privacy_sources_map_to_workbench_gates():
+    assert "https://github.com/Deng-m1/MaliangAINovalWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ponysb/91Writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/linnnn89/novel-agent-workbench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/qnbs/StoryCraft-Studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("prompt preset" in query.lower() and "prompt variables" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("txt import" in query.lower() and "chapter outline" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("style dna" in query.lower() and "reference library" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("draft vs confirmed" in query.lower() and "metadata-only index" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Deng-m1/MaliangAINovalWriter",
+                "html_url": "https://github.com/Deng-m1/MaliangAINovalWriter",
+                "description": "Maliang AI novel platform with txt import, chapter outline migration, prompt preset management, private API key pool, LLM observability, token cost traces, and knowledge extraction review.",
+                "stargazers_count": 789,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["ainovel", "writer-tools"],
+                "updated_at": "2026-04-15T09:09:38Z",
+                "root_files": ["README.md", "LICENSE", "NOTICE", "deploy", "AINoval", "AINovalServer"],
+            },
+            {
+                "full_name": "ponysb/91Writing",
+                "html_url": "https://github.com/ponysb/91Writing",
+                "description": "91Writing supports smart continuation with custom direction, prompt template categories, variable system, template import, usage stats, token cost management, local data and selective import export.",
+                "stargazers_count": 1552,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-writing", "novel"],
+                "updated_at": "2025-10-14T07:16:20Z",
+                "root_files": ["README.md", "LICENSE", "Dockerfile", "docker-compose.yml", "package.json", "prompt.txt", "prompts-example.json"],
+            },
+            {
+                "full_name": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+                "html_url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+                "description": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA.",
+                "stargazers_count": 19,
+                "license": None,
+                "topics": ["ai-novel", "desktop"],
+                "updated_at": "2025-12-29T03:10:05Z",
+                "root_files": ["README.md", "README_EN.md", "requirements.txt", "MortalWrite.spec", "run.py", "main.py"],
+            },
+            {
+                "full_name": "linnnn89/novel-agent-workbench",
+                "html_url": "https://github.com/linnnn89/novel-agent-workbench",
+                "description": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata.",
+                "stargazers_count": 1,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["ai-writing", "chinese-novel", "desktop-app"],
+                "updated_at": "2026-06-01T15:45:30Z",
+                "root_files": ["README.md", "LICENSE", "BUILD_NovelAgentWorkbench.bat", "START_NovelAgentWorkbench.cmd", "pyproject.toml", "scripts", "src", "tests"],
+            },
+            {
+                "full_name": "qnbs/StoryCraft-Studio",
+                "html_url": "https://github.com/qnbs/StoryCraft-Studio",
+                "description": "Offline-first AI writing studio with IndexedDB local storage, PWA and desktop mode, privacy-preserving index, metadata-only cross-project search, template remixing, encrypted API keys, WebLLM, ONNX and Transformers local AI fallbacks.",
+                "stargazers_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["offline-first", "ai-writing", "novel-writing", "pwa", "local-ai"],
+                "updated_at": "2026-06-10T12:49:30Z",
+                "root_files": ["README.md", "LICENSE", "Dockerfile", "package.json", "pnpm-lock.yaml", "src-tauri", "public", "register-sw.ts"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T23:58:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+
+    assert "prompt_preset_variable_library_gate" in candidates["Deng-m1/MaliangAINovalWriter"]["absorbed_patterns"]
+    assert "imported_manuscript_migration_outline_gate" in candidates["Deng-m1/MaliangAINovalWriter"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["Deng-m1/MaliangAINovalWriter"]["risk_flags"]
+    assert "prompt_preset_variable_library_gate" in candidates["ponysb/91Writing"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["ponysb/91Writing"]["risk_flags"]
+    assert "style_dna_reference_library_gate" in candidates["hezhengtao/MortalAINovel-AIWritingSystem-ai-"]["absorbed_patterns"]
+    assert "draft_candidate_promotion_gate" in candidates["linnnn89/novel-agent-workbench"]["absorbed_patterns"]
+    assert "windows_script" in candidates["linnnn89/novel-agent-workbench"]["risk_flags"]
+    assert "privacy_preserving_local_index_gate" in candidates["qnbs/StoryCraft-Studio"]["absorbed_patterns"]
+    assert "browser_storage_surface" in candidates["qnbs/StoryCraft-Studio"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "prompt_preset_variable_library_gate_hints" in pattern_pack
+    assert "imported_manuscript_migration_outline_gate_hints" in pattern_pack
+    assert "style_dna_reference_library_gate_hints" in pattern_pack
+    assert "draft_candidate_promotion_gate_hints" in pattern_pack
+    assert "privacy_preserving_local_index_gate_hints" in pattern_pack
+    assert "prompt_preset_registry" in pattern_pack["bible_enrichment_targets"]
+    assert "imported_manuscript_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "style_dna_reference_library" in pattern_pack["bible_enrichment_targets"]
+    assert "confirmed_chapter_promotion_rules" in pattern_pack["bible_enrichment_targets"]
+    assert "metadata_only_search_scope" in pattern_pack["bible_enrichment_targets"]
+    assert "draft_review_rewrite_candidates" in pattern_pack["whole_book_analysis_targets"]
+    assert "local_metadata_index_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_dna_abstraction_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "draft_candidate_promotion_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("draft candidate" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("manuscript plaintext" in hint.lower() for hint in pattern_pack["privacy_preserving_local_index_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "prompt_preset_variable_library_gate_hints" in digest
+    assert "imported_manuscript_migration_outline_gate_hints" in digest
+    assert "style_dna_reference_library_gate_hints" in digest
+    assert "draft_candidate_promotion_gate_hints" in digest
+    assert "privacy_preserving_local_index_gate_hints" in digest

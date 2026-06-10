@@ -224,6 +224,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("orchestrator" OR "hierarchical planning" OR "volume" OR "arc" OR "memory weave") ("AI novel" OR "long-form writing") in:name,description,readme',
     '("batch generation" OR "progress tracking" OR "auto continuation" OR "homogeneity") ("AI novel" OR "web novel") in:name,description,readme',
     '("本地数据" OR "自动升级" OR "批量生成" OR "进度追踪") ("AI小说" OR "网文") in:name,description,readme',
+    '("prompt preset" OR "prompt variables" OR "提示词库" OR "预设管理") ("AI小说" OR "novel writing") in:name,description,readme',
+    '("导入小说" OR "txt import" OR "chapter outline" OR "智能解析目录") ("AI小说" OR "web novel") in:name,description,readme',
+    '("文笔DNA" OR "style DNA" OR "reference library" OR "风格模仿") ("AI novel" OR "小说") in:name,description,readme',
+    '("draft vs confirmed" OR "rewrite candidates" OR "metadata-only index" OR "offline-first") ("novel" OR "writing workbench") in:name,description,readme',
     '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
     '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
     '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
@@ -535,6 +539,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/fuchen2020/BatchScribe",
     "https://github.com/xy9144/flutter-novel-main",
     "https://github.com/duoyang666/ai_novel",
+    "https://github.com/Deng-m1/MaliangAINovalWriter",
+    "https://github.com/ponysb/91Writing",
+    "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+    "https://github.com/linnnn89/novel-agent-workbench",
+    "https://github.com/qnbs/StoryCraft-Studio",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -781,6 +790,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("batch_continuation_progress_queue_gate", ("batch generation", "batch generate", "batch scribe", "batchscribe", "批量生成", "批量创作", "批量续写", "progress tracking", "auto continuation", "自动判定进度续写", "进度追踪", "自动续写")),
     ("homogeneity_prompt_variation_gate", ("homogeneity", "samey", "同质化", "random title", "random topic", "随机生成书名", "随机生成题材", "prompt variation", "prompt revision", "修改了提示词")),
     ("local_author_data_boundary_gate", ("local data management", "local data", "offline data", "本地数据", "本地ollama", "local ollama", "local desktop", "windows packaged", "windows 打包版", "automatic update", "自动升级", "upgrade.zip")),
+    ("prompt_preset_variable_library_gate", ("prompt preset", "prompt presets", "prompt variable", "prompt variables", "prompt template", "prompt-template", "variable system", "template import", "usage stats", "提示词库", "提示词管理", "预设管理", "系统提示词", "用户提示词", "变量系统", "动态变量", "template library", "模板导入", "提示词效果追踪")),
+    ("imported_manuscript_migration_outline_gate", ("imported manuscript", "manuscript import", "txt import", "txt 导入", "导入小说", "智能解析目录", "generate each chapter outline", "每章大纲", "quickly migrate existing work", "迁移现有作品", "选择性导入")),
+    ("style_dna_reference_library_gate", ("style dna", "writing dna", "writing-dna", "文笔dna", "narrative dna", "拆书知识库", "reference library", "参考库", "学习和模仿", "风格模仿", "风格学习")),
+    ("draft_candidate_promotion_gate", ("draft vs confirmed", "confirmed chapters", "rewrite candidates", "candidate comparison", "草稿不会自动覆盖正文", "草稿候选", "确认稿", "重写候选", "人工确认稿", "promoting only approved drafts")),
+    ("privacy_preserving_local_index_gate", ("privacy-preserving index", "metadata-only", "metadata only", "never manuscript", "all data stays local", "all data is saved", "offline-first", "本地保存", "本地化数据", "数据优先保存在本机", "草稿不会自动覆盖正文")),
     ("literary_event_entity_annotation_gate", ("litbank", "literary entities", "literary entity", "literary event detection", "literary events", "annotated dataset of fiction", "coreference in english literature", "entity annotation", "event annotation", "\u6587\u5b66\u5b9e\u4f53", "\u6587\u5b66\u4e8b\u4ef6")),
     ("narrative_event_evolution_graph_gate", ("narrative event evolutionary graph", "narrative event chain", "narrative event chains", "script event prediction", "event-centric dataset", "event narrative", "event embedding", "discourse relations", "event graph", "event evolution", "\u4e8b\u4ef6\u94fe", "\u53d9\u4e8b\u4e8b\u4ef6")),
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
@@ -869,6 +883,9 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("native_binary", (".exe", ".dll", ".so", ".dylib")),
     ("binary_distribution", (".zip", "release/", "windows packaged", "windows 打包版", "安装包", "客户端")),
     ("auto_update", ("auto upgrade", "automatic update", "自动升级", "upgrade.zip", "在线升级")),
+    ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
+    ("provider_key_surface", ("api key", "api keys", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
+    ("browser_storage_surface", ("indexeddb", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
     ("device_control", ("adb", "root", "accessibility", "plugin marketplace")),
@@ -1223,6 +1240,31 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "duoyang666/ai_novel": (
         "duoyang666/ai_novel is a Chinese AI writing and knowledge-base app with public README markers for local software downloads, auto-upgrade zip, Feishu tutorials, "
         "webnovel features such as outline, chapter generation, continuation, batch writing, and pleasure-point/rhythm support. Pattern-only value is local author-data boundary and update-surface risk review; downloads and auto-updaters are not executed."
+    ),
+    "deng-m1/maliangainovalwriter": (
+        "Maliang AI writer is a Flutter/Spring Boot AI novel platform. Public README describes hierarchical work management, txt import with chapter-outline generation, "
+        "system and user prompt presets, template and preset management, private user API keys, public model pool, model validation, LLM observability, token/cost traces, and knowledge-extraction review. "
+        "Pattern-only value is prompt preset governance, imported-manuscript migration, and provider trace boundaries; Docker/runtime/admin services are not launched."
+    ),
+    "ponysb/91writing": (
+        "91Writing is a Vue-based Chinese AI novel writing tool. Public README describes user-configured APIs, local data posture, smart continuation with custom direction and word-count range, "
+        "content preview, prompt-template categories, variable system, template import, usage statistics, token cost management, type configuration, and selective import/export. "
+        "Pattern-only value is continuation direction contracts, prompt-variable libraries, and local data import/export boundaries; front-end runtime and Docker assets are not executed."
+    ),
+    "hezhengtao/mortalainovel-aiwritingsystem-ai-": (
+        "MortalWrite is a local desktop AI writing assistant. Public README describes local workspace selection, book/volume/chapter/section management, continuation, polishing, style imitation, "
+        "character cards, AI relationship graph generation, inspiration brainstorming, and a book-decomposition knowledge base that analyzes imported snippets into writing DNA. "
+        "Pattern-only value is style-DNA reference-library abstraction and local author-data boundaries; exe/package/runtime paths are not executed."
+    ),
+    "linnnn89/novel-agent-workbench": (
+        "Novel Agent Workbench is an AGPL local AI novel workbench. Public README describes local-first project storage, Memory Bank, world/character settings, draft generation, AI review, "
+        "revision requests, rewrite candidates, candidate comparison, confirmed-chapter promotion, provider gates, audit metadata, mock provider, and Windows build scripts. "
+        "Pattern-only value is draft/review/rewrite/confirmed state separation and explicit provider-call boundaries; AGPL code and scripts are not imported or executed."
+    ),
+    "qnbs/storycraft-studio": (
+        "StoryCraft Studio is an MIT offline-first writing studio. Public README describes IndexedDB local storage, PWA/desktop modes, story planning, character/world building, revision snapshots, "
+        "template remixing, privacy-first local AI/WebLLM/ONNX/Transformers fallbacks, encrypted API keys, and cross-project search that stores lightweight metadata rather than manuscript plaintext. "
+        "Pattern-only value is privacy-preserving local indexing and offline-first prompt/context boundaries; Node/Tauri/PWA/runtime assets are not installed or launched."
     ),
     "arupmaity1/book-writer-mcp": (
         "Book Writer MCP for AI-assisted manuscript work. Public README describes story bible, style guide, continuity checker, chapter create/read/update/list/reorder, "
@@ -2388,6 +2430,11 @@ class NovelSourceDiscoveryService:
             "batch_continuation_progress_queue_gate_hints": self._build_batch_continuation_progress_queue_gate_hints(available_patterns),
             "homogeneity_prompt_variation_gate_hints": self._build_homogeneity_prompt_variation_gate_hints(available_patterns),
             "local_author_data_boundary_gate_hints": self._build_local_author_data_boundary_gate_hints(available_patterns),
+            "prompt_preset_variable_library_gate_hints": self._build_prompt_preset_variable_library_gate_hints(available_patterns),
+            "imported_manuscript_migration_outline_gate_hints": self._build_imported_manuscript_migration_outline_gate_hints(available_patterns),
+            "style_dna_reference_library_gate_hints": self._build_style_dna_reference_library_gate_hints(available_patterns),
+            "draft_candidate_promotion_gate_hints": self._build_draft_candidate_promotion_gate_hints(available_patterns),
+            "privacy_preserving_local_index_gate_hints": self._build_privacy_preserving_local_index_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -3269,6 +3316,11 @@ class NovelSourceDiscoveryService:
             "batch_continuation_progress_queue_gate": 66,
             "homogeneity_prompt_variation_gate": 65,
             "local_author_data_boundary_gate": 67,
+            "prompt_preset_variable_library_gate": 63,
+            "imported_manuscript_migration_outline_gate": 66,
+            "style_dna_reference_library_gate": 67,
+            "draft_candidate_promotion_gate": 69,
+            "privacy_preserving_local_index_gate": 64,
             "causal_dramatica_agent_pipeline": 68,
             "capture_distillation_production_gate": 66,
             "skill_orchestrated_chinese_novel_workflow": 67,
@@ -3363,6 +3415,21 @@ class NovelSourceDiscoveryService:
         if "local_author_data_boundary_gate" in patterns:
             targets.append("local_author_data_boundary")
             targets.append("update_surface_review_policy")
+        if "prompt_preset_variable_library_gate" in patterns:
+            targets.append("prompt_preset_registry")
+            targets.append("prompt_variable_schema")
+        if "imported_manuscript_migration_outline_gate" in patterns:
+            targets.append("imported_manuscript_manifest")
+            targets.append("migration_outline_policy")
+        if "style_dna_reference_library_gate" in patterns:
+            targets.append("style_dna_reference_library")
+            targets.append("style_abstraction_policy")
+        if "draft_candidate_promotion_gate" in patterns:
+            targets.append("draft_candidate_state_policy")
+            targets.append("confirmed_chapter_promotion_rules")
+        if "privacy_preserving_local_index_gate" in patterns:
+            targets.append("local_index_privacy_policy")
+            targets.append("metadata_only_search_scope")
         if "style_guide_layering" in patterns:
             targets.append("style_layers")
             targets.append("character_voice_notes")
@@ -4534,6 +4601,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["homogeneity_findings", "prompt_variation_report", "random_topic_title_seed_log"])
         if "local_author_data_boundary_gate" in patterns:
             targets.extend(["local_author_data_manifest", "download_update_surface_risk_review", "runtime_trial_blockers"])
+        if "prompt_preset_variable_library_gate" in patterns:
+            targets.extend(["prompt_preset_matrix", "prompt_variable_usage", "prompt_effect_tracking_notes"])
+        if "imported_manuscript_migration_outline_gate" in patterns:
+            targets.extend(["imported_chapter_map", "migration_generated_outlines", "source_import_boundary_review"])
+        if "style_dna_reference_library_gate" in patterns:
+            targets.extend(["style_dna_abstractions", "reference_library_items", "style_copy_risk_notes"])
+        if "draft_candidate_promotion_gate" in patterns:
+            targets.extend(["draft_review_rewrite_candidates", "candidate_comparison_log", "confirmed_chapter_acceptance_log"])
+        if "privacy_preserving_local_index_gate" in patterns:
+            targets.extend(["local_metadata_index_manifest", "privacy_search_fields", "plaintext_exclusion_checks"])
         if "emotion_arc" in patterns:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
@@ -4721,6 +4798,16 @@ class NovelSourceDiscoveryService:
             hints.append("Before continuing multiple chapters, vary pressure source, POV distance, scene function, and payoff style to prevent samey chapter templates.")
         if "local_author_data_boundary_gate" in patterns:
             hints.append("Treat local packaged apps, upgrade links, and model endpoint settings as runtime surfaces; use only static pattern notes in drafting prompts.")
+        if "prompt_preset_variable_library_gate" in patterns:
+            hints.append("Select prompt presets by task, mode, and context budget; resolve variables explicitly before drafting so hidden defaults do not steer continuation.")
+        if "imported_manuscript_migration_outline_gate" in patterns:
+            hints.append("When continuing an imported manuscript, draft from the parsed chapter map and generated outline, not from unbounded raw imported text.")
+        if "style_dna_reference_library_gate" in patterns:
+            hints.append("Use style-DNA references as abstract craft constraints only; never inject reference prose or distinctive source turns into continuation prompts.")
+        if "draft_candidate_promotion_gate" in patterns:
+            hints.append("Generate continuation as a draft candidate first; review, compare, and promote only after the author or acceptance gate confirms it.")
+        if "privacy_preserving_local_index_gate" in patterns:
+            hints.append("Retrieve local search context through metadata-scoped manifests; prompts should name included fields and exclude plaintext that was not explicitly selected.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -4916,6 +5003,16 @@ class NovelSourceDiscoveryService:
             hints.append("Store homogeneity findings across chapter windows so repeated rhythm, hook, and payoff shapes can be fixed before they propagate.")
         if "local_author_data_boundary_gate" in patterns:
             hints.append("Keep local author data, external source metadata, generated drafts, and update/download evidence in separate manifests.")
+        if "prompt_preset_variable_library_gate" in patterns:
+            hints.append("Persist preset id, variable values, model parameters, and prompt version with each chapter attempt for reproducible repairs.")
+        if "imported_manuscript_migration_outline_gate" in patterns:
+            hints.append("Persist imported file checksum, chapter parser result, generated outline ids, and which imported chapters were accepted as canon.")
+        if "style_dna_reference_library_gate" in patterns:
+            hints.append("Store style-DNA entries as source-boundary metadata with abstraction level, allowed use, and copy-risk reviewer notes.")
+        if "draft_candidate_promotion_gate" in patterns:
+            hints.append("Keep draft, review, rewrite candidate, rejected, and confirmed chapter states separate so rejected prose cannot update memory.")
+        if "privacy_preserving_local_index_gate" in patterns:
+            hints.append("Local indexes should store metadata, hashes, labels, and retrieval reasons; manuscript plaintext stays in explicit project artifacts.")
         if "attribution_derivative_work_gate" in patterns:
             hints.append("Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.")
         if "source_entity_redaction_gate" in patterns:
@@ -5173,6 +5270,51 @@ class NovelSourceDiscoveryService:
             "Keep local author data boundaries explicit: project files, prompts, model endpoints, packaged binaries, update channels, and backups are separate review surfaces.",
             "Static intake can record download/update risks, but it must not execute packaged apps, auto-updaters, or local model connectors without a runtime contract.",
             "Before any source material enters drafting, record whether it is accepted canon, author-owned note, public metadata, or blocked external text.",
+        ]
+
+    def _build_prompt_preset_variable_library_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "prompt_preset_variable_library_gate" not in patterns:
+            return []
+        return [
+            "Prompt presets should declare task, mode, required variables, context sources, model parameters, and reviewer-visible defaults.",
+            "Variable substitution must be resolved before a prompt is sent or saved so hidden template state cannot alter a continuation silently.",
+            "Track prompt usage and outcome notes by preset version; do not let one successful preset become a global default for every chapter mode.",
+        ]
+
+    def _build_imported_manuscript_migration_outline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "imported_manuscript_migration_outline_gate" not in patterns:
+            return []
+        return [
+            "Treat imported manuscripts as migration inputs: record checksum, parser result, chapter map, generated summaries, and acceptance status before drafting.",
+            "Generate or review per-chapter outlines after import so continuation can target a known chapter slot rather than raw unbounded source text.",
+            "Selective import/export should keep prompt libraries, API settings, manuscript text, and derived outlines in separate boundary classes.",
+        ]
+
+    def _build_style_dna_reference_library_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "style_dna_reference_library_gate" not in patterns:
+            return []
+        return [
+            "A style-DNA library stores abstract craft features such as rhythm, scene density, dialogue pressure, and payoff shape, not source paragraphs.",
+            "Each reference-library item needs provenance, license/posture, allowed-use label, abstraction summary, and copy-risk review before it informs same-type creation.",
+            "For imitation-like work, cite style-DNA ids and novelty requirements; never ask the model to reproduce a named author or source passage.",
+        ]
+
+    def _build_draft_candidate_promotion_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "draft_candidate_promotion_gate" not in patterns:
+            return []
+        return [
+            "AI output starts as a draft candidate. Review, rewrite candidates, and manual edits must stay separate from confirmed chapter text.",
+            "Promotion to confirmed chapter requires an explicit acceptance event with source candidate id, reviewer, reason, and downstream memory update list.",
+            "Rejected or smoke-test drafts can remain as evidence but must not seed Memory Bank, context packs, or accepted chapter summaries.",
+        ]
+
+    def _build_privacy_preserving_local_index_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "privacy_preserving_local_index_gate" not in patterns:
+            return []
+        return [
+            "Local search indexes should default to metadata-only fields such as title, logline, labels, word count, character names, hashes, and retrieval reasons.",
+            "Offline-first or browser-local storage is still a privacy surface: record encryption, export, backup, deletion, and provider-call boundaries.",
+            "Before prompt assembly, prove which local plaintext snippets were selected by the user or gate; metadata hits alone should not leak manuscript plaintext.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -7707,6 +7849,16 @@ class NovelSourceDiscoveryService:
             targets.append("variation_axis_remap")
         if "local_author_data_boundary_gate" in patterns:
             targets.append("author_data_boundary_remap")
+        if "prompt_preset_variable_library_gate" in patterns:
+            targets.append("prompt_preset_variable_remap")
+        if "imported_manuscript_migration_outline_gate" in patterns:
+            targets.append("imported_outline_boundary_remap")
+        if "style_dna_reference_library_gate" in patterns:
+            targets.append("style_dna_abstraction_remap")
+        if "draft_candidate_promotion_gate" in patterns:
+            targets.append("draft_candidate_promotion_remap")
+        if "privacy_preserving_local_index_gate" in patterns:
+            targets.append("metadata_index_privacy_remap")
         if "temporal_canon_context_graph" in patterns:
             targets.append("temporal_graph_context_remap")
         if "long_term_author_preference_memory" in patterns:
@@ -7744,6 +7896,16 @@ class NovelSourceDiscoveryService:
             hints.append("Include variation axes in the prompt—pressure source, scene function, POV distance, rhythm, and payoff style—before generating adjacent chapters.")
         if "local_author_data_boundary_gate" in patterns:
             hints.append("Label all local files, source notes, and generated drafts by boundary class before they enter the prompt: canon, author note, pattern metadata, or blocked runtime surface.")
+        if "prompt_preset_variable_library_gate" in patterns:
+            hints.append("Use prompt presets as visible contracts; same-type drafts must show variable values and source-boundary labels instead of hidden template defaults.")
+        if "imported_manuscript_migration_outline_gate" in patterns:
+            hints.append("Transform imported chapter maps into a new outline spine before drafting; do not preserve original chapter order unless the task is faithful continuation.")
+        if "style_dna_reference_library_gate" in patterns:
+            hints.append("Use style-DNA ids as abstract craft guidance only; generate new premise, cast, conflicts, and phrasing for same-type work.")
+        if "draft_candidate_promotion_gate" in patterns:
+            hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
+        if "privacy_preserving_local_index_gate" in patterns:
+            hints.append("Use metadata-only local search to find relevant project artifacts, then explicitly choose which new-story snippets may enter the prompt.")
         if "card_workbench" in patterns:
             hints.append("Use card structure as the workbench shape, but create new card content for characters, factions, places, and hooks.")
         if "structured_generation_schema" in patterns:
@@ -8421,6 +8583,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform samey output repairs by changing the structural axis—scene purpose, conflict entry, rhythm, and payoff—not just wording.")
         if "local_author_data_boundary_gate" in patterns:
             hints.append("Transform local-data notes through explicit boundary labels so packaged-app artifacts or updater evidence cannot become story canon.")
+        if "prompt_preset_variable_library_gate" in patterns:
+            hints.append("Transform prompt presets by changing variables, audience, scene function, and constraints for the new project instead of reusing a source preset verbatim.")
+        if "imported_manuscript_migration_outline_gate" in patterns:
+            hints.append("Transform imported outlines into independent chapter slots with new causes, costs, relationships, and payoff owners.")
+        if "style_dna_reference_library_gate" in patterns:
+            hints.append("Transform style-DNA notes into new voice guardrails; source examples may define an axis but not sentence templates.")
+        if "draft_candidate_promotion_gate" in patterns:
+            hints.append("Transform candidate workflows by resetting candidate ids, reviewer decisions, and memory writebacks for the new story lineage.")
+        if "privacy_preserving_local_index_gate" in patterns:
+            hints.append("Transform local-index hits into metadata citations first; only author-approved new-story text can become prompt context or canon.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Transform graph episodes by changing entities, time windows, relationship causes, and provenance links before context retrieval.")
         if "long_term_author_preference_memory" in patterns:
@@ -8478,6 +8650,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject adjacent chapters with repeated scene openings, conflict cadence, hook shape, or payoff rhythm unless a variation decision explains it.")
         if "local_author_data_boundary_gate" in patterns:
             hints.append("Reject context packs that mix packaged-app files, updater/download notes, source metadata, and accepted canon without boundary labels.")
+        if "prompt_preset_variable_library_gate" in patterns:
+            hints.append("Reject prompts whose template variables hide source text, source names, or author-style commands behind neutral preset labels.")
+        if "imported_manuscript_migration_outline_gate" in patterns:
+            hints.append("Reject same-type drafts that preserve imported chapter order, chapter titles, parser fragments, or outline wording from the source manuscript.")
+        if "style_dna_reference_library_gate" in patterns:
+            hints.append("Reject style-DNA use that reproduces source phrasing, named set pieces, catchphrases, or a living author's signature sentence pattern.")
+        if "draft_candidate_promotion_gate" in patterns:
+            hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
+        if "privacy_preserving_local_index_gate" in patterns:
+            hints.append("Reject context packs where metadata-only search results silently pull manuscript plaintext into prompts.")
         if "anti_slop_audit" in patterns:
             hints.append("Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.")
         if "plotgrid_scene_matrix" in patterns:
@@ -8966,6 +9148,11 @@ class NovelSourceDiscoveryService:
                 "batch_continuation_progress_queue_gate",
                 "homogeneity_prompt_variation_gate",
                 "local_author_data_boundary_gate",
+                "prompt_preset_variable_library_gate",
+                "imported_manuscript_migration_outline_gate",
+                "style_dna_reference_library_gate",
+                "draft_candidate_promotion_gate",
+                "privacy_preserving_local_index_gate",
                 "narrative_qa_comprehension_gate",
                 "chapter_summary_alignment_gate",
                 "story_question_answer_validation_gate",

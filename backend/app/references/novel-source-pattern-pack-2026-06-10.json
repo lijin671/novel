@@ -100,6 +100,7 @@
     "Create restore checkpoints before bulk generation, range rewrite, schema migration, or destructive canon merge.",
     "A restore point must name the changed artifacts so prose, plan, bible, and review state roll back together."
   ],
+  "batch_continuation_progress_queue_gate_hints": [],
   "beat_strand_framework_hints": [
     "Map external plot, internal change, and relationship strands separately, then mark convergence beats where they collide.",
     "A beat framework is a pressure map, not a license to force every chapter into the same template."
@@ -510,7 +511,19 @@
     "character_psychology_consistency_policy",
     "motivation_emotion_state_ledger",
     "query_focused_summary_policy",
-    "multi_reference_summary_review_rules"
+    "multi_reference_summary_review_rules",
+    "local_author_data_boundary",
+    "update_surface_review_policy",
+    "prompt_preset_registry",
+    "prompt_variable_schema",
+    "imported_manuscript_manifest",
+    "migration_outline_policy",
+    "style_dna_reference_library",
+    "style_abstraction_policy",
+    "draft_candidate_state_policy",
+    "confirmed_chapter_promotion_rules",
+    "local_index_privacy_policy",
+    "metadata_only_search_scope"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -755,7 +768,13 @@
     "Choose the atelier control mode up front: full automation, assisted phase handoff, or manual approval before any agent stage writes canon.",
     "Before same-type continuation, separate source-book mining patterns from new canon seeds; only scored and accepted canon-seed fields may drive automation.",
     "For multi-book runs, bind each continuation to one book profile, visible session, continue limit, and periodic full-book logic check.",
-    "Before drafting, confirm the latest accepted chapter commit has updated state, summaries, memory, and read-model projections."
+    "Before drafting, confirm the latest accepted chapter commit has updated state, summaries, memory, and read-model projections.",
+    "Treat local packaged apps, upgrade links, and model endpoint settings as runtime surfaces; use only static pattern notes in drafting prompts.",
+    "Select prompt presets by task, mode, and context budget; resolve variables explicitly before drafting so hidden defaults do not steer continuation.",
+    "When continuing an imported manuscript, draft from the parsed chapter map and generated outline, not from unbounded raw imported text.",
+    "Use style-DNA references as abstract craft constraints only; never inject reference prose or distinctive source turns into continuation prompts.",
+    "Generate continuation as a draft candidate first; review, compare, and promote only after the author or acceptance gate confirms it.",
+    "Retrieve local search context through metadata-scoped manifests; prompts should name included fields and exclude plaintext that was not explicitly selected."
   ],
   "continuation_state_hints": [
     "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
@@ -852,7 +871,13 @@
     "Persist source-entity redaction decisions before analysis or drafting so copied names, places, factions, artifacts, and powers cannot silently enter canon.",
     "Store fiction-specific entity labels separately from ordinary NER output: character, faction, location, artifact, title, ability, rank, and invented term.",
     "Keep a stable placeholder and alias map for redacted sources, and review replacement collisions before any remapped context is reused.",
-    "Record source proper-noun blocklists and approved exceptions as review metadata before accepting continuation or same-type drafts."
+    "Record source proper-noun blocklists and approved exceptions as review metadata before accepting continuation or same-type drafts.",
+    "Keep local author data, external source metadata, generated drafts, and update/download evidence in separate manifests.",
+    "Persist preset id, variable values, model parameters, and prompt version with each chapter attempt for reproducible repairs.",
+    "Persist imported file checksum, chapter parser result, generated outline ids, and which imported chapters were accepted as canon.",
+    "Store style-DNA entries as source-boundary metadata with abstraction level, allowed use, and copy-risk reviewer notes.",
+    "Keep draft, review, rewrite candidate, rejected, and confirmed chapter states separate so rejected prose cannot update memory.",
+    "Local indexes should store metadata, hashes, labels, and retrieval reasons; manuscript plaintext stays in explicit project artifacts."
   ],
   "continuity_bridge_window_hints": [
     "Build a compact continuity bridge from the last accepted chapters, active timeline, open hooks, character state, and editor notes.",
@@ -919,6 +944,11 @@
     "Partition imported documents into typed elements before chapter detection: title, narrative text, list, table, image, note, and footer.",
     "Detect chapter headings with evidence: element type, normalized heading text, page/span, TOC match, and neighboring section boundaries.",
     "Keep uncertain headings as review candidates so bad partitioning cannot corrupt chapter order or source summaries."
+  ],
+  "draft_candidate_promotion_gate_hints": [
+    "AI output starts as a draft candidate. Review, rewrite candidates, and manual edits must stay separate from confirmed chapter text.",
+    "Promotion to confirmed chapter requires an explicit acceptance event with source candidate id, reviewer, reason, and downstream memory update list.",
+    "Rejected or smoke-test drafts can remain as evidence but must not seed Memory Bank, context packs, or accepted chapter summaries."
   ],
   "draft_stage_revision_ladder_hints": [
     "Use a staged ladder: chapter blueprint -> key-information file -> task card -> Draft A -> Draft B -> Draft C -> continuity handoff.",
@@ -988,6 +1018,7 @@
     "Score open foreshadowing as debt and reserve context budget for high-debt hooks before drafting related chapters.",
     "A payoff attempt must cite its setup, expected payoff window, current debt status, and whether the hook remains open or resolved."
   ],
+  "fresh_context_chapter_iteration_gate_hints": [],
   "front_back_matter_metadata_gate_hints": [
     "Keep title page, copyright, dedication, foreword, endnotes, afterword, colophon, identifiers, and publication metadata in a separate delivery manifest.",
     "Front/back matter can reference accepted canon and attribution policy, but must not become hidden prompt context for chapter continuation.",
@@ -1007,7 +1038,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T17:34:28+08:00",
+  "generated_at": "2026-06-10T23:58:00+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -1037,6 +1068,8 @@
     "Use the scaffold as author-editable material for compilation, editing, and rewriting, not as autonomous final prose.",
     "For same-type creation, rebuild every layer around the new premise before drafting dialogue or chapter scenes."
   ],
+  "hierarchical_orchestrator_generation_gate_hints": [],
+  "homogeneity_prompt_variation_gate_hints": [],
   "human_coauthor_edit_boundary_hints": [
     "Mark AI output as co-writing material that requires human or review-gate compilation, editing, and rewriting before acceptance.",
     "Check plagiarism, toxicity/offense risk, stereotype drift, and formulaic scene output before writing accepted canon.",
@@ -1066,6 +1099,11 @@
     "When a parser or setting changes, invalidate derived summaries, glossary entries, and style fingerprints until re-reviewed.",
     "Keep original, extracted, normalized, and accepted text as separate artifacts with explicit lineage."
   ],
+  "imported_manuscript_migration_outline_gate_hints": [
+    "Treat imported manuscripts as migration inputs: record checksum, parser result, chapter map, generated summaries, and acceptance status before drafting.",
+    "Generate or review per-chapter outlines after import so continuation can target a known chapter slot rather than raw unbounded source text.",
+    "Selective import/export should keep prompt libraries, API settings, manuscript text, and derived outlines in separate boundary classes."
+  ],
   "impromptu_thread_pool_chapter_gate_hints": [
     "Support impromptu continuation by turning the current author instruction into a single-chapter blueprint before prose drafting.",
     "Maintain an open-thread pool with unresolved, partially paid, and development-needed buckets; finalize moves only accepted deltas.",
@@ -1076,6 +1114,7 @@
     "Process edit-note markers into concrete changes, then remove or resolve them before final manuscript assembly.",
     "Tag major draft milestones and keep revision diffs inspectable so same-type rewrites and continuation repairs remain reversible."
   ],
+  "inline_human_machine_coauthoring_gate_hints": [],
   "inspectable_run_workspace_hints": [
     "Expose writing sessions, storyboard surfaces, manuscript surfaces, character/world views, and editable memory-bank refs.",
     "Each inspectable run should show current phase, selected context, accepted artifacts, pending review, and next action.",
@@ -1263,7 +1302,13 @@
     "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.",
     "Reject same-type QA packs where source-book questions or answers can still pass under renamed entities.",
     "Reject transformed summaries that keep source chapter/book summary order, causal phrasing, or temporal dependency chain.",
-    "Reject why-explanations that preserve source motives, helpful sentences, or action rationales under new names."
+    "Reject why-explanations that preserve source motives, helpful sentences, or action rationales under new names.",
+    "Reject context packs that mix packaged-app files, updater/download notes, source metadata, and accepted canon without boundary labels.",
+    "Reject prompts whose template variables hide source text, source names, or author-style commands behind neutral preset labels.",
+    "Reject same-type drafts that preserve imported chapter order, chapter titles, parser fragments, or outline wording from the source manuscript.",
+    "Reject style-DNA use that reproduces source phrasing, named set pieces, catchphrases, or a living author's signature sentence pattern.",
+    "Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.",
+    "Reject context packs where metadata-only search results silently pull manuscript plaintext into prompts."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -1469,7 +1514,13 @@
     "author_preference_memory_remap",
     "source_community_graph_remap",
     "graph_vector_retrieval_remap",
-    "schema_guided_graph_remap"
+    "schema_guided_graph_remap",
+    "author_data_boundary_remap",
+    "prompt_preset_variable_remap",
+    "imported_outline_boundary_remap",
+    "style_dna_abstraction_remap",
+    "draft_candidate_promotion_remap",
+    "metadata_index_privacy_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1629,7 +1680,14 @@
     "Use author preference memory to preserve the user's desired feel while keeping source analysis outside project memory.",
     "Transform source entity communities into new cast, faction, theme, and conflict communities before drafting.",
     "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
-    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon."
+    "Create a transformed graph schema before extraction so source node labels and relationship names do not become new canon.",
+    "Label all local files, source notes, and generated drafts by boundary class before they enter the prompt: canon, author note, pattern metadata, or blocked runtime surface.",
+    "Use prompt presets as visible contracts; same-type drafts must show variable values and source-boundary labels instead of hidden template defaults.",
+    "Transform imported chapter maps into a new outline spine before drafting; do not preserve original chapter order unless the task is faithful continuation.",
+    "Use style-DNA ids as abstract craft guidance only; generate new premise, cast, conflicts, and phrasing for same-type work.",
+    "For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.",
+    "Use metadata-only local search to find relevant project artifacts, then explicitly choose which new-story snippets may enter the prompt.",
+    "Transform local source files into boundary-labeled metadata or author-approved notes before any same-type prompt can cite them."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
@@ -1808,7 +1866,13 @@
     "Transform source material only after license status is known; unknown-rights text may provide metadata labels, not plot, prose, or style exemplars.",
     "Transform SPDX/REUSE findings into source admission notes and attribution tasks rather than generation content.",
     "Transform public-domain texts through a source manifest and originality gates; public domain is not a reason to clone chapter order or set pieces.",
-    "Transform adaptation-risk material by separating allowed reference, required attribution, and blocked derivative similarity before drafting."
+    "Transform adaptation-risk material by separating allowed reference, required attribution, and blocked derivative similarity before drafting.",
+    "Transform local-data notes through explicit boundary labels so packaged-app artifacts or updater evidence cannot become story canon.",
+    "Transform prompt presets by changing variables, audience, scene function, and constraints for the new project instead of reusing a source preset verbatim.",
+    "Transform imported outlines into independent chapter slots with new causes, costs, relationships, and payoff owners.",
+    "Transform style-DNA notes into new voice guardrails; source examples may define an axis but not sentence templates.",
+    "Transform candidate workflows by resetting candidate ids, reviewer decisions, and memory writebacks for the new story lineage.",
+    "Transform local-index hits into metadata citations first; only author-approved new-story text can become prompt context or canon."
   ],
   "instance_specific_writing_criteria_gate_hints": [
     "Attach local acceptance criteria to every continuation or same-type writing task instead of relying on one global prose-quality score.",
@@ -1859,6 +1923,11 @@
     "Separate source-book literary entities, events, participant roles, and mention spans before turning them into canon cards or summaries.",
     "Treat event/entity annotations as review evidence; unresolved event labels or participant slots stay out of continuation context.",
     "For same-type creation, remap roles and event functions before any source annotation can influence the new outline."
+  ],
+  "local_author_data_boundary_gate_hints": [
+    "Keep local author data boundaries explicit: project files, prompts, model endpoints, packaged binaries, update channels, and backups are separate review surfaces.",
+    "Static intake can record download/update risks, but it must not execute packaged apps, auto-updaters, or local model connectors without a runtime contract.",
+    "Before any source material enters drafting, record whether it is accepted canon, author-owned note, public metadata, or blocked external text."
   ],
   "local_first_workspace_hints": [
     "Scope remix analysis, continuation plans, style seeds, prompt choices, and draft state to the active novel/project workspace.",
@@ -1935,6 +2004,7 @@
     "Review high-Jaccard clusters manually because genre formulas, required names, and boilerplate can be legitimate false positives.",
     "Record shingle size, threshold, and accepted/rewritten decisions so future prompt changes can be regression-tested."
   ],
+  "mode_contract_generation_gate_hints": [],
   "multi_book_autopilot_studio_gate_hints": [
     "多书并行时，每本书必须绑定独立 profile、项目目录、上下文文件和运行窗口，避免串书、串设定、串状态。",
     "Autopilot 只负责推进已授权批次：继续次数、完成短语、人工停止和模型提问应答都要有可见边界。",
@@ -2077,6 +2147,11 @@
     "When the model tries to wrap up too early, revise toward a new complication, consequence, or deferred payoff rather than adding summary closure."
   ],
   "preview_toc_packaging_hints": [],
+  "privacy_preserving_local_index_gate_hints": [
+    "Local search indexes should default to metadata-only fields such as title, logline, labels, word count, character names, hashes, and retrieval reasons.",
+    "Offline-first or browser-local storage is still a privacy surface: record encryption, export, backup, deletion, and provider-call boundaries.",
+    "Before prompt assembly, prove which local plaintext snippets were selected by the user or gate; metadata hits alone should not leak manuscript plaintext."
+  ],
   "progressive_disclosure_skill_protocol_gate_hints": [
     "Use a light entry protocol that routes to only the needed planning, drafting, review, archive, or dashboard procedure for the current request.",
     "Every protocol load should bind required knowledge-base files, validate missing references, and emit the next command or stop reason.",
@@ -2095,6 +2170,11 @@
     "Register task prompts by purpose: book decomposition, scene planning, continuation drafting, style imitation, review, and state write-back.",
     "Version prompt templates and record which template produced each accepted chapter or card update.",
     "Separate global system guidance from task-specific prompts so same-type creation and continuation do not reuse the wrong instruction layer."
+  ],
+  "prompt_preset_variable_library_gate_hints": [
+    "Prompt presets should declare task, mode, required variables, context sources, model parameters, and reviewer-visible defaults.",
+    "Variable substitution must be resolved before a prompt is sent or saved so hidden template state cannot alter a continuation silently.",
+    "Track prompt usage and outcome notes by preset version; do not let one successful preset become a global default for every chapter mode."
   ],
   "prompt_recipe_experiment_grid_hints": [
     "Run prompt recipes as bounded experiments with fixed inputs, rubric review, and keep/discard decisions before promoting a recipe.",
@@ -2232,7 +2312,10 @@
     "??????????????????????????????",
     "GitHub ????? pattern-only ???????????????????",
     "????? book-mining?multi-book autopilot?longrun commit projection ????????",
-    "Creative-writing skill packs and BMAD modules are pattern-only during source intake; plugin installs, agent runtimes, package managers, and prompt bodies are not imported."
+    "Creative-writing skill packs and BMAD modules are pattern-only during source intake; plugin installs, agent runtimes, package managers, and prompt bodies are not imported.",
+    "只采集公开元数据和公开摘要；不克隆、不安装、不执行外部项目。",
+    "GitHub 与论坛候选默认按 pattern-only 沉淀，后续吸收必须单独做许可证、安装面和安全边界复核。",
+    "Linux.do 仅使用公开 RSS/页面可访问摘要；不绕过登录、403、429、WAF 或 CAPTCHA。"
   ],
   "sampling_parameter_quality_sweep_hints": [
     "Sweep sampling parameters only under fixed story inputs and a shared review rubric so quality changes are comparable.",
@@ -2338,7 +2421,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 261,
+  "source_candidate_count": 266,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2355,6 +2438,7 @@
     "Detect and record the source license before source-book import, deconstruction, continuation, or same-type imitation uses any long text.",
     "Unknown, missing, or low-confidence license status blocks copying source passages into prompts; keep only bibliographic metadata until reviewed."
   ],
+  "source_study_method_bank_isolation_gate_hints": [],
   "source_text_fingerprint_gate_hints": [
     "Compare source and draft fingerprints before accepting same-type prose; high-overlap windows become review items, not automatic proof.",
     "Keep fingerprint thresholds separate for names, set-piece labels, long phrases, and structural scene order to reduce false positives.",
@@ -2621,7 +2705,12 @@
     "uci-soe/FairytaleQAData",
     "StonyBrookNLP/tellmewhy",
     "uwnlp/storycommonsense",
-    "nyu-mll/SQuALITY"
+    "nyu-mll/SQuALITY",
+    "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+    "linnnn89/novel-agent-workbench",
+    "ponysb/91Writing",
+    "qnbs/StoryCraft-Studio",
+    "Deng-m1/MaliangAINovalWriter"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2680,6 +2769,11 @@
   "style_axis_diversity_fingerprint_hints": [
     "Fingerprint style on visible axes: voice/diction, rhythm/syntax, POV/discourse, structure/pacing, tone, imagery, dialogue, experimentation, and closure.",
     "Use diversity evidence to avoid style collapse across chapters while preserving the target book's accepted voice boundaries."
+  ],
+  "style_dna_reference_library_gate_hints": [
+    "A style-DNA library stores abstract craft features such as rhythm, scene density, dialogue pressure, and payoff shape, not source paragraphs.",
+    "Each reference-library item needs provenance, license/posture, allowed-use label, abstraction summary, and copy-risk review before it informs same-type creation.",
+    "For imitation-like work, cite style-DNA ids and novelty requirements; never ask the model to reproduce a named author or source passage."
   ],
   "style_fidelity_hints": [
     "Preserve the original voice, cadence, and narrative temperature; style preservation is a hard constraint, not a loose suggestion.",
@@ -3566,7 +3660,25 @@
     "mental_state_continuity_findings",
     "query_focused_summary_report",
     "plot_question_response_alignment",
-    "multi_reference_summary_disagreement"
+    "multi_reference_summary_disagreement",
+    "local_author_data_manifest",
+    "download_update_surface_risk_review",
+    "runtime_trial_blockers",
+    "prompt_preset_matrix",
+    "prompt_variable_usage",
+    "prompt_effect_tracking_notes",
+    "imported_chapter_map",
+    "migration_generated_outlines",
+    "source_import_boundary_review",
+    "style_dna_abstractions",
+    "reference_library_items",
+    "style_copy_risk_notes",
+    "draft_review_rewrite_candidates",
+    "candidate_comparison_log",
+    "confirmed_chapter_acceptance_log",
+    "local_metadata_index_manifest",
+    "privacy_search_fields",
+    "plaintext_exclusion_checks"
   ],
   "wiki_canon_graph_lint_gate_hints": [
     "Maintain a story-bible wiki with health, ingest, lint, query, and relationship-graph checks before adding new continuity-sensitive material.",
@@ -3581,77 +3693,7 @@
   "workflow_pattern_count": 265,
   "workflow_patterns": [
     {
-      "candidate_count": 1,
-      "name": "tri_modal_workflow_validation_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "package_install_examples",
-        "external_agent_runtime"
-      ],
-      "sources": [
-        {
-          "license": "WTFPL",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "package_install_examples",
-            "external_agent_runtime"
-          ],
-          "score": 411,
-          "source": "github",
-          "stars": 30,
-          "summary": "BMAD novel module with Create/Edit/Validate workflow modes, pre-writing checklist, quantitative style metrics, automated post-chapter audit chain, living-bible update, character audits, and rhythm analysis.",
-          "title": "jblemee/bmad-book-builder",
-          "trust_flags": [
-            "public_readme",
-            "observed_head"
-          ],
-          "url": "https://github.com/jblemee/bmad-book-builder"
-        }
-      ],
-      "top_source_url": "https://github.com/jblemee/bmad-book-builder",
-      "trust_flags": [
-        "public_readme",
-        "observed_head"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "reader_reward_channel_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "external_skill_runtime",
-        "package_install_examples"
-      ],
-      "sources": [
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "external_skill_runtime",
-            "package_install_examples"
-          ],
-          "score": 492,
-          "source": "github",
-          "stars": 241,
-          "summary": "Claude/Cowork/Meridian creative-writing skills with muse-led writer/critic/revision loops, reader-sim four-channel feedback, style references, continuity checks, and chronicler knowledge-base updates.",
-          "title": "haowjy/creative-writing-skills",
-          "trust_flags": [
-            "public_readme",
-            "observed_head"
-          ],
-          "url": "https://github.com/haowjy/creative-writing-skills"
-        }
-      ],
-      "top_source_url": "https://github.com/haowjy/creative-writing-skills",
-      "trust_flags": [
-        "public_readme",
-        "observed_head"
-      ]
-    },
-    {
-      "candidate_count": 16,
+      "candidate_count": 18,
       "name": "continuation",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3659,7 +3701,8 @@
         "shell_script",
         "mcp_server",
         "node_project",
-        "postinstall"
+        "postinstall",
+        "provider_key_surface"
       ],
       "sources": [
         {
@@ -3884,15 +3927,49 @@
           "title": "clchinkc/story-bench",
           "trust_flags": [],
           "url": "https://github.com/clchinkc/story-bench"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface"
+          ],
+          "score": 152,
+          "source": "github",
+          "stars": 1552,
+          "summary": "91Writing supports smart continuation with custom direction, prompt template categories, variable system, template import, usage stats, token cost management, local data and selective import export. Static intake note: 91Writing is a Vue-based Chinese AI novel writing tool. Publi",
+          "title": "ponysb/91Writing",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/ponysb/91Writing"
         }
       ],
       "top_source_url": "https://github.com/MA-Bihani/Novelia_public",
       "trust_flags": [
-        "license:missing"
+        "license:missing",
+        "zero-issues-high-stars"
       ]
     },
     {
-      "candidate_count": 24,
+      "candidate_count": 26,
       "name": "book_decomposition",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -3902,7 +3979,8 @@
         "shell_script",
         "powershell_script",
         "python_project",
-        "external_api_surface"
+        "external_api_surface",
+        "windows_script"
       ],
       "sources": [
         {
@@ -4247,6 +4325,36 @@
           "title": "kaigani/codeywood",
           "trust_flags": [],
           "url": "https://github.com/kaigani/codeywood"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
@@ -4496,7 +4604,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 24,
+      "candidate_count": 26,
       "name": "worldbuilding",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -4504,7 +4612,8 @@
         "mcp_server",
         "native_binary",
         "shell_script",
-        "powershell_script"
+        "powershell_script",
+        "windows_script"
       ],
       "sources": [
         {
@@ -4845,6 +4954,36 @@
           "title": "kaigani/codeywood",
           "trust_flags": [],
           "url": "https://github.com/kaigani/codeywood"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
@@ -4853,7 +4992,7 @@
       ]
     },
     {
-      "candidate_count": 23,
+      "candidate_count": 25,
       "name": "timeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -4862,7 +5001,8 @@
         "native_binary",
         "shell_script",
         "powershell_script",
-        "browser_extension"
+        "browser_extension",
+        "windows_script"
       ],
       "sources": [
         {
@@ -5188,6 +5328,36 @@
           "title": "kaigani/codeywood",
           "trust_flags": [],
           "url": "https://github.com/kaigani/codeywood"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
@@ -5196,7 +5366,7 @@
       ]
     },
     {
-      "candidate_count": 38,
+      "candidate_count": 41,
       "name": "character_cards",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -5205,7 +5375,10 @@
         "native_binary",
         "shell_script",
         "powershell_script",
-        "browser_extension"
+        "browser_extension",
+        "windows_script",
+        "provider_key_surface",
+        "browser_storage_surface"
       ],
       "sources": [
         {
@@ -5739,6 +5912,53 @@
           "title": "kaigani/codeywood",
           "trust_flags": [],
           "url": "https://github.com/kaigani/codeywood"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface",
+            "browser_storage_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 2,
+          "summary": "Offline-first AI writing studio with IndexedDB local storage, PWA and desktop mode, privacy-preserving index, metadata-only cross-project search, template remixing, encrypted API keys, WebLLM, ONNX and Transformers local AI fallbacks. Static intake note: StoryCraft Studio is an M",
+          "title": "qnbs/StoryCraft-Studio",
+          "trust_flags": [],
+          "url": "https://github.com/qnbs/StoryCraft-Studio"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
@@ -5772,6 +5992,64 @@
       "trust_flags": [
         "license:missing"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "causal_why_explanation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 140,
+          "source": "github",
+          "stars": 0,
+          "summary": "TellMeWhy focuses on why-questions in stories, free-form answers, helpful sentence evidence, and grammaticality/validity human judgments.",
+          "title": "StonyBrookNLP/tellmewhy",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/StonyBrookNLP/tellmewhy"
+        }
+      ],
+      "top_source_url": "https://github.com/StonyBrookNLP/tellmewhy",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "narrative_qa_comprehension_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 140,
+          "source": "github",
+          "stars": 0,
+          "summary": "NarrativeQA reading-comprehension dataset with document metadata, Wikipedia summaries, full-story links, and question/answer pairs for long narrative comprehension.",
+          "title": "google-deepmind/narrativeqa",
+          "trust_flags": [],
+          "url": "https://github.com/google-deepmind/narrativeqa"
+        }
+      ],
+      "top_source_url": "https://github.com/google-deepmind/narrativeqa",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -5832,11 +6110,95 @@
       ]
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 1,
+      "name": "draft_candidate_promotion_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script"
+      ],
+      "sources": [
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
+        }
+      ],
+      "top_source_url": "https://github.com/linnnn89/novel-agent-workbench",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "chapter_summary_alignment_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "BSD-3-Clause",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 138,
+          "source": "github",
+          "stars": 0,
+          "summary": "BookSum long-form narrative summarization source with paragraph-, chapter-, and book-level human summaries plus causal/temporal dependency challenges.",
+          "title": "salesforce/booksum",
+          "trust_flags": [],
+          "url": "https://github.com/salesforce/booksum"
+        }
+      ],
+      "top_source_url": "https://github.com/salesforce/booksum",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "simulation_causal_ledger_verification_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 131,
+          "source": "github",
+          "stars": 1,
+          "summary": "Simulation-first long-form novel generator with world truth, belief state, utterance history, causal ledger, verify-long-form, canonical validation, and a 300-episode verification horizon. Static intake note: Kakao Novel Generator is a simulation-first long-form novel engine with",
+          "title": "hackertaco/novel-generator",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hackertaco/novel-generator"
+        }
+      ],
+      "top_source_url": "https://github.com/hackertaco/novel-generator",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 7,
       "name": "local_rag_writing_ide_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [
-        "docker"
+        "docker",
+        "windows_script",
+        "provider_key_surface",
+        "browser_storage_surface"
       ],
       "sources": [
         {
@@ -5894,6 +6256,53 @@
           "title": "heider-x/vela",
           "trust_flags": [],
           "url": "https://github.com/heider-x/vela"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface",
+            "browser_storage_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 2,
+          "summary": "Offline-first AI writing studio with IndexedDB local storage, PWA and desktop mode, privacy-preserving index, metadata-only cross-project search, template remixing, encrypted API keys, WebLLM, ONNX and Transformers local AI fallbacks. Static intake note: StoryCraft Studio is an M",
+          "title": "qnbs/StoryCraft-Studio",
+          "trust_flags": [],
+          "url": "https://github.com/qnbs/StoryCraft-Studio"
         }
       ],
       "top_source_url": "https://github.com/worldwonderer/zenstory",
@@ -6093,6 +6502,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "story_question_answer_validation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 136,
+          "source": "github",
+          "stars": 0,
+          "summary": "FairytaleQAData provides sectioned story files and education-expert question/answer pairs linked to sections and narrative-element labels.",
+          "title": "uci-soe/FairytaleQAData",
+          "trust_flags": [],
+          "url": "https://github.com/uci-soe/FairytaleQAData"
+        }
+      ],
+      "top_source_url": "https://github.com/uci-soe/FairytaleQAData",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "longrun_commit_projection_health_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -6169,6 +6601,201 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 1,
+      "name": "tri_modal_workflow_validation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "package_install_examples",
+        "external_agent_runtime"
+      ],
+      "sources": [
+        {
+          "license": "WTFPL",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "package_install_examples",
+            "external_agent_runtime"
+          ],
+          "score": 411,
+          "source": "github",
+          "stars": 30,
+          "summary": "BMAD novel module with Create/Edit/Validate workflow modes, pre-writing checklist, quantitative style metrics, automated post-chapter audit chain, living-bible update, character audits, and rhythm analysis.",
+          "title": "jblemee/bmad-book-builder",
+          "trust_flags": [
+            "public_readme",
+            "observed_head"
+          ],
+          "url": "https://github.com/jblemee/bmad-book-builder"
+        }
+      ],
+      "top_source_url": "https://github.com/jblemee/bmad-book-builder",
+      "trust_flags": [
+        "public_readme",
+        "observed_head"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "offline_inspiration_bank_style_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 159,
+          "source": "github",
+          "stars": 4,
+          "summary": "Local-first offline creative writing environment with Ollama local RAG, Inspiration bank, Continue and Rewrite modes, style mimicry, dynamic style engine and filesystem book chapter storage. Static intake note: Novelia_public is a local-first Electron/React creative-writing envir",
+          "title": "MA-Bihani/Novelia_public",
+          "trust_flags": [],
+          "url": "https://github.com/MA-Bihani/Novelia_public"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
+        }
+      ],
+      "top_source_url": "https://github.com/MA-Bihani/Novelia_public",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "local_author_data_boundary_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "provider_key_surface"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface"
+          ],
+          "score": 152,
+          "source": "github",
+          "stars": 1552,
+          "summary": "91Writing supports smart continuation with custom direction, prompt template categories, variable system, template import, usage stats, token cost management, local data and selective import export. Static intake note: 91Writing is a Vue-based Chinese AI novel writing tool. Publi",
+          "title": "ponysb/91Writing",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/ponysb/91Writing"
+        }
+      ],
+      "top_source_url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+      "trust_flags": [
+        "license:missing",
+        "zero-issues-high-stars"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "style_dna_reference_library_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        }
+      ],
+      "top_source_url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_promise_mob_review_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 227,
+          "source": "github",
+          "stars": 1,
+          "summary": "Fiction co-author system with chapter promise, scene architect, character truth pass, mob session comment queue, lead editor, citation enforcement, and Five Commandments value shift. Static intake note: Claude-Writing-Skills is a fiction co-author skill system for Claude Code wit",
+          "title": "Deland78/Claude-Writing-Skills",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/Deland78/Claude-Writing-Skills"
+        }
+      ],
+      "top_source_url": "https://github.com/Deland78/Claude-Writing-Skills",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 4,
       "name": "contradiction_taxonomy_checker",
       "posture_hint": "metadata-triage",
@@ -6235,13 +6862,14 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "skill_orchestrated_chinese_novel_workflow",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
         "shell_script",
-        "powershell_script"
+        "powershell_script",
+        "windows_script"
       ],
       "sources": [
         {
@@ -6304,35 +6932,27 @@
           "title": "wzxsph/Novel-Claude",
           "trust_flags": [],
           "url": "https://github.com/wzxsph/Novel-Claude"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
         }
       ],
       "top_source_url": "https://github.com/liaoma1993/aiAIfiction",
       "trust_flags": [
         "license:missing"
       ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "offline_inspiration_bank_style_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 159,
-          "source": "github",
-          "stars": 4,
-          "summary": "Local-first offline creative writing environment with Ollama local RAG, Inspiration bank, Continue and Rewrite modes, style mimicry, dynamic style engine and filesystem book chapter storage. Static intake note: Novelia_public is a local-first Electron/React creative-writing envir",
-          "title": "MA-Bihani/Novelia_public",
-          "trust_flags": [],
-          "url": "https://github.com/MA-Bihani/Novelia_public"
-        }
-      ],
-      "top_source_url": "https://github.com/MA-Bihani/Novelia_public",
-      "trust_flags": []
     },
     {
       "candidate_count": 5,
@@ -6492,6 +7112,64 @@
       ],
       "top_source_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "query_focused_long_summary_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "mixed-data-terms",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "SQuALITY is a question-focused long-document, multi-reference summarization dataset over Project Gutenberg short stories.",
+          "title": "nyu-mll/SQuALITY",
+          "trust_flags": [
+            "license:mixed-data-terms"
+          ],
+          "url": "https://github.com/nyu-mll/SQuALITY"
+        }
+      ],
+      "top_source_url": "https://github.com/nyu-mll/SQuALITY",
+      "trust_flags": [
+        "license:mixed-data-terms"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_commonsense_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Story Commonsense Knowledge contributes naive-psychology framing for character motivations, emotions, and mental states in simple stories.",
+          "title": "uwnlp/storycommonsense",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/uwnlp/storycommonsense"
+        }
+      ],
+      "top_source_url": "https://github.com/uwnlp/storycommonsense",
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 3,
@@ -6857,6 +7535,103 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 3,
+      "name": "progressive_disclosure_skill_protocol_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "GPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 138,
+          "source": "github",
+          "stars": 367,
+          "summary": "AI novel writing IDE with local-first privacy BYOK local RAG knowledge base, auto outline, chapter drafting, rewrite refine review loop. Static intake note: Vela is a GPL AI novel-writing IDE with local-first privacy posture, BYOK model calls, worldbuilding, auto outline, chapter",
+          "title": "heider-x/vela",
+          "trust_flags": [],
+          "url": "https://github.com/heider-x/vela"
+        },
+        {
+          "license": "CC-BY-NC-SA-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 76,
+          "source": "github",
+          "stars": 0,
+          "summary": "Long-form novel skill with progressive disclosure, intent-based command routing, protocol files, codex/protocol/knowledge-base layers and localization rules. Static intake note: TianMing Skill is a CC BY-NC-SA long-form novel collaboration skill split from a monolithic prompt int",
+          "title": "zy-zmc/tianming-skill",
+          "trust_flags": [],
+          "url": "https://github.com/zy-zmc/tianming-skill"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        }
+      ],
+      "top_source_url": "https://github.com/heider-x/vela",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "webnovel_genre_tracker_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "mcp_server"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "mcp_server"
+          ],
+          "score": 80,
+          "source": "github",
+          "stars": 0,
+          "summary": "webnovel-mcp serial fiction project scaffolding with foreshadowing tracker, timeline tracker, LitRPG stat blocks, romance arc tracker, stale characters, chapter gaps, xianxia, and progression fantasy. Static intake note: webnovel-mcp is a MIT MCP server and webnovel author skill ",
+          "title": "netflypsb/webnovel-mcp",
+          "trust_flags": [],
+          "url": "https://github.com/netflypsb/webnovel-mcp"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        }
+      ],
+      "top_source_url": "https://github.com/netflypsb/webnovel-mcp",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
       "candidate_count": 2,
       "name": "progressive_spoiler_context_window_gate",
       "posture_hint": "metadata-triage",
@@ -6894,42 +7669,6 @@
     },
     {
       "candidate_count": 2,
-      "name": "progressive_disclosure_skill_protocol_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "GPL-3.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 138,
-          "source": "github",
-          "stars": 367,
-          "summary": "AI novel writing IDE with local-first privacy BYOK local RAG knowledge base, auto outline, chapter drafting, rewrite refine review loop. Static intake note: Vela is a GPL AI novel-writing IDE with local-first privacy posture, BYOK model calls, worldbuilding, auto outline, chapter",
-          "title": "heider-x/vela",
-          "trust_flags": [],
-          "url": "https://github.com/heider-x/vela"
-        },
-        {
-          "license": "CC-BY-NC-SA-4.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 76,
-          "source": "github",
-          "stars": 0,
-          "summary": "Long-form novel skill with progressive disclosure, intent-based command routing, protocol files, codex/protocol/knowledge-base layers and localization rules. Static intake note: TianMing Skill is a CC BY-NC-SA long-form novel collaboration skill split from a monolithic prompt int",
-          "title": "zy-zmc/tianming-skill",
-          "trust_flags": [],
-          "url": "https://github.com/zy-zmc/tianming-skill"
-        }
-      ],
-      "top_source_url": "https://github.com/heider-x/vela",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 2,
       "name": "community_graph_source_deconstruction",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -6962,6 +7701,33 @@
         }
       ],
       "top_source_url": "https://github.com/DinhLucent/webnovel-longrun-aigen-docs",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "imported_manuscript_migration_outline_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "provider_key_surface"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "provider_key_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 789,
+          "summary": "Maliang AI novel platform with txt import, chapter outline migration, prompt preset management, private API key pool, LLM observability, token cost traces, and knowledge extraction review. Static intake note: Maliang AI writer is a Flutter/Spring Boot AI novel platform. Public RE",
+          "title": "Deng-m1/MaliangAINovalWriter",
+          "trust_flags": [],
+          "url": "https://github.com/Deng-m1/MaliangAINovalWriter"
+        }
+      ],
+      "top_source_url": "https://github.com/Deng-m1/MaliangAINovalWriter",
       "trust_flags": []
     },
     {
@@ -7732,7 +8498,42 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 22,
+      "candidate_count": 1,
+      "name": "reader_reward_channel_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "external_skill_runtime",
+        "package_install_examples"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "external_skill_runtime",
+            "package_install_examples"
+          ],
+          "score": 492,
+          "source": "github",
+          "stars": 241,
+          "summary": "Claude/Cowork/Meridian creative-writing skills with muse-led writer/critic/revision loops, reader-sim four-channel feedback, style references, continuity checks, and chronicler knowledge-base updates.",
+          "title": "haowjy/creative-writing-skills",
+          "trust_flags": [
+            "public_readme",
+            "observed_head"
+          ],
+          "url": "https://github.com/haowjy/creative-writing-skills"
+        }
+      ],
+      "top_source_url": "https://github.com/haowjy/creative-writing-skills",
+      "trust_flags": [
+        "public_readme",
+        "observed_head"
+      ]
+    },
+    {
+      "candidate_count": 24,
       "name": "organization_graph",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -7740,7 +8541,8 @@
         "mcp_server",
         "native_binary",
         "shell_script",
-        "powershell_script"
+        "powershell_script",
+        "windows_script"
       ],
       "sources": [
         {
@@ -8051,6 +8853,36 @@
           "title": "kaigani/codeywood",
           "trust_flags": [],
           "url": "https://github.com/kaigani/codeywood"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
@@ -8059,11 +8891,14 @@
       ]
     },
     {
-      "candidate_count": 10,
+      "candidate_count": 14,
       "name": "dual_level_graph_vector_retrieval",
       "posture_hint": "metadata-triage",
       "risk_flags": [
-        "docker"
+        "docker",
+        "windows_script",
+        "provider_key_surface",
+        "browser_storage_surface"
       ],
       "sources": [
         {
@@ -8201,11 +9036,77 @@
           "title": "HKUDS/LightRAG",
           "trust_flags": [],
           "url": "https://github.com/HKUDS/LightRAG"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface"
+          ],
+          "score": 152,
+          "source": "github",
+          "stars": 1552,
+          "summary": "91Writing supports smart continuation with custom direction, prompt template categories, variable system, template import, usage stats, token cost management, local data and selective import export. Static intake note: 91Writing is a Vue-based Chinese AI novel writing tool. Publi",
+          "title": "ponysb/91Writing",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/ponysb/91Writing"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface",
+            "browser_storage_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 2,
+          "summary": "Offline-first AI writing studio with IndexedDB local storage, PWA and desktop mode, privacy-preserving index, metadata-only cross-project search, template remixing, encrypted API keys, WebLLM, ONNX and Transformers local AI fallbacks. Static intake note: StoryCraft Studio is an M",
+          "title": "qnbs/StoryCraft-Studio",
+          "trust_flags": [],
+          "url": "https://github.com/qnbs/StoryCraft-Studio"
         }
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": [
-        "license:missing"
+        "license:missing",
+        "zero-issues-high-stars"
       ]
     },
     {
@@ -8926,7 +9827,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "relationship_graph_global_replace_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -8956,13 +9857,30 @@
           "title": "KKKenChow/ai-novel-writer",
           "trust_flags": [],
           "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "wiki_canon_graph_lint_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -8979,20 +9897,40 @@
           "title": "abrahamp47/storyforge-wiki",
           "trust_flags": [],
           "url": "https://github.com/abrahamp47/storyforge-wiki"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 10,
       "name": "source_format_import_manifest",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
         "mcp_server",
         "shell_script",
-        "powershell_script"
+        "powershell_script",
+        "windows_script",
+        "provider_key_surface",
+        "browser_storage_surface"
       ],
       "sources": [
         {
@@ -9108,6 +10046,38 @@
           "title": "pymupdf/PyMuPDF",
           "trust_flags": [],
           "url": "https://github.com/pymupdf/PyMuPDF"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface",
+            "browser_storage_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 2,
+          "summary": "Offline-first AI writing studio with IndexedDB local storage, PWA and desktop mode, privacy-preserving index, metadata-only cross-project search, template remixing, encrypted API keys, WebLLM, ONNX and Transformers local AI fallbacks. Static intake note: StoryCraft Studio is an M",
+          "title": "qnbs/StoryCraft-Studio",
+          "trust_flags": [],
+          "url": "https://github.com/qnbs/StoryCraft-Studio"
         }
       ],
       "top_source_url": "https://github.com/MA-Bihani/Novelia_public",
@@ -9222,10 +10192,12 @@
       ]
     },
     {
-      "candidate_count": 5,
+      "candidate_count": 6,
       "name": "interactive_reader_writer_loop_gate",
       "posture_hint": "metadata-triage",
-      "risk_flags": [],
+      "risk_flags": [
+        "provider_key_surface"
+      ],
       "sources": [
         {
           "license": "AGPL-3.0",
@@ -9291,9 +10263,55 @@
           "title": "pulpgen-dev/pulpgen",
           "trust_flags": [],
           "url": "https://github.com/pulpgen-dev/pulpgen"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "provider_key_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 789,
+          "summary": "Maliang AI novel platform with txt import, chapter outline migration, prompt preset management, private API key pool, LLM observability, token cost traces, and knowledge extraction review. Static intake note: Maliang AI writer is a Flutter/Spring Boot AI novel platform. Public RE",
+          "title": "Deng-m1/MaliangAINovalWriter",
+          "trust_flags": [],
+          "url": "https://github.com/Deng-m1/MaliangAINovalWriter"
         }
       ],
       "top_source_url": "https://github.com/jim60105/HeartReverie",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "privacy_preserving_local_index_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "provider_key_surface",
+        "browser_storage_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface",
+            "browser_storage_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 2,
+          "summary": "Offline-first AI writing studio with IndexedDB local storage, PWA and desktop mode, privacy-preserving index, metadata-only cross-project search, template remixing, encrypted API keys, WebLLM, ONNX and Transformers local AI fallbacks. Static intake note: StoryCraft Studio is an M",
+          "title": "qnbs/StoryCraft-Studio",
+          "trust_flags": [],
+          "url": "https://github.com/qnbs/StoryCraft-Studio"
+        }
+      ],
+      "top_source_url": "https://github.com/qnbs/StoryCraft-Studio",
       "trust_flags": []
     },
     {
@@ -9471,6 +10489,29 @@
         }
       ],
       "top_source_url": "https://github.com/AutoFiction-AI/AutoFiction",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "writer_git_exploration_review_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 108,
+          "source": "github",
+          "stars": 0,
+          "summary": "Writer-friendly Git with explorations, word-by-word comparison, beta reader annotations, author control, selective integration, and cherry-pick individual changes for manuscripts. Static intake note: GitWrite is a MIT writer-friendly abstraction over Git for writers, editors, and",
+          "title": "eristoddle/git-write",
+          "trust_flags": [],
+          "url": "https://github.com/eristoddle/git-write"
+        }
+      ],
+      "top_source_url": "https://github.com/eristoddle/git-write",
       "trust_flags": []
     },
     {
@@ -10041,6 +11082,54 @@
       ]
     },
     {
+      "candidate_count": 2,
+      "name": "prompt_preset_variable_library_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "provider_key_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface"
+          ],
+          "score": 152,
+          "source": "github",
+          "stars": 1552,
+          "summary": "91Writing supports smart continuation with custom direction, prompt template categories, variable system, template import, usage stats, token cost management, local data and selective import export. Static intake note: 91Writing is a Vue-based Chinese AI novel writing tool. Publi",
+          "title": "ponysb/91Writing",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/ponysb/91Writing"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "provider_key_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 789,
+          "summary": "Maliang AI novel platform with txt import, chapter outline migration, prompt preset management, private API key pool, LLM observability, token cost traces, and knowledge extraction review. Static intake note: Maliang AI writer is a Flutter/Spring Boot AI novel platform. Public RE",
+          "title": "Deng-m1/MaliangAINovalWriter",
+          "trust_flags": [],
+          "url": "https://github.com/Deng-m1/MaliangAINovalWriter"
+        }
+      ],
+      "top_source_url": "https://github.com/ponysb/91Writing",
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
+    },
+    {
       "candidate_count": 3,
       "name": "character_interaction_network_gate",
       "posture_hint": "metadata-triage",
@@ -10244,6 +11333,62 @@
       "trust_flags": []
     },
     {
+      "candidate_count": 3,
+      "name": "retrieval_trace_observability_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "provider_key_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 79,
+          "source": "github",
+          "stars": 2600,
+          "summary": "MIT LLM app observability and evaluation framework with groundedness, context relevance, answer relevance, feedback functions, and traces; used as pattern evidence for grounded trace review only.",
+          "title": "truera/trulens",
+          "trust_flags": [],
+          "url": "https://github.com/truera/trulens"
+        },
+        {
+          "license": "Elastic-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker"
+          ],
+          "score": 78,
+          "source": "github",
+          "stars": 5800,
+          "summary": "Elastic-2.0 AI observability and evaluation platform with tracing, LLM spans, retrieval traces, datasets, experiments, and evals; used as pattern evidence for retrieval trace review only.",
+          "title": "Arize-ai/phoenix",
+          "trust_flags": [],
+          "url": "https://github.com/Arize-ai/phoenix"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "provider_key_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 789,
+          "summary": "Maliang AI novel platform with txt import, chapter outline migration, prompt preset management, private API key pool, LLM observability, token cost traces, and knowledge extraction review. Static intake note: Maliang AI writer is a Flutter/Spring Boot AI novel platform. Public RE",
+          "title": "Deng-m1/MaliangAINovalWriter",
+          "trust_flags": [],
+          "url": "https://github.com/Deng-m1/MaliangAINovalWriter"
+        }
+      ],
+      "top_source_url": "https://github.com/truera/trulens",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 2,
       "name": "anti_slop_rulepack_triage_gate",
       "posture_hint": "metadata-triage",
@@ -10395,46 +11540,6 @@
         }
       ],
       "top_source_url": "https://github.com/blingenf/copydetect",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 2,
-      "name": "retrieval_trace_observability_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "docker"
-      ],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 79,
-          "source": "github",
-          "stars": 2600,
-          "summary": "MIT LLM app observability and evaluation framework with groundedness, context relevance, answer relevance, feedback functions, and traces; used as pattern evidence for grounded trace review only.",
-          "title": "truera/trulens",
-          "trust_flags": [],
-          "url": "https://github.com/truera/trulens"
-        },
-        {
-          "license": "Elastic-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "docker"
-          ],
-          "score": 78,
-          "source": "github",
-          "stars": 5800,
-          "summary": "Elastic-2.0 AI observability and evaluation platform with tracing, LLM spans, retrieval traces, datasets, experiments, and evals; used as pattern evidence for retrieval trace review only.",
-          "title": "Arize-ai/phoenix",
-          "trust_flags": [],
-          "url": "https://github.com/Arize-ai/phoenix"
-        }
-      ],
-      "top_source_url": "https://github.com/truera/trulens",
       "trust_flags": []
     },
     {
@@ -11435,7 +12540,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 25,
+      "candidate_count": 27,
       "name": "emotion_arc",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -11444,7 +12549,8 @@
         "native_binary",
         "shell_script",
         "powershell_script",
-        "browser_extension"
+        "browser_extension",
+        "windows_script"
       ],
       "sources": [
         {
@@ -11802,6 +12908,36 @@
           "title": "kaigani/codeywood",
           "trust_flags": [],
           "url": "https://github.com/kaigani/codeywood"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
@@ -11810,12 +12946,13 @@
       ]
     },
     {
-      "candidate_count": 20,
+      "candidate_count": 21,
       "name": "agentic_book_planner_pipeline",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
         "docker",
-        "mcp_server"
+        "mcp_server",
+        "provider_key_surface"
       ],
       "sources": [
         {
@@ -12092,6 +13229,21 @@
           "title": "guchendesigndog/GC-Writer-Assistant",
           "trust_flags": [],
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "provider_key_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 789,
+          "summary": "Maliang AI novel platform with txt import, chapter outline migration, prompt preset management, private API key pool, LLM observability, token cost traces, and knowledge extraction review. Static intake note: Maliang AI writer is a Flutter/Spring Boot AI novel platform. Public RE",
+          "title": "Deng-m1/MaliangAINovalWriter",
+          "trust_flags": [],
+          "url": "https://github.com/Deng-m1/MaliangAINovalWriter"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
@@ -12509,7 +13661,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 4,
+      "candidate_count": 5,
       "name": "rolling_summary_context_trim",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -12565,10 +13717,27 @@
           "title": "DuckTraDo/Novel",
           "trust_flags": [],
           "url": "https://github.com/DuckTraDo/Novel"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
-      "trust_flags": []
+      "trust_flags": [
+        "license:missing"
+      ]
     },
     {
       "candidate_count": 3,
@@ -12914,10 +14083,13 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 7,
+      "candidate_count": 8,
       "name": "choice_stats_consequence_gate",
       "posture_hint": "defer-trust-review",
-      "risk_flags": [],
+      "risk_flags": [
+        "docker",
+        "provider_key_surface"
+      ],
       "sources": [
         {
           "license": "MIT",
@@ -13011,11 +14183,30 @@
           "title": "dfabulich/choicescript",
           "trust_flags": [],
           "url": "https://github.com/dfabulich/choicescript"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface"
+          ],
+          "score": 152,
+          "source": "github",
+          "stars": 1552,
+          "summary": "91Writing supports smart continuation with custom direction, prompt template categories, variable system, template import, usage stats, token cost management, local data and selective import export. Static intake note: 91Writing is a Vue-based Chinese AI novel writing tool. Publi",
+          "title": "ponysb/91Writing",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/ponysb/91Writing"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
       "trust_flags": [
-        "license:noassertion"
+        "license:noassertion",
+        "zero-issues-high-stars"
       ]
     },
     {
@@ -14048,49 +15239,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
-      "name": "export_format_fidelity_audit",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "python_project",
-        "external_api_surface"
-      ],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 202,
-          "source": "github",
-          "stars": 580,
-          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
-          "title": "KKKenChow/ai-novel-writer",
-          "trust_flags": [],
-          "url": "https://github.com/KKKenChow/ai-novel-writer"
-        },
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "python_project",
-            "external_api_surface"
-          ],
-          "score": 110,
-          "source": "github",
-          "stars": 10,
-          "summary": "MIT AI novel drafting agent with idea-to-outline, chapter writing, interactive editing, XML state files, project folders, final.html manuscript output, and derived manuscript artifacts. Static intake note: absorb manuscript assembly and export boundary gates only; no Gemini/provi",
-          "title": "muckelverk/pulpgen",
-          "trust_flags": [],
-          "url": "https://github.com/muckelverk/pulpgen"
-        }
-      ],
-      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 25,
+      "candidate_count": 26,
       "name": "style_signature",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -14460,6 +15609,21 @@
           "title": "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
           "trust_flags": [],
           "url": "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
         }
       ],
       "top_source_url": "https://github.com/loreum-app/loreum",
@@ -14467,6 +15631,48 @@
         "license:missing",
         "zero-issues-high-stars"
       ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "export_format_fidelity_audit",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "python_project",
+        "external_api_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 202,
+          "source": "github",
+          "stars": 580,
+          "summary": "Chinese full-chain local RAG novel tool with staged chapter generation. Static intake note: AI Novel Writer is a MIT Chinese full-chain local RAG novel tool. Public README describes local ChromaDB memory, staged world/character/outline/chapter workflow, six-stage progressive paci",
+          "title": "KKKenChow/ai-novel-writer",
+          "trust_flags": [],
+          "url": "https://github.com/KKKenChow/ai-novel-writer"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "python_project",
+            "external_api_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 10,
+          "summary": "MIT AI novel drafting agent with idea-to-outline, chapter writing, interactive editing, XML state files, project folders, final.html manuscript output, and derived manuscript artifacts. Static intake note: absorb manuscript assembly and export boundary gates only; no Gemini/provi",
+          "title": "muckelverk/pulpgen",
+          "trust_flags": [],
+          "url": "https://github.com/muckelverk/pulpgen"
+        }
+      ],
+      "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
+      "trust_flags": []
     },
     {
       "candidate_count": 2,
@@ -14836,13 +16042,16 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 14,
+      "candidate_count": 17,
       "name": "local_first_novel_workspace",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
         "native_binary",
-        "shell_script"
+        "shell_script",
+        "windows_script",
+        "provider_key_surface",
+        "browser_storage_surface"
       ],
       "sources": [
         {
@@ -15042,6 +16251,53 @@
           "title": "guchendesigndog/GC-Writer-Assistant",
           "trust_flags": [],
           "url": "https://github.com/guchendesigndog/GC-Writer-Assistant"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface",
+            "browser_storage_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 2,
+          "summary": "Offline-first AI writing studio with IndexedDB local storage, PWA and desktop mode, privacy-preserving index, metadata-only cross-project search, template remixing, encrypted API keys, WebLLM, ONNX and Transformers local AI fallbacks. Static intake note: StoryCraft Studio is an M",
+          "title": "qnbs/StoryCraft-Studio",
+          "trust_flags": [],
+          "url": "https://github.com/qnbs/StoryCraft-Studio"
         }
       ],
       "top_source_url": "https://github.com/worldwonderer/zenstory",
@@ -15382,7 +16638,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 49,
+      "candidate_count": 52,
       "name": "self_review",
       "posture_hint": "defer-trust-review",
       "risk_flags": [
@@ -15393,7 +16649,9 @@
         "powershell_script",
         "python_project",
         "postinstall",
-        "browser_extension"
+        "browser_extension",
+        "windows_script",
+        "provider_key_surface"
       ],
       "sources": [
         {
@@ -16081,6 +17339,51 @@
           "title": "kaigani/codeywood",
           "trust_flags": [],
           "url": "https://github.com/kaigani/codeywood"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
+        },
+        {
+          "license": "AGPL-3.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 1,
+          "summary": "Local AI novel workbench with Memory Bank, world settings, chapter drafts, AI review, revision requests, rewrite candidates, candidate comparison, confirmed chapters, provider gates and audit metadata. Static intake note: Novel Agent Workbench is an AGPL local AI novel workbench.",
+          "title": "linnnn89/novel-agent-workbench",
+          "trust_flags": [],
+          "url": "https://github.com/linnnn89/novel-agent-workbench"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "provider_key_surface"
+          ],
+          "score": 110,
+          "source": "github",
+          "stars": 789,
+          "summary": "Maliang AI novel platform with txt import, chapter outline migration, prompt preset management, private API key pool, LLM observability, token cost traces, and knowledge extraction review. Static intake note: Maliang AI writer is a Flutter/Spring Boot AI novel platform. Public RE",
+          "title": "Deng-m1/MaliangAINovalWriter",
+          "trust_flags": [],
+          "url": "https://github.com/Deng-m1/MaliangAINovalWriter"
         }
       ],
       "top_source_url": "https://github.com/abrahamp47/storyforge-wiki",
@@ -16663,7 +17966,7 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 8,
+      "candidate_count": 9,
       "name": "card_workbench",
       "posture_hint": "metadata-triage",
       "risk_flags": [
@@ -16777,6 +18080,21 @@
           "title": "HZ-KMNO/web-novel-writing-guidance-skill",
           "trust_flags": [],
           "url": "https://github.com/HZ-KMNO/web-novel-writing-guidance-skill"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 259,
+          "source": "github",
+          "stars": 19,
+          "summary": "MortalWrite local desktop AI novel assistant with local workspace, continuation, polishing, style imitation, character cards, relationship graph, inspiration brainstorming, and book-decomposition knowledge base that analyzes writing DNA. Static intake note: MortalWrite is a local",
+          "title": "hezhengtao/MortalAINovel-AIWritingSystem-ai-",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-"
         }
       ],
       "top_source_url": "https://github.com/worldwonderer/zenstory",
@@ -17783,12 +19101,13 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 2,
+      "candidate_count": 3,
       "name": "prompt_library",
       "posture_hint": "metadata-triage",
       "risk_flags": [
         "docker",
-        "shell_script"
+        "shell_script",
+        "provider_key_surface"
       ],
       "sources": [
         {
@@ -17819,10 +19138,30 @@
           "title": "MangoLion/plotbunni",
           "trust_flags": [],
           "url": "https://github.com/MangoLion/plotbunni"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface"
+          ],
+          "score": 152,
+          "source": "github",
+          "stars": 1552,
+          "summary": "91Writing supports smart continuation with custom direction, prompt template categories, variable system, template import, usage stats, token cost management, local data and selective import export. Static intake note: 91Writing is a Vue-based Chinese AI novel writing tool. Publi",
+          "title": "ponysb/91Writing",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/ponysb/91Writing"
         }
       ],
       "top_source_url": "https://github.com/StableLlamaAI/AugmentedQuill",
-      "trust_flags": []
+      "trust_flags": [
+        "zero-issues-high-stars"
+      ]
     },
     {
       "candidate_count": 1,
@@ -18849,11 +20188,12 @@
       "trust_flags": []
     },
     {
-      "candidate_count": 11,
+      "candidate_count": 12,
       "name": "publication_pipeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [
-        "docker"
+        "docker",
+        "provider_key_surface"
       ],
       "sources": [
         {
@@ -19014,12 +20354,31 @@
             "license:missing"
           ],
           "url": "https://github.com/XZZKANY/StoryForge"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "provider_key_surface"
+          ],
+          "score": 152,
+          "source": "github",
+          "stars": 1552,
+          "summary": "91Writing supports smart continuation with custom direction, prompt template categories, variable system, template import, usage stats, token cost management, local data and selective import export. Static intake note: 91Writing is a Vue-based Chinese AI novel writing tool. Publi",
+          "title": "ponysb/91Writing",
+          "trust_flags": [
+            "zero-issues-high-stars"
+          ],
+          "url": "https://github.com/ponysb/91Writing"
         }
       ],
       "top_source_url": "https://github.com/KKKenChow/ai-novel-writer",
       "trust_flags": [
         "license:missing",
-        "license:noassertion"
+        "license:noassertion",
+        "zero-issues-high-stars"
       ]
     },
     {
@@ -19060,276 +20419,6 @@
       "top_source_url": "https://github.com/Theltn/AICreativityJudge",
       "trust_flags": [
         "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "scene_promise_mob_review_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 227,
-          "source": "github",
-          "stars": 1,
-          "summary": "Fiction co-author system with chapter promise, scene architect, character truth pass, mob session comment queue, lead editor, citation enforcement, and Five Commandments value shift. Static intake note: Claude-Writing-Skills is a fiction co-author skill system for Claude Code wit",
-          "title": "Deland78/Claude-Writing-Skills",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/Deland78/Claude-Writing-Skills"
-        }
-      ],
-      "top_source_url": "https://github.com/Deland78/Claude-Writing-Skills",
-      "trust_flags": [
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "webnovel_genre_tracker_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "mcp_server"
-      ],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "mcp_server"
-          ],
-          "score": 80,
-          "source": "github",
-          "stars": 0,
-          "summary": "webnovel-mcp serial fiction project scaffolding with foreshadowing tracker, timeline tracker, LitRPG stat blocks, romance arc tracker, stale characters, chapter gaps, xianxia, and progression fantasy. Static intake note: webnovel-mcp is a MIT MCP server and webnovel author skill ",
-          "title": "netflypsb/webnovel-mcp",
-          "trust_flags": [],
-          "url": "https://github.com/netflypsb/webnovel-mcp"
-        }
-      ],
-      "top_source_url": "https://github.com/netflypsb/webnovel-mcp",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "simulation_causal_ledger_verification_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 131,
-          "source": "github",
-          "stars": 1,
-          "summary": "Simulation-first long-form novel generator with world truth, belief state, utterance history, causal ledger, verify-long-form, canonical validation, and a 300-episode verification horizon. Static intake note: Kakao Novel Generator is a simulation-first long-form novel engine with",
-          "title": "hackertaco/novel-generator",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/hackertaco/novel-generator"
-        }
-      ],
-      "top_source_url": "https://github.com/hackertaco/novel-generator",
-      "trust_flags": [
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "writer_git_exploration_review_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "MIT",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 108,
-          "source": "github",
-          "stars": 0,
-          "summary": "Writer-friendly Git with explorations, word-by-word comparison, beta reader annotations, author control, selective integration, and cherry-pick individual changes for manuscripts. Static intake note: GitWrite is a MIT writer-friendly abstraction over Git for writers, editors, and",
-          "title": "eristoddle/git-write",
-          "trust_flags": [],
-          "url": "https://github.com/eristoddle/git-write"
-        }
-      ],
-      "top_source_url": "https://github.com/eristoddle/git-write",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "narrative_qa_comprehension_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "corpus_downloader"
-      ],
-      "sources": [
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "corpus_downloader"
-          ],
-          "score": 140,
-          "source": "github",
-          "stars": 0,
-          "summary": "NarrativeQA reading-comprehension dataset with document metadata, Wikipedia summaries, full-story links, and question/answer pairs for long narrative comprehension.",
-          "title": "google-deepmind/narrativeqa",
-          "trust_flags": [],
-          "url": "https://github.com/google-deepmind/narrativeqa"
-        }
-      ],
-      "top_source_url": "https://github.com/google-deepmind/narrativeqa",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "chapter_summary_alignment_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "corpus_downloader"
-      ],
-      "sources": [
-        {
-          "license": "BSD-3-Clause",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "corpus_downloader"
-          ],
-          "score": 138,
-          "source": "github",
-          "stars": 0,
-          "summary": "BookSum long-form narrative summarization source with paragraph-, chapter-, and book-level human summaries plus causal/temporal dependency challenges.",
-          "title": "salesforce/booksum",
-          "trust_flags": [],
-          "url": "https://github.com/salesforce/booksum"
-        }
-      ],
-      "top_source_url": "https://github.com/salesforce/booksum",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "story_question_answer_validation_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "Apache-2.0",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 136,
-          "source": "github",
-          "stars": 0,
-          "summary": "FairytaleQAData provides sectioned story files and education-expert question/answer pairs linked to sections and narrative-element labels.",
-          "title": "uci-soe/FairytaleQAData",
-          "trust_flags": [],
-          "url": "https://github.com/uci-soe/FairytaleQAData"
-        }
-      ],
-      "top_source_url": "https://github.com/uci-soe/FairytaleQAData",
-      "trust_flags": []
-    },
-    {
-      "candidate_count": 1,
-      "name": "causal_why_explanation_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "corpus_downloader"
-      ],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "corpus_downloader"
-          ],
-          "score": 140,
-          "source": "github",
-          "stars": 0,
-          "summary": "TellMeWhy focuses on why-questions in stories, free-form answers, helpful sentence evidence, and grammaticality/validity human judgments.",
-          "title": "StonyBrookNLP/tellmewhy",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/StonyBrookNLP/tellmewhy"
-        }
-      ],
-      "top_source_url": "https://github.com/StonyBrookNLP/tellmewhy",
-      "trust_flags": [
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "story_commonsense_consistency_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [],
-          "score": 132,
-          "source": "github",
-          "stars": 0,
-          "summary": "Story Commonsense Knowledge contributes naive-psychology framing for character motivations, emotions, and mental states in simple stories.",
-          "title": "uwnlp/storycommonsense",
-          "trust_flags": [
-            "license:missing"
-          ],
-          "url": "https://github.com/uwnlp/storycommonsense"
-        }
-      ],
-      "top_source_url": "https://github.com/uwnlp/storycommonsense",
-      "trust_flags": [
-        "license:missing"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "query_focused_long_summary_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [
-        "corpus_downloader"
-      ],
-      "sources": [
-        {
-          "license": "mixed-data-terms",
-          "posture": "pattern-only",
-          "posture_hint": "metadata-triage",
-          "risk_flags": [
-            "corpus_downloader"
-          ],
-          "score": 132,
-          "source": "github",
-          "stars": 0,
-          "summary": "SQuALITY is a question-focused long-document, multi-reference summarization dataset over Project Gutenberg short stories.",
-          "title": "nyu-mll/SQuALITY",
-          "trust_flags": [
-            "license:mixed-data-terms"
-          ],
-          "url": "https://github.com/nyu-mll/SQuALITY"
-        }
-      ],
-      "top_source_url": "https://github.com/nyu-mll/SQuALITY",
-      "trust_flags": [
-        "license:mixed-data-terms"
       ]
     }
   ],
