@@ -90,6 +90,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "community_graph_source_deconstruction_hints",
             "dual_level_graph_vector_retrieval_hints",
             "schema_guided_graph_extraction_hints",
+            "prose_lint_style_rule_gate_hints",
+            "grammar_spelling_copyedit_gate_hints",
+            "copyedit_diagnostic_triage_queue_hints",
             "reader_reward_channel_gate_hints",
             "tri_modal_workflow_validation_gate_hints",
             "scene_promise_mob_review_gate_hints",
@@ -189,6 +192,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Community graph source deconstruction gates" in panel_text
     assert "Dual-level graph vector retrieval gates" in panel_text
     assert "Schema-guided graph extraction gates" in panel_text
+    assert "Prose lint / grammar copyedit gates" in panel_text
+    assert "Prose lint style rule gates" in panel_text
+    assert "Grammar spelling copyedit gates" in panel_text
+    assert "Copyedit diagnostic triage queue gates" in panel_text
     assert "Reader reward / tri-modal audit gates" in panel_text
     assert "Reader reward channel gates" in panel_text
     assert "Tri-modal workflow validation gates" in panel_text
@@ -394,6 +401,22 @@ def test_source_discovery_panel_default_seeds_include_graph_memory_rag_sources()
         "microsoft/graphrag",
         "HKUDS/LightRAG",
         "neo4j-labs/llm-graph-builder",
+    ):
+        assert repo in panel_text
+
+
+def test_source_discovery_panel_default_seeds_include_prose_copyedit_sources():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    panel_text = panel.read_text(encoding="utf-8")
+
+    for repo in (
+        "vale-cli/vale",
+        "textlint/textlint",
+        "amperser/proselint",
+        "Automattic/harper",
+        "languagetool-org/languagetool",
+        "btford/write-good",
     ):
         assert repo in panel_text
 

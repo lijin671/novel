@@ -789,3 +789,75 @@ They do not authorize package installation, graph database startup,
 Docker/service launch, MCP/server launch, source indexing, embedding generation,
 provider calls, account login, credential reads, or treating source graph
 summaries as transformed-story canon.
+
+## Prose lint / grammar copyedit addendum - 2026-06-10
+
+This addendum records a public GitHub HEAD + raw README static-review pass for
+prose linting, grammar/spelling checks, style rules, Markdown diagnostics,
+copyedit suggestions, and diagnostic triage queues. No external project was
+cloned, installed, built, launched, linted, or executed. Scratch evidence was
+saved under `tmp/source-intake-prose-copyedit-2026-06-10` only.
+
+### Reviewed sources
+
+- `vale-cli/vale`
+  - URL: `https://github.com/vale-cli/vale`
+  - observed HEAD: `c1533d196022cfd4c3b7fe37cad8aa07e03e49da`
+  - static evidence: README
+  - absorbed pattern: `prose_lint_style_rule_gate`
+  - reusable lesson: manuscript review should separate house-style rule profiles, markup-aware exclusions, and lint reports from story canon decisions.
+  - runtime exclusion: binary install, Docker, package managers, style package fetches, and lint execution are not used.
+
+- `textlint/textlint`
+  - URL: `https://github.com/textlint/textlint`
+  - observed HEAD: `9e353304b744e132bb39719e2ac8500069912e44`
+  - static evidence: README
+  - absorbed pattern: `copyedit_diagnostic_triage_queue`
+  - reusable lesson: copyedit findings need rule id, location, severity, fixability, suppression reason, and accept/ignore decision before edits touch chapters.
+  - runtime exclusion: npm/pnpm install, MCP server, browser extension, formatter, fixer, and lint execution are not used.
+
+- `amperser/proselint`
+  - URL: `https://github.com/amperser/proselint`
+  - observed HEAD: `79b33e728a385d6244a993c5e7f2f94c98cc881d`
+  - static evidence: README
+  - absorbed pattern: `prose_lint_style_rule_gate`
+  - reusable lesson: cliché, jargon, passive-voice, redundancy, and spelling suggestions belong in a review queue, not automatic prose replacement.
+  - runtime exclusion: pip install, distro packages, pre-commit hooks, plugins, and lint execution are not used.
+
+- `Automattic/harper`
+  - URL: `https://github.com/Automattic/harper`
+  - observed HEAD: `73d40fe09f9c1cec13034734a62fa4b6e678357b`
+  - static evidence: README
+  - absorbed pattern: `grammar_spelling_copyedit_gate`
+  - reusable lesson: offline grammar/spelling diagnostics should preserve original sentence, proposed correction, exception list, and author acceptance evidence.
+  - runtime exclusion: Rust build, packages, LSP/server usage, extension install, and proofreading execution are not used.
+
+- `languagetool-org/languagetool`
+  - URL: `https://github.com/languagetool-org/languagetool`
+  - observed HEAD: `e560e2b8fd11b586a0a6ab5aa6b0c055692f6c09`
+  - static evidence: README
+  - absorbed pattern: `grammar_spelling_copyedit_gate`
+  - reusable lesson: multilingual proofreading rules should be language/locale scoped and kept separate from creative voice, dialect, and intentional style exceptions.
+  - runtime exclusion: Java build, server/client launch, command-line checking, language model download, and rule execution are not used.
+
+- `btford/write-good`
+  - URL: `https://github.com/btford/write-good`
+  - observed HEAD: `6940b034c6f5a7e101c01a24d651a778fc3fe435`
+  - static evidence: README
+  - absorbed pattern: `copyedit_diagnostic_triage_queue`
+  - reusable lesson: passive voice, weasel words, adverbs, clichés, hard-to-read text, and whitelist decisions should feed author-visible triage before any rewrite.
+  - runtime exclusion: npm install, CLI execution, glob scanning, custom checks, and automatic replacement are not used.
+
+### Local projection
+
+The source discovery panel now pins these prompt-safe fields instead of leaving
+them only in the dynamic fallback group:
+
+- `prose_lint_style_rule_gate_hints`
+- `grammar_spelling_copyedit_gate_hints`
+- `copyedit_diagnostic_triage_queue_hints`
+
+These fields are static source-derived copyedit gates only. They do not
+authorize package installation, hook registration, binary/server/MCP launch,
+browser extension use, lint/proofread execution, model/provider calls, or
+automatic chapter rewrites without author-visible triage.

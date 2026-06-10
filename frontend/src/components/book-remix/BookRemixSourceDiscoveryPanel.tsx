@@ -97,6 +97,12 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/microsoft/graphrag',
   'https://github.com/HKUDS/LightRAG',
   'https://github.com/neo4j-labs/llm-graph-builder',
+  'https://github.com/vale-cli/vale',
+  'https://github.com/textlint/textlint',
+  'https://github.com/amperser/proselint',
+  'https://github.com/Automattic/harper',
+  'https://github.com/languagetool-org/languagetool',
+  'https://github.com/btford/write-good',
   'https://github.com/google-deepmind/narrativeqa',
   'https://github.com/salesforce/booksum',
   'https://github.com/uci-soe/FairytaleQAData',
@@ -214,6 +220,9 @@ const PINNED_HINT_KEYS = new Set([
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
   'schema_guided_graph_extraction_hints',
+  'prose_lint_style_rule_gate_hints',
+  'grammar_spelling_copyedit_gate_hints',
+  'copyedit_diagnostic_triage_queue_hints',
   'reader_reward_channel_gate_hints',
   'tri_modal_workflow_validation_gate_hints',
   'scene_promise_mob_review_gate_hints',
@@ -530,6 +539,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Community graph source deconstruction gates', patternPackPayload?.community_graph_source_deconstruction_hints],
               ['Dual-level graph vector retrieval gates', patternPackPayload?.dual_level_graph_vector_retrieval_hints],
               ['Schema-guided graph extraction gates', patternPackPayload?.schema_guided_graph_extraction_hints],
+            ])}
+            {renderHintGroup('Prose lint / grammar copyedit gates', [
+              ['Prose lint style rule gates', patternPackPayload?.prose_lint_style_rule_gate_hints],
+              ['Grammar spelling copyedit gates', patternPackPayload?.grammar_spelling_copyedit_gate_hints],
+              ['Copyedit diagnostic triage queue gates', patternPackPayload?.copyedit_diagnostic_triage_queue_hints],
             ])}
             {renderHintGroup('Reader reward / tri-modal audit gates', [
               ['Reader reward channel gates', patternPackPayload?.reader_reward_channel_gate_hints],

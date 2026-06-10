@@ -149,6 +149,9 @@ export interface SourceDiscoveryPatternPack {
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];
   schema_guided_graph_extraction_hints?: string[];
+  prose_lint_style_rule_gate_hints?: string[];
+  grammar_spelling_copyedit_gate_hints?: string[];
+  copyedit_diagnostic_triage_queue_hints?: string[];
   reader_reward_channel_gate_hints?: string[];
   tri_modal_workflow_validation_gate_hints?: string[];
   scene_promise_mob_review_gate_hints?: string[];
