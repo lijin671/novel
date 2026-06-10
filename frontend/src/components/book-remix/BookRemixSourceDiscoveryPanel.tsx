@@ -76,6 +76,12 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/netflypsb/webnovel-mcp',
   'https://github.com/hackertaco/novel-generator',
   'https://github.com/eristoddle/git-write',
+  'https://github.com/google-deepmind/narrativeqa',
+  'https://github.com/salesforce/booksum',
+  'https://github.com/uci-soe/FairytaleQAData',
+  'https://github.com/StonyBrookNLP/tellmewhy',
+  'https://github.com/uwnlp/storycommonsense',
+  'https://github.com/nyu-mll/SQuALITY',
 ];
 
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
@@ -147,6 +153,12 @@ const PINNED_HINT_KEYS = new Set([
   'webnovel_genre_tracker_gate_hints',
   'simulation_causal_ledger_verification_gate_hints',
   'writer_git_exploration_review_gate_hints',
+  'narrative_qa_comprehension_gate_hints',
+  'chapter_summary_alignment_gate_hints',
+  'story_question_answer_validation_gate_hints',
+  'causal_why_explanation_gate_hints',
+  'story_commonsense_consistency_gate_hints',
+  'query_focused_long_summary_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -409,6 +421,14 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Webnovel genre tracker gates', patternPackPayload?.webnovel_genre_tracker_gate_hints],
               ['Simulation causal-ledger verification gates', patternPackPayload?.simulation_causal_ledger_verification_gate_hints],
               ['Writer Git exploration review gates', patternPackPayload?.writer_git_exploration_review_gate_hints],
+            ])}
+            {renderHintGroup('Narrative QA / summary / causality gates', [
+              ['Narrative QA comprehension gates', patternPackPayload?.narrative_qa_comprehension_gate_hints],
+              ['Chapter summary alignment gates', patternPackPayload?.chapter_summary_alignment_gate_hints],
+              ['Story question-answer validation gates', patternPackPayload?.story_question_answer_validation_gate_hints],
+              ['Causal why-explanation gates', patternPackPayload?.causal_why_explanation_gate_hints],
+              ['Story commonsense consistency gates', patternPackPayload?.story_commonsense_consistency_gate_hints],
+              ['Query-focused long-summary gates', patternPackPayload?.query_focused_long_summary_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

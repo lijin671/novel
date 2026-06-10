@@ -498,7 +498,19 @@
     "chapter_change_packages",
     "reader_reward_review_axes",
     "tri_modal_workflow_policy",
-    "post_chapter_audit_chain_policy"
+    "post_chapter_audit_chain_policy",
+    "narrative_question_answer_ledger",
+    "source_summary_question_coverage_policy",
+    "chapter_summary_alignment_policy",
+    "book_level_summary_drift_rules",
+    "story_element_qa_schema",
+    "section_grounding_evidence_policy",
+    "causal_why_answer_ledger",
+    "helpful_sentence_grounding_policy",
+    "character_psychology_consistency_policy",
+    "motivation_emotion_state_ledger",
+    "query_focused_summary_policy",
+    "multi_reference_summary_review_rules"
   ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
@@ -545,6 +557,11 @@
     "Separate agent layers for premise, causality, scene plan, prose, and review; each layer must cite the accepted artifact it received.",
     "Foreshadowing tracking should record setup owner, expected payoff window, causal dependency, and unresolved-debt status."
   ],
+  "causal_why_explanation_gate_hints": [
+    "For every major character action, ask why it happened and require a plausible answer grounded in prior events, belief state, pressure, and helpful sentence/chapter evidence.",
+    "Mark why-answers as explicit, implicit, or unavailable; unavailable motives must become reveal debt or revision tasks, not hallucinated continuity.",
+    "Reject续写 drafts when character actions are only convenient for plot and cannot pass a motive-validity review."
+  ],
   "chapter_change_package_hints": [
     "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
     "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
@@ -559,6 +576,11 @@
     "Keep permanent bible files separate from transient per-chapter state; archive the state snapshot after each accepted chapter.",
     "A current-state pointer can speed prompting, but it must be reproducible from the chapter archive and must not overwrite historical states.",
     "For same-type creation, create a fresh state ladder for the new story; source chapter state can inform structure only after entity and plot remap."
+  ],
+  "chapter_summary_alignment_gate_hints": [
+    "Maintain paragraph, chapter, arc, and book-level summaries as separate granularities; chapter acceptance requires local summary and book-level direction to agree.",
+    "Check summaries for causal and temporal dependency loss: who caused the change, when it happened, what state changed, and what future obligation remains.",
+    "When续写 changes a plot line, update derived summaries only after the chapter commit; stale summaries cannot feed the next prompt."
   ],
   "chapter_summary_anchor_gate_hints": [
     "Anchor summaries to accepted chapter ids, representative sentences, source refs, and canon status before using them as prompt context.",
@@ -985,7 +1007,7 @@
     "Review medium-similarity spans manually because genre terms, stock phrases, and required canon names can be legitimate matches.",
     "Same-type creation should lower similarity by changing sentence order, image clusters, objects, stakes, and causal wording."
   ],
-  "generated_at": "2026-06-10T16:30:00+08:00",
+  "generated_at": "2026-06-10T17:34:28+08:00",
   "genre_parameterized_worldbuilding_hints": [
     "Parameterize factions, locations, conflict sources, genre promises, and taboo moves by genre/subgenre before outlining.",
     "Same-type creation should transform genre modules instead of copying source organizations, settings, or gimmicks."
@@ -1238,7 +1260,10 @@
     "Reject preference memories that store source-specific names, tropes, set pieces, or copied wording as user preferences.",
     "Reject community graphs whose cluster labels, membership, or inter-community conflict order reveal the source work.",
     "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
-    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon."
+    "Reject graph extractions that keep source node labels, relationship names, property values, or source metadata inside new-story canon.",
+    "Reject same-type QA packs where source-book questions or answers can still pass under renamed entities.",
+    "Reject transformed summaries that keep source chapter/book summary order, causal phrasing, or temporal dependency chain.",
+    "Reject why-explanations that preserve source motives, helpful sentences, or action rationales under new names."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -1932,6 +1957,11 @@
     "Do not treat next-event predictions or script-like event chains as canon unless a reviewer accepts the event dependency.",
     "For same-type creation, change causal edges and event order instead of preserving source narrative evolution under renamed actors."
   ],
+  "narrative_qa_comprehension_gate_hints": [
+    "After拆书, generate or import reviewer questions across plot, motive, relationship, setting rule, and unresolved hook; each answer must cite a summary or chapter evidence id.",
+    "Continuation prompts should include only answered, evidence-backed facts; unanswered QA items become continuity questions instead of invented bridges.",
+    "For同类型仿写, rebuild the QA set around transformed canon so source-book answers cannot satisfy new-story comprehension checks."
+  ],
   "narrative_strand_mapping_hints": [
     "Map premise, fabula, narrative strands, and geographic/temporal/social setting context before accepting arc changes.",
     "Every scene should declare which narrative strand it advances, complicates, rests, or resolves.",
@@ -2106,6 +2136,11 @@
     "Separate foundation scoring from chapter scoring so weak world/character/outline setup does not leak into every chapter.",
     "Use plateau detection to stop revision loops when scores stabilize and no major actionable issue remains.",
     "Persist loop status per workflow node: attempt count, latest score, accepted artifact, and next retry reason."
+  ],
+  "query_focused_long_summary_gate_hints": [
+    "Use query-focused summaries for long context: plot question, character question, relationship question, and world-rule question should produce different context slices.",
+    "Compare multiple summary candidates and record disagreements before compressing long chapters into prompt context.",
+    "A query-focused summary may guide retrieval or review, but it must not replace the accepted chapter text or bible state as the truth source."
   ],
   "query_lint_contract_hints": [
     "Lint generated state mutations before applying them: required fields, allowed relationship types, nullable fields, and delete/update separation.",
@@ -2303,7 +2338,7 @@
     "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
     "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
   ],
-  "source_candidate_count": 255,
+  "source_candidate_count": 261,
   "source_entity_redaction_gate_hints": [
     "Before source deconstruction or same-type drafting, detect and redact source-specific names, locations, factions, artifacts, powers, titles, and other proper nouns into review placeholders.",
     "Treat entity redaction as an admission gate: unredacted source entities may be used only when they are approved canon for a true continuation."
@@ -2312,6 +2347,9 @@
     "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
     "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
     "For same-type creation, never reuse source TOC/spine order as the new outline without a transformation step."
+  ],
+  "source_intake_notes": [
+    "NarrativeQA, BookSum, FairytaleQAData, TellMeWhy, StoryCommonsense, and SQuALITY were absorbed as static pattern-only narrative QA / summary / causality gates; no dataset download, script, model, or external runtime was executed."
   ],
   "source_license_detection_gate_hints": [
     "Detect and record the source license before source-book import, deconstruction, continuation, or same-type imitation uses any long text.",
@@ -2577,7 +2615,13 @@
     "Deland78/Claude-Writing-Skills",
     "hackertaco/novel-generator",
     "eristoddle/git-write",
-    "netflypsb/webnovel-mcp"
+    "netflypsb/webnovel-mcp",
+    "google-deepmind/narrativeqa",
+    "salesforce/booksum",
+    "uci-soe/FairytaleQAData",
+    "StonyBrookNLP/tellmewhy",
+    "uwnlp/storycommonsense",
+    "nyu-mll/SQuALITY"
   ],
   "sourcebook_author_workbench_hints": [
     "Keep sourcebook entries for characters, locations, lore, items, and scene context as author-owned planning state.",
@@ -2597,6 +2641,11 @@
     "Drafting context should keep current and adjacent plot chunks detailed while distant chapters stay compressed to title, summary, and constraints.",
     "Chapter-range refinement must state start/end chapter, adjacent context window, CJK/token budget, resume point, and exact improvement targets."
   ],
+  "story_commonsense_consistency_gate_hints": [
+    "Track naive psychology state for each key character: motivation, emotion, belief, desire, social relation, and likely reaction after every accepted beat.",
+    "Before accepting a continuation, compare new actions against current mental-state ledger and flag sudden emotion, belief, or desire jumps without on-page cause.",
+    "For同类型仿写, preserve only abstract psychology functions; source-specific motives, wounds, and relationship triggers must be transformed."
+  ],
   "story_contract_commit_chain_hints": [
     "Treat story contracts as the single source of truth for serialized continuation; drafts become canon only through accepted chapter commits.",
     "Each chapter commit should record input contract version, accepted prose id, extracted facts, review status, and projection targets."
@@ -2605,6 +2654,11 @@
     "Autonomous story evolution must remain bounded by author goals, accepted canon, review gates, and a replayable work directory.",
     "Organic planning can propose turns, but acceptance requires evidence: plan delta, prose delta, state delta, and reviewer decision.",
     "Do not let background evolution close arcs, add irreversible lore, or rewrite prior chapters without a named acceptance boundary."
+  ],
+  "story_question_answer_validation_gate_hints": [
+    "Validate each important scene with section-grounded QA: setting, character, goal, action, outcome, feeling, and theme questions should point to exact section or chapter ids.",
+    "Do not accept answers that are plausible genre guesses but unsupported by the current story section, bible state, or accepted chapter memory.",
+    "Use missing QA coverage to repair拆书 notes before writing, especially around hidden motives, relationships, and scene consequences."
   ],
   "story_structure_rag_planning_hints": [
     "Use retrieved style/thematic samples plus Hero's Journey or Freytag beats as planning scaffolds before act/chapter drafting.",
@@ -3494,7 +3548,25 @@
     "source_state_snapshot",
     "reader_reward_channel_report",
     "workflow_mode_validation_log",
-    "post_chapter_audit_chain_report"
+    "post_chapter_audit_chain_report",
+    "narrative_qa_coverage_report",
+    "question_answer_evidence_map",
+    "source_summary_comprehension_gaps",
+    "chapter_summary_alignment_report",
+    "book_chapter_summary_consistency",
+    "causal_temporal_summary_gap_findings",
+    "story_element_qa_report",
+    "section_grounded_answer_gaps",
+    "narrative_element_coverage_findings",
+    "causal_why_explanation_report",
+    "helpful_sentence_grounding_findings",
+    "plausible_answer_validity_notes",
+    "story_commonsense_report",
+    "character_motivation_emotion_conflicts",
+    "mental_state_continuity_findings",
+    "query_focused_summary_report",
+    "plot_question_response_alignment",
+    "multi_reference_summary_disagreement"
   ],
   "wiki_canon_graph_lint_gate_hints": [
     "Maintain a story-bible wiki with health, ingest, lint, query, and relationship-graph checks before adding new continuity-sensitive material.",
@@ -3506,7 +3578,7 @@
     "Compilation should record source scene order, filters/transforms, output path, and source state version.",
     "Keep compilation outputs derived; they must not write back into canon without review."
   ],
-  "workflow_pattern_count": 259,
+  "workflow_pattern_count": 265,
   "workflow_patterns": [
     {
       "candidate_count": 1,
@@ -19093,6 +19165,172 @@
       ],
       "top_source_url": "https://github.com/eristoddle/git-write",
       "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "narrative_qa_comprehension_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 140,
+          "source": "github",
+          "stars": 0,
+          "summary": "NarrativeQA reading-comprehension dataset with document metadata, Wikipedia summaries, full-story links, and question/answer pairs for long narrative comprehension.",
+          "title": "google-deepmind/narrativeqa",
+          "trust_flags": [],
+          "url": "https://github.com/google-deepmind/narrativeqa"
+        }
+      ],
+      "top_source_url": "https://github.com/google-deepmind/narrativeqa",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "chapter_summary_alignment_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "BSD-3-Clause",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 138,
+          "source": "github",
+          "stars": 0,
+          "summary": "BookSum long-form narrative summarization source with paragraph-, chapter-, and book-level human summaries plus causal/temporal dependency challenges.",
+          "title": "salesforce/booksum",
+          "trust_flags": [],
+          "url": "https://github.com/salesforce/booksum"
+        }
+      ],
+      "top_source_url": "https://github.com/salesforce/booksum",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_question_answer_validation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 136,
+          "source": "github",
+          "stars": 0,
+          "summary": "FairytaleQAData provides sectioned story files and education-expert question/answer pairs linked to sections and narrative-element labels.",
+          "title": "uci-soe/FairytaleQAData",
+          "trust_flags": [],
+          "url": "https://github.com/uci-soe/FairytaleQAData"
+        }
+      ],
+      "top_source_url": "https://github.com/uci-soe/FairytaleQAData",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "causal_why_explanation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 140,
+          "source": "github",
+          "stars": 0,
+          "summary": "TellMeWhy focuses on why-questions in stories, free-form answers, helpful sentence evidence, and grammaticality/validity human judgments.",
+          "title": "StonyBrookNLP/tellmewhy",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/StonyBrookNLP/tellmewhy"
+        }
+      ],
+      "top_source_url": "https://github.com/StonyBrookNLP/tellmewhy",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_commonsense_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "Story Commonsense Knowledge contributes naive-psychology framing for character motivations, emotions, and mental states in simple stories.",
+          "title": "uwnlp/storycommonsense",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/uwnlp/storycommonsense"
+        }
+      ],
+      "top_source_url": "https://github.com/uwnlp/storycommonsense",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "query_focused_long_summary_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "corpus_downloader"
+      ],
+      "sources": [
+        {
+          "license": "mixed-data-terms",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "corpus_downloader"
+          ],
+          "score": 132,
+          "source": "github",
+          "stars": 0,
+          "summary": "SQuALITY is a question-focused long-document, multi-reference summarization dataset over Project Gutenberg short stories.",
+          "title": "nyu-mll/SQuALITY",
+          "trust_flags": [
+            "license:mixed-data-terms"
+          ],
+          "url": "https://github.com/nyu-mll/SQuALITY"
+        }
+      ],
+      "top_source_url": "https://github.com/nyu-mll/SQuALITY",
+      "trust_flags": [
+        "license:mixed-data-terms"
+      ]
     }
   ],
   "world_state_tracking_hints": [

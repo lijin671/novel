@@ -380,6 +380,123 @@ def test_scene_serial_simulation_and_writer_git_sources_feed_prompt_pack():
     assert "writer_git_exploration_review_gate_hints" in digest
 
 
+def test_narrative_qa_summary_causality_sources_feed_prompt_pack():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "google-deepmind/narrativeqa",
+                "html_url": "https://github.com/google-deepmind/narrativeqa",
+                "description": (
+                    "NarrativeQA reading comprehension challenge dataset with Wikipedia "
+                    "summaries, full stories, qaps.csv, questions and answers."
+                ),
+                "stargazers_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["narrative", "reading-comprehension", "qa"],
+                "updated_at": "2026-06-10T09:00:00Z",
+            },
+            {
+                "full_name": "salesforce/booksum",
+                "html_url": "https://github.com/salesforce/booksum",
+                "description": (
+                    "BookSum long-form narrative summarization over novels with "
+                    "paragraph-level, chapter-level, and book-level human written summaries "
+                    "plus causal and temporal dependencies."
+                ),
+                "stargazers_count": 0,
+                "license": {"spdx_id": "BSD-3-Clause"},
+                "topics": ["book", "summarization", "narrative"],
+                "updated_at": "2026-06-10T09:00:00Z",
+            },
+            {
+                "full_name": "uci-soe/FairytaleQAData",
+                "html_url": "https://github.com/uci-soe/FairytaleQAData",
+                "description": (
+                    "FairytaleQA narrative comprehension dataset with question-answer "
+                    "pairs, cor_section story_section evidence, education experts, "
+                    "and 7 narrative elements."
+                ),
+                "stargazers_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["story", "qa", "fairytale"],
+                "updated_at": "2026-06-10T09:00:00Z",
+            },
+            {
+                "full_name": "StonyBrookNLP/tellmewhy",
+                "html_url": "https://github.com/StonyBrookNLP/tellmewhy",
+                "description": (
+                    "TellMeWhy why-questions in story narratives with free-form answers, "
+                    "helpful_sentences, plausible answer validity human judgments, "
+                    "and why characters perform actions."
+                ),
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["narrative", "why-questions"],
+                "updated_at": "2026-06-10T09:00:00Z",
+            },
+            {
+                "full_name": "uwnlp/storycommonsense",
+                "html_url": "https://github.com/uwnlp/storycommonsense",
+                "description": (
+                    "Story Commonsense Knowledge for naive psychology, character "
+                    "motivations, character emotions, mental states, and simple "
+                    "commonsense stories."
+                ),
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["story", "commonsense"],
+                "updated_at": "2026-06-10T09:00:00Z",
+            },
+            {
+                "full_name": "nyu-mll/SQuALITY",
+                "html_url": "https://github.com/nyu-mll/SQuALITY",
+                "description": (
+                    "SQuALITY question-focused long-document multi-reference "
+                    "summarization dataset where each story asks what is the plot "
+                    "of the story and has four reference summaries."
+                ),
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["long-document", "summarization", "story"],
+                "updated_at": "2026-06-10T09:00:00Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-10T21:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "narrative_qa_comprehension_gate" in candidates["google-deepmind/narrativeqa"]["absorbed_patterns"]
+    assert "chapter_summary_alignment_gate" in candidates["salesforce/booksum"]["absorbed_patterns"]
+    assert "story_question_answer_validation_gate" in candidates["uci-soe/FairytaleQAData"]["absorbed_patterns"]
+    assert "causal_why_explanation_gate" in candidates["StonyBrookNLP/tellmewhy"]["absorbed_patterns"]
+    assert "story_commonsense_consistency_gate" in candidates["uwnlp/storycommonsense"]["absorbed_patterns"]
+    assert "query_focused_long_summary_gate" in candidates["nyu-mll/SQuALITY"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "narrative_qa_comprehension_gate_hints" in pattern_pack
+    assert "chapter_summary_alignment_gate_hints" in pattern_pack
+    assert "story_question_answer_validation_gate_hints" in pattern_pack
+    assert "causal_why_explanation_gate_hints" in pattern_pack
+    assert "story_commonsense_consistency_gate_hints" in pattern_pack
+    assert "query_focused_long_summary_gate_hints" in pattern_pack
+    assert "evidence" in " ".join(pattern_pack["narrative_qa_comprehension_gate_hints"]).lower()
+    assert "causal and temporal" in " ".join(pattern_pack["chapter_summary_alignment_gate_hints"]).lower()
+    assert "section-grounded" in " ".join(pattern_pack["story_question_answer_validation_gate_hints"]).lower()
+    assert "why" in " ".join(pattern_pack["causal_why_explanation_gate_hints"]).lower()
+    assert "mental-state" in " ".join(pattern_pack["story_commonsense_consistency_gate_hints"]).lower()
+    assert "query-focused" in " ".join(pattern_pack["query_focused_long_summary_gate_hints"]).lower()
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "narrative_qa_comprehension_gate_hints" in digest
+    assert "chapter_summary_alignment_gate_hints" in digest
+    assert "story_question_answer_validation_gate_hints" in digest
+    assert "causal_why_explanation_gate_hints" in digest
+    assert "story_commonsense_consistency_gate_hints" in digest
+    assert "query_focused_long_summary_gate_hints" in digest
+
+
 def test_composite_writing_chain_patterns_expose_inspired_guidance_without_explicit_remix():
     service = NovelSourceDiscoveryService()
     ledger = {
@@ -1022,6 +1139,12 @@ def test_default_github_queries_cover_novel_cli_and_story_generation_families():
     assert "世界观" in normalized_queries
     assert "时间线" in normalized_queries
     assert "人物卡" in normalized_queries
+    assert "narrativeqa" in normalized_queries
+    assert "booksum" in normalized_queries
+    assert "fairytaleqa" in normalized_queries
+    assert "tellmewhy" in normalized_queries
+    assert "story commonsense" in normalized_queries
+    assert "squality" in normalized_queries
 
 
 def test_default_github_repository_urls_cover_static_review_shortlist():
@@ -1034,6 +1157,12 @@ def test_default_github_repository_urls_cover_static_review_shortlist():
     assert "https://github.com/raestrada/storycraftr" in normalized_urls
     assert "https://github.com/yuanshijiloong/author" in normalized_urls
     assert "https://github.com/brandburner/fabula" in normalized_urls
+    assert "https://github.com/google-deepmind/narrativeqa" in normalized_urls
+    assert "https://github.com/salesforce/booksum" in normalized_urls
+    assert "https://github.com/uci-soe/fairytaleqadata" in normalized_urls
+    assert "https://github.com/stonybrooknlp/tellmewhy" in normalized_urls
+    assert "https://github.com/uwnlp/storycommonsense" in normalized_urls
+    assert "https://github.com/nyu-mll/squality" in normalized_urls
 
 
 def test_github_candidate_records_metadata_trust_review_and_posture_hint():

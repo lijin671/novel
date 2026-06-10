@@ -226,3 +226,76 @@ The pattern pack now exposes these additional prompt-safe hint fields:
 - `writer_git_exploration_review_gate_hints`
 
 These fields are static source-derived gates only. They do not authorize any upstream runtime, MCP server, package installation, provider call, browser/desktop control, or external account mutation.
+
+## Narrative QA / summary / causality addendum - 2026-06-10
+
+This addendum records a public GitHub HEAD + raw README/LICENSE static-review pass for narrative comprehension, long-form summary alignment, story QA, why-explanation, commonsense psychology, and query-focused long-summary sources. No external project was cloned, installed, built, launched, or executed. Scratch evidence was saved under `tmp/source-intake-narrative-qa-2026-06-10` only.
+
+### Reviewed sources
+
+- `google-deepmind/narrativeqa`
+  - URL: `https://github.com/google-deepmind/narrativeqa`
+  - observed HEAD: `904246f6d1fe99a99a08a03501fe3e619af2cee5`
+  - license: Apache-2.0
+  - static evidence: README, LICENSE
+  - absorbed pattern: `narrative_qa_comprehension_gate`
+  - reusable lesson:拆书 output should include evidence-backed questions and answers across plot, motive, relationships, setting rules, and unresolved hooks before it can feed续写.
+  - runtime exclusion: story downloads, `download_stories.sh`, compare scripts, and corpus files are not executed or imported.
+
+- `salesforce/booksum`
+  - URL: `https://github.com/salesforce/booksum`
+  - observed HEAD: `df178bf574cba106e6b5f71b5aafdcd488452798`
+  - license: BSD-3-Clause
+  - static evidence: README, LICENSE.txt
+  - absorbed pattern: `chapter_summary_alignment_gate`
+  - reusable lesson: paragraph-, chapter-, arc-, and book-level summaries need separate validation so long-form causal and temporal dependencies are not lost during context compression.
+  - runtime exclusion: GCP downloads, summary collection scripts, datasets, and model baselines are not executed.
+
+- `uci-soe/FairytaleQAData`
+  - URL: `https://github.com/uci-soe/FairytaleQAData`
+  - observed HEAD: `a24ddc17364666b7c13a425b9970c87368b03417`
+  - license: Apache-2.0
+  - static evidence: README, LICENSE
+  - absorbed pattern: `story_question_answer_validation_gate`
+  - reusable lesson: scene or section QA should ground answers to exact section/chapter evidence and narrative elements instead of accepting plausible genre guesses.
+  - runtime exclusion: starter scripts, notebooks, HuggingFace loaders, and story/QA data are not executed or imported.
+
+- `StonyBrookNLP/tellmewhy`
+  - URL: `https://github.com/StonyBrookNLP/tellmewhy`
+  - observed HEAD: `22ee9a0804f80b22d1afe45885243e059ca5206d`
+  - license: no license detected from static README/LICENSE fetch
+  - static evidence: README
+  - absorbed pattern: `causal_why_explanation_gate`
+  - reusable lesson: major character actions need why-answers grounded in prior events, belief state, pressure, and helpful sentence/chapter evidence; unsupported motives become reveal debt or revision tasks.
+  - runtime exclusion: Google Drive downloads, HuggingFace dataset loading, evaluation scripts, and model tasks are not executed.
+
+- `uwnlp/storycommonsense`
+  - URL: `https://github.com/uwnlp/storycommonsense`
+  - observed HEAD: `c8cb91b75b79925949fb2f0e564b58c198da11de`
+  - license: no license detected from static README/LICENSE fetch
+  - static evidence: README
+  - absorbed pattern: `story_commonsense_consistency_gate`
+  - reusable lesson:续写 should maintain a naive-psychology ledger for motivation, emotion, belief, desire, and likely reaction so character actions do not jump without on-page cause.
+  - runtime exclusion: datasets, model code, project website workflows, and external loaders are not executed.
+
+- `nyu-mll/SQuALITY`
+  - URL: `https://github.com/nyu-mll/SQuALITY`
+  - observed HEAD: `dc08d4f574639d773bc64ef3ab3527043108fb4e`
+  - license: mixed data terms noted in README
+  - static evidence: README
+  - absorbed pattern: `query_focused_long_summary_gate`
+  - reusable lesson: long-context summaries should be query-focused, with separate plot, character, relationship, and world-rule summaries plus disagreement notes before compression.
+  - runtime exclusion: data files, training scripts, Project Gutenberg story consumption, and model baselines are not executed.
+
+### Local projection
+
+The pattern pack now exposes these additional prompt-safe hint fields:
+
+- `narrative_qa_comprehension_gate_hints`
+- `chapter_summary_alignment_gate_hints`
+- `story_question_answer_validation_gate_hints`
+- `causal_why_explanation_gate_hints`
+- `story_commonsense_consistency_gate_hints`
+- `query_focused_long_summary_gate_hints`
+
+These fields are static source-derived gates only. They do not authorize any upstream dataset download, script execution, model training/evaluation, package installation, provider call, browser/desktop control, or external account mutation.

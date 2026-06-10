@@ -72,6 +72,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "webnovel_genre_tracker_gate_hints",
             "simulation_causal_ledger_verification_gate_hints",
             "writer_git_exploration_review_gate_hints",
+            "narrative_qa_comprehension_gate_hints",
+            "chapter_summary_alignment_gate_hints",
+            "story_question_answer_validation_gate_hints",
+            "causal_why_explanation_gate_hints",
+            "story_commonsense_consistency_gate_hints",
+            "query_focused_long_summary_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -121,6 +127,13 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Webnovel genre tracker gates" in panel_text
     assert "Simulation causal-ledger verification gates" in panel_text
     assert "Writer Git exploration review gates" in panel_text
+    assert "Narrative QA / summary / causality gates" in panel_text
+    assert "Narrative QA comprehension gates" in panel_text
+    assert "Chapter summary alignment gates" in panel_text
+    assert "Story question-answer validation gates" in panel_text
+    assert "Causal why-explanation gates" in panel_text
+    assert "Story commonsense consistency gates" in panel_text
+    assert "Query-focused long-summary gates" in panel_text
 
 
 def test_source_discovery_panel_default_seeds_include_context_memory_projects():
@@ -191,6 +204,12 @@ def test_source_discovery_panel_default_seeds_include_recent_bookrun_and_workben
         "netflypsb/webnovel-mcp",
         "hackertaco/novel-generator",
         "eristoddle/git-write",
+        "google-deepmind/narrativeqa",
+        "salesforce/booksum",
+        "uci-soe/FairytaleQAData",
+        "StonyBrookNLP/tellmewhy",
+        "uwnlp/storycommonsense",
+        "nyu-mll/SQuALITY",
     ):
         assert repo in panel_text
 

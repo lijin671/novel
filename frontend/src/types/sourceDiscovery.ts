@@ -131,6 +131,12 @@ export interface SourceDiscoveryPatternPack {
   webnovel_genre_tracker_gate_hints?: string[];
   simulation_causal_ledger_verification_gate_hints?: string[];
   writer_git_exploration_review_gate_hints?: string[];
+  narrative_qa_comprehension_gate_hints?: string[];
+  chapter_summary_alignment_gate_hints?: string[];
+  story_question_answer_validation_gate_hints?: string[];
+  causal_why_explanation_gate_hints?: string[];
+  story_commonsense_consistency_gate_hints?: string[];
+  query_focused_long_summary_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

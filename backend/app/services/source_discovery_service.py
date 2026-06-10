@@ -208,6 +208,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("foreshadowing tracker" OR "LitRPG stats" OR "romance arc tracker") ("webnovel" OR "serial fiction") in:name,description,readme',
     '("simulation-first" OR "causal ledger" OR "belief state" OR "utterance history") ("novel generator" OR "long-form fiction") in:name,description,readme',
     '("writer-friendly git" OR "beta reader annotations" OR "word-by-word comparison") ("manuscript" OR "novel") in:name,description,readme',
+    '("NarrativeQA" OR "reading comprehension challenge" OR "questions and answers") ("narrative" OR "story") in:name,description,readme',
+    '("BookSum" OR "chapter-level" OR "book-level" OR "long-form narrative summarization") ("book" OR "novel") in:name,description,readme',
+    '("FairytaleQA" OR "narrative comprehension" OR "question-answer pairs") ("story" OR "fairytale") in:name,description,readme',
+    '("TellMeWhy" OR "why-questions" OR "helpful sentences") ("narratives" OR "story") in:name,description,readme',
+    '("Story Commonsense" OR "naive psychology" OR "character motivations") ("story" OR "narrative") in:name,description,readme',
+    '("SQuALITY" OR "question-focused" OR "multi-reference summarization") ("long-document" OR "story") in:name,description,readme',
     '("世界观" OR "时间线" OR "人物卡") "AI" in:name,description,readme',
     '("同类型创作" OR "风格复刻" OR "续写") "AI" in:name,description,readme',
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
@@ -338,6 +344,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/tesseract-ocr/tesseract",
     "https://github.com/Unstructured-IO/unstructured",
     "https://github.com/jgm/pandoc",
+    "https://github.com/google-deepmind/narrativeqa",
+    "https://github.com/salesforce/booksum",
+    "https://github.com/uci-soe/FairytaleQAData",
+    "https://github.com/StonyBrookNLP/tellmewhy",
+    "https://github.com/uwnlp/storycommonsense",
+    "https://github.com/nyu-mll/SQuALITY",
     "https://github.com/dbamman/litbank",
     "https://github.com/eecrazy/ConstructingNEEG_IJCAI_2018",
     "https://github.com/acolas1/EventNarrative",
@@ -769,6 +781,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("webnovel_genre_tracker_gate", ("webnovel-mcp", "foreshadowing tracker", "timeline tracker", "litrpg stats", "litrpg stat blocks", "romance arc tracker", "stale characters", "chapter gaps", "xianxia", "progression fantasy")),
     ("simulation_causal_ledger_verification_gate", ("simulation-first", "world truth", "belief state", "utterance history", "causal ledger", "verify-long-form", "canonical validation", "300-episode", "long-form verification")),
     ("writer_git_exploration_review_gate", ("gitwrite", "writer-friendly git", "explorations", "word-by-word comparison", "beta reader annotations", "author control", "selective integration", "cherry-pick individual changes")),
+    ("narrative_qa_comprehension_gate", ("narrativeqa", "reading comprehension challenge", "questions and answers", "qaps.csv", "document_id", "wikipedia summaries", "full stories")),
+    ("chapter_summary_alignment_gate", ("booksum", "long-form narrative summarization", "chapter-level", "book-level", "paragraph-level", "human written summaries", "causal and temporal dependencies")),
+    ("story_question_answer_validation_gate", ("fairytaleqa", "narrative comprehension", "question-answer pairs", "qa-pairs", "cor_section", "story_section", "education experts", "7 narrative elements")),
+    ("causal_why_explanation_gate", ("tellmewhy", "why-questions", "why questions", "why characters", "free-form answers", "helpful_sentences", "validity human judgments", "plausible answer")),
+    ("story_commonsense_consistency_gate", ("storycommonsense", "story commonsense", "naive psychology", "character motivations", "character emotions", "mental states", "simple commonsense stories")),
+    ("query_focused_long_summary_gate", ("squality", "question-focused", "long-document", "multi-reference summarization", "what is the plot of the story", "four reference summaries", "project gutenberg story")),
     ("temporal_canon_context_graph", ("graphiti", "temporal knowledge graph", "temporal context", "episodes", "bi-temporal", "valid_at", "invalid_at", "hybrid search", "provenance tracking")),
     ("long_term_author_preference_memory", ("mem0", "memory layer", "long-term memory", "user preferences", "session memory", "adaptive personalization", "multi-level memory", "episodic memory")),
     ("community_graph_source_deconstruction", ("graphrag", "community summaries", "community reports", "extract structured data from unstructured text", "entity extraction", "graph-based indexing", "global search", "local search")),
@@ -1856,6 +1874,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "word-by-word diff, author-controlled review, selective integration, beta-reader annotations as commits, and export/version checkpoints. "
         "Pattern-only adaptation for manuscript branch review and annotation provenance; pip/poetry/npm install, Docker/compose, deploy scripts, API server, and demo credentials are not used."
     ),
+    "google-deepmind/narrativeqa": (
+        "NarrativeQA is an Apache-2.0 reading-comprehension dataset for books and movie scripts with document metadata, Wikipedia summaries, links to full stories, and question/answer pairs. "
+        "Pattern-only adaptation for拆书 QA coverage and continuation comprehension checks; download_stories.sh, story downloads, and corpus files are not executed or imported."
+    ),
+    "salesforce/booksum": (
+        "BookSum is a BSD-3-Clause collection for long-form narrative summarization over novels, plays, and stories, with human summaries at paragraph, chapter, and book granularity. "
+        "Pattern-only adaptation for chapter/book summary alignment, causal/temporal dependency coverage, and abstract summary review; GCP downloads and data-collection scripts are not executed."
+    ),
+    "uci-soe/fairytaleqadata": (
+        "FairytaleQAData is an Apache-2.0 narrative-comprehension dataset with children story sections, sentence files, and expert-authored question-answer pairs linked to story sections and narrative-element categories. "
+        "Pattern-only adaptation for section-grounded QA validation and story-element coverage; starter scripts, notebooks, dataset loaders, and full text are not executed or imported."
+    ),
+    "stonybrooknlp/tellmewhy": (
+        "TellMeWhy is a narrative why-question dataset with free-form answers, helpful-sentence annotations, answerability judgments, and grammaticality/validity human evaluation for why characters act. "
+        "Pattern-only adaptation for causal why-explanation gates; Google Drive downloads, HuggingFace loaders, scripts, and evaluation runtime are not executed."
+    ),
+    "uwnlp/storycommonsense": (
+        "Story Commonsense Knowledge accompanies ACL 2018 work on naive psychology of characters in simple commonsense stories. "
+        "Pattern-only adaptation for character motivation, emotion, and mental-state consistency checks; dataset downloads, model code, and external website workflows are not executed."
+    ),
+    "nyu-mll/squality": (
+        "SQuALITY is a question-focused long-document multi-reference summarization dataset over Project Gutenberg short stories, with plot questions and multiple human reference summaries. "
+        "Pattern-only adaptation for query-focused summary and plot-question review; training scripts, data files, and dataset consumption code are not executed or imported."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -2379,6 +2421,12 @@ class NovelSourceDiscoveryService:
             "webnovel_genre_tracker_gate_hints": self._build_webnovel_genre_tracker_gate_hints(available_patterns),
             "simulation_causal_ledger_verification_gate_hints": self._build_simulation_causal_ledger_verification_gate_hints(available_patterns),
             "writer_git_exploration_review_gate_hints": self._build_writer_git_exploration_review_gate_hints(available_patterns),
+            "narrative_qa_comprehension_gate_hints": self._build_narrative_qa_comprehension_gate_hints(available_patterns),
+            "chapter_summary_alignment_gate_hints": self._build_chapter_summary_alignment_gate_hints(available_patterns),
+            "story_question_answer_validation_gate_hints": self._build_story_question_answer_validation_gate_hints(available_patterns),
+            "causal_why_explanation_gate_hints": self._build_causal_why_explanation_gate_hints(available_patterns),
+            "story_commonsense_consistency_gate_hints": self._build_story_commonsense_consistency_gate_hints(available_patterns),
+            "query_focused_long_summary_gate_hints": self._build_query_focused_long_summary_gate_hints(available_patterns),
             "temporal_canon_context_graph_hints": self._build_temporal_canon_context_graph_hints(available_patterns),
             "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
@@ -3050,6 +3098,16 @@ class NovelSourceDiscoveryService:
             "longrun_commit_projection_health_gate": 68,
             "reader_reward_channel_gate": 65,
             "tri_modal_workflow_validation_gate": 67,
+            "scene_promise_mob_review_gate": 67,
+            "webnovel_genre_tracker_gate": 66,
+            "simulation_causal_ledger_verification_gate": 69,
+            "writer_git_exploration_review_gate": 64,
+            "narrative_qa_comprehension_gate": 70,
+            "chapter_summary_alignment_gate": 69,
+            "story_question_answer_validation_gate": 68,
+            "causal_why_explanation_gate": 70,
+            "story_commonsense_consistency_gate": 67,
+            "query_focused_long_summary_gate": 67,
             "temporal_canon_context_graph": 68,
             "long_term_author_preference_memory": 64,
             "community_graph_source_deconstruction": 66,
@@ -3178,6 +3236,24 @@ class NovelSourceDiscoveryService:
         if "longrun_commit_projection_health_gate" in patterns:
             targets.append("chapter_commit_projection_manifest")
             targets.append("read_model_health_policy")
+        if "narrative_qa_comprehension_gate" in patterns:
+            targets.append("narrative_question_answer_ledger")
+            targets.append("source_summary_question_coverage_policy")
+        if "chapter_summary_alignment_gate" in patterns:
+            targets.append("chapter_summary_alignment_policy")
+            targets.append("book_level_summary_drift_rules")
+        if "story_question_answer_validation_gate" in patterns:
+            targets.append("story_element_qa_schema")
+            targets.append("section_grounding_evidence_policy")
+        if "causal_why_explanation_gate" in patterns:
+            targets.append("causal_why_answer_ledger")
+            targets.append("helpful_sentence_grounding_policy")
+        if "story_commonsense_consistency_gate" in patterns:
+            targets.append("character_psychology_consistency_policy")
+            targets.append("motivation_emotion_state_ledger")
+        if "query_focused_long_summary_gate" in patterns:
+            targets.append("query_focused_summary_policy")
+            targets.append("multi_reference_summary_review_rules")
         if "epub_structure_validation_gate" in patterns:
             targets.append("epub_validation_policy")
             targets.append("opf_manifest_spine_policy")
@@ -3948,6 +4024,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["semantic_chunk_boundary_report", "chunk_overlap_manifest", "context_boundary_findings"])
         if "chapter_summary_anchor_gate" in patterns:
             targets.extend(["chapter_summary_anchor_report", "representative_sentence_refs", "summary_anchor_drift_findings"])
+        if "narrative_qa_comprehension_gate" in patterns:
+            targets.extend(["narrative_qa_coverage_report", "question_answer_evidence_map", "source_summary_comprehension_gaps"])
+        if "chapter_summary_alignment_gate" in patterns:
+            targets.extend(["chapter_summary_alignment_report", "book_chapter_summary_consistency", "causal_temporal_summary_gap_findings"])
+        if "story_question_answer_validation_gate" in patterns:
+            targets.extend(["story_element_qa_report", "section_grounded_answer_gaps", "narrative_element_coverage_findings"])
+        if "causal_why_explanation_gate" in patterns:
+            targets.extend(["causal_why_explanation_report", "helpful_sentence_grounding_findings", "plausible_answer_validity_notes"])
+        if "story_commonsense_consistency_gate" in patterns:
+            targets.extend(["story_commonsense_report", "character_motivation_emotion_conflicts", "mental_state_continuity_findings"])
+        if "query_focused_long_summary_gate" in patterns:
+            targets.extend(["query_focused_summary_report", "plot_question_response_alignment", "multi_reference_summary_disagreement"])
         if "trope_inventory_similarity_gate" in patterns:
             targets.extend(["trope_similarity_report", "shared_trope_vector", "source_trope_overlap_decisions"])
         if "trope_graph_expectation_map" in patterns:
@@ -6674,6 +6762,60 @@ class NovelSourceDiscoveryService:
             "Beta-reader annotations, editor notes, and alternate endings should carry provenance as review commits or change packages so accepted changes remain replayable.",
         ]
 
+    def _build_narrative_qa_comprehension_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "narrative_qa_comprehension_gate" not in patterns:
+            return []
+        return [
+            "After拆书, generate or import reviewer questions across plot, motive, relationship, setting rule, and unresolved hook; each answer must cite a summary or chapter evidence id.",
+            "Continuation prompts should include only answered, evidence-backed facts; unanswered QA items become continuity questions instead of invented bridges.",
+            "For同类型仿写, rebuild the QA set around transformed canon so source-book answers cannot satisfy new-story comprehension checks.",
+        ]
+
+    def _build_chapter_summary_alignment_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_summary_alignment_gate" not in patterns:
+            return []
+        return [
+            "Maintain paragraph, chapter, arc, and book-level summaries as separate granularities; chapter acceptance requires local summary and book-level direction to agree.",
+            "Check summaries for causal and temporal dependency loss: who caused the change, when it happened, what state changed, and what future obligation remains.",
+            "When续写 changes a plot line, update derived summaries only after the chapter commit; stale summaries cannot feed the next prompt.",
+        ]
+
+    def _build_story_question_answer_validation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_question_answer_validation_gate" not in patterns:
+            return []
+        return [
+            "Validate each important scene with section-grounded QA: setting, character, goal, action, outcome, feeling, and theme questions should point to exact section or chapter ids.",
+            "Do not accept answers that are plausible genre guesses but unsupported by the current story section, bible state, or accepted chapter memory.",
+            "Use missing QA coverage to repair拆书 notes before writing, especially around hidden motives, relationships, and scene consequences.",
+        ]
+
+    def _build_causal_why_explanation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "causal_why_explanation_gate" not in patterns:
+            return []
+        return [
+            "For every major character action, ask why it happened and require a plausible answer grounded in prior events, belief state, pressure, and helpful sentence/chapter evidence.",
+            "Mark why-answers as explicit, implicit, or unavailable; unavailable motives must become reveal debt or revision tasks, not hallucinated continuity.",
+            "Reject续写 drafts when character actions are only convenient for plot and cannot pass a motive-validity review.",
+        ]
+
+    def _build_story_commonsense_consistency_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_commonsense_consistency_gate" not in patterns:
+            return []
+        return [
+            "Track naive psychology state for each key character: motivation, emotion, belief, desire, social relation, and likely reaction after every accepted beat.",
+            "Before accepting a continuation, compare new actions against current mental-state ledger and flag sudden emotion, belief, or desire jumps without on-page cause.",
+            "For同类型仿写, preserve only abstract psychology functions; source-specific motives, wounds, and relationship triggers must be transformed.",
+        ]
+
+    def _build_query_focused_long_summary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "query_focused_long_summary_gate" not in patterns:
+            return []
+        return [
+            "Use query-focused summaries for long context: plot question, character question, relationship question, and world-rule question should produce different context slices.",
+            "Compare multiple summary candidates and record disagreements before compressing long chapters into prompt context.",
+            "A query-focused summary may guide retrieval or review, but it must not replace the accepted chapter text or bible state as the truth source.",
+        ]
+
     def _build_temporal_canon_context_graph_hints(self, patterns: set[str]) -> list[str]:
         if "temporal_canon_context_graph" not in patterns:
             return []
@@ -8270,6 +8412,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject unattended same-type drafts when the book profile, stop limits, full-book check cadence, or context namespace is missing.")
         if "longrun_commit_projection_health_gate" in patterns:
             hints.append("Reject drafts whose read-model projections are stale, whose chapter commit lineage is unclear, or whose memory scratchpad mixes source and transformed canon.")
+        if "narrative_qa_comprehension_gate" in patterns:
+            hints.append("Reject same-type QA packs where source-book questions or answers can still pass under renamed entities.")
+        if "chapter_summary_alignment_gate" in patterns:
+            hints.append("Reject transformed summaries that keep source chapter/book summary order, causal phrasing, or temporal dependency chain.")
+        if "story_question_answer_validation_gate" in patterns:
+            hints.append("Reject QA validation that treats source story sections, narrative-element labels, or answer spans as evidence for new-story canon.")
+        if "causal_why_explanation_gate" in patterns:
+            hints.append("Reject why-explanations that preserve source motives, helpful sentences, or action rationales under new names.")
+        if "story_commonsense_consistency_gate" in patterns:
+            hints.append("Reject psychology ledgers that carry over source wounds, desires, emotion triggers, or relationship expectations into transformed canon.")
+        if "query_focused_long_summary_gate" in patterns:
+            hints.append("Reject query-focused summaries whose plot answer is a compressed paraphrase of the source story route.")
         if "temporal_canon_context_graph" in patterns:
             hints.append("Reject temporal graphs that preserve source event chronology, relationship validity windows, or provenance as transformed canon.")
         if "long_term_author_preference_memory" in patterns:
@@ -8396,6 +8550,12 @@ class NovelSourceDiscoveryService:
                 "book_mining_genesis_automation_gate",
                 "multi_book_autopilot_studio_gate",
                 "longrun_commit_projection_health_gate",
+                "narrative_qa_comprehension_gate",
+                "chapter_summary_alignment_gate",
+                "story_question_answer_validation_gate",
+                "causal_why_explanation_gate",
+                "story_commonsense_consistency_gate",
+                "query_focused_long_summary_gate",
                 "temporal_canon_context_graph",
                 "long_term_author_preference_memory",
                 "community_graph_source_deconstruction",
