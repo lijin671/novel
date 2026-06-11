@@ -259,6 +259,11 @@ const PINNED_HINT_KEYS = new Set([
   'style_distillation_rights_boundary_gate_hints',
   'screenplay_ast_yaml_adaptation_gate_hints',
   'fanqie_publish_dryrun_boundary_gate_hints',
+  'lore_forge_knowledge_engineering_gate_hints',
+  'layered_style_profile_fusion_eval_gate_hints',
+  'truth_file_rag_pyramid_audit_gate_hints',
+  'proposal_accept_ledger_quality_gate_hints',
+  'simulated_event_log_narrative_layer_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -808,6 +813,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Style distillation rights boundaries', patternPackPayload?.style_distillation_rights_boundary_gate_hints],
               ['Screenplay AST / YAML adaptation gates', patternPackPayload?.screenplay_ast_yaml_adaptation_gate_hints],
               ['Fanqie publish dry-run boundaries', patternPackPayload?.fanqie_publish_dryrun_boundary_gate_hints],
+              ['Lore Forge knowledge-engineering gates', patternPackPayload?.lore_forge_knowledge_engineering_gate_hints],
+              ['Layered style profile fusion/eval gates', patternPackPayload?.layered_style_profile_fusion_eval_gate_hints],
+              ['Truth File / RAG pyramid audit gates', patternPackPayload?.truth_file_rag_pyramid_audit_gate_hints],
+              ['Proposal ledger quality gates', patternPackPayload?.proposal_accept_ledger_quality_gate_hints],
+              ['Simulation event-log narrative gates', patternPackPayload?.simulated_event_log_narrative_layer_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

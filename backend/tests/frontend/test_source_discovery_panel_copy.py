@@ -228,6 +228,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "style_distillation_rights_boundary_gate_hints",
             "screenplay_ast_yaml_adaptation_gate_hints",
             "fanqie_publish_dryrun_boundary_gate_hints",
+            "lore_forge_knowledge_engineering_gate_hints",
+            "layered_style_profile_fusion_eval_gate_hints",
+            "truth_file_rag_pyramid_audit_gate_hints",
+            "proposal_accept_ledger_quality_gate_hints",
+            "simulated_event_log_narrative_layer_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -466,6 +471,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Style distillation rights boundaries" in panel_text
     assert "Screenplay AST / YAML adaptation gates" in panel_text
     assert "Fanqie publish dry-run boundaries" in panel_text
+    assert "Lore Forge knowledge-engineering gates" in panel_text
+    assert "Layered style profile fusion/eval gates" in panel_text
+    assert "Truth File / RAG pyramid audit gates" in panel_text
+    assert "Proposal ledger quality gates" in panel_text
+    assert "Simulation event-log narrative gates" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():

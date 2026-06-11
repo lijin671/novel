@@ -362,6 +362,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("style distillation" OR "same-type writing" OR "rights gate") ("novel" OR "AI continuation" OR "风格蒸馏") in:name,description,readme',
     '("Novel2Screenplay" OR "Screenplay AST" OR "Scene Cards" OR "YAML Export") ("novel" OR "adaptation") in:name,description,readme',
     '("_ai_revisions" OR "dry-run" OR "Fanqie") ("novel" OR "webnovel" OR "番茄") in:name,description,readme',
+    '("knowledge engineering" OR "living Story Bible" OR "Memory Graph") ("novel" OR "visual novel" OR "interactive fiction") in:name,description,readme',
+    '("forge-novel-style" OR "forge-novel-fusion" OR "eval-novel-style" OR "style.json") ("novel" OR "fiction style") in:name,description,readme',
+    '("Truth File" OR "三级金字塔" OR "长篇审查" OR "全书分析") ("小说" OR "RAG") in:name,description,readme',
+    '("LedgerStore" OR "PrevTailSummarizer" OR "propose/accept/regenerate" OR "A/B 双向") ("AI 长篇小说" OR "novel") in:name,description,readme',
+    '("actions.jsonl" OR "物理事件日志" OR "MiroFish" OR "史官层") ("novel" OR "叙事模拟") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -783,6 +788,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Aerdelan/MirrorNovel",
     "https://github.com/lmqvq/mq-ai-Novel2Screenplay",
     "https://github.com/funnaz/fanqie-publisher-cli",
+    "https://github.com/immane/lore-forge",
+    "https://github.com/xianzl/novel-style-skills",
+    "https://github.com/TSOFTP-afk/lshu-novel-generator",
+    "https://github.com/tyxben/AI_novel",
+    "https://github.com/ToussaintKnight/AutoStory",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1118,6 +1128,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("style_distillation_rights_boundary_gate", ("mirrornovel", "style distillation", "风格蒸馏", "ai 续写", "ai continuation", "same-type writing", "番茄小说下载", "copyright", "版权归属", "pua 字体", "browser automation")),
     ("screenplay_ast_yaml_adaptation_gate", ("mq-ai-novel2screenplay", "novel2screenplay", "screenplay ast", "screenplay-schema-v1", "yaml export", "normalized markdown", "scene cards", "chapter -> segment -> rag", "小说转剧本")),
     ("fanqie_publish_dryrun_boundary_gate", ("fanqie-publisher-cli", "fanqie publisher", "_ai_revisions", "dry-run", "草稿上传", "定时发布", "发布助手", "覆盖前自动备份", "本机浏览器模拟人工操作", "browser simulated manual operation")),
+    ("lore_forge_knowledge_engineering_gate", ("lore forge", "knowledge engineering", "living story bible", "story bible is the single source of truth", "structured interviews", "memory graph", "review consistency", "lore auditor", "narrative rpg", "visual novel", "interactive fiction", "deferred-write")),
+    ("layered_style_profile_fusion_eval_gate", ("novel style skills", "forge-novel-style", "forge-novel-fusion", "novel-use", "use-novel-style", "eval-novel-style", "style.json", "style drift", "ai-like prose", "story engine", "desire, resistance, choice, cost, irreversible change", "runtime card")),
+    ("truth_file_rag_pyramid_audit_gate", ("灵枢", "lshu", "truth file", "truth file system", "rag 上下文", "长篇审查", "全书分析", "三级金字塔", "本地 sqlite", "模型路由", "快照查看与恢复", "人物卡", "世界观")),
+    ("proposal_accept_ledger_quality_gate", ("ai_novel", "propose/accept/regenerate", "noveltoolfacade", "ledgerstore", "briefassembler", "prevtailsummarizer", "15-char verbatim", "7 维质量评估", "a/b 双向", "de-bias", "死亡角色检测", "叙事债务")),
+    ("simulated_event_log_narrative_layer_gate", ("autostory", "mirofish", "simulation_requirement", "actions.jsonl", "史官层", "物理事件日志", "社媒碎片", "叙事层", "event log", "narrative layer", "social simulation", "style distillation")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3064,6 +3079,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "fanqie-publisher-cli is a no-license-observed Chinese webnovel production and Fanqie author-console publishing workbench. Public README/package markers describe AI production dashboard, chapter QA, AI plot critique, deterministic formatting cleanup, _ai_revisions human-confirmed revision drafts, backups before overwrite, upload/publish progress checkpoints, local dry-run, scheduled publishing, Playwright, and browser-simulated manual publishing after local login. "
         "Pattern-only adaptation for dry-run publishing boundaries, revision backup gates, progress checkpoints, and human approval before overwrite/publish; Playwright, browser login/session, upload/publish/scheduling, package scripts, provider/model settings, local novel files, and platform mutation are not executed."
     ),
+    "immane/lore-forge": (
+        "Lore Forge is a MIT AI-assisted narrative design framework for story-driven games, visual novels, interactive fiction, and tabletop campaigns. Public README markers describe story creation as knowledge engineering, a living Story Bible as the single source of truth, structured interviews, character psychology, timeline, Memory Graph, narrative design, dialogue, export, five bounded agents, six workflows, and deferred-write confirmation before Bible updates. "
+        "Pattern-only adaptation for Story Bible knowledge-engineering gates, phase-bounded agent handoffs, memory-graph consistency checks, and interactive/branching narrative scaffolds; upstream AGENTS/CLAUDE instructions, prompts, templates, site tooling, and user projects are not imported or executed."
+    ),
+    "xianzl/novel-style-skills": (
+        "novel-style-skills is a MIT Codex/Claude Code-style skill toolkit for prose style distillation, fusion, writing, and evaluation. Public README markers describe forge-novel-style, forge-novel-fusion, novel-use, use-novel-style, eval-novel-style, structured style.json profiles, layer-by-layer fusion of voice/syntax/diction/scene rhythm/dialogue/emotion/anti-AI rules, story-engine preflight for desire/resistance/choice/cost/irreversible change, compact runtime cards, style-drift scoring, and AI-like prose review. "
+        "Pattern-only adaptation for layered style-profile fusion/evaluation and story-engine gates; skill folders, prompts, scripts, sample style profiles, and upstream command text are not installed, imported, or executed."
+    ),
+    "tsoftp-afk/lshu-novel-generator": (
+        "灵枢 v1.3 is a lightweight local desktop workbench for million-word long-form novel writing. Public README markers describe local SQLite storage for books, volumes, chapters, character cards, worldbuilding, Skills, review records and snapshots; AI usage routing by task; multi-agent long-form generation; consistency review and revision records; full-book analysis through a three-level pyramid that preserves source evidence; Truth File plus RAG context; model routing; task logs and cancellation; smart import; and export. "
+        "Pattern-only adaptation for Truth File/RAG evidence gates, long-form review records, pyramid full-book analysis, snapshot restore safety, and model-route separation; desktop executables, local database, provider calls, Skills runtime, package scripts, and user manuscript files are not executed or imported."
+    ),
+    "tyxben/ai_novel": (
+        "AI_novel is a MIT content creation platform with a long-form AI novel module. Public README markers describe a 5-agent architecture, propose/accept/regenerate tool layer across MCP/CLI/agent_chat, NovelToolFacade, seven-dimension quality evaluation, A/B de-biasing, MilestoneTracker, VolumeSettlement, StyleBible, stale-outline detection, chapter-join hard constraints, dead-character detection, LedgerStore for foreshadowing/narrative debt/character state, BriefAssembler, PrevTailSummarizer with short verbatim guard, vector/BM25 consistency retrieval, Prompt Registry, staged model routing, reader feedback rewrite, and multiple genre presets. "
+        "Pattern-only adaptation for proposal authority, ledger-backed chapter briefs, quality de-bias gates, previous-tail summary boundaries, and stale-outline/dead-character checks; MCP server, CLI, Next.js/FastAPI app, media/video pipelines, providers, Chroma, package/runtime scripts, and user content are not launched or imported."
+    ),
+    "toussaintknight/autostory": (
+        "AutoStory is a no-license-observed narrative simulation design note that combines a MiroFish social-simulation backbone, AutoStory parameters, and nuwa-style distillation. Public README markers describe simulation_requirement injection through ontology/profile/config/OASIS/report stages, actions.jsonl social dialogue output, a historian layer that infers structured physical event logs from social fragments and five-dimensional parameters, and a narrative layer that turns event logs into chapters through plan/draft/review/finalize plus style distillation. "
+        "Pattern-only adaptation for simulation-to-event-log custody, historian-layer inference, and event-log-to-narrative separation; MiroFish runtime, prompt bodies, source novel text, actions files, provider calls, style templates, and generated prose are not imported or executed."
+    ),
 
 }
 
@@ -3771,6 +3806,11 @@ class NovelSourceDiscoveryService:
             "style_distillation_rights_boundary_gate_hints": self._build_style_distillation_rights_boundary_gate_hints(available_patterns),
             "screenplay_ast_yaml_adaptation_gate_hints": self._build_screenplay_ast_yaml_adaptation_gate_hints(available_patterns),
             "fanqie_publish_dryrun_boundary_gate_hints": self._build_fanqie_publish_dryrun_boundary_gate_hints(available_patterns),
+            "lore_forge_knowledge_engineering_gate_hints": self._build_lore_forge_knowledge_engineering_gate_hints(available_patterns),
+            "layered_style_profile_fusion_eval_gate_hints": self._build_layered_style_profile_fusion_eval_gate_hints(available_patterns),
+            "truth_file_rag_pyramid_audit_gate_hints": self._build_truth_file_rag_pyramid_audit_gate_hints(available_patterns),
+            "proposal_accept_ledger_quality_gate_hints": self._build_proposal_accept_ledger_quality_gate_hints(available_patterns),
+            "simulated_event_log_narrative_layer_gate_hints": self._build_simulated_event_log_narrative_layer_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4512,6 +4552,11 @@ class NovelSourceDiscoveryService:
             "style_distillation_rights_boundary_gate": 72,
             "screenplay_ast_yaml_adaptation_gate": 69,
             "fanqie_publish_dryrun_boundary_gate": 71,
+            "lore_forge_knowledge_engineering_gate": 70,
+            "layered_style_profile_fusion_eval_gate": 72,
+            "truth_file_rag_pyramid_audit_gate": 70,
+            "proposal_accept_ledger_quality_gate": 72,
+            "simulated_event_log_narrative_layer_gate": 68,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4956,6 +5001,21 @@ class NovelSourceDiscoveryService:
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             targets.append("fanqie_publish_dryrun_boundary_policy")
             targets.append("revision_backup_before_overwrite_policy")
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            targets.append("story_bible_single_source_policy")
+            targets.append("phase_boundary_agent_handoff_policy")
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            targets.append("style_profile_layer_fusion_policy")
+            targets.append("story_engine_preflight_policy")
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            targets.append("truth_file_rag_evidence_policy")
+            targets.append("full_book_pyramid_audit_policy")
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            targets.append("proposal_accept_regenerate_authority_policy")
+            targets.append("ledger_brief_quality_debias_policy")
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            targets.append("simulation_to_event_log_policy")
+            targets.append("event_log_to_narrative_layer_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5935,6 +5995,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["screenplay_ast_yaml_coverage_report", "scene_card_source_segment_trace", "yaml_schema_validation_report"])
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             targets.extend(["fanqie_revision_backup_publish_report", "dryrun_upload_hold_report", "browser_publish_authority_boundary_report"])
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            targets.extend(["story_bible_memory_graph_consistency_report", "phase_boundary_agent_handoff_report", "interactive_branch_story_bible_report"])
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            targets.extend(["style_profile_drift_eval_report", "story_engine_gate_report", "layer_fusion_runtime_card_report"])
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            targets.extend(["truth_file_rag_pyramid_report", "longform_review_snapshot_restore_report", "model_route_usage_boundary_report"])
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            targets.extend(["ledger_quality_debias_report", "prev_tail_verbatim_guard_report", "proposal_accept_regenerate_trace_report"])
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            targets.extend(["simulation_event_log_trace_report", "historian_layer_inference_report", "narrative_layer_physical_event_consistency_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6754,6 +6824,16 @@ class NovelSourceDiscoveryService:
             hints.append("When adapting prose to script, pass through Scene Cards and a Screenplay AST truth source before YAML export; do not treat free-form prose as the final deliverable.")
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             hints.append("Before any publishing-adjacent action, require dry-run, small-batch scope, manual review of _ai_revisions, backup-before-overwrite, and an explicit publish hold.")
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            hints.append("Before drafting, treat the Story Bible as the single source of truth: interview updates stay deferred until confirmed, then derive timeline, memory graph, scene, and dialogue context from accepted modules.")
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            hints.append("Before style-guided continuation, load a compact style runtime card, verify desire/resistance/choice/cost/irreversible-change, and schedule a drift/AI-prose evaluation pass.")
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            hints.append("Before long-form continuation, retrieve Truth File and RAG evidence with chapter ids, preserve source-evidence links, and record review snapshot ids for later restore or audit.")
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            hints.append("Before chapter writing, assemble the brief from accepted proposals, LedgerStore debts, active arcs, character state, and a compact previous-tail summary instead of feeding raw previous prose.")
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            hints.append("Before turning simulation into prose, convert dialogue/social actions into a structured physical event log, then draft only from verified event entries and narrative-layer intent.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7283,6 +7363,16 @@ class NovelSourceDiscoveryService:
             hints.append("Persist normalized-markdown checksum, chapter/segment ids, Story Bible id, Scene Card ids, Screenplay AST version, and YAML schema validation result.")
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             hints.append("Persist dry-run range, _ai_revisions draft path, human approval, backup path, upload checkpoint, and publish-hold decision without storing browser session data.")
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            hints.append("Persist interview packet id, accepted Story Bible module versions, timeline node ids, memory-graph checksum, agent phase, and consistency-review findings before scene/dialogue generation.")
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            hints.append("Persist source-approved style profile ids, fusion layer weights, compact runtime card checksum, story-engine gate result, drift score, and AI-like prose findings.")
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            hints.append("Persist Truth File ids, RAG evidence ids, review record id, snapshot/restore point, full-book pyramid level, model-route label, and unresolved evidence gaps.")
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            hints.append("Persist proposal id, accept/regenerate decision, ledger debt deltas, assembled brief checksum, quality/de-bias report, and previous-tail summary/verbatim-guard result.")
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            hints.append("Persist simulation requirement id, actions manifest checksum, historian inference batch id, physical event log ids, narrative layer draft id, and event-consistency review status.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -11074,6 +11164,51 @@ class NovelSourceDiscoveryService:
             "Progress checkpoints should track generated, revised, uploaded, and published chapter ids without storing account credentials or browser cookies.",
         ]
 
+    def _build_lore_forge_knowledge_engineering_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "lore_forge_knowledge_engineering_gate" not in patterns:
+            return []
+        return [
+            "Treat the Story Bible as the single source of truth: interview, confirm, then write accepted modules before timeline, memory graph, scene, dialogue, or export work can depend on them.",
+            "Keep agent phases bounded: Lore Architect, Character Therapist, Narrative Designer, Dialogue Writer, and Lore Auditor should each cite which accepted module they can read and mutate.",
+            "Interactive-fiction branches need explicit state graph, route, quest, or event-node ownership so branching material does not silently rewrite the core Story Bible.",
+        ]
+
+    def _build_layered_style_profile_fusion_eval_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "layered_style_profile_fusion_eval_gate" not in patterns:
+            return []
+        return [
+            "Distill style into structured profiles first; runtime drafting should load compact cards instead of raw sample prose or author-name imitation prompts.",
+            "Fuse styles by layer—voice, syntax, diction, scene rhythm, dialogue, emotion handling, and anti-AI rules—so conflicts are visible and reviewable.",
+            "Block style-guided writing when the story-engine gate lacks desire, resistance, choice, cost, irreversible change, or a post-draft drift/AI-prose evaluation path.",
+        ]
+
+    def _build_truth_file_rag_pyramid_audit_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "truth_file_rag_pyramid_audit_gate" not in patterns:
+            return []
+        return [
+            "Truth File facts should stay separate from RAG evidence: retrieval can support a claim, but only accepted Truth File entries can become durable canon.",
+            "Long-form review records need chapter, volume, snapshot, evidence id, reviewer finding, repair decision, and restore point before a generated pass is accepted.",
+            "Full-book analysis should climb a pyramid from chapter evidence to volume synthesis to book-level conclusions, preserving enough source links to audit every claim.",
+        ]
+
+    def _build_proposal_accept_ledger_quality_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "proposal_accept_ledger_quality_gate" not in patterns:
+            return []
+        return [
+            "Use propose/accept/regenerate semantics for novel structure changes; generated sections stay proposals until a human or explicit acceptance gate promotes them.",
+            "Chapter briefs should consume ledger facts, narrative debts, active arcs, character state, and previous-tail summaries; raw prior prose should not become an unbounded prompt shortcut.",
+            "Quality checks should separate hard rule gates from judge calls and record A/B de-bias evidence before using a score to approve or regenerate a chapter.",
+        ]
+
+    def _build_simulated_event_log_narrative_layer_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "simulated_event_log_narrative_layer_gate" not in patterns:
+            return []
+        return [
+            "Treat simulation outputs as intermediate evidence: social dialogue, posts, or actions.jsonl rows must be converted into physical event logs before prose drafting.",
+            "Historian-layer inference needs source action ids, inferred actor/action/motive/state deltas, confidence, and unresolved ambiguity; do not canonize raw social chatter.",
+            "The narrative layer should draft from verified event logs plus style constraints, then review whether the chapter preserves event causality without copying simulation wording.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -11271,6 +11406,21 @@ class NovelSourceDiscoveryService:
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             targets.append("dryrun_publish_checkpoint_remap")
             targets.append("ai_revision_backup_remap")
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            targets.append("story_bible_memory_graph_remap")
+            targets.append("phase_agent_boundary_remap")
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            targets.append("style_profile_layer_fusion_remap")
+            targets.append("story_engine_gate_remap")
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            targets.append("truth_file_evidence_remap")
+            targets.append("pyramid_audit_report_remap")
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            targets.append("proposal_ledger_quality_remap")
+            targets.append("previous_tail_guard_remap")
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            targets.append("simulated_event_log_remap")
+            targets.append("historian_layer_inference_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -11937,6 +12087,16 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type adaptation prompts, remap chapter/segment refs into new Scene Cards and Screenplay AST fields before YAML or script generation.")
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             hints.append("For same-type serial workflows, keep _ai_revisions, dry-run ranges, backups, and publish checkpoints as safety gates, not as authorization to upload or publish.")
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            hints.append("For same-type prompts, rebuild the Story Bible, timeline, memory graph, agent phase, and branch graph from the new premise before any scene or dialogue generation.")
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            hints.append("For same-type prompts, cite the allowed style-profile layers and story-engine gate; do not paste source samples or ask for author-name cloning.")
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            hints.append("For same-type prompts, turn Truth File/RAG lessons into new evidence slots and audit expectations, not into copied facts or source chapter summaries.")
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            hints.append("For same-type prompts, require accepted proposal ids, ledger debts, active arcs, brief checksum, previous-tail guard, and quality/de-bias check before drafting.")
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            hints.append("For same-type prompts, convert any simulation/social output into new physical event logs first, then draft from event causality rather than dialogue fragments.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12313,6 +12473,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform prose into script through AST-level fields: scene purpose, dialogue function, visual action, continuity refs, and schema-valid YAML output.")
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             hints.append("Transform publishing workflows into local safety state: draft revision, backup, dry-run, upload checkpoint, and manual publish decision for the new book only.")
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            hints.append("Transform knowledge-engineering scaffolds into a fresh Story Bible, memory graph, route graph, and agent handoff plan; source modules are structure examples only.")
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            hints.append("Transform style profiles by choosing new layer weights, new scene rhythm targets, and new anti-AI rules while rejecting source sample phrasing.")
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            hints.append("Transform Truth File/RAG mechanics into new evidence ids and pyramid summaries; source evidence cannot become accepted facts for the new manuscript.")
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            hints.append("Transform proposal/ledger workflows by assigning new proposal ids, ledger debt categories, active arcs, brief inputs, and quality thresholds.")
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            hints.append("Transform simulation artifacts by rewriting social actions into new physical event logs with changed actors, motives, consequences, and scene purposes.")
         if "constraint_specificity_creativity_benchmark" in patterns:
             hints.append("Use specific constraints for the new story's premise, not for recreating source event details.")
         if "style_axis_diversity_fingerprint" in patterns:
@@ -12486,6 +12656,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform novel-to-screenplay work through fresh Scene Cards, Screenplay AST fields, schema-valid YAML, and source-segment traceability for the new adaptation scope.")
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             hints.append("Transform publishing-adjacent workflows into local safety state: revision drafts, backups, dry-run ranges, upload checkpoints, and manual publish decisions for the new book only.")
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            hints.append("Transform knowledge-engineering scaffolds into a fresh Story Bible, memory graph, route graph, and agent handoff plan; source modules are structure examples only.")
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            hints.append("Transform style profiles by choosing new layer weights, new scene rhythm targets, and new anti-AI rules while rejecting source sample phrasing.")
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            hints.append("Transform Truth File/RAG mechanics into new evidence ids and pyramid summaries; source evidence cannot become accepted facts for the new manuscript.")
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            hints.append("Transform proposal/ledger workflows by assigning new proposal ids, ledger debt categories, active arcs, brief inputs, and quality thresholds.")
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            hints.append("Transform simulation artifacts by rewriting social actions into new physical event logs with changed actors, motives, consequences, and scene purposes.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -13047,6 +13227,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject adaptations whose AST/YAML preserves source scene order, dialogue labels, chapter ids, or source segment text without an explicit authorized adaptation scope.")
         if "fanqie_publish_dryrun_boundary_gate" in patterns:
             hints.append("Reject publishing-adjacent runs without dry-run evidence, backup-before-overwrite, human approval of _ai_revisions, and explicit no-upload/no-publish boundary.")
+        if "lore_forge_knowledge_engineering_gate" in patterns:
+            hints.append("Reject drafts that copy upstream agent names, workflow prompt text, template module names, or branch routes instead of creating a new Story Bible and memory graph.")
+        if "layered_style_profile_fusion_eval_gate" in patterns:
+            hints.append("Reject style-fusion outputs that include raw source samples, author-name cloning requests, distinctive sentence templates, or no drift/AI-prose evaluation evidence.")
+        if "truth_file_rag_pyramid_audit_gate" in patterns:
+            hints.append("Reject outputs that treat retrieved source passages, Truth File examples, snapshots, or model-route labels as new canon without evidence remapping.")
+        if "proposal_accept_ledger_quality_gate" in patterns:
+            hints.append("Reject chapters that bypass proposal acceptance, reuse previous-tail prose verbatim, ignore ledger debts, or approve judge scores without de-bias evidence.")
+        if "simulated_event_log_narrative_layer_gate" in patterns:
+            hints.append("Reject prose that copies social-simulation dialogue, actions.jsonl wording, or source-novel event order instead of drafting from transformed physical event logs.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -13778,6 +13968,11 @@ class NovelSourceDiscoveryService:
                 "offline_chapter_revision_export_gate",
                 "creative_writing_multiaxis_provider_gate",
                 "system_world_fate_simulation_gate",
+                "lore_forge_knowledge_engineering_gate",
+                "layered_style_profile_fusion_eval_gate",
+                "truth_file_rag_pyramid_audit_gate",
+                "proposal_accept_ledger_quality_gate",
+                "simulated_event_log_narrative_layer_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

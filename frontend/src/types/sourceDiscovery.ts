@@ -291,6 +291,11 @@ export interface SourceDiscoveryPatternPack {
   style_distillation_rights_boundary_gate_hints?: string[];
   screenplay_ast_yaml_adaptation_gate_hints?: string[];
   fanqie_publish_dryrun_boundary_gate_hints?: string[];
+  lore_forge_knowledge_engineering_gate_hints?: string[];
+  layered_style_profile_fusion_eval_gate_hints?: string[];
+  truth_file_rag_pyramid_audit_gate_hints?: string[];
+  proposal_accept_ledger_quality_gate_hints?: string[];
+  simulated_event_log_narrative_layer_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

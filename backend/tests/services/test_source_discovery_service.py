@@ -13959,3 +13959,145 @@ def test_static_20260612_sources_add_engineering_rights_adaptation_publish_gates
     assert "style_distillation_rights_boundary_gate_hints" in digest
     assert "screenplay_ast_yaml_adaptation_gate_hints" in digest
     assert "fanqie_publish_dryrun_boundary_gate_hints" in digest
+
+
+def test_static_20260612_sources_add_knowledge_style_truth_ledger_simulation_gates():
+    assert "https://github.com/immane/lore-forge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/xianzl/novel-style-skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/TSOFTP-afk/lshu-novel-generator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/tyxben/AI_novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ToussaintKnight/AutoStory" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("memory graph" in query.lower() and "knowledge engineering" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("forge-novel-style" in query.lower() and "style.json" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("truth file" in query.lower() and "全书分析" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ledgerstore" in query.lower() and "prevtailsummarizer" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("actions.jsonl" in query.lower() and "mirofish" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "immane/lore-forge",
+                "html_url": "https://github.com/immane/lore-forge",
+                "description": (
+                    "Lore Forge is an AI-assisted narrative design framework using knowledge engineering, "
+                    "a living Story Bible as the single source of truth, structured interviews, timeline, "
+                    "Memory Graph, Review Consistency, Lore Auditor, narrative RPG, visual novel, "
+                    "interactive fiction, and deferred-write confirmation."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-bible", "interactive-fiction", "visual-novel"],
+                "updated_at": "2026-06-11T07:23:34Z",
+                "root_files": ["README.md", "AGENTS.md", "CLAUDE.md", "agents", "templates"],
+            },
+            {
+                "full_name": "xianzl/novel-style-skills",
+                "html_url": "https://github.com/xianzl/novel-style-skills",
+                "description": (
+                    "Novel Style Skills provides forge-novel-style, forge-novel-fusion, novel-use, "
+                    "use-novel-style, eval-novel-style, style.json profiles, style drift scoring, "
+                    "AI-like prose review, compact runtime card, and story engine gates for desire, "
+                    "resistance, choice, cost, and irreversible change."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "style-distillation", "codex-skills"],
+                "updated_at": "2026-05-08T06:15:27Z",
+                "root_files": ["README.md", "LICENSE", "forge-novel-style", "eval-novel-style"],
+            },
+            {
+                "full_name": "TSOFTP-afk/lshu-novel-generator",
+                "html_url": "https://github.com/TSOFTP-afk/lshu-novel-generator",
+                "description": (
+                    "灵枢 lshu is a local SQLite million-word novel workbench with Truth File System, "
+                    "RAG 上下文, 长篇审查, 全书分析, 三级金字塔 evidence preservation, model routing, "
+                    "review snapshots, 人物卡, 世界观, Skills and export."
+                ),
+                "stargazers_count": 10,
+                "forks_count": 1,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "rag", "sqlite", "desktop"],
+                "updated_at": "2026-05-22T15:25:29Z",
+                "root_files": ["README.md", "package.json", "src", "electron"],
+            },
+            {
+                "full_name": "tyxben/AI_novel",
+                "html_url": "https://github.com/tyxben/AI_novel",
+                "description": (
+                    "AI_novel long-form module has propose/accept/regenerate tool semantics, NovelToolFacade, "
+                    "LedgerStore for foreshadowing and narrative debt, BriefAssembler, PrevTailSummarizer "
+                    "with 15-char verbatim guard, 7 维质量评估, A/B 双向 de-bias, stale-outline detection, "
+                    "死亡角色检测, MCP, CLI, agent_chat and model routing."
+                ),
+                "stargazers_count": 244,
+                "forks_count": 21,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-novel", "mcp", "rag", "quality-eval"],
+                "updated_at": "2026-05-25T13:36:10Z",
+                "root_files": ["README.md", "pyproject.toml", "mcp_server.py", "frontend", "backend"],
+            },
+            {
+                "full_name": "ToussaintKnight/AutoStory",
+                "html_url": "https://github.com/ToussaintKnight/AutoStory",
+                "description": (
+                    "AutoStory blends MiroFish simulation_requirement, actions.jsonl social simulation, "
+                    "史官层 historian inference, 物理事件日志, 社媒碎片, narrative layer, event log, "
+                    "plan draft review finalize, and style distillation."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "simulation", "style-distillation"],
+                "updated_at": "2026-05-27T16:23:00Z",
+                "root_files": ["README.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:55:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "lore_forge_knowledge_engineering_gate" in candidates["immane/lore-forge"]["absorbed_patterns"]
+    assert "layered_style_profile_fusion_eval_gate" in candidates["xianzl/novel-style-skills"]["absorbed_patterns"]
+    assert "truth_file_rag_pyramid_audit_gate" in candidates["TSOFTP-afk/lshu-novel-generator"]["absorbed_patterns"]
+    assert "proposal_accept_ledger_quality_gate" in candidates["tyxben/AI_novel"]["absorbed_patterns"]
+    assert "simulated_event_log_narrative_layer_gate" in candidates["ToussaintKnight/AutoStory"]["absorbed_patterns"]
+    assert "mcp_server" in candidates["tyxben/AI_novel"]["risk_flags"]
+    assert "license:missing" in candidates["ToussaintKnight/AutoStory"]["trust_review"]["flags"]
+    assert "license:noassertion" in candidates["TSOFTP-afk/lshu-novel-generator"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "story_bible_single_source_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "style_profile_layer_fusion_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "truth_file_rag_evidence_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "proposal_accept_regenerate_authority_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "simulation_to_event_log_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_bible_memory_graph_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_profile_drift_eval_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "truth_file_rag_pyramid_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ledger_quality_debias_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "simulation_event_log_trace_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_bible_memory_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "style_profile_layer_fusion_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "truth_file_evidence_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "proposal_ledger_quality_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "simulated_event_log_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("single source of truth" in hint.lower() for hint in pattern_pack["lore_forge_knowledge_engineering_gate_hints"])
+    assert any("style" in hint.lower() and "runtime" in hint.lower() for hint in pattern_pack["layered_style_profile_fusion_eval_gate_hints"])
+    assert any("truth file" in hint.lower() and "rag" in hint.lower() for hint in pattern_pack["truth_file_rag_pyramid_audit_gate_hints"])
+    assert any("propose/accept/regenerate" in hint.lower() for hint in pattern_pack["proposal_accept_ledger_quality_gate_hints"])
+    assert any("event log" in hint.lower() for hint in pattern_pack["simulated_event_log_narrative_layer_gate_hints"])
+    assert any("previous-tail" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("style-profile layers" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("physical event logs" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("raw source samples" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "lore_forge_knowledge_engineering_gate_hints" in digest
+    assert "layered_style_profile_fusion_eval_gate_hints" in digest
+    assert "truth_file_rag_pyramid_audit_gate_hints" in digest
+    assert "proposal_accept_ledger_quality_gate_hints" in digest
+    assert "simulated_event_log_narrative_layer_gate_hints" in digest
