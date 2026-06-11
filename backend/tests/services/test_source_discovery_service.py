@@ -12105,3 +12105,51 @@ def test_static_narrative_engine_and_storyforge_sources_add_import_consequence_g
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "story_import_pattern_revision_gate_hints" in digest
     assert "consequence_ledger_last_actions_context_gate_hints" in digest
+
+
+
+def test_static_creative_writing_assistant_source_adds_multiaxis_provider_gate():
+    assert "https://github.com/kernullist/creative-writing-assistant" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("literary depth" in query.lower() and "style simulation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "kernullist/creative-writing-assistant",
+                "html_url": "https://github.com/kernullist/creative-writing-assistant",
+                "description": (
+                    "Creative Writing Assistant analyzes style, literary depth, genre classification, "
+                    "plot development, style simulation, multi-chapter novel generation with SSE progress, "
+                    "language selection, exports, REST API, CLI, multiple providers and API keys."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["creative-writing", "style-analysis", "novel-generation"],
+                "updated_at": "2026-04-20T04:46:03Z",
+                "root_files": ["README.md", "LICENSE", ".env.example", "requirements.txt", "src", "web_app.py", "tests"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T09:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    creative = candidates["kernullist/creative-writing-assistant"]
+    assert "creative_writing_multiaxis_provider_gate" in creative["absorbed_patterns"]
+    assert "provider_key_surface" in creative["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "creative_writing_axis_toggle_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "provider_language_export_boundary" in pattern_pack["bible_enrichment_targets"]
+    assert "creative_writing_axis_analysis_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "provider_language_export_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "creative_writing_axis_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("enabled axes" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("selected analysis axes" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("Separate writing analysis axes" in hint for hint in pattern_pack["creative_writing_multiaxis_provider_gate_hints"])
+    assert any("style simulation" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "creative_writing_multiaxis_provider_gate_hints" in digest

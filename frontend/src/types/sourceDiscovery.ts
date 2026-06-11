@@ -207,6 +207,7 @@ export interface SourceDiscoveryPatternPack {
   forensic_style_clone_audit_risk_gate_hints?: string[];
   story_import_pattern_revision_gate_hints?: string[];
   consequence_ledger_last_actions_context_gate_hints?: string[];
+  creative_writing_multiaxis_provider_gate_hints?: string[];
   long_term_author_preference_memory_hints?: string[];
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];

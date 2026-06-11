@@ -141,6 +141,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "forensic_style_clone_audit_risk_gate_hints",
             "story_import_pattern_revision_gate_hints",
             "consequence_ledger_last_actions_context_gate_hints",
+            "creative_writing_multiaxis_provider_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -306,6 +307,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Forensic style clone/audit risk gates" in panel_text
     assert "Story import pattern/revision gates" in panel_text
     assert "Consequence ledger last-actions context gates" in panel_text
+    assert "Creative writing multi-axis provider gates" in panel_text
     assert "Story daemon evolution loop gates" in panel_text
     assert "Local RAG / canon QA / patch replay gates" in panel_text
     assert "Local RAG writing IDE gates" in panel_text
