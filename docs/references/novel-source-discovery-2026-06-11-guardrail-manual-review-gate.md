@@ -318,3 +318,34 @@ Project adaptation:
 - The approval request still binds to the current chapter content hash, so the
   visible source provenance and approved chapter text remain in one review
   event.
+
+
+## 2026-06-11 follow-up: violation-level source trace
+
+Additional static metadata pass, still no clone/install/runtime/provider calls:
+
+- `IsaiahN/Serendipity-Engine`
+  - URL: https://github.com/IsaiahN/Serendipity-Engine
+  - Observed HEAD: `0ee0b5ba9df2de82f554e32f926be654c4582aad`
+  - Default branch: `pwa-app`
+  - License: GitHub metadata `NOASSERTION`
+  - Public README signal: structured story-architecture workshop for novels,
+    screenplays, film, and narrative forms; marker scan found audit, phase,
+    continuity, chapter, fingerprint, decision, and override vocabulary.
+  - Posture: `pattern-only`; no app/runtime, scripts, provider, or workshop
+    pipeline was executed.
+
+Absorbed pattern: a review queue is easier to audit when each failed check
+points to the exact source item it depends on. Whole-packet source fingerprints
+are useful, but violation rows should also carry source index, source hash,
+source length, and the detected copy signal so a reviewer can inspect one
+failure without manually matching it back to the full provenance list.
+
+Project adaptation:
+
+- `inspired_source_copy` violations now carry `source_excerpt_index`,
+  `source_excerpt_sha256`, `source_excerpt_length`, and `copy_signal`.
+- Structured guardrail history serializes those violation-level provenance
+  fields into `final_violations` / `initial_violations`.
+- The review modal shows the short source hash and copy signal inside each
+  violation detail, beside the bounded source preview list.

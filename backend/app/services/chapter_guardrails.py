@@ -22,6 +22,10 @@ class ChapterGuardrailViolation:
     description: str
     position: Optional[int] = None
     context: Optional[str] = None
+    source_excerpt_index: Optional[int] = None
+    source_excerpt_sha256: Optional[str] = None
+    source_excerpt_length: Optional[int] = None
+    copy_signal: Optional[str] = None
 
 
 @dataclass
@@ -215,13 +219,23 @@ def _guardrail_violation_to_dict(violation: object) -> dict[str, Any]:
         "severity": _guardrail_violation_field(violation, "severity"),
         "description": _guardrail_violation_field(violation, "description"),
         "context": _guardrail_violation_field(violation, "context"),
+        "source_excerpt_sha256": _guardrail_violation_field(violation, "source_excerpt_sha256"),
+        "copy_signal": _guardrail_violation_field(violation, "copy_signal"),
     }
     if isinstance(violation, dict):
         position = violation.get("position")
+        source_excerpt_index = violation.get("source_excerpt_index")
+        source_excerpt_length = violation.get("source_excerpt_length")
     else:
         position = getattr(violation, "position", None)
+        source_excerpt_index = getattr(violation, "source_excerpt_index", None)
+        source_excerpt_length = getattr(violation, "source_excerpt_length", None)
     if position is not None:
         value["position"] = position
+    if source_excerpt_index is not None:
+        value["source_excerpt_index"] = source_excerpt_index
+    if source_excerpt_length is not None:
+        value["source_excerpt_length"] = source_excerpt_length
     return {key: item for key, item in value.items() if item not in ("", None)}
 
 
@@ -556,7 +570,7 @@ class ChapterGuardrails:
         if len(normalized_text) < 16:
             return
 
-        for excerpt in inspired_source_excerpts:
+        for source_excerpt_index, excerpt in enumerate(inspired_source_excerpts, start=1):
             normalized_excerpt = self._normalize_text(excerpt or "")
             if len(normalized_excerpt) < 16:
                 continue
@@ -574,6 +588,12 @@ class ChapterGuardrails:
                         "只保留类型节奏、视角行为和情绪温度。"
                     ),
                     context=(excerpt or "")[:120],
+                    source_excerpt_index=source_excerpt_index,
+                    source_excerpt_sha256=hashlib.sha256(
+                        str(excerpt or "").strip().encode("utf-8")
+                    ).hexdigest(),
+                    source_excerpt_length=len(str(excerpt or "").strip()),
+                    copy_signal=copy_signal,
                 )
             )
             return

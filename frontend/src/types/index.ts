@@ -348,6 +348,10 @@ export interface ChapterGuardrailViolation {
   description?: string;
   context?: string;
   position?: number | null;
+  source_excerpt_index?: number;
+  source_excerpt_sha256?: string;
+  source_excerpt_length?: number;
+  copy_signal?: string;
 }
 
 

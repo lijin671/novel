@@ -276,6 +276,62 @@ def test_chapter_guardrails_flags_simhash_near_duplicate_after_light_reorder():
     )
 
 
+def test_inspired_source_copy_violation_carries_source_fingerprint():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "AlphaLedgerKey opens the rain archive window while BetaClerk waits downstairs."
+
+    result = guardrails.check(
+        "NewHero uses the AlphaLedgerKey opens the rain archive window while BetaClerk waits downstairs.",
+        inspired_source_excerpts=["", source_excerpt],
+    )
+
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_copy"
+    )
+
+    assert violation.source_excerpt_index == 2
+    assert violation.source_excerpt_sha256 == (
+        "9835da69f227e028969c3e6e6a95002c33cc15b2aae14cd4ab6f3953002b9884"
+    )
+    assert violation.source_excerpt_length == len(source_excerpt)
+    assert violation.copy_signal in {
+        "distinctive_substring",
+        "exact_normalized_excerpt",
+        "ordered_phrase_overlap",
+    }
+
+
+def test_format_guardrail_history_note_includes_violation_source_fingerprint():
+    source_excerpt = "AlphaLedgerKey opens the rain archive window while BetaClerk waits downstairs."
+    guardrails = ChapterGuardrails()
+    result = guardrails.check(
+        "NewHero uses the AlphaLedgerKey opens the rain archive window while BetaClerk waits downstairs.",
+        inspired_source_excerpts=[source_excerpt],
+    )
+    guardrail_meta = {
+        "applied": False,
+        "attempts": 0,
+        "initial_result": result,
+        "final_result": result,
+    }
+
+    note = format_guardrail_history_note(guardrail_meta)
+    summary_line = [
+        line for line in note.splitlines()
+        if line.startswith(GUARDRAIL_REVIEW_JSON_PREFIX)
+    ][0]
+    summary = json.loads(summary_line.removeprefix(GUARDRAIL_REVIEW_JSON_PREFIX))
+
+    violation = summary["final_violations"][0]
+    assert violation["source_excerpt_index"] == 1
+    assert violation["source_excerpt_sha256"] == (
+        "9835da69f227e028969c3e6e6a95002c33cc15b2aae14cd4ab6f3953002b9884"
+    )
+    assert violation["source_excerpt_length"] == len(source_excerpt)
+    assert violation["copy_signal"]
+
+
 @pytest.mark.asyncio
 async def test_apply_chapter_guardrail_check_rewrites_inspired_source_copy():
     ai_service = StubAIService()

@@ -2080,6 +2080,9 @@ export default function Chapters() {
             description={
               <div style={{ whiteSpace: 'pre-wrap' }}>
                 {violation.description || '无描述'}
+                {violation.source_excerpt_sha256
+                  ? `\nsource #${violation.source_excerpt_index ?? '?'} ${violation.source_excerpt_sha256.slice(0, 12)} / ${violation.source_excerpt_length ?? 0} chars${violation.copy_signal ? ` / ${violation.copy_signal}` : ''}`
+                  : ''}
                 {violation.context ? `\n上下文：${violation.context}` : ''}
               </div>
             }
