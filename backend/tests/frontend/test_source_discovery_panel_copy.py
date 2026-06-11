@@ -144,6 +144,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "creative_writing_multiaxis_provider_gate_hints",
             "system_world_fate_simulation_gate_hints",
             "constraint_harness_review_worktree_gate_hints",
+            "state_current_reviewer_loop_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",

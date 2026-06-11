@@ -12264,3 +12264,61 @@ def test_static_writeassist_source_adds_constraint_harness_review_worktree_gate(
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "constraint_harness_review_worktree_gate_hints" in digest
+
+
+def test_static_claude_book_source_adds_state_current_reviewer_loop_gate():
+    assert "https://github.com/ThomasHoussin/Claude-Book" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("state/current" in query.lower() and "perplexity-improver" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ThomasHoussin/Claude-Book",
+                "html_url": "https://github.com/ThomasHoussin/Claude-Book",
+                "description": (
+                    "Claude Book Framework uses a permanent bible and transient state/current symlink. "
+                    "It analyzes source books with book-analyzer, merges bibles, generates original storylines, "
+                    "then orchestrates planner, writer, perplexity-improver, style-linter, character-reviewer, "
+                    "continuity-reviewer, and state-updater. Failed gates loop the writer with reports for max 3 iterations. "
+                    "State is archived as state/chapter-NN and appended into timeline/history."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "claude-code", "multi-agent"],
+                "updated_at": "2025-11-12T15:06:20Z",
+                "root_files": ["README.md", "LICENSE", "CLAUDE.md", ".claude/skills", ".claude/agents", "ebook/build-ebook.ps1"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T10:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    claude_book = candidates["ThomasHoussin/Claude-Book"]
+    assert "state_current_reviewer_loop_gate" in claude_book["absorbed_patterns"]
+    assert "skill_install_surface" in claude_book["risk_flags"]
+    assert "powershell_script" in claude_book["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "permanent_bible_transient_state_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "state_current_chapter_snapshot_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "post_chapter_reviewer_loop_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "state_current_continuity_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_snapshot_delta_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "perplexity_cliche_style_lint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "character_continuity_reviewer_loop_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "timeline_history_append_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "bible_state_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_reviewer_loop_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "timeline_snapshot_delta_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("accepted bible separately from transient state/current facts" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("state/current input checksum" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("permanent bible material separate" in hint for hint in pattern_pack["state_current_reviewer_loop_gate_hints"])
+    assert any("source state/current facts" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("local continuation packets" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("snapshot delta" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "state_current_reviewer_loop_gate_hints" in digest

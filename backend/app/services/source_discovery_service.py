@@ -325,6 +325,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("literary depth" OR "genre classification" OR "style simulation") ("creative writing assistant" OR "novel generation") in:name,description,readme',
     '("System" OR "World" OR "Fate" OR "force fields") ("typed graph" OR "simulatable knowledge structure" OR "narrative simulation") in:name,description,readme',
     '("harness-level enforcement" OR "PreToolUse" OR "least-privilege reviewers" OR "review-chapter") ("writing framework" OR "fiction" OR "Claude Code") in:name,description,readme',
+    '("state/current" OR "state template" OR "perplexity-improver" OR "continuity-reviewer") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -714,6 +715,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/kernullist/creative-writing-assistant",
     "https://github.com/jasonyu0100/meridians",
     "https://github.com/justinjorgensen/writeassist",
+    "https://github.com/ThomasHoussin/Claude-Book",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1010,6 +1012,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("creative_writing_multiaxis_provider_gate", ("creative-writing-assistant", "creative writing assistant", "literary depth", "genre classification", "plot development", "style simulation", "novel generation", "multi-chapter novels", "sse progress", "language selection", "openrouter tiers", "ai model integration")),
     ("system_world_fate_simulation_gate", ("meridians", "system / world / fate", "system world fate", "three force fields", "force trajectories", "typed graph", "queryable", "simulatable knowledge structure", "phase graph", "causal reasoning graph", "scene structures", "beat plans", "deterministic formulas", "pacing fingerprint", "prose profile")),
     ("constraint_harness_review_worktree_gate", ("writeassist", "constraint-driven multi-agent writing framework", "harness-level enforcement", "pretooluse", "em-dash guard", "final scanner", "least-privilege reviewers", "read, grep, glob", "creator agents", "isolated auditable revision passes", "git worktree", "auto-revise-chapter", "parallel named-agent review", "review-chapter", "seven named gating critics", "four-tier rubric", "import-book", "conflict ledger")),
+    ("state_current_reviewer_loop_gate", ("claude-book", "claude book framework", "book-analyzer", "bible-merger", "story-ideator", "perplexity-improver", "state/current", "state/template", "state/chapter-nn", "symlink", "permanent bible", "transient state", "style-linter", "character-reviewer", "continuity-reviewer", "state-updater", "max 3 iterations", "timeline/history", "orchestrator")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2772,6 +2775,11 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "least-privilege read-only reviewers, creator/reviewer permission separation, isolated git-worktree revision branches, parallel seven-critic review panels, four-tier rubric scoring, and existing-draft import with conflict ledger. "
         "Pattern-only adaptation for author-constraint gates, reviewer role boundaries, isolated revision traces, and import conflict ledgers; Claude Code hooks, shell scripts, slash commands, workflow runtimes, git mutations, and upstream agent/config files are not executed or imported."
     ),
+    "thomashoussin/claude-book": (
+        "Claude Book Framework is a MIT multi-agent novel writing framework for Claude Code. Public README and CLAUDE markers describe source-book analysis into a bible, bible merging, story ideation, a permanent bible vs transient chapter state split, "
+        "state/template and state/current symlink handoff, planner -> writer -> perplexity improver -> style linter -> character reviewer -> continuity reviewer -> state updater sequence, max-three repair loops, timeline/history append, and archived state/chapter-NN snapshots. "
+        "Pattern-only adaptation for state-current continuity packets, post-chapter reviewer loops, and AI-cliche/style/character/continuity gates; upstream skills, agents, PowerShell ebook scripts, symlinks, and Claude Code orchestration are not executed or imported."
+    ),
 
 }
 
@@ -3137,6 +3145,7 @@ class NovelSourceDiscoveryService:
             "creative_writing_multiaxis_provider_gate_hints": self._build_creative_writing_multiaxis_provider_gate_hints(available_patterns),
             "system_world_fate_simulation_gate_hints": self._build_system_world_fate_simulation_gate_hints(available_patterns),
             "constraint_harness_review_worktree_gate_hints": self._build_constraint_harness_review_worktree_gate_hints(available_patterns),
+            "state_current_reviewer_loop_gate_hints": self._build_state_current_reviewer_loop_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4120,6 +4129,7 @@ class NovelSourceDiscoveryService:
             "creative_writing_multiaxis_provider_gate": 67,
             "system_world_fate_simulation_gate": 70,
             "constraint_harness_review_worktree_gate": 70,
+            "state_current_reviewer_loop_gate": 69,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4404,6 +4414,10 @@ class NovelSourceDiscoveryService:
             targets.append("author_constraint_harness_policy")
             targets.append("least_privilege_reviewer_role_policy")
             targets.append("isolated_revision_worktree_policy")
+        if "state_current_reviewer_loop_gate" in patterns:
+            targets.append("permanent_bible_transient_state_policy")
+            targets.append("state_current_chapter_snapshot_policy")
+            targets.append("post_chapter_reviewer_loop_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5266,6 +5280,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["system_world_fate_force_field_report", "typed_story_graph_delta_report", "phase_crg_scene_beat_trace"])
         if "constraint_harness_review_worktree_gate" in patterns:
             targets.extend(["constraint_gate_violation_report", "least_privilege_reviewer_role_report", "isolated_revision_worktree_trace", "parallel_critic_panel_report", "import_conflict_ledger_report"])
+        if "state_current_reviewer_loop_gate" in patterns:
+            targets.extend(["state_current_continuity_report", "chapter_snapshot_delta_report", "perplexity_cliche_style_lint_report", "character_continuity_reviewer_loop_report", "timeline_history_append_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -5993,6 +6009,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before drafting, build a System/World/Fate force-field snapshot: rules and structures, actor state, open questions, deterministic deltas, and phase -> CRG -> scene -> beat checkpoints.")
         if "constraint_harness_review_worktree_gate" in patterns:
             hints.append("Before drafting or revising, declare hard author constraints, manuscript path scope, read-only reviewer roles, creator write boundary, rubric version, and blocked-token/style scanner status.")
+        if "state_current_reviewer_loop_gate" in patterns:
+            hints.append("Before a continuation chapter, load the accepted bible separately from transient state/current facts, then name the planner, writer, style, character, continuity, and state-update gates for this chapter.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -6386,6 +6404,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist typed graph nodes for actors, locations, artifacts, threads, and system rules with force scores, formula inputs, phase graph id, CRG id, scene-structure id, beat-plan id, and provider-call exclusion.")
         if "constraint_harness_review_worktree_gate" in patterns:
             hints.append("Persist constraint gate violations, scanner result, reviewer role/tool boundary, revision worktree/branch id, critic rubric scores, and import conflict-ledger status before accepting text.")
+        if "state_current_reviewer_loop_gate" in patterns:
+            hints.append("Persist state/current input checksum, chapter snapshot id, repair-loop count, perplexity/cliche findings, style-linter findings, character-reviewer findings, continuity-reviewer findings, and timeline/history append status.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -7144,6 +7164,15 @@ class NovelSourceDiscoveryService:
             "Promote hard author constraints into deterministic pre-write and final-state gates; prompts may describe rules, but acceptance depends on scanner/report evidence.",
             "Keep reviewers least-privilege and read-only: critic panels can score, cite, and open issues, while only creator/reviser roles may change manuscript state.",
             "Run risky revision passes as isolated, auditable attempts with branch/worktree ids, diff summaries, rollback notes, rubric results, and unresolved import-conflict ledger entries.",
+        ]
+
+    def _build_state_current_reviewer_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "state_current_reviewer_loop_gate" not in patterns:
+            return []
+        return [
+            "Keep permanent bible material separate from transient state/current facts so chapter drafting cannot silently rewrite source-derived style, structure, character, or universe rules.",
+            "After every chapter attempt, run distinct cliche/perplexity, style, character, and continuity reviews; failed gates feed a bounded repair loop instead of automatic acceptance.",
+            "Accepting a chapter requires a new state snapshot, timeline/history append evidence, and explicit handoff from old current-state facts to the next chapter state packet.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9713,6 +9742,10 @@ class NovelSourceDiscoveryService:
             targets.append("constraint_rubric_remap")
             targets.append("reviewer_role_boundary_remap")
             targets.append("isolated_revision_branch_remap")
+        if "state_current_reviewer_loop_gate" in patterns:
+            targets.append("bible_state_boundary_remap")
+            targets.append("chapter_reviewer_loop_remap")
+            targets.append("timeline_snapshot_delta_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -10310,6 +10343,8 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, transfer only the abstract System/World/Fate pressure topology; rebuild actors, locations, artifacts, threads, open questions, and deterministic deltas for the new story.")
         if "constraint_harness_review_worktree_gate" in patterns:
             hints.append("For same-type prompts, remap hard constraints, critic rubrics, reviewer permissions, revision branch labels, and conflict-ledger categories; do not import upstream hooks or command text.")
+        if "state_current_reviewer_loop_gate" in patterns:
+            hints.append("For same-type prompts, rebuild a new bible/state split, chapter snapshot labels, reviewer loop axes, and timeline append rules; never reuse source state/current facts as new canon.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -11189,6 +11224,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform force-field findings by changing the rules, actors, artifacts, causal variables, unresolved questions, and beat mechanisms while preserving only the abstract pressure geometry.")
         if "constraint_harness_review_worktree_gate" in patterns:
             hints.append("Transform constraint-harness ideas into project-native checklists, scanner reports, role boundaries, and diffable revision attempts rather than copying upstream scripts or agent files.")
+        if "state_current_reviewer_loop_gate" in patterns:
+            hints.append("Transform state-current workflows into local continuation packets: permanent bible refs, transient delta facts, reviewer reports, bounded repair count, and next-state snapshot evidence.")
         if "parallel_critic_tribunal_issue_gate" in patterns:
             hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
         if "prompt_evolution_fitness_governance_gate" in patterns:
@@ -11724,6 +11761,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that use style simulation, famous-author labels, provider-tier prompts, or language translation as a shortcut around source-boundary and copy-risk review.")
         if "constraint_harness_review_worktree_gate" in patterns:
             hints.append("Reject drafts whose safety depends only on prompt wording when deterministic constraint scans, read-only critic separation, or import conflict-ledger evidence is missing.")
+        if "state_current_reviewer_loop_gate" in patterns:
+            hints.append("Reject drafts that mutate permanent bible facts, skip style/character/continuity reviewer reports, exceed the repair-loop limit, or advance state/current without a snapshot delta.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -11906,6 +11945,7 @@ class NovelSourceDiscoveryService:
                 "creative_writing_multiaxis_provider_gate",
                 "system_world_fate_simulation_gate",
                 "constraint_harness_review_worktree_gate",
+                "state_current_reviewer_loop_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",
                 "creative_scaffold_prompt_sequence_gate",

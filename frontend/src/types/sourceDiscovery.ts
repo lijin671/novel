@@ -210,6 +210,7 @@ export interface SourceDiscoveryPatternPack {
   creative_writing_multiaxis_provider_gate_hints?: string[];
   system_world_fate_simulation_gate_hints?: string[];
   constraint_harness_review_worktree_gate_hints?: string[];
+  state_current_reviewer_loop_gate_hints?: string[];
   long_term_author_preference_memory_hints?: string[];
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];
