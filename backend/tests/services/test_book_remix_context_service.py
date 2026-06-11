@@ -51,6 +51,18 @@ def test_build_remix_context_preview_audit_reports_sections_tokens_and_patterns(
             "hard_constraints": [{"rule": "Do not flip protagonist alignment abruptly"}],
             "foreshadows": [{"hook": "Old rival returns", "status": "open"}],
             "style_signature": {"voice": "spare"},
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 12,
+                    "summary": "Inspector Lin found the damaged ledger.",
+                    "timeline_delta": [{"event": "Warehouse fire exposed the ledger clue"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "alert"}
+                    ],
+                    "foreshadow_changes": [{"hook": "Old rival returns", "status": "open"}],
+                }
+            ],
         },
         plan={
             "summary": "Resolve old ledger thread before expanding cast scope.",
@@ -72,6 +84,18 @@ def test_build_remix_context_preview_audit_reports_sections_tokens_and_patterns(
             "hard_constraints": [{"rule": "Do not flip protagonist alignment abruptly"}],
             "foreshadows": [{"hook": "Old rival returns", "status": "open"}],
             "style_signature": {"voice": "spare"},
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 12,
+                    "summary": "Inspector Lin found the damaged ledger.",
+                    "timeline_delta": [{"event": "Warehouse fire exposed the ledger clue"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "alert"}
+                    ],
+                    "foreshadow_changes": [{"hook": "Old rival returns", "status": "open"}],
+                }
+            ],
         },
         plan={
             "summary": "Resolve old ledger thread before expanding cast scope.",
@@ -89,7 +113,76 @@ def test_build_remix_context_preview_audit_reports_sections_tokens_and_patterns(
     assert {"key": "world_rules", "summary": "1 rules"} in audit["activated_sections"]
     assert any(section["key"] == "pending_plan_beats" for section in audit["activated_sections"])
     assert "context_pack_preview" in audit["active_source_patterns"]
+    assert any("Old rival returns" in question for question in audit["continuity_questions"])
+    assert audit["promise_payoff_debts"][0]["label"] == "Old rival returns"
+    assert any(item["kind"] == "character" for item in audit["scene_state_snapshot"])
+    assert audit["canon_drift_risks"] == []
     assert audit["context_warnings"] == []
+
+
+def test_build_remix_continuation_context_block_renders_continuity_control_section():
+    block = build_remix_continuation_context_block(
+        project_title="Continuity Desk",
+        bible={
+            "foreshadows": [{"hook": "Sealed letter returns", "status": "open", "setup_chapter": 3}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 10,
+                    "summary": "The hero hid the sealed letter.",
+                    "timeline_delta": [{"event": "The sealed letter changed hands"}],
+                    "character_state_changes": [
+                        {"character_name": "Hero", "state_after": "guarded"}
+                    ],
+                    "foreshadow_changes": [{"hook": "Sealed letter returns", "status": "open"}],
+                }
+            ],
+        },
+        plan={
+            "beats": [{"beat": "Force a public choice", "status": "pending"}],
+            "guardrails": [{"rule": "Do not resolve the letter off-screen"}],
+        },
+    )
+
+    assert "Continuity questions and promise/payoff control" in block
+    assert "Sealed letter returns" in block
+    assert "scene_state/character" in block
+    assert "Hero: guarded" in block
+    assert "stale_open_hook" in block
+
+
+def test_build_remix_context_blocks_render_story_bible_continuity_qa_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "markdown_skill_story_project_contract_gate", "candidate_count": 1},
+            {"name": "canon_drift_continuity_qa_gate", "candidate_count": 1},
+            {"name": "consequence_ledger_last_actions_context_gate", "candidate_count": 1},
+            {"name": "project_isolated_story_bible_query_gate", "candidate_count": 1},
+            {"name": "work_dna_method_transfer_eval_gate", "candidate_count": 1},
+            {"name": "governed_full_reading_continuation_gate", "candidate_count": 1},
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Story Bible QA Desk",
+        bible={"hard_constraints": [{"rule": "Only accepted facts enter canon"}]},
+        plan={"summary": "Continue with visible continuity questions."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Story Bible QA",
+        style_content="same-type creation source voice\nforbidden source elements\n",
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Story-bible continuity QA audit" in block
+        assert "frontmatter, continuity questions, and promise/payoff labels" in block
+        assert "canon_drift_continuity_qa_gate" in block
+        assert "last actions, consequences, state mutation" in block
+        assert "one project manifest" in block
+        assert "abstract method axes" in block
+        assert "coverage, finalized reading state, and evidence refs" in block
 
 
 def test_build_remix_continuation_context_block_renders_source_pattern_pack_guidance():

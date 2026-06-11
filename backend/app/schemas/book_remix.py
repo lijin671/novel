@@ -127,6 +127,10 @@ class BookRemixContinuationContextPreviewResponse(BaseModel):
     activated_sections: list[dict[str, str]] = Field(default_factory=list)
     active_source_patterns: list[str] = Field(default_factory=list)
     context_warnings: list[str] = Field(default_factory=list)
+    continuity_questions: list[str] = Field(default_factory=list)
+    promise_payoff_debts: list[dict[str, str]] = Field(default_factory=list)
+    scene_state_snapshot: list[dict[str, str]] = Field(default_factory=list)
+    canon_drift_risks: list[str] = Field(default_factory=list)
 
 
 class BookRemixChapterChangePackageListResponse(BaseModel):

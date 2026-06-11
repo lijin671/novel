@@ -211,6 +211,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_story_bible_continuity_qa_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     world_rules = bible.get("world_rules")
     if isinstance(world_rules, dict) and world_rules:
@@ -300,6 +304,11 @@ def build_remix_continuation_context_block(
         lines=lines,
         packages=chapter_change_packages,
         max_items=5,
+    )
+    _append_continuity_question_control_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
     )
 
     foreshadows = _as_dict_list(bible.get("foreshadows"))
@@ -413,6 +422,10 @@ def build_remix_context_preview_audit(
         for key, summary in _activated_context_sections(bible=bible, plan=plan)
     ]
     active_source_patterns = sorted(_source_pattern_names(source_pattern_pack))[:32]
+    continuity_audit = build_remix_continuity_control_audit(
+        bible=bible,
+        plan=plan,
+    )
 
     warnings: list[str] = []
     if not context.strip():
@@ -425,6 +438,8 @@ def build_remix_context_preview_audit(
         warnings.append("context_near_budget_review_recommended")
     elif budget_risk == "high":
         warnings.append("context_budget_high_trim_or_stage_required")
+    if continuity_audit["canon_drift_risks"]:
+        warnings.append("canon_drift_risk_review_required")
 
     return {
         "context_estimated_tokens": estimated_tokens,
@@ -432,6 +447,21 @@ def build_remix_context_preview_audit(
         "activated_sections": activated_sections,
         "active_source_patterns": active_source_patterns,
         "context_warnings": warnings,
+        **continuity_audit,
+    }
+
+
+def build_remix_continuity_control_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> dict[str, Any]:
+    """Build story-bible QA fields from current canon, plans, and chapter state."""
+    return {
+        "continuity_questions": _continuity_questions(bible=bible, plan=plan, max_items=8),
+        "promise_payoff_debts": _promise_payoff_debts(bible=bible, plan=plan, max_items=8),
+        "scene_state_snapshot": _scene_state_snapshot(bible=bible, plan=plan, max_items=8),
+        "canon_drift_risks": _canon_drift_risks(bible=bible, plan=plan, max_items=8),
     }
 
 
@@ -582,6 +612,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_canon_graph_retrieval_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_story_bible_continuity_qa_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -857,6 +891,265 @@ def _append_whole_book_progress_section(
     completed_beats = _completed_plan_beats(ordered_packages, plan=plan, max_items=5)
     if completed_beats:
         lines.append(f"- Completed plan beats: {'; '.join(completed_beats)}")
+
+
+def _append_continuity_question_control_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> None:
+    """Render current continuity questions, promise debts, and drift risks."""
+    audit = build_remix_continuity_control_audit(bible=bible, plan=plan)
+    questions = audit["continuity_questions"]
+    debts = audit["promise_payoff_debts"]
+    snapshot = audit["scene_state_snapshot"]
+    risks = audit["canon_drift_risks"]
+    if not questions and not debts and not snapshot and not risks:
+        return
+
+    lines.append("")
+    lines.append("Continuity questions and promise/payoff control:")
+    for question in questions[:6]:
+        lines.append(f"- question: {_truncate(question, 220)}")
+    for debt in debts[:6]:
+        label = _string_value(debt.get("label"))
+        if not label:
+            continue
+        source = _string_value(debt.get("source"))
+        status = _string_value(debt.get("status"))
+        chapter = _string_value(debt.get("chapter"))
+        suffix_parts = [part for part in (source, status, chapter) if part]
+        suffix = f" ({', '.join(suffix_parts)})" if suffix_parts else ""
+        lines.append(f"- debt: {_truncate(label, 220)}{suffix}")
+    for item in snapshot[:5]:
+        label = _string_value(item.get("label"))
+        value = _string_value(item.get("value"))
+        if not label and not value:
+            continue
+        kind = _string_value(item.get("kind")) or "state"
+        chapter = _string_value(item.get("chapter"))
+        chapter_suffix = f" @ {chapter}" if chapter else ""
+        rendered = f"{label}: {value}" if label and value else label or value
+        lines.append(f"- scene_state/{kind}{chapter_suffix}: {_truncate(rendered, 220)}")
+    for risk in risks[:5]:
+        lines.append(f"- canon_drift_risk: {_truncate(risk, 220)}")
+
+
+def _continuity_questions(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> list[str]:
+    questions: list[str] = []
+    packages = _chapter_analysis_packages(bible.get("chapter_change_packages"))
+
+    for debt in _promise_payoff_debts(bible=bible, plan=plan, max_items=max_items):
+        label = _string_value(debt.get("label"))
+        if label:
+            _append_unique(questions, f"What setup/payoff move must remain visible for: {label}?")
+        if len(questions) >= max_items:
+            return questions[:max_items]
+
+    for state in _latest_character_state_payload(packages, max_items=4):
+        name = _string_value(state.get("character_name"))
+        state_after = _string_value(state.get("state_after"))
+        if name and state_after:
+            _append_unique(questions, f"Does {name}'s next action follow the current state: {state_after}?")
+        if len(questions) >= max_items:
+            return questions[:max_items]
+
+    for beat in _pending_plan_beats(plan=plan, max_items=4):
+        _append_unique(questions, f"Which scene state changes are required before advancing: {beat}?")
+        if len(questions) >= max_items:
+            return questions[:max_items]
+
+    if plan:
+        for guardrail in _as_dict_list(plan.get("guardrails"))[:3]:
+            rule = _first_text(guardrail, ("rule", "constraint", "content", "name"))
+            if rule:
+                _append_unique(questions, f"What evidence proves the next chapter obeys guardrail: {rule}?")
+            if len(questions) >= max_items:
+                return questions[:max_items]
+
+    return questions[:max_items]
+
+
+def _promise_payoff_debts(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> list[dict[str, str]]:
+    debts: list[dict[str, str]] = []
+
+    def add_debt(item: dict[str, Any], *, source: str, reason: str) -> None:
+        label = _first_text(item, ("hook", "promise", "question", "title", "content", "summary", "beat", "name"))
+        if not label:
+            return
+        payload = {
+            "label": _truncate(label, 220),
+            "source": source,
+            "status": _string_value(item.get("status")) or reason,
+        }
+        chapter = _chapter_reference(item)
+        if chapter:
+            payload["chapter"] = chapter
+        if any(existing.get("label", "").strip().lower() == payload["label"].strip().lower() for existing in debts):
+            return
+        debts.append(payload)
+
+    for item in _status_items(_as_dict_list(plan.get("priority_hooks") if plan else None), done=False, max_items=max_items):
+        add_debt(item, source="plan.priority_hooks", reason="pending")
+        if len(debts) >= max_items:
+            return debts[:max_items]
+
+    for package in _chapter_analysis_packages(bible.get("chapter_change_packages")):
+        for item in _as_dict_list(package.get("foreshadow_changes")):
+            if _is_done_status(item.get("status")):
+                continue
+            merged = {**item}
+            if package.get("chapter_number") is not None and merged.get("chapter_number") is None:
+                merged["chapter_number"] = package.get("chapter_number")
+            add_debt(merged, source="chapter_change_packages", reason="open")
+            if len(debts) >= max_items:
+                return debts[:max_items]
+
+    for item in _status_items(_as_dict_list(bible.get("foreshadows")), done=False, max_items=max_items):
+        add_debt(item, source="bible.foreshadows", reason="open")
+        if len(debts) >= max_items:
+            return debts[:max_items]
+
+    return debts[:max_items]
+
+
+def _scene_state_snapshot(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> list[dict[str, str]]:
+    snapshot: list[dict[str, str]] = []
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_package = packages[-1] if packages else None
+    latest_chapter = _chapter_reference(latest_package or {})
+
+    if latest_package:
+        summary = _string_value(latest_package.get("summary"))
+        if summary:
+            snapshot.append({
+                "kind": "summary",
+                "label": "latest accepted chapter",
+                "value": _truncate(summary, 220),
+                "chapter": latest_chapter,
+            })
+
+        for item in _as_dict_list(latest_package.get("timeline_delta"))[:2]:
+            event = _first_text(item, ("event", "summary", "content"))
+            if event:
+                snapshot.append({
+                    "kind": "timeline",
+                    "label": "latest event",
+                    "value": _truncate(event, 220),
+                    "chapter": latest_chapter,
+                })
+
+        for item in _as_dict_list(latest_package.get("character_state_changes"))[:3]:
+            name = _string_value(item.get("character_name") or item.get("name")) or "Unknown character"
+            state_after = _string_value(item.get("state_after"))
+            key_event = _string_value(item.get("key_event"))
+            value = state_after if not key_event else f"{state_after} ({key_event})"
+            if value.strip():
+                snapshot.append({
+                    "kind": "character",
+                    "label": name,
+                    "value": _truncate(value, 220),
+                    "chapter": latest_chapter,
+                })
+
+        emotional_arc = latest_package.get("emotional_arc")
+        if isinstance(emotional_arc, dict):
+            tone = _string_value(
+                emotional_arc.get("tone")
+                or emotional_arc.get("primary_emotion")
+                or emotional_arc.get("emotion")
+            )
+            if tone:
+                intensity = emotional_arc.get("intensity")
+                value = f"{tone}; intensity={intensity}" if intensity is not None else tone
+                snapshot.append({
+                    "kind": "emotion",
+                    "label": "latest emotional arc",
+                    "value": _truncate(value, 220),
+                    "chapter": latest_chapter,
+                })
+
+    for beat in _pending_plan_beats(plan=plan, max_items=3):
+        snapshot.append({
+            "kind": "pending_beat",
+            "label": "next planned beat",
+            "value": _truncate(beat, 220),
+            "chapter": "",
+        })
+        if len(snapshot) >= max_items:
+            return snapshot[:max_items]
+
+    return snapshot[:max_items]
+
+
+def _canon_drift_risks(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> list[str]:
+    risks: list[str] = []
+    packages = _chapter_analysis_packages(bible.get("chapter_change_packages"))
+    latest_chapter = _latest_chapter_number(packages)
+    open_debts = _promise_payoff_debts(bible=bible, plan=plan, max_items=99)
+
+    if not packages:
+        _append_unique(risks, "missing_chapter_change_packages: no accepted chapter-state evidence is available")
+    if plan and not _as_dict_list(plan.get("beats")):
+        _append_unique(risks, "missing_plan_beats: continuation plan has no inspectable beat list")
+    if plan and not _as_dict_list(plan.get("guardrails")):
+        _append_unique(risks, "missing_plan_guardrails: continuation plan has no explicit guardrails")
+    if len(open_debts) > 8:
+        _append_unique(risks, f"open_promise_payoff_overflow: {len(open_debts)} unresolved debts need prioritization")
+
+    for item in _as_dict_list(bible.get("foreshadows")):
+        label = _first_text(item, ("hook", "promise", "question", "title", "content", "summary", "name"))
+        setup_chapter = _chapter_value(item, ("setup_chapter", "planted_chapter", "introduced_chapter", "chapter_number"))
+        payoff_chapter = _chapter_value(item, ("payoff_chapter", "resolved_chapter", "closed_chapter"))
+        if setup_chapter is not None and payoff_chapter is not None and payoff_chapter < setup_chapter:
+            _append_unique(risks, f"payoff_before_setup: {_truncate(label, 160)}")
+        if not _is_done_status(item.get("status")) and setup_chapter is not None and latest_chapter is not None:
+            if latest_chapter - setup_chapter >= 6:
+                _append_unique(risks, f"stale_open_hook: {_truncate(label, 160)}")
+        if len(risks) >= max_items:
+            return risks[:max_items]
+
+    return risks[:max_items]
+
+
+def _latest_chapter_number(packages: list[dict[str, Any]]) -> Optional[int]:
+    chapter_numbers = [_int_or_none(package.get("chapter_number")) for package in packages]
+    chapter_numbers = [number for number in chapter_numbers if number is not None]
+    return max(chapter_numbers) if chapter_numbers else None
+
+
+def _chapter_reference(item: dict[str, Any]) -> str:
+    chapter_number = _chapter_value(item, ("chapter_number", "last_chapter_number", "setup_chapter", "introduced_chapter"))
+    return f"Ch{chapter_number}" if chapter_number is not None else ""
+
+
+def _chapter_value(item: dict[str, Any], keys: tuple[str, ...]) -> Optional[int]:
+    for key in keys:
+        number = _int_or_none(item.get(key))
+        if number is not None:
+            return number
+    return None
 
 
 def _chapter_analysis_packages(packages: Any) -> list[dict[str, Any]]:
@@ -2103,6 +2396,80 @@ def _append_canon_graph_retrieval_audit_section(
         lines.append("- dual_level_graph_vector_retrieval: combine vector similarity with graph traversal and log local/global/hybrid mode per context item")
     if "schema_guided_graph_extraction" in pattern_names:
         lines.append("- schema_guided_graph_extraction: require bounded node labels, relationship types, properties, source metadata, and confidence for graph updates")
+
+
+def _append_story_bible_continuity_qa_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render story-bible QA, canon drift, and consequence-ledger gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "markdown_skill_story_project_contract_gate",
+        "canon_evidence_suggestion_review_gate",
+        "expert_chain_alignment_creativity_gate",
+        "visual_story_bible_continuity_gate",
+        "story_daemon_evolution_loop",
+        "local_rag_writing_ide_gate",
+        "canon_drift_continuity_qa_gate",
+        "longrun_commit_projection_health_gate",
+        "fresh_context_chapter_iteration_gate",
+        "narrative_qa_comprehension_gate",
+        "chapter_summary_alignment_gate",
+        "story_question_answer_validation_gate",
+        "causal_why_explanation_gate",
+        "story_commonsense_consistency_gate",
+        "query_focused_long_summary_gate",
+        "temporal_canon_context_graph",
+        "chapter_memory_ingestion_context_budget_gate",
+        "human_ai_decision_authority_gate",
+        "parallel_critic_tribunal_issue_gate",
+        "project_isolated_story_bible_query_gate",
+        "work_dna_method_transfer_eval_gate",
+        "governed_full_reading_continuation_gate",
+        "story_import_pattern_revision_gate",
+        "consequence_ledger_last_actions_context_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Story-bible continuity QA audit:")
+    if "markdown_skill_story_project_contract_gate" in pattern_names:
+        lines.append("- markdown_skill_story_project_contract_gate: treat frontmatter, continuity questions, and promise/payoff labels as checkable state, not prose to copy")
+    if "canon_evidence_suggestion_review_gate" in pattern_names:
+        lines.append("- canon_evidence_suggestion_review_gate: canon fixes need evidence refs plus author/reviewer acceptance before writeback")
+    if "canon_drift_continuity_qa_gate" in pattern_names:
+        lines.append("- canon_drift_continuity_qa_gate: ask drift questions for characters, objects, scene facts, and relationship timing before draft promotion")
+    if "consequence_ledger_last_actions_context_gate" in pattern_names:
+        lines.append("- consequence_ledger_last_actions_context_gate: keep last actions, consequences, state mutation, and compression freshness visible as short-term context")
+    if "story_import_pattern_revision_gate" in pattern_names:
+        lines.append("- story_import_pattern_revision_gate: separate source import passes, abstract pattern extraction, alternates, and accepted manuscript revisions")
+    if "project_isolated_story_bible_query_gate" in pattern_names:
+        lines.append("- project_isolated_story_bible_query_gate: bind story-bible query answers to one project manifest and require confirmation before canon use")
+    if "work_dna_method_transfer_eval_gate" in pattern_names:
+        lines.append("- work_dna_method_transfer_eval_gate: transfer only abstract method axes and require difference axes plus copy-risk review")
+    if "governed_full_reading_continuation_gate" in pattern_names:
+        lines.append("- governed_full_reading_continuation_gate: full-book continuation needs coverage, finalized reading state, and evidence refs")
+    if "longrun_commit_projection_health_gate" in pattern_names:
+        lines.append("- longrun_commit_projection_health_gate: draft from accepted chapter commits and reject stale read-model projections")
+    if "fresh_context_chapter_iteration_gate" in pattern_names:
+        lines.append("- fresh_context_chapter_iteration_gate: resume from the next incomplete chapter using fresh context and explicit progress state")
+    if "narrative_qa_comprehension_gate" in pattern_names or "story_question_answer_validation_gate" in pattern_names:
+        lines.append("- narrative_qa_comprehension_gate: validate why/what/known-by-whom answers against transformed-story evidence only")
+    if "chapter_summary_alignment_gate" in pattern_names:
+        lines.append("- chapter_summary_alignment_gate: keep chapter summaries aligned with accepted causal order and current plan")
+    if "story_commonsense_consistency_gate" in pattern_names or "causal_why_explanation_gate" in pattern_names:
+        lines.append("- story_commonsense_consistency_gate: test motives, belief states, and causal why-explanations before accepting a scene")
+    if "chapter_memory_ingestion_context_budget_gate" in pattern_names:
+        lines.append("- chapter_memory_ingestion_context_budget_gate: separate source chapter memory, transformed canon, retrieval hits, and prompt budget cuts")
+    if "human_ai_decision_authority_gate" in pattern_names:
+        lines.append("- human_ai_decision_authority_gate: AI suggestions stay candidates until a visible human/author decision promotes them")
+    if "parallel_critic_tribunal_issue_gate" in pattern_names:
+        lines.append("- parallel_critic_tribunal_issue_gate: critic votes must surface unresolved continuity, copy-risk, and arc-ledger issues")
+    if "query_focused_long_summary_gate" in pattern_names:
+        lines.append("- query_focused_long_summary_gate: summarize only the question-relevant accepted facts and preserve omitted-context notes")
 
 
 def _append_inspectable_rewrite_audit_section(

@@ -1658,9 +1658,14 @@ async def test_get_continuation_context_preview_returns_actual_prompt_context(ap
     assert any(section["key"] == "character_cards" for section in payload["activated_sections"])
     assert isinstance(payload["active_source_patterns"], list)
     assert isinstance(payload["context_warnings"], list)
+    assert any("Sealed file points to city hall" in question for question in payload["continuity_questions"])
+    assert any(debt["label"] == "Sealed file points to city hall" for debt in payload["promise_payoff_debts"])
+    assert any(item["kind"] == "character" for item in payload["scene_state_snapshot"])
+    assert isinstance(payload["canon_drift_risks"], list)
     assert "Remix Continuation Canon" in payload["context"]
     assert "Project: Remix Project" in payload["context"]
     assert "Whole-book continuation progress" in payload["context"]
+    assert "Continuity questions and promise/payoff control" in payload["context"]
     assert "Archive witness revealed a sealed file" in payload["context"]
     assert "Sealed file points to city hall" in payload["context"]
 
@@ -1691,6 +1696,10 @@ async def test_get_continuation_context_preview_explains_unconfirmed_or_stale_li
     assert payload["context_estimated_tokens"] == 0
     assert payload["context_budget_risk"] == "low"
     assert "empty_context" in payload["context_warnings"]
+    assert isinstance(payload["continuity_questions"], list)
+    assert isinstance(payload["promise_payoff_debts"], list)
+    assert isinstance(payload["scene_state_snapshot"], list)
+    assert isinstance(payload["canon_drift_risks"], list)
     assert payload["reason"] == "continuation_plan_not_confirmed"
 
 

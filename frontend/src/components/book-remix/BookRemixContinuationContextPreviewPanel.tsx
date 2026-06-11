@@ -23,6 +23,10 @@ const TEXT = {
   activatedSections: "\u5df2\u6ce8\u5165\u7247\u6bb5\uff1a",
   activeSourcePatterns: "\u6e90\u6a21\u5f0f\uff1a",
   contextWarnings: "\u9884\u89c8\u63d0\u9192\uff1a",
+  continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
+  promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
+  sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
+  canonDriftRisks: "\u6b63\u5178\u6f02\u79fb\u98ce\u9669\uff1a",
   confirmed: "\u5df2\u786e\u8ba4",
   loaded: "\u5df2\u6ce8\u5165",
   notLoaded: "\u672a\u6ce8\u5165",
@@ -124,6 +128,61 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Space wrap>
                 {value.context_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.continuity_questions?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.continuityQuestions}</Text>
+              <Space wrap>
+                {value.continuity_questions.slice(0, 8).map(question => (
+                  <Tag key={question} color="geekblue">{question}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.promise_payoff_debts?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.promisePayoffDebts}</Text>
+              <Space wrap>
+                {value.promise_payoff_debts.slice(0, 8).map(debt => {
+                  const suffix = [debt.source, debt.status, debt.chapter].filter(Boolean).join(' · ');
+                  return (
+                    <Tag key={`${debt.label}:${suffix}`} color="volcano">
+                      {debt.label}{suffix ? `（${suffix}）` : ''}
+                    </Tag>
+                  );
+                })}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.scene_state_snapshot?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.sceneStateSnapshot}</Text>
+              <Space wrap>
+                {value.scene_state_snapshot.slice(0, 8).map(item => {
+                  const prefix = [item.kind, item.chapter].filter(Boolean).join('@');
+                  const body = item.label && item.value ? `${item.label}: ${item.value}` : item.label || item.value;
+                  return (
+                    <Tag key={`${prefix}:${body}`} color="blue">
+                      {prefix ? `${prefix} · ` : ''}{body}
+                    </Tag>
+                  );
+                })}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.canon_drift_risks?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.canonDriftRisks}</Text>
+              <Space wrap>
+                {value.canon_drift_risks.slice(0, 8).map(risk => (
+                  <Tag key={risk} color="red">{risk}</Tag>
                 ))}
               </Space>
             </Space>
