@@ -13294,3 +13294,74 @@ def test_static_fiction_forge_source_adds_prose_scanner_mcp_context_gates():
     assert "ai_prose_fingerprint_cluster_gate_hints" in digest
     assert "ai_ism_detect_edit_convergence_gate_hints" in digest
     assert "webnovel_kb_mcp_runtime_boundary_gate_hints" in digest
+
+
+def test_static_inkai_source_adds_big_five_and_six_dimension_continuation_gates():
+    assert "https://github.com/yan2959088709/InkAI-" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("big five" in query.lower() and "six-dimensional audit" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "yan2959088709/InkAI-",
+                "html_url": "https://github.com/yan2959088709/InkAI-",
+                "description": (
+                    "InkAI is a long-form AI novel factory with 25 specialized Agents, "
+                    "4D genre classification, 70+ genre tags, Big Five personality model "
+                    "character design, three-act story architecture, per-chapter 2000-5000 "
+                    "word writing, an intelligent continuation engine, knowledge graph, "
+                    "context selector, JSON file store, and six-dimensional audit across "
+                    "character consistency, plot logic, world coherence, style fidelity, "
+                    "reader experience, and long-term threads. It automatically rewrites "
+                    "drafts below an 80-point quality threshold, uses config.py API_KEY "
+                    "and BASE_URL for OpenAI-compatible model calls, and is started with "
+                    "pip install plus python start_web.py."
+                ),
+                "stargazers_count": 56,
+                "forks_count": 15,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["ai-novel", "creative-writing", "long-form", "continuation"],
+                "updated_at": "2026-06-10T12:18:40Z",
+                "root_files": [
+                    "README.md",
+                    "README_CN.md",
+                    "PROJECT_STRUCTURE.md",
+                    "requirements.txt",
+                    "config.py",
+                    "app.py",
+                    "start_web.py",
+                    "quick_continuation_executor.py",
+                    "inkai_workflow_optimized.py",
+                    "agents/character_creator.py",
+                    "agents/continuation_quality_assessor.py",
+                    "agents/continuation_chapter_improver.py",
+                    "core/core_knowledge_manager.py",
+                    "core/intelligent_context_selector.py",
+                ],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T15:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    inkai = candidates["yan2959088709/InkAI-"]
+    assert "big_five_character_psychology_gate" in inkai["absorbed_patterns"]
+    assert "six_dimension_continuation_audit_retry_gate" in inkai["absorbed_patterns"]
+    assert "genre_tag_taxonomy_router_gate" in inkai["absorbed_patterns"]
+    assert "provider_key_surface" in inkai["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert any("big five" in hint.lower() for hint in pattern_pack["big_five_character_psychology_gate_hints"])
+    assert any("six" in hint.lower() and "re-audit" in hint.lower() for hint in pattern_pack["six_dimension_continuation_audit_retry_gate_hints"])
+    assert any("genre" in hint.lower() and "tag" in hint.lower() for hint in pattern_pack["genre_tag_taxonomy_router_gate_hints"])
+    assert any("six-dimension" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("psychology" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("big five" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("six-dimension" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "big_five_character_psychology_gate_hints" in digest
+    assert "six_dimension_continuation_audit_retry_gate_hints" in digest
+    assert "genre_tag_taxonomy_router_gate_hints" in digest

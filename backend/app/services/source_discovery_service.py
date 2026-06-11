@@ -204,6 +204,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("progressive disclosure" OR "intent-based command routing" OR "protocol files") ("novel" OR "Claude Skill" OR "long-form writing") in:name,description,readme',
     '("no-slop" OR "banned vocabulary" OR "AI writing patterns" OR "prose linter") ("writing" OR "prose" OR "novel") in:name,description,readme',
     '("project modifiers" OR "AI-driven initial planning" OR "chapter review") ("novel" OR "long-form writing" OR "creative dashboard") in:name,description,readme',
+    '("Big Five" OR "six-dimensional audit" OR "quality threshold" OR "genre tags") ("AI novel" OR "intelligent continuation" OR "chapter rewrite") in:name,description,readme',
     '("canon governance" OR "portable skill runtime" OR "SQLite state") ("novel" OR "long-form fiction" OR "agent workflow") in:name,description,readme',
     '("sliding-window memory" OR "CJK-aware counter" OR "chapter range refinement") ("novel" OR "story generator" OR "continuity") in:name,description,readme',
     '("story bible wiki" OR "canon lint" OR "relationship graph") ("novel" OR "worldbuilding" OR "continuity") in:name,description,readme',
@@ -372,6 +373,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant",
     "https://github.com/uu201/character-arc",
     "https://github.com/zlx362211854/novelforge-agent",
+    "https://github.com/yan2959088709/InkAI-",
     "https://github.com/MissingDanial/StyleMuse",
     "https://github.com/91zgaoge/StoryForge",
     "https://github.com/wuyinglai/moyun-studio",
@@ -925,6 +927,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("draft_stage_revision_ladder", ("draft a", "draft b", "draft c", "chapter blueprint", "key-information file", "chapter task card", "初稿", "定向修改", "去ai", "连续性记录", "drafting, revision, and final polish")),
     ("rolling_summary_context_trim", ("rolling summary", "compressed plot summary", "context trimmed", "token budget", "character state tracking", "timeline events", "relevant passages", "session progress", "context trimming", "chapter_summaries", "chapter summaries", "events.jsonl", "timeline.jsonl", "relationship graph", "memory update after each chapter")),
     ("multidimensional_quality_rubric", ("q1-q15", "q1 to q15", "q1", "q15", "15 quality metrics", "overall score", "ranked weaknesses", "character consistency", "reader interest", "plot resolution", "quality metrics", "quality evaluations")),
+    ("big_five_character_psychology_gate", ("big five", "big five personality", "big five personality model", "personality model", "personality design", "psychological depth", "character psychology", "openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism", "人格模型", "角色心理", "心理深度")),
+    ("six_dimension_continuation_audit_retry_gate", ("six-dimensional audit", "six dimension audit", "six-dimensional parallel audit", "6d quality audit", "6-dimension", "six consistency auditors", "character consistency, plot logic, world coherence, style fidelity, reader experience, and long-term threads", "quality threshold", "80-point", "score below threshold", "targeted improvement", "re-audit", "六维", "六维评分", "质量审计", "专项改进", "不达标自动重写")),
+    ("genre_tag_taxonomy_router_gate", ("70+ genre tags", "genre tags", "genre tag", "4d genre classification", "4D genre classification", "genre classification", "tag recommendation", "type/theme/style/audience", "类型/主题/风格/受众", "标签推荐", "标签库", "题材标签", "四维分类")),
     ("pairwise_story_comparison_ranking", ("head-to-head story", "head to head story", "pairwise judgments", "paired story judgments", "visible story order", "story order swaps", "pairwise margins", "evaluator agreement", "matched creative briefs", "direct story comparisons")),
     ("style_axis_diversity_fingerprint", ("style fingerprints", "style fingerprint", "within-model diversity", "diversity per model", "style axes", "voice and diction", "rhythm and syntax", "pov and discourse", "structure and pacing", "closure axes")),
     ("constraint_specificity_creativity_benchmark", ("constraint specificity", "constraint satisfaction", "cs4", "prompts of varying specificity", "specific prompts", "creativity benchmark", "coherence and perplexity", "synthesized constraint specificity")),
@@ -1721,6 +1726,13 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "mandatory chapter_review acceptance gates, chapter_revision loops with revisionCounts and forceAdvanced escape hatch, failed-submission recovery files, "
         "architecture_extension when planned chapters are exhausted, volume pacing boards, CJK-aware BM25 lexical retrieval over chapters/story-bible sections/memory cards, "
         "and compact audit logs that summarize sensitive content by length and sha256. Pattern-only value is a schema-gated continuation runtime contract; npx installers, MCP server launch, package scripts, host config edits, and model/provider calls are not executed."
+    ),
+    "yan2959088709/inkai-": (
+        "InkAI is a Chinese long-form AI novel factory. Public README and metadata describe 25 specialized Agents, 4D genre classification, 70+ genre tags, "
+        "Big Five personality-model character design, three-act story architecture, 2000-5000 word chapter drafting, an intelligent continuation engine, knowledge graph, context selector, "
+        "JSON file storage, and a six-dimensional audit/rewrite loop over character consistency, plot logic, world coherence, style fidelity, reader experience, and long-term threads. "
+        "Pattern-only value is Big-Five character psychology cards, genre-tag routing, and six-dimension continuation retry gates; requirements installs, Flask web runtime, start scripts, API_KEY/BASE_URL provider calls, and model execution are not run. "
+        "GitHub API license metadata is NOASSERTION even though README badges mention MIT, so runtime/code adoption stays deferred."
     ),
     "missingdanial/stylemuse": (
         "StyleMuse is a style-imitation RAG workspace for uploading epub/txt author works, analyzing writing style, building a vector index, retrieving relevant passages, "
@@ -3458,6 +3470,9 @@ class NovelSourceDiscoveryService:
             "rolling_summary_context_trim_hints": self._build_rolling_summary_context_trim_hints(available_patterns),
             "pairwise_story_comparison_ranking_hints": self._build_pairwise_story_comparison_ranking_hints(available_patterns),
             "multidimensional_quality_rubric_hints": self._build_multidimensional_quality_rubric_hints(available_patterns),
+            "big_five_character_psychology_gate_hints": self._build_big_five_character_psychology_gate_hints(available_patterns),
+            "six_dimension_continuation_audit_retry_gate_hints": self._build_six_dimension_continuation_audit_retry_gate_hints(available_patterns),
+            "genre_tag_taxonomy_router_gate_hints": self._build_genre_tag_taxonomy_router_gate_hints(available_patterns),
             "story_theory_beat_evaluation_hints": self._build_story_theory_beat_evaluation_hints(available_patterns),
             "constraint_specificity_creativity_benchmark_hints": self._build_constraint_specificity_creativity_benchmark_hints(available_patterns),
             "style_axis_diversity_fingerprint_hints": self._build_style_axis_diversity_fingerprint_hints(available_patterns),
@@ -4169,6 +4184,9 @@ class NovelSourceDiscoveryService:
             "rolling_summary_context_trim": 59,
             "pairwise_story_comparison_ranking": 58,
             "multidimensional_quality_rubric": 57,
+            "big_five_character_psychology_gate": 66,
+            "six_dimension_continuation_audit_retry_gate": 69,
+            "genre_tag_taxonomy_router_gate": 64,
             "story_theory_beat_evaluation": 56,
             "constraint_specificity_creativity_benchmark": 54,
             "style_axis_diversity_fingerprint": 55,
@@ -4629,6 +4647,15 @@ class NovelSourceDiscoveryService:
         if "multi_agent_reject_retry_review_gate" in patterns:
             targets.append("multi_agent_retry_review_policy")
             targets.append("reject_retry_budget")
+        if "big_five_character_psychology_gate" in patterns:
+            targets.append("character_psychology_vector")
+            targets.append("motivation_decision_trigger_schema")
+        if "six_dimension_continuation_audit_retry_gate" in patterns:
+            targets.append("six_dimension_continuation_audit_matrix")
+            targets.append("targeted_rewrite_retry_policy")
+        if "genre_tag_taxonomy_router_gate" in patterns:
+            targets.append("genre_tag_taxonomy")
+            targets.append("tag_to_reader_promise_router")
         if "story_bible_context_packet_branch_gate" in patterns:
             targets.append("story_bible_context_packet")
             targets.append("branch_savepoint_policy")
@@ -6315,6 +6342,8 @@ class NovelSourceDiscoveryService:
             hints.append("每章生成后输出本章变化包，供下一章读取。")
         if "quality_score_loop" in patterns:
             hints.append("章节草稿采用 keep/discard 质量门：低于阈值重试，高于阈值保留并进入下一章，避免无限打磨阻断长篇进度。")
+        if "six_dimension_continuation_audit_retry_gate" in patterns:
+            hints.append("Run each continuation through a six-dimension audit: character, plot, world, style, reader experience, and long-term threads; then rewrite only the failed dimensions and re-audit.")
         if "anti_slop_audit" in patterns:
             hints.append("生成前带入反 AI 味规则，生成后先清理机械感、同构段落和空泛正确对白，再进入人工式评审。")
         if "structured_generation_schema" in patterns:
@@ -6652,6 +6681,10 @@ class NovelSourceDiscoveryService:
             hints.append("Persist visual anchors separately from temporary scene notes, with prompt-handoff readiness, asset-generation scope, and publish/edit/review checklist status.")
         if "character_continuity_dimension_schema_gate" in patterns:
             hints.append("Persist character continuity dimensions: identity, visual anchors, personality, relationship map, episode memory, and reviewer-approved flexible visual elements.")
+        if "big_five_character_psychology_gate" in patterns:
+            hints.append("Persist each major character psychology profile as Big Five axes plus desire, fear, decision triggers, relationship pressure, and change evidence.")
+        if "genre_tag_taxonomy_router_gate" in patterns:
+            hints.append("Persist genre tags by type, theme, style, and audience so continuation prompts inherit reader promises without copying source set pieces.")
         if "short_drama_character_memory_forbidden_change_gate" in patterns:
             hints.append("Persist character memory with stable identity, relationship state, current emotional arc, scene memory, forbidden changes, source-scene evidence, and revision notes.")
         if "short_drama_worldbuilding_layer_gate" in patterns:
@@ -8699,6 +8732,33 @@ class NovelSourceDiscoveryService:
             "Rank the top weaknesses and convert them into targeted revision tasks instead of relying on a single overall score.",
         ]
 
+    def _build_big_five_character_psychology_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "big_five_character_psychology_gate" not in patterns:
+            return []
+        return [
+            "Represent each major character with Big Five psychology axes plus desire, fear, decision trigger, and contradiction pressure before chapter drafting.",
+            "Use psychology axes as continuity constraints: a character can change, but the chapter must cite the event pressure that changed them.",
+            "For same-type creation, rebuild Big Five profiles for new characters instead of copying source archetypes, wounds, or relationship pressure.",
+        ]
+
+    def _build_six_dimension_continuation_audit_retry_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "six_dimension_continuation_audit_retry_gate" not in patterns:
+            return []
+        return [
+            "Audit continuation drafts on six independent dimensions: character, plot logic, world coherence, style fidelity, reader experience, and long-term threads.",
+            "Convert every failed six-dimension finding into a targeted rewrite task, then re-audit the revised chapter before it can update canon or memory.",
+            "For same-type creation, a six-dimension pass also needs independence evidence: the draft must satisfy the new story without replaying source sequence.",
+        ]
+
+    def _build_genre_tag_taxonomy_router_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "genre_tag_taxonomy_router_gate" not in patterns:
+            return []
+        return [
+            "Route new projects through a visible genre-tag taxonomy: type, theme, style, and audience labels become reader-promise constraints.",
+            "Keep genre tags editable and reviewable; tags guide worldbuilding, conflict density, tone, and hook style but do not replace canon evidence.",
+            "For same-type creation, preserve abstract tag intent while changing premise, cast, setting, motifs, and payoff route.",
+        ]
+
     def _build_story_theory_beat_evaluation_hints(self, patterns: set[str]) -> list[str]:
         if "story_theory_beat_evaluation" not in patterns:
             return []
@@ -10739,6 +10799,12 @@ class NovelSourceDiscoveryService:
             targets.append("pairwise_variant_remap")
         if "multidimensional_quality_rubric" in patterns:
             targets.append("quality_rubric_remap")
+        if "big_five_character_psychology_gate" in patterns:
+            targets.append("character_psychology_remap")
+        if "six_dimension_continuation_audit_retry_gate" in patterns:
+            targets.append("six_dimension_audit_remap")
+        if "genre_tag_taxonomy_router_gate" in patterns:
+            targets.append("genre_tag_promise_remap")
         if "story_theory_beat_evaluation" in patterns:
             targets.append("story_theory_beat_remap")
         if "constraint_specificity_creativity_benchmark" in patterns:
@@ -11537,6 +11603,12 @@ class NovelSourceDiscoveryService:
             hints.append("Compare transformed variants against the same new-story brief; do not choose a variant because it is closer to the source.")
         if "multidimensional_quality_rubric" in patterns:
             hints.append("Apply the quality rubric to transformed-story prose and require independence evidence alongside quality improvements.")
+        if "big_five_character_psychology_gate" in patterns:
+            hints.append("Rebuild Big Five psychology profiles for transformed characters: change desire, fear, decision trigger, relationship pressure, and contradiction evidence.")
+        if "six_dimension_continuation_audit_retry_gate" in patterns:
+            hints.append("Use six-dimension audit results to repair the transformed chapter without restoring source scene order, set pieces, or relationship timing.")
+        if "genre_tag_taxonomy_router_gate" in patterns:
+            hints.append("Translate genre-tag intent into new type, theme, style, and audience promises before outlining the transformed premise.")
         if "story_theory_beat_evaluation" in patterns:
             hints.append("Map source beat functions to new beat functions, then change characters, causes, costs, and outcomes.")
         if "constraint_specificity_creativity_benchmark" in patterns:
@@ -11744,6 +11816,12 @@ class NovelSourceDiscoveryService:
             hints.append("Create candidate variants from the transformed brief and keep the winner for new-story reasons, not source similarity.")
         if "multidimensional_quality_rubric" in patterns:
             hints.append("Transform rubric failures into revision tasks that preserve new-story facts and reject copied source dependencies.")
+        if "big_five_character_psychology_gate" in patterns:
+            hints.append("Transform Big Five profiles by changing the character desire/fear/trigger mix, not by renaming the source character.")
+        if "six_dimension_continuation_audit_retry_gate" in patterns:
+            hints.append("Transform audit failures into repairs against the new story; retry loops must not restore source scene order or relationship timing.")
+        if "genre_tag_taxonomy_router_gate" in patterns:
+            hints.append("Transform tag intent into fresh genre promises, motifs, audience pressure, and style route for the new premise.")
         if "story_theory_beat_evaluation" in patterns:
             hints.append("Rebuild beat tasks around the transformed arc so minimal-change repair does not restore source causality.")
         if "constraint_specificity_creativity_benchmark" in patterns:
@@ -12389,6 +12467,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject pairwise winners whose advantage is source resemblance rather than transformed-story quality.")
         if "multidimensional_quality_rubric" in patterns:
             hints.append("Reject high rubric scores when copied source names, event order, or relationship dynamics remain in structured fields or prose.")
+        if "big_five_character_psychology_gate" in patterns:
+            hints.append("Reject Big Five profiles that keep source desire, fear, wound, trigger, or relationship pressure under renamed characters.")
+        if "six_dimension_continuation_audit_retry_gate" in patterns:
+            hints.append("Reject six-dimension passes when high style or reader scores come from preserving source chapter sequence, set pieces, or relationship timing.")
+        if "genre_tag_taxonomy_router_gate" in patterns:
+            hints.append("Reject genre-tag routes that preserve source-specific motifs, payoff order, title language, or audience promise wording.")
         if "story_theory_beat_evaluation" in patterns:
             hints.append("Reject beat conversions that preserve source beat order, named examples, or distinctive set-piece functions.")
         if "constraint_specificity_creativity_benchmark" in patterns:
@@ -13001,6 +13085,9 @@ class NovelSourceDiscoveryService:
                 "rolling_summary_context_trim",
                 "pairwise_story_comparison_ranking",
                 "multidimensional_quality_rubric",
+                "big_five_character_psychology_gate",
+                "six_dimension_continuation_audit_retry_gate",
+                "genre_tag_taxonomy_router_gate",
                 "story_theory_beat_evaluation",
                 "constraint_specificity_creativity_benchmark",
                 "style_axis_diversity_fingerprint",
