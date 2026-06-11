@@ -664,6 +664,11 @@ class ChapterGuardrails:
                         candidates.append(token)
                     if len(candidates) >= 12:
                         return candidates
+        for token in ChapterGuardrails._chinese_character_name_candidates(text):
+            if token not in candidates:
+                candidates.append(token)
+            if len(candidates) >= 12:
+                return candidates
         for token_match in re.finditer(r"\b[A-Za-z][A-Za-z0-9]{3,39}\b", text or ""):
             token = token_match.group()
             if not ChapterGuardrails._looks_like_ascii_source_entity(token):
@@ -686,6 +691,81 @@ class ChapterGuardrails:
             if len(candidates) >= 12:
                 return candidates
         return candidates
+
+    @staticmethod
+    def _chinese_character_name_candidates(text: str) -> list[str]:
+        """Detect short Chinese character names from source prose action context."""
+        source = text or ""
+        candidates: list[str] = []
+        if not source:
+            return candidates
+
+        surname_chars = set(
+            "赵钱孙李周吴郑王冯陈卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜谢邹喻柏章云苏潘葛范彭鲁韦昌"
+            "马苗凤花方俞任袁柳鲍史唐费廉岑薛雷贺倪汤滕殷罗毕郝安常傅齐康余顾孟黄穆萧尹姚邵汪祁毛米贝明"
+            "臧伏成戴宋庞熊纪舒屈项祝董梁杜蓝闵季贾路江童颜郭梅盛林钟徐邱骆高夏蔡田胡凌霍虞邓单洪包左石"
+            "崔吉龚程邢裴陆荣"
+        )
+        follow_markers = set("把将对向给在从与和同跟朝问说道看走站坐推拿放藏交离回告提笑沉低转来去")
+        prefix_markers = set("给问对向和与跟同叫喊见找随等待")
+
+        for chunk_match in re.finditer(r"[一-鿿]+", source):
+            chunk = chunk_match.group()
+            chunk_start = chunk_match.start()
+            for start in range(0, max(0, len(chunk) - 1)):
+                token = chunk[start:start + 2]
+                if not ChapterGuardrails._looks_like_chinese_character_name(token, surname_chars):
+                    continue
+                absolute_start = chunk_start + start
+                absolute_end = absolute_start + 2
+                prev_char = source[absolute_start - 1:absolute_start]
+                next_char = source[absolute_end:absolute_end + 1]
+                if next_char not in follow_markers and prev_char not in prefix_markers:
+                    continue
+                if token not in candidates:
+                    candidates.append(token)
+                if len(candidates) >= 12:
+                    return candidates
+        return candidates
+
+    @staticmethod
+    def _looks_like_chinese_character_name(token: str, surname_chars: set[str]) -> bool:
+        if len(token) != 2:
+            return False
+        if token[0] not in surname_chars:
+            return False
+        if not re.fullmatch(r"[一-鿿]{2}", token):
+            return False
+        stop_terms = {
+            '他们',
+            '她们',
+            '我们',
+            '你们',
+            '这个',
+            '那个',
+            '一定',
+            '不会',
+            '可能',
+            '已经',
+            '没有',
+            '只是',
+            '因为',
+            '所以',
+            '然后',
+            '随后',
+            '档案',
+            '钥匙',
+            '城市',
+            '案件',
+            '主角',
+            '故事',
+            '人物',
+            '组织',
+        }
+        if token in stop_terms:
+            return False
+        blocked_second_chars = set("们的了着过是在和与把将对向给从")
+        return token[1] not in blocked_second_chars
 
     @staticmethod
     def _looks_like_source_entity(token: str) -> bool:

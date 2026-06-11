@@ -361,6 +361,39 @@ def test_chapter_guardrails_does_not_flag_common_quoted_dialogue_as_source_term(
     assert result.violations == []
 
 
+def test_chapter_guardrails_flags_chinese_character_name_leak_from_source_excerpt():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "林寒把旧钥匙交给沈璃，随后离开档案室。"
+    generated = "新故事换了城市和案件，但林寒仍然作为关键调查员登场。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert "林寒" in violation.copy_signal
+    assert violation.source_excerpt_index == 1
+
+
+def test_chapter_guardrails_does_not_treat_common_direction_term_as_character_name():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "侍从顺着方向看了一眼，随后离开档案室。"
+    generated = "新故事只保留方向选择，不保留人物设定。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is True
+    assert result.violations == []
+
+
 def test_chapter_guardrails_flags_ascii_source_entity_leak_without_phrase_copy():
     guardrails = ChapterGuardrails()
     source_excerpt = (

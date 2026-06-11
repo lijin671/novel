@@ -737,3 +737,66 @@ Project adaptation:
   exact term in `source_entity_leak:*`.
 - Common quotation marks `“”` and `‘’` are excluded from this short-term rule to
   avoid flagging ordinary dialogue verbs or phrases.
+
+
+### 2026-06-12 patch: Chinese character-name leakage from source excerpts
+
+Static intake boundary:
+
+- No external repository was cloned, installed, executed, or used as runtime
+  code.
+- Public GitHub metadata, `git ls-remote`, and raw README marker scans were used
+  only as pattern evidence.
+- Posture for all sources below remains `pattern-only`.
+
+Observed sources:
+
+- `miserylee/webnovel-handbook`
+  - URL: https://github.com/miserylee/webnovel-handbook
+  - Observed HEAD: `45a08c4165679aa387b95dd7bbf32fe6a3ae8e0b`
+  - Default branch: `main`
+  - License: MIT
+  - Public signal: AI-agent handbook for Chinese webnovel workflows; README
+    marker scan found continuity, canon, entity, alias, character,
+    worldbuilding, revision, style, memory, fiction, and drafting vocabulary.
+- `VerifiedOrganic/spindle`
+  - URL: https://github.com/VerifiedOrganic/spindle
+  - Observed HEAD: `f03b2d562ee73b3d2e8bfe56f40eeb4ab923732a`
+  - Default branch: `main`
+  - License: MIT
+  - Public signal: local-first fiction planning and story-bible search surface;
+    raw README marker scan found story bible, continuity, canon, entity, alias,
+    character, outline, revision, style, memory, planning, drafting, and
+    branching vocabulary.
+- `bbggkkk/opencode-novelist`
+  - URL: https://github.com/bbggkkk/opencode-novelist
+  - Observed HEAD: `ea47e58aaf1c9acdf93d9c14f8ae67ba1090103c`
+  - Default branch: `master`
+  - License: MIT
+  - Public signal: creative-agent pack with router, draft/build split, writer,
+    designer, editor, and review vocabulary; raw README marker scan found
+    continuity, canon, entity, alias, character, worldbuilding, outline,
+    revision, guardrail, style, fiction, planning, and drafting terms.
+
+Absorbed pattern:
+
+- Story-bible and continuity systems treat character names as first-class canon
+  entities, not just prose. Same-type imitation should therefore reject reused
+  source character names even when the explicit `forbidden_characters` list is
+  incomplete.
+- Chinese source excerpts often mention characters through compact action prose,
+  e.g. `林寒把...交给沈璃`. These names may not have organization/item suffixes
+  such as `会` or `令`, so suffix-only entity extraction misses them.
+- Character-name extraction must stay conservative: only use source-side action
+  or recipient context, common surname starts, and common-word exclusions before
+  routing a leak to manual review.
+
+Project adaptation:
+
+- Source entity extraction now scans source excerpts for short Chinese character
+  names in action/recipient context.
+- Reused names such as `林寒` now trigger `inspired_source_entity_leak` through
+  the same `source_entity_leak:*` signal as artifacts, factions, codenames, and
+  marked source terms.
+- A regression test keeps common terms such as `方向` from being treated as a
+  character-name leak.
