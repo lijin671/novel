@@ -12123,6 +12123,227 @@ def test_short_drama_character_continuity_cluster_adds_memory_worldbuilding_gate
     assert "short_drama_worldbuilding_layer_gate_hints" in digest
 
 
+def test_short_drama_script_to_video_cluster_adds_format_storyboard_handoff_gates():
+    assert "https://github.com/clipcurator/vertical-drama-script-formats" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/clipcurator/ai-storyboard-prompts" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/clipcurator/script-to-video-playbook" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/clipcurator/ai-short-drama-production-workflows" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("vertical drama script format" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("storyboard shot list" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("script to video playbook" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ai short drama production workflows" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "clipcurator/vertical-drama-script-formats",
+                "html_url": "https://github.com/clipcurator/vertical-drama-script-formats",
+                "description": (
+                    "Vertical drama script formats for 1-3 minute mobile-first episodes. "
+                    "The episode structure separates hook, setup, escalation, turn and cliffhanger, "
+                    "and the scene format records episode number, scene number, location and time, characters, "
+                    "visual beat, action, dialogue, camera or framing note, continuity note and next beat. "
+                    "The template checks that the hook lands in the first 3-5 seconds and each ending leaves a cliffhanger question."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["vertical-drama", "script-format", "short-drama", "script-to-video"],
+                "updated_at": "2026-06-11T04:10:00Z",
+                "root_files": ["README.md", "LICENSE", "docs", "templates", "data/script-format-schema.json"],
+            },
+            {
+                "full_name": "clipcurator/ai-storyboard-prompts",
+                "html_url": "https://github.com/clipcurator/ai-storyboard-prompts",
+                "description": (
+                    "AI storyboard prompts for character design, scene concept generation, storyboard planning, "
+                    "camera movement prompts and script-to-video workflows. The script to storyboard prompt asks for "
+                    "shot number, shot type, subject, action, camera angle, camera movement, visual prompt and duration estimate, "
+                    "while preserving narrative clarity, emotional progression and vertical frame constraints."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "CC-BY-4.0"},
+                "topics": ["storyboard", "prompts", "camera-movement", "script-to-video"],
+                "updated_at": "2026-06-11T04:20:00Z",
+                "root_files": ["README.md", "LICENSE", "prompts", "templates/storyboard-shot-list-template.md"],
+            },
+            {
+                "full_name": "clipcurator/script-to-video-playbook",
+                "html_url": "https://github.com/clipcurator/script-to-video-playbook",
+                "description": (
+                    "Script to Video Playbook for moving from idea or script to story structure, characters and scenes, "
+                    "storyboard, camera movement and short video output. It defines idea-first workflow and script-first workflow, "
+                    "including script ingestion, scene breakdown, character extraction, scene and prop planning, storyboard generation, "
+                    "camera movement planning, video output and human review points."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "CC-BY-4.0"},
+                "topics": ["script-to-video", "short-drama", "storyboard", "workflow"],
+                "updated_at": "2026-06-11T04:30:00Z",
+                "root_files": ["README.md", "LICENSE", "docs", "templates/script-to-video-workflow-template.md"],
+            },
+            {
+                "full_name": "clipcurator/ai-short-drama-production-workflows",
+                "html_url": "https://github.com/clipcurator/ai-short-drama-production-workflows",
+                "description": (
+                    "AI Short Drama Production Workflows for a connected pipeline from concept validation, worldbuilding, "
+                    "character system design, outline, script, visual assets, storyboard, camera movement and short drama video. "
+                    "The workflow includes script to assets extraction of characters, locations, props, time of day, emotional beats, "
+                    "visual moments and dialogue-heavy scenes, plus release packaging, human review points, script coherence and video output readiness."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "CC-BY-4.0"},
+                "topics": ["short-drama", "production-workflow", "script-to-assets", "storyboard-to-video"],
+                "updated_at": "2026-06-11T04:40:00Z",
+                "root_files": ["README.md", "LICENSE", "docs", "templates/short-drama-project-bible.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T05:05:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    script_format = candidates["clipcurator/vertical-drama-script-formats"]
+    storyboard = candidates["clipcurator/ai-storyboard-prompts"]
+    playbook = candidates["clipcurator/script-to-video-playbook"]
+    production = candidates["clipcurator/ai-short-drama-production-workflows"]
+    assert "vertical_drama_script_format_gate" in script_format["absorbed_patterns"]
+    assert "storyboard_shot_list_prompt_gate" in storyboard["absorbed_patterns"]
+    assert "script_to_video_workflow_handoff_gate" in playbook["absorbed_patterns"]
+    assert "short_drama_production_stage_gate" in production["absorbed_patterns"]
+    assert script_format["license"] == "MIT"
+    assert storyboard["license"] == "CC-BY-4.0"
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "vertical_drama_episode_format_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "storyboard_shot_list_prompt_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "script_to_video_handoff_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "short_drama_production_stage_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "vertical_drama_script_format_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "storyboard_shot_list_prompt_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "script_to_video_handoff_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "short_drama_production_stage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "vertical_episode_format_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "storyboard_shot_function_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "script_to_video_stage_handoff_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "production_stage_gate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("first 3-5 seconds" in hint for hint in pattern_pack["vertical_drama_script_format_gate_hints"])
+    assert any("story-carrying shots" in hint for hint in pattern_pack["storyboard_shot_list_prompt_gate_hints"])
+    assert any("idea-first or script-first" in hint for hint in pattern_pack["script_to_video_workflow_handoff_gate_hints"])
+    assert any("Release readiness" in hint for hint in pattern_pack["short_drama_production_stage_gate_hints"])
+    assert any("竖屏短剧" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("shot lists" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("source shot order" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "vertical_drama_script_format_gate_hints" in digest
+    assert "storyboard_shot_list_prompt_gate_hints" in digest
+    assert "script_to_video_workflow_handoff_gate_hints" in digest
+    assert "short_drama_production_stage_gate_hints" in digest
+
+
+def test_short_drama_shot_hook_pack_sources_add_reusable_visual_gates():
+    assert "https://github.com/clipcurator/ai-drama-shot-list-templates" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/clipcurator/vertical-drama-hook-templates" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/clipcurator/ai-short-drama-storyboard-shot-packs" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("ai drama shot list templates" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("vertical drama hook templates" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("storyboard shot packs" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "clipcurator/ai-drama-shot-list-templates",
+                "html_url": "https://github.com/clipcurator/ai-drama-shot-list-templates",
+                "description": (
+                    "AI Drama Shot List Templates translate scripts into camera-ready and storyboard-ready production notes. "
+                    "Shot list fields include scene, shot number, character, visual beat, shot size, camera movement, emotion and continuity note. "
+                    "Camera patterns include slow push-in for realization, over-the-shoulder for confrontation, close-up insert for clue props, "
+                    "handheld follow for panic and static wide shot for power distance or isolation. The shot list schema keeps duration, shot size and continuity reusable."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["shot-list", "short-drama", "camera-movement", "script-to-video"],
+                "updated_at": "2026-06-11T05:10:00Z",
+                "root_files": ["README.md", "LICENSE", "docs", "templates", "data/shot-list-schema.json"],
+            },
+            {
+                "full_name": "clipcurator/vertical-drama-hook-templates",
+                "html_url": "https://github.com/clipcurator/vertical-drama-hook-templates",
+                "description": (
+                    "Vertical Drama Hook Templates provide reusable first-five-second hooks, emotional reversals and cliffhanger openings. "
+                    "Hook families include shock reveal, status reversal, secret exposure, forbidden choice, visual contradiction and countdown pressure. "
+                    "Template fields track opening image, first spoken line, conflict signal, reversal beat, cliffhanger question and storyboard note, "
+                    "with review before publishing, editing or generating assets."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["vertical-drama", "hooks", "cliffhanger", "short-drama"],
+                "updated_at": "2026-06-11T05:20:00Z",
+                "root_files": ["README.md", "README.zh-CN.md", "LICENSE", "docs/hook-patterns.md", "templates"],
+            },
+            {
+                "full_name": "clipcurator/ai-short-drama-storyboard-shot-packs",
+                "html_url": "https://github.com/clipcurator/ai-short-drama-storyboard-shot-packs",
+                "description": (
+                    "AI Short Drama Storyboard Shot Packs provide reusable storyboard and shot-list packs for turning short drama scripts into visual AI production prompts. "
+                    "Shot pack types include cold-open tension pack, dialogue power shift pack, reveal and reaction pack, romance close-up pack and cliffhanger ending pack. "
+                    "Storyboard fields include scene objective, frame composition, character emotion, camera movement, continuity risk and generation prompt, "
+                    "with a review checklist for vertical-safe framing, character continuity, readable emotion, clear object focus and episode-to-episode continuity."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["storyboard", "shot-pack", "short-drama", "visual-prompts"],
+                "updated_at": "2026-06-11T05:30:00Z",
+                "root_files": ["README.md", "README.zh-CN.md", "LICENSE", "templates"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T05:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    shot_list = candidates["clipcurator/ai-drama-shot-list-templates"]
+    hooks = candidates["clipcurator/vertical-drama-hook-templates"]
+    packs = candidates["clipcurator/ai-short-drama-storyboard-shot-packs"]
+    assert "drama_shot_list_camera_pattern_gate" in shot_list["absorbed_patterns"]
+    assert "storyboard_shot_list_prompt_gate" in shot_list["absorbed_patterns"]
+    assert "vertical_hook_cliffhanger_template_gate" in hooks["absorbed_patterns"]
+    assert "storyboard_shot_pack_reuse_gate" in packs["absorbed_patterns"]
+    assert shot_list["license"] == "MIT"
+    assert hooks["license"] == "MIT"
+    assert packs["license"] == "MIT"
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "drama_shot_list_schema_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "vertical_hook_template_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "storyboard_shot_pack_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "drama_shot_list_schema_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "vertical_hook_template_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "storyboard_shot_pack_reuse_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "shot_list_camera_pattern_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "hook_family_question_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "shot_pack_scene_function_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("slow push-in" in hint for hint in pattern_pack["drama_shot_list_camera_pattern_gate_hints"])
+    assert any("first five seconds" in hint for hint in pattern_pack["vertical_hook_cliffhanger_template_gate_hints"])
+    assert any("cold-open tension" in hint for hint in pattern_pack["storyboard_shot_pack_reuse_gate_hints"])
+    assert any("first-five-second question" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("source frame composition" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "drama_shot_list_camera_pattern_gate_hints" in digest
+    assert "vertical_hook_cliffhanger_template_gate_hints" in digest
+    assert "storyboard_shot_pack_reuse_gate_hints" in digest
+
+
 def test_novel_template_source_adds_ideation_worksheet_foundation_gates():
     assert "https://github.com/10Legs/novel-template" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("ideation worksheets" in query and "Ghost/Lie/Want/Need" in query for query in DEFAULT_GITHUB_QUERIES)

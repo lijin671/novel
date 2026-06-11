@@ -338,6 +338,13 @@ DEFAULT_GITHUB_QUERIES = (
     '("character continuity kit" OR "continuity dimensions" OR "episode memory") ("visual anchors" OR "relationship map" OR "short drama") in:name,description,readme',
     '("short drama worldbuilding" OR "worldbuilding layers" OR "power map" OR "conflict engine") ("episode memory" OR "script-to-video" OR "visual anchors") in:name,description,readme',
     '("character memory templates" OR "forbidden changes" OR "relationship state") ("short drama" OR "visual anchors" OR "emotional continuity") in:name,description,readme',
+    '("vertical drama script format" OR "mobile-first episodes" OR "hook conflict reversal visual beat cliffhanger") ("camera framing" OR "continuity note" OR "next beat") in:name,description,readme',
+    '("storyboard shot list" OR "AI storyboard prompts" OR "camera movement prompts") ("visual prompt" OR "duration estimate" OR "vertical frame constraints") in:name,description,readme',
+    '("script to video playbook" OR "script-to-video workflow" OR "script ingestion") ("scene breakdown" OR "storyboard generation" OR "camera movement planning") in:name,description,readme',
+    '("AI short drama production workflows" OR "short drama production workflow" OR "script to assets") ("visual assets" OR "release packaging" OR "human review points") in:name,description,readme',
+    '("AI drama shot list templates" OR "camera-ready production notes" OR "shot list schema") ("shot size" OR "camera movement" OR "continuity note") in:name,description,readme',
+    '("vertical drama hook templates" OR "first-five-second hooks" OR "cliffhanger openings") ("opening image" OR "first spoken line" OR "reversal beat") in:name,description,readme',
+    '("storyboard shot packs" OR "AI short drama storyboard shot packs" OR "shot-list packs") ("vertical-safe framing" OR "continuity risk" OR "generation prompt") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -727,6 +734,13 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/clipcurator/ai-character-continuity-kit",
     "https://github.com/clipcurator/ai-short-drama-worldbuilding-kit",
     "https://github.com/clipcurator/ai-short-drama-character-memory-templates",
+    "https://github.com/clipcurator/vertical-drama-script-formats",
+    "https://github.com/clipcurator/ai-storyboard-prompts",
+    "https://github.com/clipcurator/script-to-video-playbook",
+    "https://github.com/clipcurator/ai-short-drama-production-workflows",
+    "https://github.com/clipcurator/ai-drama-shot-list-templates",
+    "https://github.com/clipcurator/vertical-drama-hook-templates",
+    "https://github.com/clipcurator/ai-short-drama-storyboard-shot-packs",
     "https://github.com/xjxjdnsnak-cell/novel-reader",
     "https://github.com/alanl1234/gamebook",
     "https://github.com/TABARC-Code/Forensic-Writing-Style-Analysis-Cloning-Claude-Skill",
@@ -1169,6 +1183,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("character_continuity_dimension_schema_gate", ("character continuity kit", "continuity dimensions", "identity", "age range", "story role", "archetype", "visual design", "stable visual anchors", "personality", "decision style", "moral boundary", "relationship map", "episode memory")),
     ("short_drama_character_memory_forbidden_change_gate", ("character memory templates", "stable identity", "relationship state", "current emotional arc", "scene memory", "forbidden changes", "relationship changes have a source scene", "visual anchors stay separate from temporary wardrobe", "revision notes explain what changed and why")),
     ("short_drama_worldbuilding_layer_gate", ("short drama worldbuilding", "worldbuilding layers", "conflict engine", "social rules", "emotional rules", "supernatural rules", "power map", "who has power over whom", "locations and visual anchors", "track secrets, reveals, and episode memory")),
+    ("vertical_drama_script_format_gate", ("vertical drama script formats", "mobile-first episodes", "1-3 minute", "strong hook", "hook in the first", "visual beat", "camera or framing", "camera_framing", "continuity note", "next beat", "script-format-schema", "hook setup escalation turn cliffhanger")),
+    ("storyboard_shot_list_prompt_gate", ("ai storyboard prompts", "storyboard shot list", "shot number", "shot type", "camera angle", "camera movement", "visual prompt", "duration estimate", "vertical frame constraints", "preserve narrative clarity", "emotional progression", "avoid unnecessary shots")),
+    ("script_to_video_workflow_handoff_gate", ("script to video playbook", "script-to-video workflow", "idea-first workflow", "script-first workflow", "script ingestion", "scene breakdown", "character extraction", "scene and prop planning", "storyboard generation", "camera movement planning", "video output")),
+    ("short_drama_production_stage_gate", ("ai short drama production workflows", "short drama production workflow", "connected pipeline", "concept validation", "character system design", "script to assets", "visual assets", "release packaging", "human review points", "script coherence", "video output readiness")),
+    ("drama_shot_list_camera_pattern_gate", ("ai drama shot list templates", "camera-ready", "storyboard-ready", "shot list fields", "shot list schema", "shot size", "slow push-in", "over-the-shoulder", "close-up insert", "handheld follow", "static wide shot", "storyboard handoff")),
+    ("vertical_hook_cliffhanger_template_gate", ("vertical drama hook templates", "first-five-second hooks", "emotional reversals", "cliffhanger openings", "hook families", "shock reveal", "status reversal", "secret exposure", "forbidden choice", "visual contradiction", "countdown pressure", "first spoken line", "cliffhanger question")),
+    ("storyboard_shot_pack_reuse_gate", ("ai short drama storyboard shot packs", "storyboard and shot-list packs", "cold-open tension pack", "dialogue power shift pack", "reveal and reaction pack", "romance close-up pack", "cliffhanger ending pack", "frame composition", "continuity risk", "vertical-safe framing", "generation prompt")),
     ("canon_evidence_suggestion_review_gate", ("local-first story bible", "continuity checker", "canon drift", "evidence-backed suggestions", "contradictions", "context packs", "project storage", "JSON import and export", "entity facts")),
     ("expert_chain_alignment_creativity_gate", ("chainable expert AI", "expert AI modules", "perfect alignment", "boundless creativity", "alignment framework", "Special Instruction Set", "deconstructs complex literary creation", "stress-tested", "semi-automated AI writing pipeline")),
     ("visual_story_bible_continuity_gate", ("story bible technology", "visual consistency", "visual canon", "visual anchors", "character appearances", "settings and visual elements", "art style", "visual continuity", "visual rules", "image bible")),
@@ -1411,6 +1432,42 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "ai-short-drama-character-memory-templates is an MIT template set for reusable AI short-drama character memory. Static public README markers describe stable identity, visual anchors, "
         "relationship state, current emotional arc, scene memory, forbidden changes, relationship changes with source scenes, visual anchors separated from temporary wardrobe, and revision notes explaining what changed and why. "
         "Pattern-only adaptation for character-memory forbidden-change gates; templates, product links, asset generation, publishing flows, and media runtimes are not executed."
+    ),
+    "clipcurator/vertical-drama-script-formats": (
+        "vertical-drama-script-formats is an MIT template hub for mobile-first vertical short drama scripts. Static public README/docs/templates/data markers describe 60/90/180-second episode structures, "
+        "hook/setup/escalation/turn/cliffhanger segments, first-3-to-5-second hooks, visible conflict, power-dynamic changes, scene format fields for location, characters, visual beat, action, dialogue, "
+        "camera/framing, continuity note, next beat, and a script-format schema. "
+        "Pattern-only adaptation for vertical-drama script format gates; templates, product links, storyboard/video generation, and media runtimes are not executed."
+    ),
+    "clipcurator/ai-storyboard-prompts": (
+        "ai-storyboard-prompts is a CC-BY-4.0 bilingual prompt/template repository for AI storyboard planning. Static public README/prompts/templates markers describe script-to-storyboard conversion, "
+        "story beat storyboarding, shot number/type/subject/action/camera angle/camera movement/visual prompt/duration fields, vertical-frame constraints, emotional progression, and avoiding shots that do not move story forward. "
+        "Pattern-only adaptation for storyboard shot-list prompt gates; prompt bodies, product links, asset generation, and media runtimes are not imported or executed."
+    ),
+    "clipcurator/script-to-video-playbook": (
+        "script-to-video-playbook is a CC-BY-4.0 workflow playbook for turning ideas or scripts into AI-assisted short films and short dramas. Static public README/docs/templates markers describe idea-first and script-first flows, "
+        "concept validation, worldbuilding, character design, script ingestion, scene breakdown, character extraction, scene/prop planning, storyboard generation, camera movement planning, output review, and human review points. "
+        "Pattern-only adaptation for script-to-video handoff gates; product links, uploaded scripts, generation tools, provider calls, and video runtimes are not executed."
+    ),
+    "clipcurator/ai-short-drama-production-workflows": (
+        "ai-short-drama-production-workflows is a CC-BY-4.0 workflow repository for AI short drama production. Static public README/docs/templates markers describe the pipeline from idea to concept, worldbuilding, character system, "
+        "outline, script, visual assets, storyboard, camera movement, short drama video, project bible, episode planning, script-to-assets extraction, review rules, video-output readiness, and release packaging. "
+        "Pattern-only adaptation for short-drama production stage gates; product links, asset generation, release flows, and media runtimes are not executed."
+    ),
+    "clipcurator/ai-drama-shot-list-templates": (
+        "ai-drama-shot-list-templates is an MIT template/schema repository for AI drama shot lists. Static public README/data markers describe camera-ready and storyboard-ready production notes, "
+        "scene-linked shot numbers, character, visual beat, shot size, camera movement, emotion, continuity notes, slow push-in, over-the-shoulder, close-up inserts, handheld follow, and static wide shots. "
+        "Pattern-only adaptation for drama shot-list camera-pattern gates; product links, storyboard/video generation, and media runtimes are not executed."
+    ),
+    "clipcurator/vertical-drama-hook-templates": (
+        "vertical-drama-hook-templates is an MIT template repository for first-five-second vertical drama hooks and cliffhanger openings. Static public README/docs markers describe hook families such as shock reveal, "
+        "status reversal, secret exposure, forbidden choice, visual contradiction, countdown pressure, and fields for opening image, first spoken line, conflict signal, reversal beat, cliffhanger question, and storyboard note. "
+        "Pattern-only adaptation for hook/cliffhanger template gates; templates, product links, asset generation, publishing flows, and media runtimes are not executed."
+    ),
+    "clipcurator/ai-short-drama-storyboard-shot-packs": (
+        "ai-short-drama-storyboard-shot-packs is an MIT template repository for reusable storyboard and shot-list packs. Static public README markers describe cold-open tension, dialogue power shift, reveal/reaction, "
+        "romance close-up, and cliffhanger ending packs plus scene objective, frame composition, character emotion, camera movement, continuity risk, generation prompt, vertical-safe framing, and episode-to-episode continuity checks. "
+        "Pattern-only adaptation for reusable storyboard shot-pack gates; templates, product links, generated media, and asset runtimes are not executed."
     ),
     "forjd/better-writing": (
         "Agent skill for human prose quality. Public README describes removing generic AI tells, slop structures, voice calibration from writing samples, "
@@ -3276,6 +3333,13 @@ class NovelSourceDiscoveryService:
             "character_continuity_dimension_schema_gate_hints": self._build_character_continuity_dimension_schema_gate_hints(available_patterns),
             "short_drama_character_memory_forbidden_change_gate_hints": self._build_short_drama_character_memory_forbidden_change_gate_hints(available_patterns),
             "short_drama_worldbuilding_layer_gate_hints": self._build_short_drama_worldbuilding_layer_gate_hints(available_patterns),
+            "vertical_drama_script_format_gate_hints": self._build_vertical_drama_script_format_gate_hints(available_patterns),
+            "storyboard_shot_list_prompt_gate_hints": self._build_storyboard_shot_list_prompt_gate_hints(available_patterns),
+            "script_to_video_workflow_handoff_gate_hints": self._build_script_to_video_workflow_handoff_gate_hints(available_patterns),
+            "short_drama_production_stage_gate_hints": self._build_short_drama_production_stage_gate_hints(available_patterns),
+            "drama_shot_list_camera_pattern_gate_hints": self._build_drama_shot_list_camera_pattern_gate_hints(available_patterns),
+            "vertical_hook_cliffhanger_template_gate_hints": self._build_vertical_hook_cliffhanger_template_gate_hints(available_patterns),
+            "storyboard_shot_pack_reuse_gate_hints": self._build_storyboard_shot_pack_reuse_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -4339,6 +4403,13 @@ class NovelSourceDiscoveryService:
             "character_continuity_dimension_schema_gate": 66,
             "short_drama_character_memory_forbidden_change_gate": 66,
             "short_drama_worldbuilding_layer_gate": 66,
+            "vertical_drama_script_format_gate": 66,
+            "storyboard_shot_list_prompt_gate": 66,
+            "script_to_video_workflow_handoff_gate": 66,
+            "short_drama_production_stage_gate": 66,
+            "drama_shot_list_camera_pattern_gate": 66,
+            "vertical_hook_cliffhanger_template_gate": 66,
+            "storyboard_shot_pack_reuse_gate": 66,
             "canon_evidence_suggestion_review_gate": 70,
             "expert_chain_alignment_creativity_gate": 68,
             "visual_story_bible_continuity_gate": 66,
@@ -4392,6 +4463,27 @@ class NovelSourceDiscoveryService:
         if "short_drama_worldbuilding_layer_gate" in patterns:
             targets.append("short_drama_worldbuilding_layer_policy")
             targets.append("power_map_secret_reveal_policy")
+        if "vertical_drama_script_format_gate" in patterns:
+            targets.append("vertical_drama_episode_format_policy")
+            targets.append("hook_turn_cliffhanger_rhythm_policy")
+        if "storyboard_shot_list_prompt_gate" in patterns:
+            targets.append("storyboard_shot_list_prompt_policy")
+            targets.append("camera_movement_emotional_beat_policy")
+        if "script_to_video_workflow_handoff_gate" in patterns:
+            targets.append("script_to_video_handoff_policy")
+            targets.append("manual_review_intervention_policy")
+        if "short_drama_production_stage_gate" in patterns:
+            targets.append("short_drama_production_stage_policy")
+            targets.append("asset_release_readiness_policy")
+        if "drama_shot_list_camera_pattern_gate" in patterns:
+            targets.append("drama_shot_list_schema_policy")
+            targets.append("camera_pattern_continuity_policy")
+        if "vertical_hook_cliffhanger_template_gate" in patterns:
+            targets.append("vertical_hook_template_policy")
+            targets.append("cliffhanger_question_review_policy")
+        if "storyboard_shot_pack_reuse_gate" in patterns:
+            targets.append("storyboard_shot_pack_policy")
+            targets.append("shot_pack_continuity_risk_policy")
         if "structured_generation_schema" in patterns:
             targets.append("json_schema_outputs")
             targets.append("schema_validation_rules")
@@ -5388,6 +5480,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["character_memory_forbidden_change_report", "relationship_source_scene_findings"])
         if "short_drama_worldbuilding_layer_gate" in patterns:
             targets.extend(["short_drama_worldbuilding_layer_report", "power_map_reveal_order_findings"])
+        if "vertical_drama_script_format_gate" in patterns:
+            targets.extend(["vertical_drama_script_format_report", "hook_turn_cliffhanger_timing_findings"])
+        if "storyboard_shot_list_prompt_gate" in patterns:
+            targets.extend(["storyboard_shot_list_prompt_report", "camera_movement_emotional_fit_findings"])
+        if "script_to_video_workflow_handoff_gate" in patterns:
+            targets.extend(["script_to_video_handoff_report", "manual_review_intervention_findings"])
+        if "short_drama_production_stage_gate" in patterns:
+            targets.extend(["short_drama_production_stage_report", "asset_video_readiness_findings"])
+        if "drama_shot_list_camera_pattern_gate" in patterns:
+            targets.extend(["drama_shot_list_schema_report", "camera_pattern_continuity_findings"])
+        if "vertical_hook_cliffhanger_template_gate" in patterns:
+            targets.extend(["vertical_hook_template_report", "cliffhanger_question_findings"])
+        if "storyboard_shot_pack_reuse_gate" in patterns:
+            targets.extend(["storyboard_shot_pack_reuse_report", "shot_pack_continuity_risk_findings"])
         if "structured_generation_schema" in patterns:
             targets.extend(["schema_bound_outputs", "required_fields", "validation_failures"])
         if "context_reference" in patterns:
@@ -6429,6 +6535,20 @@ class NovelSourceDiscoveryService:
             hints.append("Before updating a recurring character, name source scene, relationship state, current emotional arc, scene memory, and forbidden changes.")
         if "short_drama_worldbuilding_layer_gate" in patterns:
             hints.append("Before short-drama episodes, cite premise, rules, locations, power map, timeline, secrets, and reveal order so conflict escalation stays causal.")
+        if "vertical_drama_script_format_gate" in patterns:
+            hints.append("For竖屏短剧续写, format each episode as hook, setup, escalation, turn, and cliffhanger with visual beat, camera/framing, continuity note, and next beat.")
+        if "storyboard_shot_list_prompt_gate" in patterns:
+            hints.append("Before storyboard generation, extract only story-carrying shots and give each shot a purpose, subject, camera movement, visual prompt, duration, and continuity reference.")
+        if "script_to_video_workflow_handoff_gate" in patterns:
+            hints.append("For剧本转视频, pass through scene breakdown, character extraction, prop/location planning, storyboard, camera movement, and human review before any video output.")
+        if "short_drama_production_stage_gate" in patterns:
+            hints.append("Treat短剧生产 as staged handoff: concept validation, worldbuilding, character system, outline, script, assets, storyboard, camera movement, review, and release readiness.")
+        if "drama_shot_list_camera_pattern_gate" in patterns:
+            hints.append("Before分镜 or video prompts, create a shot list with scene, shot number, character, visual beat, shot size, camera movement, emotion, and continuity note.")
+        if "vertical_hook_cliffhanger_template_gate" in patterns:
+            hints.append("Open vertical episodes with one clear first-five-second question, then track opening image, first spoken line, conflict signal, reversal beat, cliffhanger question, and storyboard note.")
+        if "storyboard_shot_pack_reuse_gate" in patterns:
+            hints.append("Use reusable shot packs only as scene-function templates; choose cold-open, dialogue power shift, reveal/reaction, romance close-up, or cliffhanger pack by the episode beat.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -6472,6 +6592,20 @@ class NovelSourceDiscoveryService:
             hints.append("Persist character memory with stable identity, relationship state, current emotional arc, scene memory, forbidden changes, source-scene evidence, and revision notes.")
         if "short_drama_worldbuilding_layer_gate" in patterns:
             hints.append("Persist short-drama worldbuilding layers separately: premise, rules, locations, power map, timeline, secrets, reveal order, and continuity memory.")
+        if "vertical_drama_script_format_gate" in patterns:
+            hints.append("Persist vertical-drama episode format state: target duration, hook timing, setup/escalation/turn/cliffhanger spans, scene visual beats, camera/framing notes, continuity notes, and next-beat promises.")
+        if "storyboard_shot_list_prompt_gate" in patterns:
+            hints.append("Persist storyboard shot lists with shot id, scene id, shot type, subject, action, camera angle, movement, visual prompt, duration, and emotional-beat reason.")
+        if "script_to_video_workflow_handoff_gate" in patterns:
+            hints.append("Persist script-to-video handoff state: ingestion source, scene breakdown, extracted characters, locations, props, storyboard refs, camera plan, output review notes, and blocked runtime surfaces.")
+        if "short_drama_production_stage_gate" in patterns:
+            hints.append("Persist production-stage readiness by stage: concept, world, character system, outline, script, visual assets, storyboard, camera movement, video readiness, review decision, and release package scope.")
+        if "drama_shot_list_camera_pattern_gate" in patterns:
+            hints.append("Persist shot-list rows with shot size, camera movement, emotion, visual beat, and continuity note so storyboard and video prompts can be regenerated without losing script alignment.")
+        if "vertical_hook_cliffhanger_template_gate" in patterns:
+            hints.append("Persist hook/cliffhanger template fields: hook family, opening image, first spoken line, conflict signal, reversal beat, cliffhanger question, storyboard note, and publish/review decision.")
+        if "storyboard_shot_pack_reuse_gate" in patterns:
+            hints.append("Persist selected shot-pack type, scene objective, frame composition, character emotion, camera movement, continuity risk, generation prompt, and vertical-safe framing review.")
         if "context_reference" in patterns:
             hints.append("Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.")
         if "lorebook_context" in patterns:
@@ -10139,6 +10273,69 @@ class NovelSourceDiscoveryService:
             "Location visual anchors are worldbuilding data; they should support scene generation without overwriting character canon or episode memory.",
         ]
 
+    def _build_vertical_drama_script_format_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "vertical_drama_script_format_gate" not in patterns:
+            return []
+        return [
+            "Vertical-drama scripts should declare target duration and segment timing for hook, setup, escalation, turn, and cliffhanger before scene drafting.",
+            "Each scene should carry location/time, characters, visual beat, action, short conflict-driven dialogue, camera/framing note, continuity note, and next beat.",
+            "Review whether the hook lands in the first 3-5 seconds, the conflict is visible, each scene changes power dynamics, and the ending leaves one specific next question.",
+        ]
+
+    def _build_storyboard_shot_list_prompt_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "storyboard_shot_list_prompt_gate" not in patterns:
+            return []
+        return [
+            "Storyboard prompts should convert scripts into story-carrying shots only: decisions, reveals, conflicts, transformations, and emotional shifts.",
+            "Each shot should include shot number, type, subject, action, camera angle, camera movement, visual prompt, duration estimate, and continuity reference.",
+            "Camera movement should justify why it fits the emotional beat; unnecessary shots or motion that does not move story forward should be rejected.",
+        ]
+
+    def _build_script_to_video_workflow_handoff_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "script_to_video_workflow_handoff_gate" not in patterns:
+            return []
+        return [
+            "Script-to-video handoff should name whether the path is idea-first or script-first, then record concept/story structure before asset or storyboard work.",
+            "Script-first intake should break the script into scenes, extract characters, locations, props, emotional beats, and visual requirements before prompts are built.",
+            "Video output stays deferred until storyboard panels, character prompts, scene prompts, camera movement, aspect ratio, and human review findings are present.",
+        ]
+
+    def _build_short_drama_production_stage_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "short_drama_production_stage_gate" not in patterns:
+            return []
+        return [
+            "Short-drama production should pass staged gates: concept validation, worldbuilding, character system, outline, script, assets, storyboard, camera movement, review, and release packaging.",
+            "Script-to-assets extraction should list characters, locations, props, time of day, emotional beats, visual moments, and dialogue-heavy scenes before generating assets.",
+            "Release readiness should verify character consistency, scene continuity, script coherence, motion quality, subtitle fit, episode pacing, and video-output scope without launching media runtimes.",
+        ]
+
+    def _build_drama_shot_list_camera_pattern_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "drama_shot_list_camera_pattern_gate" not in patterns:
+            return []
+        return [
+            "Drama shot lists should bridge script, storyboard, and generated-video prompts with explicit shot rows instead of free-form visual notes.",
+            "Each row should include scene, shot number, duration, character, visual beat, shot size, camera movement, emotion, and continuity note.",
+            "Camera patterns should match function: slow push-in for realization, over-the-shoulder for confrontation, close-up insert for clue props, handheld follow for panic, and static wide shot for isolation or power distance.",
+        ]
+
+    def _build_vertical_hook_cliffhanger_template_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "vertical_hook_cliffhanger_template_gate" not in patterns:
+            return []
+        return [
+            "Vertical hook templates should create one clear viewer question in the first five seconds before exposition is allowed.",
+            "Track hook family, opening image, first spoken line, conflict signal, reversal beat, cliffhanger question, and storyboard note as separate fields.",
+            "Use shock reveal, status reversal, secret exposure, forbidden choice, visual contradiction, or countdown pressure only when the episode beat actually supports that hook family.",
+        ]
+
+    def _build_storyboard_shot_pack_reuse_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "storyboard_shot_pack_reuse_gate" not in patterns:
+            return []
+        return [
+            "Storyboard shot packs should be selected by scene function: cold-open tension, dialogue power shift, reveal/reaction, romance close-up, or cliffhanger ending.",
+            "Each pack should state scene objective, frame composition, character emotion, camera movement, continuity risk, generation prompt, and vertical-safe framing review.",
+            "Shot packs are reusable structure, not reusable content; character continuity, object focus, and episode-to-episode continuity must be rechecked before handoff.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -10219,6 +10416,27 @@ class NovelSourceDiscoveryService:
         if "short_drama_worldbuilding_layer_gate" in patterns:
             targets.append("worldbuilding_layer_remap")
             targets.append("power_map_secret_reveal_remap")
+        if "vertical_drama_script_format_gate" in patterns:
+            targets.append("vertical_episode_format_remap")
+            targets.append("hook_cliffhanger_rhythm_remap")
+        if "storyboard_shot_list_prompt_gate" in patterns:
+            targets.append("storyboard_shot_function_remap")
+            targets.append("camera_movement_emotion_remap")
+        if "script_to_video_workflow_handoff_gate" in patterns:
+            targets.append("script_to_video_stage_handoff_remap")
+            targets.append("scene_asset_planning_remap")
+        if "short_drama_production_stage_gate" in patterns:
+            targets.append("production_stage_gate_remap")
+            targets.append("release_readiness_scope_remap")
+        if "drama_shot_list_camera_pattern_gate" in patterns:
+            targets.append("shot_list_camera_pattern_remap")
+            targets.append("shot_size_emotion_continuity_remap")
+        if "vertical_hook_cliffhanger_template_gate" in patterns:
+            targets.append("hook_family_question_remap")
+            targets.append("cliffhanger_open_loop_remap")
+        if "storyboard_shot_pack_reuse_gate" in patterns:
+            targets.append("shot_pack_scene_function_remap")
+            targets.append("continuity_risk_prompt_remap")
         if "confirmed_action_audit_recovery_gate" in patterns:
             targets.append("confirmed_action_recovery_remap")
         if "project_isolated_story_bible_query_gate" in patterns:
@@ -10873,6 +11091,20 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type character memory, define new forbidden changes and source-scene evidence; do not inherit source relationship states or emotional arcs.")
         if "short_drama_worldbuilding_layer_gate" in patterns:
             hints.append("For same-type worldbuilding, rebuild premise, rules, locations, power map, timeline, secrets, and reveal order before any episode outline.")
+        if "vertical_drama_script_format_gate" in patterns:
+            hints.append("For same-type vertical drama, preserve only the hook/setup/escalation/turn/cliffhanger rhythm; rebuild episode goal, conflict, visual beats, camera notes, and cliffhanger question.")
+        if "storyboard_shot_list_prompt_gate" in patterns:
+            hints.append("For same-type storyboard prompts, remap shot purpose, subject, action, camera movement, and duration around the transformed scene instead of source shot order.")
+        if "script_to_video_workflow_handoff_gate" in patterns:
+            hints.append("For same-type script-to-video work, rebuild the handoff from transformed script scenes, characters, props, storyboard refs, and camera plans; source workflow artifacts are pattern notes only.")
+        if "short_drama_production_stage_gate" in patterns:
+            hints.append("For same-type production, run the transformed story through fresh concept, world, character, script, asset, storyboard, review, and release-readiness gates.")
+        if "drama_shot_list_camera_pattern_gate" in patterns:
+            hints.append("For same-type shot lists, remap camera patterns to transformed emotional beats and props; do not reuse source shot sizes, clue inserts, or confrontation framing as a fixed sequence.")
+        if "vertical_hook_cliffhanger_template_gate" in patterns:
+            hints.append("For same-type hooks, choose a new hook family and first-five-second question around the transformed conflict; source opening image and first spoken line stay blocked.")
+        if "storyboard_shot_pack_reuse_gate" in patterns:
+            hints.append("For same-type shot packs, reuse only the pack function and review checklist; rebuild frame composition, character emotion, object focus, and generation prompt for the new scene.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -11857,6 +12089,20 @@ class NovelSourceDiscoveryService:
             hints.append("Reject memory updates when relationship changes lack a source scene, forbidden changes are bypassed, or temporary wardrobe becomes stable visual identity.")
         if "short_drama_worldbuilding_layer_gate" in patterns:
             hints.append("Reject episode plans that copy source power maps, secret ladders, reveal order, recurring locations, or conflict engine as the transformed world's logic.")
+        if "vertical_drama_script_format_gate" in patterns:
+            hints.append("Reject vertical-drama drafts that preserve source hook images, accusation wording, reveal order, power reversal sequence, scene order, or cliffhanger question under renamed characters.")
+        if "storyboard_shot_list_prompt_gate" in patterns:
+            hints.append("Reject storyboard packets that copy source shot order, visual prompts, camera choreography, set pieces, or character designs instead of rebuilding shot function for the transformed scene.")
+        if "script_to_video_workflow_handoff_gate" in patterns:
+            hints.append("Reject script-to-video handoffs that treat source scripts, uploaded documents, storyboard panels, prompts, product links, or generated media artifacts as reusable new-story canon.")
+        if "short_drama_production_stage_gate" in patterns:
+            hints.append("Reject production packets that skip stage evidence, hide media-runtime scope, copy release packaging, or let asset prompts override transformed story bible and continuity memory.")
+        if "drama_shot_list_camera_pattern_gate" in patterns:
+            hints.append("Reject shot lists that preserve source camera sequence, clue-prop inserts, emotional framing, shot-size rhythm, or continuity notes under renamed scenes.")
+        if "vertical_hook_cliffhanger_template_gate" in patterns:
+            hints.append("Reject hook templates that copy source first spoken line, opening image, reversal beat, countdown device, cliffhanger question, or publish/review checklist wording.")
+        if "storyboard_shot_pack_reuse_gate" in patterns:
+            hints.append("Reject shot-pack reuse when source frame composition, generation prompt, visual design, object focus, or continuity-risk wording becomes transformed-story content.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -12529,6 +12775,13 @@ class NovelSourceDiscoveryService:
                 "character_continuity_dimension_schema_gate",
                 "short_drama_character_memory_forbidden_change_gate",
                 "short_drama_worldbuilding_layer_gate",
+                "vertical_drama_script_format_gate",
+                "storyboard_shot_list_prompt_gate",
+                "script_to_video_workflow_handoff_gate",
+                "short_drama_production_stage_gate",
+                "drama_shot_list_camera_pattern_gate",
+                "vertical_hook_cliffhanger_template_gate",
+                "storyboard_shot_pack_reuse_gate",
                 "canon_evidence_suggestion_review_gate",
                 "expert_chain_alignment_creativity_gate",
                 "visual_story_bible_continuity_gate",

@@ -568,6 +568,13 @@ def render_source_pattern_pack_digest(
         "character_continuity_dimension_schema_gate_hints",
         "short_drama_character_memory_forbidden_change_gate_hints",
         "short_drama_worldbuilding_layer_gate_hints",
+        "vertical_drama_script_format_gate_hints",
+        "storyboard_shot_list_prompt_gate_hints",
+        "script_to_video_workflow_handoff_gate_hints",
+        "short_drama_production_stage_gate_hints",
+        "drama_shot_list_camera_pattern_gate_hints",
+        "vertical_hook_cliffhanger_template_gate_hints",
+        "storyboard_shot_pack_reuse_gate_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:
