@@ -872,6 +872,8 @@ export default function Chapters() {
 // ¥âåç»­ç« èâçåç½®æ¡ä»¶
       if (!chapter.content || chapter.content.trim() === '') {
         incompleteChapterNumbers.push(chapter.chapter_number);
+      } else if (chapter.status === 'review_required') {
+        incompleteChapterNumbers.push(chapter.chapter_number);
       }
       const task = analysisTasksMap[chapter.id];
       if (!task || !task.has_task) {
@@ -1863,7 +1865,12 @@ export default function Chapters() {
         temporaryNarrativePerspective,  // 传递临时人称参数
         options?.forceHighRiskContinuation
       );
-      message.success('AI创作成功，正在分析章节内容...');
+      if (result?.guardrail_review_required) {
+        const reasons = result.guardrail_review_reasons?.join('、') || '护栏最终未通过';
+        message.warning(`AI创作已保存，但需人工复核：${reasons}`);
+      } else {
+        message.success('AI创作成功，正在分析章节内容...');
+      }
       // 如果返回了分析任务ID，启动轮询
       if (result?.analysis_task_id) {
         const taskId = result.analysis_task_id;
@@ -2007,6 +2014,7 @@ export default function Chapters() {
       'draft': 'default',
       'writing': 'processing',
       'completed': 'success',
+      'review_required': 'error',
     };
     return colors[status] || 'default';
   };
@@ -2015,6 +2023,7 @@ export default function Chapters() {
       'draft': '草稿',
       'writing': '创作中',
       'completed': '已完成',
+      'review_required': '需人工复核',
     };
     return texts[status] || status;
   };
@@ -3558,6 +3567,7 @@ export default function Chapters() {
             <Select placeholder="选择状态">
               <Select.Option value="draft">草稿</Select.Option>
               <Select.Option value="writing">创作中</Select.Option>
+              <Select.Option value="review_required">需人工复核</Select.Option>
               <Select.Option value="completed">已完成</Select.Option>
             </Select>
           </Form.Item>

@@ -65,7 +65,12 @@ from app.services.book_remix_context_service import (
 )
 from app.services.book_remix_service import book_remix_service
 from app.services.book_remix_continuation_state_service import book_remix_continuation_state_service
-from app.services.chapter_guardrails import apply_chapter_guardrail_check
+from app.services.chapter_guardrails import (
+    apply_chapter_guardrail_check,
+    format_guardrail_history_note,
+    guardrail_acceptance_status,
+    guardrail_requires_manual_review,
+)
 from app.services.novel_workflow_service import NovelWorkflowService
 from app.services.source_discovery_service import source_discovery_service
 from app.logger import get_logger
@@ -503,6 +508,15 @@ async def check_prerequisites(db: AsyncSession, chapter: Chapter) -> tuple[bool,
         missing_numbers = [str(ch.chapter_number) for ch in incomplete_chapters]
         error_msg = f"需要先完成前置章节：第 {', '.join(missing_numbers)} 章"
         return False, error_msg, previous_chapters
+
+    review_required_chapters = [
+        ch for ch in previous_chapters
+        if ch.status == "review_required"
+    ]
+    if review_required_chapters:
+        review_numbers = [str(ch.chapter_number) for ch in review_required_chapters]
+        error_msg = f"需要先人工复核前置章节：第 {', '.join(review_numbers)} 章"
+        return False, error_msg, previous_chapters
     
     return True, "", previous_chapters
 
@@ -803,6 +817,7 @@ async def check_can_generate(
             "chapter_number": ch.chapter_number,
             "title": ch.title,
             "has_content": bool(ch.content and ch.content.strip()),
+            "needs_manual_review": ch.status == "review_required",
             "word_count": ch.word_count or 0
         }
         for ch in previous_chapters
@@ -1563,6 +1578,35 @@ def _calculate_generation_max_tokens(target_word_count: int) -> int:
     return max(2000, min(calculated_max_tokens, 32000))
 
 
+def _chapter_status_after_guardrails(guardrail_meta: Optional[dict]) -> str:
+    """护栏未通过时保持章节可见但进入人工复核，不再静默标记完成。"""
+    if guardrail_requires_manual_review(guardrail_meta):
+        return "review_required"
+    return "completed"
+
+
+def _chapter_generation_history_prompt(
+    *,
+    base_prompt: str,
+    guardrail_meta: Optional[dict],
+) -> str:
+    """生成历史记录护栏准入结论，方便后续复盘和人工接管。"""
+    note = format_guardrail_history_note(guardrail_meta)
+    if not note:
+        return base_prompt
+    return f"{base_prompt}\n{note}"
+
+
+class ChapterGuardrailReviewRequiredError(Exception):
+    """章节已保存为人工复核，批量续写应停止而不是继续重试。"""
+
+    def __init__(self, reasons: list[str]):
+        self.reasons = reasons
+        super().__init__(
+            f"章节护栏最终未通过，已保存为人工复核状态: {', '.join(reasons) or 'unknown'}"
+        )
+
+
 async def _resolve_generation_style_content(
     *,
     db: AsyncSession,
@@ -2055,6 +2099,8 @@ async def generate_chapter_content_stream(
                     guarded_content = guardrail_meta.get("content")
                     if isinstance(guarded_content, str) and guarded_content.strip():
                         full_content = guarded_content
+                guardrail_review_required = guardrail_requires_manual_review(guardrail_meta)
+                guardrail_status = guardrail_acceptance_status(guardrail_meta)
 
                 # 护栏可能会改写最终正文。这里在护栏完成后再发送正文块，
                 # 避免前端先收到被判定违规的原始生成内容。
@@ -2069,7 +2115,7 @@ async def generate_chapter_content_stream(
                 current_chapter.content = full_content
                 new_word_count = len(full_content)
                 current_chapter.word_count = new_word_count
-                current_chapter.status = "completed"
+                current_chapter.status = _chapter_status_after_guardrails(guardrail_meta)
                 
                 # 更新项目字数
                 project.current_words = project.current_words - old_word_count + new_word_count
@@ -2078,7 +2124,10 @@ async def generate_chapter_content_stream(
                 history = GenerationHistory(
                     project_id=current_chapter.project_id,
                     chapter_id=current_chapter.id,
-                    prompt=f"创作章节: 第{current_chapter.chapter_number}章 {current_chapter.title}",
+                    prompt=_chapter_generation_history_prompt(
+                        base_prompt=f"创作章节: 第{current_chapter.chapter_number}章 {current_chapter.title}",
+                        guardrail_meta=guardrail_meta,
+                    ),
                     generated_content=full_content[:500] if len(full_content) > 500 else full_content,
                     model="default"
                 )
@@ -2089,6 +2138,30 @@ async def generate_chapter_content_stream(
                 await db_session.refresh(current_chapter)
                 
                 logger.info(f"成功创作章节 {chapter_id}，共 {new_word_count} 字")
+
+                if guardrail_review_required:
+                    logger.warning(
+                        "章节 %s 护栏最终未通过，已保存为 review_required，跳过分析、伏笔写回和续写状态写回: %s",
+                        chapter_id,
+                        guardrail_meta.get("manual_review_reasons") if isinstance(guardrail_meta, dict) else [],
+                    )
+                    yield await tracker.saving("章节已保存，护栏未通过，需人工复核", 0.8)
+                    yield await tracker.complete("创作已保存，需人工复核后再进入续写链路")
+                    yield await tracker.result({
+                        'word_count': new_word_count,
+                        'analysis_task_id': None,
+                        'final_content': full_content,
+                        'chapter_status': current_chapter.status,
+                        'guardrail_status': guardrail_status,
+                        'guardrail_review_required': True,
+                        'guardrail_review_reasons': (
+                            guardrail_meta.get("manual_review_reasons")
+                            if isinstance(guardrail_meta, dict)
+                            else []
+                        ),
+                    })
+                    yield await tracker.done()
+                    break
                 
                 # 🔮 章节生成后自动标记计划在本章埋入的伏笔
                 try:
@@ -2167,6 +2240,9 @@ async def generate_chapter_content_stream(
                     'word_count': new_word_count,
                     'analysis_task_id': task_id,
                     'final_content': full_content,
+                    'chapter_status': current_chapter.status,
+                    'guardrail_status': guardrail_status,
+                    'guardrail_review_required': False,
                 })
                 
                 # 发送分析开始事件（使用自定义事件）
@@ -3409,6 +3485,28 @@ async def execute_batch_generation_in_order(
                     last_error = str(e)
                     error_msg = f"第{chapter.chapter_number if chapter else '?'}章出错: {last_error}"
                     logger.error(f"❌ {error_msg}")
+
+                    if isinstance(e, ChapterGuardrailReviewRequiredError):
+                        failed_info = {
+                            'chapter_id': chapter_id,
+                            'chapter_number': chapter.chapter_number if chapter else -1,
+                            'title': chapter.title if chapter else '未知',
+                            'error': last_error,
+                            'retry_count': retry_count,
+                            'guardrail_review_required': True,
+                            'guardrail_review_reasons': e.reasons,
+                        }
+                        async with write_lock:
+                            if task.failed_chapters is None:
+                                task.failed_chapters = []
+                            task.failed_chapters.append(failed_info)
+                            task.status = 'failed'
+                            task.error_message = f"第{chapter.chapter_number if chapter else '?'}章需人工复核: {last_error}"[:500]
+                            task.completed_at = datetime.now()
+                            task.current_retry_count = retry_count
+                            await db_session.commit()
+                        logger.error("🛑 批量生成中断: 章节护栏最终未通过，等待人工复核")
+                        return
                     
                     retry_count += 1
                     
@@ -3746,6 +3844,7 @@ async def generate_single_chapter_for_batch(
         guarded_content = guardrail_meta.get("content")
         if isinstance(guarded_content, str) and guarded_content.strip():
             full_content = guarded_content
+    guardrail_review_required = guardrail_requires_manual_review(guardrail_meta)
     
     # 更新章节内容到数据库（使用锁保护）
     async with write_lock:
@@ -3753,7 +3852,7 @@ async def generate_single_chapter_for_batch(
         chapter.content = full_content
         new_word_count = len(full_content)
         chapter.word_count = new_word_count
-        chapter.status = "completed"
+        chapter.status = _chapter_status_after_guardrails(guardrail_meta)
         
         # 更新项目字数
         project.current_words = project.current_words - old_word_count + new_word_count
@@ -3762,7 +3861,10 @@ async def generate_single_chapter_for_batch(
         history = GenerationHistory(
             project_id=chapter.project_id,
             chapter_id=chapter.id,
-            prompt=f"批量生成: 第{chapter.chapter_number}章 {chapter.title}",
+            prompt=_chapter_generation_history_prompt(
+                base_prompt=f"批量生成: 第{chapter.chapter_number}章 {chapter.title}",
+                guardrail_meta=guardrail_meta,
+            ),
             generated_content=full_content[:500] if len(full_content) > 500 else full_content,
             model="default"
         )
@@ -3775,6 +3877,14 @@ async def generate_single_chapter_for_batch(
     
     # 生成简短摘要返回
     summary_preview = full_content[:300].replace('\n', ' ') if full_content else ""
+
+    if guardrail_review_required:
+        reasons = (
+            guardrail_meta.get("manual_review_reasons")
+            if isinstance(guardrail_meta, dict)
+            else []
+        )
+        raise ChapterGuardrailReviewRequiredError(list(reasons or []))
     
     # 🔮 批量生成后自动标记计划在本章埋入的伏笔
     try:

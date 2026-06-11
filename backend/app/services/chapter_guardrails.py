@@ -32,6 +32,75 @@ class ChapterGuardrailResult:
         self.passed = False
 
 
+def guardrail_requires_manual_review(guardrail_meta: Optional[dict]) -> bool:
+    """判断护栏修复后是否仍需人工复核，避免高风险草稿静默入库。"""
+    if not isinstance(guardrail_meta, dict):
+        return False
+    final_result = guardrail_meta.get("final_result")
+    if _guardrail_result_passed(final_result):
+        return False
+    return bool(_guardrail_result_violations(final_result))
+
+
+def guardrail_acceptance_status(guardrail_meta: Optional[dict]) -> str:
+    """返回章节护栏准入状态，用于章节状态、生成历史和前端展示。"""
+    if not isinstance(guardrail_meta, dict):
+        return "accepted"
+    if guardrail_requires_manual_review(guardrail_meta):
+        return "needs_manual_review"
+    if bool(guardrail_meta.get("applied")):
+        return "repaired"
+    return "accepted"
+
+
+def guardrail_review_reasons(guardrail_meta: Optional[dict]) -> list[str]:
+    """提取最终仍未通过的护栏信号。"""
+    if not isinstance(guardrail_meta, dict):
+        return []
+    reasons: list[str] = []
+    for violation in _guardrail_result_violations(guardrail_meta.get("final_result")):
+        violation_type = _guardrail_violation_field(violation, "type")
+        severity = _guardrail_violation_field(violation, "severity")
+        if not violation_type:
+            continue
+        reason = f"{violation_type}:{severity}" if severity else violation_type
+        if reason not in reasons:
+            reasons.append(reason)
+    return reasons
+
+
+def format_guardrail_history_note(guardrail_meta: Optional[dict]) -> str:
+    """把护栏最终状态压缩到生成历史，方便复盘为什么进入人工复核。"""
+    if not isinstance(guardrail_meta, dict):
+        return ""
+    attempts = int(guardrail_meta.get("attempts") or 0)
+    status = guardrail_acceptance_status(guardrail_meta)
+    reasons = ", ".join(guardrail_review_reasons(guardrail_meta)) or "none"
+    return f"护栏状态: {status}; attempts={attempts}; final_reasons={reasons}"
+
+
+def _guardrail_result_passed(result: object) -> bool:
+    if isinstance(result, dict):
+        return bool(result.get("passed"))
+    return bool(getattr(result, "passed", False))
+
+
+def _guardrail_result_violations(result: object) -> list[object]:
+    if isinstance(result, dict):
+        raw = result.get("violations")
+    else:
+        raw = getattr(result, "violations", None)
+    return list(raw) if isinstance(raw, list) else []
+
+
+def _guardrail_violation_field(violation: object, key: str) -> str:
+    if isinstance(violation, dict):
+        value = violation.get(key)
+    else:
+        value = getattr(violation, key, None)
+    return str(value or "").strip()
+
+
 class ChapterGuardrails:
     """针对章节生成结果做轻量一致性检查。"""
 
@@ -635,6 +704,8 @@ async def apply_chapter_guardrail_check(
             "attempts": 0,
             "initial_result": initial_result,
             "final_result": initial_result,
+            "acceptance_status": "accepted",
+            "manual_review_reasons": [],
         }
 
     content = generated_text
@@ -695,10 +766,13 @@ async def apply_chapter_guardrail_check(
         if final_result.passed:
             break
 
-    return {
+    result = {
         "content": content,
         "applied": attempts > 0 and content != generated_text,
         "attempts": attempts,
         "initial_result": initial_result,
         "final_result": final_result,
     }
+    result["acceptance_status"] = guardrail_acceptance_status(result)
+    result["manual_review_reasons"] = guardrail_review_reasons(result)
+    return result

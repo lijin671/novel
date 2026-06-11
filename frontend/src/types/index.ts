@@ -290,7 +290,7 @@ export interface Chapter {
   summary?: string;
   chapter_number: number;
   word_count: number;
-  status: 'draft' | 'writing' | 'completed';
+  status: 'draft' | 'writing' | 'completed' | 'review_required';
   expansion_plan?: string; // JSON字符串，解析后为ExpansionPlanData
   outline_id?: string; // 关联的大纲ID
   sub_index?: number; // 大纲下的子章节序号
@@ -306,7 +306,7 @@ export interface ChapterCreate {
   chapter_number: number;
   content?: string;
   summary?: string;
-  status?: 'draft' | 'writing' | 'completed';
+  status?: 'draft' | 'writing' | 'completed' | 'review_required';
 }
 
 export interface ChapterUpdate {
@@ -315,7 +315,7 @@ export interface ChapterUpdate {
   // chapter_number 不允许修改，由大纲顺序决定
   summary?: string;
   // word_count 自动计算，不允许手动修改
-  status?: 'draft' | 'writing' | 'completed';
+  status?: 'draft' | 'writing' | 'completed' | 'review_required';
 }
 
 // 章节生成请求类型

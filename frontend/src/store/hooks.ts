@@ -335,6 +335,9 @@ export function useChapterSync() {
       let buffer = '';
       let fullContent = '';
       let analysisTaskId: string | undefined;
+      let chapterStatus: string | undefined;
+      let guardrailReviewRequired = false;
+      let guardrailReviewReasons: string[] = [];
 
       while (true) {
         const { done, value } = await reader.read();
@@ -392,6 +395,17 @@ export function useChapterSync() {
             if (message.data?.analysis_task_id) {
               analysisTaskId = message.data.analysis_task_id;
             }
+            if (typeof message.data?.chapter_status === 'string') {
+              chapterStatus = message.data.chapter_status;
+            }
+            if (message.data?.guardrail_review_required === true) {
+              guardrailReviewRequired = true;
+            }
+            if (Array.isArray(message.data?.guardrail_review_reasons)) {
+              guardrailReviewReasons = message.data.guardrail_review_reasons
+                .map((item: unknown) => String(item))
+                .filter(Boolean);
+            }
             if (typeof message.data?.final_content === 'string' && message.data.final_content.length > 0) {
               fullContent = message.data.final_content;
               if (onProgress) {
@@ -419,7 +433,10 @@ export function useChapterSync() {
 
       return {
         content: fullContent,
-        analysis_task_id: analysisTaskId
+        analysis_task_id: analysisTaskId,
+        chapter_status: chapterStatus,
+        guardrail_review_required: guardrailReviewRequired,
+        guardrail_review_reasons: guardrailReviewReasons,
       };
     } catch (error) {
       console.error('AI流式生成章节内容失败:', error);

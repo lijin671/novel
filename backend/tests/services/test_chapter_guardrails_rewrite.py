@@ -16,6 +16,17 @@ class StubAIService:
         }
 
 
+class StillCopyingAIService:
+    def __init__(self):
+        self.prompts: list[str] = []
+
+    async def generate_text(self, **kwargs):
+        self.prompts.append(kwargs["prompt"])
+        return {
+            "content": "新主角把青铜钥匙按进雨水里，旧档案室的窗户一格格亮起来。"
+        }
+
+
 @pytest.mark.asyncio
 async def test_apply_chapter_guardrail_check_rewrites_failed_generation_once():
     ai_service = StubAIService()
@@ -309,3 +320,27 @@ async def test_apply_chapter_guardrail_check_injects_forbidden_source_names_into
     assert "- 沈璃" in prompt
     assert "- 青岚会" in prompt
     assert "不得原样沿用" in prompt
+
+
+@pytest.mark.asyncio
+async def test_apply_chapter_guardrail_check_marks_failed_rewrite_for_manual_review():
+    ai_service = StillCopyingAIService()
+    source_excerpt = "林寒把青铜钥匙按进雨水里，旧档案室的窗户一格格亮起来。"
+    original = "新主角把青铜钥匙按进雨水里，旧档案室的窗户一格格亮起来。"
+
+    result = await apply_chapter_guardrail_check(
+        generated_text=original,
+        ai_service=ai_service,
+        chapter_number=1,
+        chapter_title="新雨",
+        chapter_outline="写一个独立档案室对峙场景。",
+        target_word_count=1200,
+        inspired_source_excerpts=[source_excerpt],
+        max_rewrites=1,
+    )
+
+    assert result["attempts"] == 1
+    assert result["final_result"].passed is False
+    assert result["acceptance_status"] == "needs_manual_review"
+    assert result["manual_review_reasons"]
+    assert any("inspired_source_copy" in reason for reason in result["manual_review_reasons"])
