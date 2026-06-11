@@ -14101,3 +14101,98 @@ def test_static_20260612_sources_add_knowledge_style_truth_ledger_simulation_gat
     assert "truth_file_rag_pyramid_audit_gate_hints" in digest
     assert "proposal_accept_ledger_quality_gate_hints" in digest
     assert "simulated_event_log_narrative_layer_gate_hints" in digest
+
+
+def test_static_20260612_sources_add_command_manifest_adaptive_quality_gates():
+    assert "https://github.com/proportionable-plaguespot199/novel-workflow" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/silbaram/novel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/forsonny/Claude-Code-Novel-Writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("hot, warm, and cold" in query.lower() and "/novel:write" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story-bible-planner" in query.lower() and "epub-builder" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("adaptive quality" in query.lower() and "self-healing" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "proportionable-plaguespot199/novel-workflow",
+                "html_url": "https://github.com/proportionable-plaguespot199/novel-workflow",
+                "description": (
+                    "novel-workflow uses 12 Slash Commands /novel:init /novel:style /novel:outline "
+                    "/novel:write /novel:review /novel:sync, multi-model Claude Codex Gemini roles, "
+                    "hot, warm, and cold Context Levels, Markdown and JSON State Management, four story "
+                    "templates, works offline, downloadable workflow_novel_v2.8-beta.3.zip, npm install and build."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "claude-code", "workflow"],
+                "updated_at": "2026-06-11T20:00:00Z",
+                "root_files": ["README.md", "package.json", "bin", "templates/state/genres/hongkong-crime/workflow_novel_v2.8-beta.3.zip"],
+                "package_scripts": {"build": "npm run build"},
+            },
+            {
+                "full_name": "silbaram/novel-writer",
+                "html_url": "https://github.com/silbaram/novel-writer",
+                "description": (
+                    "Novel Writer is a dual-track harness for nonfiction and 라노벨 fiction: story-bible-planner, "
+                    "story-bible-reviewer, season-planner, chapter-plotter, continuity-keeper, chapter-novelist, "
+                    "novel-style-guardian, novel-editor, book_manifest.json, P02_bible, P03_planning, "
+                    "P04_continuity, P05_manuscript, P06_publication, epub-builder and build_log."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "light-novel", "epub"],
+                "updated_at": "2026-06-11T13:08:54Z",
+                "root_files": ["README.md", ".claude", "style-guides", "scripts"],
+            },
+            {
+                "full_name": "forsonny/Claude-Code-Novel-Writer",
+                "html_url": "https://github.com/forsonny/Claude-Code-Novel-Writer",
+                "description": (
+                    "Claude-Code-Novel-Writer has adaptive quality, self-healing, smart planner, error recovery, "
+                    "quality modes, system-health.json, quality-metrics.json, performance-metrics.json, dashboard.py, "
+                    "quality-check.sh, seven agents, zero human intervention and claude --dangerously-skip-permissions."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "claude-code", "automation"],
+                "updated_at": "2026-06-11T03:00:00Z",
+                "root_files": ["README.md", "CLAUDE.md", ".claude/agents", "automation/dashboard.py", "automation/quality-check.sh"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:59:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "slash_command_context_tier_state_gate" in candidates["proportionable-plaguespot199/novel-workflow"]["absorbed_patterns"]
+    assert "dual_track_epub_manifest_pipeline_gate" in candidates["silbaram/novel-writer"]["absorbed_patterns"]
+    assert "adaptive_quality_self_healing_autonomy_gate" in candidates["forsonny/Claude-Code-Novel-Writer"]["absorbed_patterns"]
+    assert "binary_distribution" in candidates["proportionable-plaguespot199/novel-workflow"]["risk_flags"]
+    assert "host_permission_bypass_surface" in candidates["forsonny/Claude-Code-Novel-Writer"]["risk_flags"]
+    assert "shell_script" in candidates["forsonny/Claude-Code-Novel-Writer"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "slash_command_phase_authority_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "dual_track_pipeline_manifest_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "adaptive_quality_mode_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "slash_command_phase_state_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "dual_track_pipeline_artifact_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "adaptive_quality_health_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "slash_command_phase_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "track_manifest_pipeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "adaptive_quality_recovery_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("hot/warm/cold" in hint.lower() for hint in pattern_pack["slash_command_context_tier_state_gate_hints"])
+    assert any("epub" in hint.lower() and "checksum" in hint.lower() for hint in pattern_pack["dual_track_epub_manifest_pipeline_gate_hints"])
+    assert any("self-healing" in hint.lower() and "bounded" in hint.lower() for hint in pattern_pack["adaptive_quality_self_healing_autonomy_gate_hints"])
+    assert any("/novel phase" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("bounded quality/recovery loops" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("permission bypass" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "slash_command_context_tier_state_gate_hints" in digest
+    assert "dual_track_epub_manifest_pipeline_gate_hints" in digest
+    assert "adaptive_quality_self_healing_autonomy_gate_hints" in digest

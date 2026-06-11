@@ -296,6 +296,9 @@ export interface SourceDiscoveryPatternPack {
   truth_file_rag_pyramid_audit_gate_hints?: string[];
   proposal_accept_ledger_quality_gate_hints?: string[];
   simulated_event_log_narrative_layer_gate_hints?: string[];
+  slash_command_context_tier_state_gate_hints?: string[];
+  dual_track_epub_manifest_pipeline_gate_hints?: string[];
+  adaptive_quality_self_healing_autonomy_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

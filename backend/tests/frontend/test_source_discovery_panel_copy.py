@@ -233,6 +233,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "truth_file_rag_pyramid_audit_gate_hints",
             "proposal_accept_ledger_quality_gate_hints",
             "simulated_event_log_narrative_layer_gate_hints",
+            "slash_command_context_tier_state_gate_hints",
+            "dual_track_epub_manifest_pipeline_gate_hints",
+            "adaptive_quality_self_healing_autonomy_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -476,6 +479,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Truth File / RAG pyramid audit gates" in panel_text
     assert "Proposal ledger quality gates" in panel_text
     assert "Simulation event-log narrative gates" in panel_text
+    assert "Slash-command context tier gates" in panel_text
+    assert "Dual-track EPUB manifest gates" in panel_text
+    assert "Adaptive quality self-healing gates" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():

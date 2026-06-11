@@ -367,6 +367,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("Truth File" OR "三级金字塔" OR "长篇审查" OR "全书分析") ("小说" OR "RAG") in:name,description,readme',
     '("LedgerStore" OR "PrevTailSummarizer" OR "propose/accept/regenerate" OR "A/B 双向") ("AI 长篇小说" OR "novel") in:name,description,readme',
     '("actions.jsonl" OR "物理事件日志" OR "MiroFish" OR "史官层") ("novel" OR "叙事模拟") in:name,description,readme',
+    '("hot, warm, and cold" OR "12 Slash Commands" OR "/novel:write" OR "Markdown and JSON") ("online novels" OR "novel-workflow") in:name,description,readme',
+    '("story-bible-planner" OR "season-planner" OR "continuity-keeper" OR "epub-builder") ("novel writer" OR "light novel") in:name,description,readme',
+    '("adaptive quality" OR "self-healing" OR "smart planner" OR "system-health.json") ("novel generation" OR "Claude Code") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -793,6 +796,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/TSOFTP-afk/lshu-novel-generator",
     "https://github.com/tyxben/AI_novel",
     "https://github.com/ToussaintKnight/AutoStory",
+    "https://github.com/proportionable-plaguespot199/novel-workflow",
+    "https://github.com/silbaram/novel-writer",
+    "https://github.com/forsonny/Claude-Code-Novel-Writer",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1133,6 +1139,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("truth_file_rag_pyramid_audit_gate", ("灵枢", "lshu", "truth file", "truth file system", "rag 上下文", "长篇审查", "全书分析", "三级金字塔", "本地 sqlite", "模型路由", "快照查看与恢复", "人物卡", "世界观")),
     ("proposal_accept_ledger_quality_gate", ("ai_novel", "propose/accept/regenerate", "noveltoolfacade", "ledgerstore", "briefassembler", "prevtailsummarizer", "15-char verbatim", "7 维质量评估", "a/b 双向", "de-bias", "死亡角色检测", "叙事债务")),
     ("simulated_event_log_narrative_layer_gate", ("autostory", "mirofish", "simulation_requirement", "actions.jsonl", "史官层", "物理事件日志", "社媒碎片", "叙事层", "event log", "narrative layer", "social simulation", "style distillation")),
+    ("slash_command_context_tier_state_gate", ("novel-workflow", "12 slash commands", "/novel:init", "/novel:style", "/novel:outline", "/novel:write", "/novel:review", "/novel:sync", "hot, warm, and cold", "context levels", "markdown and json", "four story templates", "works offline")),
+    ("dual_track_epub_manifest_pipeline_gate", ("silbaram", "novel writer", "dual-track", "two tracks", "라노벨", "story-bible-planner", "season-planner", "chapter-plotter", "continuity-keeper", "novel-style-guardian", "epub-builder", "book_manifest.json", "P02_bible", "P04_continuity")),
+    ("adaptive_quality_self_healing_autonomy_gate", ("claude-code-novel-writer", "adaptive quality", "self-healing", "smart planner", "error recovery", "system-health.json", "quality-metrics.json", "performance-metrics.json", "quality modes", "zero human intervention", "dashboard.py", "quality-check.sh")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -1294,6 +1303,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("skill_install_surface", ("codex skills", "clawhub install", ".codex\\skills", ".claude/skills", "copy-item -recurse", "skill install", "openclaw")),
     ("python_installer", ("install.py", "interactive installer")),
     ("platform_publish_automation_surface", ("browser automation login", "http api upload", "one-click publish", "webnovel-publish", "publish to fanqie", "fanqie publish")),
+    ("host_permission_bypass_surface", ("dangerously-skip-permissions", "skip permissions", "bypass permissions")),
     ("device_control", ("adb", "root", "accessibility", "plugin marketplace")),
     ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url")),
     ("corpus_downloader", ("download texts", "parallel downloads", "gutenberg scraper", "build public-domain book corpora", "full-text search")),
@@ -3099,6 +3109,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "AutoStory is a no-license-observed narrative simulation design note that combines a MiroFish social-simulation backbone, AutoStory parameters, and nuwa-style distillation. Public README markers describe simulation_requirement injection through ontology/profile/config/OASIS/report stages, actions.jsonl social dialogue output, a historian layer that infers structured physical event logs from social fragments and five-dimensional parameters, and a narrative layer that turns event logs into chapters through plan/draft/review/finalize plus style distillation. "
         "Pattern-only adaptation for simulation-to-event-log custody, historian-layer inference, and event-log-to-narrative separation; MiroFish runtime, prompt bodies, source novel text, actions files, provider calls, style templates, and generated prose are not imported or executed."
     ),
+    "proportionable-plaguespot199/novel-workflow": (
+        "novel-workflow is a no-license-observed online-novel writing toolchain for Claude Code. Public README markers describe 12 slash commands covering init/style/setting/outline/write/review/sync, multi-model role split between Claude/Codex/Gemini, hot/warm/cold context levels, Markdown plus JSON state management, four story templates, offline file-only core workflows, downloadable ZIP packages, Node/npm setup, build commands, and /novel:* command surfaces. "
+        "Pattern-only adaptation for command-phase routing, context-temperature tiers, state sync, and Markdown/JSON recovery; downloadable ZIPs, Node/npm install/build, Claude Code command registration, package files, templates, and upstream command text are not imported or executed."
+    ),
+    "silbaram/novel-writer": (
+        "Novel Writer is a no-license-observed Korean dual-track writing harness for nonfiction and light-novel/fiction production. Public README markers describe research -> plan -> plan review -> chapter writing -> style guardian -> editor -> EPUB build for nonfiction, and for fiction: request parsing, story-bible planner/reviewer, season planner, chapter plotter, continuity keeper, chapter novelist, novel style guardian, manuscript editor, book_manifest.json, P02_bible/P03_planning/P04_continuity/P05_manuscript/P06_publication artifacts, build logs, EPUB and Markdown outputs. "
+        "Pattern-only adaptation for dual-track pipeline manifests, season/chapter planning handoffs, continuity/style logs, and EPUB packaging evidence; Claude Agent SDK, model settings, pandoc builds, cover generation, skill files, and produced manuscripts are not executed or imported."
+    ),
+    "forsonny/claude-code-novel-writer": (
+        "Claude-Code-Novel-Writer is a no-license-observed fantasy novel automation platform. Public README markers describe autonomous 100,000-word generation, adaptive quality control, self-healing error detection/recovery, smart planner, seven sub-agents, health check -> state sync -> quality analysis -> smart planning -> generation -> monitoring -> performance tracking loops, quality metrics for word count/dialogue ratio/sensory density/paragraph length/character consistency/world logic, quality modes, system-health.json, performance-metrics.json, quality-metrics.json, dashboard.py, shell scripts, and claude --dangerously-skip-permissions instructions. "
+        "Pattern-only adaptation for adaptive quality monitoring, self-healing review queues, health/performance manifests, and autonomy-stop safeguards; shell scripts, dashboard runtime, Claude output-style installation, permission bypass mode, generated manuscripts, and automation hooks are not executed or imported."
+    ),
 
 }
 
@@ -3811,6 +3833,9 @@ class NovelSourceDiscoveryService:
             "truth_file_rag_pyramid_audit_gate_hints": self._build_truth_file_rag_pyramid_audit_gate_hints(available_patterns),
             "proposal_accept_ledger_quality_gate_hints": self._build_proposal_accept_ledger_quality_gate_hints(available_patterns),
             "simulated_event_log_narrative_layer_gate_hints": self._build_simulated_event_log_narrative_layer_gate_hints(available_patterns),
+            "slash_command_context_tier_state_gate_hints": self._build_slash_command_context_tier_state_gate_hints(available_patterns),
+            "dual_track_epub_manifest_pipeline_gate_hints": self._build_dual_track_epub_manifest_pipeline_gate_hints(available_patterns),
+            "adaptive_quality_self_healing_autonomy_gate_hints": self._build_adaptive_quality_self_healing_autonomy_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4557,6 +4582,9 @@ class NovelSourceDiscoveryService:
             "truth_file_rag_pyramid_audit_gate": 70,
             "proposal_accept_ledger_quality_gate": 72,
             "simulated_event_log_narrative_layer_gate": 68,
+            "slash_command_context_tier_state_gate": 68,
+            "dual_track_epub_manifest_pipeline_gate": 69,
+            "adaptive_quality_self_healing_autonomy_gate": 70,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5016,6 +5044,15 @@ class NovelSourceDiscoveryService:
         if "simulated_event_log_narrative_layer_gate" in patterns:
             targets.append("simulation_to_event_log_policy")
             targets.append("event_log_to_narrative_layer_policy")
+        if "slash_command_context_tier_state_gate" in patterns:
+            targets.append("slash_command_phase_authority_policy")
+            targets.append("context_tier_state_sync_policy")
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            targets.append("dual_track_pipeline_manifest_policy")
+            targets.append("epub_packaging_evidence_policy")
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            targets.append("adaptive_quality_mode_policy")
+            targets.append("self_healing_autonomy_stop_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -6005,6 +6042,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["ledger_quality_debias_report", "prev_tail_verbatim_guard_report", "proposal_accept_regenerate_trace_report"])
         if "simulated_event_log_narrative_layer_gate" in patterns:
             targets.extend(["simulation_event_log_trace_report", "historian_layer_inference_report", "narrative_layer_physical_event_consistency_report"])
+        if "slash_command_context_tier_state_gate" in patterns:
+            targets.extend(["slash_command_phase_state_report", "context_tier_hot_warm_cold_report", "markdown_json_state_sync_report"])
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            targets.extend(["dual_track_pipeline_artifact_report", "season_chapter_continuity_manifest_report", "epub_build_manifest_report"])
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            targets.extend(["adaptive_quality_health_report", "self_healing_recovery_trace_report", "autonomy_stop_permission_boundary_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6834,6 +6877,12 @@ class NovelSourceDiscoveryService:
             hints.append("Before chapter writing, assemble the brief from accepted proposals, LedgerStore debts, active arcs, character state, and a compact previous-tail summary instead of feeding raw previous prose.")
         if "simulated_event_log_narrative_layer_gate" in patterns:
             hints.append("Before turning simulation into prose, convert dialogue/social actions into a structured physical event log, then draft only from verified event entries and narrative-layer intent.")
+        if "slash_command_context_tier_state_gate" in patterns:
+            hints.append("Before a /novel-style command runs, declare the command phase, allowed state writes, hot/warm/cold context tiers, and Markdown/JSON sync target.")
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            hints.append("Before chapter production, choose the nonfiction or fiction track and require a manifest path, style/continuity log path, and eventual EPUB/Markdown packaging evidence.")
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            hints.append("Before autonomous generation, set quality mode, health-check criteria, recovery limits, permission boundary, and stop conditions so self-healing cannot loop silently.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7373,6 +7422,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist proposal id, accept/regenerate decision, ledger debt deltas, assembled brief checksum, quality/de-bias report, and previous-tail summary/verbatim-guard result.")
         if "simulated_event_log_narrative_layer_gate" in patterns:
             hints.append("Persist simulation requirement id, actions manifest checksum, historian inference batch id, physical event log ids, narrative layer draft id, and event-consistency review status.")
+        if "slash_command_context_tier_state_gate" in patterns:
+            hints.append("Persist command id, phase, hot/warm/cold context manifests, Markdown state path, JSON state path, sync result, and any cross-model handoff notes.")
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            hints.append("Persist track id, story-bible/season/chapter plan paths, continuity/style log ids, final manuscript manifest, build log, and EPUB/Markdown output checksums.")
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            hints.append("Persist quality mode, health snapshot, quality metrics, recovery attempt id, smart-planner decision, performance note, and explicit autonomy stop/continue decision.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -11209,6 +11264,33 @@ class NovelSourceDiscoveryService:
             "The narrative layer should draft from verified event logs plus style constraints, then review whether the chapter preserves event causality without copying simulation wording.",
         ]
 
+    def _build_slash_command_context_tier_state_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "slash_command_context_tier_state_gate" not in patterns:
+            return []
+        return [
+            "Slash-command writing flows should map each command to one phase, one state-write authority, and one verifier; /novel:write must not also mutate outline or style canon.",
+            "Use hot/warm/cold context tiers: hot current chapter facts, warm active arc/style/characters, and cold durable bible/templates stay separately labeled before prompt assembly.",
+            "Keep Markdown author-readable state and JSON machine state in sync with checksums so recovery can prove which side is authoritative after interruption.",
+        ]
+
+    def _build_dual_track_epub_manifest_pipeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "dual_track_epub_manifest_pipeline_gate" not in patterns:
+            return []
+        return [
+            "Choose a track before planning: nonfiction research-plan-manuscript or fiction bible-season-chapter-continuity; artifacts from the two tracks should not share unchecked assumptions.",
+            "Fiction production should keep story bible, season bible, chapter plan, continuity records, style log, final manuscript, and book_manifest.json as separate handoff surfaces.",
+            "Publication packaging needs build logs and output checksums for EPUB/Markdown, not just a generated manuscript claim.",
+        ]
+
+    def _build_adaptive_quality_self_healing_autonomy_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "adaptive_quality_self_healing_autonomy_gate" not in patterns:
+            return []
+        return [
+            "Adaptive quality should change mode from evidence—health snapshot, quality metrics, and reviewer findings—not from a vague desire to keep generating.",
+            "Self-healing loops need bounded retries, failure classification, recovery patch notes, and a stop condition when continuity, world logic, or permission boundaries fail.",
+            "Autonomous writing dashboards are observability only; they do not authorize permission bypass, unattended host mutation, shell hooks, or silent manuscript promotion.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -11421,6 +11503,15 @@ class NovelSourceDiscoveryService:
         if "simulated_event_log_narrative_layer_gate" in patterns:
             targets.append("simulated_event_log_remap")
             targets.append("historian_layer_inference_remap")
+        if "slash_command_context_tier_state_gate" in patterns:
+            targets.append("slash_command_phase_remap")
+            targets.append("context_tier_state_sync_remap")
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            targets.append("track_manifest_pipeline_remap")
+            targets.append("publication_build_evidence_remap")
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            targets.append("adaptive_quality_recovery_remap")
+            targets.append("autonomy_stop_boundary_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -12097,6 +12188,12 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, require accepted proposal ids, ledger debts, active arcs, brief checksum, previous-tail guard, and quality/de-bias check before drafting.")
         if "simulated_event_log_narrative_layer_gate" in patterns:
             hints.append("For same-type prompts, convert any simulation/social output into new physical event logs first, then draft from event causality rather than dialogue fragments.")
+        if "slash_command_context_tier_state_gate" in patterns:
+            hints.append("For same-type prompts, state which /novel phase is active and rebuild hot/warm/cold context tiers from transformed canon before writing.")
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            hints.append("For same-type prompts, choose a fiction or nonfiction track and require manifest, continuity/style logs, and publication build evidence before finalization.")
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            hints.append("For same-type prompts, include quality mode, recovery budget, health metrics, and autonomy stop rules before any batch generation loop.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12483,6 +12580,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform proposal/ledger workflows by assigning new proposal ids, ledger debt categories, active arcs, brief inputs, and quality thresholds.")
         if "simulated_event_log_narrative_layer_gate" in patterns:
             hints.append("Transform simulation artifacts by rewriting social actions into new physical event logs with changed actors, motives, consequences, and scene purposes.")
+        if "slash_command_context_tier_state_gate" in patterns:
+            hints.append("Transform command workflows by assigning new phase names, state paths, context tiers, sync rules, and verifier outputs for the new manuscript.")
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            hints.append("Transform dual-track pipeline lessons into new artifact contracts: bible, season plan, chapter plan, continuity log, style log, manuscript, and publication build manifest.")
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            hints.append("Transform autonomy patterns into bounded quality/recovery loops with new metrics, failure categories, retry limits, and explicit human-visible stop decisions.")
         if "constraint_specificity_creativity_benchmark" in patterns:
             hints.append("Use specific constraints for the new story's premise, not for recreating source event details.")
         if "style_axis_diversity_fingerprint" in patterns:
@@ -12666,6 +12769,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform proposal/ledger workflows by assigning new proposal ids, ledger debt categories, active arcs, brief inputs, and quality thresholds.")
         if "simulated_event_log_narrative_layer_gate" in patterns:
             hints.append("Transform simulation artifacts by rewriting social actions into new physical event logs with changed actors, motives, consequences, and scene purposes.")
+        if "slash_command_context_tier_state_gate" in patterns:
+            hints.append("Transform command workflows by assigning new phase names, state paths, context tiers, sync rules, and verifier outputs for the new manuscript.")
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            hints.append("Transform dual-track pipeline lessons into new artifact contracts: bible, season plan, chapter plan, continuity log, style log, manuscript, and publication build manifest.")
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            hints.append("Transform autonomy patterns into bounded quality/recovery loops with new metrics, failure categories, retry limits, and explicit human-visible stop decisions.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -13237,6 +13346,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject chapters that bypass proposal acceptance, reuse previous-tail prose verbatim, ignore ledger debts, or approve judge scores without de-bias evidence.")
         if "simulated_event_log_narrative_layer_gate" in patterns:
             hints.append("Reject prose that copies social-simulation dialogue, actions.jsonl wording, or source-novel event order instead of drafting from transformed physical event logs.")
+        if "slash_command_context_tier_state_gate" in patterns:
+            hints.append("Reject drafts that inherit upstream slash-command text, template genre packs, hot/warm/cold labels as prose, or stale JSON state as transformed canon.")
+        if "dual_track_epub_manifest_pipeline_gate" in patterns:
+            hints.append("Reject finalization when manifest, continuity log, style log, build log, EPUB/Markdown checksums, or track-specific artifact ownership is missing.")
+        if "adaptive_quality_self_healing_autonomy_gate" in patterns:
+            hints.append("Reject autonomous loops that use permission bypass, unbounded self-healing retries, dashboard optimism, or quality metrics without reviewer findings as completion proof.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -13973,6 +14088,9 @@ class NovelSourceDiscoveryService:
                 "truth_file_rag_pyramid_audit_gate",
                 "proposal_accept_ledger_quality_gate",
                 "simulated_event_log_narrative_layer_gate",
+                "slash_command_context_tier_state_gate",
+                "dual_track_epub_manifest_pipeline_gate",
+                "adaptive_quality_self_healing_autonomy_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",
