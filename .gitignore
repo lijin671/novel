@@ -61,6 +61,7 @@ pnpm-debug.log*
 # Node.js
 node_modules/
 .npm
+frontend/.npm-cache/
 .eslintcache
 
 # Build outputs
@@ -84,9 +85,13 @@ backend/data/admins.json
 *.bak
 *.swp
 *.tmp
+.tmp*
+.tmp*/
+tmp_*
 .temp/
 temp/
 tmp/
+scripts/ops/tmp_*.sql
 
 # Coverage
 .coverage
