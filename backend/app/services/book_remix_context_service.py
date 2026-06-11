@@ -42,6 +42,142 @@ def build_remix_continuation_progress_summary(
     }
 
 
+def build_remix_continuation_control_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    """Build chapter-level production control checks for continuation prompts."""
+    chapter_packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    chapter_numbers = [_int_or_none(package.get("chapter_number")) for package in chapter_packages]
+    chapter_numbers = [number for number in chapter_numbers if number is not None]
+    chapter_gaps = _chapter_sequence_gaps(chapter_numbers)
+
+    timeline = _as_dict_list(bible.get("timeline"))
+    latest_machine_timeline = _latest_chapter_analysis_items(timeline, max_items=99)
+    timeline_anchor_count = len(latest_machine_timeline) if latest_machine_timeline else len(timeline)
+    timeline_chapters = [
+        _chapter_value(item, ("chapter_number", "last_chapter_number"))
+        for item in latest_machine_timeline
+    ]
+    timeline_chapters = [number for number in timeline_chapters if number is not None]
+    latest_chapter_number = chapter_numbers[-1] if chapter_numbers else (max(timeline_chapters) if timeline_chapters else None)
+
+    character_cards = _as_dict_list(bible.get("character_cards"))
+    open_hooks = _status_items(_as_dict_list(bible.get("foreshadows")), done=False, max_items=99)
+    pending_plan_beats = _pending_plan_beats(plan=plan, max_items=99)
+    pending_priority_hooks = _status_items(
+        _as_dict_list(plan.get("priority_hooks")) if plan else [],
+        done=False,
+        max_items=99,
+    )
+    plan_guardrails = _as_dict_list(plan.get("guardrails")) if plan else []
+    style_signature = bible.get("style_signature")
+
+    control_axes = [
+        "checkpoint_resume_state",
+        "accepted_memory_surface",
+        "character_knowledge_state",
+        "timeline_chronology",
+        "emotional_arc_delta",
+        "foreshadow_debt",
+        "parallel_plot_thread_sync",
+    ]
+    acceptance_steps = [
+        "select_context",
+        "draft_chapter",
+        "review_continuity",
+        "repair_failures",
+        "accept_chapter",
+        "write_back_memory",
+    ]
+    pattern_names = _source_pattern_names(source_pattern_pack)
+
+    if pattern_names.intersection(
+        {
+            "automatic_director_checkpoint_chain",
+            "director_stage_checkpoint_gate",
+            "role_asset_quality_review_gate",
+        }
+    ):
+        control_axes.extend([
+            "director_stage_checkpoint",
+            "role_asset_quality_stop",
+        ])
+        acceptance_steps.extend([
+            "stage_checkpoint_review",
+            "stop_on_unstable_role_assets",
+        ])
+    if pattern_names.intersection(
+        {
+            "inspectable_memory_workspace_gate",
+            "memory_aware_chapter_workspace",
+            "dashboard_task_quality_resume_gate",
+        }
+    ):
+        control_axes.extend([
+            "session_artifact_trace",
+            "editable_memory_bank_review",
+        ])
+    if pattern_names.intersection(
+        {
+            "semantic_context_consistency_gate",
+            "semantic_long_context_search",
+            "cjk_bm25_context_retrieval_gate",
+        }
+    ):
+        control_axes.append("semantic_context_match")
+    if pattern_names.intersection(
+        {
+            "multi_thread_knowledge_timeline_gate",
+            "character_knowledge_timeline_gate",
+            "pov_character_thread_filter_gate",
+        }
+    ):
+        control_axes.extend([
+            "pov_knowledge_timeline",
+            "thread_convergence_chronology",
+        ])
+
+    warnings: list[str] = []
+    if not chapter_packages:
+        warnings.append("missing_chapter_change_packages")
+    if chapter_gaps:
+        warnings.append("chapter_sequence_gaps")
+    if not character_cards:
+        warnings.append("missing_character_cards")
+    if not timeline_anchor_count:
+        warnings.append("missing_timeline_anchors")
+    if plan and not pending_plan_beats:
+        warnings.append("missing_pending_plan_beats")
+    if not plan:
+        warnings.append("missing_continuation_plan")
+    if open_hooks and not pending_plan_beats and not pending_priority_hooks:
+        warnings.append("open_hooks_without_pending_plan_target")
+    if not plan_guardrails:
+        warnings.append("missing_plan_guardrails")
+    if not isinstance(style_signature, dict) or not style_signature:
+        warnings.append("missing_style_signature")
+
+    return {
+        "chapter_package_count": len(chapter_packages),
+        "latest_chapter_number": latest_chapter_number,
+        "chapter_gap_count": len(chapter_gaps),
+        "chapter_gaps": chapter_gaps,
+        "timeline_anchor_count": timeline_anchor_count,
+        "character_card_count": len(character_cards),
+        "open_hook_count": len(open_hooks),
+        "pending_plan_beat_count": len(pending_plan_beats),
+        "pending_priority_hook_count": len(pending_priority_hooks),
+        "plan_guardrail_count": len(plan_guardrails),
+        "has_style_signature": isinstance(style_signature, dict) and bool(style_signature),
+        "control_axes": _dedupe_ordered(control_axes),
+        "acceptance_steps": _dedupe_ordered(acceptance_steps),
+        "warnings": warnings,
+    }
+
+
 def build_remix_continuation_context_block(
     *,
     project_title: str,
@@ -70,6 +206,12 @@ def build_remix_continuation_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_context_activation_audit_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_continuation_control_contract_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1205,6 +1347,18 @@ def _chapter_range_payload(chapter_numbers: list[int]) -> dict[str, int | None]:
     return {"start": chapter_numbers[0], "end": chapter_numbers[-1]}
 
 
+def _chapter_sequence_gaps(chapter_numbers: list[int]) -> list[str]:
+    ordered = sorted(set(chapter_numbers))
+    gaps: list[str] = []
+    for previous, current in zip(ordered, ordered[1:]):
+        if current <= previous + 1:
+            continue
+        start = previous + 1
+        end = current - 1
+        gaps.append(str(start) if start == end else f"{start}-{end}")
+    return gaps
+
+
 def _timeline_progression_payload(packages: list[dict[str, Any]], *, max_items: int = 12) -> list[dict[str, Any]]:
     points: list[dict[str, Any]] = []
     for package in packages[-max_items:]:
@@ -1565,6 +1719,40 @@ def _append_context_activation_audit_section(
         lines.append("Rollback guidance:")
         lines.append("- Create a named memory snapshot before risky rewrite, branch merge, or bulk bible update.")
         lines.append("- Rejected drafts must revert prose plus timeline, character, organization, hook, and plan-progress state.")
+
+
+def _append_continuation_control_contract_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    latest = audit["latest_chapter_number"] if audit["latest_chapter_number"] is not None else "none"
+    gap_summary = ",".join(audit["chapter_gaps"][:5]) if audit["chapter_gaps"] else "none"
+    lines.append("")
+    lines.append("Continuation production control contract:")
+    lines.append(
+        "- state_snapshot: "
+        f"latest_chapter={latest}, "
+        f"change_packages={audit['chapter_package_count']}, "
+        f"timeline_anchors={audit['timeline_anchor_count']}, "
+        f"character_cards={audit['character_card_count']}, "
+        f"open_hooks={audit['open_hook_count']}, "
+        f"pending_beats={audit['pending_plan_beat_count']}, "
+        f"chapter_gaps={gap_summary}"
+    )
+    lines.append(f"- control_axes: {', '.join(audit['control_axes'][:12])}")
+    lines.append(f"- acceptance_steps: {', '.join(audit['acceptance_steps'][:10])}")
+    if audit["warnings"]:
+        lines.append(f"- production_warnings: {', '.join(audit['warnings'][:10])}")
+    lines.append("- writeback_rule: only accepted chapters may update bible, timeline, character state, hooks, or plan progress")
 
 
 def _append_scene_graph_review_audit_section(
@@ -3111,6 +3299,13 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "bookrun_audit_trail_gate_hints": "bookrun_audit_trail_gate",
         "provider_budget_smoke_gate_hints": "provider_budget_smoke_gate",
         "sidecar_memory_profile_boundary_hints": "sidecar_memory_profile_boundary",
+        "automatic_director_checkpoint_chain_hints": "automatic_director_checkpoint_chain",
+        "director_stage_checkpoint_gate_hints": "director_stage_checkpoint_gate",
+        "role_asset_quality_review_gate_hints": "role_asset_quality_review_gate",
+        "inspectable_memory_workspace_gate_hints": "inspectable_memory_workspace_gate",
+        "memory_aware_chapter_workspace_hints": "memory_aware_chapter_workspace",
+        "semantic_context_consistency_gate_hints": "semantic_context_consistency_gate",
+        "multi_thread_knowledge_timeline_gate_hints": "multi_thread_knowledge_timeline_gate",
         "outline_checkpoint_milestone_gate_hints": "outline_checkpoint_milestone_gate",
         "language_localization_style_profile_gate_hints": "language_localization_style_profile_gate",
         "progressive_disclosure_skill_protocol_gate_hints": "progressive_disclosure_skill_protocol_gate",

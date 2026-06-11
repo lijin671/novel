@@ -9,11 +9,12 @@ from app.models.book_remix_bible import BookRemixBible, BookRemixContinuationPla
 from app.models.project import Project
 from app.services.book_remix_context_service import (
     BookRemixContextService,
+    build_remix_continuation_control_audit,
     build_remix_continuation_context_block,
+    build_remix_continuation_progress_summary,
     build_remix_context_preview_audit,
     build_remix_inspired_context_block,
     build_remix_inspired_independence_audit,
-    build_remix_continuation_progress_summary,
 )
 
 
@@ -40,6 +41,59 @@ def test_build_remix_continuation_context_block_contains_constraints_and_plan():
     assert "Do not flip protagonist alignment abruptly" in block
     assert "Reconnect the dropped ledger line" in block
     assert "Old rival returns in public" in block
+    assert "Continuation production control contract" in block
+    assert "writeback_rule" in block
+
+
+def test_build_remix_continuation_control_audit_tracks_resume_and_memory_gates():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+            "timeline": [
+                {"event": "Ledger clue recovered", "source": "chapter_analysis", "chapter_number": 3}
+            ],
+            "foreshadows": [{"hook": "Old rival returns", "status": "open"}],
+            "style_signature": {"voice": "spare"},
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 1,
+                    "summary": "Inspector Lin found the first ledger clue.",
+                },
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 3,
+                    "summary": "Inspector Lin confirmed the ledger clue.",
+                },
+            ],
+        },
+        plan={
+            "beats": [{"beat": "Confront the archive witness", "status": "pending"}],
+            "priority_hooks": [{"hook": "Old rival returns", "status": "pending"}],
+            "guardrails": [{"rule": "No false final confrontation"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "automatic_director_checkpoint_chain"},
+                {"name": "inspectable_memory_workspace_gate"},
+                {"name": "semantic_context_consistency_gate"},
+                {"name": "multi_thread_knowledge_timeline_gate"},
+            ]
+        },
+    )
+
+    assert audit["latest_chapter_number"] == 3
+    assert audit["chapter_gap_count"] == 1
+    assert audit["chapter_gaps"] == ["2"]
+    assert audit["character_card_count"] == 1
+    assert audit["timeline_anchor_count"] == 1
+    assert audit["pending_plan_beat_count"] == 1
+    assert "director_stage_checkpoint" in audit["control_axes"]
+    assert "editable_memory_bank_review" in audit["control_axes"]
+    assert "semantic_context_match" in audit["control_axes"]
+    assert "pov_knowledge_timeline" in audit["control_axes"]
+    assert "stage_checkpoint_review" in audit["acceptance_steps"]
+    assert audit["warnings"] == ["chapter_sequence_gaps"]
 
 
 def test_build_remix_context_preview_audit_reports_sections_tokens_and_patterns():
