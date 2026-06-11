@@ -162,6 +162,8 @@ const PINNED_HINT_KEYS = new Set([
   'governed_full_reading_continuation_gate_hints',
   'document_gamebook_branching_adapter_gate_hints',
   'forensic_style_clone_audit_risk_gate_hints',
+  'story_import_pattern_revision_gate_hints',
+  'consequence_ledger_last_actions_context_gate_hints',
   'long_term_author_preference_memory_hints',
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
@@ -603,6 +605,8 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Governed full-reading continuation gates', patternPackPayload?.governed_full_reading_continuation_gate_hints],
               ['Document gamebook branching adapter gates', patternPackPayload?.document_gamebook_branching_adapter_gate_hints],
               ['Forensic style clone/audit risk gates', patternPackPayload?.forensic_style_clone_audit_risk_gate_hints],
+              ['Story import pattern/revision gates', patternPackPayload?.story_import_pattern_revision_gate_hints],
+              ['Consequence ledger last-actions context gates', patternPackPayload?.consequence_ledger_last_actions_context_gate_hints],
               ['Story daemon evolution loop gates', patternPackPayload?.story_daemon_evolution_loop_hints],
             ])}
             {renderHintGroup('Local RAG / canon QA / patch replay gates', [

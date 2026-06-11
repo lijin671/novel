@@ -320,6 +320,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("governed full reading" OR "full_scope_allowed" OR "read-session") ("novel" OR "continuation" OR "source-grounded evidence") in:name,description,readme',
     '("gamebook" OR "interactive gamebook" OR "branching narratives") ("chapter structure" OR "style fingerprint" OR "character extraction") in:name,description,readme',
     '("forensic style auditor" OR "forensic writing style" OR "style cloning") ("chapter" OR "continuation" OR "drift audit") in:name,description,readme',
+    '("story import" OR "pattern extraction" OR "storytelling DNA") ("canon-congruent" OR "revision workflow" OR "version conflict") in:name,description,readme',
+    '("Story Bible" OR "Consequence Ledger" OR "Last 8 Actions") ("continuation turn" OR "auto-save" OR "storyState") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -704,6 +706,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/xjxjdnsnak-cell/novel-reader",
     "https://github.com/alanl1234/gamebook",
     "https://github.com/TABARC-Code/Forensic-Writing-Style-Analysis-Cloning-Claude-Skill",
+    "https://github.com/scslmd/Narrative-Engine",
+    "https://github.com/Ikyletwar/StoryForge-AI",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -995,6 +999,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("governed_full_reading_continuation_gate", ("novel reader", "governed full reading", "full reading", "read-session", "read-next", "submit-note", "reading-status", "finalize-reading", "required_coverage_complete", "full_scope_allowed", "l1/l2/l3", "source-grounded evidence", "continuation packages", "style evidence", "future-plot prediction")),
     ("document_gamebook_branching_adapter_gate", ("gamebook", "interactive gamebook", "branching narratives", "chapter structure parsing", "character extraction", "style fingerprint", "game structure", "chapter cards", "branching choices", "multiple endings", "save points", "game state", "variable consequences")),
     ("forensic_style_clone_audit_risk_gate", ("forensic style auditor", "forensic writing style", "style analysis & cloning", "reverse-engineers any writer", "accurate clones", "ten forensic dimensions", "sentence architecture", "burstiness", "paragraph cadence", "lexical fingerprints", "dialogue mechanics", "clone key", "drifted", "pre-delivery checklist")),
+    ("story_import_pattern_revision_gate", ("narrative-engine", "narrative engine", "story import from existing completed stories", "multi-pass story import", "pattern extraction", "storytelling dna", "canon-congruent sequels", "canon-congruent", "same world / new characters / transposed", "version conflict protection", "revision workflow", "structured revision passes", "promote draft to manuscript")),
+    ("consequence_ledger_last_actions_context_gate", ("storyforge-ai", "storyforge", "consequence ledger", "last 8 actions", "storystate", "story bible + consequence ledger", "narasi terakhir", "continuation turn", "5 konsekuensi terakhir", "30 entri terakhir", "auto-save", "last actions", "status karakter terkini")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2731,6 +2737,16 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "drift audits, old/new rule pairs, dialogue mechanics, paragraph cadence, lexical fingerprints, and a pre-delivery checklist. "
         "Pattern-only adaptation for style-dimension audit and copy-risk gating; voice-cloning instructions, source samples, and generated clone workflows are not imported."
     ),
+    "scslmd/narrative-engine": (
+        "Narrative Engine is a no-license-observed story development platform. Public README markers describe project-name-first setup, story import from existing completed stories, guided setup wizard, "
+        "pattern extraction of storytelling DNA, canon-congruent sequels or alternates, multi-pass import for large works, selection-aware manuscript assist, version conflict protection, structured revision passes, and durable backend progress tracking. "
+        "Pattern-only adaptation for source-story import, pattern extraction, alternate generation, and revision conflict gates; app runtime, local/model backends, setup wizard, tests, and project files are not executed or imported."
+    ),
+    "ikyletwar/storyforge-ai": (
+        "StoryForge-AI is a MIT single-file interactive story engine. Public README markers describe Story Bible + Consequence Ledger + last narrative context, storyState, auto-save to localStorage, "
+        "continuation turns, five latest consequences, thirty-entry consequence ledger, last eight actions, current character status, and periodic story-bible compression. "
+        "Pattern-only adaptation for turn-context compression and consequence-ledger continuity; browser runtime, Cerebras/provider calls, localStorage state, and generated story sessions are not opened or imported."
+    ),
 
 }
 
@@ -3091,6 +3107,8 @@ class NovelSourceDiscoveryService:
             "governed_full_reading_continuation_gate_hints": self._build_governed_full_reading_continuation_gate_hints(available_patterns),
             "document_gamebook_branching_adapter_gate_hints": self._build_document_gamebook_branching_adapter_gate_hints(available_patterns),
             "forensic_style_clone_audit_risk_gate_hints": self._build_forensic_style_clone_audit_risk_gate_hints(available_patterns),
+            "story_import_pattern_revision_gate_hints": self._build_story_import_pattern_revision_gate_hints(available_patterns),
+            "consequence_ledger_last_actions_context_gate_hints": self._build_consequence_ledger_last_actions_context_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4069,6 +4087,8 @@ class NovelSourceDiscoveryService:
             "governed_full_reading_continuation_gate": 70,
             "document_gamebook_branching_adapter_gate": 67,
             "forensic_style_clone_audit_risk_gate": 71,
+            "story_import_pattern_revision_gate": 70,
+            "consequence_ledger_last_actions_context_gate": 69,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4337,6 +4357,12 @@ class NovelSourceDiscoveryService:
         if "forensic_style_clone_audit_risk_gate" in patterns:
             targets.append("forensic_style_dimension_policy")
             targets.append("style_clone_consent_boundary")
+        if "story_import_pattern_revision_gate" in patterns:
+            targets.append("source_story_import_policy")
+            targets.append("pattern_extraction_revision_policy")
+        if "consequence_ledger_last_actions_context_gate" in patterns:
+            targets.append("turn_context_consequence_policy")
+            targets.append("last_actions_state_compression_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5189,6 +5215,10 @@ class NovelSourceDiscoveryService:
             targets.extend(["chapter_branch_card_report", "choice_consequence_state_matrix"])
         if "forensic_style_clone_audit_risk_gate" in patterns:
             targets.extend(["forensic_style_dimension_audit_report", "clone_drift_risk_review"])
+        if "story_import_pattern_revision_gate" in patterns:
+            targets.extend(["source_story_import_pass_report", "pattern_extraction_revision_conflict_report"])
+        if "consequence_ledger_last_actions_context_gate" in patterns:
+            targets.extend(["consequence_ledger_turn_context_report", "last_actions_compression_drift_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -5906,6 +5936,10 @@ class NovelSourceDiscoveryService:
             hints.append("For branching adaptation or alternate continuation, cite source chapter cards, character cards, style fingerprint axes, choice count, state variables, and save/resume boundary before drafting scenes.")
         if "forensic_style_clone_audit_risk_gate" in patterns:
             hints.append("For style audit or same-type drafting, declare audit/remap mode, sample corpus provenance, selected forensic dimensions, and no-clone boundary before producing prose.")
+        if "story_import_pattern_revision_gate" in patterns:
+            hints.append("Before sequel, alternate, or same-type generation from an existing story, declare story import pass ids, pattern extraction scope, generation mode, canon packet, and revision conflict boundary.")
+        if "consequence_ledger_last_actions_context_gate" in patterns:
+            hints.append("For interactive continuation turns, include story bible summary, bounded consequence ledger, last action window, current character status, and whether the story bible compression is fresh.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -6289,6 +6323,10 @@ class NovelSourceDiscoveryService:
             hints.append("Persist chapter card ids, character card ids, branch choice ids, state variable deltas, save point ids, ending type, and divergence notes for every interactive adaptation run.")
         if "forensic_style_clone_audit_risk_gate" in patterns:
             hints.append("Persist style sample provenance, consent/license posture, forensic dimension confidence, audit-vs-remap mode, drift findings, and copy-risk reviewer decision.")
+        if "story_import_pattern_revision_gate" in patterns:
+            hints.append("Persist source import pass ids, chunk boundaries, extracted pattern profile ids, generation mode, draft artifact ids, version conflict findings, revision pass status, and promote-to-manuscript decision.")
+        if "consequence_ledger_last_actions_context_gate" in patterns:
+            hints.append("Persist turn count, story bible checksum, consequence ledger window, last action ids, current character status, compression timestamp, and auto-save/state snapshot id.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -7002,6 +7040,24 @@ class NovelSourceDiscoveryService:
             "Use forensic style dimensions for audit only: sentence architecture, paragraph cadence, lexical fingerprints, imagery habits, dialogue mechanics, and revision tics.",
             "Separate style analysis from voice cloning; same-type drafting should transfer abstract craft choices, not reproduce an identifiable author's voice.",
             "Require sample provenance, consent/license posture, confidence limits, drift findings, and copy-risk review before promoting any style-guided draft.",
+        ]
+
+    def _build_story_import_pattern_revision_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_import_pattern_revision_gate" not in patterns:
+            return []
+        return [
+            "Import existing stories through explicit passes: source chunks, extracted foundation, characters, world bible, arcs, sequences, drafts, and consolidation notes.",
+            "Pattern extraction should output reusable storytelling DNA, generation mode, canon packet, and distance requirements before sequel, alternate, or transposed drafting.",
+            "Promotion from draft to manuscript should require version-conflict checks plus structural, character, scene, line, and copy-edit revision pass status.",
+        ]
+
+    def _build_consequence_ledger_last_actions_context_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "consequence_ledger_last_actions_context_gate" not in patterns:
+            return []
+        return [
+            "Interactive continuation context should combine a compact story bible, bounded consequence ledger, last-action window, and current character status.",
+            "Keep consequence ledgers rolling and capped; older entries should be compressed into the story bible instead of dropped without trace.",
+            "Each turn should record action, consequence, state mutation, compression freshness, and save/snapshot id before the next continuation prompt.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9558,6 +9614,10 @@ class NovelSourceDiscoveryService:
             targets.append("document_gamebook_branching_remap")
         if "forensic_style_clone_audit_risk_gate" in patterns:
             targets.append("forensic_style_dimension_remap")
+        if "story_import_pattern_revision_gate" in patterns:
+            targets.append("story_import_pattern_mode_remap")
+        if "consequence_ledger_last_actions_context_gate" in patterns:
+            targets.append("consequence_ledger_turn_context_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -10145,6 +10205,10 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type branching prompts, declare source-derived chapter cards, new branch variables, ending types, and divergence rules; do not import source game state as new canon.")
         if "forensic_style_clone_audit_risk_gate" in patterns:
             hints.append("For same-type style prompts, state audit-only dimensions and required distance axes; do not request a named-author clone, clone key, or exact voice reproduction.")
+        if "story_import_pattern_revision_gate" in patterns:
+            hints.append("For same-type prompts from an imported story, state the generation mode, source import passes, reusable pattern profile, required distance axes, and revision conflict checks.")
+        if "consequence_ledger_last_actions_context_gate" in patterns:
+            hints.append("For interactive same-type prompts, include a new consequence-ledger schema and last-action window; do not reuse source turn history as the new story's state.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -11014,6 +11078,10 @@ class NovelSourceDiscoveryService:
             hints.append("Transform chapter cards into new branch cards by changing choice stakes, variables, reward types, endings, and divergence causes while preserving only abstract source functions.")
         if "forensic_style_clone_audit_risk_gate" in patterns:
             hints.append("Transform forensic style findings by changing lexical fingerprints, paragraph cadence, dialogue mechanics, imagery habits, and signature failure modes until the draft is not a voice clone.")
+        if "story_import_pattern_revision_gate" in patterns:
+            hints.append("Transform imported-story patterns by changing mode, cast, world bible, arc sequence, conflict objects, and revision checklist while keeping only abstract narrative functions.")
+        if "consequence_ledger_last_actions_context_gate" in patterns:
+            hints.append("Transform consequence-ledger ideas into a new turn-state contract with different action taxonomy, compression cadence, state fields, and consequence categories.")
         if "parallel_critic_tribunal_issue_gate" in patterns:
             hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
         if "prompt_evolution_fitness_governance_gate" in patterns:
@@ -11089,6 +11157,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject branching adaptations when the branch graph is a disguised retelling, source endings are copied, state variables mirror source events, or character voice cards preserve source-specific phrasing.")
         if "forensic_style_clone_audit_risk_gate" in patterns:
             hints.append("Reject style-guided drafts when they become a voice clone by preserving an author's lexical fingerprints, paragraph cadence, dialogue mechanics, clone key, or private/living-author voice without explicit authorization.")
+        if "story_import_pattern_revision_gate" in patterns:
+            hints.append("Reject imported-story reuse when source chunks, extracted patterns, generation mode, version conflicts, or revision pass status are missing or when alternates overwrite accepted canon.")
+        if "consequence_ledger_last_actions_context_gate" in patterns:
+            hints.append("Reject continuation turns when consequence ledger bounds, last-action window, current character status, compression freshness, or save/snapshot id are missing.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Reject drafts that preserve the source secret matrix, reveal order, character absence gap, or who-knows-what timeline under renamed roles.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -11715,6 +11787,8 @@ class NovelSourceDiscoveryService:
                 "governed_full_reading_continuation_gate",
                 "document_gamebook_branching_adapter_gate",
                 "forensic_style_clone_audit_risk_gate",
+                "story_import_pattern_revision_gate",
+                "consequence_ledger_last_actions_context_gate",
                 "offline_chapter_revision_export_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",

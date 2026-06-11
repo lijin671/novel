@@ -12023,3 +12023,85 @@ def test_static_gamebook_and_forensic_style_sources_add_branching_copy_risk_gate
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "document_gamebook_branching_adapter_gate_hints" in digest
     assert "forensic_style_clone_audit_risk_gate_hints" in digest
+
+
+def test_static_narrative_engine_and_storyforge_sources_add_import_consequence_gates():
+    assert "https://github.com/scslmd/Narrative-Engine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Ikyletwar/StoryForge-AI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("storytelling DNA" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Consequence Ledger" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "scslmd/Narrative-Engine",
+                "html_url": "https://github.com/scslmd/Narrative-Engine",
+                "description": (
+                    "Narrative Engine supports story import from existing completed stories, "
+                    "multi-pass story import, guided setup wizard, pattern extraction of "
+                    "storytelling DNA, canon-congruent sequels or alternates, "
+                    "Same World / New Characters / Transposed generation modes, "
+                    "selection-aware manuscript assist, version conflict protection, "
+                    "structured revision passes, and promote draft to manuscript workflows."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "story-import", "revision", "local-models"],
+                "updated_at": "2026-05-31T08:22:30Z",
+                "root_files": ["README.md", "package.json", "backend", "frontend"],
+            },
+            {
+                "full_name": "Ikyletwar/StoryForge-AI",
+                "html_url": "https://github.com/Ikyletwar/StoryForge-AI",
+                "description": (
+                    "StoryForge-AI uses Story Bible + Consequence Ledger + Narasi Terakhir. "
+                    "It tracks storyState, continuation turn context, five latest consequences, "
+                    "thirty-entry consequence ledger, Last 8 Actions, current character status, "
+                    "auto-save, and periodic story bible compression."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["interactive-story", "story-bible", "consequence-ledger"],
+                "updated_at": "2026-03-21T04:48:49Z",
+                "root_files": ["README.md", "LICENSE", "index.html"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T10:05:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    narrative_engine = candidates["scslmd/Narrative-Engine"]
+    storyforge = candidates["Ikyletwar/StoryForge-AI"]
+    assert "story_import_pattern_revision_gate" in narrative_engine["absorbed_patterns"]
+    assert "consequence_ledger_last_actions_context_gate" in storyforge["absorbed_patterns"]
+    assert "license:missing" in narrative_engine["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "source_story_import_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "pattern_extraction_revision_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "turn_context_consequence_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "last_actions_state_compression_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "source_story_import_pass_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "pattern_extraction_revision_conflict_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "consequence_ledger_turn_context_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "last_actions_compression_drift_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_import_pattern_mode_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "consequence_ledger_turn_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("Import existing stories" in hint for hint in pattern_pack["story_import_pattern_revision_gate_hints"])
+    assert any("bounded consequence ledger" in hint for hint in pattern_pack["consequence_ledger_last_actions_context_gate_hints"])
+    assert any("story import pass ids" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("last action window" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("version conflict findings" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("story bible checksum" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("generation mode" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("last-action window" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("alternates overwrite accepted canon" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("save/snapshot id" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "story_import_pattern_revision_gate_hints" in digest
+    assert "consequence_ledger_last_actions_context_gate_hints" in digest
