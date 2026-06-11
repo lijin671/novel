@@ -667,6 +667,14 @@ class ChapterGuardrails:
                 candidates.append(token)
             if len(candidates) >= 12:
                 return candidates
+        for token_match in re.finditer(r"\b[A-Za-z0-9]{2,}(?:[-_][A-Za-z0-9]{1,})+\b", text or ""):
+            token = token_match.group()
+            if not ChapterGuardrails._looks_like_ascii_compound_source_entity(token):
+                continue
+            if token not in candidates:
+                candidates.append(token)
+            if len(candidates) >= 12:
+                return candidates
         for phrase in ChapterGuardrails._ascii_titlecase_entity_phrases(text):
             if phrase not in candidates:
                 candidates.append(phrase)
@@ -731,6 +739,23 @@ class ChapterGuardrails:
         if has_upper and has_lower and re.search(r"[a-z][A-Z]|[A-Z][a-z]+[A-Z]", token):
             return True
         return False
+
+    @staticmethod
+    def _looks_like_ascii_compound_source_entity(token: str) -> bool:
+        """Detect hyphenated or underscored Latin-script source codenames."""
+        if len(token) < 5 or len(token) > 48:
+            return False
+        parts = re.split(r"[-_]", token)
+        if len(parts) < 2 or any(len(part) == 0 for part in parts):
+            return False
+        if not any(any(ch.isalpha() for ch in part) for part in parts):
+            return False
+        return any(
+            any(ch.isdigit() for ch in part)
+            or (len(part) >= 3 and part.isupper())
+            or (any(ch.isupper() for ch in part) and any(ch.islower() for ch in part))
+            for part in parts
+        )
 
     @staticmethod
     def _ascii_titlecase_entity_phrases(text: str) -> list[str]:

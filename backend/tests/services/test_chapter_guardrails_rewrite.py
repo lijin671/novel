@@ -379,6 +379,30 @@ def test_chapter_guardrails_flags_multiword_ascii_source_entity_leak():
     assert violation.copy_signal == "source_entity_leak:Moonfall Station"
 
 
+def test_chapter_guardrails_flags_hyphenated_ascii_codename_entity_leak():
+    guardrails = ChapterGuardrails()
+    source_excerpt = (
+        "PROJECT-ORCHID opened the sealed sky gate after SABLE-9 failed. "
+        "The archive team erased every field report before sunrise."
+    )
+    generated = (
+        "The new story changes the city and cast, but still names the secret "
+        "operation PROJECT-ORCHID and lets SABLE-9 unlock the final gate."
+    )
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert violation.copy_signal == "source_entity_leak:PROJECT-ORCHID|SABLE-9"
+
+
 def test_chapter_guardrails_does_not_treat_modal_hui_phrases_as_source_entities():
     guardrails = ChapterGuardrails()
     source_excerpt = "他一定会回来，不会把这件事告诉任何人。"

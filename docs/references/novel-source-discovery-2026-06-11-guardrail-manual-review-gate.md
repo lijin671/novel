@@ -604,3 +604,69 @@ Project adaptation:
   `inspired_source_entity_leak` violation and `source_entity_leak:*` signal as
   Chinese source entities, so the existing manual-review and rewrite-denylist
   chain can handle them without a separate path.
+
+### 2026-06-12 patch: source codename entity leakage
+
+Static intake boundary:
+
+- No external repository was cloned, installed, executed, or used as runtime
+  code.
+- Public GitHub metadata, `git ls-remote`, and raw README marker scans were used
+  only as pattern evidence.
+- Posture for all sources below remains `pattern-only`.
+
+Observed sources:
+
+- `sadasdfsaf/canonkit`
+  - URL: https://github.com/sadasdfsaf/canonkit
+  - Observed HEAD: `edb8c1ac1747a822da1cd728fbc8c13a8f932e7a`
+  - Default branch: `main`
+  - License: unknown
+  - Public signal: local-first story bible and continuity checker with canon,
+    project, relationship, review, and source vocabulary.
+- `fidelnamisi/story-bible-assistant`
+  - URL: https://github.com/fidelnamisi/story-bible-assistant
+  - Observed HEAD: `aedae2a2b210bc554c9f19fd64e6aa2a7e2fa897`
+  - Default branch: `main`
+  - License: MIT
+  - Public signal: local web app for querying story source files while keeping
+    projects separated.
+- `KanishkaV25/StorySync`
+  - URL: https://github.com/KanishkaV25/StorySync
+  - Observed HEAD: `f4dbb29dfbff444e006e74283e855cd1de27588b`
+  - Default branch: `main`
+  - License: unknown
+  - Public signal: RAG system for story continuity management, story bible,
+    memory, and fiction writing assistance.
+- `scslmd/Narrative-Engine`
+  - URL: https://github.com/scslmd/Narrative-Engine
+  - Observed HEAD: `dc1320a9edc5cd59c67b7113e05092b9ab72e360`
+  - Default branch: `codex/main`
+  - License: unknown
+  - Public signal: narrative engine vocabulary around canon, entities,
+    operation, continuity, state, review, revision, and source.
+- `author-repo-testing/novel-writing-workflow`
+  - URL: https://github.com/author-repo-testing/novel-writing-workflow
+  - Observed HEAD: `16e0d98d1b19442c6b15880ea31a5464a924996e`
+  - Default branch: `main`
+  - License: MIT
+  - Public signal: GitHub-managed novel workflow from story bible to final
+    draft with review and project-state vocabulary.
+
+Absorbed pattern:
+
+- Story source files and canon ledgers often use machine-like labels for
+  operations, experiments, factions, or artifact ids. Same-type imitation must
+  not reuse labels such as `PROJECT-ORCHID` or `SABLE-9` just because they are
+  not normal prose words.
+- Codename-style terms should be treated as source entities and routed through
+  the same manual-review path as places, factions, items, and character names.
+
+Project adaptation:
+
+- Source entity extraction now recognizes hyphenated and underscored
+  Latin-script codenames.
+- Reused terms such as `PROJECT-ORCHID` and `SABLE-9` now trigger
+  `inspired_source_entity_leak`.
+- The emitted `source_entity_leak:*` signal preserves the exact codename tokens
+  so review UI and repair prompts can display and ban the leaked labels.
