@@ -397,6 +397,24 @@ def test_chapter_guardrails_flags_chinese_location_name_leak_from_source_excerpt
     assert violation.copy_signal == "source_entity_leak:雁回巷"
 
 
+def test_chapter_guardrails_flags_chinese_ability_name_leak_from_source_excerpt():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "沈璃只在黑潮夜使用燃星术，随后以九霄步退入雨幕。"
+    generated = "新故事换了修炼体系，却仍让女主在决战时施展燃星术。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert violation.copy_signal == "source_entity_leak:燃星术"
+
+
 def test_chapter_guardrails_flags_chinese_character_name_leak_from_source_excerpt():
     guardrails = ChapterGuardrails()
     source_excerpt = "林寒把旧钥匙交给沈璃，随后离开档案室。"

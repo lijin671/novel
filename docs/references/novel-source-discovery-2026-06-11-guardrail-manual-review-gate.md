@@ -908,3 +908,57 @@ Project adaptation:
   so the review signal preserves `雁回巷` rather than `在雁回巷`.
 - Reused place names now trigger `inspired_source_entity_leak` through the
   existing `source_entity_leak:*` manual-review and rewrite-denylist path.
+
+
+### 2026-06-12 patch: Chinese ability-name leakage
+
+Static intake boundary:
+
+- No external repository was cloned, installed, executed, or used as runtime
+  code.
+- Public `git ls-remote` HEAD checks and raw README marker scans were used only
+  as pattern evidence.
+- Posture for all sources below remains `pattern-only`.
+
+Observed sources:
+
+- `TianHengZhuang/Chinese-WebNovel-Master`
+  - URL: https://github.com/TianHengZhuang/Chinese-WebNovel-Master
+  - Observed HEAD: `bdb4ed86ef8c8022966a5c76687aed73ad5b1f67`
+  - Default branch: `main`
+  - Public signal: Chinese web-novel workflow with market planning,
+    multi-agent workflow, integrated knowledge base, and publishing
+    optimization vocabulary.
+- `tance-mang/chinese-webnovel-skills`
+  - URL: https://github.com/tance-mang/chinese-webnovel-skills
+  - Observed HEAD: `7d84e456b36eef3838404f95cf128072418f1147`
+  - Default branch: `main`
+  - Public signal: raw README marker scan found `技能`、`设定`、`网文`、`玄幻`、
+    `角色` and `剧情` vocabulary.
+- `miserylee/webnovel-handbook`
+  - URL: https://github.com/miserylee/webnovel-handbook
+  - Observed HEAD: `45a08c4165679aa387b95dd7bbf32fe6a3ae8e0b`
+  - Default branch: `main`
+  - Public signal: raw README marker scan found `功法`、`术法`、`技能`、`能力`、
+    `招式`、`设定`、`体系`、`网文`、`玄幻`、`角色`、`剧情` and `世界观`
+    vocabulary.
+
+Absorbed pattern:
+
+- Chinese web-novel imitation can leak source-specific ability names, not only
+  character, organization, artifact, alias, codename, and place names.
+- Names like `燃星术` or `九霄步` are often durable worldbuilding terms. They
+  should be treated as source entities when the source context marks ability
+  usage through words such as `使用`、`施展`、`修炼`、`发动`、`运转`、
+  `催动`、`领悟`、`功法`、`术法`、`技能`、`能力` or `招式`.
+
+Project adaptation:
+
+- Source entity extraction now reads Chinese ability/power names ending in
+  `术`、`法`、`步`、`式`、`掌`、`拳` or `咒` when nearby source text marks
+  ability usage.
+- Leading action characters such as `使`、`用`、`施`、`修`、`催`、`运`、
+  `发` and `以` are rejected so the leaked signal preserves `燃星术` rather
+  than `使用燃星术`.
+- Reused ability names now trigger `inspired_source_entity_leak` through the
+  existing `source_entity_leak:*` manual-review and rewrite-denylist path.

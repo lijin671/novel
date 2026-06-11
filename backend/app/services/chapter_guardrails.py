@@ -648,6 +648,7 @@ class ChapterGuardrails:
         for term in (
             ChapterGuardrails._marked_chinese_source_terms(text)
             + ChapterGuardrails._context_marked_chinese_source_terms(text)
+            + ChapterGuardrails._chinese_ability_name_candidates(text)
         ):
             if term not in candidates:
                 candidates.append(term)
@@ -824,6 +825,38 @@ class ChapterGuardrails:
             term = match.group(1).strip()
             if term and term not in terms:
                 terms.append(term)
+        return terms
+
+    @staticmethod
+    def _chinese_ability_name_candidates(text: str) -> list[str]:
+        """Extract Chinese power/skill names when source context marks ability usage."""
+        terms: list[str] = []
+        ability_suffixes = {"术", "法", "步", "式", "掌", "拳", "咒"}
+        ability_markers = (
+            "使用", "施展", "修炼", "发动", "运转", "催动",
+            "领悟", "功法", "术法", "技能", "能力", "招式",
+        )
+        blocked_prefix_chars = {"使", "用", "施", "练", "修", "催", "运", "发", "以"}
+        source = text or ""
+        for chunk_match in re.finditer(r"[\u4e00-\u9fff]{3,24}", source):
+            chunk = chunk_match.group()
+            chunk_start = chunk_match.start()
+            for end in range(3, len(chunk) + 1):
+                if chunk[end - 1] not in ability_suffixes:
+                    continue
+                for start in range(max(0, end - 8), end - 2):
+                    token = chunk[start:end]
+                    if token[:1] in blocked_prefix_chars:
+                        continue
+                    absolute_start = chunk_start + start
+                    absolute_end = chunk_start + end
+                    context = source[max(0, absolute_start - 8):absolute_end + 4]
+                    if not any(marker in context for marker in ability_markers):
+                        continue
+                    if token not in terms:
+                        terms.append(token)
+                    if len(terms) >= 12:
+                        return terms
         return terms
 
     @staticmethod
