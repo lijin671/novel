@@ -9,6 +9,7 @@ from app.services.chapter_guardrails import (
     ChapterGuardrails,
     apply_chapter_guardrail_check,
     format_guardrail_history_note,
+    _format_forbidden_source_names_for_prompt,
 )
 
 
@@ -302,6 +303,46 @@ def test_inspired_source_copy_violation_carries_source_fingerprint():
     }
 
 
+def test_chapter_guardrails_flags_source_entity_leak_without_phrase_copy():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "林寒把玄霜令藏进雨里，青岚会的人没有发现。"
+    generated = "新主角在新城市里翻出玄霜令，准备拜访青岚会。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert violation.severity == "high"
+    assert violation.source_excerpt_index == 1
+    assert violation.source_excerpt_sha256 == (
+        "0724d95c930cf31b525d6bb4c11db1bb6f258408d7e670f6a42e363b768c3f03"
+    )
+    assert violation.source_excerpt_length == len(source_excerpt)
+    assert violation.copy_signal == "source_entity_leak:玄霜令|青岚会"
+    assert "玄霜令" in violation.copy_signal
+    assert "青岚会" in violation.copy_signal
+
+
+def test_chapter_guardrails_does_not_treat_modal_hui_phrases_as_source_entities():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "他一定会回来，不会把这件事告诉任何人。"
+    generated = "新主角一定会继续调查，不会在雨夜停下。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is True
+    assert result.violations == []
+
+
 def test_format_guardrail_history_note_includes_violation_source_fingerprint():
     source_excerpt = "AlphaLedgerKey opens the rain archive window while BetaClerk waits downstairs."
     guardrails = ChapterGuardrails()
@@ -330,6 +371,70 @@ def test_format_guardrail_history_note_includes_violation_source_fingerprint():
     )
     assert violation["source_excerpt_length"] == len(source_excerpt)
     assert violation["copy_signal"]
+
+
+def test_format_forbidden_source_names_splits_multi_entity_leak_signal():
+    prompt_section = _format_forbidden_source_names_for_prompt(
+        [],
+        {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_entity_leak",
+                    "severity": "high",
+                    "description": "source entity leaked",
+                    "copy_signal": "source_entity_leak:玄霜令|青岚会",
+                }
+            ],
+        },
+    )
+
+    assert "- 玄霜令" in prompt_section
+    assert "- 青岚会" in prompt_section
+    assert "玄霜令|青岚会" not in prompt_section
+
+
+def test_format_forbidden_source_names_omits_long_context_entity_candidates():
+    prompt_section = _format_forbidden_source_names_for_prompt(
+        [],
+        {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_entity_leak",
+                    "severity": "high",
+                    "description": "source entity leaked",
+                    "context": "林寒把玄霜令藏进雨里，青岚会的人没有发现。",
+                    "copy_signal": "source_entity_leak:玄霜令|青岚会",
+                }
+            ],
+        },
+    )
+
+    assert "- 玄霜令" in prompt_section
+    assert "- 青岚会" in prompt_section
+    assert "林寒把玄霜令" not in prompt_section
+    assert "雨里青岚会" not in prompt_section
+
+
+def test_format_forbidden_source_names_dedupes_explicit_and_detected_entities():
+    prompt_section = _format_forbidden_source_names_for_prompt(
+        ["青岚会"],
+        {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_entity_leak",
+                    "severity": "high",
+                    "description": "source entity leaked",
+                    "copy_signal": "source_entity_leak:玄霜令|青岚会",
+                }
+            ],
+        },
+    )
+
+    assert prompt_section.count("- 青岚会") == 1
+    assert prompt_section.count("- 玄霜令") == 1
 
 
 @pytest.mark.asyncio
@@ -383,6 +488,34 @@ async def test_apply_chapter_guardrail_check_injects_forbidden_source_names_into
     assert "- 沈璃" in prompt
     assert "- 青岚会" in prompt
     assert "不得原样沿用" in prompt
+
+
+@pytest.mark.asyncio
+async def test_apply_chapter_guardrail_check_injects_detected_source_entities_into_rewrite_prompt():
+    ai_service = StubAIService()
+    source_excerpt = "林寒把玄霜令藏进雨里，青岚会的人没有发现。"
+    original = "新主角在新城市里翻出玄霜令，准备拜访青岚会。"
+
+    result = await apply_chapter_guardrail_check(
+        generated_text=original,
+        ai_service=ai_service,
+        chapter_number=1,
+        chapter_title="新雨",
+        chapter_outline="写一个独立档案室对峙场景。",
+        target_word_count=1200,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result["initial_result"].passed is False
+    assert any(
+        violation.type == "inspired_source_entity_leak"
+        for violation in result["initial_result"].violations
+    )
+    assert ai_service.prompts
+    prompt = ai_service.prompts[0]
+    assert "源书显性元素禁用清单" in prompt
+    assert "- 玄霜令" in prompt
+    assert "- 青岚会" in prompt
 
 
 @pytest.mark.asyncio

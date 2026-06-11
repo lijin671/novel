@@ -576,12 +576,17 @@ class ChapterGuardrails:
                 continue
 
             copy_signal = self._source_copy_signal(normalized_excerpt, normalized_text)
+            violation_type = "inspired_source_copy"
             if not copy_signal:
-                continue
+                leaked_entities = self._source_entity_leaks(normalized_excerpt, normalized_text)
+                if not leaked_entities:
+                    continue
+                violation_type = "inspired_source_entity_leak"
+                copy_signal = f"source_entity_leak:{'|'.join(leaked_entities)}"
 
             result.add_violation(
                 ChapterGuardrailViolation(
-                    type="inspired_source_copy",
+                    type=violation_type,
                     severity="high",
                     description=(
                         f"同类创作草稿疑似照搬源书片段（{copy_signal}），必须改写为独立表达，"
@@ -624,6 +629,76 @@ class ChapterGuardrails:
             return f"simhash_near_duplicate:{simhash_similarity:.2f}"
 
         return None
+
+    def _source_entity_leaks(self, source_text: str, generated_text: str) -> list[str]:
+        """Detect source-specific entity terms reused in a same-type draft."""
+        leaks: list[str] = []
+        for entity in self._source_entity_candidates(source_text):
+            if entity in generated_text:
+                leaks.append(entity)
+        return leaks[:8]
+
+    @staticmethod
+    def _source_entity_candidates(text: str) -> list[str]:
+        candidates: list[str] = []
+        for chunk_match in re.finditer(r"[\u4e00-\u9fff]{2,16}", text or ""):
+            chunk = chunk_match.group()
+            for end in range(2, len(chunk) + 1):
+                max_start = max(0, end - 8)
+                for start in range(max_start, end - 1):
+                    token = chunk[start:end]
+                    if len(token) < 3 or len(token) > 8:
+                        continue
+                    if not ChapterGuardrails._looks_like_source_entity(token):
+                        continue
+                    if token not in candidates:
+                        candidates.append(token)
+                    if len(candidates) >= 12:
+                        return candidates
+        return candidates
+
+    @staticmethod
+    def _looks_like_source_entity(token: str) -> bool:
+        hui = chr(0x4F1A)
+        if token.endswith(hui) and ChapterGuardrails._looks_like_modal_hui_phrase(token):
+            return False
+
+        suffix_chars = {
+            chr(code)
+            for code in (
+                0x4F1A, 0x4EE4, 0x9601, 0x5B97, 0x95E8, 0x5BAB, 0x6BBF, 0x57CE,
+                0x5E9C, 0x9662, 0x53F8, 0x5C40, 0x76DF, 0x6D3E, 0x65CF, 0x5E2E,
+                0x697C, 0x5802, 0x793E, 0x961F, 0x519B, 0x5370, 0x8BC0, 0x7ECF,
+                0x518C, 0x5251, 0x5200, 0x67AA, 0x5854, 0x7891, 0x955C, 0x73E0,
+                0x73AF, 0x7B26, 0x9635, 0x9F0E, 0x7089, 0x821F, 0x51A0, 0x7532,
+                0x888D, 0x8C31, 0x56FE, 0x5F55, 0x5377, 0x699C,
+            )
+        }
+        suffix_words = {
+            chr(0x4EE4) + chr(0x724C),
+            chr(0x94A5) + chr(0x5319),
+        }
+        return token[-1:] in suffix_chars or any(token.endswith(suffix) for suffix in suffix_words)
+
+    @staticmethod
+    def _looks_like_modal_hui_phrase(token: str) -> bool:
+        """Avoid treating ordinary modal phrases ending in 会 as source entities."""
+        modal_markers = {
+            "一定会",
+            "不会",
+            "将会",
+            "可能会",
+            "应该会",
+            "仍会",
+            "还会",
+            "也会",
+            "都会",
+            "只会",
+            "总会",
+            "就会",
+            "才会",
+        }
+        return any(marker in token for marker in modal_markers)
 
     @staticmethod
     def _contains_distinctive_substring_copy(source_text: str, generated_text: str) -> bool:
@@ -811,6 +886,7 @@ class ChapterGuardrails:
 
 def _format_forbidden_source_names_for_prompt(
     forbidden_characters: Optional[Sequence[str]],
+    guardrail_result: Optional[ChapterGuardrailResult] = None,
 ) -> str:
     """把同类创作禁用源书名称格式化为修复提示词中的硬约束。"""
     names: list[str] = []
@@ -819,6 +895,27 @@ def _format_forbidden_source_names_for_prompt(
         if len(name) < 2 or name in names:
             continue
         names.append(name)
+        if len(names) >= 24:
+            break
+
+    for violation in _guardrail_result_violations(guardrail_result):
+        signal = _guardrail_violation_field(violation, "copy_signal")
+        prefix = "source_entity_leak:"
+        if signal.startswith(prefix):
+            candidate_entities = [
+                raw_entity.strip()
+                for raw_entity in signal[len(prefix):].split("|")
+            ]
+        else:
+            context = _guardrail_violation_field(violation, "context")
+            candidate_entities = ChapterGuardrails._source_entity_candidates(context)
+
+        for entity in candidate_entities:
+            if len(entity) < 2 or entity in names:
+                continue
+            names.append(entity)
+            if len(names) >= 24:
+                break
         if len(names) >= 24:
             break
 
@@ -890,7 +987,10 @@ async def apply_chapter_guardrail_check(
             source_pattern_pack,
             empty_message="暂无公开来源模式约束",
         )
-        forbidden_source_names = _format_forbidden_source_names_for_prompt(forbidden_characters)
+        forbidden_source_names = _format_forbidden_source_names_for_prompt(
+            forbidden_characters,
+            final_result,
+        )
         template = await PromptService.get_template_with_fallback("CHAPTER_GUARDRAILS_REWRITE")
         prompt = PromptService.format_prompt(
             template,

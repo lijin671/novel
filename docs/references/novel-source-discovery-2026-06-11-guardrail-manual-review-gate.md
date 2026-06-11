@@ -349,3 +349,119 @@ Project adaptation:
   fields into `final_violations` / `initial_violations`.
 - The review modal shows the short source hash and copy signal inside each
   violation detail, beside the bounded source preview list.
+
+## 2026-06-11 follow-up: source-entity leakage guard
+
+Additional static metadata pass, still no clone/install/runtime/provider calls:
+
+- `YfengJ/novel-studio-ai`
+  - URL: https://github.com/YfengJ/novel-studio-ai
+  - Observed HEAD: `90fbf0681e76afe791d11f21edd1fb1516ee5e1d`
+  - Default branch: `main`
+  - License: GitHub metadata `NOASSERTION`
+  - Public metadata signal: local-first long-form fiction workbench with story
+    bibles, outlines, character state, graph facts, retrieval memory, and
+    continuity checks. README marker scan found story-bible, continuity,
+    character-state, memory, review, and export vocabulary.
+  - Posture: `pattern-only`; no app/runtime, provider, package manager, or
+    repository clone was executed.
+- `hayrgpt-rgb/NovelForge-AI`
+  - URL: https://github.com/hayrgpt-rgb/NovelForge-AI
+  - Observed HEAD: `48c9bca5e62eefa2dd8365f4a2bf4564b94b546a`
+  - Default branch: `main`
+  - License: GitHub metadata `NOASSERTION`
+  - Public metadata signal: long-form platform language around story bible,
+    scene cards, drafts, review, revision, memory, continuity tracking,
+    version-safe generation, and traceability.
+  - Posture: `pattern-only`; no app/runtime, provider, package manager, or
+    repository clone was executed.
+- `Riccjamez214/wordplay`
+  - URL: https://github.com/Riccjamez214/wordplay
+  - Observed HEAD: `d82ac671efca4a6b2df4f2279b2d66337fe2bc28`
+  - Default branch: `main`
+  - License: Apache-2.0
+  - Public metadata signal: AI writing assistant with project management,
+    chapter editing, and story consistency vocabulary.
+  - Posture: `pattern-only`; no app/runtime, provider, package manager, or
+    repository clone was executed.
+- `author-repo-testing/novel-writing-workflow`
+  - URL: https://github.com/author-repo-testing/novel-writing-workflow
+  - Observed HEAD: `16e0d98d1b19442c6b15880ea31a5464a924996e`
+  - Default branch: `main`
+  - License: MIT
+  - Public metadata signal: GitHub-managed novel workflow vocabulary around
+    story bible, revision, review, characters, memory, and continuity.
+  - Posture: `pattern-only`; no app/runtime, provider, package manager, or
+    repository clone was executed.
+
+Absorbed pattern:同类仿写的相似度检查不能只看长句复刻。长篇写作工作台通常把 story bible、character state、graph facts、memory、scene cards、review 和 traceability 拆成可检查状态；迁移到仿写安全上，源书专有实体也应是可检查状态。即使草稿没有连续照搬源文，只要复用了源书独有组织、物件、能力、地名等实体，也应进入人工复核/改写链路。
+
+Project adaptation:
+
+- `ChapterGuardrails` now derives source-specific Chinese entity candidates
+  from inspired-source excerpts when no phrase-copy signal fires.
+- Same-type drafts that reuse those source entities emit
+  `inspired_source_entity_leak` with the same source index/hash/length and
+  `copy_signal` provenance used by `inspired_source_copy`.
+- The new gate catches source-specific artifact/faction leakage such as a
+  reused token or organization name without needing the full source sentence to
+  survive.
+- Tests cover the red/green path where a draft reuses source entities but does
+  not copy enough prose to trigger the existing phrase-copy detector.
+
+### 2026-06-11 patch: entity leak repair prompt carry-through
+
+Follow-up implementation note:
+
+- `inspired_source_entity_leak` now feeds detected source entities back into the
+  guardrail rewrite prompt's source-element denylist.
+- The denylist is built from explicit forbidden names plus entity candidates
+  recovered from the triggering violation context and `source_entity_leak:*`
+  signal.
+- This closes the loop between detection and repair: the rewrite model receives
+  concrete leaked entities such as source-specific artifacts and factions, not
+  only a generic violation label.
+
+### 2026-06-11 patch: multi-entity leak signal
+
+Follow-up implementation note:
+
+- `inspired_source_entity_leak` now keeps every matched source-specific entity
+  in the violation `copy_signal` instead of only the first match.
+- Multi-entity signals use `source_entity_leak:<entity>|<entity>` and are split
+  back into separate denylist rows when building the guardrail rewrite prompt.
+- This makes review and repair more faithful to the actual leak surface when a
+  draft reuses both a source artifact and a source faction in the same passage.
+
+### 2026-06-11 patch: modal-phrase false-positive guard
+
+Follow-up implementation note:
+
+- Source-entity detection now filters common modal phrases ending in `会`, such
+  as `一定会` and `不会`, so ordinary prose modality is not treated as a source
+  faction or organization leak.
+- The guard still catches organization-style names such as `青岚会` because they
+  are not modal phrases and remain source-specific entity candidates.
+- This reduces false positives while keeping same-type creation checks focused
+  on copied source artifacts, factions, powers, locations, and named settings.
+
+### 2026-06-11 patch: rewrite denylist atomization
+
+Follow-up implementation note:
+
+- The guardrail rewrite prompt now prefers atomic entities from
+  `source_entity_leak:*` when building the source-element denylist.
+- Context-derived candidates are used only as a fallback when no structured
+  leak signal exists.
+- This prevents long source-context fragments such as `林寒把玄霜令` from
+  polluting the repair prompt while still listing the actual leaked entities
+  like `玄霜令` and `青岚会`.
+
+### 2026-06-11 patch: rewrite denylist dedupe regression
+
+Follow-up test note:
+
+- Added regression coverage that explicit forbidden source names and detected
+  `source_entity_leak:*` entities are merged without duplicate prompt rows.
+- This keeps repair prompts compact when a source faction or artifact is both
+  user-specified and detected from the generated draft.
