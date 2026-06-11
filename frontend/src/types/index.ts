@@ -350,6 +350,14 @@ export interface ChapterGuardrailViolation {
   position?: number | null;
 }
 
+
+export interface ChapterGuardrailSourceFingerprint {
+  index: number;
+  sha256: string;
+  length: number;
+  preview?: string;
+}
+
 export interface ChapterGuardrailReview {
   acceptance_status?: string;
   review_required?: boolean;
@@ -360,6 +368,7 @@ export interface ChapterGuardrailReview {
   final_passed?: boolean;
   initial_violations?: ChapterGuardrailViolation[];
   final_violations?: ChapterGuardrailViolation[];
+  source_excerpt_fingerprints?: ChapterGuardrailSourceFingerprint[];
 }
 
 export interface ChapterGuardrailReviewResponse {
@@ -367,6 +376,9 @@ export interface ChapterGuardrailReviewResponse {
   chapter_status: Chapter['status'];
   review_required: boolean;
   guardrail_review?: ChapterGuardrailReview | null;
+  current_content_sha256: string;
+  current_content_length: number;
+  current_word_count: number;
   latest_history_id?: string | null;
   latest_history_created_at?: string | null;
   latest_history_prompt_note?: string | null;

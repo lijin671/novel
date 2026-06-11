@@ -70,6 +70,13 @@ class ChapterListResponse(BaseModel):
 class ChapterGuardrailReviewApproveRequest(BaseModel):
     """人工复核通过请求。"""
     review_note: str = Field(..., min_length=1, max_length=2000, description="人工复核说明")
+    review_content_sha256: Optional[str] = Field(
+        None,
+        min_length=64,
+        max_length=64,
+        pattern=r"^[a-fA-F0-9]{64}$",
+        description="Chapter content SHA256 captured when the review dialog opened",
+    )
 
 
 class ChapterGuardrailReviewResponse(BaseModel):
@@ -77,6 +84,9 @@ class ChapterGuardrailReviewResponse(BaseModel):
     chapter_id: str
     chapter_status: str
     review_required: bool
+    current_content_sha256: str
+    current_content_length: int
+    current_word_count: int
     guardrail_review: Optional[Dict[str, Any]] = None
     latest_history_id: Optional[str] = None
     latest_history_created_at: Optional[str] = None

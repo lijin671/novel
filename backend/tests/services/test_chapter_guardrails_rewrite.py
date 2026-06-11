@@ -1,8 +1,15 @@
 ﻿from __future__ import annotations
 
+import json
+
 import pytest
 
-from app.services.chapter_guardrails import ChapterGuardrails, apply_chapter_guardrail_check
+from app.services.chapter_guardrails import (
+    GUARDRAIL_REVIEW_JSON_PREFIX,
+    ChapterGuardrails,
+    apply_chapter_guardrail_check,
+    format_guardrail_history_note,
+)
 
 
 class StubAIService:
@@ -344,3 +351,97 @@ async def test_apply_chapter_guardrail_check_marks_failed_rewrite_for_manual_rev
     assert result["acceptance_status"] == "needs_manual_review"
     assert result["manual_review_reasons"]
     assert any("inspired_source_copy" in reason for reason in result["manual_review_reasons"])
+
+
+@pytest.mark.asyncio
+async def test_apply_chapter_guardrail_check_records_source_excerpt_fingerprints():
+    ai_service = StillCopyingAIService()
+    source_excerpt = "林寒把青铜钥匙按进雨水里，旧档案室的窗户一格格亮起来。"
+
+    result = await apply_chapter_guardrail_check(
+        generated_text="新主角把青铜钥匙按进雨水里，旧档案室的窗户一格格亮起来。",
+        ai_service=ai_service,
+        chapter_number=1,
+        chapter_title="新雨",
+        chapter_outline="写一个独立档案室对峙场景。",
+        target_word_count=1200,
+        inspired_source_excerpts=[source_excerpt],
+        max_rewrites=1,
+    )
+
+    assert result["source_excerpt_fingerprints"] == [
+        {
+            "index": 1,
+            "sha256": "21b7d3fedf46c0e00f51cd44ac372d802cce2e7103907189444ad47c992a120d",
+            "length": len(source_excerpt),
+            "preview": source_excerpt,
+        }
+    ]
+
+
+def test_format_guardrail_history_note_includes_review_source_hashes():
+    first_excerpt = "林寒把青铜钥匙按进雨水里，旧档案室的窗户一格格亮起来。"
+    second_excerpt = "沈璃在楼梯尽头回头，档案袋边缘被雨水洇开。"
+    guardrail_meta = {
+        "applied": True,
+        "attempts": 1,
+        "source_excerpt_fingerprints": [
+            {
+                "index": 1,
+                "sha256": "a" * 64,
+                "length": len(first_excerpt),
+                "preview": first_excerpt,
+            },
+            {
+                "index": 2,
+                "sha256": "b" * 64,
+                "length": len(second_excerpt),
+                "preview": second_excerpt,
+            },
+        ],
+        "initial_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                    "context": first_excerpt,
+                }
+            ],
+        },
+        "final_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                    "context": first_excerpt,
+                }
+            ],
+        },
+    }
+
+    note = format_guardrail_history_note(guardrail_meta)
+    summary_line = [
+        line
+        for line in note.splitlines()
+        if line.startswith(GUARDRAIL_REVIEW_JSON_PREFIX)
+    ][0]
+    summary = json.loads(summary_line.removeprefix(GUARDRAIL_REVIEW_JSON_PREFIX))
+
+    assert summary["source_excerpt_fingerprints"] == [
+        {
+            "index": 1,
+            "sha256": "a" * 64,
+            "length": len(first_excerpt),
+            "preview": first_excerpt,
+        },
+        {
+            "index": 2,
+            "sha256": "b" * 64,
+            "length": len(second_excerpt),
+            "preview": second_excerpt,
+        },
+    ]

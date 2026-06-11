@@ -808,7 +808,7 @@ export const chapterApi = {
   getGuardrailReview: (chapterId: string) =>
     api.get<unknown, ChapterGuardrailReviewResponse>(`/chapters/${chapterId}/guardrail-review`),
 
-  approveGuardrailReview: (chapterId: string, data: { review_note: string }) =>
+  approveGuardrailReview: (chapterId: string, data: { review_note: string; review_content_sha256?: string }) =>
     api.post<unknown, ChapterGuardrailReviewApproveResponse>(
       `/chapters/${chapterId}/guardrail-review/approve`,
       data

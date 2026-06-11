@@ -887,7 +887,12 @@ class BookRemixContinuationStateService:
             "final_passed": final_passed,
             "violations": violations,
         }
-        for key in ("acceptance_status", "manual_review_reasons", "manual_review"):
+        for key in (
+            "acceptance_status",
+            "manual_review_reasons",
+            "source_excerpt_fingerprints",
+            "manual_review",
+        ):
             value = guardrail_meta.get(key)
             if value not in (None, "", [], {}):
                 serialized[key] = value

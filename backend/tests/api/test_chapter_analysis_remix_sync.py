@@ -4464,6 +4464,14 @@ async def test_get_chapter_guardrail_review_returns_latest_structured_reasons(
     guardrail_meta = {
         "applied": True,
         "attempts": 1,
+        "source_excerpt_fingerprints": [
+            {
+                "index": 1,
+                "sha256": "c" * 64,
+                "length": 42,
+                "preview": "source-like span that triggered manual review",
+            }
+        ],
         "initial_result": {
             "passed": False,
             "violations": [
@@ -4507,6 +4515,11 @@ async def test_get_chapter_guardrail_review_returns_latest_structured_reasons(
 
     assert response["chapter_status"] == "review_required"
     assert response["review_required"] is True
+    assert response["current_content_sha256"] == hashlib.sha256(
+        chapter.content.encode("utf-8")
+    ).hexdigest()
+    assert response["current_content_length"] == len(chapter.content)
+    assert response["current_word_count"] == chapter.word_count
     assert response["guardrail_review"]["acceptance_status"] == "needs_manual_review"
     assert response["guardrail_review"]["manual_review_reasons"] == [
         "inspired_source_copy:high"
@@ -4575,6 +4588,14 @@ async def test_approve_guardrail_review_resumes_downstream_sync(
     guardrail_meta = {
         "applied": True,
         "attempts": 1,
+        "source_excerpt_fingerprints": [
+            {
+                "index": 1,
+                "sha256": "c" * 64,
+                "length": 42,
+                "preview": "source-like span that triggered manual review",
+            }
+        ],
         "initial_result": {
             "passed": False,
             "violations": [
@@ -4633,7 +4654,10 @@ async def test_approve_guardrail_review_resumes_downstream_sync(
         chapter_id=chapter.id,
         request=SimpleNamespace(state=SimpleNamespace(user_id=user_id)),
         approval=chapters_api.ChapterGuardrailReviewApproveRequest(
-            review_note="human accepted after editing names and spans"
+            review_note="human accepted after editing names and spans",
+            review_content_sha256=hashlib.sha256(
+                chapter.content.encode("utf-8")
+            ).hexdigest(),
         ),
         background_tasks=BackgroundTasks(),
         db=db_session,
@@ -4666,6 +4690,14 @@ async def test_approve_guardrail_review_resumes_downstream_sync(
     )
     assert package["guardrail_check"]["manual_review"]["word_count"] == chapter.word_count
     assert package["guardrail_check"]["manual_review"]["content_length"] == len(chapter.content)
+    assert package["guardrail_check"]["source_excerpt_fingerprints"] == [
+        {
+            "index": 1,
+            "sha256": "c" * 64,
+            "length": 42,
+            "preview": "source-like span that triggered manual review",
+        }
+    ]
 
 
 @pytest.mark.asyncio
@@ -4968,3 +5000,148 @@ async def test_approve_guardrail_review_records_reviewed_content_hash(
     ).hexdigest()
     assert manual_review["content_length"] == len(reviewed_content)
     assert manual_review["word_count"] == 77
+
+
+@pytest.mark.asyncio
+async def test_approve_guardrail_review_rejects_stale_content_hash(
+    monkeypatch,
+    create_schema,
+    db_session,
+):
+    await create_schema(
+        Project.__table__,
+        Outline.__table__,
+        Chapter.__table__,
+        GenerationHistory.__table__,
+        AnalysisTask.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    user_id = "user-review-stale"
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id=user_id,
+        title="Review Approval Stale Hash",
+        outline_mode="one-to-many",
+        current_words=120,
+    )
+    outline = Outline(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        title="Stale Hash Outline",
+        content="Reject approvals for content that changed after the review dialog opened.",
+        order_index=23,
+    )
+    chapter = Chapter(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        outline_id=outline.id,
+        chapter_number=23,
+        title="Stale Hash Aftermath",
+        content="Inspector Lin changed the archive handoff after the review modal opened.",
+        word_count=72,
+        status="review_required",
+    )
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        source_task_id="source-task",
+        source_chapter_count=22,
+        generation_status="confirmed",
+        character_cards=[{"name": "Inspector Lin"}],
+        timeline=[],
+        chapter_change_packages=[],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        beats=[{"beat": "reject stale approval", "status": "pending"}],
+    )
+    guardrail_meta = {
+        "applied": True,
+        "attempts": 2,
+        "initial_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                }
+            ],
+        },
+        "final_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                }
+            ],
+        },
+    }
+    history = GenerationHistory(
+        project_id=project.id,
+        chapter_id=chapter.id,
+        prompt="generated\n" + format_guardrail_history_note(guardrail_meta),
+        generated_content=chapter.content,
+        model="default",
+    )
+    db_session.add(project)
+    await db_session.flush()
+    db_session.add(outline)
+    await db_session.flush()
+    db_session.add(chapter)
+    await db_session.flush()
+    db_session.add(bible)
+    await db_session.flush()
+    db_session.add_all([plan, history])
+    await db_session.commit()
+
+    scheduled = []
+
+    async def no_foreshadow_plant(*args, **kwargs):
+        return {"planted_count": 0}
+
+    monkeypatch.setattr(
+        chapters_api.foreshadow_service,
+        "auto_plant_pending_foreshadows",
+        no_foreshadow_plant,
+    )
+    monkeypatch.setattr(
+        BackgroundTasks,
+        "add_task",
+        lambda self, func, *args, **kwargs: scheduled.append((func, args, kwargs)),
+    )
+
+    stale_hash = hashlib.sha256(b"stale modal content").hexdigest()
+    with pytest.raises(HTTPException) as exc_info:
+        await chapters_api.approve_chapter_guardrail_review(
+            chapter_id=chapter.id,
+            request=SimpleNamespace(state=SimpleNamespace(user_id=user_id)),
+            approval=chapters_api.ChapterGuardrailReviewApproveRequest(
+                review_note="human accepted before noticing the content changed",
+                review_content_sha256=stale_hash,
+            ),
+            background_tasks=BackgroundTasks(),
+            db=db_session,
+            user_ai_service=StubAIService(),
+        )
+
+    await db_session.refresh(chapter)
+    await db_session.refresh(bible)
+    tasks = (
+        await db_session.execute(
+            select(AnalysisTask).where(AnalysisTask.chapter_id == chapter.id)
+        )
+    ).scalars().all()
+
+    assert exc_info.value.status_code == 409
+    assert chapter.status == "review_required"
+    assert bible.chapter_change_packages == []
+    assert tasks == []
+    assert scheduled == []

@@ -2090,6 +2090,7 @@ export default function Chapters() {
   };
   const renderGuardrailReviewContent = (reviewResponse: ChapterGuardrailReviewResponse) => {
     const review = reviewResponse.guardrail_review;
+    const sourceFingerprints = review?.source_excerpt_fingerprints || [];
     return (
       <Space direction="vertical" size="middle" style={{ width: '100%' }}>
         <Alert
@@ -2101,6 +2102,10 @@ export default function Chapters() {
           <Descriptions.Item label="章节状态">{reviewResponse.chapter_status}</Descriptions.Item>
           <Descriptions.Item label="准入状态">{review?.acceptance_status || 'unknown'}</Descriptions.Item>
           <Descriptions.Item label="修复次数">{review?.attempts ?? 0}</Descriptions.Item>
+          <Descriptions.Item label="content hash">
+            <code>{reviewResponse.current_content_sha256.slice(0, 12)}</code>
+            {` / ${reviewResponse.current_word_count} words / ${reviewResponse.current_content_length} chars`}
+          </Descriptions.Item>
           <Descriptions.Item label="失败信号">
             {formatGuardrailReasons(review?.manual_review_reasons)}
           </Descriptions.Item>
@@ -2111,6 +2116,26 @@ export default function Chapters() {
             showIcon
             message="最近生成历史记录"
             description={<div style={{ whiteSpace: 'pre-wrap' }}>{reviewResponse.latest_history_prompt_note}</div>}
+          />
+        )}
+        {sourceFingerprints.length > 0 && (
+          <Alert
+            type="info"
+            showIcon
+            message="source excerpt fingerprints"
+            description={(
+              <Space direction="vertical" size={4} style={{ width: '100%' }}>
+                {sourceFingerprints.map(item => (
+                  <div key={`${item.index}-${item.sha256}`}>
+                    <code>#{item.index} {item.sha256.slice(0, 12)}</code>
+                    {` / ${item.length} chars`}
+                    {item.preview ? (
+                      <div style={{ whiteSpace: 'pre-wrap', color: '#666' }}>{item.preview}</div>
+                    ) : null}
+                  </div>
+                ))}
+              </Space>
+            )}
           />
         )}
         <Collapse size="small">
@@ -2161,6 +2186,7 @@ export default function Chapters() {
           const values = await guardrailReviewForm.validateFields();
           const result = await chapterApi.approveGuardrailReview(chapter.id, {
             review_note: values.review_note.trim(),
+            review_content_sha256: reviewResponse.current_content_sha256,
           });
           if (result.analysis_task_id) {
             setAnalysisTasksMap(prev => ({

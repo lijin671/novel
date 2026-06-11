@@ -86,6 +86,7 @@ def guardrail_review_summary(guardrail_meta: Optional[dict]) -> dict[str, Any]:
             "final_passed": True,
             "initial_violations": [],
             "final_violations": [],
+            "source_excerpt_fingerprints": [],
         }
 
     initial_result = guardrail_meta.get("initial_result")
@@ -106,6 +107,9 @@ def guardrail_review_summary(guardrail_meta: Optional[dict]) -> dict[str, Any]:
             _guardrail_violation_to_dict(item)
             for item in _guardrail_result_violations(final_result)
         ],
+        "source_excerpt_fingerprints": _sanitize_source_excerpt_fingerprints(
+            guardrail_meta.get("source_excerpt_fingerprints")
+        ),
     }
 
 
@@ -151,6 +155,58 @@ def _safe_int(value: object, *, default: int = 0) -> int:
         return int(value)
     except (TypeError, ValueError):
         return default
+
+
+def _build_source_excerpt_fingerprints(
+    excerpts: Optional[Sequence[str]],
+    *,
+    preview_chars: int = 120,
+    max_items: int = 12,
+) -> list[dict[str, Any]]:
+    """Build compact source excerpt provenance for review/audit packets."""
+    fingerprints: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for index, raw_excerpt in enumerate(excerpts or [], start=1):
+        excerpt = str(raw_excerpt or "").strip()
+        if not excerpt:
+            continue
+        digest = hashlib.sha256(excerpt.encode("utf-8")).hexdigest()
+        if digest in seen:
+            continue
+        seen.add(digest)
+        fingerprints.append(
+            {
+                "index": index,
+                "sha256": digest,
+                "length": len(excerpt),
+                "preview": excerpt[:preview_chars],
+            }
+        )
+        if len(fingerprints) >= max_items:
+            break
+    return fingerprints
+
+
+def _sanitize_source_excerpt_fingerprints(value: object) -> list[dict[str, Any]]:
+    """Keep only serializable, bounded source excerpt fingerprint fields."""
+    if not isinstance(value, list):
+        return []
+    fingerprints: list[dict[str, Any]] = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        sha256 = str(item.get("sha256") or "").strip().lower()
+        if not re.fullmatch(r"[a-f0-9]{64}", sha256):
+            continue
+        fingerprints.append(
+            {
+                "index": _safe_int(item.get("index"), default=len(fingerprints) + 1),
+                "sha256": sha256,
+                "length": _safe_int(item.get("length"), default=0),
+                "preview": str(item.get("preview") or "")[:120],
+            }
+        )
+    return fingerprints
 
 
 def _guardrail_violation_to_dict(violation: object) -> dict[str, Any]:
@@ -777,6 +833,9 @@ async def apply_chapter_guardrail_check(
 ) -> dict:
     """执行生成后 check；失败时只触发一次最小修复。"""
     guardrails = ChapterGuardrails()
+    source_excerpt_fingerprints = _build_source_excerpt_fingerprints(
+        inspired_source_excerpts
+    )
     initial_result = guardrails.check(
         generated_text,
         chapter_title=chapter_title,
@@ -796,6 +855,7 @@ async def apply_chapter_guardrail_check(
             "final_result": initial_result,
             "acceptance_status": "accepted",
             "manual_review_reasons": [],
+            "source_excerpt_fingerprints": source_excerpt_fingerprints,
         }
 
     content = generated_text
@@ -862,6 +922,7 @@ async def apply_chapter_guardrail_check(
         "attempts": attempts,
         "initial_result": initial_result,
         "final_result": final_result,
+        "source_excerpt_fingerprints": source_excerpt_fingerprints,
     }
     result["acceptance_status"] = guardrail_acceptance_status(result)
     result["manual_review_reasons"] = guardrail_review_reasons(result)

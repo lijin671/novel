@@ -159,3 +159,162 @@ Project adaptation:
   package, next to reviewer id, timestamp, and note.
 - Tests verify that the fingerprint matches the exact chapter content promoted
   from `review_required` into durable continuation state.
+
+## 2026-06-11 follow-up: stale approval guard
+
+Additional static metadata pass, still no clone/install/runtime/provider calls:
+
+- `RhythmicWave/NovelForge`
+  - URL: https://github.com/RhythmicWave/NovelForge
+  - Observed HEAD: `71db1420d919d676521a15f6999090b37db86fb0`
+  - Default branch: `main`
+  - Public README signal: chapter workflow has dense chapter/outline/review/context vocabulary, including review-heavy book-remix style operations.
+  - Posture: `pattern-only`; no package manager, script, provider, or runtime was executed.
+- `leenbj/novel-creator-skill`
+  - URL: https://github.com/leenbj/novel-creator-skill
+  - Observed HEAD: `a327428ea26962163f823ad74001243f91bc7738`
+  - Default branch: `main`
+  - Public README signal: Claude Code novel-creation skill vocabulary covers continuation, inspired writing, style, chapter, outline, review, memory, and character signals.
+  - Posture: `pattern-only`; skill files were not installed or executed.
+- `uu201/character-arc`
+  - URL: https://github.com/uu201/character-arc
+  - Observed HEAD: `ec3f5688e95182792bd4530181970a52f46b4bbb`
+  - Default branch: `main`
+  - Public README signal: character-arc and story-state vocabulary links style imitation, chapter state, and continuity review.
+  - Posture: `pattern-only`; no scripts or generation runtime were executed.
+- `worldwonderer/oh-story-claudecode`
+  - URL: https://github.com/worldwonderer/oh-story-claudecode
+  - Observed HEAD: `e89f68222cbb3211b62981dc7052f2221bd3ff18`
+  - Default branch: `main`
+  - Public README signal: role/context/story-planning vocabulary emphasizes structured context before continuation.
+  - Posture: `pattern-only`; no Claude Code command pack was installed.
+- `guchendesigndog/GC-Writer-Assistant`
+  - URL: https://github.com/guchendesigndog/GC-Writer-Assistant
+  - Observed HEAD: `b38f83c55dddbbd124a04bf7481d8fc97431c83c`
+  - Default branch: `main`
+  - Public README signal: lightweight writer-assistant vocabulary around continuation, chapter, outline, and review.
+  - Posture: `pattern-only`; no code was downloaded or run.
+
+Absorbed pattern: long-form continuation approval must be tied to the exact
+chapter body visible to the reviewer. When chapter content can be edited while a
+review dialog is open, a free-form note plus chapter id is not enough; the
+approve request needs the dialog-time content fingerprint, and the backend must
+reject stale approvals before writing canon state, foreshadow state, remix
+continuation state, or analysis tasks.
+
+Project adaptation:
+
+- `GET /chapters/{chapter_id}/guardrail-review` now returns
+  `current_content_sha256`, `current_content_length`, and `current_word_count`.
+- The review modal displays the current text fingerprint and submits
+  `review_content_sha256` with the approval request.
+- `POST /chapters/{chapter_id}/guardrail-review/approve` rejects a mismatched
+  submitted hash with HTTP 409 before changing chapter status, writing remix
+  state, planting foreshadows, or scheduling analysis.
+- Tests cover both matching-hash approval and stale-hash rejection.
+
+## 2026-06-11 follow-up: source excerpt provenance
+
+Additional static metadata pass, still no clone/install/runtime/provider calls:
+
+- `guerra2fernando/libriscribe`
+  - URL: https://github.com/guerra2fernando/libriscribe
+  - Observed HEAD: `1d781d373432abe2df1e477eeab083edb86ebe84`
+  - Default branch: `main`
+  - Public README signal: book-generation workflow vocabulary around outline,
+    chapter, style, review, character, and audit.
+  - Posture: `pattern-only`; no package manager, script, or generation runtime
+    was executed.
+- `DoktorDaveJoos/manuscript`
+  - URL: https://github.com/DoktorDaveJoos/manuscript
+  - Observed HEAD: `c88bd26053454478cf099497936045596854783c`
+  - Default branch: `main`
+  - Public README signal: manuscript workflow vocabulary around chapters,
+    revision, accept/dismiss, review, context, and consistency.
+  - Posture: `pattern-only`; no runtime or provider was executed.
+- `kshanxs/book-writer-skill`
+  - URL: https://github.com/kshanxs/book-writer-skill
+  - Observed HEAD: `2a247a6666e77c439c9351a842123c07b5982205`
+  - Default branch: `main`
+  - Public README signal: skill workflow vocabulary around chapter, outline,
+    style, review, memory, character, revision, and consistency.
+  - Posture: `pattern-only`; skill files were not installed.
+- `pulpgen-dev/pulpgen`
+  - URL: https://github.com/pulpgen-dev/pulpgen
+  - Observed HEAD: `91c77b4877cb90a0fffba1b4593bb176909c88ff`
+  - Default branch: `main`
+  - Public README signal: long-form generation vocabulary around outline,
+    chapter, context, revision, review, and audit.
+  - Posture: `pattern-only`; no runtime was executed.
+- `shenminglinyi/PlotPilot`
+  - URL: https://github.com/shenminglinyi/PlotPilot
+  - Observed HEAD: `0011e503ce577489eac6e4ee8f4eeedc7f3bc2b5`
+  - Default branch: `master`
+  - Public README signal: Chinese writing workflow vocabulary around chapter,
+    context, plot, causality, and foreshadowing.
+  - Posture: `pattern-only`; no scripts or providers were executed.
+
+Absorbed pattern: review packets should not only say that a generated chapter
+looked too similar to some source. They should preserve compact provenance for
+the source excerpts used by the copy-similarity guardrail. Hash, length, and a
+bounded preview are enough for a reviewer to replay which reference window
+triggered review without storing or reusing the full upstream prose.
+
+Project adaptation:
+
+- `apply_chapter_guardrail_check` now records bounded
+  `source_excerpt_fingerprints` for inspired-source excerpts.
+- The structured `GUARDRAIL_REVIEW_JSON` history packet carries those
+  fingerprints into the review API.
+- Manual approval keeps the fingerprints beside the reviewed content hash in
+  the BookRemix chapter change package.
+- Tests cover fingerprint creation, history serialization, and continuation
+  state write-back.
+
+
+## 2026-06-11 follow-up: reviewer-visible source fingerprints
+
+Additional static metadata pass, still no clone/install/runtime/provider calls:
+
+- `rhavekost/author-toolkit`
+  - URL: https://github.com/rhavekost/author-toolkit
+  - Observed HEAD: `5faebfac5fddb59149798b8108a2c379d9b2465c`
+  - Default branch: `main`
+  - Public README signal: Claude writing skill vocabulary around chapter,
+    continuity, voice, and character state.
+  - Posture: `pattern-only`; no license detected in GitHub metadata, and no
+    skill/plugin files were installed.
+- `mike-cramblett/novel-novel-generator`
+  - URL: https://github.com/mike-cramblett/novel-novel-generator
+  - Observed HEAD: `a658c9bbd24f2ab00799c295768608f91388b198`
+  - Default branch: `main`
+  - License: MIT
+  - Public README signal: one-shot AI novel workflow with continuity,
+    structural integrity, outline, chapter, audit, voice, and fingerprint
+    vocabulary.
+  - Posture: `pattern-only`; React/Gemini runtime and provider surfaces were
+    not executed.
+- `geobond13/fiction-forge`
+  - URL: https://github.com/geobond13/fiction-forge
+  - Observed HEAD: `181a28cfe41c018eef278a00d28be1887ce7ba01`
+  - Default branch: `main`
+  - License: MIT
+  - Public README signal: prose-pattern scanner and MCP context vocabulary for
+    AI-assisted novel editing, including fingerprint, chapter, outline,
+    continuity, style, voice, cluster, pattern, and character markers.
+  - Posture: `pattern-only`; MCP/server surfaces and scanners were not
+    installed or executed.
+
+Absorbed pattern: compact source-excerpt provenance only helps the reviewer if
+it is visible at approval time. The review dialog should show the same bounded
+hash/length/preview packet that the backend will later persist beside the
+approved chapter-change package.
+
+Project adaptation:
+
+- The chapter guardrail review type now exposes `source_excerpt_fingerprints`.
+- The review modal renders each source excerpt fingerprint with a short hash,
+  character length, and bounded preview before the reviewer approves.
+- The approval request still binds to the current chapter content hash, so the
+  visible source provenance and approved chapter text remain in one review
+  event.

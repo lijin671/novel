@@ -193,6 +193,9 @@ def _manual_review_guardrail_meta(
         },
         "acceptance_status": "manually_approved",
         "manual_review_reasons": list(summary.get("manual_review_reasons") or []),
+        "source_excerpt_fingerprints": list(
+            summary.get("source_excerpt_fingerprints") or []
+        ),
         "manual_review": {
             "approved": True,
             "review_note": (review_note or "").strip(),
@@ -403,10 +406,16 @@ async def get_chapter_guardrail_review(
     await verify_project_access(chapter.project_id, user_id, db)
 
     history = await _latest_generation_history_for_chapter(db, chapter_id)
+    chapter_content = chapter.content or ""
     return {
         "chapter_id": chapter_id,
         "chapter_status": chapter.status,
         "review_required": chapter.status == "review_required",
+        "current_content_sha256": hashlib.sha256(
+            chapter_content.encode("utf-8")
+        ).hexdigest(),
+        "current_content_length": len(chapter_content),
+        "current_word_count": int(chapter.word_count or len(chapter_content)),
         "guardrail_review": _guardrail_review_from_history(history),
         "latest_history_id": history.id if history else None,
         "latest_history_created_at": (
@@ -448,6 +457,17 @@ async def approve_chapter_guardrail_review(
         raise HTTPException(status_code=400, detail="章节不处于人工复核状态")
     if not chapter.content or not chapter.content.strip():
         raise HTTPException(status_code=400, detail="章节内容为空，无法复核通过")
+    current_content_sha256 = hashlib.sha256(
+        chapter.content.encode("utf-8")
+    ).hexdigest()
+    if (
+        approval.review_content_sha256
+        and approval.review_content_sha256.lower() != current_content_sha256
+    ):
+        raise HTTPException(
+            status_code=409,
+            detail="Chapter content changed; reopen review before approval",
+        )
 
     history = await _latest_generation_history_for_chapter(db, chapter_id)
     review_summary = _guardrail_review_from_history(history)
