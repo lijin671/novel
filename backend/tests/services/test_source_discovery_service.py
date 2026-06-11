@@ -7710,6 +7710,89 @@ def test_static_manuscript_health_ai_prep_source_maps_to_health_gate():
     assert "chapter_ending_taxonomy_remap" in digest
 
 
+def test_static_manuscript_editorial_workbench_source_adds_local_diff_review_gates():
+    assert "https://github.com/DoktorDaveJoos/manuscript" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any(
+        "local sqlite" in query.lower()
+        and "editorial review" in query.lower()
+        and "prose pass" in query.lower()
+        for query in DEFAULT_GITHUB_QUERIES
+    )
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "DoktorDaveJoos/manuscript",
+                "html_url": "https://github.com/DoktorDaveJoos/manuscript",
+                "description": (
+                    "Manuscript keeps author data in a local SQLite database with no cloud sync, "
+                    "offline-capable core features, BYOK API keys for AI providers, and optional Sentry. "
+                    "It has chapter snapshots, visual diffs, granular accept / reject changes, "
+                    "a Prose Pass with contextual prose refinement shown as a diff, "
+                    "full-manuscript Editorial Review, chapter-by-chapter editorial analysis, "
+                    "findings and severity levels, accept or dismiss individual findings, "
+                    "AI-generated chapter notes, pre-editorial detection, and rewrite directly "
+                    "from unresolved editorial feedback."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 1,
+                "license": None,
+                "topics": ["literature", "novels", "writing", "writing-tool"],
+                "updated_at": "2026-06-11T14:59:47Z",
+                "root_files": [
+                    ".env.example",
+                    ".mcp.json",
+                    "AGENTS.md",
+                    "CLAUDE.md",
+                    "README.md",
+                    "app",
+                    "database",
+                    "package.json",
+                    "composer.json",
+                ],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:40:00+08:00",
+    )
+
+    candidate = {candidate["title"]: candidate for candidate in result["candidates"]}[
+        "DoktorDaveJoos/manuscript"
+    ]
+    assert "local_sqlite_author_ownership_gate" in candidate["absorbed_patterns"]
+    assert "prose_diff_accept_reject_version_gate" in candidate["absorbed_patterns"]
+    assert "editorial_finding_resolution_rewrite_gate" in candidate["absorbed_patterns"]
+    assert "provider_key_surface" in candidate["risk_flags"]
+    assert "mcp_server" in candidate["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "local_sqlite_ownership_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "diff_accept_reject_version_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "editorial_finding_resolution_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_sqlite_author_data_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "prose_diff_acceptance_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "editorial_finding_resolution_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "author_data_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "diff_revision_acceptance_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "editorial_finding_fix_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("SQLite" in hint for hint in pattern_pack["local_sqlite_author_ownership_gate_hints"])
+    assert any("diff" in hint for hint in pattern_pack["prose_diff_accept_reject_version_gate_hints"])
+    assert any(
+        "unresolved editorial feedback" in hint
+        for hint in pattern_pack["editorial_finding_resolution_rewrite_gate_hints"]
+    )
+    assert any("accepted diff" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("finding id" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("accepted/rejected" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "local_sqlite_author_ownership_gate_hints" in digest
+    assert "prose_diff_accept_reject_version_gate_hints" in digest
+    assert "editorial_finding_resolution_rewrite_gate_hints" in digest
+
+
 def test_agentic_editorial_craft_pattern_pack_exposes_state_metadata_and_fingerprint_guidance():
     service = NovelSourceDiscoveryService()
     ledger = {

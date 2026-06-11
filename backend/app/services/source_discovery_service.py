@@ -252,6 +252,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("chapter descriptions" OR "previous chapters" OR "real-time streaming") ("book writing" OR "novel") in:name,description,readme',
     '("AI beta reader" OR "contextual feedback" OR "previous chapter summaries") ("novel" OR "manuscript") in:name,description,readme',
     '("manuscript health score" OR "story heartbeat" OR "chapter ending analysis" OR "AI preparation pipeline") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
+    '("local SQLite" OR "accept / reject changes" OR "editorial review" OR "prose pass") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
     '("three-type" OR "chapter type" OR "event cooldown" OR "unique image test" OR "Story Contract" OR "概率陷阱" OR "三型分流") ("AI writing" OR "novel" OR "webnovel") in:name,description,readme',
     '("citation styles" OR "AI research engine" OR "web search integration") ("research" OR "book writing" OR "manuscript") in:name,description,readme',
     '("style vocabulary" OR "vocabulary library") ("world cards" OR "worldbuilding extraction" OR "character cards") ("novel" OR "AI writing") in:name,description,readme',
@@ -951,6 +952,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("comp_title_market_positioning", ("comp title", "comparable titles", "market positioning", "genre trends", "reader expectations", "bestseller patterns", "trope requested", "common complaints", "if you liked", "blurb", "amazon description", "keywords", "comp title", "market position", "reader expectation")),
     ("local_reader_experience_editor", ("micro-tension", "reader curiosity tracker", "chapter hook", "cliffhanger audit", "tension & engagement", "scene openings", "scene endings", "white space", "paragraph rhythm", "style dna", "token breakdown", "smart context auto-toggling", "reader experience", "reader curiosity", "chapter hook")),
     ("manuscript_health_ai_prep_gate", ("manuscript health score", "story heartbeat canvas", "plot health dashboard", "chapter ending analysis", "ai preparation pipeline", "semantic chunks with overlap", "weighted composite across hook quality", "cliffhanger, soft hook, closed, or dead end")),
+    ("local_sqlite_author_ownership_gate", ("local sqlite database", "local sqlite storage", "all data stored in sqlite", "data stays yours", "copy it, back it up, delete it", "no cloud sync", "offline capable", "bring your own ai keys", "own your story")),
+    ("prose_diff_accept_reject_version_gate", ("prose pass", "contextual prose refinement shown as a diff", "accept / reject changes", "accept or reject changes", "granular control over revisions", "version history", "visual diffs", "chapter snapshots", "restore and compare chapter snapshots")),
+    ("editorial_finding_resolution_rewrite_gate", ("full-manuscript editorial review", "chapter-by-chapter editorial analysis", "findings and severity levels", "accept or dismiss individual findings", "editorial chat", "ai-generated chapter notes", "pre-editorial detection", "rewrite directly from unresolved editorial feedback", "rewrite a chapter directly from unresolved editorial feedback")),
     ("delivery_manuscript_assembly", ("assembled from many smaller text", "compile manuscript", "compiles your manuscript", "manuscript-wide statistics", "book_chapter_list", "chapter order", "chapter reorder", "chapter header", "chapter headings", "final manuscript", "accepted chapters", "manuscript assembly", "manuscript surface", "ordered manuscript")),
     ("export_format_fidelity_audit", ("markdown/docx export", "markdown export", "docx export", "pdf, docx, or txt", "export novel in pdf", "formatted .docx", "title page", "page numbers", "configurable fonts", "export format", "clean markdown", "derived manuscript artifacts")),
     ("preview_toc_packaging", ("html preview", "built-in html preview", "preview server", "table of contents", "toc", "book typography", "auto-refreshes", "drop caps", "ornamental dividers")),
@@ -2807,8 +2811,9 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Pattern-only adaptation for editor-context prose-analysis scopes; extension runtime, VS Code APIs, provider lists, and upstream rule bodies are not imported or executed."
     ),
     "doktordavejoos/manuscript": (
-        "manuscript is a no-license-observed local-first desktop app for novelists. Public README markers describe manuscript health scores, Story Heartbeat Canvas, Plot Health Dashboard, chapter ending analysis, semantic chunking, RAG, story bible population, style extraction, AI preparation phases, error recovery, and circuit breaker protection. "
-        "Pattern-only adaptation for manuscript-health and AI-preparation gates; Laravel/PHP/Node runtime, agent folders, MCP config, scripts, local files, embeddings, and provider calls are not launched or imported."
+        "manuscript is a GitHub-license-missing local-first desktop app for novelists. Public README markers describe manuscript health scores, Story Heartbeat Canvas, Plot Health Dashboard, chapter ending analysis, semantic chunking, RAG, story bible population, style extraction, AI preparation phases, error recovery, and circuit breaker protection. "
+        "Current README and changelog markers also describe local SQLite author data ownership, no cloud sync, BYOK AI providers, chapter snapshots, visual diffs, granular accept/reject changes, Prose Pass diff refinement, full-manuscript Editorial Review, findings with severity, accept/dismiss status, chapter notes, pre-editorial detection, and rewrite directly from unresolved editorial feedback. "
+        "Pattern-only adaptation for manuscript-health, local SQLite ownership, diff-accepted revision, and editorial finding resolution gates; Laravel/PHP/Node runtime, agent folders, MCP config, scripts, local files, embeddings, provider calls, Sentry/updater tokens, and upstream AGENTS/CLAUDE instructions are not launched or imported."
     ),
     "wwessex/writer1": (
         "DraftHarbour Studio / Writer1 is a no-license-observed offline/online novel word processor PWA. Public README markers describe chapter-isolated editing, IndexedDB autosave, optional JSON sync, collaboration permissions, version history, diff previews, restore, and DOCX/PDF/RTF export. "
@@ -3545,6 +3550,9 @@ class NovelSourceDiscoveryService:
             "comp_title_market_positioning_hints": self._build_comp_title_market_positioning_hints(available_patterns),
             "local_reader_experience_editor_hints": self._build_local_reader_experience_editor_hints(available_patterns),
             "manuscript_health_ai_prep_gate_hints": self._build_manuscript_health_ai_prep_gate_hints(available_patterns),
+            "local_sqlite_author_ownership_gate_hints": self._build_local_sqlite_author_ownership_gate_hints(available_patterns),
+            "prose_diff_accept_reject_version_gate_hints": self._build_prose_diff_accept_reject_version_gate_hints(available_patterns),
+            "editorial_finding_resolution_rewrite_gate_hints": self._build_editorial_finding_resolution_rewrite_gate_hints(available_patterns),
             "anti_statistical_center_chapter_type_gate_hints": self._build_anti_statistical_center_chapter_type_gate_hints(available_patterns),
             "delivery_manuscript_assembly_hints": self._build_delivery_manuscript_assembly_hints(available_patterns),
             "export_format_fidelity_audit_hints": self._build_export_format_fidelity_audit_hints(available_patterns),
@@ -4259,6 +4267,9 @@ class NovelSourceDiscoveryService:
             "comp_title_market_positioning": 54,
             "local_reader_experience_editor": 59,
             "manuscript_health_ai_prep_gate": 67,
+            "local_sqlite_author_ownership_gate": 66,
+            "editorial_finding_resolution_rewrite_gate": 65,
+            "prose_diff_accept_reject_version_gate": 62,
             "anti_statistical_center_chapter_type_gate": 64,
             "delivery_manuscript_assembly": 61,
             "export_format_fidelity_audit": 55,
@@ -5178,6 +5189,12 @@ class NovelSourceDiscoveryService:
             targets.append("manuscript_health_score_axes")
             targets.append("chapter_ending_taxonomy")
             targets.append("ai_preparation_phase_policy")
+        if "local_sqlite_author_ownership_gate" in patterns:
+            targets.extend(["local_sqlite_ownership_policy", "author_data_exit_policy", "byok_provider_boundary_policy"])
+        if "prose_diff_accept_reject_version_gate" in patterns:
+            targets.extend(["diff_accept_reject_version_policy", "chapter_snapshot_lineage_policy"])
+        if "editorial_finding_resolution_rewrite_gate" in patterns:
+            targets.extend(["editorial_finding_resolution_policy", "pre_editorial_readiness_policy"])
         if "anti_statistical_center_chapter_type_gate" in patterns:
             targets.append("chapter_type_minimal_flow_policy")
             targets.append("event_cooldown_matrix")
@@ -6428,6 +6445,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["micro_tension_findings", "reader_curiosity_threads", "chapter_hook_cliffhanger_audit", "style_dna_context_fit", "token_breakdown_notes"])
         if "manuscript_health_ai_prep_gate" in patterns:
             targets.extend(["manuscript_health_score_timeline", "story_heartbeat_canvas_report", "chapter_ending_classification_report", "ai_preparation_recovery_trace"])
+        if "local_sqlite_author_ownership_gate" in patterns:
+            targets.extend(["local_sqlite_author_data_manifest", "provider_key_boundary_report", "offline_backup_export_scope"])
+        if "prose_diff_accept_reject_version_gate" in patterns:
+            targets.extend(["prose_diff_acceptance_report", "chapter_snapshot_version_report", "rejected_span_leakage_check"])
+        if "editorial_finding_resolution_rewrite_gate" in patterns:
+            targets.extend(["editorial_finding_resolution_report", "unresolved_feedback_rewrite_queue", "pre_editorial_readiness_report"])
         if "anti_statistical_center_chapter_type_gate" in patterns:
             targets.extend(["chapter_type_distribution_report", "event_cooldown_violation_report", "unique_image_contract_verification_report", "statistical_center_drift_report"])
         if "inline_human_machine_coauthoring_gate" in patterns:
@@ -6561,6 +6584,12 @@ class NovelSourceDiscoveryService:
             hints.append("Before acceptance, audit micro-tension, reader curiosity, chapter hook, cliffhanger, paragraph rhythm, and scene opening/ending strength.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("Before continuation, review the manuscript-health trend and chapter-ending class so the next chapter repairs pacing, tension, hook, or emotional-arc debt instead of blindly extending prose.")
+        if "local_sqlite_author_ownership_gate" in patterns:
+            hints.append("Before continuation, declare the author-owned SQLite project boundary, local backup/export scope, BYOK/provider boundary, and which accepted records are allowed into prompt context.")
+        if "prose_diff_accept_reject_version_gate" in patterns:
+            hints.append("Treat prose changes as accepted diff records tied to chapter snapshots; rejected or preview-only spans cannot become continuation context.")
+        if "editorial_finding_resolution_rewrite_gate" in patterns:
+            hints.append("Before rewriting from editorial feedback, cite finding ids, severity, status, linked chapter notes, and whether the finding is unresolved, accepted, dismissed, or waived.")
         if "living_codex_editorial_workbench_gate" in patterns:
             hints.append("Before drafting, choose the manuscript tree node, linked living-codex entries, continuity findings, and editorial pass type that constrain the scene.")
         if "agent_role_profile_workflow_gate" in patterns:
@@ -6856,6 +6885,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist contract version, negotiation status, automation level, commit cadence, tracking format, research pattern, and instruction-conflict decisions with each continuation session.")
         if "manuscript_pr_editorial_workflow_gate" in patterns:
             hints.append("Persist editorial review traces as branch/commit/PR-style records: changed span, why it changed, requested feedback, accepted line edits, and structural issues.")
+        if "local_sqlite_author_ownership_gate" in patterns:
+            hints.append("Persist project id, local SQLite database revision, backup/export checksum, BYOK provider boundary, and telemetry/updater exclusion status with each accepted chapter state.")
+        if "prose_diff_accept_reject_version_gate" in patterns:
+            hints.append("Persist chapter snapshot id, diff proposal id, accepted/rejected span list, author decision, and restore target before prose changes feed later prompts.")
+        if "editorial_finding_resolution_rewrite_gate" in patterns:
+            hints.append("Persist every editorial finding id, severity, evidence span, resolution status, linked chapter note, rewrite attempt id, and dismiss/waive reason.")
         if "short_drama_story_bible_template_gate" in patterns:
             hints.append("Persist short-drama bible state: series premise, character canon, relationship rules, episode boundaries, continuity memory, reusable character rules, and review scorecard decisions.")
         if "visual_anchor_prompt_handoff_gate" in patterns:
@@ -9208,6 +9243,33 @@ class NovelSourceDiscoveryService:
             "Run AI-preparation as a resumable phase pipeline: semantic chunks, embeddings/RAG index, chapter analysis, story-bible population, style extraction, recovery state, and circuit-breaker status stay visible before generation.",
         ]
 
+    def _build_local_sqlite_author_ownership_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_sqlite_author_ownership_gate" not in patterns:
+            return []
+        return [
+            "Keep the accepted manuscript, story bible, snapshots, usage logs, and settings under an explicit local SQLite project boundary; cloud/provider/updater metadata is not canon.",
+            "BYOK and optional telemetry surfaces must be listed as excluded runtime surfaces before any source-derived pattern enters prompts.",
+            "Backups and exports are author-owned transfer artifacts; they require checksums and cannot silently replace accepted chapter state.",
+        ]
+
+    def _build_prose_diff_accept_reject_version_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "prose_diff_accept_reject_version_gate" not in patterns:
+            return []
+        return [
+            "Generate prose refinements as diff proposals against a named chapter snapshot; the accepted diff, not raw model output, becomes the next state.",
+            "Track rejected spans and restore targets so failed rewrites, preview text, and partial accepts cannot leak into memory.",
+            "For book-decomposition continuation, compare changes at paragraph/scene scope before promoting them to the transformed manuscript.",
+        ]
+
+    def _build_editorial_finding_resolution_rewrite_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "editorial_finding_resolution_rewrite_gate" not in patterns:
+            return []
+        return [
+            "Route full-manuscript review into chapter-scoped findings with severity, evidence, status, and author decision before rewriting.",
+            "Rewrite from unresolved editorial feedback only when the linked chapter note and finding id are visible in the prompt.",
+            "Pre-editorial checks should block expensive or broad rewrites when the manuscript still lacks enough accepted material for a useful review.",
+        ]
+
     def _build_anti_statistical_center_chapter_type_gate_hints(self, patterns: set[str]) -> list[str]:
         if "anti_statistical_center_chapter_type_gate" not in patterns:
             return []
@@ -11136,6 +11198,15 @@ class NovelSourceDiscoveryService:
             targets.append("manuscript_health_axis_remap")
             targets.append("chapter_ending_taxonomy_remap")
             targets.append("ai_preparation_pipeline_remap")
+        if "local_sqlite_author_ownership_gate" in patterns:
+            targets.append("author_data_boundary_remap")
+            targets.append("local_backup_export_remap")
+        if "prose_diff_accept_reject_version_gate" in patterns:
+            targets.append("diff_revision_acceptance_remap")
+            targets.append("snapshot_restore_lineage_remap")
+        if "editorial_finding_resolution_rewrite_gate" in patterns:
+            targets.append("editorial_finding_fix_remap")
+            targets.append("pre_editorial_readiness_remap")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             targets.append("chapter_type_flow_remap")
             targets.append("event_cooldown_matrix_remap")
@@ -11786,6 +11857,12 @@ class NovelSourceDiscoveryService:
             hints.append("Optimize micro-tension and curiosity in the transformed story without copying a source chapter's cliffhanger shape or ending cadence.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("For same-type creation, remap manuscript-health axes and chapter-ending taxonomy to the new story; do not copy the source ending cadence or recovery route.")
+        if "local_sqlite_author_ownership_gate" in patterns:
+            hints.append("For same-type prompts, define the new project's author-data boundary and SQLite-like accepted-state contract; source app settings, telemetry, and provider keys stay excluded.")
+        if "prose_diff_accept_reject_version_gate" in patterns:
+            hints.append("For same-type prompts, request a new-story diff plan with changed-span rationale and author acceptance slots instead of copying source revision labels.")
+        if "editorial_finding_resolution_rewrite_gate" in patterns:
+            hints.append("For same-type prompts, transform editorial findings into new-story fix tasks with fresh evidence spans, not source severity labels or source chapter notes.")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             hints.append("For same-type creation, reuse chapter-type control, event-cooldown thinking, and unique-image contracts only as method; do not preserve the source chapter-type sequence or event rhythm.")
         if "context_pack_preview" in patterns:
@@ -12179,6 +12256,12 @@ class NovelSourceDiscoveryService:
             hints.append("Rebuild hooks and cliffhangers from the new chapter's active conflict, not from source set-piece timing.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("Convert source health trends and ending classes into the new book's own tension, pacing, hook debt, and AI-preparation recovery trace.")
+        if "local_sqlite_author_ownership_gate" in patterns:
+            hints.append("Transform local data ownership into a new project manifest with fresh ids, accepted-state revisions, export checksums, and provider-boundary exclusions.")
+        if "prose_diff_accept_reject_version_gate" in patterns:
+            hints.append("Transform source revision lessons into new diff proposals with new paragraph ids, rationale, and accept/reject decisions.")
+        if "editorial_finding_resolution_rewrite_gate" in patterns:
+            hints.append("Transform editorial review into new finding ids, severity rationale, rewrite scope, and resolution state before touching prose.")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             hints.append("Transform a source chapter's function into a new chapter type, different event category, fresh visible image, and new unresolved question before drafting prose.")
         if "local_storage_story_bible_snapshot_gate" in patterns:
@@ -12826,6 +12909,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject hook/cliffhanger repairs that mirror a source chapter ending or preserve distinctive source payoff cadence.")
         if "manuscript_health_ai_prep_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source chapter-ending class sequence, health-score recovery route, or heartbeat/pacing curve.")
+        if "local_sqlite_author_ownership_gate" in patterns:
+            hints.append("Reject context packs that mix source app files, local SQLite records, provider settings, telemetry/updater metadata, or backups into transformed-story canon.")
+        if "prose_diff_accept_reject_version_gate" in patterns:
+            hints.append("Reject drafts when accepted/rejected diff history is missing or when source revision spans, comments, or restore labels survive under renamed chapters.")
+        if "editorial_finding_resolution_rewrite_gate" in patterns:
+            hints.append("Reject rewrites that reuse source editorial findings, severity wording, chapter notes, or dismissed feedback as transformed-story evidence.")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source chapter-type sequence, event-cooldown route, unique-image motif, or Story Contract promise order.")
         if "platform_kb_retention_strategy_gate" in patterns:
@@ -13297,6 +13386,9 @@ class NovelSourceDiscoveryService:
                 "llm_style_dimension_matrix_gate",
                 "stylometry_feature_extraction_baseline_gate",
                 "local_block_manuscript_workspace_gate",
+                "local_sqlite_author_ownership_gate",
+                "prose_diff_accept_reject_version_gate",
+                "editorial_finding_resolution_rewrite_gate",
                 "scene_state_prompt_injection_gate",
                 "keyphrase_motif_extraction",
                 "chinese_segmentation_keyword_gate",
@@ -13595,6 +13687,9 @@ class NovelSourceDiscoveryService:
                 "comp_title_market_positioning",
                 "local_reader_experience_editor",
                 "manuscript_health_ai_prep_gate",
+                "local_sqlite_author_ownership_gate",
+                "prose_diff_accept_reject_version_gate",
+                "editorial_finding_resolution_rewrite_gate",
                 "anti_statistical_center_chapter_type_gate",
                 "delivery_manuscript_assembly",
                 "export_format_fidelity_audit",
