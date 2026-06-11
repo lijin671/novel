@@ -12,6 +12,7 @@ from app.services.book_remix_context_service import (
     build_remix_continuation_context_block,
     build_remix_context_preview_audit,
     build_remix_inspired_context_block,
+    build_remix_inspired_independence_audit,
     build_remix_continuation_progress_summary,
 )
 
@@ -447,6 +448,41 @@ def test_build_remix_inspired_context_block_renders_style_copy_risk_and_pattern_
     assert "source_canon_boundary" in block
     assert "context_reference_policy" in block
     assert "copy_risk_gate" in block
+    assert "Same-type independence contract" in block
+    assert "required_difference_axes" in block
+    assert "acceptance_rule" in block
+
+
+def test_build_remix_inspired_independence_audit_tracks_style_boundaries_and_risk_gates():
+    audit = build_remix_inspired_independence_audit(
+        style_content=(
+            "同类型创作 source voice\n"
+            "【同类型创作总原则】\n"
+            "- 只迁移叙事引擎、节奏曲线和信息控制。\n"
+            "【源书语气样本】\n"
+            "- He waited until the hallway went quiet.\n"
+            "【源书显性元素禁用清单】\n"
+            "- 原主角、原组织、原神器\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "work_dna_method_transfer_eval_gate"},
+                {"name": "authorship_attribution_similarity_gate"},
+                {"name": "story_import_pattern_revision_gate"},
+                {"name": "governed_full_reading_continuation_gate"},
+            ]
+        },
+    )
+
+    assert audit["style_principle_count"] == 1
+    assert audit["source_voice_sample_count"] == 1
+    assert audit["forbidden_source_element_count"] == 1
+    assert "narrative_engine" in audit["transfer_axes"]
+    assert "motif_family" in audit["required_difference_axes"]
+    assert "style_similarity_not_goal" in audit["copy_risk_checks"]
+    assert "source_import_pass_boundary" in audit["copy_risk_checks"]
+    assert "reading_evidence_not_new_story_canon" in audit["copy_risk_checks"]
+    assert audit["warnings"] == []
 
 
 def test_build_remix_inspired_context_block_ignores_ordinary_style_content():

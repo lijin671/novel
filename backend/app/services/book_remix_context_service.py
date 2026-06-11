@@ -508,6 +508,11 @@ def build_remix_inspired_context_block(
         heading="【源书显性元素禁用清单】",
         max_items=8,
     )
+    _append_inspired_independence_contract_section(
+        lines=lines,
+        style_content=normalized_style,
+        source_pattern_pack=source_pattern_pack,
+    )
 
     _append_source_pattern_pack_section(
         lines=lines,
@@ -2790,6 +2795,132 @@ def _append_trope_independence_audit_section(
         lines.append("- trope_source_boundary_review: trope sources stay metadata-only by default; no live scraping, parser runtime, copied page prose, or mass mirroring in prompts")
 
 
+def build_remix_inspired_independence_audit(
+    *,
+    style_content: str,
+    source_pattern_pack: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    """Build same-type creation independence checks from style/source anchors."""
+    style_principles = _heading_items(
+        style_content,
+        heading="\u3010\u540c\u7c7b\u578b\u521b\u4f5c\u603b\u539f\u5219\u3011",
+        max_items=12,
+    )
+    source_voice_samples = _heading_items(
+        style_content,
+        heading="\u3010\u6e90\u4e66\u8bed\u6c14\u6837\u672c\u3011",
+        max_items=12,
+    )
+    forbidden_source_elements = _heading_items(
+        style_content,
+        heading="\u3010\u6e90\u4e66\u663e\u6027\u5143\u7d20\u7981\u7528\u6e05\u5355\u3011",
+        max_items=16,
+    )
+    pattern_names = _source_pattern_names(source_pattern_pack)
+
+    transfer_axes = [
+        "pov_behavior",
+        "pacing_curve",
+        "scene_density",
+        "dialogue_pressure",
+        "emotional_temperature",
+    ]
+    required_difference_axes = [
+        "cast_identity",
+        "organization_map",
+        "world_rules",
+        "conflict_object",
+        "event_order",
+        "reveal_payoff_sequence",
+    ]
+    copy_risk_checks = [
+        "forbidden_name_scan",
+        "source_scene_order_scan",
+        "distinctive_wording_scan",
+        "set_piece_remap_scan",
+    ]
+
+    if pattern_names.intersection(
+        {
+            "stylometric_author_fingerprint_gate",
+            "authorship_attribution_similarity_gate",
+            "paraphrase_independence_review_gate",
+        }
+    ):
+        copy_risk_checks.extend([
+            "style_similarity_not_goal",
+            "authorship_nearest_neighbor_review",
+        ])
+    if "work_dna_method_transfer_eval_gate" in pattern_names:
+        transfer_axes.extend([
+            "narrative_engine",
+            "scene_architecture",
+            "information_control",
+            "character_grammar",
+        ])
+        required_difference_axes.extend([
+            "motif_family",
+            "theme_answer",
+        ])
+    if "story_import_pattern_revision_gate" in pattern_names:
+        copy_risk_checks.extend([
+            "source_import_pass_boundary",
+            "alternate_draft_not_canon",
+        ])
+    if "governed_full_reading_continuation_gate" in pattern_names:
+        copy_risk_checks.append("reading_evidence_not_new_story_canon")
+
+    warnings: list[str] = []
+    if not style_principles:
+        warnings.append("missing_same_type_style_principles")
+    if not source_voice_samples:
+        warnings.append("missing_source_voice_samples")
+    if not forbidden_source_elements:
+        warnings.append("missing_forbidden_source_elements")
+    voice_sample_tokens = sum(_estimate_context_tokens(item) for item in source_voice_samples)
+    if voice_sample_tokens >= 1200:
+        warnings.append("source_voice_samples_over_budget")
+
+    return {
+        "style_principle_count": len(style_principles),
+        "source_voice_sample_count": len(source_voice_samples),
+        "forbidden_source_element_count": len(forbidden_source_elements),
+        "source_voice_estimated_tokens": voice_sample_tokens,
+        "transfer_axes": _dedupe_ordered(transfer_axes),
+        "required_difference_axes": _dedupe_ordered(required_difference_axes),
+        "copy_risk_checks": _dedupe_ordered(copy_risk_checks),
+        "warnings": warnings,
+    }
+
+
+def _append_inspired_independence_contract_section(
+    *,
+    lines: list[str],
+    style_content: str,
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    audit = build_remix_inspired_independence_audit(
+        style_content=style_content,
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    lines.append("")
+    lines.append("Same-type independence contract:")
+    lines.append(
+        "- source_boundary_snapshot: "
+        f"style_principles={audit['style_principle_count']}, "
+        f"voice_samples={audit['source_voice_sample_count']}, "
+        f"forbidden_elements={audit['forbidden_source_element_count']}, "
+        f"voice_sample_tokens={audit['source_voice_estimated_tokens']}"
+    )
+    lines.append(f"- transferable_axes: {', '.join(audit['transfer_axes'][:10])}")
+    lines.append(f"- required_difference_axes: {', '.join(audit['required_difference_axes'][:10])}")
+    lines.append(f"- copy_risk_checks: {', '.join(audit['copy_risk_checks'][:10])}")
+    if audit["warnings"]:
+        lines.append(f"- independence_warnings: {', '.join(audit['warnings'])}")
+    lines.append("- acceptance_rule: improve genre fit without maximizing source-author similarity or preserving source plot meaning")
+
+
 def _append_inspired_transformation_audit_section(
     *,
     lines: list[str],
@@ -3124,6 +3255,22 @@ def _append_inspired_style_section(
         lines.append(f"- {item}")
 
 
+def _heading_items(style_content: str, *, heading: str, max_items: int) -> list[str]:
+    section = _extract_heading_section(style_content, heading=heading)
+    if not section:
+        return []
+
+    items: list[str] = []
+    for raw_line in section.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+        items.append(_truncate(line, 260))
+        if len(items) >= max_items:
+            break
+    return items
+
+
 def _extract_heading_section(style_content: str, *, heading: str) -> str:
     if heading not in style_content:
         return ""
@@ -3228,6 +3375,13 @@ def _as_note_list(value: Any) -> list[str]:
         if text:
             notes.append(text)
     return notes
+
+
+def _dedupe_ordered(items: list[str]) -> list[str]:
+    deduped: list[str] = []
+    for item in items:
+        _append_unique(deduped, item)
+    return deduped
 
 
 def _item_to_text(item: dict[str, Any], *, preferred_keys: tuple[str, ...]) -> str:
