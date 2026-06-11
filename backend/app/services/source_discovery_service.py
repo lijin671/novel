@@ -195,7 +195,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("global find replace" OR "Graphviz" OR "relationship graph") ("novel" OR "character" OR "writing") in:name,description,readme',
     '("permanent bible" OR "chapter-NN" OR "state/current" OR "chapter state") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("section metadata" OR "characters locations items" OR "pacing visualization" OR "plot points") ("novel" OR "writing" OR "manuscript") in:name,description,readme',
-    '("AI writing fingerprints" OR "prose pattern scanner" OR "voice drift" OR "cluster detection") ("novel" OR "fiction" OR "manuscript") in:name,description,readme',
+    '("AI writing fingerprints" OR "prose pattern scanner" OR "MCP context server" OR "voice drift" OR "cluster detection") ("novel" OR "fiction" OR "manuscript") in:name,description,readme',
     '("BookRun" OR "Judge/Repair" OR "export audit" OR "real LLM smoke") ("novel" OR "story" OR "long-form writing") in:name,description,readme',
     '("provider budget" OR "LLM profile routing" OR "cost tracking" OR "smoke gate") ("novel" OR "writing" OR "agent") in:name,description,readme',
     '("Python sidecar" OR "graph/vector memory" OR "deployment profiles") ("novel" OR "long-form fiction" OR "writing workbench") in:name,description,readme',
@@ -918,7 +918,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_contract_commit_chain", ("story contract", "story contracts", "chapter contract", "chapter contracts", "chapter_commit", "chapter commit", "approved chapter contract", "合同", "提交链", "故事合同", "唯一的事实源头", "主链", "accepted chapter_commit")),
     ("fact_snapshot_delta_gate", ("fact snapshot", "事实快照", "15维事实快照", "12类变更声明", "state write-back", "fact write-back", "状态回写", "事实回写", "变更声明", "generation gates", "生成门禁", "统一校验")),
     ("projection_sync_observability", ("projection_log", "projection log", "state/index/summary/memory/vector", "投影", "派生视图", "只读视图", "dashboard", "doctor", "preflight", "项目体检", "可视化面板")),
-    ("foreshadowing_debt_budget", ("foreshadowing debt", "foreshadowing tracking", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
+    ("foreshadowing_debt_budget", ("foreshadowing debt", "foreshadowing tracking", "foreshadowing threads", "foreshadowing ledger", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
     ("reader_retention_review_gate", ("reader retention", "follow-up rate", "追读力", "爽点", "ooc", "节奏", "6 维", "six-dimensional", "reader promise", "读者承诺")),
     ("serial_reader_reward_contract_gate", ("commercial serialization", "commercial webnovel", "paid conversion", "paid chapter", "free-to-paid", "opening hook", "platform packaging", "chapter production brief", "reader persona demand", "serial strategy", "chapter reward contract", "상업 연재", "독자 보상", "유료화 지점", "회차 로드맵", "회차 집필 지시서", "플랫폼별 패키징", "이탈 위험", "商业网文", "平台连载", "章节合同", "情绪回报", "追读点", "弃读风险", "开篇钩子")),
     ("anti_statistical_center_chapter_type_gate", ("three-type", "chapter type", "a-type emotion", "b-type action", "c-type function", "三型分流", "a型情绪章", "b型动作章", "c型功能章", "概率陷阱", "最可能的续写", "事件冷却矩阵", "唯一画面测试", "story contract", "反向刹车", "3+1熔断", "自创公式检测", "nucleus-first", "seven knives", "golden finger")),
@@ -1165,7 +1165,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("proper_noun_leakage_review", ("proper noun", "names, locations", "person names", "locations", "organizations", "entity recognizer", "entity types", "rule based logic", "named entities")),
     ("platform_kb_retention_strategy_gate", ("chinese webnovel master", "platform-specific reader preferences", "platform suitability", "commercial storytelling workflows", "tomato novel", "qidian", "feilu", "jinjiang", "platform trends", "platform-specific tags", "????", "??", "??", "??", "??")),
     ("chapter_end_hook_retention_ladder_gate", ("suspense hook systems", "chapter-end hooks", "chapter end hooks", "next-chapter pull", "reader addiction", "reader retention promises", "reader confusion, boredom, payoff", "????", "????", "????", "??", "????")),
-    ("webnovel_kb_mcp_runtime_boundary_gate", ("webnovel knowledge base", "webnovel-kb", "?????????", "mcp ???", "semantic search", "bm25", "hybrid search", "plot pattern extraction", "writing template extraction", "style analysis", "????", "????")),
+    ("webnovel_kb_mcp_runtime_boundary_gate", ("webnovel knowledge base", "webnovel-kb", "mcp context server", "mcp context-server", "model-context-protocol", "story bible access", "real-time access to your story bible", "continuity rules", "foreshadowing threads", "?????????", "mcp ???", "semantic search", "bm25", "hybrid search", "plot pattern extraction", "writing template extraction", "style analysis", "????", "????")),
     ("agent_cache_concurrency_recovery_gate", ("custom caching protocol", "avoids duplicate api calls", "thread-safe concurrency", "graceful degradation", "comprehensive logging", "circuit breaker", "raw model output", "run_id", "artifacts/runs")),
     ("long_context_role_boundary_state_validation_gate", ("opening audition", "director blueprint", "writer executes", "critic audits blueprint adherence", "patch reviser", "reader simulator", "archivist", "state validator", "strict-quality", "corrupted long-running story state")),
     ("chapter_memory_ingestion_context_budget_gate", ("chapter ingestion", "????", "context package", "????", "token budget", "hybrid retrieval", "chapter summary", "ending hook", "relationship changes", "foreshadowing", "graph nodes", "memory units")),
@@ -1928,8 +1928,9 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Pattern-only adaptation is an agent-role profile workflow gate; Electron/FastAPI/LangGraph runtimes, npm/pip installs, scripts, provider credentials, safeStorage/API-key access, and model calls are not executed."
     ),
     "geobond13/fiction-forge": (
-        "Fiction Forge is a MIT prose pattern scanner and MCP context-server toolkit for AI-assisted novels, detecting AI writing fingerprints, voice drift, severity clusters, story-bible access, and publishing outputs. "
-        "Absorb prose fingerprint cluster gates only; MCP server, scanners, publisher, and image-generation tools are not run."
+        "Fiction Forge is a MIT prose pattern scanner, MCP context-server toolkit, publisher, and parallel-agent editorial workflow for AI-assisted novels. "
+        "Public README markers describe 24 AI writing fingerprints, em-dashes, show-then-tell, hedging language, voice drift, severity scoring, cluster detection, story-bible access, character profiles, continuity rules, foreshadowing threads, EPUB/PDF/HTML output, DALL-E image generation, rate limiting, and manifest tracking. "
+        "Absorb prose fingerprint, detect-edit-convergence, MCP context-boundary, foreshadowing-ledger, and publishing-readiness gates only; MCP server, scanners, publisher, image-generation tools, package installers, provider calls, and auto-start hooks are not run."
     ),
     "shenminglinyi/plotpilot": (
         "PlotPilot is a narrative-engine kernel for long-form AI creation with persistent memory, knowledge graph, DAG workflows, and creator review surfaces. "

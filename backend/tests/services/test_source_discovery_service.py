@@ -13219,3 +13219,78 @@ def test_static_story_tracker_source_adds_scene_state_prompt_injection_gate():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "scene_state_prompt_injection_gate_hints" in digest
+
+
+def test_static_fiction_forge_source_adds_prose_scanner_mcp_context_gates():
+    assert "https://github.com/geobond13/fiction-forge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("prose pattern scanner" in query.lower() and "mcp context server" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "geobond13/fiction-forge",
+                "html_url": "https://github.com/geobond13/fiction-forge",
+                "description": (
+                    "fiction-forge is an AI-assisted novel writing toolkit with prose pattern scanner, "
+                    "MCP context server, multi-format publisher, and parallel-agent editorial workflow. "
+                    "It detects 24 AI writing fingerprints, em-dashes, show-then-tell, hedging language, "
+                    "voice drift, severity scoring, cluster detection, story bible access, character profiles, "
+                    "continuity rules, foreshadowing threads, EPUB/PDF/HTML publishing, DALL-E image generator, "
+                    "rate limiting, manifest tracking, Claude Code auto-start MCP server, and OpenAI API key."
+                ),
+                "stargazers_count": 12,
+                "forks_count": 3,
+                "license": {"spdx_id": "MIT"},
+                "topics": [
+                    "ai-writing",
+                    "creative-writing",
+                    "fiction",
+                    "mcp",
+                    "model-context-protocol",
+                    "novel",
+                    "prose-scanner",
+                ],
+                "updated_at": "2026-06-04T12:08:15Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    "project.yaml",
+                    "requirements.txt",
+                    "tools/fiction_mcp.py",
+                    "tools/prose_scanner.py",
+                    "tools/publish.py",
+                    "tools/generate_images.py",
+                    "templates",
+                    "reference",
+                    "docs",
+                ],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T10:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    fiction_forge = candidates["geobond13/fiction-forge"]
+    assert "ai_prose_fingerprint_cluster_gate" in fiction_forge["absorbed_patterns"]
+    assert "ai_ism_detect_edit_convergence_gate" in fiction_forge["absorbed_patterns"]
+    assert "webnovel_kb_mcp_runtime_boundary_gate" in fiction_forge["absorbed_patterns"]
+    assert "publication_pipeline" in fiction_forge["absorbed_patterns"]
+    assert "foreshadowing_debt_budget" in fiction_forge["absorbed_patterns"]
+    assert "provider_key_surface" in fiction_forge["risk_flags"]
+    assert "mcp_server" in fiction_forge["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "ai_prose_fingerprint_cluster_gate_hints" in pattern_pack
+    assert "ai_ism_detect_edit_convergence_gate_hints" in pattern_pack
+    assert "webnovel_kb_mcp_runtime_boundary_gate_hints" in pattern_pack
+    assert any("fingerprint" in hint.lower() for hint in pattern_pack["ai_prose_fingerprint_cluster_gate_hints"])
+    assert any("detect-only" in hint.lower() for hint in pattern_pack["ai_ism_detect_edit_convergence_gate_hints"])
+    assert any("mcp" in hint.lower() for hint in pattern_pack["webnovel_kb_mcp_runtime_boundary_gate_hints"])
+    assert any("epub" in hint.lower() for hint in pattern_pack["publication_pipeline_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "ai_prose_fingerprint_cluster_gate_hints" in digest
+    assert "ai_ism_detect_edit_convergence_gate_hints" in digest
+    assert "webnovel_kb_mcp_runtime_boundary_gate_hints" in digest
