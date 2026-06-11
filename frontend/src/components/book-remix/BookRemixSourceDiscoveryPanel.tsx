@@ -158,6 +158,8 @@ const PINNED_HINT_KEYS = new Set([
   'agent_role_profile_workflow_gate_hints',
   'confirmed_action_audit_recovery_gate_hints',
   'project_isolated_story_bible_query_gate_hints',
+  'work_dna_method_transfer_eval_gate_hints',
+  'governed_full_reading_continuation_gate_hints',
   'long_term_author_preference_memory_hints',
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
@@ -595,6 +597,8 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Agent role profile workflow gates', patternPackPayload?.agent_role_profile_workflow_gate_hints],
               ['Confirmed action audit recovery gates', patternPackPayload?.confirmed_action_audit_recovery_gate_hints],
               ['Project-isolated story-bible query gates', patternPackPayload?.project_isolated_story_bible_query_gate_hints],
+              ['Work-DNA method transfer/eval gates', patternPackPayload?.work_dna_method_transfer_eval_gate_hints],
+              ['Governed full-reading continuation gates', patternPackPayload?.governed_full_reading_continuation_gate_hints],
               ['Story daemon evolution loop gates', patternPackPayload?.story_daemon_evolution_loop_hints],
             ])}
             {renderHintGroup('Local RAG / canon QA / patch replay gates', [

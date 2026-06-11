@@ -11865,3 +11865,81 @@ def test_static_project_isolated_story_bible_query_sources_add_query_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "project_isolated_story_bible_query_gate_hints" in digest
+
+
+def test_static_work_dna_and_governed_reading_sources_add_continuation_gates():
+    assert "https://github.com/Shiaoming123/works-dna-extractor" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/xjxjdnsnak-cell/novel-reader" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("works dna" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("full_scope_allowed" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Shiaoming123/works-dna-extractor",
+                "html_url": "https://github.com/Shiaoming123/works-dna-extractor",
+                "description": (
+                    "Works DNA Extractor extracts operational Work DNA from fiction: "
+                    "narrative engine, POV, scene architecture, language texture, "
+                    "dialogue system, emotional algorithm, information control, "
+                    "character grammar, style transfer, quality evaluation and fit repair. "
+                    "It guides continuation and rewriting by method rather than surface wording."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-writing", "novel", "style-transfer", "skill"],
+                "updated_at": "2026-05-24T12:18:34Z",
+                "root_files": ["README.md", "LICENSE", "SKILL.md", ".claude/skills"],
+            },
+            {
+                "full_name": "xjxjdnsnak-cell/novel-reader",
+                "html_url": "https://github.com/xjxjdnsnak-cell/novel-reader",
+                "description": (
+                    "Novel Reader provides governed full reading with read-session, "
+                    "required_coverage_complete, finalized, full_scope_allowed, "
+                    "L1/L2/L3 coverage, source-grounded evidence, style evidence, "
+                    "future-plot prediction packets and continuation packages."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "reading", "continuation", "claude-code"],
+                "updated_at": "2026-05-28T03:57:57Z",
+                "root_files": ["README.md", "bin", "novel_reader"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T08:35:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    work_dna = candidates["Shiaoming123/works-dna-extractor"]
+    novel_reader = candidates["xjxjdnsnak-cell/novel-reader"]
+    assert "work_dna_method_transfer_eval_gate" in work_dna["absorbed_patterns"]
+    assert "governed_full_reading_continuation_gate" in novel_reader["absorbed_patterns"]
+    assert "skill_install_surface" in work_dna["risk_flags"]
+    assert "license:missing" in novel_reader["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "work_dna_method_profile" in pattern_pack["bible_enrichment_targets"]
+    assert "work_dna_transfer_eval_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "governed_reading_coverage_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "full_scope_continuation_package_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "work_dna_extraction_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "work_dna_fit_repair_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "reading_session_coverage_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "full_scope_continuation_readiness_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "work_dna_method_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "governed_reading_continuation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("method axes" in hint for hint in pattern_pack["work_dna_method_transfer_eval_gate_hints"])
+    assert any("full_scope_allowed" in hint for hint in pattern_pack["governed_full_reading_continuation_gate_hints"])
+    assert any("work-DNA axes" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("full_scope_allowed" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("source prose" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("full_scope_allowed" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "work_dna_method_transfer_eval_gate_hints" in digest
+    assert "governed_full_reading_continuation_gate_hints" in digest
