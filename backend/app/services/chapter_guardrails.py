@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
+import hashlib
 import re
 from typing import List, Optional, Sequence
 
@@ -303,7 +304,14 @@ class ChapterGuardrails:
             normalized_term = self._normalize_text(term)
             if len(normalized_term) < 4:
                 continue
-            if normalized_term not in normalized_text and self._max_window_similarity(normalized_term, normalized_text) < 0.66:
+            if (
+                normalized_term not in normalized_text
+                and self._max_window_similarity(
+                    normalized_term,
+                    normalized_text,
+                    early_stop_at=0.66,
+                ) < 0.66
+            ):
                 continue
 
             result.add_violation(
@@ -338,14 +346,8 @@ class ChapterGuardrails:
             if len(normalized_excerpt) < 16:
                 continue
 
-            if self._contains_distinctive_substring_copy(normalized_excerpt, normalized_text):
-                similarity = 1.0
-            elif normalized_excerpt in normalized_text:
-                similarity = 1.0
-            else:
-                similarity = self._max_window_similarity(normalized_excerpt, normalized_text)
-
-            if similarity < 0.82:
+            copy_signal = self._source_copy_signal(normalized_excerpt, normalized_text)
+            if not copy_signal:
                 continue
 
             result.add_violation(
@@ -353,13 +355,40 @@ class ChapterGuardrails:
                     type="inspired_source_copy",
                     severity="high",
                     description=(
-                        "同类创作草稿疑似照搬源书片段，必须改写为独立表达，"
+                        f"同类创作草稿疑似照搬源书片段（{copy_signal}），必须改写为独立表达，"
                         "只保留类型节奏、视角行为和情绪温度。"
                     ),
                     context=(excerpt or "")[:120],
                 )
             )
             return
+
+    def _source_copy_signal(self, source_text: str, generated_text: str) -> Optional[str]:
+        """Return the first source-copy signal detected for a normalized source/draft pair."""
+        if self._contains_distinctive_substring_copy(source_text, generated_text):
+            return "distinctive_substring"
+        if source_text in generated_text:
+            return "exact_normalized_excerpt"
+        if self._contains_ordered_phrase_copy(source_text, generated_text):
+            return "ordered_phrase_overlap"
+
+        shingle_count, shingle_ratio = self._fingerprint_overlap(source_text, generated_text)
+        if shingle_count >= 4 and shingle_ratio >= 0.18:
+            return f"fingerprint_overlap:{shingle_ratio:.2f}"
+
+        fuzzy_similarity = self._max_window_similarity(
+            source_text,
+            generated_text,
+            early_stop_at=0.82,
+        )
+        if fuzzy_similarity >= 0.82:
+            return f"fuzzy_window_similarity:{fuzzy_similarity:.2f}"
+
+        simhash_similarity = self._max_simhash_similarity(source_text, generated_text)
+        if simhash_similarity >= 0.92 and shingle_count >= 2:
+            return f"simhash_near_duplicate:{simhash_similarity:.2f}"
+
+        return None
 
     @staticmethod
     def _contains_distinctive_substring_copy(source_text: str, generated_text: str) -> bool:
@@ -374,6 +403,108 @@ class ChapterGuardrails:
             if window in generated_text:
                 return True
         return False
+
+    def _contains_ordered_phrase_copy(self, source_text: str, generated_text: str) -> bool:
+        phrases = [
+            phrase
+            for phrase in self._source_phrases(source_text)
+            if 6 <= len(phrase) < 16
+        ]
+        if len(phrases) < 2:
+            return False
+
+        matched: list[str] = []
+        cursor = 0
+        for phrase in phrases:
+            pos = generated_text.find(phrase, cursor)
+            if pos < 0:
+                continue
+            matched.append(phrase)
+            cursor = pos + len(phrase)
+            if len(matched) >= 2 and sum(len(item) for item in matched) >= 18:
+                return True
+        return False
+
+    @staticmethod
+    def _source_phrases(text: str) -> list[str]:
+        normalized = (text or "").strip()
+        if len(normalized) >= 20 and not re.search(r"[。！？；;!?…—，,、\n]", normalized):
+            return [
+                normalized[start:start + 10]
+                for start in range(0, len(normalized) - 9, 10)
+                if len(set(normalized[start:start + 10])) >= 4
+            ]
+
+        rough_phrases = re.split(r"[。！？；;!?…—，,、\n]+", normalized)
+        phrases: list[str] = []
+        for phrase in rough_phrases:
+            cleaned = phrase.strip()
+            if len(cleaned) < 6:
+                continue
+            if len(set(cleaned)) < 4:
+                continue
+            phrases.append(cleaned)
+        return phrases
+
+    def _fingerprint_overlap(self, source_text: str, generated_text: str) -> tuple[int, float]:
+        source_shingles = self._char_shingles(source_text, width=8)
+        if not source_shingles:
+            return 0, 0.0
+
+        generated_shingles = self._char_shingles(generated_text, width=8)
+        if not generated_shingles:
+            return 0, 0.0
+
+        overlap = source_shingles.intersection(generated_shingles)
+        return len(overlap), len(overlap) / max(1, len(source_shingles))
+
+    @staticmethod
+    def _char_shingles(text: str, *, width: int) -> set[str]:
+        if len(text) < width:
+            return set()
+        shingles: set[str] = set()
+        for start in range(0, len(text) - width + 1):
+            shingle = text[start:start + width]
+            if len(set(shingle)) < max(4, width // 2):
+                continue
+            shingles.add(shingle)
+        return shingles
+
+    def _max_simhash_similarity(self, source_text: str, generated_text: str) -> float:
+        if len(source_text) < 32 or len(generated_text) < 32:
+            return 0.0
+
+        source_hash = self._simhash(source_text)
+        window_size = min(len(source_text), len(generated_text))
+        step = max(1, window_size // 4)
+        best = 0.0
+        for start in range(0, len(generated_text) - window_size + 1, step):
+            window_hash = self._simhash(generated_text[start:start + window_size])
+            best = max(best, 1.0 - ((source_hash ^ window_hash).bit_count() / 64))
+            if best >= 0.95:
+                return best
+
+        tail_hash = self._simhash(generated_text[-window_size:])
+        return max(best, 1.0 - ((source_hash ^ tail_hash).bit_count() / 64))
+
+    @staticmethod
+    def _simhash(text: str) -> int:
+        features = ChapterGuardrails._char_shingles(text, width=3) or {text}
+        weights = [0] * 64
+        for feature in features:
+            digest = hashlib.blake2b(feature.encode("utf-8"), digest_size=8).digest()
+            value = int.from_bytes(digest, "big", signed=False)
+            for bit in range(64):
+                if value & (1 << bit):
+                    weights[bit] += 1
+                else:
+                    weights[bit] -= 1
+
+        result = 0
+        for bit, weight in enumerate(weights):
+            if weight >= 0:
+                result |= 1 << bit
+        return result
 
     def _canon_done_terms(self, remix_continuation_context: str) -> list[str]:
         terms: list[str] = []
@@ -393,7 +524,12 @@ class ChapterGuardrails:
         return terms[:16]
 
     @staticmethod
-    def _max_window_similarity(needle: str, haystack: str) -> float:
+    def _max_window_similarity(
+        needle: str,
+        haystack: str,
+        *,
+        early_stop_at: Optional[float] = None,
+    ) -> float:
         if not needle or not haystack:
             return 0.0
         if len(haystack) <= len(needle):
@@ -405,7 +541,7 @@ class ChapterGuardrails:
         for start in range(0, len(haystack) - window_size + 1, step):
             window = haystack[start:start + window_size]
             best = max(best, SequenceMatcher(None, needle, window).ratio())
-            if best >= 0.66:
+            if early_stop_at is not None and best >= early_stop_at:
                 return best
         tail = haystack[-window_size:]
         return max(best, SequenceMatcher(None, needle, tail).ratio())

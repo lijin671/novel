@@ -199,6 +199,65 @@ def test_chapter_guardrails_flags_obfuscated_forbidden_source_name():
     assert any("青岚会" in violation.description for violation in violations)
 
 
+def test_chapter_guardrails_flags_winnowing_style_shingle_overlap():
+    guardrails = ChapterGuardrails()
+    source_excerpt = (
+        "林寒把青铜钥匙按进雨水里，旧档案室的窗户一格格亮起来。"
+        "沈璃站在门外，没有立刻敲门，只等楼下的脚步声逼近。"
+    )
+    generated = (
+        "新主角把青铜钥匙按进雨水里，又把钥匙从水痕里抽回。"
+        "他沿着楼梯停住，旧档案室的窗户一格格亮起来。"
+        "随后有人没有立刻敲门，只等楼下的脚步声逼近。"
+    )
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_copy"
+    )
+    assert (
+        "fingerprint_overlap" in violation.description
+        or "ordered_phrase_overlap" in violation.description
+        or "distinctive_substring" in violation.description
+    )
+
+
+def test_chapter_guardrails_flags_simhash_near_duplicate_after_light_reorder():
+    guardrails = ChapterGuardrails()
+    source_excerpt = (
+        "雨声压住了档案室外的脚步，林寒把账册推到灯下，"
+        "先看封皮上的裂纹，再看印章边缘的潮痕。"
+        "沈璃没有催促，只把门缝留出一线。"
+    )
+    generated = (
+        "雨声压住了旧馆外的脚步，新主角把账册推到灯下，"
+        "先看封皮边缘的裂纹，再看印章旁边的潮痕。"
+        "助手没有催促，只把门缝留出一线。"
+    )
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_copy"
+    )
+    assert (
+        "simhash_near_duplicate" in violation.description
+        or "fuzzy_window_similarity" in violation.description
+        or "fingerprint_overlap" in violation.description
+    )
+
+
 @pytest.mark.asyncio
 async def test_apply_chapter_guardrail_check_rewrites_inspired_source_copy():
     ai_service = StubAIService()

@@ -48,6 +48,21 @@ def render_source_pattern_pack_digest(
         for hint in continuation_hints[:8]:
             lines.append(f"  - {hint}")
 
+    copy_similarity_hint_keys = (
+        "source_text_fingerprint_gate_hints",
+        "fuzzy_phrase_similarity_gate_hints",
+        "diff_span_copy_review_hints",
+        "minhash_lsh_near_duplicate_gate_hints",
+        "simhash_hamming_similarity_gate_hints",
+    )
+    copy_similarity_hints: list[str] = []
+    for key in copy_similarity_hint_keys:
+        copy_similarity_hints.extend(_as_note_list(source_pattern_pack.get(key))[:2])
+    if copy_similarity_hints:
+        lines.append("- copy_similarity_guardrail_hints:")
+        for hint in copy_similarity_hints[:8]:
+            lines.append(f"  - {hint}")
+
     continuation_state_hints = _as_note_list(source_pattern_pack.get("continuation_state_hints"))
     if continuation_state_hints:
         lines.append("- continuation_state_hints:")

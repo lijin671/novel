@@ -4457,6 +4457,8 @@ def test_copy_similarity_pattern_pack_exposes_copy_risk_guidance():
     assert "source_text_fingerprint_gate_hints" in digest
     assert "fuzzy_phrase_similarity_gate_hints" in digest
     assert "diff_span_copy_review_hints" in digest
+    assert "copy_similarity_guardrail_hints" in digest
+    assert "near-duplicate" in digest.lower() or "fingerprint" in digest.lower()
 
 
 def test_default_discovery_sources_include_copy_similarity_projects():
