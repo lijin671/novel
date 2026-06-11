@@ -323,6 +323,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("story import" OR "pattern extraction" OR "storytelling DNA") ("canon-congruent" OR "revision workflow" OR "version conflict") in:name,description,readme',
     '("Story Bible" OR "Consequence Ledger" OR "Last 8 Actions") ("continuation turn" OR "auto-save" OR "storyState") in:name,description,readme',
     '("literary depth" OR "genre classification" OR "style simulation") ("creative writing assistant" OR "novel generation") in:name,description,readme',
+    '("System" OR "World" OR "Fate" OR "force fields") ("typed graph" OR "simulatable knowledge structure" OR "narrative simulation") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -710,6 +711,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/scslmd/Narrative-Engine",
     "https://github.com/Ikyletwar/StoryForge-AI",
     "https://github.com/kernullist/creative-writing-assistant",
+    "https://github.com/jasonyu0100/meridians",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1004,6 +1006,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_import_pattern_revision_gate", ("narrative-engine", "narrative engine", "story import from existing completed stories", "multi-pass story import", "pattern extraction", "storytelling dna", "canon-congruent sequels", "canon-congruent", "same world / new characters / transposed", "version conflict protection", "revision workflow", "structured revision passes", "promote draft to manuscript")),
     ("consequence_ledger_last_actions_context_gate", ("storyforge-ai", "storyforge", "consequence ledger", "last 8 actions", "storystate", "story bible + consequence ledger", "narasi terakhir", "continuation turn", "5 konsekuensi terakhir", "30 entri terakhir", "auto-save", "last actions", "status karakter terkini")),
     ("creative_writing_multiaxis_provider_gate", ("creative-writing-assistant", "creative writing assistant", "literary depth", "genre classification", "plot development", "style simulation", "novel generation", "multi-chapter novels", "sse progress", "language selection", "openrouter tiers", "ai model integration")),
+    ("system_world_fate_simulation_gate", ("meridians", "system / world / fate", "system world fate", "three force fields", "force trajectories", "typed graph", "queryable", "simulatable knowledge structure", "phase graph", "causal reasoning graph", "scene structures", "beat plans", "deterministic formulas", "pacing fingerprint", "prose profile")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2755,6 +2758,11 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "plot development, style simulation, multi-chapter novel generation, SSE progress, language selection, export/library surfaces, REST API, CLI, and multiple provider/API-key integrations. "
         "Pattern-only adaptation for multi-axis analysis toggles, genre/depth/plot scaffolding, language/export boundaries, and provider-tier separation; requirements, web runtime, CLI, API keys, provider calls, and generated libraries are not executed or imported."
     ),
+    "jasonyu0100/meridians": (
+        "Meridians is a MIT browser-based narrative simulation engine. Public README markers describe typed/queryable/simulatable knowledge structures, actors, locations, artifacts, threads, system rules, "
+        "System/World/Fate force fields, deterministic formulas, force trajectories, pacing fingerprints, prose profiles, phase graphs, causal reasoning graphs, scene structures, beat plans, IndexedDB persistence, OpenRouter/OpenAI/Replicate key surfaces, and no-backend local browser state. "
+        "Pattern-only adaptation for source deconstruction, force-field simulation, causal scene planning, and same-type abstraction gates; browser runtime, npm install, provider keys, embeddings, image generation, and hosted demo are not executed or imported."
+    ),
 
 }
 
@@ -3118,6 +3126,7 @@ class NovelSourceDiscoveryService:
             "story_import_pattern_revision_gate_hints": self._build_story_import_pattern_revision_gate_hints(available_patterns),
             "consequence_ledger_last_actions_context_gate_hints": self._build_consequence_ledger_last_actions_context_gate_hints(available_patterns),
             "creative_writing_multiaxis_provider_gate_hints": self._build_creative_writing_multiaxis_provider_gate_hints(available_patterns),
+            "system_world_fate_simulation_gate_hints": self._build_system_world_fate_simulation_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4099,6 +4108,7 @@ class NovelSourceDiscoveryService:
             "story_import_pattern_revision_gate": 70,
             "consequence_ledger_last_actions_context_gate": 69,
             "creative_writing_multiaxis_provider_gate": 67,
+            "system_world_fate_simulation_gate": 70,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4376,6 +4386,9 @@ class NovelSourceDiscoveryService:
         if "creative_writing_multiaxis_provider_gate" in patterns:
             targets.append("creative_writing_axis_toggle_policy")
             targets.append("provider_language_export_boundary")
+        if "system_world_fate_simulation_gate" in patterns:
+            targets.append("system_world_fate_force_field_policy")
+            targets.append("typed_story_graph_delta_schema")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5234,6 +5247,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["consequence_ledger_turn_context_report", "last_actions_compression_drift_report"])
         if "creative_writing_multiaxis_provider_gate" in patterns:
             targets.extend(["creative_writing_axis_analysis_report", "provider_language_export_boundary_report"])
+        if "system_world_fate_simulation_gate" in patterns:
+            targets.extend(["system_world_fate_force_field_report", "typed_story_graph_delta_report", "phase_crg_scene_beat_trace"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -5957,6 +5972,8 @@ class NovelSourceDiscoveryService:
             hints.append("For interactive continuation turns, include story bible summary, bounded consequence ledger, last action window, current character status, and whether the story bible compression is fresh.")
         if "creative_writing_multiaxis_provider_gate" in patterns:
             hints.append("Before analysis-assisted continuation, declare enabled axes: style analysis, literary depth, genre contract, plot-development task, language/output boundary, and provider/runtime-disabled status.")
+        if "system_world_fate_simulation_gate" in patterns:
+            hints.append("Before drafting, build a System/World/Fate force-field snapshot: rules and structures, actor state, open questions, deterministic deltas, and phase -> CRG -> scene -> beat checkpoints.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -6346,6 +6363,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist turn count, story bible checksum, consequence ledger window, last action ids, current character status, compression timestamp, and auto-save/state snapshot id.")
         if "creative_writing_multiaxis_provider_gate" in patterns:
             hints.append("Persist selected analysis axes, genre classifier result, literary-depth notes, plot-suggestion ids, output language, export/library state, and provider-call exclusion with each draft attempt.")
+        if "system_world_fate_simulation_gate" in patterns:
+            hints.append("Persist typed graph nodes for actors, locations, artifacts, threads, and system rules with force scores, formula inputs, phase graph id, CRG id, scene-structure id, beat-plan id, and provider-call exclusion.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -7086,6 +7105,15 @@ class NovelSourceDiscoveryService:
             "Separate writing analysis axes before drafting: style analysis, literary depth, genre classification, plot-development suggestion, language/output target, and export/library state.",
             "Treat style simulation as an abstract craft lab only; it must not request named-author voice cloning, copied examples, or source-prose insertion into same-type prompts.",
             "Provider/model tiers, SSE progress, REST API, CLI, and web runtime are runtime surfaces; source discovery may keep only boundary labels and no-key/no-call evidence.",
+        ]
+
+    def _build_system_world_fate_simulation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "system_world_fate_simulation_gate" not in patterns:
+            return []
+        return [
+            "Convert source or accepted canon into a typed graph of actors, locations, artifacts, threads, and system rules before asking for continuation prose.",
+            "Separate System, World, and Fate force fields: structural rules, current actor/world state, and open questions must each have deterministic delta evidence before a scene plan advances.",
+            "Use the phase graph -> causal reasoning graph -> scene structures -> beat plans -> prose chain as a reviewable pipeline; browser, embeddings, image, npm, and provider-key surfaces stay runtime-deferred.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9648,6 +9676,9 @@ class NovelSourceDiscoveryService:
             targets.append("consequence_ledger_turn_context_remap")
         if "creative_writing_multiaxis_provider_gate" in patterns:
             targets.append("creative_writing_axis_remap")
+        if "system_world_fate_simulation_gate" in patterns:
+            targets.append("force_field_topology_remap")
+            targets.append("typed_story_graph_schema_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -10241,6 +10272,8 @@ class NovelSourceDiscoveryService:
             hints.append("For interactive same-type prompts, include a new consequence-ledger schema and last-action window; do not reuse source turn history as the new story's state.")
         if "creative_writing_multiaxis_provider_gate" in patterns:
             hints.append("For same-type prompts, expose which analysis axis is active and remap genre, literary-depth goal, plot suggestion, language, and export target before prose generation.")
+        if "system_world_fate_simulation_gate" in patterns:
+            hints.append("For same-type prompts, transfer only the abstract System/World/Fate pressure topology; rebuild actors, locations, artifacts, threads, open questions, and deterministic deltas for the new story.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -11116,6 +11149,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform consequence-ledger ideas into a new turn-state contract with different action taxonomy, compression cadence, state fields, and consequence categories.")
         if "creative_writing_multiaxis_provider_gate" in patterns:
             hints.append("Transform multi-axis writing findings by changing genre contract, theme/character-complexity target, plot pressure, language register, and output format rather than preserving source examples.")
+        if "system_world_fate_simulation_gate" in patterns:
+            hints.append("Transform force-field findings by changing the rules, actors, artifacts, causal variables, unresolved questions, and beat mechanisms while preserving only the abstract pressure geometry.")
         if "parallel_critic_tribunal_issue_gate" in patterns:
             hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
         if "prompt_evolution_fitness_governance_gate" in patterns:
@@ -11195,6 +11230,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject imported-story reuse when source chunks, extracted patterns, generation mode, version conflicts, or revision pass status are missing or when alternates overwrite accepted canon.")
         if "consequence_ledger_last_actions_context_gate" in patterns:
             hints.append("Reject continuation turns when consequence ledger bounds, last-action window, current character status, compression freshness, or save/snapshot id are missing.")
+        if "system_world_fate_simulation_gate" in patterns:
+            hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Reject drafts that preserve the source secret matrix, reveal order, character absence gap, or who-knows-what timeline under renamed roles.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -11827,6 +11864,7 @@ class NovelSourceDiscoveryService:
                 "consequence_ledger_last_actions_context_gate",
                 "offline_chapter_revision_export_gate",
                 "creative_writing_multiaxis_provider_gate",
+                "system_world_fate_simulation_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",
                 "creative_scaffold_prompt_sequence_gate",

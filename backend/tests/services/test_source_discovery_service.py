@@ -12153,3 +12153,56 @@ def test_static_creative_writing_assistant_source_adds_multiaxis_provider_gate()
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "creative_writing_multiaxis_provider_gate_hints" in digest
+
+
+def test_static_meridians_source_adds_system_world_fate_simulation_gate():
+    assert "https://github.com/jasonyu0100/meridians" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("force fields" in query.lower() and "narrative simulation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "jasonyu0100/meridians",
+                "html_url": "https://github.com/jasonyu0100/meridians",
+                "description": (
+                    "Meridians turns long-form text into a typed, queryable, simulatable knowledge structure. "
+                    "It extracts actors, locations, artifacts, threads, and system rules, then uses System, World, "
+                    "and Fate force fields with deterministic formulas, force trajectories, pacing fingerprints, "
+                    "prose profiles, phase graph, causal reasoning graph, scene structures, beat plans, and prose. "
+                    "State and embeddings live in IndexedDB and setup references OpenRouter API key, OpenAI API key, "
+                    "and Replicate API token."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["narrative-simulation", "knowledge-graph", "creative-writing"],
+                "updated_at": "2026-06-10T04:55:42Z",
+                "root_files": ["README.md", "LICENSE", "package.json", ".env.example", "src", "public"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T09:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    meridians = candidates["jasonyu0100/meridians"]
+    assert "system_world_fate_simulation_gate" in meridians["absorbed_patterns"]
+    assert "provider_key_surface" in meridians["risk_flags"]
+    assert "browser_storage_surface" in meridians["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "system_world_fate_force_field_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "typed_story_graph_delta_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "system_world_fate_force_field_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "phase_crg_scene_beat_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "force_field_topology_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "typed_story_graph_schema_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("System/World/Fate force-field snapshot" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("typed graph nodes" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("typed graph" in hint for hint in pattern_pack["system_world_fate_simulation_gate_hints"])
+    assert any("abstract System/World/Fate pressure topology" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("source force-field graph" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "system_world_fate_simulation_gate_hints" in digest
