@@ -11915,6 +11915,214 @@ def test_auto_story_tools_source_adds_seed_bible_foundation_loop_gates():
     assert "layered_story_bible_artifact_contract_gate_hints" in digest
 
 
+def test_novel_writing_workflow_source_adds_contract_and_pr_editorial_gates():
+    assert "https://github.com/author-repo-testing/novel-writing-workflow" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("project-contract.md" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "author-repo-testing/novel-writing-workflow",
+                "html_url": "https://github.com/author-repo-testing/novel-writing-workflow",
+                "description": (
+                    "GitHub practice workbook for authors with a novel_template workspace. "
+                    "PROJECT-CONTRACT.md is the standing author AI collaboration agreement and inherits from ../AGENTS.md; "
+                    "when the project contract and AGENTS conflict, the AI must surface the conflict and not silently pick one. "
+                    "The contract records automation level, explanation depth, commit cadence, tracking format, research pattern, "
+                    "author boundaries and renegotiation triggers. The workflow maps manuscript collaboration to branches, commits and pull requests: "
+                    "line-level edits as PRs, structural feedback as issues, every round time-stamped in history, story bible, drafts, editorial notes, "
+                    "continuity log, beta reader feedback, style sheet proposals and a PR template asking what changed, why, and what feedback is requested."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing", "github", "author", "ai-collaboration"],
+                "updated_at": "2026-06-10T09:15:00Z",
+                "root_files": ["README.md", "AGENTS.md", "LICENSE", "novel_template", ".github"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T03:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    workflow = candidates["author-repo-testing/novel-writing-workflow"]
+    assert "author_ai_project_contract_review_gate" in workflow["absorbed_patterns"]
+    assert "manuscript_pr_editorial_workflow_gate" in workflow["absorbed_patterns"]
+    assert workflow["license"] == "MIT"
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "author_ai_project_contract_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "manuscript_pr_review_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "project_contract_conflict_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "editorial_pr_review_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "project_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "editorial_review_trace_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("project contract" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("conflict" in hint.lower() for hint in pattern_pack["author_ai_project_contract_review_gate_hints"])
+    assert any("PR-style" in hint for hint in pattern_pack["manuscript_pr_editorial_workflow_gate_hints"])
+    assert any("upstream contract text" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "author_ai_project_contract_review_gate_hints" in digest
+    assert "manuscript_pr_editorial_workflow_gate_hints" in digest
+
+
+def test_short_drama_story_bible_template_source_adds_episode_visual_anchor_gates():
+    assert "https://github.com/clipcurator/ai-short-drama-story-bible-template" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("short drama story bible" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "clipcurator/ai-short-drama-story-bible-template",
+                "html_url": "https://github.com/clipcurator/ai-short-drama-story-bible-template",
+                "description": (
+                    "AI Short Drama Story Bible Template for keeping AI short drama characters, episode rules, "
+                    "visual canon and continuity memory consistent. Core sections include series premise, character canon, "
+                    "relationship rules, visual anchors, episode boundaries and continuity memory. Review signals require "
+                    "the bible separates permanent canon from temporary scene notes, character rules are reusable across episodes, "
+                    "visual anchors are specific enough for prompt handoff, and new episodes can be checked against existing memory. "
+                    "The workflow brief supports source material, product notes, script context, video context and review data; "
+                    "the scorecard reviews visual anchors, episode boundaries, continuity memory, keep/revise/drop decisions, "
+                    "and checks before publishing, editing, generating assets or updating a directory page."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["short-drama", "story-bible", "continuity", "visual-canon", "templates"],
+                "updated_at": "2026-06-09T11:20:00Z",
+                "root_files": ["README.md", "README.zh-CN.md", "LICENSE", "docs", "templates"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T03:35:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    template = candidates["clipcurator/ai-short-drama-story-bible-template"]
+    assert "short_drama_story_bible_template_gate" in template["absorbed_patterns"]
+    assert "visual_anchor_prompt_handoff_gate" in template["absorbed_patterns"]
+    assert "visual_story_bible_continuity_gate" in template["absorbed_patterns"]
+    assert template["license"] == "MIT"
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "short_drama_story_bible_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "visual_anchor_prompt_handoff_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "short_drama_bible_completeness_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "visual_anchor_prompt_handoff_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "short_drama_episode_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "visual_anchor_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("短剧" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("temporary scene notes" in hint for hint in pattern_pack["short_drama_story_bible_template_gate_hints"])
+    assert any("Prompt handoff" in hint for hint in pattern_pack["visual_anchor_prompt_handoff_gate_hints"])
+    assert any("media prompts" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "short_drama_story_bible_template_gate_hints" in digest
+    assert "visual_anchor_prompt_handoff_gate_hints" in digest
+
+
+def test_short_drama_character_continuity_cluster_adds_memory_worldbuilding_gates():
+    assert "https://github.com/clipcurator/ai-character-continuity-kit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/clipcurator/ai-short-drama-worldbuilding-kit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/clipcurator/ai-short-drama-character-memory-templates" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("character continuity kit" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("short drama worldbuilding" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("character memory templates" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "clipcurator/ai-character-continuity-kit",
+                "html_url": "https://github.com/clipcurator/ai-character-continuity-kit",
+                "description": (
+                    "AI character continuity kit for AI film, vertical drama, micro-drama, storyboard and script-to-video workflows. "
+                    "Continuity dimensions include identity with name, age range, story role, archetype and first appearance; "
+                    "visual anchor with face, hair, body type, clothing, palette and props; personality with desire, fear, speech style, "
+                    "decision style and moral boundary; relationship map with ally, rival, family, romance and secret; and episode memory "
+                    "with change, injury, promise, secret revealed and continuity note. Stable visual anchors include face, silhouette, "
+                    "clothing, color palette and signature props, while flexible elements include expressions, action poses, lighting and scene wardrobe."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["character-continuity", "short-drama", "visual-consistency", "script-to-video"],
+                "updated_at": "2026-06-09T12:10:00Z",
+                "root_files": ["README.md", "README.zh-CN.md", "LICENSE", "docs", "templates", "data"],
+            },
+            {
+                "full_name": "clipcurator/ai-short-drama-worldbuilding-kit",
+                "html_url": "https://github.com/clipcurator/ai-short-drama-worldbuilding-kit",
+                "description": (
+                    "AI short drama worldbuilding kit for vertical drama, micro-drama, script-to-video and AI storyboard workflows. "
+                    "Worldbuilding layers define premise, rules, locations, power map, timeline, secrets and continuity memory. "
+                    "The workflow builds premise and genre promise, world rules and conflict engine, recurring locations and visual anchors, "
+                    "character power relationships, secrets, reveals and episode memory before writing scripts or generating storyboards. "
+                    "Social, emotional or supernatural rules prevent random plot logic, and the power map says who has power over whom."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["short-drama", "worldbuilding", "vertical-drama", "script-to-video"],
+                "updated_at": "2026-06-09T12:20:00Z",
+                "root_files": ["README.md", "README.zh-CN.md", "LICENSE", "docs", "templates", "data"],
+            },
+            {
+                "full_name": "clipcurator/ai-short-drama-character-memory-templates",
+                "html_url": "https://github.com/clipcurator/ai-short-drama-character-memory-templates",
+                "description": (
+                    "AI Short Drama Character Memory Templates for reusable character memory, relationship state, visual anchors and emotional continuity. "
+                    "Memory fields include stable identity, visual anchors, relationship state, current emotional arc, scene memory and forbidden changes. "
+                    "Review signals require memory fields stable across episodes, relationship changes have a source scene, visual anchors stay separate from temporary wardrobe, "
+                    "and revision notes explain what changed and why before publishing, editing or generating assets."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["short-drama", "character-memory", "continuity", "visual-anchors"],
+                "updated_at": "2026-06-09T12:30:00Z",
+                "root_files": ["README.md", "LICENSE", "docs", "templates"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T04:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    continuity = candidates["clipcurator/ai-character-continuity-kit"]
+    worldbuilding = candidates["clipcurator/ai-short-drama-worldbuilding-kit"]
+    memory = candidates["clipcurator/ai-short-drama-character-memory-templates"]
+    assert "character_continuity_dimension_schema_gate" in continuity["absorbed_patterns"]
+    assert "visual_anchor_prompt_handoff_gate" in continuity["absorbed_patterns"]
+    assert "short_drama_worldbuilding_layer_gate" in worldbuilding["absorbed_patterns"]
+    assert "short_drama_character_memory_forbidden_change_gate" in memory["absorbed_patterns"]
+    assert "visual_anchor_prompt_handoff_gate" in memory["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "character_continuity_dimension_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "short_drama_worldbuilding_layer_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "character_memory_forbidden_change_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "character_continuity_dimension_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "short_drama_worldbuilding_layer_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "character_memory_forbidden_change_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "character_continuity_schema_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "worldbuilding_layer_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "character_memory_forbidden_change_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("identity" in hint for hint in pattern_pack["character_continuity_dimension_schema_gate_hints"])
+    assert any("Forbidden changes" in hint for hint in pattern_pack["short_drama_character_memory_forbidden_change_gate_hints"])
+    assert any("power map" in hint for hint in pattern_pack["short_drama_worldbuilding_layer_gate_hints"])
+    assert any("power maps" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "character_continuity_dimension_schema_gate_hints" in digest
+    assert "short_drama_character_memory_forbidden_change_gate_hints" in digest
+    assert "short_drama_worldbuilding_layer_gate_hints" in digest
+
+
 def test_novel_template_source_adds_ideation_worksheet_foundation_gates():
     assert "https://github.com/10Legs/novel-template" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("ideation worksheets" in query and "Ghost/Lie/Want/Need" in query for query in DEFAULT_GITHUB_QUERIES)

@@ -561,6 +561,13 @@ def render_source_pattern_pack_digest(
         "story_bible_relationship_analytics_gate_hints",
         "seed_to_bible_foundation_loop_gate_hints",
         "layered_story_bible_artifact_contract_gate_hints",
+        "author_ai_project_contract_review_gate_hints",
+        "manuscript_pr_editorial_workflow_gate_hints",
+        "short_drama_story_bible_template_gate_hints",
+        "visual_anchor_prompt_handoff_gate_hints",
+        "character_continuity_dimension_schema_gate_hints",
+        "short_drama_character_memory_forbidden_change_gate_hints",
+        "short_drama_worldbuilding_layer_gate_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

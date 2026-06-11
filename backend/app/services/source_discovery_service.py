@@ -333,6 +333,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("digital corkboard" OR "chapter timeline" OR "front matter preservation") ("novel" OR "manuscript" OR "story bible") in:name,description,readme',
     '("manuscript binder" OR "corkboard outliner" OR "per-scene snapshots") ("story bible" OR "novel studio" OR "writing analytics") in:name,description,readme',
     '("foundation loop" OR "seed concept" OR "foundation_score" OR "lore_score") ("story bible" OR "novel" OR "screenplay") in:name,description,readme',
+    '("PROJECT-CONTRACT.md" OR "author AI collaboration agreement" OR "line-level edits as PRs") ("novel" OR "manuscript" OR "story bible") in:name,description,readme',
+    '("short drama story bible" OR "visual anchors" OR "continuity memory") ("episode boundaries" OR "prompt handoff" OR "character canon") in:name,description,readme',
+    '("character continuity kit" OR "continuity dimensions" OR "episode memory") ("visual anchors" OR "relationship map" OR "short drama") in:name,description,readme',
+    '("short drama worldbuilding" OR "worldbuilding layers" OR "power map" OR "conflict engine") ("episode memory" OR "script-to-video" OR "visual anchors") in:name,description,readme',
+    '("character memory templates" OR "forbidden changes" OR "relationship state") ("short drama" OR "visual anchors" OR "emotional continuity") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -717,6 +722,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Shiaoming123/works-dna-extractor",
     "https://github.com/talktofess/inkwell",
     "https://github.com/levineam/auto-story-tools",
+    "https://github.com/author-repo-testing/novel-writing-workflow",
+    "https://github.com/clipcurator/ai-short-drama-story-bible-template",
+    "https://github.com/clipcurator/ai-character-continuity-kit",
+    "https://github.com/clipcurator/ai-short-drama-worldbuilding-kit",
+    "https://github.com/clipcurator/ai-short-drama-character-memory-templates",
     "https://github.com/xjxjdnsnak-cell/novel-reader",
     "https://github.com/alanl1234/gamebook",
     "https://github.com/TABARC-Code/Forensic-Writing-Style-Analysis-Cloning-Claude-Skill",
@@ -1152,9 +1162,16 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_bible_relationship_analytics_gate", ("story bible", "automatic appears in", "appears in", "custom attributes", "relationships", "writing analytics", "daily goal ring", "activity heatmap", "projected finish date", "deadline pacing")),
     ("seed_to_bible_foundation_loop_gate", ("seed concept", "seed to story bible", "seed 鈫?story bible", "foundation loop", "foundation_score", "lore_score", "weakest dimension", "keep/discard", "restore previous version", "reader panel")),
     ("layered_story_bible_artifact_contract_gate", ("world.md", "characters.md", "outline.md", "voice.md", "canon.md", "mystery.md", "foreshadowing.md", "state.json", "eval_logs", "results.tsv", "world → characters → voice → mystery → outline → canon → foreshadowing")),
+    ("author_ai_project_contract_review_gate", ("project-contract.md", "project contract", "author ai collaboration agreement", "author/ai collaboration agreement", "author ↔ ai collaboration", "inherits from ../agents.md", "surface the conflict", "do not silently pick one", "automation level", "commit cadence", "tracking format", "research pattern", "renegotiated")),
+    ("manuscript_pr_editorial_workflow_gate", ("line-level edits as prs", "line-level edits", "structural feedback as issues", "pull request", "pr template", "every round time-stamped", "branches, commits, pull requests", "beta reader", "editorial notes", "continuity log", "style sheet")),
+    ("short_drama_story_bible_template_gate", ("short drama story bible", "ai short drama", "series premise", "character canon", "relationship rules", "episode rules", "episode boundaries", "permanent canon", "temporary scene notes", "reusable across episodes")),
+    ("visual_anchor_prompt_handoff_gate", ("visual anchors", "visual canon", "prompt handoff", "generating assets", "video context", "script context", "publishing", "visual anchors are specific enough", "new episodes can be checked against existing memory")),
+    ("character_continuity_dimension_schema_gate", ("character continuity kit", "continuity dimensions", "identity", "age range", "story role", "archetype", "visual design", "stable visual anchors", "personality", "decision style", "moral boundary", "relationship map", "episode memory")),
+    ("short_drama_character_memory_forbidden_change_gate", ("character memory templates", "stable identity", "relationship state", "current emotional arc", "scene memory", "forbidden changes", "relationship changes have a source scene", "visual anchors stay separate from temporary wardrobe", "revision notes explain what changed and why")),
+    ("short_drama_worldbuilding_layer_gate", ("short drama worldbuilding", "worldbuilding layers", "conflict engine", "social rules", "emotional rules", "supernatural rules", "power map", "who has power over whom", "locations and visual anchors", "track secrets, reveals, and episode memory")),
     ("canon_evidence_suggestion_review_gate", ("local-first story bible", "continuity checker", "canon drift", "evidence-backed suggestions", "contradictions", "context packs", "project storage", "JSON import and export", "entity facts")),
     ("expert_chain_alignment_creativity_gate", ("chainable expert AI", "expert AI modules", "perfect alignment", "boundless creativity", "alignment framework", "Special Instruction Set", "deconstructs complex literary creation", "stress-tested", "semi-automated AI writing pipeline")),
-    ("visual_story_bible_continuity_gate", ("story bible technology", "visual consistency", "character appearances", "settings and visual elements", "art style", "visual continuity", "visual rules", "image bible")),
+    ("visual_story_bible_continuity_gate", ("story bible technology", "visual consistency", "visual canon", "visual anchors", "character appearances", "settings and visual elements", "art style", "visual continuity", "visual rules", "image bible")),
     ("host_instruction_context_boundary_gate", ("host's llm generates", "host llm generates", "returns the exact instruction and packed context", "expectedformat", "modelhint", "segments", "prompt caching", "no model vendor lock-in", "mcp host supplies the llm")),
     ("schema_review_revision_recovery_gate", ("chapter_review", "requiredbeats", "chapter_revision", "revisioncounts", "forceadvanced", "rejected submissions", ".agent-recovery/failed", "mandatory chapter acceptance gate")),
     ("cjk_bm25_context_retrieval_gate", ("bm25 lexical retrieval", "bm25-style lexical retrieval", "cjk bigram tokenizer", "memory cards", "minisearch", "lexical retrieval over chapters", "story-bible sections")),
@@ -1366,6 +1383,34 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "generates world, characters, voice, mystery, outline, canon, and foreshadowing in dependency order, evaluates with an LLM judge, mechanical slop detector, cross-layer checker, and reader panel, "
         "targets the weakest dimension, keep/discard compares scores, restores worse attempts, and repeats until foundation_score/lore_score thresholds pass. "
         "Pattern-only adaptation for seed-to-bible foundation loops and layered artifact contracts; uv sync, provider API keys, gateway/proxy transports, OpenClaw integration, and model calls are not executed."
+    ),
+    "author-repo-testing/novel-writing-workflow": (
+        "novel-writing-workflow is an MIT GitHub practice workbook for authors. Static public README and contract markers describe a novel_template workspace with PROJECT-CONTRACT.md, "
+        "repo-wide AGENTS.md inheritance, explicit author/AI collaboration settings, conflict surfacing instead of silent resolution, story bible/drafts/editorial/submission/assets folders, "
+        "line-level edits as pull requests, structural feedback as issues, timestamped review rounds, branch/commit/PR practice, and a PR template for what changed, why, and feedback requests. "
+        "Pattern-only adaptation for author-AI project contracts and manuscript PR editorial workflows; upstream AGENTS/contract/skill text, scripts, GitHub writes, branch mutation, and PR operations are not imported or executed."
+    ),
+    "clipcurator/ai-short-drama-story-bible-template": (
+        "ai-short-drama-story-bible-template is an MIT template set for AI short drama continuity. Static public README/docs/templates describe series premise, character canon, relationship rules, "
+        "visual anchors, episode boundaries, continuity memory, permanent-canon versus temporary-scene-note separation, reusable character rules across episodes, prompt handoff readiness, "
+        "review scorecards, and checks before publishing, editing, generating assets, or updating a directory page. "
+        "Pattern-only adaptation for short-drama story-bible templates and visual-anchor prompt handoff; templates, product links, GitHub traffic claims, publishing flows, media generation, and asset runtimes are not executed."
+    ),
+    "clipcurator/ai-character-continuity-kit": (
+        "ai-character-continuity-kit is an MIT continuity template set for AI film, vertical drama, micro-drama, storyboard, and script-to-video workflows. Static public README/data markers describe "
+        "continuity dimensions for identity, visual anchor, personality, relationship map, and episode memory; stable visual anchors such as face, silhouette, clothing, color palette, and signature props; "
+        "flexible elements such as expressions, poses, lighting, and scene wardrobe; and review of every storyboard or generated scene against a continuity checklist. "
+        "Pattern-only adaptation for character continuity dimension schemas; image/video tools, product links, storyboard generation, and media runtimes are not executed."
+    ),
+    "clipcurator/ai-short-drama-worldbuilding-kit": (
+        "ai-short-drama-worldbuilding-kit is an MIT worldbuilding template set for short drama, vertical drama, micro-drama, script-to-video, and AI storyboard workflows. Static public README/data markers describe "
+        "premise, rules, locations, power map, timeline, secrets, continuity memory, conflict engine, social/emotional/supernatural rules, recurring locations and visual anchors, and reveal order. "
+        "Pattern-only adaptation for short-drama worldbuilding layers and episode-memory continuity; product links, storyboard generation, video generation, and workflow runtimes are not executed."
+    ),
+    "clipcurator/ai-short-drama-character-memory-templates": (
+        "ai-short-drama-character-memory-templates is an MIT template set for reusable AI short-drama character memory. Static public README markers describe stable identity, visual anchors, "
+        "relationship state, current emotional arc, scene memory, forbidden changes, relationship changes with source scenes, visual anchors separated from temporary wardrobe, and revision notes explaining what changed and why. "
+        "Pattern-only adaptation for character-memory forbidden-change gates; templates, product links, asset generation, publishing flows, and media runtimes are not executed."
     ),
     "forjd/better-writing": (
         "Agent skill for human prose quality. Public README describes removing generic AI tells, slop structures, voice calibration from writing samples, "
@@ -3224,6 +3269,13 @@ class NovelSourceDiscoveryService:
             "canon_evidence_suggestion_review_gate_hints": self._build_canon_evidence_suggestion_review_gate_hints(available_patterns),
             "expert_chain_alignment_creativity_gate_hints": self._build_expert_chain_alignment_creativity_gate_hints(available_patterns),
             "visual_story_bible_continuity_gate_hints": self._build_visual_story_bible_continuity_gate_hints(available_patterns),
+            "author_ai_project_contract_review_gate_hints": self._build_author_ai_project_contract_review_gate_hints(available_patterns),
+            "manuscript_pr_editorial_workflow_gate_hints": self._build_manuscript_pr_editorial_workflow_gate_hints(available_patterns),
+            "short_drama_story_bible_template_gate_hints": self._build_short_drama_story_bible_template_gate_hints(available_patterns),
+            "visual_anchor_prompt_handoff_gate_hints": self._build_visual_anchor_prompt_handoff_gate_hints(available_patterns),
+            "character_continuity_dimension_schema_gate_hints": self._build_character_continuity_dimension_schema_gate_hints(available_patterns),
+            "short_drama_character_memory_forbidden_change_gate_hints": self._build_short_drama_character_memory_forbidden_change_gate_hints(available_patterns),
+            "short_drama_worldbuilding_layer_gate_hints": self._build_short_drama_worldbuilding_layer_gate_hints(available_patterns),
             "style_guide_layering_hints": self._build_style_guide_layering_hints(available_patterns),
             "review_queue_staging_hints": self._build_review_queue_staging_hints(available_patterns),
             "entity_schema_custom_fields_hints": self._build_entity_schema_custom_fields_hints(available_patterns),
@@ -4280,6 +4332,13 @@ class NovelSourceDiscoveryService:
             "story_bible_relationship_analytics_gate": 65,
             "seed_to_bible_foundation_loop_gate": 67,
             "layered_story_bible_artifact_contract_gate": 66,
+            "author_ai_project_contract_review_gate": 67,
+            "manuscript_pr_editorial_workflow_gate": 66,
+            "short_drama_story_bible_template_gate": 66,
+            "visual_anchor_prompt_handoff_gate": 65,
+            "character_continuity_dimension_schema_gate": 66,
+            "short_drama_character_memory_forbidden_change_gate": 66,
+            "short_drama_worldbuilding_layer_gate": 66,
             "canon_evidence_suggestion_review_gate": 70,
             "expert_chain_alignment_creativity_gate": 68,
             "visual_story_bible_continuity_gate": 66,
@@ -4312,6 +4371,27 @@ class NovelSourceDiscoveryService:
         if "layered_story_bible_artifact_contract_gate" in patterns:
             targets.append("layered_story_bible_artifact_policy")
             targets.append("artifact_dependency_order_policy")
+        if "author_ai_project_contract_review_gate" in patterns:
+            targets.append("author_ai_project_contract_policy")
+            targets.append("contract_instruction_conflict_policy")
+        if "manuscript_pr_editorial_workflow_gate" in patterns:
+            targets.append("manuscript_pr_review_policy")
+            targets.append("editorial_issue_triage_policy")
+        if "short_drama_story_bible_template_gate" in patterns:
+            targets.append("short_drama_story_bible_policy")
+            targets.append("episode_boundary_continuity_policy")
+        if "visual_anchor_prompt_handoff_gate" in patterns:
+            targets.append("visual_anchor_prompt_handoff_policy")
+            targets.append("temporary_scene_note_separation_policy")
+        if "character_continuity_dimension_schema_gate" in patterns:
+            targets.append("character_continuity_dimension_policy")
+            targets.append("stable_vs_flexible_visual_anchor_policy")
+        if "short_drama_character_memory_forbidden_change_gate" in patterns:
+            targets.append("character_memory_forbidden_change_policy")
+            targets.append("relationship_change_source_scene_policy")
+        if "short_drama_worldbuilding_layer_gate" in patterns:
+            targets.append("short_drama_worldbuilding_layer_policy")
+            targets.append("power_map_secret_reveal_policy")
         if "structured_generation_schema" in patterns:
             targets.append("json_schema_outputs")
             targets.append("schema_validation_rules")
@@ -5294,6 +5374,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["foundation_loop_score_report", "weakest_dimension_regeneration_trace"])
         if "layered_story_bible_artifact_contract_gate" in patterns:
             targets.extend(["layered_story_bible_artifact_report", "artifact_dependency_order_findings"])
+        if "author_ai_project_contract_review_gate" in patterns:
+            targets.extend(["project_contract_conflict_report", "author_ai_collaboration_settings"])
+        if "manuscript_pr_editorial_workflow_gate" in patterns:
+            targets.extend(["editorial_pr_review_trace", "line_edit_structural_issue_split"])
+        if "short_drama_story_bible_template_gate" in patterns:
+            targets.extend(["short_drama_bible_completeness_report", "episode_memory_reuse_findings"])
+        if "visual_anchor_prompt_handoff_gate" in patterns:
+            targets.extend(["visual_anchor_prompt_handoff_report", "asset_generation_readiness_findings"])
+        if "character_continuity_dimension_schema_gate" in patterns:
+            targets.extend(["character_continuity_dimension_report", "stable_flexible_visual_anchor_findings"])
+        if "short_drama_character_memory_forbidden_change_gate" in patterns:
+            targets.extend(["character_memory_forbidden_change_report", "relationship_source_scene_findings"])
+        if "short_drama_worldbuilding_layer_gate" in patterns:
+            targets.extend(["short_drama_worldbuilding_layer_report", "power_map_reveal_order_findings"])
         if "structured_generation_schema" in patterns:
             targets.extend(["schema_bound_outputs", "required_fields", "validation_failures"])
         if "context_reference" in patterns:
@@ -6321,6 +6415,20 @@ class NovelSourceDiscoveryService:
             hints.append("Before drafting from a fresh concept, run the foundation loop: validate seed, generate dependent bible layers, score, target weakest dimension, and keep/discard with rollback evidence.")
         if "layered_story_bible_artifact_contract_gate" in patterns:
             hints.append("Use layered story bible artifacts in dependency order: seed, world, characters, voice, mystery, outline, canon, foreshadowing, state, eval logs, and results ledger.")
+        if "author_ai_project_contract_review_gate" in patterns:
+            hints.append("Before拆书续写 or same-type creation, read the project contract and surface any conflict with higher-level guidance instead of silently choosing one.")
+        if "manuscript_pr_editorial_workflow_gate" in patterns:
+            hints.append("Route manuscript changes through review-sized units: line edits as diffable proposals and structural concerns as issue-style findings before prose promotion.")
+        if "short_drama_story_bible_template_gate" in patterns:
+            hints.append("For短剧化续写, include series premise, character canon, relationship rules, episode boundary, and continuity memory before generating the next episode.")
+        if "visual_anchor_prompt_handoff_gate" in patterns:
+            hints.append("When preparing visual or video assets, hand off only reviewed visual anchors and temporary scene notes; permanent canon remains the authority.")
+        if "character_continuity_dimension_schema_gate" in patterns:
+            hints.append("For character continuity, include identity, visual anchor, personality, relationship map, and episode memory dimensions before scene or storyboard generation.")
+        if "short_drama_character_memory_forbidden_change_gate" in patterns:
+            hints.append("Before updating a recurring character, name source scene, relationship state, current emotional arc, scene memory, and forbidden changes.")
+        if "short_drama_worldbuilding_layer_gate" in patterns:
+            hints.append("Before short-drama episodes, cite premise, rules, locations, power map, timeline, secrets, and reveal order so conflict escalation stays causal.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -6350,6 +6458,20 @@ class NovelSourceDiscoveryService:
             hints.append("Persist foundation loop state: seed validation result, generated layer versions, scores, weakest dimension, keep/discard decision, and rollback target.")
         if "layered_story_bible_artifact_contract_gate" in patterns:
             hints.append("Persist story bible artifacts as separate files or records—world, characters, outline, voice, canon, mystery, foreshadowing, state, eval logs, and results.tsv—so each layer can be reviewed independently.")
+        if "author_ai_project_contract_review_gate" in patterns:
+            hints.append("Persist contract version, negotiation status, automation level, commit cadence, tracking format, research pattern, and instruction-conflict decisions with each continuation session.")
+        if "manuscript_pr_editorial_workflow_gate" in patterns:
+            hints.append("Persist editorial review traces as branch/commit/PR-style records: changed span, why it changed, requested feedback, accepted line edits, and structural issues.")
+        if "short_drama_story_bible_template_gate" in patterns:
+            hints.append("Persist short-drama bible state: series premise, character canon, relationship rules, episode boundaries, continuity memory, reusable character rules, and review scorecard decisions.")
+        if "visual_anchor_prompt_handoff_gate" in patterns:
+            hints.append("Persist visual anchors separately from temporary scene notes, with prompt-handoff readiness, asset-generation scope, and publish/edit/review checklist status.")
+        if "character_continuity_dimension_schema_gate" in patterns:
+            hints.append("Persist character continuity dimensions: identity, visual anchors, personality, relationship map, episode memory, and reviewer-approved flexible visual elements.")
+        if "short_drama_character_memory_forbidden_change_gate" in patterns:
+            hints.append("Persist character memory with stable identity, relationship state, current emotional arc, scene memory, forbidden changes, source-scene evidence, and revision notes.")
+        if "short_drama_worldbuilding_layer_gate" in patterns:
+            hints.append("Persist short-drama worldbuilding layers separately: premise, rules, locations, power map, timeline, secrets, reveal order, and continuity memory.")
         if "context_reference" in patterns:
             hints.append("Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.")
         if "lorebook_context" in patterns:
@@ -9954,6 +10076,69 @@ class NovelSourceDiscoveryService:
             "Do not treat eval logs or results.tsv as canon; they are evidence for why a layer version was accepted, rejected, restored, or regenerated.",
         ]
 
+    def _build_author_ai_project_contract_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "author_ai_project_contract_review_gate" not in patterns:
+            return []
+        return [
+            "Read the project contract before drafting, revising, or拆书续写; record its status, version, last negotiation date, automation level, explanation depth, commit cadence, and tracking format.",
+            "If project contract, root agent guidance, and user request conflict, surface the contradiction with concrete fields and wait for resolution before mutating canon or prose.",
+            "Renegotiate the contract when workflow behavior diverges twice in a row; store the new decision as contract state rather than an implicit chat preference.",
+        ]
+
+    def _build_manuscript_pr_editorial_workflow_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "manuscript_pr_editorial_workflow_gate" not in patterns:
+            return []
+        return [
+            "Treat line-level prose changes as PR-style diff proposals with what changed, why, and requested feedback; acceptance is separate from generation.",
+            "Route structural feedback, continuity questions, beta-reader notes, and style-sheet proposals into issue-style records so they do not silently rewrite the manuscript.",
+            "Keep every editorial round timestamped with branch or review id, changed files/spans, reviewer role, merge/request-changes decision, and follow-up tasks.",
+        ]
+
+    def _build_short_drama_story_bible_template_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "short_drama_story_bible_template_gate" not in patterns:
+            return []
+        return [
+            "Short-drama bible packets should fill series premise, character canon, relationship rules, episode boundaries, and continuity memory before episode drafting.",
+            "Separate permanent canon from temporary scene notes so a one-episode staging detail cannot silently become reusable cross-episode truth.",
+            "Score each packet for reusable character rules, episode-memory consistency, and auditability before it can drive publishing, editing, or asset generation.",
+        ]
+
+    def _build_visual_anchor_prompt_handoff_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "visual_anchor_prompt_handoff_gate" not in patterns:
+            return []
+        return [
+            "Visual anchors should name stable appearance, setting, prop, mood, and style constraints with evidence refs, not vague vibes or copied source designs.",
+            "Prompt handoff for images, video, or directory assets must include scope, accepted canon refs, temporary scene-note refs, and blocked source/reference material.",
+            "New episodes should be checked against existing continuity memory and visual anchors before generating media or publishing copy.",
+        ]
+
+    def _build_character_continuity_dimension_schema_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "character_continuity_dimension_schema_gate" not in patterns:
+            return []
+        return [
+            "Character continuity schemas should separate identity, visual anchor, personality, relationship map, and episode memory so each drift type can be reviewed independently.",
+            "Stable visual anchors include face, silhouette, clothing baseline, palette, and signature props; flexible elements include expression, pose, lighting, and scene-specific wardrobe.",
+            "Every storyboard, generated scene, or续写 episode should cite the character continuity row it used and record any intentional change.",
+        ]
+
+    def _build_short_drama_character_memory_forbidden_change_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "short_drama_character_memory_forbidden_change_gate" not in patterns:
+            return []
+        return [
+            "Character memory packets should include stable identity, relationship state, current emotional arc, scene memory, forbidden changes, and revision notes.",
+            "Relationship or emotional changes require a source scene and reviewer decision before they can update reusable memory.",
+            "Forbidden changes block visual, behavioral, or relationship drift unless a new accepted scene explicitly authorizes the change.",
+        ]
+
+    def _build_short_drama_worldbuilding_layer_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "short_drama_worldbuilding_layer_gate" not in patterns:
+            return []
+        return [
+            "Short-drama worldbuilding should define premise, rules, recurring locations, power map, timeline, secrets, and continuity memory before script or storyboard work.",
+            "Use the power map and reveal order as causal controls so conflict escalation does not become repetitive or random across episodes.",
+            "Location visual anchors are worldbuilding data; they should support scene generation without overwriting character canon or episode memory.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -10013,6 +10198,27 @@ class NovelSourceDiscoveryService:
             targets.append("character_knowledge_visibility_remap")
         if "ideation_worksheet_foundation_gate" in patterns:
             targets.append("ideation_worksheet_remap")
+        if "author_ai_project_contract_review_gate" in patterns:
+            targets.append("project_contract_remap")
+            targets.append("instruction_conflict_policy_remap")
+        if "manuscript_pr_editorial_workflow_gate" in patterns:
+            targets.append("editorial_review_trace_remap")
+            targets.append("line_edit_issue_split_remap")
+        if "short_drama_story_bible_template_gate" in patterns:
+            targets.append("short_drama_episode_boundary_remap")
+            targets.append("continuity_memory_remap")
+        if "visual_anchor_prompt_handoff_gate" in patterns:
+            targets.append("visual_anchor_remap")
+            targets.append("asset_prompt_handoff_remap")
+        if "character_continuity_dimension_schema_gate" in patterns:
+            targets.append("character_continuity_schema_remap")
+            targets.append("stable_flexible_anchor_remap")
+        if "short_drama_character_memory_forbidden_change_gate" in patterns:
+            targets.append("character_memory_forbidden_change_remap")
+            targets.append("relationship_source_scene_remap")
+        if "short_drama_worldbuilding_layer_gate" in patterns:
+            targets.append("worldbuilding_layer_remap")
+            targets.append("power_map_secret_reveal_remap")
         if "confirmed_action_audit_recovery_gate" in patterns:
             targets.append("confirmed_action_recovery_remap")
         if "project_isolated_story_bible_query_gate" in patterns:
@@ -10653,6 +10859,20 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type knowledge maps, declare the new secret, new holder, new reveal timing, and changed absence gap before drafting.")
         if "ideation_worksheet_foundation_gate" in patterns:
             hints.append("For same-type work, rebuild the five foundation worksheets first; source worksheets may inspire questions, not final answers.")
+        if "author_ai_project_contract_review_gate" in patterns:
+            hints.append("For same-type work, create a new local project contract from the author's choices; do not copy upstream AGENTS, contract prose, presets, or collaboration defaults as authority.")
+        if "manuscript_pr_editorial_workflow_gate" in patterns:
+            hints.append("For same-type manuscript review, ask for PR-style changed spans, rationale, and feedback scope; do not treat source review history or branch names as new-story state.")
+        if "short_drama_story_bible_template_gate" in patterns:
+            hints.append("For same-type short-drama work, rebuild premise, character canon, relationship rules, episode boundaries, and continuity memory for the new series before writing episodes.")
+        if "visual_anchor_prompt_handoff_gate" in patterns:
+            hints.append("For visual prompt handoff, translate source look-and-feel into new-story visual anchors; do not copy source character designs, product references, or asset prompts.")
+        if "character_continuity_dimension_schema_gate" in patterns:
+            hints.append("For same-type character continuity, rebuild identity, visual anchor, personality, relationship map, and episode memory dimensions with new names, roles, and evidence.")
+        if "short_drama_character_memory_forbidden_change_gate" in patterns:
+            hints.append("For same-type character memory, define new forbidden changes and source-scene evidence; do not inherit source relationship states or emotional arcs.")
+        if "short_drama_worldbuilding_layer_gate" in patterns:
+            hints.append("For same-type worldbuilding, rebuild premise, rules, locations, power map, timeline, secrets, and reveal order before any episode outline.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("For same-type creation, create draft candidates and require copy-risk review before any candidate can become confirmed text.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -11623,6 +11843,20 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that preserve the source secret matrix, reveal order, character absence gap, or who-knows-what timeline under renamed roles.")
         if "ideation_worksheet_foundation_gate" in patterns:
             hints.append("Reject same-type drafts that keep the source premise question, Ghost/Lie/Want/Need grid, world-rule logic, structure blueprint, or theme answer under new names.")
+        if "author_ai_project_contract_review_gate" in patterns:
+            hints.append("Reject runs that import upstream contract text, hidden assistant instructions, author defaults, or unresolved AGENTS/contract conflicts into the transformed project.")
+        if "manuscript_pr_editorial_workflow_gate" in patterns:
+            hints.append("Reject editorial changes promoted without PR-style rationale, changed-span evidence, structural-issue separation, or author/reviewer decision trace.")
+        if "short_drama_story_bible_template_gate" in patterns:
+            hints.append("Reject episode drafts that mix permanent canon with temporary scene notes, skip episode-boundary checks, or reuse source series premise and character rules as transformed canon.")
+        if "visual_anchor_prompt_handoff_gate" in patterns:
+            hints.append("Reject media prompts whose visual anchors copy source/reference designs, omit accepted canon refs, or treat temporary scene-note details as reusable visual canon.")
+        if "character_continuity_dimension_schema_gate" in patterns:
+            hints.append("Reject continuity packets that preserve source faces, silhouettes, palettes, props, archetype labels, relationship maps, or episode-memory events under renamed characters.")
+        if "short_drama_character_memory_forbidden_change_gate" in patterns:
+            hints.append("Reject memory updates when relationship changes lack a source scene, forbidden changes are bypassed, or temporary wardrobe becomes stable visual identity.")
+        if "short_drama_worldbuilding_layer_gate" in patterns:
+            hints.append("Reject episode plans that copy source power maps, secret ladders, reveal order, recurring locations, or conflict engine as the transformed world's logic.")
         if "draft_candidate_promotion_gate" in patterns:
             hints.append("Reject candidate promotion when copy-risk, author decision, or memory-writeback evidence is missing.")
         if "privacy_preserving_local_index_gate" in patterns:
@@ -12288,6 +12522,13 @@ class NovelSourceDiscoveryService:
                 "codex_story_skill_project_scaffold_gate",
                 "ai_ism_detect_edit_convergence_gate",
                 "markdown_skill_story_project_contract_gate",
+                "author_ai_project_contract_review_gate",
+                "manuscript_pr_editorial_workflow_gate",
+                "short_drama_story_bible_template_gate",
+                "visual_anchor_prompt_handoff_gate",
+                "character_continuity_dimension_schema_gate",
+                "short_drama_character_memory_forbidden_change_gate",
+                "short_drama_worldbuilding_layer_gate",
                 "canon_evidence_suggestion_review_gate",
                 "expert_chain_alignment_creativity_gate",
                 "visual_story_bible_continuity_gate",
