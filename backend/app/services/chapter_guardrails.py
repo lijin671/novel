@@ -645,6 +645,11 @@ class ChapterGuardrails:
     @staticmethod
     def _source_entity_candidates(text: str) -> list[str]:
         candidates: list[str] = []
+        for term in ChapterGuardrails._marked_chinese_source_terms(text):
+            if term not in candidates:
+                candidates.append(term)
+            if len(candidates) >= 12:
+                return candidates
         for chunk_match in re.finditer(r"[\u4e00-\u9fff]{2,16}", text or ""):
             chunk = chunk_match.group()
             for end in range(2, len(chunk) + 1):
@@ -704,6 +709,16 @@ class ChapterGuardrails:
             chr(0x94A5) + chr(0x5319),
         }
         return token[-1:] in suffix_chars or any(token.endswith(suffix) for suffix in suffix_words)
+
+    @staticmethod
+    def _marked_chinese_source_terms(text: str) -> list[str]:
+        """Extract short Chinese source terms explicitly marked by quotes/book-title marks."""
+        terms: list[str] = []
+        for match in re.finditer(r"[《「『]([\u4e00-\u9fff]{2,8})[》」』]", text or ""):
+            term = match.group(1).strip()
+            if term and term not in terms:
+                terms.append(term)
+        return terms
 
     @staticmethod
     def _looks_like_modal_hui_phrase(token: str) -> bool:

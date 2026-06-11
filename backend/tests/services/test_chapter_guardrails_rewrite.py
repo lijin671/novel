@@ -329,6 +329,38 @@ def test_chapter_guardrails_flags_source_entity_leak_without_phrase_copy():
     assert "青岚会" in violation.copy_signal
 
 
+def test_chapter_guardrails_flags_quoted_short_chinese_source_term_leak():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "苏眠把《魇灯》放回匣中，告诉同伴这件遗物只在黑潮夜醒来。"
+    generated = "新故事换了角色和城市，但女主仍把魇灯当成核心遗物来推动剧情。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert violation.copy_signal == "source_entity_leak:魇灯"
+
+
+def test_chapter_guardrails_does_not_flag_common_quoted_dialogue_as_source_term():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "苏眠低声说“回来”，然后把门关上，没有再解释。"
+    generated = "新故事里的主角回来以后继续查案，没有复用源书的遗物或组织。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is True
+    assert result.violations == []
+
+
 def test_chapter_guardrails_flags_ascii_source_entity_leak_without_phrase_copy():
     guardrails = ChapterGuardrails()
     source_excerpt = (

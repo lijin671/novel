@@ -670,3 +670,70 @@ Project adaptation:
   `inspired_source_entity_leak`.
 - The emitted `source_entity_leak:*` signal preserves the exact codename tokens
   so review UI and repair prompts can display and ban the leaked labels.
+
+### 2026-06-12 patch: marked short Chinese term leakage
+
+Static intake boundary:
+
+- No external repository was cloned, installed, executed, or used as runtime
+  code.
+- Public GitHub metadata, `git ls-remote`, and raw README marker scans were used
+  only as pattern evidence.
+- Posture for all sources below remains `pattern-only`.
+
+Observed sources:
+
+- `QQ-L-XX/novel-deconstruct`
+  - URL: https://github.com/QQ-L-XX/novel-deconstruct
+  - Observed HEAD: `c75702bece3d110674452226528c0cb92c1b194a`
+  - Default branch: `master`
+  - License: MIT
+  - Public signal: Chinese novel deconstruction skill around quantitative scan,
+    scene-level deconstruction, and structured reports.
+- `TianHengZhuang/Chinese-WebNovel-Master`
+  - URL: https://github.com/TianHengZhuang/Chinese-WebNovel-Master
+  - Observed HEAD: `bdb4ed86ef8c8022966a5c76687aed73ad5b1f67`
+  - Default branch: `main`
+  - License: NOASSERTION
+  - Public signal: multi-agent Chinese web-novel writing system with platform
+    knowledge bases and commercial storytelling workflows.
+- `tance-mang/chinese-webnovel-skills`
+  - URL: https://github.com/tance-mang/chinese-webnovel-skills
+  - Observed HEAD: `7d84e456b36eef3838404f95cf128072418f1147`
+  - Default branch: `main`
+  - License: MIT
+  - Public signal: Chinese web-novel writing toolkit / skill pack with review
+    and writing-assistant vocabulary.
+- `Mochocyang/QMAI`
+  - URL: https://github.com/Mochocyang/QMAI
+  - Observed HEAD: `23a683d8c60579795467a802a1036027d1c2001e`
+  - Default branch: `master`
+  - License: unknown
+  - Public signal: Chinese long-novel writing software focused on character
+    consistency and preventing persona collapse.
+- `rxb123ahuan/codexwriteskill`
+  - URL: https://github.com/rxb123ahuan/codexwriteskill
+  - Observed HEAD: `6ab89a484da2d8d0e10149223b4f28288a533233`
+  - Default branch: `main`
+  - License: MIT
+  - Public signal: Codex writing skill reference with review vocabulary.
+
+Absorbed pattern:
+
+- Chinese 拆书/网文 workflows often elevate short marked terms into durable
+  story state: artifacts, powers, medicines, techniques, titles, or named
+  concepts. In same-type imitation, a two-character marked term can be more
+  distinctive than a long generic phrase.
+- Terms explicitly marked with book-title / corner brackets such as `《魇灯》`
+  or `「魇灯」` should be treated as source entities when reused in a new story.
+- Ordinary quoted dialogue such as `“回来”` should not be treated as a source
+  entity by default.
+
+Project adaptation:
+
+- Source entity extraction now reads short Chinese terms inside `《》`, `「」`,
+  and `『』`.
+- Reused marked terms trigger `inspired_source_entity_leak` and preserve the
+  exact term in `source_entity_leak:*`.
+- Common quotation marks `“”` and `‘’` are excluded from this short-term rule to
+  avoid flagging ordinary dialogue verbs or phrases.
