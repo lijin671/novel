@@ -517,6 +517,12 @@ def render_source_pattern_pack_digest(
         "local_storage_story_bible_snapshot_gate_hints",
         "staged_scene_beat_card_transaction_gate_hints",
         "context_scrubber_beat_anchor_gate_hints",
+        "longgu_engineering_harness_gate_hints",
+        "prose_health_live_dashboard_gate_hints",
+        "raw_story_assimilation_workflow_gate_hints",
+        "style_distillation_rights_boundary_gate_hints",
+        "screenplay_ast_yaml_adaptation_gate_hints",
+        "fanqie_publish_dryrun_boundary_gate_hints",
         "offline_chapter_revision_export_gate_hints",
         "multi_agent_outline_continuity_review_gate_hints",
         "hosted_ai_sidebar_product_boundary_gate_hints",
@@ -626,7 +632,7 @@ def render_source_pattern_pack_digest(
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:
-            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:12]))
+            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:24]))
 
         inspired_prompt_hints = _as_note_list(source_pattern_pack.get("inspired_prompt_hints"))
         if inspired_prompt_hints:

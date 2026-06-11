@@ -285,6 +285,12 @@ export interface SourceDiscoveryPatternPack {
   ebook_accessibility_audit_gate_hints?: string[];
   front_back_matter_metadata_gate_hints?: string[];
   toc_navigation_consistency_gate_hints?: string[];
+  longgu_engineering_harness_gate_hints?: string[];
+  prose_health_live_dashboard_gate_hints?: string[];
+  raw_story_assimilation_workflow_gate_hints?: string[];
+  style_distillation_rights_boundary_gate_hints?: string[];
+  screenplay_ast_yaml_adaptation_gate_hints?: string[];
+  fanqie_publish_dryrun_boundary_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

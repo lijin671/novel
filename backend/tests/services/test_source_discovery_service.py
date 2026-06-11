@@ -13820,3 +13820,142 @@ def test_static_inkai_source_adds_big_five_and_six_dimension_continuation_gates(
     assert "big_five_character_psychology_gate_hints" in digest
     assert "six_dimension_continuation_audit_retry_gate_hints" in digest
     assert "genre_tag_taxonomy_router_gate_hints" in digest
+
+
+def test_static_20260612_sources_add_engineering_rights_adaptation_publish_gates():
+    assert "https://github.com/MirrMeur/Longgu" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ourarash/prosview" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/HKStudio011/Open-Novel-Skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Aerdelan/MirrorNovel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lmqvq/mq-ai-Novel2Screenplay" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/funnaz/fanqie-publisher-cli" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("context pack" in query.lower() and "model cost" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("mattr" in query.lower() and "mtld" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("raw story assimilation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("style distillation" in query.lower() and "rights gate" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("screenplay ast" in query.lower() and "yaml export" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("_ai_revisions" in query.lower() and "dry-run" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "MirrMeur/Longgu",
+                "html_url": "https://github.com/MirrMeur/Longgu",
+                "description": "Chinese long-form webnovel CLI harness with context pack, chapter audit, pacing analysis, model cost report, and experiment evaluation.",
+                "stargazers_count": 24,
+                "forks_count": 2,
+                "license": {"spdx_id": "PolyForm-Noncommercial-1.0.0"},
+                "topics": ["webnovel", "cli", "context-pack", "chapter-audit"],
+                "updated_at": "2026-06-12T10:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "src"],
+            },
+            {
+                "full_name": "ourarash/prosview",
+                "html_url": "https://github.com/ourarash/prosview",
+                "description": "Local Markdown novel dashboard with MATTR, MTLD, sentence rhythm, character co-occurrence, inline TODO, live reload, and mtime protection.",
+                "stargazers_count": 11,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "markdown", "dashboard", "prose"],
+                "updated_at": "2026-06-12T10:05:00Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml"],
+            },
+            {
+                "full_name": "HKStudio011/Open-Novel-Skills",
+                "html_url": "https://github.com/HKStudio011/Open-Novel-Skills",
+                "description": "OpenNovel CLI plus seven agent skills for Story Bible, plot outline, chapter writing, review, revise, continuity tracking, and Raw Story Assimilation.",
+                "stargazers_count": 18,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "agent-skills", "codex", "story-bible"],
+                "updated_at": "2026-06-12T10:10:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "skills"],
+            },
+            {
+                "full_name": "Aerdelan/MirrorNovel",
+                "html_url": "https://github.com/Aerdelan/MirrorNovel",
+                "description": "MirrorNovel includes Fanqie novel downloader, style distillation, AI continuation, PUA font decoding, Playwright browser automation, crawler code, and copyright disclaimer.",
+                "stargazers_count": 36,
+                "forks_count": 4,
+                "license": None,
+                "topics": ["novel", "style-distillation", "fanqie", "crawler"],
+                "updated_at": "2026-06-12T10:15:00Z",
+                "root_files": ["README.md", "package.json", "server", "crawler"],
+                "package_scripts": {"dev": "vite --host 0.0.0.0"},
+            },
+            {
+                "full_name": "lmqvq/mq-ai-Novel2Screenplay",
+                "html_url": "https://github.com/lmqvq/mq-ai-Novel2Screenplay",
+                "description": "AI novel to screenplay workspace: normalized markdown to chapter and segment RAG, Story Bible, Scene Cards, Screenplay AST, screenplay-schema-v1 YAML Export.",
+                "stargazers_count": 9,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "screenplay", "yaml", "rag"],
+                "updated_at": "2026-06-12T10:20:00Z",
+                "root_files": ["README.md", "docker-compose.yml", "backend", "frontend"],
+            },
+            {
+                "full_name": "funnaz/fanqie-publisher-cli",
+                "html_url": "https://github.com/funnaz/fanqie-publisher-cli",
+                "description": "Fanqie publisher workbench with _ai_revisions, backup before overwrite, local dry-run, upload checkpoints, scheduled publishing, Playwright, browser automation login, and publish to Fanqie.",
+                "stargazers_count": 7,
+                "forks_count": 1,
+                "license": None,
+                "topics": ["fanqie", "webnovel", "publisher", "playwright"],
+                "updated_at": "2026-06-12T10:25:00Z",
+                "root_files": ["README.md", "package.json", "fanqie-publisher.js", "web-server.js"],
+                "package_scripts": {"fanqie": "node fanqie-publisher.js", "web": "node web-server.js"},
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "longgu_engineering_harness_gate" in candidates["MirrMeur/Longgu"]["absorbed_patterns"]
+    assert "prose_health_live_dashboard_gate" in candidates["ourarash/prosview"]["absorbed_patterns"]
+    assert "raw_story_assimilation_workflow_gate" in candidates["HKStudio011/Open-Novel-Skills"]["absorbed_patterns"]
+    assert "style_distillation_rights_boundary_gate" in candidates["Aerdelan/MirrorNovel"]["absorbed_patterns"]
+    assert "network_scraper" in candidates["Aerdelan/MirrorNovel"]["risk_flags"]
+    assert "screenplay_ast_yaml_adaptation_gate" in candidates["lmqvq/mq-ai-Novel2Screenplay"]["absorbed_patterns"]
+    assert "docker" in candidates["lmqvq/mq-ai-Novel2Screenplay"]["risk_flags"]
+    assert "fanqie_publish_dryrun_boundary_gate" in candidates["funnaz/fanqie-publisher-cli"]["absorbed_patterns"]
+    assert "platform_publish_automation_surface" in candidates["funnaz/fanqie-publisher-cli"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "longgu_context_pack_budget_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "prose_health_metric_band_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "raw_story_assimilation_approval_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "style_distillation_rights_clearance_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "screenplay_ast_truth_source_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "fanqie_publish_dryrun_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "longgu_run_ledger_pacing_cost_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "prose_health_dashboard_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "raw_story_bible_outline_update_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_distillation_rights_risk_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "screenplay_ast_yaml_coverage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "fanqie_revision_backup_publish_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "engineering_run_ledger_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "prose_metric_dashboard_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "raw_story_bible_outline_delta_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "rights_first_style_axis_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "scene_card_ast_yaml_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "dryrun_publish_checkpoint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("context pack" in hint.lower() and "cost-report" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("mattr" in hint.lower() and "mtld" in hint.lower() for hint in pattern_pack["prose_health_live_dashboard_gate_hints"])
+    assert any("raw-story assimilation" in hint.lower() for hint in pattern_pack["raw_story_assimilation_workflow_gate_hints"])
+    assert any("rights" in hint.lower() and "protected platform text" in hint.lower() for hint in pattern_pack["style_distillation_rights_boundary_gate_hints"])
+    assert any("screenplay ast" in hint.lower() and "yaml" in hint.lower() for hint in pattern_pack["screenplay_ast_yaml_adaptation_gate_hints"])
+    assert any("_ai_revisions" in hint for hint in pattern_pack["fanqie_publish_dryrun_boundary_gate_hints"])
+    assert any("dry-run" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("abstract axes" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("protected platform text" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "longgu_engineering_harness_gate_hints" in digest
+    assert "prose_health_live_dashboard_gate_hints" in digest
+    assert "raw_story_assimilation_workflow_gate_hints" in digest
+    assert "style_distillation_rights_boundary_gate_hints" in digest
+    assert "screenplay_ast_yaml_adaptation_gate_hints" in digest
+    assert "fanqie_publish_dryrun_boundary_gate_hints" in digest

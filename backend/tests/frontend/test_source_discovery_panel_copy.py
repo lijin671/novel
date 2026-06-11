@@ -222,6 +222,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "ebook_accessibility_audit_gate_hints",
             "front_back_matter_metadata_gate_hints",
             "toc_navigation_consistency_gate_hints",
+            "longgu_engineering_harness_gate_hints",
+            "prose_health_live_dashboard_gate_hints",
+            "raw_story_assimilation_workflow_gate_hints",
+            "style_distillation_rights_boundary_gate_hints",
+            "screenplay_ast_yaml_adaptation_gate_hints",
+            "fanqie_publish_dryrun_boundary_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -453,6 +459,13 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Ebook accessibility audit gates" in panel_text
     assert "Front/back matter metadata gates" in panel_text
     assert "TOC navigation consistency gates" in panel_text
+    assert "Engineering harness / rights / adaptation gates" in panel_text
+    assert "Longgu engineering harness gates" in panel_text
+    assert "Prose health live dashboard gates" in panel_text
+    assert "Raw story assimilation workflow gates" in panel_text
+    assert "Style distillation rights boundaries" in panel_text
+    assert "Screenplay AST / YAML adaptation gates" in panel_text
+    assert "Fanqie publish dry-run boundaries" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():

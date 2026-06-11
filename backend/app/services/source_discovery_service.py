@@ -356,6 +356,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("rolling chapter direction" OR "scene blueprint" OR "reader reward" OR "mobile readability") ("web novel" OR "serialized fiction" OR "continuity memory") in:name,description,readme',
     '("Scene Card Pipeline" OR "BookStateDiff" OR "Object Ledger" OR "Human Edit Memory") ("long-form fiction" OR "novel" OR "canon") in:name,description,readme',
     '("localStorage" OR "ProjectStorage" OR "stripBeatAnchors" OR "Scene Beat Cards") ("novel" OR "story bible" OR "manuscript") in:name,description,readme',
+    '("context pack" OR "chapter audit" OR "model cost" OR "pacing analysis") ("Chinese webnovel" OR "long-form novel CLI") in:name,description,readme',
+    '("MATTR" OR "MTLD" OR "Markdown novel dashboard" OR "inline TODO") ("novel" OR "prose" OR "manuscript") in:name,description,readme',
+    '("Raw Story Assimilation" OR "Bible → Outline" OR "continuity tracking") ("agent skills" OR "novel framework" OR "Codex") in:name,description,readme',
+    '("style distillation" OR "same-type writing" OR "rights gate") ("novel" OR "AI continuation" OR "风格蒸馏") in:name,description,readme',
+    '("Novel2Screenplay" OR "Screenplay AST" OR "Scene Cards" OR "YAML Export") ("novel" OR "adaptation") in:name,description,readme',
+    '("_ai_revisions" OR "dry-run" OR "Fanqie") ("novel" OR "webnovel" OR "番茄") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -771,6 +777,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/CARL-JOSEPH-LEE/little-honey-ai-web-novel",
     "https://github.com/KleinDigitalSolutions/EMBER",
     "https://github.com/tratran98/novelwrite",
+    "https://github.com/MirrMeur/Longgu",
+    "https://github.com/ourarash/prosview",
+    "https://github.com/HKStudio011/Open-Novel-Skills",
+    "https://github.com/Aerdelan/MirrorNovel",
+    "https://github.com/lmqvq/mq-ai-Novel2Screenplay",
+    "https://github.com/funnaz/fanqie-publisher-cli",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1100,6 +1112,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("local_storage_story_bible_snapshot_gate", ("localstorage", "local storage", "browser sandbox", "projectstorage", "localstorageprojectstorage", "story bibles, outlines, and snapshot histories", "snapshot histories", "history snapshot", "full json backups")),
     ("staged_scene_beat_card_transaction_gate", ("staged ai scene beat cards", "scene beat cards", "beat configurations", "write beat", "length control", "200/400/600", "200 words", "400 words", "600 words", "staged draft controls", "staged ai generation", "preview", "retry", "apply", "completed (`done`)")),
     ("context_scrubber_beat_anchor_gate", ("context scrubber", "stripbeatanchors", "nested html beat nodes", "html beat nodes", "raw tags", "polluting the ai prompts", "surrounding chapters")),
+    ("longgu_engineering_harness_gate", ("longgu", "engineering cli harness", "chapter audit", "model cost", "cost report", "pacing analysis", "context pack", "token budget", "human-readable summary card", "质量审计", "节奏分析", "模型成本", "实验评测")),
+    ("prose_health_live_dashboard_gate", ("proseview", "markdown novel dashboard", "mattr", "mtld", "sentence-rhythm", "sentence rhythm", "character co-occurrence", "location stickiness", "inline todo", "file mtime", "live reload")),
+    ("raw_story_assimilation_workflow_gate", ("opennovel", "open-novel-skills", "raw story assimilation", "bible → outline", "bible -> outline", "story bible", "plot outline", "continuity tracking", "diagnosis-only", "6-layer quality check")),
+    ("style_distillation_rights_boundary_gate", ("mirrornovel", "style distillation", "风格蒸馏", "ai 续写", "ai continuation", "same-type writing", "番茄小说下载", "copyright", "版权归属", "pua 字体", "browser automation")),
+    ("screenplay_ast_yaml_adaptation_gate", ("mq-ai-novel2screenplay", "novel2screenplay", "screenplay ast", "screenplay-schema-v1", "yaml export", "normalized markdown", "scene cards", "chapter -> segment -> rag", "小说转剧本")),
+    ("fanqie_publish_dryrun_boundary_gate", ("fanqie-publisher-cli", "fanqie publisher", "_ai_revisions", "dry-run", "草稿上传", "定时发布", "发布助手", "覆盖前自动备份", "本机浏览器模拟人工操作", "browser simulated manual operation")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3022,6 +3040,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "It adds staged AI Scene Beat Cards inside the editor with Beat Configurations, 200/400/600 word length controls, staged generation preview, Apply/Retry controls, completed states, and a Context Scrubber stripBeatAnchors step that removes nested HTML beat nodes before LLM context assembly. "
         "Pattern-only adaptation for local storage snapshot gates, transactional scene-beat generation, and beat-anchor context scrubbing; package managers, web app workspaces, AGENTS/CLAUDE instructions, provider/API-key surfaces, browser localStorage, and upstream runtime are not executed or imported."
     ),
+    "mirrmeur/longgu": (
+        "Longgu is a PolyForm-Noncommercial Chinese long-form webnovel CLI harness. Public README/package markers describe durable workspaces with longgu.yaml, bible/outlines/chapters/state/runs folders, chapter context packs with token budgets, human-readable summary cards, chapter and volume audits, pacing analysis, model-cost reports, experiment evaluation, market/platform constraints, and feedback registration. "
+        "Pattern-only adaptation for engineering-run ledgers, context-pack budgets, pacing/cost/audit gates, and experiment-score evidence; npm scripts, package install, providers, generated chapter bodies, and upstream prompt/runtime files are not executed or imported."
+    ),
+    "ourarash/prosview": (
+        "Proseview is a MIT local Markdown-novel dashboard and AI harness. Public README/pyproject markers describe word count, chapter pacing, MATTR/MTLD lexical health, sentence-rhythm variance, character presence, location stickiness, character co-occurrence charts, sortable scene tables, inline TODO/NOTE comments, frontmatter TODOs, live reload, and file-mtime conflict protection. "
+        "Pattern-only adaptation for prose-health dashboards, lexical/rhythm diagnostics, co-occurrence awareness, inline TODO capture, and mtime-safe editing; package installs, live server, AI assistant runtime, manuscript ingestion, and editor writes are not executed."
+    ),
+    "hkstudio011/open-novel-skills": (
+        "OpenNovel Framework is a MIT CLI plus seven agent-skill novel workflow. Public README/package markers describe project scaffold, Story Bible, plot outline, chapter writing, review, revise, continuity tracking, final export, Raw Story Assimilation, six-layer quality review, and continuity updates only after finalized chapters. "
+        "Pattern-only adaptation for Bible → Outline → Write → Review → Revise → Continuity phase discipline, raw-story assimilation approvals, diagnosis-only review, and finalized-chapter state writeback; npm install, skill installation, prompt-body import, CLI runtime, and upstream agents are not executed or copied."
+    ),
+    "aerdelan/mirrornovel": (
+        "MirrorNovel is a no-license-observed Fanqie novel downloader, style distillation, AI continuation, and polish tool. Public README markers include copyright disclaimers, protected platform content boundaries, Fanqie Book ID downloads, PUA font decoding, Playwright browser automation, style distillation, TXT upload, full-book/single-chapter continuation, and online demo/test-account surfaces. "
+        "Pattern-only adaptation is limited to a rights-first style-distillation boundary and same-type-writing leakage gate; platform download logic, browser automation, test accounts, PUA/font decoding, protected text, crawler code, provider calls, and generated prose are not imported or run."
+    ),
+    "lmqvq/mq-ai-novel2screenplay": (
+        "mq-ai-Novel2Screenplay is a no-license-observed novel-to-screenplay engineering sample. Public README markers describe pdf/docx/txt/md import to normalized markdown, chapter and segment construction, RAG, Story Bible, Scene Cards, Screenplay AST as the internal truth source, YAML export against screenplay-schema-v1, chapter-count gating, retrieval debug, schema validation, and future Monaco/YAML language-server integration. "
+        "Pattern-only adaptation for screenplay-AST truth, scene-card coverage, YAML schema validation, and adaptation-source traceability; MySQL/Redis/MinIO/Elasticsearch/Docker, MinerU, LangChain4j generation, profiles, provider env vars, and source corpora are not launched or imported."
+    ),
+    "funnaz/fanqie-publisher-cli": (
+        "fanqie-publisher-cli is a no-license-observed Chinese webnovel production and Fanqie author-console publishing workbench. Public README/package markers describe AI production dashboard, chapter QA, AI plot critique, deterministic formatting cleanup, _ai_revisions human-confirmed revision drafts, backups before overwrite, upload/publish progress checkpoints, local dry-run, scheduled publishing, Playwright, and browser-simulated manual publishing after local login. "
+        "Pattern-only adaptation for dry-run publishing boundaries, revision backup gates, progress checkpoints, and human approval before overwrite/publish; Playwright, browser login/session, upload/publish/scheduling, package scripts, provider/model settings, local novel files, and platform mutation are not executed."
+    ),
 
 }
 
@@ -3723,6 +3765,12 @@ class NovelSourceDiscoveryService:
             "story_bible_relationship_analytics_gate_hints": self._build_story_bible_relationship_analytics_gate_hints(available_patterns),
             "seed_to_bible_foundation_loop_gate_hints": self._build_seed_to_bible_foundation_loop_gate_hints(available_patterns),
             "layered_story_bible_artifact_contract_gate_hints": self._build_layered_story_bible_artifact_contract_gate_hints(available_patterns),
+            "longgu_engineering_harness_gate_hints": self._build_longgu_engineering_harness_gate_hints(available_patterns),
+            "prose_health_live_dashboard_gate_hints": self._build_prose_health_live_dashboard_gate_hints(available_patterns),
+            "raw_story_assimilation_workflow_gate_hints": self._build_raw_story_assimilation_workflow_gate_hints(available_patterns),
+            "style_distillation_rights_boundary_gate_hints": self._build_style_distillation_rights_boundary_gate_hints(available_patterns),
+            "screenplay_ast_yaml_adaptation_gate_hints": self._build_screenplay_ast_yaml_adaptation_gate_hints(available_patterns),
+            "fanqie_publish_dryrun_boundary_gate_hints": self._build_fanqie_publish_dryrun_boundary_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4458,6 +4506,12 @@ class NovelSourceDiscoveryService:
             "local_storage_story_bible_snapshot_gate": 69,
             "staged_scene_beat_card_transaction_gate": 70,
             "context_scrubber_beat_anchor_gate": 68,
+            "longgu_engineering_harness_gate": 70,
+            "prose_health_live_dashboard_gate": 68,
+            "raw_story_assimilation_workflow_gate": 70,
+            "style_distillation_rights_boundary_gate": 72,
+            "screenplay_ast_yaml_adaptation_gate": 69,
+            "fanqie_publish_dryrun_boundary_gate": 71,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4884,6 +4938,24 @@ class NovelSourceDiscoveryService:
         if "context_scrubber_beat_anchor_gate" in patterns:
             targets.append("context_scrubber_beat_anchor_policy")
             targets.append("editor_markup_prompt_exclusion_policy")
+        if "longgu_engineering_harness_gate" in patterns:
+            targets.append("longgu_context_pack_budget_policy")
+            targets.append("audit_pacing_cost_evidence_policy")
+        if "prose_health_live_dashboard_gate" in patterns:
+            targets.append("prose_health_metric_band_policy")
+            targets.append("inline_todo_mtime_conflict_policy")
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            targets.append("raw_story_assimilation_approval_policy")
+            targets.append("finalized_chapter_continuity_policy")
+        if "style_distillation_rights_boundary_gate" in patterns:
+            targets.append("style_distillation_rights_clearance_policy")
+            targets.append("same_type_abstraction_only_policy")
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            targets.append("screenplay_ast_truth_source_policy")
+            targets.append("scene_card_yaml_schema_policy")
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            targets.append("fanqie_publish_dryrun_boundary_policy")
+            targets.append("revision_backup_before_overwrite_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5851,6 +5923,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["staged_scene_beat_transaction_report", "beat_card_preview_retry_apply_report"])
         if "context_scrubber_beat_anchor_gate" in patterns:
             targets.extend(["context_scrubber_markup_leakage_report", "beat_anchor_prompt_exclusion_report"])
+        if "longgu_engineering_harness_gate" in patterns:
+            targets.extend(["longgu_run_ledger_pacing_cost_report", "context_pack_budget_trim_report", "experiment_candidate_score_report"])
+        if "prose_health_live_dashboard_gate" in patterns:
+            targets.extend(["prose_health_dashboard_report", "mattr_mtld_sentence_rhythm_report", "character_location_cooccurrence_report"])
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            targets.extend(["raw_story_bible_outline_update_report", "six_layer_review_resolution_report", "finalized_continuity_writeback_report"])
+        if "style_distillation_rights_boundary_gate" in patterns:
+            targets.extend(["style_distillation_rights_risk_report", "same_type_leakage_boundary_report", "platform_text_exclusion_report"])
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            targets.extend(["screenplay_ast_yaml_coverage_report", "scene_card_source_segment_trace", "yaml_schema_validation_report"])
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            targets.extend(["fanqie_revision_backup_publish_report", "dryrun_upload_hold_report", "browser_publish_authority_boundary_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6658,6 +6742,18 @@ class NovelSourceDiscoveryService:
             hints.append("Draft from one staged beat card at a time: include beat intent, length target, preview status, retry count, and apply/accept decision before prose promotion.")
         if "context_scrubber_beat_anchor_gate" in patterns:
             hints.append("Run a beat-anchor scrubber before generation so editor HTML, nested beat controls, preview labels, and retry scaffolding stay out of the LLM context.")
+        if "longgu_engineering_harness_gate" in patterns:
+            hints.append("Before drafting, build a Longgu-style context pack with source refs, token budget, run id, audit target, pacing constraint, and cost-report expectation.")
+        if "prose_health_live_dashboard_gate" in patterns:
+            hints.append("Use prose-health metrics as diagnostics before rewrite: MATTR/MTLD band, sentence-rhythm variance, TODOs, character co-occurrence, and location stickiness.")
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            hints.append("For imported raw story, propose Bible and Outline updates first; write/rewrite only after approval, then run review before continuity writeback.")
+        if "style_distillation_rights_boundary_gate" in patterns:
+            hints.append("For same-type creation, distill only high-level rhythm, sentence, POV, and trope-control dimensions after rights clearance; never use platform-downloaded text as prompt context.")
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            hints.append("When adapting prose to script, pass through Scene Cards and a Screenplay AST truth source before YAML export; do not treat free-form prose as the final deliverable.")
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            hints.append("Before any publishing-adjacent action, require dry-run, small-batch scope, manual review of _ai_revisions, backup-before-overwrite, and an explicit publish hold.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7175,6 +7271,18 @@ class NovelSourceDiscoveryService:
             hints.append("Persist beat-card transaction state: intent, length target, preview draft id, retry count, apply decision, inserted span id, and completed marker.")
         if "context_scrubber_beat_anchor_gate" in patterns:
             hints.append("Persist scrubber input/output checksums and any removed beat-anchor/editor-markup counts so context loss or markup leakage can be audited.")
+        if "longgu_engineering_harness_gate" in patterns:
+            hints.append("Persist context-pack checksum, run id, audit report path, pacing report path, model-cost estimate, and experiment candidate id for each accepted chapter.")
+        if "prose_health_live_dashboard_gate" in patterns:
+            hints.append("Persist prose-health snapshot with MATTR, MTLD, sentence-rhythm variance, TODO ids, mtime baseline, and co-occurrence deltas before accepting edits.")
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            hints.append("Persist raw-story assimilation state: source manifest id, proposed Bible delta, proposed Outline delta, approval decision, review result, and finalized continuity update.")
+        if "style_distillation_rights_boundary_gate" in patterns:
+            hints.append("Persist rights decision, source posture, allowed abstraction axes, forbidden source-specific entities, and same-type leakage review id before style reuse.")
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            hints.append("Persist normalized-markdown checksum, chapter/segment ids, Story Bible id, Scene Card ids, Screenplay AST version, and YAML schema validation result.")
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            hints.append("Persist dry-run range, _ai_revisions draft path, human approval, backup path, upload checkpoint, and publish-hold decision without storing browser session data.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -10912,6 +11020,60 @@ class NovelSourceDiscoveryService:
             "Shot packs are reusable structure, not reusable content; character continuity, object focus, and episode-to-episode continuity must be rechecked before handoff.",
         ]
 
+    def _build_longgu_engineering_harness_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "longgu_engineering_harness_gate" not in patterns:
+            return []
+        return [
+            "Treat each long-form run as an inspectable harness step: plan, context pack, draft, audit, feedback, pacing, cost, and experiment score all need file-backed evidence.",
+            "Context packs should state source refs, max-token trim, human-readable summary card, platform constraint, and the exact chapter id they are allowed to serve.",
+            "A chapter is not ready for canon promotion until audit output, pacing/cost notes, and reviewer feedback are linked to the accepted draft id.",
+        ]
+
+    def _build_prose_health_live_dashboard_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "prose_health_live_dashboard_gate" not in patterns:
+            return []
+        return [
+            "Prose-health dashboards should keep MATTR, MTLD, sentence-rhythm variance, character presence, location stickiness, and co-occurrence separate from plot canon.",
+            "Inline TODO/NOTE comments are author workflow markers; strip them from generation context unless explicitly cited as accepted revision tasks.",
+            "Before applying an AI edit, compare file mtime or version id so an external editor change cannot be overwritten by a stale dashboard draft.",
+        ]
+
+    def _build_raw_story_assimilation_workflow_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "raw_story_assimilation_workflow_gate" not in patterns:
+            return []
+        return [
+            "Raw-story assimilation must first emit proposed Story Bible and Outline deltas; these stay proposals until the author approves them.",
+            "Run review diagnosis before revision, and only allow finalized chapters to update continuity state.",
+            "Keep the phase order explicit: Bible → Outline → Write → Review → Revise → Continuity, with no hidden prompt-body or skill-pack import.",
+        ]
+
+    def _build_style_distillation_rights_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "style_distillation_rights_boundary_gate" not in patterns:
+            return []
+        return [
+            "Style distillation starts with a rights and source-posture decision; protected platform text, crawler output, account data, and browser automation artifacts are excluded.",
+            "Allowed reuse is abstract only: rhythm, sentence-length tendency, POV distance, dialogue density, pacing curve, and trope-control dimensions.",
+            "Same-type drafts must pass leakage review for source names, PUA-decoded artifacts, platform chapter text, distinctive events, and author-specific phrasing.",
+        ]
+
+    def _build_screenplay_ast_yaml_adaptation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "screenplay_ast_yaml_adaptation_gate" not in patterns:
+            return []
+        return [
+            "Novel-to-screenplay adaptation should pass normalized markdown → chapter/segment → retrieval refs → Story Bible → Scene Cards → Screenplay AST → YAML.",
+            "The Screenplay AST is the internal truth source; YAML is an export that must be schema-validated and traceable back to scene cards and source segments.",
+            "Block one-click adaptation when source chapter count, segment coverage, scene-card coverage, or schema validation evidence is missing.",
+        ]
+
+    def _build_fanqie_publish_dryrun_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "fanqie_publish_dryrun_boundary_gate" not in patterns:
+            return []
+        return [
+            "Publishing-adjacent workflows must default to local dry-run, small chapter range, upload/publish hold, and no browser/session reuse without explicit runtime authorization.",
+            "_ai_revisions drafts require human review before overwrite; accepted overwrites need a backup path, checksum, and rollback note.",
+            "Progress checkpoints should track generated, revised, uploaded, and published chapter ids without storing account credentials or browser cookies.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -11091,6 +11253,24 @@ class NovelSourceDiscoveryService:
         if "context_scrubber_beat_anchor_gate" in patterns:
             targets.append("beat_anchor_scrubber_remap")
             targets.append("editor_markup_exclusion_remap")
+        if "longgu_engineering_harness_gate" in patterns:
+            targets.append("engineering_run_ledger_remap")
+            targets.append("context_pack_budget_remap")
+        if "prose_health_live_dashboard_gate" in patterns:
+            targets.append("prose_metric_dashboard_remap")
+            targets.append("inline_todo_revision_remap")
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            targets.append("raw_story_bible_outline_delta_remap")
+            targets.append("finalized_continuity_update_remap")
+        if "style_distillation_rights_boundary_gate" in patterns:
+            targets.append("rights_first_style_axis_remap")
+            targets.append("source_leakage_exception_remap")
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            targets.append("scene_card_ast_yaml_remap")
+            targets.append("source_segment_trace_remap")
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            targets.append("dryrun_publish_checkpoint_remap")
+            targets.append("ai_revision_backup_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -11745,6 +11925,18 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, turn source beat-card workflow into a new beat transaction contract with transformed intent, length, preview, retry, and apply rules.")
         if "context_scrubber_beat_anchor_gate" in patterns:
             hints.append("For same-type prompts, scrub source beat anchors and editor markup before drafting so scaffold labels cannot become prose or canon facts.")
+        if "longgu_engineering_harness_gate" in patterns:
+            hints.append("For same-type prompts, reuse the engineering harness shape only: context budget, audit target, pacing/cost report, and experiment score must be rebuilt for the new story.")
+        if "prose_health_live_dashboard_gate" in patterns:
+            hints.append("For same-type prompts, include prose-health targets as ranges and diagnostics, not as source-scene or source-voice facts.")
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            hints.append("For same-type prompts, treat raw-story assimilation outputs as proposed deltas; author approval is required before any Bible, Outline, or Continuity field enters context.")
+        if "style_distillation_rights_boundary_gate" in patterns:
+            hints.append("For same-type prompts, cite rights clearance and allowed abstract style axes before drafting; platform-downloaded text and protected source chunks remain blocked.")
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            hints.append("For same-type adaptation prompts, remap chapter/segment refs into new Scene Cards and Screenplay AST fields before YAML or script generation.")
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            hints.append("For same-type serial workflows, keep _ai_revisions, dry-run ranges, backups, and publish checkpoints as safety gates, not as authorization to upload or publish.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12109,6 +12301,18 @@ class NovelSourceDiscoveryService:
             hints.append("Translate genre-tag intent into new type, theme, style, and audience promises before outlining the transformed premise.")
         if "story_theory_beat_evaluation" in patterns:
             hints.append("Map source beat functions to new beat functions, then change characters, causes, costs, and outcomes.")
+        if "longgu_engineering_harness_gate" in patterns:
+            hints.append("Transform the source workflow into a new run ledger: new chapter ids, new context refs, new pacing expectations, new audit criteria, and new cost/experiment rows.")
+        if "prose_health_live_dashboard_gate" in patterns:
+            hints.append("Transform prose metrics by setting new-story target bands for lexical variety, sentence rhythm, TODO triage, character presence, and location stickiness.")
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            hints.append("Transform raw-story input into approved Bible/Outline deltas and finalized continuity changes; source order and raw plot facts cannot bypass review.")
+        if "style_distillation_rights_boundary_gate" in patterns:
+            hints.append("Transform style into abstract axes only—rhythm, density, POV, dialogue ratio, emotional temperature—then replace events, names, hooks, and world rules.")
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            hints.append("Transform prose into script through AST-level fields: scene purpose, dialogue function, visual action, continuity refs, and schema-valid YAML output.")
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            hints.append("Transform publishing workflows into local safety state: draft revision, backup, dry-run, upload checkpoint, and manual publish decision for the new book only.")
         if "constraint_specificity_creativity_benchmark" in patterns:
             hints.append("Use specific constraints for the new story's premise, not for recreating source event details.")
         if "style_axis_diversity_fingerprint" in patterns:
@@ -12270,6 +12474,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform beat intent, length target, motive, obstacle, preview criteria, and apply condition before using a scene beat card for same-type drafting.")
         if "context_scrubber_beat_anchor_gate" in patterns:
             hints.append("Transform scrubber rules into a local preflight: remove source/editor beat anchors first, then rebuild context from transformed narrative spans only.")
+        if "longgu_engineering_harness_gate" in patterns:
+            hints.append("Transform engineering harness evidence into new run ledgers with fresh chapter ids, context refs, audit criteria, pacing targets, cost rows, and experiment scores.")
+        if "prose_health_live_dashboard_gate" in patterns:
+            hints.append("Transform prose dashboard findings into target bands and diagnostics for the new manuscript; source TODO wording, co-occurrence order, and metric snapshots are not reusable story facts.")
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            hints.append("Transform raw-story assimilation through approved Bible and Outline deltas first, then write continuity only after review and finalized-chapter acceptance.")
+        if "style_distillation_rights_boundary_gate" in patterns:
+            hints.append("Transform style through abstract axes only: rhythm, sentence density, POV distance, dialogue ratio, emotional temperature, and trope control; replace events, names, hooks, and world rules.")
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            hints.append("Transform novel-to-screenplay work through fresh Scene Cards, Screenplay AST fields, schema-valid YAML, and source-segment traceability for the new adaptation scope.")
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            hints.append("Transform publishing-adjacent workflows into local safety state: revision drafts, backups, dry-run ranges, upload checkpoints, and manual publish decisions for the new book only.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -12819,6 +13035,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject beat-card drafts when preview/retry/apply history is missing or when the source beat sequence is accepted as a new-story scene route.")
         if "context_scrubber_beat_anchor_gate" in patterns:
             hints.append("Reject prompts and drafts that still contain raw beat anchors, nested HTML beat nodes, editor buttons, or scaffold labels after scrubbing.")
+        if "longgu_engineering_harness_gate" in patterns:
+            hints.append("Reject runs that lack context-pack checksum, audit path, pacing/cost evidence, or that reuse source run ids, chapter ids, or evaluation notes as new-story canon.")
+        if "prose_health_live_dashboard_gate" in patterns:
+            hints.append("Reject edits based on stale mtime, copied inline TODO wording, source co-occurrence order, or metric chasing that flattens transformed character voice.")
+        if "raw_story_assimilation_workflow_gate" in patterns:
+            hints.append("Reject raw-story assimilation when proposed Bible/Outline deltas are unapproved, review was skipped, or source plot order enters continuity as accepted history.")
+        if "style_distillation_rights_boundary_gate" in patterns:
+            hints.append("Reject drafts that include protected platform text, PUA-decoded artifacts, crawler output, distinctive source phrases, source names, or unlicensed author-style cloning.")
+        if "screenplay_ast_yaml_adaptation_gate" in patterns:
+            hints.append("Reject adaptations whose AST/YAML preserves source scene order, dialogue labels, chapter ids, or source segment text without an explicit authorized adaptation scope.")
+        if "fanqie_publish_dryrun_boundary_gate" in patterns:
+            hints.append("Reject publishing-adjacent runs without dry-run evidence, backup-before-overwrite, human approval of _ai_revisions, and explicit no-upload/no-publish boundary.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -13399,6 +13627,12 @@ class NovelSourceDiscoveryService:
                 "local_storage_story_bible_snapshot_gate",
                 "staged_scene_beat_card_transaction_gate",
                 "context_scrubber_beat_anchor_gate",
+                "longgu_engineering_harness_gate",
+                "prose_health_live_dashboard_gate",
+                "raw_story_assimilation_workflow_gate",
+                "style_distillation_rights_boundary_gate",
+                "screenplay_ast_yaml_adaptation_gate",
+                "fanqie_publish_dryrun_boundary_gate",
                 "pdf_layout_text_extraction_gate",
                 "ocr_scanned_page_import_gate",
                 "document_partition_chapter_detection_gate",

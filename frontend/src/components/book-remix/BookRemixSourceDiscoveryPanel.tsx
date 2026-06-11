@@ -253,6 +253,12 @@ const PINNED_HINT_KEYS = new Set([
   'ebook_accessibility_audit_gate_hints',
   'front_back_matter_metadata_gate_hints',
   'toc_navigation_consistency_gate_hints',
+  'longgu_engineering_harness_gate_hints',
+  'prose_health_live_dashboard_gate_hints',
+  'raw_story_assimilation_workflow_gate_hints',
+  'style_distillation_rights_boundary_gate_hints',
+  'screenplay_ast_yaml_adaptation_gate_hints',
+  'fanqie_publish_dryrun_boundary_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -794,6 +800,14 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Ebook accessibility audit gates', patternPackPayload?.ebook_accessibility_audit_gate_hints],
               ['Front/back matter metadata gates', patternPackPayload?.front_back_matter_metadata_gate_hints],
               ['TOC navigation consistency gates', patternPackPayload?.toc_navigation_consistency_gate_hints],
+            ])}
+            {renderHintGroup('Engineering harness / rights / adaptation gates', [
+              ['Longgu engineering harness gates', patternPackPayload?.longgu_engineering_harness_gate_hints],
+              ['Prose health live dashboard gates', patternPackPayload?.prose_health_live_dashboard_gate_hints],
+              ['Raw story assimilation workflow gates', patternPackPayload?.raw_story_assimilation_workflow_gate_hints],
+              ['Style distillation rights boundaries', patternPackPayload?.style_distillation_rights_boundary_gate_hints],
+              ['Screenplay AST / YAML adaptation gates', patternPackPayload?.screenplay_ast_yaml_adaptation_gate_hints],
+              ['Fanqie publish dry-run boundaries', patternPackPayload?.fanqie_publish_dryrun_boundary_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>
