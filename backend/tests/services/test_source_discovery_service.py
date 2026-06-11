@@ -13071,3 +13071,102 @@ def test_static_novelforge_ai_source_adds_versioned_scene_fact_review_pipeline_g
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "versioned_scene_fact_review_pipeline_gate_hints" in digest
+
+
+def test_static_style_axis_and_local_editor_sources_add_voice_block_revision_gates():
+    assert "https://github.com/viktorbezdek/definitive-llm-writing-style-guide" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jpotts18/stylometry" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/egonSchiele/chisel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("llm writing style" in query.lower() and "style dimensions" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("stylometry" in query.lower() and "feature extraction" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("local writing app" in query.lower() and "chapter blocks" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "viktorbezdek/definitive-llm-writing-style-guide",
+                "html_url": "https://github.com/viktorbezdek/definitive-llm-writing-style-guide",
+                "description": (
+                    "Definitive guide to LLM writing styles with personality traits, cultural background, "
+                    "narrative techniques, tone, persona, linguistic identity, style dimensions, "
+                    "agreeableness, openness, conscientiousness, metaphor, archaism and ethical responsibility."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["llm", "writing-style", "persona", "creative-writing"],
+                "updated_at": "2026-06-11T06:20:00Z",
+                "root_files": ["README.md"],
+            },
+            {
+                "full_name": "jpotts18/stylometry",
+                "html_url": "https://github.com/jpotts18/stylometry",
+                "description": (
+                    "Stylometry reference library for extracting features from text using NLTK. "
+                    "It studies linguistic style, authorship attribution, anonymous documents, "
+                    "raw text feature extraction and statistical analysis of written language."
+                ),
+                "stargazers_count": 42,
+                "forks_count": 12,
+                "license": None,
+                "topics": ["stylometry", "feature-extraction", "authorship-attribution"],
+                "updated_at": "2024-12-10T09:00:00Z",
+                "root_files": ["README.md", "setup.py", "stylometry"],
+            },
+            {
+                "full_name": "egonSchiele/chisel",
+                "html_url": "https://github.com/egonSchiele/chisel",
+                "description": (
+                    "Chisel is a local writing app for organizing book chapters into blocks, "
+                    "local private data, AI editing help, speech-to-text via whisper.cpp, "
+                    "llama.cpp local models, OpenAI API key option, releases/release/ downloads, "
+                    "and native app binary distribution."
+                ),
+                "stargazers_count": 240,
+                "forks_count": 8,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["writing-app", "local-first", "book", "llama-cpp"],
+                "updated_at": "2026-04-28T12:00:00Z",
+                "root_files": ["README.md", "LICENSE", "src", "releases", "package.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T18:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    style_guide = candidates["viktorbezdek/definitive-llm-writing-style-guide"]
+    stylometry = candidates["jpotts18/stylometry"]
+    chisel = candidates["egonSchiele/chisel"]
+    assert "llm_style_dimension_matrix_gate" in style_guide["absorbed_patterns"]
+    assert "stylometry_feature_extraction_baseline_gate" in stylometry["absorbed_patterns"]
+    assert "local_block_manuscript_workspace_gate" in chisel["absorbed_patterns"]
+    assert "license:missing" in style_guide["trust_review"]["flags"]
+    assert "license:missing" in stylometry["trust_review"]["flags"]
+    assert "binary_distribution" in chisel["risk_flags"]
+    assert "provider_key_surface" in chisel["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "llm_style_dimension_matrix_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "stylometry_feature_baseline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_block_manuscript_workspace_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "llm_style_dimension_matrix_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "stylometry_feature_baseline_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "local_block_workspace_revision_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_dimension_matrix_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "stylometry_feature_baseline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "local_block_revision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("personality" in hint for hint in pattern_pack["llm_style_dimension_matrix_gate_hints"])
+    assert any("feature extraction" in hint for hint in pattern_pack["stylometry_feature_extraction_baseline_gate_hints"])
+    assert any("chapter blocks" in hint for hint in pattern_pack["local_block_manuscript_workspace_gate_hints"])
+    assert any("style dimension matrix" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("chapter-block" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("style dimensions" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("stylometric feature ranges" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("persona/style matrix" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "llm_style_dimension_matrix_gate_hints" in digest
+    assert "stylometry_feature_extraction_baseline_gate_hints" in digest
+    assert "local_block_manuscript_workspace_gate_hints" in digest

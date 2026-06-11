@@ -132,6 +132,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("style change detection" OR "style breach detection" OR "intrinsic plagiarism") ("stylometry" OR "PAN") in:name,description,readme',
     '("stylometric transfer" OR "author-style transfer" OR "style fingerprint") ("LLM" OR "writing" OR "text") in:name,description,readme',
     '("anti-stylometry" OR "style anonymization" OR "paraphrase independence") ("text" OR "writing") in:name,description,readme',
+    '("LLM writing style" OR "style dimensions" OR "persona style matrix") ("personality traits" OR "narrative techniques" OR "ethical responsibility") in:name,description,readme',
+    '("stylometry" OR "authorship attribution" OR "linguistic style") ("feature extraction" OR "raw text features" OR "statistical analysis") in:name,description,readme',
+    '("local writing app" OR "book writing app" OR "chapter blocks") ("local private data" OR "AI editing" OR "manuscript blocks") in:name,description,readme',
     '("keyphrase extraction" OR "keyword extraction" OR "motif extraction") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
     '("semantic chunk" OR "text splitter" OR "recursive character splitter") ("novel" OR "chapter" OR "long text") in:name,description,readme',
     '("summarization" OR "extractive summarizer" OR "chapter summary") ("novel" OR "book" OR "long text") in:name,description,readme',
@@ -512,6 +515,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ngpepin/stylometric-transfer",
     "https://github.com/ContextLab/llm-stylometry",
     "https://github.com/llm-authorship/survey",
+    "https://github.com/viktorbezdek/definitive-llm-writing-style-guide",
+    "https://github.com/jpotts18/stylometry",
+    "https://github.com/egonSchiele/chisel",
     "https://github.com/LSYS/LexicalRichness",
     "https://github.com/HLasse/TextDescriptives",
     "https://github.com/boudinfl/pke",
@@ -956,6 +962,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("authorship_attribution_similarity_gate", ("authorship attribution", "author identification", "author verification", "author profiling", "style similarity", "cosine similarity between titles", "pan corpora", "pan shared tasks", "burrows delta", "cross-entropy", "llm stylometry")),
     ("style_overfit_regression_gate", ("style change detection", "style breach detection", "intrinsic plagiarism", "style change", "style breach", "detecting exact indices", "neighboring paragraphs", "cluster change", "style differences", "overfit", "overfitting", "style leakage")),
     ("paraphrase_independence_review_gate", ("anti-stylometry", "style anonymization", "stylometric transfer", "author-style transfer", "humanization", "similarity methods", "style constraints", "style transfer", "paraphrase", "paraphrase independence", "copy-risk", "author voice mimicry")),
+    ("llm_style_dimension_matrix_gate", ("definitive guide to llm writing styles", "llm writing styles", "personality traits", "cultural background", "narrative techniques", "linguistic identity", "style dimensions", "persona style matrix")),
+    ("stylometry_feature_extraction_baseline_gate", ("stylometry reference library", "extracting features from text", "raw text feature extraction", "statistical analysis of written language", "linguistic style", "anonymous documents")),
+    ("local_block_manuscript_workspace_gate", ("chisel", "local writing app", "organize your chapters into blocks", "chapter blocks", "local private data", "ai editing help", "whisper.cpp", "llama.cpp")),
     ("keyphrase_motif_extraction", ("keyphrase extraction", "keyword extraction", "keyphrase candidates", "candidate weighting", "motif extraction", "motif drift", "topic salience")),
     ("chinese_segmentation_keyword_gate", ("chinese word segmentation", "jieba", "hanlp", "ltp", "tokenization", "tokenizer", "segmentation", "word segment", "keyword extraction", "tf-idf", "textrank", "custom dictionary", "user dictionary", "\u4e2d\u6587\u5206\u8bcd", "\u5173\u952e\u8bcd\u63d0\u53d6", "\u81ea\u5b9a\u4e49\u8bcd\u5178")),
     ("chinese_ner_alias_consistency_gate", ("chinese ner", "named entity recognition", "ner", "hanlp", "ltp", "chinese-literature-ner-re-dataset", "discourse-level named entity", "literature text", "relation extraction", "entity recognition", "person name", "location name", "organization name", "alias", "coreference", "entity linking", "\u5b9e\u4f53\u8bc6\u522b", "\u4eba\u540d", "\u5730\u540d", "\u7ec4\u7ec7\u540d", "\u522b\u540d")),
@@ -2171,6 +2180,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "llm-authorship/survey": (
         "Authorship Attribution in the Era of LLMs is a paper list covering human author attribution, LLM detection, model attribution, and human-LLM coauthoring. "
         "Absorb taxonomy and independence-review gates only; survey index content stays pattern-only."
+    ),
+    "viktorbezdek/definitive-llm-writing-style-guide": (
+        "Definitive LLM Writing Style Guide is a public style-dimension essay covering personality traits, cultural background, narrative techniques, linguistic identity, persona controls, and ethical responsibility. "
+        "Absorb an abstract style-dimension matrix only; no named-author clone profile, prompt body, or source prose is imported."
+    ),
+    "jpotts18/stylometry": (
+        "Stylometry is a reference NLP project for extracting measurable linguistic-style features from raw text, with authorship-attribution framing and statistical analysis. "
+        "Absorb feature-baseline vocabulary for style drift and independence review only; package runtime and examples are not executed."
+    ),
+    "egonschiele/chisel": (
+        "Chisel is a local writing app for book authors. Public README describes local/private data, AI editing help, speech-to-text, local llama.cpp models, optional OpenAI API, and organizing chapters into blocks. "
+        "Absorb local block-based manuscript workspace patterns only; native app releases, local model runtimes, speech tooling, and provider calls are not launched."
     ),
     "lsys/lexicalrichness": (
         "LexicalRichness is an MIT module for lexical richness and diversity metrics such as MTLD, HD-D, and type-token variants. "
@@ -3468,6 +3489,9 @@ class NovelSourceDiscoveryService:
             "authorship_attribution_similarity_gate_hints": self._build_authorship_attribution_similarity_gate_hints(available_patterns),
             "style_overfit_regression_gate_hints": self._build_style_overfit_regression_gate_hints(available_patterns),
             "paraphrase_independence_review_gate_hints": self._build_paraphrase_independence_review_gate_hints(available_patterns),
+            "llm_style_dimension_matrix_gate_hints": self._build_llm_style_dimension_matrix_gate_hints(available_patterns),
+            "stylometry_feature_extraction_baseline_gate_hints": self._build_stylometry_feature_extraction_baseline_gate_hints(available_patterns),
+            "local_block_manuscript_workspace_gate_hints": self._build_local_block_manuscript_workspace_gate_hints(available_patterns),
             "keyphrase_motif_extraction_hints": self._build_keyphrase_motif_extraction_hints(available_patterns),
             "chinese_segmentation_keyword_gate_hints": self._build_chinese_segmentation_keyword_gate_hints(available_patterns),
             "chinese_ner_alias_consistency_gate_hints": self._build_chinese_ner_alias_consistency_gate_hints(available_patterns),
@@ -4175,6 +4199,9 @@ class NovelSourceDiscoveryService:
             "authorship_attribution_similarity_gate": 66,
             "style_overfit_regression_gate": 67,
             "paraphrase_independence_review_gate": 67,
+            "llm_style_dimension_matrix_gate": 68,
+            "stylometry_feature_extraction_baseline_gate": 67,
+            "local_block_manuscript_workspace_gate": 66,
             "keyphrase_motif_extraction": 58,
             "chinese_segmentation_keyword_gate": 62,
             "chinese_ner_alias_consistency_gate": 63,
@@ -5164,6 +5191,14 @@ class NovelSourceDiscoveryService:
         if "paraphrase_independence_review_gate" in patterns:
             targets.append("paraphrase_independence_review_policy")
             targets.append("style_transfer_boundary_rules")
+        if "llm_style_dimension_matrix_gate" in patterns:
+            targets.append("llm_style_dimension_matrix_policy")
+            targets.append("abstract_voice_persona_boundary")
+        if "stylometry_feature_extraction_baseline_gate" in patterns:
+            targets.append("stylometry_feature_baseline_policy")
+        if "local_block_manuscript_workspace_gate" in patterns:
+            targets.append("local_block_manuscript_workspace_policy")
+            targets.append("block_revision_private_data_boundary")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_ledger")
             targets.append("motif_topic_drift_rules")
@@ -5798,6 +5833,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["style_overfit_regression_report", "style_change_window_findings", "source_voice_leakage_failures"])
         if "paraphrase_independence_review_gate" in patterns:
             targets.extend(["paraphrase_independence_report", "style_transfer_boundary_findings", "author_voice_mimicry_risk_notes"])
+        if "llm_style_dimension_matrix_gate" in patterns:
+            targets.extend(["llm_style_dimension_matrix_report", "abstract_voice_persona_boundary_findings"])
+        if "stylometry_feature_extraction_baseline_gate" in patterns:
+            targets.extend(["stylometry_feature_baseline_report", "style_feature_drift_findings"])
+        if "local_block_manuscript_workspace_gate" in patterns:
+            targets.extend(["local_block_workspace_revision_report", "private_local_block_boundary_findings"])
         if "keyphrase_motif_extraction" in patterns:
             targets.extend(["keyphrase_motif_map", "motif_drift_findings", "topic_keyword_salience"])
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -6341,6 +6382,12 @@ class NovelSourceDiscoveryService:
             hints.append("For branching adaptation or alternate continuation, cite source chapter cards, character cards, style fingerprint axes, choice count, state variables, and save/resume boundary before drafting scenes.")
         if "forensic_style_clone_audit_risk_gate" in patterns:
             hints.append("For style audit or same-type drafting, declare audit/remap mode, sample corpus provenance, selected forensic dimensions, and no-clone boundary before producing prose.")
+        if "llm_style_dimension_matrix_gate" in patterns:
+            hints.append("Before continuation, state the style dimension matrix for the accepted book voice: personality pressure, tone, diction, rhythm, imagery, narrative technique, and no-clone boundary.")
+        if "stylometry_feature_extraction_baseline_gate" in patterns:
+            hints.append("Before continuation, use stylometry feature baselines as drift diagnostics for accepted chapters; do not ask the draft to match a source author's measurable signature.")
+        if "local_block_manuscript_workspace_gate" in patterns:
+            hints.append("Before continuation or revision, select one chapter-block scope, neighboring-block context, revision intent, and local/private-data boundary.")
         if "story_import_pattern_revision_gate" in patterns:
             hints.append("Before sequel, alternate, or same-type generation from an existing story, declare story import pass ids, pattern extraction scope, generation mode, canon packet, and revision conflict boundary.")
         if "consequence_ledger_last_actions_context_gate" in patterns:
@@ -6810,6 +6857,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist chapter card ids, character card ids, branch choice ids, state variable deltas, save point ids, ending type, and divergence notes for every interactive adaptation run.")
         if "forensic_style_clone_audit_risk_gate" in patterns:
             hints.append("Persist style sample provenance, consent/license posture, forensic dimension confidence, audit-vs-remap mode, drift findings, and copy-risk reviewer decision.")
+        if "llm_style_dimension_matrix_gate" in patterns:
+            hints.append("Persist the style dimension matrix as abstract voice state with source-boundary notes, accepted scene overrides, and blocked author-clone controls.")
+        if "stylometry_feature_extraction_baseline_gate" in patterns:
+            hints.append("Persist stylometry feature baselines, comparison corpus ids, drift thresholds, review decisions, and independence notes separately from drafting prose.")
+        if "local_block_manuscript_workspace_gate" in patterns:
+            hints.append("Persist chapter-block ids, neighboring-block context, revision history, accept/reject status, and local/private-data boundary for every block-scoped edit.")
         if "story_import_pattern_revision_gate" in patterns:
             hints.append("Persist source import pass ids, chunk boundaries, extracted pattern profile ids, generation mode, draft artifact ids, version conflict findings, revision pass status, and promote-to-manuscript decision.")
         if "consequence_ledger_last_actions_context_gate" in patterns:
@@ -8980,6 +9033,33 @@ class NovelSourceDiscoveryService:
             "Humanization or style-transfer prompts must include copy-risk rejection, provenance, and author-visible accept/ignore decisions.",
         ]
 
+    def _build_llm_style_dimension_matrix_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "llm_style_dimension_matrix_gate" not in patterns:
+            return []
+        return [
+            "Use personality, tone, cultural background, narrative technique, diction, rhythm, and imagery as editable style dimensions, not as an author-clone recipe.",
+            "For continuation, bind style dimensions to accepted book voice and current scene purpose before prose; scene overrides must not overrule canon or copy-risk limits.",
+            "For same-type writing, transform style dimensions into a new voice profile with blocked source phrases, tics, metaphors, and persona labels.",
+        ]
+
+    def _build_stylometry_feature_extraction_baseline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "stylometry_feature_extraction_baseline_gate" not in patterns:
+            return []
+        return [
+            "Use stylometry feature extraction for sentence length, readability, vocabulary richness, function words, and frequency baselines before judging style drift.",
+            "Treat feature ranges as diagnostic evidence; they should trigger review notes, not automatic rewrites toward a source author.",
+            "Compare accepted chapters, candidate drafts, and source references in separate windows so same-type drafts can prove independence.",
+        ]
+
+    def _build_local_block_manuscript_workspace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_block_manuscript_workspace_gate" not in patterns:
+            return []
+        return [
+            "Organize long manuscripts as chapter blocks with stable ids, local/private data boundaries, and explicit neighboring-block context.",
+            "AI editing help should produce block-scoped proposals with revision history and acceptance status instead of silently rewriting the whole manuscript.",
+            "Local model, speech, native release, and provider-key surfaces remain runtime-deferred; source discovery absorbs only workspace and revision patterns.",
+        ]
+
     def _build_keyphrase_motif_extraction_hints(self, patterns: set[str]) -> list[str]:
         if "keyphrase_motif_extraction" not in patterns:
             return []
@@ -10695,6 +10775,12 @@ class NovelSourceDiscoveryService:
             targets.append("style_overfit_regression_remap")
         if "paraphrase_independence_review_gate" in patterns:
             targets.append("paraphrase_independence_policy_remap")
+        if "llm_style_dimension_matrix_gate" in patterns:
+            targets.append("style_dimension_matrix_remap")
+        if "stylometry_feature_extraction_baseline_gate" in patterns:
+            targets.append("stylometry_feature_baseline_remap")
+        if "local_block_manuscript_workspace_gate" in patterns:
+            targets.append("local_block_revision_remap")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_remap")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -11277,6 +11363,12 @@ class NovelSourceDiscoveryService:
             hints.append("Run style-overfit regression after paraphrase and polish passes so source voice leakage cannot survive renamed entities.")
         if "paraphrase_independence_review_gate" in patterns:
             hints.append("Require paraphrase-independence evidence before accepting inspired prose, not only surface renaming or grammar cleanup.")
+        if "llm_style_dimension_matrix_gate" in patterns:
+            hints.append("State the abstract style dimensions in a matrix for this chapter: personality, tone, narrative technique, diction, rhythm, and ethical boundary.")
+        if "stylometry_feature_extraction_baseline_gate" in patterns:
+            hints.append("Use stylometry feature baselines as audit ranges only; drafting prompts should not require matching a source author's measurable signature.")
+        if "local_block_manuscript_workspace_gate" in patterns:
+            hints.append("Draft against one chapter-block scope at a time with block id, neighboring blocks, revision intent, and local/private-data boundary visible.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -11740,6 +11832,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform style-change test windows into regression fixtures that catch source voice leakage after every major prompt change.")
         if "paraphrase_independence_review_gate" in patterns:
             hints.append("Transform style-transfer prompts by separating allowed abstract voice goals from blocked phrase families, tics, and scene-order cues.")
+        if "llm_style_dimension_matrix_gate" in patterns:
+            hints.append("Transform style dimensions into a new persona/style matrix with fresh diction, rhythm, imagery, and narrative-technique choices.")
+        if "stylometry_feature_extraction_baseline_gate" in patterns:
+            hints.append("Transform stylometric feature ranges into review thresholds, then choose changes that move away from source-author similarity.")
+        if "local_block_manuscript_workspace_gate" in patterns:
+            hints.append("Transform block-workspace lessons into local chapter ids, adjacent-context windows, and accepted/rejected revision records for the new manuscript.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -12321,6 +12419,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject prompt or polish changes that improve style resemblance while increasing source-voice leakage in regression windows.")
         if "paraphrase_independence_review_gate" in patterns:
             hints.append("Reject paraphrases that pass surface-copy checks but keep source phrase families, cadence, or author-mimicry constraints.")
+        if "llm_style_dimension_matrix_gate" in patterns:
+            hints.append("Reject persona/style matrix use when it encodes a named author's clone profile, source phrase families, signature metaphors, or manipulation goals.")
+        if "stylometry_feature_extraction_baseline_gate" in patterns:
+            hints.append("Reject drafts that improve stylometry similarity to the source while preserving source sentence-length cadence, function-word pattern, or vocabulary fingerprint.")
+        if "local_block_manuscript_workspace_gate" in patterns:
+            hints.append("Reject block revisions when source blocks, native-app artifacts, speech transcripts, or provider-generated edits overwrite accepted canon without scoped review.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -12589,6 +12693,9 @@ class NovelSourceDiscoveryService:
                 "authorship_attribution_similarity_gate",
                 "style_overfit_regression_gate",
                 "paraphrase_independence_review_gate",
+                "llm_style_dimension_matrix_gate",
+                "stylometry_feature_extraction_baseline_gate",
+                "local_block_manuscript_workspace_gate",
                 "keyphrase_motif_extraction",
                 "chinese_segmentation_keyword_gate",
                 "chinese_ner_alias_consistency_gate",
