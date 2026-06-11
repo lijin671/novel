@@ -11943,3 +11943,83 @@ def test_static_work_dna_and_governed_reading_sources_add_continuation_gates():
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "work_dna_method_transfer_eval_gate_hints" in digest
     assert "governed_full_reading_continuation_gate_hints" in digest
+
+
+def test_static_gamebook_and_forensic_style_sources_add_branching_copy_risk_gates():
+    assert "https://github.com/alanl1234/gamebook" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/TABARC-Code/Forensic-Writing-Style-Analysis-Cloning-Claude-Skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("interactive gamebook" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("forensic style auditor" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "alanl1234/gamebook",
+                "html_url": "https://github.com/alanl1234/gamebook",
+                "description": (
+                    "Gamebook transforms any document into an interactive gamebook with "
+                    "chapter structure parsing, character extraction, style fingerprint, "
+                    "game structure, chapter cards, branching choices, multiple endings, "
+                    "save points, game state, and variable consequences."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["gamebook", "interactive-fiction", "ai-skill", "branching"],
+                "updated_at": "2026-06-03T18:42:09Z",
+                "root_files": ["README.md", "LICENSE", ".claude/skills", "SKILL.md"],
+            },
+            {
+                "full_name": "TABARC-Code/Forensic-Writing-Style-Analysis-Cloning-Claude-Skill",
+                "html_url": "https://github.com/TABARC-Code/Forensic-Writing-Style-Analysis-Cloning-Claude-Skill",
+                "description": (
+                    "Forensic Style Auditor performs forensic writing style analysis and cloning. "
+                    "It reverse-engineers any writer using ten forensic dimensions including "
+                    "sentence architecture, burstiness, paragraph cadence, lexical fingerprints, "
+                    "dialogue mechanics, clone key, drifted style checks, old/new rule pairs, "
+                    "and a pre-delivery checklist for continuation scenes."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["claude-skill", "style-analysis", "forensic-writing", "writing"],
+                "updated_at": "2026-05-10T21:39:36Z",
+                "root_files": ["README.md", "LICENSE", ".claude/skills", "SKILL.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T09:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    gamebook = candidates["alanl1234/gamebook"]
+    forensic = candidates["TABARC-Code/Forensic-Writing-Style-Analysis-Cloning-Claude-Skill"]
+    assert "document_gamebook_branching_adapter_gate" in gamebook["absorbed_patterns"]
+    assert "forensic_style_clone_audit_risk_gate" in forensic["absorbed_patterns"]
+    assert "skill_install_surface" in gamebook["risk_flags"]
+    assert "skill_install_surface" in forensic["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "branching_adaptation_contract" in pattern_pack["bible_enrichment_targets"]
+    assert "interactive_state_schema_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "forensic_style_dimension_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "style_clone_consent_boundary" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_branch_card_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "choice_consequence_state_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "forensic_style_dimension_audit_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "clone_drift_risk_review" in pattern_pack["whole_book_analysis_targets"]
+    assert "document_gamebook_branching_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "forensic_style_dimension_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("chapter cards" in hint for hint in pattern_pack["document_gamebook_branching_adapter_gate_hints"])
+    assert any("voice cloning" in hint for hint in pattern_pack["forensic_style_clone_audit_risk_gate_hints"])
+    assert any("branching adaptation" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("no-clone boundary" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("branch choice ids" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("consent/license posture" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("named-author clone" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("voice clone" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "document_gamebook_branching_adapter_gate_hints" in digest
+    assert "forensic_style_clone_audit_risk_gate_hints" in digest

@@ -203,6 +203,8 @@ export interface SourceDiscoveryPatternPack {
   project_isolated_story_bible_query_gate_hints?: string[];
   work_dna_method_transfer_eval_gate_hints?: string[];
   governed_full_reading_continuation_gate_hints?: string[];
+  document_gamebook_branching_adapter_gate_hints?: string[];
+  forensic_style_clone_audit_risk_gate_hints?: string[];
   long_term_author_preference_memory_hints?: string[];
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];

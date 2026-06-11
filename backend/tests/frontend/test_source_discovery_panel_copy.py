@@ -137,6 +137,8 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "project_isolated_story_bible_query_gate_hints",
             "work_dna_method_transfer_eval_gate_hints",
             "governed_full_reading_continuation_gate_hints",
+            "document_gamebook_branching_adapter_gate_hints",
+            "forensic_style_clone_audit_risk_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -298,6 +300,8 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Project-isolated story-bible query gates" in panel_text
     assert "Work-DNA method transfer/eval gates" in panel_text
     assert "Governed full-reading continuation gates" in panel_text
+    assert "Document gamebook branching adapter gates" in panel_text
+    assert "Forensic style clone/audit risk gates" in panel_text
     assert "Story daemon evolution loop gates" in panel_text
     assert "Local RAG / canon QA / patch replay gates" in panel_text
     assert "Local RAG writing IDE gates" in panel_text
