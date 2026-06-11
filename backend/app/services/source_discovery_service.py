@@ -313,6 +313,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("卡片" OR "结构化生成" OR "上下文注入" OR "知识图谱") "AI" in:name,description,readme',
     '("小说" OR "写作" OR "创作") "AI" in:name,description,readme',
     '("detect-only" OR "edit-in-place" OR "voice profile") ("AI writing patterns" OR "AI-isms" OR "prose fingerprints") in:name,description,readme',
+    '("horoscope test" OR "tiered scoring" OR "structural tells") ("AI slop" OR "AI writing patterns") in:name,description,readme',
+    '("personal voice" OR "model signature detection" OR "AI probability score") ("AI writing" OR "humanizer" OR "Claude Code skill") in:name,description,readme',
+    '("persistent narrative universe" OR "choices actually matter" OR "NovelAI-style memory") ("story" OR "chapter") in:name,description,readme',
     '("YAML frontmatter" OR "continuity questions" OR "promises/payoffs") ("story bible" OR "story skills" OR "chapter drafts") in:name,description,readme',
     '("local-first story bible" OR "continuity checker" OR "evidence-backed suggestions") ("fiction" OR "novel") in:name,description,readme',
     '("chainable expert AI" OR "alignment and creativity" OR "expert modules") ("writing framework" OR "AI writing") in:name,description,readme',
@@ -799,6 +802,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/proportionable-plaguespot199/novel-workflow",
     "https://github.com/silbaram/novel-writer",
     "https://github.com/forsonny/Claude-Code-Novel-Writer",
+    "https://github.com/jalaalrd/anti-ai-slop-writing",
+    "https://github.com/aplaceforallmystuff/the-antislop",
+    "https://github.com/sirambrosio/humanink",
+    "https://github.com/jonmartin721/living-story-world",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -3120,6 +3127,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "forsonny/claude-code-novel-writer": (
         "Claude-Code-Novel-Writer is a no-license-observed fantasy novel automation platform. Public README markers describe autonomous 100,000-word generation, adaptive quality control, self-healing error detection/recovery, smart planner, seven sub-agents, health check -> state sync -> quality analysis -> smart planning -> generation -> monitoring -> performance tracking loops, quality metrics for word count/dialogue ratio/sensory density/paragraph length/character consistency/world logic, quality modes, system-health.json, performance-metrics.json, quality-metrics.json, dashboard.py, shell scripts, and claude --dangerously-skip-permissions instructions. "
         "Pattern-only adaptation for adaptive quality monitoring, self-healing review queues, health/performance manifests, and autonomy-stop safeguards; shell scripts, dashboard runtime, Claude output-style installation, permission bypass mode, generated manuscripts, and automation hooks are not executed or imported."
+    ),
+    "jalaalrd/anti-ai-slop-writing": (
+        "anti-ai-slop-writing is a universal writing skill for Claude Code, Codex, Cursor, Gemini CLI, and chat tools; the public GitHub API did not expose a license object during intake. Public README markers describe statistically detectable AI writing patterns, banned word and phrase lists, banned sentence openers, structural-pattern review, punctuation/formatting tells, invented-statistic and fake-quote checks, and copying SKILL.md or .claude/skills installation paths. "
+        "Pattern-only adaptation for generic-AI-prose triage and anti-slop revision gates; upstream SKILL.md text, banned vocabulary files, marketplace/plugin installation, skill copying, chat prompt pasting, and external detection claims are not imported or executed."
+    ),
+    "aplaceforallmystuff/the-antislop": (
+        "The AntiSlop is a MIT Claude Code skill for detecting and fixing AI-generated writing patterns. Public README markers describe 35+ detection patterns, tiered severity scoring, editor mode rewrites, the horoscope test, structural tells such as staccato fragments, sentence uniformity, comparator sentences, manufactured personality, and ~/.claude/skills or npx skills installation paths. "
+        "Pattern-only adaptation for tiered anti-slop scoring and genericity rejection before same-type rewrites; upstream skill files, install commands, scanner claims, docs images, and rewrite examples are not imported or executed."
+    ),
+    "sirambrosio/humanink": (
+        "HumanInk is a MIT Markdown skill for Claude Code and Claude.ai. Public README markers describe AI writing detection, humanizing, 35 AI writing pattern checks, AI probability score, personal voice/style fingerprint, prose fingerprints, multi-language detection, model signature detection for ChatGPT/Claude/Gemini, and no-dependency skill usage. "
+        "Pattern-only adaptation for personal-voice preservation and model-signature risk review; upstream Markdown skill text, before/after examples, prompt bodies, and detected style signatures are not imported or executed."
+    ),
+    "jonmartin721/living-story-world": (
+        "Living Storyworld is a MIT persistent narrative universe generator. Public README markers describe NovelAI-style memory, characters remembering past events, locations building history, choices mattering going forward, knowledge graph consistency across generations, provider-agnostic text and image generation, streaming progress, world management, story world state, and API-key setup surfaces. "
+        "Pattern-only adaptation for persistent story-world memory, choice-consequence continuity, and provider-boundary separation; prebuilt executables, package installs, web server, text/image provider calls, API keys, generated chapters, screenshots, and release binaries are not executed or imported."
     ),
 
 }

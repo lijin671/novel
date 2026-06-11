@@ -14196,3 +14196,114 @@ def test_static_20260612_sources_add_command_manifest_adaptive_quality_gates():
     assert "slash_command_context_tier_state_gate_hints" in digest
     assert "dual_track_epub_manifest_pipeline_gate_hints" in digest
     assert "adaptive_quality_self_healing_autonomy_gate_hints" in digest
+
+
+def test_latest_ai_slop_and_persistent_story_sources_are_static_absorbed():
+    assert "https://github.com/jalaalrd/anti-ai-slop-writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/aplaceforallmystuff/the-antislop" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/sirambrosio/humanink" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jonmartin721/living-story-world" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("horoscope test" in query.lower() and "tiered scoring" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("personal voice" in query.lower() and "model signature detection" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("persistent narrative universe" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "jalaalrd/anti-ai-slop-writing",
+                "html_url": "https://github.com/jalaalrd/anti-ai-slop-writing",
+                "description": (
+                    "Universal writing skill for Claude Code, Codex, Cursor and Gemini CLI. "
+                    "It removes detectable AI writing patterns with banned words, banned phrases, "
+                    "structural-pattern review, punctuation tells, formatting tells and accuracy-failure checks."
+                ),
+                "stargazers_count": 153,
+                "forks_count": 28,
+                "license": None,
+                "topics": ["ai-writing", "skill", "writing"],
+                "updated_at": "2026-06-11T17:43:08Z",
+                "root_files": ["README.md", "SKILL.md", ".claude/skills"],
+            },
+            {
+                "full_name": "aplaceforallmystuff/the-antislop",
+                "html_url": "https://github.com/aplaceforallmystuff/the-antislop",
+                "description": (
+                    "Claude Code skill that detects and fixes AI-generated writing patterns with 35+ patterns, "
+                    "tiered severity scoring, editor mode, horoscope test, structural tells, staccato fragments, "
+                    "sentence uniformity and manufactured personality checks."
+                ),
+                "stargazers_count": 16,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["claude-code", "writing", "ai-slop"],
+                "updated_at": "2026-05-27T01:53:44Z",
+                "root_files": ["README.md", "LICENSE", "skills/antislop/SKILL.md", "package.json"],
+            },
+            {
+                "full_name": "sirambrosio/humanink",
+                "html_url": "https://github.com/sirambrosio/humanink",
+                "description": (
+                    "Markdown skill for AI writing detection, humanizing, 35 pattern checks, AI probability score, "
+                    "personal voice style fingerprint, multi-language detection and ChatGPT Claude Gemini model signature detection."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["claude-code", "writing", "humanizer"],
+                "updated_at": "2026-06-03T07:41:58Z",
+                "root_files": ["README.md", "LICENSE", "SKILL.md"],
+            },
+            {
+                "full_name": "jonmartin721/living-story-world",
+                "html_url": "https://github.com/jonmartin721/living-story-world",
+                "description": (
+                    "Persistent narrative universe generator with NovelAI-style memory. "
+                    "Characters remember past events, locations build history, choices actually matter, "
+                    "story world state remains consistent across chapters, and a knowledge graph is kept consistent across generations."
+                ),
+                "stargazers_count": 9,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story", "novel", "knowledge-graph", "memory"],
+                "updated_at": "2026-01-23T17:21:40Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml", ".env.example"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T12:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    anti_slop = candidates["jalaalrd/anti-ai-slop-writing"]
+    antislop_scored = candidates["aplaceforallmystuff/the-antislop"]
+    humanink = candidates["sirambrosio/humanink"]
+    living_story = candidates["jonmartin721/living-story-world"]
+
+    assert "anti_slop_rulepack_triage_gate" in anti_slop["absorbed_patterns"]
+    assert "ai_ism_detect_edit_convergence_gate" in anti_slop["absorbed_patterns"]
+    assert "anti_slop_rulepack_triage_gate" in antislop_scored["absorbed_patterns"]
+    assert "ai_ism_detect_edit_convergence_gate" in humanink["absorbed_patterns"]
+    assert "style_signature" in humanink["absorbed_patterns"]
+    assert "world_state_tracking" in living_story["absorbed_patterns"]
+    assert "branching_choice_graph" in living_story["absorbed_patterns"]
+    assert "skill_install_surface" in anti_slop["risk_flags"]
+    assert "provider_key_surface" in living_story["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "anti_slop_rulepack" in pattern_pack["bible_enrichment_targets"]
+    assert "ai_ism_detection_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "choice_branch_graph" in pattern_pack["bible_enrichment_targets"]
+    assert "anti_slop_rulepack_triage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ai_ism_detection_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "world_state_entities" in pattern_pack["whole_book_analysis_targets"]
+    assert "ai_ism_convergence_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "choice_branch_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("local specificity" in hint for hint in pattern_pack["anti_slop_rulepack_triage_gate_hints"])
+    assert any("voice-profile convergence log" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("source cadence" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "anti_slop_rulepack_triage_gate_hints" in digest
+    assert "ai_ism_detect_edit_convergence_gate_hints" in digest
+    assert "world_state_tracking_hints" in digest
