@@ -14518,3 +14518,156 @@ def test_latest_worldbuilder_orchestra_webnovel_dsl_sources_are_static_absorbed(
     assert "constraint_harness_review_worktree_gate_hints" in digest
     assert "serial_reader_reward_contract_gate_hints" in digest
     assert "branching_choice_graph_hints" in digest
+
+
+def test_latest_long_story_generation_research_sources_are_static_absorbed():
+    assert "https://github.com/FireRedTeam/FireRed-OpenStoryline" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/WyseOS/fictionx-story-gen" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/aiwaves-cn/RecurrentGPT" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/adbrei/RENarGen" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/KaiyangWan/CogWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("openstoryline" in query.lower() and "few-shot style transfer" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("character & outline agent" in query.lower() and "evaluation agent" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("recurrentgpt" in query.lower() and "next paragraph plan" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("renargen" in query.lower() and "bookend" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("cogwriter" in query.lower() and "strict requirements" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "FireRedTeam/FireRed-OpenStoryline",
+                "html_url": "https://github.com/FireRedTeam/FireRed-OpenStoryline",
+                "description": (
+                    "OpenStoryline supports AI Transition Generation from ending frame to opening frame, "
+                    "natural-language descriptions, context-aware narration, few-shot style transfer, "
+                    "Agent Skills, Agent Memory, OpenClaw setup, MCP, Docker and resource downloads."
+                ),
+                "stargazers_count": 28,
+                "forks_count": 2,
+                "license": None,
+                "topics": ["storyline", "video", "story-generation"],
+                "updated_at": "2026-06-12T10:00:00Z",
+                "root_files": ["README.md", "Dockerfile", "mcp_server", "resources", "skills"],
+            },
+            {
+                "full_name": "WyseOS/fictionx-story-gen",
+                "html_url": "https://github.com/WyseOS/fictionx-story-gen",
+                "description": (
+                    "Interactive Infinite Story Generation Framework with Multi-Agent Character & Outline Agent, "
+                    "Story Generation Agent, Evaluation Agent, hierarchical story tree, 4-8 different content "
+                    "renderings per leaf node, and consistency coherence commentary length evaluation. "
+                    "It references API keys, vector DB, Redis, Together, Replicate and image generation."
+                ),
+                "stargazers_count": 35,
+                "forks_count": 4,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story", "multi-agent", "llm"],
+                "updated_at": "2026-06-12T11:00:00Z",
+                "root_files": ["README.md", "docker-compose.yml", ".env.example", "backend", "frontend"],
+            },
+            {
+                "full_name": "aiwaves-cn/RecurrentGPT",
+                "html_url": "https://github.com/aiwaves-cn/RecurrentGPT",
+                "description": (
+                    "RecurrentGPT uses a natural-language LSTM recurrence for long-form story generation. "
+                    "Long-term memory summarizes all previous paragraphs, short-term memory summarizes recent "
+                    "timesteps, semantic search retrieves context, and a next paragraph plan can be selected "
+                    "or edited by a human. OpenAI API keys and demos are runtime surfaces."
+                ),
+                "stargazers_count": 780,
+                "forks_count": 65,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-generation", "memory", "llm"],
+                "updated_at": "2026-06-12T12:00:00Z",
+                "root_files": ["README.md", ".env.example", "demo.py", "scripts"],
+            },
+            {
+                "full_name": "adbrei/RENarGen",
+                "html_url": "https://github.com/adbrei/RENarGen",
+                "description": (
+                    "RENarGen studies narrative generation with bookend and related endpoints tasks: "
+                    "first and last sentences are related, the middle sentences are infilled, and "
+                    "narrative closure closes the loop."
+                ),
+                "stargazers_count": 19,
+                "forks_count": 3,
+                "license": None,
+                "topics": ["narrative", "story-generation", "research"],
+                "updated_at": "2026-06-12T13:00:00Z",
+                "root_files": ["README.md", "notebooks", "data", "requirements.txt"],
+            },
+            {
+                "full_name": "KaiyangWan/CogWriter",
+                "html_url": "https://github.com/KaiyangWan/CogWriter",
+                "description": (
+                    "CogWriter is a cognitive writing framework with strict requirements, a planning agent, "
+                    "a generation agent, and checks for coherence and requirement adherence. Runtime notes "
+                    "mention API key, vLLM, conda and pip surfaces."
+                ),
+                "stargazers_count": 42,
+                "forks_count": 5,
+                "license": None,
+                "topics": ["writing", "long-form", "llm"],
+                "updated_at": "2026-06-12T14:00:00Z",
+                "root_files": ["README.md", "requirements.txt", "environment.yml", "scripts"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T22:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    storyline = candidates["FireRedTeam/FireRed-OpenStoryline"]
+    fictionx = candidates["WyseOS/fictionx-story-gen"]
+    recurrent = candidates["aiwaves-cn/RecurrentGPT"]
+    renargen = candidates["adbrei/RENarGen"]
+    cogwriter = candidates["KaiyangWan/CogWriter"]
+
+    assert "open_storyline_media_style_transfer_boundary_gate" in storyline["absorbed_patterns"]
+    assert "hierarchical_story_tree_evaluation_agent_gate" in fictionx["absorbed_patterns"]
+    assert "recurrent_plan_memory_generation_gate" in recurrent["absorbed_patterns"]
+    assert "bookend_closure_infill_gate" in renargen["absorbed_patterns"]
+    assert "strict_requirement_planning_generation_gate" in cogwriter["absorbed_patterns"]
+    assert "mcp_server" in storyline["risk_flags"]
+    assert "docker" in storyline["risk_flags"]
+    assert "skill_install_surface" in storyline["risk_flags"]
+    assert "docker" in fictionx["risk_flags"]
+    assert "provider_key_surface" in fictionx["risk_flags"]
+    assert "provider_key_surface" in recurrent["risk_flags"]
+    assert "provider_key_surface" in cogwriter["risk_flags"]
+    assert "license:missing" in storyline["trust_review"]["flags"]
+    assert "license:missing" in renargen["trust_review"]["flags"]
+    assert "license:missing" in cogwriter["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "storyline_transition_bridge_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "hierarchical_story_tree_candidate_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "recurrent_plan_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "bookend_closure_contract_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "strict_requirement_checklist_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "style_transfer_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_render_evaluation_scorecard" in pattern_pack["whole_book_analysis_targets"]
+    assert "long_short_memory_update_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "opening_promise_payoff_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "strict_requirement_adherence_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "storyline_transition_bridge_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "hierarchical_story_tree_candidate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "recurrent_plan_memory_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "bookend_closure_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "strict_requirement_checklist_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("transition generation" in hint.lower() for hint in pattern_pack["open_storyline_media_style_transfer_boundary_gate_hints"])
+    assert any("leaf nodes" in hint.lower() for hint in pattern_pack["hierarchical_story_tree_evaluation_agent_gate_hints"])
+    assert any("long-term" in hint.lower() and "short-term" in hint.lower() for hint in pattern_pack["recurrent_plan_memory_generation_gate_hints"])
+    assert any("bookend contract" in hint.lower() for hint in pattern_pack["bookend_closure_infill_gate_hints"])
+    assert any("numbered checklist" in hint.lower() for hint in pattern_pack["strict_requirement_planning_generation_gate_hints"])
+    assert any("transformed transition states" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("opening promise" in hint.lower() and "ending payoff" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("copied checklist" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "open_storyline_media_style_transfer_boundary_gate_hints" in digest
+    assert "hierarchical_story_tree_evaluation_agent_gate_hints" in digest
+    assert "recurrent_plan_memory_generation_gate_hints" in digest
+    assert "bookend_closure_infill_gate_hints" in digest
+    assert "strict_requirement_planning_generation_gate_hints" in digest

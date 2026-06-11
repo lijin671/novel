@@ -381,6 +381,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("writers room" OR "scratch branch" OR "promote accepted work" OR "audit-scene") ("fiction" OR "manuscript" OR "multi-agent") in:name,description,readme',
     '("5章一轮" OR "滚动压缩" OR "弃读风险" OR "爽点复盘") ("网文" OR "番茄" OR "七猫" OR "webnovel") in:name,description,readme',
     '("Dramatoric Story Language" OR "stanzas" OR "shared world state") ("interactive narrative" OR "branching stories" OR "human-AI collaboration") in:name,description,readme',
+    '("OpenStoryline" OR "AI Transition Generation" OR "few-shot style transfer") ("storyline" OR "context-aware narration" OR "video script") in:name,description,readme',
+    '("Infinity Long Story Generator" OR "Character & Outline Agent" OR "Evaluation Agent") ("4-8 different content renderings" OR "consistency coherence commentary length") in:name,description,readme',
+    '("RecurrentGPT" OR "long-term memory" OR "short-term memory") ("next paragraph plan" OR "semantic search" OR "paragraph summaries") in:name,description,readme',
+    '("RENarGen" OR "bookend" OR "related endpoints") ("narrative closure" OR "first and last sentences" OR "infill middle") in:name,description,readme',
+    '("CogWriter" OR "strict requirements" OR "planning agent") ("generation agent" OR "requirement adherence" OR "long-form content") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -822,6 +827,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/irvinghu07/fiction-orchestra",
     "https://github.com/jinjudawang-glitch/viral-webnovel-skill",
     "https://github.com/tsortwehttam/dramatoric",
+    "https://github.com/FireRedTeam/FireRed-OpenStoryline",
+    "https://github.com/WyseOS/fictionx-story-gen",
+    "https://github.com/aiwaves-cn/RecurrentGPT",
+    "https://github.com/adbrei/RENarGen",
+    "https://github.com/KaiyangWan/CogWriter",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1165,6 +1175,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("slash_command_context_tier_state_gate", ("novel-workflow", "12 slash commands", "/novel:init", "/novel:style", "/novel:outline", "/novel:write", "/novel:review", "/novel:sync", "hot, warm, and cold", "context levels", "markdown and json", "four story templates", "works offline")),
     ("dual_track_epub_manifest_pipeline_gate", ("silbaram", "novel writer", "dual-track", "two tracks", "라노벨", "story-bible-planner", "season-planner", "chapter-plotter", "continuity-keeper", "novel-style-guardian", "epub-builder", "book_manifest.json", "P02_bible", "P04_continuity")),
     ("adaptive_quality_self_healing_autonomy_gate", ("claude-code-novel-writer", "adaptive quality", "self-healing", "smart planner", "error recovery", "system-health.json", "quality-metrics.json", "performance-metrics.json", "quality modes", "zero human intervention", "dashboard.py", "quality-check.sh")),
+    ("open_storyline_media_style_transfer_boundary_gate", ("openstoryline", "ai transition generation", "ending frame", "opening frame", "context-aware narration", "few-shot style transfer", "agent memory")),
+    ("hierarchical_story_tree_evaluation_agent_gate", ("infinity long story generator", "fictionx", "character & outline agent", "story generation agent", "evaluation agent", "hierarchical story tree", "4-8 different content renderings", "consistency coherence commentary length")),
+    ("recurrent_plan_memory_generation_gate", ("recurrentgpt", "natural-language lstm", "long-term memory", "short-term memory", "next paragraph plan", "semantic search", "paragraph summaries")),
+    ("bookend_closure_infill_gate", ("renargen", "bookend", "related endpoints", "first and last sentences", "infill middle", "narrative closure", "closes the loop")),
+    ("strict_requirement_planning_generation_gate", ("cogwriter", "strict requirements", "planning agent", "generation agent", "coherence and requirement adherence", "requirement adherence")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3192,6 +3207,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Dramatoric is a no-license-asserted interactive narrative engine and story DSL. Public README markers describe Dramatoric Story Language, stanzas, dialogue, variables, logic, branching stories, player input, plot/dialogue/character/logical story layers, shared world state, and human-AI collaboration for interactive dramas. "
         "Pattern-only adaptation for branch graphs, stateful dialogue turns, and explicit story-layer separation; package scripts, web runtime, provider-backed improvisation, .env settings, generated media, and upstream AGENTS/CLAUDE instructions are not executed or imported."
     ),
+    "fireredteam/firered-openstoryline": (
+        "FireRed OpenStoryline is a media/storyline research project. Public README markers describe OpenStoryline, AI Transition Generation, ending-frame to opening-frame transitions, natural-language descriptions, context-aware narration, few-shot style transfer, Agent Skills, Agent Memory, MCP, Docker, storage, resource downloads, and OpenClaw setup. "
+        "Pattern-only adaptation for scene-transition continuity and abstract style-transfer boundaries; install scripts, model/resource downloads, MCP/Docker/runtime services, provider/media generation, OpenClaw skill install, and agent prompt bodies are not executed or imported."
+    ),
+    "wyseos/fictionx-story-gen": (
+        "fictionx-story-gen is an interactive infinite-story generation framework. Public README markers describe Character & Outline Agent, Story Generation Agent, Evaluation Agent, hierarchical story tree, four to eight content renderings per leaf node, and evaluation dimensions for consistency, coherence, commentary, and length. "
+        "Pattern-only adaptation for hierarchical story-tree candidate evaluation and multi-render scoring; API services, authentication, vector database, Redis, Together/Replicate providers, image generation, .env keys, and runtime workers are not launched."
+    ),
+    "aiwaves-cn/recurrentgpt": (
+        "RecurrentGPT is a long-form generation research project using natural-language recurrence. Public README markers describe long-term memory as summaries of prior paragraphs, short-term memory as recent timestep summaries, semantic-search retrieval, next-paragraph plans, human option selection, and plan editing. "
+        "Pattern-only adaptation for recurrent plan-memory generation gates; OpenAI/API keys, demo scripts, provider calls, runtime agents, and generated sample pipelines are not executed."
+    ),
+    "adbrei/renargen": (
+        "RENarGen is a narrative-generation research project. Public README markers describe bookend and related-endpoint tasks where first and last sentences are related, middle sentences are infilled, and narrative closure closes the loop. "
+        "Pattern-only adaptation for bookend closure and infill gates; datasets, notebooks, model training, Ollama/model runtimes, and generated research artifacts are not imported or run."
+    ),
+    "kaiyangwan/cogwriter": (
+        "CogWriter is a cognitive writing framework. Public README markers describe strict requirements, a planning agent, a generation agent, and coherence plus requirement-adherence evaluation. "
+        "Pattern-only adaptation for strict requirement planning-generation gates; conda/pip installs, vLLM/API-key surfaces, provider calls, scripts, and runtime evaluation are not executed."
+    ),
 
 }
 
@@ -3907,6 +3942,11 @@ class NovelSourceDiscoveryService:
             "slash_command_context_tier_state_gate_hints": self._build_slash_command_context_tier_state_gate_hints(available_patterns),
             "dual_track_epub_manifest_pipeline_gate_hints": self._build_dual_track_epub_manifest_pipeline_gate_hints(available_patterns),
             "adaptive_quality_self_healing_autonomy_gate_hints": self._build_adaptive_quality_self_healing_autonomy_gate_hints(available_patterns),
+            "open_storyline_media_style_transfer_boundary_gate_hints": self._build_open_storyline_media_style_transfer_boundary_gate_hints(available_patterns),
+            "hierarchical_story_tree_evaluation_agent_gate_hints": self._build_hierarchical_story_tree_evaluation_agent_gate_hints(available_patterns),
+            "recurrent_plan_memory_generation_gate_hints": self._build_recurrent_plan_memory_generation_gate_hints(available_patterns),
+            "bookend_closure_infill_gate_hints": self._build_bookend_closure_infill_gate_hints(available_patterns),
+            "strict_requirement_planning_generation_gate_hints": self._build_strict_requirement_planning_generation_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4656,6 +4696,11 @@ class NovelSourceDiscoveryService:
             "slash_command_context_tier_state_gate": 68,
             "dual_track_epub_manifest_pipeline_gate": 69,
             "adaptive_quality_self_healing_autonomy_gate": 70,
+            "open_storyline_media_style_transfer_boundary_gate": 68,
+            "hierarchical_story_tree_evaluation_agent_gate": 70,
+            "recurrent_plan_memory_generation_gate": 70,
+            "bookend_closure_infill_gate": 69,
+            "strict_requirement_planning_generation_gate": 69,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5124,6 +5169,21 @@ class NovelSourceDiscoveryService:
         if "adaptive_quality_self_healing_autonomy_gate" in patterns:
             targets.append("adaptive_quality_mode_policy")
             targets.append("self_healing_autonomy_stop_policy")
+        if "open_storyline_media_style_transfer_boundary_gate" in patterns:
+            targets.append("storyline_transition_bridge_policy")
+            targets.append("abstract_style_transfer_boundary_policy")
+        if "hierarchical_story_tree_evaluation_agent_gate" in patterns:
+            targets.append("hierarchical_story_tree_candidate_policy")
+            targets.append("evaluation_agent_scorecard_policy")
+        if "recurrent_plan_memory_generation_gate" in patterns:
+            targets.append("recurrent_plan_memory_policy")
+            targets.append("paragraph_summary_update_policy")
+        if "bookend_closure_infill_gate" in patterns:
+            targets.append("bookend_closure_contract_policy")
+            targets.append("opening_promise_ending_payoff_policy")
+        if "strict_requirement_planning_generation_gate" in patterns:
+            targets.append("strict_requirement_checklist_policy")
+            targets.append("planning_generation_adherence_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -6119,6 +6179,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["dual_track_pipeline_artifact_report", "season_chapter_continuity_manifest_report", "epub_build_manifest_report"])
         if "adaptive_quality_self_healing_autonomy_gate" in patterns:
             targets.extend(["adaptive_quality_health_report", "self_healing_recovery_trace_report", "autonomy_stop_permission_boundary_report"])
+        if "open_storyline_media_style_transfer_boundary_gate" in patterns:
+            targets.extend(["storyline_transition_bridge_report", "style_transfer_boundary_report", "media_runtime_hold_findings"])
+        if "hierarchical_story_tree_evaluation_agent_gate" in patterns:
+            targets.extend(["hierarchical_story_tree_candidate_report", "multi_render_evaluation_scorecard", "leaf_node_selection_rationale"])
+        if "recurrent_plan_memory_generation_gate" in patterns:
+            targets.extend(["recurrent_plan_memory_report", "long_short_memory_update_trace", "next_paragraph_plan_findings"])
+        if "bookend_closure_infill_gate" in patterns:
+            targets.extend(["bookend_closure_infill_report", "opening_promise_payoff_trace", "middle_infill_coherence_findings"])
+        if "strict_requirement_planning_generation_gate" in patterns:
+            targets.extend(["strict_requirement_adherence_report", "planning_generation_contract_trace", "requirement_violation_repair_notes"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6954,6 +7024,16 @@ class NovelSourceDiscoveryService:
             hints.append("Before chapter production, choose the nonfiction or fiction track and require a manifest path, style/continuity log path, and eventual EPUB/Markdown packaging evidence.")
         if "adaptive_quality_self_healing_autonomy_gate" in patterns:
             hints.append("Before autonomous generation, set quality mode, health-check criteria, recovery limits, permission boundary, and stop conditions so self-healing cannot loop silently.")
+        if "open_storyline_media_style_transfer_boundary_gate" in patterns:
+            hints.append("Before continuation, treat scene transitions as beat bridges: name the ending state, opening target, narration purpose, and style axes while keeping media generation/runtime disabled.")
+        if "hierarchical_story_tree_evaluation_agent_gate" in patterns:
+            hints.append("Before accepting a continuation branch, generate or compare several leaf-node renderings and score them for consistency, coherence, commentary value, and length fit.")
+        if "recurrent_plan_memory_generation_gate" in patterns:
+            hints.append("Before each paragraph or beat, update long-term summaries, short-term recent context, and an explicit next-step plan; write prose only after the plan is checked.")
+        if "bookend_closure_infill_gate" in patterns:
+            hints.append("For a chapter or arc, bind the opening promise to an ending payoff first, then fill the middle so the closure answers rather than merely stops.")
+        if "strict_requirement_planning_generation_gate" in patterns:
+            hints.append("Before drafting, convert author requirements into a checklist, use it in planning, and re-check generated prose for requirement adherence and coherence.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -11362,6 +11442,51 @@ class NovelSourceDiscoveryService:
             "Autonomous writing dashboards are observability only; they do not authorize permission bypass, unattended host mutation, shell hooks, or silent manuscript promotion.",
         ]
 
+    def _build_open_storyline_media_style_transfer_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "open_storyline_media_style_transfer_boundary_gate" not in patterns:
+            return []
+        return [
+            "Use transition generation as a narrative bridge: ending state, opening state, required causal change, and narration function must be explicit before drafting.",
+            "Few-shot or style-transfer ideas may define abstract axes such as pacing, visual density, or narration temperature; source frames, prompts, and media assets stay outside prose context.",
+            "Agent Memory, MCP, Docker, model downloads, and media generation surfaces remain runtime-deferred; the pattern pack only carries continuity and boundary rules.",
+        ]
+
+    def _build_hierarchical_story_tree_evaluation_agent_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "hierarchical_story_tree_evaluation_agent_gate" not in patterns:
+            return []
+        return [
+            "Represent long-story continuation as a hierarchy from premise to outline nodes to leaf renderings, then require a visible selection rationale for the accepted branch.",
+            "For important leaf nodes, compare several content renderings before promotion; score consistency, coherence, commentary value, and length fit separately.",
+            "Evaluation-agent output is review evidence, not canon; rejected renderings cannot update memory, outline, or story-bible state.",
+        ]
+
+    def _build_recurrent_plan_memory_generation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "recurrent_plan_memory_generation_gate" not in patterns:
+            return []
+        return [
+            "Maintain separate long-term and short-term memory summaries: all prior accepted paragraphs roll up long-term, while recent timesteps guide the immediate beat.",
+            "Generate an explicit next-paragraph plan before prose; if the plan conflicts with accepted summaries, repair the plan before writing.",
+            "Semantic search can recall relevant accepted summaries, but retrieved source-analysis notes remain labeled evidence and cannot silently become canon.",
+        ]
+
+    def _build_bookend_closure_infill_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "bookend_closure_infill_gate" not in patterns:
+            return []
+        return [
+            "Define the bookend contract before drafting: opening sentence or promise, ending sentence or payoff, and the relation that must close the loop.",
+            "Middle infill should preserve causal progress from opening to ending; reject filler that reaches the ending without answering the opening pressure.",
+            "Same-type drafts must transform closure mechanics by changing promise, cost, and payoff owner instead of copying a source loop.",
+        ]
+
+    def _build_strict_requirement_planning_generation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "strict_requirement_planning_generation_gate" not in patterns:
+            return []
+        return [
+            "Turn strict author requirements into a numbered checklist before planning; each plan item should cite which requirement it satisfies.",
+            "Generation must stay bound to the approved plan, and review should separate requirement adherence from general prose quality.",
+            "When a requirement is violated, repair the plan or scope first; do not hide the violation with fluent prose.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -11583,6 +11708,21 @@ class NovelSourceDiscoveryService:
         if "adaptive_quality_self_healing_autonomy_gate" in patterns:
             targets.append("adaptive_quality_recovery_remap")
             targets.append("autonomy_stop_boundary_remap")
+        if "open_storyline_media_style_transfer_boundary_gate" in patterns:
+            targets.append("storyline_transition_bridge_remap")
+            targets.append("abstract_style_transfer_axis_remap")
+        if "hierarchical_story_tree_evaluation_agent_gate" in patterns:
+            targets.append("hierarchical_story_tree_candidate_remap")
+            targets.append("evaluation_agent_scorecard_remap")
+        if "recurrent_plan_memory_generation_gate" in patterns:
+            targets.append("recurrent_plan_memory_remap")
+            targets.append("long_short_memory_summary_remap")
+        if "bookend_closure_infill_gate" in patterns:
+            targets.append("bookend_closure_contract_remap")
+            targets.append("opening_promise_payoff_remap")
+        if "strict_requirement_planning_generation_gate" in patterns:
+            targets.append("strict_requirement_checklist_remap")
+            targets.append("planning_generation_contract_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -12265,6 +12405,16 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, choose a fiction or nonfiction track and require manifest, continuity/style logs, and publication build evidence before finalization.")
         if "adaptive_quality_self_healing_autonomy_gate" in patterns:
             hints.append("For same-type prompts, include quality mode, recovery budget, health metrics, and autonomy stop rules before any batch generation loop.")
+        if "open_storyline_media_style_transfer_boundary_gate" in patterns:
+            hints.append("For same-type prompts, cite only transformed transition states and abstract style axes; keep frames, media prompts, and runtime assets outside drafting context.")
+        if "hierarchical_story_tree_evaluation_agent_gate" in patterns:
+            hints.append("For same-type prompts, rebuild the story-tree hierarchy and ask evaluators to score transformed leaf candidates rather than source-like branch order.")
+        if "recurrent_plan_memory_generation_gate" in patterns:
+            hints.append("For same-type prompts, render long-term memory, short-term memory, and next-plan fields from transformed accepted state before prose generation.")
+        if "bookend_closure_infill_gate" in patterns:
+            hints.append("For same-type prompts, declare a new opening promise and ending payoff before asking for middle infill.")
+        if "strict_requirement_planning_generation_gate" in patterns:
+            hints.append("For same-type prompts, show the transformed requirement checklist, plan links, and adherence review fields up front.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12846,6 +12996,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform dual-track pipeline lessons into new artifact contracts: bible, season plan, chapter plan, continuity log, style log, manuscript, and publication build manifest.")
         if "adaptive_quality_self_healing_autonomy_gate" in patterns:
             hints.append("Transform autonomy patterns into bounded quality/recovery loops with new metrics, failure categories, retry limits, and explicit human-visible stop decisions.")
+        if "open_storyline_media_style_transfer_boundary_gate" in patterns:
+            hints.append("Transform transition patterns by changing the ending state, opening target, narration function, and abstract style axes instead of reusing source frames or prompts.")
+        if "hierarchical_story_tree_evaluation_agent_gate" in patterns:
+            hints.append("Transform story-tree branches into new candidate paths with fresh leaf-node renderings and selection criteria tied to the new story, not source branch order.")
+        if "recurrent_plan_memory_generation_gate" in patterns:
+            hints.append("Transform recurrent memory by rewriting long-term and short-term summaries around the new canon before drafting any next-paragraph plan.")
+        if "bookend_closure_infill_gate" in patterns:
+            hints.append("Transform closure loops by changing the opening promise, ending payoff, payoff owner, middle causality, and ending cost before infilling prose.")
+        if "strict_requirement_planning_generation_gate" in patterns:
+            hints.append("Transform strict requirements into a new checklist and plan contract; source requirements can inspire categories but not dictate scene facts or wording.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -13423,6 +13583,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject finalization when manifest, continuity log, style log, build log, EPUB/Markdown checksums, or track-specific artifact ownership is missing.")
         if "adaptive_quality_self_healing_autonomy_gate" in patterns:
             hints.append("Reject autonomous loops that use permission bypass, unbounded self-healing retries, dashboard optimism, or quality metrics without reviewer findings as completion proof.")
+        if "open_storyline_media_style_transfer_boundary_gate" in patterns:
+            hints.append("Reject same-type drafts that preserve source frame order, transition prompts, media asset descriptions, or style-transfer examples as prose authority.")
+        if "hierarchical_story_tree_evaluation_agent_gate" in patterns:
+            hints.append("Reject accepted branches when the hierarchy, leaf-node order, or winning candidate mirrors the source tree instead of the transformed story criteria.")
+        if "recurrent_plan_memory_generation_gate" in patterns:
+            hints.append("Reject recurrent plans that copy source paragraph summaries, semantic-search hits, or option labels into transformed long-term memory.")
+        if "bookend_closure_infill_gate" in patterns:
+            hints.append("Reject closure infill when the first/last sentence relation, payoff timing, or middle event path is a renamed source loop.")
+        if "strict_requirement_planning_generation_gate" in patterns:
+            hints.append("Reject fluent drafts that hide unmet requirements, copied checklist wording, or source-specific constraints behind a generic requirement-adherence claim.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -14162,6 +14332,11 @@ class NovelSourceDiscoveryService:
                 "slash_command_context_tier_state_gate",
                 "dual_track_epub_manifest_pipeline_gate",
                 "adaptive_quality_self_healing_autonomy_gate",
+                "open_storyline_media_style_transfer_boundary_gate",
+                "hierarchical_story_tree_evaluation_agent_gate",
+                "recurrent_plan_memory_generation_gate",
+                "bookend_closure_infill_gate",
+                "strict_requirement_planning_generation_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

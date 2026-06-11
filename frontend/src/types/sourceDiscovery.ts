@@ -299,6 +299,11 @@ export interface SourceDiscoveryPatternPack {
   slash_command_context_tier_state_gate_hints?: string[];
   dual_track_epub_manifest_pipeline_gate_hints?: string[];
   adaptive_quality_self_healing_autonomy_gate_hints?: string[];
+  open_storyline_media_style_transfer_boundary_gate_hints?: string[];
+  hierarchical_story_tree_evaluation_agent_gate_hints?: string[];
+  recurrent_plan_memory_generation_gate_hints?: string[];
+  bookend_closure_infill_gate_hints?: string[];
+  strict_requirement_planning_generation_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

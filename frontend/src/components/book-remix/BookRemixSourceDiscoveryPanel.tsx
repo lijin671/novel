@@ -267,6 +267,11 @@ const PINNED_HINT_KEYS = new Set([
   'slash_command_context_tier_state_gate_hints',
   'dual_track_epub_manifest_pipeline_gate_hints',
   'adaptive_quality_self_healing_autonomy_gate_hints',
+  'open_storyline_media_style_transfer_boundary_gate_hints',
+  'hierarchical_story_tree_evaluation_agent_gate_hints',
+  'recurrent_plan_memory_generation_gate_hints',
+  'bookend_closure_infill_gate_hints',
+  'strict_requirement_planning_generation_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -824,6 +829,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Slash-command context tier gates', patternPackPayload?.slash_command_context_tier_state_gate_hints],
               ['Dual-track EPUB manifest gates', patternPackPayload?.dual_track_epub_manifest_pipeline_gate_hints],
               ['Adaptive quality self-healing gates', patternPackPayload?.adaptive_quality_self_healing_autonomy_gate_hints],
+              ['OpenStoryline transition boundaries', patternPackPayload?.open_storyline_media_style_transfer_boundary_gate_hints],
+              ['Hierarchical story-tree evaluation gates', patternPackPayload?.hierarchical_story_tree_evaluation_agent_gate_hints],
+              ['Recurrent plan-memory generation gates', patternPackPayload?.recurrent_plan_memory_generation_gate_hints],
+              ['Bookend closure infill gates', patternPackPayload?.bookend_closure_infill_gate_hints],
+              ['Strict requirement planning gates', patternPackPayload?.strict_requirement_planning_generation_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

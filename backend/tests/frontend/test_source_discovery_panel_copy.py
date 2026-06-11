@@ -236,6 +236,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "slash_command_context_tier_state_gate_hints",
             "dual_track_epub_manifest_pipeline_gate_hints",
             "adaptive_quality_self_healing_autonomy_gate_hints",
+            "open_storyline_media_style_transfer_boundary_gate_hints",
+            "hierarchical_story_tree_evaluation_agent_gate_hints",
+            "recurrent_plan_memory_generation_gate_hints",
+            "bookend_closure_infill_gate_hints",
+            "strict_requirement_planning_generation_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
