@@ -331,6 +331,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("state/current" OR "state template" OR "perplexity-improver" OR "continuity-reviewer") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("scene cards" OR "fact extraction" OR "ReviewReports" OR "Story State ledger") ("novel" OR "long-form" OR "writing platform") in:name,description,readme',
     '("digital corkboard" OR "chapter timeline" OR "front matter preservation") ("novel" OR "manuscript" OR "story bible") in:name,description,readme',
+    '("manuscript binder" OR "corkboard outliner" OR "per-scene snapshots") ("story bible" OR "novel studio" OR "writing analytics") in:name,description,readme',
+    '("foundation loop" OR "seed concept" OR "foundation_score" OR "lore_score") ("story bible" OR "novel" OR "screenplay") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -713,6 +715,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/fidelnamisi/story-bible-assistant",
     "https://github.com/byteyilabs/novellis-app",
     "https://github.com/Shiaoming123/works-dna-extractor",
+    "https://github.com/talktofess/inkwell",
+    "https://github.com/levineam/auto-story-tools",
     "https://github.com/xjxjdnsnak-cell/novel-reader",
     "https://github.com/alanl1234/gamebook",
     "https://github.com/TABARC-Code/Forensic-Writing-Style-Analysis-Cloning-Claude-Skill",
@@ -1144,6 +1148,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("markdown_skill_story_project_contract_gate", ("story skills", "agent skills", "YAML frontmatter", "story bible", "continuity questions", "promises/payoffs", "scene state", "chapter drafts", "story validate", "markdown project format")),
     ("manuscript_card_board_extraction_gate", ("digital corkboard", "folder-based organisation", "folder-based organization", "key folders", "custom folders", "cards are organised", "cards are organized", "merge cards", "merge duplicate cards", "extract characters, themes, locations, objects, and key scenes", "characters, themes, locations, objects and scenes", "story bible document")),
     ("chapter_timeline_frontmatter_export_gate", ("chapter timeline", "drag to reorder", "front matter preservation", "preserves front matter", "export your manuscript", "export your bible", "json backup", "markdown manuscripts", "chapter order")),
+    ("manuscript_binder_scene_snapshot_gate", ("manuscript binder", "folders → chapters → scenes", "folders 鈫?chapters 鈫?scenes", "per-scene word targets", "version history", "per-scene snapshots", "manual & automatic per-scene snapshots", "restore", "compiled from the binder in reading order")),
+    ("story_bible_relationship_analytics_gate", ("story bible", "automatic appears in", "appears in", "custom attributes", "relationships", "writing analytics", "daily goal ring", "activity heatmap", "projected finish date", "deadline pacing")),
+    ("seed_to_bible_foundation_loop_gate", ("seed concept", "seed to story bible", "seed 鈫?story bible", "foundation loop", "foundation_score", "lore_score", "weakest dimension", "keep/discard", "restore previous version", "reader panel")),
+    ("layered_story_bible_artifact_contract_gate", ("world.md", "characters.md", "outline.md", "voice.md", "canon.md", "mystery.md", "foreshadowing.md", "state.json", "eval_logs", "results.tsv", "world → characters → voice → mystery → outline → canon → foreshadowing")),
     ("canon_evidence_suggestion_review_gate", ("local-first story bible", "continuity checker", "canon drift", "evidence-backed suggestions", "contradictions", "context packs", "project storage", "JSON import and export", "entity facts")),
     ("expert_chain_alignment_creativity_gate", ("chainable expert AI", "expert AI modules", "perfect alignment", "boundless creativity", "alignment framework", "Special Instruction Set", "deconstructs complex literary creation", "stress-tested", "semi-automated AI writing pipeline")),
     ("visual_story_bible_continuity_gate", ("story bible technology", "visual consistency", "character appearances", "settings and visual elements", "art style", "visual continuity", "visual rules", "image bible")),
@@ -1162,8 +1170,8 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("binary_distribution", (".zip", "release/", "windows packaged", "windows 打包版", "安装包", "客户端")),
     ("auto_update", ("auto upgrade", "automatic update", "自动升级", "upgrade.zip", "在线升级")),
     ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
-    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
-    ("cloud_sync_oauth_surface", ("oauth", "oauth 2.0", "google drive", "cloud sync", "auth0", "jwt token", "pkce", "database_url", "postgres", "neon")),
+    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
+    ("cloud_sync_oauth_surface", ("oauth", "oauth 2.0", "google drive", "cloud sync", "auth0", "jwt token", "auth cookie", "passphrase", "pkce", "database_url", "postgres", "supabase", "neon")),
     ("browser_storage_surface", ("indexeddb", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
@@ -1346,6 +1354,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "key folders and custom folders; AI extraction of manuscript structure; duplicate-card merge review; Markdown manuscript import; chapter timeline reorder; front matter preservation; "
         "manuscript, bible, and JSON backup exports; localStorage autosave; and optional Google Drive sync with local API keys. "
         "Pattern-only adaptation for manuscript card-board and chapter-timeline gates; do not run browser code, Gemini extraction, Google Drive sync, or API-key flows during intake."
+    ),
+    "talktofess/inkwell": (
+        "Inkwell is a novel writing studio. Static public README markers describe a manuscript binder with folders, chapters, scenes, POV/location metadata, per-scene word targets, "
+        "a corkboard outliner, story bible entries for characters/locations/factions/items/lore with custom attributes, relationships, automatic appears-in scene links, writing analytics, "
+        "manual and automatic per-scene snapshots with restore, and Markdown/DOCX/EPUB/PDF export compiled from binder reading order. "
+        "Pattern-only adaptation for binder scene snapshots and relationship analytics; Supabase service_role keys, passphrase auth, Vercel deploy, package installs, and database runtime are not executed."
+    ),
+    "levineam/auto-story-tools": (
+        "auto-story-tools is an MIT autonomous story generation pipeline. Static public README markers describe seed to story bible to screenplay/novel, a foundation loop that validates the seed, "
+        "generates world, characters, voice, mystery, outline, canon, and foreshadowing in dependency order, evaluates with an LLM judge, mechanical slop detector, cross-layer checker, and reader panel, "
+        "targets the weakest dimension, keep/discard compares scores, restores worse attempts, and repeats until foundation_score/lore_score thresholds pass. "
+        "Pattern-only adaptation for seed-to-bible foundation loops and layered artifact contracts; uv sync, provider API keys, gateway/proxy transports, OpenClaw integration, and model calls are not executed."
     ),
     "forjd/better-writing": (
         "Agent skill for human prose quality. Public README describes removing generic AI tells, slop structures, voice calibration from writing samples, "
@@ -3466,6 +3486,10 @@ class NovelSourceDiscoveryService:
             "proper_noun_leakage_review_hints": self._build_proper_noun_leakage_review_hints(available_patterns),
             "manuscript_card_board_extraction_gate_hints": self._build_manuscript_card_board_extraction_gate_hints(available_patterns),
             "chapter_timeline_frontmatter_export_gate_hints": self._build_chapter_timeline_frontmatter_export_gate_hints(available_patterns),
+            "manuscript_binder_scene_snapshot_gate_hints": self._build_manuscript_binder_scene_snapshot_gate_hints(available_patterns),
+            "story_bible_relationship_analytics_gate_hints": self._build_story_bible_relationship_analytics_gate_hints(available_patterns),
+            "seed_to_bible_foundation_loop_gate_hints": self._build_seed_to_bible_foundation_loop_gate_hints(available_patterns),
+            "layered_story_bible_artifact_contract_gate_hints": self._build_layered_story_bible_artifact_contract_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4252,6 +4276,10 @@ class NovelSourceDiscoveryService:
             "markdown_skill_story_project_contract_gate": 69,
             "manuscript_card_board_extraction_gate": 66,
             "chapter_timeline_frontmatter_export_gate": 65,
+            "manuscript_binder_scene_snapshot_gate": 66,
+            "story_bible_relationship_analytics_gate": 65,
+            "seed_to_bible_foundation_loop_gate": 67,
+            "layered_story_bible_artifact_contract_gate": 66,
             "canon_evidence_suggestion_review_gate": 70,
             "expert_chain_alignment_creativity_gate": 68,
             "visual_story_bible_continuity_gate": 66,
@@ -4272,6 +4300,18 @@ class NovelSourceDiscoveryService:
         if "chapter_timeline_frontmatter_export_gate" in patterns:
             targets.append("chapter_timeline_export_policy")
             targets.append("frontmatter_preservation_policy")
+        if "manuscript_binder_scene_snapshot_gate" in patterns:
+            targets.append("manuscript_binder_scene_snapshot_policy")
+            targets.append("binder_reading_order_export_policy")
+        if "story_bible_relationship_analytics_gate" in patterns:
+            targets.append("story_bible_relationship_analytics_policy")
+            targets.append("appears_in_link_review_policy")
+        if "seed_to_bible_foundation_loop_gate" in patterns:
+            targets.append("seed_validation_foundation_policy")
+            targets.append("foundation_score_keep_discard_policy")
+        if "layered_story_bible_artifact_contract_gate" in patterns:
+            targets.append("layered_story_bible_artifact_policy")
+            targets.append("artifact_dependency_order_policy")
         if "structured_generation_schema" in patterns:
             targets.append("json_schema_outputs")
             targets.append("schema_validation_rules")
@@ -5246,6 +5286,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["manuscript_card_board_extraction_report", "duplicate_card_merge_findings"])
         if "chapter_timeline_frontmatter_export_gate" in patterns:
             targets.extend(["chapter_timeline_frontmatter_export_report", "chapter_reorder_impact_findings"])
+        if "manuscript_binder_scene_snapshot_gate" in patterns:
+            targets.extend(["binder_scene_snapshot_report", "binder_reading_order_export_findings"])
+        if "story_bible_relationship_analytics_gate" in patterns:
+            targets.extend(["story_bible_relationship_analytics_report", "appears_in_link_consistency_findings"])
+        if "seed_to_bible_foundation_loop_gate" in patterns:
+            targets.extend(["foundation_loop_score_report", "weakest_dimension_regeneration_trace"])
+        if "layered_story_bible_artifact_contract_gate" in patterns:
+            targets.extend(["layered_story_bible_artifact_report", "artifact_dependency_order_findings"])
         if "structured_generation_schema" in patterns:
             targets.extend(["schema_bound_outputs", "required_fields", "validation_failures"])
         if "context_reference" in patterns:
@@ -6269,6 +6317,10 @@ class NovelSourceDiscoveryService:
             hints.append("Request chapter deltas separately from prose and verify them with targeted questions before they can seed the next prompt.")
         if "statistical_style_benchmark_rewrite_gate" in patterns:
             hints.append("Use statistical style benchmarks as threshold labels for rhythm, sensory density, dialogue, repetition, and voice drift; never paste benchmark prose.")
+        if "seed_to_bible_foundation_loop_gate" in patterns:
+            hints.append("Before drafting from a fresh concept, run the foundation loop: validate seed, generate dependent bible layers, score, target weakest dimension, and keep/discard with rollback evidence.")
+        if "layered_story_bible_artifact_contract_gate" in patterns:
+            hints.append("Use layered story bible artifacts in dependency order: seed, world, characters, voice, mystery, outline, canon, foreshadowing, state, eval logs, and results ledger.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -6290,6 +6342,14 @@ class NovelSourceDiscoveryService:
             hints.append("Persist card board candidates for characters, themes, locations, objects, and scenes with source evidence, merge status, and key-folder review state before canon promotion.")
         if "chapter_timeline_frontmatter_export_gate" in patterns:
             hints.append("Persist chapter timeline order, front matter, export manifest, and JSON backup refs as derived state; reorder operations need impact reports before canon changes.")
+        if "manuscript_binder_scene_snapshot_gate" in patterns:
+            hints.append("Persist binder hierarchy, scene metadata, per-scene targets, snapshot ids, restore decisions, and reading-order export manifests so continuation can resume from the accepted binder state.")
+        if "story_bible_relationship_analytics_gate" in patterns:
+            hints.append("Persist story bible relationships, appears in scene links, progress analytics, goal status, and deadline pacing as review metadata rather than hidden prompt state.")
+        if "seed_to_bible_foundation_loop_gate" in patterns:
+            hints.append("Persist foundation loop state: seed validation result, generated layer versions, scores, weakest dimension, keep/discard decision, and rollback target.")
+        if "layered_story_bible_artifact_contract_gate" in patterns:
+            hints.append("Persist story bible artifacts as separate files or records—world, characters, outline, voice, canon, mystery, foreshadowing, state, eval logs, and results.tsv—so each layer can be reviewed independently.")
         if "context_reference" in patterns:
             hints.append("Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.")
         if "lorebook_context" in patterns:
@@ -9856,6 +9916,42 @@ class NovelSourceDiscoveryService:
             "Treat the chapter timeline as a derived planning surface: drag-to-reorder operations must record previous order, new order, reason, and downstream impact.",
             "Front matter preservation, manuscript export, bible export, and JSON backup are delivery artifacts; they cannot overwrite accepted canon without a review gate.",
             "Markdown manuscript import/export should keep chapter ids, front matter, and chapter timeline lineage visible so continuation resumes from reviewed order only.",
+        ]
+
+    def _build_manuscript_binder_scene_snapshot_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "manuscript_binder_scene_snapshot_gate" not in patterns:
+            return []
+        return [
+            "Model the manuscript binder as folders, chapters, and scenes with stable ids, POV/location metadata, status, per-scene targets, and accepted reading order.",
+            "Manual and automatic per-scene snapshots are restore points; restoring a scene must record source snapshot id, affected downstream context, and reviewer decision.",
+            "Markdown, DOCX, EPUB, and PDF exports should compile from accepted binder order only and remain derived artifacts rather than canon sources.",
+        ]
+
+    def _build_story_bible_relationship_analytics_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_bible_relationship_analytics_gate" not in patterns:
+            return []
+        return [
+            "Story bible entries should track characters, locations, factions, items, lore, custom attributes, relationships, and appears in scene links with evidence refs.",
+            "Automatic appears in links are review candidates until validated against accepted scenes; they should not silently add canon relationships.",
+            "Writing analytics can surface goal drift, streaks, heatmap gaps, projected finish date, and deadline pacing, but numeric pressure must not override continuity gates.",
+        ]
+
+    def _build_seed_to_bible_foundation_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "seed_to_bible_foundation_loop_gate" not in patterns:
+            return []
+        return [
+            "Validate the seed before expansion: world differentiator, central tension, cost/constraint, sensory hook, and author intent must be explicit.",
+            "Run the foundation loop as proposals only: generate dependent bible layers, score with independent judges/checkers, target the weakest dimension, and keep/discard with rollback.",
+            "For same-type creation, convert source deconstruction into a new seed first; foundation_score and lore_score must reward new-story coherence, not source resemblance.",
+        ]
+
+    def _build_layered_story_bible_artifact_contract_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "layered_story_bible_artifact_contract_gate" not in patterns:
+            return []
+        return [
+            "Keep layered artifacts separate: seed.txt, world.md, characters.md, outline.md, voice.md, canon.md, MYSTERY.md, foreshadowing.md, state.json, eval_logs, and results.tsv each have a distinct owner.",
+            "Generate layers in dependency order and rerun downstream checks when world, character, voice, mystery, outline, canon, or foreshadowing changes.",
+            "Do not treat eval logs or results.tsv as canon; they are evidence for why a layer version was accepted, rejected, restored, or regenerated.",
         ]
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:

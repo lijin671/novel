@@ -557,6 +557,10 @@ def render_source_pattern_pack_digest(
         "proper_noun_leakage_review_hints",
         "manuscript_card_board_extraction_gate_hints",
         "chapter_timeline_frontmatter_export_gate_hints",
+        "manuscript_binder_scene_snapshot_gate_hints",
+        "story_bible_relationship_analytics_gate_hints",
+        "seed_to_bible_foundation_loop_gate_hints",
+        "layered_story_bible_artifact_contract_gate_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

@@ -11811,6 +11811,110 @@ def test_bookboard_source_adds_manuscript_card_board_and_chapter_timeline_gates(
     assert "chapter_timeline_frontmatter_export_gate_hints" in digest
 
 
+def test_inkwell_source_adds_binder_snapshot_and_relationship_analytics_gates():
+    assert "https://github.com/talktofess/inkwell" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("manuscript binder" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "talktofess/inkwell",
+                "html_url": "https://github.com/talktofess/inkwell",
+                "description": (
+                    "Novel Writing Studio with manuscript binder folders to chapters to scenes, "
+                    "reorderable scenes with status colours, POV and location, per-scene word targets, "
+                    "corkboard outliner, story bible with characters, locations, factions, items and lore, "
+                    "custom attributes, relationships and automatic appears in scene links, writing analytics "
+                    "with daily goal ring, activity heatmap, projected finish date and deadline pacing, "
+                    "manual and automatic per-scene snapshots with restore, and Markdown, DOCX, EPUB and PDF export "
+                    "compiled from the binder in reading order. Uses Supabase service_role key and passphrase auth."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "writing-studio", "story-bible", "manuscript"],
+                "updated_at": "2026-06-07T13:01:25Z",
+                "root_files": ["README.md", "package.json", "supabase/schema.sql"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T02:15:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    inkwell = candidates["talktofess/inkwell"]
+    assert "manuscript_binder_scene_snapshot_gate" in inkwell["absorbed_patterns"]
+    assert "story_bible_relationship_analytics_gate" in inkwell["absorbed_patterns"]
+    assert "provider_key_surface" in inkwell["risk_flags"]
+    assert "cloud_sync_oauth_surface" in inkwell["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "manuscript_binder_scene_snapshot_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_bible_relationship_analytics_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "binder_scene_snapshot_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_bible_relationship_analytics_report" in pattern_pack["whole_book_analysis_targets"]
+    assert any("binder" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("appears in" in hint for hint in pattern_pack["story_bible_relationship_analytics_gate_hints"])
+    assert any("snapshot" in hint for hint in pattern_pack["manuscript_binder_scene_snapshot_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "manuscript_binder_scene_snapshot_gate_hints" in digest
+    assert "story_bible_relationship_analytics_gate_hints" in digest
+
+
+def test_auto_story_tools_source_adds_seed_bible_foundation_loop_gates():
+    assert "https://github.com/levineam/auto-story-tools" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("foundation loop" in query.lower() or "seed" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "levineam/auto-story-tools",
+                "html_url": "https://github.com/levineam/auto-story-tools",
+                "description": (
+                    "Autonomous story generation pipeline from seed to story bible to screenplay or novel. "
+                    "It validates the seed concept, then generates layers in dependency order: world, characters, "
+                    "voice, mystery, outline, canon and foreshadowing. The foundation loop evaluates with an LLM judge, "
+                    "mechanical slop detector, cross-layer consistency checker and reader panel, targets the weakest dimension, "
+                    "regenerates that layer, keep/discard compares score, restores previous version if worse, and repeats until "
+                    "foundation_score and lore_score thresholds pass. Outputs seed.txt, world.md, characters.md, outline.md, "
+                    "voice.md, canon.md, MYSTERY.md, foreshadowing.md, state.json, eval_logs and results.tsv. Uses provider API keys, "
+                    "optional API base gateway/proxy, uv sync, OpenClaw integration and direct model calls."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai", "story", "outline", "screenplay", "fiction", "writing"],
+                "updated_at": "2026-03-26T13:34:25Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml", "integrations/openclaw"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T02:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    auto_story = candidates["levineam/auto-story-tools"]
+    assert "seed_to_bible_foundation_loop_gate" in auto_story["absorbed_patterns"]
+    assert "layered_story_bible_artifact_contract_gate" in auto_story["absorbed_patterns"]
+    assert "provider_key_surface" in auto_story["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "seed_validation_foundation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "layered_story_bible_artifact_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "foundation_loop_score_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "layered_story_bible_artifact_report" in pattern_pack["whole_book_analysis_targets"]
+    assert any("foundation loop" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("seed" in hint for hint in pattern_pack["seed_to_bible_foundation_loop_gate_hints"])
+    assert any("canon.md" in hint for hint in pattern_pack["layered_story_bible_artifact_contract_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "seed_to_bible_foundation_loop_gate_hints" in digest
+    assert "layered_story_bible_artifact_contract_gate_hints" in digest
+
+
 def test_novel_template_source_adds_ideation_worksheet_foundation_gates():
     assert "https://github.com/10Legs/novel-template" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("ideation worksheets" in query and "Ghost/Lie/Want/Need" in query for query in DEFAULT_GITHUB_QUERIES)
