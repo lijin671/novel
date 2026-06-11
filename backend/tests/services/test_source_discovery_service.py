@@ -13196,6 +13196,96 @@ def test_static_nova_source_adds_workspace_context_and_rehearsal_gates():
     assert "interactive_branch_rehearsal_gate_hints" in digest
 
 
+def test_static_little_honey_source_adds_rolling_context_scene_reward_review_gates():
+    assert "https://github.com/CARL-JOSEPH-LEE/little-honey-ai-web-novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any(
+        "rolling chapter direction" in query.lower() and "scene blueprint" in query.lower()
+        for query in DEFAULT_GITHUB_QUERIES
+    )
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "CARL-JOSEPH-LEE/little-honey-ai-web-novel",
+                "html_url": "https://github.com/CARL-JOSEPH-LEE/little-honey-ai-web-novel",
+                "description": (
+                    "Little Honey AI Web Novel is an AI-native long-form web novel engine. "
+                    "It uses a controlled production pipeline: concept, story bible, rolling chapter direction, "
+                    "scene blueprint, chapter draft, quality review, rewrite, summary, continuity memory, "
+                    "and manuscript merge. Scene blueprint cards include location, characters, goals, "
+                    "obstacles, turning points, information gains, reader rewards, and scene-end hooks. "
+                    "The review prompts score opening hook, continuity, conflict density, reader reward, "
+                    "mobile readability, cliffhanger strength, originality, dialogue, pacing, voice consistency, "
+                    "and anti-cliche behavior. The context engine builds layered context from stable concept, "
+                    "story bible, current chapter direction, previous chapter summaries, recent-summary window, "
+                    "continuity memory, user directions, nearby upcoming pressure, and selected previous chapters. "
+                    "It ships Windows .exe files, DeepSeek API key surfaces, license issuer tooling, "
+                    "seller_private_key.json, pyproject.toml, scripts, tests, and packaging specs."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["web-novel", "ai-writing", "continuity-memory", "desktop-app"],
+                "updated_at": "2026-05-17T02:37:42Z",
+                "root_files": [
+                    "README.md",
+                    "AI小说计划.txt",
+                    "DeepSeekNovelWriter.spec",
+                    "LicenseIssuer.spec",
+                    "gui.py",
+                    "issue_license.bat",
+                    "license issuer.exe",
+                    "little-honey-ai-web-novel.exe",
+                    "novel_engine.py",
+                    "novel_project.py",
+                    "novel_writer",
+                    "packaging",
+                    "pyproject.toml",
+                    "scripts",
+                    "seller_private_key.json",
+                    "tests",
+                ],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T21:05:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    little_honey = candidates["CARL-JOSEPH-LEE/little-honey-ai-web-novel"]
+    assert "rolling_chapter_direction_context_priority_gate" in little_honey["absorbed_patterns"]
+    assert "scene_blueprint_reader_reward_gate" in little_honey["absorbed_patterns"]
+    assert "webnovel_quality_review_rewrite_memory_gate" in little_honey["absorbed_patterns"]
+    assert "native_binary" in little_honey["risk_flags"]
+    assert "provider_key_surface" in little_honey["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "rolling_chapter_context_priority_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_blueprint_reader_reward_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "webnovel_review_rewrite_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "rolling_context_priority_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_blueprint_reader_reward_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "webnovel_quality_review_rewrite_memory_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "rolling_context_priority_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "scene_reward_hook_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "review_rewrite_memory_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("rolling chapter direction" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("reader reward" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("continuity memory" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("protected budget" in hint for hint in pattern_pack["rolling_chapter_direction_context_priority_gate_hints"])
+    assert any("information gain" in hint for hint in pattern_pack["scene_blueprint_reader_reward_gate_hints"])
+    assert any("mobile readability" in hint for hint in pattern_pack["webnovel_quality_review_rewrite_memory_gate_hints"])
+    assert any("chapter direction" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("scene reward" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("review loop" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "rolling_chapter_direction_context_priority_gate_hints" in digest
+    assert "scene_blueprint_reader_reward_gate_hints" in digest
+    assert "webnovel_quality_review_rewrite_memory_gate_hints" in digest
+
+
 def test_static_style_axis_and_local_editor_sources_add_voice_block_revision_gates():
     assert "https://github.com/viktorbezdek/definitive-llm-writing-style-guide" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/jpotts18/stylometry" in DEFAULT_GITHUB_REPOSITORY_URLS

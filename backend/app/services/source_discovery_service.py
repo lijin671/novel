@@ -352,6 +352,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("AI drama shot list templates" OR "camera-ready production notes" OR "shot list schema") ("shot size" OR "camera movement" OR "continuity note") in:name,description,readme',
     '("vertical drama hook templates" OR "first-five-second hooks" OR "cliffhanger openings") ("opening image" OR "first spoken line" OR "reversal beat") in:name,description,readme',
     '("storyboard shot packs" OR "AI short drama storyboard shot packs" OR "shot-list packs") ("vertical-safe framing" OR "continuity risk" OR "generation prompt") in:name,description,readme',
+    '("rolling chapter direction" OR "scene blueprint" OR "reader reward" OR "mobile readability") ("web novel" OR "serialized fiction" OR "continuity memory") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -764,6 +765,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ThomasHoussin/Claude-Book",
     "https://github.com/hayrgpt-rgb/NovelForge-AI",
     "https://github.com/alfredxw/nova",
+    "https://github.com/CARL-JOSEPH-LEE/little-honey-ai-web-novel",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1081,6 +1083,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("ide_workspace_local_git_version_gate", ("nova", "ai creation workspace", "ide-like workspace", "file tree", "markdown editor", "multiple tabs", "chapter statistics", "global search", "local .git", "go-git", "history, diffs, restore, timed saves", "agent-output auto saves", "version confidence")),
     ("agent_context_provenance_budget_gate", ("bounded context", "source-backed and bounded context", "display history, model context, lore content, tool results, and workspace state", "agent can read selections and files", "read selections and files", "reference lore", "track todos", "write drafts", "only the source-backed and bounded context")),
     ("interactive_branch_rehearsal_gate", ("interactive rehearsal", "interactive mode rehearses branches", "rehearse branches", "plot validation", "character actions", "scene memory", "storylines", "fold stable decisions back into lore", "interactive story workspace")),
+    ("rolling_chapter_direction_context_priority_gate", ("rolling chapter direction", "current chapter direction", "context engine", "context pack", "previous chapter summaries", "recent-summary window", "nearby upcoming pressure", "selected full previous chapters")),
+    ("scene_blueprint_reader_reward_gate", ("scene blueprint", "scene blueprints", "scene cards", "information gains", "information gain", "reader rewards", "reader reward", "scene-end hooks", "scene end hooks")),
+    ("webnovel_quality_review_rewrite_memory_gate", ("quality review", "review prompts", "rewrite prompt", "mobile readability", "cliffhanger strength", "anti-cliche", "anti cliche", "voice consistency", "continuity memory", "manuscript merge")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2986,6 +2991,12 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "It uses go-git to keep a local .git in the book workspace with history, diffs, restore, timed saves, and Agent-output autosaves. It separates display history, model context, lore content, tool results, and workspace state so Agents receive only source-backed bounded context for the current task. "
         "Pattern-only adaptation for local workspace version lineage, bounded context provenance, and interactive branch rehearsal before canon promotion; release binaries, bootstrap/build scripts, Go/Node/pnpm runtime, OpenAI-compatible provider keys, web server, custom Skills, and upstream AGENTS instructions are not executed or imported."
     ),
+    "carl-joseph-lee/little-honey-ai-web-novel": (
+        "Little Honey AI Web Novel is a MIT AI-native long-form web novel engine packaged as a Windows desktop app. Public README markers describe a serialized fiction pipeline from concept to story bible, rolling chapter direction, scene blueprint, chapter draft, quality review, rewrite, summary, continuity memory, and manuscript merge. "
+        "Its context engine prioritizes stable concept/identity, useful story-bible parts, current chapter direction, previous chapter summaries, a recent-summary window, continuity memory, user directions, nearby upcoming pressure, and selected full previous chapters only after protected budget. "
+        "Scene blueprints require location, characters, goals, obstacles, turning points, information gains, reader rewards, and scene-end hooks. Quality review checks opening hook, continuity, conflict density, reader reward, mobile readability, cliffhanger strength, originality, dialogue, pacing, voice consistency, and anti-cliche behavior before rewrite and memory update. "
+        "Pattern-only adaptation for rolling context priority, reader-reward scene blueprints, and review-rewrite-memory loops; Windows .exe binaries, license issuer tooling, seller_private_key.json, DeepSeek/API-key surfaces, package specs, scripts, and upstream runtime are not executed or imported."
+    ),
 
 }
 
@@ -3359,6 +3370,9 @@ class NovelSourceDiscoveryService:
             "ide_workspace_local_git_version_gate_hints": self._build_ide_workspace_local_git_version_gate_hints(available_patterns),
             "agent_context_provenance_budget_gate_hints": self._build_agent_context_provenance_budget_gate_hints(available_patterns),
             "interactive_branch_rehearsal_gate_hints": self._build_interactive_branch_rehearsal_gate_hints(available_patterns),
+            "rolling_chapter_direction_context_priority_gate_hints": self._build_rolling_chapter_direction_context_priority_gate_hints(available_patterns),
+            "scene_blueprint_reader_reward_gate_hints": self._build_scene_blueprint_reader_reward_gate_hints(available_patterns),
+            "webnovel_quality_review_rewrite_memory_gate_hints": self._build_webnovel_quality_review_rewrite_memory_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4398,6 +4412,9 @@ class NovelSourceDiscoveryService:
             "ide_workspace_local_git_version_gate": 68,
             "agent_context_provenance_budget_gate": 70,
             "interactive_branch_rehearsal_gate": 67,
+            "rolling_chapter_direction_context_priority_gate": 70,
+            "scene_blueprint_reader_reward_gate": 69,
+            "webnovel_quality_review_rewrite_memory_gate": 70,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4797,6 +4814,15 @@ class NovelSourceDiscoveryService:
         if "interactive_branch_rehearsal_gate" in patterns:
             targets.append("interactive_branch_rehearsal_policy")
             targets.append("rehearsal_to_canon_promotion_policy")
+        if "rolling_chapter_direction_context_priority_gate" in patterns:
+            targets.append("rolling_chapter_context_priority_policy")
+            targets.append("protected_context_budget_policy")
+        if "scene_blueprint_reader_reward_gate" in patterns:
+            targets.append("scene_blueprint_reader_reward_policy")
+            targets.append("scene_end_hook_information_gain_policy")
+        if "webnovel_quality_review_rewrite_memory_gate" in patterns:
+            targets.append("webnovel_review_rewrite_memory_policy")
+            targets.append("mobile_readability_cliffhanger_review_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5740,6 +5766,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["agent_context_provenance_budget_report", "lore_tool_workspace_context_split_report"])
         if "interactive_branch_rehearsal_gate" in patterns:
             targets.extend(["interactive_branch_rehearsal_report", "rehearsal_decision_canon_promotion_report"])
+        if "rolling_chapter_direction_context_priority_gate" in patterns:
+            targets.extend(["rolling_context_priority_report", "context_budget_protection_findings"])
+        if "scene_blueprint_reader_reward_gate" in patterns:
+            targets.extend(["scene_blueprint_reader_reward_report", "scene_hook_information_gain_report"])
+        if "webnovel_quality_review_rewrite_memory_gate" in patterns:
+            targets.extend(["webnovel_quality_review_rewrite_memory_report", "accepted_chapter_memory_update_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6517,6 +6549,12 @@ class NovelSourceDiscoveryService:
             hints.append("Build the Agent context from separated buckets: display history, model context, lore, tool results, and workspace state; include only source-backed bounded items for this task.")
         if "interactive_branch_rehearsal_gate" in patterns:
             hints.append("When testing uncertain plot turns, rehearse branches in interactive mode first; promote only author-approved stable decisions into lore or chapter canon.")
+        if "rolling_chapter_direction_context_priority_gate" in patterns:
+            hints.append("Use rolling chapter direction instead of a frozen full outline; build the prompt from stable identity, story-bible slices, current chapter direction, summaries, continuity memory, user directions, and only then selected full chapters.")
+        if "scene_blueprint_reader_reward_gate" in patterns:
+            hints.append("Before prose, require a scene blueprint with location, cast, goal, obstacle, turning point, information gain, reader reward, and scene-end hook.")
+        if "webnovel_quality_review_rewrite_memory_gate" in patterns:
+            hints.append("After drafting, run the webnovel review loop for hook, continuity, conflict density, reader reward, mobile readability, cliffhanger, originality, dialogue, pacing, voice consistency, and anti-cliche behavior before rewrite.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7010,6 +7048,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist context bucket provenance, token/character budget, selected lore refs, selected tool-result ids, workspace-state refs, and omitted-context notes.")
         if "interactive_branch_rehearsal_gate" in patterns:
             hints.append("Persist rehearsal branch id, tested character actions, scene-memory deltas, storyline outcome, author decision, and canon-promotion status separately from drafts.")
+        if "rolling_chapter_direction_context_priority_gate" in patterns:
+            hints.append("Persist rolling chapter direction id, context priority manifest, protected budget, selected summaries, continuity memory refs, omitted full-chapter refs, and nearby pressure notes.")
+        if "scene_blueprint_reader_reward_gate" in patterns:
+            hints.append("Persist each scene blueprint with goal, obstacle, turning point, information gain, reader reward, scene-end hook, and whether prose fulfilled the scene contract.")
+        if "webnovel_quality_review_rewrite_memory_gate" in patterns:
+            hints.append("Persist review scores, rewrite decision, accepted summary, continuity memory updates, open hooks, paid-off foreshadowing, next-chapter pressure, and manuscript-merge status.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -7846,6 +7890,33 @@ class NovelSourceDiscoveryService:
             "Use interactive rehearsal to test uncertain branches, character actions, scene memory, and storylines before committing them to canon.",
             "Rehearsal outcomes stay non-canon until the author promotes stable decisions into lore, outline, chapter state, or final prose.",
             "For same-type creation, rehearse new branch mechanics instead of replaying source branch order, character choices, or scene outcomes.",
+        ]
+
+    def _build_rolling_chapter_direction_context_priority_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "rolling_chapter_direction_context_priority_gate" not in patterns:
+            return []
+        return [
+            "Plan the next chapter through a rolling chapter direction instead of freezing the whole book into a brittle full outline.",
+            "Build context in priority order: stable identity, useful story-bible slices, current chapter direction, summaries, continuity memory, user directions, nearby pressure, then selected full chapters only after protected budget remains.",
+            "Reject context packs that dump random history, skip continuity memory, or let recent full text overwrite stable story identity.",
+        ]
+
+    def _build_scene_blueprint_reader_reward_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_blueprint_reader_reward_gate" not in patterns:
+            return []
+        return [
+            "Convert vague chapter direction into scene blueprints with location, characters, goals, obstacles, turning points, information gain, reader reward, and scene-end hook.",
+            "Treat reader reward as an explicit scene contract: each scene should deliver curiosity, emotion, clue, reversal, payoff, or pressure rather than only moving characters around.",
+            "Block prose generation when a scene has no active obstacle, no information gain, or no exit hook.",
+        ]
+
+    def _build_webnovel_quality_review_rewrite_memory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "webnovel_quality_review_rewrite_memory_gate" not in patterns:
+            return []
+        return [
+            "Review drafts across opening hook, continuity, conflict density, reader reward, mobile readability, cliffhanger strength, originality, dialogue, pacing, voice consistency, and anti-cliche behavior.",
+            "Feed failed review dimensions into a bounded rewrite loop before accepting the chapter; weak review results do not update canon memory.",
+            "After acceptance, write summary and continuity memory updates for key events, character changes, new facts, foreshadowing, open hooks, next pressure, timeline, world facts, and style notes.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -10791,6 +10862,15 @@ class NovelSourceDiscoveryService:
         if "interactive_branch_rehearsal_gate" in patterns:
             targets.append("interactive_branch_rehearsal_remap")
             targets.append("rehearsal_to_canon_decision_remap")
+        if "rolling_chapter_direction_context_priority_gate" in patterns:
+            targets.append("rolling_context_priority_remap")
+            targets.append("chapter_direction_memory_scope_remap")
+        if "scene_blueprint_reader_reward_gate" in patterns:
+            targets.append("scene_reward_hook_remap")
+            targets.append("information_gain_blueprint_remap")
+        if "webnovel_quality_review_rewrite_memory_gate" in patterns:
+            targets.append("review_rewrite_memory_remap")
+            targets.append("mobile_readability_cliffhanger_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -11418,6 +11498,12 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, include a bounded context manifest with transformed-story lore, tool-result ids, and workspace-state refs; source context buckets remain abstraction-only.")
         if "interactive_branch_rehearsal_gate" in patterns:
             hints.append("For same-type prompts, label rehearsal branches as non-canon experiments until the author promotes a transformed branch decision.")
+        if "rolling_chapter_direction_context_priority_gate" in patterns:
+            hints.append("For same-type prompts, create a new rolling chapter direction and context-priority manifest before drafting; source context order may inform process, not facts.")
+        if "scene_blueprint_reader_reward_gate" in patterns:
+            hints.append("For same-type scenes, rebuild every reader reward, information gain, and scene-end hook from transformed conflict and character desire.")
+        if "webnovel_quality_review_rewrite_memory_gate" in patterns:
+            hints.append("For same-type drafts, make the review-rewrite loop judge transformed-story continuity and mobile readability, not resemblance to the source chapter.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12373,6 +12459,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform context buckets by rebuilding lore, tool-result, and workspace-state manifests from the new story rather than reusing source project state.")
         if "interactive_branch_rehearsal_gate" in patterns:
             hints.append("Transform rehearsal mechanics by changing branch variables, character actions, scene-memory outcomes, and promotion rules before they affect canon.")
+        if "rolling_chapter_direction_context_priority_gate" in patterns:
+            hints.append("Transform rolling context by changing chapter direction, continuity pressure, selected memory layers, and omitted-context rationale before drafting.")
+        if "scene_blueprint_reader_reward_gate" in patterns:
+            hints.append("Transform each scene reward and hook by changing the goal, obstacle, information gain, emotional payoff, and exit question.")
+        if "webnovel_quality_review_rewrite_memory_gate" in patterns:
+            hints.append("Transform review results into new-story rewrite tasks; accepted summaries and continuity memory must describe the transformed chapter only.")
         if "parallel_critic_tribunal_issue_gate" in patterns:
             hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
         if "prompt_evolution_fitness_governance_gate" in patterns:
@@ -12970,6 +13062,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject context packs with missing provenance, unbounded tool results, mixed source/workspace state, or stale display history promoted into prompt authority.")
         if "interactive_branch_rehearsal_gate" in patterns:
             hints.append("Reject rehearsed branches that preserve source branch order, character choices, scene-memory deltas, or outcomes under renamed labels.")
+        if "rolling_chapter_direction_context_priority_gate" in patterns:
+            hints.append("Reject context packs that copy source chapter direction, previous-summary order, or full-chapter windows as transformed-story authority.")
+        if "scene_blueprint_reader_reward_gate" in patterns:
+            hints.append("Reject scene blueprints whose reader reward, information gain, obstacle, or scene-end hook is only a renamed source scene function.")
+        if "webnovel_quality_review_rewrite_memory_gate" in patterns:
+            hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -13166,6 +13264,9 @@ class NovelSourceDiscoveryService:
                 "ide_workspace_local_git_version_gate",
                 "agent_context_provenance_budget_gate",
                 "interactive_branch_rehearsal_gate",
+                "rolling_chapter_direction_context_priority_gate",
+                "scene_blueprint_reader_reward_gate",
+                "webnovel_quality_review_rewrite_memory_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",
                 "creative_scaffold_prompt_sequence_gate",
