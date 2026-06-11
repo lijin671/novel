@@ -555,6 +555,8 @@ def render_source_pattern_pack_digest(
         "custom_entity_label_inventory_hints",
         "placeholder_alias_consistency_map_hints",
         "proper_noun_leakage_review_hints",
+        "manuscript_card_board_extraction_gate_hints",
+        "chapter_timeline_frontmatter_export_gate_hints",
     ):
         hints = _as_note_list(source_pattern_pack.get(key))
         if not hints:

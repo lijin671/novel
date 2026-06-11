@@ -11761,6 +11761,56 @@ def test_continuation_production_control_sources_add_checkpoint_memory_semantic_
     assert "multi_thread_knowledge_timeline_gate_hints" in digest
 
 
+def test_bookboard_source_adds_manuscript_card_board_and_chapter_timeline_gates():
+    assert "https://github.com/markalexwatson/bookboard" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("digital corkboard" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "markalexwatson/bookboard",
+                "html_url": "https://github.com/markalexwatson/bookboard",
+                "description": (
+                    "Visual planning tool for novelists with digital corkboard cards for characters, themes, "
+                    "locations, objects and scenes. Imports Markdown manuscripts, extracts structure with AI, "
+                    "keeps a chapter timeline with drag-to-reorder editing, preserves front matter, merges duplicate cards, "
+                    "exports manuscript text, story bible document and JSON backup, auto-saves in localStorage, "
+                    "and can sync through Google Drive with local API keys."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "planning", "manuscript", "story-bible"],
+                "updated_at": "2026-06-11T12:00:00Z",
+                "root_files": ["README.md", "LICENSE", "index.html"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T01:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    bookboard = candidates["markalexwatson/bookboard"]
+    assert "manuscript_card_board_extraction_gate" in bookboard["absorbed_patterns"]
+    assert "chapter_timeline_frontmatter_export_gate" in bookboard["absorbed_patterns"]
+    assert "cloud_sync_oauth_surface" in bookboard["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "manuscript_card_board_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_timeline_export_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "manuscript_card_board_extraction_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_timeline_frontmatter_export_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "card_board_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("card board" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("chapter timeline" in hint for hint in pattern_pack["chapter_timeline_frontmatter_export_gate_hints"])
+    assert any("digital corkboard" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "manuscript_card_board_extraction_gate_hints" in digest
+    assert "chapter_timeline_frontmatter_export_gate_hints" in digest
+
+
 def test_novel_template_source_adds_ideation_worksheet_foundation_gates():
     assert "https://github.com/10Legs/novel-template" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("ideation worksheets" in query and "Ghost/Lie/Want/Need" in query for query in DEFAULT_GITHUB_QUERIES)

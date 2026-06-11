@@ -330,6 +330,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("harness-level enforcement" OR "PreToolUse" OR "least-privilege reviewers" OR "review-chapter") ("writing framework" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("state/current" OR "state template" OR "perplexity-improver" OR "continuity-reviewer") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("scene cards" OR "fact extraction" OR "ReviewReports" OR "Story State ledger") ("novel" OR "long-form" OR "writing platform") in:name,description,readme',
+    '("digital corkboard" OR "chapter timeline" OR "front matter preservation") ("novel" OR "manuscript" OR "story bible") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -385,6 +386,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/XuanRanL/webnovel-writer",
     "https://github.com/forsonny/book-os",
     "https://github.com/10Legs/novel-template",
+    "https://github.com/markalexwatson/bookboard",
     "https://github.com/forjd/better-writing",
     "https://github.com/EdwardAThomson/NovelWriter",
     "https://github.com/StableLlamaAI/AugmentedQuill",
@@ -1140,6 +1142,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("codex_story_skill_project_scaffold_gate", ("codex-readable", "story.md", ".codex-story", "tracking files", "story-long-analyze", "story-short-analyze", "story-long-scan", "story-short-scan", "codex skills", "story-setup")),
     ("ai_ism_detect_edit_convergence_gate", ("detect-only", "edit-in-place", "voice profile", "iterate-to-convergence", "AI writing patterns", "AI-isms", "prose fingerprints", "fingerprint clusters", "voice drift", "severity scoring")),
     ("markdown_skill_story_project_contract_gate", ("story skills", "agent skills", "YAML frontmatter", "story bible", "continuity questions", "promises/payoffs", "scene state", "chapter drafts", "story validate", "markdown project format")),
+    ("manuscript_card_board_extraction_gate", ("digital corkboard", "folder-based organisation", "folder-based organization", "key folders", "custom folders", "cards are organised", "cards are organized", "merge cards", "merge duplicate cards", "extract characters, themes, locations, objects, and key scenes", "characters, themes, locations, objects and scenes", "story bible document")),
+    ("chapter_timeline_frontmatter_export_gate", ("chapter timeline", "drag to reorder", "front matter preservation", "preserves front matter", "export your manuscript", "export your bible", "json backup", "markdown manuscripts", "chapter order")),
     ("canon_evidence_suggestion_review_gate", ("local-first story bible", "continuity checker", "canon drift", "evidence-backed suggestions", "contradictions", "context packs", "project storage", "JSON import and export", "entity facts")),
     ("expert_chain_alignment_creativity_gate", ("chainable expert AI", "expert AI modules", "perfect alignment", "boundless creativity", "alignment framework", "Special Instruction Set", "deconstructs complex literary creation", "stress-tested", "semi-automated AI writing pipeline")),
     ("visual_story_bible_continuity_gate", ("story bible technology", "visual consistency", "character appearances", "settings and visual elements", "art style", "visual continuity", "visual rules", "image bible")),
@@ -1336,6 +1340,12 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "10legs/novel-template": (
         "novel-template is a Claude Code novel-writing harness. Public README markers describe ideation, outlining, drafting, revision, final polish, 10 specialist agents, 16 slash commands, 9 craft skill knowledge bases, automated workflow hooks, and 5 ideation worksheets: premise discovery, character genesis, world building, structure blueprint, and theme discovery. "
         "Pattern-only adaptation for ideation worksheet foundation gates; upstream agents, slash commands, hooks, skill bodies, and template files are not imported or executed."
+    ),
+    "markalexwatson/bookboard": (
+        "Bookboard is an MIT visual planning tool for writers. Static public markers describe a digital corkboard with character, theme, location, object, idea, and key-scene cards; "
+        "key folders and custom folders; AI extraction of manuscript structure; duplicate-card merge review; Markdown manuscript import; chapter timeline reorder; front matter preservation; "
+        "manuscript, bible, and JSON backup exports; localStorage autosave; and optional Google Drive sync with local API keys. "
+        "Pattern-only adaptation for manuscript card-board and chapter-timeline gates; do not run browser code, Gemini extraction, Google Drive sync, or API-key flows during intake."
     ),
     "forjd/better-writing": (
         "Agent skill for human prose quality. Public README describes removing generic AI tells, slop structures, voice calibration from writing samples, "
@@ -3454,6 +3464,8 @@ class NovelSourceDiscoveryService:
             "custom_entity_label_inventory_hints": self._build_custom_entity_label_inventory_hints(available_patterns),
             "placeholder_alias_consistency_map_hints": self._build_placeholder_alias_consistency_map_hints(available_patterns),
             "proper_noun_leakage_review_hints": self._build_proper_noun_leakage_review_hints(available_patterns),
+            "manuscript_card_board_extraction_gate_hints": self._build_manuscript_card_board_extraction_gate_hints(available_patterns),
+            "chapter_timeline_frontmatter_export_gate_hints": self._build_chapter_timeline_frontmatter_export_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4238,6 +4250,8 @@ class NovelSourceDiscoveryService:
             "codex_story_skill_project_scaffold_gate": 66,
             "ai_ism_detect_edit_convergence_gate": 68,
             "markdown_skill_story_project_contract_gate": 69,
+            "manuscript_card_board_extraction_gate": 66,
+            "chapter_timeline_frontmatter_export_gate": 65,
             "canon_evidence_suggestion_review_gate": 70,
             "expert_chain_alignment_creativity_gate": 68,
             "visual_story_bible_continuity_gate": 66,
@@ -4252,6 +4266,12 @@ class NovelSourceDiscoveryService:
         if "card_workbench" in patterns:
             targets.append("card_schema_catalog")
             targets.append("field_level_cards")
+        if "manuscript_card_board_extraction_gate" in patterns:
+            targets.append("manuscript_card_board_policy")
+            targets.append("card_extraction_candidate_policy")
+        if "chapter_timeline_frontmatter_export_gate" in patterns:
+            targets.append("chapter_timeline_export_policy")
+            targets.append("frontmatter_preservation_policy")
         if "structured_generation_schema" in patterns:
             targets.append("json_schema_outputs")
             targets.append("schema_validation_rules")
@@ -5222,6 +5242,10 @@ class NovelSourceDiscoveryService:
         ]
         if "card_workbench" in patterns:
             targets.extend(["card_types", "card_field_dependencies"])
+        if "manuscript_card_board_extraction_gate" in patterns:
+            targets.extend(["manuscript_card_board_extraction_report", "duplicate_card_merge_findings"])
+        if "chapter_timeline_frontmatter_export_gate" in patterns:
+            targets.extend(["chapter_timeline_frontmatter_export_report", "chapter_reorder_impact_findings"])
         if "structured_generation_schema" in patterns:
             targets.extend(["schema_bound_outputs", "required_fields", "validation_failures"])
         if "context_reference" in patterns:
@@ -6262,6 +6286,10 @@ class NovelSourceDiscoveryService:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
             hints.append("Update card-level fields instead of overwriting the whole bible when one chapter changes only part of a character, faction, or hook.")
+        if "manuscript_card_board_extraction_gate" in patterns:
+            hints.append("Persist card board candidates for characters, themes, locations, objects, and scenes with source evidence, merge status, and key-folder review state before canon promotion.")
+        if "chapter_timeline_frontmatter_export_gate" in patterns:
+            hints.append("Persist chapter timeline order, front matter, export manifest, and JSON backup refs as derived state; reorder operations need impact reports before canon changes.")
         if "context_reference" in patterns:
             hints.append("Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.")
         if "lorebook_context" in patterns:
@@ -9812,6 +9840,24 @@ class NovelSourceDiscoveryService:
             "Names that are common genre terms need reviewer notes; distinctive names, titles, places, factions, and artifacts require replacement unless explicitly allowed.",
         ]
 
+    def _build_manuscript_card_board_extraction_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "manuscript_card_board_extraction_gate" not in patterns:
+            return []
+        return [
+            "Extract imported manuscript evidence into a reviewed card board: character, theme, location, object, and key-scene cards need source refs before use.",
+            "AI extraction may create candidate cards only; canon promotion requires reviewer acceptance, duplicate-card merge decisions, and key-folder/custom-folder status.",
+            "For拆书续写, keep source-study cards, transformed-story cards, and accepted canon cards in separate folders so digital corkboard planning cannot mix them.",
+        ]
+
+    def _build_chapter_timeline_frontmatter_export_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_timeline_frontmatter_export_gate" not in patterns:
+            return []
+        return [
+            "Treat the chapter timeline as a derived planning surface: drag-to-reorder operations must record previous order, new order, reason, and downstream impact.",
+            "Front matter preservation, manuscript export, bible export, and JSON backup are delivery artifacts; they cannot overwrite accepted canon without a review gate.",
+            "Markdown manuscript import/export should keep chapter ids, front matter, and chapter timeline lineage visible so continuation resumes from reviewed order only.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -9823,6 +9869,8 @@ class NovelSourceDiscoveryService:
         ]
         if "card_workbench" in patterns:
             targets.append("card_schema_remap")
+        if "manuscript_card_board_extraction_gate" in patterns:
+            targets.append("card_board_remap")
         if "structured_generation_schema" in patterns:
             targets.append("schema_field_remap")
         if "context_reference" in patterns:
@@ -10930,6 +10978,10 @@ class NovelSourceDiscoveryService:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
         if "card_workbench" in patterns:
             hints.append("Remap card by card: a source role can inspire a new role, but every card needs new identity, constraints, and arc.")
+        if "manuscript_card_board_extraction_gate" in patterns:
+            hints.append("Transform digital corkboard cards into a fresh card board with new identities, folder labels, merge decisions, and story-bible refs before drafting.")
+        if "chapter_timeline_frontmatter_export_gate" in patterns:
+            hints.append("Transform chapter timeline order, front matter, and export manifests around the new manuscript; source chapter order is evidence, not a reusable spine.")
         if "structured_generation_schema" in patterns:
             hints.append("Check transformed fields against required schema slots so no source-only proper noun or event label survives.")
         if "scene_asset_pipeline" in patterns:
@@ -11419,6 +11471,10 @@ class NovelSourceDiscoveryService:
             hints.append("Run copy-risk checks on structured fields as well as prose, because copied names and set-pieces often enter through planning cards.")
         if "context_reference" in patterns:
             hints.append("Reject drafts whose cited context reference points to source material as if it were new-story canon.")
+        if "manuscript_card_board_extraction_gate" in patterns:
+            hints.append("Reject digital corkboard reuse when source cards, folder names, duplicate-card merges, or AI-extracted scene labels become new-story canon without transformation.")
+        if "chapter_timeline_frontmatter_export_gate" in patterns:
+            hints.append("Reject same-type drafts that keep source chapter timeline order, front matter, chapter titles, or export manifests as the transformed manuscript spine.")
         if "voice_fingerprint" in patterns:
             hints.append("Reject voice fingerprints that preserve source catchphrases, proprietary labels, or paragraph-level phrasing.")
         if "mode_contract_generation_gate" in patterns:
@@ -11933,6 +11989,8 @@ class NovelSourceDiscoveryService:
         if patterns.intersection(
             {
                 "branching_choice_graph",
+                "manuscript_card_board_extraction_gate",
+                "chapter_timeline_frontmatter_export_gate",
                 "node_dialogue_state_machine",
                 "passage_link_navigation_map",
                 "choice_stats_consequence_gate",
