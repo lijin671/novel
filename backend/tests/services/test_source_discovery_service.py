@@ -12322,3 +12322,64 @@ def test_static_claude_book_source_adds_state_current_reviewer_loop_gate():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "state_current_reviewer_loop_gate_hints" in digest
+
+
+def test_static_novelforge_ai_source_adds_versioned_scene_fact_review_pipeline_gate():
+    assert "https://github.com/hayrgpt-rgb/NovelForge-AI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("scene cards" in query.lower() and "reviewreports" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "hayrgpt-rgb/NovelForge-AI",
+                "html_url": "https://github.com/hayrgpt-rgb/NovelForge-AI",
+                "description": (
+                    "NovelForge AI is a version-safe, traceable AI generation platform. "
+                    "Its pipeline is idea -> story bible -> full outline -> chapter outline -> scene cards -> "
+                    "scene draft -> fact extraction -> review -> revision -> memory update -> export. "
+                    "It uses AI scene draft jobs, SceneVersion records, accept/archive controls, side-by-side version viewing, "
+                    "fact approval/rejection, memory chunk creation, focused fact/memory/reference-asset/state retrieval, "
+                    "persistent continuity reports, multi-pass editorial ReviewReports, Story State ledger, Canon dashboard, "
+                    "accepted-version Markdown export, Pydantic schemas, Docker Compose, PostgreSQL, Redis, RQ, OpenAI API keys."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "scene-cards", "continuity"],
+                "updated_at": "2026-06-11T11:10:00Z",
+                "root_files": ["README.md", "AGENTS.md", "docker-compose.yml", ".env.example", "backend", "frontend"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T11:15:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    novelforge = candidates["hayrgpt-rgb/NovelForge-AI"]
+    assert "versioned_scene_fact_review_pipeline_gate" in novelforge["absorbed_patterns"]
+    assert "license:missing" in novelforge["trust_review"]["flags"]
+    assert "docker" in novelforge["risk_flags"]
+    assert "provider_key_surface" in novelforge["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "version_safe_scene_draft_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "fact_approval_memory_update_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "review_report_export_readiness_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_version_lineage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "fact_extraction_approval_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "memory_chunk_retrieval_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "continuity_reviewreport_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "canon_dashboard_export_readiness_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_version_lineage_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "fact_memory_approval_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "canon_dashboard_review_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("scene-card id" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("scene version lineage" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("Fact extraction is not automatic canon" in hint for hint in pattern_pack["versioned_scene_fact_review_pipeline_gate_hints"])
+    assert any("scene-card schema" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("approved fact deltas" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("unapproved extracted facts" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "versioned_scene_fact_review_pipeline_gate_hints" in digest

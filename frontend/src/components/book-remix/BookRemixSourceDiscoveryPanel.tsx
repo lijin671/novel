@@ -168,6 +168,7 @@ const PINNED_HINT_KEYS = new Set([
   'system_world_fate_simulation_gate_hints',
   'constraint_harness_review_worktree_gate_hints',
   'state_current_reviewer_loop_gate_hints',
+  'versioned_scene_fact_review_pipeline_gate_hints',
   'long_term_author_preference_memory_hints',
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
@@ -615,6 +616,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['System / World / Fate simulation gates', patternPackPayload?.system_world_fate_simulation_gate_hints],
               ['Constraint harness reviewer/worktree gates', patternPackPayload?.constraint_harness_review_worktree_gate_hints],
               ['State/current reviewer loop gates', patternPackPayload?.state_current_reviewer_loop_gate_hints],
+              ['Versioned scene fact/review pipeline gates', patternPackPayload?.versioned_scene_fact_review_pipeline_gate_hints],
               ['Story daemon evolution loop gates', patternPackPayload?.story_daemon_evolution_loop_hints],
             ])}
             {renderHintGroup('Local RAG / canon QA / patch replay gates', [
