@@ -2065,29 +2065,62 @@ export default function Chapters() {
   const formatGuardrailReasons = (reasons?: string[]) => (
     reasons && reasons.length > 0 ? reasons.join('、') : '暂无结构化失败信号'
   );
+  const formatGuardrailCopySignal = (signal?: string) => {
+    const value = signal?.trim();
+    if (!value) {
+      return '';
+    }
+
+    if (value.startsWith('source_entity_leak:')) {
+      const entities = value
+        .slice('source_entity_leak:'.length)
+        .split('|')
+        .map((item) => item.trim())
+        .filter(Boolean);
+      return entities.length > 0
+        ? `source entity leak: ${entities.join(', ')}`
+        : 'source entity leak';
+    }
+
+    const [kind, ...detailParts] = value.split(':');
+    const labelMap: Record<string, string> = {
+      distinctive_substring: 'distinctive substring',
+      exact_normalized_excerpt: 'exact normalized excerpt',
+      ordered_phrase_overlap: 'ordered phrase overlap',
+      fingerprint_overlap: 'fingerprint overlap',
+      fuzzy_window_similarity: 'fuzzy window similarity',
+      simhash_near_duplicate: 'simhash near duplicate',
+    };
+    const label = labelMap[kind] || kind.replace(/_/g, ' ');
+    const detail = detailParts.join(':').trim();
+    return detail ? `${label}: ${detail}` : label;
+  };
   const renderGuardrailViolations = (violations?: ChapterGuardrailViolation[]) => {
     if (!violations || violations.length === 0) {
       return <div style={{ color: 'rgba(0,0,0,0.45)' }}>暂无结构化违规明细</div>;
     }
     return (
       <Space direction="vertical" size="small" style={{ width: '100%' }}>
-        {violations.map((violation, index) => (
-          <Alert
-            key={`${violation.type || 'violation'}-${index}`}
-            type={violation.severity === 'high' ? 'error' : 'warning'}
-            showIcon
-            message={`${violation.type || 'unknown'}${violation.severity ? ` / ${violation.severity}` : ''}`}
-            description={
-              <div style={{ whiteSpace: 'pre-wrap' }}>
-                {violation.description || '无描述'}
-                {violation.source_excerpt_sha256
-                  ? `\nsource #${violation.source_excerpt_index ?? '?'} ${violation.source_excerpt_sha256.slice(0, 12)} / ${violation.source_excerpt_length ?? 0} chars${violation.copy_signal ? ` / ${violation.copy_signal}` : ''}`
-                  : ''}
-                {violation.context ? `\n上下文：${violation.context}` : ''}
-              </div>
-            }
-          />
-        ))}
+        {violations.map((violation, index) => {
+          const copySignalLabel = formatGuardrailCopySignal(violation.copy_signal);
+          return (
+            <Alert
+              key={`${violation.type || 'violation'}-${index}`}
+              type={violation.severity === 'high' ? 'error' : 'warning'}
+              showIcon
+              message={`${violation.type || 'unknown'}${violation.severity ? ` / ${violation.severity}` : ''}`}
+              description={
+                <div style={{ whiteSpace: 'pre-wrap' }}>
+                  {violation.description || '无描述'}
+                  {violation.source_excerpt_sha256
+                    ? `\nsource #${violation.source_excerpt_index ?? '?'} ${violation.source_excerpt_sha256.slice(0, 12)} / ${violation.source_excerpt_length ?? 0} chars${copySignalLabel ? ` / ${copySignalLabel}` : ''}`
+                    : ''}
+                  {violation.context ? `\n上下文：${violation.context}` : ''}
+                </div>
+              }
+            />
+          );
+        })}
       </Space>
     );
   };

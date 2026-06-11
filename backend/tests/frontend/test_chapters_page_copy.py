@@ -49,3 +49,21 @@ def test_chapters_page_keeps_core_continuation_copy_utf8_clean():
     assert "forceHighRiskContinuation: parsed.forceHighRiskContinuation === true" in text
     assert "const { forceHighRiskContinuation" not in text
     assert text.count("onCancel: handleStartMissingAnalysisForContinuation") >= 3
+
+
+def test_guardrail_review_formats_source_copy_signals_for_human_review():
+    repo_root = Path(__file__).resolve().parents[3]
+    page = repo_root / "frontend" / "src" / "pages" / "Chapters.tsx"
+    text = page.read_text(encoding="utf-8")
+
+    assert "formatGuardrailCopySignal" in text
+    assert "source_entity_leak:" in text
+    assert "source entity leak: " in text
+    assert ".split('|')" in text
+    assert "entities.join(', ')" in text
+    assert "distinctive substring" in text
+
+    raw_signal_inline = (
+        "violation.copy_signal ? ` / ${violation.copy_signal}` : ''"
+    )
+    assert raw_signal_inline not in text

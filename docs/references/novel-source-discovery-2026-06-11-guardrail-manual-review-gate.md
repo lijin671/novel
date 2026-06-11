@@ -465,3 +465,72 @@ Follow-up test note:
   `source_entity_leak:*` entities are merged without duplicate prompt rows.
 - This keeps repair prompts compact when a source faction or artifact is both
   user-specified and detected from the generated draft.
+
+### 2026-06-12 intake: review-readable copy signal display
+
+Static intake boundary:
+
+- No external repository was cloned, installed, executed, or used as runtime
+  code.
+- Public GitHub metadata, `git ls-remote`, and raw README marker scans were used
+  only as pattern evidence.
+- Posture for all sources below remains `pattern-only`.
+
+Observed sources:
+
+- `iLearn-Lab/NovelClaw`
+  - URL: https://github.com/iLearn-Lab/NovelClaw
+  - Observed HEAD: `226d50d3ec284c9cc037c47eb14af39505f9ed74`
+  - Default branch: `main`
+  - License: MIT
+  - Public signal: dynamic-memory-first long-form story generation, chapter
+    planning, review, and inspectable narrative state.
+- `mrigankad/Novel-OS`
+  - URL: https://github.com/mrigankad/Novel-OS
+  - Observed HEAD: `5f950095aaf397e82297e62423635b2f41edcc57`
+  - Default branch: `dev`
+  - License: MIT
+  - Public signal: persistent story state, deterministic continuity engine, and
+    editorial pipeline.
+- `ARMANDSnow/make-ur-Agent-writer`
+  - URL: https://github.com/ARMANDSnow/make-ur-Agent-writer
+  - Observed HEAD: `e3c18f83f17f204f382781c746e57cf0a05a41be`
+  - Default branch: `main`
+  - License: NOASSERTION
+  - Public signal: Chinese long-form continuation pipeline with mock-first
+    multi-agent review/rewrite vocabulary.
+- `forsonny/book-os`
+  - URL: https://github.com/forsonny/book-os
+  - Observed HEAD: `bf155998505bd5951e73564c3ff1b5fbe7190e83`
+  - Default branch: `main`
+  - License: MIT
+  - Public signal: tool-agnostic fiction context layers, genre guides, story
+    outlines, scene tasks, and inspectable style context.
+- `adaumann/speckit-preset-fiction-book-writing`
+  - URL: https://github.com/adaumann/speckit-preset-fiction-book-writing
+  - Observed HEAD: `c31b629ef8c733eb4e3af8643a5761ee9328fec0`
+  - Default branch: `main`
+  - License: unknown
+  - Public signal: spec-driven fiction book task templates and scene-writing
+    workflow vocabulary.
+
+Absorbed pattern:
+
+- Long-form writing systems make review state inspectable. Copy-risk guardrails
+  should expose not only source hash and length but also a reviewer-readable
+  reason.
+- Same-type imitation review should translate internal detector signals into
+  plain labels, especially source-entity leakage. A reviewer should see
+  `source entity leak: 玄霜令, 青岚会`, not raw internal text like
+  `source_entity_leak:玄霜令|青岚会`.
+
+Project adaptation:
+
+- The chapter guardrail review panel now formats `copy_signal` values before
+  display.
+- `source_entity_leak:*` is split into individual entity names for human
+  review.
+- Copy detectors such as `distinctive_substring`,
+  `fingerprint_overlap:<ratio>`, and `simhash_near_duplicate:<ratio>` are shown
+  as readable labels while keeping the source excerpt hash and length visible.
+- A frontend regression test prevents returning to raw `copy_signal` display.
