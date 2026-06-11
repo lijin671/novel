@@ -11797,3 +11797,71 @@ def test_inkos_source_adds_confirmed_action_audit_recovery_gates():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "confirmed_action_audit_recovery_gate_hints" in digest
+
+
+def test_static_project_isolated_story_bible_query_sources_add_query_gates():
+    assert "https://github.com/fidelnamisi/story-bible-assistant" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/byteyilabs/novellis-app" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("project-based isolation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("local-first narrative ai" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "fidelnamisi/story-bible-assistant",
+                "html_url": "https://github.com/fidelnamisi/story-bible-assistant",
+                "description": (
+                    "Story Bible Assistant is a local web app for writers that queries source files "
+                    "across multiple story projects using AI. Each project is isolated, files never mix, "
+                    "reads fresh on every query, no database, live file stats, TXT/MD/DOCX/PDF support, "
+                    "120000 character truncation and DeepSeek API boundary."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-bible", "writing-assistant", "local"],
+                "updated_at": "2026-03-09T09:45:43Z",
+                "root_files": ["README.md", "LICENSE", "server.js", "public", "projects"],
+            },
+            {
+                "full_name": "byteyilabs/novellis-app",
+                "html_url": "https://github.com/byteyilabs/novellis-app",
+                "description": (
+                    "Novellis is a privacy-first local-LLM narrative workspace with local-first narrative AI, "
+                    "manuscript ingestion, narrative intelligence, timeline visualization, visual knowledge graph, "
+                    "AI copilot, Ollama offline mode and optional cloud providers."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["worldbuilding", "knowledge-graph", "local-llm"],
+                "updated_at": "2026-01-04T20:19:44Z",
+                "root_files": ["README.md", "package.json", "src"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T10:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    story_bible = candidates["fidelnamisi/story-bible-assistant"]
+    novellis = candidates["byteyilabs/novellis-app"]
+    assert "project_isolated_story_bible_query_gate" in story_bible["absorbed_patterns"]
+    assert "project_isolated_story_bible_query_gate" in novellis["absorbed_patterns"]
+    assert "license:missing" in novellis["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "project_isolated_story_query_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_query_material_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "project_isolated_query_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_bible_answer_grounding_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "project_isolated_story_bible_query_gate_hints" in pattern_pack
+    assert "project_isolated_story_query_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("query manifest" in hint for hint in pattern_pack["project_isolated_story_bible_query_gate_hints"])
+    assert any("source-file manifest" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("scoped evidence cards" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("provider payload boundary" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "project_isolated_story_bible_query_gate_hints" in digest

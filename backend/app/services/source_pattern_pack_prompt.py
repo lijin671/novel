@@ -458,6 +458,7 @@ def render_source_pattern_pack_digest(
         "living_codex_editorial_workbench_gate_hints",
         "agent_role_profile_workflow_gate_hints",
         "confirmed_action_audit_recovery_gate_hints",
+        "project_isolated_story_bible_query_gate_hints",
         "offline_chapter_revision_export_gate_hints",
         "multi_agent_outline_continuity_review_gate_hints",
         "hosted_ai_sidebar_product_boundary_gate_hints",

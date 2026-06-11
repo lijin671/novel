@@ -157,6 +157,7 @@ const PINNED_HINT_KEYS = new Set([
   'living_codex_editorial_workbench_gate_hints',
   'agent_role_profile_workflow_gate_hints',
   'confirmed_action_audit_recovery_gate_hints',
+  'project_isolated_story_bible_query_gate_hints',
   'long_term_author_preference_memory_hints',
   'community_graph_source_deconstruction_hints',
   'dual_level_graph_vector_retrieval_hints',
@@ -593,6 +594,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['LangGraph story state machine gates', patternPackPayload?.langgraph_story_state_machine_hints],
               ['Agent role profile workflow gates', patternPackPayload?.agent_role_profile_workflow_gate_hints],
               ['Confirmed action audit recovery gates', patternPackPayload?.confirmed_action_audit_recovery_gate_hints],
+              ['Project-isolated story-bible query gates', patternPackPayload?.project_isolated_story_bible_query_gate_hints],
               ['Story daemon evolution loop gates', patternPackPayload?.story_daemon_evolution_loop_hints],
             ])}
             {renderHintGroup('Local RAG / canon QA / patch replay gates', [

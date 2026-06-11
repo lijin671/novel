@@ -314,6 +314,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("chapter_review" OR "revisionCounts" OR "forceAdvanced") ("novel" OR "chapter revision") in:name,description,readme',
     '("BM25" OR "CJK bigram tokenizer" OR "memory cards") ("novel" OR "story bible") in:name,description,readme',
     '("style imitation" OR "style mimicry" OR "RAG") ("anti-copy" OR "plagiarism" OR "repetition detection") ("novel" OR "writing") in:name,description,readme',
+    '("project-based isolation" OR "files never mix" OR "read fresh on every query") ("story bible" OR "writing assistant" OR "source files") in:name,description,readme',
+    '("local-first narrative ai" OR "visual knowledge graph" OR "narrative intelligence") ("story" OR "novel" OR "world-building") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -692,6 +694,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Kronic90/Mimirs-Memory-Hub",
     "https://github.com/awzheng/Mangaroo",
     "https://github.com/aileks/realm-sync",
+    "https://github.com/fidelnamisi/story-bible-assistant",
+    "https://github.com/byteyilabs/novellis-app",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -978,6 +982,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("living_codex_editorial_workbench_gate", ("living codex", "manuscript tree", "continuity engine", "editorial passes", "developmental pass", "line pass", "copy pass", "pacing curve", "emotional tempo", "pov balance", "dialogue ratio", "paragraph-level history", "acts, chapters, scenes", "yaml frontmatter", "promise/payoff")),
     ("agent_role_profile_workflow_gate", ("novelos", "agent chapter workflow", "planner, screenwriter, author, polisher, editor, memory curator, and publisher", "memory curator", "publisher", "workflow timeline", "run details", "run observability", "node events", "run doctor", "agent-level llm routing", "agent llm", "llm profiles")),
     ("confirmed_action_audit_recovery_gate", ("inkos", "action surface", "heavy actions require confirmation", "completion is based on real tool results", "37-dimension audit", "37 dimension audit", "one automatic revision pass", "unresolved critical findings", "pre-write checklist", "post-write settlement table", "json deltas", "json delta", "applyruntimestatedelta", "validateruntimestate", "automatic state snapshot", "file locking", "protected / compressible", "style imitation", "continuation")),
+    ("project_isolated_story_bible_query_gate", ("story bible assistant", "novellis", "project-based isolation", "project based isolation", "selected project files only", "selected project", "files never mix", "read fresh on every query", "no database", "live file stats", "120000 character", "120,000 characters", "source files", "local-first narrative ai", "privacy-first local-llm", "manuscript ingestion", "narrative intelligence", "timeline visualization", "visual knowledge graph", "ollama offline mode", "optional cloud providers")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2684,6 +2689,16 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Realm Sync is a canon-tracking app for TTRPG, fiction, and game-design projects that extracts entities/facts, tracks canon consistency, "
         "and flags continuity errors with evidence-backed suggestions. Pattern-only adaptation; Convex/OpenRouter/app runtime is not launched."
     ),
+    "fidelnamisi/story-bible-assistant": (
+        "MIT Story Bible Assistant for querying selected project source files. Public README markers describe project-based isolation, selected project files only, "
+        "files never mix, no database, read-fresh-on-every-query behavior, live file stats, TXT/MD/DOCX/PDF support, 120000-character truncation, and a DeepSeek API payload boundary. "
+        "Pattern-only adaptation for source-query manifests; npm runtime, provider calls, and local story files are not launched or read."
+    ),
+    "byteyilabs/novellis-app": (
+        "Novellis is a no-license-observed privacy-first local-LLM narrative workspace. Public README markers describe local-first narrative AI, manuscript ingestion, "
+        "narrative intelligence, timeline visualization, visual knowledge graph, AI copilot, Ollama offline mode, optional cloud providers, pro deep-analysis features, and unsigned installers. "
+        "Pattern-only adaptation for local narrative query/workspace boundaries; installers, Ollama, provider calls, and manuscripts are not launched or imported."
+    ),
 
 }
 
@@ -3039,6 +3054,7 @@ class NovelSourceDiscoveryService:
             "living_codex_editorial_workbench_gate_hints": self._build_living_codex_editorial_workbench_gate_hints(available_patterns),
             "agent_role_profile_workflow_gate_hints": self._build_agent_role_profile_workflow_gate_hints(available_patterns),
             "confirmed_action_audit_recovery_gate_hints": self._build_confirmed_action_audit_recovery_gate_hints(available_patterns),
+            "project_isolated_story_bible_query_gate_hints": self._build_project_isolated_story_bible_query_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4012,6 +4028,7 @@ class NovelSourceDiscoveryService:
             "living_codex_editorial_workbench_gate": 69,
             "agent_role_profile_workflow_gate": 68,
             "confirmed_action_audit_recovery_gate": 70,
+            "project_isolated_story_bible_query_gate": 69,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4265,6 +4282,9 @@ class NovelSourceDiscoveryService:
         if "confirmed_action_audit_recovery_gate" in patterns:
             targets.append("confirmed_action_surface_policy")
             targets.append("audit_revision_recovery_policy")
+        if "project_isolated_story_bible_query_gate" in patterns:
+            targets.append("project_isolated_story_query_policy")
+            targets.append("story_query_material_manifest")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5107,6 +5127,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["agent_role_profile_matrix", "workflow_timeline_run_trace", "agent_llm_route_audit", "memory_curator_publish_boundary_findings"])
         if "confirmed_action_audit_recovery_gate" in patterns:
             targets.extend(["action_confirmation_trace", "pre_write_checklist", "post_write_settlement_table", "unresolved_critical_findings_queue", "immutable_state_delta_validation"])
+        if "project_isolated_story_bible_query_gate" in patterns:
+            targets.extend(["project_isolated_query_manifest", "story_bible_answer_grounding_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6859,6 +6881,15 @@ class NovelSourceDiscoveryService:
             "Treat each write, rewrite, continuation, style-imitation, and state-edit request as a confirmed action with explicit scope before any heavy generation starts.",
             "Audit every draft with a fixed dimension list and allow at most one automatic revision pass; unresolved critical findings stay visible for human review instead of being buried by another rewrite.",
             "Promote chapter state only through schema-validated immutable deltas backed by a pre-write snapshot, post-write settlement table, and rollback pointer.",
+        ]
+
+    def _build_project_isolated_story_bible_query_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "project_isolated_story_bible_query_gate" not in patterns:
+            return []
+        return [
+            "Scope every story-bible query to one selected project or source corpus; cross-project files, cached excerpts, and unrelated inspiration banks must stay out of the answer context.",
+            "Show the query manifest before use: project id, file names, file count, total characters, truncation limit, and provider/local mode boundary.",
+            "Treat story-bible answers as grounded evidence for analysis or planning only; promotion into new-story canon still needs author confirmation and source-boundary review.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -9405,6 +9436,8 @@ class NovelSourceDiscoveryService:
             targets.append("ideation_worksheet_remap")
         if "confirmed_action_audit_recovery_gate" in patterns:
             targets.append("confirmed_action_recovery_remap")
+        if "project_isolated_story_bible_query_gate" in patterns:
+            targets.append("project_isolated_story_query_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -9982,6 +10015,8 @@ class NovelSourceDiscoveryService:
             hints.append("For role-profile workflows, route each prompt through the transformed story's own planner/screenwriter/author/editor/memory-curator brief instead of reusing source run state.")
         if "confirmed_action_audit_recovery_gate" in patterns:
             hints.append("For same-type work, rebuild the action/audit contract around the new story: confirmation labels, audit dimensions, revision limit, and unresolved findings cannot be copied from the source project.")
+        if "project_isolated_story_bible_query_gate" in patterns:
+            hints.append("Before prompting from a story-bible query, include the selected project id and source-file manifest; never mix answers from multiple source works into one drafting context.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -10841,6 +10876,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform chapter-memory units into a new memory schema with new relationships, hooks, graph nodes, and retrieval priority.")
         if "human_ai_decision_authority_gate" in patterns:
             hints.append("Transform AI suggestions through an author decision log so accepted canon reflects human choice rather than automatic draft promotion.")
+        if "project_isolated_story_bible_query_gate" in patterns:
+            hints.append("Transform story-query answers into scoped evidence cards first: source project, selected files, answer claims, truncation boundary, and new-story abstraction decision.")
         if "parallel_critic_tribunal_issue_gate" in patterns:
             hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
         if "prompt_evolution_fitness_governance_gate" in patterns:
@@ -10906,6 +10943,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type runs that reuse source workflow timelines, role briefs, route profiles, retry traces, or memory-curator artifacts as transformed-story authority.")
         if "confirmed_action_audit_recovery_gate" in patterns:
             hints.append("Reject drafts when action confirmation is missing, revision debt is hidden, unresolved critical findings are dropped, or source audit wording/AI-tell lists become new-story canon.")
+        if "project_isolated_story_bible_query_gate" in patterns:
+            hints.append("Reject answers or drafts if selected project/source id, file manifest, truncation boundary, provider payload boundary, or local/offline mode boundary is missing or mixed.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Reject drafts that preserve the source secret matrix, reveal order, character absence gap, or who-knows-what timeline under renamed roles.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -11527,6 +11566,7 @@ class NovelSourceDiscoveryService:
                 "living_codex_editorial_workbench_gate",
                 "agent_role_profile_workflow_gate",
                 "confirmed_action_audit_recovery_gate",
+                "project_isolated_story_bible_query_gate",
                 "offline_chapter_revision_export_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",

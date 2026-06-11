@@ -134,6 +134,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "living_codex_editorial_workbench_gate_hints",
             "agent_role_profile_workflow_gate_hints",
             "confirmed_action_audit_recovery_gate_hints",
+            "project_isolated_story_bible_query_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -292,6 +293,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "LangGraph story state machine gates" in panel_text
     assert "Agent role profile workflow gates" in panel_text
     assert "Confirmed action audit recovery gates" in panel_text
+    assert "Project-isolated story-bible query gates" in panel_text
     assert "Story daemon evolution loop gates" in panel_text
     assert "Local RAG / canon QA / patch replay gates" in panel_text
     assert "Local RAG writing IDE gates" in panel_text
