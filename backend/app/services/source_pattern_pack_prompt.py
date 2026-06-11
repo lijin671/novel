@@ -339,6 +339,7 @@ def render_source_pattern_pack_digest(
         "llm_style_dimension_matrix_gate_hints",
         "stylometry_feature_extraction_baseline_gate_hints",
         "local_block_manuscript_workspace_gate_hints",
+        "scene_state_prompt_injection_gate_hints",
         "keyphrase_motif_extraction_hints",
         "chinese_segmentation_keyword_gate_hints",
         "chinese_ner_alias_consistency_gate_hints",

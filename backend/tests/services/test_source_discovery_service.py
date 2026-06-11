@@ -13170,3 +13170,50 @@ def test_static_style_axis_and_local_editor_sources_add_voice_block_revision_gat
     assert "llm_style_dimension_matrix_gate_hints" in digest
     assert "stylometry_feature_extraction_baseline_gate_hints" in digest
     assert "local_block_manuscript_workspace_gate_hints" in digest
+
+
+def test_static_story_tracker_source_adds_scene_state_prompt_injection_gate():
+    assert "https://github.com/virgilianshailer/story-tracker" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("scene context tracking" in query.lower() and "narrative consistency" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "virgilianshailer/story-tracker",
+                "html_url": "https://github.com/virgilianshailer/story-tracker",
+                "description": (
+                    "SillyTavern extension for scene context tracking. It automatically tracks time, "
+                    "date, location, weather, character positions, outfits, held items, recent events, "
+                    "history log, context injection into Author's Note, and separate connection profile "
+                    "for LLM scene analysis to maintain narrative consistency."
+                ),
+                "stargazers_count": 4,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["sillytavern", "story-tracker", "narrative-consistency", "roleplay"],
+                "updated_at": "2026-05-25T14:32:50Z",
+                "root_files": ["README.md", "LICENSE", "manifest.json", "index.js", "style.css"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T19:10:00+08:00",
+    )
+
+    candidate = {candidate["title"]: candidate for candidate in result["candidates"]}["virgilianshailer/story-tracker"]
+    assert "scene_state_prompt_injection_gate" in candidate["absorbed_patterns"]
+    assert "provider_key_surface" in candidate["risk_flags"]
+    assert "browser_extension" in candidate["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "scene_state_prompt_injection_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_state_timeline_location_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_state_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("time" in hint and "location" in hint for hint in pattern_pack["scene_state_prompt_injection_gate_hints"])
+    assert any("scene state" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("scene snapshot" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("new-story scene state" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("prompt-injection" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "scene_state_prompt_injection_gate_hints" in digest

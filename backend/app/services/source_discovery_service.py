@@ -62,6 +62,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("ideation worksheets" OR "premise discovery" OR "Ghost/Lie/Want/Need") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("sourcebook" OR "source book" OR "writing partner") ("novel" OR "AI writing") in:name,description,readme',
     '("long story consistency" OR "narrative consistency" OR "ConStory") ("LLM" OR "story generation") in:name,description,readme',
+    '("scene context tracking" OR "scene state tracker" OR "character position log") ("narrative consistency" OR "author note" OR "recent events") in:name,description,readme',
     '("cross-chapter redundancy" OR "full-book review" OR "parallel chapter drafting") ("novel" OR "fiction") in:name,description,readme',
     '("semantic search" OR "vector-based long-term context" OR "plot contradictions") ("novel" OR "chapter") in:name,description,readme',
     '("perplexity" OR "burstiness" OR "stylometry") ("humanize" OR "AI text") in:name,description,readme',
@@ -587,6 +588,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/daisy/epub-accessibility-tests",
     "https://github.com/john-paul-ruf/novel-engine",
     "https://github.com/ThomasHoussin/Claude-Book",
+    "https://github.com/virgilianshailer/story-tracker",
     "https://github.com/DoktorDaveJoos/Manuscript",
     "https://github.com/geobond13/fiction-forge",
     "https://github.com/shenminglinyi/PlotPilot",
@@ -1206,6 +1208,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("schema_review_revision_recovery_gate", ("chapter_review", "requiredbeats", "chapter_revision", "revisioncounts", "forceadvanced", "rejected submissions", ".agent-recovery/failed", "mandatory chapter acceptance gate")),
     ("cjk_bm25_context_retrieval_gate", ("bm25 lexical retrieval", "bm25-style lexical retrieval", "cjk bigram tokenizer", "memory cards", "minisearch", "lexical retrieval over chapters", "story-bible sections")),
     ("dynamic_architecture_extension_gate", ("architecture_extension", "plannedtotalchapters", "chaptersperrun", "highest chapter covered", "volume pacing board", "pacing guardrails", "needs planning")),
+    ("scene_state_prompt_injection_gate", ("scene context tracking", "scene state tracker", "character position log", "recent events summary", "context injection", "author's note", "time, date, location", "temperature and weather", "history log", "auto-update llm scene", "connection profile", "narrative consistency")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -1217,7 +1220,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("binary_distribution", (".zip", "release/", "windows packaged", "windows 打包版", "安装包", "客户端")),
     ("auto_update", ("auto upgrade", "automatic update", "自动升级", "upgrade.zip", "在线升级")),
     ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
-    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
+    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "connection profile", "analysis profile", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
     ("cloud_sync_oauth_surface", ("oauth", "oauth 2.0", "google drive", "cloud sync", "auth0", "jwt token", "auth cookie", "passphrase", "pkce", "database_url", "postgres", "supabase", "neon")),
     ("browser_storage_surface", ("indexeddb", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
@@ -1501,6 +1504,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "picrew/constory-bench": (
         "Long-story consistency benchmark and ConStory-Checker. Public README describes narrative consistency errors across characterization, factual detail, narrative style, timeline/plot, "
         "world-building/setting, plus 19 subtypes such as forgotten abilities, nomenclature confusions, causality violations, abandoned plots, and rule violations."
+    ),
+    "virgilianshailer/story-tracker": (
+        "Story Tracker is a SillyTavern extension. Public README describes scene context tracking for time, date, location, weather, character positions, outfits, held items, recent events, history snapshots, Author's Note context injection, auto-update cadence, and optional separate analysis connection profiles. "
+        "Absorb scene-state prompt-injection and snapshot-review patterns only; browser extension install, SillyTavern runtime, provider profiles, and LLM scene-analysis calls are not used."
     ),
     "harshaneel/humanize": (
         "LLM-agnostic static AI text humanization/detection skill. Public README describes perplexity, burstiness, stylometry, discourse, watermarking, nine humanization levers, "
@@ -3492,6 +3499,7 @@ class NovelSourceDiscoveryService:
             "llm_style_dimension_matrix_gate_hints": self._build_llm_style_dimension_matrix_gate_hints(available_patterns),
             "stylometry_feature_extraction_baseline_gate_hints": self._build_stylometry_feature_extraction_baseline_gate_hints(available_patterns),
             "local_block_manuscript_workspace_gate_hints": self._build_local_block_manuscript_workspace_gate_hints(available_patterns),
+            "scene_state_prompt_injection_gate_hints": self._build_scene_state_prompt_injection_gate_hints(available_patterns),
             "keyphrase_motif_extraction_hints": self._build_keyphrase_motif_extraction_hints(available_patterns),
             "chinese_segmentation_keyword_gate_hints": self._build_chinese_segmentation_keyword_gate_hints(available_patterns),
             "chinese_ner_alias_consistency_gate_hints": self._build_chinese_ner_alias_consistency_gate_hints(available_patterns),
@@ -4202,6 +4210,7 @@ class NovelSourceDiscoveryService:
             "llm_style_dimension_matrix_gate": 68,
             "stylometry_feature_extraction_baseline_gate": 67,
             "local_block_manuscript_workspace_gate": 66,
+            "scene_state_prompt_injection_gate": 66,
             "keyphrase_motif_extraction": 58,
             "chinese_segmentation_keyword_gate": 62,
             "chinese_ner_alias_consistency_gate": 63,
@@ -5199,6 +5208,9 @@ class NovelSourceDiscoveryService:
         if "local_block_manuscript_workspace_gate" in patterns:
             targets.append("local_block_manuscript_workspace_policy")
             targets.append("block_revision_private_data_boundary")
+        if "scene_state_prompt_injection_gate" in patterns:
+            targets.append("scene_state_prompt_injection_policy")
+            targets.append("scene_snapshot_context_boundary")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_ledger")
             targets.append("motif_topic_drift_rules")
@@ -5839,6 +5851,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["stylometry_feature_baseline_report", "style_feature_drift_findings"])
         if "local_block_manuscript_workspace_gate" in patterns:
             targets.extend(["local_block_workspace_revision_report", "private_local_block_boundary_findings"])
+        if "scene_state_prompt_injection_gate" in patterns:
+            targets.extend(["scene_state_timeline_location_report", "character_position_recent_event_findings", "prompt_injection_boundary_findings"])
         if "keyphrase_motif_extraction" in patterns:
             targets.extend(["keyphrase_motif_map", "motif_drift_findings", "topic_keyword_salience"])
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -6388,6 +6402,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before continuation, use stylometry feature baselines as drift diagnostics for accepted chapters; do not ask the draft to match a source author's measurable signature.")
         if "local_block_manuscript_workspace_gate" in patterns:
             hints.append("Before continuation or revision, select one chapter-block scope, neighboring-block context, revision intent, and local/private-data boundary.")
+        if "scene_state_prompt_injection_gate" in patterns:
+            hints.append("Before continuation, inject only reviewed scene state: time, date, location, weather, present characters, held items, and recent events; unresolved tracker fields become review questions.")
         if "story_import_pattern_revision_gate" in patterns:
             hints.append("Before sequel, alternate, or same-type generation from an existing story, declare story import pass ids, pattern extraction scope, generation mode, canon packet, and revision conflict boundary.")
         if "consequence_ledger_last_actions_context_gate" in patterns:
@@ -6863,6 +6879,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist stylometry feature baselines, comparison corpus ids, drift thresholds, review decisions, and independence notes separately from drafting prose.")
         if "local_block_manuscript_workspace_gate" in patterns:
             hints.append("Persist chapter-block ids, neighboring-block context, revision history, accept/reject status, and local/private-data boundary for every block-scoped edit.")
+        if "scene_state_prompt_injection_gate" in patterns:
+            hints.append("Persist scene snapshots with time/date/location/weather, character positions, outfits or held items, recent events, history index, injection status, and reviewer decision.")
         if "story_import_pattern_revision_gate" in patterns:
             hints.append("Persist source import pass ids, chunk boundaries, extracted pattern profile ids, generation mode, draft artifact ids, version conflict findings, revision pass status, and promote-to-manuscript decision.")
         if "consequence_ledger_last_actions_context_gate" in patterns:
@@ -9060,6 +9078,15 @@ class NovelSourceDiscoveryService:
             "Local model, speech, native release, and provider-key surfaces remain runtime-deferred; source discovery absorbs only workspace and revision patterns.",
         ]
 
+    def _build_scene_state_prompt_injection_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_state_prompt_injection_gate" not in patterns:
+            return []
+        return [
+            "Track scene state as reviewed fields: time, date, location, weather, character positions, outfits or held items, and recent events before prompt injection.",
+            "Context injection should be a visible, bounded Author's Note layer; stale or low-confidence scene fields become review questions instead of canon.",
+            "Browser extension, SillyTavern runtime, provider profiles, and LLM scene-analysis calls remain runtime-deferred; absorb only scene-state and snapshot patterns.",
+        ]
+
     def _build_keyphrase_motif_extraction_hints(self, patterns: set[str]) -> list[str]:
         if "keyphrase_motif_extraction" not in patterns:
             return []
@@ -10781,6 +10808,8 @@ class NovelSourceDiscoveryService:
             targets.append("stylometry_feature_baseline_remap")
         if "local_block_manuscript_workspace_gate" in patterns:
             targets.append("local_block_revision_remap")
+        if "scene_state_prompt_injection_gate" in patterns:
+            targets.append("scene_state_remap")
         if "keyphrase_motif_extraction" in patterns:
             targets.append("keyphrase_motif_remap")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -11369,6 +11398,8 @@ class NovelSourceDiscoveryService:
             hints.append("Use stylometry feature baselines as audit ranges only; drafting prompts should not require matching a source author's measurable signature.")
         if "local_block_manuscript_workspace_gate" in patterns:
             hints.append("Draft against one chapter-block scope at a time with block id, neighboring blocks, revision intent, and local/private-data boundary visible.")
+        if "scene_state_prompt_injection_gate" in patterns:
+            hints.append("For same-type prompts, build new-story scene state first: new time, location, weather, character positions, recent events, and injection boundary before drafting.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Extract source motifs as abstract pressure points, then replace motif keywords with new-story objects, places, and stakes.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -11838,6 +11869,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform stylometric feature ranges into review thresholds, then choose changes that move away from source-author similarity.")
         if "local_block_manuscript_workspace_gate" in patterns:
             hints.append("Transform block-workspace lessons into local chapter ids, adjacent-context windows, and accepted/rejected revision records for the new manuscript.")
+        if "scene_state_prompt_injection_gate" in patterns:
+            hints.append("Transform scene tracker fields into fresh state values; source time, weather, location, outfits, and recent-event summaries are structure only, not reusable facts.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Transform extracted motifs by changing the concrete keywords, symbolic objects, and payoff stakes.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -12425,6 +12458,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that improve stylometry similarity to the source while preserving source sentence-length cadence, function-word pattern, or vocabulary fingerprint.")
         if "local_block_manuscript_workspace_gate" in patterns:
             hints.append("Reject block revisions when source blocks, native-app artifacts, speech transcripts, or provider-generated edits overwrite accepted canon without scoped review.")
+        if "scene_state_prompt_injection_gate" in patterns:
+            hints.append("Reject prompt-injection state when tracker output, extension runtime data, provider profile names, or old scene snapshots enter canon without reviewer acceptance.")
         if "keyphrase_motif_extraction" in patterns:
             hints.append("Reject drafts whose top motif keywords, symbolic objects, or topic salience map back to source-specific set pieces.")
         if "chinese_segmentation_keyword_gate" in patterns:
@@ -12696,6 +12731,7 @@ class NovelSourceDiscoveryService:
                 "llm_style_dimension_matrix_gate",
                 "stylometry_feature_extraction_baseline_gate",
                 "local_block_manuscript_workspace_gate",
+                "scene_state_prompt_injection_gate",
                 "keyphrase_motif_extraction",
                 "chinese_segmentation_keyword_gate",
                 "chinese_ner_alias_consistency_gate",
