@@ -316,6 +316,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("horoscope test" OR "tiered scoring" OR "structural tells") ("AI slop" OR "AI writing patterns") in:name,description,readme',
     '("personal voice" OR "model signature detection" OR "AI probability score") ("AI writing" OR "humanizer" OR "Claude Code skill") in:name,description,readme',
     '("persistent narrative universe" OR "choices actually matter" OR "NovelAI-style memory") ("story" OR "chapter") in:name,description,readme',
+    '("Chapter Contract" OR "Scene Contract" OR "Override Contract" OR "Debt Ledger") ("long-form fiction" OR "novel pipeline") in:name,description,readme',
+    '("rolling summary" OR "canon notes" OR "current story goal" OR "auto-updating cast ledger") ("webnovel" OR "long novel") in:name,description,readme',
+    '("inline annotations" OR "diagnostic not generative" OR "apply or dismiss") ("manuscript editor" OR "long-form fiction") in:name,description,readme',
+    '("十步流程" OR "去AI味" OR "交互决策点" OR "文风F") ("小说创作助手" OR "网文") in:name,description,readme',
     '("YAML frontmatter" OR "continuity questions" OR "promises/payoffs") ("story bible" OR "story skills" OR "chapter drafts") in:name,description,readme',
     '("local-first story bible" OR "continuity checker" OR "evidence-backed suggestions") ("fiction" OR "novel") in:name,description,readme',
     '("chainable expert AI" OR "alignment and creativity" OR "expert modules") ("writing framework" OR "AI writing") in:name,description,readme',
@@ -806,6 +810,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/aplaceforallmystuff/the-antislop",
     "https://github.com/sirambrosio/humanink",
     "https://github.com/jonmartin721/living-story-world",
+    "https://github.com/wpowen/bestseller",
+    "https://github.com/joshuaaleister-lab/webnovel-studio",
+    "https://github.com/pori/hohoff",
+    "https://github.com/ximencuisu/ximen-aimazi",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -873,7 +881,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "vector retrieval", "vector storage", "retrieved automatically", "retrieval", "retrieve relevant", "rag", "injection viewer", "上下文注入", "上下文引用", "知识图谱", "引用")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "prompt pipeline", "prompt pipelines", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
-    ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "读者面板", "平台期检测")),
+    ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "scorecard", "scoring", "scores", "tiered scoring", "weighted scoring", "threshold", "thresholds", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "评分", "出稿门槛", "门槛", "读者面板", "平台期检测")),
     ("voice_fingerprint", ("voice fingerprint", "voice analysis", "voice discovery", "voice.md", "声纹", "文风指纹", "语气指纹", "声音发现")),
     ("anti_slop_audit", ("anti-slop", "anti-pattern", "slop scorer", "ai tell", "mechanical slop", "anti-pattern rules", "反 AI", "反套路", "AI 味", "机械感")),
     ("publication_pipeline", ("print-ready", "epub", "audiobook", "landing page", "typeset", "latex", "export", "publish", "publication", "有声书", "排版", "出版", "交付流水线")),
@@ -884,7 +892,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("local_first_novel_workspace", ("local-first", "local first", "privacy-first", "offline access", "indexeddb", "multi-novel", "active novel", "workspace", "local data persistence", "novel workspace", "own every word", "no subscription", "your prose stays on your device", "local model", "本地优先", "离线访问", "多小说工作区")),
     ("prompt_library", ("prompt manager", "prompt library", "task-specific prompt", "task prompts", "system prompt", "reset prompts", "prompt template", "prompttemplates", "prompt workflows", "visible, editable, and savable", "visible editable savable", "system/user/parameters", "saveTarget", "提示词库", "提示词管理", "任务提示词")),
     ("scene_level_generation", ("scene-level generation", "scene level generation", "scene-by-scene", "scene drafts", "plan scenes", "draft scene", "scene text writing", "generate prose for each scene", "场景级生成", "逐场景生成")),
-    ("review_queue_staging", ("review queue", "pendingchange", "pending change", "staging area", "diff view", "line-level diff", "automatic snapshots", "draft awaiting your review", "accept edit reject", "accept all", "staged not applied", "审查队列", "暂存区", "待审核变更")),
+    ("review_queue_staging", ("review queue", "pendingchange", "pending change", "staging area", "diff view", "line-level diff", "automatic snapshots", "draft awaiting your review", "accept edit reject", "accept all", "apply or dismiss", "undoable", "inline annotations", "diagnostic not generative", "revision candidates", "staged not applied", "审查队列", "暂存区", "待审核变更")),
     ("style_guide_layering", ("style guide", "base style guide", "scene override", "scene overrides", "character voice", "character voices", "voicenotes", "voice notes", "pov conventions", "dialogue rules", "风格指南", "场景覆写", "角色语音")),
     ("entity_schema_custom_fields", ("custom entity types", "custom entity type", "custom fields", "custom field schemas", "fieldschema", "field schema", "entity types", "field schemas", "自定义实体", "自定义字段", "字段模式")),
     ("content_ref_externalization", ("contentref", "content ref", "content externalization", "externalized content", "large text blobs", ".saga/content", "lightweight checkpoints", "外置内容", "内容引用")),
@@ -965,7 +973,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_contract_commit_chain", ("story contract", "story contracts", "chapter contract", "chapter contracts", "chapter_commit", "chapter commit", "approved chapter contract", "合同", "提交链", "故事合同", "唯一的事实源头", "主链", "accepted chapter_commit")),
     ("fact_snapshot_delta_gate", ("fact snapshot", "事实快照", "15维事实快照", "12类变更声明", "state write-back", "fact write-back", "状态回写", "事实回写", "变更声明", "generation gates", "生成门禁", "统一校验")),
     ("projection_sync_observability", ("projection_log", "projection log", "state/index/summary/memory/vector", "投影", "派生视图", "只读视图", "dashboard", "doctor", "preflight", "项目体检", "可视化面板")),
-    ("foreshadowing_debt_budget", ("foreshadowing debt", "foreshadowing tracking", "foreshadowing threads", "foreshadowing ledger", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
+    ("foreshadowing_debt_budget", ("foreshadowing debt", "foreshadowing tracking", "foreshadowing threads", "foreshadowing ledger", "debt ledger", "chase debt", "override/debt", "override contract", "伏笔债务", "debttracker", "token 预留", "budget allocation", "上下文预算", "未回收伏笔", "伏笔追踪")),
     ("reader_retention_review_gate", ("reader retention", "follow-up rate", "追读力", "爽点", "ooc", "节奏", "6 维", "six-dimensional", "reader promise", "读者承诺")),
     ("serial_reader_reward_contract_gate", ("commercial serialization", "commercial webnovel", "paid conversion", "paid chapter", "free-to-paid", "opening hook", "platform packaging", "chapter production brief", "reader persona demand", "serial strategy", "chapter reward contract", "상업 연재", "독자 보상", "유료화 지점", "회차 로드맵", "회차 집필 지시서", "플랫폼별 패키징", "이탈 위험", "商业网文", "平台连载", "章节合同", "情绪回报", "追读点", "弃读风险", "开篇钩子")),
     ("anti_statistical_center_chapter_type_gate", ("three-type", "chapter type", "a-type emotion", "b-type action", "c-type function", "三型分流", "a型情绪章", "b型动作章", "c型功能章", "概率陷阱", "最可能的续写", "事件冷却矩阵", "唯一画面测试", "story contract", "反向刹车", "3+1熔断", "自创公式检测", "nucleus-first", "seven knives", "golden finger")),
@@ -1056,7 +1064,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("outline_checkpoint_milestone_gate", ("outline checkpoint", "chapter milestone", "narrative milestone", "narrative milestones", "story bible truth source", "story bible as truth source", "checkpoint constraints", "layered outline", "blueprint milestone", "chapter sequence")),
     ("language_localization_style_profile_gate", ("vietnamese writing patterns", "style_guide_vn", "style guide vn", "localized writing rules", "language style guide", "language-specific style", "units:", "proper nouns/terms", "cumulative glossary", "\u6587\u98ce\u6837\u672c", "\u672c\u5730\u5316")),
     ("progressive_disclosure_skill_protocol_gate", ("progressive disclosure", "intent-based command routing", "protocol files", "protocols/", "codex/", "entry light", "protocol heavy", "knowledge base", "agent workflow handbook", "agent should not put the entire repo", "docs/00-index.md", "command routing", "渐进式披露", "指令路由", "运行协议")),
-    ("anti_slop_rulepack_triage_gate", ("no-slop", "banned vocabulary", "ai writing patterns", "anti-ai-pattern", "anti ai pattern", "prose linter", "simple copulas", "marketing language", "vague attribution", "slop", "rulepack", "triage", "反 ai 痕迹")),
+    ("anti_slop_rulepack_triage_gate", ("no-slop", "banned vocabulary", "banned word", "banned words", "banned phrase", "banned phrases", "ai writing patterns", "anti-ai-pattern", "anti ai pattern", "prose linter", "simple copulas", "marketing language", "vague attribution", "slop", "rulepack", "triage", "反 ai 痕迹", "去ai味", "去 ai 味", "禁语表", "禁用词", "六门禁", "6 门禁", "三遍法", "ai 原文", "human-edited text")),
     ("user_modifier_project_blueprint_gate", ("project modifiers", "target novel length", "target chapter word count", "ai-driven initial planning", "initial plan", "idea spark", "dashboard", "live timings", "system log", "project state", "export json")),
     ("portable_canon_skill_runtime_gate", ("canon governance", "canon layer", "portable skill runtime", "story/*.md", "markdown frontmatter", "sqlite state", "canon-sync", "artifact index", "project config", "skill runtime")),
     ("staged_outline_chunk_window_gate", ("sliding-window memory", "focused plot context", "adjacent parts", "cjk-aware counter", "start chapter", "end chapter", "chapter range refinement", "batch start", "resume interrupted generation", "plot token usage")),
@@ -1251,7 +1259,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("agent_cache_concurrency_recovery_gate", ("custom caching protocol", "avoids duplicate api calls", "thread-safe concurrency", "graceful degradation", "comprehensive logging", "circuit breaker", "raw model output", "run_id", "artifacts/runs")),
     ("long_context_role_boundary_state_validation_gate", ("opening audition", "director blueprint", "writer executes", "critic audits blueprint adherence", "patch reviser", "reader simulator", "archivist", "state validator", "strict-quality", "corrupted long-running story state")),
     ("chapter_memory_ingestion_context_budget_gate", ("chapter ingestion", "????", "context package", "????", "token budget", "hybrid retrieval", "chapter summary", "ending hook", "relationship changes", "foreshadowing", "graph nodes", "memory units")),
-    ("human_ai_decision_authority_gate", ("ai is the amplifier", "not the voice", "ai 80% + human 20%", "human-ai collaboration", "????????", "human confirmation", "final draft acceptance", "final decisions are yours", "select, adjust", "inject soul", "not a one-click novel generator")),
+    ("human_ai_decision_authority_gate", ("ai is the amplifier", "not the voice", "ai 80% + human 20%", "human-ai collaboration", "????????", "human confirmation", "human decision", "interaction decision points", "decision points", "discussion mode", "fast mode", "final draft acceptance", "final decisions are yours", "select, adjust", "inject soul", "not a one-click novel generator", "交互决策点", "讨论模式", "快速模式", "必停", "人工定选题")),
     ("parallel_critic_tribunal_issue_gate", ("parallel critic tribunal", "agentic tribunal", "critic agents", "prose, redundancy, arc", "vote on every draft", "beads", "issue tracking", "deep issue tracking")),
     ("prompt_evolution_fitness_governance_gate", ("fitness dashboard", "five-dimensional fitness", "quality assessment", "automated prompt evolution", "prompt evolution", "temporal truth database", "strict industrial-grade review", "trace debugger")),
     ("fanqie_checkpoint_compliance_audit_gate", ("fanqie", "tomato-style", "golden three chapters", "8w", "10w", "15w", "platform compliance", "10-chapter consistency audits", "pacing ledger", "fanqie-ready plain text")),
@@ -3143,6 +3151,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "jonmartin721/living-story-world": (
         "Living Storyworld is a MIT persistent narrative universe generator. Public README markers describe NovelAI-style memory, characters remembering past events, locations building history, choices mattering going forward, knowledge graph consistency across generations, provider-agnostic text and image generation, streaming progress, world management, story world state, and API-key setup surfaces. "
         "Pattern-only adaptation for persistent story-world memory, choice-consequence continuity, and provider-boundary separation; prebuilt executables, package installs, web server, text/image provider calls, API keys, generated chapters, screenshots, and release binaries are not executed or imported."
+    ),
+    "wpowen/bestseller": (
+        "BestSeller is a no-license-observed Chinese distributed human-AI long-form novel production framework. Public README markers describe Premise -> Plan -> Draft -> Review -> Rewrite -> Override/Debt -> Knowledge Propagation -> Export -> Publish, PostgreSQL as single truth source, Canon Facts, Timeline Events, Character State Snapshots, Chapter Contract, Scene Contract, Hard Constraints, Soft Constraints, Override Contract, Chase Debt, CheckerReport JSON schema, NovelScorecard, MethodologyCard/Profile/Contract Overlay, Hype Engine, RAG, REST API, MCP Server, CLI, Docker, LiteLLM and provider keys. "
+        "Pattern-only adaptation for chapter/scene contract gates, override-debt ledgers, methodology assetization, and structured checker scorecards; PostgreSQL/pgvector, Docker/compose, MCP server, CLI/web workers, LiteLLM/providers, platform publish flows, user manuscripts, and scripts are not executed or imported."
+    ),
+    "joshuaaleister-lab/webnovel-studio": (
+        "webnovel-studio is a no-license-observed browser-based long-form webnovel writer paired with a Story Director. Public README markers describe seven-movement story direction, webnovel-studio.html for endless 1000+ chapters, Build the Story Bible, Write next chapter, Auto-write with Stop/target count, rolling summary of recent chapters, Canon notes, Current story goal, auto-updating Characters cast ledger, browser autosave, Export manuscript, Save backup, plain Node server, Vercel/Cloudflare backends, Claude/Gemini modes, and API key surfaces. "
+        "Pattern-only adaptation for rolling-summary continuation, canon-note steering, auto-updating cast ledger review, and browser-backup boundaries; Node server, Vercel/Workers deploy, provider calls, Gemini/Anthropic keys, image generation, browser storage, generated prose, and backend commands are not executed or imported."
+    ),
+    "pori/hohoff": (
+        "Hohoff is a no-license-observed Electron manuscript editor for the revision stage of long-form fiction. Public README markers describe Markdown/CodeMirror manuscript editing, outline navigation, full-text search, drag-and-drop ordering, diagnostic AI revision tools that are not generative, inline annotations for passive voice, consistency, style, show-vs-tell and critique, hover suggestions, apply or dismiss with undo, Story Bible.md, story-bible and whole-story context toggles, generation of a starting Story Bible from an existing manuscript, versioned snapshots under .hohoff/.revisions, order/session metadata, Anthropic API key and local config. "
+        "Pattern-only adaptation for diagnostic-not-generative revision queues, inline annotation accept/dismiss gates, context-toggle provenance, and per-save revision snapshots; Electron app, package install/build, Anthropic calls, local manuscript folders, config files, screenshots, and upstream CLAUDE/skill instructions are not executed or imported."
+    ),
+    "ximencuisu/ximen-aimazi": (
+        "ximen-aimazi is a MIT Chinese novel creation assistant. Public README markers describe a ten-step / Phase 1-12 creation flow, style F contrast learning by pasting AI original plus human-edited text to extract 12 mandatory rules across 10 dimensions, anti-AI-taste controls with genre-specific rhetoric levels, banned-word frequency budgets, six gates for banned terms, formulaic sentence removal, psychological externalization, rhythm breaking, dialogue de-formalization and ending de-sublimation, a three-pass polish method, seven-dimension scoring with thresholds for daily, climax, volume-ending and continuation chapters, discussion/fast modes, and DP1-1 to DP12-3 interaction decision points. "
+        "Pattern-only adaptation for contrast-learned house style rules, genre-aware anti-AI gates, weighted webnovel scoring, and mandatory author decision checkpoints; upstream prompt bodies, sample text, skill/runtime files, generated chapters, installers, and provider calls are not imported or executed."
     ),
 
 }

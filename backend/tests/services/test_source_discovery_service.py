@@ -14307,3 +14307,108 @@ def test_latest_ai_slop_and_persistent_story_sources_are_static_absorbed():
     assert "anti_slop_rulepack_triage_gate_hints" in digest
     assert "ai_ism_detect_edit_convergence_gate_hints" in digest
     assert "world_state_tracking_hints" in digest
+
+
+def test_latest_longform_webnovel_editor_sources_are_static_absorbed():
+    assert "https://github.com/wpowen/bestseller" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/joshuaaleister-lab/webnovel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/pori/hohoff" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ximencuisu/ximen-aimazi" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("chapter contract" in query.lower() and "debt ledger" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("rolling summary" in query.lower() and "canon notes" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("inline annotations" in query.lower() and "diagnostic not generative" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("十步流程" in query and "去AI味" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "wpowen/bestseller",
+                "html_url": "https://github.com/wpowen/bestseller",
+                "description": "面向长篇小说生产的分布式人机共创框架。",
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "pipeline"],
+                "updated_at": "2026-06-11T10:32:06Z",
+                "root_files": ["README.md", "Dockerfile", "docker-compose.yml", ".env.example", "src", "mcp"],
+            },
+            {
+                "full_name": "joshuaaleister-lab/webnovel-studio",
+                "html_url": "https://github.com/joshuaaleister-lab/webnovel-studio",
+                "description": "Long-form NOVEL writer for endless chapters with memory and autosave.",
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["webnovel", "story"],
+                "updated_at": "2026-06-11T16:18:27Z",
+                "root_files": ["README.md", "server.js", "package.json", "webnovel-studio.html", "worker.js"],
+            },
+            {
+                "full_name": "pori/hohoff",
+                "html_url": "https://github.com/pori/hohoff",
+                "description": "AI-powered manuscript editor for long-form fiction built with Electron and Claude.",
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "editor"],
+                "updated_at": "2026-06-11T09:53:20Z",
+                "root_files": ["README.md", "CLAUDE.md", "package.json", ".claude", "src"],
+            },
+            {
+                "full_name": "ximencuisu/ximen-aimazi",
+                "html_url": "https://github.com/ximencuisu/ximen-aimazi",
+                "description": "小说创作助手（十步流程+去AI味）。",
+                "stargazers_count": 27,
+                "forks_count": 8,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "chinese", "writing"],
+                "updated_at": "2026-06-11T13:06:53Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T13:05:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    bestseller = candidates["wpowen/bestseller"]
+    webnovel_studio = candidates["joshuaaleister-lab/webnovel-studio"]
+    hohoff = candidates["pori/hohoff"]
+    ximen = candidates["ximencuisu/ximen-aimazi"]
+
+    assert "story_contract_commit_chain" in bestseller["absorbed_patterns"]
+    assert "foreshadowing_debt_budget" in bestseller["absorbed_patterns"]
+    assert "mcp_server" in bestseller["risk_flags"]
+    assert "docker" in bestseller["risk_flags"]
+    assert "rolling_summary_context_trim" in webnovel_studio["absorbed_patterns"]
+    assert "backup_restore_checkpoint" in webnovel_studio["absorbed_patterns"]
+    assert "provider_key_surface" in webnovel_studio["risk_flags"]
+    assert "review_queue_staging" in hohoff["absorbed_patterns"]
+    assert "editor_context_prose_analysis_gate" in hohoff["absorbed_patterns"]
+    assert "provider_key_surface" in hohoff["risk_flags"]
+    assert "anti_slop_rulepack_triage_gate" in ximen["absorbed_patterns"]
+    assert "quality_score_loop" in ximen["absorbed_patterns"]
+    assert "human_ai_decision_authority_gate" in ximen["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "story_contracts" in pattern_pack["whole_book_analysis_targets"]
+    assert "foreshadowing_debt_items" in pattern_pack["whole_book_analysis_targets"]
+    assert "rolling_summary" in pattern_pack["whole_book_analysis_targets"]
+    assert "pending_change_review_queue" in pattern_pack["whole_book_analysis_targets"]
+    assert "anti_slop_rulepack_triage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "quality_scores" in pattern_pack["whole_book_analysis_targets"]
+    assert "commit_chain_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "foreshadowing_debt_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "review_queue_gate" in pattern_pack["inspired_mapping_targets"]
+    assert any("story contracts" in hint.lower() for hint in pattern_pack["story_contract_commit_chain_hints"])
+    assert any("debt" in hint.lower() for hint in pattern_pack["foreshadowing_debt_budget_hints"])
+    assert any("pending changes" in hint.lower() for hint in pattern_pack["review_queue_staging_hints"])
+    assert any("local specificity" in hint for hint in pattern_pack["anti_slop_rulepack_triage_gate_hints"])
+    assert any("configured threshold" in hint.lower() for hint in pattern_pack["quality_score_loop_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "story_contract_commit_chain_hints" in digest
+    assert "foreshadowing_debt_budget_hints" in digest
+    assert "review_queue_staging_hints" in digest
+    assert "quality_score_loop_hints" in digest
