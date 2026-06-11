@@ -1,0 +1,62 @@
+{
+  "novel": {
+    "title": "你的小说名",
+    "author": "作者名",
+    "total_chapters": 0,
+    "encoding": "utf-8",
+    "source_file": "novel.txt"
+  },
+  "characters": {
+    "主角1": ["主角1", "别名1", "外号1"],
+    "主角2": ["主角2", "别名2"],
+    "配角1": ["配角1"],
+    "配角2": ["配角2"]
+  },
+  "themes": {
+    "action": ["打", "杀", "战斗", "对决"],
+    "romance": ["喜欢", "爱", "约会", "表白"],
+    "politics": ["选举", "权力", "阴谋", "联盟"],
+    "business": ["谈判", "交易", "股份", "合作"],
+    "friendship": ["兄弟", "朋友", "义气", "伙伴"]
+  },
+  "emotion_positive": ["喜欢", "爱", "快乐", "幸福", "感动", "温暖", "美好", "开心", "笑", "甜"],
+  "emotion_negative": ["痛", "苦", "怒", "恨", "悲", "仇", "恐惧", "绝望", "痛苦", "悔"],
+  "scene_keywords": {
+    "example_scene_1": {
+      "file": "001.txt",
+      "keywords": ["关键词1", "关键词2"],
+      "context": 20
+    },
+    "example_scene_2": {
+      "file": "002.txt",
+      "keywords": ["关键词3"],
+      "context": 15
+    }
+  },
+  "deconstruction": {
+    "current_work": {
+      "name": "当前作品名",
+      "author": "",
+      "genre": "",
+      "word_count": 0,
+      "total_chapters": 0
+    },
+    "migratable_assets": {
+      "爽点公式": [],
+      "人物原型": [],
+      "节奏控制": "",
+      "章末钩子": "",
+      "叙事驱动": "",
+      "收尾风格": ""
+    },
+    "replacement_mapping": {
+      "地点": "",
+      "势力": "",
+      "组织": "",
+      "核心资源": "",
+      "关键事件": "",
+      "终极对手": "",
+      "结局象征": ""
+    }
+  }
+}

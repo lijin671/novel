@@ -1,0 +1,29 @@
+{
+  "batch": "ch001-020",
+  "total_chars": {
+    "主角1": 120,
+    "主角2": 85
+  },
+  "total_themes": {
+    "action": 15,
+    "romance": 8
+  },
+  "total_lines": 560,
+  "total_size": 24500,
+  "chapters": [
+    {
+      "title": "第一章 示例标题",
+      "lines": 28,
+      "chars": 1200,
+      "characters": {"主角1": 6, "主角2": 4},
+      "themes": {"action": 1, "romance": 2}
+    },
+    {
+      "title": "第二章 示例标题",
+      "lines": 30,
+      "chars": 1300,
+      "characters": {"主角1": 5, "主角2": 3},
+      "themes": {"action": 2, "romance": 1}
+    }
+  ]
+}

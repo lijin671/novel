@@ -1,0 +1,38 @@
+{
+  "chapter_count": 0,
+  "total_chars": 0,
+  "chapter_length": {
+    "mean": 0,
+    "std": 0,
+    "cv": 0,
+    "min": 0,
+    "max": 0
+  },
+  "sentence_length": {
+    "mean": 0,
+    "std": 0,
+    "median": 0,
+    "distribution": {
+      "1-5": 0,
+      "6-10": 0,
+      "11-15": 0,
+      "16-20": 0,
+      "21-30": 0,
+      "31-50": 0,
+      "51-100": 0,
+      "101-999": 0
+    }
+  },
+  "dialogue_percent": 0,
+  "ttr": 0,
+  "hapax_ratio": 0,
+  "word_length": {
+    "mean": 0,
+    "median": 0
+  },
+  "function_words_top20": {},
+  "pos_top20": {},
+  "bigram_top20": [],
+  "trigram_top20": [],
+  "sentiment_ratio": 0
+}
