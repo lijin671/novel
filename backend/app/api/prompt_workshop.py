@@ -5,6 +5,7 @@ from sqlalchemy import select, func, or_
 from typing import Optional
 from datetime import datetime
 import uuid
+from collections import Counter
 
 from app.database import get_db
 from app.config import settings, INSTANCE_ID, is_workshop_server
@@ -296,6 +297,8 @@ async def get_local_prompt_assets(
         "eligible": sum(1 for item in items if item["sync_status"] == "eligible"),
         "catalog_only": sum(1 for item in items if item["sync_status"] == "catalog_only"),
         "blocked_high_risk": sum(1 for item in items if item["sync_status"] == "blocked_high_risk"),
+        "workflow_lanes": dict(Counter(item.get("workflow_lane", "通用资产") for item in items)),
+        "library_series": dict(Counter(item.get("library_series", "通用") for item in items)),
     }
 
     return {

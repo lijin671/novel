@@ -924,6 +924,9 @@ export default function PromptWorkshop() {
                     <Space size={4} wrap style={{ marginBottom: 12 }}>
                       {getRiskTag(asset.risk_level)}
                       {getSyncStatusTag(asset.sync_status)}
+                      {asset.workflow_lane && <Tag color="blue">{asset.workflow_lane}</Tag>}
+                      {asset.workflow_phase && <Tag>{asset.workflow_phase}</Tag>}
+                      {asset.prompt_scope_label && <Tag>{asset.prompt_scope_label}</Tag>}
                     </Space>
 
                     <Paragraph
@@ -1781,6 +1784,9 @@ export default function PromptWorkshop() {
               </Tag>
               {getRiskTag(localAssetDetail.risk_level)}
               {getSyncStatusTag(localAssetDetail.sync_status)}
+              {localAssetDetail.workflow_lane && <Tag color="blue">{localAssetDetail.workflow_lane}</Tag>}
+              {localAssetDetail.workflow_phase && <Tag>{localAssetDetail.workflow_phase}</Tag>}
+              {localAssetDetail.prompt_scope_label && <Tag>{localAssetDetail.prompt_scope_label}</Tag>}
               {localAssetDetail.tags?.map(tag => (
                 <Tag key={tag}>{tag}</Tag>
               ))}
@@ -1798,6 +1804,21 @@ export default function PromptWorkshop() {
               <Col span={12}>
                 <Text type="secondary">源路径</Text>
                 <div>{localAssetDetail.source_path}</div>
+              </Col>
+            </Row>
+
+            <Row gutter={16} style={{ marginBottom: 16 }}>
+              <Col span={8}>
+                <Text type="secondary">资产系列</Text>
+                <div>{localAssetDetail.library_series || '通用'}</div>
+              </Col>
+              <Col span={8}>
+                <Text type="secondary">工作流阶段</Text>
+                <div>{localAssetDetail.workflow_phase || '未分组'}</div>
+              </Col>
+              <Col span={8}>
+                <Text type="secondary">主题</Text>
+                <div>{localAssetDetail.topic || localAssetDetail.name}</div>
               </Col>
             </Row>
 

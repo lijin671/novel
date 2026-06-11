@@ -1173,6 +1173,14 @@ export interface PromptLocalAsset {
   description: string;
   category: string;
   tags: string[];
+  sequence?: number | null;
+  library_series?: string;
+  workflow_phase?: string;
+  workflow_lane?: string;
+  prompt_scope?: 'macro' | 'meso' | 'micro' | 'tool' | 'review';
+  prompt_scope_label?: string;
+  topic?: string;
+  filename_parts?: string[];
   risk_level: 'low' | 'medium' | 'high';
   risk_reasons: string[];
   sync_status: 'eligible' | 'catalog_only' | 'blocked_high_risk';
@@ -1191,6 +1199,8 @@ export interface PromptLocalAssetSummary {
   eligible: number;
   catalog_only: number;
   blocked_high_risk: number;
+  workflow_lanes?: Record<string, number>;
+  library_series?: Record<string, number>;
 }
 
 export interface PromptLocalAssetListResponse {
