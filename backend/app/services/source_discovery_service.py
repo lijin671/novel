@@ -75,6 +75,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("scene" OR "shot" OR "idea to production" OR "storyboard") ("AI" OR "Claude Code") in:name,description,readme',
     '("story contract" OR "chapter commit" OR "fact snapshot") ("webnovel" OR "novel" OR "long-form") in:name,description,readme',
     '("fact write-back" OR "state write-back" OR "generation gates") ("web novel" OR "novel writing") in:name,description,readme',
+    '("automatic director checkpoint" OR "director stage checkpoint" OR "role asset quality review") ("novel" OR "long-form writing") in:name,description,readme',
+    '("inspectable memory workspace" OR "memory-aware chapter workspace" OR "semantic context consistency") ("novel" OR "continuation") in:name,description,readme',
+    '("multi-thread knowledge timeline" OR "thread knowledge timeline" OR "character knowledge states") ("fiction" OR "narrative graph" OR "novel") in:name,description,readme',
     '("foreshadowing debt" OR "follow-up rate" OR "reader retention") ("webnovel" OR "novel") in:name,description,readme',
     '("reader reward" OR "commercial serialization" OR "paid conversion" OR "opening hook") ("webnovel" OR "serial fiction") in:name,description,readme',
     '("Draft A" OR "Draft B" OR "Draft C" OR "chapter blueprint") ("web novel" OR "fiction writing") in:name,description,readme',
@@ -942,6 +945,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("section_metadata_traceability_gate", ("section metadata", "characters, locations, and items", "characters locations items", "plot lines", "plot points", "pacing visualization", "structural analysis", "acts", "beats", "chapter metadata", "narrative dag", "knowledge graph", "\u77e5\u8bc6\u56fe\u8c31", "\u7ae0\u8282\u5143\u6570\u636e")),
     ("ai_prose_fingerprint_cluster_gate", ("ai writing fingerprints", "prose pattern scanner", "overused patterns", "em-dashes", "show-then-tell", "hedging language", "voice drift", "severity scoring", "cluster detection", "defingerprint", "prose scanner", "\u673a\u5473", "\u98ce\u683c\u6f02\u79fb")),
     ("author_candidate_canon_confirmation_gate", ("candidate is not canon", "candidates are not canon", "candidate-not-canon", "preview confirm apply", "preview / confirm / apply", "preview/confirm/apply", "propose-then-confirm", "safe propose-then-confirm", "ai is off by default", "ai levels", "workspace level", "level 0 to 5", "single dial", "ai prose, in a slot you defined", "confirmed true", "source: user-explicit", "ai-suggested", "clarification rollback", "candidate outline", "canon review", "候选不入正典", "预览确认应用", "候选大纲", "作者确认", "回滚")),
+    ("automatic_director_checkpoint_chain", ("automatic director checkpoint chain", "automatic director checkpoint", "director workflow", "director checkpoint chain", "book decomposition, automatic director", "导演检查点", "自动导演")),
+    ("director_stage_checkpoint_gate", ("director stage checkpoint gate", "director stage checkpoint", "stage checkpoint gate", "director stage", "阶段检查点", "导演阶段")),
+    ("role_asset_quality_review_gate", ("role asset quality review gate", "role asset quality review", "role asset", "character asset review", "角色资产", "角色素材质量")),
+    ("inspectable_memory_workspace_gate", ("inspectable memory workspace gate", "inspectable memory workspace", "inspectable runs", "editable memory banks", "memory browser", "memory workspace", "可检查记忆工作区")),
+    ("memory_aware_chapter_workspace", ("memory-aware chapter workspace", "memory aware chapter workspace", "memory-aware writing control", "memory aware writing control", "chapter workspace", "memory bank", "记忆感知章节")),
+    ("semantic_context_consistency_gate", ("semantic context consistency gate", "semantic context consistency", "vector-based long-term context consistency", "long-term context consistency", "semantic search engine", "semantic search", "语义上下文一致性")),
+    ("multi_thread_knowledge_timeline_gate", ("multi-thread knowledge timeline gate", "multi-thread knowledge timeline", "thread knowledge timeline", "knowledge timeline", "knowledge states", "timeline versions", "plotlines, causal links", "多线程知识时间线")),
     ("progressive_spoiler_context_window_gate", ("spoiler filtering", "spoiler filter", "future chapter", "future chapters", "future-chapter", "six-stage", "six stage", "stage-aware", "progressive pacing", "strict moderate minimal none", "range validation", "context window", "context-window", "anti-rushing", "\u5267\u900f\u8fc7\u6ee4", "\u672a\u6765\u7ae0\u8282", "\u9636\u6bb5\u611f\u77e5", "\u4e0a\u4e0b\u6587\u7a97\u53e3", "rag\u8303\u56f4", "\u9632\u62a2\u8dd1")),
     ("chapter_control_card_writeback_gate", ("chapter control card", "chapter control cards", "control-card", "control card", "control-cards", "dynamic state file", "dynamic state management", "state write-back", "write back", "chapter title control", "chapter handoff pressure", "\u7ae0\u8282\u63a7\u5236\u5361", "\u52a8\u6001\u72b6\u6001", "\u5199\u56de", "\u6807\u9898\u63a7\u5236", "\u7ed3\u5c3e\u94a9\u5b50")),
     ("trace_replay_revision_workspace_gate", ("trace replay", "decision trace", "chapter workbench", "memory browser", "quality dashboard", "reviewable and traceable", "trajectory replay", "rebuild this chapter", "\u8f68\u8ff9\u56de\u653e", "\u51b3\u7b56\u8ffd\u8e2a", "\u7ae0\u8282\u5de5\u4f5c\u53f0", "\u91cd\u5199\u5f71\u54cd")),
@@ -3338,6 +3348,13 @@ class NovelSourceDiscoveryService:
             "bookrun_audit_trail_gate_hints": self._build_bookrun_audit_trail_gate_hints(available_patterns),
             "provider_budget_smoke_gate_hints": self._build_provider_budget_smoke_gate_hints(available_patterns),
             "sidecar_memory_profile_boundary_hints": self._build_sidecar_memory_profile_boundary_hints(available_patterns),
+            "automatic_director_checkpoint_chain_hints": self._build_automatic_director_checkpoint_chain_hints(available_patterns),
+            "director_stage_checkpoint_gate_hints": self._build_director_stage_checkpoint_gate_hints(available_patterns),
+            "role_asset_quality_review_gate_hints": self._build_role_asset_quality_review_gate_hints(available_patterns),
+            "inspectable_memory_workspace_gate_hints": self._build_inspectable_memory_workspace_gate_hints(available_patterns),
+            "memory_aware_chapter_workspace_hints": self._build_memory_aware_chapter_workspace_hints(available_patterns),
+            "semantic_context_consistency_gate_hints": self._build_semantic_context_consistency_gate_hints(available_patterns),
+            "multi_thread_knowledge_timeline_gate_hints": self._build_multi_thread_knowledge_timeline_gate_hints(available_patterns),
             "outline_checkpoint_milestone_gate_hints": self._build_outline_checkpoint_milestone_gate_hints(available_patterns),
             "language_localization_style_profile_gate_hints": self._build_language_localization_style_profile_gate_hints(available_patterns),
             "progressive_disclosure_skill_protocol_gate_hints": self._build_progressive_disclosure_skill_protocol_gate_hints(available_patterns),
@@ -4032,6 +4049,13 @@ class NovelSourceDiscoveryService:
             "bookrun_audit_trail_gate": 68,
             "provider_budget_smoke_gate": 65,
             "sidecar_memory_profile_boundary": 64,
+            "automatic_director_checkpoint_chain": 72,
+            "director_stage_checkpoint_gate": 71,
+            "role_asset_quality_review_gate": 70,
+            "inspectable_memory_workspace_gate": 70,
+            "memory_aware_chapter_workspace": 69,
+            "semantic_context_consistency_gate": 70,
+            "multi_thread_knowledge_timeline_gate": 71,
             "outline_checkpoint_milestone_gate": 67,
             "language_localization_style_profile_gate": 62,
             "progressive_disclosure_skill_protocol_gate": 66,
@@ -4626,6 +4650,20 @@ class NovelSourceDiscoveryService:
         if "sidecar_memory_profile_boundary" in patterns:
             targets.append("sidecar_memory_boundary_policy")
             targets.append("graph_vector_profile_manifest")
+        if "automatic_director_checkpoint_chain" in patterns or "director_stage_checkpoint_gate" in patterns:
+            targets.append("production_checkpoint_policy")
+            targets.append("director_stage_acceptance_policy")
+        if "role_asset_quality_review_gate" in patterns:
+            targets.append("role_asset_quality_review_policy")
+        if "inspectable_memory_workspace_gate" in patterns or "memory_aware_chapter_workspace" in patterns:
+            targets.append("memory_workspace_review_policy")
+            targets.append("accepted_memory_writeback_policy")
+        if "semantic_context_consistency_gate" in patterns:
+            targets.append("semantic_context_consistency_policy")
+            targets.append("context_match_evidence_policy")
+        if "multi_thread_knowledge_timeline_gate" in patterns:
+            targets.append("thread_knowledge_timeline_policy")
+            targets.append("thread_visibility_boundary_policy")
         if "outline_checkpoint_milestone_gate" in patterns:
             targets.append("outline_checkpoint_milestone_policy")
             targets.append("story_bible_truth_source_policy")
@@ -5540,6 +5578,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["provider_budget_smoke_report", "llm_profile_cost_trace", "provider_runtime_admission_findings"])
         if "sidecar_memory_profile_boundary" in patterns:
             targets.extend(["sidecar_memory_profile_report", "graph_vector_boundary_findings", "deployment_profile_runtime_exclusions"])
+        if "automatic_director_checkpoint_chain" in patterns:
+            targets.extend(["director_checkpoint_chain", "automatic_director_resume_findings"])
+        if "director_stage_checkpoint_gate" in patterns:
+            targets.extend(["director_stage_checkpoint_report", "stage_acceptance_blockers"])
+        if "role_asset_quality_review_gate" in patterns:
+            targets.extend(["role_asset_quality_report", "unstable_role_asset_findings"])
+        if "inspectable_memory_workspace_gate" in patterns:
+            targets.extend(["memory_workspace_manifest", "memory_bank_review_findings"])
+        if "memory_aware_chapter_workspace" in patterns:
+            targets.extend(["chapter_memory_workspace_report", "accepted_memory_writeback_trace"])
+        if "semantic_context_consistency_gate" in patterns:
+            targets.extend(["semantic_context_consistency_report", "retrieval_match_drift_findings"])
+        if "multi_thread_knowledge_timeline_gate" in patterns:
+            targets.extend(["thread_knowledge_timeline", "thread_visibility_conflict_report"])
         if "outline_checkpoint_milestone_gate" in patterns:
             targets.extend(["outline_checkpoint_milestone_report", "story_bible_truth_source_drift_findings", "narrative_milestone_coverage"])
         if "language_localization_style_profile_gate" in patterns:
@@ -6009,6 +6061,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before write/rewrite/continue actions, record the user-confirmed action label, context scope, accepted source refs, pre-write checklist, and recovery snapshot id; completion must come from artifacts, not model prose.")
         if "work_dna_method_transfer_eval_gate" in patterns:
             hints.append("Before continuation, cite the work-DNA axes being used: narrative engine, scene architecture, language texture, character grammar, emotional algorithm, and information-control rule, rather than source wording.")
+        if "automatic_director_checkpoint_chain" in patterns or "director_stage_checkpoint_gate" in patterns:
+            hints.append("Before drafting, cite the current director checkpoint, stage acceptance criteria, unresolved blockers, and resume target so production control leads prose instead of chat momentum.")
         if "governed_full_reading_continuation_gate" in patterns:
             hints.append("For full-book continuation, include reading_session_id, required coverage status, finalize status, full_scope_allowed, and evidence refs; if coverage is missing, output the missing chapters instead of a full-scope draft.")
         if "document_gamebook_branching_adapter_gate" in patterns:
@@ -6434,6 +6488,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist selected skill ids, task name, max loop steps, tool calls, skill usage hints, and stop reason with each AI run.")
         if "knowledge_document_writeback_trace_gate" in patterns:
             hints.append("Persist knowledge document id, sourceType, source artifact, produced/merged status, usedKnowledge, usedSkills, provider/model, usage, and run status before context reuse.")
+        if "inspectable_memory_workspace_gate" in patterns or "memory_aware_chapter_workspace" in patterns:
+            hints.append("Persist the memory workspace manifest with selected memory banks, chapter workspace refs, reviewer edits, accepted write-back trace, and rejected memory candidates.")
+        if "semantic_context_consistency_gate" in patterns:
+            hints.append("Persist semantic context matches with query, vector/search hit id, evidence span, drift finding, and whether the match is accepted for the next chapter.")
+        if "multi_thread_knowledge_timeline_gate" in patterns:
+            hints.append("Persist thread knowledge timeline state by thread, character, known fact, visibility boundary, causal link, timeline version, and conflict reviewer decision.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("After chapter acceptance, write knowledge-state deltas: who learned which fact, who still lacks it, evidence id, reveal timing, and any secret-leak blocker.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -8808,6 +8868,69 @@ class NovelSourceDiscoveryService:
             "Keep UI/API orchestration, sidecar analysis, graph memory, vector memory, queues, and provider routing as separate profiles with explicit runtime exclusions.",
             "A graph/vector sidecar profile must declare what it may read, write, cache, index, and forget before its outputs can enter continuation context.",
             "For same-type creation, source sidecar memory remains analysis evidence; transformed canon must use a new profile, namespace, and retrieval boundary.",
+        ]
+
+    def _build_automatic_director_checkpoint_chain_hints(self, patterns: set[str]) -> list[str]:
+        if "automatic_director_checkpoint_chain" not in patterns:
+            return []
+        return [
+            "Treat the automatic director as a checkpoint chain: book decomposition, chapter task, quality review, accepted artifact, and next resume point must be visible.",
+            "A checkpoint can advance only when its input artifact ids, reviewer findings, stage result, retry budget, and rollback target are recorded.",
+            "For same-type creation, reuse the director workflow shape only; rebuild checkpoints from the transformed premise, cast, conflict, and source-boundary policy.",
+        ]
+
+    def _build_director_stage_checkpoint_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "director_stage_checkpoint_gate" not in patterns:
+            return []
+        return [
+            "Gate each director stage with named acceptance criteria: outline, role asset, chapter plan, prose draft, review, repair, and state write-back should not collapse into one prompt.",
+            "Stage reports should include pass/fail status, blockers, accepted inputs, generated outputs, and the next safe stage before long-form continuation proceeds.",
+            "For same-type creation, director stages control process quality only; source stage decisions cannot become copied plot sequence or character state.",
+        ]
+
+    def _build_role_asset_quality_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "role_asset_quality_review_gate" not in patterns:
+            return []
+        return [
+            "Review role assets before drafting: character desire, fear, speech pattern, relationship pressure, arc position, and scene utility need stable ids and findings.",
+            "Unstable role assets should block chapter acceptance when motivation, voice, relationship state, or knowledge boundary conflicts with accepted canon.",
+            "For same-type creation, role assets must be regenerated for the new cast; upstream character templates stay as abstract review criteria only.",
+        ]
+
+    def _build_inspectable_memory_workspace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "inspectable_memory_workspace_gate" not in patterns:
+            return []
+        return [
+            "Expose memory workspace state as inspectable artifacts: memory banks, run inputs, selected context, reviewer edits, accepted facts, and rejected candidates.",
+            "Memory workspace writes must be previewed and accepted before they can alter canon, retrieval indexes, or the next chapter context pack.",
+            "For same-type creation, source memories remain analysis evidence; transformed-story memory uses a separate namespace, manifest, and review log.",
+        ]
+
+    def _build_memory_aware_chapter_workspace_hints(self, patterns: set[str]) -> list[str]:
+        if "memory_aware_chapter_workspace" not in patterns:
+            return []
+        return [
+            "Bind each chapter workspace to the memory slices it may read: accepted chapter summaries, active facts, unresolved hooks, role states, and omitted-but-relevant notes.",
+            "After acceptance, write back only chapter-local memory deltas with evidence, reviewer status, and downstream context impact.",
+            "For same-type creation, memory-aware chapter state must be seeded from transformed canon, not imported source memories or rejected draft residue.",
+        ]
+
+    def _build_semantic_context_consistency_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "semantic_context_consistency_gate" not in patterns:
+            return []
+        return [
+            "Use semantic context consistency checks to compare proposed chapter facts with long-term context, retrieved evidence, and contradiction findings before acceptance.",
+            "Every semantic match should carry query, hit id, evidence reason, drift severity, and whether the match supports, conflicts with, or is irrelevant to the draft.",
+            "For same-type creation, semantic retrieval verifies transformed canon consistency only; it must not smuggle source phrasing or rare source-specific details into prose.",
+        ]
+
+    def _build_multi_thread_knowledge_timeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "multi_thread_knowledge_timeline_gate" not in patterns:
+            return []
+        return [
+            "Maintain a thread knowledge timeline across plotlines: which character knows which fact, when they learned it, which thread owns it, and which reveal boundary applies.",
+            "Before accepting a scene, check cross-thread knowledge leaks, causal-link timing, timeline version conflicts, and characters acting on facts outside their visibility.",
+            "For same-type creation, transform thread topology and knowledge reveal logic into new facts; do not reuse source event order, secrets, or payoff timing.",
         ]
 
     def _build_outline_checkpoint_milestone_gate_hints(self, patterns: set[str]) -> list[str]:

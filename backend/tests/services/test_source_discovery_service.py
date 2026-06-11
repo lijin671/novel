@@ -11656,6 +11656,111 @@ def test_storygraph_source_adds_character_knowledge_timeline_gates():
     assert "character_knowledge_timeline_gate_hints" in digest
 
 
+def test_continuation_production_control_sources_add_checkpoint_memory_semantic_thread_gates():
+    assert "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/iLearn-Lab/NovelClaw" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/YILING0013/AI_NovelGenerator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/v-saprykin/storygraph" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("automatic director checkpoint" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("semantic context consistency" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+                "html_url": "https://github.com/ExplosiveCoderflome/AI-Novel-Writing-Assistant",
+                "description": (
+                    "Chinese AI novel writing assistant with book decomposition, automatic director checkpoint chain, "
+                    "director stage checkpoint gate, role asset quality review gate, chapter tasks, quality guardrails, "
+                    "genre/style management, and long-form production pipeline patterns."
+                ),
+                "stargazers_count": 134,
+                "forks_count": 8,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-novel", "writing", "director", "checkpoint"],
+                "updated_at": "2026-06-11T08:00:00Z",
+            },
+            {
+                "full_name": "iLearn-Lab/NovelClaw",
+                "html_url": "https://github.com/iLearn-Lab/NovelClaw",
+                "description": (
+                    "Long-form fiction workspace with inspectable runs, inspectable memory workspace gate, "
+                    "memory-aware chapter workspace, sessions, storyboards, manuscript surfaces, character/world views, "
+                    "editable memory banks and memory-aware writing control."
+                ),
+                "stargazers_count": 319,
+                "forks_count": 31,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "memory", "workspace"],
+                "updated_at": "2026-06-11T08:05:00Z",
+            },
+            {
+                "full_name": "YILING0013/AI_NovelGenerator",
+                "html_url": "https://github.com/YILING0013/AI_NovelGenerator",
+                "description": (
+                    "Automatic novel generator with semantic context consistency gate, semantic search, "
+                    "vector-based long-term context consistency, knowledge base integration, state tracking, "
+                    "foreshadowing, automatic proofreading, plot contradictions and logical conflicts."
+                ),
+                "stargazers_count": 1860,
+                "forks_count": 165,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel", "rag", "semantic-search"],
+                "updated_at": "2026-06-11T08:10:00Z",
+            },
+            {
+                "full_name": "v-saprykin/storygraph",
+                "html_url": "https://github.com/v-saprykin/storygraph",
+                "description": (
+                    "StoryGraph converts fiction into a validated narrative graph with multi-thread knowledge timeline gate, "
+                    "character knowledge states, plotlines, causal links, timeline versions, and human review."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "narrative-graph", "timeline"],
+                "updated_at": "2026-06-11T08:15:00Z",
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T16:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    director = candidates["ExplosiveCoderflome/AI-Novel-Writing-Assistant"]
+    novelclaw = candidates["iLearn-Lab/NovelClaw"]
+    semantic = candidates["YILING0013/AI_NovelGenerator"]
+    storygraph = candidates["v-saprykin/storygraph"]
+    assert "automatic_director_checkpoint_chain" in director["absorbed_patterns"]
+    assert "director_stage_checkpoint_gate" in director["absorbed_patterns"]
+    assert "role_asset_quality_review_gate" in director["absorbed_patterns"]
+    assert "inspectable_memory_workspace_gate" in novelclaw["absorbed_patterns"]
+    assert "memory_aware_chapter_workspace" in novelclaw["absorbed_patterns"]
+    assert "semantic_context_consistency_gate" in semantic["absorbed_patterns"]
+    assert "multi_thread_knowledge_timeline_gate" in storygraph["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "production_checkpoint_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "memory_workspace_review_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "semantic_context_consistency_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "thread_knowledge_timeline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "director_checkpoint_chain" in pattern_pack["whole_book_analysis_targets"]
+    assert "memory_workspace_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "semantic_context_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "thread_knowledge_timeline" in pattern_pack["whole_book_analysis_targets"]
+    assert any("director checkpoint" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("memory workspace" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("semantic context" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("thread knowledge" in hint for hint in pattern_pack["multi_thread_knowledge_timeline_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "automatic_director_checkpoint_chain_hints" in digest
+    assert "inspectable_memory_workspace_gate_hints" in digest
+    assert "semantic_context_consistency_gate_hints" in digest
+    assert "multi_thread_knowledge_timeline_gate_hints" in digest
+
+
 def test_novel_template_source_adds_ideation_worksheet_foundation_gates():
     assert "https://github.com/10Legs/novel-template" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("ideation worksheets" in query and "Ghost/Lie/Want/Need" in query for query in DEFAULT_GITHUB_QUERIES)
