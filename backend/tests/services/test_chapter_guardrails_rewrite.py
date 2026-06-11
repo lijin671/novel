@@ -329,6 +329,56 @@ def test_chapter_guardrails_flags_source_entity_leak_without_phrase_copy():
     assert "青岚会" in violation.copy_signal
 
 
+def test_chapter_guardrails_flags_ascii_source_entity_leak_without_phrase_copy():
+    guardrails = ChapterGuardrails()
+    source_excerpt = (
+        "AetherLedgerKey belonged to the archive under Moonfall Station. "
+        "BetaClerk77 logged it after the eclipse while the wardens changed shifts."
+    )
+    generated = (
+        "The new cast starts in a different city, but the draft keeps "
+        "AetherLedgerKey as the vault object and asks BetaClerk77 for help."
+    )
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert violation.copy_signal == "source_entity_leak:AetherLedgerKey|BetaClerk77"
+    assert violation.source_excerpt_index == 1
+    assert violation.source_excerpt_length == len(source_excerpt)
+
+
+def test_chapter_guardrails_flags_multiword_ascii_source_entity_leak():
+    guardrails = ChapterGuardrails()
+    source_excerpt = (
+        "Moonfall Station kept a hidden bell below the archive. "
+        "The older wardens used it only when the eclipse returned."
+    )
+    generated = (
+        "The new plot has different characters and stakes, but the meeting "
+        "still happens inside Moonfall Station before the final chase."
+    )
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert violation.copy_signal == "source_entity_leak:Moonfall Station"
+
+
 def test_chapter_guardrails_does_not_treat_modal_hui_phrases_as_source_entities():
     guardrails = ChapterGuardrails()
     source_excerpt = "他一定会回来，不会把这件事告诉任何人。"

@@ -534,3 +534,73 @@ Project adaptation:
   `fingerprint_overlap:<ratio>`, and `simhash_near_duplicate:<ratio>` are shown
   as readable labels while keeping the source excerpt hash and length visible.
 - A frontend regression test prevents returning to raw `copy_signal` display.
+
+### 2026-06-12 patch: Latin-script source entity leakage
+
+Static intake boundary:
+
+- No external repository was cloned, installed, executed, or used as runtime
+  code.
+- Public GitHub metadata, `git ls-remote`, and raw README marker scans were used
+  only as pattern evidence.
+- Posture for all sources below remains `pattern-only`.
+
+Observed sources:
+
+- `loreum-app/loreum`
+  - URL: https://github.com/loreum-app/loreum
+  - Observed HEAD: `c38ade12a664790d10ff3ae847ce2529845f299c`
+  - Default branch: `main`
+  - License: AGPL-3.0
+  - Public signal: worldbuilding platform with characters, knowledge graph,
+    timeline, lore wiki, storyboard, style guide, and review vocabulary.
+- `Lanerra/saga`
+  - URL: https://github.com/Lanerra/saga
+  - Observed HEAD: `865a3912f17b09af9927c0358f9f026020f51673`
+  - Default branch: `master`
+  - License: Apache-2.0
+  - Public signal: agentic story writing with embeddings, knowledge graphs,
+    canon, relationships, and fact extraction vocabulary.
+- `doctoroyy/novel-copilot`
+  - URL: https://github.com/doctoroyy/novel-copilot
+  - Observed HEAD: `ea671b090e191e0586b0ff96d75f6928d0fe97b4`
+  - Default branch: `main`
+  - License: unknown
+  - Public signal: novel assistant with three-layer memory, plot consistency,
+    relationship graph, timeline, and state vocabulary.
+- `XuanRanL/webnovel-writer`
+  - URL: https://github.com/XuanRanL/webnovel-writer
+  - Observed HEAD: `269583f662bcfe44958924496653e5f6e0e2d50c`
+  - Default branch: `master`
+  - License: GPL-3.0
+  - Public signal: Claude Code long web-novel workflow focused on forgotten
+    state and hallucination control.
+- `hayrgpt-rgb/NovelForge-AI`
+  - URL: https://github.com/hayrgpt-rgb/NovelForge-AI
+  - Observed HEAD: `48c9bca5e62eefa2dd8365f4a2bf4564b94b546a`
+  - Default branch: `main`
+  - License: unknown
+  - Public signal: long-form novel platform with story bible, scene cards,
+    drafts, review, revision, memory, continuity, traceable generation, and
+    source/fact vocabulary.
+
+Absorbed pattern:
+
+- Entity/canon systems must treat source-specific names as state, not just as
+  prose. For same-type imitation, this applies to Latin-script artifacts,
+  stations, project codenames, organizations, and mixed alphanumeric names as
+  much as to Chinese sect/place/item names.
+- Copy-risk review should catch `AetherLedgerKey`, `BetaClerk77`, and
+  `Moonfall Station` style source entities even when no long source sentence is
+  copied.
+
+Project adaptation:
+
+- Source entity extraction now keeps raw source text for entity detection, while
+  still using normalized text for phrase-copy checks.
+- Same-type guardrails now detect reused camel-case, mixed alphanumeric, and
+  multi-word title-case Latin source entities.
+- Reused Latin-script source entities emit the same
+  `inspired_source_entity_leak` violation and `source_entity_leak:*` signal as
+  Chinese source entities, so the existing manual-review and rewrite-denylist
+  chain can handle them without a separate path.

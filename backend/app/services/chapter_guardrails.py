@@ -578,7 +578,7 @@ class ChapterGuardrails:
             copy_signal = self._source_copy_signal(normalized_excerpt, normalized_text)
             violation_type = "inspired_source_copy"
             if not copy_signal:
-                leaked_entities = self._source_entity_leaks(normalized_excerpt, normalized_text)
+                leaked_entities = self._source_entity_leaks(excerpt or "", text)
                 if not leaked_entities:
                     continue
                 violation_type = "inspired_source_entity_leak"
@@ -633,8 +633,12 @@ class ChapterGuardrails:
     def _source_entity_leaks(self, source_text: str, generated_text: str) -> list[str]:
         """Detect source-specific entity terms reused in a same-type draft."""
         leaks: list[str] = []
+        normalized_generated_text = self._normalize_text(generated_text)
         for entity in self._source_entity_candidates(source_text):
-            if entity in generated_text:
+            normalized_entity = self._normalize_text(entity)
+            if entity in generated_text or (
+                normalized_entity and normalized_entity in normalized_generated_text
+            ):
                 leaks.append(entity)
         return leaks[:8]
 
@@ -655,6 +659,19 @@ class ChapterGuardrails:
                         candidates.append(token)
                     if len(candidates) >= 12:
                         return candidates
+        for token_match in re.finditer(r"\b[A-Za-z][A-Za-z0-9]{3,39}\b", text or ""):
+            token = token_match.group()
+            if not ChapterGuardrails._looks_like_ascii_source_entity(token):
+                continue
+            if token not in candidates:
+                candidates.append(token)
+            if len(candidates) >= 12:
+                return candidates
+        for phrase in ChapterGuardrails._ascii_titlecase_entity_phrases(text):
+            if phrase not in candidates:
+                candidates.append(phrase)
+            if len(candidates) >= 12:
+                return candidates
         return candidates
 
     @staticmethod
@@ -699,6 +716,58 @@ class ChapterGuardrails:
             "才会",
         }
         return any(marker in token for marker in modal_markers)
+
+    @staticmethod
+    def _looks_like_ascii_source_entity(token: str) -> bool:
+        """Detect source-specific Latin-script names without flagging normal prose words."""
+        if len(token) < 5 or len(token) > 40:
+            return False
+        has_alpha = any(ch.isalpha() for ch in token)
+        has_digit = any(ch.isdigit() for ch in token)
+        has_upper = any(ch.isupper() for ch in token)
+        has_lower = any(ch.islower() for ch in token)
+        if has_alpha and has_digit:
+            return True
+        if has_upper and has_lower and re.search(r"[a-z][A-Z]|[A-Z][a-z]+[A-Z]", token):
+            return True
+        return False
+
+    @staticmethod
+    def _ascii_titlecase_entity_phrases(text: str) -> list[str]:
+        """Detect multi-word Latin-script names such as locations or organizations."""
+        stop_words = {
+            "The",
+            "A",
+            "An",
+            "This",
+            "That",
+            "These",
+            "Those",
+            "When",
+            "While",
+            "After",
+            "Before",
+            "Inside",
+            "Outside",
+            "New",
+        }
+        terms: list[str] = []
+        pattern = re.compile(
+            r"\b(?:[A-Z][a-z0-9]{2,})(?:\s+(?:[A-Z][a-z0-9]{2,})){1,3}\b"
+        )
+        for match in pattern.finditer(text or ""):
+            phrase = match.group().strip()
+            words = phrase.split()
+            if len(words) < 2:
+                continue
+            while words and words[0] in stop_words:
+                words = words[1:]
+            if len(words) < 2:
+                continue
+            candidate = " ".join(words)
+            if candidate not in terms:
+                terms.append(candidate)
+        return terms
 
     @staticmethod
     def _contains_distinctive_substring_copy(source_text: str, generated_text: str) -> bool:
