@@ -354,6 +354,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("storyboard shot packs" OR "AI short drama storyboard shot packs" OR "shot-list packs") ("vertical-safe framing" OR "continuity risk" OR "generation prompt") in:name,description,readme',
     '("rolling chapter direction" OR "scene blueprint" OR "reader reward" OR "mobile readability") ("web novel" OR "serialized fiction" OR "continuity memory") in:name,description,readme',
     '("Scene Card Pipeline" OR "BookStateDiff" OR "Object Ledger" OR "Human Edit Memory") ("long-form fiction" OR "novel" OR "canon") in:name,description,readme',
+    '("localStorage" OR "ProjectStorage" OR "stripBeatAnchors" OR "Scene Beat Cards") ("novel" OR "story bible" OR "manuscript") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -768,6 +769,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/alfredxw/nova",
     "https://github.com/CARL-JOSEPH-LEE/little-honey-ai-web-novel",
     "https://github.com/KleinDigitalSolutions/EMBER",
+    "https://github.com/tratran98/novelwrite",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1091,6 +1093,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("scene_card_hard_soft_field_gate", ("scene card pipeline", "yaml-like scene cards", "hard canon fields", "soft guidance fields", "writer reads the card but is not bound", "hard (canon)", "soft (guidance)")),
     ("canon_object_ledger_bookstate_diff_gate", ("memory backbone", "canon ledger", "object ledger", "bookstatediff", "structured diff", "objects moved", "knowledge revealed", "human approval gates", "what enters the canon")),
     ("human_edit_memory_quality_warn_gate", ("human edit memory", "quality audit warns", "never auto-rewrites", "accepted edits", "influence future prompts", "quality audit warns, never auto-rewrites")),
+    ("local_storage_story_bible_snapshot_gate", ("localstorage", "local storage", "browser sandbox", "projectstorage", "localstorageprojectstorage", "story bibles, outlines, and snapshot histories", "snapshot histories", "history snapshot", "full json backups")),
+    ("staged_scene_beat_card_transaction_gate", ("staged ai scene beat cards", "scene beat cards", "beat configurations", "write beat", "length control", "200/400/600", "200 words", "400 words", "600 words", "staged draft controls", "staged ai generation", "preview", "retry", "apply", "completed (`done`)")),
+    ("context_scrubber_beat_anchor_gate", ("context scrubber", "stripbeatanchors", "nested html beat nodes", "html beat nodes", "raw tags", "polluting the ai prompts", "surrounding chapters")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -1246,7 +1251,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
     ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "connection profile", "analysis profile", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
     ("cloud_sync_oauth_surface", ("oauth", "oauth 2.0", "google drive", "cloud sync", "auth0", "jwt token", "auth cookie", "passphrase", "pkce", "database_url", "postgres", "supabase", "neon")),
-    ("browser_storage_surface", ("indexeddb", "service worker", "pwa", "webllm", "tauri")),
+    ("browser_storage_surface", ("indexeddb", "localstorage", "local storage", "browser sandbox", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
     ("skill_install_surface", ("codex skills", "clawhub install", ".codex\\skills", ".claude/skills", "copy-item -recurse", "skill install", "openclaw")),
@@ -3007,6 +3012,11 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Its draft engine records quality audit warnings without automatic rewrites, and Human Edit Memory stores accepted edits so future prompts can learn project-local preferences. It also exposes project/act/chapter/scene scoped chat, OpenAI/Anthropic provider surfaces, Supabase storage markers, .env examples, scripts, package manifests, and AGENTS instructions. "
         "Pattern-only adaptation for hard/soft scene-card contracts, canon/object-ledger diff approval, human-edit-memory style feedback, and no-auto-rewrite quality boundaries; package managers, scripts, Supabase/database setup, provider calls, .env files, upstream AGENTS instructions, and runtime services are not executed or imported."
     ),
+    "tratran98/novelwrite": (
+        "NovelWrite is a no-license-observed local-first, privacy-focused AI novel editor. Public README markers describe browser localStorage for manuscripts, Story Bibles, outlines, and snapshot histories, a ProjectStorage abstraction with LocalStorageProjectStorage, dynamic Story Bible context compilation, full JSON backups, and LCS snapshot diffs. "
+        "It adds staged AI Scene Beat Cards inside the editor with Beat Configurations, 200/400/600 word length controls, staged generation preview, Apply/Retry controls, completed states, and a Context Scrubber stripBeatAnchors step that removes nested HTML beat nodes before LLM context assembly. "
+        "Pattern-only adaptation for local storage snapshot gates, transactional scene-beat generation, and beat-anchor context scrubbing; package managers, web app workspaces, AGENTS/CLAUDE instructions, provider/API-key surfaces, browser localStorage, and upstream runtime are not executed or imported."
+    ),
 
 }
 
@@ -3386,6 +3396,9 @@ class NovelSourceDiscoveryService:
             "scene_card_hard_soft_field_gate_hints": self._build_scene_card_hard_soft_field_gate_hints(available_patterns),
             "canon_object_ledger_bookstate_diff_gate_hints": self._build_canon_object_ledger_bookstate_diff_gate_hints(available_patterns),
             "human_edit_memory_quality_warn_gate_hints": self._build_human_edit_memory_quality_warn_gate_hints(available_patterns),
+            "local_storage_story_bible_snapshot_gate_hints": self._build_local_storage_story_bible_snapshot_gate_hints(available_patterns),
+            "staged_scene_beat_card_transaction_gate_hints": self._build_staged_scene_beat_card_transaction_gate_hints(available_patterns),
+            "context_scrubber_beat_anchor_gate_hints": self._build_context_scrubber_beat_anchor_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4431,6 +4444,9 @@ class NovelSourceDiscoveryService:
             "scene_card_hard_soft_field_gate": 69,
             "canon_object_ledger_bookstate_diff_gate": 71,
             "human_edit_memory_quality_warn_gate": 68,
+            "local_storage_story_bible_snapshot_gate": 69,
+            "staged_scene_beat_card_transaction_gate": 70,
+            "context_scrubber_beat_anchor_gate": 68,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4848,6 +4864,15 @@ class NovelSourceDiscoveryService:
         if "human_edit_memory_quality_warn_gate" in patterns:
             targets.append("human_edit_memory_quality_warn_policy")
             targets.append("no_auto_rewrite_quality_policy")
+        if "local_storage_story_bible_snapshot_gate" in patterns:
+            targets.append("local_storage_story_bible_snapshot_policy")
+            targets.append("project_storage_adapter_boundary_policy")
+        if "staged_scene_beat_card_transaction_gate" in patterns:
+            targets.append("staged_scene_beat_transaction_policy")
+            targets.append("beat_card_preview_retry_apply_policy")
+        if "context_scrubber_beat_anchor_gate" in patterns:
+            targets.append("context_scrubber_beat_anchor_policy")
+            targets.append("editor_markup_prompt_exclusion_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5803,6 +5828,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["canon_object_bookstate_diff_report", "object_movement_human_approval_report"])
         if "human_edit_memory_quality_warn_gate" in patterns:
             targets.extend(["human_edit_memory_quality_warning_report", "no_auto_rewrite_decision_report"])
+        if "local_storage_story_bible_snapshot_gate" in patterns:
+            targets.extend(["local_storage_story_bible_snapshot_report", "project_storage_adapter_boundary_report"])
+        if "staged_scene_beat_card_transaction_gate" in patterns:
+            targets.extend(["staged_scene_beat_transaction_report", "beat_card_preview_retry_apply_report"])
+        if "context_scrubber_beat_anchor_gate" in patterns:
+            targets.extend(["context_scrubber_markup_leakage_report", "beat_anchor_prompt_exclusion_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6592,6 +6623,12 @@ class NovelSourceDiscoveryService:
             hints.append("Cite the Canon Ledger, Object Ledger, open plot threads, reader promises, and planned BookStateDiff before accepting a scene into canon.")
         if "human_edit_memory_quality_warn_gate" in patterns:
             hints.append("Use accepted human edits as project-local preference memory; quality findings warn and request author-visible revision choices, never auto-rewrite silently.")
+        if "local_storage_story_bible_snapshot_gate" in patterns:
+            hints.append("Before drafting, cite the active Story Bible version from localStorage, selected snapshot id, ProjectStorage adapter, and rollback target.")
+        if "staged_scene_beat_card_transaction_gate" in patterns:
+            hints.append("Draft from one staged beat card at a time: include beat intent, length target, preview status, retry count, and apply/accept decision before prose promotion.")
+        if "context_scrubber_beat_anchor_gate" in patterns:
+            hints.append("Run a beat-anchor scrubber before generation so editor HTML, nested beat controls, preview labels, and retry scaffolding stay out of the LLM context.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7097,6 +7134,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist BookStateDiff entries for canon facts, object holders/locations, knowledge reveals, open plot threads, reader promises, and the human approval decision.")
         if "human_edit_memory_quality_warn_gate" in patterns:
             hints.append("Persist accepted human edit memory as preference evidence and store quality warnings without mutating the accepted chapter until the author chooses a rewrite.")
+        if "local_storage_story_bible_snapshot_gate" in patterns:
+            hints.append("Persist localStorage project id, Story Bible version, outline version, snapshot id, backup checksum, and restore target with each accepted chapter step.")
+        if "staged_scene_beat_card_transaction_gate" in patterns:
+            hints.append("Persist beat-card transaction state: intent, length target, preview draft id, retry count, apply decision, inserted span id, and completed marker.")
+        if "context_scrubber_beat_anchor_gate" in patterns:
+            hints.append("Persist scrubber input/output checksums and any removed beat-anchor/editor-markup counts so context loss or markup leakage can be audited.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -7987,6 +8030,33 @@ class NovelSourceDiscoveryService:
             "Quality audit findings should warn and explain tradeoffs; they never auto-rewrite or silently mutate an accepted scene.",
             "Human Edit Memory stores accepted edit decisions as project-local preferences, not as global style rules.",
             "Future prompts may cite accepted human edits as preference evidence, but rejected edits and warning-only notes stay out of canon.",
+        ]
+
+    def _build_local_storage_story_bible_snapshot_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_storage_story_bible_snapshot_gate" not in patterns:
+            return []
+        return [
+            "Treat browser localStorage as a private project store: manuscripts, Story Bible files, outlines, snapshots, and backups need one project namespace and explicit export/import boundaries.",
+            "Before续写, record the selected ProjectStorage adapter, active Story Bible version, snapshot id, chapter id, and restore target so rollback is traceable.",
+            "Never let source-intake notes, AGENTS/CLAUDE instructions, or package/runtime metadata become Story Bible canon through local storage imports.",
+        ]
+
+    def _build_staged_scene_beat_card_transaction_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "staged_scene_beat_card_transaction_gate" not in patterns:
+            return []
+        return [
+            "Inline scene beat cards are transactional generation units: each card needs beat intent, length target, context window, preview output, retry count, and apply/accept status.",
+            "A staged draft stays non-canon until Apply records which prose span was inserted beneath the beat card and marks the card completed.",
+            "Length controls such as 200/400/600 words should constrain draft scope, not force padding or premature summary endings.",
+        ]
+
+    def _build_context_scrubber_beat_anchor_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "context_scrubber_beat_anchor_gate" not in patterns:
+            return []
+        return [
+            "Run a stripBeatAnchors-style scrubber before LLM context assembly so nested HTML beat nodes, editor controls, and raw tags cannot leak into prose prompts.",
+            "Keep surrounding narrative text after scrubbing, but exclude beat-card scaffolding, preview controls, retry labels, and completed markers from generated canon.",
+            "Block generation when scrubbed context still contains editor markup or when the scrubber removes the actual narrative span needed for continuity.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -10950,6 +11020,15 @@ class NovelSourceDiscoveryService:
         if "human_edit_memory_quality_warn_gate" in patterns:
             targets.append("human_edit_memory_preference_remap")
             targets.append("quality_warning_revision_choice_remap")
+        if "local_storage_story_bible_snapshot_gate" in patterns:
+            targets.append("local_storage_snapshot_remap")
+            targets.append("project_storage_boundary_remap")
+        if "staged_scene_beat_card_transaction_gate" in patterns:
+            targets.append("scene_beat_card_remap")
+            targets.append("preview_retry_apply_remap")
+        if "context_scrubber_beat_anchor_gate" in patterns:
+            targets.append("beat_anchor_scrubber_remap")
+            targets.append("editor_markup_exclusion_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -11589,6 +11668,12 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, include transformed Canon/Object Ledger refs and the expected BookStateDiff; source object routes stay abstraction-only.")
         if "human_edit_memory_quality_warn_gate" in patterns:
             hints.append("For same-type prompts, load Human Edit Memory only from user-accepted edits in the transformed project, not from source examples or upstream editorial notes.")
+        if "local_storage_story_bible_snapshot_gate" in patterns:
+            hints.append("For same-type prompts, use local storage snapshots only as transformed-project lineage; source ProjectStorage records and Story Bible snapshots remain reference evidence.")
+        if "staged_scene_beat_card_transaction_gate" in patterns:
+            hints.append("For same-type prompts, turn source beat-card workflow into a new beat transaction contract with transformed intent, length, preview, retry, and apply rules.")
+        if "context_scrubber_beat_anchor_gate" in patterns:
+            hints.append("For same-type prompts, scrub source beat anchors and editor markup before drafting so scaffold labels cannot become prose or canon facts.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12096,6 +12181,12 @@ class NovelSourceDiscoveryService:
             hints.append("Convert source health trends and ending classes into the new book's own tension, pacing, hook debt, and AI-preparation recovery trace.")
         if "anti_statistical_center_chapter_type_gate" in patterns:
             hints.append("Transform a source chapter's function into a new chapter type, different event category, fresh visible image, and new unresolved question before drafting prose.")
+        if "local_storage_story_bible_snapshot_gate" in patterns:
+            hints.append("Transform local storage snapshots into a new project lineage with fresh Story Bible ids, outline ids, backup labels, and restore notes.")
+        if "staged_scene_beat_card_transaction_gate" in patterns:
+            hints.append("Transform beat intent, length target, motive, obstacle, preview criteria, and apply condition before using a scene beat card for same-type drafting.")
+        if "context_scrubber_beat_anchor_gate" in patterns:
+            hints.append("Transform scrubber rules into a local preflight: remove source/editor beat anchors first, then rebuild context from transformed narrative spans only.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -12639,6 +12730,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject imported-story reuse when source chunks, extracted patterns, generation mode, version conflicts, or revision pass status are missing or when alternates overwrite accepted canon.")
         if "consequence_ledger_last_actions_context_gate" in patterns:
             hints.append("Reject continuation turns when consequence ledger bounds, last-action window, current character status, compression freshness, or save/snapshot id are missing.")
+        if "local_storage_story_bible_snapshot_gate" in patterns:
+            hints.append("Reject local storage snapshots that mix source notes, upstream runtime files, AGENTS/CLAUDE text, or source Story Bible facts into transformed canon.")
+        if "staged_scene_beat_card_transaction_gate" in patterns:
+            hints.append("Reject beat-card drafts when preview/retry/apply history is missing or when the source beat sequence is accepted as a new-story scene route.")
+        if "context_scrubber_beat_anchor_gate" in patterns:
+            hints.append("Reject prompts and drafts that still contain raw beat anchors, nested HTML beat nodes, editor buttons, or scaffold labels after scrubbing.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -13207,6 +13304,9 @@ class NovelSourceDiscoveryService:
                 "chinese_text_normalization_gate",
                 "chinese_error_correction_review_gate",
                 "source_format_import_manifest",
+                "local_storage_story_bible_snapshot_gate",
+                "staged_scene_beat_card_transaction_gate",
+                "context_scrubber_beat_anchor_gate",
                 "pdf_layout_text_extraction_gate",
                 "ocr_scanned_page_import_gate",
                 "document_partition_chapter_detection_gate",

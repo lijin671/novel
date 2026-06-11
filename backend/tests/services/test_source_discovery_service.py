@@ -13364,6 +13364,89 @@ def test_static_ember_source_adds_scene_card_ledger_diff_and_human_edit_gates():
     assert "human_edit_memory_quality_warn_gate_hints" in digest
 
 
+def test_static_novelwrite_source_adds_local_storage_scene_beat_context_scrubber_gates():
+    assert "https://github.com/tratran98/novelwrite" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any(
+        "localstorage" in query.lower()
+        and "stripbeatanchors" in query.lower()
+        and "scene beat cards" in query.lower()
+        for query in DEFAULT_GITHUB_QUERIES
+    )
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "tratran98/novelwrite",
+                "html_url": "https://github.com/tratran98/novelwrite",
+                "description": (
+                    "NovelWrite is a local-first privacy-focused AI novel editor. "
+                    "Its README says manuscripts, Story Bibles, outlines, and snapshot histories "
+                    "are stored in browser localStorage behind a ProjectStorage interface and "
+                    "LocalStorageProjectStorage adapter. It dynamically compiles the Story Bible "
+                    "into the context window. Staged AI Scene Beat Cards are inline transactional "
+                    "generation units with Beat Configurations, 200/400/600 word length control, "
+                    "Apply, Retry, Staged AI Generation Preview, and completed done states. "
+                    "The Context Scrubber stripBeatAnchors filters nested HTML beat nodes before "
+                    "feeding surrounding chapter context to the LLM. The repo exposes package.json, "
+                    "package-lock.json, AGENTS.md, CLAUDE.md, web app workspaces, and user-configured API key surfaces."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "local-first", "story-bible", "ai-writing"],
+                "updated_at": "2026-05-23T14:00:51Z",
+                "root_files": [
+                    ".github",
+                    ".gitignore",
+                    "AGENTS.md",
+                    "CLAUDE.md",
+                    "README.md",
+                    "apps",
+                    "assets",
+                    "package-lock.json",
+                    "package.json",
+                ],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    novelwrite = candidates["tratran98/novelwrite"]
+    assert "local_storage_story_bible_snapshot_gate" in novelwrite["absorbed_patterns"]
+    assert "staged_scene_beat_card_transaction_gate" in novelwrite["absorbed_patterns"]
+    assert "context_scrubber_beat_anchor_gate" in novelwrite["absorbed_patterns"]
+    assert "browser_storage_surface" in novelwrite["risk_flags"]
+    assert "provider_key_surface" in novelwrite["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "local_storage_story_bible_snapshot_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "staged_scene_beat_transaction_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "context_scrubber_beat_anchor_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_storage_story_bible_snapshot_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "staged_scene_beat_transaction_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "context_scrubber_markup_leakage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "local_storage_snapshot_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "scene_beat_card_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "beat_anchor_scrubber_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("Story Bible" in hint and "localStorage" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("beat card" in hint and "preview" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("snapshot id" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("browser localStorage" in hint for hint in pattern_pack["local_storage_story_bible_snapshot_gate_hints"])
+    assert any("transactional" in hint for hint in pattern_pack["staged_scene_beat_card_transaction_gate_hints"])
+    assert any("stripBeatAnchors" in hint for hint in pattern_pack["context_scrubber_beat_anchor_gate_hints"])
+    assert any("local storage snapshots" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("beat intent" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("raw beat anchors" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "local_storage_story_bible_snapshot_gate_hints" in digest
+    assert "staged_scene_beat_card_transaction_gate_hints" in digest
+    assert "context_scrubber_beat_anchor_gate_hints" in digest
+
+
 def test_static_style_axis_and_local_editor_sources_add_voice_block_revision_gates():
     assert "https://github.com/viktorbezdek/definitive-llm-writing-style-guide" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/jpotts18/stylometry" in DEFAULT_GITHUB_REPOSITORY_URLS
