@@ -361,6 +361,24 @@ def test_chapter_guardrails_does_not_flag_common_quoted_dialogue_as_source_term(
     assert result.violations == []
 
 
+def test_chapter_guardrails_flags_context_marked_chinese_alias_source_term_leak():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "沈璃在旧部中被称作“璃姐”，这个称呼只属于旧案。"
+    generated = "新故事换了城市和案件，却仍让女主被旁人叫作璃姐。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert violation.copy_signal == "source_entity_leak:璃姐"
+
+
 def test_chapter_guardrails_flags_chinese_character_name_leak_from_source_excerpt():
     guardrails = ChapterGuardrails()
     source_excerpt = "林寒把旧钥匙交给沈璃，随后离开档案室。"

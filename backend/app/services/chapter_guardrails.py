@@ -645,7 +645,10 @@ class ChapterGuardrails:
     @staticmethod
     def _source_entity_candidates(text: str) -> list[str]:
         candidates: list[str] = []
-        for term in ChapterGuardrails._marked_chinese_source_terms(text):
+        for term in (
+            ChapterGuardrails._marked_chinese_source_terms(text)
+            + ChapterGuardrails._context_marked_chinese_source_terms(text)
+        ):
             if term not in candidates:
                 candidates.append(term)
             if len(candidates) >= 12:
@@ -795,6 +798,23 @@ class ChapterGuardrails:
         """Extract short Chinese source terms explicitly marked by quotes/book-title marks."""
         terms: list[str] = []
         for match in re.finditer(r"[《「『]([\u4e00-\u9fff]{2,8})[》」』]", text or ""):
+            term = match.group(1).strip()
+            if term and term not in terms:
+                terms.append(term)
+        return terms
+
+    @staticmethod
+    def _context_marked_chinese_source_terms(text: str) -> list[str]:
+        """Extract Chinese aliases/codenames in ordinary quotes when source context marks them."""
+        terms: list[str] = []
+        alias_markers = (
+            "代号", "称作", "称为", "叫作", "叫做", "外号",
+            "绰号", "昵称", "别名", "名为", "唤作", "人称",
+        )
+        for match in re.finditer(r"[“‘]([\u4e00-\u9fff]{2,8})[”’]", text or ""):
+            prefix = (text or "")[max(0, match.start() - 16):match.start()]
+            if not any(marker in prefix for marker in alias_markers):
+                continue
             term = match.group(1).strip()
             if term and term not in terms:
                 terms.append(term)

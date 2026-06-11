@@ -800,3 +800,58 @@ Project adaptation:
   marked source terms.
 - A regression test keeps common terms such as `方向` from being treated as a
   character-name leak.
+
+
+### 2026-06-12 patch: context-marked Chinese alias leakage
+
+Static intake boundary:
+
+- No external repository was cloned, installed, executed, or used as runtime
+  code.
+- Public search result metadata, `git ls-remote`, license-file probes, and raw
+  README marker scans were used only as pattern evidence.
+- Posture for all sources below remains `pattern-only`.
+
+Observed sources:
+
+- `ThomasHoussin/Claude-Book`
+  - URL: https://github.com/ThomasHoussin/Claude-Book
+  - Observed HEAD: `3fdebbb576b1be6d123b48258d2310c5dff013c4`
+  - Default branch: `main`
+  - License posture: root `LICENSE` file reachable.
+  - Public signal: Claude-based book framework; raw README marker scan found
+    continuity, character, locations, outline, style, consistency, and review
+    vocabulary.
+- `DoktorDaveJoos/manuscript`
+  - URL: https://github.com/DoktorDaveJoos/manuscript
+  - Observed HEAD: `6e696471279c86055b53c13fae9f3c9166e1f497`
+  - Default branch: `main`
+  - License posture: unknown from this static pass.
+  - Public signal: writing/editing application with Story Bible, entities,
+    characters, locations, items, revision, style, consistency, and review
+    vocabulary.
+- `raestrada/storycraftr`
+  - URL: https://github.com/raestrada/storycraftr
+  - Observed HEAD: `73a77097d14e57070ac1a6f04b5badfbc9be91b1`
+  - Default branch: `main`
+  - License posture: root `LICENSE` file reachable.
+  - Public signal: AI-powered book creation assistant with character,
+    worldbuilding, outline, item, and consistency vocabulary.
+
+Absorbed pattern:
+
+- Story Bible systems track more than formal names. Aliases, nicknames, codenames,
+  and called-as labels are also canon entities and can leak during same-type
+  imitation.
+- Ordinary quoted dialogue should stay safe, but a term in common Chinese quotes
+  becomes source-specific when nearby source context says `代号`、`称作`、`称为`、
+  `叫作`、`外号`、`绰号`、`昵称`、`别名`、`名为`、`唤作` or `人称`.
+
+Project adaptation:
+
+- Source entity extraction now reads short Chinese aliases in `“”` / `‘’` only
+  when nearby source context marks them as alias/codename/name labels.
+- Reused aliases such as `璃姐` now trigger `inspired_source_entity_leak` and
+  preserve the leaked alias in `source_entity_leak:*`.
+- Existing ordinary-dialogue protection remains covered by the `“回来”`
+  regression test.
