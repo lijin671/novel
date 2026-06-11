@@ -335,6 +335,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("harness-level enforcement" OR "PreToolUse" OR "least-privilege reviewers" OR "review-chapter") ("writing framework" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("state/current" OR "state template" OR "perplexity-improver" OR "continuity-reviewer") ("novel" OR "fiction" OR "Claude Code") in:name,description,readme',
     '("scene cards" OR "fact extraction" OR "ReviewReports" OR "Story State ledger") ("novel" OR "long-form" OR "writing platform") in:name,description,readme',
+    '("SourceNovelAnalysis" OR "NovelDNA" OR "FusionBlueprint" OR "OriginalityGuard") ("novel" OR "source analysis" OR "story fusion") in:name,description,readme',
     '("digital corkboard" OR "chapter timeline" OR "front matter preservation") ("novel" OR "manuscript" OR "story bible") in:name,description,readme',
     '("manuscript binder" OR "corkboard outliner" OR "per-scene snapshots") ("story bible" OR "novel studio" OR "writing analytics") in:name,description,readme',
     '("foundation loop" OR "seed concept" OR "foundation_score" OR "lore_score") ("story bible" OR "novel" OR "screenplay") in:name,description,readme',
@@ -1072,6 +1073,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("constraint_harness_review_worktree_gate", ("writeassist", "constraint-driven multi-agent writing framework", "harness-level enforcement", "pretooluse", "em-dash guard", "final scanner", "least-privilege reviewers", "read, grep, glob", "creator agents", "isolated auditable revision passes", "git worktree", "auto-revise-chapter", "parallel named-agent review", "review-chapter", "seven named gating critics", "four-tier rubric", "import-book", "conflict ledger")),
     ("state_current_reviewer_loop_gate", ("claude-book", "claude book framework", "book-analyzer", "bible-merger", "story-ideator", "perplexity-improver", "state/current", "state/template", "state/chapter-nn", "symlink", "permanent bible", "transient state", "style-linter", "character-reviewer", "continuity-reviewer", "state-updater", "max 3 iterations", "timeline/history", "orchestrator")),
     ("versioned_scene_fact_review_pipeline_gate", ("novelforge-ai", "novelforge ai", "version-safe", "traceable ai generation", "idea -> story bible -> full outline -> chapter outline -> scene cards -> scene draft", "scene cards", "ai scene draft jobs", "scene versions", "accept/archive controls", "side-by-side version viewing", "fact extraction", "fact approval/rejection", "memory chunk creation", "focused fact/memory/reference-asset/state retrieval", "persistent continuity reports", "multipass editorial reviewreports", "multi-pass editorial reviewreports", "story state ledger", "canon dashboard", "manuscript progress metrics", "accepted-version markdown export", "pydantic schemas")),
+    ("source_novel_dna_fusion_boundary_gate", ("source novel analysis", "sourcenovelanalysis", "sourcenovelchunk", "noveldna", "fusionblueprint", "fusionresult", "source analysis layer", "fusion design layer", "novel writing layer", "source chunks excluded", "source chunk content", "narrative_voice_abstract", "taboo direct-copy elements", "source_novel_raw")),
+    ("originality_guard_project_creation_gate", ("originality guardrails", "originalityguard", "originalityguardservice", "originality check", "explicit user-triggered originality check", "create-project refuses unchecked results", "rights status", "risk levels", "critical results cannot create", "forbidden similarity", "forbidden similarities", "raw_excerpt", "source_text", "verbatim_excerpt")),
+    ("precision_edit_candidate_version_gate", ("precision editing", "precisioneditsession", "precisioneditcandidate", "selected-text ai edits", "selected passage", "three candidate columns", "candidate number", "replacement content", "change summary", "style notes", "risk warnings", "new sceneversion", "source version remains unchanged")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2969,7 +2973,8 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "hayrgpt-rgb/novelforge-ai": (
         "NovelForge AI is a no-license-observed long-form novel writing platform. Public README and AGENTS markers describe a durable pipeline from idea to story bible, outline, scene cards, scene draft, fact extraction, review, revision, memory update, and export. "
         "Markers include version-safe traceable AI generation, AI scene draft jobs, user-edited SceneVersion records, accept/archive controls, side-by-side version viewing, fact approval/rejection, memory chunks, focused fact/memory/reference-asset/state retrieval, persistent continuity reports, multi-pass editorial ReviewReports, Story State ledger, Canon dashboard, progress metrics, accepted-version Markdown/DOCX export, Pydantic output validation, prompt-file separation, mocked provider tests, Docker/Postgres/Redis/RQ surfaces, and OpenAI-compatible provider keys. "
-        "Pattern-only adaptation for versioned scene drafting, fact-ledger approval, review-report gating, canon dashboard evidence, and export readiness; Docker, services, queues, databases, provider calls, .env files, and upstream prompts/agent instructions are not executed or imported."
+        "Selected static docs add SourceNovelAnalysis, SourceNovelChunk, NovelDNA, FusionBlueprint, FusionResult, three-layer source-analysis/fusion-design/writing separation, taboo direct-copy elements, SourceNovel raw marker blockers, OriginalityGuardService rerun before create-project, explicit user-triggered originality checks, risk levels, and PrecisionEditSession/PrecisionEditCandidate selected-passage candidate editing that creates new SceneVersion records without overwriting the source version. "
+        "Pattern-only adaptation for versioned scene drafting, fact-ledger approval, review-report gating, canon dashboard evidence, source-analysis-to-DNA fusion boundaries, explicit originality project gates, precision-edit candidate lineage, and export readiness; Docker, services, queues, databases, provider calls, .env files, source chunks, and upstream prompts/agent instructions are not executed or imported."
     ),
 
 }
@@ -3338,6 +3343,9 @@ class NovelSourceDiscoveryService:
             "constraint_harness_review_worktree_gate_hints": self._build_constraint_harness_review_worktree_gate_hints(available_patterns),
             "state_current_reviewer_loop_gate_hints": self._build_state_current_reviewer_loop_gate_hints(available_patterns),
             "versioned_scene_fact_review_pipeline_gate_hints": self._build_versioned_scene_fact_review_pipeline_gate_hints(available_patterns),
+            "source_novel_dna_fusion_boundary_gate_hints": self._build_source_novel_dna_fusion_boundary_gate_hints(available_patterns),
+            "originality_guard_project_creation_gate_hints": self._build_originality_guard_project_creation_gate_hints(available_patterns),
+            "precision_edit_candidate_version_gate_hints": self._build_precision_edit_candidate_version_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4371,6 +4379,9 @@ class NovelSourceDiscoveryService:
             "constraint_harness_review_worktree_gate": 70,
             "state_current_reviewer_loop_gate": 69,
             "versioned_scene_fact_review_pipeline_gate": 70,
+            "source_novel_dna_fusion_boundary_gate": 71,
+            "originality_guard_project_creation_gate": 72,
+            "precision_edit_candidate_version_gate": 68,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4752,6 +4763,15 @@ class NovelSourceDiscoveryService:
             targets.append("version_safe_scene_draft_policy")
             targets.append("fact_approval_memory_update_policy")
             targets.append("review_report_export_readiness_policy")
+        if "source_novel_dna_fusion_boundary_gate" in patterns:
+            targets.append("source_analysis_fusion_layer_boundary_policy")
+            targets.append("novel_dna_taboo_element_policy")
+        if "originality_guard_project_creation_gate" in patterns:
+            targets.append("originality_guard_project_creation_policy")
+            targets.append("explicit_originality_check_policy")
+        if "precision_edit_candidate_version_gate" in patterns:
+            targets.append("precision_edit_version_policy")
+            targets.append("selected_passage_candidate_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5683,6 +5703,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["state_current_continuity_report", "chapter_snapshot_delta_report", "perplexity_cliche_style_lint_report", "character_continuity_reviewer_loop_report", "timeline_history_append_report"])
         if "versioned_scene_fact_review_pipeline_gate" in patterns:
             targets.extend(["scene_version_lineage_report", "fact_extraction_approval_report", "memory_chunk_retrieval_trace", "continuity_reviewreport_findings", "canon_dashboard_export_readiness_report"])
+        if "source_novel_dna_fusion_boundary_gate" in patterns:
+            targets.extend(["source_dna_taboo_element_report", "source_analysis_layer_boundary_report", "fusion_layer_context_exclusion_report"])
+        if "originality_guard_project_creation_gate" in patterns:
+            targets.extend(["fusion_blueprint_originality_report", "explicit_originality_check_report", "rights_status_project_creation_blockers"])
+        if "precision_edit_candidate_version_gate" in patterns:
+            targets.extend(["precision_edit_candidate_lineage_report", "selected_passage_replacement_trace", "precision_edit_risk_warning_review"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6448,6 +6474,12 @@ class NovelSourceDiscoveryService:
             hints.append("Before a continuation chapter, load the accepted bible separately from transient state/current facts, then name the planner, writer, style, character, continuity, and state-update gates for this chapter.")
         if "versioned_scene_fact_review_pipeline_gate" in patterns:
             hints.append("Before scene drafting or revision, declare the scene-card id, base version id, retrieval bundle, fact-ledger write targets, review-report gates, and no-overwrite acceptance policy.")
+        if "source_novel_dna_fusion_boundary_gate" in patterns:
+            hints.append("For fusion-inspired continuation, pass only NovelDNA, FusionBlueprint, taboo elements, and abstract analysis ids into the prompt; source chunks and SourceNovelChunk content stay outside drafting context.")
+        if "originality_guard_project_creation_gate" in patterns:
+            hints.append("Before creating or continuing a fused project, rerun originality guard checks for rights status, taboo terms, forbidden similarities, raw-source markers, and direct-copy warnings.")
+        if "precision_edit_candidate_version_gate" in patterns:
+            hints.append("For localized rewrites, cite the selected passage id, edit type, author instruction, candidate count, and no-overwrite version target before generating precision-edit candidates.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -6929,6 +6961,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist state/current input checksum, chapter snapshot id, repair-loop count, perplexity/cliche findings, style-linter findings, character-reviewer findings, continuity-reviewer findings, and timeline/history append status.")
         if "versioned_scene_fact_review_pipeline_gate" in patterns:
             hints.append("Persist scene version lineage, accept/archive decision, fact extraction approvals/rejections, memory chunk ids, continuity report ids, ReviewReport ids, canon dashboard deltas, and export artifact checksums.")
+        if "source_novel_dna_fusion_boundary_gate" in patterns:
+            hints.append("Persist source-analysis layer ids, NovelDNA ids, FusionBlueprint id, taboo elements, raw-source marker scan result, and proof that raw-source chunks never entered the writing layer.")
+        if "originality_guard_project_creation_gate" in patterns:
+            hints.append("Persist rights status, originality risk level, explicit user-triggered originality check id, forbidden-similarity terms, direct-copy warnings, and create-project recheck timestamp.")
+        if "precision_edit_candidate_version_gate" in patterns:
+            hints.append("Persist PrecisionEditSession id, selected passage checksum, candidate ids, risk warnings, reject/apply decision, and created SceneVersion lineage for every precision edit.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -7711,6 +7749,33 @@ class NovelSourceDiscoveryService:
             "Model scene drafting as a versioned pipeline: scene cards generate draft attempts, user edits create separate versions, and accepted text never overwrites prior bible, outline, draft, report, or export records.",
             "Fact extraction is not automatic canon: extracted facts need approve/reject status, memory chunk ids, retrieval traces, and Story State ledger deltas before they affect continuation prompts.",
             "Export readiness depends on persistent continuity reports, multi-pass ReviewReports, canon dashboard findings, progress metrics, and accepted-version artifact checksums; provider, Docker, queue, and database surfaces stay runtime-deferred.",
+        ]
+
+    def _build_source_novel_dna_fusion_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "source_novel_dna_fusion_boundary_gate" not in patterns:
+            return []
+        return [
+            "Keep SourceNovelChunk content in the source-analysis layer only; fusion design reads abstract SourceNovelAnalysis, NovelDNA, FusionBlueprint, taboo terms, and risk metadata.",
+            "Novel writing starts only from accepted new-project records; drafts, outlines, AILeadWriter, and ContextBuilder must not receive raw source chunks or source scene summaries.",
+            "Block fusion promotion when analysis JSON contains raw-source markers such as raw_excerpt, source_text, verbatim_excerpt, or source_novel_raw.",
+        ]
+
+    def _build_originality_guard_project_creation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "originality_guard_project_creation_gate" not in patterns:
+            return []
+        return [
+            "Require an explicit user-triggered originality check before a fusion result can create a formal project.",
+            "Rerun originality guard checks at create-project time against current FusionResult content, rights status, taboo terms, forbidden similarities, and residual source-excerpt markers.",
+            "Treat high or critical originality risk as a project-creation blocker, not as a draft warning to be fixed later.",
+        ]
+
+    def _build_precision_edit_candidate_version_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "precision_edit_candidate_version_gate" not in patterns:
+            return []
+        return [
+            "Precision edits should begin from a selected passage, edit type, and author instruction, then generate reviewable PrecisionEditCandidate records.",
+            "Each PrecisionEditCandidate needs replacement text, change summary, preserved elements, style notes, risk warnings, and an apply/reject decision.",
+            "Applying a precision-edit candidate creates a new SceneVersion for the selected passage; the source version remains unchanged and auditable.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -10638,6 +10703,15 @@ class NovelSourceDiscoveryService:
             targets.append("scene_version_lineage_remap")
             targets.append("fact_memory_approval_remap")
             targets.append("canon_dashboard_review_remap")
+        if "source_novel_dna_fusion_boundary_gate" in patterns:
+            targets.append("novel_dna_fusion_blueprint_remap")
+            targets.append("source_analysis_layer_boundary_remap")
+        if "originality_guard_project_creation_gate" in patterns:
+            targets.append("originality_guard_remap")
+            targets.append("taboo_similarity_terms_remap")
+        if "precision_edit_candidate_version_gate" in patterns:
+            targets.append("precision_edit_candidate_remap")
+            targets.append("selected_passage_version_lineage_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -11253,6 +11327,12 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, rebuild a new bible/state split, chapter snapshot labels, reviewer loop axes, and timeline append rules; never reuse source state/current facts as new canon.")
         if "versioned_scene_fact_review_pipeline_gate" in patterns:
             hints.append("For same-type prompts, remap scene-card schema, version labels, fact approval fields, memory chunk taxonomy, review-report rubrics, and export checks; do not reuse source scene content or fact ledger entries.")
+        if "source_novel_dna_fusion_boundary_gate" in patterns:
+            hints.append("For same-type prompts, use NovelDNA and FusionBlueprint as abstract transformation contracts only; raw source chunks and source scene summaries stay outside the prompt.")
+        if "originality_guard_project_creation_gate" in patterns:
+            hints.append("For same-type prompts, include transformed forbidden-similarity terms, rights status, and originality risk result before any project-creation or drafting step.")
+        if "precision_edit_candidate_version_gate" in patterns:
+            hints.append("For same-type precision edits, map the selected passage, edit type, and candidate review fields to the new scene rather than editing source text or source-like spans.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12196,6 +12276,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform state-current workflows into local continuation packets: permanent bible refs, transient delta facts, reviewer reports, bounded repair count, and next-state snapshot evidence.")
         if "versioned_scene_fact_review_pipeline_gate" in patterns:
             hints.append("Transform versioned-scene workflows into new-story lineage cards, approved fact deltas, retrieval traces, review findings, and export readiness evidence rather than copying source drafts or prompts.")
+        if "source_novel_dna_fusion_boundary_gate" in patterns:
+            hints.append("Transform NovelDNA into a fresh FusionBlueprint with new premise, cast, world rules, taboo elements, and writing-layer context boundaries.")
+        if "originality_guard_project_creation_gate" in patterns:
+            hints.append("Transform originality guardrails into project-native blockers: high risk, unresolved rights, forbidden similarities, or raw-source markers must stop promotion.")
+        if "precision_edit_candidate_version_gate" in patterns:
+            hints.append("Transform selected passage edits into localized candidate versions for the new scene; do not use precision editing to paraphrase source paragraphs.")
         if "parallel_critic_tribunal_issue_gate" in patterns:
             hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
         if "prompt_evolution_fitness_governance_gate" in patterns:
@@ -12781,6 +12867,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that mutate permanent bible facts, skip style/character/continuity reviewer reports, exceed the repair-loop limit, or advance state/current without a snapshot delta.")
         if "versioned_scene_fact_review_pipeline_gate" in patterns:
             hints.append("Reject drafts that overwrite prior versions, promote unapproved extracted facts, omit retrieval traces, skip ReviewReports, or export text before canon dashboard blockers are resolved.")
+        if "source_novel_dna_fusion_boundary_gate" in patterns:
+            hints.append("Reject same-type runs that move SourceNovelChunk content, source scene summaries, raw-source markers, or analysis-layer facts into the final writing context.")
+        if "originality_guard_project_creation_gate" in patterns:
+            hints.append("Reject fusion results that keep forbidden similarities, unresolved rights status, high originality risk, or stale create-project checks.")
+        if "precision_edit_candidate_version_gate" in patterns:
+            hints.append("Reject precision edits that replace a selected passage by paraphrasing source prose, hiding source-specific names, or overwriting the original scene version.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -12971,6 +13063,9 @@ class NovelSourceDiscoveryService:
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",
+                "source_novel_dna_fusion_boundary_gate",
+                "originality_guard_project_creation_gate",
+                "precision_edit_candidate_version_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",
                 "creative_scaffold_prompt_sequence_gate",

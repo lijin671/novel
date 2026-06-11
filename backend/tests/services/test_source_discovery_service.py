@@ -13017,6 +13017,7 @@ def test_static_claude_book_source_adds_state_current_reviewer_loop_gate():
 def test_static_novelforge_ai_source_adds_versioned_scene_fact_review_pipeline_gate():
     assert "https://github.com/hayrgpt-rgb/NovelForge-AI" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("scene cards" in query.lower() and "reviewreports" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("sourcenovelanalysis" in query.lower() and "noveldna" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
 
     service = NovelSourceDiscoveryService()
     result = service.build_ledger_from_metadata(
@@ -13031,14 +13032,29 @@ def test_static_novelforge_ai_source_adds_versioned_scene_fact_review_pipeline_g
                     "It uses AI scene draft jobs, SceneVersion records, accept/archive controls, side-by-side version viewing, "
                     "fact approval/rejection, memory chunk creation, focused fact/memory/reference-asset/state retrieval, "
                     "persistent continuity reports, multi-pass editorial ReviewReports, Story State ledger, Canon dashboard, "
-                    "accepted-version Markdown export, Pydantic schemas, Docker Compose, PostgreSQL, Redis, RQ, OpenAI API keys."
+                    "accepted-version Markdown export, Pydantic schemas, SourceNovelAnalysis, NovelDNA, FusionBlueprint, "
+                    "OriginalityGuardService rerun before create-project, taboo direct-copy elements, source chunks excluded "
+                    "from final writing context, raw_excerpt/source_text/verbatim_excerpt blockers, PrecisionEditSession, "
+                    "PrecisionEditCandidate, three candidate columns, selected passage replacement in a new SceneVersion, "
+                    "Docker Compose, PostgreSQL, Redis, RQ, OpenAI API keys."
                 ),
                 "stargazers_count": 0,
                 "forks_count": 0,
                 "license": None,
                 "topics": ["novel", "scene-cards", "continuity"],
                 "updated_at": "2026-06-11T11:10:00Z",
-                "root_files": ["README.md", "AGENTS.md", "docker-compose.yml", ".env.example", "backend", "frontend"],
+                "root_files": [
+                    "README.md",
+                    "AGENTS.md",
+                    "SOURCE_NOVEL_ANALYSIS.md",
+                    "NOVEL_FUSION_ENGINE.md",
+                    "ORIGINALITY_GUARDRAILS.md",
+                    "PRECISION_EDITING.md",
+                    "docker-compose.yml",
+                    ".env.example",
+                    "backend",
+                    "frontend",
+                ],
             },
         ],
         forum_items=[],
@@ -13048,6 +13064,9 @@ def test_static_novelforge_ai_source_adds_versioned_scene_fact_review_pipeline_g
     candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
     novelforge = candidates["hayrgpt-rgb/NovelForge-AI"]
     assert "versioned_scene_fact_review_pipeline_gate" in novelforge["absorbed_patterns"]
+    assert "source_novel_dna_fusion_boundary_gate" in novelforge["absorbed_patterns"]
+    assert "originality_guard_project_creation_gate" in novelforge["absorbed_patterns"]
+    assert "precision_edit_candidate_version_gate" in novelforge["absorbed_patterns"]
     assert "license:missing" in novelforge["trust_review"]["flags"]
     assert "docker" in novelforge["risk_flags"]
     assert "provider_key_surface" in novelforge["risk_flags"]
@@ -13056,23 +13075,43 @@ def test_static_novelforge_ai_source_adds_versioned_scene_fact_review_pipeline_g
     assert "version_safe_scene_draft_policy" in pattern_pack["bible_enrichment_targets"]
     assert "fact_approval_memory_update_policy" in pattern_pack["bible_enrichment_targets"]
     assert "review_report_export_readiness_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "source_analysis_fusion_layer_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "originality_guard_project_creation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "precision_edit_version_policy" in pattern_pack["bible_enrichment_targets"]
     assert "scene_version_lineage_report" in pattern_pack["whole_book_analysis_targets"]
     assert "fact_extraction_approval_report" in pattern_pack["whole_book_analysis_targets"]
     assert "memory_chunk_retrieval_trace" in pattern_pack["whole_book_analysis_targets"]
     assert "continuity_reviewreport_findings" in pattern_pack["whole_book_analysis_targets"]
     assert "canon_dashboard_export_readiness_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "source_dna_taboo_element_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "fusion_blueprint_originality_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "precision_edit_candidate_lineage_report" in pattern_pack["whole_book_analysis_targets"]
     assert "scene_version_lineage_remap" in pattern_pack["inspired_mapping_targets"]
     assert "fact_memory_approval_remap" in pattern_pack["inspired_mapping_targets"]
     assert "canon_dashboard_review_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "novel_dna_fusion_blueprint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "originality_guard_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "precision_edit_candidate_remap" in pattern_pack["inspired_mapping_targets"]
     assert any("scene-card id" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("NovelDNA" in hint and "source chunks" in hint for hint in pattern_pack["continuation_prompt_hints"])
     assert any("scene version lineage" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("taboo" in hint.lower() and "raw-source" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
     assert any("Fact extraction is not automatic canon" in hint for hint in pattern_pack["versioned_scene_fact_review_pipeline_gate_hints"])
+    assert any("SourceNovelChunk" in hint for hint in pattern_pack["source_novel_dna_fusion_boundary_gate_hints"])
+    assert any("explicit user-triggered originality check" in hint for hint in pattern_pack["originality_guard_project_creation_gate_hints"])
+    assert any("PrecisionEditCandidate" in hint for hint in pattern_pack["precision_edit_candidate_version_gate_hints"])
     assert any("scene-card schema" in hint for hint in pattern_pack["inspired_prompt_hints"])
     assert any("approved fact deltas" in hint for hint in pattern_pack["inspired_transformation_hints"])
     assert any("unapproved extracted facts" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("NovelDNA" in hint and "FusionBlueprint" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("forbidden similarities" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("selected passage" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "versioned_scene_fact_review_pipeline_gate_hints" in digest
+    assert "source_novel_dna_fusion_boundary_gate_hints" in digest
+    assert "originality_guard_project_creation_gate_hints" in digest
+    assert "precision_edit_candidate_version_gate_hints" in digest
 
 
 def test_static_style_axis_and_local_editor_sources_add_voice_block_revision_gates():
