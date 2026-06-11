@@ -353,6 +353,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("vertical drama hook templates" OR "first-five-second hooks" OR "cliffhanger openings") ("opening image" OR "first spoken line" OR "reversal beat") in:name,description,readme',
     '("storyboard shot packs" OR "AI short drama storyboard shot packs" OR "shot-list packs") ("vertical-safe framing" OR "continuity risk" OR "generation prompt") in:name,description,readme',
     '("rolling chapter direction" OR "scene blueprint" OR "reader reward" OR "mobile readability") ("web novel" OR "serialized fiction" OR "continuity memory") in:name,description,readme',
+    '("Scene Card Pipeline" OR "BookStateDiff" OR "Object Ledger" OR "Human Edit Memory") ("long-form fiction" OR "novel" OR "canon") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -766,6 +767,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/hayrgpt-rgb/NovelForge-AI",
     "https://github.com/alfredxw/nova",
     "https://github.com/CARL-JOSEPH-LEE/little-honey-ai-web-novel",
+    "https://github.com/KleinDigitalSolutions/EMBER",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1086,6 +1088,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("rolling_chapter_direction_context_priority_gate", ("rolling chapter direction", "current chapter direction", "context engine", "context pack", "previous chapter summaries", "recent-summary window", "nearby upcoming pressure", "selected full previous chapters")),
     ("scene_blueprint_reader_reward_gate", ("scene blueprint", "scene blueprints", "scene cards", "information gains", "information gain", "reader rewards", "reader reward", "scene-end hooks", "scene end hooks")),
     ("webnovel_quality_review_rewrite_memory_gate", ("quality review", "review prompts", "rewrite prompt", "mobile readability", "cliffhanger strength", "anti-cliche", "anti cliche", "voice consistency", "continuity memory", "manuscript merge")),
+    ("scene_card_hard_soft_field_gate", ("scene card pipeline", "yaml-like scene cards", "hard canon fields", "soft guidance fields", "writer reads the card but is not bound", "hard (canon)", "soft (guidance)")),
+    ("canon_object_ledger_bookstate_diff_gate", ("memory backbone", "canon ledger", "object ledger", "bookstatediff", "structured diff", "objects moved", "knowledge revealed", "human approval gates", "what enters the canon")),
+    ("human_edit_memory_quality_warn_gate", ("human edit memory", "quality audit warns", "never auto-rewrites", "accepted edits", "influence future prompts", "quality audit warns, never auto-rewrites")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2997,6 +3002,11 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Scene blueprints require location, characters, goals, obstacles, turning points, information gains, reader rewards, and scene-end hooks. Quality review checks opening hook, continuity, conflict density, reader reward, mobile readability, cliffhanger strength, originality, dialogue, pacing, voice consistency, and anti-cliche behavior before rewrite and memory update. "
         "Pattern-only adaptation for rolling context priority, reader-reward scene blueprints, and review-rewrite-memory loops; Windows .exe binaries, license issuer tooling, seller_private_key.json, DeepSeek/API-key surfaces, package specs, scripts, and upstream runtime are not executed or imported."
     ),
+    "kleindigitalsolutions/ember": (
+        "EMBER is a no-license-observed AI novel writing studio for long-form fiction. Public README markers describe a scene-card pipeline, persistent Memory Backbone, stateful draft engine, YAML-like scene cards with hard canon fields and soft guidance fields, Canon Ledger, Object Ledger, open plot threads, reader promises, typed BookStateDiff extraction after accepted drafts, and human approval gates for canon entry. "
+        "Its draft engine records quality audit warnings without automatic rewrites, and Human Edit Memory stores accepted edits so future prompts can learn project-local preferences. It also exposes project/act/chapter/scene scoped chat, OpenAI/Anthropic provider surfaces, Supabase storage markers, .env examples, scripts, package manifests, and AGENTS instructions. "
+        "Pattern-only adaptation for hard/soft scene-card contracts, canon/object-ledger diff approval, human-edit-memory style feedback, and no-auto-rewrite quality boundaries; package managers, scripts, Supabase/database setup, provider calls, .env files, upstream AGENTS instructions, and runtime services are not executed or imported."
+    ),
 
 }
 
@@ -3373,6 +3383,9 @@ class NovelSourceDiscoveryService:
             "rolling_chapter_direction_context_priority_gate_hints": self._build_rolling_chapter_direction_context_priority_gate_hints(available_patterns),
             "scene_blueprint_reader_reward_gate_hints": self._build_scene_blueprint_reader_reward_gate_hints(available_patterns),
             "webnovel_quality_review_rewrite_memory_gate_hints": self._build_webnovel_quality_review_rewrite_memory_gate_hints(available_patterns),
+            "scene_card_hard_soft_field_gate_hints": self._build_scene_card_hard_soft_field_gate_hints(available_patterns),
+            "canon_object_ledger_bookstate_diff_gate_hints": self._build_canon_object_ledger_bookstate_diff_gate_hints(available_patterns),
+            "human_edit_memory_quality_warn_gate_hints": self._build_human_edit_memory_quality_warn_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4415,6 +4428,9 @@ class NovelSourceDiscoveryService:
             "rolling_chapter_direction_context_priority_gate": 70,
             "scene_blueprint_reader_reward_gate": 69,
             "webnovel_quality_review_rewrite_memory_gate": 70,
+            "scene_card_hard_soft_field_gate": 69,
+            "canon_object_ledger_bookstate_diff_gate": 71,
+            "human_edit_memory_quality_warn_gate": 68,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4823,6 +4839,15 @@ class NovelSourceDiscoveryService:
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             targets.append("webnovel_review_rewrite_memory_policy")
             targets.append("mobile_readability_cliffhanger_review_policy")
+        if "scene_card_hard_soft_field_gate" in patterns:
+            targets.append("scene_card_hard_soft_field_policy")
+            targets.append("canon_vs_guidance_scene_card_policy")
+        if "canon_object_ledger_bookstate_diff_gate" in patterns:
+            targets.append("canon_object_ledger_diff_policy")
+            targets.append("human_approved_bookstate_diff_policy")
+        if "human_edit_memory_quality_warn_gate" in patterns:
+            targets.append("human_edit_memory_quality_warn_policy")
+            targets.append("no_auto_rewrite_quality_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5772,6 +5797,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["scene_blueprint_reader_reward_report", "scene_hook_information_gain_report"])
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             targets.extend(["webnovel_quality_review_rewrite_memory_report", "accepted_chapter_memory_update_report"])
+        if "scene_card_hard_soft_field_gate" in patterns:
+            targets.extend(["scene_card_hard_soft_field_report", "canon_guidance_field_separation_report"])
+        if "canon_object_ledger_bookstate_diff_gate" in patterns:
+            targets.extend(["canon_object_bookstate_diff_report", "object_movement_human_approval_report"])
+        if "human_edit_memory_quality_warn_gate" in patterns:
+            targets.extend(["human_edit_memory_quality_warning_report", "no_auto_rewrite_decision_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6555,6 +6586,12 @@ class NovelSourceDiscoveryService:
             hints.append("Before prose, require a scene blueprint with location, cast, goal, obstacle, turning point, information gain, reader reward, and scene-end hook.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("After drafting, run the webnovel review loop for hook, continuity, conflict density, reader reward, mobile readability, cliffhanger, originality, dialogue, pacing, voice consistency, and anti-cliche behavior before rewrite.")
+        if "scene_card_hard_soft_field_gate" in patterns:
+            hints.append("Before drafting, split the scene card into hard canon fields that must be obeyed and soft guidance fields that guide tone without being copied.")
+        if "canon_object_ledger_bookstate_diff_gate" in patterns:
+            hints.append("Cite the Canon Ledger, Object Ledger, open plot threads, reader promises, and planned BookStateDiff before accepting a scene into canon.")
+        if "human_edit_memory_quality_warn_gate" in patterns:
+            hints.append("Use accepted human edits as project-local preference memory; quality findings warn and request author-visible revision choices, never auto-rewrite silently.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7054,6 +7091,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist each scene blueprint with goal, obstacle, turning point, information gain, reader reward, scene-end hook, and whether prose fulfilled the scene contract.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Persist review scores, rewrite decision, accepted summary, continuity memory updates, open hooks, paid-off foreshadowing, next-chapter pressure, and manuscript-merge status.")
+        if "scene_card_hard_soft_field_gate" in patterns:
+            hints.append("Persist scene-card hard canon fields separately from soft guidance fields, including which hard fields were satisfied and which soft fields influenced prose.")
+        if "canon_object_ledger_bookstate_diff_gate" in patterns:
+            hints.append("Persist BookStateDiff entries for canon facts, object holders/locations, knowledge reveals, open plot threads, reader promises, and the human approval decision.")
+        if "human_edit_memory_quality_warn_gate" in patterns:
+            hints.append("Persist accepted human edit memory as preference evidence and store quality warnings without mutating the accepted chapter until the author chooses a rewrite.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -7917,6 +7960,33 @@ class NovelSourceDiscoveryService:
             "Review drafts across opening hook, continuity, conflict density, reader reward, mobile readability, cliffhanger strength, originality, dialogue, pacing, voice consistency, and anti-cliche behavior.",
             "Feed failed review dimensions into a bounded rewrite loop before accepting the chapter; weak review results do not update canon memory.",
             "After acceptance, write summary and continuity memory updates for key events, character changes, new facts, foreshadowing, open hooks, next pressure, timeline, world facts, and style notes.",
+        ]
+
+    def _build_scene_card_hard_soft_field_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_card_hard_soft_field_gate" not in patterns:
+            return []
+        return [
+            "Scene cards need a hard/soft split: hard canon fields are constraints, while soft guidance fields are tone and direction hints.",
+            "The writer should satisfy hard canon without copying soft guidance wording into the chapter.",
+            "Block acceptance when hard canon fields are missing, contradicted, or mixed with optional guidance under the same authority label.",
+        ]
+
+    def _build_canon_object_ledger_bookstate_diff_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "canon_object_ledger_bookstate_diff_gate" not in patterns:
+            return []
+        return [
+            "Track Canon Ledger facts, Object Ledger holder/location changes, open plot threads, and reader promises as separate state surfaces.",
+            "Extract a typed BookStateDiff after each accepted draft; it should declare facts changed, objects moved, knowledge revealed, and promises reinforced.",
+            "human approval gates what enters canon; draft output alone cannot mutate the Canon Ledger or Object Ledger.",
+        ]
+
+    def _build_human_edit_memory_quality_warn_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "human_edit_memory_quality_warn_gate" not in patterns:
+            return []
+        return [
+            "Quality audit findings should warn and explain tradeoffs; they never auto-rewrite or silently mutate an accepted scene.",
+            "Human Edit Memory stores accepted edit decisions as project-local preferences, not as global style rules.",
+            "Future prompts may cite accepted human edits as preference evidence, but rejected edits and warning-only notes stay out of canon.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -10871,6 +10941,15 @@ class NovelSourceDiscoveryService:
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             targets.append("review_rewrite_memory_remap")
             targets.append("mobile_readability_cliffhanger_remap")
+        if "scene_card_hard_soft_field_gate" in patterns:
+            targets.append("scene_card_hard_soft_field_remap")
+            targets.append("canon_guidance_authority_remap")
+        if "canon_object_ledger_bookstate_diff_gate" in patterns:
+            targets.append("canon_object_diff_remap")
+            targets.append("reader_promise_state_diff_remap")
+        if "human_edit_memory_quality_warn_gate" in patterns:
+            targets.append("human_edit_memory_preference_remap")
+            targets.append("quality_warning_revision_choice_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -11504,6 +11583,12 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type scenes, rebuild every reader reward, information gain, and scene-end hook from transformed conflict and character desire.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("For same-type drafts, make the review-rewrite loop judge transformed-story continuity and mobile readability, not resemblance to the source chapter.")
+        if "scene_card_hard_soft_field_gate" in patterns:
+            hints.append("For same-type prompts, reuse only the source card structure; rebuild hard canon and soft guidance fields for the transformed story.")
+        if "canon_object_ledger_bookstate_diff_gate" in patterns:
+            hints.append("For same-type prompts, include transformed Canon/Object Ledger refs and the expected BookStateDiff; source object routes stay abstraction-only.")
+        if "human_edit_memory_quality_warn_gate" in patterns:
+            hints.append("For same-type prompts, load Human Edit Memory only from user-accepted edits in the transformed project, not from source examples or upstream editorial notes.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12465,6 +12550,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform each scene reward and hook by changing the goal, obstacle, information gain, emotional payoff, and exit question.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Transform review results into new-story rewrite tasks; accepted summaries and continuity memory must describe the transformed chapter only.")
+        if "scene_card_hard_soft_field_gate" in patterns:
+            hints.append("Transform hard fields into new canon constraints and soft fields into new tonal guidance; do not let source wording become draft prose.")
+        if "canon_object_ledger_bookstate_diff_gate" in patterns:
+            hints.append("Transform object ownership, locations, knowledge reveals, and reader promises before writing a new BookStateDiff.")
+        if "human_edit_memory_quality_warn_gate" in patterns:
+            hints.append("Transform human-edit preferences into local style decisions with new evidence; warning-only source notes cannot become rewrite instructions.")
         if "parallel_critic_tribunal_issue_gate" in patterns:
             hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
         if "prompt_evolution_fitness_governance_gate" in patterns:
@@ -13068,6 +13159,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject scene blueprints whose reader reward, information gain, obstacle, or scene-end hook is only a renamed source scene function.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
+        if "scene_card_hard_soft_field_gate" in patterns:
+            hints.append("Reject scene cards whose soft guidance copies source phrasing or whose hard canon fields preserve source facts under renamed labels.")
+        if "canon_object_ledger_bookstate_diff_gate" in patterns:
+            hints.append("Reject BookStateDiff plans that replay a source prop route, object handoff, knowledge reveal, or reader-promise sequence.")
+        if "human_edit_memory_quality_warn_gate" in patterns:
+            hints.append("Reject drafts that import source editorial notes as Human Edit Memory or treat warning-only quality findings as automatic rewrite authority.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -13267,6 +13364,9 @@ class NovelSourceDiscoveryService:
                 "rolling_chapter_direction_context_priority_gate",
                 "scene_blueprint_reader_reward_gate",
                 "webnovel_quality_review_rewrite_memory_gate",
+                "scene_card_hard_soft_field_gate",
+                "canon_object_ledger_bookstate_diff_gate",
+                "human_edit_memory_quality_warn_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",
                 "creative_scaffold_prompt_sequence_gate",

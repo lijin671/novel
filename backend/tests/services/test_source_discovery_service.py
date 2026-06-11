@@ -13286,6 +13286,84 @@ def test_static_little_honey_source_adds_rolling_context_scene_reward_review_gat
     assert "webnovel_quality_review_rewrite_memory_gate_hints" in digest
 
 
+def test_static_ember_source_adds_scene_card_ledger_diff_and_human_edit_gates():
+    assert "https://github.com/KleinDigitalSolutions/EMBER" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("bookstatediff" in query.lower() and "object ledger" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "KleinDigitalSolutions/EMBER",
+                "html_url": "https://github.com/KleinDigitalSolutions/EMBER",
+                "description": (
+                    "EMBER is an AI-powered novel writing studio with a Scene Card Pipeline, "
+                    "persistent Memory Backbone, stateful draft engine, YAML-like scene cards "
+                    "with hard canon fields and soft guidance fields, Canon Ledger, Object Ledger, "
+                    "open plot threads, reader promises, typed BookStateDiff extraction after "
+                    "accepted drafts, human approval gates for canon entry, quality audit warns "
+                    "but never auto-rewrites, Human Edit Memory from accepted edits, project/act/"
+                    "chapter/scene scoped chat assistant, OpenAI and Anthropic API key surfaces, "
+                    "Supabase storage, .env.example, scripts, package.json, and AGENTS.md."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "ai-writing", "story-bible", "memory"],
+                "updated_at": "2026-06-04T08:34:01Z",
+                "root_files": [
+                    ".env.example",
+                    "AGENTS.md",
+                    "BOOK_PIPELINE_AGENT_NOTES.md",
+                    "BOOK_STUDIO_GUIDE.md",
+                    "README.md",
+                    "app",
+                    "components",
+                    "lib",
+                    "package-lock.json",
+                    "package.json",
+                    "scripts",
+                    "supabase",
+                ],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T22:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    ember = candidates["KleinDigitalSolutions/EMBER"]
+    assert "scene_card_hard_soft_field_gate" in ember["absorbed_patterns"]
+    assert "canon_object_ledger_bookstate_diff_gate" in ember["absorbed_patterns"]
+    assert "human_edit_memory_quality_warn_gate" in ember["absorbed_patterns"]
+    assert "provider_key_surface" in ember["risk_flags"]
+    assert "cloud_sync_oauth_surface" in ember["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "scene_card_hard_soft_field_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "canon_object_ledger_diff_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "human_edit_memory_quality_warn_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_card_hard_soft_field_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "canon_object_bookstate_diff_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "human_edit_memory_quality_warning_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_card_hard_soft_field_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "canon_object_diff_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "human_edit_memory_preference_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("hard canon" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("BookStateDiff" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("human approval" in hint for hint in pattern_pack["canon_object_ledger_bookstate_diff_gate_hints"])
+    assert any("never auto-rewrite" in hint for hint in pattern_pack["human_edit_memory_quality_warn_gate_hints"])
+    assert any("hard/soft" in hint for hint in pattern_pack["scene_card_hard_soft_field_gate_hints"])
+    assert any("source card structure" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("object ownership" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("source prop route" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "scene_card_hard_soft_field_gate_hints" in digest
+    assert "canon_object_ledger_bookstate_diff_gate_hints" in digest
+    assert "human_edit_memory_quality_warn_gate_hints" in digest
+
+
 def test_static_style_axis_and_local_editor_sources_add_voice_block_revision_gates():
     assert "https://github.com/viktorbezdek/definitive-llm-writing-style-guide" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/jpotts18/stylometry" in DEFAULT_GITHUB_REPOSITORY_URLS
