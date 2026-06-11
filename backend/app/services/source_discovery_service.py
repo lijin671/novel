@@ -240,6 +240,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("master study" OR "masterWorks" OR "chapter beats" OR "style metrics") ("novel" OR "writing workbench") in:name,description,readme',
     '("world model" OR "story rules" OR "style consistent") ("AI novel" OR "story writing") in:name,description,readme',
     '("AI-Fic-IDE" OR "Android native" OR "history snapshots" OR "AI memory") ("web novel" OR "AI writing") in:name,description,readme',
+    '("interactive rehearsal" OR "local .git" OR "go-git" OR "bounded context") ("long-form fiction" OR "AI creation workspace" OR "storytelling") in:name,description,readme',
     '("human-machine co-creation" OR "inline edit" OR "precise modification" OR "AI polishing") ("AI novel" OR "web novel") in:name,description,readme',
     '("orchestrator" OR "hierarchical planning" OR "volume" OR "arc" OR "memory weave") ("AI novel" OR "long-form writing") in:name,description,readme',
     '("batch generation" OR "progress tracking" OR "auto continuation" OR "homogeneity") ("AI novel" OR "web novel") in:name,description,readme',
@@ -762,6 +763,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/justinjorgensen/writeassist",
     "https://github.com/ThomasHoussin/Claude-Book",
     "https://github.com/hayrgpt-rgb/NovelForge-AI",
+    "https://github.com/alfredxw/nova",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1076,6 +1078,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("source_novel_dna_fusion_boundary_gate", ("source novel analysis", "sourcenovelanalysis", "sourcenovelchunk", "noveldna", "fusionblueprint", "fusionresult", "source analysis layer", "fusion design layer", "novel writing layer", "source chunks excluded", "source chunk content", "narrative_voice_abstract", "taboo direct-copy elements", "source_novel_raw")),
     ("originality_guard_project_creation_gate", ("originality guardrails", "originalityguard", "originalityguardservice", "originality check", "explicit user-triggered originality check", "create-project refuses unchecked results", "rights status", "risk levels", "critical results cannot create", "forbidden similarity", "forbidden similarities", "raw_excerpt", "source_text", "verbatim_excerpt")),
     ("precision_edit_candidate_version_gate", ("precision editing", "precisioneditsession", "precisioneditcandidate", "selected-text ai edits", "selected passage", "three candidate columns", "candidate number", "replacement content", "change summary", "style notes", "risk warnings", "new sceneversion", "source version remains unchanged")),
+    ("ide_workspace_local_git_version_gate", ("nova", "ai creation workspace", "ide-like workspace", "file tree", "markdown editor", "multiple tabs", "chapter statistics", "global search", "local .git", "go-git", "history, diffs, restore, timed saves", "agent-output auto saves", "version confidence")),
+    ("agent_context_provenance_budget_gate", ("bounded context", "source-backed and bounded context", "display history, model context, lore content, tool results, and workspace state", "agent can read selections and files", "read selections and files", "reference lore", "track todos", "write drafts", "only the source-backed and bounded context")),
+    ("interactive_branch_rehearsal_gate", ("interactive rehearsal", "interactive mode rehearses branches", "rehearse branches", "plot validation", "character actions", "scene memory", "storylines", "fold stable decisions back into lore", "interactive story workspace")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -2976,6 +2981,11 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Selected static docs add SourceNovelAnalysis, SourceNovelChunk, NovelDNA, FusionBlueprint, FusionResult, three-layer source-analysis/fusion-design/writing separation, taboo direct-copy elements, SourceNovel raw marker blockers, OriginalityGuardService rerun before create-project, explicit user-triggered originality checks, risk levels, and PrecisionEditSession/PrecisionEditCandidate selected-passage candidate editing that creates new SceneVersion records without overwriting the source version. "
         "Pattern-only adaptation for versioned scene drafting, fact-ledger approval, review-report gating, canon dashboard evidence, source-analysis-to-DNA fusion boundaries, explicit originality project gates, precision-edit candidate lineage, and export readiness; Docker, services, queues, databases, provider calls, .env files, source chunks, and upstream prompts/agent instructions are not executed or imported."
     ),
+    "alfredxw/nova": (
+        "Nova is an Apache-2.0 AI creation workspace for long-form fiction and interactive storytelling. Public README markers describe an IDE-like workspace with file tree, Markdown editor, multi-tab editing, chapter statistics, global search, AI side panel, lore library, chapter state, interactive rehearsal, Agent tool calls, built-in/custom Skills, narrative direction, layered settings, and per-book model configuration. "
+        "It uses go-git to keep a local .git in the book workspace with history, diffs, restore, timed saves, and Agent-output autosaves. It separates display history, model context, lore content, tool results, and workspace state so Agents receive only source-backed bounded context for the current task. "
+        "Pattern-only adaptation for local workspace version lineage, bounded context provenance, and interactive branch rehearsal before canon promotion; release binaries, bootstrap/build scripts, Go/Node/pnpm runtime, OpenAI-compatible provider keys, web server, custom Skills, and upstream AGENTS instructions are not executed or imported."
+    ),
 
 }
 
@@ -3346,6 +3356,9 @@ class NovelSourceDiscoveryService:
             "source_novel_dna_fusion_boundary_gate_hints": self._build_source_novel_dna_fusion_boundary_gate_hints(available_patterns),
             "originality_guard_project_creation_gate_hints": self._build_originality_guard_project_creation_gate_hints(available_patterns),
             "precision_edit_candidate_version_gate_hints": self._build_precision_edit_candidate_version_gate_hints(available_patterns),
+            "ide_workspace_local_git_version_gate_hints": self._build_ide_workspace_local_git_version_gate_hints(available_patterns),
+            "agent_context_provenance_budget_gate_hints": self._build_agent_context_provenance_budget_gate_hints(available_patterns),
+            "interactive_branch_rehearsal_gate_hints": self._build_interactive_branch_rehearsal_gate_hints(available_patterns),
             "offline_chapter_revision_export_gate_hints": self._build_offline_chapter_revision_export_gate_hints(available_patterns),
             "multi_agent_outline_continuity_review_gate_hints": self._build_multi_agent_outline_continuity_review_gate_hints(available_patterns),
             "hosted_ai_sidebar_product_boundary_gate_hints": self._build_hosted_ai_sidebar_product_boundary_gate_hints(available_patterns),
@@ -4382,6 +4395,9 @@ class NovelSourceDiscoveryService:
             "source_novel_dna_fusion_boundary_gate": 71,
             "originality_guard_project_creation_gate": 72,
             "precision_edit_candidate_version_gate": 68,
+            "ide_workspace_local_git_version_gate": 68,
+            "agent_context_provenance_budget_gate": 70,
+            "interactive_branch_rehearsal_gate": 67,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -4772,6 +4788,15 @@ class NovelSourceDiscoveryService:
         if "precision_edit_candidate_version_gate" in patterns:
             targets.append("precision_edit_version_policy")
             targets.append("selected_passage_candidate_policy")
+        if "ide_workspace_local_git_version_gate" in patterns:
+            targets.append("workspace_local_git_version_policy")
+            targets.append("agent_output_autosave_policy")
+        if "agent_context_provenance_budget_gate" in patterns:
+            targets.append("bounded_context_provenance_policy")
+            targets.append("tool_result_context_budget_policy")
+        if "interactive_branch_rehearsal_gate" in patterns:
+            targets.append("interactive_branch_rehearsal_policy")
+            targets.append("rehearsal_to_canon_promotion_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -5709,6 +5734,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["fusion_blueprint_originality_report", "explicit_originality_check_report", "rights_status_project_creation_blockers"])
         if "precision_edit_candidate_version_gate" in patterns:
             targets.extend(["precision_edit_candidate_lineage_report", "selected_passage_replacement_trace", "precision_edit_risk_warning_review"])
+        if "ide_workspace_local_git_version_gate" in patterns:
+            targets.extend(["workspace_git_version_report", "agent_output_autosave_report", "restore_diff_checkpoint_report"])
+        if "agent_context_provenance_budget_gate" in patterns:
+            targets.extend(["agent_context_provenance_budget_report", "lore_tool_workspace_context_split_report"])
+        if "interactive_branch_rehearsal_gate" in patterns:
+            targets.extend(["interactive_branch_rehearsal_report", "rehearsal_decision_canon_promotion_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -6480,6 +6511,12 @@ class NovelSourceDiscoveryService:
             hints.append("Before creating or continuing a fused project, rerun originality guard checks for rights status, taboo terms, forbidden similarities, raw-source markers, and direct-copy warnings.")
         if "precision_edit_candidate_version_gate" in patterns:
             hints.append("For localized rewrites, cite the selected passage id, edit type, author instruction, candidate count, and no-overwrite version target before generating precision-edit candidates.")
+        if "ide_workspace_local_git_version_gate" in patterns:
+            hints.append("Before chapter work, name the workspace file, local version checkpoint, draft/final status, and whether Agent output should autosave as a recoverable diff.")
+        if "agent_context_provenance_budget_gate" in patterns:
+            hints.append("Build the Agent context from separated buckets: display history, model context, lore, tool results, and workspace state; include only source-backed bounded items for this task.")
+        if "interactive_branch_rehearsal_gate" in patterns:
+            hints.append("When testing uncertain plot turns, rehearse branches in interactive mode first; promote only author-approved stable decisions into lore or chapter canon.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -6967,6 +7004,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist rights status, originality risk level, explicit user-triggered originality check id, forbidden-similarity terms, direct-copy warnings, and create-project recheck timestamp.")
         if "precision_edit_candidate_version_gate" in patterns:
             hints.append("Persist PrecisionEditSession id, selected passage checksum, candidate ids, risk warnings, reject/apply decision, and created SceneVersion lineage for every precision edit.")
+        if "ide_workspace_local_git_version_gate" in patterns:
+            hints.append("Persist workspace path label, local git checkpoint id, timed-save id, Agent-output autosave id, diff summary, and restore target with each accepted chapter step.")
+        if "agent_context_provenance_budget_gate" in patterns:
+            hints.append("Persist context bucket provenance, token/character budget, selected lore refs, selected tool-result ids, workspace-state refs, and omitted-context notes.")
+        if "interactive_branch_rehearsal_gate" in patterns:
+            hints.append("Persist rehearsal branch id, tested character actions, scene-memory deltas, storyline outcome, author decision, and canon-promotion status separately from drafts.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -7776,6 +7819,33 @@ class NovelSourceDiscoveryService:
             "Precision edits should begin from a selected passage, edit type, and author instruction, then generate reviewable PrecisionEditCandidate records.",
             "Each PrecisionEditCandidate needs replacement text, change summary, preserved elements, style notes, risk warnings, and an apply/reject decision.",
             "Applying a precision-edit candidate creates a new SceneVersion for the selected passage; the source version remains unchanged and auditable.",
+        ]
+
+    def _build_ide_workspace_local_git_version_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ide_workspace_local_git_version_gate" not in patterns:
+            return []
+        return [
+            "Treat the novel workspace like an IDE project: files, chapter state, lore, Agent drafts, and exports need named version checkpoints.",
+            "Use local git-style lineage for high-risk writing steps: timed saves, Agent-output autosaves, diff review, restore target, and acceptance decision.",
+            "Version safety is a writing control, not a publish signal; release binaries, bootstrap scripts, and host runtime stay outside source-intake adoption.",
+        ]
+
+    def _build_agent_context_provenance_budget_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agent_context_provenance_budget_gate" not in patterns:
+            return []
+        return [
+            "Separate display history, model context, lore content, tool results, and workspace state before selecting context for a chapter task.",
+            "Every context item needs source provenance, inclusion reason, and budget cost so the Agent does not receive stale or unbounded workspace state.",
+            "For same-type creation, source-backed context means transformed-story evidence; upstream examples and source-like lore remain abstraction-only.",
+        ]
+
+    def _build_interactive_branch_rehearsal_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "interactive_branch_rehearsal_gate" not in patterns:
+            return []
+        return [
+            "Use interactive rehearsal to test uncertain branches, character actions, scene memory, and storylines before committing them to canon.",
+            "Rehearsal outcomes stay non-canon until the author promotes stable decisions into lore, outline, chapter state, or final prose.",
+            "For same-type creation, rehearse new branch mechanics instead of replaying source branch order, character choices, or scene outcomes.",
         ]
 
     def _build_offline_chapter_revision_export_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -10712,6 +10782,15 @@ class NovelSourceDiscoveryService:
         if "precision_edit_candidate_version_gate" in patterns:
             targets.append("precision_edit_candidate_remap")
             targets.append("selected_passage_version_lineage_remap")
+        if "ide_workspace_local_git_version_gate" in patterns:
+            targets.append("workspace_version_checkpoint_remap")
+            targets.append("agent_output_autosave_remap")
+        if "agent_context_provenance_budget_gate" in patterns:
+            targets.append("bounded_context_manifest_remap")
+            targets.append("lore_tool_workspace_context_remap")
+        if "interactive_branch_rehearsal_gate" in patterns:
+            targets.append("interactive_branch_rehearsal_remap")
+            targets.append("rehearsal_to_canon_decision_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -11333,6 +11412,12 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, include transformed forbidden-similarity terms, rights status, and originality risk result before any project-creation or drafting step.")
         if "precision_edit_candidate_version_gate" in patterns:
             hints.append("For same-type precision edits, map the selected passage, edit type, and candidate review fields to the new scene rather than editing source text or source-like spans.")
+        if "ide_workspace_local_git_version_gate" in patterns:
+            hints.append("For same-type prompts, declare the transformed workspace file, checkpoint id, diff scope, and restore target; source workspace paths or file names are not canon.")
+        if "agent_context_provenance_budget_gate" in patterns:
+            hints.append("For same-type prompts, include a bounded context manifest with transformed-story lore, tool-result ids, and workspace-state refs; source context buckets remain abstraction-only.")
+        if "interactive_branch_rehearsal_gate" in patterns:
+            hints.append("For same-type prompts, label rehearsal branches as non-canon experiments until the author promotes a transformed branch decision.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -12282,6 +12367,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform originality guardrails into project-native blockers: high risk, unresolved rights, forbidden similarities, or raw-source markers must stop promotion.")
         if "precision_edit_candidate_version_gate" in patterns:
             hints.append("Transform selected passage edits into localized candidate versions for the new scene; do not use precision editing to paraphrase source paragraphs.")
+        if "ide_workspace_local_git_version_gate" in patterns:
+            hints.append("Transform IDE-workspace ideas into new local checkpoint rules, diff labels, restore points, and Agent autosave boundaries for the transformed project.")
+        if "agent_context_provenance_budget_gate" in patterns:
+            hints.append("Transform context buckets by rebuilding lore, tool-result, and workspace-state manifests from the new story rather than reusing source project state.")
+        if "interactive_branch_rehearsal_gate" in patterns:
+            hints.append("Transform rehearsal mechanics by changing branch variables, character actions, scene-memory outcomes, and promotion rules before they affect canon.")
         if "parallel_critic_tribunal_issue_gate" in patterns:
             hints.append("Transform critic findings into issue-ledger repair tasks tied to the new arc instead of voting for the most source-like candidate.")
         if "prompt_evolution_fitness_governance_gate" in patterns:
@@ -12873,6 +12964,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject fusion results that keep forbidden similarities, unresolved rights status, high originality risk, or stale create-project checks.")
         if "precision_edit_candidate_version_gate" in patterns:
             hints.append("Reject precision edits that replace a selected passage by paraphrasing source prose, hiding source-specific names, or overwriting the original scene version.")
+        if "ide_workspace_local_git_version_gate" in patterns:
+            hints.append("Reject same-type drafts that treat source workspace files, local git history, autosave labels, or restore points as transformed-story canon.")
+        if "agent_context_provenance_budget_gate" in patterns:
+            hints.append("Reject context packs with missing provenance, unbounded tool results, mixed source/workspace state, or stale display history promoted into prompt authority.")
+        if "interactive_branch_rehearsal_gate" in patterns:
+            hints.append("Reject rehearsed branches that preserve source branch order, character choices, scene-memory deltas, or outcomes under renamed labels.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -13066,6 +13163,9 @@ class NovelSourceDiscoveryService:
                 "source_novel_dna_fusion_boundary_gate",
                 "originality_guard_project_creation_gate",
                 "precision_edit_candidate_version_gate",
+                "ide_workspace_local_git_version_gate",
+                "agent_context_provenance_budget_gate",
+                "interactive_branch_rehearsal_gate",
                 "multi_agent_outline_continuity_review_gate",
                 "hosted_ai_sidebar_product_boundary_gate",
                 "creative_scaffold_prompt_sequence_gate",

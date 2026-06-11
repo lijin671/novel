@@ -13114,6 +13114,88 @@ def test_static_novelforge_ai_source_adds_versioned_scene_fact_review_pipeline_g
     assert "precision_edit_candidate_version_gate_hints" in digest
 
 
+def test_static_nova_source_adds_workspace_context_and_rehearsal_gates():
+    assert "https://github.com/alfredxw/nova" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("interactive rehearsal" in query.lower() and "local .git" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "alfredxw/nova",
+                "html_url": "https://github.com/alfredxw/nova",
+                "description": (
+                    "Nova is an AI creation workspace for long-form fiction and interactive storytelling. "
+                    "It provides an IDE-like workspace with file tree, Markdown editor, multiple tabs, "
+                    "chapter statistics, global search, AI side panel, lore library, chapter state, "
+                    "interactive rehearsal, Agent tool calls, custom Skills, narrative direction, layered settings, "
+                    "per-book model configuration, source-backed and bounded context, local .git through go-git, "
+                    "history, diffs, restore, timed saves, Agent-output auto saves, display history, model context, "
+                    "lore content, tool results, workspace state, character actions, scene memory, storylines, "
+                    "OpenAI API keys, bootstrap.sh, build.sh, Go, Node.js, pnpm, and release binaries."
+                ),
+                "stargazers_count": 64,
+                "forks_count": 10,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "agent", "ai-agents", "ide"],
+                "updated_at": "2026-06-11T17:50:09Z",
+                "root_files": [
+                    "README.md",
+                    "README.en.md",
+                    "CONTEXT.md",
+                    "LICENSE",
+                    "AGENTS.md",
+                    "config.toml",
+                    "bootstrap.sh",
+                    "build.sh",
+                    "cmd",
+                    "internal",
+                    "skills",
+                    "web",
+                ],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T20:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    nova = candidates["alfredxw/nova"]
+    assert "ide_workspace_local_git_version_gate" in nova["absorbed_patterns"]
+    assert "agent_context_provenance_budget_gate" in nova["absorbed_patterns"]
+    assert "interactive_branch_rehearsal_gate" in nova["absorbed_patterns"]
+    assert "shell_script" in nova["risk_flags"]
+    assert "provider_key_surface" in nova["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "workspace_local_git_version_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "bounded_context_provenance_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "interactive_branch_rehearsal_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "workspace_git_version_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "agent_context_provenance_budget_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "interactive_branch_rehearsal_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "workspace_version_checkpoint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "bounded_context_manifest_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "interactive_branch_rehearsal_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("local version checkpoint" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("display history" in hint and "workspace state" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("rehearse branches" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("local git checkpoint" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("context bucket provenance" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("rehearsal branch id" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("local git-style lineage" in hint for hint in pattern_pack["ide_workspace_local_git_version_gate_hints"])
+    assert any("source provenance" in hint for hint in pattern_pack["agent_context_provenance_budget_gate_hints"])
+    assert any("non-canon" in hint for hint in pattern_pack["interactive_branch_rehearsal_gate_hints"])
+    assert any("bounded context manifest" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("branch variables" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("unbounded tool results" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "ide_workspace_local_git_version_gate_hints" in digest
+    assert "agent_context_provenance_budget_gate_hints" in digest
+    assert "interactive_branch_rehearsal_gate_hints" in digest
+
+
 def test_static_style_axis_and_local_editor_sources_add_voice_block_revision_gates():
     assert "https://github.com/viktorbezdek/definitive-llm-writing-style-guide" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/jpotts18/stylometry" in DEFAULT_GITHUB_REPOSITORY_URLS
