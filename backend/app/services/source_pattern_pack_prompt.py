@@ -467,6 +467,7 @@ def render_source_pattern_pack_digest(
         "consequence_ledger_last_actions_context_gate_hints",
         "creative_writing_multiaxis_provider_gate_hints",
         "system_world_fate_simulation_gate_hints",
+        "constraint_harness_review_worktree_gate_hints",
         "offline_chapter_revision_export_gate_hints",
         "multi_agent_outline_continuity_review_gate_hints",
         "hosted_ai_sidebar_product_boundary_gate_hints",

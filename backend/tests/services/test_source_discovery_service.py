@@ -12206,3 +12206,61 @@ def test_static_meridians_source_adds_system_world_fate_simulation_gate():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "system_world_fate_simulation_gate_hints" in digest
+
+
+def test_static_writeassist_source_adds_constraint_harness_review_worktree_gate():
+    assert "https://github.com/justinjorgensen/writeassist" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("harness-level enforcement" in query.lower() and "pretooluse" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "justinjorgensen/writeassist",
+                "html_url": "https://github.com/justinjorgensen/writeassist",
+                "description": (
+                    "WriteAssist is a constraint-driven multi-agent writing framework for Claude Code. "
+                    "It uses harness-level enforcement with a PreToolUse guard and final scanner, "
+                    "least-privilege reviewers limited to Read, Grep, Glob, creator/reviewer separation, "
+                    "isolated auditable revision passes in git worktree branches, auto-revise-chapter, "
+                    "review-chapter parallel named-agent review with seven gating critics and a four-tier rubric, "
+                    "plus import-book conflict ledger recovery for existing drafts."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["creative-writing", "claude-code", "review"],
+                "updated_at": "2026-06-09T21:16:57Z",
+                "root_files": ["README.md", "LICENSE", "CLAUDE.md", ".claude/scripts/em-dash-guard.sh"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-11T09:35:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    writeassist = candidates["justinjorgensen/writeassist"]
+    assert "constraint_harness_review_worktree_gate" in writeassist["absorbed_patterns"]
+    assert "shell_hook_surface" in writeassist["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "author_constraint_harness_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "least_privilege_reviewer_role_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "isolated_revision_worktree_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "constraint_gate_violation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "least_privilege_reviewer_role_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "isolated_revision_worktree_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "parallel_critic_panel_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "import_conflict_ledger_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "constraint_rubric_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reviewer_role_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "isolated_revision_branch_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("hard author constraints" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("reviewer role/tool boundary" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("deterministic pre-write and final-state gates" in hint for hint in pattern_pack["constraint_harness_review_worktree_gate_hints"])
+    assert any("upstream hooks or command text" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("project-native checklists" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("prompt wording" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "constraint_harness_review_worktree_gate_hints" in digest
