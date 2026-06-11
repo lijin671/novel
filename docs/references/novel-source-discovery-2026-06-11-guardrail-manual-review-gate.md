@@ -855,3 +855,56 @@ Project adaptation:
   preserve the leaked alias in `source_entity_leak:*`.
 - Existing ordinary-dialogue protection remains covered by the `“回来”`
   regression test.
+
+
+### 2026-06-12 patch: Chinese location-name leakage
+
+Static intake boundary:
+
+- No external repository was cloned, installed, executed, or used as runtime
+  code.
+- Public `git ls-remote` HEAD checks and raw README marker scans were used only
+  as pattern evidence.
+- Posture for all sources below remains `pattern-only`.
+
+Observed sources:
+
+- `loreum-app/loreum`
+  - URL: https://github.com/loreum-app/loreum
+  - Observed HEAD: `c38ade12a664790d10ff3ae847ce2529845f299c`
+  - Default branch: `main`
+  - Public signal: raw README marker scan found location, place,
+    worldbuilding, knowledge graph, canon, entities, relationship, and timeline
+    vocabulary.
+- `Lanerra/saga`
+  - URL: https://github.com/Lanerra/saga
+  - Observed HEAD: `865a3912f17b09af9927c0358f9f026020f51673`
+  - Default branch: `master`
+  - Public signal: raw README marker scan found location, world, knowledge
+    graph, canon, entities, relationship, and timeline vocabulary.
+- `DoktorDaveJoos/manuscript`
+  - URL: https://github.com/DoktorDaveJoos/manuscript
+  - Observed HEAD: `6e696471279c86055b53c13fae9f3c9166e1f497`
+  - Default branch: `main`
+  - Public signal: raw README marker scan found locations, place, story bible,
+    entities, relationship, and timeline vocabulary.
+
+Absorbed pattern:
+
+- Worldbuilding and story-bible systems treat named places as canon entities.
+  Same-type imitation should therefore reject reused source place names, not
+  only characters, organizations, artifacts, and aliases.
+- Chinese place names may be short and suffix-based, e.g. `雁回巷` or `无眠河`.
+  These can leak even when no long source sentence is copied.
+
+Project adaptation:
+
+- Source entity extraction now includes common Chinese named-location suffixes
+  such as `巷`、`街`、`镇`、`村`、`河`、`湖`、`岛`、`港`、`桥`、`坊`、`坞`、
+  `泽`、`原`、`岭`、`峡`、`关`、`台`、`坛`、`祠`、`庙`、`观`、`庄`、
+  `寨`、`洲` and `湾`.
+- Leading source-side prepositions such as `在`、`沿`、`向`、`从`、`到`、
+  `往`、`于`、`经` and `过` are stripped from candidate behavior by rejection,
+  so the review signal preserves `雁回巷` rather than `在雁回巷`.
+- Reused place names now trigger `inspired_source_entity_leak` through the
+  existing `source_entity_leak:*` manual-review and rewrite-denylist path.

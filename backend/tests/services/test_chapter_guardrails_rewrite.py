@@ -379,6 +379,24 @@ def test_chapter_guardrails_flags_context_marked_chinese_alias_source_term_leak(
     assert violation.copy_signal == "source_entity_leak:璃姐"
 
 
+def test_chapter_guardrails_flags_chinese_location_name_leak_from_source_excerpt():
+    guardrails = ChapterGuardrails()
+    source_excerpt = "林寒在雁回巷交出旧钥匙，随后沿无眠河离开。"
+    generated = "新故事换了人物和案件，却仍把追逐放在雁回巷。"
+
+    result = guardrails.check(
+        generated,
+        inspired_source_excerpts=[source_excerpt],
+    )
+
+    assert result.passed is False
+    violation = next(
+        item for item in result.violations
+        if item.type == "inspired_source_entity_leak"
+    )
+    assert violation.copy_signal == "source_entity_leak:雁回巷"
+
+
 def test_chapter_guardrails_flags_chinese_character_name_leak_from_source_excerpt():
     guardrails = ChapterGuardrails()
     source_excerpt = "林寒把旧钥匙交给沈璃，随后离开档案室。"
