@@ -304,6 +304,12 @@ export interface SourceDiscoveryPatternPack {
   recurrent_plan_memory_generation_gate_hints?: string[];
   bookend_closure_infill_gate_hints?: string[];
   strict_requirement_planning_generation_gate_hints?: string[];
+  canon_graph_hybrid_validation_gate_hints?: string[];
+  local_copilot_layered_memory_workspace_gate_hints?: string[];
+  pending_fact_canon_promotion_graph_gate_hints?: string[];
+  work_corpus_reindex_autopilot_gate_hints?: string[];
+  memoir_story_spine_consensus_grounding_gate_hints?: string[];
+  map_reduce_factual_anchor_adaptation_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

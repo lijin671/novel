@@ -241,6 +241,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "recurrent_plan_memory_generation_gate_hints",
             "bookend_closure_infill_gate_hints",
             "strict_requirement_planning_generation_gate_hints",
+            "canon_graph_hybrid_validation_gate_hints",
+            "local_copilot_layered_memory_workspace_gate_hints",
+            "pending_fact_canon_promotion_graph_gate_hints",
+            "work_corpus_reindex_autopilot_gate_hints",
+            "memoir_story_spine_consensus_grounding_gate_hints",
+            "map_reduce_factual_anchor_adaptation_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -487,6 +493,17 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Slash-command context tier gates" in panel_text
     assert "Dual-track EPUB manifest gates" in panel_text
     assert "Adaptive quality self-healing gates" in panel_text
+    assert "OpenStoryline transition boundaries" in panel_text
+    assert "Hierarchical story-tree evaluation gates" in panel_text
+    assert "Recurrent plan-memory generation gates" in panel_text
+    assert "Bookend closure infill gates" in panel_text
+    assert "Strict requirement planning gates" in panel_text
+    assert "Canon graph hybrid validation gates" in panel_text
+    assert "Local copilot layered-memory gates" in panel_text
+    assert "Pending fact canon-promotion gates" in panel_text
+    assert "Work corpus reindex autopilot gates" in panel_text
+    assert "Memoir story-spine consensus gates" in panel_text
+    assert "Map/reduce factual-anchor adaptation gates" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():

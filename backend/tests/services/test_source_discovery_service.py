@@ -14671,3 +14671,174 @@ def test_latest_long_story_generation_research_sources_are_static_absorbed():
     assert "recurrent_plan_memory_generation_gate_hints" in digest
     assert "bookend_closure_infill_gate_hints" in digest
     assert "strict_requirement_planning_generation_gate_hints" in digest
+
+
+def test_latest_canon_memory_workbench_sources_are_static_absorbed():
+    assert "https://github.com/chaturbandaru/ManuscriptMemoryEngine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/loveulvu/ai-showrunner-workbench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/chyumic-cell/the-book-author" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/CZ0012/storygraph-agent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Vadelo/story-factory" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Tomwfoot/scribe" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("manuscript memory engine" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("storygraph agent" in query.lower() and "pending facts" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("king context" in query.lower() and "reindex" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story spine first" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("factual anchors" in query.lower() and "fidelity check" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "chaturbandaru/ManuscriptMemoryEngine",
+                "html_url": "https://github.com/chaturbandaru/ManuscriptMemoryEngine",
+                "description": (
+                    "Manuscript Memory Engine keeps LLM-generated fiction coherent across hundreds of chapters "
+                    "with a Neo4j knowledge graph, hybrid retrieval per chapter, two-tier validation gate, "
+                    "chapter status lifecycle, Anthropic API keys, Redis, Celery and Docker Compose."
+                ),
+                "stargazers_count": 4,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "manuscript", "knowledge-graph"],
+                "updated_at": "2026-06-12T11:00:00Z",
+                "root_files": ["README.md", "docker-compose.yml", ".env.example", "pyproject.toml"],
+            },
+            {
+                "full_name": "loveulvu/ai-showrunner-workbench",
+                "html_url": "https://github.com/loveulvu/ai-showrunner-workbench",
+                "description": (
+                    "Novel to Screenplay AI maps Novel Text to Chapter Analysis, Factual Anchors, "
+                    "Story Bible, Fidelity Check, directed repair, schema validate, YAML Screenplay Export, "
+                    "and OpenAI-compatible API key configuration."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "screenplay", "yaml"],
+                "updated_at": "2026-06-12T12:00:00Z",
+                "root_files": ["README.md", "go.mod", "backend", "frontend", ".env.example"],
+            },
+            {
+                "full_name": "chyumic-cell/the-book-author",
+                "html_url": "https://github.com/chyumic-cell/the-book-author",
+                "description": (
+                    "Book Author is a local-first book-building studio with manuscript workspace, story bible, "
+                    "structure engine, continuity dashboard, layered memory system, plain-language copilot, "
+                    "idea lab, skeleton, sandbox notes, continuity checks, and provider API key settings."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "writing", "local-first"],
+                "updated_at": "2026-06-12T13:00:00Z",
+                "root_files": ["README.md", "package.json", "prisma", ".env.example"],
+            },
+            {
+                "full_name": "CZ0012/storygraph-agent",
+                "html_url": "https://github.com/CZ0012/storygraph-agent",
+                "description": (
+                    "StoryGraph Agent stores structured canon instead of whole chapters: characters, locations, "
+                    "secrets, relationships, drafts, pending facts, continuity checks, Kuzu-backed graph, "
+                    "SQLite-backed draft store, event logs, explicit confirmation, Tauri workbench, and API keys."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "graph", "continuity"],
+                "updated_at": "2026-06-12T14:00:00Z",
+                "root_files": ["README.md", "pyproject.toml", "apps", ".env.example"],
+            },
+            {
+                "full_name": "Vadelo/story-factory",
+                "html_url": "https://github.com/Vadelo/story-factory",
+                "description": (
+                    "Story Factory with King Context uses persistent memory, specialist research corpora, "
+                    "Codex skills, a work corpus, autopilot pipeline, story bible, Markdown/JSON outputs, "
+                    "append chapter memory, reindex the work corpus, and continuity review."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["story", "codex-skills", "long-form"],
+                "updated_at": "2026-06-12T15:00:00Z",
+                "root_files": ["README.md", "skills", ".king-context", "tools"],
+            },
+            {
+                "full_name": "Tomwfoot/scribe",
+                "html_url": "https://github.com/Tomwfoot/scribe",
+                "description": (
+                    "Scribe is a memoir ghostwriter MCP server and agent runtime with Story Spine First, "
+                    "3-Tier Grounding Rule, self-correcting consensus drafting, factual auditor, style auditor, "
+                    "surgical fixer, minimum change principle, context uploads, and DOCX compilation."
+                ),
+                "stargazers_count": 6,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["memoir", "ghostwriter", "mcp"],
+                "updated_at": "2026-06-12T16:00:00Z",
+                "root_files": ["README.md", "server.py", "package.json", ".env.example"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    memory_engine = candidates["chaturbandaru/ManuscriptMemoryEngine"]
+    screenplay = candidates["loveulvu/ai-showrunner-workbench"]
+    book_author = candidates["chyumic-cell/the-book-author"]
+    storygraph = candidates["CZ0012/storygraph-agent"]
+    story_factory = candidates["Vadelo/story-factory"]
+    scribe = candidates["Tomwfoot/scribe"]
+
+    assert "canon_graph_hybrid_validation_gate" in memory_engine["absorbed_patterns"]
+    assert "docker" in memory_engine["risk_flags"]
+    assert "provider_key_surface" in memory_engine["risk_flags"]
+    assert "map_reduce_factual_anchor_adaptation_gate" in screenplay["absorbed_patterns"]
+    assert "local_copilot_layered_memory_workspace_gate" in book_author["absorbed_patterns"]
+    assert "pending_fact_canon_promotion_graph_gate" in storygraph["absorbed_patterns"]
+    assert "provider_key_surface" in storygraph["risk_flags"]
+    assert "browser_storage_surface" in storygraph["risk_flags"]
+    assert "work_corpus_reindex_autopilot_gate" in story_factory["absorbed_patterns"]
+    assert "skill_install_surface" in story_factory["risk_flags"]
+    assert "memoir_story_spine_consensus_grounding_gate" in scribe["absorbed_patterns"]
+    assert "mcp_server" in scribe["risk_flags"]
+    assert "license:missing" in memory_engine["trust_review"]["flags"]
+    assert "license:missing" in screenplay["trust_review"]["flags"]
+    assert "license:missing" in storygraph["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "canon_graph_hybrid_retrieval_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "pending_fact_canon_promotion_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "work_corpus_memory_reindex_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_spine_grounding_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "factual_anchor_map_reduce_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "canon_graph_validation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "pending_fact_review_queue" in pattern_pack["whole_book_analysis_targets"]
+    assert "work_corpus_reindex_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "minimum_change_repair_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "fidelity_check_repair_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "canon_graph_fact_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "layered_memory_surface_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "pending_fact_queue_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "work_corpus_memory_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "story_spine_fact_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "factual_anchor_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("deterministic canon checks" in hint.lower() for hint in pattern_pack["canon_graph_hybrid_validation_gate_hints"])
+    assert any("writable surface" in hint.lower() for hint in pattern_pack["local_copilot_layered_memory_workspace_gate_hints"])
+    assert any("pending-fact queue" in hint.lower() for hint in pattern_pack["pending_fact_canon_promotion_graph_gate_hints"])
+    assert any("work corpus" in hint.lower() and "reindex" in hint.lower() for hint in pattern_pack["work_corpus_reindex_autopilot_gate_hints"])
+    assert any("minimum-change" in hint.lower() for hint in pattern_pack["memoir_story_spine_consensus_grounding_gate_hints"])
+    assert any("map/reduce" in hint.lower() for hint in pattern_pack["map_reduce_factual_anchor_adaptation_gate_hints"])
+    assert any("graph fact categories" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("memory packet schema" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("skip pending review" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "canon_graph_hybrid_validation_gate_hints" in digest
+    assert "local_copilot_layered_memory_workspace_gate_hints" in digest
+    assert "pending_fact_canon_promotion_graph_gate_hints" in digest
+    assert "work_corpus_reindex_autopilot_gate_hints" in digest
+    assert "memoir_story_spine_consensus_grounding_gate_hints" in digest
+    assert "map_reduce_factual_anchor_adaptation_gate_hints" in digest

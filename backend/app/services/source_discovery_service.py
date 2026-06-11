@@ -386,6 +386,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("RecurrentGPT" OR "long-term memory" OR "short-term memory") ("next paragraph plan" OR "semantic search" OR "paragraph summaries") in:name,description,readme',
     '("RENarGen" OR "bookend" OR "related endpoints") ("narrative closure" OR "first and last sentences" OR "infill middle") in:name,description,readme',
     '("CogWriter" OR "strict requirements" OR "planning agent") ("generation agent" OR "requirement adherence" OR "long-form content") in:name,description,readme',
+    '("Manuscript Memory Engine" OR "two-tier validation gate" OR "hybrid retrieval per chapter") ("knowledge graph" OR "canon" OR "chapter status lifecycle") in:name,description,readme',
+    '("local-first book-building studio" OR "layered memory system" OR "continuity dashboard") ("AI copilot" OR "story doctor" OR "beta reader") in:name,description,readme',
+    '("StoryGraph Agent" OR "pending facts" OR "reviewed before they become canon") ("Kuzu" OR "structured canon" OR "continuity checks") in:name,description,readme',
+    '("King Context" OR "work corpus" OR "append chapter memory") ("story factory" OR "specialist research corpora" OR "reindex") in:name,description,readme',
+    '("Story Spine First" OR "3-Tier Grounding Rule" OR "self-correcting consensus drafting") ("memoir" OR "ghostwriter" OR "factual auditor") in:name,description,readme',
+    '("Novel Text" OR "Factual Anchors" OR "Fidelity Check") ("Story Bible" OR "YAML Screenplay Export" OR "schema validate") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -832,6 +838,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/aiwaves-cn/RecurrentGPT",
     "https://github.com/adbrei/RENarGen",
     "https://github.com/KaiyangWan/CogWriter",
+    "https://github.com/chaturbandaru/ManuscriptMemoryEngine",
+    "https://github.com/loveulvu/ai-showrunner-workbench",
+    "https://github.com/chyumic-cell/the-book-author",
+    "https://github.com/CZ0012/storygraph-agent",
+    "https://github.com/Vadelo/story-factory",
+    "https://github.com/Tomwfoot/scribe",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1180,6 +1192,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("recurrent_plan_memory_generation_gate", ("recurrentgpt", "natural-language lstm", "long-term memory", "short-term memory", "next paragraph plan", "semantic search", "paragraph summaries")),
     ("bookend_closure_infill_gate", ("renargen", "bookend", "related endpoints", "first and last sentences", "infill middle", "narrative closure", "closes the loop")),
     ("strict_requirement_planning_generation_gate", ("cogwriter", "strict requirements", "planning agent", "generation agent", "coherence and requirement adherence", "requirement adherence")),
+    ("canon_graph_hybrid_validation_gate", ("manuscript memory engine", "neo4j knowledge graph", "hybrid retrieval per chapter", "two-tier validation gate", "deterministic cypher checks", "chapter status lifecycle", "one transaction", "single source of truth for canon")),
+    ("local_copilot_layered_memory_workspace_gate", ("the-book-author", "local-first book-building studio", "manuscript workspace", "continuity dashboard", "layered memory system", "plain-language copilot", "idea lab", "skeleton", "sandbox notes")),
+    ("pending_fact_canon_promotion_graph_gate", ("storygraph agent", "pending facts", "reviewed before they become canon", "kuzu-backed graph", "sqlite-backed draft store", "draft versions", "event logs", "explicit confirmation before applying")),
+    ("work_corpus_reindex_autopilot_gate", ("king context", "story-factory", "work corpus", "append chapter memory", "reindex the work corpus", "specialist research corpora", "craft corpora", "work memory remains canon")),
+    ("memoir_story_spine_consensus_grounding_gate", ("scribe", "story spine first", "3-tier grounding rule", "self-correcting consensus drafting", "factual auditor", "style auditor", "surgical fixer", "minimum change principle")),
+    ("map_reduce_factual_anchor_adaptation_gate", ("novel to screenplay ai", "chapter analysis", "factual anchors", "fidelity check", "schema validate", "yaml screenplay export", "map-reduce", "directed repair")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3227,6 +3245,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "CogWriter is a cognitive writing framework. Public README markers describe strict requirements, a planning agent, a generation agent, and coherence plus requirement-adherence evaluation. "
         "Pattern-only adaptation for strict requirement planning-generation gates; conda/pip installs, vLLM/API-key surfaces, provider calls, scripts, and runtime evaluation are not executed."
     ),
+    "chaturbandaru/manuscriptmemoryengine": (
+        "Manuscript Memory Engine is a fiction-manuscript backend. Public README markers describe a Neo4j canon graph, hybrid retrieval per chapter from graph facts plus vector passages under an explicit token budget, a two-tier validation gate before long-term memory writes, chapter status lifecycle, prompt-injection fencing, and one-transaction commits. "
+        "Pattern-only adaptation for canon graph plus hybrid retrieval validation; Docker, Neo4j, Redis, Celery, Anthropic/API keys, workers, and runtime services are not launched."
+    ),
+    "loveulvu/ai-showrunner-workbench": (
+        "Novel to Screenplay AI is a multistage novel-to-structured-YAML screenplay workflow. Public README markers describe Novel Text -> Chapter Analysis -> Factual Anchors -> Story Bible -> Fidelity Check -> YAML Screenplay Export, Map/Reduce-style chapter analysis and Story Bible merge, schema validation, and one directed repair pass. "
+        "Pattern-only adaptation for factual-anchor adaptation and schema-gated exports; Go/Gin backend, OpenAI-compatible provider calls, releases, video demos, and runtime services are not executed."
+    ),
+    "chyumic-cell/the-book-author": (
+        "Book Author is a local-first book-building studio. Public README markers describe a manuscript workspace, story bible, structure engine, continuity dashboard, layered memory system, optional copilot roles, direct application to idea lab/skeleton/setup/selected chapters, long-term canon, short-term context, sandbox notes, confidence-scored continuity checks, and exports. "
+        "Pattern-only adaptation for local copilot layered-memory workspace gates; Next.js/Prisma runtime, local browser storage, database setup, provider keys, and write actions are not launched."
+    ),
+    "cz0012/storygraph-agent": (
+        "StoryGraph Agent is a local-first long-form fiction MVP. Public README markers describe structured canon rather than whole-chapter stuffing, separate characters/locations/secrets/relationships/drafts/pending facts/continuity checks, Kuzu-backed graph canon, SQLite draft versions and event logs, fake provider default, optional OpenAI provider, context pack generation, and pending fact review before canon promotion. "
+        "Pattern-only adaptation for pending-fact canon promotion and graph/draft-store boundaries; Typer/FastAPI/Tauri/browser workbench, provider keys, imports, and runtime commands are not executed."
+    ),
+    "vadelo/story-factory": (
+        "Story Factory with King Context is a long-form story workflow. Public README markers describe persistent memory, specialist research corpora, reusable local Codex skills, story-factory brainstorm/plan/write/continue/revise orchestration, per-work corpora, autopilot pipeline inference, story bible creation, Markdown/JSON outputs, chapter memory append, work-corpus reindex, and continuity review. "
+        "Pattern-only adaptation for work-corpus memory/reindex gates and specialist-reference separation; King Context runtime, local skills, Ollama helpers, indexing commands, and corpora ingestion are not executed."
+    ),
+    "tomwfoot/scribe": (
+        "Scribe is an agentic memoir generation engine. Public README markers describe MCP/server runtime, structured memory harvesting, Story Bible curation, prose style calibration, Story Spine First fact hierarchy, 3-Tier Grounding Rule, multi-agent consensus drafting, factual auditor, style auditor, surgical fixer, minimum-change repair, author-memory style calibration, context uploads, and DOCX compilation. "
+        "Pattern-only adaptation for fact-first memoir/source continuation and consensus grounding gates; MCP server/runtime, uploads, provider calls, document compilation, and personal reference ingestion are not executed."
+    ),
 
 }
 
@@ -3947,6 +3989,12 @@ class NovelSourceDiscoveryService:
             "recurrent_plan_memory_generation_gate_hints": self._build_recurrent_plan_memory_generation_gate_hints(available_patterns),
             "bookend_closure_infill_gate_hints": self._build_bookend_closure_infill_gate_hints(available_patterns),
             "strict_requirement_planning_generation_gate_hints": self._build_strict_requirement_planning_generation_gate_hints(available_patterns),
+            "canon_graph_hybrid_validation_gate_hints": self._build_canon_graph_hybrid_validation_gate_hints(available_patterns),
+            "local_copilot_layered_memory_workspace_gate_hints": self._build_local_copilot_layered_memory_workspace_gate_hints(available_patterns),
+            "pending_fact_canon_promotion_graph_gate_hints": self._build_pending_fact_canon_promotion_graph_gate_hints(available_patterns),
+            "work_corpus_reindex_autopilot_gate_hints": self._build_work_corpus_reindex_autopilot_gate_hints(available_patterns),
+            "memoir_story_spine_consensus_grounding_gate_hints": self._build_memoir_story_spine_consensus_grounding_gate_hints(available_patterns),
+            "map_reduce_factual_anchor_adaptation_gate_hints": self._build_map_reduce_factual_anchor_adaptation_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4701,6 +4749,12 @@ class NovelSourceDiscoveryService:
             "recurrent_plan_memory_generation_gate": 70,
             "bookend_closure_infill_gate": 69,
             "strict_requirement_planning_generation_gate": 69,
+            "canon_graph_hybrid_validation_gate": 72,
+            "local_copilot_layered_memory_workspace_gate": 70,
+            "pending_fact_canon_promotion_graph_gate": 71,
+            "work_corpus_reindex_autopilot_gate": 69,
+            "memoir_story_spine_consensus_grounding_gate": 68,
+            "map_reduce_factual_anchor_adaptation_gate": 68,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5184,6 +5238,24 @@ class NovelSourceDiscoveryService:
         if "strict_requirement_planning_generation_gate" in patterns:
             targets.append("strict_requirement_checklist_policy")
             targets.append("planning_generation_adherence_policy")
+        if "canon_graph_hybrid_validation_gate" in patterns:
+            targets.append("canon_graph_hybrid_retrieval_policy")
+            targets.append("two_tier_validation_commit_policy")
+        if "local_copilot_layered_memory_workspace_gate" in patterns:
+            targets.append("layered_memory_workspace_policy")
+            targets.append("copilot_apply_scope_policy")
+        if "pending_fact_canon_promotion_graph_gate" in patterns:
+            targets.append("pending_fact_canon_promotion_policy")
+            targets.append("draft_store_event_log_policy")
+        if "work_corpus_reindex_autopilot_gate" in patterns:
+            targets.append("work_corpus_memory_reindex_policy")
+            targets.append("specialist_research_reference_policy")
+        if "memoir_story_spine_consensus_grounding_gate" in patterns:
+            targets.append("story_spine_grounding_policy")
+            targets.append("consensus_auditor_minimum_change_policy")
+        if "map_reduce_factual_anchor_adaptation_gate" in patterns:
+            targets.append("factual_anchor_map_reduce_policy")
+            targets.append("schema_fidelity_repair_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -6189,6 +6261,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["bookend_closure_infill_report", "opening_promise_payoff_trace", "middle_infill_coherence_findings"])
         if "strict_requirement_planning_generation_gate" in patterns:
             targets.extend(["strict_requirement_adherence_report", "planning_generation_contract_trace", "requirement_violation_repair_notes"])
+        if "canon_graph_hybrid_validation_gate" in patterns:
+            targets.extend(["canon_graph_validation_report", "hybrid_retrieval_token_budget_trace", "chapter_commit_status_lifecycle"])
+        if "local_copilot_layered_memory_workspace_gate" in patterns:
+            targets.extend(["layered_memory_workspace_report", "copilot_apply_scope_trace", "continuity_confidence_suggested_fix_report"])
+        if "pending_fact_canon_promotion_graph_gate" in patterns:
+            targets.extend(["pending_fact_review_queue", "graph_draft_store_boundary_report", "canon_promotion_decision_log"])
+        if "work_corpus_reindex_autopilot_gate" in patterns:
+            targets.extend(["work_corpus_reindex_manifest", "chapter_memory_packet_report", "specialist_reference_adoption_log"])
+        if "memoir_story_spine_consensus_grounding_gate" in patterns:
+            targets.extend(["story_spine_grounding_report", "factual_style_auditor_consensus_log", "minimum_change_repair_trace"])
+        if "map_reduce_factual_anchor_adaptation_gate" in patterns:
+            targets.extend(["factual_anchor_coverage_report", "fidelity_check_repair_trace", "yaml_schema_validation_report"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -7034,6 +7118,18 @@ class NovelSourceDiscoveryService:
             hints.append("For a chapter or arc, bind the opening promise to an ending payoff first, then fill the middle so the closure answers rather than merely stops.")
         if "strict_requirement_planning_generation_gate" in patterns:
             hints.append("Before drafting, convert author requirements into a checklist, use it in planning, and re-check generated prose for requirement adherence and coherence.")
+        if "canon_graph_hybrid_validation_gate" in patterns:
+            hints.append("Before accepting a chapter, assemble canon facts and related passages separately, keep the retrieval token budget visible, then run deterministic canon checks before any judge-style review.")
+        if "local_copilot_layered_memory_workspace_gate" in patterns:
+            hints.append("Before using copilot suggestions, name the target surface—idea lab, skeleton, setup, or selected chapter—and separate long-term canon, short-term context, and sandbox notes.")
+        if "pending_fact_canon_promotion_graph_gate" in patterns:
+            hints.append("Before memory write-back, park extracted facts as pending facts with source draft ids, then promote only reviewed items into structured canon.")
+        if "work_corpus_reindex_autopilot_gate" in patterns:
+            hints.append("Before continuing a work, read the work corpus memory packet, append the new chapter memory, reindex, and review retrieval before the next batch.")
+        if "memoir_story_spine_consensus_grounding_gate" in patterns:
+            hints.append("Before memoir-like or source-faithful drafting, fill WHO/WHAT/WHEN/WHERE/WHY/SENSES facts and run factual plus style auditors before surgical repair.")
+        if "map_reduce_factual_anchor_adaptation_gate" in patterns:
+            hints.append("Before adaptation or screenplay export, map chapters to factual anchors, reduce them into a Story Bible, run fidelity repair, then validate the export schema.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7579,6 +7675,18 @@ class NovelSourceDiscoveryService:
             hints.append("Persist track id, story-bible/season/chapter plan paths, continuity/style log ids, final manuscript manifest, build log, and EPUB/Markdown output checksums.")
         if "adaptive_quality_self_healing_autonomy_gate" in patterns:
             hints.append("Persist quality mode, health snapshot, quality metrics, recovery attempt id, smart-planner decision, performance note, and explicit autonomy stop/continue decision.")
+        if "canon_graph_hybrid_validation_gate" in patterns:
+            hints.append("Persist canon graph facts, retrieval passage ids, token budget split, tier-1 findings, tier-2 verdict, commit transaction id, and chapter status lifecycle state.")
+        if "local_copilot_layered_memory_workspace_gate" in patterns:
+            hints.append("Persist copilot request id, target workspace surface, long-term canon delta, short-term context delta, sandbox note decision, confidence score, and suggested fix status.")
+        if "pending_fact_canon_promotion_graph_gate" in patterns:
+            hints.append("Persist draft version id, extracted pending fact ids, event log ids, reviewer decision, canon promotion time, and rejected fact rationale.")
+        if "work_corpus_reindex_autopilot_gate" in patterns:
+            hints.append("Persist work corpus id, chapter memory packet path, specialist corpus references, reindex command result, retrieval review notes, and adopted-vs-reference-only decisions.")
+        if "memoir_story_spine_consensus_grounding_gate" in patterns:
+            hints.append("Persist story-spine fact fields, grounding tier, fact-auditor findings, style-auditor findings, surgical-fix diff, and author-confirmed uncertain dates.")
+        if "map_reduce_factual_anchor_adaptation_gate" in patterns:
+            hints.append("Persist source chapter ids, factual anchor ids, Story Bible merge checksum, fidelity findings, repair attempt id, schema validation result, and export checksum.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -11487,6 +11595,60 @@ class NovelSourceDiscoveryService:
             "When a requirement is violated, repair the plan or scope first; do not hide the violation with fluent prose.",
         ]
 
+    def _build_canon_graph_hybrid_validation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "canon_graph_hybrid_validation_gate" not in patterns:
+            return []
+        return [
+            "Treat canon graph facts and similar-passage retrieval as separate context lanes; prose texture can support style, but accepted graph facts decide continuity.",
+            "Run cheap deterministic canon checks before judge-style review, and block long-term memory writes until both validation tiers have explicit results.",
+            "Chapter acceptance should update prose, canon facts, embeddings, and chapter status atomically so continuation cannot read a half-written state.",
+        ]
+
+    def _build_local_copilot_layered_memory_workspace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_copilot_layered_memory_workspace_gate" not in patterns:
+            return []
+        return [
+            "A copilot action must name its writable surface: idea lab, skeleton, setup, selected chapter, or review note; broad project mutation stays blocked.",
+            "Keep long-term canon, short-term context, and sandbox notes visibly separated before drafting, revising, or accepting continuity suggestions.",
+            "Continuity suggestions need confidence, evidence, and suggested fixes; they are review items until the author accepts the target state change.",
+        ]
+
+    def _build_pending_fact_canon_promotion_graph_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "pending_fact_canon_promotion_graph_gate" not in patterns:
+            return []
+        return [
+            "Extracted draft facts should enter a pending-fact queue first; only reviewed facts can promote into structured canon nodes and relations.",
+            "Keep draft versions, pending facts, event logs, and canon graph state in separate stores or tables so failed generations do not pollute canon.",
+            "Agent chat actions require explicit confirmation before applying generated edits, imports, memory builds, or canon promotions.",
+        ]
+
+    def _build_work_corpus_reindex_autopilot_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "work_corpus_reindex_autopilot_gate" not in patterns:
+            return []
+        return [
+            "A long-form work should have its own corpus with premise, bible, chapter summaries, canon deltas, character states, timeline, open threads, and continuity risks.",
+            "Specialist research corpora guide realism and genre only; they stay reference-only until a chapter or bible update explicitly adopts a fact.",
+            "After each accepted chapter, append a chapter memory packet, reindex the work corpus, and review whether retrieval returns the intended continuity evidence.",
+        ]
+
+    def _build_memoir_story_spine_consensus_grounding_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "memoir_story_spine_consensus_grounding_gate" not in patterns:
+            return []
+        return [
+            "For memoir-like or source-faithful writing, lock WHO, WHAT, WHEN, WHERE, WHY, and SENSES before emotional interpretation or polished prose.",
+            "Use separate factual and style auditors: one checks against the live Story Bible, the other checks register, date handling, spellings, and voice rhythm.",
+            "Repairs should follow a minimum-change rule: fix identified deviations while preserving unaffected prose and accepted memory facts.",
+        ]
+
+    def _build_map_reduce_factual_anchor_adaptation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "map_reduce_factual_anchor_adaptation_gate" not in patterns:
+            return []
+        return [
+            "Adaptation should run as map/reduce: analyze each chapter into factual anchors, then merge anchors into a global Story Bible before export.",
+            "Fidelity checks should identify unsupported facts, relationship drift, numeric mistakes, and chapter-attribution errors before one directed repair pass.",
+            "YAML or screenplay output is only accepted after schema validation and traceability from exported scenes back to source chapter anchors.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -11723,6 +11885,24 @@ class NovelSourceDiscoveryService:
         if "strict_requirement_planning_generation_gate" in patterns:
             targets.append("strict_requirement_checklist_remap")
             targets.append("planning_generation_contract_remap")
+        if "canon_graph_hybrid_validation_gate" in patterns:
+            targets.append("canon_graph_fact_remap")
+            targets.append("hybrid_retrieval_budget_remap")
+        if "local_copilot_layered_memory_workspace_gate" in patterns:
+            targets.append("layered_memory_surface_remap")
+            targets.append("copilot_action_scope_remap")
+        if "pending_fact_canon_promotion_graph_gate" in patterns:
+            targets.append("pending_fact_queue_remap")
+            targets.append("canon_promotion_decision_remap")
+        if "work_corpus_reindex_autopilot_gate" in patterns:
+            targets.append("work_corpus_memory_remap")
+            targets.append("specialist_reference_corpus_remap")
+        if "memoir_story_spine_consensus_grounding_gate" in patterns:
+            targets.append("story_spine_fact_remap")
+            targets.append("factual_style_auditor_remap")
+        if "map_reduce_factual_anchor_adaptation_gate" in patterns:
+            targets.append("factual_anchor_remap")
+            targets.append("schema_fidelity_export_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -12415,6 +12595,18 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, declare a new opening promise and ending payoff before asking for middle infill.")
         if "strict_requirement_planning_generation_gate" in patterns:
             hints.append("For same-type prompts, show the transformed requirement checklist, plan links, and adherence review fields up front.")
+        if "canon_graph_hybrid_validation_gate" in patterns:
+            hints.append("For same-type prompts, rebuild graph fact categories, retrieval-budget slots, validation tiers, and commit status names for the new manuscript.")
+        if "local_copilot_layered_memory_workspace_gate" in patterns:
+            hints.append("For same-type prompts, declare the transformed copilot target surface and layered memory boundaries before asking for any rewrite.")
+        if "pending_fact_canon_promotion_graph_gate" in patterns:
+            hints.append("For same-type prompts, require pending-fact review ids and canon-promotion decisions instead of silently accepting extracted source-like facts.")
+        if "work_corpus_reindex_autopilot_gate" in patterns:
+            hints.append("For same-type prompts, create a new work corpus plan and specialist-reference boundary; source corpora can inspire slots, not facts.")
+        if "memoir_story_spine_consensus_grounding_gate" in patterns:
+            hints.append("For same-type prompts, fill new story-spine fact fields and separate factual auditor, style auditor, and surgical repair instructions.")
+        if "map_reduce_factual_anchor_adaptation_gate" in patterns:
+            hints.append("For same-type adaptation prompts, cite new chapter anchors, Story Bible merge fields, fidelity checks, and schema validation targets.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -13006,6 +13198,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform closure loops by changing the opening promise, ending payoff, payoff owner, middle causality, and ending cost before infilling prose.")
         if "strict_requirement_planning_generation_gate" in patterns:
             hints.append("Transform strict requirements into a new checklist and plan contract; source requirements can inspire categories but not dictate scene facts or wording.")
+        if "canon_graph_hybrid_validation_gate" in patterns:
+            hints.append("Transform canon validation by changing node categories, timeline facts, retrieval examples, validation rules, and commit states for the new story world.")
+        if "local_copilot_layered_memory_workspace_gate" in patterns:
+            hints.append("Transform copilot workspace lessons into new surfaces, memory layers, confidence thresholds, and author-acceptance states instead of copying UI roles.")
+        if "pending_fact_canon_promotion_graph_gate" in patterns:
+            hints.append("Transform pending-fact mechanics with new draft ids, fact schemas, event log categories, reviewer decisions, and canon promotion outcomes.")
+        if "work_corpus_reindex_autopilot_gate" in patterns:
+            hints.append("Transform work-corpus lessons into a new memory packet schema, specialist reference plan, indexing checkpoint, and retrieval review protocol.")
+        if "memoir_story_spine_consensus_grounding_gate" in patterns:
+            hints.append("Transform memoir grounding into new source-faithful fact fields, auditor roles, repair diffs, and uncertain-date handling without copying personal memories.")
+        if "map_reduce_factual_anchor_adaptation_gate" in patterns:
+            hints.append("Transform adaptation flow by generating new factual anchors, screenplay fields, fidelity checks, and schema constraints for the target work.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -13593,6 +13797,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject closure infill when the first/last sentence relation, payoff timing, or middle event path is a renamed source loop.")
         if "strict_requirement_planning_generation_gate" in patterns:
             hints.append("Reject fluent drafts that hide unmet requirements, copied checklist wording, or source-specific constraints behind a generic requirement-adherence claim.")
+        if "canon_graph_hybrid_validation_gate" in patterns:
+            hints.append("Reject runs that copy source canon examples, Cypher-style rule names, retrieval passages, seed chapters, or status labels as story content.")
+        if "local_copilot_layered_memory_workspace_gate" in patterns:
+            hints.append("Reject outputs that import upstream copilot roles, UI labels, local data defaults, or sandbox notes as hidden authority for the new project.")
+        if "pending_fact_canon_promotion_graph_gate" in patterns:
+            hints.append("Reject canon updates that skip pending review, reuse demo fantasy facts, or promote extracted facts without source draft and reviewer evidence.")
+        if "work_corpus_reindex_autopilot_gate" in patterns:
+            hints.append("Reject same-type work that copies specialist corpus contents, chapter memory packets, example alternate-history facts, or skill instructions as canon.")
+        if "memoir_story_spine_consensus_grounding_gate" in patterns:
+            hints.append("Reject memoir-style drafts that invent dates, copy uploaded reference wording, bypass author confirmation, or rewrite unaffected prose outside the surgical fix scope.")
+        if "map_reduce_factual_anchor_adaptation_gate" in patterns:
+            hints.append("Reject adaptation exports that add unsupported facts, copy source scene order blindly, or pass YAML schema while failing source-anchor fidelity.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -14337,6 +14553,12 @@ class NovelSourceDiscoveryService:
                 "recurrent_plan_memory_generation_gate",
                 "bookend_closure_infill_gate",
                 "strict_requirement_planning_generation_gate",
+                "canon_graph_hybrid_validation_gate",
+                "local_copilot_layered_memory_workspace_gate",
+                "pending_fact_canon_promotion_graph_gate",
+                "work_corpus_reindex_autopilot_gate",
+                "memoir_story_spine_consensus_grounding_gate",
+                "map_reduce_factual_anchor_adaptation_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

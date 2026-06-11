@@ -272,6 +272,12 @@ const PINNED_HINT_KEYS = new Set([
   'recurrent_plan_memory_generation_gate_hints',
   'bookend_closure_infill_gate_hints',
   'strict_requirement_planning_generation_gate_hints',
+  'canon_graph_hybrid_validation_gate_hints',
+  'local_copilot_layered_memory_workspace_gate_hints',
+  'pending_fact_canon_promotion_graph_gate_hints',
+  'work_corpus_reindex_autopilot_gate_hints',
+  'memoir_story_spine_consensus_grounding_gate_hints',
+  'map_reduce_factual_anchor_adaptation_gate_hints',
 ]);
 
 function parseSeedUrls(value: string): string[] {
@@ -834,6 +840,12 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Recurrent plan-memory generation gates', patternPackPayload?.recurrent_plan_memory_generation_gate_hints],
               ['Bookend closure infill gates', patternPackPayload?.bookend_closure_infill_gate_hints],
               ['Strict requirement planning gates', patternPackPayload?.strict_requirement_planning_generation_gate_hints],
+              ['Canon graph hybrid validation gates', patternPackPayload?.canon_graph_hybrid_validation_gate_hints],
+              ['Local copilot layered-memory gates', patternPackPayload?.local_copilot_layered_memory_workspace_gate_hints],
+              ['Pending fact canon-promotion gates', patternPackPayload?.pending_fact_canon_promotion_graph_gate_hints],
+              ['Work corpus reindex autopilot gates', patternPackPayload?.work_corpus_reindex_autopilot_gate_hints],
+              ['Memoir story-spine consensus gates', patternPackPayload?.memoir_story_spine_consensus_grounding_gate_hints],
+              ['Map/reduce factual-anchor adaptation gates', patternPackPayload?.map_reduce_factual_anchor_adaptation_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>
