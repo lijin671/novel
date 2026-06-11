@@ -14412,3 +14412,109 @@ def test_latest_longform_webnovel_editor_sources_are_static_absorbed():
     assert "foreshadowing_debt_budget_hints" in digest
     assert "review_queue_staging_hints" in digest
     assert "quality_score_loop_hints" in digest
+
+
+def test_latest_worldbuilder_orchestra_webnovel_dsl_sources_are_static_absorbed():
+    assert "https://github.com/Malekyo4520/worldbuilder" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/irvinghu07/fiction-orchestra" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jinjudawang-glitch/viral-webnovel-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/tsortwehttam/dramatoric" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("cross-linked world data" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("scratch branch" in query.lower() and "promote accepted work" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("5章一轮" in query and "滚动压缩" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("dramatoric story language" in query.lower() and "shared world state" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Malekyo4520/worldbuilder",
+                "html_url": "https://github.com/Malekyo4520/worldbuilder",
+                "description": (
+                    "Build structured worlds and books with Markdown files, YAML frontmatter, "
+                    "CLI tools, and cross-linked world data for novels, D&D, and games."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["worldbuilding", "writing-tool"],
+                "updated_at": "2026-06-11T21:06:48Z",
+                "root_files": ["README.md", "LICENSE", "CLAUDE.md", "pyproject.toml", "mcp_server", "webapp", "assets/templates/languages/Software-2.1.zip"],
+            },
+            {
+                "full_name": "irvinghu07/fiction-orchestra",
+                "html_url": "https://github.com/irvinghu07/fiction-orchestra",
+                "description": "A local git-based multi-agent writers' room for manuscript revision.",
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "multi-agent", "writing"],
+                "updated_at": "2026-06-08T15:21:25Z",
+                "root_files": ["README.md", "AGENTS.md", "CLAUDE.md", "bin", "docs", "orchestration/host-mcp", ".env.example"],
+            },
+            {
+                "full_name": "jinjudawang-glitch/viral-webnovel-skill",
+                "html_url": "https://github.com/jinjudawang-glitch/viral-webnovel-skill",
+                "description": "viral-webnovel Codex Skill for Chinese serialized webnovel creation.",
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["webnovel", "codex-skill", "chinese"],
+                "updated_at": "2026-05-18T21:21:18Z",
+                "root_files": ["README.md", "viral-webnovel/SKILL.md", "viral-webnovel/agents/openai.yaml", "viral-webnovel/references/memory-system.md"],
+            },
+            {
+                "full_name": "tsortwehttam/dramatoric",
+                "html_url": "https://github.com/tsortwehttam/dramatoric",
+                "description": "Writer friendly, AI-native scripting language for interactive storytelling.",
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["interactive-fiction", "story"],
+                "updated_at": "2026-04-15T23:36:08Z",
+                "root_files": ["README.md", "LICENSE.md", "package.json", "docs", "fic", "lib", "web", ".env.example"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T18:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    worldbuilder = candidates["Malekyo4520/worldbuilder"]
+    orchestra = candidates["irvinghu07/fiction-orchestra"]
+    viral = candidates["jinjudawang-glitch/viral-webnovel-skill"]
+    dramatoric = candidates["tsortwehttam/dramatoric"]
+
+    assert "markdown_skill_story_project_contract_gate" in worldbuilder["absorbed_patterns"]
+    assert "living_codex_editorial_workbench_gate" in worldbuilder["absorbed_patterns"]
+    assert "binary_distribution" in worldbuilder["risk_flags"]
+    assert "mcp_server" in worldbuilder["risk_flags"]
+    assert "constraint_harness_review_worktree_gate" in orchestra["absorbed_patterns"]
+    assert "writers_room_stop_authority_gate" in orchestra["absorbed_patterns"]
+    assert "license:missing" in orchestra["trust_review"]["flags"]
+    assert "serial_reader_reward_contract_gate" in viral["absorbed_patterns"]
+    assert "rolling_summary_context_trim" in viral["absorbed_patterns"]
+    assert "reader_retention_review_gate" in viral["absorbed_patterns"]
+    assert "skill_install_surface" in viral["risk_flags"]
+    assert "branching_choice_graph" in dramatoric["absorbed_patterns"]
+    assert "world_state_tracking" in dramatoric["absorbed_patterns"]
+    assert "license:noassertion" in dramatoric["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "markdown_story_contract_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "writers_room_stop_review_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "serial_reader_reward_contract" in pattern_pack["bible_enrichment_targets"]
+    assert "choice_branch_graph" in pattern_pack["bible_enrichment_targets"]
+    assert "isolated_revision_branch_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "serial_reward_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("YAML frontmatter" in hint for hint in pattern_pack["markdown_skill_story_project_contract_gate_hints"])
+    assert any("diff" in hint.lower() for hint in pattern_pack["constraint_harness_review_worktree_gate_hints"])
+    assert any("five-chapter" in hint.lower() or "chapter contract" in hint.lower() for hint in pattern_pack["serial_reader_reward_contract_gate_hints"])
+    assert any("branch edges" in hint.lower() for hint in pattern_pack["branching_choice_graph_hints"])
+    assert any("source rolling summaries" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "markdown_skill_story_project_contract_gate_hints" in digest
+    assert "constraint_harness_review_worktree_gate_hints" in digest
+    assert "serial_reader_reward_contract_gate_hints" in digest
+    assert "branching_choice_graph_hints" in digest
