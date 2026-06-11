@@ -227,6 +227,7 @@ export default function Chapters() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form] = Form.useForm();
   const [editorForm] = Form.useForm();
+  const [guardrailReviewForm] = Form.useForm();
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const contentTextAreaRef = useRef<TextAreaRef>(null);
   const [writingStyles, setWritingStyles] = useState<WritingStyle[]>([]);
@@ -2127,17 +2128,39 @@ export default function Chapters() {
     try {
       const reviewResponse = await chapterApi.getGuardrailReview(chapter.id);
       const reasons = reviewResponse.guardrail_review?.manual_review_reasons || [];
+      guardrailReviewForm.setFieldsValue({
+        review_note: `已人工检查并修正文内风险点；失败信号：${formatGuardrailReasons(reasons)}`,
+      });
       modal.confirm({
         title: `第${chapter.chapter_number}章人工复核`,
         icon: <CheckCircleOutlined />,
-        content: renderGuardrailReviewContent(reviewResponse),
+        content: (
+          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            {renderGuardrailReviewContent(reviewResponse)}
+            <Form form={guardrailReviewForm} layout="vertical">
+              <Form.Item
+                label="复核说明"
+                name="review_note"
+                rules={[{ required: true, whitespace: true, message: '请填写复核说明' }]}
+              >
+                <TextArea
+                  rows={4}
+                  maxLength={2000}
+                  showCount
+                  placeholder="说明你检查了哪些复制风险、专名替换、剧情顺序或人工编辑点"
+                />
+              </Form.Item>
+            </Form>
+          </Space>
+        ),
         okText: '复核通过并恢复链路',
         cancelText: '关闭',
         width: isMobile ? 'calc(100vw - 32px)' : 760,
         centered: true,
         onOk: async () => {
+          const values = await guardrailReviewForm.validateFields();
           const result = await chapterApi.approveGuardrailReview(chapter.id, {
-            review_note: `前端人工复核通过；失败信号：${formatGuardrailReasons(reasons)}`,
+            review_note: values.review_note.trim(),
           });
           if (result.analysis_task_id) {
             setAnalysisTasksMap(prev => ({
@@ -2146,20 +2169,25 @@ export default function Chapters() {
                 has_task: true,
                 task_id: result.analysis_task_id || null,
                 chapter_id: chapter.id,
-                status: 'pending',
-                progress: 0,
+                status: result.analysis_task_status || 'pending',
+                progress: result.analysis_task_progress ?? 0,
               },
             }));
             startPollingTask(chapter.id);
           }
           await refreshChapters();
-          message.success('人工复核已通过，已恢复后续分析与续写状态写回');
+          message.success(
+            result.analysis_task_reused
+              ? '人工复核已通过，已复用进行中的分析任务'
+              : '人工复核已通过，已恢复后续分析与续写状态写回'
+          );
         },
       });
     } catch (error) {
       message.error(`加载复核信息失败：${getApiErrorMessage(error)}`);
     }
   };
+
   const renderGuardrailReviewAction = (item: Chapter, compact = false) => (
     item.status === 'review_required' ? (
       <Button

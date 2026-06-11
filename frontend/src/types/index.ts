@@ -376,6 +376,9 @@ export interface ChapterGuardrailReviewApproveResponse {
   chapter_id: string;
   chapter_status: Chapter['status'];
   analysis_task_id?: string | null;
+  analysis_task_reused?: boolean;
+  analysis_task_status?: AnalysisTask['status'] | null;
+  analysis_task_progress?: number;
   guardrail_review?: ChapterGuardrailReview | null;
   foreshadow_plant?: Record<string, unknown> | null;
   remix_commit?: Record<string, unknown> | null;

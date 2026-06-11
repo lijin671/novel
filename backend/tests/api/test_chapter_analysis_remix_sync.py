@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import uuid
+import hashlib
 from types import SimpleNamespace
 
 import pytest
@@ -4660,3 +4661,310 @@ async def test_approve_guardrail_review_resumes_downstream_sync(
     assert package["guardrail_check"]["manual_review"]["review_note"] == (
         "human accepted after editing names and spans"
     )
+    assert package["guardrail_check"]["manual_review"]["content_sha256"] == (
+        hashlib.sha256(chapter.content.encode("utf-8")).hexdigest()
+    )
+    assert package["guardrail_check"]["manual_review"]["word_count"] == chapter.word_count
+    assert package["guardrail_check"]["manual_review"]["content_length"] == len(chapter.content)
+
+
+@pytest.mark.asyncio
+async def test_approve_guardrail_review_requires_review_note():
+    with pytest.raises(HTTPException) as exc_info:
+        await chapters_api.approve_chapter_guardrail_review(
+            chapter_id="chapter-note-required",
+            request=SimpleNamespace(state=SimpleNamespace(user_id="user-note-required")),
+            approval=chapters_api.ChapterGuardrailReviewApproveRequest(
+                review_note="   "
+            ),
+            background_tasks=BackgroundTasks(),
+            db=None,
+            user_ai_service=StubAIService(),
+        )
+
+    assert exc_info.value.status_code == 400
+    assert "复核说明" in exc_info.value.detail
+
+
+@pytest.mark.asyncio
+async def test_approve_guardrail_review_reuses_existing_unfinished_analysis_task(
+    monkeypatch,
+    create_schema,
+    db_session,
+):
+    await create_schema(
+        Project.__table__,
+        Outline.__table__,
+        Chapter.__table__,
+        GenerationHistory.__table__,
+        AnalysisTask.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    user_id = "user-review-reuse"
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id=user_id,
+        title="Review Approval Reuse",
+        outline_mode="one-to-many",
+        current_words=120,
+    )
+    outline = Outline(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        title="Reuse Outline",
+        content="Approve without creating duplicate analysis tasks.",
+        order_index=21,
+    )
+    chapter = Chapter(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        outline_id=outline.id,
+        chapter_number=21,
+        title="Reuse Aftermath",
+        content="Inspector Lin approved the archive handoff after a second human read.",
+        word_count=64,
+        status="review_required",
+    )
+    existing_task = AnalysisTask(
+        id=str(uuid.uuid4()),
+        chapter_id=chapter.id,
+        user_id=user_id,
+        project_id=project.id,
+        status="pending",
+        progress=35,
+    )
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        source_task_id="source-task",
+        source_chapter_count=20,
+        generation_status="confirmed",
+        character_cards=[{"name": "Inspector Lin"}],
+        timeline=[],
+        chapter_change_packages=[],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        beats=[{"beat": "reuse pending analysis", "status": "pending"}],
+    )
+    guardrail_meta = {
+        "applied": True,
+        "attempts": 1,
+        "initial_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                }
+            ],
+        },
+        "final_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                }
+            ],
+        },
+    }
+    history = GenerationHistory(
+        project_id=project.id,
+        chapter_id=chapter.id,
+        prompt="generated\n" + format_guardrail_history_note(guardrail_meta),
+        generated_content=chapter.content,
+        model="default",
+    )
+    db_session.add(project)
+    await db_session.flush()
+    db_session.add(outline)
+    await db_session.flush()
+    db_session.add(chapter)
+    await db_session.flush()
+    db_session.add(bible)
+    await db_session.flush()
+    db_session.add_all([existing_task, plan, history])
+    await db_session.commit()
+
+    async def no_foreshadow_plant(*args, **kwargs):
+        return {"planted_count": 0}
+
+    scheduled = []
+
+    def capture_task(self, func, *args, **kwargs):
+        scheduled.append((func, args, kwargs))
+
+    monkeypatch.setattr(
+        chapters_api.foreshadow_service,
+        "auto_plant_pending_foreshadows",
+        no_foreshadow_plant,
+    )
+    monkeypatch.setattr(BackgroundTasks, "add_task", capture_task)
+
+    response = await chapters_api.approve_chapter_guardrail_review(
+        chapter_id=chapter.id,
+        request=SimpleNamespace(state=SimpleNamespace(user_id=user_id)),
+        approval=chapters_api.ChapterGuardrailReviewApproveRequest(
+            review_note="human accepted after checking copied spans"
+        ),
+        background_tasks=BackgroundTasks(),
+        db=db_session,
+        user_ai_service=StubAIService(),
+    )
+
+    tasks = (
+        await db_session.execute(
+            select(AnalysisTask).where(AnalysisTask.chapter_id == chapter.id)
+        )
+    ).scalars().all()
+
+    assert response["analysis_task_id"] == existing_task.id
+    assert response["analysis_task_reused"] is True
+    assert response["analysis_task_status"] == "pending"
+    assert response["analysis_task_progress"] == 35
+    assert len(tasks) == 1
+    assert scheduled == []
+
+
+@pytest.mark.asyncio
+async def test_approve_guardrail_review_records_reviewed_content_hash(
+    monkeypatch,
+    create_schema,
+    db_session,
+):
+    await create_schema(
+        Project.__table__,
+        Outline.__table__,
+        Chapter.__table__,
+        GenerationHistory.__table__,
+        AnalysisTask.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    user_id = "user-review-hash"
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id=user_id,
+        title="Review Approval Hash",
+        outline_mode="one-to-many",
+        current_words=120,
+    )
+    outline = Outline(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        title="Hash Outline",
+        content="Record immutable reviewed text facts.",
+        order_index=22,
+    )
+    reviewed_content = (
+        "Inspector Lin approved the archive handoff after verifying "
+        "the copied names, set-piece order, and source-neighbor spans."
+    )
+    chapter = Chapter(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        outline_id=outline.id,
+        chapter_number=22,
+        title="Hash Aftermath",
+        content=reviewed_content,
+        word_count=77,
+        status="review_required",
+    )
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        source_task_id="source-task",
+        source_chapter_count=21,
+        generation_status="confirmed",
+        character_cards=[{"name": "Inspector Lin"}],
+        timeline=[],
+        chapter_change_packages=[],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        beats=[{"beat": "record reviewed hash", "status": "pending"}],
+    )
+    guardrail_meta = {
+        "applied": True,
+        "attempts": 2,
+        "initial_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                }
+            ],
+        },
+        "final_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                }
+            ],
+        },
+    }
+    history = GenerationHistory(
+        project_id=project.id,
+        chapter_id=chapter.id,
+        prompt="generated\n" + format_guardrail_history_note(guardrail_meta),
+        generated_content=chapter.content,
+        model="default",
+    )
+    db_session.add(project)
+    await db_session.flush()
+    db_session.add(outline)
+    await db_session.flush()
+    db_session.add(chapter)
+    await db_session.flush()
+    db_session.add(bible)
+    await db_session.flush()
+    db_session.add_all([plan, history])
+    await db_session.commit()
+
+    async def no_foreshadow_plant(*args, **kwargs):
+        return {"planted_count": 0}
+
+    monkeypatch.setattr(
+        chapters_api.foreshadow_service,
+        "auto_plant_pending_foreshadows",
+        no_foreshadow_plant,
+    )
+    monkeypatch.setattr(BackgroundTasks, "add_task", lambda *args, **kwargs: None)
+
+    await chapters_api.approve_chapter_guardrail_review(
+        chapter_id=chapter.id,
+        request=SimpleNamespace(state=SimpleNamespace(user_id=user_id)),
+        approval=chapters_api.ChapterGuardrailReviewApproveRequest(
+            review_note="verified copied spans were removed"
+        ),
+        background_tasks=BackgroundTasks(),
+        db=db_session,
+        user_ai_service=StubAIService(),
+    )
+
+    await db_session.refresh(bible)
+    manual_review = bible.chapter_change_packages[0]["guardrail_check"]["manual_review"]
+
+    assert manual_review["review_note"] == "verified copied spans were removed"
+    assert manual_review["content_sha256"] == hashlib.sha256(
+        reviewed_content.encode("utf-8")
+    ).hexdigest()
+    assert manual_review["content_length"] == len(reviewed_content)
+    assert manual_review["word_count"] == 77

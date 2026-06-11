@@ -69,7 +69,7 @@ class ChapterListResponse(BaseModel):
 
 class ChapterGuardrailReviewApproveRequest(BaseModel):
     """人工复核通过请求。"""
-    review_note: Optional[str] = Field(None, description="人工复核说明")
+    review_note: str = Field(..., min_length=1, max_length=2000, description="人工复核说明")
 
 
 class ChapterGuardrailReviewResponse(BaseModel):
@@ -88,6 +88,9 @@ class ChapterGuardrailReviewApproveResponse(BaseModel):
     chapter_id: str
     chapter_status: str
     analysis_task_id: Optional[str] = None
+    analysis_task_reused: bool = False
+    analysis_task_status: Optional[str] = None
+    analysis_task_progress: int = 0
     guardrail_review: Optional[Dict[str, Any]] = None
     foreshadow_plant: Optional[Dict[str, Any]] = None
     remix_commit: Optional[Dict[str, Any]] = None

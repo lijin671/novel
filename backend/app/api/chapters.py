@@ -5,6 +5,7 @@ from sqlalchemy import select, func
 from sqlalchemy.orm import selectinload
 import json
 import asyncio
+import hashlib
 import re
 from typing import Any, Optional
 from datetime import datetime
@@ -172,9 +173,13 @@ def _manual_review_guardrail_meta(
     review_summary: Optional[dict[str, Any]],
     review_note: Optional[str],
     user_id: Optional[str],
+    review_content: Optional[str],
+    review_word_count: Optional[int],
 ) -> dict[str, Any]:
     summary = review_summary or {}
     now = datetime.utcnow().isoformat()
+    content = review_content or ""
+    content_sha256 = hashlib.sha256(content.encode("utf-8")).hexdigest()
     return {
         "applied": bool(summary.get("applied")),
         "attempts": int(summary.get("attempts") or 0),
@@ -193,8 +198,27 @@ def _manual_review_guardrail_meta(
             "review_note": (review_note or "").strip(),
             "reviewer_id": user_id,
             "reviewed_at": now,
+            "content_sha256": content_sha256,
+            "content_length": len(content),
+            "word_count": int(review_word_count or len(content)),
         },
     }
+
+
+async def _get_reusable_analysis_task(
+    *,
+    db: AsyncSession,
+    chapter_id: str,
+) -> Optional[AnalysisTask]:
+    """Return the newest unfinished analysis task so manual approve stays idempotent."""
+    result = await db.execute(
+        select(AnalysisTask)
+        .where(AnalysisTask.chapter_id == chapter_id)
+        .where(AnalysisTask.status.in_(("pending", "running")))
+        .order_by(AnalysisTask.created_at.desc(), AnalysisTask.id.desc())
+        .limit(1)
+    )
+    return result.scalar_one_or_none()
 
 
 async def _manual_review_generation_inputs(
@@ -406,6 +430,10 @@ async def approve_chapter_guardrail_review(
     user_ai_service: AIService = Depends(get_user_ai_service),
 ):
     """Promote a manually reviewed chapter back into analysis and remix sync."""
+    review_note = approval.review_note.strip()
+    if not review_note:
+        raise HTTPException(status_code=400, detail="请填写人工复核说明")
+
     result = await db.execute(
         select(Chapter).where(Chapter.id == chapter_id)
     )
@@ -425,8 +453,10 @@ async def approve_chapter_guardrail_review(
     review_summary = _guardrail_review_from_history(history)
     guardrail_meta = _manual_review_guardrail_meta(
         review_summary=review_summary,
-        review_note=approval.review_note,
+        review_note=review_note,
         user_id=user_id,
+        review_content=chapter.content,
+        review_word_count=chapter.word_count,
     )
     inputs = await _manual_review_generation_inputs(db=db, chapter=chapter)
 
@@ -436,7 +466,7 @@ async def approve_chapter_guardrail_review(
         chapter_id=chapter.id,
         prompt=(
             f"Manual guardrail review approved: chapter={chapter.chapter_number}; "
-            f"note={(approval.review_note or '').strip()}"
+            f"note={review_note}"
         ),
         generated_content=chapter.content[:500] if len(chapter.content or "") > 500 else chapter.content,
         model="manual_review",
@@ -483,30 +513,36 @@ async def approve_chapter_guardrail_review(
         except Exception as rollback_error:
             logger.error("Manual guardrail review rollback failed: %s", rollback_error)
 
-    analysis_task = AnalysisTask(
-        chapter_id=chapter.id,
-        user_id=user_id,
-        project_id=project.id,
-        status="pending",
-        progress=0,
-    )
-    db.add(analysis_task)
-    await db.commit()
-    await db.refresh(analysis_task)
+    analysis_task = await _get_reusable_analysis_task(db=db, chapter_id=chapter.id)
+    analysis_task_reused = analysis_task is not None
+    if analysis_task is None:
+        analysis_task = AnalysisTask(
+            chapter_id=chapter.id,
+            user_id=user_id,
+            project_id=project.id,
+            status="pending",
+            progress=0,
+        )
+        db.add(analysis_task)
+        await db.commit()
+        await db.refresh(analysis_task)
 
-    background_tasks.add_task(
-        analyze_chapter_background,
-        chapter_id=chapter.id,
-        user_id=user_id,
-        project_id=project.id,
-        task_id=analysis_task.id,
-        ai_service=user_ai_service,
-    )
+        background_tasks.add_task(
+            analyze_chapter_background,
+            chapter_id=chapter.id,
+            user_id=user_id,
+            project_id=project.id,
+            task_id=analysis_task.id,
+            ai_service=user_ai_service,
+        )
 
     return {
         "chapter_id": chapter.id,
         "chapter_status": chapter.status,
         "analysis_task_id": analysis_task.id,
+        "analysis_task_reused": analysis_task_reused,
+        "analysis_task_status": analysis_task.status,
+        "analysis_task_progress": analysis_task.progress or 0,
         "guardrail_review": review_summary,
         "foreshadow_plant": foreshadow_plant,
         "remix_commit": remix_commit,
