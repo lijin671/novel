@@ -342,6 +342,45 @@ export interface ChapterCanGenerateResponse {
   chapter_number: number;
 }
 
+export interface ChapterGuardrailViolation {
+  type?: string;
+  severity?: string;
+  description?: string;
+  context?: string;
+  position?: number | null;
+}
+
+export interface ChapterGuardrailReview {
+  acceptance_status?: string;
+  review_required?: boolean;
+  attempts?: number;
+  applied?: boolean;
+  manual_review_reasons?: string[];
+  initial_passed?: boolean;
+  final_passed?: boolean;
+  initial_violations?: ChapterGuardrailViolation[];
+  final_violations?: ChapterGuardrailViolation[];
+}
+
+export interface ChapterGuardrailReviewResponse {
+  chapter_id: string;
+  chapter_status: Chapter['status'];
+  review_required: boolean;
+  guardrail_review?: ChapterGuardrailReview | null;
+  latest_history_id?: string | null;
+  latest_history_created_at?: string | null;
+  latest_history_prompt_note?: string | null;
+}
+
+export interface ChapterGuardrailReviewApproveResponse {
+  chapter_id: string;
+  chapter_status: Chapter['status'];
+  analysis_task_id?: string | null;
+  guardrail_review?: ChapterGuardrailReview | null;
+  foreshadow_plant?: Record<string, unknown> | null;
+  remix_commit?: Record<string, unknown> | null;
+}
+
 // AI生成请求类型
 export interface GenerateOutlineRequest {
   project_id: string;

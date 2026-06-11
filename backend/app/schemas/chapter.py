@@ -67,6 +67,32 @@ class ChapterListResponse(BaseModel):
     items: list[ChapterResponse]
 
 
+class ChapterGuardrailReviewApproveRequest(BaseModel):
+    """人工复核通过请求。"""
+    review_note: Optional[str] = Field(None, description="人工复核说明")
+
+
+class ChapterGuardrailReviewResponse(BaseModel):
+    """章节护栏复核状态响应。"""
+    chapter_id: str
+    chapter_status: str
+    review_required: bool
+    guardrail_review: Optional[Dict[str, Any]] = None
+    latest_history_id: Optional[str] = None
+    latest_history_created_at: Optional[str] = None
+    latest_history_prompt_note: Optional[str] = None
+
+
+class ChapterGuardrailReviewApproveResponse(BaseModel):
+    """人工复核通过后的恢复链路响应。"""
+    chapter_id: str
+    chapter_status: str
+    analysis_task_id: Optional[str] = None
+    guardrail_review: Optional[Dict[str, Any]] = None
+    foreshadow_plant: Optional[Dict[str, Any]] = None
+    remix_commit: Optional[Dict[str, Any]] = None
+
+
 class AnalysisTaskStatusResponse(BaseModel):
     """单章节分析任务状态响应"""
     has_task: bool

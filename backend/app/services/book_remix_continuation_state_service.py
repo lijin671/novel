@@ -880,13 +880,18 @@ class BookRemixContinuationStateService:
         if not applied and attempts <= 0 and not violations:
             return None
 
-        return {
+        serialized = {
             "applied": applied,
             "attempts": attempts,
             "initial_passed": initial_passed,
             "final_passed": final_passed,
             "violations": violations,
         }
+        for key in ("acceptance_status", "manual_review_reasons", "manual_review"):
+            value = guardrail_meta.get(key)
+            if value not in (None, "", [], {}):
+                serialized[key] = value
+        return serialized
 
     def _serialize_guardrail_violations(self, result: Any) -> list[dict[str, Any]]:
         raw_violations = self._guardrail_result_violations(result)

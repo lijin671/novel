@@ -94,6 +94,8 @@ import type {
   BatchAnalysisStatusResponse,
   BatchAnalyzeUnanalyzedRequest,
   BatchAnalyzeUnanalyzedResponse,
+  ChapterGuardrailReviewApproveResponse,
+  ChapterGuardrailReviewResponse,
   NovelWorkflowRunRequest,
   NovelWorkflowRunResponse,
   NovelWorkflowTaskStatusResponse,
@@ -802,6 +804,15 @@ export const chapterApi = {
 
   checkCanGenerate: (chapterId: string) =>
     api.get<unknown, import('../types').ChapterCanGenerateResponse>(`/chapters/${chapterId}/can-generate`),
+
+  getGuardrailReview: (chapterId: string) =>
+    api.get<unknown, ChapterGuardrailReviewResponse>(`/chapters/${chapterId}/guardrail-review`),
+
+  approveGuardrailReview: (chapterId: string, data: { review_note?: string }) =>
+    api.post<unknown, ChapterGuardrailReviewApproveResponse>(
+      `/chapters/${chapterId}/guardrail-review/approve`,
+      data
+    ),
 
   getBatchAnalysisStatuses: (projectId: string, chapterIds?: string[]) =>
     api.post<unknown, BatchAnalysisStatusResponse>(`/chapters/project/${projectId}/analysis/statuses`, {

@@ -3,10 +3,14 @@
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 import hashlib
+import json
 import re
-from typing import List, Optional, Sequence
+from typing import Any, List, Optional, Sequence
 
 from app.services.source_pattern_pack_prompt import render_source_pattern_pack_digest
+
+
+GUARDRAIL_REVIEW_JSON_PREFIX = "GUARDRAIL_REVIEW_JSON:"
 
 
 @dataclass
@@ -69,6 +73,61 @@ def guardrail_review_reasons(guardrail_meta: Optional[dict]) -> list[str]:
     return reasons
 
 
+def guardrail_review_summary(guardrail_meta: Optional[dict]) -> dict[str, Any]:
+    """Build a compact, serializable guardrail audit packet for review UIs."""
+    if not isinstance(guardrail_meta, dict):
+        return {
+            "acceptance_status": "accepted",
+            "review_required": False,
+            "attempts": 0,
+            "applied": False,
+            "manual_review_reasons": [],
+            "initial_passed": True,
+            "final_passed": True,
+            "initial_violations": [],
+            "final_violations": [],
+        }
+
+    initial_result = guardrail_meta.get("initial_result")
+    final_result = guardrail_meta.get("final_result")
+    return {
+        "acceptance_status": guardrail_acceptance_status(guardrail_meta),
+        "review_required": guardrail_requires_manual_review(guardrail_meta),
+        "attempts": _safe_int(guardrail_meta.get("attempts"), default=0),
+        "applied": bool(guardrail_meta.get("applied")),
+        "manual_review_reasons": guardrail_review_reasons(guardrail_meta),
+        "initial_passed": _guardrail_result_passed(initial_result),
+        "final_passed": _guardrail_result_passed(final_result),
+        "initial_violations": [
+            _guardrail_violation_to_dict(item)
+            for item in _guardrail_result_violations(initial_result)
+        ],
+        "final_violations": [
+            _guardrail_violation_to_dict(item)
+            for item in _guardrail_result_violations(final_result)
+        ],
+    }
+
+
+def parse_guardrail_review_summary(text: Optional[str]) -> Optional[dict[str, Any]]:
+    """Read the latest structured guardrail packet from a generation-history prompt."""
+    if not text:
+        return None
+
+    for raw_line in reversed(str(text).splitlines()):
+        line = raw_line.strip()
+        if not line.startswith(GUARDRAIL_REVIEW_JSON_PREFIX):
+            continue
+        raw_json = line[len(GUARDRAIL_REVIEW_JSON_PREFIX):].strip()
+        try:
+            parsed = json.loads(raw_json)
+        except json.JSONDecodeError:
+            return None
+        return parsed if isinstance(parsed, dict) else None
+
+    return None
+
+
 def format_guardrail_history_note(guardrail_meta: Optional[dict]) -> str:
     """把护栏最终状态压缩到生成历史，方便复盘为什么进入人工复核。"""
     if not isinstance(guardrail_meta, dict):
@@ -76,7 +135,38 @@ def format_guardrail_history_note(guardrail_meta: Optional[dict]) -> str:
     attempts = int(guardrail_meta.get("attempts") or 0)
     status = guardrail_acceptance_status(guardrail_meta)
     reasons = ", ".join(guardrail_review_reasons(guardrail_meta)) or "none"
-    return f"护栏状态: {status}; attempts={attempts}; final_reasons={reasons}"
+    summary = json.dumps(
+        guardrail_review_summary(guardrail_meta),
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    return (
+        f"护栏状态: {status}; attempts={attempts}; final_reasons={reasons}\n"
+        f"{GUARDRAIL_REVIEW_JSON_PREFIX}{summary}"
+    )
+
+
+def _safe_int(value: object, *, default: int = 0) -> int:
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _guardrail_violation_to_dict(violation: object) -> dict[str, Any]:
+    value: dict[str, Any] = {
+        "type": _guardrail_violation_field(violation, "type"),
+        "severity": _guardrail_violation_field(violation, "severity"),
+        "description": _guardrail_violation_field(violation, "description"),
+        "context": _guardrail_violation_field(violation, "context"),
+    }
+    if isinstance(violation, dict):
+        position = violation.get("position")
+    else:
+        position = getattr(violation, "position", None)
+    if position is not None:
+        value["position"] = position
+    return {key: item for key, item in value.items() if item not in ("", None)}
 
 
 def _guardrail_result_passed(result: object) -> bool:

@@ -45,6 +45,9 @@ from app.schemas.chapter import (
     BatchGenerateRequest,
     BatchGenerateResponse,
     BatchGenerateStatusResponse,
+    ChapterGuardrailReviewApproveRequest,
+    ChapterGuardrailReviewApproveResponse,
+    ChapterGuardrailReviewResponse,
     ExpansionPlanUpdate,
     PartialRegenerateRequest
 )
@@ -70,6 +73,7 @@ from app.services.chapter_guardrails import (
     format_guardrail_history_note,
     guardrail_acceptance_status,
     guardrail_requires_manual_review,
+    parse_guardrail_review_summary,
 )
 from app.services.novel_workflow_service import NovelWorkflowService
 from app.services.source_discovery_service import source_discovery_service
@@ -102,6 +106,138 @@ def _workflow_requires_reanalysis(workflow_result: Any) -> bool:
         return True
     aggregate = workflow_result.get("aggregate")
     return isinstance(aggregate, dict) and bool(aggregate.get("analysis_stale"))
+
+
+async def _latest_generation_history_for_chapter(
+    db: AsyncSession,
+    chapter_id: str,
+) -> Optional[GenerationHistory]:
+    result = await db.execute(
+        select(GenerationHistory)
+        .where(GenerationHistory.chapter_id == chapter_id)
+        .order_by(GenerationHistory.created_at.desc(), GenerationHistory.id.desc())
+        .limit(1)
+    )
+    return result.scalar_one_or_none()
+
+
+def _history_prompt_note(history: Optional[GenerationHistory]) -> Optional[str]:
+    if not history or not history.prompt:
+        return None
+    lines = [
+        line.strip()
+        for line in str(history.prompt).splitlines()
+        if line.strip()
+    ]
+    if not lines:
+        return None
+    guardrail_lines = [
+        line
+        for line in lines
+        if line.startswith("护栏状态:")
+        or line.startswith("GUARDRAIL_REVIEW_JSON:")
+    ]
+    return "\n".join(guardrail_lines) if guardrail_lines else lines[-1]
+
+
+def _guardrail_review_from_history(
+    history: Optional[GenerationHistory],
+) -> Optional[dict[str, Any]]:
+    if not history:
+        return None
+    parsed = parse_guardrail_review_summary(history.prompt)
+    if parsed:
+        return parsed
+    prompt = str(history.prompt or "")
+    marker = "final_reasons="
+    if marker not in prompt:
+        return None
+    reasons_text = prompt.rsplit(marker, 1)[-1].splitlines()[0].strip()
+    reasons = [
+        item.strip()
+        for item in reasons_text.split(",")
+        if item.strip() and item.strip().lower() != "none"
+    ]
+    return {
+        "acceptance_status": "needs_manual_review" if reasons else "accepted",
+        "review_required": bool(reasons),
+        "manual_review_reasons": reasons,
+        "initial_violations": [],
+        "final_violations": [],
+    }
+
+
+def _manual_review_guardrail_meta(
+    *,
+    review_summary: Optional[dict[str, Any]],
+    review_note: Optional[str],
+    user_id: Optional[str],
+) -> dict[str, Any]:
+    summary = review_summary or {}
+    now = datetime.utcnow().isoformat()
+    return {
+        "applied": bool(summary.get("applied")),
+        "attempts": int(summary.get("attempts") or 0),
+        "initial_result": {
+            "passed": bool(summary.get("initial_passed")),
+            "violations": list(summary.get("initial_violations") or []),
+        },
+        "final_result": {
+            "passed": bool(summary.get("final_passed")),
+            "violations": list(summary.get("final_violations") or []),
+        },
+        "acceptance_status": "manually_approved",
+        "manual_review_reasons": list(summary.get("manual_review_reasons") or []),
+        "manual_review": {
+            "approved": True,
+            "review_note": (review_note or "").strip(),
+            "reviewer_id": user_id,
+            "reviewed_at": now,
+        },
+    }
+
+
+async def _manual_review_generation_inputs(
+    *,
+    db: AsyncSession,
+    chapter: Chapter,
+) -> dict[str, str]:
+    chapter_outline = ""
+    if chapter.outline_id:
+        outline_result = await db.execute(
+            select(Outline).where(Outline.id == chapter.outline_id)
+        )
+        outline = outline_result.scalar_one_or_none()
+        if outline:
+            chapter_outline = "\n".join(
+                item
+                for item in (outline.title or "", outline.content or "")
+                if item
+            )
+
+    previous_result = await db.execute(
+        select(Chapter)
+        .where(Chapter.project_id == chapter.project_id)
+        .where(Chapter.chapter_number < chapter.chapter_number)
+        .order_by(Chapter.chapter_number.desc())
+        .limit(1)
+    )
+    previous = previous_result.scalar_one_or_none()
+    previous_summary = ""
+    continuation_point = ""
+    if previous:
+        previous_summary = (previous.summary or "").strip()
+        previous_content = (previous.content or "").strip()
+        if not previous_summary and previous_content:
+            previous_summary = previous_content[:360]
+        if previous_content:
+            continuation_point = previous_content[-360:]
+
+    return {
+        "chapter_outline": chapter_outline,
+        "previous_chapter_summary": previous_summary,
+        "continuation_point": continuation_point,
+    }
 
 
 @router.post("", response_model=ChapterResponse, summary="创建章节")
@@ -219,6 +355,162 @@ async def get_chapter(
     await verify_project_access(chapter.project_id, user_id, db)
     
     return chapter
+
+
+@router.get(
+    "/{chapter_id}/guardrail-review",
+    response_model=ChapterGuardrailReviewResponse,
+    summary="获取章节护栏复核状态",
+)
+async def get_chapter_guardrail_review(
+    chapter_id: str,
+    request: Request,
+    db: AsyncSession = Depends(get_db),
+):
+    """Expose the latest guardrail review packet for a review_required chapter."""
+    result = await db.execute(
+        select(Chapter).where(Chapter.id == chapter_id)
+    )
+    chapter = result.scalar_one_or_none()
+    if not chapter:
+        raise HTTPException(status_code=404, detail="章节不存在")
+
+    user_id = getattr(request.state, "user_id", None)
+    await verify_project_access(chapter.project_id, user_id, db)
+
+    history = await _latest_generation_history_for_chapter(db, chapter_id)
+    return {
+        "chapter_id": chapter_id,
+        "chapter_status": chapter.status,
+        "review_required": chapter.status == "review_required",
+        "guardrail_review": _guardrail_review_from_history(history),
+        "latest_history_id": history.id if history else None,
+        "latest_history_created_at": (
+            history.created_at.isoformat() if history and history.created_at else None
+        ),
+        "latest_history_prompt_note": _history_prompt_note(history),
+    }
+
+
+@router.post(
+    "/{chapter_id}/guardrail-review/approve",
+    response_model=ChapterGuardrailReviewApproveResponse,
+    summary="人工复核通过章节护栏",
+)
+async def approve_chapter_guardrail_review(
+    chapter_id: str,
+    request: Request,
+    approval: ChapterGuardrailReviewApproveRequest,
+    background_tasks: BackgroundTasks,
+    db: AsyncSession = Depends(get_db),
+    user_ai_service: AIService = Depends(get_user_ai_service),
+):
+    """Promote a manually reviewed chapter back into analysis and remix sync."""
+    result = await db.execute(
+        select(Chapter).where(Chapter.id == chapter_id)
+    )
+    chapter = result.scalar_one_or_none()
+    if not chapter:
+        raise HTTPException(status_code=404, detail="章节不存在")
+
+    user_id = getattr(request.state, "user_id", None)
+    project = await verify_project_access(chapter.project_id, user_id, db)
+
+    if chapter.status != "review_required":
+        raise HTTPException(status_code=400, detail="章节不处于人工复核状态")
+    if not chapter.content or not chapter.content.strip():
+        raise HTTPException(status_code=400, detail="章节内容为空，无法复核通过")
+
+    history = await _latest_generation_history_for_chapter(db, chapter_id)
+    review_summary = _guardrail_review_from_history(history)
+    guardrail_meta = _manual_review_guardrail_meta(
+        review_summary=review_summary,
+        review_note=approval.review_note,
+        user_id=user_id,
+    )
+    inputs = await _manual_review_generation_inputs(db=db, chapter=chapter)
+
+    chapter.status = "completed"
+    approval_history = GenerationHistory(
+        project_id=chapter.project_id,
+        chapter_id=chapter.id,
+        prompt=(
+            f"Manual guardrail review approved: chapter={chapter.chapter_number}; "
+            f"note={(approval.review_note or '').strip()}"
+        ),
+        generated_content=chapter.content[:500] if len(chapter.content or "") > 500 else chapter.content,
+        model="manual_review",
+    )
+    db.add(approval_history)
+    await db.commit()
+    await db.refresh(chapter)
+
+    foreshadow_plant: Optional[dict[str, Any]] = None
+    try:
+        foreshadow_plant = await foreshadow_service.auto_plant_pending_foreshadows(
+            db=db,
+            project_id=chapter.project_id,
+            chapter_id=chapter.id,
+            chapter_number=chapter.chapter_number,
+            chapter_content=chapter.content or "",
+        )
+    except Exception as plant_error:
+        logger.warning("Manual guardrail review foreshadow plant skipped: %s", plant_error)
+
+    remix_commit: Optional[dict[str, Any]] = None
+    try:
+        remix_commit = await book_remix_continuation_state_service.commit_generated_chapter(
+            db=db,
+            project_id=chapter.project_id,
+            chapter_id=chapter.id,
+            chapter_number=chapter.chapter_number,
+            chapter_title=chapter.title or "",
+            chapter_content=chapter.content or "",
+            chapter_outline=inputs["chapter_outline"],
+            previous_chapter_summary=inputs["previous_chapter_summary"],
+            continuation_point=inputs["continuation_point"],
+            guardrail_meta=guardrail_meta,
+        )
+    except Exception as remix_commit_error:
+        logger.error(
+            "Manual guardrail review remix state sync failed: %s",
+            remix_commit_error,
+            exc_info=True,
+        )
+        try:
+            if db.in_transaction():
+                await db.rollback()
+        except Exception as rollback_error:
+            logger.error("Manual guardrail review rollback failed: %s", rollback_error)
+
+    analysis_task = AnalysisTask(
+        chapter_id=chapter.id,
+        user_id=user_id,
+        project_id=project.id,
+        status="pending",
+        progress=0,
+    )
+    db.add(analysis_task)
+    await db.commit()
+    await db.refresh(analysis_task)
+
+    background_tasks.add_task(
+        analyze_chapter_background,
+        chapter_id=chapter.id,
+        user_id=user_id,
+        project_id=project.id,
+        task_id=analysis_task.id,
+        ai_service=user_ai_service,
+    )
+
+    return {
+        "chapter_id": chapter.id,
+        "chapter_status": chapter.status,
+        "analysis_task_id": analysis_task.id,
+        "guardrail_review": review_summary,
+        "foreshadow_plant": foreshadow_plant,
+        "remix_commit": remix_commit,
+    }
 
 
 @router.get("/{chapter_id}/navigation", summary="获取章节导航信息")

@@ -46,3 +46,19 @@ A generated chapter may be saved for inspection, but if rewrite attempts still f
 ## Runtime boundary
 
 No external project code was imported. The local change only adds deterministic acceptance-state handling around existing guardrail results.
+
+## 2026-06-11 follow-up: human review state resume
+
+Additional static metadata pass, still no clone/install/runtime/provider calls:
+
+- `iLearn-Lab/NovelClaw`: dynamic-memory-first long-form story generation, chapter planning, and coherent narrative writing; MIT; pattern-only.
+- `zy-zmc/tianming-novel-ai-writer`: fact snapshots, change declarations, generation gates, and per-chapter state write-back; license not declared in GitHub metadata; pattern-only.
+
+Absorbed pattern: a `review_required` chapter needs an explicit human approval event before it can become durable continuation state. The approval event must resume the same downstream chain that a safe generation would have used: foreshadow planting, remix continuation state write-back, and chapter analysis scheduling.
+
+Project adaptation:
+
+- Generation history now stores a structured guardrail review packet in addition to the compact text note.
+- Backend exposes `/chapters/{chapter_id}/guardrail-review` to inspect latest structured reasons.
+- Backend exposes `/chapters/{chapter_id}/guardrail-review/approve` to mark the chapter completed and resume downstream write-back/analysis.
+- Frontend chapter actions show a `review_required` review action that displays guardrail reasons and approves the chapter after human inspection.

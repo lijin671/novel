@@ -25,6 +25,7 @@ from app.models.project_default_style import ProjectDefaultStyle
 from app.models.relationship import CharacterRelationship, Organization, OrganizationMember
 from app.models.user import User
 from app.models.writing_style import WritingStyle
+from app.services.chapter_guardrails import format_guardrail_history_note
 
 
 _CHAPTER_ANALYSIS_SENTINEL = chr(31456)
@@ -4430,3 +4431,232 @@ async def test_generate_stream_returns_guardrail_rewritten_final_content_in_resu
     assert result_payloads
     assert any(rewritten_content in payload for payload in result_payloads)
     assert original_chunk_text not in full_stream
+
+
+@pytest.mark.asyncio
+async def test_get_chapter_guardrail_review_returns_latest_structured_reasons(
+    create_schema,
+    db_session,
+):
+    await create_schema(
+        Project.__table__,
+        Outline.__table__,
+        Chapter.__table__,
+        GenerationHistory.__table__,
+    )
+
+    user_id = "user-review-detail"
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id=user_id,
+        title="Review Detail",
+    )
+    chapter = Chapter(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        chapter_number=20,
+        title="Archive Aftermath",
+        content="Draft needs human review.",
+        word_count=25,
+        status="review_required",
+    )
+    guardrail_meta = {
+        "applied": True,
+        "attempts": 1,
+        "initial_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                    "context": "source window",
+                }
+            ],
+        },
+        "final_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                    "context": "source window",
+                }
+            ],
+        },
+    }
+    history = GenerationHistory(
+        project_id=project.id,
+        chapter_id=chapter.id,
+        prompt="generated\n" + format_guardrail_history_note(guardrail_meta),
+        generated_content=chapter.content,
+        model="default",
+    )
+    db_session.add(project)
+    await db_session.flush()
+    db_session.add_all([chapter, history])
+    await db_session.commit()
+
+    response = await chapters_api.get_chapter_guardrail_review(
+        chapter_id=chapter.id,
+        request=SimpleNamespace(state=SimpleNamespace(user_id=user_id)),
+        db=db_session,
+    )
+
+    assert response["chapter_status"] == "review_required"
+    assert response["review_required"] is True
+    assert response["guardrail_review"]["acceptance_status"] == "needs_manual_review"
+    assert response["guardrail_review"]["manual_review_reasons"] == [
+        "inspired_source_copy:high"
+    ]
+    assert response["guardrail_review"]["final_violations"][0]["type"] == "inspired_source_copy"
+
+
+@pytest.mark.asyncio
+async def test_approve_guardrail_review_resumes_downstream_sync(
+    monkeypatch,
+    create_schema,
+    db_session,
+):
+    await create_schema(
+        Project.__table__,
+        Outline.__table__,
+        Chapter.__table__,
+        GenerationHistory.__table__,
+        AnalysisTask.__table__,
+        BookRemixBible.__table__,
+        BookRemixContinuationPlan.__table__,
+    )
+
+    user_id = "user-review-approve"
+    project = Project(
+        id=str(uuid.uuid4()),
+        user_id=user_id,
+        title="Review Approval",
+        outline_mode="one-to-many",
+        current_words=120,
+    )
+    outline = Outline(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        title="Archive Outline",
+        content="Approve the reviewed archive handoff.",
+        order_index=20,
+    )
+    chapter = Chapter(
+        id=str(uuid.uuid4()),
+        project_id=project.id,
+        outline_id=outline.id,
+        chapter_number=20,
+        title="Archive Aftermath",
+        content="Inspector Lin approved the archive handoff after human review.",
+        word_count=62,
+        status="review_required",
+    )
+    bible_id = str(uuid.uuid4())
+    bible = BookRemixBible(
+        id=bible_id,
+        project_id=project.id,
+        source_task_id="source-task",
+        source_chapter_count=19,
+        generation_status="confirmed",
+        character_cards=[{"name": "Inspector Lin"}],
+        timeline=[],
+        chapter_change_packages=[],
+    )
+    plan = BookRemixContinuationPlan(
+        project_id=project.id,
+        bible_id=bible_id,
+        status="confirmed",
+        beats=[{"beat": "approve archive handoff", "status": "pending"}],
+    )
+    guardrail_meta = {
+        "applied": True,
+        "attempts": 1,
+        "initial_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                }
+            ],
+        },
+        "final_result": {
+            "passed": False,
+            "violations": [
+                {
+                    "type": "inspired_source_copy",
+                    "severity": "high",
+                    "description": "source-like span survived rewrite",
+                }
+            ],
+        },
+    }
+    history = GenerationHistory(
+        project_id=project.id,
+        chapter_id=chapter.id,
+        prompt="generated\n" + format_guardrail_history_note(guardrail_meta),
+        generated_content=chapter.content,
+        model="default",
+    )
+    db_session.add(project)
+    await db_session.flush()
+    db_session.add(outline)
+    await db_session.flush()
+    db_session.add(chapter)
+    await db_session.flush()
+    db_session.add(bible)
+    await db_session.flush()
+    db_session.add_all([plan, history])
+    await db_session.commit()
+
+    async def no_foreshadow_plant(*args, **kwargs):
+        return {"planted_count": 0}
+
+    scheduled = []
+
+    def capture_task(self, func, *args, **kwargs):
+        scheduled.append((func, args, kwargs))
+
+    monkeypatch.setattr(
+        chapters_api.foreshadow_service,
+        "auto_plant_pending_foreshadows",
+        no_foreshadow_plant,
+    )
+    monkeypatch.setattr(BackgroundTasks, "add_task", capture_task)
+
+    response = await chapters_api.approve_chapter_guardrail_review(
+        chapter_id=chapter.id,
+        request=SimpleNamespace(state=SimpleNamespace(user_id=user_id)),
+        approval=chapters_api.ChapterGuardrailReviewApproveRequest(
+            review_note="human accepted after editing names and spans"
+        ),
+        background_tasks=BackgroundTasks(),
+        db=db_session,
+        user_ai_service=StubAIService(),
+    )
+
+    await db_session.refresh(chapter)
+    await db_session.refresh(bible)
+
+    assert chapter.status == "completed"
+    assert response["chapter_status"] == "completed"
+    assert response["analysis_task_id"]
+    assert scheduled and scheduled[0][0] is chapters_api.analyze_chapter_background
+
+    task = (
+        await db_session.execute(
+            select(AnalysisTask).where(AnalysisTask.id == response["analysis_task_id"])
+        )
+    ).scalar_one()
+    assert task.status == "pending"
+
+    package = bible.chapter_change_packages[0]
+    assert package["source"] == "chapter_generation"
+    assert package["guardrail_check"]["manual_review"]["approved"] is True
+    assert package["guardrail_check"]["manual_review"]["review_note"] == (
+        "human accepted after editing names and spans"
+    )

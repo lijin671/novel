@@ -4,7 +4,16 @@ import { EditOutlined, FileTextOutlined, ThunderboltOutlined, LockOutlined, Down
 import { useStore } from '../store';
 import { useChapterSync } from '../store/hooks';
 import { projectApi, writingStyleApi, chapterApi, outlineApi, bookRemixApi } from '../services/api';
-import type { Chapter, ChapterUpdate, ApiError, WritingStyle, AnalysisTask, ExpansionPlanData } from '../types';
+import type {
+  Chapter,
+  ChapterGuardrailReviewResponse,
+  ChapterGuardrailViolation,
+  ChapterUpdate,
+  ApiError,
+  WritingStyle,
+  AnalysisTask,
+  ExpansionPlanData,
+} from '../types';
 import type { TextAreaRef } from 'antd/es/input/TextArea';
 import ChapterAnalysis from '../components/ChapterAnalysis';
 import ExpansionPlanEditor from '../components/ExpansionPlanEditor';
@@ -2052,6 +2061,119 @@ export default function Chapters() {
     setAnalysisChapterId(chapterId);
     setAnalysisVisible(true);
   };
+  const formatGuardrailReasons = (reasons?: string[]) => (
+    reasons && reasons.length > 0 ? reasons.join('、') : '暂无结构化失败信号'
+  );
+  const renderGuardrailViolations = (violations?: ChapterGuardrailViolation[]) => {
+    if (!violations || violations.length === 0) {
+      return <div style={{ color: 'rgba(0,0,0,0.45)' }}>暂无结构化违规明细</div>;
+    }
+    return (
+      <Space direction="vertical" size="small" style={{ width: '100%' }}>
+        {violations.map((violation, index) => (
+          <Alert
+            key={`${violation.type || 'violation'}-${index}`}
+            type={violation.severity === 'high' ? 'error' : 'warning'}
+            showIcon
+            message={`${violation.type || 'unknown'}${violation.severity ? ` / ${violation.severity}` : ''}`}
+            description={
+              <div style={{ whiteSpace: 'pre-wrap' }}>
+                {violation.description || '无描述'}
+                {violation.context ? `\n上下文：${violation.context}` : ''}
+              </div>
+            }
+          />
+        ))}
+      </Space>
+    );
+  };
+  const renderGuardrailReviewContent = (reviewResponse: ChapterGuardrailReviewResponse) => {
+    const review = reviewResponse.guardrail_review;
+    return (
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Alert
+          type="warning"
+          showIcon
+          message="该章节已保存，但护栏最终未通过。复核通过会恢复分析、伏笔写回和续写状态写回。"
+        />
+        <Descriptions size="small" column={1} bordered>
+          <Descriptions.Item label="章节状态">{reviewResponse.chapter_status}</Descriptions.Item>
+          <Descriptions.Item label="准入状态">{review?.acceptance_status || 'unknown'}</Descriptions.Item>
+          <Descriptions.Item label="修复次数">{review?.attempts ?? 0}</Descriptions.Item>
+          <Descriptions.Item label="失败信号">
+            {formatGuardrailReasons(review?.manual_review_reasons)}
+          </Descriptions.Item>
+        </Descriptions>
+        {reviewResponse.latest_history_prompt_note && (
+          <Alert
+            type="info"
+            showIcon
+            message="最近生成历史记录"
+            description={<div style={{ whiteSpace: 'pre-wrap' }}>{reviewResponse.latest_history_prompt_note}</div>}
+          />
+        )}
+        <Collapse size="small">
+          <Collapse.Panel header="最终未通过明细" key="final">
+            {renderGuardrailViolations(review?.final_violations)}
+          </Collapse.Panel>
+          <Collapse.Panel header="初始触发明细" key="initial">
+            {renderGuardrailViolations(review?.initial_violations)}
+          </Collapse.Panel>
+        </Collapse>
+      </Space>
+    );
+  };
+  const handleOpenGuardrailReview = async (chapter: Chapter) => {
+    try {
+      const reviewResponse = await chapterApi.getGuardrailReview(chapter.id);
+      const reasons = reviewResponse.guardrail_review?.manual_review_reasons || [];
+      modal.confirm({
+        title: `第${chapter.chapter_number}章人工复核`,
+        icon: <CheckCircleOutlined />,
+        content: renderGuardrailReviewContent(reviewResponse),
+        okText: '复核通过并恢复链路',
+        cancelText: '关闭',
+        width: isMobile ? 'calc(100vw - 32px)' : 760,
+        centered: true,
+        onOk: async () => {
+          const result = await chapterApi.approveGuardrailReview(chapter.id, {
+            review_note: `前端人工复核通过；失败信号：${formatGuardrailReasons(reasons)}`,
+          });
+          if (result.analysis_task_id) {
+            setAnalysisTasksMap(prev => ({
+              ...prev,
+              [chapter.id]: {
+                has_task: true,
+                task_id: result.analysis_task_id || null,
+                chapter_id: chapter.id,
+                status: 'pending',
+                progress: 0,
+              },
+            }));
+            startPollingTask(chapter.id);
+          }
+          await refreshChapters();
+          message.success('人工复核已通过，已恢复后续分析与续写状态写回');
+        },
+      });
+    } catch (error) {
+      message.error(`加载复核信息失败：${getApiErrorMessage(error)}`);
+    }
+  };
+  const renderGuardrailReviewAction = (item: Chapter, compact = false) => (
+    item.status === 'review_required' ? (
+      <Button
+        type="text"
+        danger
+        icon={<CheckCircleOutlined />}
+        onClick={() => handleOpenGuardrailReview(item)}
+        size={compact ? 'small' : undefined}
+        title="查看护栏失败原因，人工复核通过后恢复分析和续写状态写回"
+      >
+        {compact ? undefined : '复核'}
+      </Button>
+    ) : null
+  );
   // 一键按章节顺序分析未分析章节
   const handleBatchAnalyzeUnanalyzed = async () => {
     if (!currentProject?.id) return;
@@ -3133,6 +3255,7 @@ export default function Chapters() {
                   >
                     编辑
                   </Button>,
+                  renderGuardrailReviewAction(item),
                   (() => {
                     const task = analysisTasksMap[item.id];
                     const isAnalyzing = task && (task.status === 'pending' || task.status === 'running');
@@ -3217,6 +3340,7 @@ export default function Chapters() {
                         size="small"
                         title="编辑"
                       />
+                      {renderGuardrailReviewAction(item, true)}
                       {(() => {
                         const task = analysisTasksMap[item.id];
                         const isAnalyzing = task && (task.status === 'pending' || task.status === 'running');
@@ -3316,6 +3440,7 @@ export default function Chapters() {
                         >
                           编辑
                         </Button>,
+                        renderGuardrailReviewAction(item),
                         (() => {
                           const task = analysisTasksMap[item.id];
                           const isAnalyzing = task && (task.status === 'pending' || task.status === 'running');
@@ -3439,6 +3564,7 @@ export default function Chapters() {
                               size="small"
                               title="编辑"
                             />
+                            {renderGuardrailReviewAction(item, true)}
                             {(() => {
                               const task = analysisTasksMap[item.id];
                               const isAnalyzing = task && (task.status === 'pending' || task.status === 'running');
