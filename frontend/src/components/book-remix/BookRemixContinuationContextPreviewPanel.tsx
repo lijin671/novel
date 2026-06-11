@@ -18,6 +18,11 @@ const TEXT = {
   confirmedState: "\u786e\u8ba4\u72b6\u6001\uff1a",
   sourcePatternPack: "\u6765\u6e90\u6a21\u5f0f\u5305\uff1a",
   contextLength: "\u4e0a\u4e0b\u6587\u957f\u5ea6\uff1a",
+  estimatedTokens: "\u4f30\u7b97 tokens\uff1a",
+  budgetRisk: "\u9884\u7b97\u98ce\u9669\uff1a",
+  activatedSections: "\u5df2\u6ce8\u5165\u7247\u6bb5\uff1a",
+  activeSourcePatterns: "\u6e90\u6a21\u5f0f\uff1a",
+  contextWarnings: "\u9884\u89c8\u63d0\u9192\uff1a",
   confirmed: "\u5df2\u786e\u8ba4",
   loaded: "\u5df2\u6ce8\u5165",
   notLoaded: "\u672a\u6ce8\u5165",
@@ -41,6 +46,12 @@ const REASON_LABELS: Record<string, string> = {
 function formatReason(reason?: string | null): string {
   if (!reason) return TEXT.readyReason;
   return REASON_LABELS[reason] || reason;
+}
+
+function riskColor(risk?: string): string {
+  if (risk === 'high') return 'red';
+  if (risk === 'medium') return 'orange';
+  return 'green';
 }
 
 export default function BookRemixContinuationContextPreviewPanel({
@@ -79,7 +90,44 @@ export default function BookRemixContinuationContextPreviewPanel({
             </Tag>
             <Text type="secondary">{TEXT.contextLength}</Text>
             <Tag color="blue">{value.context_length}</Tag>
+            <Text type="secondary">{TEXT.estimatedTokens}</Text>
+            <Tag color="purple">{value.context_estimated_tokens ?? 0}</Tag>
+            <Text type="secondary">{TEXT.budgetRisk}</Text>
+            <Tag color={riskColor(value.context_budget_risk)}>{value.context_budget_risk || 'low'}</Tag>
           </Space>
+
+          {value.activated_sections?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.activatedSections}</Text>
+              <Space wrap>
+                {value.activated_sections.slice(0, 12).map(section => (
+                  <Tag key={`${section.key}:${section.summary}`}>{section.key}: {section.summary}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.active_source_patterns?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.activeSourcePatterns}</Text>
+              <Space wrap>
+                {value.active_source_patterns.slice(0, 16).map(pattern => (
+                  <Tag key={pattern} color="cyan">{pattern}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.context_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.contextWarnings}</Text>
+              <Space wrap>
+                {value.context_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
 
           {hasContext ? (
             <Paragraph

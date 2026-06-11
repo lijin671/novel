@@ -119,9 +119,14 @@ class BookRemixContinuationContextPreviewResponse(BaseModel):
     has_context: bool = False
     context: str = ""
     context_length: int = 0
+    context_estimated_tokens: int = 0
+    context_budget_risk: Literal["low", "medium", "high"] = "low"
     lineage_confirmed: bool = False
     reason: Optional[str] = None
     source_pattern_pack_loaded: bool = False
+    activated_sections: list[dict[str, str]] = Field(default_factory=list)
+    active_source_patterns: list[str] = Field(default_factory=list)
+    context_warnings: list[str] = Field(default_factory=list)
 
 
 class BookRemixChapterChangePackageListResponse(BaseModel):

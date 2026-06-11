@@ -69,9 +69,14 @@ export interface BookRemixContinuationContextPreview {
   has_context: boolean;
   context: string;
   context_length: number;
+  context_estimated_tokens: number;
+  context_budget_risk: 'low' | 'medium' | 'high';
   lineage_confirmed: boolean;
   reason?: string | null;
   source_pattern_pack_loaded: boolean;
+  activated_sections: Array<{ key: string; summary: string }>;
+  active_source_patterns: string[];
+  context_warnings: string[];
 }
 
 export interface BookRemixChapterChangePackage {

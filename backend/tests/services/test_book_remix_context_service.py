@@ -10,6 +10,7 @@ from app.models.project import Project
 from app.services.book_remix_context_service import (
     BookRemixContextService,
     build_remix_continuation_context_block,
+    build_remix_context_preview_audit,
     build_remix_inspired_context_block,
     build_remix_continuation_progress_summary,
 )
@@ -38,6 +39,57 @@ def test_build_remix_continuation_context_block_contains_constraints_and_plan():
     assert "Do not flip protagonist alignment abruptly" in block
     assert "Reconnect the dropped ledger line" in block
     assert "Old rival returns in public" in block
+
+
+def test_build_remix_context_preview_audit_reports_sections_tokens_and_patterns():
+    context = build_remix_continuation_context_block(
+        project_title="Continuation Desk",
+        bible={
+            "world_rules": {"magic": "ledger entries must balance"},
+            "character_cards": [{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+            "timeline": [{"event": "Warehouse fire", "source": "chapter_analysis", "chapter_number": 12}],
+            "hard_constraints": [{"rule": "Do not flip protagonist alignment abruptly"}],
+            "foreshadows": [{"hook": "Old rival returns", "status": "open"}],
+            "style_signature": {"voice": "spare"},
+        },
+        plan={
+            "summary": "Resolve old ledger thread before expanding cast scope.",
+            "beats": [{"beat": "Reconnect the dropped ledger line", "status": "pending"}],
+            "guardrails": [{"rule": "No sudden new power systems"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "context_pack_preview"}],
+            "context_pack_preview_hints": ["Preview context pack before generation."],
+        },
+    )
+
+    audit = build_remix_context_preview_audit(
+        context=context,
+        bible={
+            "world_rules": {"magic": "ledger entries must balance"},
+            "character_cards": [{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+            "timeline": [{"event": "Warehouse fire", "source": "chapter_analysis", "chapter_number": 12}],
+            "hard_constraints": [{"rule": "Do not flip protagonist alignment abruptly"}],
+            "foreshadows": [{"hook": "Old rival returns", "status": "open"}],
+            "style_signature": {"voice": "spare"},
+        },
+        plan={
+            "summary": "Resolve old ledger thread before expanding cast scope.",
+            "beats": [{"beat": "Reconnect the dropped ledger line", "status": "pending"}],
+            "guardrails": [{"rule": "No sudden new power systems"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "context_pack_preview"}],
+            "context_pack_preview_hints": ["Preview context pack before generation."],
+        },
+    )
+
+    assert audit["context_estimated_tokens"] > 0
+    assert audit["context_budget_risk"] == "low"
+    assert {"key": "world_rules", "summary": "1 rules"} in audit["activated_sections"]
+    assert any(section["key"] == "pending_plan_beats" for section in audit["activated_sections"])
+    assert "context_pack_preview" in audit["active_source_patterns"]
+    assert audit["context_warnings"] == []
 
 
 def test_build_remix_continuation_context_block_renders_source_pattern_pack_guidance():
@@ -891,6 +943,10 @@ async def test_build_project_context_preview_loads_latest_pattern_pack(monkeypat
     )
 
     assert preview["source_pattern_pack_loaded"] is True
+    assert preview["context_estimated_tokens"] > 0
+    assert preview["context_budget_risk"] in {"low", "medium", "high"}
+    assert any(section["key"] == "character_cards" for section in preview["activated_sections"])
+    assert isinstance(preview["active_source_patterns"], list)
     assert "预览应展示最新来源模式续写提示" in preview["context"]
     assert "预览应展示原书味道约束" in preview["context"]
 

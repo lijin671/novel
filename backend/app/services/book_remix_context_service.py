@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 from typing import Any, Optional
 
@@ -397,6 +398,43 @@ def build_remix_continuation_context_block(
     return "\n".join(lines).strip()
 
 
+def build_remix_context_preview_audit(
+    *,
+    context: str,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]] = None,
+) -> dict[str, Any]:
+    """Build inspectable prompt-context telemetry for the remix preview UI."""
+    estimated_tokens = _estimate_context_tokens(context)
+    budget_risk = _context_budget_risk(estimated_tokens)
+    activated_sections = [
+        {"key": key, "summary": summary}
+        for key, summary in _activated_context_sections(bible=bible, plan=plan)
+    ]
+    active_source_patterns = sorted(_source_pattern_names(source_pattern_pack))[:32]
+
+    warnings: list[str] = []
+    if not context.strip():
+        warnings.append("empty_context")
+    if not activated_sections and context.strip():
+        warnings.append("no_structured_context_sections_detected")
+    if isinstance(source_pattern_pack, dict) and source_pattern_pack and not active_source_patterns:
+        warnings.append("source_pattern_pack_loaded_without_active_patterns")
+    if budget_risk == "medium":
+        warnings.append("context_near_budget_review_recommended")
+    elif budget_risk == "high":
+        warnings.append("context_budget_high_trim_or_stage_required")
+
+    return {
+        "context_estimated_tokens": estimated_tokens,
+        "context_budget_risk": budget_risk,
+        "activated_sections": activated_sections,
+        "active_source_patterns": active_source_patterns,
+        "context_warnings": warnings,
+    }
+
+
 def build_remix_inspired_context_block(
     *,
     project_title: str,
@@ -620,6 +658,12 @@ class BookRemixContextService:
                 "context_length": 0,
                 "lineage_confirmed": False,
                 "reason": reason,
+                **build_remix_context_preview_audit(
+                    context="",
+                    bible=self._to_bible_payload(bible) if bible else {},
+                    plan=self._to_plan_payload(plan) if plan else None,
+                    source_pattern_pack=None,
+                ),
             }
 
         plan_payload = self._to_plan_payload(plan)
@@ -631,12 +675,19 @@ class BookRemixContextService:
                 "context_length": 0,
                 "lineage_confirmed": False,
                 "reason": "continuation_plan_not_confirmed",
+                **build_remix_context_preview_audit(
+                    context="",
+                    bible=self._to_bible_payload(bible) if bible else {},
+                    plan=None,
+                    source_pattern_pack=None,
+                ),
             }
 
         source_pattern_pack = await self._resolve_source_pattern_pack()
+        bible_payload = self._to_bible_payload(bible)
         context = build_remix_continuation_context_block(
             project_title=project.title,
-            bible=self._to_bible_payload(bible),
+            bible=bible_payload,
             plan=plan_payload,
             source_pattern_pack=source_pattern_pack,
         )
@@ -648,6 +699,12 @@ class BookRemixContextService:
             "lineage_confirmed": bool(context),
             "reason": None if context else "empty_context",
             "source_pattern_pack_loaded": bool(source_pattern_pack),
+            **build_remix_context_preview_audit(
+                context=context,
+                bible=bible_payload,
+                plan=plan_payload,
+                source_pattern_pack=source_pattern_pack,
+            ),
         }
 
     async def _resolve_source_pattern_pack(self) -> dict[str, Any]:
@@ -2885,6 +2942,26 @@ def _string_value(value: Any) -> str:
 def _truncate(value: str, limit: int) -> str:
     text = _string_value(value)
     return text if len(text) <= limit else text[:limit].rstrip() + "..."
+
+
+def _estimate_context_tokens(text: str) -> int:
+    """Estimate mixed Chinese/English prompt tokens without provider calls."""
+    compact = re.sub(r"\s+", "", text or "")
+    if not compact:
+        return 0
+
+    ascii_word_count = len(re.findall(r"[A-Za-z0-9_]+", text or ""))
+    cjk_char_count = len(re.findall(r"[\u4e00-\u9fff]", text or ""))
+    other_char_count = max(0, len(compact) - cjk_char_count)
+    return max(1, ascii_word_count + ((cjk_char_count + 1) // 2) + ((other_char_count + 3) // 4))
+
+
+def _context_budget_risk(estimated_tokens: int) -> str:
+    if estimated_tokens >= 12000:
+        return "high"
+    if estimated_tokens >= 6000:
+        return "medium"
+    return "low"
 
 
 book_remix_context_service = BookRemixContextService()
