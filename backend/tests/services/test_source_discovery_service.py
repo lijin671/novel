@@ -15174,3 +15174,124 @@ def test_latest_originality_style_safety_sources_are_static_absorbed():
     assert "ai_tell_pattern_review_gate_hints" in digest
     assert "naturalization_detector_disclaimer_gate_hints" in digest
     assert "web_similarity_scrape_boundary_gate_hints" in digest
+
+def test_latest_agent_graph_style_workbench_sources_are_static_absorbed():
+    assert "https://github.com/sandervw/Claude-Fiction-Kit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/vlsergey/ai-story-builder" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/RubyWu429/Novel_Style_Imitation_Generation" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/yewanyuan/Cursor-Writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("claude-fiction-kit" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("node-graph pipeline" in query.lower() and "lore tree" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("cursor-writing" in query.lower() and "charactergraph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "sandervw/Claude-Fiction-Kit",
+                "html_url": "https://github.com/sandervw/Claude-Fiction-Kit",
+                "description": (
+                    "Claude-Fiction-Kit is built around Claude Code's skills and agents system. "
+                    "It uses literary source material and worldbuilding docs for structured prose generation, "
+                    "style revision, character analysis, draft-editor review, fiction-tagger extraction, "
+                    "text-trimmer compression, Node.js utilities, Python utilities, and Claude API integration."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["claude-code", "fiction", "writing"],
+                "updated_at": "2026-06-06T11:21:45Z",
+                "root_files": ["README.md", "CLAUDE.md", "scripts"],
+            },
+            {
+                "full_name": "vlsergey/ai-story-builder",
+                "html_url": "https://github.com/vlsergey/ai-story-builder",
+                "description": (
+                    "AI Story Builder is a local desktop tool for long-form fiction. It builds a node-graph pipeline "
+                    "with a fiction-arc template, SQLite database, provider API keys, Lore tree, downstream nodes go OUTDATED, "
+                    "fix-problems nodes, severity threshold review loops, visual canvas tracing, no cloud sync, and no telemetry."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["fiction", "electron", "sqlite"],
+                "updated_at": "2026-05-20T09:27:27Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "CLAUDE.md"],
+            },
+            {
+                "full_name": "RubyWu429/Novel_Style_Imitation_Generation",
+                "html_url": "https://github.com/RubyWu429/Novel_Style_Imitation_Generation",
+                "description": (
+                    "Novel Style Imitation Generation uploads arbitrary TXT files for author-style learning, "
+                    "extracts writing style features, uses DeepSeek or OpenAI API keys, and creates chapter-by-chapter novels "
+                    "with React frontend, Flask backend, encoding detection, and generated chapter continuity."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "style", "deepseek"],
+                "updated_at": "2025-08-15T09:02:17Z",
+                "root_files": ["README.md", "package.json", "requirements.txt"],
+            },
+            {
+                "full_name": "yewanyuan/Cursor-Writing",
+                "html_url": "https://github.com/yewanyuan/Cursor-Writing",
+                "description": (
+                    "Cursor-Writing Phantom Pen is a multi-agent collaborative novel writing assistant with Writer, Reviewer, "
+                    "and Editor roles. Its story memory engine extracts facts, timeline events, character states, injects relevant facts, "
+                    "uses CharacterGraph nodes and relationship edges, Character Card, World Card, Style Card constraints, conflict review, "
+                    "file upload import preview, and multi-provider API key configuration."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "multi-agent", "worldbuilding"],
+                "updated_at": "2026-06-12T06:05:00Z",
+                "root_files": ["README.md", "README_CN.md", "backend/requirements.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T10:25:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    fiction_kit = candidates["sandervw/Claude-Fiction-Kit"]
+    story_builder = candidates["vlsergey/ai-story-builder"]
+    style_learning = candidates["RubyWu429/Novel_Style_Imitation_Generation"]
+    cursor_writing = candidates["yewanyuan/Cursor-Writing"]
+
+    assert "fiction_skill_agent_workbench_gate" in fiction_kit["absorbed_patterns"]
+    assert "license:missing" in fiction_kit["trust_review"]["flags"]
+    assert "local_node_graph_lore_fix_loop_gate" in story_builder["absorbed_patterns"]
+    assert "license:missing" not in story_builder["trust_review"]["flags"]
+    assert "provider_key_surface" in story_builder["risk_flags"]
+    assert "uploaded_style_learning_api_boundary_gate" in style_learning["absorbed_patterns"]
+    assert "license:missing" in style_learning["trust_review"]["flags"]
+    assert "provider_key_surface" in style_learning["risk_flags"]
+    assert "editorial_memory_card_graph_agent_gate" in cursor_writing["absorbed_patterns"]
+    assert "provider_key_surface" in cursor_writing["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "fiction_skill_agent_role_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "node_graph_lore_revision_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "uploaded_style_learning_rights_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "editorial_memory_card_graph_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "fiction_skill_agent_workbench_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "node_graph_lore_tree_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "uploaded_style_learning_consent_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "editorial_memory_card_graph_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "skill_agent_role_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "node_graph_lore_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "uploaded_style_consent_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "editorial_card_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("role boundaries" in hint.lower() for hint in pattern_pack["fiction_skill_agent_workbench_gate_hints"])
+    assert any("node graph" in hint.lower() for hint in pattern_pack["local_node_graph_lore_fix_loop_gate_hints"])
+    assert any("rights/consent" in hint.lower() for hint in pattern_pack["uploaded_style_learning_api_boundary_gate_hints"])
+    assert any("writer, reviewer, and editor" in hint.lower() for hint in pattern_pack["editorial_memory_card_graph_agent_gate_hints"])
+    assert any("copyrighted txt" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "fiction_skill_agent_workbench_gate_hints" in digest
+    assert "local_node_graph_lore_fix_loop_gate_hints" in digest
+    assert "uploaded_style_learning_api_boundary_gate_hints" in digest
+    assert "editorial_memory_card_graph_agent_gate_hints" in digest

@@ -48,6 +48,16 @@ const PINNED_HINT_KEYS = new Set([
   'inspired_prompt_hints',
   'inspired_transformation_hints',
   'inspired_copy_risk_hints',
+  'originality_report_multimetric_gate_hints',
+  'semantic_stylometric_overlap_gate_hints',
+  'human_oversight_quality_signal_gate_hints',
+  'ai_tell_pattern_review_gate_hints',
+  'naturalization_detector_disclaimer_gate_hints',
+  'web_similarity_scrape_boundary_gate_hints',
+  'fiction_skill_agent_workbench_gate_hints',
+  'local_node_graph_lore_fix_loop_gate_hints',
+  'uploaded_style_learning_api_boundary_gate_hints',
+  'editorial_memory_card_graph_agent_gate_hints',
   'self_review_gate_hints',
   'chapter_change_package_hints',
   'bookrun_audit_trail_gate_hints',
@@ -858,6 +868,10 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['AI-tell pattern review gates', patternPackPayload?.ai_tell_pattern_review_gate_hints],
               ['Naturalization disclaimer gates', patternPackPayload?.naturalization_detector_disclaimer_gate_hints],
               ['Web similarity scrape-boundary gates', patternPackPayload?.web_similarity_scrape_boundary_gate_hints],
+              ['Fiction skill-agent workbench gates', patternPackPayload?.fiction_skill_agent_workbench_gate_hints],
+              ['Local node-graph lore fix-loop gates', patternPackPayload?.local_node_graph_lore_fix_loop_gate_hints],
+              ['Uploaded style-learning API boundary gates', patternPackPayload?.uploaded_style_learning_api_boundary_gate_hints],
+              ['Editorial memory-card graph agent gates', patternPackPayload?.editorial_memory_card_graph_agent_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

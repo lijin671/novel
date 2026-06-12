@@ -259,6 +259,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "ai_tell_pattern_review_gate_hints",
             "naturalization_detector_disclaimer_gate_hints",
             "web_similarity_scrape_boundary_gate_hints",
+            "fiction_skill_agent_workbench_gate_hints",
+            "local_node_graph_lore_fix_loop_gate_hints",
+            "uploaded_style_learning_api_boundary_gate_hints",
+            "editorial_memory_card_graph_agent_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -528,6 +532,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "AI-tell pattern review gates" in panel_text
     assert "Naturalization disclaimer gates" in panel_text
     assert "Web similarity scrape-boundary gates" in panel_text
+    assert "Fiction skill-agent workbench gates" in panel_text
+    assert "Local node-graph lore fix-loop gates" in panel_text
+    assert "Uploaded style-learning API boundary gates" in panel_text
+    assert "Editorial memory-card graph agent gates" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():

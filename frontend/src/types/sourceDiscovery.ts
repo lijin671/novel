@@ -322,6 +322,10 @@ export interface SourceDiscoveryPatternPack {
   ai_tell_pattern_review_gate_hints?: string[];
   naturalization_detector_disclaimer_gate_hints?: string[];
   web_similarity_scrape_boundary_gate_hints?: string[];
+  fiction_skill_agent_workbench_gate_hints?: string[];
+  local_node_graph_lore_fix_loop_gate_hints?: string[];
+  uploaded_style_learning_api_boundary_gate_hints?: string[];
+  editorial_memory_card_graph_agent_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

@@ -404,6 +404,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("pattern detector, not an AI detector" OR "AI ick" OR "deterministic grader") ("prose" OR "writing") in:name,description,readme',
     '("External AI detector results are not guaranteed" OR "internal risk signals") ("text naturalization" OR "AI-like style signals") in:name,description,readme',
     '("TF-IDF Vectorization" OR "Cosine Similarity" OR "Google Search APIs") ("plagiarism detection" OR "live web content") in:name,description,readme',
+    '("Claude-Fiction-Kit" OR "skills and agents system") ("style revision" OR "character analysis" OR "worldbuilding docs") in:name,description,readme',
+    '("node-graph pipeline" OR "Lore tree" OR "fix-problems nodes") ("long-form fiction" OR "novella" OR "fiction-arc") in:name,description,readme',
+    '("AI小说风格学习生成器" OR "智能风格学习" OR "上传任意TXT") ("DeepSeek" OR "OpenAI" OR "分章节创作") in:name,description,readme',
+    '("Cursor-Writing" OR "Phantom Pen" OR "CharacterGraph") ("Style Card" OR "Story Memory Engine" OR "editorial workflow") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -868,6 +872,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/amaezey/human-eyes",
     "https://github.com/ksanyok/TextHumanize",
     "https://github.com/Daksh1092/PLAGIASCAN",
+    "https://github.com/sandervw/Claude-Fiction-Kit",
+    "https://github.com/vlsergey/ai-story-builder",
+    "https://github.com/RubyWu429/Novel_Style_Imitation_Generation",
+    "https://github.com/yewanyuan/Cursor-Writing",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1234,6 +1242,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("ai_tell_pattern_review_gate", ("human-eyes", "pattern detector, not an ai detector", "ai ick", "deterministic grader", "iteration harness", "matched human and ai essays", "flags patterns in text")),
     ("naturalization_detector_disclaimer_gate", ("texthumanize", "text naturalization", "ai-like style signals", "external ai detector results are not guaranteed", "internal risk signals", "not a bypass guarantee", "38-stage adaptive pipeline")),
     ("web_similarity_scrape_boundary_gate", ("plagiascan", "tf-idf vectorization", "cosine similarity", "web scraping", "google search apis", "live web content", "real-time plagiarism detection")),
+    ("fiction_skill_agent_workbench_gate", ("claude-fiction-kit", "skills and agents system", "literary source material", "worldbuilding docs", "style revision", "character analysis", "draft-editor", "fiction-tagger", "text-trimmer")),
+    ("local_node_graph_lore_fix_loop_gate", ("ai story builder", "node-graph pipeline", "fiction-arc", "lore tree", "downstream nodes go outdated", "fix-problems", "severity threshold", "sqlite database", "no telemetry")),
+    ("uploaded_style_learning_api_boundary_gate", ("novel_style_imitation_generation", "AI小说风格学习生成器", "智能风格学习", "上传任意TXT", "deepseek", "openai", "分章节创作", "风格特征")),
+    ("editorial_memory_card_graph_agent_gate", ("cursor-writing", "phantom pen", "multi-agent collaborative novel writing assistant", "writer", "reviewer", "editor", "story memory engine", "charactergraph", "style card")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3353,6 +3365,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "PlagiaScan is a no-license-asserted plagiarism detection system. Public README markers describe comparing user text against live web content with TF-IDF vectorization, cosine similarity, web scraping, Google Search APIs, NLP preprocessing, similarity scores, and data visualization. "
         "Pattern-only adaptation for web-similarity and scraping-boundary gates; web scraping, Google API calls, search queries, user-text upload, and live similarity reports are not executed."
     ),
+    "sandervw/claude-fiction-kit": (
+        "Claude-Fiction-Kit is a no-license-observed Claude Code fiction workbench. Public README markers describe skills and agents for LLM-assisted fiction writing, literary source material and worldbuilding docs, structured prose generation, style revision, character analysis, structured JSON data, draft-editor review, fiction tagging, text trimming, Node/Python utilities, and Claude API integration. "
+        "Pattern-only adaptation for fiction skill-agent workbench gates; Claude/Codex skill bodies, upstream agents, utility scripts, API clients, source corpora, and worldbuilding drafts are not imported or executed."
+    ),
+    "vlsergey/ai-story-builder": (
+        "AI Story Builder is an Apache-2.0 local desktop long-form fiction app. Public README/package markers describe a local Electron app with SQLite, provider API keys, node-graph templates, fiction-arc novella generation, Lore tree, downstream OUTDATED nodes, review/fix loops with severity thresholds, visual canvas tracing, and no cloud sync/telemetry. "
+        "Pattern-only adaptation for local node-graph lore and fix-loop gates; Electron runtime, package scripts, provider calls, SQLite databases, user projects, and generated novellas are not launched or imported."
+    ),
+    "rubywu429/novel_style_imitation_generation": (
+        "Novel Style Imitation Generation is a no-license-observed React/Flask style-learning novel generator. Public README/package markers describe uploading arbitrary TXT files for author-style learning, extracting style features, DeepSeek/OpenAI-driven generation, chapter-by-chapter creation, encoding detection, and API-key configuration. "
+        "Pattern-only adaptation for uploaded-style-learning and API-boundary gates; TXT uploads, copyrighted author corpora, Flask/Vite runtime, provider calls, generated chapters, and style-clone pipelines are not executed."
+    ),
+    "yewanyuan/cursor-writing": (
+        "Cursor-Writing / Phantom Pen is a no-license-observed multi-agent collaborative novel writing assistant. Public README markers describe Writer/Reviewer/Editor roles, story-memory fact and timeline extraction, relevant-fact injection, CharacterGraph nodes and relationship edges, character/world/style cards, conflict review, file import/preview, and multi-provider configuration. "
+        "Pattern-only adaptation for editorial memory-card graph gates; frontend/backend services, file uploads, provider calls, imported novels, agent workflows, and generated/revised drafts are not executed."
+    ),
 
 }
 
@@ -4091,6 +4119,10 @@ class NovelSourceDiscoveryService:
             "ai_tell_pattern_review_gate_hints": self._build_ai_tell_pattern_review_gate_hints(available_patterns),
             "naturalization_detector_disclaimer_gate_hints": self._build_naturalization_detector_disclaimer_gate_hints(available_patterns),
             "web_similarity_scrape_boundary_gate_hints": self._build_web_similarity_scrape_boundary_gate_hints(available_patterns),
+            "fiction_skill_agent_workbench_gate_hints": self._build_fiction_skill_agent_workbench_gate_hints(available_patterns),
+            "local_node_graph_lore_fix_loop_gate_hints": self._build_local_node_graph_lore_fix_loop_gate_hints(available_patterns),
+            "uploaded_style_learning_api_boundary_gate_hints": self._build_uploaded_style_learning_api_boundary_gate_hints(available_patterns),
+            "editorial_memory_card_graph_agent_gate_hints": self._build_editorial_memory_card_graph_agent_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4863,6 +4895,10 @@ class NovelSourceDiscoveryService:
             "ai_tell_pattern_review_gate": 67,
             "naturalization_detector_disclaimer_gate": 69,
             "web_similarity_scrape_boundary_gate": 70,
+            "fiction_skill_agent_workbench_gate": 69,
+            "local_node_graph_lore_fix_loop_gate": 72,
+            "uploaded_style_learning_api_boundary_gate": 71,
+            "editorial_memory_card_graph_agent_gate": 73,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5400,6 +5436,18 @@ class NovelSourceDiscoveryService:
         if "web_similarity_scrape_boundary_gate" in patterns:
             targets.append("web_similarity_scope_custody_policy")
             targets.append("live_search_scrape_runtime_contract_policy")
+        if "fiction_skill_agent_workbench_gate" in patterns:
+            targets.append("fiction_skill_agent_role_boundary_policy")
+            targets.append("structured_source_material_intake_policy")
+        if "local_node_graph_lore_fix_loop_gate" in patterns:
+            targets.append("node_graph_lore_revision_policy")
+            targets.append("local_provider_custody_policy")
+        if "uploaded_style_learning_api_boundary_gate" in patterns:
+            targets.append("uploaded_style_learning_rights_policy")
+            targets.append("api_style_clone_boundary_policy")
+        if "editorial_memory_card_graph_agent_gate" in patterns:
+            targets.append("editorial_memory_card_graph_policy")
+            targets.append("conflict_review_fact_injection_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -6441,6 +6489,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["naturalization_disclaimer_report", "detector_bypass_goal_rejection_log", "readability_voice_intent_findings"])
         if "web_similarity_scrape_boundary_gate" in patterns:
             targets.extend(["web_similarity_scope_manifest", "source_url_match_report", "private_text_upload_boundary_findings"])
+        if "fiction_skill_agent_workbench_gate" in patterns:
+            targets.extend(["fiction_skill_agent_workbench_manifest", "style_revision_character_analysis_report", "source_material_boundary_findings"])
+        if "local_node_graph_lore_fix_loop_gate" in patterns:
+            targets.extend(["node_graph_lore_tree_manifest", "outdated_downstream_node_report", "fix_problem_severity_review"])
+        if "uploaded_style_learning_api_boundary_gate" in patterns:
+            targets.extend(["uploaded_style_learning_consent_report", "provider_api_upload_boundary_findings", "chapter_style_feature_manifest"])
+        if "editorial_memory_card_graph_agent_gate" in patterns:
+            targets.extend(["editorial_memory_card_graph_report", "fact_timeline_auto_injection_manifest", "reviewer_conflict_findings"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -7322,6 +7378,14 @@ class NovelSourceDiscoveryService:
             hints.append("Before naturalization, state that readability and voice are the goal; detector bypass or guaranteed AI-detector results are rejected.")
         if "web_similarity_scrape_boundary_gate" in patterns:
             hints.append("Before any live web similarity check, define source URLs, query scope, private-text custody, network/API boundary, and report retention.")
+        if "fiction_skill_agent_workbench_gate" in patterns:
+            hints.append("Before using a fiction skill/agent workbench, separate reusable role checklists from upstream skill bodies, source material, and worldbuilding drafts.")
+        if "local_node_graph_lore_fix_loop_gate" in patterns:
+            hints.append("Before node-graph generation, cite the template version, Lore tree snapshot, outdated downstream nodes, and fix-loop severity thresholds.")
+        if "uploaded_style_learning_api_boundary_gate" in patterns:
+            hints.append("Before style learning from uploaded TXT, verify rights/consent, source scope, provider upload boundary, and abstracted style-feature target.")
+        if "editorial_memory_card_graph_agent_gate" in patterns:
+            hints.append("Before editorial-agent drafting, cite active memory facts, timeline events, CharacterGraph edges, Style Card constraints, and reviewer conflict findings.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7903,6 +7967,14 @@ class NovelSourceDiscoveryService:
             hints.append("Persist naturalization goal, readability/voice/intent edits, detector-bypass rejection status, and disclaimer acknowledgement.")
         if "web_similarity_scrape_boundary_gate" in patterns:
             hints.append("Persist web-similarity scope, source URL ids, query terms, API/scrape decision, matched spans, scores, and private-text custody notes.")
+        if "fiction_skill_agent_workbench_gate" in patterns:
+            hints.append("Persist skill/agent role ids, source-material boundaries, structured-tag schema, style-revision findings, and script/API exclusion notes.")
+        if "local_node_graph_lore_fix_loop_gate" in patterns:
+            hints.append("Persist node graph id, template version, Lore tree snapshot, outdated node list, fix-problems severity threshold, and provider custody decision.")
+        if "uploaded_style_learning_api_boundary_gate" in patterns:
+            hints.append("Persist uploaded-style source rights, TXT scope, style-feature abstraction, provider/API boundary, generated-chapter custody, and clone-risk review.")
+        if "editorial_memory_card_graph_agent_gate" in patterns:
+            hints.append("Persist card ids, fact/timeline extraction ids, CharacterGraph edges, injected fact refs, reviewer conflicts, and editor revision decisions.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -11973,6 +12045,42 @@ class NovelSourceDiscoveryService:
             "Similarity reports should store source URL, matched span, score, transform decision, and reviewer outcome without uploading private manuscript text by default.",
         ]
 
+    def _build_fiction_skill_agent_workbench_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "fiction_skill_agent_workbench_gate" not in patterns:
+            return []
+        return [
+            "Fiction skill/agent workbenches are reusable as role boundaries and review vocabulary, not as imported upstream skill bodies or agent prompts.",
+            "Separate literary source material, worldbuilding docs, structured tags, paragraph templates, and character-action JSON before any prose generation step.",
+            "Draft-editor, fiction-tagger, and text-trimmer style agents should leave audit records showing analysis, report, revision, and compression decisions.",
+        ]
+
+    def _build_local_node_graph_lore_fix_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_node_graph_lore_fix_loop_gate" not in patterns:
+            return []
+        return [
+            "Long-form generation should be modeled as a node graph with explicit text, split, merge, for-each, lore, and fix-problems nodes rather than one opaque prompt.",
+            "Lore tree entries for characters, world rules, and settings survive across generation nodes and must be versioned before downstream nodes are marked current.",
+            "Fix loops should stop by severity thresholds and show which downstream nodes became OUTDATED after a prompt, lore, or template change.",
+        ]
+
+    def _build_uploaded_style_learning_api_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "uploaded_style_learning_api_boundary_gate" not in patterns:
+            return []
+        return [
+            "Uploaded TXT style-learning flows require rights/consent, source scope, encoding notes, provider/API custody, and a no-style-clone boundary before analysis.",
+            "Style learning should extract abstract features and chapter-planning constraints, not retain or regenerate protected author passages or named-source signatures.",
+            "DeepSeek/OpenAI-style provider calls remain deferred until manuscript upload, API key handling, retention, and generated-output custody are explicitly approved.",
+        ]
+
+    def _build_editorial_memory_card_graph_agent_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "editorial_memory_card_graph_agent_gate" not in patterns:
+            return []
+        return [
+            "Editorial-agent pipelines should bind Writer, Reviewer, and Editor roles to memory cards, timeline facts, CharacterGraph edges, and Style Card constraints.",
+            "Auto-injected facts are advisory until the reviewer confirms conflicts, stale states, and relationship edges against the active chapter timeline.",
+            "Character, world, and style cards should include allowed examples, forbidden words, speech boundaries, and relationship changes before continuation resumes.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -12263,6 +12371,18 @@ class NovelSourceDiscoveryService:
         if "web_similarity_scrape_boundary_gate" in patterns:
             targets.append("web_similarity_scope_remap")
             targets.append("source_url_match_remap")
+        if "fiction_skill_agent_workbench_gate" in patterns:
+            targets.append("source_material_tag_schema_remap")
+            targets.append("skill_agent_role_boundary_remap")
+        if "local_node_graph_lore_fix_loop_gate" in patterns:
+            targets.append("node_graph_lore_remap")
+            targets.append("fix_loop_threshold_remap")
+        if "uploaded_style_learning_api_boundary_gate" in patterns:
+            targets.append("uploaded_style_consent_remap")
+            targets.append("style_feature_abstraction_remap")
+        if "editorial_memory_card_graph_agent_gate" in patterns:
+            targets.append("editorial_card_graph_remap")
+            targets.append("reviewer_conflict_loop_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -14217,6 +14337,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject requests or gates that optimize for AI detector bypass instead of readability, voice clarity, specificity, and originality.")
         if "web_similarity_scrape_boundary_gate" in patterns:
             hints.append("Reject live web similarity checks that upload private manuscript text, scrape without scope, omit source URLs, or lack retention/redaction decisions.")
+        if "fiction_skill_agent_workbench_gate" in patterns:
+            hints.append("Reject workbench reuse that imports upstream Claude skill bodies, agent prompts, utility scripts, source material, or worldbuilding drafts as project context.")
+        if "local_node_graph_lore_fix_loop_gate" in patterns:
+            hints.append("Reject node-graph outputs whose outdated downstream nodes, Lore tree mutations, provider custody, or fix-loop thresholds are missing from the run trace.")
+        if "uploaded_style_learning_api_boundary_gate" in patterns:
+            hints.append("Reject style-learning flows that upload copyrighted TXT files, clone named authors, call providers without custody rules, or hide source-scope consent.")
+        if "editorial_memory_card_graph_agent_gate" in patterns:
+            hints.append("Reject editorial-agent drafts that auto-inject stale facts, skip reviewer conflict findings, or treat card/graph data as confirmed canon without a decision record.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -14979,6 +15107,10 @@ class NovelSourceDiscoveryService:
                 "ai_tell_pattern_review_gate",
                 "naturalization_detector_disclaimer_gate",
                 "web_similarity_scrape_boundary_gate",
+                "fiction_skill_agent_workbench_gate",
+                "local_node_graph_lore_fix_loop_gate",
+                "uploaded_style_learning_api_boundary_gate",
+                "editorial_memory_card_graph_agent_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",
