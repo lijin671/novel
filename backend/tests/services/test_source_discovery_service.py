@@ -15008,3 +15008,169 @@ def test_latest_webnovel_continuity_safety_sources_are_static_absorbed():
     assert "story_knowledge_layer_sot_adaptation_gate_hints" in digest
     assert "local_snapshot_backup_export_gate_hints" in digest
     assert "continuity_passport_drift_repair_gate_hints" in digest
+
+
+def test_latest_originality_style_safety_sources_are_static_absorbed():
+    assert "https://github.com/CSOAI-ORG/plagiarism-checker-ai-mcp" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Saarah-Saeed/AI_Plagiarism_Detector" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ShreyaKaushikdev/slopguard" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/amaezey/human-eyes" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ksanyok/TextHumanize" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Daksh1092/PLAGIASCAN" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("originality reports" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("semantic similarities" in query.lower() and "stylometric analysis" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("human oversight" in query.lower() and "vocabulary novelty" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("pattern detector, not an ai detector" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("external ai detector results are not guaranteed" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "CSOAI-ORG/plagiarism-checker-ai-mcp",
+                "html_url": "https://github.com/CSOAI-ORG/plagiarism-checker-ai-mcp",
+                "description": (
+                    "Plagiarism Checker AI MCP checks text similarity, analyzes writing style consistency, "
+                    "verifies citations, generates originality reports, and uses n-gram analysis, "
+                    "stylometric features, and sequence matching with pip and Smithery install."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["mcp", "plagiarism", "originality"],
+                "updated_at": "2026-06-11T08:25:16Z",
+                "root_files": ["README.md", "LICENSE", "server.py", "pyproject.toml"],
+            },
+            {
+                "full_name": "Saarah-Saeed/AI_Plagiarism_Detector",
+                "html_url": "https://github.com/Saarah-Saeed/AI_Plagiarism_Detector",
+                "description": (
+                    "AI-powered plagiarism detection system to identify semantic similarities beyond exact text matching "
+                    "through stylometric analysis and TF-IDF keyword matching with a Streamlit-based interactive web interface."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["plagiarism", "streamlit", "stylometry"],
+                "updated_at": "2026-06-11T14:14:06Z",
+                "root_files": ["app.py", "requirements.txt"],
+            },
+            {
+                "full_name": "ShreyaKaushikdev/slopguard",
+                "html_url": "https://github.com/ShreyaKaushikdev/slopguard",
+                "description": (
+                    "SlopGuard asks did a human actually think about this before publishing, with human oversight, "
+                    "counterfactual absence score, vocabulary novelty curve, ten universal signals, three novel signals, "
+                    "tests, reviewed content, and docker-compose live demo."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["ai-quality", "slop", "review"],
+                "updated_at": "2026-06-01T17:10:21Z",
+                "root_files": ["README.md", "docker-compose.yml", "tests"],
+            },
+            {
+                "full_name": "amaezey/human-eyes",
+                "html_url": "https://github.com/amaezey/human-eyes",
+                "description": (
+                    "human-eyes is a pattern detector, not an AI detector. It flags AI ick patterns in text, "
+                    "uses a deterministic grader, iteration harness, matched human and AI essays, clone/symlink install, "
+                    "npx skills install, and release ZIP downloads."
+                ),
+                "stargazers_count": 9,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["claude-code", "writing", "skill"],
+                "updated_at": "2026-05-18T03:20:16Z",
+                "root_files": ["README.md", "human-eyes", "releases"],
+            },
+            {
+                "full_name": "ksanyok/TextHumanize",
+                "html_url": "https://github.com/ksanyok/TextHumanize",
+                "description": (
+                    "TextHumanize is a text naturalization engine that reduces built-in AI-like style signals, "
+                    "has 25 languages, a 38-stage adaptive pipeline, 100% offline mode, internal risk signals, "
+                    "and warns that external AI detector results are not guaranteed and it is not a bypass guarantee."
+                ),
+                "stargazers_count": 26,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["text", "humanize", "writing"],
+                "updated_at": "2026-06-11T23:22:13Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml"],
+            },
+            {
+                "full_name": "Daksh1092/PLAGIASCAN",
+                "html_url": "https://github.com/Daksh1092/PLAGIASCAN",
+                "description": (
+                    "PlagiaScan compares user-provided text against live web content using TF-IDF Vectorization, "
+                    "Cosine Similarity, Web Scraping, Google Search APIs, NLP preprocessing, similarity scores, "
+                    "and data visualization for plagiarism detection."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["plagiarism", "nlp", "web-scraping"],
+                "updated_at": "2026-06-11T23:35:03Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T09:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    mcp = candidates["CSOAI-ORG/plagiarism-checker-ai-mcp"]
+    semantic_detector = candidates["Saarah-Saeed/AI_Plagiarism_Detector"]
+    slopguard = candidates["ShreyaKaushikdev/slopguard"]
+    human_eyes = candidates["amaezey/human-eyes"]
+    texthumanize = candidates["ksanyok/TextHumanize"]
+    plagiascan = candidates["Daksh1092/PLAGIASCAN"]
+
+    assert "originality_report_multimetric_gate" in mcp["absorbed_patterns"]
+    assert "mcp_server" in mcp["risk_flags"]
+    assert "semantic_stylometric_overlap_gate" in semantic_detector["absorbed_patterns"]
+    assert "license:missing" in semantic_detector["trust_review"]["flags"]
+    assert "human_oversight_quality_signal_gate" in slopguard["absorbed_patterns"]
+    assert "docker" in slopguard["risk_flags"]
+    assert "ai_tell_pattern_review_gate" in human_eyes["absorbed_patterns"]
+    assert "skill_install_surface" in human_eyes["risk_flags"]
+    assert "binary_distribution" in human_eyes["risk_flags"]
+    assert "naturalization_detector_disclaimer_gate" in texthumanize["absorbed_patterns"]
+    assert "license:noassertion" in texthumanize["trust_review"]["flags"]
+    assert "web_similarity_scrape_boundary_gate" in plagiascan["absorbed_patterns"]
+    assert "license:noassertion" in plagiascan["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "multimetric_originality_report_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "semantic_stylometric_overlap_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "human_oversight_quality_signal_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "ai_tell_pattern_review_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "naturalization_not_detector_bypass_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "web_similarity_scope_custody_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "multimetric_originality_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "semantic_stylometric_similarity_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "human_oversight_signal_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ai_tell_pattern_review_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "naturalization_disclaimer_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "web_similarity_scope_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "originality_report_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "semantic_stylometric_risk_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "human_oversight_signal_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "detector_bypass_rejection_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("multi-metric originality report" in hint.lower() for hint in pattern_pack["originality_report_multimetric_gate_hints"])
+    assert any("semantic overlap" in hint.lower() for hint in pattern_pack["semantic_stylometric_overlap_gate_hints"])
+    assert any("human thinking" in hint.lower() for hint in pattern_pack["human_oversight_quality_signal_gate_hints"])
+    assert any("pattern pass" in hint.lower() for hint in pattern_pack["ai_tell_pattern_review_gate_hints"])
+    assert any("bypassing detectors" in hint.lower() for hint in pattern_pack["naturalization_detector_disclaimer_gate_hints"])
+    assert any("live web/api checks" in hint.lower() for hint in pattern_pack["web_similarity_scrape_boundary_gate_hints"])
+    assert any("detector bypass" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "originality_report_multimetric_gate_hints" in digest
+    assert "semantic_stylometric_overlap_gate_hints" in digest
+    assert "human_oversight_quality_signal_gate_hints" in digest
+    assert "ai_tell_pattern_review_gate_hints" in digest
+    assert "naturalization_detector_disclaimer_gate_hints" in digest
+    assert "web_similarity_scrape_boundary_gate_hints" in digest

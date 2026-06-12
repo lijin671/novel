@@ -253,6 +253,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "story_knowledge_layer_sot_adaptation_gate_hints",
             "local_snapshot_backup_export_gate_hints",
             "continuity_passport_drift_repair_gate_hints",
+            "originality_report_multimetric_gate_hints",
+            "semantic_stylometric_overlap_gate_hints",
+            "human_oversight_quality_signal_gate_hints",
+            "ai_tell_pattern_review_gate_hints",
+            "naturalization_detector_disclaimer_gate_hints",
+            "web_similarity_scrape_boundary_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -516,6 +522,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Story Knowledge Layer SOT gates" in panel_text
     assert "Local snapshot backup/export gates" in panel_text
     assert "Continuity passport drift-repair gates" in panel_text
+    assert "Originality multi-metric report gates" in panel_text
+    assert "Semantic stylometric overlap gates" in panel_text
+    assert "Human oversight quality gates" in panel_text
+    assert "AI-tell pattern review gates" in panel_text
+    assert "Naturalization disclaimer gates" in panel_text
+    assert "Web similarity scrape-boundary gates" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():

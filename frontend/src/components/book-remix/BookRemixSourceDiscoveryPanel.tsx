@@ -852,6 +852,12 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Story Knowledge Layer SOT gates', patternPackPayload?.story_knowledge_layer_sot_adaptation_gate_hints],
               ['Local snapshot backup/export gates', patternPackPayload?.local_snapshot_backup_export_gate_hints],
               ['Continuity passport drift-repair gates', patternPackPayload?.continuity_passport_drift_repair_gate_hints],
+              ['Originality multi-metric report gates', patternPackPayload?.originality_report_multimetric_gate_hints],
+              ['Semantic stylometric overlap gates', patternPackPayload?.semantic_stylometric_overlap_gate_hints],
+              ['Human oversight quality gates', patternPackPayload?.human_oversight_quality_signal_gate_hints],
+              ['AI-tell pattern review gates', patternPackPayload?.ai_tell_pattern_review_gate_hints],
+              ['Naturalization disclaimer gates', patternPackPayload?.naturalization_detector_disclaimer_gate_hints],
+              ['Web similarity scrape-boundary gates', patternPackPayload?.web_similarity_scrape_boundary_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

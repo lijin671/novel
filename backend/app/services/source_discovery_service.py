@@ -398,6 +398,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("Story Knowledge Layer" OR "Knowledge First, Generation Second" OR "Single Source of Truth") ("novel" OR "screenplay" OR "剧本") in:name,description,readme',
     '("Logosforge" OR "version snapshots" OR "Backup & Restore") ("narrative operating system" OR "structured writing") in:name,description,readme',
     '("Continuity Passport" OR "strict-mode rules" OR "drift detection/repair") ("long-range" OR "multi-session" OR "chain-of-custody") in:name,description,readme',
+    '("originality reports" OR "writing style consistency" OR "stylometric features") ("plagiarism" OR "text similarity" OR "sequence matching") in:name,description,readme',
+    '("semantic similarities" OR "stylometric analysis" OR "TF-IDF keyword matching") ("AI-powered plagiarism" OR "plagiarism detector") in:name,description,readme',
+    '("human oversight" OR "vocabulary novelty curve" OR "counterfactual absence score") ("slop" OR "reviewed content") in:name,description,readme',
+    '("pattern detector, not an AI detector" OR "AI ick" OR "deterministic grader") ("prose" OR "writing") in:name,description,readme',
+    '("External AI detector results are not guaranteed" OR "internal risk signals") ("text naturalization" OR "AI-like style signals") in:name,description,readme',
+    '("TF-IDF Vectorization" OR "Cosine Similarity" OR "Google Search APIs") ("plagiarism detection" OR "live web content") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -856,6 +862,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/RZengXpy/story_wiki",
     "https://github.com/fopearcano/storyplanner",
     "https://github.com/KKiethJackson/CXS",
+    "https://github.com/CSOAI-ORG/plagiarism-checker-ai-mcp",
+    "https://github.com/Saarah-Saeed/AI_Plagiarism_Detector",
+    "https://github.com/ShreyaKaushikdev/slopguard",
+    "https://github.com/amaezey/human-eyes",
+    "https://github.com/ksanyok/TextHumanize",
+    "https://github.com/Daksh1092/PLAGIASCAN",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1216,6 +1228,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_knowledge_layer_sot_adaptation_gate", ("story knowledge layer", "knowledge first", "generation second", "single source of truth", "extract, merge, dedupe, govern", "禁止任何模块直接回头读原始小说文本", "skl")),
     ("local_snapshot_backup_export_gate", ("logosforge", "narrative operating system", "version snapshots", "backup & restore", "data safety", "export json / full project", "local sqlite database", "automatic version snapshots")),
     ("continuity_passport_drift_repair_gate", ("continuity passport", "strict-mode rules", "drift detection/repair", "drift detection", "chain-of-custody", "multi-session", "cxs")),
+    ("originality_report_multimetric_gate", ("originality reports", "writing style consistency", "n-gram analysis", "stylometric features", "sequence matching", "verify citations", "plagiarism checker ai mcp")),
+    ("semantic_stylometric_overlap_gate", ("semantic similarities beyond exact text matching", "semantic similarities", "stylometric analysis", "tf-idf keyword matching", "ai-powered plagiarism detection", "streamlit-based interactive web interface")),
+    ("human_oversight_quality_signal_gate", ("slopguard", "human oversight", "did a human actually think", "vocabulary novelty curve", "counterfactual absence score", "reviewed content", "quality layer")),
+    ("ai_tell_pattern_review_gate", ("human-eyes", "pattern detector, not an ai detector", "ai ick", "deterministic grader", "iteration harness", "matched human and ai essays", "flags patterns in text")),
+    ("naturalization_detector_disclaimer_gate", ("texthumanize", "text naturalization", "ai-like style signals", "external ai detector results are not guaranteed", "internal risk signals", "not a bypass guarantee", "38-stage adaptive pipeline")),
+    ("web_similarity_scrape_boundary_gate", ("plagiascan", "tf-idf vectorization", "cosine similarity", "web scraping", "google search apis", "live web content", "real-time plagiarism detection")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -1366,7 +1384,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("shell_hook_surface", (".sh", "bash", "shell script", ".claude/scripts", "pretooluse hook", "stop hook")),
     ("powershell_script", (".ps1", "install.ps1", "setup.ps1")),
     ("native_binary", (".exe", ".dll", ".so", ".dylib")),
-    ("binary_distribution", (".zip", "release/", "windows packaged", "windows 打包版", "安装包", "客户端")),
+    ("binary_distribution", (".zip", "release/", "release zip", "zip download", "windows packaged", "windows 打包版", "安装包", "客户端")),
     ("auto_update", ("auto upgrade", "automatic update", "自动升级", "upgrade.zip", "在线升级")),
     ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
     ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "connection profile", "analysis profile", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
@@ -3311,6 +3329,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "CXS is a no-license-asserted continuity standard for long-range, multi-session LLM reasoning. Public README/API markers describe a Continuity Passport, strict-mode rules, drift detection/repair, chain-of-custody, and validation across continuity tests. "
         "Pattern-only adaptation for continuity-passport drift and repair gates; specs, validation suites, prompt bodies, training claims, and runtime agents are not imported or executed."
     ),
+    "csoai-org/plagiarism-checker-ai-mcp": (
+        "Plagiarism Checker AI MCP is a MIT MCP/server package. Public README markers describe text similarity checks, writing-style consistency analysis, citation verification, originality reports, n-gram analysis, stylometric features, sequence matching, PyPI install, and Smithery/Claude installation. "
+        "Pattern-only adaptation for multi-metric originality-report gates; MCP/server launch, pip/npx installs, Smithery registration, citation/web checks, and runtime report generation are not executed."
+    ),
+    "saarah-saeed/ai_plagiarism_detector": (
+        "AI Plagiarism Detector is a no-license-observed plagiarism UI. Public search metadata describes semantic similarity detection beyond exact matching, stylometric analysis, TF-IDF keyword matching, and a Streamlit web interface. "
+        "Pattern-only adaptation for semantic/stylometric overlap gates; Streamlit/runtime UI, dataset ingestion, model calls, and generated reports are not executed."
+    ),
+    "shreyakaushikdev/slopguard": (
+        "SlopGuard is a no-license-observed quality-layer project. Public README markers frame the review question as human oversight rather than AI authorship and describe counterfactual absence score, vocabulary novelty curve, ten universal signals, three novel signals, eight domain tracks, tests, and a Docker live demo. "
+        "Pattern-only adaptation for human-oversight quality-signal gates; Docker demo, live ingestion, datasets, classifiers, and production scoring services are not launched."
+    ),
+    "amaezey/human-eyes": (
+        "human-eyes is a no-license-observed Claude Code skill for prose pattern review. Public README markers describe a pattern detector rather than an AI detector, AI-ick pattern flags, deterministic grader, iteration harness, matched human/AI essay corpus, clone/symlink install, npx skill install, and release ZIP download. "
+        "Pattern-only adaptation for deterministic AI-tell review gates; Claude/Codex skill installation, release zips, corpus import, rewrite prompts, and runtime grading are not executed."
+    ),
+    "ksanyok/texthumanize": (
+        "TextHumanize is a dual-license text naturalization engine. Public README markers describe clearer natural prose, built-in AI-like style signal reduction, 25 languages, 38-stage adaptive pipeline, 100% offline operation, tests, PyPI package, and a warning that external AI detector results are not guaranteed. "
+        "Pattern-only adaptation for naturalization disclaimer and detector-evasion boundary gates; package installs, offline runtime, detector testing, and generated rewrite pipelines are not executed."
+    ),
+    "daksh1092/plagiascan": (
+        "PlagiaScan is a no-license-asserted plagiarism detection system. Public README markers describe comparing user text against live web content with TF-IDF vectorization, cosine similarity, web scraping, Google Search APIs, NLP preprocessing, similarity scores, and data visualization. "
+        "Pattern-only adaptation for web-similarity and scraping-boundary gates; web scraping, Google API calls, search queries, user-text upload, and live similarity reports are not executed."
+    ),
 
 }
 
@@ -4043,6 +4085,12 @@ class NovelSourceDiscoveryService:
             "story_knowledge_layer_sot_adaptation_gate_hints": self._build_story_knowledge_layer_sot_adaptation_gate_hints(available_patterns),
             "local_snapshot_backup_export_gate_hints": self._build_local_snapshot_backup_export_gate_hints(available_patterns),
             "continuity_passport_drift_repair_gate_hints": self._build_continuity_passport_drift_repair_gate_hints(available_patterns),
+            "originality_report_multimetric_gate_hints": self._build_originality_report_multimetric_gate_hints(available_patterns),
+            "semantic_stylometric_overlap_gate_hints": self._build_semantic_stylometric_overlap_gate_hints(available_patterns),
+            "human_oversight_quality_signal_gate_hints": self._build_human_oversight_quality_signal_gate_hints(available_patterns),
+            "ai_tell_pattern_review_gate_hints": self._build_ai_tell_pattern_review_gate_hints(available_patterns),
+            "naturalization_detector_disclaimer_gate_hints": self._build_naturalization_detector_disclaimer_gate_hints(available_patterns),
+            "web_similarity_scrape_boundary_gate_hints": self._build_web_similarity_scrape_boundary_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4809,6 +4857,12 @@ class NovelSourceDiscoveryService:
             "story_knowledge_layer_sot_adaptation_gate": 71,
             "local_snapshot_backup_export_gate": 67,
             "continuity_passport_drift_repair_gate": 70,
+            "originality_report_multimetric_gate": 72,
+            "semantic_stylometric_overlap_gate": 71,
+            "human_oversight_quality_signal_gate": 68,
+            "ai_tell_pattern_review_gate": 67,
+            "naturalization_detector_disclaimer_gate": 69,
+            "web_similarity_scrape_boundary_gate": 70,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5328,6 +5382,24 @@ class NovelSourceDiscoveryService:
         if "continuity_passport_drift_repair_gate" in patterns:
             targets.append("continuity_passport_drift_repair_policy")
             targets.append("cross_session_chain_of_custody_policy")
+        if "originality_report_multimetric_gate" in patterns:
+            targets.append("multimetric_originality_report_policy")
+            targets.append("source_overlap_transform_decision_policy")
+        if "semantic_stylometric_overlap_gate" in patterns:
+            targets.append("semantic_stylometric_overlap_policy")
+            targets.append("paraphrase_structure_risk_policy")
+        if "human_oversight_quality_signal_gate" in patterns:
+            targets.append("human_oversight_quality_signal_policy")
+            targets.append("author_decision_trace_policy")
+        if "ai_tell_pattern_review_gate" in patterns:
+            targets.append("ai_tell_pattern_review_policy")
+            targets.append("targeted_natural_prose_edit_policy")
+        if "naturalization_detector_disclaimer_gate" in patterns:
+            targets.append("naturalization_not_detector_bypass_policy")
+            targets.append("readability_voice_intent_rewrite_policy")
+        if "web_similarity_scrape_boundary_gate" in patterns:
+            targets.append("web_similarity_scope_custody_policy")
+            targets.append("live_search_scrape_runtime_contract_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -6357,6 +6429,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["local_backup_snapshot_manifest", "json_full_project_export_report", "restore_checkpoint_readiness_notes"])
         if "continuity_passport_drift_repair_gate" in patterns:
             targets.extend(["continuity_passport_drift_report", "repair_decision_chain_of_custody", "cross_session_handoff_debt_log"])
+        if "originality_report_multimetric_gate" in patterns:
+            targets.extend(["multimetric_originality_report", "source_overlap_span_manifest", "transform_action_decision_log"])
+        if "semantic_stylometric_overlap_gate" in patterns:
+            targets.extend(["semantic_stylometric_similarity_report", "paraphrase_structure_risk_findings", "overlap_threshold_reviewer_notes"])
+        if "human_oversight_quality_signal_gate" in patterns:
+            targets.extend(["human_oversight_signal_report", "author_decision_trace_findings", "slop_quality_review_notes"])
+        if "ai_tell_pattern_review_gate" in patterns:
+            targets.extend(["ai_tell_pattern_review_report", "targeted_prose_edit_suggestions", "generic_cadence_findings"])
+        if "naturalization_detector_disclaimer_gate" in patterns:
+            targets.extend(["naturalization_disclaimer_report", "detector_bypass_goal_rejection_log", "readability_voice_intent_findings"])
+        if "web_similarity_scrape_boundary_gate" in patterns:
+            targets.extend(["web_similarity_scope_manifest", "source_url_match_report", "private_text_upload_boundary_findings"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -7226,6 +7310,18 @@ class NovelSourceDiscoveryService:
             hints.append("Before any bulk edit or AI rewrite, create or cite the autosave/version snapshot, export path, and restore checkpoint expected after the operation.")
         if "continuity_passport_drift_repair_gate" in patterns:
             hints.append("Before resuming across sessions, load the continuity passport version, active drift findings, accepted repairs, rejected repairs, and chain-of-custody notes.")
+        if "originality_report_multimetric_gate" in patterns:
+            hints.append("Before same-type drafting, require a multi-metric originality report with overlap spans, stylometric risk, sequence matches, and transform decisions.")
+        if "semantic_stylometric_overlap_gate" in patterns:
+            hints.append("Before accepting paraphrased rewrites, compare semantic overlap, TF-IDF keywords, and stylometric resemblance against source functions.")
+        if "human_oversight_quality_signal_gate" in patterns:
+            hints.append("Before finalizing polished prose, cite human oversight evidence: author choices, tradeoffs, revision rationale, and non-obvious specificity.")
+        if "ai_tell_pattern_review_gate" in patterns:
+            hints.append("Before prose polish closes, run an AI-tell pattern pass and convert findings into targeted edits rather than global humanizer rewrites.")
+        if "naturalization_detector_disclaimer_gate" in patterns:
+            hints.append("Before naturalization, state that readability and voice are the goal; detector bypass or guaranteed AI-detector results are rejected.")
+        if "web_similarity_scrape_boundary_gate" in patterns:
+            hints.append("Before any live web similarity check, define source URLs, query scope, private-text custody, network/API boundary, and report retention.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7795,6 +7891,18 @@ class NovelSourceDiscoveryService:
             hints.append("Persist autosave id, snapshot id, JSON/full-project export path, restore checkpoint, backup age, and data-safety warning acknowledgement.")
         if "continuity_passport_drift_repair_gate" in patterns:
             hints.append("Persist continuity passport version, strict-mode result, drift ids, repair decision, custody trail, and cross-session unresolved debt.")
+        if "originality_report_multimetric_gate" in patterns:
+            hints.append("Persist originality report id, source span ids, n-gram/sequence/stylometric findings, citation/source check status, and transform decision.")
+        if "semantic_stylometric_overlap_gate" in patterns:
+            hints.append("Persist semantic similarity score, TF-IDF keyword overlap, stylometric distance, threshold version, reviewer note, and section-level risk label.")
+        if "human_oversight_quality_signal_gate" in patterns:
+            hints.append("Persist author decision ids, revision rationale, oversight evidence, vocabulary novelty note, and any missing-human-thought finding.")
+        if "ai_tell_pattern_review_gate" in patterns:
+            hints.append("Persist AI-tell pattern findings, exact span ids, suggested targeted edits, accepted/dismissed decisions, and post-edit review status.")
+        if "naturalization_detector_disclaimer_gate" in patterns:
+            hints.append("Persist naturalization goal, readability/voice/intent edits, detector-bypass rejection status, and disclaimer acknowledgement.")
+        if "web_similarity_scrape_boundary_gate" in patterns:
+            hints.append("Persist web-similarity scope, source URL ids, query terms, API/scrape decision, matched spans, scores, and private-text custody notes.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -11811,6 +11919,60 @@ class NovelSourceDiscoveryService:
             "Cross-session handoff should preserve passport version, accepted repairs, rejected repairs, and unresolved drift debt before continuation resumes.",
         ]
 
+    def _build_originality_report_multimetric_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "originality_report_multimetric_gate" not in patterns:
+            return []
+        return [
+            "A multi-metric originality report should combine n-gram overlap, sequence matching, stylometric distance, citation/source checks, and reviewer notes rather than one score.",
+            "A same-type draft cannot advance from analysis to generation unless the originality report names source spans, overlap class, and required transformation action.",
+            "Treat MCP/package originality checkers as report vocabulary only until runtime scope, text custody, API use, and output retention are explicitly approved.",
+        ]
+
+    def _build_semantic_stylometric_overlap_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "semantic_stylometric_overlap_gate" not in patterns:
+            return []
+        return [
+            "Similarity review should check semantic overlap, TF-IDF keyword overlap, and stylometric resemblance so paraphrased source structure is still visible.",
+            "Flag high-risk sections by source function and evidence span; require abstract transformation before any generated continuation can become confirmed text.",
+            "UI or Streamlit-style detectors remain advisory; their reports need saved inputs, thresholds, and reviewer decisions before they influence canon.",
+        ]
+
+    def _build_human_oversight_quality_signal_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "human_oversight_quality_signal_gate" not in patterns:
+            return []
+        return [
+            "Review AI-assisted prose for evidence of human thinking: specific tradeoffs, non-obvious choices, vocabulary novelty, and author decision traces.",
+            "A low-slop score is not authorship proof; it is a prompt to inspect whether planning, revision, and reviewer evidence exist.",
+            "For same-type work, require the author-visible reasoning or revision trace before treating polished prose as acceptable.",
+        ]
+
+    def _build_ai_tell_pattern_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ai_tell_pattern_review_gate" not in patterns:
+            return []
+        return [
+            "Use AI-tell review as a deterministic pattern pass: flag generic cadence, over-balanced sentences, vague intensifiers, and unearned emotional summaries.",
+            "Pattern findings should produce targeted edit suggestions, not blanket detector-evasion rewrites or unsupported claims that text is human.",
+            "Keep matched human/AI corpora and upstream skill bodies outside project context; only the abstract review checklist is reusable.",
+        ]
+
+    def _build_naturalization_detector_disclaimer_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "naturalization_detector_disclaimer_gate" not in patterns:
+            return []
+        return [
+            "Naturalization may improve clarity and rhythm, but external AI-detector results are not acceptance criteria and must not be promised.",
+            "Rewrite gates should name readability, specificity, voice, and intent improvements; reject goals framed as bypassing detectors.",
+            "For same-type imitation, naturalization happens after originality and canon checks so smoother prose cannot hide copied structure.",
+        ]
+
+    def _build_web_similarity_scrape_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "web_similarity_scrape_boundary_gate" not in patterns:
+            return []
+        return [
+            "Web similarity checks need explicit query scope, source URLs, rate/network boundary, and text custody before any live search or scraping.",
+            "Offline/static review may record TF-IDF and cosine-similarity concepts, but live web/API checks require a separate runtime safety contract.",
+            "Similarity reports should store source URL, matched span, score, transform decision, and reviewer outcome without uploading private manuscript text by default.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -12083,6 +12245,24 @@ class NovelSourceDiscoveryService:
         if "continuity_passport_drift_repair_gate" in patterns:
             targets.append("continuity_passport_remap")
             targets.append("drift_repair_debt_remap")
+        if "originality_report_multimetric_gate" in patterns:
+            targets.append("originality_report_remap")
+            targets.append("overlap_decision_remap")
+        if "semantic_stylometric_overlap_gate" in patterns:
+            targets.append("semantic_stylometric_risk_remap")
+            targets.append("paraphrase_structure_remap")
+        if "human_oversight_quality_signal_gate" in patterns:
+            targets.append("human_oversight_signal_remap")
+            targets.append("author_decision_trace_remap")
+        if "ai_tell_pattern_review_gate" in patterns:
+            targets.append("ai_tell_pattern_remap")
+            targets.append("targeted_prose_edit_remap")
+        if "naturalization_detector_disclaimer_gate" in patterns:
+            targets.append("naturalization_disclaimer_remap")
+            targets.append("detector_bypass_rejection_remap")
+        if "web_similarity_scrape_boundary_gate" in patterns:
+            targets.append("web_similarity_scope_remap")
+            targets.append("source_url_match_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -14025,6 +14205,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject bulk edits when there is no pre-change snapshot, export path, restore target, or explicit note that source user databases were not imported.")
         if "continuity_passport_drift_repair_gate" in patterns:
             hints.append("Reject cross-session continuations that repair drift without passport version, drift taxonomy, accepted authority, custody trail, and unresolved-debt visibility.")
+        if "originality_report_multimetric_gate" in patterns:
+            hints.append("Reject same-type drafts that pass only one similarity score, omit source overlap spans, or lack explicit transform/hold decisions.")
+        if "semantic_stylometric_overlap_gate" in patterns:
+            hints.append("Reject paraphrases whose semantics, keyword skeleton, or stylometric signature stay close to the source even when exact wording changed.")
+        if "human_oversight_quality_signal_gate" in patterns:
+            hints.append("Reject polished prose when there is no evidence of human oversight, author tradeoffs, revision rationale, or non-obvious story-specific choices.")
+        if "ai_tell_pattern_review_gate" in patterns:
+            hints.append("Reject AI-tell cleanup that turns into generic humanizer output, detector-evasion claims, or unsupported proof that text is human-written.")
+        if "naturalization_detector_disclaimer_gate" in patterns:
+            hints.append("Reject requests or gates that optimize for AI detector bypass instead of readability, voice clarity, specificity, and originality.")
+        if "web_similarity_scrape_boundary_gate" in patterns:
+            hints.append("Reject live web similarity checks that upload private manuscript text, scrape without scope, omit source URLs, or lack retention/redaction decisions.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -14781,6 +14973,12 @@ class NovelSourceDiscoveryService:
                 "story_knowledge_layer_sot_adaptation_gate",
                 "local_snapshot_backup_export_gate",
                 "continuity_passport_drift_repair_gate",
+                "originality_report_multimetric_gate",
+                "semantic_stylometric_overlap_gate",
+                "human_oversight_quality_signal_gate",
+                "ai_tell_pattern_review_gate",
+                "naturalization_detector_disclaimer_gate",
+                "web_similarity_scrape_boundary_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",
