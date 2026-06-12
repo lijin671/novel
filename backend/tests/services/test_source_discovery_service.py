@@ -15414,3 +15414,351 @@ def test_genre_file_timeline_volume_sources_are_static_absorbed():
     assert "stepwise_local_book_generation_file_gate_hints" in digest
     assert "radial_subplot_timeline_xray_gate_hints" in digest
     assert "volume_antipattern_dependency_graph_gate_hints" in digest
+
+
+
+
+def test_style_dna_arc_workspace_memory_sources_are_static_absorbed():
+    assert "https://github.com/Zero-AIRI/Ainovr" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/tianshiemo7/long-novelist-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Aaron-L945/AI-Novel-Workshop" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/HenRiser/novel-generator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/longkuwu/CLwriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ocyisheng/novel-create-hermes" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("style dna" in query.lower() and "5-layer hierarchical generation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("major minor micro arcs" in query.lower() and "foreshadowing ledger" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chromadb" in query.lower() and "timeline tracking" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chapter_index.md" in query.lower() and "workspace/books" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("dual engine" in query.lower() and "reader sandbox" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ai taste" in query.lower() and "novel-context.md" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Zero-AIRI/Ainovr",
+                "html_url": "https://github.com/Zero-AIRI/Ainovr",
+                "description": (
+                    "Ainovr is an AI novel style-imitation workspace with uploaded reference novels, "
+                    "unified 7-step analysis pipeline, event alignment, whole-book memory graph, engineering reverse DNA, "
+                    "breakpoint recovery, 5-layer hierarchical generation, chapter review across style/plot/rhythm/pattern/foreshadowing, "
+                    "up to 3 repair rounds, 34 configurable Prompt entries, DeepSeek API Key, and TXT export."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["ai-novel", "style-imitation", "nextjs"],
+                "updated_at": "2026-06-12T00:39:47Z",
+                "root_files": ["README.md", "AGENTS.md", "CLAUDE.md", "package.json", "repomix-output.xml", "start.ps1", "src", "data"],
+            },
+            {
+                "full_name": "tianshiemo7/long-novelist-skill",
+                "html_url": "https://github.com/tianshiemo7/long-novelist-skill",
+                "description": (
+                    "Long Novelist is a Claude Code Skill for million-word Chinese webnovels with persistence-first state files, "
+                    "continuation detection, major minor micro arcs, character state tracking, YAML frontmatter, "
+                    "relationship evolution logs, foreshadowing management, JSON foreshadowing ledger, writing dynamics, recent 5 chapter summaries, style imitation, and skill install guidance."
+                ),
+                "stargazers_count": 7,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["claude-code", "skill", "webnovel"],
+                "updated_at": "2026-06-09T07:41:47Z",
+                "root_files": ["README.md", "SKILL.md", "LICENSE", "package.json", "references", "scripts"],
+            },
+            {
+                "full_name": "Aaron-L945/AI-Novel-Workshop",
+                "html_url": "https://github.com/Aaron-L945/AI-Novel-Workshop",
+                "description": (
+                    "AI Novel Assistant uses CrewAI multi-agent roles with director writer polisher checker, "
+                    "context-aware retrieval of history and characters, logic consistency checks, world management, "
+                    "character dossiers, timeline tracking, ChromaDB vector memory, style analysis from uploads, QWEN_API_KEY and OPENAI_API_KEY."
+                ),
+                "stargazers_count": 4,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["crewai", "novel", "chromadb"],
+                "updated_at": "2026-05-21T05:00:23Z",
+                "root_files": ["README.md", "Dockerfile", "docker-compose.yml", ".env.example", "start.sh", "requirements.txt", "memory", "workflow"],
+            },
+            {
+                "full_name": "HenRiser/novel-generator",
+                "html_url": "https://github.com/HenRiser/novel-generator",
+                "description": (
+                    "Local Streamlit AI novel generator stores new projects in workspace/books/{book_id}, "
+                    "writes novel_outline.md, characters.md, chapters/chapter_001.md, avoids overwrite with chapter_001_v2.md, "
+                    "generates 100-word summaries, maintains chapter_index.md, supports previous chapter context from chapter text, summaries, outline and characters, "
+                    "supports prompt preview without API call, project_config.json, DeepSeek API Key, setup.bat and start.bat."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["streamlit", "deepseek", "novel-generator"],
+                "updated_at": "2026-06-11T12:31:16Z",
+                "root_files": ["README.md", ".env.example", "setup.bat", "start.bat", "requirements.txt", "workspace", "outputs"],
+            },
+            {
+                "full_name": "longkuwu/CLwriter",
+                "html_url": "https://github.com/longkuwu/CLwriter",
+                "description": (
+                    "CLwriter is an AI novel platform with dual engine, epic engine, viral engine, "
+                    "style imitator, logic guard, state tracker, reader sandbox, RAG memory, vectorized settings, rolling summaries, "
+                    "style capsule, Tauri, and API Key configuration."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["tauri", "rag", "novel"],
+                "updated_at": "2026-05-26T10:41:10Z",
+                "root_files": ["README.md", "LICENSE", ".env.example", "package.json", "src-tauri", "docs", "drizzle"],
+            },
+            {
+                "full_name": "ocyisheng/novel-create-hermes",
+                "html_url": "https://github.com/ocyisheng/novel-create-hermes",
+                "description": (
+                    "novel-create-hermes routes conversational novel commands through project, ideation, outline, chapter writing, "
+                    "quality check, AI taste review, style extraction, novel-quality, novel-style, state layer only stores but does not decide, "
+                    "novel-context.md project snapshots, tracking scripts for foreshadowing/timeline/characters, and novel-chapter 10-slot chapter context."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["opencode", "novel", "workflow"],
+                "updated_at": "2026-06-11T09:13:38Z",
+                "root_files": ["README.md", "AGENTS.md", "opencode.json", ".omo", ".opencode"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T13:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    ainovr = candidates["Zero-AIRI/Ainovr"]
+    long_novelist = candidates["tianshiemo7/long-novelist-skill"]
+    workshop = candidates["Aaron-L945/AI-Novel-Workshop"]
+    local_generator = candidates["HenRiser/novel-generator"]
+    clwriter = candidates["longkuwu/CLwriter"]
+    hermes = candidates["ocyisheng/novel-create-hermes"]
+
+    assert "style_dna_breakpoint_hierarchy_gate" in ainovr["absorbed_patterns"]
+    assert "provider_key_surface" in ainovr["risk_flags"]
+    assert "powershell_script" in ainovr["risk_flags"]
+    assert "license:missing" in ainovr["trust_review"]["flags"]
+    assert "arc_state_foreshadowing_persistence_gate" in long_novelist["absorbed_patterns"]
+    assert "skill_install_surface" in long_novelist["risk_flags"]
+    assert "multi_agent_vector_memory_timeline_gate" in workshop["absorbed_patterns"]
+    assert "docker" in workshop["risk_flags"]
+    assert "shell_script" in workshop["risk_flags"]
+    assert "provider_key_surface" in workshop["risk_flags"]
+    assert "versioned_workspace_chapter_index_gate" in local_generator["absorbed_patterns"]
+    assert "windows_script" in local_generator["risk_flags"]
+    assert "provider_key_surface" in local_generator["risk_flags"]
+    assert "dual_engine_reader_sandbox_rag_gate" in clwriter["absorbed_patterns"]
+    assert "browser_storage_surface" in clwriter["risk_flags"]
+    assert "intent_tool_quality_style_checkpoint_gate" in hermes["absorbed_patterns"]
+    assert "license:missing" in hermes["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "style_dna_analysis_pipeline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "arc_state_persistence_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "multi_agent_memory_timeline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_index_versioning_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "dual_engine_reader_sandbox_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "intent_tool_routing_quality_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "style_dna_breakpoint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "foreshadowing_contract_ledger" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_agent_timeline_review" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_index_version_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "reader_sandbox_feedback_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "checkpoint_state_layer_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_dna_pipeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "arc_state_foreshadowing_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "vector_memory_timeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_index_workspace_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "dual_engine_reader_sandbox_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "intent_tool_checkpoint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("style-dna" in hint.lower() for hint in pattern_pack["style_dna_breakpoint_hierarchy_gate_hints"])
+    assert any("major/minor/micro arcs" in hint.lower() for hint in pattern_pack["arc_state_foreshadowing_persistence_gate_hints"])
+    assert any("vector memory" in hint.lower() for hint in pattern_pack["multi_agent_vector_memory_timeline_gate_hints"])
+    assert any("chapter_index" in hint for hint in pattern_pack["versioned_workspace_chapter_index_gate_hints"])
+    assert any("reader-sandbox" in hint.lower() for hint in pattern_pack["dual_engine_reader_sandbox_rag_gate_hints"])
+    assert any("checkpoint state" in hint.lower() for hint in pattern_pack["intent_tool_quality_style_checkpoint_gate_hints"])
+    assert any("source-event alignment" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "style_dna_breakpoint_hierarchy_gate_hints" in digest
+    assert "arc_state_foreshadowing_persistence_gate_hints" in digest
+    assert "multi_agent_vector_memory_timeline_gate_hints" in digest
+    assert "versioned_workspace_chapter_index_gate_hints" in digest
+    assert "dual_engine_reader_sandbox_rag_gate_hints" in digest
+    assert "intent_tool_quality_style_checkpoint_gate_hints" in digest
+
+
+def test_lore_mcp_goink_sandbox_workshop_factory_sources_are_static_absorbed():
+    assert "https://github.com/letuhao/lore-weave" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jktantan/novel-weaver" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/sigpanic/goink" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/12bitsD/worldbox-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ledea-67/fiction-writing-workshop" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ungden/truyencity2" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("loreweave" in query.lower() and "rag lore glossary" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("novel weaver gateway" in query.lower() and "project_init" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("goink" in query.lower() and "semantic search" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("worldbox writer" in query.lower() and "branch switching" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("fiction writing workshop" in query.lower() and "7-phase review pipeline" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story engine v2" in query.lower() and "first-10 gate" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "letuhao/lore-weave",
+                "html_url": "https://github.com/letuhao/lore-weave",
+                "description": (
+                    "LoreWeave is a canon-safe writing platform with automatic extraction of characters, "
+                    "locations, events, and relationships into a knowledge graph, RAG lore glossary, "
+                    "translation pipeline, multi-agent verifier, name drift, dropped sentence, pronoun flips, "
+                    "script contamination checks, BYOK multi-LLM, local models, MCP and provider keys."
+                ),
+                "stargazers_count": 119,
+                "forks_count": 8,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["ai-writing", "lore", "knowledge-graph", "translation"],
+                "updated_at": "2026-06-11T10:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "docker-compose.yml", ".env.example", "mcp", "apps"],
+            },
+            {
+                "full_name": "jktantan/novel-weaver",
+                "html_url": "https://github.com/jktantan/novel-weaver",
+                "description": (
+                    "Novel Weaver Gateway is a Spring Boot MCP backend for novel writing with 33 tools, "
+                    "project_init, chapter_sync, character_snapshot_check, structured storage, PostgreSQL, "
+                    "pgvector, Neo4j, Meilisearch, LanguageTool, Docker, env config, and Claude client setup."
+                ),
+                "stargazers_count": 45,
+                "forks_count": 3,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["mcp", "novel", "spring-boot", "pgvector"],
+                "updated_at": "2026-06-10T09:00:00Z",
+                "root_files": ["README.md", "LICENSE", "pom.xml", "Dockerfile", "docker-compose.yml", ".env.example", "src"],
+            },
+            {
+                "full_name": "sigpanic/goink",
+                "html_url": "https://github.com/sigpanic/goink",
+                "description": (
+                    "Goink is a desktop AI writing assistant with 30+ tools, relationship history, "
+                    "foreshadowing status, arc nodes, reader cognition, semantic search, review agent, "
+                    "memory agent, Wails and Go."
+                ),
+                "stargazers_count": 88,
+                "forks_count": 4,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["wails", "novel", "semantic-search"],
+                "updated_at": "2026-06-09T08:00:00Z",
+                "root_files": ["README.md", "LICENSE", "wails.json", "go.mod", "package.json", ".env.example"],
+            },
+            {
+                "full_name": "12bitsD/worldbox-writer",
+                "html_url": "https://github.com/12bitsD/worldbox-writer",
+                "description": (
+                    "WorldBox Writer is a sandbox novel generation system with humans as director/god, "
+                    "agents as world and crew, GateKeeper, Critic, GM settlement, NodeDetector, god intervention, "
+                    "branch switching, ActionIntent, LangGraph dual loop, short long reflection memory, and ChromaDB retrieval."
+                ),
+                "stargazers_count": 31,
+                "forks_count": 2,
+                "license": None,
+                "topics": ["langgraph", "novel", "simulation"],
+                "updated_at": "2026-06-09T06:00:00Z",
+                "root_files": ["README.md", "requirements.txt", "docker-compose.yml", ".env.example", "scripts", "src"],
+            },
+            {
+                "full_name": "ledea-67/fiction-writing-workshop",
+                "html_url": "https://github.com/ledea-67/fiction-writing-workshop",
+                "description": (
+                    "Fiction Writing Workshop provides voice calibration, editorial personas, 7-phase review pipeline, "
+                    "developmental editor, line editor, continuity tracker, naive reader test, story bible, source cites, "
+                    "contradiction handling, and Claude Code setup."
+                ),
+                "stargazers_count": 13,
+                "forks_count": 1,
+                "license": None,
+                "topics": ["claude-code", "fiction", "editing"],
+                "updated_at": "2026-06-08T05:00:00Z",
+                "root_files": ["README.md", "SKILL.md", "agents", "prompts"],
+            },
+            {
+                "full_name": "ungden/truyencity2",
+                "html_url": "https://github.com/ungden/truyencity2",
+                "description": (
+                    "TruyenCity2 Story Engine v2 uses a 5-layer architecture for 1000-chapter webnovels "
+                    "with Story Graph, auto prompt templates, quality checks, batch writing, autopilot, "
+                    "prompt cache hit, cost estimates, and first-10 gate."
+                ),
+                "stargazers_count": 210,
+                "forks_count": 12,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["webnovel", "story-engine", "supabase"],
+                "updated_at": "2026-06-12T04:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "supabase", "vercel.json", ".env.example"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T14:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    loreweave = candidates["letuhao/lore-weave"]
+    novel_weaver = candidates["jktantan/novel-weaver"]
+    goink = candidates["sigpanic/goink"]
+    worldbox = candidates["12bitsD/worldbox-writer"]
+    workshop = candidates["ledea-67/fiction-writing-workshop"]
+    truyencity = candidates["ungden/truyencity2"]
+
+    assert "loreweave_graph_glossary_translation_gate" in loreweave["absorbed_patterns"]
+    assert "docker" in loreweave["risk_flags"]
+    assert "mcp_server" in loreweave["risk_flags"]
+    assert "mcp_novel_memory_gateway_tool_gate" in novel_weaver["absorbed_patterns"]
+    assert "mcp_server" in novel_weaver["risk_flags"]
+    assert "goink_tool_state_autoreview_gate" in goink["absorbed_patterns"]
+    assert "sandbox_godmode_branch_simulation_gate" in worldbox["absorbed_patterns"]
+    assert "license:missing" in worldbox["trust_review"]["flags"]
+    assert "editorial_persona_voice_workshop_gate" in workshop["absorbed_patterns"]
+    assert "license:missing" in workshop["trust_review"]["flags"]
+    assert "story_factory_thousand_chapter_cache_gate" in truyencity["absorbed_patterns"]
+    assert "cloud_sync_oauth_surface" in truyencity["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "lore_graph_glossary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "mcp_tool_memory_schema_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "tool_state_autoreview_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "sandbox_branch_intervention_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "editorial_persona_voice_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "thousand_chapter_story_factory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "lore_graph_glossary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "mcp_memory_tool_inventory" in pattern_pack["whole_book_analysis_targets"]
+    assert "tool_state_autoreview_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "sandbox_branch_simulation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "voice_calibration_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "thousand_chapter_layer_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "lore_glossary_translation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "mcp_memory_tool_schema_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "tool_state_autoreview_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "sandbox_branch_intervention_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "editorial_persona_voice_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "story_factory_layer_cache_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("lore graph" in hint.lower() for hint in pattern_pack["loreweave_graph_glossary_translation_gate_hints"])
+    assert any("schemas" in hint.lower() for hint in pattern_pack["mcp_novel_memory_gateway_tool_gate_hints"])
+    assert any("state maintenance" in hint.lower() for hint in pattern_pack["goink_tool_state_autoreview_gate_hints"])
+    assert any("actionintent" in hint.lower() for hint in pattern_pack["sandbox_godmode_branch_simulation_gate_hints"])
+    assert any("voice" in hint.lower() for hint in pattern_pack["editorial_persona_voice_workshop_gate_hints"])
+    assert any("thousand-chapter" in hint.lower() for hint in pattern_pack["story_factory_thousand_chapter_cache_gate_hints"])
+    assert any("glossary packs" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "loreweave_graph_glossary_translation_gate_hints" in digest
+    assert "mcp_novel_memory_gateway_tool_gate_hints" in digest
+    assert "goink_tool_state_autoreview_gate_hints" in digest
+    assert "sandbox_godmode_branch_simulation_gate_hints" in digest
+    assert "editorial_persona_voice_workshop_gate_hints" in digest
+    assert "story_factory_thousand_chapter_cache_gate_hints" in digest

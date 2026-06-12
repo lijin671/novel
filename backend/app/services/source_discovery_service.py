@@ -412,6 +412,18 @@ DEFAULT_GITHUB_QUERIES = (
     '("world settings" OR "character profiles" OR "outline.json") ("book_output" OR "scene generation" OR "full chapter content") in:name,description,readme',
     '("radial timeline" OR "subplots" OR "chronological order" OR "AI story pulses") ("longform writing" OR "manuscript" OR "scenes") in:name,description,readme',
     '("volume management" OR "anti-pattern engine" OR "event dependency graph") ("AI novel" OR "plot consistency" OR "character integrity") in:name,description,readme',
+    '("style DNA" OR "engineering reverse DNA" OR "5-layer hierarchical generation" OR "chapter review") ("AI novel style imitation" OR "breakpoint recovery" OR "configurable prompts") in:name,description,readme',
+    '("major minor micro arcs" OR "foreshadowing ledger" OR "character state tracking") ("million-word" OR "Chinese webnovel" OR "Claude Code Skill") in:name,description,readme',
+    '("vector memory" OR "ChromaDB" OR "timeline tracking") ("multi-agent" OR "style analysis" OR "long-form novel") in:name,description,readme',
+    '("chapter_index.md" OR "workspace/books" OR "prompt preview") ("previous chapter context" OR "avoid overwrite" OR "chapter summaries") in:name,description,readme',
+    '("dual engine" OR "reader sandbox" OR "style capsule") ("RAG memory" OR "logic guard" OR "state tracker") in:name,description,readme',
+    '("AI taste" OR "novel-context.md" OR "10-slot chapter context") ("style extraction" OR "project snapshot" OR "quality check") in:name,description,readme',
+    '("LoreWeave" OR "RAG lore glossary" OR "multi-agent verifier") ("canon-safe writing" OR "translation pipeline" OR "knowledge graph") in:name,description,readme',
+    '("Novel Weaver Gateway" OR "33 tools" OR "project_init") ("MCP" OR "structured storage" OR "character_snapshot_check") in:name,description,readme',
+    '("Goink" OR "review agent" OR "memory agent") ("foreshadowing" OR "arc nodes" OR "semantic search") in:name,description,readme',
+    '("WorldBox Writer" OR "GateKeeper" OR "NodeDetector") ("sandbox novel" OR "god intervention" OR "branch switching") in:name,description,readme',
+    '("fiction writing workshop" OR "editorial personas" OR "7-phase review pipeline") ("voice calibration" OR "story bible" OR "continuity tracker") in:name,description,readme',
+    '("Story Engine v2" OR "prompt cache hit" OR "first-10 gate") ("1000-chapter" OR "Story Factory" OR "webnovel") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -884,6 +896,18 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/perivar/OpenTale",
     "https://github.com/EricRhysTaylor/Radial-Timeline",
     "https://github.com/3stythe/ai-novel-generator",
+    "https://github.com/Zero-AIRI/Ainovr",
+    "https://github.com/tianshiemo7/long-novelist-skill",
+    "https://github.com/Aaron-L945/AI-Novel-Workshop",
+    "https://github.com/HenRiser/novel-generator",
+    "https://github.com/longkuwu/CLwriter",
+    "https://github.com/ocyisheng/novel-create-hermes",
+    "https://github.com/letuhao/lore-weave",
+    "https://github.com/jktantan/novel-weaver",
+    "https://github.com/sigpanic/goink",
+    "https://github.com/12bitsD/worldbox-writer",
+    "https://github.com/ledea-67/fiction-writing-workshop",
+    "https://github.com/ungden/truyencity2",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1258,6 +1282,18 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("stepwise_local_book_generation_file_gate", ("opentale", "world settings", "character profiles", "book outlines", "scene generation for individual chapters", "full chapter content", "book_output", "outline.json", "centralized prompt templates", "previous_chapter_context_length")),
     ("radial_subplot_timeline_xray_gate", ("radial timeline", "subplots", "chronological order", "narrative order", "scene synopsis", "ai story pulses", "progress, narrative, chronologue, and gossamer", "inquiry view", "story x-ray")),
     ("volume_antipattern_dependency_graph_gate", ("ai-novel-generator", "volume management", "volume planning", "anti-pattern engine", "anti pattern", "event dependency graph", "dependency graph", "plot consistency", "character integrity", "outlinevalidator", "character arc enforcer")),
+    ("style_dna_breakpoint_hierarchy_gate", ("ainovr", "ai novel style imitation", "style dna", "engineering reverse dna", "unified 7-step analysis", "7-step analysis pipeline", "5-layer hierarchical generation", "chapter review", "breakpoint recovery", "34 configurable prompts")),
+    ("arc_state_foreshadowing_persistence_gate", ("long novelist", "long-novelist", "million-word", "major minor micro arcs", "major arc", "minor arc", "micro arc", "character state tracking", "foreshadowing management", "writing dynamics", "recent 5 chapter summaries")),
+    ("multi_agent_vector_memory_timeline_gate", ("ai-novel-workshop", "ai novel assistant", "crewai", "director writer polisher checker", "chroma", "chromadb", "vector memory", "timeline tracking", "style analysis", "logic consistency check")),
+    ("versioned_workspace_chapter_index_gate", ("henriser/novel-generator", "workspace/books", "chapter_index.md", "avoid overwrite", "chapter_001_v2", "chapter summaries", "previous chapter context", "prompt preview", "project_config.json")),
+    ("dual_engine_reader_sandbox_rag_gate", ("clwriter", "dual engine", "epic engine", "viral engine", "reader sandbox", "logic guard", "state tracker", "rag memory", "style capsule", "rolling summaries")),
+    ("intent_tool_quality_style_checkpoint_gate", ("novel-create-hermes", "ai taste", "quality check", "novel-context.md", "10-slot chapter context", "style extraction", "state layer", "stores but does not decide", "project snapshot", "novel-quality", "novel-style")),
+    ("loreweave_graph_glossary_translation_gate", ("loreweave", "canon-safe writing", "rag lore glossary", "knowledge graph", "translation pipeline", "multi-agent verifier", "name drift", "pronoun flips", "script contamination", "byok multi-llm")),
+    ("mcp_novel_memory_gateway_tool_gate", ("novel weaver gateway", "33 tools", "project_init", "chapter_sync", "character_snapshot_check", "structured storage", "mcp gateway", "postgresql", "pgvector", "neo4j", "meilisearch", "languagetool")),
+    ("goink_tool_state_autoreview_gate", ("goink", "desktop ai writing", "30+ tools", "relationship history", "foreshadowing status", "arc nodes", "semantic search", "review agent", "memory agent", "reader cognition")),
+    ("sandbox_godmode_branch_simulation_gate", ("worldbox writer", "sandbox novel generation", "gatekeeper", "critic", "gm settlement", "nodedetector", "god intervention", "branch switching", "actionintent", "langgraph dual loop", "short long reflection memory")),
+    ("editorial_persona_voice_workshop_gate", ("fiction writing workshop", "voice calibration", "editorial personas", "7-phase review pipeline", "developmental editor", "line editor", "continuity tracker", "naive reader test", "story bible", "source cites")),
+    ("story_factory_thousand_chapter_cache_gate", ("truyencity", "story engine v2", "5-layer architecture", "prompt cache hit", "1000-chapter", "story graph", "auto prompt", "batch writing", "autopilot", "first-10 gate", "foreshadowing")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3409,6 +3445,54 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "ai-novel-generator is an MIT Chinese AI novel CLI with suspicious download-zip README markers but useful public source markers for role-split architect/writer/editor models, volume management, outline validation, anti-pattern engine, character arc enforcement, event dependency graph, plot consistency, and character integrity. "
         "Pattern-only adaptation for volume/anti-pattern/dependency-graph gates; raw ZIP links, CLI execution, pip installs, provider/API calls, generated novel folders, security-topic surfaces, and config runtime are not executed."
     ),
+    "zero-airi/ainovr": (
+        "Ainovr is a no-license-observed Next.js AI novel style-imitation workspace. Public README markers describe multi-novel TXT upload, a unified 7-step source analysis pipeline, event alignment and whole-book memory graph, engineering-reverse DNA compression, breakpoint recovery, 5-layer hierarchical generation, chapter review across style/plot/rhythm/pattern/foreshadowing, up to three repair rounds, TXT export, and 34 configurable prompts. "
+        "Pattern-only adaptation for style-DNA and hierarchy gates; uploaded novels, repomix output, Next.js runtime, PowerShell startup, provider calls, generated chapters, and prompt bodies are not imported or executed."
+    ),
+    "tianshiemo7/long-novelist-skill": (
+        "Long Novelist is an MIT Claude Code Skill for million-word Chinese webnovels. Public README/SKILL markers describe persistence-first state files, startup continuation detection, major/minor/micro arc hierarchy, flexible chapter boundaries, YAML/Markdown character dossiers, relation logs, forgotten-character checks, JSON foreshadowing ledger, writing-dynamics recovery file, style cards, and webnovel material libraries. "
+        "Pattern-only adaptation for arc-state and foreshadowing persistence gates; skill installation, npm packaging, script execution, reference libraries, and upstream skill instructions are not installed or imported."
+    ),
+    "aaron-l945/ai-novel-workshop": (
+        "AI-Novel-Workshop is an Apache-2.0 Streamlit/CrewAI novel platform. Public README markers describe Director/Writer/Polisher/Checker agents, context-aware retrieval of plot and character settings, world and character management, timeline tracking, ChromaDB vector memory, style analysis from uploaded references, logic consistency checks, Docker and shell deployment, and OpenAI/Qwen API-key surfaces. "
+        "Pattern-only adaptation for multi-agent vector-memory timeline gates; Docker, Streamlit, CrewAI, ChromaDB, provider calls, uploaded files, memory stores, and generated novel data are not launched or imported."
+    ),
+    "henriser/novel-generator": (
+        "HenRiser novel-generator is a no-license-observed local Streamlit/DeepSeek novel generator. Public README markers describe workspace/books project folders, versioned outline/character/chapter files, non-overwrite chapter_001_v2-style saves, 100-word chapter summaries, automatic chapter_index.md, continuation from previous chapter plus summaries/outline/characters, prompt preview without API call, project_config.json, .env API-key handling, and Windows startup scripts. "
+        "Pattern-only adaptation for versioned workspace and chapter-index gates; Streamlit runtime, batch files, .env writes, provider test calls, generated outputs, and workspace data are not executed or imported."
+    ),
+    "longkuwu/clwriter": (
+        "CLwriter is an MIT Next.js/Tauri AI novel platform. Public README markers describe dual Epic/Viral engines, AI assistant matrix, style imitator, logic guard, state tracker, reader sandbox, RAG memory system, vectorized setting/character/plot storage, rolling summaries, style capsules, and Tauri local app surfaces. "
+        "Pattern-only adaptation for dual-engine, reader-sandbox, RAG, and style-capsule gates; Tauri/Next runtimes, local databases, .env/provider surfaces, generated project data, and desktop packaging are not launched or imported."
+    ),
+    "ocyisheng/novel-create-hermes": (
+        "novel-create-hermes is a no-license-observed OpenCode/oh-my-openagent novel workflow pack. Public README markers describe conversational intent routing from ideation through outline, chapters, quality detection, style imitation, project import/continuation, state layer config.yaml/notepad, novel-context.md snapshots, tracking scripts for foreshadowing/timeline/characters, 10-slot chapter prompt context, quality/style/entity agents, and builtin style activation. "
+        "Pattern-only adaptation for intent-tool quality/style checkpoint gates; OpenCode plugin install, global npm, .opencode agents/skills, Python scripts, provider sessions, project novels, and upstream prompts are not installed or imported."
+    ),
+    "letuhao/lore-weave": (
+        "LoreWeave is an AGPL self-hosted AI co-author platform. Public README markers describe canon-safe writing, automatic extraction of characters, locations, events, and relationships into a knowledge graph, RAG lore glossary, translation pipeline with multi-agent verifier, name drift, dropped sentence, pronoun flip, and script-contamination checks, BYOK multi-LLM, local model support, MCP and provider-key surfaces. "
+        "Pattern-only adaptation for lore graph, glossary, translation-consistency, and canon-critic gates; self-hosted services, MCP config, package scripts, provider sessions, manuscripts, translations, screenshots, and generated data are not launched or imported."
+    ),
+    "jktantan/novel-weaver": (
+        "Novel Weaver Gateway is an MIT Spring Boot MCP data backend for novel writing. Public README/root markers describe 33 MCP tools, project_init/archive/export/import, chapter_sync/list/get, character_save/status/snapshot/check, location, timeline, foreshadowing, PostgreSQL plus pgvector, Neo4j, Meilisearch, LanguageTool, Docker, env config, and Claude/Reasonix client setup. "
+        "Pattern-only adaptation for MCP structured novel-memory gateway gates; Docker, databases, MCP server startup, client config, env files, imports/exports, and tool calls are not executed."
+    ),
+    "sigpanic/goink": (
+        "Goink is an MIT Wails/Go desktop AI novel writing assistant. Public README markers describe conversational tool execution, reading/writing chapters, outline and prose operations, character dossiers, directed relationship history, foreshadowing status with target recovery chapters, arc nodes, reader cognition, global/book preferences, semantic full-book search, review sub-agent, and memory sub-agent. "
+        "Pattern-only adaptation for tool-driven state tracking and auto-review gates; desktop app, Wails/Go builds, scripts, local databases, sub-agents, provider sessions, and manuscript files are not launched or imported."
+    ),
+    "12bitsd/worldbox-writer": (
+        "WorldBox Writer is a no-license-observed sandbox AI novel generation system. Public README markers describe humans as director/god, agents as world/crew, persistent intent boundaries, GateKeeper + Critic review, LangGraph dual loop, Director scene plans, isolated Actor ActionIntent, GM settlement, Narrator rendering, NodeDetector branch points, god intervention, short/long/reflection memory, ChromaDB retrieval, branch switching, and multi-format export. "
+        "Pattern-only adaptation for sandbox branch-simulation and intervention gates; Docker, LangGraph runtime, provider calls, ChromaDB, exported manuscripts, artifacts, and scripts are not executed or imported."
+    ),
+    "ledea-67/fiction-writing-workshop": (
+        "Fiction Writing Workshop is a no-license-observed Claude Code fiction workshop. Public README markers describe voice calibration from manuscript examples, five editorial personas, one persona per pass, a repeatable 7-phase review pipeline, naive reader test, structural analysis, character audit, story bible with source citations, continuity tracking for timeline/object/knowledge states, contradiction handling, and brainstorming methodology. "
+        "Pattern-only adaptation for editorial-persona and voice-calibration workshop gates; Claude Code setup, skill folder copy, manuscript reads, upstream prompts, and project files are not imported or executed."
+    ),
+    "ungden/truyencity2": (
+        "TruyenCity2 is an Apache-2.0 AI Vietnamese webnovel platform. Public README/root markers describe Story Engine v2, 5-layer architecture, 1000-2000 chapter novels, Story Graph context, auto prompt templates, quality checks, batch writing, autopilot scheduler, notifications, Supabase/Vercel surfaces, DeepSeek V4 Flash cost estimates, 70% prompt-cache hit, and first-10 gate coverage. "
+        "Pattern-only adaptation for thousand-chapter story-factory, prompt-cache, and batch-quality gates; Next/Supabase/Vercel runtime, edge functions, databases, schedulers, notifications, provider calls, chapters, logs, and env files are not launched or imported."
+    ),
 
 }
 
@@ -4155,6 +4239,18 @@ class NovelSourceDiscoveryService:
             "stepwise_local_book_generation_file_gate_hints": self._build_stepwise_local_book_generation_file_gate_hints(available_patterns),
             "radial_subplot_timeline_xray_gate_hints": self._build_radial_subplot_timeline_xray_gate_hints(available_patterns),
             "volume_antipattern_dependency_graph_gate_hints": self._build_volume_antipattern_dependency_graph_gate_hints(available_patterns),
+            "style_dna_breakpoint_hierarchy_gate_hints": self._build_style_dna_breakpoint_hierarchy_gate_hints(available_patterns),
+            "arc_state_foreshadowing_persistence_gate_hints": self._build_arc_state_foreshadowing_persistence_gate_hints(available_patterns),
+            "multi_agent_vector_memory_timeline_gate_hints": self._build_multi_agent_vector_memory_timeline_gate_hints(available_patterns),
+            "versioned_workspace_chapter_index_gate_hints": self._build_versioned_workspace_chapter_index_gate_hints(available_patterns),
+            "dual_engine_reader_sandbox_rag_gate_hints": self._build_dual_engine_reader_sandbox_rag_gate_hints(available_patterns),
+            "intent_tool_quality_style_checkpoint_gate_hints": self._build_intent_tool_quality_style_checkpoint_gate_hints(available_patterns),
+            "loreweave_graph_glossary_translation_gate_hints": self._build_loreweave_graph_glossary_translation_gate_hints(available_patterns),
+            "mcp_novel_memory_gateway_tool_gate_hints": self._build_mcp_novel_memory_gateway_tool_gate_hints(available_patterns),
+            "goink_tool_state_autoreview_gate_hints": self._build_goink_tool_state_autoreview_gate_hints(available_patterns),
+            "sandbox_godmode_branch_simulation_gate_hints": self._build_sandbox_godmode_branch_simulation_gate_hints(available_patterns),
+            "editorial_persona_voice_workshop_gate_hints": self._build_editorial_persona_voice_workshop_gate_hints(available_patterns),
+            "story_factory_thousand_chapter_cache_gate_hints": self._build_story_factory_thousand_chapter_cache_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4935,6 +5031,18 @@ class NovelSourceDiscoveryService:
             "stepwise_local_book_generation_file_gate": 70,
             "radial_subplot_timeline_xray_gate": 69,
             "volume_antipattern_dependency_graph_gate": 72,
+            "style_dna_breakpoint_hierarchy_gate": 72,
+            "arc_state_foreshadowing_persistence_gate": 73,
+            "multi_agent_vector_memory_timeline_gate": 71,
+            "versioned_workspace_chapter_index_gate": 70,
+            "dual_engine_reader_sandbox_rag_gate": 70,
+            "intent_tool_quality_style_checkpoint_gate": 69,
+            "loreweave_graph_glossary_translation_gate": 70,
+            "mcp_novel_memory_gateway_tool_gate": 72,
+            "goink_tool_state_autoreview_gate": 71,
+            "sandbox_godmode_branch_simulation_gate": 70,
+            "editorial_persona_voice_workshop_gate": 68,
+            "story_factory_thousand_chapter_cache_gate": 69,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5125,6 +5233,42 @@ class NovelSourceDiscoveryService:
         if "volume_antipattern_dependency_graph_gate" in patterns:
             targets.append("volume_outline_dependency_policy")
             targets.append("anti_pattern_event_graph_policy")
+        if "style_dna_breakpoint_hierarchy_gate" in patterns:
+            targets.append("style_dna_analysis_pipeline_policy")
+            targets.append("hierarchical_generation_review_policy")
+        if "arc_state_foreshadowing_persistence_gate" in patterns:
+            targets.append("arc_state_persistence_policy")
+            targets.append("foreshadowing_contract_policy")
+        if "multi_agent_vector_memory_timeline_gate" in patterns:
+            targets.append("multi_agent_memory_timeline_policy")
+            targets.append("vector_memory_custody_policy")
+        if "versioned_workspace_chapter_index_gate" in patterns:
+            targets.append("chapter_index_versioning_policy")
+            targets.append("prompt_preview_no_call_policy")
+        if "dual_engine_reader_sandbox_rag_gate" in patterns:
+            targets.append("dual_engine_reader_sandbox_policy")
+            targets.append("style_capsule_rag_policy")
+        if "intent_tool_quality_style_checkpoint_gate" in patterns:
+            targets.append("intent_tool_routing_quality_policy")
+            targets.append("checkpoint_state_layer_policy")
+        if "loreweave_graph_glossary_translation_gate" in patterns:
+            targets.append("lore_graph_glossary_policy")
+            targets.append("translation_consistency_policy")
+        if "mcp_novel_memory_gateway_tool_gate" in patterns:
+            targets.append("mcp_tool_memory_schema_policy")
+            targets.append("structured_novel_storage_policy")
+        if "goink_tool_state_autoreview_gate" in patterns:
+            targets.append("tool_state_autoreview_policy")
+            targets.append("semantic_search_state_policy")
+        if "sandbox_godmode_branch_simulation_gate" in patterns:
+            targets.append("sandbox_branch_intervention_policy")
+            targets.append("actor_intent_settlement_policy")
+        if "editorial_persona_voice_workshop_gate" in patterns:
+            targets.append("editorial_persona_voice_policy")
+            targets.append("story_bible_source_citation_policy")
+        if "story_factory_thousand_chapter_cache_gate" in patterns:
+            targets.append("thousand_chapter_story_factory_policy")
+            targets.append("prompt_cache_batch_quality_policy")
         if "local_first_novel_workspace" in patterns:
             targets.append("workspace_scope")
             targets.append("project_local_state")
@@ -6349,6 +6493,30 @@ class NovelSourceDiscoveryService:
             targets.extend(["radial_subplot_timeline_report", "narrative_vs_chronology_order_findings", "story_pulse_cross_subplot_links"])
         if "volume_antipattern_dependency_graph_gate" in patterns:
             targets.extend(["volume_dependency_graph_report", "anti_pattern_repetition_findings", "character_arc_integrity_findings"])
+        if "style_dna_breakpoint_hierarchy_gate" in patterns:
+            targets.extend(["style_dna_breakpoint_report", "hierarchical_generation_review_trace", "chapter_repair_round_findings"])
+        if "arc_state_foreshadowing_persistence_gate" in patterns:
+            targets.extend(["arc_state_persistence_report", "foreshadowing_contract_ledger", "forgotten_character_findings"])
+        if "multi_agent_vector_memory_timeline_gate" in patterns:
+            targets.extend(["multi_agent_timeline_review", "vector_memory_custody_report", "logic_consistency_findings"])
+        if "versioned_workspace_chapter_index_gate" in patterns:
+            targets.extend(["chapter_index_version_report", "summary_context_chain_findings", "prompt_preview_audit"])
+        if "dual_engine_reader_sandbox_rag_gate" in patterns:
+            targets.extend(["dual_engine_fit_report", "reader_sandbox_feedback_findings", "style_capsule_rag_findings"])
+        if "intent_tool_quality_style_checkpoint_gate" in patterns:
+            targets.extend(["intent_tool_route_quality_report", "checkpoint_state_layer_findings", "chapter_context_slot_audit"])
+        if "loreweave_graph_glossary_translation_gate" in patterns:
+            targets.extend(["lore_graph_glossary_report", "translation_drift_findings", "canon_critic_findings"])
+        if "mcp_novel_memory_gateway_tool_gate" in patterns:
+            targets.extend(["mcp_memory_tool_inventory", "character_snapshot_check_findings", "foreshadowing_storage_findings"])
+        if "goink_tool_state_autoreview_gate" in patterns:
+            targets.extend(["tool_state_autoreview_report", "relationship_history_findings", "arc_node_status_findings"])
+        if "sandbox_godmode_branch_simulation_gate" in patterns:
+            targets.extend(["sandbox_branch_simulation_report", "god_intervention_log", "action_intent_settlement_findings"])
+        if "editorial_persona_voice_workshop_gate" in patterns:
+            targets.extend(["voice_calibration_report", "persona_review_matrix", "story_bible_source_citation_audit"])
+        if "story_factory_thousand_chapter_cache_gate" in patterns:
+            targets.extend(["thousand_chapter_layer_report", "prompt_cache_cost_findings", "batch_autopilot_quality_findings"])
         if "author_note_layer" in patterns:
             targets.extend(["author_note_layer", "style_directive_layer", "insertion_frequency"])
         if "world_state_tracking" in patterns:
@@ -7240,6 +7408,30 @@ class NovelSourceDiscoveryService:
             hints.append("Check the next scene in both narrative order and chronological order; preserve subplot ring continuity, scene synopsis, and story pulse before drafting.")
         if "volume_antipattern_dependency_graph_gate" in patterns:
             hints.append("Before long-run generation, validate volume plan, event dependencies, repeated conflict patterns, and character-arc enforcement so a new chapter does not create plot holes.")
+        if "style_dna_breakpoint_hierarchy_gate" in patterns:
+            hints.append("For style-imitation requests, keep source analysis, style-DNA rules, hierarchy plan, chapter review, and repair rounds as separate artifacts with breakpoint state.")
+        if "arc_state_foreshadowing_persistence_gate" in patterns:
+            hints.append("For million-word continuation, write from the current arc phase, active character states, foreshadowing ledger, and recent chapter dynamics rather than a fixed chapter-count outline.")
+        if "multi_agent_vector_memory_timeline_gate" in patterns:
+            hints.append("When using multi-agent drafting, separate director/writer/polisher/checker roles and require timeline plus vector-memory evidence before accepting a chapter.")
+        if "versioned_workspace_chapter_index_gate" in patterns:
+            hints.append("Before saving a generated chapter, update the chapter index, preserve previous versions, and attach summary-context provenance plus prompt-preview evidence.")
+        if "dual_engine_reader_sandbox_rag_gate" in patterns:
+            hints.append("Choose epic or viral engine constraints explicitly, then use reader-sandbox and logic-guard feedback as review signals rather than automatic rewrite authority.")
+        if "intent_tool_quality_style_checkpoint_gate" in patterns:
+            hints.append("Route chat-style novel operations through explicit project, outline, write, quality, style, and entity tools; checkpoint state stores facts but does not decide canon alone.")
+        if "loreweave_graph_glossary_translation_gate" in patterns:
+            hints.append("Before continuation or translation, ground suggestions in the lore graph and glossary, then check name, pronoun, relationship, and invented-term drift before acceptance.")
+        if "mcp_novel_memory_gateway_tool_gate" in patterns:
+            hints.append("Use MCP-style memory tools only through declared schemas: sync chapters, snapshot characters, record timeline and foreshadowing, then verify reads before drafting.")
+        if "goink_tool_state_autoreview_gate" in patterns:
+            hints.append("After tool-driven chapter edits, run state maintenance for relationships, foreshadowing, arc nodes, reader cognition, and independent review-agent findings.")
+        if "sandbox_godmode_branch_simulation_gate" in patterns:
+            hints.append("For sandbox-style generation, separate actor intent, critic review, GM settlement, narrator rendering, and user intervention points so prose does not overwrite world state.")
+        if "editorial_persona_voice_workshop_gate" in patterns:
+            hints.append("Run one editorial persona per pass: voice, structure, character, continuity, naive reader, and brainstorm findings should stay separately attributable.")
+        if "story_factory_thousand_chapter_cache_gate" in patterns:
+            hints.append("For thousand-chapter plans, declare story-engine layers, prompt-cache budget, batch stop conditions, first-10 gate, and quality expansion rules before automation.")
         if "author_note_layer" in patterns:
             hints.append("Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.")
         if "workflow_agent_pipeline" in patterns:
@@ -12181,6 +12373,114 @@ class NovelSourceDiscoveryService:
             "Repositories with raw ZIP links, security labels, and provider configs remain pattern-only; do not import generated novels, API flows, or installer instructions.",
         ]
 
+    def _build_style_dna_breakpoint_hierarchy_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "style_dna_breakpoint_hierarchy_gate" not in patterns:
+            return []
+        return [
+            "Source-novel analysis should produce abstract style-DNA rules, event-alignment notes, hierarchy plans, review dimensions, and repair counters without moving uploaded prose into drafting context.",
+            "Breakpoint recovery is useful only when it records completed analysis stages and missing artifacts; it must not skip rights, source scope, or copy-risk checks.",
+            "Chapter review should cap repair loops and keep style, plot, rhythm, pattern, and foreshadowing findings visible before accepting output.",
+        ]
+
+    def _build_arc_state_foreshadowing_persistence_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "arc_state_foreshadowing_persistence_gate" not in patterns:
+            return []
+        return [
+            "Plan million-word runs by major/minor/micro arcs with flexible chapter boundaries, not by blindly locking every future chapter number.",
+            "Persist each character's entry/exit state, relationship changes, forgotten-character warnings, and current arc phase so cross-session continuation has proof of state.",
+            "Treat foreshadowing as a reader contract: every setup needs id, arc scope, planted chapter, expected payoff, current status, and overdue review.",
+        ]
+
+    def _build_multi_agent_vector_memory_timeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "multi_agent_vector_memory_timeline_gate" not in patterns:
+            return []
+        return [
+            "Director, writer, polisher, and checker roles should receive scoped memory packets and produce separate traceable decisions before a chapter is accepted.",
+            "Vector memory is a retrieval aid, not canon authority; cite the timeline, world, character, and style records that supported each retrieved fact.",
+            "Logic consistency checks should update review findings first; permanent world or character state changes require an accepted chapter and author-visible diff.",
+        ]
+
+    def _build_versioned_workspace_chapter_index_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "versioned_workspace_chapter_index_gate" not in patterns:
+            return []
+        return [
+            "Store each book under a project workspace with outline, characters, chapters, summaries, config, and chapter_index metadata instead of title-only loose files.",
+            "Never overwrite accepted chapters silently; save replacement drafts as new versions and keep title, model, timestamp, and summary in chapter_index.",
+            "Prompt preview can validate inputs without a provider call, so use it as a preflight gate before expensive or risky generation runs.",
+        ]
+
+    def _build_dual_engine_reader_sandbox_rag_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "dual_engine_reader_sandbox_rag_gate" not in patterns:
+            return []
+        return [
+            "Declare whether a chapter is optimized for epic depth or viral retention before applying pacing, hook, and worldbuilding advice.",
+            "Reader-sandbox feedback should surface expected confusion, boredom, payoff, and hook strength, while the author keeps final acceptance authority.",
+            "Style capsules and rolling RAG summaries must be scoped to transformed project memory, not reused as source-author style clones.",
+        ]
+
+    def _build_intent_tool_quality_style_checkpoint_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "intent_tool_quality_style_checkpoint_gate" not in patterns:
+            return []
+        return [
+            "Chat-like novel commands should resolve to explicit project, outline, chapter, entity, quality, and style tools with visible preconditions and outputs.",
+            "Checkpoint state layers can store summaries, slots, and config, but canon decisions require chapter evidence and accepted diffs.",
+            "Quality/style agents should report AI-taste, plot, character, world, rhythm, and style findings separately so style imitation does not hide continuity failures.",
+        ]
+
+    def _build_loreweave_graph_glossary_translation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "loreweave_graph_glossary_translation_gate" not in patterns:
+            return []
+        return [
+            "Treat lore graph, glossary, translation memory, and canon critic as shared evidence layers; every suggestion should cite which layer it used.",
+            "Translation or same-type continuation must check name drift, pronoun drift, dropped beats, relationship state, and invented-term consistency before acceptance.",
+            "BYOK and self-hosted multi-service surfaces remain runtime-deferred; absorb the custody model, not provider sessions or service code.",
+        ]
+
+    def _build_mcp_novel_memory_gateway_tool_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "mcp_novel_memory_gateway_tool_gate" not in patterns:
+            return []
+        return [
+            "Expose novel memory as narrow tools with schemas for project, chapter, character, location, timeline, and foreshadowing rather than a free-form context dump.",
+            "Character snapshots and snapshot checks should prove state changes before new chapters consume them as canon.",
+            "MCP servers, databases, client configs, and imports stay runtime-deferred until tool allowlists, storage custody, and rollback are explicit.",
+        ]
+
+    def _build_goink_tool_state_autoreview_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "goink_tool_state_autoreview_gate" not in patterns:
+            return []
+        return [
+            "Tool-driven writing should distinguish prose edits from state maintenance: relationships, foreshadowing, arc nodes, reader cognition, and preferences update on separate traces.",
+            "Review and memory sub-agents should report findings independently; they cannot silently modify accepted canon or overwrite the author draft.",
+            "Semantic search over the full book is advisory and must cite matched chapters or state records before it influences continuation.",
+        ]
+
+    def _build_sandbox_godmode_branch_simulation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "sandbox_godmode_branch_simulation_gate" not in patterns:
+            return []
+        return [
+            "Sandbox generation should keep actor ActionIntent, critic review, GM settlement, branch node, and narrator prose as separate artifacts.",
+            "God-mode interventions are explicit branch deltas with before/after summaries, not hidden prompt edits inside the next chapter.",
+            "Short, long, and reflection memory layers need scope and expiry so simulated world state does not leak across unrelated branches.",
+        ]
+
+    def _build_editorial_persona_voice_workshop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "editorial_persona_voice_workshop_gate" not in patterns:
+            return []
+        return [
+            "Calibrate voice into allowed registers, anti-patterns, and examples, then use it as review guidance rather than a source-prose cloning target.",
+            "Run developmental, line, character, continuity, naive-reader, and brainstorming passes separately so feedback remains attributable and non-conflicting.",
+            "Story-bible facts should cite their source chapter or note; contradictions can be preserved as open questions until the author resolves them.",
+        ]
+
+    def _build_story_factory_thousand_chapter_cache_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_factory_thousand_chapter_cache_gate" not in patterns:
+            return []
+        return [
+            "Thousand-chapter automation needs layer custody for canon, plan, state, memory, quality, context, and pipeline before scheduling batch writing.",
+            "Prompt-cache and cost estimates are planning hints only; they should not justify skipping quality, first-10, or contradiction gates.",
+            "Batch writing must declare stop conditions, rollback, notification scope, and failed-chapter handling before any autopilot run is allowed.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -12198,6 +12498,30 @@ class NovelSourceDiscoveryService:
             targets.append("subplot_timeline_order_remap")
         if "volume_antipattern_dependency_graph_gate" in patterns:
             targets.append("volume_event_dependency_remap")
+        if "style_dna_breakpoint_hierarchy_gate" in patterns:
+            targets.append("style_dna_pipeline_remap")
+        if "arc_state_foreshadowing_persistence_gate" in patterns:
+            targets.append("arc_state_foreshadowing_remap")
+        if "multi_agent_vector_memory_timeline_gate" in patterns:
+            targets.append("vector_memory_timeline_remap")
+        if "versioned_workspace_chapter_index_gate" in patterns:
+            targets.append("chapter_index_workspace_remap")
+        if "dual_engine_reader_sandbox_rag_gate" in patterns:
+            targets.append("dual_engine_reader_sandbox_remap")
+        if "intent_tool_quality_style_checkpoint_gate" in patterns:
+            targets.append("intent_tool_checkpoint_remap")
+        if "loreweave_graph_glossary_translation_gate" in patterns:
+            targets.append("lore_glossary_translation_remap")
+        if "mcp_novel_memory_gateway_tool_gate" in patterns:
+            targets.append("mcp_memory_tool_schema_remap")
+        if "goink_tool_state_autoreview_gate" in patterns:
+            targets.append("tool_state_autoreview_remap")
+        if "sandbox_godmode_branch_simulation_gate" in patterns:
+            targets.append("sandbox_branch_intervention_remap")
+        if "editorial_persona_voice_workshop_gate" in patterns:
+            targets.append("editorial_persona_voice_remap")
+        if "story_factory_thousand_chapter_cache_gate" in patterns:
+            targets.append("story_factory_layer_cache_remap")
         if "card_workbench" in patterns:
             targets.append("card_schema_remap")
         if "manuscript_card_board_extraction_gate" in patterns:
@@ -13714,6 +14038,30 @@ class NovelSourceDiscoveryService:
             hints.append("Transform scene order twice: once by reader-facing narrative order and once by chronological causality, then repair subplot gaps before prose.")
         if "volume_antipattern_dependency_graph_gate" in patterns:
             hints.append("Transform volume structure, dependency edges, anti-pattern checklist, and character-arc checkpoints into the target premise rather than copying source escalation.")
+        if "style_dna_breakpoint_hierarchy_gate" in patterns:
+            hints.append("Transform style-DNA findings into allowed/forbidden abstract rules, then rebuild hierarchy plans and repair criteria for the new premise.")
+        if "arc_state_foreshadowing_persistence_gate" in patterns:
+            hints.append("Transform major/minor/micro arc functions, character state deltas, and foreshadowing contracts into new names, motives, causes, and payoff timing.")
+        if "multi_agent_vector_memory_timeline_gate" in patterns:
+            hints.append("Transform vector-memory retrieval categories and timeline checkpoints before assigning director/writer/checker roles to the target story.")
+        if "versioned_workspace_chapter_index_gate" in patterns:
+            hints.append("Transform workspace manifests, chapter ids, summaries, and version labels so no source project path or prior-chapter window becomes target canon.")
+        if "dual_engine_reader_sandbox_rag_gate" in patterns:
+            hints.append("Transform epic/viral engine criteria, reader-sandbox assumptions, and style capsules around the new audience promise and conflict source.")
+        if "intent_tool_quality_style_checkpoint_gate" in patterns:
+            hints.append("Transform intent routes, context slots, quality checks, and style activations into target-project tools instead of carrying upstream command semantics.")
+        if "loreweave_graph_glossary_translation_gate" in patterns:
+            hints.append("Transform lore graph categories, glossary terms, relationship facts, and translation checks into new project evidence layers before drafting.")
+        if "mcp_novel_memory_gateway_tool_gate" in patterns:
+            hints.append("Transform each memory tool schema around the target story's projects, chapters, characters, locations, timeline, and foreshadowing ids.")
+        if "goink_tool_state_autoreview_gate" in patterns:
+            hints.append("Transform tool operations and auto-review findings into target-specific state deltas, not source relationship history or arc-node labels.")
+        if "sandbox_godmode_branch_simulation_gate" in patterns:
+            hints.append("Transform actor goals, intervention points, branch summaries, and settlement rules before rendering prose for the target world.")
+        if "editorial_persona_voice_workshop_gate" in patterns:
+            hints.append("Transform voice registers and persona review rubrics into independent target-story criteria with new examples and source citations.")
+        if "story_factory_thousand_chapter_cache_gate" in patterns:
+            hints.append("Transform story-engine layers, batch windows, quality expansion rules, and prompt-cache assumptions into the new project's chapter scale.")
         if "emotion_arc" in patterns:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
         if "card_workbench" in patterns:
@@ -14993,6 +15341,30 @@ class NovelSourceDiscoveryService:
             hints.append("Reject scene maps that only rotate source subplot rings while preserving the same reveal order, chronology, or story-pulse labels.")
         if "volume_antipattern_dependency_graph_gate" in patterns:
             hints.append("Reject volume plans that copy source escalation ladders, event dependency chains, repeated twist cadence, or character-arc checkpoints under new names.")
+        if "style_dna_breakpoint_hierarchy_gate" in patterns:
+            hints.append("Reject style-DNA packs that preserve source-event alignment, source character functions, chapter hierarchy, or review rewards for sounding too close to the reference.")
+        if "arc_state_foreshadowing_persistence_gate" in patterns:
+            hints.append("Reject arc ledgers that keep source arc nesting, character entry/exit states, foreshadowing ids, or payoff timing under renamed labels.")
+        if "multi_agent_vector_memory_timeline_gate" in patterns:
+            hints.append("Reject multi-agent drafts when vector memory retrieves source passages as authority or when timeline checks only validate copied chronology.")
+        if "versioned_workspace_chapter_index_gate" in patterns:
+            hints.append("Reject workspace imports that carry source chapter_index rows, versioned chapter files, project_config, or previous-chapter summaries into the transformed project.")
+        if "dual_engine_reader_sandbox_rag_gate" in patterns:
+            hints.append("Reject reader-sandbox or viral-engine scores that reward source-like hooks, trope order, style capsules, or rolling-summary echoes.")
+        if "intent_tool_quality_style_checkpoint_gate" in patterns:
+            hints.append("Reject checkpoint states whose tool slots copy source chapter context, builtin style labels, entity files, or upstream agent prompts as canon.")
+        if "loreweave_graph_glossary_translation_gate" in patterns:
+            hints.append("Reject lore or glossary packs that preserve source names, invented terms, relationship arcs, translation fixes, or canon-critic examples as target facts.")
+        if "mcp_novel_memory_gateway_tool_gate" in patterns:
+            hints.append("Reject memory-tool imports that carry source project ids, character snapshots, timeline rows, foreshadowing records, or database exports into the target work.")
+        if "goink_tool_state_autoreview_gate" in patterns:
+            hints.append("Reject tool-driven drafts whose auto-review passes only approve copied relationship history, foreshadowing status, arc nodes, or reader-cognition state.")
+        if "sandbox_godmode_branch_simulation_gate" in patterns:
+            hints.append("Reject branch simulations that replay source actor intents, intervention order, branch outcomes, or settlement summaries under new names.")
+        if "editorial_persona_voice_workshop_gate" in patterns:
+            hints.append("Reject voice-calibration packs that reuse source prose examples, persona notes, story-bible facts, or contradiction lists as transformed-story material.")
+        if "story_factory_thousand_chapter_cache_gate" in patterns:
+            hints.append("Reject batch plans that copy source layer schemas, first-10 hooks, prompt-cache assumptions, or platform-specific quality rules without transformation.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
         if "scene_card_hard_soft_field_gate" in patterns:
@@ -15239,6 +15611,18 @@ class NovelSourceDiscoveryService:
                 "stepwise_local_book_generation_file_gate",
                 "radial_subplot_timeline_xray_gate",
                 "volume_antipattern_dependency_graph_gate",
+                "style_dna_breakpoint_hierarchy_gate",
+                "arc_state_foreshadowing_persistence_gate",
+                "multi_agent_vector_memory_timeline_gate",
+                "versioned_workspace_chapter_index_gate",
+                "dual_engine_reader_sandbox_rag_gate",
+                "intent_tool_quality_style_checkpoint_gate",
+                "loreweave_graph_glossary_translation_gate",
+                "mcp_novel_memory_gateway_tool_gate",
+                "goink_tool_state_autoreview_gate",
+                "sandbox_godmode_branch_simulation_gate",
+                "editorial_persona_voice_workshop_gate",
+                "story_factory_thousand_chapter_cache_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

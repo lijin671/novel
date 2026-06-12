@@ -267,6 +267,18 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "stepwise_local_book_generation_file_gate_hints",
             "radial_subplot_timeline_xray_gate_hints",
             "volume_antipattern_dependency_graph_gate_hints",
+            "style_dna_breakpoint_hierarchy_gate_hints",
+            "arc_state_foreshadowing_persistence_gate_hints",
+            "multi_agent_vector_memory_timeline_gate_hints",
+            "versioned_workspace_chapter_index_gate_hints",
+            "dual_engine_reader_sandbox_rag_gate_hints",
+            "intent_tool_quality_style_checkpoint_gate_hints",
+            "loreweave_graph_glossary_translation_gate_hints",
+            "mcp_novel_memory_gateway_tool_gate_hints",
+            "goink_tool_state_autoreview_gate_hints",
+            "sandbox_godmode_branch_simulation_gate_hints",
+            "editorial_persona_voice_workshop_gate_hints",
+            "story_factory_thousand_chapter_cache_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text

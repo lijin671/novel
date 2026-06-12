@@ -330,6 +330,18 @@ export interface SourceDiscoveryPatternPack {
   stepwise_local_book_generation_file_gate_hints?: string[];
   radial_subplot_timeline_xray_gate_hints?: string[];
   volume_antipattern_dependency_graph_gate_hints?: string[];
+  style_dna_breakpoint_hierarchy_gate_hints?: string[];
+  arc_state_foreshadowing_persistence_gate_hints?: string[];
+  multi_agent_vector_memory_timeline_gate_hints?: string[];
+  versioned_workspace_chapter_index_gate_hints?: string[];
+  dual_engine_reader_sandbox_rag_gate_hints?: string[];
+  intent_tool_quality_style_checkpoint_gate_hints?: string[];
+  loreweave_graph_glossary_translation_gate_hints?: string[];
+  mcp_novel_memory_gateway_tool_gate_hints?: string[];
+  goink_tool_state_autoreview_gate_hints?: string[];
+  sandbox_godmode_branch_simulation_gate_hints?: string[];
+  editorial_persona_voice_workshop_gate_hints?: string[];
+  story_factory_thousand_chapter_cache_gate_hints?: string[];
   safety_constraints?: string[];
 }
 
