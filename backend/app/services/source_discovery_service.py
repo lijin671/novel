@@ -468,6 +468,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("story bible + worldbuilding wiki" OR "wiki-ingest" OR "wiki-lint") ("long-form fiction" OR "continuity pressure") in:name,description,readme',
     '("Tell Me A Story" OR "Agents Room" OR "multi-step collaboration") ("narrative generation" OR "human-written stories") in:name,description,readme',
     '("Judgemark" OR "Nuanced Characters" OR "Emotionally Engaging") ("creative writing judge" OR "literary criteria") in:name,description,readme',
+    '("7 writing laws" OR "anti-AI trace" OR "platform adaptation") ("novel writing toolkit" OR "web novel") in:name,description,readme',
+    '("Save the Cat" OR "13 skills" OR "4 agents") ("vibe noveling" OR "Chinese web novel") in:name,description,readme',
+    '("Story Bible QA" OR "POV" OR "lore rule") ("long-form fiction" OR "continuity console") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -526,6 +529,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/abrahamp47/storyforge-wiki",
     "https://github.com/google-deepmind/tell_me_a_story",
     "https://github.com/EQ-bench/Judgemark-v2",
+    "https://github.com/Beat1ngHeart/novel-writing-toolkit",
+    "https://github.com/TulanCN/vibe-noveling",
+    "https://github.com/sadasdfsaf/story-bible-qa",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1458,6 +1464,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("human_story_metric_panel", ("hanna", "human-annotated narratives", "relevance, coherence", "empathy, surprise", "engagement and complexity", "automatic story evaluation", "human annotated narratives")),
     ("agents_room_multistep_story_collaboration_gate", ("tell me a story", "agents' room", "agents room", "multi-step collaboration", "narrative generation", "complex writing prompts", "human-written stories", "specialized agents", "plot", "developing interesting characters", "evocative language")),
     ("judgemark_literary_criteria_calibration_gate", ("judgemark", "creative writing judge", "numeric scores", "multiple literary criteria", "nuanced characters", "overwrought", "emotionally engaging", "consistent and discriminative", "ensemble judge", "judge model")),
+    ("seven_law_platform_closed_loop_gate", ("novel writing toolkit", "7 writing laws", "seven writing laws", "anti-ai trace", "anti ai trace", "platform adaptation", "platform fit", "data closed loop", "reader feedback loop", "follow-read", "ranking signals", "topic selection")),
+    ("vibe_noveling_skill_agent_save_cat_gate", ("vibe noveling", "13 skills", "4 agents", "save the cat", "15 beats", "booming", "fuck-it", "novel-discuss", "novel-bookplan", "consistency-guard", "knowledge graph", "chapter publishing")),
+    ("story_bible_qa_pov_lore_rule_gate", ("story bible qa", "continuity console", "long-form fiction", "pov", "location", "lore rule", "story bible / pov / location / lore rule", "local-first continuity", "qa")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3792,6 +3801,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Judgemark V2.1 is an MIT benchmark for evaluating creative-writing judge models. Static README markers describe numeric scores across literary criteria such as Nuanced Characters, Overwrought, and Emotionally Engaging, plus consistency, discriminativeness, and ensemble judge scoring. "
         "Pattern-only adaptation for literary-criteria calibration gates; requirements, API keys, judge execution, result datasets, and benchmark scripts are not imported or executed."
     ),
+    "beat1ngheart/novel-writing-toolkit": (
+        "novel-writing-toolkit is a no-license-observed Claude Code custom command pack for AI-assisted web-novel writing. Static README/command markers describe /novel, /novel-plan, /novel-topic, seven writing laws, anti-AI trace cleanup, platform adaptation, topic scoring, ranking signals, and data-loop review. "
+        "Pattern-only adaptation for platform closed-loop and seven-law prose gates; slash commands, prompt bodies, Claude runtime, user manuscripts, and marketplace install surfaces are not imported or executed."
+    ),
+    "tulancn/vibe-noveling": (
+        "Vibe Noveling is an MIT Chinese web-novel workflow for Claude Code with shipped Skills and Agents. Static README markers describe 13 skills, 4 built-in agents, Save the Cat 15-beat planning across book/volume/chapter levels, booming/fuck-it expansion roles, consistency-guard, novel-sync, snapshots, progress tracking, and knowledge-graph synchronization. "
+        "Pattern-only adaptation for skill-agent Save-the-Cat workflow gates; plugin install, auto-update, skills, agents, scripts, local knowledge graph, and Claude runtime are not executed or imported."
+    ),
+    "sadasdfsaf/story-bible-qa": (
+        "Story Bible QA is a no-license-observed local-first continuity console for long-form fiction. Static README/index markers describe Story Bible QA, React/Vite workspace, local continuity review, Story Bible / POV / location / lore-rule checks, and preview UI. "
+        "Pattern-only adaptation for POV/location/lore-rule QA gates; npm install/build, browser app, package-lock dependencies, local story bible data, and UI runtime are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4597,6 +4618,9 @@ class NovelSourceDiscoveryService:
             "storyforge_wiki_ingest_lint_graph_gate_hints": self._build_storyforge_wiki_ingest_lint_graph_gate_hints(available_patterns),
             "agents_room_multistep_story_collaboration_gate_hints": self._build_agents_room_multistep_story_collaboration_gate_hints(available_patterns),
             "judgemark_literary_criteria_calibration_gate_hints": self._build_judgemark_literary_criteria_calibration_gate_hints(available_patterns),
+            "seven_law_platform_closed_loop_gate_hints": self._build_seven_law_platform_closed_loop_gate_hints(available_patterns),
+            "vibe_noveling_skill_agent_save_cat_gate_hints": self._build_vibe_noveling_skill_agent_save_cat_gate_hints(available_patterns),
+            "story_bible_qa_pov_lore_rule_gate_hints": self._build_story_bible_qa_pov_lore_rule_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -6919,6 +6943,15 @@ class NovelSourceDiscoveryService:
         if "judgemark_literary_criteria_calibration_gate" in patterns:
             targets.append("literary_judge_criteria_policy")
             targets.append("judge_consistency_calibration_policy")
+        if "seven_law_platform_closed_loop_gate" in patterns:
+            targets.append("seven_law_prose_policy")
+            targets.append("platform_feedback_closed_loop_policy")
+        if "vibe_noveling_skill_agent_save_cat_gate" in patterns:
+            targets.append("save_the_cat_multilevel_planning_policy")
+            targets.append("skill_agent_role_boundary_policy")
+        if "story_bible_qa_pov_lore_rule_gate" in patterns:
+            targets.append("story_bible_pov_location_lore_rule_policy")
+            targets.append("local_continuity_qa_console_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -7980,6 +8013,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["agents_room_story_decomposition_report", "specialized_agent_subtask_trace", "human_story_prompt_boundary_findings"])
         if "judgemark_literary_criteria_calibration_gate" in patterns:
             targets.extend(["literary_judge_criteria_calibration_report", "judge_consistency_discrimination_findings", "ensemble_judge_score_notes"])
+        if "seven_law_platform_closed_loop_gate" in patterns:
+            targets.extend(["seven_law_prose_audit_report", "platform_topic_score_findings", "anti_ai_trace_revision_log"])
+        if "vibe_noveling_skill_agent_save_cat_gate" in patterns:
+            targets.extend(["save_the_cat_beat_alignment_report", "skill_agent_handoff_trace", "knowledge_graph_sync_readiness_findings"])
+        if "story_bible_qa_pov_lore_rule_gate" in patterns:
+            targets.extend(["story_bible_qa_report", "pov_location_lore_rule_findings", "continuity_console_review_trace"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -7997,6 +8036,12 @@ class NovelSourceDiscoveryService:
             hints.append("章节草稿采用 keep/discard 质量门：低于阈值重试，高于阈值保留并进入下一章，避免无限打磨阻断长篇进度。")
         if "six_dimension_continuation_audit_retry_gate" in patterns:
             hints.append("Run each continuation through a six-dimension audit: character, plot, world, style, reader experience, and long-term threads; then rewrite only the failed dimensions and re-audit.")
+        if "seven_law_platform_closed_loop_gate" in patterns:
+            hints.append("Before accepting prose, audit sentence-length variation, exposition-in-dialogue, personalized metaphor, unpredictable paragraph rhythm, protagonist flaws, anti-AI trace, and platform fit.")
+        if "vibe_noveling_skill_agent_save_cat_gate" in patterns:
+            hints.append("Plan continuation at book, volume, and chapter levels with Save-the-Cat beat intent, then route expansion or consistency work to named role boundaries.")
+        if "story_bible_qa_pov_lore_rule_gate" in patterns:
+            hints.append("Run local QA against Story Bible, POV, location, and lore-rule fields before drafting; unresolved findings become blocking continuity questions.")
         if "anti_slop_audit" in patterns:
             hints.append("生成前带入反 AI 味规则，生成后先清理机械感、同构段落和空泛正确对白，再进入人工式评审。")
         if "structured_generation_schema" in patterns:
@@ -8536,6 +8581,12 @@ class NovelSourceDiscoveryService:
             hints.append("Write back the state snapshot, chapter change package, and unresolved hooks after every continuation pass.")
         if "quality_score_loop" in patterns:
             hints.append("Store score, accepted/rejected decision, retry reason, and plateau signal with each chapter state.")
+        if "seven_law_platform_closed_loop_gate" in patterns:
+            hints.append("Persist platform topic score, seven-law failures, anti-AI trace fixes, reader-follow assumptions, and accepted revision spans with each chapter state.")
+        if "vibe_noveling_skill_agent_save_cat_gate" in patterns:
+            hints.append("Persist beat plan, skill route, agent handoff, consistency-guard result, snapshot id, progress marker, and knowledge-graph sync decision.")
+        if "story_bible_qa_pov_lore_rule_gate" in patterns:
+            hints.append("Persist POV, location, lore-rule, and Story Bible QA findings separately from accepted canon so UI review does not silently mutate story state.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -13599,6 +13650,33 @@ class NovelSourceDiscoveryService:
             "Treat benchmark criteria and leaderboards as evaluator-design signals only; do not import benchmark outputs or judge prompts into project canon.",
         ]
 
+    def _build_seven_law_platform_closed_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "seven_law_platform_closed_loop_gate" not in patterns:
+            return []
+        return [
+            "Use seven-law prose checks as an acceptance gate: varied sentence length, no emotion labels, no exposition-dumping dialogue, personalized metaphor, irregular paragraph rhythm, flawed protagonist, and anti-AI trace cleanup.",
+            "Tie topic selection and chapter review to platform feedback signals such as ranking presence, follow-read risk, reader expectation, and execution fit.",
+            "Keep slash-command prompt bodies and platform examples outside drafting context; absorb only the review dimensions and closed-loop telemetry shape.",
+        ]
+
+    def _build_vibe_noveling_skill_agent_save_cat_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "vibe_noveling_skill_agent_save_cat_gate" not in patterns:
+            return []
+        return [
+            "Plan at three levels?book, volume, and chapter?using Save-the-Cat beat intent as a scaffold, not as copied plot content.",
+            "Separate skill contracts from agent roles: discuss, bookplan, write, revise, consistency guard, snapshot, progress, and sync should each leave reviewable handoff state.",
+            "Knowledge-graph sync remains a gated writeback step after author acceptance, never a hidden side effect of drafting or role expansion.",
+        ]
+
+    def _build_story_bible_qa_pov_lore_rule_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_bible_qa_pov_lore_rule_gate" not in patterns:
+            return []
+        return [
+            "Run continuity QA over Story Bible, POV holder, location state, and lore-rule applicability before chapter generation or same-type remap.",
+            "Each QA finding should include source field, target scene id, severity, proposed fix, and whether the fix mutates canon or only the draft.",
+            "Treat local-first QA consoles as review surfaces only; package dependencies, browser UI state, and user story-bible data are runtime-deferred.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14580,6 +14658,12 @@ class NovelSourceDiscoveryService:
             targets.append("multi_step_story_collaboration_remap")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
             targets.append("literary_judge_criteria_remap")
+        if "seven_law_platform_closed_loop_gate" in patterns:
+            targets.append("platform_feedback_law_remap")
+        if "vibe_noveling_skill_agent_save_cat_gate" in patterns:
+            targets.append("save_the_cat_skill_agent_remap")
+        if "story_bible_qa_pov_lore_rule_gate" in patterns:
+            targets.append("pov_location_lore_rule_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14617,6 +14701,12 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt specialized duties as target-story subtasks only; source prompts and human-written stories remain excluded examples, not drafting context.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
             hints.append("Prompt literary criteria as a target scorecard; do not import benchmark passages, judge examples, or leaderboard outputs into the new story.")
+        if "seven_law_platform_closed_loop_gate" in patterns:
+            hints.append("Prompt seven-law and platform-fit checks as target-story review dimensions; do not copy upstream command wording or platform examples.")
+        if "vibe_noveling_skill_agent_save_cat_gate" in patterns:
+            hints.append("Prompt Save-the-Cat beats, booming expansion, and consistency guard as abstract duties with target-story ids only.")
+        if "story_bible_qa_pov_lore_rule_gate" in patterns:
+            hints.append("Prompt continuity QA to cite target Story Bible, POV, location, and lore-rule evidence ids for every finding.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -15302,6 +15392,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform collaboration roles into new project duties and new evidence ids; do not preserve upstream prompt/story pairings or agent-room wording.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
             hints.append("Transform literary-criteria weights around the target genre and reader promise instead of copying benchmark leaderboard calibration.")
+        if "seven_law_platform_closed_loop_gate" in patterns:
+            hints.append("Transform platform topic and anti-AI prose laws into target-reader constraints rather than copying source command checklists or ranking assumptions.")
+        if "vibe_noveling_skill_agent_save_cat_gate" in patterns:
+            hints.append("Transform 15-beat planning and role routing around the new premise, volume scale, and chapter endpoint instead of reusing upstream workflow labels as canon.")
+        if "story_bible_qa_pov_lore_rule_gate" in patterns:
+            hints.append("Transform QA fields into the target bible schema: POV holder, location state, lore rule, exception reason, and resolution owner.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -16027,6 +16123,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that reuse Tell Me A Story prompt structure, human-written story arcs, or Agents' Room task wording as hidden source scaffolding.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
             hints.append("Reject scorecard-driven rewrites that optimize for benchmark criterion names while preserving source scenes, phrasing, or character functions.")
+        if "seven_law_platform_closed_loop_gate" in patterns:
+            hints.append("Reject drafts that satisfy seven-law labels while preserving source plot triggers, source-market examples, or command-template phrasing.")
+        if "vibe_noveling_skill_agent_save_cat_gate" in patterns:
+            hints.append("Reject same-type drafts that copy Save-the-Cat beat wording, agent prompts, or expansion-role outputs instead of transforming narrative function.")
+        if "story_bible_qa_pov_lore_rule_gate" in patterns:
+            hints.append("Reject drafts whose POV/location/lore-rule QA passes only because source bible facts leaked into target-story canon.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -16973,6 +17075,9 @@ class NovelSourceDiscoveryService:
                 "storyforge_wiki_ingest_lint_graph_gate",
                 "agents_room_multistep_story_collaboration_gate",
                 "judgemark_literary_criteria_calibration_gate",
+                "seven_law_platform_closed_loop_gate",
+                "vibe_noveling_skill_agent_save_cat_gate",
+                "story_bible_qa_pov_lore_rule_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

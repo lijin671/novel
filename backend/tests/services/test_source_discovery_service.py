@@ -17056,3 +17056,91 @@ def test_agents_room_and_judgemark_sources_are_static_absorbed():
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "agents_room_multistep_story_collaboration_gate_hints" in digest
     assert "judgemark_literary_criteria_calibration_gate_hints" in digest
+
+
+
+def test_webnovel_skill_and_story_bible_qa_sources_are_static_absorbed():
+    assert "https://github.com/Beat1ngHeart/novel-writing-toolkit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/TulanCN/vibe-noveling" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/sadasdfsaf/story-bible-qa" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("7 writing laws" in query and "platform adaptation" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Save the Cat" in query and "13 skills" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Story Bible QA" in query and "lore rule" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Beat1ngHeart/novel-writing-toolkit",
+                "html_url": "https://github.com/Beat1ngHeart/novel-writing-toolkit",
+                "description": (
+                    "Claude Code custom slash commands for AI-assisted web novel writing. "
+                    "Includes /novel, /novel-plan, /novel-topic, 7 writing laws, anti-AI trace cleanup, "
+                    "platform adaptation, topic selection scoring, ranking signals, and data closed loop review."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["claude-code", "novel-writing", "webnovel"],
+                "updated_at": "2026-06-11T05:49:31Z",
+                "root_files": ["README.md", ".claude", ".gitignore"],
+            },
+            {
+                "full_name": "TulanCN/vibe-noveling",
+                "html_url": "https://github.com/TulanCN/vibe-noveling",
+                "description": (
+                    "Chinese web novel workflow for Claude Code with 13 skills and 4 agents, Save the Cat 15 beats, "
+                    "novel-discuss, novel-bookplan, booming expansion, fuck-it chapter enrichment, consistency-guard, "
+                    "snapshots, progress, novel-sync and knowledge graph synchronization."
+                ),
+                "stargazers_count": 11,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["claude-code", "skills", "novel"],
+                "updated_at": "2026-06-10T05:15:42Z",
+                "root_files": ["README.md", "LICENSE", "plugins", "evals"],
+            },
+            {
+                "full_name": "sadasdfsaf/story-bible-qa",
+                "html_url": "https://github.com/sadasdfsaf/story-bible-qa",
+                "description": (
+                    "Story Bible QA is a local-first continuity console for long-form fiction with Story Bible, POV, "
+                    "location, lore rule checks, QA review, and React TypeScript Vite preview UI."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["story-bible", "continuity", "fiction"],
+                "updated_at": "2026-03-28T10:46:08Z",
+                "root_files": ["README.md", "package.json", "src", "docs"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T01:05:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "seven_law_platform_closed_loop_gate" in candidates["Beat1ngHeart/novel-writing-toolkit"]["absorbed_patterns"]
+    assert "vibe_noveling_skill_agent_save_cat_gate" in candidates["TulanCN/vibe-noveling"]["absorbed_patterns"]
+    assert "story_bible_qa_pov_lore_rule_gate" in candidates["sadasdfsaf/story-bible-qa"]["absorbed_patterns"]
+    assert "license:missing" in candidates["Beat1ngHeart/novel-writing-toolkit"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["sadasdfsaf/story-bible-qa"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "seven_law_prose_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "save_the_cat_multilevel_planning_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_bible_pov_location_lore_rule_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "seven_law_prose_audit_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "save_the_cat_beat_alignment_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_bible_qa_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "platform_feedback_law_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "save_the_cat_skill_agent_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "pov_location_lore_rule_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("seven-law" in hint.lower() for hint in pattern_pack["seven_law_platform_closed_loop_gate_hints"])
+    assert any("save-the-cat" in hint.lower() for hint in pattern_pack["vibe_noveling_skill_agent_save_cat_gate_hints"])
+    assert any("pov holder" in hint.lower() for hint in pattern_pack["story_bible_qa_pov_lore_rule_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "seven_law_platform_closed_loop_gate_hints" in digest
+    assert "vibe_noveling_skill_agent_save_cat_gate_hints" in digest
+    assert "story_bible_qa_pov_lore_rule_gate_hints" in digest

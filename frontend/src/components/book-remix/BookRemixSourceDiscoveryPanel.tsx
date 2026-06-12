@@ -343,6 +343,9 @@ const PINNED_HINT_KEYS = new Set([
   'storyforge_wiki_ingest_lint_graph_gate_hints',
   'agents_room_multistep_story_collaboration_gate_hints',
   'judgemark_literary_criteria_calibration_gate_hints',
+  'seven_law_platform_closed_loop_gate_hints',
+  'vibe_noveling_skill_agent_save_cat_gate_hints',
+  'story_bible_qa_pov_lore_rule_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -748,6 +751,9 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Human story metric panel gates', patternPackPayload?.human_story_metric_panel_hints],
               ['Agents Room multi-step story gates', patternPackPayload?.agents_room_multistep_story_collaboration_gate_hints],
               ['Judgemark literary criteria gates', patternPackPayload?.judgemark_literary_criteria_calibration_gate_hints],
+              ['Seven-law platform closed-loop gates', patternPackPayload?.seven_law_platform_closed_loop_gate_hints],
+              ['Vibe Noveling skill-agent Save-the-Cat gates', patternPackPayload?.vibe_noveling_skill_agent_save_cat_gate_hints],
+              ['Story Bible QA POV/lore-rule gates', patternPackPayload?.story_bible_qa_pov_lore_rule_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

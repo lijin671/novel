@@ -446,6 +446,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Human story metric panel gates" in panel_text
     assert "Agents Room multi-step story gates" in panel_text
     assert "Judgemark literary criteria gates" in panel_text
+    assert "Seven-law platform closed-loop gates" in panel_text
+    assert "Vibe Noveling skill-agent Save-the-Cat gates" in panel_text
+    assert "Story Bible QA POV/lore-rule gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text
