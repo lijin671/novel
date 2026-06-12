@@ -348,6 +348,11 @@ export interface SourceDiscoveryPatternPack {
   kindle_agent_pipeline_compile_gate_hints?: string[];
   kdp_metadata_chapter_export_gate_hints?: string[];
   dual_model_summary_continuation_session_gate_hints?: string[];
+  morpheus_trace_memory_revision_gate_hints?: string[];
+  novel_control_chapter_card_writeback_gate_hints?: string[];
+  qmai_hybrid_context_memory_acceptance_gate_hints?: string[];
+  renovel_tri_model_aligned_rewrite_gate_hints?: string[];
+  ai_novel_mindmap_prompt_library_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

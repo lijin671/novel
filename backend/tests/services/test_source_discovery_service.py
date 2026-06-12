@@ -17692,3 +17692,133 @@ def test_style_memory_publication_sources_are_static_absorbed():
     assert "kindle_agent_pipeline_compile_gate_hints" in digest
     assert "kdp_metadata_chapter_export_gate_hints" in digest
     assert "dual_model_summary_continuation_session_gate_hints" in digest
+
+
+
+def test_chinese_control_memory_rewrite_sources_are_static_absorbed():
+    assert "https://github.com/papysans/Morpheus" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jingtai123/Novel-Control-Station-Skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Mochocyang/QMAI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/BiranSama/ReNovel-AI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wfcz10086/AI-automatically-generates-novels" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("trace replay" in query and "chapter workbench" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chapter control card" in query and "dynamic state write-back" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chapter ingestion" in query and "human confirmation" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("parallel comparison" in query and "Reviewer AI" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("mind map" in query and "prompt library" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "papysans/Morpheus",
+                "html_url": "https://github.com/papysans/Morpheus",
+                "description": (
+                    "Morpheus is a multi-agent long-form writing workbench with chapter workbench rewrites, batch generation, "
+                    "L1/L2/L3 memory, open threads, context packs, knowledge graph, trace replay, dashboard metrics, review and consistency subsystems."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "multi-agent", "memory"],
+                "updated_at": "2026-06-12T13:00:00Z",
+                "root_files": ["README.md", "docker-compose.prod.yml", "backend", "frontend", "scripts"],
+            },
+            {
+                "full_name": "jingtai123/Novel-Control-Station-Skill",
+                "html_url": "https://github.com/jingtai123/Novel-Control-Station-Skill",
+                "description": (
+                    "Novel Control Station uses chapter control cards, dynamic state write-back, multi-line structure, graph recall, title and hook control, "
+                    "style module scheduling, pseudo-style drift checks, anti-AI revision, marathon continuation and FileWriteBlocked write guard."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "skill", "control"],
+                "updated_at": "2026-06-12T13:01:00Z",
+                "root_files": ["README.md", "SKILL.md", "LICENSE", "assets/codex-continue-novel.ps1", "references/chapter-control-card.md"],
+            },
+            {
+                "full_name": "Mochocyang/QMAI",
+                "html_url": "https://github.com/Mochocyang/QMAI",
+                "description": (
+                    "QMAI is a long novel memory writing desktop system with chapter ingestion, context package, token budget, hybrid retrieval, chapter summaries, ending hooks, "
+                    "relationship changes, character knowledge deltas, foreshadowing, graph nodes and edges, and human confirmation before final draft."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "memory", "desktop"],
+                "updated_at": "2026-06-12T13:02:00Z",
+                "root_files": ["README.md", "package.json", "src-tauri", "NvwaSKILL", "?AI?Skill??.md"],
+            },
+            {
+                "full_name": "BiranSama/ReNovel-AI",
+                "html_url": "https://github.com/BiranSama/ReNovel-AI",
+                "description": (
+                    "ReNovel AI is a novel rewrite workbench with tri-model writer reviewer workflow, memory retrieval, event extraction, character state extraction, "
+                    "paragraph alignment, original vs rewrite parallel comparison, OOC and plot inconsistency review, style matrix and batch workflow."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["novel", "rewrite", "reviewer"],
+                "updated_at": "2026-06-12T13:03:00Z",
+                "root_files": ["README.md", "ARCHITECTURE.md", "LICENSE", "Run.bat", "setup.bat", "config/prompts/reviewer.yaml"],
+            },
+            {
+                "full_name": "wfcz10086/AI-automatically-generates-novels",
+                "html_url": "https://github.com/wfcz10086/AI-automatically-generates-novels",
+                "description": (
+                    "AI automatically generates novels with mind map outline and chapter construction, intelligent book deconstruction, prompt library import export, "
+                    "writing knowledge base, long text memory, selected outline chapter prose polish expand de-AI operations, gen2 low-cost batch self iteration."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "prompt-library", "mindmap"],
+                "updated_at": "2026-06-12T13:04:00Z",
+                "root_files": ["README.md", "LICENSE", "app.py", "requirements.txt", "?????.md", "???????.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T04:05:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "morpheus_trace_memory_revision_gate" in candidates["papysans/Morpheus"]["absorbed_patterns"]
+    assert "novel_control_chapter_card_writeback_gate" in candidates["jingtai123/Novel-Control-Station-Skill"]["absorbed_patterns"]
+    assert "qmai_hybrid_context_memory_acceptance_gate" in candidates["Mochocyang/QMAI"]["absorbed_patterns"]
+    assert "renovel_tri_model_aligned_rewrite_gate" in candidates["BiranSama/ReNovel-AI"]["absorbed_patterns"]
+    assert "ai_novel_mindmap_prompt_library_gate" in candidates["wfcz10086/AI-automatically-generates-novels"]["absorbed_patterns"]
+    assert "license:missing" in candidates["papysans/Morpheus"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["Mochocyang/QMAI"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "trace_replay_revision_workspace_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_control_card_writeback_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "hybrid_context_package_acceptance_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "tri_model_aligned_rewrite_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "mindmap_outline_prompt_library_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "trace_replay_revision_workspace_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_control_card_writeback_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "hybrid_context_package_acceptance_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "tri_model_aligned_rewrite_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "mindmap_outline_prompt_library_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "trace_memory_revision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_card_writeback_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "hybrid_context_acceptance_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "tri_model_aligned_rewrite_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "mindmap_prompt_library_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("L1/L2/L3" in hint for hint in pattern_pack["morpheus_trace_memory_revision_gate_hints"])
+    assert any("control card" in hint.lower() for hint in pattern_pack["novel_control_chapter_card_writeback_gate_hints"])
+    assert any("context package" in hint.lower() for hint in pattern_pack["qmai_hybrid_context_memory_acceptance_gate_hints"])
+    assert any("paragraph" in hint.lower() for hint in pattern_pack["renovel_tri_model_aligned_rewrite_gate_hints"])
+    assert any("mind-map" in hint.lower() for hint in pattern_pack["ai_novel_mindmap_prompt_library_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "morpheus_trace_memory_revision_gate_hints" in digest
+    assert "novel_control_chapter_card_writeback_gate_hints" in digest
+    assert "qmai_hybrid_context_memory_acceptance_gate_hints" in digest
+    assert "renovel_tri_model_aligned_rewrite_gate_hints" in digest
+    assert "ai_novel_mindmap_prompt_library_gate_hints" in digest

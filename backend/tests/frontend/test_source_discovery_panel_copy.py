@@ -469,6 +469,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Kindle agent pipeline compile gates" in panel_text
     assert "KDP metadata chapter export gates" in panel_text
     assert "Dual-model summary continuation session gates" in panel_text
+    assert "Morpheus trace-memory revision gates" in panel_text
+    assert "Novel Control chapter-card writeback gates" in panel_text
+    assert "QMAI hybrid context acceptance gates" in panel_text
+    assert "ReNovel tri-model aligned rewrite gates" in panel_text
+    assert "AI Novel mindmap prompt-library gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text

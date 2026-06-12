@@ -104,6 +104,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("Kindle" OR "docx") ("multi-agent" OR "chapter expansion" OR "developmental editor") in:name,description,readme',
     '("KDP metadata" OR "keywords" OR "description.html") ("chapter" OR "book writer") in:name,description,readme',
     '("summary_bot" OR "writing_bot" OR "100k") ("novel continuation" OR "??") in:name,description,readme',
+    '("trace replay" OR "L1/L2/L3 memory" OR "chapter workbench") ("novel" OR "long-form writing") in:name,description,readme',
+    '("chapter control card" OR "dynamic state write-back" OR "marathon continuation") ("Chinese long-form fiction" OR "novel") in:name,description,readme',
+    '("chapter ingestion" OR "context package" OR "human confirmation") ("long novel" OR "AI writing") in:name,description,readme',
+    '("parallel comparison" OR "Reviewer AI" OR "style matrix") ("novel rewrite" OR "AI rewrite") in:name,description,readme',
+    '("mind map" OR "??" OR "prompt library") ("AI novel" OR "????") in:name,description,readme',
     '("interactive narrative" OR "branching story" OR "choice graph") ("fiction" OR "story" OR "narrative") in:name,description,readme',
     '("dialogue" OR "options" OR "commands" OR "variables") ("interactive fiction" OR "narrative") in:name,description,readme',
     '("passages" OR "links" OR "nonlinear stories" OR "multiple-choice games") ("fiction" OR "story") in:name,description,readme',
@@ -899,6 +904,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ohh-000/longform-novel-engine",
     "https://github.com/Jackela/Novel-Engine",
     "https://github.com/Mochocyang/QMAI",
+    "https://github.com/BiranSama/ReNovel-AI",
     "https://github.com/knoai/knowrite",
     "https://github.com/AxolDad/novelist",
     "https://github.com/Nicholas-Yu/InkPilot",
@@ -1526,6 +1532,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
     ("kdp_metadata_chapter_export_gate", ("best-selling-book-writer", "topic selection", "outline", "chapters", "kdp metadata", "description.html", "7 keywords", "validation", "html", "pdf", "book-config.json", "chapters remain", "publishing checklist")),
     ("dual_model_summary_continuation_session_gate", ("hlnovel", "summary_bot", "writing_bot", "100k", "long text summary", "continue writing", "restart writing", "new task", "sse", "streaming", "file upload", "word limit", "session management")),
+    ("morpheus_trace_memory_revision_gate", ("morpheus", "multi-agent", "chapter workbench", "batch generation", "L1/L2/L3", "open threads", "context packs", "knowledge graph", "trace replay", "dashboard metrics", "review", "consistency", "import/export")),
+    ("novel_control_chapter_card_writeback_gate", ("novel control station", "chapter control cards", "control-cards", "dynamic state write-back", "multi-line structure", "graph recall", "title/hook control", "style module", "anti-AI revision", "marathon", "FileWriteBlocked", "web-serial-natural")),
+    ("qmai_hybrid_context_memory_acceptance_gate", ("qmai", "chapter ingestion", "context package", "token budget", "hybrid retrieval", "chapter summaries", "ending hooks", "relationship changes", "foreshadowing", "graph nodes", "graph edges", "human confirmation", "final draft")),
+    ("renovel_tri_model_aligned_rewrite_gate", ("renovel", "tri-model", "writer", "reviewer", "parallel comparison", "paragraph alignment", "OOC", "plot inconsistencies", "style matrix", "retention", "batch workflow", "chapter splitting", "memory retrieval")),
+    ("ai_novel_mindmap_prompt_library_gate", ("ai automatically generates novels", "mind map", "??", "????", "prompt library", "????", "knowledge base", "writing knowledge base", "long text memory", "polish", "expand", "?AI?", "gen2", "batch self iteration")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3248,6 +3259,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "WebNovel Studio is a MIT Chinese web-novel skill toolkit. Public README markers describe topic selection, inspiration, outline, golden opening, cheat system, character setup, prose expansion,????, rhythm labeling, follow-read diagnosis, de-AI polish, submission review, platform trends, fanfic compliance, and cross-model export. "
         "Pattern-only adaptation for chapter-hook and platform-retention scorecards; plugin marketplace install, CLI/API providers, skill-pack prompt bodies, and platform submission flows are not executed or copied."
     ),
+    "wfcz10086/ai-automatically-generates-novels": (
+        "AI-automatically-generates-novels is an Apache-2.0 Chinese AI novel production tool. Static README markers describe mind-map based outline/chapter construction, prompt-library import/export, writing knowledge-base management, intelligent book deconstruction, title/summary generation, long-text memory, selected-outline/chapter/prose polish/expand/de-AI operations, multiple model endpoints, and exploratory low-cost batch self-iteration. "
+        "Pattern-only adaptation for mindmap prompt-library gates; Flask app, model endpoints, provider code, online demo, generated examples, knowledge-base content, and prompt bodies are not executed or imported."
+    ),
     "yaopushen/webnovel-kb": (
         "WebNovel Knowledge Base is a no-license-observed MCP server for Chinese webnovel analysis. Public README markers describe TXT import, semantic/BM25/hybrid/rerank search, plot-pattern extraction, writing-template extraction, style analysis, chapter outline extraction, classic-chapter imitation rewrites, OAuth PKCE, async tasks, and OpenAI-compatible model surfaces. "
         "Pattern-only adaptation for local knowledge-base boundaries; MCP/server runtime, package install, OAuth, provider keys, embeddings, external search, and corpus import are not launched or read."
@@ -3263,6 +3278,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "mochocyang/qmai": (
         "QMAI is a no-license-asserted desktop AI-writing workflow. Public README markers describe chapter ingestion, context packages, token budget, hybrid retrieval, chapter summaries, ending hooks, relationship changes, foreshadowing, graph nodes/edges, and human confirmation before final draft acceptance. "
         "Pattern-only adaptation for chapter-memory ingestion and context-budget gates; desktop releases, packaged app runtime, provider calls, and local manuscripts are not launched or imported."
+    ),
+    "biransama/renovel-ai": (
+        "ReNovel-AI is a GPL-3.0 Chinese novel rewriting workbench. Static README/architecture markers describe TXT import, chapter splitting, memory retrieval, event extraction, character-state extraction, context building, writer/reviewer roles, OOC and plot inconsistency review, paragraph-aligned original-vs-rewrite comparison, style matrix, and batch rewrite workflows. "
+        "Pattern-only adaptation for tri-model aligned rewrite gates; GPL code, prompts, setup scripts, Run.bat, provider keys, LangChain runtime, databases, and generated rewrites are not executed or imported."
     ),
     "knoai/knowrite": (
         "Knowrite is an AGPL-3.0 AI-writing system. Public README markers describe Temporal Truth Database, Author Fingerprint, RAG Memory, five-dimensional Fitness dashboard, Automated Prompt Evolution, Trace debugger, and SQLite/local-file dual-write. "
@@ -4780,6 +4799,11 @@ class NovelSourceDiscoveryService:
             "kindle_agent_pipeline_compile_gate_hints": self._build_kindle_agent_pipeline_compile_gate_hints(available_patterns),
             "kdp_metadata_chapter_export_gate_hints": self._build_kdp_metadata_chapter_export_gate_hints(available_patterns),
             "dual_model_summary_continuation_session_gate_hints": self._build_dual_model_summary_continuation_session_gate_hints(available_patterns),
+            "morpheus_trace_memory_revision_gate_hints": self._build_morpheus_trace_memory_revision_gate_hints(available_patterns),
+            "novel_control_chapter_card_writeback_gate_hints": self._build_novel_control_chapter_card_writeback_gate_hints(available_patterns),
+            "qmai_hybrid_context_memory_acceptance_gate_hints": self._build_qmai_hybrid_context_memory_acceptance_gate_hints(available_patterns),
+            "renovel_tri_model_aligned_rewrite_gate_hints": self._build_renovel_tri_model_aligned_rewrite_gate_hints(available_patterns),
+            "ai_novel_mindmap_prompt_library_gate_hints": self._build_ai_novel_mindmap_prompt_library_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -7171,6 +7195,21 @@ class NovelSourceDiscoveryService:
         if "dual_model_summary_continuation_session_gate" in patterns:
             targets.append("summary_then_continuation_threshold_policy")
             targets.append("continuation_session_mode_policy")
+        if "morpheus_trace_memory_revision_gate" in patterns:
+            targets.append("trace_replay_revision_workspace_policy")
+            targets.append("tiered_memory_open_thread_policy")
+        if "novel_control_chapter_card_writeback_gate" in patterns:
+            targets.append("chapter_control_card_writeback_policy")
+            targets.append("style_module_pseudo_drift_policy")
+        if "qmai_hybrid_context_memory_acceptance_gate" in patterns:
+            targets.append("hybrid_context_package_acceptance_policy")
+            targets.append("character_knowledge_delta_policy")
+        if "renovel_tri_model_aligned_rewrite_gate" in patterns:
+            targets.append("tri_model_aligned_rewrite_policy")
+            targets.append("paragraph_alignment_review_policy")
+        if "ai_novel_mindmap_prompt_library_gate" in patterns:
+            targets.append("mindmap_outline_prompt_library_policy")
+            targets.append("deconstruction_low_cost_iteration_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8278,6 +8317,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["kdp_metadata_validation_report", "chapter_preservation_merge_trace", "publication_export_boundary_findings"])
         if "dual_model_summary_continuation_session_gate" in patterns:
             targets.extend(["summary_threshold_continuation_report", "session_mode_restart_findings", "streaming_upload_boundary_trace"])
+        if "morpheus_trace_memory_revision_gate" in patterns:
+            targets.extend(["trace_replay_revision_workspace_report", "tiered_memory_open_thread_findings", "chapter_workbench_metric_trace"])
+        if "novel_control_chapter_card_writeback_gate" in patterns:
+            targets.extend(["chapter_control_card_writeback_report", "style_module_pseudo_drift_findings", "marathon_file_write_guard_trace"])
+        if "qmai_hybrid_context_memory_acceptance_gate" in patterns:
+            targets.extend(["hybrid_context_package_acceptance_report", "character_knowledge_delta_findings", "foreshadow_graph_ingestion_trace"])
+        if "renovel_tri_model_aligned_rewrite_gate" in patterns:
+            targets.extend(["tri_model_aligned_rewrite_report", "paragraph_alignment_ooc_findings", "style_matrix_batch_rewrite_trace"])
+        if "ai_novel_mindmap_prompt_library_gate" in patterns:
+            targets.extend(["mindmap_outline_prompt_library_report", "deconstruction_iteration_boundary_findings", "knowledge_base_long_memory_trace"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8892,6 +8941,16 @@ class NovelSourceDiscoveryService:
             hints.append("Persist KDP metadata, keyword validation, description length checks, chapter file preservation status, merge manifest, and export boundary as publication metadata.")
         if "dual_model_summary_continuation_session_gate" in patterns:
             hints.append("Persist summary threshold decision, summary source id, writing context id, session mode, segment index, restart target, word limit, and upload boundary for each continuation.")
+        if "morpheus_trace_memory_revision_gate" in patterns:
+            hints.append("Persist L1/L2/L3 memory ids, open-thread status, chapter workbench direction, trace replay id, consistency finding, metric deltas, and export boundary per revision.")
+        if "novel_control_chapter_card_writeback_gate" in patterns:
+            hints.append("Persist chapter control card, title/hook decision, active style module, pseudo-style drift check, dynamic state write-back, FileWriteBlocked status, and disk-write proof.")
+        if "qmai_hybrid_context_memory_acceptance_gate" in patterns:
+            hints.append("Persist chapter ingestion results, context-package priority order, token budget trim, hybrid retrieval classes, character knowledge deltas, graph edges, and human confirmation status.")
+        if "renovel_tri_model_aligned_rewrite_gate" in patterns:
+            hints.append("Persist original/rewrite paragraph alignment, writer instruction, reviewer OOC/logic verdict, style-matrix settings, event extraction, and batch rewrite checkpoint separately.")
+        if "ai_novel_mindmap_prompt_library_gate" in patterns:
+            hints.append("Persist mind-map nodes, prompt-library version, deconstruction source id, knowledge-base slice id, long-memory inclusion, low-cost iteration route, and polish/de-AI operation type.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -14162,6 +14221,51 @@ class NovelSourceDiscoveryService:
             "Flask/qwen-agent runtime, provider endpoints, API keys, prompt files, uploads, SSE streams, and generated continuation text remain excluded from static intake.",
         ]
 
+    def _build_morpheus_trace_memory_revision_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "morpheus_trace_memory_revision_gate" not in patterns:
+            return []
+        return [
+            "Treat long-form generation as project setup, batch draft, chapter workbench revision, memory/graph review, trace replay, and export readiness instead of one-shot drafting.",
+            "Use L1/L2/L3 memory, open threads, context packs, dashboard metrics, and consistency findings as visible evidence before accepting chapter rewrites.",
+            "Morpheus backend/frontend, LanceDB, providers, services, generated exports, and runtime trace data remain deferred and non-imported.",
+        ]
+
+    def _build_novel_control_chapter_card_writeback_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novel_control_chapter_card_writeback_gate" not in patterns:
+            return []
+        return [
+            "Drive Chinese long-form chapters from a control card that records title/hook, active lines, relationship movement, style drivers, pseudo-style drift, and write-back duties.",
+            "After each chapter, require dynamic state write-back and a disk-write proof; silent chat-only output should be treated as a failed continuation attempt.",
+            "Skill runtime, style-module prompt bodies, marathon PowerShell scripts, generated prose, and project-local truth files are not imported or executed.",
+        ]
+
+    def _build_qmai_hybrid_context_memory_acceptance_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "qmai_hybrid_context_memory_acceptance_gate" not in patterns:
+            return []
+        return [
+            "Build the writing context package by priority: explicit user request, current outline, previous ending, canon rules, character state, foreshadow state, recent summaries, graph, vector and keyword search.",
+            "Chapter ingestion should extract summary, ending hook, entities, events, relationship changes, character knowledge deltas, foreshadow lifecycle, timeline events, and graph edges before human acceptance.",
+            "Desktop releases, packaged app runtime, provider calls, screenshots, local manuscripts, role templates, and generated drafts remain excluded from static intake.",
+        ]
+
+    def _build_renovel_tri_model_aligned_rewrite_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "renovel_tri_model_aligned_rewrite_gate" not in patterns:
+            return []
+        return [
+            "For rewriting/refinement, align original and candidate paragraphs and run writer/reviewer separation so OOC, logic holes, style drift, and event-state changes are visible.",
+            "Style-matrix settings such as retention, expansion intensity, scale boundary, and prose tendency should be stored as acceptance metadata, not hidden inside prose.",
+            "GPL code, prompt YAML, setup scripts, Run.bat, provider keys, LangChain runtime, databases, and generated rewrites remain non-imported and unexecuted.",
+        ]
+
+    def _build_ai_novel_mindmap_prompt_library_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ai_novel_mindmap_prompt_library_gate" not in patterns:
+            return []
+        return [
+            "Use mind-map nodes to structure total outline, chapter plan, character/faction entries, and selected rewrite targets before invoking any generation or polish flow.",
+            "Prompt-library versions, knowledge-base slices, deconstruction notes, long-text memory inclusion, and low-cost self-iteration routes must be explicit and reviewable.",
+            "Flask app, model endpoint adapters, online demo, prompt bodies, generated examples, knowledge-base contents, and provider calls remain excluded during intake.",
+        ]
+
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
@@ -15190,6 +15294,16 @@ class NovelSourceDiscoveryService:
             targets.append("publication_metadata_export_remap")
         if "dual_model_summary_continuation_session_gate" in patterns:
             targets.append("summary_continuation_session_remap")
+        if "morpheus_trace_memory_revision_gate" in patterns:
+            targets.append("trace_memory_revision_remap")
+        if "novel_control_chapter_card_writeback_gate" in patterns:
+            targets.append("chapter_card_writeback_remap")
+        if "qmai_hybrid_context_memory_acceptance_gate" in patterns:
+            targets.append("hybrid_context_acceptance_remap")
+        if "renovel_tri_model_aligned_rewrite_gate" in patterns:
+            targets.append("tri_model_aligned_rewrite_remap")
+        if "ai_novel_mindmap_prompt_library_gate" in patterns:
+            targets.append("mindmap_prompt_library_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15273,6 +15387,16 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt KDP/export data as metadata validation and merge manifests; keep it outside canon and avoid source title/tagline reuse.")
         if "dual_model_summary_continuation_session_gate" in patterns:
             hints.append("Prompt long-text continuation with an explicit summary threshold and session mode so regenerate/new-task behavior cannot silently corrupt continuity.")
+        if "morpheus_trace_memory_revision_gate" in patterns:
+            hints.append("Prompt revisions with a visible memory tier, open-thread status, trace replay id, metric delta, and export boundary; do not run Morpheus services.")
+        if "novel_control_chapter_card_writeback_gate" in patterns:
+            hints.append("Prompt each chapter through target control cards and state write-back checks; do not copy upstream style-module text or marathon scripts.")
+        if "qmai_hybrid_context_memory_acceptance_gate" in patterns:
+            hints.append("Prompt context assembly as a target priority manifest with retrieval classes and human confirmation before final-draft acceptance.")
+        if "renovel_tri_model_aligned_rewrite_gate" in patterns:
+            hints.append("Prompt rewrite candidates as aligned paragraph deltas with reviewer verdicts, not as direct source-to-target prose copying.")
+        if "ai_novel_mindmap_prompt_library_gate" in patterns:
+            hints.append("Prompt mind-map and prompt-library use as target project metadata; keep deconstruction notes and low-cost iteration routes outside accepted prose.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -16004,6 +16128,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform publication metadata into target-market fields and validation reports while preserving original chapter files and avoiding source marketing language.")
         if "dual_model_summary_continuation_session_gate" in patterns:
             hints.append("Transform summarize-then-continue mechanics into target session state with clear segment boundaries, summary evidence, and regeneration scope.")
+        if "morpheus_trace_memory_revision_gate" in patterns:
+            hints.append("Transform Morpheus-style trace and tiered memory into target revision evidence, context packets, and graph findings under the new story namespace.")
+        if "novel_control_chapter_card_writeback_gate" in patterns:
+            hints.append("Transform control-station chapter cards into target structure, style, hook, state, and write-back fields rather than upstream templates.")
+        if "qmai_hybrid_context_memory_acceptance_gate" in patterns:
+            hints.append("Transform QMAI context-package ordering into target canon, character knowledge, foreshadow, timeline, graph, keyword and vector evidence slots.")
+        if "renovel_tri_model_aligned_rewrite_gate" in patterns:
+            hints.append("Transform aligned rewrite mechanics into target paragraph deltas, review findings, style-matrix budgets, and event-state updates.")
+        if "ai_novel_mindmap_prompt_library_gate" in patterns:
+            hints.append("Transform mind-map/prompt-library patterns into target outline nodes, reusable prompt ids, and deconstruction summaries without copying upstream examples.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -16775,6 +16909,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject publication metadata that reuses source title phrasing, KDP descriptions, keywords, cover prompts, or generated chapter examples.")
         if "dual_model_summary_continuation_session_gate" in patterns:
             hints.append("Reject continuations whose summary compression drops active promises, changes session mode silently, or imports provider/config/upload details into prose.")
+        if "morpheus_trace_memory_revision_gate" in patterns:
+            hints.append("Reject outputs that import Morpheus runtime logs, graph data, generated exports, service configs, or trace text as target canon.")
+        if "novel_control_chapter_card_writeback_gate" in patterns:
+            hints.append("Reject chapters that satisfy a control-card label while skipping actual target-state write-back, hook validation, or pseudo-style drift review.")
+        if "qmai_hybrid_context_memory_acceptance_gate" in patterns:
+            hints.append("Reject drafts that treat unconfirmed context packages, screenshot examples, preset role views, or local QMAI project data as accepted MuMuAINovel canon.")
+        if "renovel_tri_model_aligned_rewrite_gate" in patterns:
+            hints.append("Reject rewrites that preserve source paragraphs, prompt YAML, style-matrix examples, or reviewer wording instead of target paragraph-level transformations.")
+        if "ai_novel_mindmap_prompt_library_gate" in patterns:
+            hints.append("Reject outputs that copy prompt-library bodies, demo examples, knowledge-base text, online-demo content, or deconstruction source prose.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -17744,6 +17888,11 @@ class NovelSourceDiscoveryService:
                 "kindle_agent_pipeline_compile_gate",
                 "kdp_metadata_chapter_export_gate",
                 "dual_model_summary_continuation_session_gate",
+                "morpheus_trace_memory_revision_gate",
+                "novel_control_chapter_card_writeback_gate",
+                "qmai_hybrid_context_memory_acceptance_gate",
+                "renovel_tri_model_aligned_rewrite_gate",
+                "ai_novel_mindmap_prompt_library_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",
