@@ -16810,3 +16810,93 @@ def test_state_contract_living_document_frontmatter_sources_are_static_absorbed(
     assert "story_state_output_contract_gate_hints" in digest
     assert "living_document_plan_log_verify_gate_hints" in digest
     assert "markdown_frontmatter_continuity_engine_gate_hints" in digest
+
+
+
+def test_design_dependency_writer_critic_quality_sources_are_static_absorbed():
+    assert "https://github.com/osushi-cr/sdcoh" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/davealaw/FictionRefine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lars76/story-evaluation-llm" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Story Design Coherence" in query and "dependency graph" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("writer model" in query and "critic model" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("q15" in query and "overall_score" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "osushi-cr/sdcoh",
+                "html_url": "https://github.com/osushi-cr/sdcoh",
+                "description": (
+                    "Story Design Coherence manages dependency graphs between story design documents. "
+                    "It detects change impact and stale downstream files across character sheets, beat sheets, "
+                    "foreshadowing ledgers, style guides, briefs and episode drafts for an AI-assisted novel director workflow."
+                ),
+                "stargazers_count": 4,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction-writing", "coherence", "dependency-graph"],
+                "updated_at": "2026-06-12T08:20:00Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml"],
+            },
+            {
+                "full_name": "davealaw/FictionRefine",
+                "html_url": "https://github.com/davealaw/FictionRefine",
+                "description": (
+                    "Two-LLM workflow for iterative story generation and improvement. Writer/Reviser and Critic/Verifier "
+                    "cycle through WRITE, REVIEW, REVISE, VERIFY, GATE and PUBLISH. Multi-dimensional critique, "
+                    "quality thresholds, output validation and prevents story collapse."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-generation", "critic", "revision"],
+                "updated_at": "2026-06-12T08:21:00Z",
+                "root_files": ["README.md", "LICENSE", "examples"],
+            },
+            {
+                "full_name": "lars76/story-evaluation-llm",
+                "html_url": "https://github.com/lars76/story-evaluation-llm",
+                "description": (
+                    "Story Evaluation Dataset and creative writing benchmark. Includes overall_score, q1 to q15 quality metrics, "
+                    "narrative structure, character development, prose quality, character consistency, motivation, "
+                    "weaknesses w1-w5 and preferred/rejected pairs."
+                ),
+                "stargazers_count": 9,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["creative-writing", "benchmark", "llm-evaluation"],
+                "updated_at": "2026-06-12T08:22:00Z",
+                "root_files": ["README.md", "LICENSE", "data"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:58:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "story_design_dependency_impact_gate" in candidates["osushi-cr/sdcoh"]["absorbed_patterns"]
+    assert "writer_critic_verify_quality_cycle_gate" in candidates["davealaw/FictionRefine"]["absorbed_patterns"]
+    assert "q15_story_quality_benchmark_gate" in candidates["lars76/story-evaluation-llm"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "story_design_dependency_impact_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "writer_critic_quality_cycle_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "q15_story_quality_metric_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_design_dependency_impact_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "writer_critic_revision_cycle_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "q15_story_quality_scorecard" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_design_dependency_impact_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "writer_critic_quality_cycle_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "q15_story_quality_scorecard_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("dependency graph" in hint.lower() for hint in pattern_pack["story_design_dependency_impact_gate_hints"])
+    assert any("WRITE" in hint and "VERIFY" in hint for hint in pattern_pack["writer_critic_verify_quality_cycle_gate_hints"])
+    assert any("q1-q15" in hint.lower() for hint in pattern_pack["q15_story_quality_benchmark_gate_hints"])
+    assert any("dependency graph" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("critique language" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("benchmark story_text" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "story_design_dependency_impact_gate_hints" in digest
+    assert "writer_critic_verify_quality_cycle_gate_hints" in digest
+    assert "q15_story_quality_benchmark_gate_hints" in digest

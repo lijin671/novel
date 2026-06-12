@@ -460,6 +460,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("StoryState" OR "OUTPUT CONTRACT" OR "deterministic continuity engine") ("novel" OR "fiction writing") in:name,description,readme',
     '("Plan ? Draft ? Log ? Verify ? Repeat" OR "scene logs" OR "thread tracking") ("long-form fiction" OR "manuscript") in:name,description,readme',
     '("YAML frontmatter" OR "continuity engine" OR "promises/payoffs") ("story bible" OR "agent skills") in:name,description,readme',
+    '("Story Design Coherence" OR "dependency graph" OR "stale downstream files") ("AI-assisted novel" OR "fiction writing") in:name,description,readme',
+    '("writer model" OR "critic model" OR "VERIFY") ("iterative story" OR "quality thresholds") in:name,description,readme',
+    '("q1" OR "q15" OR "overall_score") ("story evaluation dataset" OR "creative writing benchmark") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -511,6 +514,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/howells/fiction",
     "https://github.com/mjbae/awesome-novel-studio",
     "https://github.com/danjdewhurst/story-skills",
+    "https://github.com/osushi-cr/sdcoh",
+    "https://github.com/davealaw/FictionRefine",
+    "https://github.com/lars76/story-evaluation-llm",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1396,6 +1402,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_state_output_contract_gate", ("novel os", "StoryState", "OUTPUT CONTRACT", "Architect", "Scribe", "Editor", "Guardian", "Curator", "[SCRIBE_STATE_UPDATE]", "[EDITOR_STATE_UPDATE]", "deterministic + LLM validation", "quality gates")),
     ("living_document_plan_log_verify_gate", ("longform-plugin", "Plan ? Draft ? Log ? Verify ? Repeat", "scene logs", "continuity records", "glossary", "thread tracking", "foreshadowing checklists", "living documents", "canon always wins")),
     ("markdown_frontmatter_continuity_engine_gate", ("story-skills", "YAML frontmatter", "continuity engine", "story bible", "promises/payoffs", "dead characters walking", "Chekhov guns", "stale story state", "mentions field", "deterministic")),
+    ("story_design_dependency_impact_gate", ("story design coherence", "sdcoh", "dependency graphs between story design documents", "change impact", "stale downstream files", "character sheets", "beat sheets", "foreshadowing ledgers", "style guides", "episode drafts", "director")),
+    ("writer_critic_verify_quality_cycle_gate", ("fictionrefine", "two-llm workflow", "writer/reviser", "critic/verifier", "write", "review", "revise", "verify", "gate", "quality thresholds", "prevents story collapse")),
+    ("q15_story_quality_benchmark_gate", ("story evaluation dataset", "creative writing benchmark", "overall_score", "q1", "q15", "quality metrics", "narrative structure", "character development", "prose quality", "weaknesses", "preferred/rejected pairs")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3737,6 +3746,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "story-skills is an MIT Agent Skills bundle for markdown fiction projects. Static README markers describe a story bible, plain markdown with YAML frontmatter, character/world/faction/artifact/arc/scene state files, deterministic continuity engine checks for dead characters walking, payoff-before-setup, stale state, Chekhov guns, mentions exceptions, and CI-addressable findings. "
         "Pattern-only adaptation for markdown frontmatter continuity-engine gates; Agent Skills installation, CLI commands, skill bodies, examples, generated fiction, and local project files are not imported or executed."
     ),
+    "osushi-cr/sdcoh": (
+        "sdcoh is an MIT Story Design Coherence tool. Static README markers describe dependency graphs between story design documents, change impact, stale downstream files, character sheets, beat sheets, foreshadowing ledgers, style guides, briefs, episode drafts, director/AI drafting roles, and downstream review flags. "
+        "Pattern-only adaptation for story-design dependency impact gates; PyPI install, CLI scans, hooks, local manuscripts, graph builds, and file mutation are not executed."
+    ),
+    "davealaw/fictionrefine": (
+        "FictionRefine is an MIT two-LLM iterative story generation and improvement workflow. Static README markers describe writer/reviser and critic/verifier roles, WRITE -> REVIEW -> REVISE -> VERIFY -> GATE -> PUBLISH stages, multi-dimensional critique, quality thresholds, output validation, failure handling, and story-collapse prevention. "
+        "Pattern-only adaptation for writer/critic verify quality-cycle gates; package install, LM Studio runtime, model calls, example execution, and generated story files are not imported or executed."
+    ),
+    "lars76/story-evaluation-llm": (
+        "story-evaluation-llm is an MIT story evaluation dataset and benchmark reference. Static README markers describe LLM-generated stories across languages, averaged evaluation metrics, overall_score, q1-q15 quality metrics, narrative structure, character consistency/motivation/depth, prose quality, weaknesses w1-w5, and preferred/rejected pair construction. "
+        "Pattern-only adaptation for q15 story-quality benchmark gates; dataset download, Hugging Face access, model evaluation, training, and story corpus import are not executed."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4534,6 +4555,9 @@ class NovelSourceDiscoveryService:
             "story_state_output_contract_gate_hints": self._build_story_state_output_contract_gate_hints(available_patterns),
             "living_document_plan_log_verify_gate_hints": self._build_living_document_plan_log_verify_gate_hints(available_patterns),
             "markdown_frontmatter_continuity_engine_gate_hints": self._build_markdown_frontmatter_continuity_engine_gate_hints(available_patterns),
+            "story_design_dependency_impact_gate_hints": self._build_story_design_dependency_impact_gate_hints(available_patterns),
+            "writer_critic_verify_quality_cycle_gate_hints": self._build_writer_critic_verify_quality_cycle_gate_hints(available_patterns),
+            "q15_story_quality_benchmark_gate_hints": self._build_q15_story_quality_benchmark_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5362,6 +5386,9 @@ class NovelSourceDiscoveryService:
             "story_state_output_contract_gate": 73,
             "living_document_plan_log_verify_gate": 72,
             "markdown_frontmatter_continuity_engine_gate": 74,
+            "story_design_dependency_impact_gate": 72,
+            "writer_critic_verify_quality_cycle_gate": 71,
+            "q15_story_quality_benchmark_gate": 70,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -6835,6 +6862,15 @@ class NovelSourceDiscoveryService:
         if "markdown_frontmatter_continuity_engine_gate" in patterns:
             targets.append("markdown_frontmatter_continuity_policy")
             targets.append("deterministic_story_contract_policy")
+        if "story_design_dependency_impact_gate" in patterns:
+            targets.append("story_design_dependency_impact_policy")
+            targets.append("stale_downstream_review_policy")
+        if "writer_critic_verify_quality_cycle_gate" in patterns:
+            targets.append("writer_critic_quality_cycle_policy")
+            targets.append("revision_collapse_prevention_policy")
+        if "q15_story_quality_benchmark_gate" in patterns:
+            targets.append("q15_story_quality_metric_policy")
+            targets.append("preferred_rejected_pair_review_policy")
         return self._dedupe_texts(targets)
 
     def _build_whole_book_analysis_targets(self, patterns: set[str]) -> list[str]:
@@ -7871,6 +7907,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["plan_draft_log_verify_report", "living_document_update_trace", "thread_foreshadowing_health_findings"])
         if "markdown_frontmatter_continuity_engine_gate" in patterns:
             targets.extend(["frontmatter_continuity_engine_report", "promise_payoff_order_findings", "state_exception_mentions_findings"])
+        if "story_design_dependency_impact_gate" in patterns:
+            targets.extend(["story_design_dependency_impact_report", "stale_downstream_design_findings", "design_to_episode_review_queue"])
+        if "writer_critic_verify_quality_cycle_gate" in patterns:
+            targets.extend(["writer_critic_revision_cycle_report", "quality_threshold_gate_findings", "story_collapse_prevention_findings"])
+        if "q15_story_quality_benchmark_gate" in patterns:
+            targets.extend(["q15_story_quality_scorecard", "weakness_rank_review", "preferred_rejected_pair_findings"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8408,6 +8450,12 @@ class NovelSourceDiscoveryService:
             hints.append("Continue chapters through Plan -> Draft -> Log -> Verify -> Repeat: outline first, draft second, then update scene logs, continuity, glossary, threads, and foreshadowing.")
         if "markdown_frontmatter_continuity_engine_gate" in patterns:
             hints.append("Before accepting continuation, validate frontmatter facts for dead-character appearances, payoff-before-setup, stale state, and explicit mention-only exceptions.")
+        if "story_design_dependency_impact_gate" in patterns:
+            hints.append("Before continuation, inspect changed design documents and mark downstream briefs, episode drafts, style guides, and foreshadowing ledgers stale until reviewed.")
+        if "writer_critic_verify_quality_cycle_gate" in patterns:
+            hints.append("Use write/review/revise/verify/gate cycles with bounded iteration counts; accept only revisions that improve named dimensions without collapsing story structure.")
+        if "q15_story_quality_benchmark_gate" in patterns:
+            hints.append("Score drafts against q1-q15-style dimensions: grammar, structure, internal consistency, character consistency, motivation, depth, interactions, and resolution.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -8885,6 +8933,12 @@ class NovelSourceDiscoveryService:
             hints.append("Living documents must grow from accepted chapters only: scene log, continuity, glossary, threads, and foreshadowing updates need chapter ids and verification status.")
         if "markdown_frontmatter_continuity_engine_gate" in patterns:
             hints.append("Keep YAML-frontmatter story facts deterministic and addressable so continuity findings can point to exact files, fields, chapters, and exception markers.")
+        if "story_design_dependency_impact_gate" in patterns:
+            hints.append("Persist a design dependency graph so each character, beat, style, foreshadowing, brief, and episode artifact can be marked fresh, stale, or reviewed after upstream changes.")
+        if "writer_critic_verify_quality_cycle_gate" in patterns:
+            hints.append("Store writer draft, critic findings, applied revision ids, verification scores, failure reasons, and final gate decision separately from accepted manuscript state.")
+        if "q15_story_quality_benchmark_gate" in patterns:
+            hints.append("Store story-quality scorecards and ranked weaknesses as evaluation evidence, not as canon; preferred/rejected pairs must be local to the transformed project.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -13404,6 +13458,34 @@ class NovelSourceDiscoveryService:
             "Keep intentional flashbacks and posthumous references legal only through explicit mentions/exception fields, not silent canon rewrites.",
         ]
 
+
+    def _build_story_design_dependency_impact_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_design_dependency_impact_gate" not in patterns:
+            return []
+        return [
+            "Maintain a dependency graph between design files and downstream chapter artifacts so changed character sheets, beat sheets, foreshadowing ledgers, and style guides mark affected outputs stale.",
+            "Review stale downstream briefs and episode drafts before continuation; do not let a changed upstream design silently coexist with old prose assumptions.",
+            "Keep dependency scanning as static review evidence unless a local safety contract authorizes CLI hooks or file mutation.",
+        ]
+
+    def _build_writer_critic_verify_quality_cycle_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "writer_critic_verify_quality_cycle_gate" not in patterns:
+            return []
+        return [
+            "Use a bounded writer/critic loop: WRITE, REVIEW, REVISE, VERIFY, then GATE by explicit quality thresholds.",
+            "Critique must be multi-dimensional and specific: plot, character, setting, dialogue, mechanics, continuity, and story-collapse risk.",
+            "Store failed cycles and verifier scores so repeated revisions cannot drift away from the chapter brief or source-independent canon.",
+        ]
+
+    def _build_q15_story_quality_benchmark_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "q15_story_quality_benchmark_gate" not in patterns:
+            return []
+        return [
+            "Use q1-q15-style quality dimensions as a local scorecard for grammar, narrative structure, internal consistency, character consistency, motivation, depth, interactions, and resolution.",
+            "Rank weaknesses before rewriting; the top weaknesses should become bounded revision tasks, not generic regenerate requests.",
+            "Treat public benchmark datasets as metric design references only; do not import story_text rows, prompts, or model outputs into project canon.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14369,6 +14451,12 @@ class NovelSourceDiscoveryService:
             targets.append("living_document_plan_log_verify_remap")
         if "markdown_frontmatter_continuity_engine_gate" in patterns:
             targets.append("markdown_frontmatter_continuity_engine_remap")
+        if "story_design_dependency_impact_gate" in patterns:
+            targets.append("story_design_dependency_impact_remap")
+        if "writer_critic_verify_quality_cycle_gate" in patterns:
+            targets.append("writer_critic_quality_cycle_remap")
+        if "q15_story_quality_benchmark_gate" in patterns:
+            targets.append("q15_story_quality_scorecard_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15062,6 +15150,12 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type writing, build new living documents and plan/log/verify checkpoints from the transformed story rather than copying source tracking rows.")
         if "markdown_frontmatter_continuity_engine_gate" in patterns:
             hints.append("For same-type writing, define fresh frontmatter fields, promise ids, question ids, and exception markers before prose generation.")
+        if "story_design_dependency_impact_gate" in patterns:
+            hints.append("For same-type writing, rebuild a new design dependency graph with fresh files, dependency rules, and stale-review states before drafting.")
+        if "writer_critic_verify_quality_cycle_gate" in patterns:
+            hints.append("For same-type writing, use critic cycles to improve the transformed draft against local criteria, not to imitate the source story's fixes.")
+        if "q15_story_quality_benchmark_gate" in patterns:
+            hints.append("For same-type writing, create a local quality scorecard and preferred/rejected pairs from new drafts only; benchmark metrics guide form, not content.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -15771,6 +15865,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform living-document workflow by changing scene-log schema, thread ids, glossary terms, foreshadowing seeds, and verification cadence for the new manuscript.")
         if "markdown_frontmatter_continuity_engine_gate" in patterns:
             hints.append("Transform frontmatter continuity by creating new file ids, field names, promise/payoff links, and mention exceptions rather than copying source project metadata.")
+        if "story_design_dependency_impact_gate" in patterns:
+            hints.append("Transform dependency-impact patterns by inventing new design artifact ids, dependency rules, stale states, and episode review queues.")
+        if "writer_critic_verify_quality_cycle_gate" in patterns:
+            hints.append("Transform writer/critic loops into new-story review cycles with different criteria, critique wording, revision ids, and gate thresholds.")
+        if "q15_story_quality_benchmark_gate" in patterns:
+            hints.append("Transform benchmark dimensions into local rubric names and weights; do not copy public story_text, prompt rows, model rankings, or weakness examples.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -16560,6 +16660,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that preserve source scene logs, glossary entries, thread markers, foreshadowing checklists, or canon-conflict reports under renamed documents.")
         if "markdown_frontmatter_continuity_engine_gate" in patterns:
             hints.append("Reject drafts that reuse source YAML frontmatter, promise ids, question ids, character status rows, artifact status, or exception markers as transformed story data.")
+        if "story_design_dependency_impact_gate" in patterns:
+            hints.append("Reject drafts that reuse source dependency graph node ids, design-file names, stale-review labels, or episode dependencies as new-story structure.")
+        if "writer_critic_verify_quality_cycle_gate" in patterns:
+            hints.append("Reject revisions that copy source critique language, verifier JSON, accepted fixes, published clean text, or model-specific prompt scaffolding.")
+        if "q15_story_quality_benchmark_gate" in patterns:
+            hints.append("Reject uses of benchmark story_text, prompts, model outputs, weakness rows, or preferred/rejected pairs as seed content for the project.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -16706,6 +16812,9 @@ class NovelSourceDiscoveryService:
                 "story_state_output_contract_gate",
                 "living_document_plan_log_verify_gate",
                 "markdown_frontmatter_continuity_engine_gate",
+                "story_design_dependency_impact_gate",
+                "writer_critic_verify_quality_cycle_gate",
+                "q15_story_quality_benchmark_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

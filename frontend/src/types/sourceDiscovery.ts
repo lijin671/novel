@@ -317,6 +317,9 @@ export interface SourceDiscoveryPatternPack {
   story_state_output_contract_gate_hints?: string[];
   living_document_plan_log_verify_gate_hints?: string[];
   markdown_frontmatter_continuity_engine_gate_hints?: string[];
+  story_design_dependency_impact_gate_hints?: string[];
+  writer_critic_verify_quality_cycle_gate_hints?: string[];
+  q15_story_quality_benchmark_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];
