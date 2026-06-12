@@ -454,6 +454,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("Canon/Dynamic/Reference" OR "Jingwei" OR "Canon protection") ("novel plugin" OR "web novel") in:name,description,readme',
     '("branching saves" OR "novel into a playable world" OR "LLM RPG engine") ("worldbook" OR "canon repo") in:name,description,readme',
     '("canon/facts.jsonl" OR "known_by" OR "canon/promises.jsonl") ("long novel" OR "webnovel" OR "POV knowledge") in:name,description,readme',
+    '("author keeps the pen" OR "diagnosis, structure, and memory" OR "extractive card codex") ("fiction writers" OR "webnovel serial") in:name,description,readme',
+    '("STATE.md" OR "OUTLINE.md" OR "RECORD.md") ("spec-driven writing" OR "longform writing") in:name,description,readme',
+    '("LangGraph" OR "memory curator" OR "run observability") ("long-form fiction" OR "chapter workflow") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -790,6 +793,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/vivy1024/novelfork",
     "https://github.com/felixchaos/rpg-roleplay-platform",
     "https://github.com/jiaw-Zh/long-novel-writer",
+    "https://github.com/HarishDvs/Grizzly",
+    "https://github.com/aihxp/scriveno",
+    "https://github.com/ayermac/novelos",
     "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
     "https://github.com/SutraMind/GraphRAG-story",
     "https://github.com/v-saprykin/storygraph",
@@ -1377,7 +1383,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("browser_local_story_bible_privacy_gate", ("browser local storage", "browser's local storage", "privacy-first", "local-first writing application", "no accounts", "no cloud sync", "story bible context automatically included", "all without your words ever leaving")),
     ("jingwei_layered_canon_plugin_gate", ("jingwei", "canon/dynamic/reference", "canon protection", "novel plugin", "scene.spec", "pipeline.write", "session recovery", "plugin ui", "sqlite index")),
     ("roleplay_branchable_save_world_gate", ("branching saves", "turns a novel into a playable world", "novel into a playable world", "llm rpg engine", "worldbook", "canon repo", "script ingestion", "agent-driven scenes")),
-    ("append_only_canon_pov_promise_gate", ("canon/facts.jsonl", "known_by", "canon/promises.jsonl", "canon/progression.jsonl", "pov knowledge", "append-only canon ledger", "????", "???", "????", "????", "????", "??????")),
+    ("append_only_canon_pov_promise_gate", ("canon/facts.jsonl", "known_by", "canon/promises.jsonl", "canon/progression.jsonl", "pov knowledge", "append-only canon ledger", "promise due date", "monotonic progression", "ability overreach", "resurrection conflict", "write-before assembly", "write-after validation")),
+    ("author_keeps_pen_diagnostic_codex_gate", ("author keeps the pen", "diagnosis, structure, and memory", "extractive card codex", "chapters, arcs, characters, threads", "findings + side-by-side fixes", "voice spec", "buried landing", "no praise padding")),
+    ("spec_driven_state_record_publish_gate", ("STATE.md", "OUTLINE.md", "RECORD.md", "spec-driven writing", "creative-context", "publishing guide", "translation", "prepublish review", "continuity merge checking", "progress ledger")),
+    ("desktop_langgraph_memory_observability_gate", ("LangGraph", "planner, screenwriter, author, polisher, editor, memory curator, and publisher", "project memory system", "quality diagnosis", "run observability", "node events", "memory backfill", "publish safety guards")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3695,6 +3704,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "long-novel-writer is a no-license-observed Codex long-webnovel skill. Static README markers describe append-only Canon Ledger files, canon/facts.jsonl with known_by, canon/promises.jsonl with due dates, canon/progression.jsonl monotonic progression checks, rules/timeline files, POV knowledge boundaries, entity-filtered write-after validation, and nine-step pre-write assembly. "
         "Pattern-only adaptation for append-only canon/POV/promise gates; Codex skill runtime, upstream prompts, project files, generated fiction, provider calls, and local data are not imported or executed."
     ),
+    "harishdvs/grizzly": (
+        "Grizzly is an MIT editor-in-a-skill for fiction writers. Static README markers describe author-keeps-the-pen posture, AI value as diagnosis/structure/memory instead of generation, extractive card codex for chapters/arcs/characters/threads, continuity checks against recorded facts, voice spec from the writer's samples, and findings plus side-by-side fixes. "
+        "Pattern-only adaptation for diagnostic codex gates; PowerShell skill runtime, upstream prompt bodies, local manuscripts, and author samples are not imported or executed."
+    ),
+    "aihxp/scriveno": (
+        "Scriveno is an MIT spec-driven creative writing, publishing, and translation pipeline. Static README markers describe STATE.md workflow position, OUTLINE.md structure, RECORD.md established content/open threads/promises/payoffs/continuity facts, creative context routing, polish/review lanes, publishing guide, translation, screenshots/status runtime docs, and command catalog surfaces. "
+        "Pattern-only adaptation for state/record/publish gates; npm package, generated skills, runtime commands, provider calls, manuscript projects, and export pipelines are not installed or executed."
+    ),
+    "ayermac/novelos": (
+        "Novelos is an MIT local-first AI workbench for long-form fiction. Static README markers describe a desktop React/Electron/FastAPI sidecar, LangGraph chapter workflow with planner/screenwriter/author/polisher/editor/memory curator/publisher agents, project memory, genesis quality gates, run observability, node events, artifacts, recovery, memory backfill, style bible, and publish safety guards. "
+        "Pattern-only adaptation for desktop LangGraph memory/observability gates; Electron/FastAPI runtime, LangGraph execution, local workspace data, provider routing, sidecar services, and publishing actions are not launched."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4486,6 +4507,9 @@ class NovelSourceDiscoveryService:
             "jingwei_layered_canon_plugin_gate_hints": self._build_jingwei_layered_canon_plugin_gate_hints(available_patterns),
             "roleplay_branchable_save_world_gate_hints": self._build_roleplay_branchable_save_world_gate_hints(available_patterns),
             "append_only_canon_pov_promise_gate_hints": self._build_append_only_canon_pov_promise_gate_hints(available_patterns),
+            "author_keeps_pen_diagnostic_codex_gate_hints": self._build_author_keeps_pen_diagnostic_codex_gate_hints(available_patterns),
+            "spec_driven_state_record_publish_gate_hints": self._build_spec_driven_state_record_publish_gate_hints(available_patterns),
+            "desktop_langgraph_memory_observability_gate_hints": self._build_desktop_langgraph_memory_observability_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5308,6 +5332,9 @@ class NovelSourceDiscoveryService:
             "jingwei_layered_canon_plugin_gate": 71,
             "roleplay_branchable_save_world_gate": 69,
             "append_only_canon_pov_promise_gate": 73,
+            "author_keeps_pen_diagnostic_codex_gate": 71,
+            "spec_driven_state_record_publish_gate": 70,
+            "desktop_langgraph_memory_observability_gate": 72,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -6763,6 +6790,15 @@ class NovelSourceDiscoveryService:
             targets.append("append_only_canon_ledger_policy")
             targets.append("pov_known_by_boundary_policy")
             targets.append("promise_progression_validation_policy")
+        if "author_keeps_pen_diagnostic_codex_gate" in patterns:
+            targets.append("author_keeps_pen_diagnostic_codex_policy")
+            targets.append("extractive_card_codex_policy")
+        if "spec_driven_state_record_publish_gate" in patterns:
+            targets.append("state_outline_record_policy")
+            targets.append("publish_translation_boundary_policy")
+        if "desktop_langgraph_memory_observability_gate" in patterns:
+            targets.append("langgraph_agent_memory_policy")
+            targets.append("run_observability_recovery_policy")
         return self._dedupe_texts(targets)
 
     def _build_whole_book_analysis_targets(self, patterns: set[str]) -> list[str]:
@@ -7787,6 +7823,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["branchable_save_world_report", "novel_to_playable_world_boundary_findings"])
         if "append_only_canon_pov_promise_gate" in patterns:
             targets.extend(["append_only_canon_ledger_report", "pov_knowledge_boundary_report", "promise_progression_drift_findings"])
+        if "author_keeps_pen_diagnostic_codex_gate" in patterns:
+            targets.extend(["diagnostic_card_codex_report", "author_voice_spec_findings", "side_by_side_fix_review"])
+        if "spec_driven_state_record_publish_gate" in patterns:
+            targets.extend(["state_outline_record_report", "open_thread_promise_payoff_ledger", "publish_translation_boundary_findings"])
+        if "desktop_langgraph_memory_observability_gate" in patterns:
+            targets.extend(["langgraph_chapter_workflow_report", "run_observability_artifact_trace", "memory_backfill_recovery_findings"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8312,6 +8354,12 @@ class NovelSourceDiscoveryService:
             hints.append("For playable-world continuations, record save id, branch point, worldbook facts, last player/actor actions, and canon repo delta before generating the next scene.")
         if "append_only_canon_pov_promise_gate" in patterns:
             hints.append("Before continuation, assemble only the relevant append-only canon ledger slices: facts known_by current POV actors, active promises with due dates, progression monotonicity, rules, and timeline deltas.")
+        if "author_keeps_pen_diagnostic_codex_gate" in patterns:
+            hints.append("For revision-oriented continuation, keep the author in control: produce diagnosis, structure notes, memory-card evidence, and side-by-side fix candidates before any prose replacement.")
+        if "spec_driven_state_record_publish_gate" in patterns:
+            hints.append("Before drafting, update STATE/OUTLINE/RECORD-style context: current workflow position, structural target, established facts, open threads, promises, payoffs, and continuity constraints.")
+        if "desktop_langgraph_memory_observability_gate" in patterns:
+            hints.append("When using multi-agent chapter flow, record planner/screenwriter/author/polisher/editor/memory-curator/publisher handoffs plus node artifacts and recovery status.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -8777,6 +8825,12 @@ class NovelSourceDiscoveryService:
             hints.append("Save-world state must distinguish accepted novel canon, RPG branch save, imported script/worldbook facts, and reversible sandbox events.")
         if "append_only_canon_pov_promise_gate" in patterns:
             hints.append("Persist facts, promises, progression, rules, and timeline as append-only ledgers; write-after validation must block POV knowledge leaks, missed promises, ability overreach, numeric drift, and resurrection conflicts.")
+        if "author_keeps_pen_diagnostic_codex_gate" in patterns:
+            hints.append("Store extractive cards for chapters, arcs, characters, threads, voice samples, and diagnostic findings separately from proposed edits; accepted author choices update memory.")
+        if "spec_driven_state_record_publish_gate" in patterns:
+            hints.append("Keep STATE, OUTLINE, and RECORD as separate state surfaces so workflow progress, structure, and established canon/promises/payoffs do not overwrite each other.")
+        if "desktop_langgraph_memory_observability_gate" in patterns:
+            hints.append("Persist node events, artifacts, LLM/provider boundaries, retry/recovery actions, memory backfill, and publish-safety checks as auditable run state.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -13240,6 +13294,34 @@ class NovelSourceDiscoveryService:
             "Validate promises and progression before accepting a chapter: due-date obligations, ability monotonicity, numeric drift, overreach, and resurrection conflicts must be explicit findings.",
         ]
 
+
+    def _build_author_keeps_pen_diagnostic_codex_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "author_keeps_pen_diagnostic_codex_gate" not in patterns:
+            return []
+        return [
+            "Enter diagnostic mode first: keep the author in control by producing diagnosis, structure notes, continuity evidence, and voice-spec observations before proposing prose changes.",
+            "Build an extractive card codex for chapters, arcs, characters, threads, and accepted facts; separate quoted evidence from generated fix candidates.",
+            "Treat side-by-side fixes as review candidates until the author explicitly accepts them into canon or style memory.",
+        ]
+
+    def _build_spec_driven_state_record_publish_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "spec_driven_state_record_publish_gate" not in patterns:
+            return []
+        return [
+            "Keep STATE, OUTLINE, and RECORD surfaces separate: workflow position, structural intent, and established canon/promises/payoffs must not overwrite each other.",
+            "Route polish, continuity, voice, beta-reader, publish, and translation work through named gates with explicit inputs and reviewer decisions.",
+            "Keep publishing, export, and translation runtime-deferred unless target, rights, corpus, provider, output path, and reviewer are all named.",
+        ]
+
+    def _build_desktop_langgraph_memory_observability_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "desktop_langgraph_memory_observability_gate" not in patterns:
+            return []
+        return [
+            "Make planner, screenwriter, author, polisher, editor, memory-curator, and publisher handoffs inspectable before accepting chapter output.",
+            "Record node events, artifacts, latency, token/provider boundaries, retries, recovery actions, and memory backfill as auditable run evidence.",
+            "Block publish promotion until continuity, memory readiness, malformed or truncated chapter titles, and style-bible readiness have explicit safety findings.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14193,6 +14275,12 @@ class NovelSourceDiscoveryService:
             targets.append("branchable_save_world_remap")
         if "append_only_canon_pov_promise_gate" in patterns:
             targets.append("append_only_canon_pov_promise_remap")
+        if "author_keeps_pen_diagnostic_codex_gate" in patterns:
+            targets.append("diagnostic_codex_author_control_remap")
+        if "spec_driven_state_record_publish_gate" in patterns:
+            targets.append("state_outline_record_remap")
+        if "desktop_langgraph_memory_observability_gate" in patterns:
+            targets.append("langgraph_memory_observability_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14874,6 +14962,12 @@ class NovelSourceDiscoveryService:
             hints.append("Convert source roleplay mechanics into a branch/save rehearsal pattern while keeping the new novel's canon and sandbox branch histories separate.")
         if "append_only_canon_pov_promise_gate" in patterns:
             hints.append("For same-type writing, create new append-only fact, promise, progression, rule, and timeline ledgers before drafting so source canon shape becomes method, not copied content.")
+        if "author_keeps_pen_diagnostic_codex_gate" in patterns:
+            hints.append("For same-type drafting, ask for diagnostic cards and author-choice checkpoints first; do not let generated fixes become accepted prose automatically.")
+        if "spec_driven_state_record_publish_gate" in patterns:
+            hints.append("Create new STATE/OUTLINE/RECORD-style ledgers for the transformed project and keep publishing/translation as bounded later-stage gates.")
+        if "desktop_langgraph_memory_observability_gate" in patterns:
+            hints.append("Translate multi-agent role handoffs into auditable new-project stages with node evidence, memory readiness, and recovery notes.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -15571,6 +15665,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform playable-world branches into new stakes, choices, and save consequences; do not preserve original text retrieval order or worldbook entries.")
         if "append_only_canon_pov_promise_gate" in patterns:
             hints.append("Transform canon-ledger structure by inventing new facts, promise deadlines, progression scales, known_by visibility, and timeline events rather than preserving source obligations or power ladders.")
+        if "author_keeps_pen_diagnostic_codex_gate" in patterns:
+            hints.append("Transform diagnostic-card structure by creating new arcs, threads, voice observations, and fix candidates; do not copy source findings or sentence repairs.")
+        if "spec_driven_state_record_publish_gate" in patterns:
+            hints.append("Transform state/outline/record ledgers with new story facts, promises, payoffs, and format targets rather than preserving source workflow copy or command text.")
+        if "desktop_langgraph_memory_observability_gate" in patterns:
+            hints.append("Transform agent workflow into fresh role outputs and observability events; do not copy source node names, artifact ids, or provider routing as story authority.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -16348,6 +16448,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject branchable-world drafts that replay source saves, imported script chunks, worldbook entries, character cards, or gameplay routes as new canon.")
         if "append_only_canon_pov_promise_gate" in patterns:
             hints.append("Reject drafts that copy source canon facts, secret-reveal ownership, promise/deadline chains, power progression ladders, or timeline rows under renamed ledgers.")
+        if "author_keeps_pen_diagnostic_codex_gate" in patterns:
+            hints.append("Reject edits that copy source diagnostic wording, voice samples, side-by-side repair phrasing, or extractive cards as if they were new-story prose.")
+        if "spec_driven_state_record_publish_gate" in patterns:
+            hints.append("Reject transformed runs that preserve source STATE/OUTLINE/RECORD entries, open-thread names, promise/payoff chains, publishing package text, or translation examples.")
+        if "desktop_langgraph_memory_observability_gate" in patterns:
+            hints.append("Reject drafts that treat source run artifacts, node events, memory backfill notes, style-bible templates, or publisher safety findings as new-story canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:

@@ -248,6 +248,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "jingwei_layered_canon_plugin_gate_hints",
             "roleplay_branchable_save_world_gate_hints",
             "append_only_canon_pov_promise_gate_hints",
+            "author_keeps_pen_diagnostic_codex_gate_hints",
+            "spec_driven_state_record_publish_gate_hints",
+            "desktop_langgraph_memory_observability_gate_hints",
             "local_copilot_layered_memory_workspace_gate_hints",
             "pending_fact_canon_promotion_graph_gate_hints",
             "work_corpus_reindex_autopilot_gate_hints",
@@ -558,6 +561,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Jingwei layered canon plugin gates" in panel_text
     assert "Roleplay branchable save/world gates" in panel_text
     assert "Append-only canon POV/promise gates" in panel_text
+    assert "Author-keeps-pen diagnostic codex gates" in panel_text
+    assert "Spec-driven state/record/publish gates" in panel_text
+    assert "Desktop LangGraph memory observability gates" in panel_text
     assert "Lore Forge knowledge-engineering gates" in panel_text
     assert "Layered style profile fusion/eval gates" in panel_text
     assert "Truth File / RAG pyramid audit gates" in panel_text

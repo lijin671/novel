@@ -311,6 +311,9 @@ export interface SourceDiscoveryPatternPack {
   jingwei_layered_canon_plugin_gate_hints?: string[];
   roleplay_branchable_save_world_gate_hints?: string[];
   append_only_canon_pov_promise_gate_hints?: string[];
+  author_keeps_pen_diagnostic_codex_gate_hints?: string[];
+  spec_driven_state_record_publish_gate_hints?: string[];
+  desktop_langgraph_memory_observability_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

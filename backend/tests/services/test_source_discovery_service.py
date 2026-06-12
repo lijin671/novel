@@ -16632,3 +16632,92 @@ def test_append_only_canon_pov_promise_source_is_static_absorbed():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "append_only_canon_pov_promise_gate_hints" in digest
+
+
+
+def test_editor_diagnostic_state_observability_sources_are_static_absorbed():
+    assert "https://github.com/HarishDvs/Grizzly" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/aihxp/scriveno" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ayermac/novelos" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("author keeps the pen" in query and "extractive card codex" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("STATE.md" in query and "RECORD.md" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("LangGraph" in query and "run observability" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "HarishDvs/Grizzly",
+                "html_url": "https://github.com/HarishDvs/Grizzly",
+                "description": (
+                    "An open editor-in-a-skill for fiction writers. The author keeps the pen; "
+                    "AI provides diagnosis, structure, and memory. It builds an extractive card codex for chapters, arcs, characters and threads, "
+                    "learns a voice spec, catches continuity errors, and returns concrete findings plus side-by-side fixes."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction-writing", "webnovel", "claude-skills"],
+                "updated_at": "2026-06-12T06:03:17Z",
+                "root_files": ["README.md", "LICENSE", "SKILL.md", "docs"],
+            },
+            {
+                "full_name": "aihxp/scriveno",
+                "html_url": "https://github.com/aihxp/scriveno",
+                "description": (
+                    "Spec-driven writing, publishing, and translation pipeline. STATE.md tracks workflow position, "
+                    "OUTLINE.md tracks structure, RECORD.md tracks established content, open threads, reader promises, payoffs and continuity facts. "
+                    "Includes creative context routing, polish gates, prepublish review, translation and continuity merge checking."
+                ),
+                "stargazers_count": 8,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["codex", "creative-writing", "publishing"],
+                "updated_at": "2026-06-11T04:01:41Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "docs"],
+            },
+            {
+                "full_name": "ayermac/novelos",
+                "html_url": "https://github.com/ayermac/novelos",
+                "description": (
+                    "Local-first long-form fiction desktop workbench with LangGraph planner, screenwriter, author, polisher, editor, memory curator and publisher agents. "
+                    "Project memory system, genesis quality gate, style bible, quality diagnosis, run observability with node events and artifacts, retry recovery, memory backfill and publish safety guards."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "langgraph", "desktop"],
+                "updated_at": "2026-06-11T12:41:50Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "backend", "frontend"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:00:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "author_keeps_pen_diagnostic_codex_gate" in candidates["HarishDvs/Grizzly"]["absorbed_patterns"]
+    assert "spec_driven_state_record_publish_gate" in candidates["aihxp/scriveno"]["absorbed_patterns"]
+    assert "desktop_langgraph_memory_observability_gate" in candidates["ayermac/novelos"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "author_keeps_pen_diagnostic_codex_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "state_outline_record_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "langgraph_agent_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "diagnostic_card_codex_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "state_outline_record_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "langgraph_chapter_workflow_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "diagnostic_codex_author_control_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "state_outline_record_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "langgraph_memory_observability_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("diagnostic mode" in hint.lower() for hint in pattern_pack["author_keeps_pen_diagnostic_codex_gate_hints"])
+    assert any("STATE" in hint and "RECORD" in hint for hint in pattern_pack["spec_driven_state_record_publish_gate_hints"])
+    assert any("node events" in hint.lower() for hint in pattern_pack["desktop_langgraph_memory_observability_gate_hints"])
+    assert any("voice samples" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("STATE/OUTLINE/RECORD" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("node events" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "author_keeps_pen_diagnostic_codex_gate_hints" in digest
+    assert "spec_driven_state_record_publish_gate_hints" in digest
+    assert "desktop_langgraph_memory_observability_gate_hints" in digest
