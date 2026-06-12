@@ -616,6 +616,8 @@ def render_source_pattern_pack_digest(
         "local_desktop_manuscript_revision_bible_gate_hints",
         "canonkit_local_canon_drift_context_pack_gate_hints",
         "storyforge_wiki_ingest_lint_graph_gate_hints",
+        "agents_room_multistep_story_collaboration_gate_hints",
+        "judgemark_literary_criteria_calibration_gate_hints",
         "offline_chapter_revision_export_gate_hints",
         "multi_agent_outline_continuity_review_gate_hints",
         "hosted_ai_sidebar_product_boundary_gate_hints",

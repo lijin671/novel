@@ -466,6 +466,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("AI-powered character extraction" OR "Accept / reject changes" OR "Health timeline") ("desktop app" OR "writing novels") in:name,description,readme',
     '("canon drift" OR "LLM context pack" OR "local-first story bible") ("fiction teams" OR "solo authors") in:name,description,readme',
     '("story bible + worldbuilding wiki" OR "wiki-ingest" OR "wiki-lint") ("long-form fiction" OR "continuity pressure") in:name,description,readme',
+    '("Tell Me A Story" OR "Agents Room" OR "multi-step collaboration") ("narrative generation" OR "human-written stories") in:name,description,readme',
+    '("Judgemark" OR "Nuanced Characters" OR "Emotionally Engaging") ("creative writing judge" OR "literary criteria") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -522,6 +524,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/lars76/story-evaluation-llm",
     "https://github.com/sadasdfsaf/canonkit",
     "https://github.com/abrahamp47/storyforge-wiki",
+    "https://github.com/google-deepmind/tell_me_a_story",
+    "https://github.com/EQ-bench/Judgemark-v2",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1452,6 +1456,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("judge_bias_mitigation_check", ("bias mitigation", "judge biases", "length bias", "position bias", "verbosity", "poetic incoherence", "length, position, verbosity")),
     ("plan_reflect_character_chapter_pipeline", ("longform creative writing benchmark", "brainstorming & planning", "critical reflection", "character profiles", "8 chapters", "complete novella", "narrative construction")),
     ("human_story_metric_panel", ("hanna", "human-annotated narratives", "relevance, coherence", "empathy, surprise", "engagement and complexity", "automatic story evaluation", "human annotated narratives")),
+    ("agents_room_multistep_story_collaboration_gate", ("tell me a story", "agents' room", "agents room", "multi-step collaboration", "narrative generation", "complex writing prompts", "human-written stories", "specialized agents", "plot", "developing interesting characters", "evocative language")),
+    ("judgemark_literary_criteria_calibration_gate", ("judgemark", "creative writing judge", "numeric scores", "multiple literary criteria", "nuanced characters", "overwrought", "emotionally engaging", "consistent and discriminative", "ensemble judge", "judge model")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3778,6 +3784,14 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Storyforge Wiki is an MIT Claude Code-first system for turning scattered manuscript files into a structured story bible and worldbuilding wiki. Static README markers describe raw/ ingestion, wiki/ linked domain pages, continuity-focused querying, canon lint, wiki-health, wiki-ingest, wiki-query, wiki-graph, local raw/generated content boundaries, chunked map-reduce extraction, and Quartz/GitHub Pages publishing. "
         "Pattern-only adaptation for wiki ingest/lint/graph gates; Claude Code commands, Python tools, Quartz sync, raw manuscript ingestion, generated wiki pages, and publishing are not executed."
     ),
+    "google-deepmind/tell_me_a_story": (
+        "Tell Me A Story is an Apache-2.0 dataset from the Agents' Room narrative-generation work. Static README markers describe complex writing prompts, human-written stories, a framework that decomposes narrative writing into subtasks for specialized agents, and long-narrative evaluation. "
+        "Pattern-only adaptation for multi-step story-collaboration gates; dataset files, keys.zip, paper prompts, agent code, model calls, and generated stories are not imported or executed."
+    ),
+    "eq-bench/judgemark-v2": (
+        "Judgemark V2.1 is an MIT benchmark for evaluating creative-writing judge models. Static README markers describe numeric scores across literary criteria such as Nuanced Characters, Overwrought, and Emotionally Engaging, plus consistency, discriminativeness, and ensemble judge scoring. "
+        "Pattern-only adaptation for literary-criteria calibration gates; requirements, API keys, judge execution, result datasets, and benchmark scripts are not imported or executed."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4581,6 +4595,8 @@ class NovelSourceDiscoveryService:
             "local_desktop_manuscript_revision_bible_gate_hints": self._build_local_desktop_manuscript_revision_bible_gate_hints(available_patterns),
             "canonkit_local_canon_drift_context_pack_gate_hints": self._build_canonkit_local_canon_drift_context_pack_gate_hints(available_patterns),
             "storyforge_wiki_ingest_lint_graph_gate_hints": self._build_storyforge_wiki_ingest_lint_graph_gate_hints(available_patterns),
+            "agents_room_multistep_story_collaboration_gate_hints": self._build_agents_room_multistep_story_collaboration_gate_hints(available_patterns),
+            "judgemark_literary_criteria_calibration_gate_hints": self._build_judgemark_literary_criteria_calibration_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -6897,6 +6913,12 @@ class NovelSourceDiscoveryService:
         if "q15_story_quality_benchmark_gate" in patterns:
             targets.append("q15_story_quality_metric_policy")
             targets.append("preferred_rejected_pair_review_policy")
+        if "agents_room_multistep_story_collaboration_gate" in patterns:
+            targets.append("multi_step_story_collaboration_policy")
+            targets.append("human_prompt_dataset_boundary_policy")
+        if "judgemark_literary_criteria_calibration_gate" in patterns:
+            targets.append("literary_judge_criteria_policy")
+            targets.append("judge_consistency_calibration_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -7954,6 +7976,10 @@ class NovelSourceDiscoveryService:
             targets.extend(["canon_drift_context_pack_report", "focused_scene_context_findings", "json_import_export_boundary_findings"])
         if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
             targets.extend(["wiki_ingest_lint_graph_report", "canon_conflict_query_findings", "map_reduce_wiki_extraction_trace"])
+        if "agents_room_multistep_story_collaboration_gate" in patterns:
+            targets.extend(["agents_room_story_decomposition_report", "specialized_agent_subtask_trace", "human_story_prompt_boundary_findings"])
+        if "judgemark_literary_criteria_calibration_gate" in patterns:
+            targets.extend(["literary_judge_criteria_calibration_report", "judge_consistency_discrimination_findings", "ensemble_judge_score_notes"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -13555,6 +13581,24 @@ class NovelSourceDiscoveryService:
             "For long files, use chunked map-reduce extraction traces so merged wiki facts remain attributable to source chunks and review decisions.",
         ]
 
+    def _build_agents_room_multistep_story_collaboration_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agents_room_multistep_story_collaboration_gate" not in patterns:
+            return []
+        return [
+            "Split long-narrative writing into inspectable subtasks: plot construction, character development, language pass, synthesis, and evaluation.",
+            "Keep complex prompts and human-written story examples as excluded benchmark evidence; only abstract workflow roles may guide MuMuAINovel.",
+            "For book deconstruction and continuation, compare subtask outputs against target canon before synthesis so one weak role cannot silently overwrite accepted story state.",
+        ]
+
+    def _build_judgemark_literary_criteria_calibration_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "judgemark_literary_criteria_calibration_gate" not in patterns:
+            return []
+        return [
+            "Calibrate chapter review with explicit literary criteria: nuanced characters, emotional engagement, overwrought language, coherence, and prose control.",
+            "Record numeric scores, judge consistency, and discrimination notes as review evidence; low scores become bounded rewrite tasks, not automatic full regeneration.",
+            "Treat benchmark criteria and leaderboards as evaluator-design signals only; do not import benchmark outputs or judge prompts into project canon.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14532,6 +14576,10 @@ class NovelSourceDiscoveryService:
             targets.append("canon_drift_context_pack_remap")
         if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
             targets.append("wiki_ingest_lint_graph_remap")
+        if "agents_room_multistep_story_collaboration_gate" in patterns:
+            targets.append("multi_step_story_collaboration_remap")
+        if "judgemark_literary_criteria_calibration_gate" in patterns:
+            targets.append("literary_judge_criteria_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14565,6 +14613,10 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt continuity review to cite Story Bible, graph edge, vector/RAG hit, event timeline, or universe rule for every finding.")
         if "taleforge_memory_continuity_research_gate" in patterns:
             hints.append("Prompt research assistant output as provenance-tagged realism notes; continuity guardian findings need conflict location and living-bible update proposal.")
+        if "agents_room_multistep_story_collaboration_gate" in patterns:
+            hints.append("Prompt specialized duties as target-story subtasks only; source prompts and human-written stories remain excluded examples, not drafting context.")
+        if "judgemark_literary_criteria_calibration_gate" in patterns:
+            hints.append("Prompt literary criteria as a target scorecard; do not import benchmark passages, judge examples, or leaderboard outputs into the new story.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -15246,6 +15298,10 @@ class NovelSourceDiscoveryService:
             "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
             "Replace source organizations, abilities, locations, and plot triggers with transformed equivalents.",
         ]
+        if "agents_room_multistep_story_collaboration_gate" in patterns:
+            hints.append("Transform collaboration roles into new project duties and new evidence ids; do not preserve upstream prompt/story pairings or agent-room wording.")
+        if "judgemark_literary_criteria_calibration_gate" in patterns:
+            hints.append("Transform literary-criteria weights around the target genre and reader promise instead of copying benchmark leaderboard calibration.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -15967,6 +16023,10 @@ class NovelSourceDiscoveryService:
             "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
             "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
         ]
+        if "agents_room_multistep_story_collaboration_gate" in patterns:
+            hints.append("Reject drafts that reuse Tell Me A Story prompt structure, human-written story arcs, or Agents' Room task wording as hidden source scaffolding.")
+        if "judgemark_literary_criteria_calibration_gate" in patterns:
+            hints.append("Reject scorecard-driven rewrites that optimize for benchmark criterion names while preserving source scenes, phrasing, or character functions.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -16911,6 +16971,8 @@ class NovelSourceDiscoveryService:
                 "local_desktop_manuscript_revision_bible_gate",
                 "canonkit_local_canon_drift_context_pack_gate",
                 "storyforge_wiki_ingest_lint_graph_gate",
+                "agents_room_multistep_story_collaboration_gate",
+                "judgemark_literary_criteria_calibration_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

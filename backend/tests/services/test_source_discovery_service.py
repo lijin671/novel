@@ -16990,3 +16990,69 @@ def test_local_desktop_canonkit_wiki_sources_are_static_absorbed():
     assert "local_desktop_manuscript_revision_bible_gate_hints" in digest
     assert "canonkit_local_canon_drift_context_pack_gate_hints" in digest
     assert "storyforge_wiki_ingest_lint_graph_gate_hints" in digest
+
+
+
+def test_agents_room_and_judgemark_sources_are_static_absorbed():
+    assert "https://github.com/google-deepmind/tell_me_a_story" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/EQ-bench/Judgemark-v2" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Tell Me A Story" in query and "multi-step collaboration" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Judgemark" in query and "literary criteria" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "google-deepmind/tell_me_a_story",
+                "html_url": "https://github.com/google-deepmind/tell_me_a_story",
+                "description": (
+                    "Tell Me A Story dataset for Agents' Room: Narrative Generation through Multi-step Collaboration. "
+                    "It contains complex writing prompts and human-written stories, and describes specialized agents "
+                    "for plot, developing interesting characters, evocative language, and long narrative evaluation."
+                ),
+                "stargazers_count": 47,
+                "forks_count": 4,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["narrative-generation", "creative-writing", "dataset"],
+                "updated_at": "2026-06-11T20:12:01Z",
+                "root_files": ["README.md", "LICENSE", "keys.zip"],
+            },
+            {
+                "full_name": "EQ-bench/Judgemark-v2",
+                "html_url": "https://github.com/EQ-bench/Judgemark-v2",
+                "description": (
+                    "Judgemark V2.1 evaluates how well a language model can judge creative writing with numeric scores "
+                    "for multiple literary criteria, including Nuanced Characters, Overwrought, Emotionally Engaging, "
+                    "consistent and discriminative scoring, and ensemble judge models."
+                ),
+                "stargazers_count": 28,
+                "forks_count": 3,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["creative-writing", "judge", "benchmark"],
+                "updated_at": "2026-06-08T01:16:25Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt", ".env.example"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T00:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "agents_room_multistep_story_collaboration_gate" in candidates["google-deepmind/tell_me_a_story"]["absorbed_patterns"]
+    assert "judgemark_literary_criteria_calibration_gate" in candidates["EQ-bench/Judgemark-v2"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "multi_step_story_collaboration_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "literary_judge_criteria_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "agents_room_story_decomposition_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "literary_judge_criteria_calibration_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_step_story_collaboration_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "literary_judge_criteria_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("inspectable subtasks" in hint.lower() for hint in pattern_pack["agents_room_multistep_story_collaboration_gate_hints"])
+    assert any("nuanced characters" in hint.lower() for hint in pattern_pack["judgemark_literary_criteria_calibration_gate_hints"])
+    assert any("human-written story arcs" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("criterion names" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "agents_room_multistep_story_collaboration_gate_hints" in digest
+    assert "judgemark_literary_criteria_calibration_gate_hints" in digest

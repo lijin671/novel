@@ -323,6 +323,8 @@ export interface SourceDiscoveryPatternPack {
   local_desktop_manuscript_revision_bible_gate_hints?: string[];
   canonkit_local_canon_drift_context_pack_gate_hints?: string[];
   storyforge_wiki_ingest_lint_graph_gate_hints?: string[];
+  agents_room_multistep_story_collaboration_gate_hints?: string[];
+  judgemark_literary_criteria_calibration_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

@@ -444,6 +444,8 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Judge bias mitigation checks" in panel_text
     assert "Plan-reflect character chapter pipeline gates" in panel_text
     assert "Human story metric panel gates" in panel_text
+    assert "Agents Room multi-step story gates" in panel_text
+    assert "Judgemark literary criteria gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text
