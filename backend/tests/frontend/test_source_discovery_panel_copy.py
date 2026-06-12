@@ -452,6 +452,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Gemini Writer context-recovery gates" in panel_text
     assert "WikiPlots corpus-boundary gates" in panel_text
     assert "Reliquery reconstructive-recall vault gates" in panel_text
+    assert "Novel Studio accepted-chapter memory gates" in panel_text
+    assert "NovelForge version-safe human-review gates" in panel_text
+    assert "Unorthodox pipeline stage retry gates" in panel_text
+    assert "WriterOS role-validator boundary gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text

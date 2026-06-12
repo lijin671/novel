@@ -474,6 +474,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("Smart Context Management" OR "Recovery Mode" OR "Token Monitoring") ("novels" OR "short story collections") in:name,description,readme',
     '("WikiPlots" OR "112,936 story plots" OR "plot summary") ("story plots" OR "Wikipedia") in:name,description,readme',
     '("Reliquery" OR "reconstructive recall" OR "structured markdown relics") ("worldbuilding" OR "creative vault") in:name,description,readme',
+    '("accepted chapter" OR "Context Pack" OR "graph facts") ("local-first" OR "long-form fiction" OR "serialized novels") in:name,description,readme',
+    '("version-safe" OR "human review queue" OR "continuity state") ("novel writing platform" OR "scene cards") in:name,description,readme',
+    '("Pipeline Stage Gates" OR "rolling synopsis" OR "previous-tail continuity") ("novel pipeline" OR "manuscript evaluation") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -538,6 +541,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Doriandarko/gemini-writer",
     "https://github.com/markriedl/WikiPlots",
     "https://github.com/the-essential/reliquery",
+    "https://github.com/YfengJ/novel-studio-ai",
+    "https://github.com/hayrgpt-rgb/NovelForge-AI",
+    "https://github.com/ironharvy/unorthodox-writer",
+    "https://github.com/angel1411337-del/WriterOS",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1476,6 +1483,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("gemini_writer_context_recovery_gate", ("gemini writing agent", "smart context management", "recovery mode", "token monitoring", "automatic context compression", "context summaries", "resume interrupted work", "maximum 300 iterations", "create novels", "short story collections")),
     ("wikiplots_plot_corpus_boundary_gate", ("wikiplots", "112,936 story plots", "story plots", "plot summary", "plot extraction", "one sentence per line", "eos", "titles", "wikipedia dump", "plots.zip")),
     ("reliquery_reconstructive_recall_vault_gate", ("reliquery", "persistent ai memory", "reconstructive recall", "structured markdown files", "relics", "creative vault", "semantic search engine", "chronicle", "memorize", "cartograph", "forget", "study this", "knowledge graph")),
+    ("novel_studio_accepted_chapter_memory_gate", ("novel studio ai", "accepted chapter", "context pack", "story bible", "style bible", "five-chapter arc pack", "character states", "graph facts", "memory chunks", "drafts do not update canon", "sqlite", "continuity checks")),
+    ("novelforge_version_safe_human_review_gate", ("novelforge ai", "version-safe", "scene cards", "scene versions", "human review queue", "continuity state", "story state ledger", "fact approval", "review reports", "revision plans", "never overwrite", "reference assets")),
+    ("unorthodox_pipeline_stage_retry_gate", ("unorthodox writer", "pipeline stage gates", "rolling synopsis", "previous-tail continuity", "bible digest", "quality gate", "self-review", "external review", "retry only the failed stage", "canon drift", "ai artifact scan")),
+    ("writeros_role_validator_boundary_gate", ("writeros", "proprietary", "source available", "not open source", "architect", "profiler", "psychologist", "navigator", "mechanic", "canon layer", "drift", "obsidian", "500,000+ word manuscripts")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3834,6 +3845,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Reliquery is an MIT persistent AI memory system for worldbuilding and co-writing. Static README markers describe reconstructive recall, structured markdown relics, semantic vault search, Chronicle/Memorize/Cartograph/Forget/Study skills, local MemPalace memory, ChromaDB, SQLite temporal knowledge graph, and relationship mapping. "
         "Pattern-only adaptation for reconstructive recall vault gates; Claude plugin install, skills, MemPalace, ChromaDB/SQLite runtime, local vault content, and memory writes are not executed or imported."
     ),
+    "yfengj/novel-studio-ai": (
+        "Novel Studio AI is a no-license-observed local-first long-form fiction workbench. Static README/AGENTS markers describe Story Bible and Style Bible versions, five-chapter arc packs, Chapter Studio, Context Pack preview, graph facts, character states, recent timeline events, hybrid retrieval, local vector search, context reference assembly, API-key redaction, and the rule that drafts do not update canon until chapter acceptance. "
+        "Pattern-only adaptation for accepted-chapter memory gates; npm install/build, Next.js runtime, SQLite project data, provider calls, browser sessionStorage keys, and generated chapters are not executed or imported."
+    ),
+    "hayrgpt-rgb/novelforge-ai": (
+        "NovelForge AI is a no-license-observed long-form novel platform. Static README/AGENTS/audit/workflow markers describe idea-to-export pipelines, scene cards, scene versions, fact extraction, continuity reports, review reports, human review queues, Story State ledgers, version-safe generation, and no silent overwrite of accepted prose or canon. "
+        "Pattern-only adaptation for version-safe human-review gates; Docker Compose, FastAPI/Next runtimes, Redis/RQ jobs, provider calls, database migrations, and generated content are not executed or imported."
+    ),
+    "ironharvy/unorthodox-writer": (
+        "unorthodox-writer is a no-license-observed novel pipeline experiment. Static markdown markers describe a canonical bible digest, rolling synopsis, previous-tail continuity, per-stage quality gates, self/external review, artifact scans, retry-only-failed-stage recovery, canon drift checks, and final manuscript metrics. "
+        "Pattern-only adaptation for pipeline stage retry gates; Python scripts, provider calls, local test outputs, generated novels, and overwrite-oriented revision commands are not executed or imported."
+    ),
+    "angel1411337-del/writeros": (
+        "WriterOS is a proprietary source-available portfolio repository for a commercial continuity engine. Static README/docs markers allow architecture viewing and describe specialized validators: Architect, Profiler, Psychologist, Navigator, Mechanic, canon/drift layers, Obsidian validation, local-first Docker architecture, and large-manuscript vector search. "
+        "Reference-only adaptation for role-validator boundary gates; source code, Docker, Obsidian plugin, pgvector/PostgreSQL, API-key paths, tests, and any derivative use are excluded."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4645,6 +4672,10 @@ class NovelSourceDiscoveryService:
             "gemini_writer_context_recovery_gate_hints": self._build_gemini_writer_context_recovery_gate_hints(available_patterns),
             "wikiplots_plot_corpus_boundary_gate_hints": self._build_wikiplots_plot_corpus_boundary_gate_hints(available_patterns),
             "reliquery_reconstructive_recall_vault_gate_hints": self._build_reliquery_reconstructive_recall_vault_gate_hints(available_patterns),
+            "novel_studio_accepted_chapter_memory_gate_hints": self._build_novel_studio_accepted_chapter_memory_gate_hints(available_patterns),
+            "novelforge_version_safe_human_review_gate_hints": self._build_novelforge_version_safe_human_review_gate_hints(available_patterns),
+            "unorthodox_pipeline_stage_retry_gate_hints": self._build_unorthodox_pipeline_stage_retry_gate_hints(available_patterns),
+            "writeros_role_validator_boundary_gate_hints": self._build_writeros_role_validator_boundary_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -6985,6 +7016,18 @@ class NovelSourceDiscoveryService:
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             targets.append("reconstructive_recall_vault_policy")
             targets.append("relic_memory_writeback_policy")
+        if "novel_studio_accepted_chapter_memory_gate" in patterns:
+            targets.append("accepted_chapter_memory_writeback_policy")
+            targets.append("context_pack_canon_separation_policy")
+        if "novelforge_version_safe_human_review_gate" in patterns:
+            targets.append("version_safe_scene_candidate_policy")
+            targets.append("human_review_queue_canon_policy")
+        if "unorthodox_pipeline_stage_retry_gate" in patterns:
+            targets.append("stage_gate_retry_budget_policy")
+            targets.append("rolling_synopsis_tail_continuity_policy")
+        if "writeros_role_validator_boundary_gate" in patterns:
+            targets.append("specialized_role_validator_policy")
+            targets.append("proprietary_reference_only_boundary_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8058,6 +8101,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["plot_corpus_boundary_report", "plot_summary_abstraction_findings", "source_plot_leakage_review"])
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             targets.extend(["reconstructive_recall_query_report", "relic_vault_index_review", "memory_graph_writeback_findings"])
+        if "novel_studio_accepted_chapter_memory_gate" in patterns:
+            targets.extend(["accepted_chapter_memory_report", "context_pack_preview_trace", "graph_fact_continuity_findings"])
+        if "novelforge_version_safe_human_review_gate" in patterns:
+            targets.extend(["version_safe_scene_candidate_report", "human_review_queue_trace", "story_state_ledger_findings"])
+        if "unorthodox_pipeline_stage_retry_gate" in patterns:
+            targets.extend(["pipeline_stage_gate_report", "rolling_synopsis_tail_overlap_findings", "retry_budget_artifact_scan"])
+        if "writeros_role_validator_boundary_gate" in patterns:
+            targets.extend(["role_validator_boundary_report", "canon_drift_layer_findings", "proprietary_reference_review"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8638,6 +8689,14 @@ class NovelSourceDiscoveryService:
             hints.append("Persist plot-corpus lessons as abstract tags and risk notes only; source plot text, titles, downloads, and extraction scripts stay outside project state.")
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             hints.append("Persist relic files, index status, relationship-map changes, forget decisions, and memory writeback approvals as separate reviewable layers.")
+        if "novel_studio_accepted_chapter_memory_gate" in patterns:
+            hints.append("Persist draft, continuity check, style revision, chapter acceptance, extracted summaries, graph facts, timeline events, and memory chunks as separate state transitions.")
+        if "novelforge_version_safe_human_review_gate" in patterns:
+            hints.append("Persist every AI candidate as a new version with review status; accepted prose, proposed facts, and continuity-state updates need separate approval traces.")
+        if "unorthodox_pipeline_stage_retry_gate" in patterns:
+            hints.append("Persist per-stage metrics: bible digest id, rolling synopsis length, previous-tail overlap, retry count, gate result, artifact scan, and reviewer score.")
+        if "writeros_role_validator_boundary_gate" in patterns:
+            hints.append("Persist validator findings by role: plot architect, entity profiler, character psychologist, spatial navigator, rules mechanic, plus canon/drift layer decisions.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -13755,6 +13814,43 @@ class NovelSourceDiscoveryService:
             "Local vault content, semantic indexes, ChromaDB/SQLite memory, Claude skills, and plugin runtime are deferred unless explicitly authorized.",
         ]
 
+    def _build_novel_studio_accepted_chapter_memory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novel_studio_accepted_chapter_memory_gate" not in patterns:
+            return []
+        return [
+            "Keep draft, check, style revision, acceptance, and memory extraction as separate author-visible stages; only accepted chapters may update canon memory.",
+            "Build chapter context from explicit Story Bible, Style Bible, arc pack, chapter outline, recent summaries, character states, graph facts, timeline events, and selected memory chunks.",
+            "Local SQLite data, browser sessionStorage keys, provider calls, screenshots, Next.js runtime, and generated chapter text remain runtime-deferred and non-imported.",
+        ]
+
+    def _build_novelforge_version_safe_human_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novelforge_version_safe_human_review_gate" not in patterns:
+            return []
+        return [
+            "Represent AI output as candidate versions with source version id, proposed fact ids, continuity warnings, review status, and author action; never overwrite accepted prose.",
+            "Route scene review, continuity report, quality report, and revision plan into a human review queue before canon or export state changes.",
+            "Docker, databases, queues, provider keys, migrations, AI jobs, and generated content stay outside static intake and require a runtime safety contract before trial.",
+        ]
+
+    def _build_unorthodox_pipeline_stage_retry_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "unorthodox_pipeline_stage_retry_gate" not in patterns:
+            return []
+        return [
+            "Gate each pipeline stage before advancing: premise, bible, outline, chapter draft, critique, revision, polish, and final assembly each get independent retry/abort criteria.",
+            "For continuation, pair a bounded rolling synopsis with the previous ending tail, then reject duplicate openings, wrong POV, missing beat, truncation, canon drift, or AI-artifact spikes.",
+            "Provider calls, local test outputs, generated novels, external review prompts, and overwrite-oriented revision commands are excluded from import or execution.",
+        ]
+
+    def _build_writeros_role_validator_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "writeros_role_validator_boundary_gate" not in patterns:
+            return []
+        return [
+            "Use specialized validator roles as abstract review dimensions: plot architecture, entity relationships, psychology arcs, travel/spatial consistency, and magic/technology rules.",
+            "Treat canon/drift layers as review labels for accepted, retconned, alternate, or suspect facts before they enter continuation context.",
+            "WriterOS is proprietary/source-available; code, schemas, Docker, Obsidian plugin behavior, vector indexes, API-key tests, and derivative product use are blocked.",
+        ]
+
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14748,6 +14844,14 @@ class NovelSourceDiscoveryService:
             targets.append("plot_corpus_abstraction_remap")
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             targets.append("relic_vault_recall_remap")
+        if "novel_studio_accepted_chapter_memory_gate" in patterns:
+            targets.append("accepted_chapter_memory_remap")
+        if "novelforge_version_safe_human_review_gate" in patterns:
+            targets.append("version_safe_review_remap")
+        if "unorthodox_pipeline_stage_retry_gate" in patterns:
+            targets.append("stage_gate_retry_remap")
+        if "writeros_role_validator_boundary_gate" in patterns:
+            targets.append("specialized_validator_role_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14797,6 +14901,14 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt source deconstruction to output abstract plot mechanics, not Wikipedia plot rows, story titles, or corpus examples.")
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             hints.append("Prompt memory retrieval as questions over target relics and relationships; retrieved snippets must be cited and may not silently become new canon.")
+        if "novel_studio_accepted_chapter_memory_gate" in patterns:
+            hints.append("Prompt drafting from a visible Context Pack with Story Bible, Style Bible, recent accepted summaries, character states, graph facts, and excluded draft-only material.")
+        if "novelforge_version_safe_human_review_gate" in patterns:
+            hints.append("Prompt every generated or revised scene as a candidate version with proposed facts and continuity warnings, never as an overwrite of accepted prose.")
+        if "unorthodox_pipeline_stage_retry_gate" in patterns:
+            hints.append("Prompt each stage with its gate contract, retry budget, rolling synopsis, previous-tail bridge, and explicit abort conditions for canon drift or AI artifacts.")
+        if "writeros_role_validator_boundary_gate" in patterns:
+            hints.append("Prompt specialized validators as target-story roles only: plot, entity graph, psychology arc, travel/spatial logic, and rules mechanics; upstream proprietary code remains excluded.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -15494,6 +15606,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform plot-corpus insights into new causal templates and pacing labels while rejecting source titles, order, sentence wording, and set-piece chains.")
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             hints.append("Transform relic categories into the target story's character, faction, location, concept, and relationship schema before retrieval or same-type drafting.")
+        if "novel_studio_accepted_chapter_memory_gate" in patterns:
+            hints.append("Transform accepted-chapter memory into target schema fields for summaries, character states, graph triples, timeline events, and retrieval chunks; draft-only state stays excluded.")
+        if "novelforge_version_safe_human_review_gate" in patterns:
+            hints.append("Transform version-safe review into target candidate records with diff basis, approval status, fact proposal ids, and reviewer action rather than copying source UI/workflow labels.")
+        if "unorthodox_pipeline_stage_retry_gate" in patterns:
+            hints.append("Transform stage gates into target quality checks for beat coverage, previous-tail continuity, canon adherence, AI artifact density, retry cause, and final assembly status.")
+        if "writeros_role_validator_boundary_gate" in patterns:
+            hints.append("Transform role validators into target evaluation dimensions while preserving the proprietary/source-available boundary and avoiding code, schema, or plugin import.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -16231,6 +16351,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type outputs that preserve Wikipedia plot-title identities, source plot sentence order, or recognizable plot-summary wording.")
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             hints.append("Reject retrieval outputs that mix raw vault snippets, deleted relics, or unapproved relationship-map changes into target canon.")
+        if "novel_studio_accepted_chapter_memory_gate" in patterns:
+            hints.append("Reject drafts that treat unaccepted draft text, browser session keys, generated screenshots, or source project SQLite rows as target canon.")
+        if "novelforge_version_safe_human_review_gate" in patterns:
+            hints.append("Reject same-type outputs that overwrite accepted prose/canon, merge fact proposals without approval, or copy NovelForge screen/report labels into the story state.")
+        if "unorthodox_pipeline_stage_retry_gate" in patterns:
+            hints.append("Reject pipeline outputs that pass only by reusing source novel text, copied previous-tail wording, external review prompts, or overwrite-oriented revision instructions.")
+        if "writeros_role_validator_boundary_gate" in patterns:
+            hints.append("Reject any import of WriterOS proprietary code, schemas, Obsidian plugin behavior, Docker/runtime setup, or commercial manuscript assumptions into MuMuAINovel.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -17183,6 +17311,10 @@ class NovelSourceDiscoveryService:
                 "gemini_writer_context_recovery_gate",
                 "wikiplots_plot_corpus_boundary_gate",
                 "reliquery_reconstructive_recall_vault_gate",
+                "novel_studio_accepted_chapter_memory_gate",
+                "novelforge_version_safe_human_review_gate",
+                "unorthodox_pipeline_stage_retry_gate",
+                "writeros_role_validator_boundary_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

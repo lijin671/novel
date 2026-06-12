@@ -17232,3 +17232,114 @@ def test_context_recovery_plot_corpus_and_relic_vault_sources_are_static_absorbe
     assert "gemini_writer_context_recovery_gate_hints" in digest
     assert "wikiplots_plot_corpus_boundary_gate_hints" in digest
     assert "reliquery_reconstructive_recall_vault_gate_hints" in digest
+
+
+def test_local_first_version_safe_and_stage_gate_sources_are_static_absorbed():
+    assert "https://github.com/YfengJ/novel-studio-ai" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/hayrgpt-rgb/NovelForge-AI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ironharvy/unorthodox-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/angel1411337-del/WriterOS" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("accepted chapter" in query and "Context Pack" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("version-safe" in query and "human review queue" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Pipeline Stage Gates" in query and "rolling synopsis" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "YfengJ/novel-studio-ai",
+                "html_url": "https://github.com/YfengJ/novel-studio-ai",
+                "description": (
+                    "Novel Studio AI is a local-first AI long-form fiction workbench with Story Bible, Style Bible, "
+                    "five-chapter arc packs, Chapter Studio, Context Pack preview, accepted chapter memory, "
+                    "character states, graph facts, timeline events, local SQLite memory chunks, continuity checks, "
+                    "and the rule that drafts do not update canon until acceptance."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "story-bible", "local-first"],
+                "updated_at": "2026-06-12T10:00:00Z",
+                "root_files": ["README.md", "README.zh-CN.md", "AGENTS.md", "package.json"],
+            },
+            {
+                "full_name": "hayrgpt-rgb/NovelForge-AI",
+                "html_url": "https://github.com/hayrgpt-rgb/NovelForge-AI",
+                "description": (
+                    "NovelForge AI is a version-safe long-form novel writing platform with scene cards, scene versions, "
+                    "human review queue, fact approval, continuity state, Story State ledger, review reports, "
+                    "revision plans, reference assets, and never-overwrite accepted prose rules."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "continuity", "human-review"],
+                "updated_at": "2026-06-12T10:01:00Z",
+                "root_files": ["README.md", "AGENTS.md", "AI_AUTHORING_AUDIT.md", "AI_PRIMARY_WORKFLOW.md"],
+            },
+            {
+                "full_name": "ironharvy/unorthodox-writer",
+                "html_url": "https://github.com/ironharvy/unorthodox-writer",
+                "description": (
+                    "unorthodox-writer documents Pipeline Stage Gates, a canonical bible digest, rolling synopsis, "
+                    "previous-tail continuity, self-review, external review, artifact scans, retry only the failed stage, "
+                    "canon drift checks, and final manuscript metrics."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "pipeline", "quality-gates"],
+                "updated_at": "2026-06-12T10:02:00Z",
+                "root_files": ["PIPELINE_STAGE_GATES.md", "MANUSCRIPT_EVALUATION_GUIDE.md", "evaluation.md"],
+            },
+            {
+                "full_name": "angel1411337-del/WriterOS",
+                "html_url": "https://github.com/angel1411337-del/WriterOS",
+                "description": (
+                    "WriterOS is a proprietary source available continuity engine for complex fiction with Architect, Profiler, "
+                    "Psychologist, Navigator, Mechanic validators, canon layer management, drift detection, Obsidian validation, "
+                    "and semantic search over 500,000+ word manuscripts."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["continuity", "writing", "multi-agent"],
+                "updated_at": "2026-06-12T10:03:00Z",
+                "root_files": ["README.md", "LICENSE.txt", "docs/architecture.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T02:15:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "novel_studio_accepted_chapter_memory_gate" in candidates["YfengJ/novel-studio-ai"]["absorbed_patterns"]
+    assert "novelforge_version_safe_human_review_gate" in candidates["hayrgpt-rgb/NovelForge-AI"]["absorbed_patterns"]
+    assert "unorthodox_pipeline_stage_retry_gate" in candidates["ironharvy/unorthodox-writer"]["absorbed_patterns"]
+    assert "writeros_role_validator_boundary_gate" in candidates["angel1411337-del/WriterOS"]["absorbed_patterns"]
+    assert "license:missing" in candidates["YfengJ/novel-studio-ai"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["hayrgpt-rgb/NovelForge-AI"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "accepted_chapter_memory_writeback_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "version_safe_scene_candidate_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "stage_gate_retry_budget_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "specialized_role_validator_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "accepted_chapter_memory_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "version_safe_scene_candidate_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "pipeline_stage_gate_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "role_validator_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "accepted_chapter_memory_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "version_safe_review_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "stage_gate_retry_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "specialized_validator_role_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("accepted chapters" in hint.lower() for hint in pattern_pack["novel_studio_accepted_chapter_memory_gate_hints"])
+    assert any("candidate versions" in hint.lower() for hint in pattern_pack["novelforge_version_safe_human_review_gate_hints"])
+    assert any("retry/abort" in hint.lower() for hint in pattern_pack["unorthodox_pipeline_stage_retry_gate_hints"])
+    assert any("proprietary" in hint.lower() for hint in pattern_pack["writeros_role_validator_boundary_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "novel_studio_accepted_chapter_memory_gate_hints" in digest
+    assert "novelforge_version_safe_human_review_gate_hints" in digest
+    assert "unorthodox_pipeline_stage_retry_gate_hints" in digest
+    assert "writeros_role_validator_boundary_gate_hints" in digest

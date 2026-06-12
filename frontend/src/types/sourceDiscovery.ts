@@ -331,6 +331,10 @@ export interface SourceDiscoveryPatternPack {
   gemini_writer_context_recovery_gate_hints?: string[];
   wikiplots_plot_corpus_boundary_gate_hints?: string[];
   reliquery_reconstructive_recall_vault_gate_hints?: string[];
+  novel_studio_accepted_chapter_memory_gate_hints?: string[];
+  novelforge_version_safe_human_review_gate_hints?: string[];
+  unorthodox_pipeline_stage_retry_gate_hints?: string[];
+  writeros_role_validator_boundary_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

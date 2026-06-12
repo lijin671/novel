@@ -349,6 +349,10 @@ const PINNED_HINT_KEYS = new Set([
   'gemini_writer_context_recovery_gate_hints',
   'wikiplots_plot_corpus_boundary_gate_hints',
   'reliquery_reconstructive_recall_vault_gate_hints',
+  'novel_studio_accepted_chapter_memory_gate_hints',
+  'novelforge_version_safe_human_review_gate_hints',
+  'unorthodox_pipeline_stage_retry_gate_hints',
+  'writeros_role_validator_boundary_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -760,6 +764,10 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Gemini Writer context-recovery gates', patternPackPayload?.gemini_writer_context_recovery_gate_hints],
               ['WikiPlots corpus-boundary gates', patternPackPayload?.wikiplots_plot_corpus_boundary_gate_hints],
               ['Reliquery reconstructive-recall vault gates', patternPackPayload?.reliquery_reconstructive_recall_vault_gate_hints],
+              ['Novel Studio accepted-chapter memory gates', patternPackPayload?.novel_studio_accepted_chapter_memory_gate_hints],
+              ['NovelForge version-safe human-review gates', patternPackPayload?.novelforge_version_safe_human_review_gate_hints],
+              ['Unorthodox pipeline stage retry gates', patternPackPayload?.unorthodox_pipeline_stage_retry_gate_hints],
+              ['WriterOS role-validator boundary gates', patternPackPayload?.writeros_role_validator_boundary_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],
