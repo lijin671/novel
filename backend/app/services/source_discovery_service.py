@@ -430,6 +430,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("API-free external flow" OR "cataloging_external_no_api" OR "prepare_external_writing_context") ("novel" OR "external agent" OR "chapter draft") in:name,description,readme',
     '("rolling summaries" OR "global memory file" OR "chapter plans") ("long-form fiction" OR "copyright note" OR "source material") in:name,description,readme',
     '("AI + tools + memory + planning + reflection" OR "Agent（智能体）" OR "网文写作助手") ("续写" OR "伏笔" OR "语义搜索") in:name,description,readme',
+    '("AI自动写小说系统" OR "5000章" OR "分层记忆架构") ("15种类型" OR "80+标签" OR "一致性审校") in:name,description,readme',
+    '("L3" OR "L2" OR "L1" OR "L0") ("主线 + 支线" OR "自动分卷" OR "一致性检查") ("AI 小说" OR "Electron") in:name,description,readme',
+    '("递归规划+反思" OR "场景划分" OR "长文本连贯性") ("Gemini" OR "SQLite" OR "章节") in:name,description,readme',
+    '("Story Writer Skill" OR "Ink" OR "inkjs") ("Markdown is the source of truth" OR "status model" OR "branches") in:name,description,readme',
+    '("Fictionist Skill" OR "promise ledger" OR "decision log") ("story bible" OR "post-write audit" OR "continuity keeper") in:name,description,readme',
+    '("GhostWriter 3000" OR "critique-revision loop" OR "series memory") ("OpenRouter" OR "continuity tracking" OR "chapter navigation") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -920,6 +926,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/teangtang1122/NovelWritingAgent",
     "https://github.com/TommyShalby/longform-novel-drafting-toolkit",
     "https://github.com/simple-calcate/writerAgent",
+    "https://github.com/ATboy-web/AI_NovelWriter",
+    "https://github.com/word2077/ai-novel-writer",
+    "https://github.com/wengfb/ai-novel-writer",
+    "https://github.com/ArcticalOwl/story-writer-skill",
+    "https://github.com/mou-fang/fictionist-skill",
+    "https://github.com/zaphodsdad/GhostWriter3000",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1312,6 +1324,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("external_agent_api_free_cataloging_gate", ("moshu", "api-free external flow", "project_management permission", "internal_llm", "cataloging_external_no_api", "start_external_cataloging_job", "get_next_external_cataloging_chapter", "save_external_cataloging_facts", "save_external_chapter_draft", "record_external_quality_review")),
     ("rights_safe_source_to_memory_pipeline_gate", ("longform novel drafting toolkit", "copyright note", "source material", "pdf or txt", "split the source", "rolling summaries", "global memory file", "chapter plans", "draft original chapters", "combine generated chapters")),
     ("desktop_agent_planning_reflection_gate", ("writeragent", "网文写作助手", "it doesn't write for you", "ai + tools + memory + planning + reflection", "polishing, outlining, summarizing, dialogue, and continuation", "伏笔", "语义搜索", "agent（智能体）")),
+    ("mega_chapter_genre_layered_memory_gate", ("ai_novelwriter", "5000章", "5000 chapters", "15种类型", "80+标签", "分层记忆架构", "一致性审校", "故事流推演", "多格式导出", "vector retrieval")),
+    ("l0_l3_memory_skeleton_volume_gate", ("ai 原生长篇小说", "l3", "l2", "l1", "l0", "主线 + 支线", "双主线", "自动分卷", "一致性检查", "indexeddb", "fuse.js")),
+    ("recursive_scene_reflection_long_context_gate", ("递归规划+反思", "场景划分", "反思优化", "长文本连贯性", "1m tokens", "大纲 → 人设 → 世界观 → 章节 → 导出", "sqlite", "gemini 2.5")),
+    ("markdown_ink_export_validation_gate", ("story writer skill", "markdown is the source of truth", "ink", "inkjs", "exports/", "proposal", "accepted", "story-bible.md", "decisions.md", "open-questions.md")),
+    ("file_backed_promise_ledger_audit_gate", ("fictionist skill", "story bible", "canon ledger", "promise ledger", "decision log", "continue chapters only after rereading", "post-write audit", "continuity keeper", "file-backed project manager")),
+    ("critique_revision_series_memory_gate", ("ghostwriter 3000", "critique-revision loop", "series memory", "continuity tracking", "openrouter", "300+ llm models", "chapter navigation", "project stats", "outline sidebar")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3535,6 +3553,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "writerAgent is an AGPL-3.0 Electron desktop webnovel writing assistant. Public README/root markers describe AI integrated into polishing, outlining, summarizing, dialogue, and continuation workflows, Agent = AI + tools + memory + planning + reflection,伏笔 review, semantic search, and desktop release packaging. "
         "Pattern-only adaptation for desktop-agent planning/reflection and tool-memory boundaries; Electron runtime, releases, package scripts, API keys, external web search, local manuscript files, and desktop packaging are not launched or imported."
     ),
+    "atboy-web/ai_novelwriter": (
+        "AI_NovelWriter is an MIT Chinese AI novel workshop. Public README/root markers describe 5000-chapter support, 15 genres, 80+ tags, layered memory architecture, automatic outline/character/chapter creation, continuation, story-flow deduction, consistency review, vector retrieval, multi-format export, multi-model providers, desktop/mobile release artifacts, Docker, ChromaDB, and AI drawing prompt features. "
+        "Pattern-only adaptation for mega-chapter genre/tag, layered-memory, story-flow, and consistency-review gates; release binaries, installers, Docker, ChromaDB runtime, providers, drawing tools, cloud storage, local novel data, and scripts are not launched or imported."
+    ),
+    "word2077/ai-novel-writer": (
+        "word2077/ai-novel-writer is a no-license-observed Electron/React Chinese long-form novel workspace. Public README markers describe worldbuilding card categories, mainline/subline tree story skeletons, dual mainline narration, continuation/polish/expand/shorten modes, selected-text editing, world consistency highlighting, L3/L2/L1/L0 memory layers, automatic volume/chapter allocation, statistics, IndexedDB, Fuse.js, DeepSeek API, and EPUB/DOCX/TXT export. "
+        "Pattern-only adaptation for L0-L3 memory, story skeleton, consistency-highlight, and auto-volume gates; Electron runtime, IndexedDB data, provider keys, development server, and exports are not launched or imported."
+    ),
+    "wengfb/ai-novel-writer": (
+        "wengfb/ai-novel-writer is a no-license-observed Next.js Chinese automatic novel creation system. Public README/root markers describe outline -> persona -> world -> chapter -> export, 1M-token long-context continuity, recursive scene planning plus reflection optimization, local SQLite deployment, Prisma, TipTap, OpenAI-compatible and Gemini provider settings, and CLAUDE docs. "
+        "Pattern-only adaptation for recursive scene planning, reflection, long-context continuity, and local-database gates; Next.js runtime, npm install, Prisma database, provider calls, env files, and exports are not launched or imported."
+    ),
+    "arcticalowl/story-writer-skill": (
+        "Story Writer Skill is a no-license-observed installable Codex skill plus TypeScript CLI. Public README/root markers describe Markdown projects as source of truth, project/story-bible/character/lore/faction/location/item/plot/branch/scene/ending files, proposal/accepted status model, decisions and open questions, Ink export, inkjs compile/tag validation, context bundles, and smoke tests. "
+        "Pattern-only adaptation for Markdown source-of-truth, status-model, branch/ending, and Ink-export validation gates; npm build/test, Codex skill install, CLI execution, generated Ink, and example content are not imported or executed."
+    ),
+    "mou-fang/fictionist-skill": (
+        "Fictionist Skill is a no-license-observed Codex/Claude Code novel-writer skill package. Public README markers describe file-backed long-form projects, story bible, canon ledger, timeline, character files, outline, promise ledger, decision log, reread-before-continuation rule, premise/outlining/drafting/revision/continuity audits, branch planning, and post-write audit for grammar, typos, repetition, verbal tics, and stiff expression. "
+        "Pattern-only adaptation for file-backed project memory, promise ledger, decision log, and post-write audit gates; skill install, prompt/agent bodies, local project files, and generated manuscripts are not imported."
+    ),
+    "zaphodsdad/ghostwriter3000": (
+        "GhostWriter3000 is an MIT fiction prose generation engine. Public README/root markers describe critique-revision loop, series memory, continuity tracking, outline sidebar, project stats, chapter navigation, OpenRouter with 300+ models, local hardware ownership, dashboard UI, docker-compose, run scripts, and .env provider configuration. "
+        "Pattern-only adaptation for critique-revision, series-memory, and model-choice boundary gates; Docker, backend/frontend runtime, provider calls, OpenRouter keys, local data, screenshots, and generated prose are not launched or imported."
+    ),
 
 }
 
@@ -4299,6 +4341,12 @@ class NovelSourceDiscoveryService:
             "external_agent_api_free_cataloging_gate_hints": self._build_external_agent_api_free_cataloging_gate_hints(available_patterns),
             "rights_safe_source_to_memory_pipeline_gate_hints": self._build_rights_safe_source_to_memory_pipeline_gate_hints(available_patterns),
             "desktop_agent_planning_reflection_gate_hints": self._build_desktop_agent_planning_reflection_gate_hints(available_patterns),
+            "mega_chapter_genre_layered_memory_gate_hints": self._build_mega_chapter_genre_layered_memory_gate_hints(available_patterns),
+            "l0_l3_memory_skeleton_volume_gate_hints": self._build_l0_l3_memory_skeleton_volume_gate_hints(available_patterns),
+            "recursive_scene_reflection_long_context_gate_hints": self._build_recursive_scene_reflection_long_context_gate_hints(available_patterns),
+            "markdown_ink_export_validation_gate_hints": self._build_markdown_ink_export_validation_gate_hints(available_patterns),
+            "file_backed_promise_ledger_audit_gate_hints": self._build_file_backed_promise_ledger_audit_gate_hints(available_patterns),
+            "critique_revision_series_memory_gate_hints": self._build_critique_revision_series_memory_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5097,6 +5145,12 @@ class NovelSourceDiscoveryService:
             "external_agent_api_free_cataloging_gate": 73,
             "rights_safe_source_to_memory_pipeline_gate": 69,
             "desktop_agent_planning_reflection_gate": 67,
+            "mega_chapter_genre_layered_memory_gate": 70,
+            "l0_l3_memory_skeleton_volume_gate": 71,
+            "recursive_scene_reflection_long_context_gate": 70,
+            "markdown_ink_export_validation_gate": 69,
+            "file_backed_promise_ledger_audit_gate": 72,
+            "critique_revision_series_memory_gate": 70,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5341,6 +5395,24 @@ class NovelSourceDiscoveryService:
         if "desktop_agent_planning_reflection_gate" in patterns:
             targets.append("desktop_agent_reflection_policy")
             targets.append("semantic_tool_memory_boundary_policy")
+        if "mega_chapter_genre_layered_memory_gate" in patterns:
+            targets.append("mega_chapter_genre_memory_policy")
+            targets.append("story_flow_consistency_review_policy")
+        if "l0_l3_memory_skeleton_volume_gate" in patterns:
+            targets.append("l0_l3_memory_layer_policy")
+            targets.append("main_subline_volume_policy")
+        if "recursive_scene_reflection_long_context_gate" in patterns:
+            targets.append("recursive_scene_reflection_policy")
+            targets.append("long_context_local_storage_policy")
+        if "markdown_ink_export_validation_gate" in patterns:
+            targets.append("markdown_source_truth_policy")
+            targets.append("ink_export_validation_policy")
+        if "file_backed_promise_ledger_audit_gate" in patterns:
+            targets.append("file_backed_promise_ledger_policy")
+            targets.append("post_write_audit_policy")
+        if "critique_revision_series_memory_gate" in patterns:
+            targets.append("critique_revision_loop_policy")
+            targets.append("series_memory_model_boundary_policy")
         if "local_first_novel_workspace" in patterns:
             targets.append("workspace_scope")
             targets.append("project_local_state")
@@ -6601,6 +6673,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["source_to_memory_pipeline_report", "rights_boundary_manifest", "rolling_summary_chain_report"])
         if "desktop_agent_planning_reflection_gate" in patterns:
             targets.extend(["desktop_agent_reflection_report", "agent_memory_tool_boundary_report", "semantic_search_evidence_report"])
+        if "mega_chapter_genre_layered_memory_gate" in patterns:
+            targets.extend(["mega_chapter_genre_tag_matrix", "layered_memory_consistency_report", "story_flow_deduction_trace"])
+        if "l0_l3_memory_skeleton_volume_gate" in patterns:
+            targets.extend(["l0_l3_memory_layer_report", "main_subline_skeleton_report", "auto_volume_allocation_review"])
+        if "recursive_scene_reflection_long_context_gate" in patterns:
+            targets.extend(["recursive_scene_plan_report", "reflection_optimization_trace", "long_context_continuity_report"])
+        if "markdown_ink_export_validation_gate" in patterns:
+            targets.extend(["markdown_story_source_manifest", "ink_export_validation_report", "branch_ending_status_audit"])
+        if "file_backed_promise_ledger_audit_gate" in patterns:
+            targets.extend(["promise_ledger_payoff_report", "decision_log_continuity_report", "post_write_audit_findings"])
+        if "critique_revision_series_memory_gate" in patterns:
+            targets.extend(["critique_revision_loop_report", "series_memory_continuity_report", "model_choice_boundary_report"])
         if "author_note_layer" in patterns:
             targets.extend(["author_note_layer", "style_directive_layer", "insertion_frequency"])
         if "world_state_tracking" in patterns:
@@ -7528,6 +7612,18 @@ class NovelSourceDiscoveryService:
             hints.append("Before source-to-memory processing, record rights status, source format, chunk boundaries, rolling summaries, and global-memory provenance; draft only original chapters.")
         if "desktop_agent_planning_reflection_gate" in patterns:
             hints.append("For desktop-agent assistance, separate planning, tool calls, memory reads, semantic search evidence, reflection, and accepted prose changes.")
+        if "mega_chapter_genre_layered_memory_gate" in patterns:
+            hints.append("For ultra-long projects, declare chapter scale, genre/tag matrix, layered memory scope, story-flow deduction mode, and consistency-review stop conditions before drafting.")
+        if "l0_l3_memory_skeleton_volume_gate" in patterns:
+            hints.append("Map each prompt input to L3 world, L2 outline/key events, L1 chapter summaries/search, or L0 current-chapter working memory before generating.")
+        if "recursive_scene_reflection_long_context_gate" in patterns:
+            hints.append("Break chapters into scene plans, run reflection on gaps and contradictions, then feed only accepted repairs back into the long-context continuity packet.")
+        if "markdown_ink_export_validation_gate" in patterns:
+            hints.append("Keep Markdown as source of truth; generated Ink or branch exports are derived artifacts that require validation before reuse.")
+        if "file_backed_promise_ledger_audit_gate" in patterns:
+            hints.append("Before continuation, reread story bible, canon ledger, timeline, promise ledger, and decision log; after writing, run a post-write audit.")
+        if "critique_revision_series_memory_gate" in patterns:
+            hints.append("Use critique-revision as a loop with explicit series-memory evidence, continuity findings, revision scope, and model/provider boundary.")
         if "author_note_layer" in patterns:
             hints.append("Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.")
         if "workflow_agent_pipeline" in patterns:
@@ -12631,6 +12727,60 @@ class NovelSourceDiscoveryService:
             "Electron/package runtime, release assets, web search, API keys, and local manuscripts remain deferred until the user grants a runtime trial.",
         ]
 
+    def _build_mega_chapter_genre_layered_memory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "mega_chapter_genre_layered_memory_gate" not in patterns:
+            return []
+        return [
+            "Ultra-long automation needs a visible chapter-scale target, genre/tag matrix, layered-memory policy, and stop conditions before batch generation.",
+            "Story-flow deduction and consistency review should emit traceable findings before any generated chapter is accepted.",
+            "Release binaries, Docker, ChromaDB, cloud storage, AI drawing, providers, and local novel data stay runtime-deferred.",
+        ]
+
+    def _build_l0_l3_memory_skeleton_volume_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "l0_l3_memory_skeleton_volume_gate" not in patterns:
+            return []
+        return [
+            "Classify context as L3 world, L2 outline/key events, L1 summaries/search, or L0 current-chapter memory before prompt assembly.",
+            "Mainline, subline, dual-mainline, and auto-volume allocations should remain editable review artifacts before chapter creation.",
+            "Consistency highlights are review signals; they cannot silently rewrite world cards, outline nodes, or selected prose.",
+        ]
+
+    def _build_recursive_scene_reflection_long_context_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "recursive_scene_reflection_long_context_gate" not in patterns:
+            return []
+        return [
+            "Split chapter generation into scene plans, draft attempts, reflection findings, and accepted repair deltas.",
+            "Long-context continuity claims should cite which outline, persona, world, chapter, and local database records were used.",
+            "Provider configs, env files, Prisma/SQLite state, and exports remain deferred until a runtime safety packet exists.",
+        ]
+
+    def _build_markdown_ink_export_validation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "markdown_ink_export_validation_gate" not in patterns:
+            return []
+        return [
+            "Keep Markdown project files as source of truth; exported Ink is derived output and should not reverse-sync into canon.",
+            "Proposal, accepted, rejected, and open-question statuses must be explicit before scenes, branches, or endings enter generation.",
+            "Ink export, compile, tag validation, CLI runs, npm build, and skill installation are deferred static-review surfaces.",
+        ]
+
+    def _build_file_backed_promise_ledger_audit_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "file_backed_promise_ledger_audit_gate" not in patterns:
+            return []
+        return [
+            "Continuation must reread file-backed story bible, canon ledger, timeline, character files, outline, promise ledger, and decision log first.",
+            "Promise/payoff records should name setup, expected payoff window, current status, and accepted chapter evidence.",
+            "Post-write audits should separate continuity, grammar, repetition, verbal tics, stiff expression, and unresolved decision findings.",
+        ]
+
+    def _build_critique_revision_series_memory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "critique_revision_series_memory_gate" not in patterns:
+            return []
+        return [
+            "Critique-revision loops should record series-memory evidence, continuity findings, critique scope, accepted revision deltas, and chapter navigation target.",
+            "Model choice is a boundary decision; provider/model votes do not replace continuity evidence or author acceptance.",
+            "OpenRouter/API keys, Docker, backend/frontend runtime, and local project data stay deferred during static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -12684,6 +12834,18 @@ class NovelSourceDiscoveryService:
             targets.append("rights_safe_memory_pipeline_remap")
         if "desktop_agent_planning_reflection_gate" in patterns:
             targets.append("desktop_agent_planning_remap")
+        if "mega_chapter_genre_layered_memory_gate" in patterns:
+            targets.append("mega_chapter_memory_matrix_remap")
+        if "l0_l3_memory_skeleton_volume_gate" in patterns:
+            targets.append("memory_layer_skeleton_volume_remap")
+        if "recursive_scene_reflection_long_context_gate" in patterns:
+            targets.append("recursive_scene_reflection_remap")
+        if "markdown_ink_export_validation_gate" in patterns:
+            targets.append("markdown_ink_branch_remap")
+        if "file_backed_promise_ledger_audit_gate" in patterns:
+            targets.append("promise_decision_audit_remap")
+        if "critique_revision_series_memory_gate" in patterns:
+            targets.append("critique_revision_series_memory_remap")
         if "card_workbench" in patterns:
             targets.append("card_schema_remap")
         if "manuscript_card_board_extraction_gate" in patterns:
@@ -14236,6 +14398,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform source chunks into rights-cleared abstract summaries and memory slots; never make source text or private notes target canon.")
         if "desktop_agent_planning_reflection_gate" in patterns:
             hints.append("Transform planning/reflection loops, tool boundaries, memory scopes, and semantic-search evidence into target-specific author decisions.")
+        if "mega_chapter_genre_layered_memory_gate" in patterns:
+            hints.append("Transform genre/tag matrices, memory layers, story-flow modes, and consistency rubrics into the new project's scale and audience promise.")
+        if "l0_l3_memory_skeleton_volume_gate" in patterns:
+            hints.append("Transform L0-L3 memory layers, main/subline skeletons, volume plans, and consistency-highlight categories around fresh target canon.")
+        if "recursive_scene_reflection_long_context_gate" in patterns:
+            hints.append("Transform scene plans and reflection questions before drafting; long context may carry method evidence, not source facts.")
+        if "markdown_ink_export_validation_gate" in patterns:
+            hints.append("Transform Markdown project structure, branch ids, ending statuses, and Ink export tags into new story labels before any export-derived prompt.")
+        if "file_backed_promise_ledger_audit_gate" in patterns:
+            hints.append("Transform story-bible files, canon ledger rows, promise/payoff records, decision-log entries, and post-write audit categories for the target work.")
+        if "critique_revision_series_memory_gate" in patterns:
+            hints.append("Transform critique prompts, revision scopes, series-memory keys, continuity checks, and model-boundary labels before revising the target chapter.")
         if "emotion_arc" in patterns:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
         if "card_workbench" in patterns:
@@ -15551,6 +15725,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject source-to-memory outputs that contain copyrighted chunks, private notes, API keys, service-account data, or source chapter order as new-story authority.")
         if "desktop_agent_planning_reflection_gate" in patterns:
             hints.append("Reject desktop-agent revisions that hide tool calls, memory reads, web-search facts, or reflection changes behind a polished continuation.")
+        if "mega_chapter_genre_layered_memory_gate" in patterns:
+            hints.append("Reject mega-chapter plans that copy source genre/tag bundles, memory records, story-flow traces, or consistency rubrics into the target project.")
+        if "l0_l3_memory_skeleton_volume_gate" in patterns:
+            hints.append("Reject L0-L3 memory packets that preserve source world cards, main/subline trees, auto-volume allocations, or highlighted contradictions as new canon.")
+        if "recursive_scene_reflection_long_context_gate" in patterns:
+            hints.append("Reject reflection loops that use long context to smuggle source scenes, personas, world rules, or provider defaults into the new draft.")
+        if "markdown_ink_export_validation_gate" in patterns:
+            hints.append("Reject derived Ink or branch exports that reverse-sync source facts, branch variables, endings, tags, or example project content into Markdown canon.")
+        if "file_backed_promise_ledger_audit_gate" in patterns:
+            hints.append("Reject promise ledgers or decision logs that replay source setups, payoff windows, relationship states, or post-write findings under new names.")
+        if "critique_revision_series_memory_gate" in patterns:
+            hints.append("Reject critique-revision loops that reward source resemblance, copy series-memory keys, or let provider choice hide continuity evidence.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
         if "scene_card_hard_soft_field_gate" in patterns:
@@ -15815,6 +16001,12 @@ class NovelSourceDiscoveryService:
                 "external_agent_api_free_cataloging_gate",
                 "rights_safe_source_to_memory_pipeline_gate",
                 "desktop_agent_planning_reflection_gate",
+                "mega_chapter_genre_layered_memory_gate",
+                "l0_l3_memory_skeleton_volume_gate",
+                "recursive_scene_reflection_long_context_gate",
+                "markdown_ink_export_validation_gate",
+                "file_backed_promise_ledger_audit_gate",
+                "critique_revision_series_memory_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

@@ -348,6 +348,12 @@ export interface SourceDiscoveryPatternPack {
   external_agent_api_free_cataloging_gate_hints?: string[];
   rights_safe_source_to_memory_pipeline_gate_hints?: string[];
   desktop_agent_planning_reflection_gate_hints?: string[];
+  mega_chapter_genre_layered_memory_gate_hints?: string[];
+  l0_l3_memory_skeleton_volume_gate_hints?: string[];
+  recursive_scene_reflection_long_context_gate_hints?: string[];
+  markdown_ink_export_validation_gate_hints?: string[];
+  file_backed_promise_ledger_audit_gate_hints?: string[];
+  critique_revision_series_memory_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

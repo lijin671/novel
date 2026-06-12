@@ -285,6 +285,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "external_agent_api_free_cataloging_gate_hints",
             "rights_safe_source_to_memory_pipeline_gate_hints",
             "desktop_agent_planning_reflection_gate_hints",
+            "mega_chapter_genre_layered_memory_gate_hints",
+            "l0_l3_memory_skeleton_volume_gate_hints",
+            "recursive_scene_reflection_long_context_gate_hints",
+            "markdown_ink_export_validation_gate_hints",
+            "file_backed_promise_ledger_audit_gate_hints",
+            "critique_revision_series_memory_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text

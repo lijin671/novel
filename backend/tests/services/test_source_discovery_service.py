@@ -15945,3 +15945,191 @@ def test_canon_spark_codex_api_free_rights_desktop_sources_are_static_absorbed()
     assert "external_agent_api_free_cataloging_gate_hints" in digest
     assert "rights_safe_source_to_memory_pipeline_gate_hints" in digest
     assert "desktop_agent_planning_reflection_gate_hints" in digest
+
+
+def test_mega_chapter_memory_skill_revision_sources_are_static_absorbed():
+    assert "https://github.com/ATboy-web/AI_NovelWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/word2077/ai-novel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wengfb/ai-novel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ArcticalOwl/story-writer-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mou-fang/fictionist-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/zaphodsdad/GhostWriter3000" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("5000章" in query and "分层记忆架构" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("l3" in query.lower() and "自动分卷" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("递归规划+反思" in query and "场景划分" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story writer skill" in query.lower() and "inkjs" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("fictionist skill" in query.lower() and "promise ledger" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ghostwriter 3000" in query.lower() and "series memory" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ATboy-web/AI_NovelWriter",
+                "html_url": "https://github.com/ATboy-web/AI_NovelWriter",
+                "description": (
+                    "AI自动写小说系统 supports 5000章长篇小说, 15种类型, 80+标签, 分层记忆架构, "
+                    "自动大纲角色章节, 续写, 故事流推演, 一致性审校, ChromaDB vector retrieval, "
+                    "多格式导出, Ollama OpenAI DeepSeek Claude, AI_DRAWING_PLAN."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-novel", "python"],
+                "updated_at": "2026-06-12T03:19:16Z",
+                "root_files": [
+                    "README.md",
+                    "README_CN.md",
+                    "LICENSE",
+                    "AI_NovelWriter.exe",
+                    "AI_NovelWriter.apk",
+                    "docker-compose.yml",
+                    ".env.example",
+                    "novel_app.py",
+                    "backend",
+                    "frontend",
+                    "mobile-app",
+                    "installer",
+                    "scripts",
+                    "novel_data",
+                ],
+            },
+            {
+                "full_name": "word2077/ai-novel-writer",
+                "html_url": "https://github.com/word2077/ai-novel-writer",
+                "description": (
+                    "AI 原生长篇小说创作工具 with 世界观卡片, 主线 + 支线 tree skeleton, 双主线, "
+                    "续写 润色 扩写 缩减, 选区编辑, 一致性检查, L3 世界观, L2 大纲 + 关键事件, "
+                    "L1 章节摘要 + 全文检索, L0 当前章节, AI 自动分卷, EPUB DOCX TXT export, "
+                    "Electron IndexedDB Fuse.js DeepSeek API."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["electron", "novel"],
+                "updated_at": "2026-05-28T13:40:05Z",
+                "root_files": ["README.md", "package.json", "electron", "src", "DEVELOPMENT.md", "test-report.md"],
+            },
+            {
+                "full_name": "wengfb/ai-novel-writer",
+                "html_url": "https://github.com/wengfb/ai-novel-writer",
+                "description": (
+                    "AI Novel Writer with 长文本连贯性 1M tokens, 递归规划+反思, 场景划分 + 反思优化, "
+                    "大纲 → 人设 → 世界观 → 章节 → 导出, 本地部署 SQLite, Gemini 2.5, "
+                    "OpenAI compatible API Key, Next.js Prisma TipTap."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["nextjs", "novel"],
+                "updated_at": "2026-06-07T16:38:42Z",
+                "root_files": ["README.md", "CLAUDE.md", "package.json", ".env.example", "prisma", "src", "docs", "scripts"],
+            },
+            {
+                "full_name": "ArcticalOwl/story-writer-skill",
+                "html_url": "https://github.com/ArcticalOwl/story-writer-skill",
+                "description": (
+                    "Story Writer Skill installable Codex skill and TypeScript CLI for persistent story projects. "
+                    "Markdown is the source of truth, project.md, story-bible.md, characters, lore, branches, endings, "
+                    "scenes, decisions.md, open-questions.md, proposal/accepted status model, export Ink, validate with inkjs."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["codex", "skill", "ink"],
+                "updated_at": "2026-06-08T18:20:07Z",
+                "root_files": ["README.md", "SKILL.md", "package.json", "agents", "bin", "examples", "references", "src", "templates", "tests"],
+            },
+            {
+                "full_name": "mou-fang/fictionist-skill",
+                "html_url": "https://github.com/mou-fang/fictionist-skill",
+                "description": (
+                    "Fictionist Skill / 小说写作 Skill for Codex and Claude Code turns agent into novelist story editor "
+                    "continuity keeper and file-backed project manager. Maintains story bible, canon ledger, timeline, "
+                    "character files, outline, promise ledger, decision log. Continue chapters only after rereading project files. "
+                    "Post-write audit grammar typos repetition verbal tics stiff expression."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["codex", "claude", "novel"],
+                "updated_at": "2026-05-31T02:28:32Z",
+                "root_files": ["README.md", "novel-writer", "SKILL.md", "agents", "references"],
+            },
+            {
+                "full_name": "zaphodsdad/GhostWriter3000",
+                "html_url": "https://github.com/zaphodsdad/GhostWriter3000",
+                "description": (
+                    "GhostWriter 3000 is an AI-powered prose generation engine for fiction writers with critique-revision loop, "
+                    "series memory, continuity tracking, 300+ LLM models via OpenRouter, outline sidebar, project stats, "
+                    "chapter navigation, local hardware ownership, docx export."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction", "openrouter", "writing"],
+                "updated_at": "2026-05-22T06:27:26Z",
+                "root_files": ["README.md", "LICENSE", "CONTINUITY.md", ".env.example", "docker-compose.yml", "run_server.sh", "backend", "frontend", "docs", "data"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T16:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    ai_novelwriter = candidates["ATboy-web/AI_NovelWriter"]
+    tiered_memory = candidates["word2077/ai-novel-writer"]
+    recursive = candidates["wengfb/ai-novel-writer"]
+    story_skill = candidates["ArcticalOwl/story-writer-skill"]
+    fictionist = candidates["mou-fang/fictionist-skill"]
+    ghostwriter = candidates["zaphodsdad/GhostWriter3000"]
+
+    assert "mega_chapter_genre_layered_memory_gate" in ai_novelwriter["absorbed_patterns"]
+    assert "native_binary" in ai_novelwriter["risk_flags"]
+    assert "docker" in ai_novelwriter["risk_flags"]
+    assert "l0_l3_memory_skeleton_volume_gate" in tiered_memory["absorbed_patterns"]
+    assert "license:missing" in tiered_memory["trust_review"]["flags"]
+    assert "recursive_scene_reflection_long_context_gate" in recursive["absorbed_patterns"]
+    assert "provider_key_surface" in recursive["risk_flags"]
+    assert "markdown_ink_export_validation_gate" in story_skill["absorbed_patterns"]
+    assert "skill_install_surface" in story_skill["risk_flags"]
+    assert "file_backed_promise_ledger_audit_gate" in fictionist["absorbed_patterns"]
+    assert "license:missing" in fictionist["trust_review"]["flags"]
+    assert "critique_revision_series_memory_gate" in ghostwriter["absorbed_patterns"]
+    assert "docker" in ghostwriter["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "mega_chapter_genre_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "l0_l3_memory_layer_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "recursive_scene_reflection_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "markdown_source_truth_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "file_backed_promise_ledger_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "critique_revision_loop_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "mega_chapter_genre_tag_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "l0_l3_memory_layer_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "recursive_scene_plan_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "markdown_story_source_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "promise_ledger_payoff_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "critique_revision_loop_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "mega_chapter_memory_matrix_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "memory_layer_skeleton_volume_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "recursive_scene_reflection_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "markdown_ink_branch_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "promise_decision_audit_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "critique_revision_series_memory_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("chapter-scale" in hint.lower() for hint in pattern_pack["mega_chapter_genre_layered_memory_gate_hints"])
+    assert any("l3 world" in hint.lower() for hint in pattern_pack["l0_l3_memory_skeleton_volume_gate_hints"])
+    assert any("reflection findings" in hint.lower() for hint in pattern_pack["recursive_scene_reflection_long_context_gate_hints"])
+    assert any("markdown project files" in hint.lower() for hint in pattern_pack["markdown_ink_export_validation_gate_hints"])
+    assert any("promise/payoff" in hint.lower() for hint in pattern_pack["file_backed_promise_ledger_audit_gate_hints"])
+    assert any("critique-revision" in hint.lower() for hint in pattern_pack["critique_revision_series_memory_gate_hints"])
+    assert any("source genre/tag bundles" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("source setups" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "mega_chapter_genre_layered_memory_gate_hints" in digest
+    assert "l0_l3_memory_skeleton_volume_gate_hints" in digest
+    assert "recursive_scene_reflection_long_context_gate_hints" in digest
+    assert "markdown_ink_export_validation_gate_hints" in digest
+    assert "file_backed_promise_ledger_audit_gate_hints" in digest
+    assert "critique_revision_series_memory_gate_hints" in digest

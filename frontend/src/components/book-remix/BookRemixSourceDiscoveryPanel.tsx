@@ -80,6 +80,12 @@ const PINNED_HINT_KEYS = new Set([
   'external_agent_api_free_cataloging_gate_hints',
   'rights_safe_source_to_memory_pipeline_gate_hints',
   'desktop_agent_planning_reflection_gate_hints',
+  'mega_chapter_genre_layered_memory_gate_hints',
+  'l0_l3_memory_skeleton_volume_gate_hints',
+  'recursive_scene_reflection_long_context_gate_hints',
+  'markdown_ink_export_validation_gate_hints',
+  'file_backed_promise_ledger_audit_gate_hints',
+  'critique_revision_series_memory_gate_hints',
   'self_review_gate_hints',
   'chapter_change_package_hints',
   'bookrun_audit_trail_gate_hints',
@@ -916,6 +922,12 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['External-agent API-free cataloging gates', patternPackPayload?.external_agent_api_free_cataloging_gate_hints],
               ['Rights-safe source-to-memory pipeline gates', patternPackPayload?.rights_safe_source_to_memory_pipeline_gate_hints],
               ['Desktop-agent planning reflection gates', patternPackPayload?.desktop_agent_planning_reflection_gate_hints],
+              ['Mega-chapter genre layered-memory gates', patternPackPayload?.mega_chapter_genre_layered_memory_gate_hints],
+              ['L0-L3 memory skeleton volume gates', patternPackPayload?.l0_l3_memory_skeleton_volume_gate_hints],
+              ['Recursive scene reflection long-context gates', patternPackPayload?.recursive_scene_reflection_long_context_gate_hints],
+              ['Markdown Ink export validation gates', patternPackPayload?.markdown_ink_export_validation_gate_hints],
+              ['File-backed promise ledger audit gates', patternPackPayload?.file_backed_promise_ledger_audit_gate_hints],
+              ['Critique-revision series-memory gates', patternPackPayload?.critique_revision_series_memory_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>
