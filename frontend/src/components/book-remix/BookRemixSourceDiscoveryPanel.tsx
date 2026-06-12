@@ -58,6 +58,10 @@ const PINNED_HINT_KEYS = new Set([
   'local_node_graph_lore_fix_loop_gate_hints',
   'uploaded_style_learning_api_boundary_gate_hints',
   'editorial_memory_card_graph_agent_gate_hints',
+  'genre_inspiration_budget_library_gate_hints',
+  'stepwise_local_book_generation_file_gate_hints',
+  'radial_subplot_timeline_xray_gate_hints',
+  'volume_antipattern_dependency_graph_gate_hints',
   'self_review_gate_hints',
   'chapter_change_package_hints',
   'bookrun_audit_trail_gate_hints',
@@ -872,6 +876,10 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Local node-graph lore fix-loop gates', patternPackPayload?.local_node_graph_lore_fix_loop_gate_hints],
               ['Uploaded style-learning API boundary gates', patternPackPayload?.uploaded_style_learning_api_boundary_gate_hints],
               ['Editorial memory-card graph agent gates', patternPackPayload?.editorial_memory_card_graph_agent_gate_hints],
+              ['Genre inspiration budget library gates', patternPackPayload?.genre_inspiration_budget_library_gate_hints],
+              ['Stepwise local book-generation file gates', patternPackPayload?.stepwise_local_book_generation_file_gate_hints],
+              ['Radial subplot timeline X-ray gates', patternPackPayload?.radial_subplot_timeline_xray_gate_hints],
+              ['Volume anti-pattern dependency graph gates', patternPackPayload?.volume_antipattern_dependency_graph_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

@@ -408,6 +408,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("node-graph pipeline" OR "Lore tree" OR "fix-problems nodes") ("long-form fiction" OR "novella" OR "fiction-arc") in:name,description,readme',
     '("AI小说风格学习生成器" OR "智能风格学习" OR "上传任意TXT") ("DeepSeek" OR "OpenAI" OR "分章节创作") in:name,description,readme',
     '("Cursor-Writing" OR "Phantom Pen" OR "CharacterGraph") ("Style Card" OR "Story Memory Engine" OR "editorial workflow") in:name,description,readme',
+    '("genre blending" OR "inspiration library" OR "cost estimation") ("novel generator" OR "book library" OR "story mashup") in:name,description,readme',
+    '("world settings" OR "character profiles" OR "outline.json") ("book_output" OR "scene generation" OR "full chapter content") in:name,description,readme',
+    '("radial timeline" OR "subplots" OR "chronological order" OR "AI story pulses") ("longform writing" OR "manuscript" OR "scenes") in:name,description,readme',
+    '("volume management" OR "anti-pattern engine" OR "event dependency graph") ("AI novel" OR "plot consistency" OR "character integrity") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -876,6 +880,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/vlsergey/ai-story-builder",
     "https://github.com/RubyWu429/Novel_Style_Imitation_Generation",
     "https://github.com/yewanyuan/Cursor-Writing",
+    "https://github.com/SteakWrangler/novelcraft-genre-weaver",
+    "https://github.com/perivar/OpenTale",
+    "https://github.com/EricRhysTaylor/Radial-Timeline",
+    "https://github.com/3stythe/ai-novel-generator",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1246,6 +1254,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("local_node_graph_lore_fix_loop_gate", ("ai story builder", "node-graph pipeline", "fiction-arc", "lore tree", "downstream nodes go outdated", "fix-problems", "severity threshold", "sqlite database", "no telemetry")),
     ("uploaded_style_learning_api_boundary_gate", ("novel_style_imitation_generation", "AI小说风格学习生成器", "智能风格学习", "上传任意TXT", "deepseek", "openai", "分章节创作", "风格特征")),
     ("editorial_memory_card_graph_agent_gate", ("cursor-writing", "phantom pen", "multi-agent collaborative novel writing assistant", "writer", "reviewer", "editor", "story memory engine", "charactergraph", "style card")),
+    ("genre_inspiration_budget_library_gate", ("novelcraft genre weaver", "genre blending", "inspiration system", "inspiration library", "curated tropes", "story mashups", "book library", "cost estimation", "quality level", "format options")),
+    ("stepwise_local_book_generation_file_gate", ("opentale", "world settings", "character profiles", "book outlines", "scene generation for individual chapters", "full chapter content", "book_output", "outline.json", "centralized prompt templates", "previous_chapter_context_length")),
+    ("radial_subplot_timeline_xray_gate", ("radial timeline", "subplots", "chronological order", "narrative order", "scene synopsis", "ai story pulses", "progress, narrative, chronologue, and gossamer", "inquiry view", "story x-ray")),
+    ("volume_antipattern_dependency_graph_gate", ("ai-novel-generator", "volume management", "volume planning", "anti-pattern engine", "anti pattern", "event dependency graph", "dependency graph", "plot consistency", "character integrity", "outlinevalidator", "character arc enforcer")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3381,6 +3393,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Cursor-Writing / Phantom Pen is a no-license-observed multi-agent collaborative novel writing assistant. Public README markers describe Writer/Reviewer/Editor roles, story-memory fact and timeline extraction, relevant-fact injection, CharacterGraph nodes and relationship edges, character/world/style cards, conflict review, file import/preview, and multi-provider configuration. "
         "Pattern-only adaptation for editorial memory-card graph gates; frontend/backend services, file uploads, provider calls, imported novels, agent workflows, and generated/revised drafts are not executed."
     ),
+    "steakwrangler/novelcraft-genre-weaver": (
+        "NovelCraft Genre Weaver is a no-license-observed React/Vite novel generator UI. Public README/API markers describe genre blending, curated inspiration tropes/themes/narrative elements, simple and advanced creation modes, book library management, format and quality settings, target word count, chapter and illustration counts, and real-time cost estimation. "
+        "Pattern-only adaptation for genre-inspiration, cost-budget, and library gates; Vite/Node servers, package scripts, OpenAI/API paths, generated books, and sample manuscript folders are not installed, launched, or imported."
+    ),
+    "perivar/opentale": (
+        "OpenTale is a no-license-observed Flask AI book writer. Public README/code markers describe a guided world -> characters -> outline -> scene -> chapter workflow, local book_output files, outline.json, centralized prompt templates, editable saved content, previous-chapter context windows, and OpenAI-compatible BASE_URL/API_KEY configuration. "
+        "Pattern-only adaptation for stepwise local book-generation file gates; Flask runtime, virtualenv/pip installs, provider calls, browser UI, book_output data, and prompt execution are not launched or imported."
+    ),
+    "ericrhystaylor/radial-timeline": (
+        "Radial Timeline is a source-available non-commercial Obsidian longform-writing visualization plugin. Public README/package markers describe scenes arranged by act, subplot, narrative order, or chronological order, hover details for scene synopsis and AI story pulses, Progress/Narrative/Chronologue/Gossamer modes, Inquiry View, and build gates with backup checks. "
+        "Pattern-only adaptation for radial subplot timeline and story X-ray gates; Obsidian plugin install, Node/Husky scripts, release/backup scripts, source-available code reuse, and user vault data access are not executed."
+    ),
+    "3stythe/ai-novel-generator": (
+        "ai-novel-generator is an MIT Chinese AI novel CLI with suspicious download-zip README markers but useful public source markers for role-split architect/writer/editor models, volume management, outline validation, anti-pattern engine, character arc enforcement, event dependency graph, plot consistency, and character integrity. "
+        "Pattern-only adaptation for volume/anti-pattern/dependency-graph gates; raw ZIP links, CLI execution, pip installs, provider/API calls, generated novel folders, security-topic surfaces, and config runtime are not executed."
+    ),
 
 }
 
@@ -4123,6 +4151,10 @@ class NovelSourceDiscoveryService:
             "local_node_graph_lore_fix_loop_gate_hints": self._build_local_node_graph_lore_fix_loop_gate_hints(available_patterns),
             "uploaded_style_learning_api_boundary_gate_hints": self._build_uploaded_style_learning_api_boundary_gate_hints(available_patterns),
             "editorial_memory_card_graph_agent_gate_hints": self._build_editorial_memory_card_graph_agent_gate_hints(available_patterns),
+            "genre_inspiration_budget_library_gate_hints": self._build_genre_inspiration_budget_library_gate_hints(available_patterns),
+            "stepwise_local_book_generation_file_gate_hints": self._build_stepwise_local_book_generation_file_gate_hints(available_patterns),
+            "radial_subplot_timeline_xray_gate_hints": self._build_radial_subplot_timeline_xray_gate_hints(available_patterns),
+            "volume_antipattern_dependency_graph_gate_hints": self._build_volume_antipattern_dependency_graph_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4899,6 +4931,10 @@ class NovelSourceDiscoveryService:
             "local_node_graph_lore_fix_loop_gate": 72,
             "uploaded_style_learning_api_boundary_gate": 71,
             "editorial_memory_card_graph_agent_gate": 73,
+            "genre_inspiration_budget_library_gate": 70,
+            "stepwise_local_book_generation_file_gate": 70,
+            "radial_subplot_timeline_xray_gate": 69,
+            "volume_antipattern_dependency_graph_gate": 72,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5077,6 +5113,18 @@ class NovelSourceDiscoveryService:
             targets.append("lorebook_entries")
             targets.append("activation_keywords")
             targets.append("context_insertion_rules")
+        if "genre_inspiration_budget_library_gate" in patterns:
+            targets.append("genre_inspiration_matrix_policy")
+            targets.append("cost_quality_budget_policy")
+        if "stepwise_local_book_generation_file_gate" in patterns:
+            targets.append("stepwise_book_output_manifest_policy")
+            targets.append("world_character_outline_scene_policy")
+        if "radial_subplot_timeline_xray_gate" in patterns:
+            targets.append("subplot_timeline_view_policy")
+            targets.append("narrative_chronology_dual_order_policy")
+        if "volume_antipattern_dependency_graph_gate" in patterns:
+            targets.append("volume_outline_dependency_policy")
+            targets.append("anti_pattern_event_graph_policy")
         if "local_first_novel_workspace" in patterns:
             targets.append("workspace_scope")
             targets.append("project_local_state")
@@ -6293,6 +6341,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["export_targets", "delivery_artifacts"])
         if "lorebook_context" in patterns:
             targets.extend(["activated_lore_entries", "context_budget_usage", "recursive_context_links"])
+        if "genre_inspiration_budget_library_gate" in patterns:
+            targets.extend(["genre_inspiration_budget_report", "format_quality_cost_findings", "book_library_lineage_findings"])
+        if "stepwise_local_book_generation_file_gate" in patterns:
+            targets.extend(["book_output_file_manifest", "world_character_outline_scene_trace", "previous_chapter_context_window_findings"])
+        if "radial_subplot_timeline_xray_gate" in patterns:
+            targets.extend(["radial_subplot_timeline_report", "narrative_vs_chronology_order_findings", "story_pulse_cross_subplot_links"])
+        if "volume_antipattern_dependency_graph_gate" in patterns:
+            targets.extend(["volume_dependency_graph_report", "anti_pattern_repetition_findings", "character_arc_integrity_findings"])
         if "author_note_layer" in patterns:
             targets.extend(["author_note_layer", "style_directive_layer", "insertion_frequency"])
         if "world_state_tracking" in patterns:
@@ -7176,6 +7232,14 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type or What-if continuation, declare the divergence point, preserved facts, changed assumption, graph-retrieval neighborhood, and narrative-vs-realtime order effects before drafting.")
         if "lorebook_context" in patterns:
             hints.append("Activate lorebook entries by chapter goal and keywords; inject only the entries needed by the current scene.")
+        if "genre_inspiration_budget_library_gate" in patterns:
+            hints.append("Before same-type drafting, separate genre mix, trope inspiration, output format, quality level, word budget, and generation cost so market shape is not mistaken for copy permission.")
+        if "stepwise_local_book_generation_file_gate" in patterns:
+            hints.append("For continuation, name the current local book files: world, characters, outline, structured outline, scenes, accepted chapters, and the previous-chapter context window.")
+        if "radial_subplot_timeline_xray_gate" in patterns:
+            hints.append("Check the next scene in both narrative order and chronological order; preserve subplot ring continuity, scene synopsis, and story pulse before drafting.")
+        if "volume_antipattern_dependency_graph_gate" in patterns:
+            hints.append("Before long-run generation, validate volume plan, event dependencies, repeated conflict patterns, and character-arc enforcement so a new chapter does not create plot holes.")
         if "author_note_layer" in patterns:
             hints.append("Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.")
         if "workflow_agent_pipeline" in patterns:
@@ -12081,6 +12145,42 @@ class NovelSourceDiscoveryService:
             "Character, world, and style cards should include allowed examples, forbidden words, speech boundaries, and relationship changes before continuation resumes.",
         ]
 
+    def _build_genre_inspiration_budget_library_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "genre_inspiration_budget_library_gate" not in patterns:
+            return []
+        return [
+            "Treat genre blending and inspiration libraries as abstract option matrices: genre, trope, theme, perspective, audience, format, quality level, and budget stay separate from source prose.",
+            "Same-type work should log which inspirations are selected and which source-specific names, scenes, hooks, and chapter order are excluded before generation.",
+            "Cost and quality estimates belong in a visible generation budget so retries, chapter count, illustrations, and professional polish do not silently expand scope.",
+        ]
+
+    def _build_stepwise_local_book_generation_file_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "stepwise_local_book_generation_file_gate" not in patterns:
+            return []
+        return [
+            "Use a stepwise local file manifest for world, characters, synopsis, outline, structured outline, scenes, chapters, settings, and master prompt before accepting chapter output.",
+            "A chapter draft should cite the world/character/outline files and previous-chapter context window that fed it; missing files become blockers, not invented context.",
+            "OpenAI-compatible BASE_URL/API_KEY flows and browser UI runs stay runtime-deferred; the reusable pattern is the file custody and guided workflow, not upstream prompts.",
+        ]
+
+    def _build_radial_subplot_timeline_xray_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "radial_subplot_timeline_xray_gate" not in patterns:
+            return []
+        return [
+            "Represent each scene across act, subplot ring, narrative order, and chronological order so continuation can detect B-plot dropouts and chronology inversions.",
+            "Story-pulse and synopsis hover details should be analysis metadata; they can guide scene placement but cannot replace accepted canon or chapter text evidence.",
+            "Non-commercial/source-available visual plugins are pattern-only: reuse the X-ray view concept, not plugin code, vault access, or build/release scripts.",
+        ]
+
+    def _build_volume_antipattern_dependency_graph_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "volume_antipattern_dependency_graph_gate" not in patterns:
+            return []
+        return [
+            "For long-form Chinese webnovel runs, split volume plan, chapter rhythm, event dependency graph, anti-pattern findings, and character-arc enforcement into separate review artifacts.",
+            "Outline validators should catch repeated beats, missing dependency edges, weak escalation, and broken character integrity before the writer role receives a chapter brief.",
+            "Repositories with raw ZIP links, security labels, and provider configs remain pattern-only; do not import generated novels, API flows, or installer instructions.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -12090,6 +12190,14 @@ class NovelSourceDiscoveryService:
             "world_rule_remap",
             "plot_thread_remap",
         ]
+        if "genre_inspiration_budget_library_gate" in patterns:
+            targets.append("genre_trope_budget_remap")
+        if "stepwise_local_book_generation_file_gate" in patterns:
+            targets.append("local_book_file_manifest_remap")
+        if "radial_subplot_timeline_xray_gate" in patterns:
+            targets.append("subplot_timeline_order_remap")
+        if "volume_antipattern_dependency_graph_gate" in patterns:
+            targets.append("volume_event_dependency_remap")
         if "card_workbench" in patterns:
             targets.append("card_schema_remap")
         if "manuscript_card_board_extraction_gate" in patterns:
@@ -13598,6 +13706,14 @@ class NovelSourceDiscoveryService:
         ]
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
+        if "genre_inspiration_budget_library_gate" in patterns:
+            hints.append("Transform genre and trope inspiration into a new option matrix with new stakes, cast, setting, format, quality target, and budget notes before drafting.")
+        if "stepwise_local_book_generation_file_gate" in patterns:
+            hints.append("Transform the source workflow into new local files and ids; do not carry source outline.json, scene filenames, or previous-chapter context into the new project.")
+        if "radial_subplot_timeline_xray_gate" in patterns:
+            hints.append("Transform scene order twice: once by reader-facing narrative order and once by chronological causality, then repair subplot gaps before prose.")
+        if "volume_antipattern_dependency_graph_gate" in patterns:
+            hints.append("Transform volume structure, dependency edges, anti-pattern checklist, and character-arc checkpoints into the target premise rather than copying source escalation.")
         if "emotion_arc" in patterns:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
         if "card_workbench" in patterns:
@@ -14869,6 +14985,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject context packs that copy source chapter direction, previous-summary order, or full-chapter windows as transformed-story authority.")
         if "scene_blueprint_reader_reward_gate" in patterns:
             hints.append("Reject scene blueprints whose reader reward, information gain, obstacle, or scene-end hook is only a renamed source scene function.")
+        if "genre_inspiration_budget_library_gate" in patterns:
+            hints.append("Reject drafts that preserve the selected inspiration library's exact trope bundle, title formula, chapter count promise, or format-specific gimmick without transformation.")
+        if "stepwise_local_book_generation_file_gate" in patterns:
+            hints.append("Reject same-type projects whose file manifest keeps source outline ids, scene filenames, master-prompt wording, or previous-chapter context from the reference work.")
+        if "radial_subplot_timeline_xray_gate" in patterns:
+            hints.append("Reject scene maps that only rotate source subplot rings while preserving the same reveal order, chronology, or story-pulse labels.")
+        if "volume_antipattern_dependency_graph_gate" in patterns:
+            hints.append("Reject volume plans that copy source escalation ladders, event dependency chains, repeated twist cadence, or character-arc checkpoints under new names.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
         if "scene_card_hard_soft_field_gate" in patterns:
@@ -15111,6 +15235,10 @@ class NovelSourceDiscoveryService:
                 "local_node_graph_lore_fix_loop_gate",
                 "uploaded_style_learning_api_boundary_gate",
                 "editorial_memory_card_graph_agent_gate",
+                "genre_inspiration_budget_library_gate",
+                "stepwise_local_book_generation_file_gate",
+                "radial_subplot_timeline_xray_gate",
+                "volume_antipattern_dependency_graph_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

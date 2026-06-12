@@ -263,6 +263,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "local_node_graph_lore_fix_loop_gate_hints",
             "uploaded_style_learning_api_boundary_gate_hints",
             "editorial_memory_card_graph_agent_gate_hints",
+            "genre_inspiration_budget_library_gate_hints",
+            "stepwise_local_book_generation_file_gate_hints",
+            "radial_subplot_timeline_xray_gate_hints",
+            "volume_antipattern_dependency_graph_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text

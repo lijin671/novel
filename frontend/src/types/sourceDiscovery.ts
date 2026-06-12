@@ -326,6 +326,10 @@ export interface SourceDiscoveryPatternPack {
   local_node_graph_lore_fix_loop_gate_hints?: string[];
   uploaded_style_learning_api_boundary_gate_hints?: string[];
   editorial_memory_card_graph_agent_gate_hints?: string[];
+  genre_inspiration_budget_library_gate_hints?: string[];
+  stepwise_local_book_generation_file_gate_hints?: string[];
+  radial_subplot_timeline_xray_gate_hints?: string[];
+  volume_antipattern_dependency_graph_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

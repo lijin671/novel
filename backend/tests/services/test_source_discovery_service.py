@@ -15295,3 +15295,122 @@ def test_latest_agent_graph_style_workbench_sources_are_static_absorbed():
     assert "local_node_graph_lore_fix_loop_gate_hints" in digest
     assert "uploaded_style_learning_api_boundary_gate_hints" in digest
     assert "editorial_memory_card_graph_agent_gate_hints" in digest
+
+
+def test_genre_file_timeline_volume_sources_are_static_absorbed():
+    assert "https://github.com/SteakWrangler/novelcraft-genre-weaver" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/perivar/OpenTale" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/EricRhysTaylor/Radial-Timeline" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/3stythe/ai-novel-generator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("genre blending" in query.lower() and "cost estimation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("world settings" in query.lower() and "outline.json" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("radial timeline" in query.lower() and "ai story pulses" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("volume management" in query.lower() and "event dependency graph" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "SteakWrangler/novelcraft-genre-weaver",
+                "html_url": "https://github.com/SteakWrangler/novelcraft-genre-weaver",
+                "description": (
+                    "NovelCraft Genre Weaver is an AI-powered novel generator with genre blending, "
+                    "an inspiration system with curated tropes, themes, and narrative elements, simple and advanced creation modes, "
+                    "book library management, cost estimation, output format options, quality level, target word count, chapter count, and illustration count."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["ai", "fiction", "novel-generator", "story-generator", "writing-tools"],
+                "updated_at": "2026-06-08T02:17:13Z",
+                "root_files": ["README.md", "package.json", "server/package.json", "world-bible-echoes-of-meridian.md"],
+            },
+            {
+                "full_name": "perivar/OpenTale",
+                "html_url": "https://github.com/perivar/OpenTale",
+                "description": (
+                    "OpenTale is an AI Book Writer with a guided workflow for world settings, character profiles, "
+                    "book outlines, scene generation for individual chapters, full chapter content, local book_output files, outline.json, "
+                    "centralized prompt templates, editable saved content, previous_chapter_context_length, BASE_URL, and API_KEY configuration."
+                ),
+                "stargazers_count": 8,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["book", "ai-writing", "flask"],
+                "updated_at": "2026-04-22T17:59:43Z",
+                "root_files": ["README.md", "requirements.txt", "config.py", "prompts.py", "web_app.py", ".env.example"],
+            },
+            {
+                "full_name": "EricRhysTaylor/Radial-Timeline",
+                "html_url": "https://github.com/EricRhysTaylor/Radial-Timeline",
+                "description": (
+                    "Radial Timeline visualizes longform writing projects with scenes organized by act, subplot, narrative order, "
+                    "chronological order, scene synopsis, AI story pulses, Progress, Narrative, Chronologue, Gossamer modes, and Inquiry View story X-ray analysis."
+                ),
+                "stargazers_count": 45,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["ai", "editing", "visualization", "writing"],
+                "updated_at": "2026-06-12T00:34:57Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "manifest.json", "AGENT_RULES.md", "scripts"],
+            },
+            {
+                "full_name": "3stythe/ai-novel-generator",
+                "html_url": "https://github.com/3stythe/ai-novel-generator",
+                "description": (
+                    "ai-novel-generator creates coherent long-form AI novels with plot consistency and character integrity. "
+                    "Phase 2 includes volume management, anti-pattern engine, OutlineValidator, Character Arc Enforcer, event dependency graph, "
+                    "architect writer editor model roles, SiliconFlow API_KEY, and suspicious raw ZIP download links."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel-ai", "novel-generation", "chinese", "ai-security", "text-generation"],
+                "updated_at": "2026-06-12T00:23:52Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt", "config.py", "novel_generator.py", ".env.example", "novels/ai_generator_novel_v1.2.zip"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T11:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    novelcraft = candidates["SteakWrangler/novelcraft-genre-weaver"]
+    opentale = candidates["perivar/OpenTale"]
+    radial = candidates["EricRhysTaylor/Radial-Timeline"]
+    generator = candidates["3stythe/ai-novel-generator"]
+
+    assert "genre_inspiration_budget_library_gate" in novelcraft["absorbed_patterns"]
+    assert "license:missing" in novelcraft["trust_review"]["flags"]
+    assert "stepwise_local_book_generation_file_gate" in opentale["absorbed_patterns"]
+    assert "provider_key_surface" in opentale["risk_flags"]
+    assert "radial_subplot_timeline_xray_gate" in radial["absorbed_patterns"]
+    assert "license:noassertion" in radial["trust_review"]["flags"]
+    assert "volume_antipattern_dependency_graph_gate" in generator["absorbed_patterns"]
+    assert "binary_distribution" in generator["risk_flags"]
+    assert "provider_key_surface" in generator["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "genre_inspiration_matrix_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "stepwise_book_output_manifest_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "subplot_timeline_view_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "volume_outline_dependency_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "genre_inspiration_budget_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "book_output_file_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "radial_subplot_timeline_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "volume_dependency_graph_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "genre_trope_budget_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "local_book_file_manifest_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "subplot_timeline_order_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "volume_event_dependency_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("genre blending" in hint.lower() for hint in pattern_pack["genre_inspiration_budget_library_gate_hints"])
+    assert any("local file manifest" in hint.lower() for hint in pattern_pack["stepwise_local_book_generation_file_gate_hints"])
+    assert any("subplot ring" in hint.lower() for hint in pattern_pack["radial_subplot_timeline_xray_gate_hints"])
+    assert any("anti-pattern" in hint.lower() for hint in pattern_pack["volume_antipattern_dependency_graph_gate_hints"])
+    assert any("exact trope bundle" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "genre_inspiration_budget_library_gate_hints" in digest
+    assert "stepwise_local_book_generation_file_gate_hints" in digest
+    assert "radial_subplot_timeline_xray_gate_hints" in digest
+    assert "volume_antipattern_dependency_graph_gate_hints" in digest
