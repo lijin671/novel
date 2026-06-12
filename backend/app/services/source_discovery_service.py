@@ -477,6 +477,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("accepted chapter" OR "Context Pack" OR "graph facts") ("local-first" OR "long-form fiction" OR "serialized novels") in:name,description,readme',
     '("version-safe" OR "human review queue" OR "continuity state") ("novel writing platform" OR "scene cards") in:name,description,readme',
     '("Pipeline Stage Gates" OR "rolling synopsis" OR "previous-tail continuity") ("novel pipeline" OR "manuscript evaluation") in:name,description,readme',
+    '("deconstruct" OR "imitate" OR "reference novel") ("web novel" OR "long-form novel") in:name,description,readme',
+    '("????" OR "????" OR "????") ("??" OR "????") in:name,description,readme',
+    '("copyright_check" OR "deai_enabled" OR "chapter_budget") ("novel rewriter" OR "??") in:name,description,readme',
+    '("template-driven" OR "Resume from Breakpoint" OR "Strict Template") ("Chinese web novel" OR "Codex CLI") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -545,6 +549,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/hayrgpt-rgb/NovelForge-AI",
     "https://github.com/ironharvy/unorthodox-writer",
     "https://github.com/angel1411337-del/WriterOS",
+    "https://github.com/XTmingyue/harnessNovel",
+    "https://github.com/jiejiu344/novel-rule-auditor-skill",
+    "https://github.com/qscwzby7t6-svg/novel-rewriter",
+    "https://github.com/keyboardgdy/woke_novel",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1487,6 +1495,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("novelforge_version_safe_human_review_gate", ("novelforge ai", "version-safe", "scene cards", "scene versions", "human review queue", "continuity state", "story state ledger", "fact approval", "review reports", "revision plans", "never overwrite", "reference assets")),
     ("unorthodox_pipeline_stage_retry_gate", ("unorthodox writer", "pipeline stage gates", "rolling synopsis", "previous-tail continuity", "bible digest", "quality gate", "self-review", "external review", "retry only the failed stage", "canon drift", "ai artifact scan")),
     ("writeros_role_validator_boundary_gate", ("writeros", "proprietary", "source available", "not open source", "architect", "profiler", "psychologist", "navigator", "mechanic", "canon layer", "drift", "obsidian", "500,000+ word manuscripts")),
+    ("harnessnovel_deconstruct_imitate_gate", ("harnessnovel", "deconstruct + imitate", "deconstruct first", "imitative writing", "reference novel", "full book outline", "worldbuilding", "volume outlines", "chapter summaries", "plot pacing", "emotional beats", "writing style", "chapter outlines")),
+    ("novel_rule_auditor_learning_loop_gate", ("novel-rule-auditor", "novel rule auditor", "????", "????", "????", "????", "????.md", "??", "????", "??", "??", "??????")),
+    ("novel_rewriter_copyright_cost_gate", ("novel-rewriter", "copyright_check", "deai_enabled", "quality_threshold", "chapter_budget", "fallback_provider", "fallback_model", "context window", "split_by_chapter", "???", "????", "?ai")),
+    ("woke_novel_template_resume_cli_gate", ("woke_novel", "template-driven", "resume from breakpoint", "strict template", "claude cli", "codex cli", "20 workflow templates", "project-local artifacts", "dry-run", "multi-session", "30-chapter chinese web novel")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3861,6 +3873,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "WriterOS is a proprietary source-available portfolio repository for a commercial continuity engine. Static README/docs markers allow architecture viewing and describe specialized validators: Architect, Profiler, Psychologist, Navigator, Mechanic, canon/drift layers, Obsidian validation, local-first Docker architecture, and large-manuscript vector search. "
         "Reference-only adaptation for role-validator boundary gates; source code, Docker, Obsidian plugin, pgvector/PostgreSQL, API-key paths, tests, and any derivative use are excluded."
     ),
+    "xtmingyue/harnessnovel": (
+        "harnessNovel is a GPL-3.0 long-form web-novel AI agent. Static README markers describe a two-stage deconstruct-plus-imitate workflow, full-book outline extraction, worldbuilding, volume outlines, chapter summaries, plot pacing and emotional beats, writing style and character voice extraction, progressive worldbuilding, and breakpoint continuation. "
+        "Pattern-only adaptation for deconstruction/imitation gates; pip install, global config, API keys, CLI commands, uploaded reference novels, and generated prose are not executed or imported."
+    ),
+    "jiejiu344/novel-rule-auditor-skill": (
+        "novel-rule-auditor-skill is a no-license-observed Chinese rule-learning and audit skill. Static README markers describe actively updating generation rules, comparing draft and final manuscript, maintaining Generation Rules markdown, chapter pre/post audit loops, continuation, chapter revision, and collaboration with a novel-writer skill. "
+        "Pattern-only adaptation for rule-auditor learning loops; the zipped skill, prompt bodies, local manuscripts, generated rules files, and skill runtime are not imported or executed."
+    ),
+    "qscwzby7t6-svg/novel-rewriter": (
+        "novel-rewriter is a no-license-observed long-novel rewriting/imitative-writing tool. Static README/config markers describe DeepSeek/OpenAI-compatible providers, fallback provider/model, per-chapter cost budget, 300-chapter defaults, context window, de-AI switch, copyright_check, quality_check, quality_threshold, and split-by-chapter output. "
+        "Pattern-only adaptation for copyright/cost/quality gates; install scripts, FastAPI runtime, Node CLI, API keys, provider calls, generated output, and deployment/systemd instructions are not executed or imported."
+    ),
+    "keyboardgdy/woke_novel": (
+        "woke_novel is an MIT template-driven Chinese web-novel workflow for Claude CLI or Codex CLI. Static README markers describe 20 workflow templates, strict Markdown constraints, resumable project cursor, multi-session orchestration, dry-run mode, and project-local artifact folders for baseline, plots, guides, output, state, and characters. "
+        "Pattern-only adaptation for template-resume CLI gates; pip install, CLI/provider invocation, authenticated Claude/Codex runtime, project outputs, and template prompt bodies are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4676,6 +4704,10 @@ class NovelSourceDiscoveryService:
             "novelforge_version_safe_human_review_gate_hints": self._build_novelforge_version_safe_human_review_gate_hints(available_patterns),
             "unorthodox_pipeline_stage_retry_gate_hints": self._build_unorthodox_pipeline_stage_retry_gate_hints(available_patterns),
             "writeros_role_validator_boundary_gate_hints": self._build_writeros_role_validator_boundary_gate_hints(available_patterns),
+            "harnessnovel_deconstruct_imitate_gate_hints": self._build_harnessnovel_deconstruct_imitate_gate_hints(available_patterns),
+            "novel_rule_auditor_learning_loop_gate_hints": self._build_novel_rule_auditor_learning_loop_gate_hints(available_patterns),
+            "novel_rewriter_copyright_cost_gate_hints": self._build_novel_rewriter_copyright_cost_gate_hints(available_patterns),
+            "woke_novel_template_resume_cli_gate_hints": self._build_woke_novel_template_resume_cli_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -7028,6 +7060,18 @@ class NovelSourceDiscoveryService:
         if "writeros_role_validator_boundary_gate" in patterns:
             targets.append("specialized_role_validator_policy")
             targets.append("proprietary_reference_only_boundary_policy")
+        if "harnessnovel_deconstruct_imitate_gate" in patterns:
+            targets.append("deconstruct_imitate_reference_boundary_policy")
+            targets.append("style_worldbuilding_abstraction_policy")
+        if "novel_rule_auditor_learning_loop_gate" in patterns:
+            targets.append("generation_rule_audit_learning_policy")
+            targets.append("draft_final_delta_rule_update_policy")
+        if "novel_rewriter_copyright_cost_gate" in patterns:
+            targets.append("copyright_quality_cost_control_policy")
+            targets.append("provider_fallback_budget_boundary_policy")
+        if "woke_novel_template_resume_cli_gate" in patterns:
+            targets.append("template_resume_project_cursor_policy")
+            targets.append("cli_prompt_runtime_exclusion_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8109,6 +8153,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["pipeline_stage_gate_report", "rolling_synopsis_tail_overlap_findings", "retry_budget_artifact_scan"])
         if "writeros_role_validator_boundary_gate" in patterns:
             targets.extend(["role_validator_boundary_report", "canon_drift_layer_findings", "proprietary_reference_review"])
+        if "harnessnovel_deconstruct_imitate_gate" in patterns:
+            targets.extend(["deconstruct_imitate_boundary_report", "style_worldbuilding_abstraction_findings", "reference_plot_leakage_review"])
+        if "novel_rule_auditor_learning_loop_gate" in patterns:
+            targets.extend(["generation_rule_audit_report", "draft_final_delta_learning_trace", "repeat_error_prevention_findings"])
+        if "novel_rewriter_copyright_cost_gate" in patterns:
+            targets.extend(["copyright_similarity_quality_report", "chapter_budget_provider_fallback_trace", "deai_quality_threshold_findings"])
+        if "woke_novel_template_resume_cli_gate" in patterns:
+            targets.extend(["template_resume_cursor_report", "workflow_artifact_folder_trace", "cli_runtime_prompt_boundary_findings"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8697,6 +8749,14 @@ class NovelSourceDiscoveryService:
             hints.append("Persist per-stage metrics: bible digest id, rolling synopsis length, previous-tail overlap, retry count, gate result, artifact scan, and reviewer score.")
         if "writeros_role_validator_boundary_gate" in patterns:
             hints.append("Persist validator findings by role: plot architect, entity profiler, character psychologist, spatial navigator, rules mechanic, plus canon/drift layer decisions.")
+        if "harnessnovel_deconstruct_imitate_gate" in patterns:
+            hints.append("Persist deconstruction outputs as abstract outline, worldbuilding, volume, pacing, emotion, and style-feature records; keep reference text and source chapter order excluded.")
+        if "novel_rule_auditor_learning_loop_gate" in patterns:
+            hints.append("Persist rule-auditor deltas with source draft id, accepted final id, repeated-error category, new rule text, reviewer approval, and next-chapter applicability.")
+        if "novel_rewriter_copyright_cost_gate" in patterns:
+            hints.append("Persist copyright/similarity check result, de-AI pass result, quality score, chapter budget, provider fallback decision, and split-chapter output ids separately.")
+        if "woke_novel_template_resume_cli_gate" in patterns:
+            hints.append("Persist workflow step cursor, template id, session boundary, dry-run status, generated artifact path, and resume decision without importing upstream prompt bodies.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -13850,6 +13910,42 @@ class NovelSourceDiscoveryService:
             "WriterOS is proprietary/source-available; code, schemas, Docker, Obsidian plugin behavior, vector indexes, API-key tests, and derivative product use are blocked.",
         ]
 
+    def _build_harnessnovel_deconstruct_imitate_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "harnessnovel_deconstruct_imitate_gate" not in patterns:
+            return []
+        return [
+            "Separate deconstruction from drafting: extract outline function, world rules, volume shape, chapter purpose, pacing, emotion beats, and style axes before any same-type generation.",
+            "Use reference novels as abstraction sources only; raw text, source chapter summaries, source order, and source-specific names stay outside drafting context.",
+            "GPL code, pip install, global config, API keys, CLI commands, uploaded reference novels, and generated prose remain runtime-deferred and non-imported.",
+        ]
+
+    def _build_novel_rule_auditor_learning_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novel_rule_auditor_learning_loop_gate" not in patterns:
+            return []
+        return [
+            "Run a pre/post chapter rule audit loop: compare draft and accepted final, classify repeated errors, and propose a small rule delta with evidence ids.",
+            "Generated rule updates require author approval and should record scope, trigger, negative trigger, expiry/override policy, and next-chapter applicability.",
+            "Zip packages, skill prompt bodies, local manuscripts, generated rules files, and novel-writer runtime remain excluded from static intake.",
+        ]
+
+    def _build_novel_rewriter_copyright_cost_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novel_rewriter_copyright_cost_gate" not in patterns:
+            return []
+        return [
+            "Treat imitative rewriting as unsafe until it passes explicit copyright/similarity, de-AI, quality-threshold, and chapter-budget checks.",
+            "Record provider and fallback-provider decisions as cost/runtime metadata only; they must not influence canon, style, or accepted prose content.",
+            "Install scripts, FastAPI/Node runtimes, API keys, provider calls, generated outputs, and deployment/systemd instructions are blocked during intake.",
+        ]
+
+    def _build_woke_novel_template_resume_cli_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "woke_novel_template_resume_cli_gate" not in patterns:
+            return []
+        return [
+            "Model long web-novel generation as template-id plus artifact contract plus project cursor; every step should be resumable without reusing hidden chat history.",
+            "Split large workflows into session-bounded phases and require dry-run/preview before any provider-backed generation or artifact write.",
+            "Claude/Codex CLI invocation, authenticated runtime, prompt template bodies, project outputs, and local state folders are excluded from static intake.",
+        ]
+
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
@@ -14852,6 +14948,14 @@ class NovelSourceDiscoveryService:
             targets.append("stage_gate_retry_remap")
         if "writeros_role_validator_boundary_gate" in patterns:
             targets.append("specialized_validator_role_remap")
+        if "harnessnovel_deconstruct_imitate_gate" in patterns:
+            targets.append("deconstruct_imitate_reference_remap")
+        if "novel_rule_auditor_learning_loop_gate" in patterns:
+            targets.append("generation_rule_delta_remap")
+        if "novel_rewriter_copyright_cost_gate" in patterns:
+            targets.append("copyright_quality_budget_remap")
+        if "woke_novel_template_resume_cli_gate" in patterns:
+            targets.append("template_cursor_resume_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14909,6 +15013,14 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt each stage with its gate contract, retry budget, rolling synopsis, previous-tail bridge, and explicit abort conditions for canon drift or AI artifacts.")
         if "writeros_role_validator_boundary_gate" in patterns:
             hints.append("Prompt specialized validators as target-story roles only: plot, entity graph, psychology arc, travel/spatial logic, and rules mechanics; upstream proprietary code remains excluded.")
+        if "harnessnovel_deconstruct_imitate_gate" in patterns:
+            hints.append("Prompt source study to output abstract deconstruction cards for outline function, world rules, pacing, emotion beats, and style axes; never draft from raw reference text.")
+        if "novel_rule_auditor_learning_loop_gate" in patterns:
+            hints.append("Prompt rule auditing before and after continuation: compare draft/final deltas, name repeated errors, propose rule updates, and require author approval before reuse.")
+        if "novel_rewriter_copyright_cost_gate" in patterns:
+            hints.append("Prompt rewriting with explicit similarity/copyright check, de-AI pass, quality threshold, per-chapter budget, and fallback-provider exclusion from creative content.")
+        if "woke_novel_template_resume_cli_gate" in patterns:
+            hints.append("Prompt each workflow step as a target template id plus artifact contract and resume cursor; upstream step prompts and CLI command text remain excluded.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -15614,6 +15726,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform stage gates into target quality checks for beat coverage, previous-tail continuity, canon adherence, AI artifact density, retry cause, and final assembly status.")
         if "writeros_role_validator_boundary_gate" in patterns:
             hints.append("Transform role validators into target evaluation dimensions while preserving the proprietary/source-available boundary and avoiding code, schema, or plugin import.")
+        if "harnessnovel_deconstruct_imitate_gate" in patterns:
+            hints.append("Transform reference deconstruction into new-book abstractions: fresh premise, renamed factions, altered world rules, new chapter causality, and independent style targets.")
+        if "novel_rule_auditor_learning_loop_gate" in patterns:
+            hints.append("Transform learned rules into target-project constraints with evidence ids and expiration/override policy; do not copy source skill wording as global law.")
+        if "novel_rewriter_copyright_cost_gate" in patterns:
+            hints.append("Transform rewrite safeguards into target acceptance gates: similarity budget, copyright risk note, quality score, de-AI delta, and cost trace before chapter acceptance.")
+        if "woke_novel_template_resume_cli_gate" in patterns:
+            hints.append("Transform template-driven workflow into target artifact names and state transitions; do not preserve upstream folder names, step prompt bodies, or CLI session assumptions.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -16359,6 +16479,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject pipeline outputs that pass only by reusing source novel text, copied previous-tail wording, external review prompts, or overwrite-oriented revision instructions.")
         if "writeros_role_validator_boundary_gate" in patterns:
             hints.append("Reject any import of WriterOS proprietary code, schemas, Obsidian plugin behavior, Docker/runtime setup, or commercial manuscript assumptions into MuMuAINovel.")
+        if "harnessnovel_deconstruct_imitate_gate" in patterns:
+            hints.append("Reject outputs that retain reference-novel names, plot order, chapter summaries, distinctive emotional beat chains, or style samples beyond abstract labels.")
+        if "novel_rule_auditor_learning_loop_gate" in patterns:
+            hints.append("Reject rule updates that are generated from unapproved drafts, source skill prompt text, or one-off stylistic preferences mislabeled as hard constraints.")
+        if "novel_rewriter_copyright_cost_gate" in patterns:
+            hints.append("Reject same-type rewrites that pass quality while exceeding similarity/copyright budget, hiding provider fallback, or importing API/config/deployment details as story state.")
+        if "woke_novel_template_resume_cli_gate" in patterns:
+            hints.append("Reject outputs that copy upstream workflow templates, folder taxonomy, prompt bodies, or CLI resume logs into target canon or user-visible manuscript artifacts.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -17315,6 +17443,10 @@ class NovelSourceDiscoveryService:
                 "novelforge_version_safe_human_review_gate",
                 "unorthodox_pipeline_stage_retry_gate",
                 "writeros_role_validator_boundary_gate",
+                "harnessnovel_deconstruct_imitate_gate",
+                "novel_rule_auditor_learning_loop_gate",
+                "novel_rewriter_copyright_cost_gate",
+                "woke_novel_template_resume_cli_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

@@ -335,6 +335,10 @@ export interface SourceDiscoveryPatternPack {
   novelforge_version_safe_human_review_gate_hints?: string[];
   unorthodox_pipeline_stage_retry_gate_hints?: string[];
   writeros_role_validator_boundary_gate_hints?: string[];
+  harnessnovel_deconstruct_imitate_gate_hints?: string[];
+  novel_rule_auditor_learning_loop_gate_hints?: string[];
+  novel_rewriter_copyright_cost_gate_hints?: string[];
+  woke_novel_template_resume_cli_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

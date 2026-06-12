@@ -353,6 +353,10 @@ const PINNED_HINT_KEYS = new Set([
   'novelforge_version_safe_human_review_gate_hints',
   'unorthodox_pipeline_stage_retry_gate_hints',
   'writeros_role_validator_boundary_gate_hints',
+  'harnessnovel_deconstruct_imitate_gate_hints',
+  'novel_rule_auditor_learning_loop_gate_hints',
+  'novel_rewriter_copyright_cost_gate_hints',
+  'woke_novel_template_resume_cli_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -768,6 +772,10 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['NovelForge version-safe human-review gates', patternPackPayload?.novelforge_version_safe_human_review_gate_hints],
               ['Unorthodox pipeline stage retry gates', patternPackPayload?.unorthodox_pipeline_stage_retry_gate_hints],
               ['WriterOS role-validator boundary gates', patternPackPayload?.writeros_role_validator_boundary_gate_hints],
+              ['harnessNovel deconstruct-imitate gates', patternPackPayload?.harnessnovel_deconstruct_imitate_gate_hints],
+              ['Novel rule-auditor learning-loop gates', patternPackPayload?.novel_rule_auditor_learning_loop_gate_hints],
+              ['Novel rewriter copyright-cost gates', patternPackPayload?.novel_rewriter_copyright_cost_gate_hints],
+              ['woke_novel template-resume CLI gates', patternPackPayload?.woke_novel_template_resume_cli_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

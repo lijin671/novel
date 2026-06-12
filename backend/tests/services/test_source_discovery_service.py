@@ -17343,3 +17343,111 @@ def test_local_first_version_safe_and_stage_gate_sources_are_static_absorbed():
     assert "novelforge_version_safe_human_review_gate_hints" in digest
     assert "unorthodox_pipeline_stage_retry_gate_hints" in digest
     assert "writeros_role_validator_boundary_gate_hints" in digest
+
+
+def test_chinese_deconstruct_rewrite_rule_audit_sources_are_static_absorbed():
+    assert "https://github.com/XTmingyue/harnessNovel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jiejiu344/novel-rule-auditor-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/qscwzby7t6-svg/novel-rewriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/keyboardgdy/woke_novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("deconstruct" in query and "imitate" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("????" in query and "????" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("copyright_check" in query and "chapter_budget" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("template-driven" in query and "Resume from Breakpoint" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "XTmingyue/harnessNovel",
+                "html_url": "https://github.com/XTmingyue/harnessNovel",
+                "description": (
+                    "harnessNovel is an AI Agent for Long-form Web Novel Writing. It uses a two-stage Deconstruct + Imitate workflow: "
+                    "deconstruct first, then imitative writing from a reference novel, full book outline, worldbuilding, volume outlines, "
+                    "chapter summaries, plot pacing, emotional beats, writing style and character voices."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["web-novel", "deconstruct", "imitate"],
+                "updated_at": "2026-06-12T10:30:00Z",
+                "root_files": ["README.md", "README_EN.md", "LICENSE", "setup.py", "novel_cli.py"],
+            },
+            {
+                "full_name": "jiejiu344/novel-rule-auditor-skill",
+                "html_url": "https://github.com/jiejiu344/novel-rule-auditor-skill",
+                "description": (
+                    "novel-rule-auditor skill updates generation rules, performs rule audits, compares draft and final versions, "
+                    "maintains ????.md, supports ?? and ????, and runs a pre/post chapter rule audit loop with novel-writer."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "skill", "rule-audit"],
+                "updated_at": "2026-06-12T10:31:00Z",
+                "root_files": ["README.md", "novel-rule-auditor.zip"],
+            },
+            {
+                "full_name": "qscwzby7t6-svg/novel-rewriter",
+                "html_url": "https://github.com/qscwzby7t6-svg/novel-rewriter",
+                "description": (
+                    "novel-rewriter is a long novel rewriting tool with copyright_check, deai_enabled, quality_check, quality_threshold, "
+                    "chapter_budget, fallback_provider, fallback_model, context window, split_by_chapter, DeepSeek and OpenAI-compatible APIs."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "rewriter", "copyright"],
+                "updated_at": "2026-06-12T10:32:00Z",
+                "root_files": ["README.md", "install.py", "install.sh", "install.bat", "config/config.yaml"],
+            },
+            {
+                "full_name": "keyboardgdy/woke_novel",
+                "html_url": "https://github.com/keyboardgdy/woke_novel",
+                "description": (
+                    "woke_novel is a template-driven Chinese web novel workflow for Claude CLI or Codex CLI with Resume from Breakpoint, "
+                    "Strict Template constraints, 20 workflow templates, multi-session orchestration, dry-run mode, and project-local artifacts."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "codex", "claude"],
+                "updated_at": "2026-06-12T10:33:00Z",
+                "root_files": ["README.md", "README_zh-CN.md", "LICENSE", "steps", "steps_en", "menu.py"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T02:55:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "harnessnovel_deconstruct_imitate_gate" in candidates["XTmingyue/harnessNovel"]["absorbed_patterns"]
+    assert "novel_rule_auditor_learning_loop_gate" in candidates["jiejiu344/novel-rule-auditor-skill"]["absorbed_patterns"]
+    assert "novel_rewriter_copyright_cost_gate" in candidates["qscwzby7t6-svg/novel-rewriter"]["absorbed_patterns"]
+    assert "woke_novel_template_resume_cli_gate" in candidates["keyboardgdy/woke_novel"]["absorbed_patterns"]
+    assert "license:missing" in candidates["jiejiu344/novel-rule-auditor-skill"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["qscwzby7t6-svg/novel-rewriter"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "deconstruct_imitate_reference_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "generation_rule_audit_learning_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "copyright_quality_cost_control_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "template_resume_project_cursor_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "deconstruct_imitate_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "generation_rule_audit_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "copyright_similarity_quality_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "template_resume_cursor_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "deconstruct_imitate_reference_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "generation_rule_delta_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "copyright_quality_budget_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "template_cursor_resume_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("deconstruction" in hint.lower() for hint in pattern_pack["harnessnovel_deconstruct_imitate_gate_hints"])
+    assert any("rule audit" in hint.lower() for hint in pattern_pack["novel_rule_auditor_learning_loop_gate_hints"])
+    assert any("copyright" in hint.lower() for hint in pattern_pack["novel_rewriter_copyright_cost_gate_hints"])
+    assert any("project cursor" in hint.lower() for hint in pattern_pack["woke_novel_template_resume_cli_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "harnessnovel_deconstruct_imitate_gate_hints" in digest
+    assert "novel_rule_auditor_learning_loop_gate_hints" in digest
+    assert "novel_rewriter_copyright_cost_gate_hints" in digest
+    assert "woke_novel_template_resume_cli_gate_hints" in digest
