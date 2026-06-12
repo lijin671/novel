@@ -16900,3 +16900,93 @@ def test_design_dependency_writer_critic_quality_sources_are_static_absorbed():
     assert "story_design_dependency_impact_gate_hints" in digest
     assert "writer_critic_verify_quality_cycle_gate_hints" in digest
     assert "q15_story_quality_benchmark_gate_hints" in digest
+
+
+
+def test_local_desktop_canonkit_wiki_sources_are_static_absorbed():
+    assert "https://github.com/DoktorDaveJoos/manuscript" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/sadasdfsaf/canonkit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/abrahamp47/storyforge-wiki" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("AI-powered character extraction" in query and "Accept / reject changes" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("canon drift" in query and "LLM context pack" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story bible + worldbuilding wiki" in query and "wiki-lint" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "DoktorDaveJoos/manuscript",
+                "html_url": "https://github.com/DoktorDaveJoos/manuscript",
+                "description": (
+                    "The AI-powered desktop app for writing novels, fully offline. Local SQLite database, "
+                    "version history, visual diffs, granular Accept / reject changes, Story Bible, "
+                    "AI-powered character extraction, health timeline, semantic search and style analysis."
+                ),
+                "stargazers_count": 31,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "desktop", "story-bible"],
+                "updated_at": "2026-06-12T08:50:00Z",
+                "root_files": ["README.md", "package.json", "src"],
+            },
+            {
+                "full_name": "sadasdfsaf/canonkit",
+                "html_url": "https://github.com/sadasdfsaf/canonkit",
+                "description": (
+                    "Local-first story bible and continuity checker for fiction teams and solo authors. "
+                    "Canon drift, character cards, ages and years drift, JSON import and export, "
+                    "continuity engine, LLM context pack view for a focused scene and canon QA."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["canon", "continuity", "fiction-writing"],
+                "updated_at": "2026-06-12T08:51:00Z",
+                "root_files": ["README.md", "package.json", "lib"],
+            },
+            {
+                "full_name": "abrahamp47/storyforge-wiki",
+                "html_url": "https://github.com/abrahamp47/storyforge-wiki",
+                "description": (
+                    "Claude Code-first story bible + worldbuilding wiki for novels and long-form fiction. "
+                    "Builds from raw/, linked wiki/ domain pages, continuity-focused querying, canon lint, "
+                    "wiki-ingest, wiki-lint, wiki-query, wiki-graph, map-reduce extraction and Quartz publishing."
+                ),
+                "stargazers_count": 6,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["story-bible", "worldbuilding", "wiki"],
+                "updated_at": "2026-06-12T08:52:00Z",
+                "root_files": ["README.md", "LICENSE", "tools", "wiki"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T00:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "local_desktop_manuscript_revision_bible_gate" in candidates["DoktorDaveJoos/manuscript"]["absorbed_patterns"]
+    assert "canonkit_local_canon_drift_context_pack_gate" in candidates["sadasdfsaf/canonkit"]["absorbed_patterns"]
+    assert "storyforge_wiki_ingest_lint_graph_gate" in candidates["abrahamp47/storyforge-wiki"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "local_manuscript_revision_bible_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_canon_drift_context_pack_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "wiki_ingest_lint_graph_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_manuscript_revision_bible_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "canon_drift_context_pack_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "wiki_ingest_lint_graph_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "local_manuscript_revision_bible_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "canon_drift_context_pack_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "wiki_ingest_lint_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("accept/reject diff" in hint.lower() for hint in pattern_pack["local_desktop_manuscript_revision_bible_gate_hints"])
+    assert any("canon-drift" in hint.lower() for hint in pattern_pack["canonkit_local_canon_drift_context_pack_gate_hints"])
+    assert any("wiki-lint" in hint.lower() for hint in pattern_pack["storyforge_wiki_ingest_lint_graph_gate_hints"])
+    assert any("ai-generated descriptions" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("context-pack" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("map-reduce chunk summaries" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "local_desktop_manuscript_revision_bible_gate_hints" in digest
+    assert "canonkit_local_canon_drift_context_pack_gate_hints" in digest
+    assert "storyforge_wiki_ingest_lint_graph_gate_hints" in digest

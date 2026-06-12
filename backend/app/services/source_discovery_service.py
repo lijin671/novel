@@ -463,6 +463,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("Story Design Coherence" OR "dependency graph" OR "stale downstream files") ("AI-assisted novel" OR "fiction writing") in:name,description,readme',
     '("writer model" OR "critic model" OR "VERIFY") ("iterative story" OR "quality thresholds") in:name,description,readme',
     '("q1" OR "q15" OR "overall_score") ("story evaluation dataset" OR "creative writing benchmark") in:name,description,readme',
+    '("AI-powered character extraction" OR "Accept / reject changes" OR "Health timeline") ("desktop app" OR "writing novels") in:name,description,readme',
+    '("canon drift" OR "LLM context pack" OR "local-first story bible") ("fiction teams" OR "solo authors") in:name,description,readme',
+    '("story bible + worldbuilding wiki" OR "wiki-ingest" OR "wiki-lint") ("long-form fiction" OR "continuity pressure") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -517,6 +520,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/osushi-cr/sdcoh",
     "https://github.com/davealaw/FictionRefine",
     "https://github.com/lars76/story-evaluation-llm",
+    "https://github.com/sadasdfsaf/canonkit",
+    "https://github.com/abrahamp47/storyforge-wiki",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1405,6 +1410,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("story_design_dependency_impact_gate", ("story design coherence", "sdcoh", "dependency graphs between story design documents", "change impact", "stale downstream files", "character sheets", "beat sheets", "foreshadowing ledgers", "style guides", "episode drafts", "director")),
     ("writer_critic_verify_quality_cycle_gate", ("fictionrefine", "two-llm workflow", "writer/reviser", "critic/verifier", "write", "review", "revise", "verify", "gate", "quality thresholds", "prevents story collapse")),
     ("q15_story_quality_benchmark_gate", ("story evaluation dataset", "creative writing benchmark", "overall_score", "q1", "q15", "quality metrics", "narrative structure", "character development", "prose quality", "weaknesses", "preferred/rejected pairs")),
+    ("local_desktop_manuscript_revision_bible_gate", ("manuscript", "ai-powered desktop app for writing novels", "fully offline", "local sqlite database", "accept / reject changes", "version history", "visual diffs", "AI-powered character extraction", "story bible", "health timeline", "semantic search", "style")),
+    ("canonkit_local_canon_drift_context_pack_gate", ("canonkit", "local-first story bible", "canon drift", "continuity checker", "fiction teams", "character cards", "ages and years drift", "local-first project storage", "JSON import and export", "LLM context pack", "focused scene")),
+    ("storyforge_wiki_ingest_lint_graph_gate", ("storyforge wiki", "story bible + worldbuilding wiki", "raw/", "wiki/", "continuity-focused querying", "canon lint", "wiki-ingest", "wiki-lint", "wiki-query", "wiki-graph", "map-reduce extraction", "Quartz")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3758,6 +3766,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "story-evaluation-llm is an MIT story evaluation dataset and benchmark reference. Static README markers describe LLM-generated stories across languages, averaged evaluation metrics, overall_score, q1-q15 quality metrics, narrative structure, character consistency/motivation/depth, prose quality, weaknesses w1-w5, and preferred/rejected pair construction. "
         "Pattern-only adaptation for q15 story-quality benchmark gates; dataset download, Hugging Face access, model evaluation, training, and story corpus import are not executed."
     ),
+    "doktordavejoos/manuscript": (
+        "Manuscript is an MIT-badged local desktop app for writing novels. Static README markers describe fully offline writing, local SQLite data ownership, split-screen editor, scenes, version history, visual diffs, granular accept/reject changes, built-in Story Bible, AI-powered character extraction, import/export, health timeline, semantic search, and style/prose analysis without inventing content. "
+        "Pattern-only adaptation for local manuscript revision and story-bible gates; desktop app launch, AI providers, local database access, file import/export, generated descriptions, and manuscripts are not executed or imported."
+    ),
+    "sadasdfsaf/canonkit": (
+        "CanonKit is a no-license-observed local-first story bible and continuity checker. Static README markers describe canon drift, character cards, ages/year drift, structured sample data for characters/locations/rules/scenes, browser persistence, JSON import/export, continuity engine, LLM context pack for focused scenes, canon QA, and clean handoff to AI tools/editors. "
+        "Pattern-only adaptation for local canon-drift and context-pack gates; npm build/tests, browser app, demo site, project storage, JSON imports, and local canon data are not executed or imported."
+    ),
+    "abrahamp47/storyforge-wiki": (
+        "Storyforge Wiki is an MIT Claude Code-first system for turning scattered manuscript files into a structured story bible and worldbuilding wiki. Static README markers describe raw/ ingestion, wiki/ linked domain pages, continuity-focused querying, canon lint, wiki-health, wiki-ingest, wiki-query, wiki-graph, local raw/generated content boundaries, chunked map-reduce extraction, and Quartz/GitHub Pages publishing. "
+        "Pattern-only adaptation for wiki ingest/lint/graph gates; Claude Code commands, Python tools, Quartz sync, raw manuscript ingestion, generated wiki pages, and publishing are not executed."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4558,6 +4578,9 @@ class NovelSourceDiscoveryService:
             "story_design_dependency_impact_gate_hints": self._build_story_design_dependency_impact_gate_hints(available_patterns),
             "writer_critic_verify_quality_cycle_gate_hints": self._build_writer_critic_verify_quality_cycle_gate_hints(available_patterns),
             "q15_story_quality_benchmark_gate_hints": self._build_q15_story_quality_benchmark_gate_hints(available_patterns),
+            "local_desktop_manuscript_revision_bible_gate_hints": self._build_local_desktop_manuscript_revision_bible_gate_hints(available_patterns),
+            "canonkit_local_canon_drift_context_pack_gate_hints": self._build_canonkit_local_canon_drift_context_pack_gate_hints(available_patterns),
+            "storyforge_wiki_ingest_lint_graph_gate_hints": self._build_storyforge_wiki_ingest_lint_graph_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5389,6 +5412,9 @@ class NovelSourceDiscoveryService:
             "story_design_dependency_impact_gate": 72,
             "writer_critic_verify_quality_cycle_gate": 71,
             "q15_story_quality_benchmark_gate": 70,
+            "local_desktop_manuscript_revision_bible_gate": 73,
+            "canonkit_local_canon_drift_context_pack_gate": 72,
+            "storyforge_wiki_ingest_lint_graph_gate": 71,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -6871,6 +6897,15 @@ class NovelSourceDiscoveryService:
         if "q15_story_quality_benchmark_gate" in patterns:
             targets.append("q15_story_quality_metric_policy")
             targets.append("preferred_rejected_pair_review_policy")
+        if "local_desktop_manuscript_revision_bible_gate" in patterns:
+            targets.append("local_manuscript_revision_bible_policy")
+            targets.append("accept_reject_diff_author_control_policy")
+        if "canonkit_local_canon_drift_context_pack_gate" in patterns:
+            targets.append("local_canon_drift_context_pack_policy")
+            targets.append("focused_scene_context_handoff_policy")
+        if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
+            targets.append("wiki_ingest_lint_graph_policy")
+            targets.append("raw_generated_story_bible_boundary_policy")
         return self._dedupe_texts(targets)
 
     def _build_whole_book_analysis_targets(self, patterns: set[str]) -> list[str]:
@@ -7913,6 +7948,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["writer_critic_revision_cycle_report", "quality_threshold_gate_findings", "story_collapse_prevention_findings"])
         if "q15_story_quality_benchmark_gate" in patterns:
             targets.extend(["q15_story_quality_scorecard", "weakness_rank_review", "preferred_rejected_pair_findings"])
+        if "local_desktop_manuscript_revision_bible_gate" in patterns:
+            targets.extend(["local_manuscript_revision_bible_report", "accept_reject_diff_findings", "ai_character_extraction_review"])
+        if "canonkit_local_canon_drift_context_pack_gate" in patterns:
+            targets.extend(["canon_drift_context_pack_report", "focused_scene_context_findings", "json_import_export_boundary_findings"])
+        if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
+            targets.extend(["wiki_ingest_lint_graph_report", "canon_conflict_query_findings", "map_reduce_wiki_extraction_trace"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -13486,6 +13527,34 @@ class NovelSourceDiscoveryService:
             "Treat public benchmark datasets as metric design references only; do not import story_text rows, prompts, or model outputs into project canon.",
         ]
 
+
+    def _build_local_desktop_manuscript_revision_bible_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_desktop_manuscript_revision_bible_gate" not in patterns:
+            return []
+        return [
+            "Keep local manuscript state, Story Bible entries, AI-generated descriptions, and author notes separately labeled before any continuation prompt uses them.",
+            "Use accept/reject diff review for prose refinements; partial AI edits remain candidates until the author accepts exact spans.",
+            "Treat semantic search, style analysis, import/export, and local database access as runtime-deferred unless file scope and data custody are explicit.",
+        ]
+
+    def _build_canonkit_local_canon_drift_context_pack_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "canonkit_local_canon_drift_context_pack_gate" not in patterns:
+            return []
+        return [
+            "Use a local canon-drift pass before drafting: character cards, ages/years, rules, locations, and scene context must agree or produce findings.",
+            "Build focused-scene context packs from accepted canon only, with omitted-context notes and JSON import/export boundaries recorded.",
+            "Keep local-first browser persistence and project storage as design signals, not permission to read browser or user data.",
+        ]
+
+    def _build_storyforge_wiki_ingest_lint_graph_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "storyforge_wiki_ingest_lint_graph_gate" not in patterns:
+            return []
+        return [
+            "Separate raw manuscript/lore intake from generated wiki pages; only accepted, cited wiki facts may enter continuation context.",
+            "Run wiki-health/wiki-lint style checks after ingest batches to surface canon conflicts, sparse graph links, and character-state mismatches.",
+            "For long files, use chunked map-reduce extraction traces so merged wiki facts remain attributable to source chunks and review decisions.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14457,6 +14526,12 @@ class NovelSourceDiscoveryService:
             targets.append("writer_critic_quality_cycle_remap")
         if "q15_story_quality_benchmark_gate" in patterns:
             targets.append("q15_story_quality_scorecard_remap")
+        if "local_desktop_manuscript_revision_bible_gate" in patterns:
+            targets.append("local_manuscript_revision_bible_remap")
+        if "canonkit_local_canon_drift_context_pack_gate" in patterns:
+            targets.append("canon_drift_context_pack_remap")
+        if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
+            targets.append("wiki_ingest_lint_graph_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15156,6 +15231,12 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type writing, use critic cycles to improve the transformed draft against local criteria, not to imitate the source story's fixes.")
         if "q15_story_quality_benchmark_gate" in patterns:
             hints.append("For same-type writing, create a local quality scorecard and preferred/rejected pairs from new drafts only; benchmark metrics guide form, not content.")
+        if "local_desktop_manuscript_revision_bible_gate" in patterns:
+            hints.append("For same-type writing, create a fresh local Story Bible, revision diff lane, and author-approved AI extraction queue before drafting.")
+        if "canonkit_local_canon_drift_context_pack_gate" in patterns:
+            hints.append("For same-type writing, build focused-scene context packs from the transformed canon and mark any copied source context as reference-only.")
+        if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
+            hints.append("For same-type writing, rebuild wiki pages, canon-lint questions, graph links, and map-reduce extraction traces for the new story namespace.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -15871,6 +15952,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform writer/critic loops into new-story review cycles with different criteria, critique wording, revision ids, and gate thresholds.")
         if "q15_story_quality_benchmark_gate" in patterns:
             hints.append("Transform benchmark dimensions into local rubric names and weights; do not copy public story_text, prompt rows, model rankings, or weakness examples.")
+        if "local_desktop_manuscript_revision_bible_gate" in patterns:
+            hints.append("Transform manuscript-workbench ideas into new diff spans, story-bible entities, health metrics, and style observations; never copy source app sample data or generated descriptions.")
+        if "canonkit_local_canon_drift_context_pack_gate" in patterns:
+            hints.append("Transform canon-drift patterns by inventing new character cards, timeline fields, rules, focused-scene packs, and JSON boundary ids.")
+        if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
+            hints.append("Transform wiki workflow into new raw-source namespaces, wiki page schemas, lint questions, graph edge types, and Quartz/publication boundaries.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -16666,6 +16753,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject revisions that copy source critique language, verifier JSON, accepted fixes, published clean text, or model-specific prompt scaffolding.")
         if "q15_story_quality_benchmark_gate" in patterns:
             hints.append("Reject uses of benchmark story_text, prompts, model outputs, weakness rows, or preferred/rejected pairs as seed content for the project.")
+        if "local_desktop_manuscript_revision_bible_gate" in patterns:
+            hints.append("Reject drafts that copy source desktop sample entries, AI-generated descriptions, diff hunks, style analysis text, or local database fields as new canon.")
+        if "canonkit_local_canon_drift_context_pack_gate" in patterns:
+            hints.append("Reject drafts that preserve source character-card rows, ages/year conflicts, JSON project data, or LLM context-pack text under renamed canon.")
+        if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
+            hints.append("Reject drafts that import raw/wiki page content, canon conflict answers, graph node names, or map-reduce chunk summaries as transformed story material.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -16815,6 +16908,9 @@ class NovelSourceDiscoveryService:
                 "story_design_dependency_impact_gate",
                 "writer_critic_verify_quality_cycle_gate",
                 "q15_story_quality_benchmark_gate",
+                "local_desktop_manuscript_revision_bible_gate",
+                "canonkit_local_canon_drift_context_pack_gate",
+                "storyforge_wiki_ingest_lint_graph_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

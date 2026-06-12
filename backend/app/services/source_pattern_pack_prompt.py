@@ -613,6 +613,9 @@ def render_source_pattern_pack_digest(
         "story_design_dependency_impact_gate_hints",
         "writer_critic_verify_quality_cycle_gate_hints",
         "q15_story_quality_benchmark_gate_hints",
+        "local_desktop_manuscript_revision_bible_gate_hints",
+        "canonkit_local_canon_drift_context_pack_gate_hints",
+        "storyforge_wiki_ingest_lint_graph_gate_hints",
         "offline_chapter_revision_export_gate_hints",
         "multi_agent_outline_continuity_review_gate_hints",
         "hosted_ai_sidebar_product_boundary_gate_hints",
@@ -722,7 +725,7 @@ def render_source_pattern_pack_digest(
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:
-            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:24]))
+            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:32]))
 
         inspired_prompt_hints = _as_note_list(source_pattern_pack.get("inspired_prompt_hints"))
         if inspired_prompt_hints:

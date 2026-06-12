@@ -320,6 +320,9 @@ export interface SourceDiscoveryPatternPack {
   story_design_dependency_impact_gate_hints?: string[];
   writer_critic_verify_quality_cycle_gate_hints?: string[];
   q15_story_quality_benchmark_gate_hints?: string[];
+  local_desktop_manuscript_revision_bible_gate_hints?: string[];
+  canonkit_local_canon_drift_context_pack_gate_hints?: string[];
+  storyforge_wiki_ingest_lint_graph_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];
