@@ -448,6 +448,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("Knowledge Graph visualization" OR "Continuity validation" OR "RAG-powered story chat") ("Story Bible" OR "Story-Weaver") in:name,description,readme',
     '("Living Story Bible" OR "Continuity Guardian" OR "Narrative Memory Engine") ("long-form stories" OR "TaleForge") in:name,description,readme',
     '("remove-ai-flavor" OR "去 AI 味" OR "template sentence shells") ("writing skill" OR "小说正文") in:name,description,readme',
+    '("packet-first chapter writing" OR "style overlay" OR "object state summary") ("long-form fiction" OR "novel studio") in:name,description,readme',
+    '("LoRA style adapters" OR "style_bank.jsonl" OR "local inference") ("novel" OR "story bible") in:name,description,readme',
+    '("browser local storage" OR "no accounts" OR "story bible context") ("novelists" OR "long-form fiction") in:name,description,readme',
+    '("Canon/Dynamic/Reference" OR "Jingwei" OR "Canon protection") ("novel plugin" OR "web novel") in:name,description,readme',
+    '("branching saves" OR "novel into a playable world" OR "LLM RPG engine") ("worldbook" OR "canon repo") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -779,6 +784,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/304769384-png/fanqie-novel-skill",
     "https://github.com/leistung/novel-write",
     "https://github.com/VerifiedOrganic/spindle",
+    "https://github.com/oaidea/novel-studio",
+    "https://github.com/aszecsei/writr",
+    "https://github.com/vivy1024/novelfork",
+    "https://github.com/felixchaos/rpg-roleplay-platform",
     "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
     "https://github.com/SutraMind/GraphRAG-story",
     "https://github.com/v-saprykin/storygraph",
@@ -1361,6 +1370,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("tutorial_case_library_curation_gate", ("tutorial curation", "excellent-novel case libraries", "writing principles", "deduplicate by stable ids", "source category and writing task", "validate counts", "教程资料", "优秀小说案例库")),
     ("anti_hallucination_strand_weave_review_gate", ("防幻觉三定律", "大纲即法律", "设定即物理", "发明需识别", "strand weave", "quest", "fire", "constellation", "双 agent", "五维并行审查", "200 万字")),
     ("ai_flavor_template_shell_cleanup_gate", ("remove-ai-flavor", "去 ai 味", "去 AI 味", "不是...而是", "真正...的是", "助手路标词", "段落同构", "假互动结尾", "template sentence shells", "fake engagement endings")),
+    ("packet_first_style_overlay_context_gate", ("packet-first chapter writing", "project-level style modeling", "style overlay", "object state summary", "chapter startup workflows", "serialization management", "low-token context orchestration")),
+    ("lora_style_adapter_memory_bank_gate", ("style_bank.jsonl", "lora style adapter", "lora style adapters", "local inference", "memory/story_bible.yaml", "chapter reset boundaries", "style adapter posture")),
+    ("browser_local_story_bible_privacy_gate", ("browser local storage", "browser's local storage", "privacy-first", "local-first writing application", "no accounts", "no cloud sync", "story bible context automatically included", "all without your words ever leaving")),
+    ("jingwei_layered_canon_plugin_gate", ("jingwei", "canon/dynamic/reference", "canon protection", "novel plugin", "scene.spec", "pipeline.write", "session recovery", "plugin ui", "sqlite index")),
+    ("roleplay_branchable_save_world_gate", ("branching saves", "turns a novel into a playable world", "novel into a playable world", "llm rpg engine", "worldbook", "canon repo", "script ingestion", "agent-driven scenes")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3658,6 +3672,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "TaleForge is a no-license-observed narrative intelligence platform. Static README/root markers describe Living Story Bible, Continuity Guardian, Research Assistant, Narrative Memory Engine, long-term semantic memory, continuity validation, timeline reasoning, dashboards, ChromaDB memory, and knowledge graph visualization. "
         "Pattern-only adaptation for memory-continuity-research gates; frontend/backend runtime, npm scripts, memory store, dashboards, and provider/model integrations are not launched or imported."
     ),
+    "oaidea/novel-studio": (
+        "novel-studio is an MIT long-form fiction studio. Static README markers describe packet-first chapter writing, project-level style modeling, chapter startup workflows, style overlay, object state summary, serialization management, review, and low-token context orchestration. "
+        "Pattern-only adaptation for packet-first style/context gates; no runtime, provider, local data, or upstream prompts are imported."
+    ),
+    "aszecsei/writr": (
+        "Writr is an MIT privacy-first local-first browser writing application. Static README markers describe browser local storage, no accounts, no cloud sync, no tracking, Story Bible context, timeline, style guide, worldbuilding docs, autosave, analytics, manuscript export, and OpenRouter assistance. "
+        "Pattern-only adaptation for browser-local Story Bible privacy gates; no browser storage, accounts, provider calls, or application runtime are touched."
+    ),
+    "vivy1024/novelfork": (
+        "novelfork is an MIT TypeScript/Bun/React/Hono/SQLite local-first webnovel agent base. Static README markers describe Jingwei Canon/Dynamic/Reference layers, Scene Spec, pipeline.write, audit+revise, session recovery, plugin UI registration, MCP extension, and local data posture. "
+        "Pattern-only adaptation for layered canon plugin gates; no Bun runtime, SQLite database, MCP extension, local data, or plugin execution is started."
+    ),
+    "felixchaos/rpg-roleplay-platform": (
+        "rpg-roleplay-platform is an AGPL-marked self-hostable LLM RPG engine. Static README markers describe turning a long-form novel into a playable world, branching saves, retrieval over original text, worldbook/canon repo, script ingestion, character cards, timeline, token accounting, MCP/tool DSL, Docker/setup surfaces, and provider/runtime boundaries. "
+        "Pattern-only adaptation for branchable save/world gates; self-hosted runtime, Docker, setup scripts, providers, MCP tools, uploads, and original-text indexing are not launched or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4443,6 +4473,11 @@ class NovelSourceDiscoveryService:
             "story_weaver_kg_bible_rag_gate_hints": self._build_story_weaver_kg_bible_rag_gate_hints(available_patterns),
             "taleforge_memory_continuity_research_gate_hints": self._build_taleforge_memory_continuity_research_gate_hints(available_patterns),
             "ai_flavor_template_shell_cleanup_gate_hints": self._build_ai_flavor_template_shell_cleanup_gate_hints(available_patterns),
+            "packet_first_style_overlay_context_gate_hints": self._build_packet_first_style_overlay_context_gate_hints(available_patterns),
+            "lora_style_adapter_memory_bank_gate_hints": self._build_lora_style_adapter_memory_bank_gate_hints(available_patterns),
+            "browser_local_story_bible_privacy_gate_hints": self._build_browser_local_story_bible_privacy_gate_hints(available_patterns),
+            "jingwei_layered_canon_plugin_gate_hints": self._build_jingwei_layered_canon_plugin_gate_hints(available_patterns),
+            "roleplay_branchable_save_world_gate_hints": self._build_roleplay_branchable_save_world_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5259,6 +5294,11 @@ class NovelSourceDiscoveryService:
             "story_weaver_kg_bible_rag_gate": 72,
             "taleforge_memory_continuity_research_gate": 71,
             "ai_flavor_template_shell_cleanup_gate": 67,
+            "packet_first_style_overlay_context_gate": 72,
+            "lora_style_adapter_memory_bank_gate": 70,
+            "browser_local_story_bible_privacy_gate": 70,
+            "jingwei_layered_canon_plugin_gate": 71,
+            "roleplay_branchable_save_world_gate": 69,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -6695,6 +6735,21 @@ class NovelSourceDiscoveryService:
         if "book_decomposition" in patterns or "continuation" in patterns:
             targets.append("foreshadows")
             targets.append("chapter_change_packages")
+        if "packet_first_style_overlay_context_gate" in patterns:
+            targets.append("packet_first_style_overlay_policy")
+            targets.append("object_state_summary_policy")
+        if "lora_style_adapter_memory_bank_gate" in patterns:
+            targets.append("style_bank_adapter_policy")
+            targets.append("local_inference_boundary_policy")
+        if "browser_local_story_bible_privacy_gate" in patterns:
+            targets.append("browser_local_story_bible_privacy_policy")
+            targets.append("story_bible_context_privacy_policy")
+        if "jingwei_layered_canon_plugin_gate" in patterns:
+            targets.append("jingwei_canon_dynamic_reference_policy")
+            targets.append("plugin_scene_spec_pipeline_policy")
+        if "roleplay_branchable_save_world_gate" in patterns:
+            targets.append("branchable_save_world_policy")
+            targets.append("novel_to_playable_world_boundary_policy")
         return self._dedupe_texts(targets)
 
     def _build_whole_book_analysis_targets(self, patterns: set[str]) -> list[str]:
@@ -7707,6 +7762,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["emotional_arc", "emotion_curve"])
         if "book_decomposition" in patterns or "continuation" in patterns:
             targets.append("source_state_snapshot")
+        if "packet_first_style_overlay_context_gate" in patterns:
+            targets.extend(["packet_first_context_report", "style_overlay_object_state_findings"])
+        if "lora_style_adapter_memory_bank_gate" in patterns:
+            targets.extend(["style_bank_adapter_report", "local_inference_boundary_findings"])
+        if "browser_local_story_bible_privacy_gate" in patterns:
+            targets.extend(["browser_local_story_bible_privacy_report", "story_bible_context_payload_findings"])
+        if "jingwei_layered_canon_plugin_gate" in patterns:
+            targets.extend(["jingwei_layered_canon_report", "scene_spec_pipeline_audit"])
+        if "roleplay_branchable_save_world_gate" in patterns:
+            targets.extend(["branchable_save_world_report", "novel_to_playable_world_boundary_findings"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8220,6 +8285,16 @@ class NovelSourceDiscoveryService:
             hints.append("Open vertical episodes with one clear first-five-second question, then track opening image, first spoken line, conflict signal, reversal beat, cliffhanger question, and storyboard note.")
         if "storyboard_shot_pack_reuse_gate" in patterns:
             hints.append("Use reusable shot packs only as scene-function templates; choose cold-open, dialogue power shift, reveal/reaction, romance close-up, or cliffhanger pack by the episode beat.")
+        if "packet_first_style_overlay_context_gate" in patterns:
+            hints.append("Before drafting, assemble a chapter packet with summary, style overlay, object-state summary, serialization status, and token budget instead of rereading the whole book.")
+        if "lora_style_adapter_memory_bank_gate" in patterns:
+            hints.append("Treat LoRA/style adapters as optional local runtime boundaries; for prompt-only continuation, use style_bank entries as labeled abstract levers, not copied prose.")
+        if "browser_local_story_bible_privacy_gate" in patterns:
+            hints.append("When using Story Bible context, keep browser-local/private project data out of provider payloads unless the user explicitly exports or approves the context packet.")
+        if "jingwei_layered_canon_plugin_gate" in patterns:
+            hints.append("Split continuation context into Canon, Dynamic, and Reference layers; only Canon can constrain facts, Dynamic tracks current chapter/session state, and Reference remains non-authoritative inspiration.")
+        if "roleplay_branchable_save_world_gate" in patterns:
+            hints.append("For playable-world continuations, record save id, branch point, worldbook facts, last player/actor actions, and canon repo delta before generating the next scene.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -8673,6 +8748,16 @@ class NovelSourceDiscoveryService:
             hints.append("Keep a stable placeholder and alias map for redacted sources, and review replacement collisions before any remapped context is reused.")
         if "proper_noun_leakage_review" in patterns:
             hints.append("Record source proper-noun blocklists and approved exceptions as review metadata before accepting continuation or same-type drafts.")
+        if "packet_first_style_overlay_context_gate" in patterns:
+            hints.append("Persist object-state summaries and style overlay hashes separately from chapter prose so later chapters can resume from packets without hidden rereads.")
+        if "lora_style_adapter_memory_bank_gate" in patterns:
+            hints.append("Store style_bank.jsonl-like memory entries with source boundary, abstraction level, adapter/runtime flag, and approved prompt-only substitute.")
+        if "browser_local_story_bible_privacy_gate" in patterns:
+            hints.append("Record whether Story Bible context came from browser local storage, exported markdown, or user-selected packet; do not merge private snapshots into global canon.")
+        if "jingwei_layered_canon_plugin_gate" in patterns:
+            hints.append("Keep Canon/Dynamic/Reference state transitions auditable: scene.spec proposes, pipeline.write drafts, audit+revise reports, and only approved deltas promote to Canon.")
+        if "roleplay_branchable_save_world_gate" in patterns:
+            hints.append("Save-world state must distinguish accepted novel canon, RPG branch save, imported script/worldbook facts, and reversible sandbox events.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -13081,6 +13166,51 @@ class NovelSourceDiscoveryService:
             "Frontend/backend runtime, npm scripts, memory stores, dashboards, provider integrations, and generated project data remain deferred.",
         ]
 
+    def _build_packet_first_style_overlay_context_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "packet_first_style_overlay_context_gate" not in patterns:
+            return []
+        return [
+            "Require a packet-first chapter input: chapter goal, recap, style overlay, object-state summary, serialization status, and explicit omitted-context notes.",
+            "Fail the run when packet fields are missing or when the prompt silently expands to full-manuscript rereads without a token budget.",
+            "Keep style overlay as an abstract control layer; do not paste source prose or upstream prompt text into the chapter packet.",
+        ]
+
+    def _build_lora_style_adapter_memory_bank_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "lora_style_adapter_memory_bank_gate" not in patterns:
+            return []
+        return [
+            "Treat style_bank.jsonl-like records as labeled memory-bank abstractions with source, permission, style lever, and prompt-safe rewrite guidance.",
+            "Block LoRA/local-inference execution unless a separate runtime safety contract names model files, adapter provenance, data custody, and output review.",
+            "For prompt-only continuation, use adapter observations as style dimensions rather than copying source sentences or private training examples.",
+        ]
+
+    def _build_browser_local_story_bible_privacy_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "browser_local_story_bible_privacy_gate" not in patterns:
+            return []
+        return [
+            "Before provider use, label Story Bible context as browser-local, exported, user-selected, or public reference, then include only approved fields.",
+            "Preserve local-first privacy boundaries: no account, no cloud sync, and no tracking claims remain design signals, not permission to read browser storage.",
+            "Review autosave and analytics fields separately from canon so local UI convenience data does not become continuation authority.",
+        ]
+
+    def _build_jingwei_layered_canon_plugin_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "jingwei_layered_canon_plugin_gate" not in patterns:
+            return []
+        return [
+            "Model Jingwei-style layers as Canon, Dynamic, and Reference: Canon is accepted truth, Dynamic is session/current-state, Reference is searchable inspiration only.",
+            "Require scene.spec -> pipeline.write -> audit+revise trace before promoting any generated chapter delta to Canon.",
+            "Keep plugin UI, MCP extension, SQLite index, and preset tools runtime-deferred until a local safety contract exists.",
+        ]
+
+    def _build_roleplay_branchable_save_world_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "roleplay_branchable_save_world_gate" not in patterns:
+            return []
+        return [
+            "When adapting a novel into playable-world flow, keep original text retrieval, worldbook facts, character cards, branch save, and canon repo deltas in separate ledgers.",
+            "Require a reversible save/branch id before exploratory roleplay scenes; never overwrite accepted novel canon from sandbox play events automatically.",
+            "Runtime surfaces such as setup scripts, Docker, provider calls, MCP tools, uploads, and vector indexing stay blocked during static source intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14022,6 +14152,16 @@ class NovelSourceDiscoveryService:
             targets.append("graph_vector_retrieval_remap")
         if "schema_guided_graph_extraction" in patterns:
             targets.append("schema_guided_graph_remap")
+        if "packet_first_style_overlay_context_gate" in patterns:
+            targets.append("packet_first_style_overlay_remap")
+        if "lora_style_adapter_memory_bank_gate" in patterns:
+            targets.append("style_bank_adapter_remap")
+        if "browser_local_story_bible_privacy_gate" in patterns:
+            targets.append("browser_local_story_bible_privacy_remap")
+        if "jingwei_layered_canon_plugin_gate" in patterns:
+            targets.append("jingwei_layered_canon_remap")
+        if "roleplay_branchable_save_world_gate" in patterns:
+            targets.append("branchable_save_world_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14691,6 +14831,16 @@ class NovelSourceDiscoveryService:
             hints.append("Generate new entity appearance and arc-timeline targets so each chapter has fresh continuity anchors rather than copied source cast routes.")
         if "codex_story_skill_project_scaffold_gate" in patterns:
             hints.append("Create Codex-native STORY.md/rules/tracking scaffolds for the transformed project before invoking any deconstruction or market-scan workflow.")
+        if "packet_first_style_overlay_context_gate" in patterns:
+            hints.append("For same-type writing, transform the packet structure, style overlay axes, and object-state summary schema; invent new facts, goals, and scene functions.")
+        if "lora_style_adapter_memory_bank_gate" in patterns:
+            hints.append("Use style-bank memory as a checklist of abstract craft levers, not as adapter execution, source samples, or copied voice cloning.")
+        if "browser_local_story_bible_privacy_gate" in patterns:
+            hints.append("Build a new private Story Bible context packet and record which local-only fields are excluded from any provider-facing prompt.")
+        if "jingwei_layered_canon_plugin_gate" in patterns:
+            hints.append("Map inspiration into new Canon/Dynamic/Reference layers so source reference material cannot become accepted canon without transformation.")
+        if "roleplay_branchable_save_world_gate" in patterns:
+            hints.append("Convert source roleplay mechanics into a branch/save rehearsal pattern while keeping the new novel's canon and sandbox branch histories separate.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -15376,6 +15526,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform appearance cadence by assigning new entities, absence gaps, mood shifts, and arc returns instead of preserving source timelines.")
         if "codex_story_skill_project_scaffold_gate" in patterns:
             hints.append("Transform skill scaffolds into local files and reports; do not copy upstream skill command text or installer behavior into the project.")
+        if "packet_first_style_overlay_context_gate" in patterns:
+            hints.append("Transform packet fields by changing objects, state deltas, style overlays, and serialization promises before prose drafting begins.")
+        if "lora_style_adapter_memory_bank_gate" in patterns:
+            hints.append("Transform style-bank records into permission-safe dimensions; remove source examples, adapter names, training hints, and private corpus traces.")
+        if "browser_local_story_bible_privacy_gate" in patterns:
+            hints.append("Transform local Story Bible context into a new project namespace and keep browser-local snapshots out of shared/global memory.")
+        if "jingwei_layered_canon_plugin_gate" in patterns:
+            hints.append("Transform layered canon by assigning new fact ids, dynamic state keys, reference tags, and audit outcomes instead of reusing source plugin records.")
+        if "roleplay_branchable_save_world_gate" in patterns:
+            hints.append("Transform playable-world branches into new stakes, choices, and save consequences; do not preserve original text retrieval order or worldbook entries.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -16141,6 +16301,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject BookStateDiff plans that replay a source prop route, object handoff, knowledge reveal, or reader-promise sequence.")
         if "human_edit_memory_quality_warn_gate" in patterns:
             hints.append("Reject drafts that import source editorial notes as Human Edit Memory or treat warning-only quality findings as automatic rewrite authority.")
+        if "packet_first_style_overlay_context_gate" in patterns:
+            hints.append("Reject drafts whose packet, object state, or style overlay preserves source scene identities, source event order, or upstream prompt wording.")
+        if "lora_style_adapter_memory_bank_gate" in patterns:
+            hints.append("Reject outputs that depend on unapproved LoRA adapters, private style-bank samples, source training text, or voice-clone-like style transfer.")
+        if "browser_local_story_bible_privacy_gate" in patterns:
+            hints.append("Reject same-type drafts when browser-local Story Bible snapshots, analytics, or autosave data leak into provider prompts or public references.")
+        if "jingwei_layered_canon_plugin_gate" in patterns:
+            hints.append("Reject drafts that promote Reference or Dynamic notes to Canon without scene.spec/audit+revise evidence, or copy source plugin state names.")
+        if "roleplay_branchable_save_world_gate" in patterns:
+            hints.append("Reject branchable-world drafts that replay source saves, imported script chunks, worldbook entries, character cards, or gameplay routes as new canon.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:

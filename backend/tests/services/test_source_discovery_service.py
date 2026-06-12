@@ -16450,3 +16450,136 @@ def test_narrative_memory_canon_graph_sources_are_static_absorbed():
     assert "planner_writer_evaluator_editor_saga_gate_hints" in digest
     assert "story_weaver_kg_bible_rag_gate_hints" in digest
     assert "taleforge_memory_continuity_research_gate_hints" in digest
+
+
+
+def test_longform_local_skill_workbench_sources_are_static_absorbed():
+    assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/aszecsei/writr" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/vivy1024/novelfork" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/felixchaos/rpg-roleplay-platform" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("packet-first chapter writing" in query and "object state summary" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("LoRA style adapters" in query and "style_bank.jsonl" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("browser local storage" in query and "story bible context" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Canon/Dynamic/Reference" in query and "Jingwei" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("branching saves" in query and "LLM RPG engine" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "oaidea/novel-studio",
+                "html_url": "https://github.com/oaidea/novel-studio",
+                "description": (
+                    "Long-form fiction studio for packet-first chapter writing, project-level style modeling, "
+                    "chapter startup workflows, style overlay, object state summary, serialization management, review, "
+                    "and low-token context orchestration."
+                ),
+                "stargazers_count": 7,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing"],
+                "updated_at": "2026-06-11T10:00:00Z",
+                "root_files": ["README.md", "LICENSE", "SKILL.md"],
+            },
+            {
+                "full_name": "DuckTraDo/Novel",
+                "html_url": "https://github.com/DuckTraDo/Novel",
+                "description": (
+                    "Local-first AI novel writing pipeline with memory/story_bible.yaml, style_bank.jsonl, "
+                    "local inference, LoRA style adapters, chapter reset boundaries, timeline and consistency checks."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "local-first"],
+                "updated_at": "2026-06-09T18:00:00Z",
+                "root_files": ["README.md", "LICENSE", "memory", "style_bank.jsonl"],
+            },
+            {
+                "full_name": "aszecsei/writr",
+                "html_url": "https://github.com/aszecsei/writr",
+                "description": (
+                    "Privacy-first local-first writing application where all data lives in browser local storage. "
+                    "No accounts, no cloud sync, no tracking; Story Bible context automatically included with style guide and worldbuilding docs."
+                ),
+                "stargazers_count": 4,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "local-first"],
+                "updated_at": "2026-06-11T12:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json"],
+            },
+            {
+                "full_name": "vivy1024/novelfork",
+                "html_url": "https://github.com/vivy1024/novelfork",
+                "description": (
+                    "TypeScript Bun React Hono SQLite web novel agent with Jingwei Canon/Dynamic/Reference layers, "
+                    "Canon protection, Novel Plugin, scene.spec, pipeline.write, audit+revise, session recovery, plugin UI, and MCP extension."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "agent"],
+                "updated_at": "2026-06-12T08:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "src"],
+            },
+            {
+                "full_name": "felixchaos/rpg-roleplay-platform",
+                "html_url": "https://github.com/felixchaos/rpg-roleplay-platform",
+                "description": (
+                    "Self-hostable LLM RPG engine that turns a novel into a playable world with branching saves, "
+                    "worldbook, canon repo, script ingestion, character cards, timeline, agent-driven scenes, MCP tool DSL, setup scripts and provider surfaces."
+                ),
+                "stargazers_count": 12,
+                "forks_count": 1,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["rpg", "novel", "llm"],
+                "updated_at": "2026-06-12T09:00:00Z",
+                "root_files": ["README.md", "LICENSE", "docker-compose.yml", "setup.py"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T21:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "packet_first_style_overlay_context_gate" in candidates["oaidea/novel-studio"]["absorbed_patterns"]
+    assert "lora_style_adapter_memory_bank_gate" in candidates["DuckTraDo/Novel"]["absorbed_patterns"]
+    assert "browser_local_story_bible_privacy_gate" in candidates["aszecsei/writr"]["absorbed_patterns"]
+    assert "jingwei_layered_canon_plugin_gate" in candidates["vivy1024/novelfork"]["absorbed_patterns"]
+    assert "roleplay_branchable_save_world_gate" in candidates["felixchaos/rpg-roleplay-platform"]["absorbed_patterns"]
+    assert "mcp_server" in candidates["vivy1024/novelfork"]["risk_flags"]
+    assert "docker" in candidates["felixchaos/rpg-roleplay-platform"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "packet_first_style_overlay_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "style_bank_adapter_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "browser_local_story_bible_privacy_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "jingwei_canon_dynamic_reference_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "branchable_save_world_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "packet_first_context_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_bank_adapter_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "browser_local_story_bible_privacy_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "jingwei_layered_canon_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "branchable_save_world_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "packet_first_style_overlay_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "style_bank_adapter_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "browser_local_story_bible_privacy_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "jingwei_layered_canon_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "branchable_save_world_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("packet-first" in hint.lower() for hint in pattern_pack["packet_first_style_overlay_context_gate_hints"])
+    assert any("style_bank" in hint.lower() for hint in pattern_pack["lora_style_adapter_memory_bank_gate_hints"])
+    assert any("browser-local" in hint.lower() for hint in pattern_pack["browser_local_story_bible_privacy_gate_hints"])
+    assert any("canon, dynamic, and reference" in hint.lower() for hint in pattern_pack["jingwei_layered_canon_plugin_gate_hints"])
+    assert any("branch save" in hint.lower() for hint in pattern_pack["roleplay_branchable_save_world_gate_hints"])
+    assert any("unapproved LoRA adapters" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("browser-local Story Bible" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("source saves" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "packet_first_style_overlay_context_gate_hints" in digest
+    assert "lora_style_adapter_memory_bank_gate_hints" in digest
+    assert "browser_local_story_bible_privacy_gate_hints" in digest
+    assert "jingwei_layered_canon_plugin_gate_hints" in digest
+    assert "roleplay_branchable_save_world_gate_hints" in digest

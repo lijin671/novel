@@ -305,6 +305,11 @@ export interface SourceDiscoveryPatternPack {
   bookend_closure_infill_gate_hints?: string[];
   strict_requirement_planning_generation_gate_hints?: string[];
   canon_graph_hybrid_validation_gate_hints?: string[];
+  packet_first_style_overlay_context_gate_hints?: string[];
+  lora_style_adapter_memory_bank_gate_hints?: string[];
+  browser_local_story_bible_privacy_gate_hints?: string[];
+  jingwei_layered_canon_plugin_gate_hints?: string[];
+  roleplay_branchable_save_world_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

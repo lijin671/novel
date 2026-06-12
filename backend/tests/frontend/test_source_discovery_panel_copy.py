@@ -242,6 +242,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "bookend_closure_infill_gate_hints",
             "strict_requirement_planning_generation_gate_hints",
             "canon_graph_hybrid_validation_gate_hints",
+            "packet_first_style_overlay_context_gate_hints",
+            "lora_style_adapter_memory_bank_gate_hints",
+            "browser_local_story_bible_privacy_gate_hints",
+            "jingwei_layered_canon_plugin_gate_hints",
+            "roleplay_branchable_save_world_gate_hints",
             "local_copilot_layered_memory_workspace_gate_hints",
             "pending_fact_canon_promotion_graph_gate_hints",
             "work_corpus_reindex_autopilot_gate_hints",
@@ -546,6 +551,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Style distillation rights boundaries" in panel_text
     assert "Screenplay AST / YAML adaptation gates" in panel_text
     assert "Fanqie publish dry-run boundaries" in panel_text
+    assert "Packet-first style overlay gates" in panel_text
+    assert "LoRA style adapter memory-bank gates" in panel_text
+    assert "Browser-local story-bible privacy gates" in panel_text
+    assert "Jingwei layered canon plugin gates" in panel_text
+    assert "Roleplay branchable save/world gates" in panel_text
     assert "Lore Forge knowledge-engineering gates" in panel_text
     assert "Layered style profile fusion/eval gates" in panel_text
     assert "Truth File / RAG pyramid audit gates" in panel_text
