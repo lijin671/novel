@@ -16133,3 +16133,186 @@ def test_mega_chapter_memory_skill_revision_sources_are_static_absorbed():
     assert "markdown_ink_export_validation_gate_hints" in digest
     assert "file_backed_promise_ledger_audit_gate_hints" in digest
     assert "critique_revision_series_memory_gate_hints" in digest
+
+
+def test_continuation_workflow_curation_and_ai_flavor_sources_are_static_absorbed():
+    assert "https://github.com/ARMANDSnow/make-ur-Agent-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/qiyan233/inkos-like-novel-os" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/a9549521/chronicler" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wgwtest/novel-writing" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/HZ-KMNO/web-novel-tutorial-curation-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/981029l/webnovel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/B1lli/remove-ai-flavor-writing-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("write-readiness" in query and "小说续写" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("truth files" in query and "write-next" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("facts table" in query.lower() and "长篇小说" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("concrete findings" in query and "style-bearing" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("excellent-novel case libraries" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("防幻觉三定律" in query and "Strand Weave" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("remove-ai-flavor" in query and "去 AI 味" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ARMANDSnow/make-ur-Agent-writer",
+                "html_url": "https://github.com/ARMANDSnow/make-ur-Agent-writer",
+                "description": (
+                    "Multi-agent LLM pipeline for long-form novel continuation 多 Agent 长篇小说续写流水线. "
+                    "Reads a source novel, normalizes text, splits chapters, extracts entity and setting, compresses a knowledge base, "
+                    "runs agent debate, strong-model N-chapter planning, cheaper-model chapter drafting, reviewer 团 and linter gates. "
+                    "Mock-first tests, write-readiness, write-book, per-book workspace, panel_score, estimate-cost, fail-closed JSON reviewers."
+                ),
+                "stargazers_count": 12,
+                "forks_count": 1,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "continuation", "multi-agent"],
+                "updated_at": "2026-06-11T12:06:00Z",
+                "root_files": ["README.md", "README_EN.md", "AGENTS.md", "LICENSE", ".env.example", "requirements.txt", "scripts", "src", "tests", "workspaces"],
+            },
+            {
+                "full_name": "qiyan233/inkos-like-novel-os",
+                "html_url": "https://github.com/qiyan233/inkos-like-novel-os",
+                "description": (
+                    "OpenClaw 长篇小说 workflow skill with truth files, write-next, revise, extract-state, state-update, "
+                    "状态管理, 连续性审计, 下一章上下文, snapshots and output contracts for long-running multi-chapter writing."
+                ),
+                "stargazers_count": 16,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["openclaw", "skill", "novel"],
+                "updated_at": "2026-04-13T06:59:27Z",
+                "root_files": ["README.md", "SKILL.md", "LICENSE", "SECURITY.md", "docs", "examples", "scripts"],
+            },
+            {
+                "full_name": "a9549521/chronicler",
+                "html_url": "https://github.com/a9549521/chronicler",
+                "description": (
+                    "长篇小说创作工作台 focused on author-control context assembly. Uses 多级摘要, Facts Table, "
+                    "角色状态 世界状态 关键事件 已揭示信息, Lore entries, selective lore injection, outline ranges, "
+                    "作者自行组织, 人机协作, 情节判断 and 风格把控."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "ai-writing"],
+                "updated_at": "2026-04-17T08:44:23Z",
+                "root_files": ["README.md", "backend", "frontend", "build_exe.py", "prompts", "models", "launcher.py"],
+            },
+            {
+                "full_name": "wgwtest/novel-writing",
+                "html_url": "https://github.com/wgwtest/novel-writing",
+                "description": (
+                    "Codex skill for fiction planning, chapter drafting, scene continuation, and revision. "
+                    "Returns concrete findings instead of vague workshop-style feedback, protects style-bearing material, "
+                    "checks narrative function, realism constraints and access limits."
+                ),
+                "stargazers_count": 11,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["codex", "fiction", "skill"],
+                "updated_at": "2026-04-18T16:22:34Z",
+                "root_files": ["README.md", "LICENSE", "assets", "novel-writing"],
+            },
+            {
+                "full_name": "HZ-KMNO/web-novel-tutorial-curation-skill",
+                "html_url": "https://github.com/HZ-KMNO/web-novel-tutorial-curation-skill",
+                "description": (
+                    "AI-agent skill for tutorial curation and excellent-novel case libraries. Detects HTML DOM API script/document sources, "
+                    "deduplicates by stable IDs, summarizes writing principles instead of copied articles, analyzes reader promise, conflict, "
+                    "structure, character pressure, suspense, style and payoff, then validates counts and JSON libraries."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "skill", "tutorial"],
+                "updated_at": "2026-06-10T02:27:19Z",
+                "root_files": ["README.md", "README.zh-CN.md", "AGENTS.md", "LICENSE", "assets", "web-novel-tutorial-curation"],
+            },
+            {
+                "full_name": "981029l/webnovel-writer",
+                "html_url": "https://github.com/981029l/webnovel-writer",
+                "description": (
+                    "Claude Code webnovel writer for 200 万字 serials. 防幻觉三定律: 大纲即法律, 设定即物理, 发明需识别. "
+                    "Strand Weave with Quest Fire Constellation rhythm, 双 Agent 架构, 五维并行审查, RAG 检索系统, 题材模板, 故障恢复, API key examples are excluded."
+                ),
+                "stargazers_count": 222,
+                "forks_count": 2,
+                "license": None,
+                "topics": ["claude-code", "webnovel", "rag"],
+                "updated_at": "2026-03-24T07:03:37Z",
+                "root_files": ["README.md", ".env", ".env.example", ".claude", "backend", "frontend", "scripts", "task"],
+            },
+            {
+                "full_name": "B1lli/remove-ai-flavor-writing-skill",
+                "html_url": "https://github.com/B1lli/remove-ai-flavor-writing-skill",
+                "description": (
+                    "remove-ai-flavor writing skill 去 AI 味. Preserves meaning, facts, tone and style while removing template sentence shells, "
+                    "不是...而是, 真正...的是, 助手路标词, 冒号模板, 段落同构, 假互动结尾 and fake engagement endings."
+                ),
+                "stargazers_count": 103,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["codex", "writing", "humanize"],
+                "updated_at": "2026-06-10T10:22:29Z",
+                "root_files": ["README.md", "SKILL.md", "LICENSE", "agents", "docs", "reports", "scripts", "tests"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T18:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "mock_first_multi_agent_continuation_gate" in candidates["ARMANDSnow/make-ur-Agent-writer"]["absorbed_patterns"]
+    assert "license:noassertion" in candidates["ARMANDSnow/make-ur-Agent-writer"]["trust_review"]["flags"]
+    assert "truth_file_write_next_state_update_gate" in candidates["qiyan233/inkos-like-novel-os"]["absorbed_patterns"]
+    assert "skill_install_surface" in candidates["qiyan233/inkos-like-novel-os"]["risk_flags"]
+    assert "author_control_context_assembly_gate" in candidates["a9549521/chronicler"]["absorbed_patterns"]
+    assert "license:missing" in candidates["a9549521/chronicler"]["trust_review"]["flags"]
+    assert "craft_scene_concrete_finding_revision_gate" in candidates["wgwtest/novel-writing"]["absorbed_patterns"]
+    assert "tutorial_case_library_curation_gate" in candidates["HZ-KMNO/web-novel-tutorial-curation-skill"]["absorbed_patterns"]
+    assert "anti_hallucination_strand_weave_review_gate" in candidates["981029l/webnovel-writer"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["981029l/webnovel-writer"]["risk_flags"]
+    assert "ai_flavor_template_shell_cleanup_gate" in candidates["B1lli/remove-ai-flavor-writing-skill"]["absorbed_patterns"]
+    assert "skill_install_surface" in candidates["B1lli/remove-ai-flavor-writing-skill"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "mock_first_readiness_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "truth_file_state_update_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "author_control_context_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "craft_scene_finding_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "tutorial_case_library_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "anti_hallucination_law_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "ai_flavor_shell_cleanup_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "write_readiness_preflight_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "truth_file_state_update_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "author_context_selection_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "craft_finding_resolution_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "tutorial_case_library_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "anti_hallucination_law_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ai_flavor_shell_cleanup_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_agent_continuation_pipeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "truth_file_state_update_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "author_context_selection_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "craft_finding_revision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "tutorial_principle_case_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "strand_weave_anti_hallucination_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "ai_flavor_shell_cleanup_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("write-readiness" in hint.lower() for hint in pattern_pack["mock_first_multi_agent_continuation_gate_hints"])
+    assert any("write-next" in hint.lower() for hint in pattern_pack["truth_file_write_next_state_update_gate_hints"])
+    assert any("facts table" in hint.lower() for hint in pattern_pack["author_control_context_assembly_gate_hints"])
+    assert any("concrete narrative function" in hint.lower() for hint in pattern_pack["craft_scene_concrete_finding_revision_gate_hints"])
+    assert any("validation counts" in hint.lower() for hint in pattern_pack["tutorial_case_library_curation_gate_hints"])
+    assert any("outline-as-law" in hint.lower() for hint in pattern_pack["anti_hallucination_strand_weave_review_gate_hints"])
+    assert any("template shells" in hint.lower() for hint in pattern_pack["ai_flavor_template_shell_cleanup_gate_hints"])
+    assert any("copyrighted source chunks" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("tutorial/case-library reuse" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "mock_first_multi_agent_continuation_gate_hints" in digest
+    assert "truth_file_write_next_state_update_gate_hints" in digest
+    assert "author_control_context_assembly_gate_hints" in digest
+    assert "craft_scene_concrete_finding_revision_gate_hints" in digest
+    assert "tutorial_case_library_curation_gate_hints" in digest
+    assert "anti_hallucination_strand_weave_review_gate_hints" in digest
+    assert "ai_flavor_template_shell_cleanup_gate_hints" in digest

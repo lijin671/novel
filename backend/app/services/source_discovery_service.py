@@ -436,6 +436,13 @@ DEFAULT_GITHUB_QUERIES = (
     '("Story Writer Skill" OR "Ink" OR "inkjs") ("Markdown is the source of truth" OR "status model" OR "branches") in:name,description,readme',
     '("Fictionist Skill" OR "promise ledger" OR "decision log") ("story bible" OR "post-write audit" OR "continuity keeper") in:name,description,readme',
     '("GhostWriter 3000" OR "critique-revision loop" OR "series memory") ("OpenRouter" OR "continuity tracking" OR "chapter navigation") in:name,description,readme',
+    '("multi-agent LLM pipeline" OR "mock-first" OR "write-readiness") ("long-form novel continuation" OR "小说续写") in:name,description,readme',
+    '("truth files" OR "write-next" OR "state-update") ("workflow skill" OR "连续性审计" OR "下一章上下文") in:name,description,readme',
+    '("context assembly" OR "facts table" OR "selective lore injection") ("long-form novel" OR "长篇小说") in:name,description,readme',
+    '("concrete findings" OR "style-bearing" OR "realism constraints") ("fiction planning" OR "scene continuation") in:name,description,readme',
+    '("tutorial curation" OR "excellent-novel case libraries" OR "writing principles") ("web novel" OR "fiction-writing") in:name,description,readme',
+    '("防幻觉三定律" OR "大纲即法律" OR "Strand Weave") ("webnovel" OR "网文") in:name,description,readme',
+    '("remove-ai-flavor" OR "去 AI 味" OR "template sentence shells") ("writing skill" OR "小说正文") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -932,6 +939,13 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ArcticalOwl/story-writer-skill",
     "https://github.com/mou-fang/fictionist-skill",
     "https://github.com/zaphodsdad/GhostWriter3000",
+    "https://github.com/ARMANDSnow/make-ur-Agent-writer",
+    "https://github.com/qiyan233/inkos-like-novel-os",
+    "https://github.com/a9549521/chronicler",
+    "https://github.com/wgwtest/novel-writing",
+    "https://github.com/HZ-KMNO/web-novel-tutorial-curation-skill",
+    "https://github.com/981029l/webnovel-writer",
+    "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1330,6 +1344,13 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("markdown_ink_export_validation_gate", ("story writer skill", "markdown is the source of truth", "ink", "inkjs", "exports/", "proposal", "accepted", "story-bible.md", "decisions.md", "open-questions.md")),
     ("file_backed_promise_ledger_audit_gate", ("fictionist skill", "story bible", "canon ledger", "promise ledger", "decision log", "continue chapters only after rereading", "post-write audit", "continuity keeper", "file-backed project manager")),
     ("critique_revision_series_memory_gate", ("ghostwriter 3000", "critique-revision loop", "series memory", "continuity tracking", "openrouter", "300+ llm models", "chapter navigation", "project stats", "outline sidebar")),
+    ("mock_first_multi_agent_continuation_gate", ("multi-agent llm pipeline", "多 agent 长篇小说续写流水线", "19 轮迭代", "mock-first", "write-readiness", "write-book", "reviewer 团", "panel_score", "estimate-cost", "一本书一个 workspace", "读入一部已出版的小说")),
+    ("truth_file_write_next_state_update_gate", ("truth files", "write-next", "extract-state", "state-update", "revise", "workflow skill", "长期可维护", "状态管理", "连续性审计", "下一章上下文")),
+    ("author_control_context_assembly_gate", ("context assembly", "上下文组装", "facts table", "多级摘要", "只勾选相关条目", "作者自行组织", "人机协作", "情节判断", "风格把控", "求稳策略")),
+    ("craft_scene_concrete_finding_revision_gate", ("concrete findings", "narrative function", "style-bearing", "realism constraints", "access limits", "vague workshop-style feedback", "scene continuation", "protect style-bearing material")),
+    ("tutorial_case_library_curation_gate", ("tutorial curation", "excellent-novel case libraries", "writing principles", "deduplicate by stable ids", "source category and writing task", "validate counts", "教程资料", "优秀小说案例库")),
+    ("anti_hallucination_strand_weave_review_gate", ("防幻觉三定律", "大纲即法律", "设定即物理", "发明需识别", "strand weave", "quest", "fire", "constellation", "双 agent", "五维并行审查", "200 万字")),
+    ("ai_flavor_template_shell_cleanup_gate", ("remove-ai-flavor", "去 ai 味", "去 AI 味", "不是...而是", "真正...的是", "助手路标词", "段落同构", "假互动结尾", "template sentence shells", "fake engagement endings")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3578,6 +3599,34 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Pattern-only adaptation for critique-revision, series-memory, and model-choice boundary gates; Docker, backend/frontend runtime, provider calls, OpenRouter keys, local data, screenshots, and generated prose are not launched or imported."
     ),
 
+    "armandsnow/make-ur-agent-writer": (
+        "Continuator is a NOASSERTION-license multi-agent long-form continuation pipeline. Static README/root markers describe source novel normalization, chapter splitting, entity/setting extraction, knowledge-base compression, agent debate, N-chapter planning, per-chapter generation, reviewer-linter gates, mock-first tests, write-readiness/write-book CLI, per-book workspaces, token/cost estimates, and fail-closed reviewer JSON handling. "
+        "Pattern-only adaptation for mock-first multi-agent continuation readiness; original novel corpora, outputs/logs, shell scripts, requirements, provider/API-key flows, web UI, and local workspaces are not imported, installed, or executed."
+    ),
+    "qiyan233/inkos-like-novel-os": (
+        "inkos-like-novel-os is an MIT OpenClaw long-form novel workflow skill skeleton. Public README/root markers describe truth files, write-next work packages, revise loops, extract-state/state-update, state management, continuity audits, snapshots, output contracts, and long-running multi-chapter maintenance inspired by InkOS. "
+        "Pattern-only adaptation for truth-file next-chapter packages and state write-back gates; OpenClaw/skill install, scripts, examples, and generated story files are not imported or executed."
+    ),
+    "a9549521/chronicler": (
+        "Chronicler is a no-license-observed Chinese long-form AI writing workbench. Public README/root markers describe author-control context assembly, multi-level summaries, Facts Table for character/world/key-event/revealed-information state, Lore category entries, selective lore injection, outline ranges, and manual author decision authority rather than one-click generation. "
+        "Pattern-only adaptation for author-controlled context assembly and facts-table gates; packaged Windows binaries, backend/frontend runtime, API settings, prompts, models, scripts, local manuscripts, and database state are not launched or imported."
+    ),
+    "wgwtest/novel-writing": (
+        "novel-writing is an MIT Codex fiction skill. Public README markers describe fiction planning, chapter drafting, scene continuation, revision, concrete narrative findings, narrative function, protecting style-bearing material, realism/access limits, and non-vague craft feedback. "
+        "Pattern-only adaptation for craft-scene findings and style-preserving revision gates; Codex skill install, copied skill bodies, assets, and release packaging are not imported or executed."
+    ),
+    "hz-kmno/web-novel-tutorial-curation-skill": (
+        "web-novel-tutorial-curation-skill is an MIT AI-agent skill for web-novel tutorial and excellent-novel case-library curation. Public README markers describe detecting HTML/DOM/API/script/document sources, list-before-detail extraction, stable-id dedupe, low-text/template checks, summarizing writing principles instead of copying articles, case analysis for reader promise/conflict/structure/pressure/suspense/style/payoff, Markdown/JSON library output, classification, and validation. "
+        "Pattern-only adaptation for tutorial/case-library intake gates; skill install, scraping/browser/runtime extraction, copyrighted tutorial bodies, case text, and local documents are not imported."
+    ),
+    "981029l/webnovel-writer": (
+        "webnovel-writer is a no-license-observed Claude Code long webnovel system. Public README/root markers describe solving forgetting and hallucination for 2M-word serials, anti-hallucination laws, outline-as-law, setting-as-physics, new-entity identification, Strand Weave quest/fire/constellation rhythm, dual-agent architecture, five-dimensional parallel review, RAG retrieval, genre templates, and recovery. "
+        "Pattern-only adaptation for anti-hallucination, strand-weave, dual-agent, and parallel-review gates; upstream env/API key examples, .env files, Claude Code runtime, backend/frontend services, scripts, provider calls, and project data are not read beyond sanitized public markers or executed."
+    ),
+    "b1lli/remove-ai-flavor-writing-skill": (
+        "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
+        "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -4347,6 +4396,13 @@ class NovelSourceDiscoveryService:
             "markdown_ink_export_validation_gate_hints": self._build_markdown_ink_export_validation_gate_hints(available_patterns),
             "file_backed_promise_ledger_audit_gate_hints": self._build_file_backed_promise_ledger_audit_gate_hints(available_patterns),
             "critique_revision_series_memory_gate_hints": self._build_critique_revision_series_memory_gate_hints(available_patterns),
+            "mock_first_multi_agent_continuation_gate_hints": self._build_mock_first_multi_agent_continuation_gate_hints(available_patterns),
+            "truth_file_write_next_state_update_gate_hints": self._build_truth_file_write_next_state_update_gate_hints(available_patterns),
+            "author_control_context_assembly_gate_hints": self._build_author_control_context_assembly_gate_hints(available_patterns),
+            "craft_scene_concrete_finding_revision_gate_hints": self._build_craft_scene_concrete_finding_revision_gate_hints(available_patterns),
+            "tutorial_case_library_curation_gate_hints": self._build_tutorial_case_library_curation_gate_hints(available_patterns),
+            "anti_hallucination_strand_weave_review_gate_hints": self._build_anti_hallucination_strand_weave_review_gate_hints(available_patterns),
+            "ai_flavor_template_shell_cleanup_gate_hints": self._build_ai_flavor_template_shell_cleanup_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5151,6 +5207,13 @@ class NovelSourceDiscoveryService:
             "markdown_ink_export_validation_gate": 69,
             "file_backed_promise_ledger_audit_gate": 72,
             "critique_revision_series_memory_gate": 70,
+            "mock_first_multi_agent_continuation_gate": 74,
+            "truth_file_write_next_state_update_gate": 72,
+            "author_control_context_assembly_gate": 70,
+            "craft_scene_concrete_finding_revision_gate": 68,
+            "tutorial_case_library_curation_gate": 66,
+            "anti_hallucination_strand_weave_review_gate": 73,
+            "ai_flavor_template_shell_cleanup_gate": 67,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5413,6 +5476,27 @@ class NovelSourceDiscoveryService:
         if "critique_revision_series_memory_gate" in patterns:
             targets.append("critique_revision_loop_policy")
             targets.append("series_memory_model_boundary_policy")
+        if "mock_first_multi_agent_continuation_gate" in patterns:
+            targets.append("mock_first_readiness_policy")
+            targets.append("multi_agent_reviewer_linter_policy")
+        if "truth_file_write_next_state_update_gate" in patterns:
+            targets.append("truth_file_state_update_policy")
+            targets.append("write_next_package_policy")
+        if "author_control_context_assembly_gate" in patterns:
+            targets.append("author_control_context_policy")
+            targets.append("facts_table_selective_lore_policy")
+        if "craft_scene_concrete_finding_revision_gate" in patterns:
+            targets.append("craft_scene_finding_policy")
+            targets.append("style_bearing_revision_policy")
+        if "tutorial_case_library_curation_gate" in patterns:
+            targets.append("tutorial_case_library_policy")
+            targets.append("craft_principle_summary_policy")
+        if "anti_hallucination_strand_weave_review_gate" in patterns:
+            targets.append("anti_hallucination_law_policy")
+            targets.append("strand_weave_review_policy")
+        if "ai_flavor_template_shell_cleanup_gate" in patterns:
+            targets.append("ai_flavor_shell_cleanup_policy")
+            targets.append("prose_naturalization_style_preservation_policy")
         if "local_first_novel_workspace" in patterns:
             targets.append("workspace_scope")
             targets.append("project_local_state")
@@ -6685,6 +6769,20 @@ class NovelSourceDiscoveryService:
             targets.extend(["promise_ledger_payoff_report", "decision_log_continuity_report", "post_write_audit_findings"])
         if "critique_revision_series_memory_gate" in patterns:
             targets.extend(["critique_revision_loop_report", "series_memory_continuity_report", "model_choice_boundary_report"])
+        if "mock_first_multi_agent_continuation_gate" in patterns:
+            targets.extend(["write_readiness_preflight_report", "reviewer_panel_cost_trace", "workspace_isolation_manifest"])
+        if "truth_file_write_next_state_update_gate" in patterns:
+            targets.extend(["truth_file_state_update_report", "write_next_context_package_audit", "revision_snapshot_report"])
+        if "author_control_context_assembly_gate" in patterns:
+            targets.extend(["author_context_selection_report", "facts_table_lore_injection_audit", "outline_range_focus_report"])
+        if "craft_scene_concrete_finding_revision_gate" in patterns:
+            targets.extend(["craft_finding_resolution_report", "style_bearing_revision_audit", "realism_access_limit_report"])
+        if "tutorial_case_library_curation_gate" in patterns:
+            targets.extend(["tutorial_case_library_manifest", "craft_principle_validation_report", "excellent_case_payoff_analysis"])
+        if "anti_hallucination_strand_weave_review_gate" in patterns:
+            targets.extend(["anti_hallucination_law_report", "strand_weave_balance_report", "dual_agent_parallel_review_report"])
+        if "ai_flavor_template_shell_cleanup_gate" in patterns:
+            targets.extend(["ai_flavor_shell_cleanup_report", "prose_naturalization_trace", "template_repetition_audit"])
         if "author_note_layer" in patterns:
             targets.extend(["author_note_layer", "style_directive_layer", "insertion_frequency"])
         if "world_state_tracking" in patterns:
@@ -7624,6 +7722,20 @@ class NovelSourceDiscoveryService:
             hints.append("Before continuation, reread story bible, canon ledger, timeline, promise ledger, and decision log; after writing, run a post-write audit.")
         if "critique_revision_series_memory_gate" in patterns:
             hints.append("Use critique-revision as a loop with explicit series-memory evidence, continuity findings, revision scope, and model/provider boundary.")
+        if "mock_first_multi_agent_continuation_gate" in patterns:
+            hints.append("Before long-form continuation, require a write-readiness packet that proves workspace isolation, source rights boundary, mock-first verification, reviewer quorum, and cost budget.")
+        if "truth_file_write_next_state_update_gate" in patterns:
+            hints.append("Build a write-next package from truth files, current state, unresolved threads, and snapshot id; only accepted chapters may trigger state-update.")
+        if "author_control_context_assembly_gate" in patterns:
+            hints.append("Assemble context under author control: nearest raw chapters, compressed summaries, selected lore, facts table, and an explicit list of excluded context.")
+        if "craft_scene_concrete_finding_revision_gate" in patterns:
+            hints.append("Review scene drafts with concrete narrative findings, locations, realism/access limits, and style-bearing details before rewriting.")
+        if "tutorial_case_library_curation_gate" in patterns:
+            hints.append("Use tutorial/case libraries as abstract craft principles with source ids, validation counts, and no copied tutorial body or case prose.")
+        if "anti_hallucination_strand_weave_review_gate" in patterns:
+            hints.append("Enforce outline-as-law, setting-as-physics, new-entity identification, strand-weave balance, and parallel review before accepting serial chapters.")
+        if "ai_flavor_template_shell_cleanup_gate" in patterns:
+            hints.append("After continuity approval, run a narrow prose pass that removes AI-like template shells while preserving facts, tone, voice, and scene intent.")
         if "author_note_layer" in patterns:
             hints.append("Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.")
         if "workflow_agent_pipeline" in patterns:
@@ -12781,6 +12893,69 @@ class NovelSourceDiscoveryService:
             "OpenRouter/API keys, Docker, backend/frontend runtime, and local project data stay deferred during static intake.",
         ]
 
+    def _build_mock_first_multi_agent_continuation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "mock_first_multi_agent_continuation_gate" not in patterns:
+            return []
+        return [
+            "Long-form continuation should fail closed until write-readiness proves workspace isolation, source-rights boundary, mock-first tests, reviewer quorum, and cost budget.",
+            "Separate normalize, chapter split, entity/setting extraction, knowledge compression, debate, planning, drafting, reviewer lint, and author acceptance into traceable stages.",
+            "Original corpora, workspaces, logs, web UI, shell scripts, requirements, provider keys, and model calls stay deferred during static intake.",
+        ]
+
+    def _build_truth_file_write_next_state_update_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "truth_file_write_next_state_update_gate" not in patterns:
+            return []
+        return [
+            "Truth files, chapter summaries, current state, unresolved promises, and snapshot id should be read into a write-next work package before drafting.",
+            "Revise and state-update are separate gates: revisions change a candidate draft; accepted chapters alone can update long-term state.",
+            "Skill install, OpenClaw runtime, scripts, examples, and generated story files remain deferred static-review surfaces.",
+        ]
+
+    def _build_author_control_context_assembly_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "author_control_context_assembly_gate" not in patterns:
+            return []
+        return [
+            "Context assembly should expose which raw chapters, summary layers, fact rows, lore entries, and outline ranges were selected or excluded.",
+            "Facts Table updates should distinguish character state, world state, key events, and revealed information before any chapter review.",
+            "Packaged binaries, backend/frontend services, API settings, local manuscripts, prompts, models, and database state stay deferred.",
+        ]
+
+    def _build_craft_scene_concrete_finding_revision_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "craft_scene_concrete_finding_revision_gate" not in patterns:
+            return []
+        return [
+            "Craft review should name concrete narrative function, location, failure mode, realism/access limit, and style-bearing detail before revision.",
+            "Scene continuation should avoid summary collapse by preserving active pressure, sensory specificity, voice, and decision consequences.",
+            "Skill bodies, install commands, assets, and release packaging are reference-only and are not imported into MuMuAINovel.",
+        ]
+
+    def _build_tutorial_case_library_curation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "tutorial_case_library_curation_gate" not in patterns:
+            return []
+        return [
+            "Tutorial and excellent-case libraries should keep source ids, extraction dates, template/API limits, dedupe keys, and validation counts.",
+            "Summaries become abstract craft principles and case dimensions such as promise, conflict, pressure, suspense, style, and payoff; raw bodies do not enter prompts.",
+            "Scraping, browser/API extraction, copyrighted tutorial text, case prose, and local document ingestion stay runtime-deferred.",
+        ]
+
+    def _build_anti_hallucination_strand_weave_review_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_hallucination_strand_weave_review_gate" not in patterns:
+            return []
+        return [
+            "Serial chapters should pass outline-as-law, setting-as-physics, and new-entity identification checks before memory write-back.",
+            "Strand Weave review should track Quest, Fire, and Constellation balance without copying upstream labels into target canon.",
+            "Credential-like README examples, .env files, Claude Code runtime, services, scripts, provider calls, and project data stay excluded.",
+        ]
+
+    def _build_ai_flavor_template_shell_cleanup_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ai_flavor_template_shell_cleanup_gate" not in patterns:
+            return []
+        return [
+            "AI-flavor cleanup is a narrow final prose pass: remove template shells, signposts, paragraph isomorphism, and fake engagement while preserving meaning and voice.",
+            "Naturalization should produce explicit before/after edit spans and never weaken continuity, facts, tone, or scene intent.",
+            "Upstream skill bodies, prompt text, tests, scripts, agents, and install flows remain reference-only.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -12846,6 +13021,20 @@ class NovelSourceDiscoveryService:
             targets.append("promise_decision_audit_remap")
         if "critique_revision_series_memory_gate" in patterns:
             targets.append("critique_revision_series_memory_remap")
+        if "mock_first_multi_agent_continuation_gate" in patterns:
+            targets.append("multi_agent_continuation_pipeline_remap")
+        if "truth_file_write_next_state_update_gate" in patterns:
+            targets.append("truth_file_state_update_remap")
+        if "author_control_context_assembly_gate" in patterns:
+            targets.append("author_context_selection_remap")
+        if "craft_scene_concrete_finding_revision_gate" in patterns:
+            targets.append("craft_finding_revision_remap")
+        if "tutorial_case_library_curation_gate" in patterns:
+            targets.append("tutorial_principle_case_remap")
+        if "anti_hallucination_strand_weave_review_gate" in patterns:
+            targets.append("strand_weave_anti_hallucination_remap")
+        if "ai_flavor_template_shell_cleanup_gate" in patterns:
+            targets.append("ai_flavor_shell_cleanup_remap")
         if "card_workbench" in patterns:
             targets.append("card_schema_remap")
         if "manuscript_card_board_extraction_gate" in patterns:
@@ -13707,6 +13896,20 @@ class NovelSourceDiscoveryService:
             "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
             "Generate an independent new story with new names, organizations, event chain, core conflict, and world rules.",
         ]
+        if "mock_first_multi_agent_continuation_gate" in patterns:
+            hints.append("Prompt from pipeline roles as abstract duties: planner, drafter, reviewer, linter, budget auditor, and author gate; do not reuse upstream role wording or source-book facts.")
+        if "truth_file_write_next_state_update_gate" in patterns:
+            hints.append("Prompt with target truth-file ids, snapshot id, unresolved thread ids, and state-update schema; raw source examples stay outside drafting context.")
+        if "author_control_context_assembly_gate" in patterns:
+            hints.append("Prompt only with author-selected lore, fact rows, and summary layers; include an excluded-context list to prevent accidental source drift.")
+        if "craft_scene_concrete_finding_revision_gate" in patterns:
+            hints.append("Prompt scene review to return concrete findings with locations, narrative function, realism/access limits, and style-bearing details before asking for rewrite.")
+        if "tutorial_case_library_curation_gate" in patterns:
+            hints.append("Prompt tutorial/case lessons as principle ids and case-dimension tags, not as copied article text or benchmark-novel prose.")
+        if "anti_hallucination_strand_weave_review_gate" in patterns:
+            hints.append("Prompt serial review with outline-law, setting-physics, new-entity, and strand-balance checks tied to the target book's accepted canon.")
+        if "ai_flavor_template_shell_cleanup_gate" in patterns:
+            hints.append("Prompt AI-flavor cleanup as a constrained edit pass with preserved facts, preserved tone, and explicit removed template-shell categories.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -14410,6 +14613,20 @@ class NovelSourceDiscoveryService:
             hints.append("Transform story-bible files, canon ledger rows, promise/payoff records, decision-log entries, and post-write audit categories for the target work.")
         if "critique_revision_series_memory_gate" in patterns:
             hints.append("Transform critique prompts, revision scopes, series-memory keys, continuity checks, and model-boundary labels before revising the target chapter.")
+        if "mock_first_multi_agent_continuation_gate" in patterns:
+            hints.append("Transform multi-agent continuation stages into new project stage ids, reviewer criteria, cost budgets, and author-acceptance gates before drafting.")
+        if "truth_file_write_next_state_update_gate" in patterns:
+            hints.append("Transform truth files and state-update schemas into target-specific canon fields, unresolved-thread records, and snapshot names.")
+        if "author_control_context_assembly_gate" in patterns:
+            hints.append("Transform context assembly into explicit selected/excluded context manifests so source lore, fact rows, or outline ranges do not leak into new canon.")
+        if "craft_scene_concrete_finding_revision_gate" in patterns:
+            hints.append("Transform craft findings into target-scene fixes with new characters, pressure sources, access limits, and style-bearing details.")
+        if "tutorial_case_library_curation_gate" in patterns:
+            hints.append("Transform tutorial and case-library lessons into abstract craft rules, not quoted examples, source plot labels, or copied case structures.")
+        if "anti_hallucination_strand_weave_review_gate" in patterns:
+            hints.append("Transform anti-hallucination and strand-weave checks into target outline, setting, entity, and rhythm policies without copying upstream slogans as canon.")
+        if "ai_flavor_template_shell_cleanup_gate" in patterns:
+            hints.append("Transform AI-flavor cleanup into a project-local prose lint pass; never use naturalization to mask source-copy overlap.")
         if "emotion_arc" in patterns:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
         if "card_workbench" in patterns:
@@ -15737,6 +15954,20 @@ class NovelSourceDiscoveryService:
             hints.append("Reject promise ledgers or decision logs that replay source setups, payoff windows, relationship states, or post-write findings under new names.")
         if "critique_revision_series_memory_gate" in patterns:
             hints.append("Reject critique-revision loops that reward source resemblance, copy series-memory keys, or let provider choice hide continuity evidence.")
+        if "mock_first_multi_agent_continuation_gate" in patterns:
+            hints.append("Reject continuation packages that ingest copyrighted source chunks, copy source workspace ids, or treat reviewer/linter scores as authorization to imitate prose.")
+        if "truth_file_write_next_state_update_gate" in patterns:
+            hints.append("Reject truth-file updates that promote source examples, upstream snapshot names, or unaccepted draft state into target canon.")
+        if "author_control_context_assembly_gate" in patterns:
+            hints.append("Reject context packs that hide source lore, author notes, or fact-table rows inside selected context without author-visible boundaries.")
+        if "craft_scene_concrete_finding_revision_gate" in patterns:
+            hints.append("Reject craft revisions that preserve source scene function, access constraints, or style-bearing phrases while only renaming the cast.")
+        if "tutorial_case_library_curation_gate" in patterns:
+            hints.append("Reject tutorial/case-library reuse when article bodies, benchmark novel passages, or distinctive payoff structures enter the prompt instead of abstract principles.")
+        if "anti_hallucination_strand_weave_review_gate" in patterns:
+            hints.append("Reject strand-weave reviews that keep source Quest/Fire/Constellation event order, original entity names, or credential-like README artifacts.")
+        if "ai_flavor_template_shell_cleanup_gate" in patterns:
+            hints.append("Reject AI-flavor cleanup that only smooths copied spans; run source-overlap review before accepting naturalized prose.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
         if "scene_card_hard_soft_field_gate" in patterns:

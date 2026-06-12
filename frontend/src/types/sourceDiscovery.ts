@@ -354,6 +354,13 @@ export interface SourceDiscoveryPatternPack {
   markdown_ink_export_validation_gate_hints?: string[];
   file_backed_promise_ledger_audit_gate_hints?: string[];
   critique_revision_series_memory_gate_hints?: string[];
+  mock_first_multi_agent_continuation_gate_hints?: string[];
+  truth_file_write_next_state_update_gate_hints?: string[];
+  author_control_context_assembly_gate_hints?: string[];
+  craft_scene_concrete_finding_revision_gate_hints?: string[];
+  tutorial_case_library_curation_gate_hints?: string[];
+  anti_hallucination_strand_weave_review_gate_hints?: string[];
+  ai_flavor_template_shell_cleanup_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

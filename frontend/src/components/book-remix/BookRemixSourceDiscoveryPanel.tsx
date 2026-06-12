@@ -86,6 +86,13 @@ const PINNED_HINT_KEYS = new Set([
   'markdown_ink_export_validation_gate_hints',
   'file_backed_promise_ledger_audit_gate_hints',
   'critique_revision_series_memory_gate_hints',
+  'mock_first_multi_agent_continuation_gate_hints',
+  'truth_file_write_next_state_update_gate_hints',
+  'author_control_context_assembly_gate_hints',
+  'craft_scene_concrete_finding_revision_gate_hints',
+  'tutorial_case_library_curation_gate_hints',
+  'anti_hallucination_strand_weave_review_gate_hints',
+  'ai_flavor_template_shell_cleanup_gate_hints',
   'self_review_gate_hints',
   'chapter_change_package_hints',
   'bookrun_audit_trail_gate_hints',
@@ -928,6 +935,13 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Markdown Ink export validation gates', patternPackPayload?.markdown_ink_export_validation_gate_hints],
               ['File-backed promise ledger audit gates', patternPackPayload?.file_backed_promise_ledger_audit_gate_hints],
               ['Critique-revision series-memory gates', patternPackPayload?.critique_revision_series_memory_gate_hints],
+              ['Mock-first multi-agent continuation gates', patternPackPayload?.mock_first_multi_agent_continuation_gate_hints],
+              ['Truth-file write-next state-update gates', patternPackPayload?.truth_file_write_next_state_update_gate_hints],
+              ['Author-control context assembly gates', patternPackPayload?.author_control_context_assembly_gate_hints],
+              ['Craft-scene concrete-finding revision gates', patternPackPayload?.craft_scene_concrete_finding_revision_gate_hints],
+              ['Tutorial case-library curation gates', patternPackPayload?.tutorial_case_library_curation_gate_hints],
+              ['Anti-hallucination strand-weave review gates', patternPackPayload?.anti_hallucination_strand_weave_review_gate_hints],
+              ['AI-flavor template-shell cleanup gates', patternPackPayload?.ai_flavor_template_shell_cleanup_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>
