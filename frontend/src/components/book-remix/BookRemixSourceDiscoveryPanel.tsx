@@ -846,6 +846,12 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Work corpus reindex autopilot gates', patternPackPayload?.work_corpus_reindex_autopilot_gate_hints],
               ['Memoir story-spine consensus gates', patternPackPayload?.memoir_story_spine_consensus_grounding_gate_hints],
               ['Map/reduce factual-anchor adaptation gates', patternPackPayload?.map_reduce_factual_anchor_adaptation_gate_hints],
+              ['Platform genre style-stamp gates', patternPackPayload?.platform_genre_style_stamp_gate_hints],
+              ['Chapter packet promise-debt gates', patternPackPayload?.chapter_packet_promise_debt_audit_gate_hints],
+              ['Webnovel state-machine graph gates', patternPackPayload?.webnovel_state_machine_knowledge_graph_gate_hints],
+              ['Story Knowledge Layer SOT gates', patternPackPayload?.story_knowledge_layer_sot_adaptation_gate_hints],
+              ['Local snapshot backup/export gates', patternPackPayload?.local_snapshot_backup_export_gate_hints],
+              ['Continuity passport drift-repair gates', patternPackPayload?.continuity_passport_drift_repair_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

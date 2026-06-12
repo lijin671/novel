@@ -247,6 +247,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "work_corpus_reindex_autopilot_gate_hints",
             "memoir_story_spine_consensus_grounding_gate_hints",
             "map_reduce_factual_anchor_adaptation_gate_hints",
+            "platform_genre_style_stamp_gate_hints",
+            "chapter_packet_promise_debt_audit_gate_hints",
+            "webnovel_state_machine_knowledge_graph_gate_hints",
+            "story_knowledge_layer_sot_adaptation_gate_hints",
+            "local_snapshot_backup_export_gate_hints",
+            "continuity_passport_drift_repair_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -504,6 +510,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Work corpus reindex autopilot gates" in panel_text
     assert "Memoir story-spine consensus gates" in panel_text
     assert "Map/reduce factual-anchor adaptation gates" in panel_text
+    assert "Platform genre style-stamp gates" in panel_text
+    assert "Chapter packet promise-debt gates" in panel_text
+    assert "Webnovel state-machine graph gates" in panel_text
+    assert "Story Knowledge Layer SOT gates" in panel_text
+    assert "Local snapshot backup/export gates" in panel_text
+    assert "Continuity passport drift-repair gates" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():

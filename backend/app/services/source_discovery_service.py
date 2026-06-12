@@ -392,6 +392,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("King Context" OR "work corpus" OR "append chapter memory") ("story factory" OR "specialist research corpora" OR "reindex") in:name,description,readme',
     '("Story Spine First" OR "3-Tier Grounding Rule" OR "self-correcting consensus drafting") ("memoir" OR "ghostwriter" OR "factual auditor") in:name,description,readme',
     '("Novel Text" OR "Factual Anchors" OR "Fidelity Check") ("Story Bible" OR "YAML Screenplay Export" OR "schema validate") in:name,description,readme',
+    '("MoZhan" OR "文风印记" OR "四步构思向导") ("中文长篇网文" OR "AI 创作 Skill" OR "发布平台") in:name,description,readme',
+    '("chapter-packet contract" OR "promise ledger" OR "revision-debt store") ("AI Writers Room" OR "novel-length fiction") in:name,description,readme',
+    '("Novel Skill Master" OR "阶段机" OR "12 个 Skill") ("百万字" OR "知识图谱" OR "网文") in:name,description,readme',
+    '("Story Knowledge Layer" OR "Knowledge First, Generation Second" OR "Single Source of Truth") ("novel" OR "screenplay" OR "剧本") in:name,description,readme',
+    '("Logosforge" OR "version snapshots" OR "Backup & Restore") ("narrative operating system" OR "structured writing") in:name,description,readme',
+    '("Continuity Passport" OR "strict-mode rules" OR "drift detection/repair") ("long-range" OR "multi-session" OR "chain-of-custody") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -844,6 +850,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/CZ0012/storygraph-agent",
     "https://github.com/Vadelo/story-factory",
     "https://github.com/Tomwfoot/scribe",
+    "https://github.com/zreo996/mozhan--",
+    "https://github.com/DinomyteHero/AI_Novel_Writing_Room",
+    "https://github.com/waterha/novel-skill-master",
+    "https://github.com/RZengXpy/story_wiki",
+    "https://github.com/fopearcano/storyplanner",
+    "https://github.com/KKiethJackson/CXS",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1198,6 +1210,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("work_corpus_reindex_autopilot_gate", ("king context", "story-factory", "work corpus", "append chapter memory", "reindex the work corpus", "specialist research corpora", "craft corpora", "work memory remains canon")),
     ("memoir_story_spine_consensus_grounding_gate", ("scribe", "story spine first", "3-tier grounding rule", "self-correcting consensus drafting", "factual auditor", "style auditor", "surgical fixer", "minimum change principle")),
     ("map_reduce_factual_anchor_adaptation_gate", ("novel to screenplay ai", "chapter analysis", "factual anchors", "fidelity check", "schema validate", "yaml screenplay export", "map-reduce", "directed repair")),
+    ("platform_genre_style_stamp_gate", ("mozhan", "文风印记", "four-step ideation", "四步构思向导", "12 大题材", "十二大题材", "九大发布平台", "platform_profiles", "ai 创作 skill")),
+    ("chapter_packet_promise_debt_audit_gate", ("ai writers' room", "ai writers room", "single chapter-packet contract", "chapter-packet contract", "promise ledger", "revision-debt store", "per-run output isolation", "prompt + ledger snapshots", "author-led planning")),
+    ("webnovel_state_machine_knowledge_graph_gate", ("novel skill master", "5 大阶段", "12 个 skill", "state machine", "阶段机", "状态机", "百万字", "知识图谱", "pace control", "反向刹车校验")),
+    ("story_knowledge_layer_sot_adaptation_gate", ("story knowledge layer", "knowledge first", "generation second", "single source of truth", "extract, merge, dedupe, govern", "禁止任何模块直接回头读原始小说文本", "skl")),
+    ("local_snapshot_backup_export_gate", ("logosforge", "narrative operating system", "version snapshots", "backup & restore", "data safety", "export json / full project", "local sqlite database", "automatic version snapshots")),
+    ("continuity_passport_drift_repair_gate", ("continuity passport", "strict-mode rules", "drift detection/repair", "drift detection", "chain-of-custody", "multi-session", "cxs")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3269,6 +3287,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Scribe is an agentic memoir generation engine. Public README markers describe MCP/server runtime, structured memory harvesting, Story Bible curation, prose style calibration, Story Spine First fact hierarchy, 3-Tier Grounding Rule, multi-agent consensus drafting, factual auditor, style auditor, surgical fixer, minimum-change repair, author-memory style calibration, context uploads, and DOCX compilation. "
         "Pattern-only adaptation for fact-first memoir/source continuation and consensus grounding gates; MCP server/runtime, uploads, provider calls, document compilation, and personal reference ingestion are not executed."
     ),
+    "zreo996/mozhan--": (
+        "MoZhan is a MIT Chinese long-form webnovel Skill. Public README markers describe twelve genres, nine publishing-platform profiles, style-stamp injection, four-step ideation guidance, tests, a zipped release artifact, and Claude/GPT/DeepSeek Web UI connection surfaces. "
+        "Pattern-only adaptation for platform/genre style-stamp gates and Chinese webnovel ideation rails; ZIPs, UI runtime, skill install, prompt bodies, generated prose, provider keys, and model calls are not imported or executed."
+    ),
+    "dinomytehero/ai_novel_writing_room": (
+        "AI Writers' Room is an experimental multi-agent system for novel-length fiction. Public README markers describe author-led planning, a lean scene drafting pass, a single chapter-packet contract, promise ledger, revision-debt store, scene cards, per-run output isolation, and full prompt plus ledger snapshots. "
+        "Pattern-only adaptation for chapter-packet, promise-ledger, revision-debt, and run-audit gates; upstream AGENTS/CLAUDE instructions, prompts, schemas, provider/API-key flows, and generation runtime are not imported or executed."
+    ),
+    "waterha/novel-skill-master": (
+        "Novel Skill Master is a MIT Chinese webnovel skill suite. Public README markers describe five stages, twelve sub-skills, three workflow modes, a stage/state machine, project health diagnosis, Anti-AI checks, pacing control, event matrix, reverse-brake validation, RAG retrieval, and a knowledge graph for million-word consistency. "
+        "Pattern-only adaptation for webnovel state-machine and knowledge-graph gates; Claude skill installation, Python tools, RAG/indexing, generated manuscripts, prompt bodies, and runtime automation are not imported or executed."
+    ),
+    "rzengxpy/story_wiki": (
+        "StoryForge / story_wiki is a no-license-observed AI screenplay workbench. Public README markers describe a Story Knowledge Layer, Knowledge First / Generation Second philosophy, global Single Source of Truth, extraction/merge/deduplication/governance of characters, scenes, events and relationships, and a rule that generation should not reread raw source novel text. "
+        "Pattern-only adaptation for source-novel knowledge-layer and SOT adaptation gates; requirements installs, agents, UI/runtime, source text, demos, and provider/model calls are not imported or executed."
+    ),
+    "fopearcano/storyplanner": (
+        "Logosforge / storyplanner is a no-license-observed narrative operating system for structured writing. Public README markers describe a local SQLite backend, autosaved project files, automatic version snapshots, export to JSON or Full Project, Backup & Restore / Data Safety docs, structural awareness, and alpha data-safety warnings. "
+        "Pattern-only adaptation for local snapshot, backup, export, and restore gates; PySide6 runtime, scripts, plugins, database files, author manuscripts, and AI/provider calls are not launched or imported."
+    ),
+    "kkiethjackson/cxs": (
+        "CXS is a no-license-asserted continuity standard for long-range, multi-session LLM reasoning. Public README/API markers describe a Continuity Passport, strict-mode rules, drift detection/repair, chain-of-custody, and validation across continuity tests. "
+        "Pattern-only adaptation for continuity-passport drift and repair gates; specs, validation suites, prompt bodies, training claims, and runtime agents are not imported or executed."
+    ),
 
 }
 
@@ -3995,6 +4037,12 @@ class NovelSourceDiscoveryService:
             "work_corpus_reindex_autopilot_gate_hints": self._build_work_corpus_reindex_autopilot_gate_hints(available_patterns),
             "memoir_story_spine_consensus_grounding_gate_hints": self._build_memoir_story_spine_consensus_grounding_gate_hints(available_patterns),
             "map_reduce_factual_anchor_adaptation_gate_hints": self._build_map_reduce_factual_anchor_adaptation_gate_hints(available_patterns),
+            "platform_genre_style_stamp_gate_hints": self._build_platform_genre_style_stamp_gate_hints(available_patterns),
+            "chapter_packet_promise_debt_audit_gate_hints": self._build_chapter_packet_promise_debt_audit_gate_hints(available_patterns),
+            "webnovel_state_machine_knowledge_graph_gate_hints": self._build_webnovel_state_machine_knowledge_graph_gate_hints(available_patterns),
+            "story_knowledge_layer_sot_adaptation_gate_hints": self._build_story_knowledge_layer_sot_adaptation_gate_hints(available_patterns),
+            "local_snapshot_backup_export_gate_hints": self._build_local_snapshot_backup_export_gate_hints(available_patterns),
+            "continuity_passport_drift_repair_gate_hints": self._build_continuity_passport_drift_repair_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -4755,6 +4803,12 @@ class NovelSourceDiscoveryService:
             "work_corpus_reindex_autopilot_gate": 69,
             "memoir_story_spine_consensus_grounding_gate": 68,
             "map_reduce_factual_anchor_adaptation_gate": 68,
+            "platform_genre_style_stamp_gate": 68,
+            "chapter_packet_promise_debt_audit_gate": 72,
+            "webnovel_state_machine_knowledge_graph_gate": 70,
+            "story_knowledge_layer_sot_adaptation_gate": 71,
+            "local_snapshot_backup_export_gate": 67,
+            "continuity_passport_drift_repair_gate": 70,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5256,6 +5310,24 @@ class NovelSourceDiscoveryService:
         if "map_reduce_factual_anchor_adaptation_gate" in patterns:
             targets.append("factual_anchor_map_reduce_policy")
             targets.append("schema_fidelity_repair_policy")
+        if "platform_genre_style_stamp_gate" in patterns:
+            targets.append("platform_genre_style_stamp_policy")
+            targets.append("webnovel_reader_expectation_policy")
+        if "chapter_packet_promise_debt_audit_gate" in patterns:
+            targets.append("chapter_packet_promise_revision_debt_policy")
+            targets.append("run_isolation_audit_snapshot_policy")
+        if "webnovel_state_machine_knowledge_graph_gate" in patterns:
+            targets.append("webnovel_state_machine_knowledge_graph_policy")
+            targets.append("million_word_health_check_policy")
+        if "story_knowledge_layer_sot_adaptation_gate" in patterns:
+            targets.append("story_knowledge_layer_sot_policy")
+            targets.append("raw_source_text_no_reread_policy")
+        if "local_snapshot_backup_export_gate" in patterns:
+            targets.append("local_snapshot_backup_export_policy")
+            targets.append("experimental_workspace_data_safety_policy")
+        if "continuity_passport_drift_repair_gate" in patterns:
+            targets.append("continuity_passport_drift_repair_policy")
+            targets.append("cross_session_chain_of_custody_policy")
         if "offline_chapter_revision_export_gate" in patterns:
             targets.append("offline_chapter_document_boundary")
             targets.append("revision_export_checkpoint_policy")
@@ -6273,6 +6345,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["story_spine_grounding_report", "factual_style_auditor_consensus_log", "minimum_change_repair_trace"])
         if "map_reduce_factual_anchor_adaptation_gate" in patterns:
             targets.extend(["factual_anchor_coverage_report", "fidelity_check_repair_trace", "yaml_schema_validation_report"])
+        if "platform_genre_style_stamp_gate" in patterns:
+            targets.extend(["platform_genre_style_stamp_matrix", "reader_expectation_fit_report", "style_stamp_copy_risk_findings"])
+        if "chapter_packet_promise_debt_audit_gate" in patterns:
+            targets.extend(["chapter_packet_contract_report", "promise_revision_debt_ledger", "run_isolation_snapshot_manifest"])
+        if "webnovel_state_machine_knowledge_graph_gate" in patterns:
+            targets.extend(["webnovel_phase_state_machine_report", "knowledge_graph_pacing_health_report", "reverse_brake_batch_findings"])
+        if "story_knowledge_layer_sot_adaptation_gate" in patterns:
+            targets.extend(["story_knowledge_layer_governance_report", "single_source_of_truth_gap_log", "raw_source_reread_blocker_findings"])
+        if "local_snapshot_backup_export_gate" in patterns:
+            targets.extend(["local_backup_snapshot_manifest", "json_full_project_export_report", "restore_checkpoint_readiness_notes"])
+        if "continuity_passport_drift_repair_gate" in patterns:
+            targets.extend(["continuity_passport_drift_report", "repair_decision_chain_of_custody", "cross_session_handoff_debt_log"])
         if "offline_chapter_revision_export_gate" in patterns:
             targets.extend(["offline_revision_export_manifest", "chapter_isolation_version_history_findings", "export_format_checkpoint_notes"])
         if "multi_agent_outline_continuity_review_gate" in patterns:
@@ -7130,6 +7214,18 @@ class NovelSourceDiscoveryService:
             hints.append("Before memoir-like or source-faithful drafting, fill WHO/WHAT/WHEN/WHERE/WHY/SENSES facts and run factual plus style auditors before surgical repair.")
         if "map_reduce_factual_anchor_adaptation_gate" in patterns:
             hints.append("Before adaptation or screenplay export, map chapters to factual anchors, reduce them into a Story Bible, run fidelity repair, then validate the export schema.")
+        if "platform_genre_style_stamp_gate" in patterns:
+            hints.append("Before a Chinese webnovel continuation prompt, declare platform profile, genre promise, reader expectation, chapter length band, and abstract style-stamp axes.")
+        if "chapter_packet_promise_debt_audit_gate" in patterns:
+            hints.append("Before drafting a scene, compile the single chapter packet with scene card, promise ledger, revision debt, packet checksum, and run-audit destination.")
+        if "webnovel_state_machine_knowledge_graph_gate" in patterns:
+            hints.append("Before batch writing, cite the current phase/state, required next transition, knowledge-graph context, pacing health, and reverse-brake criteria.")
+        if "story_knowledge_layer_sot_adaptation_gate" in patterns:
+            hints.append("Before adaptation or source-faithful rewriting, build from governed Story Knowledge Layer nodes rather than rereading raw source prose as a hidden fallback.")
+        if "local_snapshot_backup_export_gate" in patterns:
+            hints.append("Before any bulk edit or AI rewrite, create or cite the autosave/version snapshot, export path, and restore checkpoint expected after the operation.")
+        if "continuity_passport_drift_repair_gate" in patterns:
+            hints.append("Before resuming across sessions, load the continuity passport version, active drift findings, accepted repairs, rejected repairs, and chain-of-custody notes.")
         if "character_knowledge_timeline_gate" in patterns:
             hints.append("Before drafting a POV scene, cite what the POV character, other key characters, and reader are allowed to know at this timeline point.")
         if "ideation_worksheet_foundation_gate" in patterns:
@@ -7687,6 +7783,18 @@ class NovelSourceDiscoveryService:
             hints.append("Persist story-spine fact fields, grounding tier, fact-auditor findings, style-auditor findings, surgical-fix diff, and author-confirmed uncertain dates.")
         if "map_reduce_factual_anchor_adaptation_gate" in patterns:
             hints.append("Persist source chapter ids, factual anchor ids, Story Bible merge checksum, fidelity findings, repair attempt id, schema validation result, and export checksum.")
+        if "platform_genre_style_stamp_gate" in patterns:
+            hints.append("Persist platform profile id, genre tag set, reader expectation notes, style-stamp version, platform mismatch warnings, and copy-risk review outcome.")
+        if "chapter_packet_promise_debt_audit_gate" in patterns:
+            hints.append("Persist chapter packet id, blueprint refs, scene card ids, promise-ledger deltas, revision-debt status, run snapshot path, and replay checksum.")
+        if "webnovel_state_machine_knowledge_graph_gate" in patterns:
+            hints.append("Persist phase/state transition, knowledge-graph delta ids, event matrix coverage, pacing diagnostics, anti-AI findings, and reverse-brake verdict.")
+        if "story_knowledge_layer_sot_adaptation_gate" in patterns:
+            hints.append("Persist extracted knowledge ids, merge/dedupe decisions, SOT checksum, forbidden raw-reread scope, unresolved gaps, and export/adaptation trace.")
+        if "local_snapshot_backup_export_gate" in patterns:
+            hints.append("Persist autosave id, snapshot id, JSON/full-project export path, restore checkpoint, backup age, and data-safety warning acknowledgement.")
+        if "continuity_passport_drift_repair_gate" in patterns:
+            hints.append("Persist continuity passport version, strict-mode result, drift ids, repair decision, custody trail, and cross-session unresolved debt.")
         if "chapter_split_deconstruction_export_gate" in patterns:
             hints.append("Persist import encoding, parser pattern, chapter ids, analysis status, retry count, prompt version, and exported JSON checksum for each拆书 pass.")
         if "final_prompt_preview_span_revision_gate" in patterns:
@@ -11649,6 +11757,60 @@ class NovelSourceDiscoveryService:
             "YAML or screenplay output is only accepted after schema validation and traceability from exported scenes back to source chapter anchors.",
         ]
 
+    def _build_platform_genre_style_stamp_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "platform_genre_style_stamp_gate" not in patterns:
+            return []
+        return [
+            "Before webnovel planning, lock genre, target platform, reader expectation, chapter length band, and allowed style-stamp axes separately.",
+            "Style-stamp injection should be a compact abstract profile, not copied sample prose; platform-specific memes and hooks need rights/copy-risk review.",
+            "For same-type continuation, re-answer the ideation guide with this project facts before drafting so platform tone does not override canon.",
+        ]
+
+    def _build_chapter_packet_promise_debt_audit_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_packet_promise_debt_audit_gate" not in patterns:
+            return []
+        return [
+            "Compile one inspectable chapter packet from blueprint, scene card, promise ledger, revision debt, and current canon before a drafting pass starts.",
+            "A scene draft should satisfy the packet on the first pass; retry loops should repair upstream planning or debt state instead of hiding weak contracts.",
+            "Every run needs output isolation with prompt, packet, ledger, and revision snapshots so a chapter can be replayed or rolled back.",
+        ]
+
+    def _build_webnovel_state_machine_knowledge_graph_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "webnovel_state_machine_knowledge_graph_gate" not in patterns:
+            return []
+        return [
+            "Model long webnovel production as phase + state transitions; block skipped steps such as concept -> draft without volume, unit, and chapter contracts.",
+            "Use a knowledge graph for characters, locations, factions, events, foreshadowing, and pace state before million-word continuation batches.",
+            "Health checks should include anti-AI prose risk, pace control, event matrix coverage, and reverse-brake findings before accepting a new batch.",
+        ]
+
+    def _build_story_knowledge_layer_sot_adaptation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_knowledge_layer_sot_adaptation_gate" not in patterns:
+            return []
+        return [
+            "Build a Story Knowledge Layer first: extract, merge, dedupe, and govern characters, scenes, events, and relationships before any adaptation draft.",
+            "Treat the governed knowledge layer as the single source of truth; generated modules should not reread raw source text to patch gaps silently.",
+            "Same-type transformation should remap knowledge nodes and relations before style or screenplay output, then record unresolved source-to-target gaps.",
+        ]
+
+    def _build_local_snapshot_backup_export_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_snapshot_backup_export_gate" not in patterns:
+            return []
+        return [
+            "Local writing state needs autosave plus explicit version snapshots before AI changes, bulk imports, or destructive outline/manuscript edits.",
+            "Export JSON or full-project archives should be a visible recovery path, not an afterthought hidden behind successful generation.",
+            "Alpha or experimental writing workspaces should surface data-safety warnings and backup cadence before serious manuscript use.",
+        ]
+
+    def _build_continuity_passport_drift_repair_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "continuity_passport_drift_repair_gate" not in patterns:
+            return []
+        return [
+            "Create a continuity passport that records identity, canon constraints, active threads, drift checks, repair authority, and chain-of-custody.",
+            "Strict mode should distinguish drift detection from drift repair: finding a mismatch is review evidence, not permission to rewrite canon.",
+            "Cross-session handoff should preserve passport version, accepted repairs, rejected repairs, and unresolved drift debt before continuation resumes.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -11903,6 +12065,24 @@ class NovelSourceDiscoveryService:
         if "map_reduce_factual_anchor_adaptation_gate" in patterns:
             targets.append("factual_anchor_remap")
             targets.append("schema_fidelity_export_remap")
+        if "platform_genre_style_stamp_gate" in patterns:
+            targets.append("platform_style_stamp_remap")
+            targets.append("reader_expectation_profile_remap")
+        if "chapter_packet_promise_debt_audit_gate" in patterns:
+            targets.append("promise_debt_ledger_remap")
+            targets.append("chapter_packet_snapshot_remap")
+        if "webnovel_state_machine_knowledge_graph_gate" in patterns:
+            targets.append("state_machine_phase_graph_remap")
+            targets.append("pacing_health_matrix_remap")
+        if "story_knowledge_layer_sot_adaptation_gate" in patterns:
+            targets.append("story_knowledge_layer_remap")
+            targets.append("sot_gap_log_remap")
+        if "local_snapshot_backup_export_gate" in patterns:
+            targets.append("backup_snapshot_export_remap")
+            targets.append("restore_checkpoint_remap")
+        if "continuity_passport_drift_repair_gate" in patterns:
+            targets.append("continuity_passport_remap")
+            targets.append("drift_repair_debt_remap")
         if "trend_deconstruction_pipeline" in patterns:
             targets.append("trope_module_remap")
             targets.append("reader_expectation_remap")
@@ -12607,6 +12787,18 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, fill new story-spine fact fields and separate factual auditor, style auditor, and surgical repair instructions.")
         if "map_reduce_factual_anchor_adaptation_gate" in patterns:
             hints.append("For same-type adaptation prompts, cite new chapter anchors, Story Bible merge fields, fidelity checks, and schema validation targets.")
+        if "platform_genre_style_stamp_gate" in patterns:
+            hints.append("For same-type Chinese webnovel prompts, transform platform and genre expectations into fresh style-stamp axes; do not reuse source platform memes, slogans, or sample wording.")
+        if "chapter_packet_promise_debt_audit_gate" in patterns:
+            hints.append("For same-type prompts, build a new chapter packet, promise ledger, and revision-debt schema from the target premise instead of copying upstream scene contracts.")
+        if "webnovel_state_machine_knowledge_graph_gate" in patterns:
+            hints.append("For same-type longrun workflows, remap phase/state names, graph node categories, pacing thresholds, and reverse-brake rules before any chapter generation.")
+        if "story_knowledge_layer_sot_adaptation_gate" in patterns:
+            hints.append("For same-type adaptations, reconstruct a new Story Knowledge Layer and SOT gap log; source facts must be abstracted into functions before reuse.")
+        if "local_snapshot_backup_export_gate" in patterns:
+            hints.append("For same-type local workspaces, transform backup/export mechanics into new project paths and snapshot names; never import source user data or database files.")
+        if "continuity_passport_drift_repair_gate" in patterns:
+            hints.append("For same-type continuity prompts, create a new passport identity, drift taxonomy, and repair authority rather than inheriting another work's chain-of-custody.")
         if "counterfactual_story_graph_rag_gate" in patterns:
             hints.append("For counterfactual same-type work, declare the divergence event, preserved canon invariants, changed assumption, graph-neighborhood context ids, and expected downstream state deltas before drafting.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -13210,6 +13402,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform memoir grounding into new source-faithful fact fields, auditor roles, repair diffs, and uncertain-date handling without copying personal memories.")
         if "map_reduce_factual_anchor_adaptation_gate" in patterns:
             hints.append("Transform adaptation flow by generating new factual anchors, screenplay fields, fidelity checks, and schema constraints for the target work.")
+        if "platform_genre_style_stamp_gate" in patterns:
+            hints.append("Transform platform and genre templates into fresh target-reader constraints, style-stamp axes, chapter-length bands, and platform mismatch warnings.")
+        if "chapter_packet_promise_debt_audit_gate" in patterns:
+            hints.append("Transform chapter-packet mechanics into new blueprint refs, scene-card ids, promise-ledger debt categories, run snapshots, and replay checksums.")
+        if "webnovel_state_machine_knowledge_graph_gate" in patterns:
+            hints.append("Transform state-machine lessons into new phase transitions, graph node schemas, pacing thresholds, anti-AI checks, and reverse-brake decisions.")
+        if "story_knowledge_layer_sot_adaptation_gate" in patterns:
+            hints.append("Transform knowledge-first adaptation into new extraction, merge, dedupe, SOT checksum, unresolved gap, and raw-reread-blocker records.")
+        if "local_snapshot_backup_export_gate" in patterns:
+            hints.append("Transform local workspace safety into new autosave ids, snapshot ids, export manifests, restore checkpoints, and backup freshness checks.")
+        if "continuity_passport_drift_repair_gate" in patterns:
+            hints.append("Transform continuity standards into a new passport identity, strict-mode result, drift taxonomy, repair authority, and custody trace.")
         if "top_down_story_planning" in patterns:
             hints.append("Regenerate book spec, act plan, chapter plan, and scene list from the transformed premise before drafting prose.")
         if "context_pack_preview" in patterns:
@@ -13809,6 +14013,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject memoir-style drafts that invent dates, copy uploaded reference wording, bypass author confirmation, or rewrite unaffected prose outside the surgical fix scope.")
         if "map_reduce_factual_anchor_adaptation_gate" in patterns:
             hints.append("Reject adaptation exports that add unsupported facts, copy source scene order blindly, or pass YAML schema while failing source-anchor fidelity.")
+        if "platform_genre_style_stamp_gate" in patterns:
+            hints.append("Reject drafts that preserve source platform memes, style-stamp labels, genre slogans, chapter hooks, or platform-specific phrasing as transformed prose.")
+        if "chapter_packet_promise_debt_audit_gate" in patterns:
+            hints.append("Reject chapter packets whose scene cards, promise debts, ledger names, or run snapshots come from the source project instead of the target premise.")
+        if "webnovel_state_machine_knowledge_graph_gate" in patterns:
+            hints.append("Reject longrun batches that skip phase/state transitions, copy skill workflow names as authority, or accept graph updates without pacing and reverse-brake evidence.")
+        if "story_knowledge_layer_sot_adaptation_gate" in patterns:
+            hints.append("Reject adaptations that reread raw source text as hidden context after the Story Knowledge Layer has been declared authoritative.")
+        if "local_snapshot_backup_export_gate" in patterns:
+            hints.append("Reject bulk edits when there is no pre-change snapshot, export path, restore target, or explicit note that source user databases were not imported.")
+        if "continuity_passport_drift_repair_gate" in patterns:
+            hints.append("Reject cross-session continuations that repair drift without passport version, drift taxonomy, accepted authority, custody trail, and unresolved-debt visibility.")
         if "system_world_fate_simulation_gate" in patterns:
             hints.append("Reject same-type drafts that preserve the source force-field graph, named actors, artifacts, open-question ladder, phase order, or beat-plan sequence under renamed labels.")
         if "character_knowledge_timeline_gate" in patterns:
@@ -14559,6 +14775,12 @@ class NovelSourceDiscoveryService:
                 "work_corpus_reindex_autopilot_gate",
                 "memoir_story_spine_consensus_grounding_gate",
                 "map_reduce_factual_anchor_adaptation_gate",
+                "platform_genre_style_stamp_gate",
+                "chapter_packet_promise_debt_audit_gate",
+                "webnovel_state_machine_knowledge_graph_gate",
+                "story_knowledge_layer_sot_adaptation_gate",
+                "local_snapshot_backup_export_gate",
+                "continuity_passport_drift_repair_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

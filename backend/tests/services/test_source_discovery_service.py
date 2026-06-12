@@ -14842,3 +14842,169 @@ def test_latest_canon_memory_workbench_sources_are_static_absorbed():
     assert "work_corpus_reindex_autopilot_gate_hints" in digest
     assert "memoir_story_spine_consensus_grounding_gate_hints" in digest
     assert "map_reduce_factual_anchor_adaptation_gate_hints" in digest
+
+
+def test_latest_webnovel_continuity_safety_sources_are_static_absorbed():
+    assert "https://github.com/zreo996/mozhan--" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/DinomyteHero/AI_Novel_Writing_Room" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/waterha/novel-skill-master" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/RZengXpy/story_wiki" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/fopearcano/storyplanner" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/KKiethJackson/CXS" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("mozhan" in query.lower() and "文风印记" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("chapter-packet contract" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("novel skill master" in query.lower() and "知识图谱" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story knowledge layer" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("continuity passport" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "zreo996/mozhan--",
+                "html_url": "https://github.com/zreo996/mozhan--",
+                "description": (
+                    "MoZhan is a Chinese long-form webnovel AI 创作 Skill with twelve genres, "
+                    "nine publishing-platform profiles, 文风印记 auto injection, four-step ideation, "
+                    "Claude/GPT/DeepSeek Web UI connection surfaces, and a zipped release artifact."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "skill", "chinese"],
+                "updated_at": "2026-06-11T14:04:30Z",
+                "root_files": ["README.md", "LICENSE", "mozhan-v1.18.zip"],
+            },
+            {
+                "full_name": "DinomyteHero/AI_Novel_Writing_Room",
+                "html_url": "https://github.com/DinomyteHero/AI_Novel_Writing_Room",
+                "description": (
+                    "AI Writers' Room writes novel-length fiction with author-led planning, "
+                    "a single chapter-packet contract, scene cards, promise ledger, revision-debt store, "
+                    "per-run output isolation, prompt + ledger snapshots, AGENTS/CLAUDE prompts, "
+                    "OpenAI and Anthropic API keys."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["fiction", "multi-agent", "writing"],
+                "updated_at": "2026-06-10T04:58:04Z",
+                "root_files": ["README.md", "AGENTS.md", "CLAUDE.md", ".env.example", "requirements.txt", "prompts"],
+            },
+            {
+                "full_name": "waterha/novel-skill-master",
+                "html_url": "https://github.com/waterha/novel-skill-master",
+                "description": (
+                    "Novel Skill Master is a web novel writing skill with 5 大阶段, 12 个 Skill, "
+                    "three workflow modes, 阶段机 and 状态机, Python tools, Anti-AI checks, pace control, "
+                    "event matrix, reverse-brake validation, RAG retrieval, and 知识图谱 for 百万字 consistency; "
+                    "quickstart says to put the folder into .claude/skills."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "skills", "knowledge-graph"],
+                "updated_at": "2026-06-11T08:35:16Z",
+                "root_files": ["README.md", "SKILL.md", "tools", "references", "skills_part"],
+            },
+            {
+                "full_name": "RZengXpy/story_wiki",
+                "html_url": "https://github.com/RZengXpy/story_wiki",
+                "description": (
+                    "StoryForge / story_wiki converts novel text to structured screenplay with Story Knowledge Layer, "
+                    "Knowledge First, Generation Second, Single Source of Truth, extract, merge, dedupe, govern, "
+                    "characters, scenes, events and relationships, and a ban on rereading raw source novel text."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["story", "screenplay", "knowledge-layer"],
+                "updated_at": "2026-06-07T18:21:53Z",
+                "root_files": ["README.md", ".env.example", "agent", "pipeline", "ui", "requirements.txt"],
+            },
+            {
+                "full_name": "fopearcano/storyplanner",
+                "html_url": "https://github.com/fopearcano/storyplanner",
+                "description": (
+                    "Logosforge is a narrative operating system for structured writing with local SQLite database, "
+                    "autosaved project files, automatic version snapshots, Backup & Restore, Data Safety, "
+                    "Export JSON / Full Project, and alpha backup warnings."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["creative-writing"],
+                "updated_at": "2026-06-11T23:03:03Z",
+                "root_files": ["README.md", "requirements.txt", "scripts", "plugins", "tests"],
+            },
+            {
+                "full_name": "KKiethJackson/CXS",
+                "html_url": "https://github.com/KKiethJackson/CXS",
+                "description": (
+                    "CXS is a deterministic continuity standard for long-range, multi-session LLM reasoning with "
+                    "Continuity Passport, strict-mode rules, drift detection/repair, chain-of-custody, and validation tests."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["ai-continuity", "drift-detection", "llm"],
+                "updated_at": "2025-12-20T14:58:04Z",
+                "root_files": ["CXS README.md", "LICENSE.md", "spec", "validation"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T08:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    mozhan = candidates["zreo996/mozhan--"]
+    writers_room = candidates["DinomyteHero/AI_Novel_Writing_Room"]
+    skill_master = candidates["waterha/novel-skill-master"]
+    story_wiki = candidates["RZengXpy/story_wiki"]
+    storyplanner = candidates["fopearcano/storyplanner"]
+    cxs = candidates["KKiethJackson/CXS"]
+
+    assert "platform_genre_style_stamp_gate" in mozhan["absorbed_patterns"]
+    assert "binary_distribution" in mozhan["risk_flags"]
+    assert "chapter_packet_promise_debt_audit_gate" in writers_room["absorbed_patterns"]
+    assert "provider_key_surface" in writers_room["risk_flags"]
+    assert "webnovel_state_machine_knowledge_graph_gate" in skill_master["absorbed_patterns"]
+    assert "skill_install_surface" in skill_master["risk_flags"]
+    assert "story_knowledge_layer_sot_adaptation_gate" in story_wiki["absorbed_patterns"]
+    assert "local_snapshot_backup_export_gate" in storyplanner["absorbed_patterns"]
+    assert "continuity_passport_drift_repair_gate" in cxs["absorbed_patterns"]
+    assert "license:missing" in story_wiki["trust_review"]["flags"]
+    assert "license:missing" in storyplanner["trust_review"]["flags"]
+    assert "license:noassertion" in cxs["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "platform_genre_style_stamp_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_packet_promise_revision_debt_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "webnovel_state_machine_knowledge_graph_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_knowledge_layer_sot_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_snapshot_backup_export_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "continuity_passport_drift_repair_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "platform_genre_style_stamp_matrix" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_packet_contract_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_knowledge_layer_governance_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "continuity_passport_drift_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "platform_style_stamp_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "promise_debt_ledger_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "story_knowledge_layer_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "continuity_passport_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("style-stamp" in hint.lower() for hint in pattern_pack["platform_genre_style_stamp_gate_hints"])
+    assert any("chapter packet" in hint.lower() for hint in pattern_pack["chapter_packet_promise_debt_audit_gate_hints"])
+    assert any("phase + state" in hint.lower() for hint in pattern_pack["webnovel_state_machine_knowledge_graph_gate_hints"])
+    assert any("story knowledge layer" in hint.lower() for hint in pattern_pack["story_knowledge_layer_sot_adaptation_gate_hints"])
+    assert any("export json" in hint.lower() for hint in pattern_pack["local_snapshot_backup_export_gate_hints"])
+    assert any("continuity passport" in hint.lower() for hint in pattern_pack["continuity_passport_drift_repair_gate_hints"])
+    assert any("platform and genre" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("drift taxonomy" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "platform_genre_style_stamp_gate_hints" in digest
+    assert "chapter_packet_promise_debt_audit_gate_hints" in digest
+    assert "webnovel_state_machine_knowledge_graph_gate_hints" in digest
+    assert "story_knowledge_layer_sot_adaptation_gate_hints" in digest
+    assert "local_snapshot_backup_export_gate_hints" in digest
+    assert "continuity_passport_drift_repair_gate_hints" in digest

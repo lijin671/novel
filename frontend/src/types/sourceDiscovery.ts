@@ -310,6 +310,12 @@ export interface SourceDiscoveryPatternPack {
   work_corpus_reindex_autopilot_gate_hints?: string[];
   memoir_story_spine_consensus_grounding_gate_hints?: string[];
   map_reduce_factual_anchor_adaptation_gate_hints?: string[];
+  platform_genre_style_stamp_gate_hints?: string[];
+  chapter_packet_promise_debt_audit_gate_hints?: string[];
+  webnovel_state_machine_knowledge_graph_gate_hints?: string[];
+  story_knowledge_layer_sot_adaptation_gate_hints?: string[];
+  local_snapshot_backup_export_gate_hints?: string[];
+  continuity_passport_drift_repair_gate_hints?: string[];
   safety_constraints?: string[];
 }
 
