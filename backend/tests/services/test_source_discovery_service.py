@@ -17144,3 +17144,91 @@ def test_webnovel_skill_and_story_bible_qa_sources_are_static_absorbed():
     assert "seven_law_platform_closed_loop_gate_hints" in digest
     assert "vibe_noveling_skill_agent_save_cat_gate_hints" in digest
     assert "story_bible_qa_pov_lore_rule_gate_hints" in digest
+
+
+
+def test_context_recovery_plot_corpus_and_relic_vault_sources_are_static_absorbed():
+    assert "https://github.com/Doriandarko/gemini-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/markriedl/WikiPlots" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/the-essential/reliquery" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Smart Context Management" in query and "Recovery Mode" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("WikiPlots" in query and "112,936 story plots" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Reliquery" in query and "reconstructive recall" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Doriandarko/gemini-writer",
+                "html_url": "https://github.com/Doriandarko/gemini-writer",
+                "description": (
+                    "Gemini Writing Agent creates novels, books and short story collections with Smart Context Management, "
+                    "Recovery Mode from saved context summaries, Token Monitoring, automatic context compression, "
+                    "project/file tools, real-time streaming, and provider API key setup."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["gemini", "writing", "novel"],
+                "updated_at": "2026-06-12T09:20:00Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt", "writer.py"],
+            },
+            {
+                "full_name": "markriedl/WikiPlots",
+                "html_url": "https://github.com/markriedl/WikiPlots",
+                "description": (
+                    "WikiPlots corpus contains 112,936 story plots extracted from English Wikipedia plot summaries. "
+                    "Plots are one sentence per line with EOS separators, title lists, plots.zip download, "
+                    "Wikipedia dump extraction, WikiExtractor, and BeautifulSoup dependencies."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["story-plots", "dataset", "wikipedia"],
+                "updated_at": "2026-06-12T09:21:00Z",
+                "root_files": ["README.md", "wikiPlots.py"],
+            },
+            {
+                "full_name": "the-essential/reliquery",
+                "html_url": "https://github.com/the-essential/reliquery",
+                "description": (
+                    "Reliquery provides persistent AI memory for writers who build worlds using reconstructive recall, "
+                    "structured markdown relics, semantic search over a creative vault, Chronicle, Memorize, Cartograph, "
+                    "Forget, Study, relationship mapping, MemPalace, ChromaDB and SQLite temporal knowledge graph."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["worldbuilding", "memory", "claude"],
+                "updated_at": "2026-06-12T09:22:00Z",
+                "root_files": ["README.md", "LICENSE", "reliquery.plugin", ".claude-plugin"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T01:35:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "gemini_writer_context_recovery_gate" in candidates["Doriandarko/gemini-writer"]["absorbed_patterns"]
+    assert "wikiplots_plot_corpus_boundary_gate" in candidates["markriedl/WikiPlots"]["absorbed_patterns"]
+    assert "reliquery_reconstructive_recall_vault_gate" in candidates["the-essential/reliquery"]["absorbed_patterns"]
+    assert "license:missing" in candidates["markriedl/WikiPlots"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "context_recovery_summary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "plot_corpus_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "reconstructive_recall_vault_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "context_recovery_summary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "plot_corpus_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "reconstructive_recall_query_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "context_recovery_checkpoint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "plot_corpus_abstraction_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "relic_vault_recall_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("token-budget" in hint.lower() for hint in pattern_pack["gemini_writer_context_recovery_gate_hints"])
+    assert any("plot corpora" in hint.lower() for hint in pattern_pack["wikiplots_plot_corpus_boundary_gate_hints"])
+    assert any("reconstructive queries" in hint.lower() for hint in pattern_pack["reliquery_reconstructive_recall_vault_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "gemini_writer_context_recovery_gate_hints" in digest
+    assert "wikiplots_plot_corpus_boundary_gate_hints" in digest
+    assert "reliquery_reconstructive_recall_vault_gate_hints" in digest

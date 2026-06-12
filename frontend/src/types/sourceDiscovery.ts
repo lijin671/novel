@@ -328,6 +328,9 @@ export interface SourceDiscoveryPatternPack {
   seven_law_platform_closed_loop_gate_hints?: string[];
   vibe_noveling_skill_agent_save_cat_gate_hints?: string[];
   story_bible_qa_pov_lore_rule_gate_hints?: string[];
+  gemini_writer_context_recovery_gate_hints?: string[];
+  wikiplots_plot_corpus_boundary_gate_hints?: string[];
+  reliquery_reconstructive_recall_vault_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

@@ -346,6 +346,9 @@ const PINNED_HINT_KEYS = new Set([
   'seven_law_platform_closed_loop_gate_hints',
   'vibe_noveling_skill_agent_save_cat_gate_hints',
   'story_bible_qa_pov_lore_rule_gate_hints',
+  'gemini_writer_context_recovery_gate_hints',
+  'wikiplots_plot_corpus_boundary_gate_hints',
+  'reliquery_reconstructive_recall_vault_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -754,6 +757,9 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Seven-law platform closed-loop gates', patternPackPayload?.seven_law_platform_closed_loop_gate_hints],
               ['Vibe Noveling skill-agent Save-the-Cat gates', patternPackPayload?.vibe_noveling_skill_agent_save_cat_gate_hints],
               ['Story Bible QA POV/lore-rule gates', patternPackPayload?.story_bible_qa_pov_lore_rule_gate_hints],
+              ['Gemini Writer context-recovery gates', patternPackPayload?.gemini_writer_context_recovery_gate_hints],
+              ['WikiPlots corpus-boundary gates', patternPackPayload?.wikiplots_plot_corpus_boundary_gate_hints],
+              ['Reliquery reconstructive-recall vault gates', patternPackPayload?.reliquery_reconstructive_recall_vault_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

@@ -471,6 +471,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("7 writing laws" OR "anti-AI trace" OR "platform adaptation") ("novel writing toolkit" OR "web novel") in:name,description,readme',
     '("Save the Cat" OR "13 skills" OR "4 agents") ("vibe noveling" OR "Chinese web novel") in:name,description,readme',
     '("Story Bible QA" OR "POV" OR "lore rule") ("long-form fiction" OR "continuity console") in:name,description,readme',
+    '("Smart Context Management" OR "Recovery Mode" OR "Token Monitoring") ("novels" OR "short story collections") in:name,description,readme',
+    '("WikiPlots" OR "112,936 story plots" OR "plot summary") ("story plots" OR "Wikipedia") in:name,description,readme',
+    '("Reliquery" OR "reconstructive recall" OR "structured markdown relics") ("worldbuilding" OR "creative vault") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -532,6 +535,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Beat1ngHeart/novel-writing-toolkit",
     "https://github.com/TulanCN/vibe-noveling",
     "https://github.com/sadasdfsaf/story-bible-qa",
+    "https://github.com/Doriandarko/gemini-writer",
+    "https://github.com/markriedl/WikiPlots",
+    "https://github.com/the-essential/reliquery",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1467,6 +1473,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("seven_law_platform_closed_loop_gate", ("novel writing toolkit", "7 writing laws", "seven writing laws", "anti-ai trace", "anti ai trace", "platform adaptation", "platform fit", "data closed loop", "reader feedback loop", "follow-read", "ranking signals", "topic selection")),
     ("vibe_noveling_skill_agent_save_cat_gate", ("vibe noveling", "13 skills", "4 agents", "save the cat", "15 beats", "booming", "fuck-it", "novel-discuss", "novel-bookplan", "consistency-guard", "knowledge graph", "chapter publishing")),
     ("story_bible_qa_pov_lore_rule_gate", ("story bible qa", "continuity console", "long-form fiction", "pov", "location", "lore rule", "story bible / pov / location / lore rule", "local-first continuity", "qa")),
+    ("gemini_writer_context_recovery_gate", ("gemini writing agent", "smart context management", "recovery mode", "token monitoring", "automatic context compression", "context summaries", "resume interrupted work", "maximum 300 iterations", "create novels", "short story collections")),
+    ("wikiplots_plot_corpus_boundary_gate", ("wikiplots", "112,936 story plots", "story plots", "plot summary", "plot extraction", "one sentence per line", "eos", "titles", "wikipedia dump", "plots.zip")),
+    ("reliquery_reconstructive_recall_vault_gate", ("reliquery", "persistent ai memory", "reconstructive recall", "structured markdown files", "relics", "creative vault", "semantic search engine", "chronicle", "memorize", "cartograph", "forget", "study this", "knowledge graph")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3813,6 +3822,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Story Bible QA is a no-license-observed local-first continuity console for long-form fiction. Static README/index markers describe Story Bible QA, React/Vite workspace, local continuity review, Story Bible / POV / location / lore-rule checks, and preview UI. "
         "Pattern-only adaptation for POV/location/lore-rule QA gates; npm install/build, browser app, package-lock dependencies, local story bible data, and UI runtime are not executed or imported."
     ),
+    "doriandarko/gemini-writer": (
+        "gemini-writer is an MIT-with-attribution autonomous writing agent for novels, books, and short-story collections. Static README markers describe smart context management, recovery mode from saved context summaries, token monitoring, automatic context compression, project/file tools, and provider API-key setup. "
+        "Pattern-only adaptation for context recovery and token-budget gates; uv/pip install, writer.py, provider calls, API keys, generated projects, and workspace file tools are not executed."
+    ),
+    "markriedl/wikiplots": (
+        "WikiPlots is a no-license-observed story-plot corpus project containing instructions and code for extracting 112,936 plot summaries from English Wikipedia articles. Static README markers describe plots.zip, one sentence per line, EOS separators, title lists, Wikipedia dump extraction, WikiExtractor, and BeautifulSoup dependencies. "
+        "Pattern-only adaptation for plot-corpus boundary gates; dataset download, Wikipedia dump processing, extraction scripts, dependency install, and plot text import are not executed."
+    ),
+    "the-essential/reliquery": (
+        "Reliquery is an MIT persistent AI memory system for worldbuilding and co-writing. Static README markers describe reconstructive recall, structured markdown relics, semantic vault search, Chronicle/Memorize/Cartograph/Forget/Study skills, local MemPalace memory, ChromaDB, SQLite temporal knowledge graph, and relationship mapping. "
+        "Pattern-only adaptation for reconstructive recall vault gates; Claude plugin install, skills, MemPalace, ChromaDB/SQLite runtime, local vault content, and memory writes are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4621,6 +4642,9 @@ class NovelSourceDiscoveryService:
             "seven_law_platform_closed_loop_gate_hints": self._build_seven_law_platform_closed_loop_gate_hints(available_patterns),
             "vibe_noveling_skill_agent_save_cat_gate_hints": self._build_vibe_noveling_skill_agent_save_cat_gate_hints(available_patterns),
             "story_bible_qa_pov_lore_rule_gate_hints": self._build_story_bible_qa_pov_lore_rule_gate_hints(available_patterns),
+            "gemini_writer_context_recovery_gate_hints": self._build_gemini_writer_context_recovery_gate_hints(available_patterns),
+            "wikiplots_plot_corpus_boundary_gate_hints": self._build_wikiplots_plot_corpus_boundary_gate_hints(available_patterns),
+            "reliquery_reconstructive_recall_vault_gate_hints": self._build_reliquery_reconstructive_recall_vault_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -6952,6 +6976,15 @@ class NovelSourceDiscoveryService:
         if "story_bible_qa_pov_lore_rule_gate" in patterns:
             targets.append("story_bible_pov_location_lore_rule_policy")
             targets.append("local_continuity_qa_console_policy")
+        if "gemini_writer_context_recovery_gate" in patterns:
+            targets.append("context_recovery_summary_policy")
+            targets.append("token_budget_compression_policy")
+        if "wikiplots_plot_corpus_boundary_gate" in patterns:
+            targets.append("plot_corpus_boundary_policy")
+            targets.append("source_plot_import_exclusion_policy")
+        if "reliquery_reconstructive_recall_vault_gate" in patterns:
+            targets.append("reconstructive_recall_vault_policy")
+            targets.append("relic_memory_writeback_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8019,6 +8052,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["save_the_cat_beat_alignment_report", "skill_agent_handoff_trace", "knowledge_graph_sync_readiness_findings"])
         if "story_bible_qa_pov_lore_rule_gate" in patterns:
             targets.extend(["story_bible_qa_report", "pov_location_lore_rule_findings", "continuity_console_review_trace"])
+        if "gemini_writer_context_recovery_gate" in patterns:
+            targets.extend(["context_recovery_summary_report", "token_compression_checkpoint_trace", "interrupted_work_resume_findings"])
+        if "wikiplots_plot_corpus_boundary_gate" in patterns:
+            targets.extend(["plot_corpus_boundary_report", "plot_summary_abstraction_findings", "source_plot_leakage_review"])
+        if "reliquery_reconstructive_recall_vault_gate" in patterns:
+            targets.extend(["reconstructive_recall_query_report", "relic_vault_index_review", "memory_graph_writeback_findings"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8042,6 +8081,12 @@ class NovelSourceDiscoveryService:
             hints.append("Plan continuation at book, volume, and chapter levels with Save-the-Cat beat intent, then route expansion or consistency work to named role boundaries.")
         if "story_bible_qa_pov_lore_rule_gate" in patterns:
             hints.append("Run local QA against Story Bible, POV, location, and lore-rule fields before drafting; unresolved findings become blocking continuity questions.")
+        if "gemini_writer_context_recovery_gate" in patterns:
+            hints.append("Before long autonomous drafting, set token budget checkpoints, compression thresholds, and recovery-summary cadence so interrupted work can resume without guessing.")
+        if "wikiplots_plot_corpus_boundary_gate" in patterns:
+            hints.append("Use plot corpora only to learn abstract plot-shape categories; never place source plot sentences, titles, or EOS-separated rows into drafting context.")
+        if "reliquery_reconstructive_recall_vault_gate" in patterns:
+            hints.append("Prompt continuation via reconstructive recall: ask targeted questions against accepted relics, retrieve only relevant vault passages, then cite retrieved relic ids.")
         if "anti_slop_audit" in patterns:
             hints.append("生成前带入反 AI 味规则，生成后先清理机械感、同构段落和空泛正确对白，再进入人工式评审。")
         if "structured_generation_schema" in patterns:
@@ -8587,6 +8632,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist beat plan, skill route, agent handoff, consistency-guard result, snapshot id, progress marker, and knowledge-graph sync decision.")
         if "story_bible_qa_pov_lore_rule_gate" in patterns:
             hints.append("Persist POV, location, lore-rule, and Story Bible QA findings separately from accepted canon so UI review does not silently mutate story state.")
+        if "gemini_writer_context_recovery_gate" in patterns:
+            hints.append("Persist context summaries, compression checkpoints, token-budget events, tool-write intent, and recovery source ids with each long-run writing session.")
+        if "wikiplots_plot_corpus_boundary_gate" in patterns:
+            hints.append("Persist plot-corpus lessons as abstract tags and risk notes only; source plot text, titles, downloads, and extraction scripts stay outside project state.")
+        if "reliquery_reconstructive_recall_vault_gate" in patterns:
+            hints.append("Persist relic files, index status, relationship-map changes, forget decisions, and memory writeback approvals as separate reviewable layers.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -13677,6 +13728,33 @@ class NovelSourceDiscoveryService:
             "Treat local-first QA consoles as review surfaces only; package dependencies, browser UI state, and user story-bible data are runtime-deferred.",
         ]
 
+    def _build_gemini_writer_context_recovery_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "gemini_writer_context_recovery_gate" not in patterns:
+            return []
+        return [
+            "Use explicit token-budget checkpoints and compression thresholds for long writing runs; context summaries must be inspectable before recovery.",
+            "Resume interrupted work only from a named recovery summary and accepted project state, not from provider thinking traces or hidden workspace files.",
+            "Provider API keys, autonomous tool execution, generated projects, and file writes are runtime-deferred until a local safety contract exists.",
+        ]
+
+    def _build_wikiplots_plot_corpus_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "wikiplots_plot_corpus_boundary_gate" not in patterns:
+            return []
+        return [
+            "Use plot corpora as abstraction sources for plot shapes, pacing, and causal transitions; do not import source plot rows, titles, or downloaded corpus text.",
+            "For same-type writing, require a plot-corpus leakage review for title identities, plot-sentence order, and recognizable set-piece chains.",
+            "Dataset recreation scripts, Wikipedia dumps, external downloads, and dependency installs remain blocked during intake.",
+        ]
+
+    def _build_reliquery_reconstructive_recall_vault_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "reliquery_reconstructive_recall_vault_gate" not in patterns:
+            return []
+        return [
+            "Model long-term memory as reviewed relics plus reconstructive queries: ask targeted questions, retrieve relevant passages, and cite relic ids.",
+            "Separate Chronicle intake, Memorize indexing, Cartograph relationship mapping, Forget deletion, and Study pipeline decisions into reviewable writeback stages.",
+            "Local vault content, semantic indexes, ChromaDB/SQLite memory, Claude skills, and plugin runtime are deferred unless explicitly authorized.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14664,6 +14742,12 @@ class NovelSourceDiscoveryService:
             targets.append("save_the_cat_skill_agent_remap")
         if "story_bible_qa_pov_lore_rule_gate" in patterns:
             targets.append("pov_location_lore_rule_remap")
+        if "gemini_writer_context_recovery_gate" in patterns:
+            targets.append("context_recovery_checkpoint_remap")
+        if "wikiplots_plot_corpus_boundary_gate" in patterns:
+            targets.append("plot_corpus_abstraction_remap")
+        if "reliquery_reconstructive_recall_vault_gate" in patterns:
+            targets.append("relic_vault_recall_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14707,6 +14791,12 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt Save-the-Cat beats, booming expansion, and consistency guard as abstract duties with target-story ids only.")
         if "story_bible_qa_pov_lore_rule_gate" in patterns:
             hints.append("Prompt continuity QA to cite target Story Bible, POV, location, and lore-rule evidence ids for every finding.")
+        if "gemini_writer_context_recovery_gate" in patterns:
+            hints.append("Prompt autonomous writing runs with explicit stop/resume checkpoints, context-summary ids, and allowed workspace actions; provider/runtime details remain excluded.")
+        if "wikiplots_plot_corpus_boundary_gate" in patterns:
+            hints.append("Prompt source deconstruction to output abstract plot mechanics, not Wikipedia plot rows, story titles, or corpus examples.")
+        if "reliquery_reconstructive_recall_vault_gate" in patterns:
+            hints.append("Prompt memory retrieval as questions over target relics and relationships; retrieved snippets must be cited and may not silently become new canon.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -15398,6 +15488,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform 15-beat planning and role routing around the new premise, volume scale, and chapter endpoint instead of reusing upstream workflow labels as canon.")
         if "story_bible_qa_pov_lore_rule_gate" in patterns:
             hints.append("Transform QA fields into the target bible schema: POV holder, location state, lore rule, exception reason, and resolution owner.")
+        if "gemini_writer_context_recovery_gate" in patterns:
+            hints.append("Transform context-recovery mechanics into target checkpoint names and summaries, not into provider-specific prompts, API keys, or generated workspace files.")
+        if "wikiplots_plot_corpus_boundary_gate" in patterns:
+            hints.append("Transform plot-corpus insights into new causal templates and pacing labels while rejecting source titles, order, sentence wording, and set-piece chains.")
+        if "reliquery_reconstructive_recall_vault_gate" in patterns:
+            hints.append("Transform relic categories into the target story's character, faction, location, concept, and relationship schema before retrieval or same-type drafting.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -16129,6 +16225,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type drafts that copy Save-the-Cat beat wording, agent prompts, or expansion-role outputs instead of transforming narrative function.")
         if "story_bible_qa_pov_lore_rule_gate" in patterns:
             hints.append("Reject drafts whose POV/location/lore-rule QA passes only because source bible facts leaked into target-story canon.")
+        if "gemini_writer_context_recovery_gate" in patterns:
+            hints.append("Reject drafts that hide provider thinking traces, context-summary artifacts, or tool-created file names inside accepted prose or canon state.")
+        if "wikiplots_plot_corpus_boundary_gate" in patterns:
+            hints.append("Reject same-type outputs that preserve Wikipedia plot-title identities, source plot sentence order, or recognizable plot-summary wording.")
+        if "reliquery_reconstructive_recall_vault_gate" in patterns:
+            hints.append("Reject retrieval outputs that mix raw vault snippets, deleted relics, or unapproved relationship-map changes into target canon.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -17078,6 +17180,9 @@ class NovelSourceDiscoveryService:
                 "seven_law_platform_closed_loop_gate",
                 "vibe_noveling_skill_agent_save_cat_gate",
                 "story_bible_qa_pov_lore_rule_gate",
+                "gemini_writer_context_recovery_gate",
+                "wikiplots_plot_corpus_boundary_gate",
+                "reliquery_reconstructive_recall_vault_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

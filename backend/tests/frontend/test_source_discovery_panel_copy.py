@@ -449,6 +449,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Seven-law platform closed-loop gates" in panel_text
     assert "Vibe Noveling skill-agent Save-the-Cat gates" in panel_text
     assert "Story Bible QA POV/lore-rule gates" in panel_text
+    assert "Gemini Writer context-recovery gates" in panel_text
+    assert "WikiPlots corpus-boundary gates" in panel_text
+    assert "Reliquery reconstructive-recall vault gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text
