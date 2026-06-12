@@ -442,6 +442,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("concrete findings" OR "style-bearing" OR "realism constraints") ("fiction planning" OR "scene continuation") in:name,description,readme',
     '("tutorial curation" OR "excellent-novel case libraries" OR "writing principles") ("web novel" OR "fiction-writing") in:name,description,readme',
     '("防幻觉三定律" OR "大纲即法律" OR "Strand Weave") ("webnovel" OR "网文") in:name,description,readme',
+    '("Story Bible" OR "Canon Memory" OR "Constraint Graph" OR "World Simulation") ("narrative engine" OR "long-form story") in:name,description,readme',
+    '("timeline branching" OR "narrative merging" OR "paradox resolution") ("narrative canon" OR "story graph") in:name,description,readme',
+    '("Planner" OR "Writer" OR "Evaluator" OR "Editor") ("story canon" OR "vector embedding store") ("fiction" OR "ai author") in:name,description,readme',
+    '("Knowledge Graph visualization" OR "Continuity validation" OR "RAG-powered story chat") ("Story Bible" OR "Story-Weaver") in:name,description,readme',
+    '("Living Story Bible" OR "Continuity Guardian" OR "Narrative Memory Engine") ("long-form stories" OR "TaleForge") in:name,description,readme',
     '("remove-ai-flavor" OR "去 AI 味" OR "template sentence shells") ("writing skill" OR "小说正文") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
@@ -945,6 +950,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/wgwtest/novel-writing",
     "https://github.com/HZ-KMNO/web-novel-tutorial-curation-skill",
     "https://github.com/981029l/webnovel-writer",
+    "https://github.com/liwonder/NARRITIVE_OS",
+    "https://github.com/project-89/narrative-canon",
+    "https://github.com/dylantneal/ai-author",
+    "https://github.com/Shubhj8989/STORY-WEAVER-AI",
+    "https://github.com/Binusha123/Taleforge",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1356,6 +1366,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
     ("creative_scaffold_prompt_sequence_gate", ("creative writers' toolkit", "creative-writers-toolkit", "character outlines", "story synopses", "treatments", "plot outlines", "scene lists", "gpt3", "creative processes")),
     ("writers_room_stop_authority_gate", ("story systems template", "11-person ai team", "writers' room", "writers room", "fiction orchestra", "can say \"stop\"", "shared knowledge", "multi-ai harness", "role-based routing", "content-based routing", "audit-scene", "refine-character", "fountain export", "screenplay", "upstream sync")),
+    ("hierarchical_narrative_memory_os_gate", ("narrative os", "ai-native narrative engine", "story bible ? canon store", "story bible -> canon store", "canon memory", "canon store", "vector memory", "structured state", "constraint graph", "world simulation", "story director ? chapter planner", "validator agent")),
+    ("narrative_canon_version_branch_graph_gate", ("narrative canon", "queryable knowledge graph", "temporal awareness", "git-like version control", "timeline branching", "narrative merging", "paradox resolution", "alternate story branches", "timeline merge conflicts")),
+    ("planner_writer_evaluator_editor_saga_gate", ("planner writer evaluator editor", "planner ? writer ? evaluator", "knowledge graph (story canon)", "vector embedding store", "story bible viewer", "mark as canon", "provisional/canon status")),
+    ("story_weaver_kg_bible_rag_gate", ("story-weaver ai", "automatic story bible generation", "knowledge graph visualization", "rag-powered story chat", "universe rule tracking", "story bible + knowledge graph")),
+    ("taleforge_memory_continuity_research_gate", ("taleforge", "living story bible", "continuity guardian", "research assistant", "narrative memory engine", "long-term narrative memory", "continuity intelligence", "memory retrieval pipelines")),
     ("novel_to_screenplay_structure_coverage_gate", ("ai 小说转剧本", "novel to screenplay", "structured screenplay yaml", "structure_map", "story_bible", "adaptation_report", "coverage_report", "quality gates", "fountain export", "场景", "对白")),
     ("translation_glossary_context_qa_gate", ("glossarion", "context-aware english translations", "contextual translation", "glossary system", "quality assurance suite", "epub rebuilding", "40+ ai providers", "duplicate detection", "light novels", "web novels")),
     ("desktop_translation_batch_replacement_boundary_gate", ("transoria", "术语提取", "术语审查", "batch text replacement", "批量文本替换", "epub 工具", "task id", "低置信度", "原文残留", "版权与使用声明")),
@@ -3623,6 +3638,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "webnovel-writer is a no-license-observed Claude Code long webnovel system. Public README/root markers describe solving forgetting and hallucination for 2M-word serials, anti-hallucination laws, outline-as-law, setting-as-physics, new-entity identification, Strand Weave quest/fire/constellation rhythm, dual-agent architecture, five-dimensional parallel review, RAG retrieval, genre templates, and recovery. "
         "Pattern-only adaptation for anti-hallucination, strand-weave, dual-agent, and parallel-review gates; upstream env/API key examples, .env files, Claude Code runtime, backend/frontend services, scripts, provider calls, and project data are not read beyond sanitized public markers or executed."
     ),
+    "liwonder/narritive_os": (
+        "NARRITIVE_OS is an MIT AI-native long-form narrative engine. Static README/root markers describe Story Bible, append-only Canon Memory, HNSW Vector Memory, Structured State, Constraint Graph, World Simulation, Story Director, Chapter Planner, Writer, Validator, and persisted bible/canon/vector/state/constraint/world files. "
+        "Pattern-only adaptation for hierarchical narrative memory and simulation gates; pnpm/turbo workspace, agents, providers, vector stores, generated stories, and runtime storage are not installed, launched, or imported."
+    ),
+    "project-89/narrative-canon": (
+        "narrative-canon is an MIT TypeScript narrative graph library. Static README/package markers describe queryable story knowledge graphs, timeline construction, temporal awareness, Git-like version control, timeline branching, narrative merging, conflict/paradox resolution, collaborative storytelling, CLI/API/server/UI scripts, and optional Gemini/MongoDB settings. "
+        "Pattern-only adaptation for narrative canon branch/merge/conflict gates; npm package, CLI, API server, UI, MongoDB, provider keys, and demo game runtimes are not installed, launched, or imported."
+    ),
+    "dylantneal/ai-author": (
+        "ai-author is a no-license-observed multi-agent long-form fiction system. Static README/root markers describe Planner, Writer, Evaluator, Editor, Knowledge Graph as story canon, Vector Embedding Store for semantic retrieval, Story Bible viewer, context assembly, finalization to canon, provisional/canon version status, and export tooling. "
+        "Pattern-only adaptation for planner-writer-evaluator-editor saga gates; provider SDKs, graph/vector dependencies, FastAPI UI, storage, exports, and generation runtime are not installed, launched, or imported."
+    ),
+    "shubhj8989/story-weaver-ai": (
+        "STORY-WEAVER-AI is a no-license-observed story memory/RAG workbench. Static README markers describe automatic Story Bible generation, NetworkX knowledge graph visualization, continuity validation, RAG-powered story chat, event timeline, universe-rule tracking, SQLite Story Bible, ChromaDB vector embeddings, and cited chapter grounding. "
+        "Pattern-only adaptation for story-weaver KG/bible/RAG gates; dependency install, vector DB, UI, story uploads, and model/provider calls are not launched or imported."
+    ),
+    "binusha123/taleforge": (
+        "TaleForge is a no-license-observed narrative intelligence platform. Static README/root markers describe Living Story Bible, Continuity Guardian, Research Assistant, Narrative Memory Engine, long-term semantic memory, continuity validation, timeline reasoning, dashboards, ChromaDB memory, and knowledge graph visualization. "
+        "Pattern-only adaptation for memory-continuity-research gates; frontend/backend runtime, npm scripts, memory store, dashboards, and provider/model integrations are not launched or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4402,6 +4437,11 @@ class NovelSourceDiscoveryService:
             "craft_scene_concrete_finding_revision_gate_hints": self._build_craft_scene_concrete_finding_revision_gate_hints(available_patterns),
             "tutorial_case_library_curation_gate_hints": self._build_tutorial_case_library_curation_gate_hints(available_patterns),
             "anti_hallucination_strand_weave_review_gate_hints": self._build_anti_hallucination_strand_weave_review_gate_hints(available_patterns),
+            "hierarchical_narrative_memory_os_gate_hints": self._build_hierarchical_narrative_memory_os_gate_hints(available_patterns),
+            "narrative_canon_version_branch_graph_gate_hints": self._build_narrative_canon_version_branch_graph_gate_hints(available_patterns),
+            "planner_writer_evaluator_editor_saga_gate_hints": self._build_planner_writer_evaluator_editor_saga_gate_hints(available_patterns),
+            "story_weaver_kg_bible_rag_gate_hints": self._build_story_weaver_kg_bible_rag_gate_hints(available_patterns),
+            "taleforge_memory_continuity_research_gate_hints": self._build_taleforge_memory_continuity_research_gate_hints(available_patterns),
             "ai_flavor_template_shell_cleanup_gate_hints": self._build_ai_flavor_template_shell_cleanup_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
@@ -5213,6 +5253,11 @@ class NovelSourceDiscoveryService:
             "craft_scene_concrete_finding_revision_gate": 68,
             "tutorial_case_library_curation_gate": 66,
             "anti_hallucination_strand_weave_review_gate": 73,
+            "hierarchical_narrative_memory_os_gate": 74,
+            "narrative_canon_version_branch_graph_gate": 73,
+            "planner_writer_evaluator_editor_saga_gate": 72,
+            "story_weaver_kg_bible_rag_gate": 72,
+            "taleforge_memory_continuity_research_gate": 71,
             "ai_flavor_template_shell_cleanup_gate": 67,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
@@ -5497,6 +5542,21 @@ class NovelSourceDiscoveryService:
         if "ai_flavor_template_shell_cleanup_gate" in patterns:
             targets.append("ai_flavor_shell_cleanup_policy")
             targets.append("prose_naturalization_style_preservation_policy")
+        if "hierarchical_narrative_memory_os_gate" in patterns:
+            targets.append("hierarchical_narrative_memory_policy")
+            targets.append("world_simulation_constraint_policy")
+        if "narrative_canon_version_branch_graph_gate" in patterns:
+            targets.append("narrative_canon_branch_merge_policy")
+            targets.append("paradox_conflict_resolution_policy")
+        if "planner_writer_evaluator_editor_saga_gate" in patterns:
+            targets.append("planner_writer_evaluator_editor_policy")
+            targets.append("provisional_to_canon_status_policy")
+        if "story_weaver_kg_bible_rag_gate" in patterns:
+            targets.append("story_weaver_kg_bible_rag_policy")
+            targets.append("rag_grounded_continuity_policy")
+        if "taleforge_memory_continuity_research_gate" in patterns:
+            targets.append("taleforge_memory_continuity_policy")
+            targets.append("research_assistant_boundary_policy")
         if "local_first_novel_workspace" in patterns:
             targets.append("workspace_scope")
             targets.append("project_local_state")
@@ -6783,6 +6843,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["anti_hallucination_law_report", "strand_weave_balance_report", "dual_agent_parallel_review_report"])
         if "ai_flavor_template_shell_cleanup_gate" in patterns:
             targets.extend(["ai_flavor_shell_cleanup_report", "prose_naturalization_trace", "template_repetition_audit"])
+        if "hierarchical_narrative_memory_os_gate" in patterns:
+            targets.extend(["hierarchical_memory_stack_report", "canon_vector_state_alignment_report", "world_simulation_constraint_findings"])
+        if "narrative_canon_version_branch_graph_gate" in patterns:
+            targets.extend(["narrative_canon_branch_report", "timeline_merge_conflict_report", "paradox_resolution_decision_log"])
+        if "planner_writer_evaluator_editor_saga_gate" in patterns:
+            targets.extend(["agent_stage_handoff_report", "provisional_canon_status_audit", "memory_context_finalization_trace"])
+        if "story_weaver_kg_bible_rag_gate" in patterns:
+            targets.extend(["story_weaver_kg_bible_report", "rag_citation_continuity_report", "universe_rule_timeline_findings"])
+        if "taleforge_memory_continuity_research_gate" in patterns:
+            targets.extend(["living_story_bible_memory_report", "continuity_guardian_research_report", "timeline_reasoning_memory_trace"])
         if "author_note_layer" in patterns:
             targets.extend(["author_note_layer", "style_directive_layer", "insertion_frequency"])
         if "world_state_tracking" in patterns:
@@ -7736,6 +7806,16 @@ class NovelSourceDiscoveryService:
             hints.append("Enforce outline-as-law, setting-as-physics, new-entity identification, strand-weave balance, and parallel review before accepting serial chapters.")
         if "ai_flavor_template_shell_cleanup_gate" in patterns:
             hints.append("After continuity approval, run a narrow prose pass that removes AI-like template shells while preserving facts, tone, voice, and scene intent.")
+        if "hierarchical_narrative_memory_os_gate" in patterns:
+            hints.append("Before continuation, align Story Bible, append-only canon facts, vector memory, structured state, constraint graph, and world-simulation consequences; drafts cannot update one layer alone.")
+        if "narrative_canon_version_branch_graph_gate" in patterns:
+            hints.append("Treat what-if and same-type branches as explicit timeline branches with merge/conflict/paradox review before any branch becomes accepted canon.")
+        if "planner_writer_evaluator_editor_saga_gate" in patterns:
+            hints.append("Run planner, writer, evaluator, and editor as separate stages; only finalization may mark provisional memory or graph facts as canon.")
+        if "story_weaver_kg_bible_rag_gate" in patterns:
+            hints.append("Ground story chat, continuity checks, and chapter prompts in cited Story Bible, knowledge-graph, vector, and timeline evidence rather than unsupported genre guesses.")
+        if "taleforge_memory_continuity_research_gate" in patterns:
+            hints.append("Keep research assistant facts, living-bible updates, continuity-guardian findings, and long-term memory retrieval in separate review lanes before drafting.")
         if "author_note_layer" in patterns:
             hints.append("Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.")
         if "workflow_agent_pipeline" in patterns:
@@ -12956,6 +13036,51 @@ class NovelSourceDiscoveryService:
             "Upstream skill bodies, prompt text, tests, scripts, agents, and install flows remain reference-only.",
         ]
 
+    def _build_hierarchical_narrative_memory_os_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "hierarchical_narrative_memory_os_gate" not in patterns:
+            return []
+        return [
+            "Long-form continuation should keep Story Bible, append-only canon, vector memory, structured state, constraint graph, and world simulation as separately inspectable layers.",
+            "A new chapter may propose memory/graph/state deltas, but accepted canon requires cross-layer validation against timeline, character knowledge, and consequence rules.",
+            "pnpm/turbo workspace, agents, vector stores, generated stories, provider calls, and runtime storage remain deferred static-review surfaces.",
+        ]
+
+    def _build_narrative_canon_version_branch_graph_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "narrative_canon_version_branch_graph_gate" not in patterns:
+            return []
+        return [
+            "Represent what-if, continuation, and collaborative alternatives as named narrative branches with parent branch, divergence event, merge target, and conflict owner.",
+            "Timeline merges should emit paradox/conflict decisions before canon promotion; branch demos, CLI/API servers, provider keys, MongoDB, and games stay deferred.",
+            "Canon graph updates should record temporal order, narrative order, affected entities, and rejected alternate outcomes for replayable review.",
+        ]
+
+    def _build_planner_writer_evaluator_editor_saga_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "planner_writer_evaluator_editor_saga_gate" not in patterns:
+            return []
+        return [
+            "Separate Planner, Writer, Evaluator, and Editor outputs; each stage should carry memory context, critique evidence, and handoff status rather than overwriting the draft silently.",
+            "Knowledge-graph and vector-memory hits are evidence for drafting, while provisional facts become canon only during finalization with explicit status changes.",
+            "Provider SDKs, graph/vector dependencies, UI, storage, exports, and generated prose runtime remain deferred.",
+        ]
+
+    def _build_story_weaver_kg_bible_rag_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_weaver_kg_bible_rag_gate" not in patterns:
+            return []
+        return [
+            "Story Bible, knowledge graph, RAG citations, continuity validation, event timeline, and universe-rule tracking should agree before a new chapter is accepted.",
+            "RAG story chat answers must cite story evidence and remain advisory; they cannot replace accepted canon, timeline, or bible state.",
+            "Dependency install, vector DB, UI, story uploads, and model/provider calls stay deferred during static intake.",
+        ]
+
+    def _build_taleforge_memory_continuity_research_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "taleforge_memory_continuity_research_gate" not in patterns:
+            return []
+        return [
+            "Living Story Bible, Continuity Guardian, Research Assistant, and Narrative Memory Engine should have separate evidence and promotion lanes.",
+            "Research facts may enrich realism only after source/provenance review; continuity findings must point to exact timeline, character, or world-rule conflicts.",
+            "Frontend/backend runtime, npm scripts, memory stores, dashboards, provider integrations, and generated project data remain deferred.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -13035,6 +13160,16 @@ class NovelSourceDiscoveryService:
             targets.append("strand_weave_anti_hallucination_remap")
         if "ai_flavor_template_shell_cleanup_gate" in patterns:
             targets.append("ai_flavor_shell_cleanup_remap")
+        if "hierarchical_narrative_memory_os_gate" in patterns:
+            targets.append("hierarchical_memory_stack_remap")
+        if "narrative_canon_version_branch_graph_gate" in patterns:
+            targets.append("narrative_branch_canon_graph_remap")
+        if "planner_writer_evaluator_editor_saga_gate" in patterns:
+            targets.append("agent_stage_status_remap")
+        if "story_weaver_kg_bible_rag_gate" in patterns:
+            targets.append("kg_bible_rag_context_remap")
+        if "taleforge_memory_continuity_research_gate" in patterns:
+            targets.append("memory_continuity_research_remap")
         if "card_workbench" in patterns:
             targets.append("card_schema_remap")
         if "manuscript_card_board_extraction_gate" in patterns:
@@ -13910,6 +14045,16 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt serial review with outline-law, setting-physics, new-entity, and strand-balance checks tied to the target book's accepted canon.")
         if "ai_flavor_template_shell_cleanup_gate" in patterns:
             hints.append("Prompt AI-flavor cleanup as a constrained edit pass with preserved facts, preserved tone, and explicit removed template-shell categories.")
+        if "hierarchical_narrative_memory_os_gate" in patterns:
+            hints.append("Prompt with target-story memory layers: bible, canon facts, vector recall, structured state, constraint graph, and world-simulation consequences; source layer names may guide format only.")
+        if "narrative_canon_version_branch_graph_gate" in patterns:
+            hints.append("Prompt alternate branches with branch id, divergence event, merge policy, and paradox-resolution criteria before generating same-type or what-if prose.")
+        if "planner_writer_evaluator_editor_saga_gate" in patterns:
+            hints.append("Prompt planner/writer/evaluator/editor as duties with independent outputs and finalization status; do not copy upstream agent wording or source canon facts.")
+        if "story_weaver_kg_bible_rag_gate" in patterns:
+            hints.append("Prompt continuity review to cite Story Bible, graph edge, vector/RAG hit, event timeline, or universe rule for every finding.")
+        if "taleforge_memory_continuity_research_gate" in patterns:
+            hints.append("Prompt research assistant output as provenance-tagged realism notes; continuity guardian findings need conflict location and living-bible update proposal.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -14627,6 +14772,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform anti-hallucination and strand-weave checks into target outline, setting, entity, and rhythm policies without copying upstream slogans as canon.")
         if "ai_flavor_template_shell_cleanup_gate" in patterns:
             hints.append("Transform AI-flavor cleanup into a project-local prose lint pass; never use naturalization to mask source-copy overlap.")
+        if "hierarchical_narrative_memory_os_gate" in patterns:
+            hints.append("Transform source memory hierarchy into target-specific bible/canon/vector/state/constraint/world layers before using it for continuation.")
+        if "narrative_canon_version_branch_graph_gate" in patterns:
+            hints.append("Transform source timeline branch ideas into a new branch graph with new entities, events, conflict policies, and canon promotion rules.")
+        if "planner_writer_evaluator_editor_saga_gate" in patterns:
+            hints.append("Transform agent-stage pipelines into target project stage ids, provisional/canon statuses, and finalization criteria before drafting.")
+        if "story_weaver_kg_bible_rag_gate" in patterns:
+            hints.append("Transform knowledge-graph, bible, RAG, timeline, and universe-rule schemas into target-story fields with fresh ids and evidence refs.")
+        if "taleforge_memory_continuity_research_gate" in patterns:
+            hints.append("Transform research, continuity, and memory lanes into separate target-story ledgers; research notes cannot become canon without author review.")
         if "emotion_arc" in patterns:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
         if "card_workbench" in patterns:
@@ -15968,6 +16123,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject strand-weave reviews that keep source Quest/Fire/Constellation event order, original entity names, or credential-like README artifacts.")
         if "ai_flavor_template_shell_cleanup_gate" in patterns:
             hints.append("Reject AI-flavor cleanup that only smooths copied spans; run source-overlap review before accepting naturalized prose.")
+        if "hierarchical_narrative_memory_os_gate" in patterns:
+            hints.append("Reject continuation packets where vector memory, canon facts, structured state, constraint graph, or world simulation disagree without a visible resolution.")
+        if "narrative_canon_version_branch_graph_gate" in patterns:
+            hints.append("Reject same-type branches that merge source timeline events, paradox labels, or branch names into target canon under renamed characters.")
+        if "planner_writer_evaluator_editor_saga_gate" in patterns:
+            hints.append("Reject agent pipelines that let evaluator/editor praise source resemblance, promote provisional facts silently, or hide graph/vector evidence.")
+        if "story_weaver_kg_bible_rag_gate" in patterns:
+            hints.append("Reject RAG-grounded drafts when citations point to source examples instead of target-story bible, graph, timeline, or accepted chapters.")
+        if "taleforge_memory_continuity_research_gate" in patterns:
+            hints.append("Reject research-memory updates that import source lore, unsupported world facts, or continuity fixes without provenance and author-visible promotion.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
         if "scene_card_hard_soft_field_gate" in patterns:
@@ -16238,6 +16403,11 @@ class NovelSourceDiscoveryService:
                 "markdown_ink_export_validation_gate",
                 "file_backed_promise_ledger_audit_gate",
                 "critique_revision_series_memory_gate",
+                "hierarchical_narrative_memory_os_gate",
+                "narrative_canon_version_branch_graph_gate",
+                "planner_writer_evaluator_editor_saga_gate",
+                "story_weaver_kg_bible_rag_gate",
+                "taleforge_memory_continuity_research_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

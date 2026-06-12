@@ -297,11 +297,21 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "craft_scene_concrete_finding_revision_gate_hints",
             "tutorial_case_library_curation_gate_hints",
             "anti_hallucination_strand_weave_review_gate_hints",
+            "hierarchical_narrative_memory_os_gate_hints",
+            "narrative_canon_version_branch_graph_gate_hints",
+            "planner_writer_evaluator_editor_saga_gate_hints",
+            "story_weaver_kg_bible_rag_gate_hints",
+            "taleforge_memory_continuity_research_gate_hints",
             "ai_flavor_template_shell_cleanup_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
 
+    assert "Hierarchical narrative memory OS gates" in panel_text
+    assert "Narrative canon branch graph gates" in panel_text
+    assert "Planner/writer/evaluator/editor saga gates" in panel_text
+    assert "Story-Weaver KG / bible / RAG gates" in panel_text
+    assert "TaleForge memory continuity research gates" in panel_text
     assert "Core remix kernel gates" in panel_text
     assert "default_github_queries" in types_text
     assert "default_github_queries" in panel_text

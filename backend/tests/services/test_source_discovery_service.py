@@ -16316,3 +16316,137 @@ def test_continuation_workflow_curation_and_ai_flavor_sources_are_static_absorbe
     assert "tutorial_case_library_curation_gate_hints" in digest
     assert "anti_hallucination_strand_weave_review_gate_hints" in digest
     assert "ai_flavor_template_shell_cleanup_gate_hints" in digest
+
+
+
+def test_narrative_memory_canon_graph_sources_are_static_absorbed():
+    assert "https://github.com/liwonder/NARRITIVE_OS" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/project-89/narrative-canon" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dylantneal/ai-author" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Shubhj8989/STORY-WEAVER-AI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Binusha123/Taleforge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Canon Memory" in query and "World Simulation" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("timeline branching" in query and "paradox resolution" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Evaluator" in query and "vector embedding store" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("RAG-powered story chat" in query and "Story-Weaver" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Living Story Bible" in query and "TaleForge" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "liwonder/NARRITIVE_OS",
+                "html_url": "https://github.com/liwonder/NARRITIVE_OS",
+                "description": (
+                    "AI-native narrative engine for long-form story generation with hierarchical memory. "
+                    "Story Bible ? Canon Store ? Vector Store ? Structured State, Canon Memory, Vector Memory, "
+                    "Constraint Graph, World Simulation, Story Director ? Chapter Planner, Writer and Validator Agent."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["narrative", "story", "memory"],
+                "updated_at": "2026-04-28T14:32:41Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "apps", "packages"],
+            },
+            {
+                "full_name": "project-89/narrative-canon",
+                "html_url": "https://github.com/project-89/narrative-canon",
+                "description": (
+                    "Narrative Canon transforms stories into a queryable knowledge graph with temporal awareness and Git-like version control. "
+                    "Supports timeline branching, narrative merging, paradox resolution, alternate story branches, collaborative storytelling, CLI/API, Gemini API key, and MongoDB settings."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["canon", "timeline", "graph"],
+                "updated_at": "2026-03-09T18:09:50Z",
+                "root_files": ["README.md", "package.json", ".env.example", "src", "ui"],
+            },
+            {
+                "full_name": "dylantneal/ai-author",
+                "html_url": "https://github.com/dylantneal/ai-author",
+                "description": (
+                    "Multi-agent AI system for long-form fiction with Planner Writer Evaluator Editor stages, "
+                    "Knowledge Graph (Story Canon), Vector Embedding Store, Story Bible Viewer, context assembly, "
+                    "mark as canon finalization, and provisional/canon status tracking."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "multi-agent"],
+                "updated_at": "2025-12-05T16:21:48Z",
+                "root_files": ["README.md", "requirements.txt", "app", "agents", "memory"],
+            },
+            {
+                "full_name": "Shubhj8989/STORY-WEAVER-AI",
+                "html_url": "https://github.com/Shubhj8989/STORY-WEAVER-AI",
+                "description": (
+                    "Story-Weaver AI creates automatic Story Bible generation, Knowledge Graph visualization, "
+                    "RAG-powered story chat, universe rule tracking, story bible + knowledge graph, event timeline and continuity validation."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["story-bible", "rag"],
+                "updated_at": "2026-06-10T07:07:16Z",
+                "root_files": ["README.md", "backend", "frontend", "requirements.txt"],
+            },
+            {
+                "full_name": "Binusha123/Taleforge",
+                "html_url": "https://github.com/Binusha123/Taleforge",
+                "description": (
+                    "TaleForge narrative intelligence platform with Living Story Bible, Continuity Guardian, Research Assistant, "
+                    "Narrative Memory Engine, long-term narrative memory, continuity intelligence, memory retrieval pipelines, ChromaDB and knowledge graph visualization."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["story", "memory", "continuity"],
+                "updated_at": "2026-06-10T17:11:22Z",
+                "root_files": ["README.md", "package.json", "backend", "frontend"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T20:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "hierarchical_narrative_memory_os_gate" in candidates["liwonder/NARRITIVE_OS"]["absorbed_patterns"]
+    assert "narrative_canon_version_branch_graph_gate" in candidates["project-89/narrative-canon"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["project-89/narrative-canon"]["risk_flags"]
+    assert "planner_writer_evaluator_editor_saga_gate" in candidates["dylantneal/ai-author"]["absorbed_patterns"]
+    assert "license:missing" in candidates["dylantneal/ai-author"]["trust_review"]["flags"]
+    assert "story_weaver_kg_bible_rag_gate" in candidates["Shubhj8989/STORY-WEAVER-AI"]["absorbed_patterns"]
+    assert "taleforge_memory_continuity_research_gate" in candidates["Binusha123/Taleforge"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "hierarchical_narrative_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "narrative_canon_branch_merge_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "planner_writer_evaluator_editor_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_weaver_kg_bible_rag_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "taleforge_memory_continuity_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "hierarchical_memory_stack_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "narrative_canon_branch_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "agent_stage_handoff_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_weaver_kg_bible_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "living_story_bible_memory_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "hierarchical_memory_stack_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "narrative_branch_canon_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "agent_stage_status_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "kg_bible_rag_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "memory_continuity_research_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("separately inspectable layers" in hint.lower() for hint in pattern_pack["hierarchical_narrative_memory_os_gate_hints"])
+    assert any("named narrative branches" in hint.lower() for hint in pattern_pack["narrative_canon_version_branch_graph_gate_hints"])
+    assert any("planner" in hint.lower() and "evaluator" in hint.lower() for hint in pattern_pack["planner_writer_evaluator_editor_saga_gate_hints"])
+    assert any("rag citations" in hint.lower() for hint in pattern_pack["story_weaver_kg_bible_rag_gate_hints"])
+    assert any("research assistant" in hint.lower() for hint in pattern_pack["taleforge_memory_continuity_research_gate_hints"])
+    assert any("source timeline events" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("unsupported world facts" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "hierarchical_narrative_memory_os_gate_hints" in digest
+    assert "narrative_canon_version_branch_graph_gate_hints" in digest
+    assert "planner_writer_evaluator_editor_saga_gate_hints" in digest
+    assert "story_weaver_kg_bible_rag_gate_hints" in digest
+    assert "taleforge_memory_continuity_research_gate_hints" in digest

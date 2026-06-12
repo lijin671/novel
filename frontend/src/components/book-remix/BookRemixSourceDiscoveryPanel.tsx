@@ -92,6 +92,11 @@ const PINNED_HINT_KEYS = new Set([
   'craft_scene_concrete_finding_revision_gate_hints',
   'tutorial_case_library_curation_gate_hints',
   'anti_hallucination_strand_weave_review_gate_hints',
+  'hierarchical_narrative_memory_os_gate_hints',
+  'narrative_canon_version_branch_graph_gate_hints',
+  'planner_writer_evaluator_editor_saga_gate_hints',
+  'story_weaver_kg_bible_rag_gate_hints',
+  'taleforge_memory_continuity_research_gate_hints',
   'ai_flavor_template_shell_cleanup_gate_hints',
   'self_review_gate_hints',
   'chapter_change_package_hints',
@@ -941,6 +946,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Craft-scene concrete-finding revision gates', patternPackPayload?.craft_scene_concrete_finding_revision_gate_hints],
               ['Tutorial case-library curation gates', patternPackPayload?.tutorial_case_library_curation_gate_hints],
               ['Anti-hallucination strand-weave review gates', patternPackPayload?.anti_hallucination_strand_weave_review_gate_hints],
+              ['Hierarchical narrative memory OS gates', patternPackPayload?.hierarchical_narrative_memory_os_gate_hints],
+              ['Narrative canon branch graph gates', patternPackPayload?.narrative_canon_version_branch_graph_gate_hints],
+              ['Planner/writer/evaluator/editor saga gates', patternPackPayload?.planner_writer_evaluator_editor_saga_gate_hints],
+              ['Story-Weaver KG / bible / RAG gates', patternPackPayload?.story_weaver_kg_bible_rag_gate_hints],
+              ['TaleForge memory continuity research gates', patternPackPayload?.taleforge_memory_continuity_research_gate_hints],
               ['AI-flavor template-shell cleanup gates', patternPackPayload?.ai_flavor_template_shell_cleanup_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}

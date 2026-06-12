@@ -360,6 +360,11 @@ export interface SourceDiscoveryPatternPack {
   craft_scene_concrete_finding_revision_gate_hints?: string[];
   tutorial_case_library_curation_gate_hints?: string[];
   anti_hallucination_strand_weave_review_gate_hints?: string[];
+  hierarchical_narrative_memory_os_gate_hints?: string[];
+  narrative_canon_version_branch_graph_gate_hints?: string[];
+  planner_writer_evaluator_editor_saga_gate_hints?: string[];
+  story_weaver_kg_bible_rag_gate_hints?: string[];
+  taleforge_memory_continuity_research_gate_hints?: string[];
   ai_flavor_template_shell_cleanup_gate_hints?: string[];
   safety_constraints?: string[];
 }
