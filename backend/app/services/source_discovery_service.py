@@ -453,6 +453,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("browser local storage" OR "no accounts" OR "story bible context") ("novelists" OR "long-form fiction") in:name,description,readme',
     '("Canon/Dynamic/Reference" OR "Jingwei" OR "Canon protection") ("novel plugin" OR "web novel") in:name,description,readme',
     '("branching saves" OR "novel into a playable world" OR "LLM RPG engine") ("worldbook" OR "canon repo") in:name,description,readme',
+    '("canon/facts.jsonl" OR "known_by" OR "canon/promises.jsonl") ("long novel" OR "webnovel" OR "POV knowledge") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -788,6 +789,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/aszecsei/writr",
     "https://github.com/vivy1024/novelfork",
     "https://github.com/felixchaos/rpg-roleplay-platform",
+    "https://github.com/jiaw-Zh/long-novel-writer",
     "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
     "https://github.com/SutraMind/GraphRAG-story",
     "https://github.com/v-saprykin/storygraph",
@@ -1375,6 +1377,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("browser_local_story_bible_privacy_gate", ("browser local storage", "browser's local storage", "privacy-first", "local-first writing application", "no accounts", "no cloud sync", "story bible context automatically included", "all without your words ever leaving")),
     ("jingwei_layered_canon_plugin_gate", ("jingwei", "canon/dynamic/reference", "canon protection", "novel plugin", "scene.spec", "pipeline.write", "session recovery", "plugin ui", "sqlite index")),
     ("roleplay_branchable_save_world_gate", ("branching saves", "turns a novel into a playable world", "novel into a playable world", "llm rpg engine", "worldbook", "canon repo", "script ingestion", "agent-driven scenes")),
+    ("append_only_canon_pov_promise_gate", ("canon/facts.jsonl", "known_by", "canon/promises.jsonl", "canon/progression.jsonl", "pov knowledge", "append-only canon ledger", "????", "???", "????", "????", "????", "??????")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3688,6 +3691,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "rpg-roleplay-platform is an AGPL-marked self-hostable LLM RPG engine. Static README markers describe turning a long-form novel into a playable world, branching saves, retrieval over original text, worldbook/canon repo, script ingestion, character cards, timeline, token accounting, MCP/tool DSL, Docker/setup surfaces, and provider/runtime boundaries. "
         "Pattern-only adaptation for branchable save/world gates; self-hosted runtime, Docker, setup scripts, providers, MCP tools, uploads, and original-text indexing are not launched or imported."
     ),
+    "jiaw-zh/long-novel-writer": (
+        "long-novel-writer is a no-license-observed Codex long-webnovel skill. Static README markers describe append-only Canon Ledger files, canon/facts.jsonl with known_by, canon/promises.jsonl with due dates, canon/progression.jsonl monotonic progression checks, rules/timeline files, POV knowledge boundaries, entity-filtered write-after validation, and nine-step pre-write assembly. "
+        "Pattern-only adaptation for append-only canon/POV/promise gates; Codex skill runtime, upstream prompts, project files, generated fiction, provider calls, and local data are not imported or executed."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4478,6 +4485,7 @@ class NovelSourceDiscoveryService:
             "browser_local_story_bible_privacy_gate_hints": self._build_browser_local_story_bible_privacy_gate_hints(available_patterns),
             "jingwei_layered_canon_plugin_gate_hints": self._build_jingwei_layered_canon_plugin_gate_hints(available_patterns),
             "roleplay_branchable_save_world_gate_hints": self._build_roleplay_branchable_save_world_gate_hints(available_patterns),
+            "append_only_canon_pov_promise_gate_hints": self._build_append_only_canon_pov_promise_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5299,6 +5307,7 @@ class NovelSourceDiscoveryService:
             "browser_local_story_bible_privacy_gate": 70,
             "jingwei_layered_canon_plugin_gate": 71,
             "roleplay_branchable_save_world_gate": 69,
+            "append_only_canon_pov_promise_gate": 73,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -6750,6 +6759,10 @@ class NovelSourceDiscoveryService:
         if "roleplay_branchable_save_world_gate" in patterns:
             targets.append("branchable_save_world_policy")
             targets.append("novel_to_playable_world_boundary_policy")
+        if "append_only_canon_pov_promise_gate" in patterns:
+            targets.append("append_only_canon_ledger_policy")
+            targets.append("pov_known_by_boundary_policy")
+            targets.append("promise_progression_validation_policy")
         return self._dedupe_texts(targets)
 
     def _build_whole_book_analysis_targets(self, patterns: set[str]) -> list[str]:
@@ -7772,6 +7785,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["jingwei_layered_canon_report", "scene_spec_pipeline_audit"])
         if "roleplay_branchable_save_world_gate" in patterns:
             targets.extend(["branchable_save_world_report", "novel_to_playable_world_boundary_findings"])
+        if "append_only_canon_pov_promise_gate" in patterns:
+            targets.extend(["append_only_canon_ledger_report", "pov_knowledge_boundary_report", "promise_progression_drift_findings"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8295,6 +8310,8 @@ class NovelSourceDiscoveryService:
             hints.append("Split continuation context into Canon, Dynamic, and Reference layers; only Canon can constrain facts, Dynamic tracks current chapter/session state, and Reference remains non-authoritative inspiration.")
         if "roleplay_branchable_save_world_gate" in patterns:
             hints.append("For playable-world continuations, record save id, branch point, worldbook facts, last player/actor actions, and canon repo delta before generating the next scene.")
+        if "append_only_canon_pov_promise_gate" in patterns:
+            hints.append("Before continuation, assemble only the relevant append-only canon ledger slices: facts known_by current POV actors, active promises with due dates, progression monotonicity, rules, and timeline deltas.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -8758,6 +8775,8 @@ class NovelSourceDiscoveryService:
             hints.append("Keep Canon/Dynamic/Reference state transitions auditable: scene.spec proposes, pipeline.write drafts, audit+revise reports, and only approved deltas promote to Canon.")
         if "roleplay_branchable_save_world_gate" in patterns:
             hints.append("Save-world state must distinguish accepted novel canon, RPG branch save, imported script/worldbook facts, and reversible sandbox events.")
+        if "append_only_canon_pov_promise_gate" in patterns:
+            hints.append("Persist facts, promises, progression, rules, and timeline as append-only ledgers; write-after validation must block POV knowledge leaks, missed promises, ability overreach, numeric drift, and resurrection conflicts.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -13211,6 +13230,16 @@ class NovelSourceDiscoveryService:
             "Runtime surfaces such as setup scripts, Docker, provider calls, MCP tools, uploads, and vector indexing stay blocked during static source intake.",
         ]
 
+
+    def _build_append_only_canon_pov_promise_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "append_only_canon_pov_promise_gate" not in patterns:
+            return []
+        return [
+            "Use append-only canon ledgers for facts, promises, progression, rules, and timeline; never silently rewrite accepted ledger entries during continuation.",
+            "Gate each POV scene with known_by checks so characters cannot use secrets or facts they have not learned in canon.",
+            "Validate promises and progression before accepting a chapter: due-date obligations, ability monotonicity, numeric drift, overreach, and resurrection conflicts must be explicit findings.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14162,6 +14191,8 @@ class NovelSourceDiscoveryService:
             targets.append("jingwei_layered_canon_remap")
         if "roleplay_branchable_save_world_gate" in patterns:
             targets.append("branchable_save_world_remap")
+        if "append_only_canon_pov_promise_gate" in patterns:
+            targets.append("append_only_canon_pov_promise_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14841,6 +14872,8 @@ class NovelSourceDiscoveryService:
             hints.append("Map inspiration into new Canon/Dynamic/Reference layers so source reference material cannot become accepted canon without transformation.")
         if "roleplay_branchable_save_world_gate" in patterns:
             hints.append("Convert source roleplay mechanics into a branch/save rehearsal pattern while keeping the new novel's canon and sandbox branch histories separate.")
+        if "append_only_canon_pov_promise_gate" in patterns:
+            hints.append("For same-type writing, create new append-only fact, promise, progression, rule, and timeline ledgers before drafting so source canon shape becomes method, not copied content.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -15536,6 +15569,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform layered canon by assigning new fact ids, dynamic state keys, reference tags, and audit outcomes instead of reusing source plugin records.")
         if "roleplay_branchable_save_world_gate" in patterns:
             hints.append("Transform playable-world branches into new stakes, choices, and save consequences; do not preserve original text retrieval order or worldbook entries.")
+        if "append_only_canon_pov_promise_gate" in patterns:
+            hints.append("Transform canon-ledger structure by inventing new facts, promise deadlines, progression scales, known_by visibility, and timeline events rather than preserving source obligations or power ladders.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -16311,6 +16346,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that promote Reference or Dynamic notes to Canon without scene.spec/audit+revise evidence, or copy source plugin state names.")
         if "roleplay_branchable_save_world_gate" in patterns:
             hints.append("Reject branchable-world drafts that replay source saves, imported script chunks, worldbook entries, character cards, or gameplay routes as new canon.")
+        if "append_only_canon_pov_promise_gate" in patterns:
+            hints.append("Reject drafts that copy source canon facts, secret-reveal ownership, promise/deadline chains, power progression ladders, or timeline rows under renamed ledgers.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:

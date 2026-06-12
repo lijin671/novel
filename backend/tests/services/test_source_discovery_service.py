@@ -16583,3 +16583,52 @@ def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "browser_local_story_bible_privacy_gate_hints" in digest
     assert "jingwei_layered_canon_plugin_gate_hints" in digest
     assert "roleplay_branchable_save_world_gate_hints" in digest
+
+
+
+def test_append_only_canon_pov_promise_source_is_static_absorbed():
+    assert "https://github.com/jiaw-Zh/long-novel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("canon/facts.jsonl" in query and "known_by" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "jiaw-Zh/long-novel-writer",
+                "html_url": "https://github.com/jiaw-Zh/long-novel-writer",
+                "description": (
+                    "Codex long novel skill with append-only Canon Ledger: canon/facts.jsonl has original references and known_by, "
+                    "canon/promises.jsonl tracks vows with due dates, canon/progression.jsonl checks monotonic ability progression, "
+                    "canon/rules.md and canon/timeline.md drive write-before assembly and write-after validation for POV knowledge leaks, numeric drift, ability overreach and resurrection conflicts."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["codex", "webnovel", "skill"],
+                "updated_at": "2026-06-12T09:30:00Z",
+                "root_files": ["README.md", "SKILL.md", "references", "canon"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T22:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    source = candidates["jiaw-Zh/long-novel-writer"]
+    assert "append_only_canon_pov_promise_gate" in source["absorbed_patterns"]
+    assert "license:missing" in source["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "append_only_canon_ledger_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "pov_known_by_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "promise_progression_validation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "append_only_canon_ledger_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "pov_knowledge_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "promise_progression_drift_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "append_only_canon_pov_promise_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("append-only canon ledgers" in hint.lower() for hint in pattern_pack["append_only_canon_pov_promise_gate_hints"])
+    assert any("known_by" in hint for hint in pattern_pack["append_only_canon_pov_promise_gate_hints"])
+    assert any("power progression ladders" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "append_only_canon_pov_promise_gate_hints" in digest

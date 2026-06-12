@@ -603,6 +603,7 @@ def render_source_pattern_pack_digest(
         "browser_local_story_bible_privacy_gate_hints",
         "jingwei_layered_canon_plugin_gate_hints",
         "roleplay_branchable_save_world_gate_hints",
+        "append_only_canon_pov_promise_gate_hints",
         "offline_chapter_revision_export_gate_hints",
         "multi_agent_outline_continuity_review_gate_hints",
         "hosted_ai_sidebar_product_boundary_gate_hints",

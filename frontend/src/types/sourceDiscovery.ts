@@ -310,6 +310,7 @@ export interface SourceDiscoveryPatternPack {
   browser_local_story_bible_privacy_gate_hints?: string[];
   jingwei_layered_canon_plugin_gate_hints?: string[];
   roleplay_branchable_save_world_gate_hints?: string[];
+  append_only_canon_pov_promise_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];
