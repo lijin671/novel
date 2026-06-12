@@ -457,6 +457,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("author keeps the pen" OR "diagnosis, structure, and memory" OR "extractive card codex") ("fiction writers" OR "webnovel serial") in:name,description,readme',
     '("STATE.md" OR "OUTLINE.md" OR "RECORD.md") ("spec-driven writing" OR "longform writing") in:name,description,readme',
     '("LangGraph" OR "memory curator" OR "run observability") ("long-form fiction" OR "chapter workflow") in:name,description,readme',
+    '("StoryState" OR "OUTPUT CONTRACT" OR "deterministic continuity engine") ("novel" OR "fiction writing") in:name,description,readme',
+    '("Plan ? Draft ? Log ? Verify ? Repeat" OR "scene logs" OR "thread tracking") ("long-form fiction" OR "manuscript") in:name,description,readme',
+    '("YAML frontmatter" OR "continuity engine" OR "promises/payoffs") ("story bible" OR "agent skills") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -796,6 +799,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/HarishDvs/Grizzly",
     "https://github.com/aihxp/scriveno",
     "https://github.com/ayermac/novelos",
+    "https://github.com/mrigankad/Novel-OS",
+    "https://github.com/third-order-labs/longform-plugin",
+    "https://github.com/danjdewhurst/story-skills",
     "https://github.com/mert-ozdemirr/sherlock-counterfactual-modular-graph-rag",
     "https://github.com/SutraMind/GraphRAG-story",
     "https://github.com/v-saprykin/storygraph",
@@ -1387,6 +1393,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("author_keeps_pen_diagnostic_codex_gate", ("author keeps the pen", "diagnosis, structure, and memory", "extractive card codex", "chapters, arcs, characters, threads", "findings + side-by-side fixes", "voice spec", "buried landing", "no praise padding")),
     ("spec_driven_state_record_publish_gate", ("STATE.md", "OUTLINE.md", "RECORD.md", "spec-driven writing", "creative-context", "publishing guide", "translation", "prepublish review", "continuity merge checking", "progress ledger")),
     ("desktop_langgraph_memory_observability_gate", ("LangGraph", "planner, screenwriter, author, polisher, editor, memory curator, and publisher", "project memory system", "quality diagnosis", "run observability", "node events", "memory backfill", "publish safety guards")),
+    ("story_state_output_contract_gate", ("novel os", "StoryState", "OUTPUT CONTRACT", "Architect", "Scribe", "Editor", "Guardian", "Curator", "[SCRIBE_STATE_UPDATE]", "[EDITOR_STATE_UPDATE]", "deterministic + LLM validation", "quality gates")),
+    ("living_document_plan_log_verify_gate", ("longform-plugin", "Plan ? Draft ? Log ? Verify ? Repeat", "scene logs", "continuity records", "glossary", "thread tracking", "foreshadowing checklists", "living documents", "canon always wins")),
+    ("markdown_frontmatter_continuity_engine_gate", ("story-skills", "YAML frontmatter", "continuity engine", "story bible", "promises/payoffs", "dead characters walking", "Chekhov guns", "stale story state", "mentions field", "deterministic")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3716,6 +3725,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Novelos is an MIT local-first AI workbench for long-form fiction. Static README markers describe a desktop React/Electron/FastAPI sidecar, LangGraph chapter workflow with planner/screenwriter/author/polisher/editor/memory curator/publisher agents, project memory, genesis quality gates, run observability, node events, artifacts, recovery, memory backfill, style bible, and publish safety guards. "
         "Pattern-only adaptation for desktop LangGraph memory/observability gates; Electron/FastAPI runtime, LangGraph execution, local workspace data, provider routing, sidecar services, and publishing actions are not launched."
     ),
+    "mrigankad/novel-os": (
+        "Novel-OS is an MIT production-grade multi-agent fiction writing framework. Static README markers describe Architect/Scribe/Editor/Guardian/Curator handoffs, persistent StoryState JSON, world state tracking, machine-parseable output contracts, [SCRIBE_STATE_UPDATE] and [EDITOR_STATE_UPDATE] blocks, deterministic plus LLM continuity validation, quality scores, quality gates, and chapter-by-chapter state parsing. "
+        "Pattern-only adaptation for StoryState output-contract gates; Python runtime, provider calls, generated chapter files, agent prompts, local state, and validation execution are not imported or executed."
+    ),
+    "third-order-labs/longform-plugin": (
+        "longform-plugin is an MIT methodology plugin for coherent novel-length fiction. Static README markers describe Plan -> Draft -> Log -> Verify -> Repeat, pre-draft chapter outlines, automatic updates to scene logs/continuity/glossary/threads/foreshadowing, health reviews, living documents, and canon-always-wins conflict resolution. "
+        "Pattern-only adaptation for living-document plan/log/verify gates; plugin commands, Cowork/Claude Code runtime, manuscript documents, and external agent execution are not imported or executed."
+    ),
+    "danjdewhurst/story-skills": (
+        "story-skills is an MIT Agent Skills bundle for markdown fiction projects. Static README markers describe a story bible, plain markdown with YAML frontmatter, character/world/faction/artifact/arc/scene state files, deterministic continuity engine checks for dead characters walking, payoff-before-setup, stale state, Chekhov guns, mentions exceptions, and CI-addressable findings. "
+        "Pattern-only adaptation for markdown frontmatter continuity-engine gates; Agent Skills installation, CLI commands, skill bodies, examples, generated fiction, and local project files are not imported or executed."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4510,6 +4531,9 @@ class NovelSourceDiscoveryService:
             "author_keeps_pen_diagnostic_codex_gate_hints": self._build_author_keeps_pen_diagnostic_codex_gate_hints(available_patterns),
             "spec_driven_state_record_publish_gate_hints": self._build_spec_driven_state_record_publish_gate_hints(available_patterns),
             "desktop_langgraph_memory_observability_gate_hints": self._build_desktop_langgraph_memory_observability_gate_hints(available_patterns),
+            "story_state_output_contract_gate_hints": self._build_story_state_output_contract_gate_hints(available_patterns),
+            "living_document_plan_log_verify_gate_hints": self._build_living_document_plan_log_verify_gate_hints(available_patterns),
+            "markdown_frontmatter_continuity_engine_gate_hints": self._build_markdown_frontmatter_continuity_engine_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5335,6 +5359,9 @@ class NovelSourceDiscoveryService:
             "author_keeps_pen_diagnostic_codex_gate": 71,
             "spec_driven_state_record_publish_gate": 70,
             "desktop_langgraph_memory_observability_gate": 72,
+            "story_state_output_contract_gate": 73,
+            "living_document_plan_log_verify_gate": 72,
+            "markdown_frontmatter_continuity_engine_gate": 74,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -6799,6 +6826,15 @@ class NovelSourceDiscoveryService:
         if "desktop_langgraph_memory_observability_gate" in patterns:
             targets.append("langgraph_agent_memory_policy")
             targets.append("run_observability_recovery_policy")
+        if "story_state_output_contract_gate" in patterns:
+            targets.append("story_state_output_contract_policy")
+            targets.append("agent_state_parser_quality_gate_policy")
+        if "living_document_plan_log_verify_gate" in patterns:
+            targets.append("living_document_plan_log_verify_policy")
+            targets.append("canon_always_wins_conflict_policy")
+        if "markdown_frontmatter_continuity_engine_gate" in patterns:
+            targets.append("markdown_frontmatter_continuity_policy")
+            targets.append("deterministic_story_contract_policy")
         return self._dedupe_texts(targets)
 
     def _build_whole_book_analysis_targets(self, patterns: set[str]) -> list[str]:
@@ -7829,6 +7865,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["state_outline_record_report", "open_thread_promise_payoff_ledger", "publish_translation_boundary_findings"])
         if "desktop_langgraph_memory_observability_gate" in patterns:
             targets.extend(["langgraph_chapter_workflow_report", "run_observability_artifact_trace", "memory_backfill_recovery_findings"])
+        if "story_state_output_contract_gate" in patterns:
+            targets.extend(["story_state_output_contract_report", "agent_state_update_block_findings", "quality_gate_status_report"])
+        if "living_document_plan_log_verify_gate" in patterns:
+            targets.extend(["plan_draft_log_verify_report", "living_document_update_trace", "thread_foreshadowing_health_findings"])
+        if "markdown_frontmatter_continuity_engine_gate" in patterns:
+            targets.extend(["frontmatter_continuity_engine_report", "promise_payoff_order_findings", "state_exception_mentions_findings"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8360,6 +8402,12 @@ class NovelSourceDiscoveryService:
             hints.append("Before drafting, update STATE/OUTLINE/RECORD-style context: current workflow position, structural target, established facts, open threads, promises, payoffs, and continuity constraints.")
         if "desktop_langgraph_memory_observability_gate" in patterns:
             hints.append("When using multi-agent chapter flow, record planner/screenwriter/author/polisher/editor/memory-curator/publisher handoffs plus node artifacts and recovery status.")
+        if "story_state_output_contract_gate" in patterns:
+            hints.append("Require each agent handoff to emit a machine-parseable state-update block before the next chapter stage can use it as memory.")
+        if "living_document_plan_log_verify_gate" in patterns:
+            hints.append("Continue chapters through Plan -> Draft -> Log -> Verify -> Repeat: outline first, draft second, then update scene logs, continuity, glossary, threads, and foreshadowing.")
+        if "markdown_frontmatter_continuity_engine_gate" in patterns:
+            hints.append("Before accepting continuation, validate frontmatter facts for dead-character appearances, payoff-before-setup, stale state, and explicit mention-only exceptions.")
         return hints
 
     def _build_continuation_state_hints(self, patterns: set[str]) -> list[str]:
@@ -8831,6 +8879,12 @@ class NovelSourceDiscoveryService:
             hints.append("Keep STATE, OUTLINE, and RECORD as separate state surfaces so workflow progress, structure, and established canon/promises/payoffs do not overwrite each other.")
         if "desktop_langgraph_memory_observability_gate" in patterns:
             hints.append("Persist node events, artifacts, LLM/provider boundaries, retry/recovery actions, memory backfill, and publish-safety checks as auditable run state.")
+        if "story_state_output_contract_gate" in patterns:
+            hints.append("Persist StoryState-like JSON separately from prose: character locations, emotional state, plot advances, foreshadowing, quality scores, and validation status are structured state.")
+        if "living_document_plan_log_verify_gate" in patterns:
+            hints.append("Living documents must grow from accepted chapters only: scene log, continuity, glossary, threads, and foreshadowing updates need chapter ids and verification status.")
+        if "markdown_frontmatter_continuity_engine_gate" in patterns:
+            hints.append("Keep YAML-frontmatter story facts deterministic and addressable so continuity findings can point to exact files, fields, chapters, and exception markers.")
         return hints
 
     def _build_style_signature_hints(self, patterns: set[str]) -> list[str]:
@@ -13322,6 +13376,34 @@ class NovelSourceDiscoveryService:
             "Block publish promotion until continuity, memory readiness, malformed or truncated chapter titles, and style-bible readiness have explicit safety findings.",
         ]
 
+
+    def _build_story_state_output_contract_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_state_output_contract_gate" not in patterns:
+            return []
+        return [
+            "Require each agent role to return parseable state-update blocks before its output can update persistent StoryState.",
+            "Separate Architect/Scribe/Editor/Guardian/Curator duties into auditable handoffs with quality scores and validation status.",
+            "Run deterministic continuity checks before LLM review; a failed quality gate blocks chapter approval until a repair delta is recorded.",
+        ]
+
+    def _build_living_document_plan_log_verify_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "living_document_plan_log_verify_gate" not in patterns:
+            return []
+        return [
+            "Use a Plan -> Draft -> Log -> Verify -> Repeat loop: outline before prose, then update every tracking document after the chapter.",
+            "Treat scene logs, continuity records, glossary, threads, and foreshadowing as living documents that grow with accepted manuscript evidence.",
+            "When conflicts appear, canon always wins; record the losing thread, stale glossary entry, or foreshadowing drift as a review finding.",
+        ]
+
+    def _build_markdown_frontmatter_continuity_engine_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "markdown_frontmatter_continuity_engine_gate" not in patterns:
+            return []
+        return [
+            "Use markdown plus YAML frontmatter as a checkable story contract for characters, chapters, promises, questions, artifacts, and state.",
+            "Continuity findings must be deterministic and file-addressed: dead-character appearances, payoff-before-setup, unfired Chekhov guns, and stale state should name exact fields.",
+            "Keep intentional flashbacks and posthumous references legal only through explicit mentions/exception fields, not silent canon rewrites.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -14281,6 +14363,12 @@ class NovelSourceDiscoveryService:
             targets.append("state_outline_record_remap")
         if "desktop_langgraph_memory_observability_gate" in patterns:
             targets.append("langgraph_memory_observability_remap")
+        if "story_state_output_contract_gate" in patterns:
+            targets.append("story_state_output_contract_remap")
+        if "living_document_plan_log_verify_gate" in patterns:
+            targets.append("living_document_plan_log_verify_remap")
+        if "markdown_frontmatter_continuity_engine_gate" in patterns:
+            targets.append("markdown_frontmatter_continuity_engine_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -14968,6 +15056,12 @@ class NovelSourceDiscoveryService:
             hints.append("Create new STATE/OUTLINE/RECORD-style ledgers for the transformed project and keep publishing/translation as bounded later-stage gates.")
         if "desktop_langgraph_memory_observability_gate" in patterns:
             hints.append("Translate multi-agent role handoffs into auditable new-project stages with node evidence, memory readiness, and recovery notes.")
+        if "story_state_output_contract_gate" in patterns:
+            hints.append("For same-type writing, create new state-update schemas and role handoff contracts before drafting; source agent names are process hints, not story authority.")
+        if "living_document_plan_log_verify_gate" in patterns:
+            hints.append("For same-type writing, build new living documents and plan/log/verify checkpoints from the transformed story rather than copying source tracking rows.")
+        if "markdown_frontmatter_continuity_engine_gate" in patterns:
+            hints.append("For same-type writing, define fresh frontmatter fields, promise ids, question ids, and exception markers before prose generation.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -15671,6 +15765,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform state/outline/record ledgers with new story facts, promises, payoffs, and format targets rather than preserving source workflow copy or command text.")
         if "desktop_langgraph_memory_observability_gate" in patterns:
             hints.append("Transform agent workflow into fresh role outputs and observability events; do not copy source node names, artifact ids, or provider routing as story authority.")
+        if "story_state_output_contract_gate" in patterns:
+            hints.append("Transform StoryState by inventing new state fields, update blocks, quality thresholds, and validation findings; do not preserve source state rows or agent prompt contracts.")
+        if "living_document_plan_log_verify_gate" in patterns:
+            hints.append("Transform living-document workflow by changing scene-log schema, thread ids, glossary terms, foreshadowing seeds, and verification cadence for the new manuscript.")
+        if "markdown_frontmatter_continuity_engine_gate" in patterns:
+            hints.append("Transform frontmatter continuity by creating new file ids, field names, promise/payoff links, and mention exceptions rather than copying source project metadata.")
         return hints
 
     def _build_inspired_copy_risk_hints(self, patterns: set[str]) -> list[str]:
@@ -16454,6 +16554,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject transformed runs that preserve source STATE/OUTLINE/RECORD entries, open-thread names, promise/payoff chains, publishing package text, or translation examples.")
         if "desktop_langgraph_memory_observability_gate" in patterns:
             hints.append("Reject drafts that treat source run artifacts, node events, memory backfill notes, style-bible templates, or publisher safety findings as new-story canon.")
+        if "story_state_output_contract_gate" in patterns:
+            hints.append("Reject drafts that copy source StoryState entries, role output contracts, validation reports, quality scores, or state-update block labels as new canon.")
+        if "living_document_plan_log_verify_gate" in patterns:
+            hints.append("Reject drafts that preserve source scene logs, glossary entries, thread markers, foreshadowing checklists, or canon-conflict reports under renamed documents.")
+        if "markdown_frontmatter_continuity_engine_gate" in patterns:
+            hints.append("Reject drafts that reuse source YAML frontmatter, promise ids, question ids, character status rows, artifact status, or exception markers as transformed story data.")
         return hints
 
     def _supports_inspired_creation(self, patterns: set[str]) -> bool:
@@ -16597,6 +16703,9 @@ class NovelSourceDiscoveryService:
                 "fresh_context_chapter_iteration_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",
+                "story_state_output_contract_gate",
+                "living_document_plan_log_verify_gate",
+                "markdown_frontmatter_continuity_engine_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

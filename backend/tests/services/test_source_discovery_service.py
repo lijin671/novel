@@ -16721,3 +16721,92 @@ def test_editor_diagnostic_state_observability_sources_are_static_absorbed():
     assert "author_keeps_pen_diagnostic_codex_gate_hints" in digest
     assert "spec_driven_state_record_publish_gate_hints" in digest
     assert "desktop_langgraph_memory_observability_gate_hints" in digest
+
+
+
+def test_state_contract_living_document_frontmatter_sources_are_static_absorbed():
+    assert "https://github.com/mrigankad/Novel-OS" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/third-order-labs/longform-plugin" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/danjdewhurst/story-skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("StoryState" in query and "OUTPUT CONTRACT" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Plan ? Draft ? Log ? Verify ? Repeat" in query and "scene logs" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("YAML frontmatter" in query and "continuity engine" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "mrigankad/Novel-OS",
+                "html_url": "https://github.com/mrigankad/Novel-OS",
+                "description": (
+                    "Production-grade multi-agent fiction writing framework with Architect, Scribe, Editor, Guardian and Curator agents. "
+                    "Persistent StoryState JSON, strict OUTPUT CONTRACT blocks, [SCRIBE_STATE_UPDATE] and [EDITOR_STATE_UPDATE], "
+                    "deterministic + LLM validation, continuity engine and quality gates."
+                ),
+                "stargazers_count": 7,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "fiction-writing", "multi-agent"],
+                "updated_at": "2026-06-12T07:44:00Z",
+                "root_files": ["README.md", "LICENSE", "src", "docs"],
+            },
+            {
+                "full_name": "third-order-labs/longform-plugin",
+                "html_url": "https://github.com/third-order-labs/longform-plugin",
+                "description": (
+                    "Methodology plugin for novel-length fiction coherence. Plan ? Draft ? Log ? Verify ? Repeat. "
+                    "Pre-draft chapter outlines, automatic scene logs, continuity records, glossary, thread tracking, "
+                    "foreshadowing checklists, review commands, living documents and canon always wins conflict resolution."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["long-form-fiction", "claude-code", "writing"],
+                "updated_at": "2026-06-12T07:45:00Z",
+                "root_files": ["README.md", "LICENSE", "commands", "docs"],
+            },
+            {
+                "full_name": "danjdewhurst/story-skills",
+                "html_url": "https://github.com/danjdewhurst/story-skills",
+                "description": (
+                    "Agent Skills for markdown fiction projects. Story bible, YAML frontmatter, scene state, promises/payoffs, "
+                    "continuity engine, dead characters walking checks, unfired Chekhov guns, stale story state, mentions field and deterministic findings."
+                ),
+                "stargazers_count": 11,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["agent-skills", "story-bible", "continuity"],
+                "updated_at": "2026-06-12T07:46:00Z",
+                "root_files": ["README.md", "LICENSE", "skills", "examples"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T23:45:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "story_state_output_contract_gate" in candidates["mrigankad/Novel-OS"]["absorbed_patterns"]
+    assert "living_document_plan_log_verify_gate" in candidates["third-order-labs/longform-plugin"]["absorbed_patterns"]
+    assert "markdown_frontmatter_continuity_engine_gate" in candidates["danjdewhurst/story-skills"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "story_state_output_contract_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "living_document_plan_log_verify_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "markdown_frontmatter_continuity_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_state_output_contract_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "plan_draft_log_verify_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "frontmatter_continuity_engine_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_state_output_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "living_document_plan_log_verify_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "markdown_frontmatter_continuity_engine_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("state-update blocks" in hint.lower() for hint in pattern_pack["story_state_output_contract_gate_hints"])
+    assert any("Plan -> Draft -> Log -> Verify -> Repeat" in hint for hint in pattern_pack["living_document_plan_log_verify_gate_hints"])
+    assert any("YAML frontmatter" in hint for hint in pattern_pack["markdown_frontmatter_continuity_engine_gate_hints"])
+    assert any("StoryState" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("scene logs" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("YAML frontmatter" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "story_state_output_contract_gate_hints" in digest
+    assert "living_document_plan_log_verify_gate_hints" in digest
+    assert "markdown_frontmatter_continuity_engine_gate_hints" in digest

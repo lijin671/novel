@@ -314,6 +314,9 @@ export interface SourceDiscoveryPatternPack {
   author_keeps_pen_diagnostic_codex_gate_hints?: string[];
   spec_driven_state_record_publish_gate_hints?: string[];
   desktop_langgraph_memory_observability_gate_hints?: string[];
+  story_state_output_contract_gate_hints?: string[];
+  living_document_plan_log_verify_gate_hints?: string[];
+  markdown_frontmatter_continuity_engine_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];
