@@ -344,6 +344,10 @@ export interface SourceDiscoveryPatternPack {
   novel_audit_11_dimension_rewrite_gate_hints?: string[];
   local_continuation_workstation_context_export_gate_hints?: string[];
   p4_p5_foreshadow_relationship_outline_gate_hints?: string[];
+  book_writer_memory_arc_revision_gate_hints?: string[];
+  kindle_agent_pipeline_compile_gate_hints?: string[];
+  kdp_metadata_chapter_export_gate_hints?: string[];
+  dual_model_summary_continuation_session_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

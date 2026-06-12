@@ -17584,3 +17584,111 @@ def test_continuity_audit_outline_sources_are_static_absorbed():
     assert "novel_audit_11_dimension_rewrite_gate_hints" in digest
     assert "local_continuation_workstation_context_export_gate_hints" in digest
     assert "p4_p5_foreshadow_relationship_outline_gate_hints" in digest
+
+
+
+def test_style_memory_publication_sources_are_static_absorbed():
+    assert "https://github.com/kshanxs/book-writer-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Harshil-Jani/kindle-book-agency" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/duchangyu/best-selling-book-writer-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/HLHSM/HLNovel_Writing_Agent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("book memory bank" in query.lower() and "character arc matrix" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Kindle" in query and "chapter expansion" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("KDP metadata" in query and "description.html" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("summary_bot" in query and "writing_bot" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "kshanxs/book-writer-skill",
+                "html_url": "https://github.com/kshanxs/book-writer-skill",
+                "description": (
+                    "Book Writer Skill has a Book Memory Bank, character arc matrix, thematic and motif tracker, pacing blueprint, "
+                    "scene tension map, continuity check, update memory bank command, parallel chapter drafting and targeted dialogue sensory prose polish tension revision passes."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction", "memory-bank", "writing"],
+                "updated_at": "2026-06-12T12:00:00Z",
+                "root_files": ["README.md", "LICENSE", "docs/USAGE.md", "docs/FEATURES.md"],
+            },
+            {
+                "full_name": "Harshil-Jani/kindle-book-agency",
+                "html_url": "https://github.com/Harshil-Jani/kindle-book-agency",
+                "description": (
+                    "Kindle book agency is an 8 specialized agents pipeline with niche researcher, ghostwriter outline, two sample chapters style anchors, "
+                    "developmental editor, parallel chapter expansion, proofreader, formatter, Kindle compiler, DOCX output and edit log."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["kindle", "agents", "book"],
+                "updated_at": "2026-06-12T12:01:00Z",
+                "root_files": ["README.md", "CLAUDE.md", "LICENSE", "write_chapters.py", "compile_kindle.py", "package.json"],
+            },
+            {
+                "full_name": "duchangyu/best-selling-book-writer-skill",
+                "html_url": "https://github.com/duchangyu/best-selling-book-writer-skill",
+                "description": (
+                    "best-selling-book-writer workflow covers topic selection, outline, chapters, KDP metadata, description.html, 7 keywords, "
+                    "validation, book-config.json, preserved chapter files, HTML PDF merge and publishing checklist."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["kdp", "book", "publishing"],
+                "updated_at": "2026-06-12T12:02:00Z",
+                "root_files": ["README.md", "SKILL.md", "scripts/setup-book.py", "scripts/generate-kdp-metadata.py", "scripts/merge-book.py"],
+            },
+            {
+                "full_name": "HLHSM/HLNovel_Writing_Agent",
+                "html_url": "https://github.com/HLHSM/HLNovel_Writing_Agent",
+                "description": (
+                    "HLNovel Writing Agent uses summary_bot and writing_bot, summarizes long text above 100k characters before continuation, "
+                    "supports continue writing, restart writing, new task, SSE streaming, file upload, word limit, extra requirements and session management."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "continuation", "flask"],
+                "updated_at": "2026-06-12T12:03:00Z",
+                "root_files": ["README.md", "config.json", "app.py", "requirements.txt", "prompts/summary_instruction.txt", "prompts/writing_instruction.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T03:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "book_writer_memory_arc_revision_gate" in candidates["kshanxs/book-writer-skill"]["absorbed_patterns"]
+    assert "kindle_agent_pipeline_compile_gate" in candidates["Harshil-Jani/kindle-book-agency"]["absorbed_patterns"]
+    assert "kdp_metadata_chapter_export_gate" in candidates["duchangyu/best-selling-book-writer-skill"]["absorbed_patterns"]
+    assert "dual_model_summary_continuation_session_gate" in candidates["HLHSM/HLNovel_Writing_Agent"]["absorbed_patterns"]
+    assert "license:missing" in candidates["duchangyu/best-selling-book-writer-skill"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["HLHSM/HLNovel_Writing_Agent"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "memory_bank_arc_revision_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "multi_agent_manuscript_pipeline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "kdp_metadata_export_validation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "summary_then_continuation_threshold_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "memory_bank_arc_revision_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_agent_manuscript_pipeline_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "kdp_metadata_validation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "summary_threshold_continuation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "memory_arc_revision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "agent_pipeline_style_anchor_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "publication_metadata_export_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "summary_continuation_session_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("memory-bank" in hint.lower() for hint in pattern_pack["book_writer_memory_arc_revision_gate_hints"])
+    assert any("style anchors" in hint.lower() for hint in pattern_pack["kindle_agent_pipeline_compile_gate_hints"])
+    assert any("7 keywords" in hint.lower() for hint in pattern_pack["kdp_metadata_chapter_export_gate_hints"])
+    assert any("summarize-then-write" in hint.lower() for hint in pattern_pack["dual_model_summary_continuation_session_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "book_writer_memory_arc_revision_gate_hints" in digest
+    assert "kindle_agent_pipeline_compile_gate_hints" in digest
+    assert "kdp_metadata_chapter_export_gate_hints" in digest
+    assert "dual_model_summary_continuation_session_gate_hints" in digest

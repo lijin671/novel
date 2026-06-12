@@ -100,6 +100,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("micro-tension" OR "reader curiosity" OR "chapter hook" OR "cliffhanger audit") ("novel" OR "manuscript") in:name,description,readme',
     '("docx" OR "markdown export" OR "table of contents" OR "title page") ("book" OR "manuscript" OR "novel") in:name,description,readme',
     '("KDP" OR "cover specs" OR "cover design" OR "page numbers") ("book" OR "manuscript" OR "novel") in:name,description,readme',
+    '("book memory bank" OR "character arc matrix" OR "scene tension map") ("novel" OR "fiction") in:name,description,readme',
+    '("Kindle" OR "docx") ("multi-agent" OR "chapter expansion" OR "developmental editor") in:name,description,readme',
+    '("KDP metadata" OR "keywords" OR "description.html") ("chapter" OR "book writer") in:name,description,readme',
+    '("summary_bot" OR "writing_bot" OR "100k") ("novel continuation" OR "??") in:name,description,readme',
     '("interactive narrative" OR "branching story" OR "choice graph") ("fiction" OR "story" OR "narrative") in:name,description,readme',
     '("dialogue" OR "options" OR "commands" OR "variables") ("interactive fiction" OR "narrative") in:name,description,readme',
     '("passages" OR "links" OR "nonlinear stories" OR "multiple-choice games") ("fiction" OR "story") in:name,description,readme',
@@ -563,6 +567,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/ahao0625/novel-audit-skill",
     "https://github.com/hsong6809-boop/novel-continuation",
     "https://github.com/zhao2007/novel-outline-craft-AI-skill-",
+    "https://github.com/kshanxs/book-writer-skill",
+    "https://github.com/Harshil-Jani/kindle-book-agency",
+    "https://github.com/duchangyu/best-selling-book-writer-skill",
+    "https://github.com/HLHSM/HLNovel_Writing_Agent",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1514,6 +1522,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("novel_audit_11_dimension_rewrite_gate", ("novel audit", "11 dimensions", "eleven dimensions", "ai trace", "repetition", "plot rationality", "timeline consistency", "context coherence", "pov consistency", "pacing", "characterization", "worldbuilding", "dialogue quality", "cross-chapter")),
     ("local_continuation_workstation_context_export_gate", ("novel-continuation", "local continuation", "three-layer outline", "style lock", "context assembly", "previous 5 chapters", "fts5", "token estimation", "self review", "character snapshot", "foreshadow status", "txt", "docx", "epub")),
     ("p4_p5_foreshadow_relationship_outline_gate", ("p4", "p5", "foreshadow", "relationship line", "chapter outline", "volume outline", "setup", "advance", "reveal", "relationship closure", "cross validation", "three consecutive chapters")),
+    ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
+    ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
+    ("kdp_metadata_chapter_export_gate", ("best-selling-book-writer", "topic selection", "outline", "chapters", "kdp metadata", "description.html", "7 keywords", "validation", "html", "pdf", "book-config.json", "chapters remain", "publishing checklist")),
+    ("dual_model_summary_continuation_session_gate", ("hlnovel", "summary_bot", "writing_bot", "100k", "long text summary", "continue writing", "restart writing", "new task", "sse", "streaming", "file upload", "word limit", "session management")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3924,6 +3936,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "novel-outline-craft-AI-skill- is a no-license-observed outline skill. Static README/SKILL markers describe P4 volume-level foreshadowing, P5 intra-volume setup, relationship-line stage changes, foreshadow/relationship cross-validation, chapter-level P4 operation labels, and risk when three consecutive chapters lack P4 operations. "
         "Pattern-only adaptation for P4/P5 foreshadow relationship outline gates; skill prompt bodies, generated fine outlines, local output folders, and runtime skill execution are not imported or executed."
     ),
+    "kshanxs/book-writer-skill": (
+        "book-writer-skill is an MIT fiction-writing skill. Static README/docs markers describe a Book Memory Bank, character arc matrix, theme/motif tracker, pacing blueprint, scene tension map, continuity checks, memory-bank updates, parallel chapter drafting/review, and focused dialogue/sensory/prose/tension revision passes. "
+        "Pattern-only adaptation for memory-arc revision gates; npx skill install, prompt bodies, generated chapters, memory-bank project files, background agents, and compile commands are not executed or imported."
+    ),
+    "harshil-jani/kindle-book-agency": (
+        "kindle-book-agency is an MIT multi-agent Kindle manuscript pipeline. Static README/CLAUDE markers describe 8 specialized agents, dependency-aware phases, ghostwriter outline plus two sample chapters as style anchors, developmental editing, parallel chapter expansion, proofreading, formatting, and Kindle-ready DOCX compilation. "
+        "Pattern-only adaptation for agent pipeline compile gates; Claude CLI subprocesses, Anthropic API, agent prompt bodies, write_chapters.py, compile_kindle.py, visual generation, package scripts, and generated manuscripts are not executed or imported."
+    ),
+    "duchangyu/best-selling-book-writer-skill": (
+        "best-selling-book-writer-skill is a no-license-file-observed AI book workflow. Static README/SKILL markers describe topic selection, outline, chapter writing, KDP metadata, description.html, 7 keyword validation, book-config.json, preserved chapter files, HTML/PDF merge, and a publishing checklist. "
+        "Pattern-only adaptation for KDP metadata/export gates; scripts, Playwright/PDF generation, cover prompts, KDP publishing operations, generated chapters, and prompt/reference bodies are not executed or imported."
+    ),
+    "hlhsm/hlnovel_writing_agent": (
+        "HLNovel_Writing_Agent is a no-license-observed Chinese novel continuation assistant. Static README/config markers describe separate summary_bot and writing_bot roles, 100k-character threshold summarization before continuation, continue/restart/new-task modes, SSE streaming, text/file upload, word limits, extra requirements, segment storage, and session clearing. "
+        "Pattern-only adaptation for dual-model summary continuation session gates; Flask server, qwen-agent, provider endpoints, API keys, prompts, uploads, streaming runtime, and generated continuation text are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4748,6 +4776,10 @@ class NovelSourceDiscoveryService:
             "novel_audit_11_dimension_rewrite_gate_hints": self._build_novel_audit_11_dimension_rewrite_gate_hints(available_patterns),
             "local_continuation_workstation_context_export_gate_hints": self._build_local_continuation_workstation_context_export_gate_hints(available_patterns),
             "p4_p5_foreshadow_relationship_outline_gate_hints": self._build_p4_p5_foreshadow_relationship_outline_gate_hints(available_patterns),
+            "book_writer_memory_arc_revision_gate_hints": self._build_book_writer_memory_arc_revision_gate_hints(available_patterns),
+            "kindle_agent_pipeline_compile_gate_hints": self._build_kindle_agent_pipeline_compile_gate_hints(available_patterns),
+            "kdp_metadata_chapter_export_gate_hints": self._build_kdp_metadata_chapter_export_gate_hints(available_patterns),
+            "dual_model_summary_continuation_session_gate_hints": self._build_dual_model_summary_continuation_session_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -7127,6 +7159,18 @@ class NovelSourceDiscoveryService:
         if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
             targets.append("p4_p5_foreshadow_outline_policy")
             targets.append("relationship_line_cross_validation_policy")
+        if "book_writer_memory_arc_revision_gate" in patterns:
+            targets.append("memory_bank_arc_revision_policy")
+            targets.append("scene_tension_motif_tracker_policy")
+        if "kindle_agent_pipeline_compile_gate" in patterns:
+            targets.append("multi_agent_manuscript_pipeline_policy")
+            targets.append("style_anchor_chapter_expansion_policy")
+        if "kdp_metadata_chapter_export_gate" in patterns:
+            targets.append("kdp_metadata_export_validation_policy")
+            targets.append("chapter_preservation_merge_policy")
+        if "dual_model_summary_continuation_session_gate" in patterns:
+            targets.append("summary_then_continuation_threshold_policy")
+            targets.append("continuation_session_mode_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8226,6 +8270,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["continuation_context_assembly_report", "token_estimation_export_trace", "foreshadow_status_snapshot_findings"])
         if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
             targets.extend(["p4_p5_foreshadow_recovery_report", "relationship_line_closure_findings", "chapter_p4_operation_risk_trace"])
+        if "book_writer_memory_arc_revision_gate" in patterns:
+            targets.extend(["memory_bank_arc_revision_report", "scene_tension_map_findings", "motif_tracker_continuity_trace"])
+        if "kindle_agent_pipeline_compile_gate" in patterns:
+            targets.extend(["multi_agent_manuscript_pipeline_report", "style_anchor_chapter_expansion_trace", "kindle_compile_readiness_findings"])
+        if "kdp_metadata_chapter_export_gate" in patterns:
+            targets.extend(["kdp_metadata_validation_report", "chapter_preservation_merge_trace", "publication_export_boundary_findings"])
+        if "dual_model_summary_continuation_session_gate" in patterns:
+            targets.extend(["summary_threshold_continuation_report", "session_mode_restart_findings", "streaming_upload_boundary_trace"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8832,6 +8884,14 @@ class NovelSourceDiscoveryService:
             hints.append("Persist continuation context assembly inputs, style-lock scope, recent-chapter window, token estimate, self-review result, foreshadow status, and export format separately.")
         if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
             hints.append("Persist P4/P5 outline operations, relationship-stage deltas, setup/advance/reveal state, three-chapter no-P4 risk, and closure owner per chapter.")
+        if "book_writer_memory_arc_revision_gate" in patterns:
+            hints.append("Persist memory-bank updates, character-arc deltas, motif movements, scene tension scores, targeted revision pass type, and continuity check outcome per chapter.")
+        if "kindle_agent_pipeline_compile_gate" in patterns:
+            hints.append("Persist pipeline phase, agent role, dependency input ids, style-anchor chapter ids, expansion chapter range, edit log, format spec, and compile readiness separately.")
+        if "kdp_metadata_chapter_export_gate" in patterns:
+            hints.append("Persist KDP metadata, keyword validation, description length checks, chapter file preservation status, merge manifest, and export boundary as publication metadata.")
+        if "dual_model_summary_continuation_session_gate" in patterns:
+            hints.append("Persist summary threshold decision, summary source id, writing context id, session mode, segment index, restart target, word limit, and upload boundary for each continuation.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -14066,6 +14126,42 @@ class NovelSourceDiscoveryService:
             "Skill prompt bodies, generated fine outlines, local output folders, and upstream runtime execution remain excluded from static intake.",
         ]
 
+    def _build_book_writer_memory_arc_revision_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "book_writer_memory_arc_revision_gate" not in patterns:
+            return []
+        return [
+            "Use a visible memory-bank layer for characters, world, plot, progress, style, character arcs, motifs, pacing blueprint, and scene tension before chapter drafting.",
+            "Run targeted revision passes as separate gates: dialogue, sensory detail, prose polish, tension curve, and continuity; each pass cites chapter and memory-bank evidence.",
+            "npx skill install, prompt bodies, background agents, generated chapters, project memory-bank files, and compile commands remain excluded from static intake.",
+        ]
+
+    def _build_kindle_agent_pipeline_compile_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "kindle_agent_pipeline_compile_gate" not in patterns:
+            return []
+        return [
+            "Treat multi-agent book production as dependency-aware phases: research, style-anchor chapters, structural edit, chapter expansion, proofread, format, and compile readiness.",
+            "Style anchors should be accepted sample chapters with reviewer status before parallel expansion; expanded chapters inherit voice guide, outline, editor feedback, and audience notes.",
+            "Claude CLI subprocesses, Anthropic API, agent prompt bodies, write_chapters.py, compile_kindle.py, package scripts, and generated DOCX/manuscripts are not executed or imported.",
+        ]
+
+    def _build_kdp_metadata_chapter_export_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "kdp_metadata_chapter_export_gate" not in patterns:
+            return []
+        return [
+            "Keep topic, target audience, outline, chapter order, KDP description, 7 keywords, and validation results as publication metadata rather than story canon.",
+            "Merging/export should preserve original chapter files and record a manifest for title, subtitle, author, table of contents, HTML/PDF target, and prohibited-content checks.",
+            "setup/generate/merge scripts, Playwright/PDF generation, cover prompts, KDP publishing operations, generated chapters, and upstream references remain static-only.",
+        ]
+
+    def _build_dual_model_summary_continuation_session_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "dual_model_summary_continuation_session_gate" not in patterns:
+            return []
+        return [
+            "For very long source text, gate continuation through an explicit summarize-then-write decision with threshold, summary id, retained facts, and discarded detail notes.",
+            "Continuation modes should be explicit: continue, regenerate last segment, or new task; each mode records session id, segment boundary, word limit, and extra writing requirements.",
+            "Flask/qwen-agent runtime, provider endpoints, API keys, prompt files, uploads, SSE streams, and generated continuation text remain excluded from static intake.",
+        ]
+
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
@@ -15086,6 +15182,14 @@ class NovelSourceDiscoveryService:
             targets.append("continuation_workstation_context_remap")
         if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
             targets.append("p4_p5_foreshadow_relationship_remap")
+        if "book_writer_memory_arc_revision_gate" in patterns:
+            targets.append("memory_arc_revision_remap")
+        if "kindle_agent_pipeline_compile_gate" in patterns:
+            targets.append("agent_pipeline_style_anchor_remap")
+        if "kdp_metadata_chapter_export_gate" in patterns:
+            targets.append("publication_metadata_export_remap")
+        if "dual_model_summary_continuation_session_gate" in patterns:
+            targets.append("summary_continuation_session_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15161,6 +15265,14 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt continuation with a visible context assembly manifest, token estimate, style-lock range, self-review result, and export boundary before accepting prose.")
         if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
             hints.append("Prompt P4/P5 outline work as transformed foreshadow and relationship operations with payoff owners, not as copied chapter-by-chapter source structures.")
+        if "book_writer_memory_arc_revision_gate" in patterns:
+            hints.append("Prompt memory-bank and revision-pass guidance as target-story artifacts with cited chapter evidence; do not import upstream skill commands or examples.")
+        if "kindle_agent_pipeline_compile_gate" in patterns:
+            hints.append("Prompt agent pipeline stages as reviewable target roles and style-anchor expansion gates; do not call Claude subprocesses or copy agent prompt bodies.")
+        if "kdp_metadata_chapter_export_gate" in patterns:
+            hints.append("Prompt KDP/export data as metadata validation and merge manifests; keep it outside canon and avoid source title/tagline reuse.")
+        if "dual_model_summary_continuation_session_gate" in patterns:
+            hints.append("Prompt long-text continuation with an explicit summary threshold and session mode so regenerate/new-task behavior cannot silently corrupt continuity.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -15884,6 +15996,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform workstation context assembly into target continuation manifests, token budgets, foreshadow states, and export metadata without running desktop/server code.")
         if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
             hints.append("Transform P4/P5 markers into target foreshadow lifecycle and relationship-line state transitions with fresh setup/payoff content.")
+        if "book_writer_memory_arc_revision_gate" in patterns:
+            hints.append("Transform memory-bank categories into the target book namespace: arcs, motifs, pacing, scene tension, and revision evidence stay tied to new chapters.")
+        if "kindle_agent_pipeline_compile_gate" in patterns:
+            hints.append("Transform multi-agent pipeline roles into target review duties with fresh style anchors, dependency inputs, and expansion ranges.")
+        if "kdp_metadata_chapter_export_gate" in patterns:
+            hints.append("Transform publication metadata into target-market fields and validation reports while preserving original chapter files and avoiding source marketing language.")
+        if "dual_model_summary_continuation_session_gate" in patterns:
+            hints.append("Transform summarize-then-continue mechanics into target session state with clear segment boundaries, summary evidence, and regeneration scope.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -16647,6 +16767,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject continuation outputs that hide context assembly, style-lock range, token budget, self-review, or export artifacts as accepted story facts.")
         if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
             hints.append("Reject outlines that copy P4/P5 prompt bodies, source chapter order, or unowned foreshadow chains without target payoff evidence.")
+        if "book_writer_memory_arc_revision_gate" in patterns:
+            hints.append("Reject drafts that treat upstream memory-bank examples, skill commands, motif labels, or revision-pass wording as target story facts.")
+        if "kindle_agent_pipeline_compile_gate" in patterns:
+            hints.append("Reject agent-pipeline outputs that hide generated style-anchor text, copied agent prompts, or DOCX/formatting artifacts inside canon.")
+        if "kdp_metadata_chapter_export_gate" in patterns:
+            hints.append("Reject publication metadata that reuses source title phrasing, KDP descriptions, keywords, cover prompts, or generated chapter examples.")
+        if "dual_model_summary_continuation_session_gate" in patterns:
+            hints.append("Reject continuations whose summary compression drops active promises, changes session mode silently, or imports provider/config/upload details into prose.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -17612,6 +17740,10 @@ class NovelSourceDiscoveryService:
                 "novel_audit_11_dimension_rewrite_gate",
                 "local_continuation_workstation_context_export_gate",
                 "p4_p5_foreshadow_relationship_outline_gate",
+                "book_writer_memory_arc_revision_gate",
+                "kindle_agent_pipeline_compile_gate",
+                "kdp_metadata_chapter_export_gate",
+                "dual_model_summary_continuation_session_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

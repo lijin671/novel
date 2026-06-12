@@ -465,6 +465,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Novel audit 11-dimension rewrite gates" in panel_text
     assert "Local continuation workstation context gates" in panel_text
     assert "P4/P5 foreshadow relationship outline gates" in panel_text
+    assert "Book Writer memory-arc revision gates" in panel_text
+    assert "Kindle agent pipeline compile gates" in panel_text
+    assert "KDP metadata chapter export gates" in panel_text
+    assert "Dual-model summary continuation session gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text

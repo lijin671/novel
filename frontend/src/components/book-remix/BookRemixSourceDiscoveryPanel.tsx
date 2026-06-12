@@ -362,6 +362,10 @@ const PINNED_HINT_KEYS = new Set([
   'novel_audit_11_dimension_rewrite_gate_hints',
   'local_continuation_workstation_context_export_gate_hints',
   'p4_p5_foreshadow_relationship_outline_gate_hints',
+  'book_writer_memory_arc_revision_gate_hints',
+  'kindle_agent_pipeline_compile_gate_hints',
+  'kdp_metadata_chapter_export_gate_hints',
+  'dual_model_summary_continuation_session_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -786,6 +790,10 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Novel audit 11-dimension rewrite gates', patternPackPayload?.novel_audit_11_dimension_rewrite_gate_hints],
               ['Local continuation workstation context gates', patternPackPayload?.local_continuation_workstation_context_export_gate_hints],
               ['P4/P5 foreshadow relationship outline gates', patternPackPayload?.p4_p5_foreshadow_relationship_outline_gate_hints],
+              ['Book Writer memory-arc revision gates', patternPackPayload?.book_writer_memory_arc_revision_gate_hints],
+              ['Kindle agent pipeline compile gates', patternPackPayload?.kindle_agent_pipeline_compile_gate_hints],
+              ['KDP metadata chapter export gates', patternPackPayload?.kdp_metadata_chapter_export_gate_hints],
+              ['Dual-model summary continuation session gates', patternPackPayload?.dual_model_summary_continuation_session_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],
