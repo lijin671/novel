@@ -82,6 +82,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("foreshadowing debt" OR "follow-up rate" OR "reader retention") ("webnovel" OR "novel") in:name,description,readme',
     '("reader reward" OR "commercial serialization" OR "paid conversion" OR "opening hook") ("webnovel" OR "serial fiction") in:name,description,readme',
     '("Draft A" OR "Draft B" OR "Draft C" OR "chapter blueprint") ("web novel" OR "fiction writing") in:name,description,readme',
+    '("multi-agent" OR "RAG" OR "consistency") ("novel" OR "worldbuilding" OR "outline") in:name,description,readme',
+    '("ScriptYAML" OR "scene planning" OR "novel to screenplay") ("novel" OR "script") in:name,description,readme',
+    '("11" OR "eleven") ("novel audit" OR "AI trace" OR "cross-chapter") in:name,description,readme',
+    '("style lock" OR "context assembly" OR "foreshadow") ("novel continuation" OR "long novel") in:name,description,readme',
+    '("P4" OR "P5" OR "foreshadow") ("relationship line" OR "chapter outline" OR "novel outline") in:name,description,readme',
     '("rolling summary" OR "character state tracking" OR "context trimming") ("long-form" OR "novel") in:name,description,readme',
     '("head-to-head story" OR "pairwise margins" OR "evaluator agreement") ("creative writing" OR "fiction") in:name,description,readme',
     '("q1" OR "q15" OR "ranked weaknesses" OR "overall score") ("story evaluation" OR "creative writing") in:name,description,readme',
@@ -553,6 +558,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/jiejiu344/novel-rule-auditor-skill",
     "https://github.com/qscwzby7t6-svg/novel-rewriter",
     "https://github.com/keyboardgdy/woke_novel",
+    "https://github.com/HXSLtim/Nai",
+    "https://github.com/huohuomiao/ScriptWhisper",
+    "https://github.com/ahao0625/novel-audit-skill",
+    "https://github.com/hsong6809-boop/novel-continuation",
+    "https://github.com/zhao2007/novel-outline-craft-AI-skill-",
     "https://github.com/hestudy/snowflake-fiction",
     "https://github.com/forsonny/The-Crucible-Writing-System-For-Claude",
     "https://github.com/XuanRanL/webnovel-writer",
@@ -1499,6 +1509,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("novel_rule_auditor_learning_loop_gate", ("novel-rule-auditor", "novel rule auditor", "????", "????", "????", "????", "????.md", "??", "????", "??", "??", "??????")),
     ("novel_rewriter_copyright_cost_gate", ("novel-rewriter", "copyright_check", "deai_enabled", "quality_threshold", "chapter_budget", "fallback_provider", "fallback_model", "context window", "split_by_chapter", "???", "????", "?ai")),
     ("woke_novel_template_resume_cli_gate", ("woke_novel", "template-driven", "resume from breakpoint", "strict template", "claude cli", "codex cli", "20 workflow templates", "project-local artifacts", "dry-run", "multi-session", "30-chapter chinese web novel")),
+    ("nai_multi_agent_rag_consistency_gate", ("nai", "multi-agent", "worldbuilding", "character", "outline", "consistency", "rag", "vector", "bm25", "metadata", "knowledge graph", "timeline", "emotion state machine")),
+    ("scriptwhisper_scriptyaml_adaptation_gate", ("scriptwhisper", "scriptyaml", "novel adaptation", "chapter parse", "character extraction", "location extraction", "scene planning", "script generation", "pydantic", "schema validation", "auto repair", "yaml export", "markdown export")),
+    ("novel_audit_11_dimension_rewrite_gate", ("novel audit", "11 dimensions", "eleven dimensions", "ai trace", "repetition", "plot rationality", "timeline consistency", "context coherence", "pov consistency", "pacing", "characterization", "worldbuilding", "dialogue quality", "cross-chapter")),
+    ("local_continuation_workstation_context_export_gate", ("novel-continuation", "local continuation", "three-layer outline", "style lock", "context assembly", "previous 5 chapters", "fts5", "token estimation", "self review", "character snapshot", "foreshadow status", "txt", "docx", "epub")),
+    ("p4_p5_foreshadow_relationship_outline_gate", ("p4", "p5", "foreshadow", "relationship line", "chapter outline", "volume outline", "setup", "advance", "reveal", "relationship closure", "cross validation", "three consecutive chapters")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3889,6 +3904,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "woke_novel is an MIT template-driven Chinese web-novel workflow for Claude CLI or Codex CLI. Static README markers describe 20 workflow templates, strict Markdown constraints, resumable project cursor, multi-session orchestration, dry-run mode, and project-local artifact folders for baseline, plots, guides, output, state, and characters. "
         "Pattern-only adaptation for template-resume CLI gates; pip install, CLI/provider invocation, authenticated Claude/Codex runtime, project outputs, and template prompt bodies are not executed or imported."
     ),
+    "hxsltim/nai": (
+        "Nai is a no-license-observed multi-agent novel creation system. Static markers describe separated worldbuilding, character dialogue and plot-control agents, hybrid RAG over vector/BM25/metadata retrieval, and layered consistency checks across rule engine, knowledge graph, timeline, and emotion state machine. "
+        "Pattern-only adaptation for multi-agent RAG consistency gates; FastAPI, LangGraph, LlamaIndex, Qdrant, PostgreSQL, Redis, Neo4j, Next.js, Docker, provider calls, and runtime data stores are not executed or imported."
+    ),
+    "huohuomiao/scriptwhisper": (
+        "ScriptWhisper is a no-license-observed novel-to-script adaptation workbench. Static README markers describe ScriptYAML, chapter parsing, character/location extraction, scene planning, script generation, Pydantic schema validation, auto repair, YAML/Markdown export, and local mock mode when environment files are absent. "
+        "Pattern-only adaptation for ScriptYAML adaptation gates; npm/python installs, Playwright UI verification, browser automation, provider calls, .env files, demo downloads, generated scripts, and network-drive assets are not executed or imported."
+    ),
+    "ahao0625/novel-audit-skill": (
+        "novel-audit-skill is a no-license-observed Chinese web-novel audit and de-AI rewrite skill. Static README/SKILL markers describe 11 audit dimensions, single-chapter and cross-chapter audits, 25 quick AI-trace checks, weighted A/B/C scoring, issue localization, optimized text suggestions, and rewrite rationale. "
+        "Pattern-only adaptation for 11-dimension rewrite audit gates; skill prompt bodies, references, scripts/text_stats.py, local manuscripts, generated rewrite text, and any skill runtime are not executed or imported."
+    ),
+    "hsong6809-boop/novel-continuation": (
+        "novel-continuation is a no-license-file-observed local long-novel continuation workstation. Static README markers describe three-layer outlines, SSE streaming, first-three-chapter style lock, context assembly from recent chapters, style references, chapter outlines, characters, foreshadows, worldbuilding and FTS5 snippets, token estimation, self review, character snapshots, foreshadow status, timeline dedupe, and TXT/DOCX/EPUB export. "
+        "Pattern-only adaptation for local continuation context/export gates; app.py, start.bat, setup.iss, desktop executables, backend/frontend servers, providers, local databases, generated manuscripts, and export artifacts are not executed or imported."
+    ),
+    "zhao2007/novel-outline-craft-ai-skill-": (
+        "novel-outline-craft-AI-skill- is a no-license-observed outline skill. Static README/SKILL markers describe P4 volume-level foreshadowing, P5 intra-volume setup, relationship-line stage changes, foreshadow/relationship cross-validation, chapter-level P4 operation labels, and risk when three consecutive chapters lack P4 operations. "
+        "Pattern-only adaptation for P4/P5 foreshadow relationship outline gates; skill prompt bodies, generated fine outlines, local output folders, and runtime skill execution are not imported or executed."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4708,6 +4743,11 @@ class NovelSourceDiscoveryService:
             "novel_rule_auditor_learning_loop_gate_hints": self._build_novel_rule_auditor_learning_loop_gate_hints(available_patterns),
             "novel_rewriter_copyright_cost_gate_hints": self._build_novel_rewriter_copyright_cost_gate_hints(available_patterns),
             "woke_novel_template_resume_cli_gate_hints": self._build_woke_novel_template_resume_cli_gate_hints(available_patterns),
+            "nai_multi_agent_rag_consistency_gate_hints": self._build_nai_multi_agent_rag_consistency_gate_hints(available_patterns),
+            "scriptwhisper_scriptyaml_adaptation_gate_hints": self._build_scriptwhisper_scriptyaml_adaptation_gate_hints(available_patterns),
+            "novel_audit_11_dimension_rewrite_gate_hints": self._build_novel_audit_11_dimension_rewrite_gate_hints(available_patterns),
+            "local_continuation_workstation_context_export_gate_hints": self._build_local_continuation_workstation_context_export_gate_hints(available_patterns),
+            "p4_p5_foreshadow_relationship_outline_gate_hints": self._build_p4_p5_foreshadow_relationship_outline_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -7072,6 +7112,21 @@ class NovelSourceDiscoveryService:
         if "woke_novel_template_resume_cli_gate" in patterns:
             targets.append("template_resume_project_cursor_policy")
             targets.append("cli_prompt_runtime_exclusion_policy")
+        if "nai_multi_agent_rag_consistency_gate" in patterns:
+            targets.append("multi_agent_rag_consistency_policy")
+            targets.append("role_split_consistency_guard_policy")
+        if "scriptwhisper_scriptyaml_adaptation_gate" in patterns:
+            targets.append("scriptyaml_adaptation_schema_policy")
+            targets.append("scene_entity_export_boundary_policy")
+        if "novel_audit_11_dimension_rewrite_gate" in patterns:
+            targets.append("eleven_dimension_novel_audit_policy")
+            targets.append("actionable_rewrite_suggestion_policy")
+        if "local_continuation_workstation_context_export_gate" in patterns:
+            targets.append("local_continuation_context_assembly_policy")
+            targets.append("token_budget_export_policy")
+        if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
+            targets.append("p4_p5_foreshadow_outline_policy")
+            targets.append("relationship_line_cross_validation_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8161,6 +8216,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["copyright_similarity_quality_report", "chapter_budget_provider_fallback_trace", "deai_quality_threshold_findings"])
         if "woke_novel_template_resume_cli_gate" in patterns:
             targets.extend(["template_resume_cursor_report", "workflow_artifact_folder_trace", "cli_runtime_prompt_boundary_findings"])
+        if "nai_multi_agent_rag_consistency_gate" in patterns:
+            targets.extend(["multi_agent_consistency_report", "rag_metadata_timeline_findings", "role_split_consistency_guard_trace"])
+        if "scriptwhisper_scriptyaml_adaptation_gate" in patterns:
+            targets.extend(["scriptyaml_schema_validation_report", "chapter_scene_adaptation_trace", "scene_entity_export_boundary_findings"])
+        if "novel_audit_11_dimension_rewrite_gate" in patterns:
+            targets.extend(["novel_audit_11_dimension_scorecard", "cross_chapter_continuity_audit_findings", "actionable_rewrite_suggestion_trace"])
+        if "local_continuation_workstation_context_export_gate" in patterns:
+            targets.extend(["continuation_context_assembly_report", "token_estimation_export_trace", "foreshadow_status_snapshot_findings"])
+        if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
+            targets.extend(["p4_p5_foreshadow_recovery_report", "relationship_line_closure_findings", "chapter_p4_operation_risk_trace"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8757,6 +8822,16 @@ class NovelSourceDiscoveryService:
             hints.append("Persist copyright/similarity check result, de-AI pass result, quality score, chapter budget, provider fallback decision, and split-chapter output ids separately.")
         if "woke_novel_template_resume_cli_gate" in patterns:
             hints.append("Persist workflow step cursor, template id, session boundary, dry-run status, generated artifact path, and resume decision without importing upstream prompt bodies.")
+        if "nai_multi_agent_rag_consistency_gate" in patterns:
+            hints.append("Persist each agent role output, retrieval source class, metadata filter, timeline assertion, graph assertion, and emotion-state check as reviewable consistency evidence.")
+        if "scriptwhisper_scriptyaml_adaptation_gate" in patterns:
+            hints.append("Persist ScriptYAML-like scene cards with source chapter id, extracted entities, schema validation status, repair reason, and export approval before script adaptation.")
+        if "novel_audit_11_dimension_rewrite_gate" in patterns:
+            hints.append("Persist 11-dimension audit findings with exact location, severity, rewrite suggestion id, rationale, A/B/C score component, and cross-chapter evidence ids.")
+        if "local_continuation_workstation_context_export_gate" in patterns:
+            hints.append("Persist continuation context assembly inputs, style-lock scope, recent-chapter window, token estimate, self-review result, foreshadow status, and export format separately.")
+        if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
+            hints.append("Persist P4/P5 outline operations, relationship-stage deltas, setup/advance/reveal state, three-chapter no-P4 risk, and closure owner per chapter.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -13946,6 +14021,51 @@ class NovelSourceDiscoveryService:
             "Claude/Codex CLI invocation, authenticated runtime, prompt template bodies, project outputs, and local state folders are excluded from static intake.",
         ]
 
+    def _build_nai_multi_agent_rag_consistency_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "nai_multi_agent_rag_consistency_gate" not in patterns:
+            return []
+        return [
+            "Split continuation review into role outputs for worldbuilding, character dialogue, plot control, and consistency arbitration; each role cites target-story evidence ids.",
+            "Hybrid retrieval should record vector/BM25/metadata source classes, then validate findings against rule, graph, timeline, and emotion-state consistency layers.",
+            "FastAPI/LangGraph/LlamaIndex/Qdrant/PostgreSQL/Redis/Neo4j/Next.js/Docker runtimes, providers, and upstream data stores remain deferred and non-imported.",
+        ]
+
+    def _build_scriptwhisper_scriptyaml_adaptation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scriptwhisper_scriptyaml_adaptation_gate" not in patterns:
+            return []
+        return [
+            "Convert chapter material into explicit scene cards with character, location, objective, conflict, and dialogue-intent fields before any script-style adaptation.",
+            "Schema validation and repair should output only target-project deltas; exports require approval and must not pull demo downloads, .env data, or generated upstream scripts.",
+            "npm/python installs, Playwright/browser checks, provider calls, demo assets, and ScriptWhisper runtime are deferred during intake.",
+        ]
+
+    def _build_novel_audit_11_dimension_rewrite_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novel_audit_11_dimension_rewrite_gate" not in patterns:
+            return []
+        return [
+            "Audit chapters across 11 dimensions: prose quality, AI trace, repetition, plot rationality, timeline, context, POV, pacing/payoff, characterization, worldbuilding, and dialogue.",
+            "Every rewrite suggestion needs location, problem type, replacement intent, rationale, score impact, and cross-chapter evidence before it can influence accepted prose.",
+            "Skill prompt bodies, reference text, scripts, local manuscripts, generated rewrite outputs, and external audit runtime are excluded from import and execution.",
+        ]
+
+    def _build_local_continuation_workstation_context_export_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_continuation_workstation_context_export_gate" not in patterns:
+            return []
+        return [
+            "Assemble continuation context from hierarchy, recent accepted chapters, style-lock scope, chapter outline, character snapshots, foreshadow states, world rules, and early-snippet anchors.",
+            "Token estimates, self-review, timeline dedupe, export format, and foreshadow active/resolved/abandoned status should be visible acceptance gates, not hidden generation side effects.",
+            "Desktop installers, start scripts, servers, local databases, provider calls, generated manuscripts, TXT/DOCX/EPUB exports, and runtime state are deferred.",
+        ]
+
+    def _build_p4_p5_foreshadow_relationship_outline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "p4_p5_foreshadow_relationship_outline_gate" not in patterns:
+            return []
+        return [
+            "For each volume/chapter outline, mark P4 foreshadow operations and P5 relationship-line moves as setup, advance, reveal, fracture, trust, or closure changes.",
+            "Flag three consecutive chapters without P4 movement, unresolved setup without owner, or relationship changes that lack scene evidence or later payoff target.",
+            "Skill prompt bodies, generated fine outlines, local output folders, and upstream runtime execution remain excluded from static intake.",
+        ]
+
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
@@ -14956,6 +15076,16 @@ class NovelSourceDiscoveryService:
             targets.append("copyright_quality_budget_remap")
         if "woke_novel_template_resume_cli_gate" in patterns:
             targets.append("template_cursor_resume_remap")
+        if "nai_multi_agent_rag_consistency_gate" in patterns:
+            targets.append("multi_agent_consistency_remap")
+        if "scriptwhisper_scriptyaml_adaptation_gate" in patterns:
+            targets.append("script_scene_adaptation_remap")
+        if "novel_audit_11_dimension_rewrite_gate" in patterns:
+            targets.append("audit_dimension_rewrite_remap")
+        if "local_continuation_workstation_context_export_gate" in patterns:
+            targets.append("continuation_workstation_context_remap")
+        if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
+            targets.append("p4_p5_foreshadow_relationship_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15021,6 +15151,16 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt rewriting with explicit similarity/copyright check, de-AI pass, quality threshold, per-chapter budget, and fallback-provider exclusion from creative content.")
         if "woke_novel_template_resume_cli_gate" in patterns:
             hints.append("Prompt each workflow step as a target template id plus artifact contract and resume cursor; upstream step prompts and CLI command text remain excluded.")
+        if "nai_multi_agent_rag_consistency_gate" in patterns:
+            hints.append("Prompt multi-agent consistency as independent target-story reviewer roles with cited retrieval metadata, then merge only approved findings into the new outline or continuation plan.")
+        if "scriptwhisper_scriptyaml_adaptation_gate" in patterns:
+            hints.append("Prompt adaptation through target scene cards and schema checks; do not import ScriptYAML examples, demo links, or upstream generated scripts.")
+        if "novel_audit_11_dimension_rewrite_gate" in patterns:
+            hints.append("Prompt rewrite audits as a target 11-dimension scorecard with localized suggestions; do not copy upstream skill wording or reference examples.")
+        if "local_continuation_workstation_context_export_gate" in patterns:
+            hints.append("Prompt continuation with a visible context assembly manifest, token estimate, style-lock range, self-review result, and export boundary before accepting prose.")
+        if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
+            hints.append("Prompt P4/P5 outline work as transformed foreshadow and relationship operations with payoff owners, not as copied chapter-by-chapter source structures.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -15734,6 +15874,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform rewrite safeguards into target acceptance gates: similarity budget, copyright risk note, quality score, de-AI delta, and cost trace before chapter acceptance.")
         if "woke_novel_template_resume_cli_gate" in patterns:
             hints.append("Transform template-driven workflow into target artifact names and state transitions; do not preserve upstream folder names, step prompt bodies, or CLI session assumptions.")
+        if "nai_multi_agent_rag_consistency_gate" in patterns:
+            hints.append("Transform multi-agent/RAG architecture into target reviewer roles, retrieval labels, timeline checks, and graph assertions while excluding upstream service topology.")
+        if "scriptwhisper_scriptyaml_adaptation_gate" in patterns:
+            hints.append("Transform novel-to-script structure into target scene objectives, entities, locations, and validation states rather than preserving upstream ScriptYAML samples.")
+        if "novel_audit_11_dimension_rewrite_gate" in patterns:
+            hints.append("Transform audit dimensions into target acceptance criteria with new evidence ids and rewritten intent, not copied diagnostic phrasing.")
+        if "local_continuation_workstation_context_export_gate" in patterns:
+            hints.append("Transform workstation context assembly into target continuation manifests, token budgets, foreshadow states, and export metadata without running desktop/server code.")
+        if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
+            hints.append("Transform P4/P5 markers into target foreshadow lifecycle and relationship-line state transitions with fresh setup/payoff content.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -16487,6 +16637,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type rewrites that pass quality while exceeding similarity/copyright budget, hiding provider fallback, or importing API/config/deployment details as story state.")
         if "woke_novel_template_resume_cli_gate" in patterns:
             hints.append("Reject outputs that copy upstream workflow templates, folder taxonomy, prompt bodies, or CLI resume logs into target canon or user-visible manuscript artifacts.")
+        if "nai_multi_agent_rag_consistency_gate" in patterns:
+            hints.append("Reject consistency reports that import upstream agent prompts, service configs, vector-store data, or graph/timeline examples instead of target-story evidence.")
+        if "scriptwhisper_scriptyaml_adaptation_gate" in patterns:
+            hints.append("Reject adaptations that preserve demo ScriptYAML structures, exported script wording, downloadable assets, or source chapter scene order as target canon.")
+        if "novel_audit_11_dimension_rewrite_gate" in patterns:
+            hints.append("Reject audits that copy skill prompt bodies, reference examples, or generic AI-trace labels without target chapter location and evidence.")
+        if "local_continuation_workstation_context_export_gate" in patterns:
+            hints.append("Reject continuation outputs that hide context assembly, style-lock range, token budget, self-review, or export artifacts as accepted story facts.")
+        if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
+            hints.append("Reject outlines that copy P4/P5 prompt bodies, source chapter order, or unowned foreshadow chains without target payoff evidence.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -17447,6 +17607,11 @@ class NovelSourceDiscoveryService:
                 "novel_rule_auditor_learning_loop_gate",
                 "novel_rewriter_copyright_cost_gate",
                 "woke_novel_template_resume_cli_gate",
+                "nai_multi_agent_rag_consistency_gate",
+                "scriptwhisper_scriptyaml_adaptation_gate",
+                "novel_audit_11_dimension_rewrite_gate",
+                "local_continuation_workstation_context_export_gate",
+                "p4_p5_foreshadow_relationship_outline_gate",
                 "inline_human_machine_coauthoring_gate",
                 "hierarchical_orchestrator_generation_gate",
                 "batch_continuation_progress_queue_gate",

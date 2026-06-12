@@ -17451,3 +17451,136 @@ def test_chinese_deconstruct_rewrite_rule_audit_sources_are_static_absorbed():
     assert "novel_rule_auditor_learning_loop_gate_hints" in digest
     assert "novel_rewriter_copyright_cost_gate_hints" in digest
     assert "woke_novel_template_resume_cli_gate_hints" in digest
+
+
+
+def test_continuity_audit_outline_sources_are_static_absorbed():
+    assert "https://github.com/HXSLtim/Nai" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/huohuomiao/ScriptWhisper" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/ahao0625/novel-audit-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/hsong6809-boop/novel-continuation" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/zhao2007/novel-outline-craft-AI-skill-" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("multi-agent" in query and "RAG" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("ScriptYAML" in query and "scene planning" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("novel audit" in query and "cross-chapter" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("style lock" in query and "context assembly" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("P4" in query and "foreshadow" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "HXSLtim/Nai",
+                "html_url": "https://github.com/HXSLtim/Nai",
+                "description": (
+                    "Nai is a multi-agent novel creation system with worldbuilding, character dialogue, outline and consistency agents, "
+                    "hybrid RAG using vector, BM25 and metadata retrieval, knowledge graph, timeline and emotion state machine checks."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "multi-agent", "rag"],
+                "updated_at": "2026-06-12T11:00:00Z",
+                "root_files": ["README.md", "docker-compose.yml", ".env.example", "backend", "frontend"],
+            },
+            {
+                "full_name": "huohuomiao/ScriptWhisper",
+                "html_url": "https://github.com/huohuomiao/ScriptWhisper",
+                "description": (
+                    "ScriptWhisper adapts novels into structured scripts with ScriptYAML, chapter parse, character extraction, "
+                    "location extraction, scene planning, script generation, Pydantic schema validation, auto repair, YAML and Markdown export."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "script", "yaml"],
+                "updated_at": "2026-06-12T11:01:00Z",
+                "root_files": ["README.md", "package.json", "requirements.txt", ".env.example", "tools/verify-ui.mjs"],
+            },
+            {
+                "full_name": "ahao0625/novel-audit-skill",
+                "html_url": "https://github.com/ahao0625/novel-audit-skill",
+                "description": (
+                    "novel audit skill provides 11 dimensions for Chinese web-novel audit, AI trace checks, repetition, plot rationality, "
+                    "timeline consistency, context coherence, POV consistency, pacing, characterization, worldbuilding, dialogue quality and cross-chapter review."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "audit", "rewrite"],
+                "updated_at": "2026-06-12T11:02:00Z",
+                "root_files": ["README.md", "SKILL.md", "scripts/text_stats.py"],
+            },
+            {
+                "full_name": "hsong6809-boop/novel-continuation",
+                "html_url": "https://github.com/hsong6809-boop/novel-continuation",
+                "description": (
+                    "novel-continuation is a local continuation workstation with three-layer outline, style lock, context assembly from previous 5 chapters, "
+                    "FTS5 snippets, token estimation, self review, character snapshot, foreshadow status, timeline dedupe and TXT DOCX EPUB export."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "continuation", "local"],
+                "updated_at": "2026-06-12T11:03:00Z",
+                "root_files": ["README.md", "app.py", "start.bat", "setup.iss", "backend", "frontend"],
+            },
+            {
+                "full_name": "zhao2007/novel-outline-craft-AI-skill-",
+                "html_url": "https://github.com/zhao2007/novel-outline-craft-AI-skill-",
+                "description": (
+                    "novel outline craft skill creates P4 P5 fine outlines with foreshadow setup advance reveal operations, "
+                    "relationship line stage changes, cross validation, and risk when three consecutive chapters lack P4 operations."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "outline", "foreshadow"],
+                "updated_at": "2026-06-12T11:04:00Z",
+                "root_files": ["README.md", "SKILL.md"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T03:15:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "nai_multi_agent_rag_consistency_gate" in candidates["HXSLtim/Nai"]["absorbed_patterns"]
+    assert "scriptwhisper_scriptyaml_adaptation_gate" in candidates["huohuomiao/ScriptWhisper"]["absorbed_patterns"]
+    assert "novel_audit_11_dimension_rewrite_gate" in candidates["ahao0625/novel-audit-skill"]["absorbed_patterns"]
+    assert "local_continuation_workstation_context_export_gate" in candidates["hsong6809-boop/novel-continuation"]["absorbed_patterns"]
+    assert "p4_p5_foreshadow_relationship_outline_gate" in candidates["zhao2007/novel-outline-craft-AI-skill-"]["absorbed_patterns"]
+    assert "license:missing" in candidates["HXSLtim/Nai"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["huohuomiao/ScriptWhisper"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["ahao0625/novel-audit-skill"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["hsong6809-boop/novel-continuation"]["trust_review"]["flags"]
+    assert "license:missing" in candidates["zhao2007/novel-outline-craft-AI-skill-"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "multi_agent_rag_consistency_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scriptyaml_adaptation_schema_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "eleven_dimension_novel_audit_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_continuation_context_assembly_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "p4_p5_foreshadow_outline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "multi_agent_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scriptyaml_schema_validation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "novel_audit_11_dimension_scorecard" in pattern_pack["whole_book_analysis_targets"]
+    assert "continuation_context_assembly_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "p4_p5_foreshadow_recovery_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "multi_agent_consistency_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "script_scene_adaptation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "audit_dimension_rewrite_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "continuation_workstation_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "p4_p5_foreshadow_relationship_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("hybrid retrieval" in hint.lower() for hint in pattern_pack["nai_multi_agent_rag_consistency_gate_hints"])
+    assert any("scene cards" in hint.lower() for hint in pattern_pack["scriptwhisper_scriptyaml_adaptation_gate_hints"])
+    assert any("11 dimensions" in hint.lower() for hint in pattern_pack["novel_audit_11_dimension_rewrite_gate_hints"])
+    assert any("style-lock" in hint.lower() for hint in pattern_pack["local_continuation_workstation_context_export_gate_hints"])
+    assert any("three consecutive chapters" in hint.lower() for hint in pattern_pack["p4_p5_foreshadow_relationship_outline_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "nai_multi_agent_rag_consistency_gate_hints" in digest
+    assert "scriptwhisper_scriptyaml_adaptation_gate_hints" in digest
+    assert "novel_audit_11_dimension_rewrite_gate_hints" in digest
+    assert "local_continuation_workstation_context_export_gate_hints" in digest
+    assert "p4_p5_foreshadow_relationship_outline_gate_hints" in digest

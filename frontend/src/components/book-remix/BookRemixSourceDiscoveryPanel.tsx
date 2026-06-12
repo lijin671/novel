@@ -357,6 +357,11 @@ const PINNED_HINT_KEYS = new Set([
   'novel_rule_auditor_learning_loop_gate_hints',
   'novel_rewriter_copyright_cost_gate_hints',
   'woke_novel_template_resume_cli_gate_hints',
+  'nai_multi_agent_rag_consistency_gate_hints',
+  'scriptwhisper_scriptyaml_adaptation_gate_hints',
+  'novel_audit_11_dimension_rewrite_gate_hints',
+  'local_continuation_workstation_context_export_gate_hints',
+  'p4_p5_foreshadow_relationship_outline_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -776,6 +781,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Novel rule-auditor learning-loop gates', patternPackPayload?.novel_rule_auditor_learning_loop_gate_hints],
               ['Novel rewriter copyright-cost gates', patternPackPayload?.novel_rewriter_copyright_cost_gate_hints],
               ['woke_novel template-resume CLI gates', patternPackPayload?.woke_novel_template_resume_cli_gate_hints],
+              ['Nai multi-agent RAG consistency gates', patternPackPayload?.nai_multi_agent_rag_consistency_gate_hints],
+              ['ScriptWhisper ScriptYAML adaptation gates', patternPackPayload?.scriptwhisper_scriptyaml_adaptation_gate_hints],
+              ['Novel audit 11-dimension rewrite gates', patternPackPayload?.novel_audit_11_dimension_rewrite_gate_hints],
+              ['Local continuation workstation context gates', patternPackPayload?.local_continuation_workstation_context_export_gate_hints],
+              ['P4/P5 foreshadow relationship outline gates', patternPackPayload?.p4_p5_foreshadow_relationship_outline_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

@@ -460,6 +460,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Novel rule-auditor learning-loop gates" in panel_text
     assert "Novel rewriter copyright-cost gates" in panel_text
     assert "woke_novel template-resume CLI gates" in panel_text
+    assert "Nai multi-agent RAG consistency gates" in panel_text
+    assert "ScriptWhisper ScriptYAML adaptation gates" in panel_text
+    assert "Novel audit 11-dimension rewrite gates" in panel_text
+    assert "Local continuation workstation context gates" in panel_text
+    assert "P4/P5 foreshadow relationship outline gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text
