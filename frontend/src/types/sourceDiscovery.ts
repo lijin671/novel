@@ -342,6 +342,12 @@ export interface SourceDiscoveryPatternPack {
   sandbox_godmode_branch_simulation_gate_hints?: string[];
   editorial_persona_voice_workshop_gate_hints?: string[];
   story_factory_thousand_chapter_cache_gate_hints?: string[];
+  strand_beat_quorum_canon_gate_hints?: string[];
+  substrate_spark_canon_promotion_gate_hints?: string[];
+  codex_webnovel_plugin_parity_gate_hints?: string[];
+  external_agent_api_free_cataloging_gate_hints?: string[];
+  rights_safe_source_to_memory_pipeline_gate_hints?: string[];
+  desktop_agent_planning_reflection_gate_hints?: string[];
   safety_constraints?: string[];
 }
 

@@ -74,6 +74,12 @@ const PINNED_HINT_KEYS = new Set([
   'sandbox_godmode_branch_simulation_gate_hints',
   'editorial_persona_voice_workshop_gate_hints',
   'story_factory_thousand_chapter_cache_gate_hints',
+  'strand_beat_quorum_canon_gate_hints',
+  'substrate_spark_canon_promotion_gate_hints',
+  'codex_webnovel_plugin_parity_gate_hints',
+  'external_agent_api_free_cataloging_gate_hints',
+  'rights_safe_source_to_memory_pipeline_gate_hints',
+  'desktop_agent_planning_reflection_gate_hints',
   'self_review_gate_hints',
   'chapter_change_package_hints',
   'bookrun_audit_trail_gate_hints',
@@ -904,6 +910,12 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Sandbox godmode branch simulation gates', patternPackPayload?.sandbox_godmode_branch_simulation_gate_hints],
               ['Editorial persona voice workshop gates', patternPackPayload?.editorial_persona_voice_workshop_gate_hints],
               ['Story factory thousand-chapter cache gates', patternPackPayload?.story_factory_thousand_chapter_cache_gate_hints],
+              ['Strand-beat quorum canon gates', patternPackPayload?.strand_beat_quorum_canon_gate_hints],
+              ['Substrate spark canon-promotion gates', patternPackPayload?.substrate_spark_canon_promotion_gate_hints],
+              ['Codex webnovel plugin parity gates', patternPackPayload?.codex_webnovel_plugin_parity_gate_hints],
+              ['External-agent API-free cataloging gates', patternPackPayload?.external_agent_api_free_cataloging_gate_hints],
+              ['Rights-safe source-to-memory pipeline gates', patternPackPayload?.rights_safe_source_to_memory_pipeline_gate_hints],
+              ['Desktop-agent planning reflection gates', patternPackPayload?.desktop_agent_planning_reflection_gate_hints],
             ])}
             {renderHintGroup('Additional source-discovered gates', additionalHintBlocks)}
           </Space>

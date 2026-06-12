@@ -424,6 +424,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("WorldBox Writer" OR "GateKeeper" OR "NodeDetector") ("sandbox novel" OR "god intervention" OR "branch switching") in:name,description,readme',
     '("fiction writing workshop" OR "editorial personas" OR "7-phase review pipeline") ("voice calibration" OR "story bible" OR "continuity tracker") in:name,description,readme',
     '("Story Engine v2" OR "prompt cache hit" OR "first-10 gate") ("1000-chapter" OR "Story Factory" OR "webnovel") in:name,description,readme',
+    '("StreetSamurai" OR "strand beat" OR "Quorum review") ("SQL Server canon" OR "directional entity graph" OR "contradiction sweep") in:name,description,readme',
+    '("Substrate Method" OR "spark catalog" OR "auto-tagged sparks") ("Obsidian" OR "Canon" OR "Rejected") in:name,description,readme',
+    '("Webnovel Writer Codex" OR "Codex-native" OR "parity validation") ("webnovel" OR "skills" OR "agents") in:name,description,readme',
+    '("API-free external flow" OR "cataloging_external_no_api" OR "prepare_external_writing_context") ("novel" OR "external agent" OR "chapter draft") in:name,description,readme',
+    '("rolling summaries" OR "global memory file" OR "chapter plans") ("long-form fiction" OR "copyright note" OR "source material") in:name,description,readme',
+    '("AI + tools + memory + planning + reflection" OR "Agent（智能体）" OR "网文写作助手") ("续写" OR "伏笔" OR "语义搜索") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -908,6 +914,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/12bitsD/worldbox-writer",
     "https://github.com/ledea-67/fiction-writing-workshop",
     "https://github.com/ungden/truyencity2",
+    "https://github.com/mindattic/StreetSamurai",
+    "https://github.com/F-S-Neal/substrate-method",
+    "https://github.com/MrMO0802/Webnovel-Writer-Codex",
+    "https://github.com/teangtang1122/NovelWritingAgent",
+    "https://github.com/TommyShalby/longform-novel-drafting-toolkit",
+    "https://github.com/simple-calcate/writerAgent",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1294,6 +1306,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("sandbox_godmode_branch_simulation_gate", ("worldbox writer", "sandbox novel generation", "gatekeeper", "critic", "gm settlement", "nodedetector", "god intervention", "branch switching", "actionintent", "langgraph dual loop", "short long reflection memory")),
     ("editorial_persona_voice_workshop_gate", ("fiction writing workshop", "voice calibration", "editorial personas", "7-phase review pipeline", "developmental editor", "line editor", "continuity tracker", "naive reader test", "story bible", "source cites")),
     ("story_factory_thousand_chapter_cache_gate", ("truyencity", "story engine v2", "5-layer architecture", "prompt cache hit", "1000-chapter", "story graph", "auto prompt", "batch writing", "autopilot", "first-10 gate", "foreshadowing")),
+    ("strand_beat_quorum_canon_gate", ("streetsamurai", "strand / beat", "strand beat", "sql server canon", "vector embeddings", "directional entity graph", "multi-llm quorum", "quorum review", "contradiction sweep", "continuity contradiction")),
+    ("substrate_spark_canon_promotion_gate", ("substrate method", "obsidian vault", "sparks", "auto-tagged", "spark catalog", "spark assembler", "canon promotion", "rejected", "scene reports", "topic report")),
+    ("codex_webnovel_plugin_parity_gate", ("webnovel writer codex", "codex-native", "full-fidelity adaptation", "codex plugin", "claude compatible", "parity validation", "local distilled writer skills", "adapters/codex", "repeatable parity")),
+    ("external_agent_api_free_cataloging_gate", ("moshu", "api-free external flow", "project_management permission", "internal_llm", "cataloging_external_no_api", "start_external_cataloging_job", "get_next_external_cataloging_chapter", "save_external_cataloging_facts", "save_external_chapter_draft", "record_external_quality_review")),
+    ("rights_safe_source_to_memory_pipeline_gate", ("longform novel drafting toolkit", "copyright note", "source material", "pdf or txt", "split the source", "rolling summaries", "global memory file", "chapter plans", "draft original chapters", "combine generated chapters")),
+    ("desktop_agent_planning_reflection_gate", ("writeragent", "网文写作助手", "it doesn't write for you", "ai + tools + memory + planning + reflection", "polishing, outlining, summarizing, dialogue, and continuation", "伏笔", "语义搜索", "agent（智能体）")),
     ("offline_chapter_revision_export_gate", ("draftharbour", "writer1", "offline/online novel word processor", "chapter-isolated editing", "autosave to indexeddb", "optional online sync", "version history", "diff previews", "docx", "rtf export")),
     ("multi_agent_outline_continuity_review_gate", ("autogen book generator", "collaborative ai agents", "story planner", "world builder", "memory keeper", "outline creator", "structured chapter generation", "maintains story continuity", "editor reviews")),
     ("hosted_ai_sidebar_product_boundary_gate", ("302.ai", "302_novel_writing", "ai-assisted writing", "manual writing", "ai writing feature in the sidebar", "diverse writing styles", "intelligent plot planning", "real-time editing", "cover can be ai-generated", "online version")),
@@ -3493,6 +3511,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "TruyenCity2 is an Apache-2.0 AI Vietnamese webnovel platform. Public README/root markers describe Story Engine v2, 5-layer architecture, 1000-2000 chapter novels, Story Graph context, auto prompt templates, quality checks, batch writing, autopilot scheduler, notifications, Supabase/Vercel surfaces, DeepSeek V4 Flash cost estimates, 70% prompt-cache hit, and first-10 gate coverage. "
         "Pattern-only adaptation for thousand-chapter story-factory, prompt-cache, and batch-quality gates; Next/Supabase/Vercel runtime, edge functions, databases, schedulers, notifications, provider calls, chapters, logs, and env files are not launched or imported."
     ),
+    "mindattic/streetsamurai": (
+        "StreetSamurai is a no-license-observed C#/.NET Blazor Server fiction engine. Public README/root markers describe SQL Server canon, vector embeddings, a directional entity graph, outline-first Book/Chapter/Beat editing, Strand/Beat modeling, multi-LLM Quorum review across providers, continuity contradiction sweeps, Codex/Claude/MCP surfaces, and architecture/user-story docs as acceptance evidence. "
+        "Pattern-only adaptation for strand/beat canon graphs and quorum-review contradiction gates; Azure deployment, SQL Server, provider sessions, MCP, scripts, local worldbuilding data, and generated manuscripts are not launched or imported."
+    ),
+    "f-s-neal/substrate-method": (
+        "The Substrate Method is an MIT Obsidian+AI vault workflow for fiction writers and worldbuilders. Public README/root markers describe messy idea capture as tagged sparks, review-and-choice culling, Spark Catalog/Assembler, Canon, Rejected, SceneReports, topic/theme views, report generation, and story-bible continuity support. "
+        "Pattern-only adaptation for spark capture, canon-promotion, rejected-idea custody, and topic-report gates; Obsidian vault imports, zipped vault artifacts, external AI prompts, provider calls, and author notes are not executed or imported."
+    ),
+    "mrmo0802/webnovel-writer-codex": (
+        "Webnovel Writer Codex is a GPL-3.0 derivative Codex-native adaptation of lingfengQAQ/webnovel-writer. Public README/root markers describe Codex plugin metadata, Claude compatibility, full-fidelity parity validation, custom agents, skills, dashboard, evals, hooks, references, templates, and local distilled writer skills for long-form Chinese webnovel continuity. "
+        "Pattern-only adaptation for Codex/Claude plugin parity and local skill adapter gates; plugin installation, hooks, agents, skills, dashboard runtime, upstream prompt bodies, and generated project content are not installed or imported."
+    ),
+    "teangtang1122/novelwritingagent": (
+        "NovelWritingAgent / Moshu is a no-license-observed local Chinese long-form novel workspace. Public README/root markers describe external agent API-free default rules, project_management versus internal_llm permission packs, cataloging_external_no_api prompt packs, parallel fact extraction, serial candidate generation by chapter order, prepare_external_writing_context, save_external_chapter_draft, record_external_quality_review, create_chapter from drafts, and apply_external_story_updates. "
+        "Pattern-only adaptation for API-free external-agent cataloging and writing-context gates; packaged Windows launchers, MCP tools, backend/frontend runtime, internal model quota tools, provider calls, database state, and scripts are not launched or imported."
+    ),
+    "tommyshalby/longform-novel-drafting-toolkit": (
+        "Longform Novel Drafting Toolkit is an MIT compact Python pipeline for planning and drafting original long-form fiction. Public README/root markers describe extracting text from PDF/TXT, splitting source into chapters/chunks, rolling summaries, a global memory file, chapter plans, drafting original chapters, summarizing generated chapters for continuity, manuscript combine, explicit copyright notes, and API-key hygiene. "
+        "Pattern-only adaptation for rights-safe source-to-memory and rolling-summary gates; requirements install, PDF/TXT processing, provider calls, API keys, service-account files, private notes, and generated manuscripts are not executed or imported."
+    ),
+    "simple-calcate/writeragent": (
+        "writerAgent is an AGPL-3.0 Electron desktop webnovel writing assistant. Public README/root markers describe AI integrated into polishing, outlining, summarizing, dialogue, and continuation workflows, Agent = AI + tools + memory + planning + reflection,伏笔 review, semantic search, and desktop release packaging. "
+        "Pattern-only adaptation for desktop-agent planning/reflection and tool-memory boundaries; Electron runtime, releases, package scripts, API keys, external web search, local manuscript files, and desktop packaging are not launched or imported."
+    ),
 
 }
 
@@ -4251,6 +4293,12 @@ class NovelSourceDiscoveryService:
             "sandbox_godmode_branch_simulation_gate_hints": self._build_sandbox_godmode_branch_simulation_gate_hints(available_patterns),
             "editorial_persona_voice_workshop_gate_hints": self._build_editorial_persona_voice_workshop_gate_hints(available_patterns),
             "story_factory_thousand_chapter_cache_gate_hints": self._build_story_factory_thousand_chapter_cache_gate_hints(available_patterns),
+            "strand_beat_quorum_canon_gate_hints": self._build_strand_beat_quorum_canon_gate_hints(available_patterns),
+            "substrate_spark_canon_promotion_gate_hints": self._build_substrate_spark_canon_promotion_gate_hints(available_patterns),
+            "codex_webnovel_plugin_parity_gate_hints": self._build_codex_webnovel_plugin_parity_gate_hints(available_patterns),
+            "external_agent_api_free_cataloging_gate_hints": self._build_external_agent_api_free_cataloging_gate_hints(available_patterns),
+            "rights_safe_source_to_memory_pipeline_gate_hints": self._build_rights_safe_source_to_memory_pipeline_gate_hints(available_patterns),
+            "desktop_agent_planning_reflection_gate_hints": self._build_desktop_agent_planning_reflection_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5043,6 +5091,12 @@ class NovelSourceDiscoveryService:
             "sandbox_godmode_branch_simulation_gate": 70,
             "editorial_persona_voice_workshop_gate": 68,
             "story_factory_thousand_chapter_cache_gate": 69,
+            "strand_beat_quorum_canon_gate": 72,
+            "substrate_spark_canon_promotion_gate": 68,
+            "codex_webnovel_plugin_parity_gate": 70,
+            "external_agent_api_free_cataloging_gate": 73,
+            "rights_safe_source_to_memory_pipeline_gate": 69,
+            "desktop_agent_planning_reflection_gate": 67,
             "offline_chapter_revision_export_gate": 65,
             "multi_agent_outline_continuity_review_gate": 68,
             "hosted_ai_sidebar_product_boundary_gate": 65,
@@ -5269,6 +5323,24 @@ class NovelSourceDiscoveryService:
         if "story_factory_thousand_chapter_cache_gate" in patterns:
             targets.append("thousand_chapter_story_factory_policy")
             targets.append("prompt_cache_batch_quality_policy")
+        if "strand_beat_quorum_canon_gate" in patterns:
+            targets.append("strand_beat_canon_policy")
+            targets.append("quorum_review_provider_boundary_policy")
+        if "substrate_spark_canon_promotion_gate" in patterns:
+            targets.append("spark_canon_promotion_policy")
+            targets.append("rejected_idea_custody_policy")
+        if "codex_webnovel_plugin_parity_gate" in patterns:
+            targets.append("codex_plugin_parity_policy")
+            targets.append("distilled_writer_skill_boundary_policy")
+        if "external_agent_api_free_cataloging_gate" in patterns:
+            targets.append("api_free_external_agent_policy")
+            targets.append("cataloging_phase_order_policy")
+        if "rights_safe_source_to_memory_pipeline_gate" in patterns:
+            targets.append("source_material_rights_policy")
+            targets.append("rolling_summary_memory_policy")
+        if "desktop_agent_planning_reflection_gate" in patterns:
+            targets.append("desktop_agent_reflection_policy")
+            targets.append("semantic_tool_memory_boundary_policy")
         if "local_first_novel_workspace" in patterns:
             targets.append("workspace_scope")
             targets.append("project_local_state")
@@ -6517,6 +6589,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["voice_calibration_report", "persona_review_matrix", "story_bible_source_citation_audit"])
         if "story_factory_thousand_chapter_cache_gate" in patterns:
             targets.extend(["thousand_chapter_layer_report", "prompt_cache_cost_findings", "batch_autopilot_quality_findings"])
+        if "strand_beat_quorum_canon_gate" in patterns:
+            targets.extend(["strand_beat_canon_graph_report", "quorum_contradiction_sweep_report", "provider_vote_boundary_findings"])
+        if "substrate_spark_canon_promotion_gate" in patterns:
+            targets.extend(["spark_topic_report_audit", "canon_promotion_decision_log", "rejected_idea_boundary_report"])
+        if "codex_webnovel_plugin_parity_gate" in patterns:
+            targets.extend(["codex_plugin_parity_report", "agent_skill_adapter_manifest", "distilled_writer_skill_boundary_report"])
+        if "external_agent_api_free_cataloging_gate" in patterns:
+            targets.extend(["external_cataloging_progress_report", "api_free_writing_context_report", "fact_candidate_phase_order_audit"])
+        if "rights_safe_source_to_memory_pipeline_gate" in patterns:
+            targets.extend(["source_to_memory_pipeline_report", "rights_boundary_manifest", "rolling_summary_chain_report"])
+        if "desktop_agent_planning_reflection_gate" in patterns:
+            targets.extend(["desktop_agent_reflection_report", "agent_memory_tool_boundary_report", "semantic_search_evidence_report"])
         if "author_note_layer" in patterns:
             targets.extend(["author_note_layer", "style_directive_layer", "insertion_frequency"])
         if "world_state_tracking" in patterns:
@@ -7432,6 +7516,18 @@ class NovelSourceDiscoveryService:
             hints.append("Run one editorial persona per pass: voice, structure, character, continuity, naive reader, and brainstorm findings should stay separately attributable.")
         if "story_factory_thousand_chapter_cache_gate" in patterns:
             hints.append("For thousand-chapter plans, declare story-engine layers, prompt-cache budget, batch stop conditions, first-10 gate, and quality expansion rules before automation.")
+        if "strand_beat_quorum_canon_gate" in patterns:
+            hints.append("Before drafting, name the active strand, beat id, canon graph nodes, contradiction sweep result, and quorum-review boundary so provider votes cannot replace author canon.")
+        if "substrate_spark_canon_promotion_gate" in patterns:
+            hints.append("Keep raw sparks, chosen sparks, generated topic reports, promoted canon, and rejected ideas in separate lanes before using an idea cluster for a chapter.")
+        if "codex_webnovel_plugin_parity_gate" in patterns:
+            hints.append("For Codex-native webnovel workflows, verify plugin/agent/skill parity and adapter support before relying on an upstream Claude-oriented writing procedure.")
+        if "external_agent_api_free_cataloging_gate" in patterns:
+            hints.append("Default external agents to API-free cataloging and writing-context tools; facts may be extracted in parallel, but candidate generation follows chapter order.")
+        if "rights_safe_source_to_memory_pipeline_gate" in patterns:
+            hints.append("Before source-to-memory processing, record rights status, source format, chunk boundaries, rolling summaries, and global-memory provenance; draft only original chapters.")
+        if "desktop_agent_planning_reflection_gate" in patterns:
+            hints.append("For desktop-agent assistance, separate planning, tool calls, memory reads, semantic search evidence, reflection, and accepted prose changes.")
         if "author_note_layer" in patterns:
             hints.append("Use the author-note layer for local style or scene reminders, never as a replacement for bible, plan, or change-package state.")
         if "workflow_agent_pipeline" in patterns:
@@ -12481,6 +12577,60 @@ class NovelSourceDiscoveryService:
             "Batch writing must declare stop conditions, rollback, notification scope, and failed-chapter handling before any autopilot run is allowed.",
         ]
 
+    def _build_strand_beat_quorum_canon_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "strand_beat_quorum_canon_gate" not in patterns:
+            return []
+        return [
+            "Model long-form structure as strand and beat records linked to a canon graph, not as free-form chapter notes.",
+            "Quorum reviews should expose provider identity, vote scope, contradiction findings, and author decision status before changing canon.",
+            "Vector and SQL-backed canon are runtime-deferred surfaces; absorb graph and review custody patterns without launching databases or providers.",
+        ]
+
+    def _build_substrate_spark_canon_promotion_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "substrate_spark_canon_promotion_gate" not in patterns:
+            return []
+        return [
+            "Capture messy ideas as tagged sparks, then require an explicit keep/reject decision before any spark becomes canon evidence.",
+            "Topic reports should cite selected sparks and keep rejected ideas out of prompts unless the author reopens them.",
+            "Obsidian vault zips, external prompts, and author notes stay pattern-only; import the workflow shape, not the vault content.",
+        ]
+
+    def _build_codex_webnovel_plugin_parity_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "codex_webnovel_plugin_parity_gate" not in patterns:
+            return []
+        return [
+            "A Codex adaptation should prove parity between upstream workflow intent, plugin metadata, agents, skills, hooks, references, and evals before promotion.",
+            "Derivative skill packs need source/provenance labels and local adapter boundaries so upstream prompt bodies do not become hidden project instructions.",
+            "Plugin installation, hook registration, dashboard runtime, and skill-body import remain deferred until a local safety contract exists.",
+        ]
+
+    def _build_external_agent_api_free_cataloging_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "external_agent_api_free_cataloging_gate" not in patterns:
+            return []
+        return [
+            "External agents should default to API-free project and cataloging tools; internal model quota tools require explicit permission.",
+            "Fact extraction can run by available chapters, but candidate generation and canon promotion should follow chapter order.",
+            "Writing context, draft save, quality review, chapter creation, and story-update application are separate steps with visible ids.",
+        ]
+
+    def _build_rights_safe_source_to_memory_pipeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "rights_safe_source_to_memory_pipeline_gate" not in patterns:
+            return []
+        return [
+            "Source-to-memory pipelines require rights status, source format, chunk ids, rolling summaries, and global-memory provenance before drafting.",
+            "Generated chapters should be original outputs and then summarized back into continuity memory; source chunks do not become target canon.",
+            "PDF/TXT extraction, provider calls, API keys, service-account files, and private notes stay outside static intake and default verification.",
+        ]
+
+    def _build_desktop_agent_planning_reflection_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "desktop_agent_planning_reflection_gate" not in patterns:
+            return []
+        return [
+            "Desktop writing agents should expose the loop as plan, tool, memory, draft, reflection, and author-acceptance steps.",
+            "Semantic search and foreshadowing checks are advisory evidence; cite matched chapters or state records before revising prose.",
+            "Electron/package runtime, release assets, web search, API keys, and local manuscripts remain deferred until the user grants a runtime trial.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -12522,6 +12672,18 @@ class NovelSourceDiscoveryService:
             targets.append("editorial_persona_voice_remap")
         if "story_factory_thousand_chapter_cache_gate" in patterns:
             targets.append("story_factory_layer_cache_remap")
+        if "strand_beat_quorum_canon_gate" in patterns:
+            targets.append("strand_beat_canon_remap")
+        if "substrate_spark_canon_promotion_gate" in patterns:
+            targets.append("spark_topic_canon_remap")
+        if "codex_webnovel_plugin_parity_gate" in patterns:
+            targets.append("codex_plugin_adapter_remap")
+        if "external_agent_api_free_cataloging_gate" in patterns:
+            targets.append("external_agent_cataloging_remap")
+        if "rights_safe_source_to_memory_pipeline_gate" in patterns:
+            targets.append("rights_safe_memory_pipeline_remap")
+        if "desktop_agent_planning_reflection_gate" in patterns:
+            targets.append("desktop_agent_planning_remap")
         if "card_workbench" in patterns:
             targets.append("card_schema_remap")
         if "manuscript_card_board_extraction_gate" in patterns:
@@ -14062,6 +14224,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform voice registers and persona review rubrics into independent target-story criteria with new examples and source citations.")
         if "story_factory_thousand_chapter_cache_gate" in patterns:
             hints.append("Transform story-engine layers, batch windows, quality expansion rules, and prompt-cache assumptions into the new project's chapter scale.")
+        if "strand_beat_quorum_canon_gate" in patterns:
+            hints.append("Transform strand labels, beat ids, canon graph edges, quorum rubrics, and contradiction categories before applying the process to a new story.")
+        if "substrate_spark_canon_promotion_gate" in patterns:
+            hints.append("Transform sparks into new tagged idea atoms, then promote only chosen target-story ideas into canon reports while keeping rejected source-like ideas out.")
+        if "codex_webnovel_plugin_parity_gate" in patterns:
+            hints.append("Transform plugin adapters, agent roles, skills, hook expectations, and eval labels around the target Codex workflow instead of importing upstream command bodies.")
+        if "external_agent_api_free_cataloging_gate" in patterns:
+            hints.append("Transform cataloging phases, fact records, candidate ordering, draft ids, and story-update records into target-project schemas before writing.")
+        if "rights_safe_source_to_memory_pipeline_gate" in patterns:
+            hints.append("Transform source chunks into rights-cleared abstract summaries and memory slots; never make source text or private notes target canon.")
+        if "desktop_agent_planning_reflection_gate" in patterns:
+            hints.append("Transform planning/reflection loops, tool boundaries, memory scopes, and semantic-search evidence into target-specific author decisions.")
         if "emotion_arc" in patterns:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
         if "card_workbench" in patterns:
@@ -15365,6 +15539,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject voice-calibration packs that reuse source prose examples, persona notes, story-bible facts, or contradiction lists as transformed-story material.")
         if "story_factory_thousand_chapter_cache_gate" in patterns:
             hints.append("Reject batch plans that copy source layer schemas, first-10 hooks, prompt-cache assumptions, or platform-specific quality rules without transformation.")
+        if "strand_beat_quorum_canon_gate" in patterns:
+            hints.append("Reject quorum reports that let provider consensus preserve source beats, graph edges, contradiction labels, or worldbuilding canon under renamed entities.")
+        if "substrate_spark_canon_promotion_gate" in patterns:
+            hints.append("Reject spark reports that promote source idea atoms, rejected notes, Obsidian paths, or topic-view phrasing into the transformed project's canon.")
+        if "codex_webnovel_plugin_parity_gate" in patterns:
+            hints.append("Reject plugin adapters that import upstream prompts, hooks, agents, skill bodies, or full-fidelity labels as hidden writing instructions.")
+        if "external_agent_api_free_cataloging_gate" in patterns:
+            hints.append("Reject cataloging records that skip chapter-order candidate review or call internal-model tools without explicit permission.")
+        if "rights_safe_source_to_memory_pipeline_gate" in patterns:
+            hints.append("Reject source-to-memory outputs that contain copyrighted chunks, private notes, API keys, service-account data, or source chapter order as new-story authority.")
+        if "desktop_agent_planning_reflection_gate" in patterns:
+            hints.append("Reject desktop-agent revisions that hide tool calls, memory reads, web-search facts, or reflection changes behind a polished continuation.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
         if "scene_card_hard_soft_field_gate" in patterns:
@@ -15623,6 +15809,12 @@ class NovelSourceDiscoveryService:
                 "sandbox_godmode_branch_simulation_gate",
                 "editorial_persona_voice_workshop_gate",
                 "story_factory_thousand_chapter_cache_gate",
+                "strand_beat_quorum_canon_gate",
+                "substrate_spark_canon_promotion_gate",
+                "codex_webnovel_plugin_parity_gate",
+                "external_agent_api_free_cataloging_gate",
+                "rights_safe_source_to_memory_pipeline_gate",
+                "desktop_agent_planning_reflection_gate",
                 "constraint_harness_review_worktree_gate",
                 "state_current_reviewer_loop_gate",
                 "versioned_scene_fact_review_pipeline_gate",

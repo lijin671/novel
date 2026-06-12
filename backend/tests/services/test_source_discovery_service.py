@@ -15762,3 +15762,186 @@ def test_lore_mcp_goink_sandbox_workshop_factory_sources_are_static_absorbed():
     assert "sandbox_godmode_branch_simulation_gate_hints" in digest
     assert "editorial_persona_voice_workshop_gate_hints" in digest
     assert "story_factory_thousand_chapter_cache_gate_hints" in digest
+
+
+def test_canon_spark_codex_api_free_rights_desktop_sources_are_static_absorbed():
+    assert "https://github.com/mindattic/StreetSamurai" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/F-S-Neal/substrate-method" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/MrMO0802/Webnovel-Writer-Codex" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/teangtang1122/NovelWritingAgent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/TommyShalby/longform-novel-drafting-toolkit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/simple-calcate/writerAgent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("streetsamurai" in query.lower() and "quorum review" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("substrate method" in query.lower() and "spark catalog" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("webnovel writer codex" in query.lower() and "parity validation" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("api-free external flow" in query.lower() and "prepare_external_writing_context" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("rolling summaries" in query.lower() and "global memory file" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("agent（智能体）" in query.lower() and "网文写作助手" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "mindattic/StreetSamurai",
+                "html_url": "https://github.com/mindattic/StreetSamurai",
+                "description": (
+                    "C#/.NET Blazor Server app for authoring long-form fiction. SQL Server canon with vector embeddings "
+                    "and a directional entity graph, outline-first Book/Chapter/Beat editor, multi-LLM Quorum review, "
+                    "11 providers, continuity contradiction sweeps, Strand / Beat model, Codex and Claude MCP surfaces, API Key."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "canon", "blazor"],
+                "updated_at": "2026-06-10T00:01:05Z",
+                "root_files": ["README.md", "ARCHITECTURE.md", "CLAUDE.md", "package.json", "ss.cmd", "docs", "engine", "ghostwriter", "infra", "worldbuilding"],
+            },
+            {
+                "full_name": "F-S-Neal/substrate-method",
+                "html_url": "https://github.com/F-S-Neal/substrate-method",
+                "description": (
+                    "The Substrate Method is an Obsidian vault plus AI workflow for fiction writers and worldbuilders "
+                    "with sparks, auto-tagged ideas, review choices, spark catalog, spark assembler, Canon, Rejected, "
+                    "SceneReports, topic reports, continuity and story bible support."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "fiction", "worldbuilding"],
+                "updated_at": "2026-06-08T19:19:46Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    "MANUAL.md",
+                    "SubstrateVault_v1_3.zip",
+                    "Canonical",
+                    "Rejected",
+                    "SceneReports",
+                    "Spark Assembler.md",
+                    "Spark Catalog.md",
+                    "_External AI Prompts",
+                ],
+            },
+            {
+                "full_name": "MrMO0802/Webnovel-Writer-Codex",
+                "html_url": "https://github.com/MrMO0802/Webnovel-Writer-Codex",
+                "description": (
+                    "Codex-native full-fidelity adaptation of Webnovel Writer for long-form Chinese webnovel creation "
+                    "with Codex plugin metadata, Claude Compatible, full-fidelity parity validation, custom agents, "
+                    "skills, dashboard, evals, hooks, references, templates, and local distilled writer skills."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["codex", "webnovel", "plugin"],
+                "updated_at": "2026-06-12T03:31:28Z",
+                "root_files": ["README.md", "LICENSE", ".codex-plugin", ".claude-plugin", "adapters", "agents", "dashboard", "evals", "hooks", "references", "scripts", "skills", "templates"],
+            },
+            {
+                "full_name": "teangtang1122/NovelWritingAgent",
+                "html_url": "https://github.com/teangtang1122/NovelWritingAgent",
+                "description": (
+                    "Moshu local Chinese long-form novel workspace with API-free external flow, project_management permission pack, "
+                    "internal_llm permission pack, cataloging_external_no_api, start_external_cataloging_job, "
+                    "get_next_external_cataloging_chapter, parallel facts, serial candidates, prepare_external_writing_context, "
+                    "save_external_chapter_draft, record_external_quality_review, apply_external_story_updates, MCP."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "mcp", "workspace"],
+                "updated_at": "2026-06-12T02:28:42Z",
+                "root_files": ["README.md", "PACKAGING.md", "backend", "frontend", "build-exe.bat", "start-agent.bat", "docs", "scripts"],
+            },
+            {
+                "full_name": "TommyShalby/longform-novel-drafting-toolkit",
+                "html_url": "https://github.com/TommyShalby/longform-novel-drafting-toolkit",
+                "description": (
+                    "Longform Novel Drafting Toolkit extracts text from PDF or TXT, splits the source into chapters or chunks, "
+                    "creates rolling summaries, builds a global memory file, generates chapter plans, drafts original chapters, "
+                    "summarizes generated chapters for continuity, combines manuscript, copyright note and API key hygiene."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["long-form-fiction", "gemini", "pipeline"],
+                "updated_at": "2026-06-08T08:46:22Z",
+                "root_files": ["README.md", "LICENSE", "NOTICE.md", "SECURITY.md", "requirements.txt", ".env.example", "longform_novel_pipeline.py", "sample_memory.md"],
+            },
+            {
+                "full_name": "simple-calcate/writerAgent",
+                "html_url": "https://github.com/simple-calcate/writerAgent",
+                "description": (
+                    "writerAgent 网文写作助手 / Novel Writer is an Electron desktop writing companion with "
+                    "AI + tools + memory + planning + reflection, polishing, outlining, summarizing, dialogue, "
+                    "continuation, 伏笔 review, 语义搜索, releases, API key."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["electron", "novel", "agent"],
+                "updated_at": "2026-06-11T15:06:14Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "package-lock.json", "electron.vite.config.ts", "scripts", "src"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-12T15:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    streetsamurai = candidates["mindattic/StreetSamurai"]
+    substrate = candidates["F-S-Neal/substrate-method"]
+    codex_adapter = candidates["MrMO0802/Webnovel-Writer-Codex"]
+    moshu = candidates["teangtang1122/NovelWritingAgent"]
+    drafting_toolkit = candidates["TommyShalby/longform-novel-drafting-toolkit"]
+    writer_agent = candidates["simple-calcate/writerAgent"]
+
+    assert "strand_beat_quorum_canon_gate" in streetsamurai["absorbed_patterns"]
+    assert "license:missing" in streetsamurai["trust_review"]["flags"]
+    assert "mcp_server" in streetsamurai["risk_flags"]
+    assert "substrate_spark_canon_promotion_gate" in substrate["absorbed_patterns"]
+    assert "binary_distribution" in substrate["risk_flags"]
+    assert "codex_webnovel_plugin_parity_gate" in codex_adapter["absorbed_patterns"]
+    assert "external_agent_api_free_cataloging_gate" in moshu["absorbed_patterns"]
+    assert "windows_script" in moshu["risk_flags"]
+    assert "license:missing" in moshu["trust_review"]["flags"]
+    assert "rights_safe_source_to_memory_pipeline_gate" in drafting_toolkit["absorbed_patterns"]
+    assert "provider_key_surface" in drafting_toolkit["risk_flags"]
+    assert "desktop_agent_planning_reflection_gate" in writer_agent["absorbed_patterns"]
+    assert "provider_key_surface" in writer_agent["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "strand_beat_canon_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "spark_canon_promotion_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "codex_plugin_parity_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "api_free_external_agent_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "source_material_rights_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "desktop_agent_reflection_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "strand_beat_canon_graph_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "spark_topic_report_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "codex_plugin_parity_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "external_cataloging_progress_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "source_to_memory_pipeline_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "desktop_agent_reflection_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "strand_beat_canon_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "spark_topic_canon_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "codex_plugin_adapter_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "external_agent_cataloging_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "rights_safe_memory_pipeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "desktop_agent_planning_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("quorum reviews" in hint.lower() for hint in pattern_pack["strand_beat_quorum_canon_gate_hints"])
+    assert any("tagged sparks" in hint.lower() for hint in pattern_pack["substrate_spark_canon_promotion_gate_hints"])
+    assert any("parity" in hint.lower() for hint in pattern_pack["codex_webnovel_plugin_parity_gate_hints"])
+    assert any("api-free" in hint.lower() for hint in pattern_pack["external_agent_api_free_cataloging_gate_hints"])
+    assert any("rights status" in hint.lower() for hint in pattern_pack["rights_safe_source_to_memory_pipeline_gate_hints"])
+    assert any("plan" in hint.lower() and "reflection" in hint.lower() for hint in pattern_pack["desktop_agent_planning_reflection_gate_hints"])
+    assert any("upstream prompts" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("copyrighted chunks" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "strand_beat_quorum_canon_gate_hints" in digest
+    assert "substrate_spark_canon_promotion_gate_hints" in digest
+    assert "codex_webnovel_plugin_parity_gate_hints" in digest
+    assert "external_agent_api_free_cataloging_gate_hints" in digest
+    assert "rights_safe_source_to_memory_pipeline_gate_hints" in digest
+    assert "desktop_agent_planning_reflection_gate_hints" in digest

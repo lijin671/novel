@@ -279,6 +279,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "sandbox_godmode_branch_simulation_gate_hints",
             "editorial_persona_voice_workshop_gate_hints",
             "story_factory_thousand_chapter_cache_gate_hints",
+            "strand_beat_quorum_canon_gate_hints",
+            "substrate_spark_canon_promotion_gate_hints",
+            "codex_webnovel_plugin_parity_gate_hints",
+            "external_agent_api_free_cataloging_gate_hints",
+            "rights_safe_source_to_memory_pipeline_gate_hints",
+            "desktop_agent_planning_reflection_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
