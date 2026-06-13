@@ -19100,3 +19100,157 @@ def test_static_phase_acceptance_continuation_verification_sources_are_absorbed(
     assert "six_agent_memory_debate_consistency_gate_hints" in digest
     assert "multi_phase_sensory_continuation_gate_hints" in digest
     assert "agentic_backstory_verification_rag_gate_hints" in digest
+
+
+def test_static_voiceprint_margin_style_studio_sources_are_absorbed():
+    assert "https://github.com/anotherpanacea-eng/setec-voiceprint" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/writer/writing-in-the-margins" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/yzhao062/agent-style" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/rgwch/novelist" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Marcus9593/literary-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/forsonny/book-os" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("private baseline" in query and "voice drift" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Writing in the Margins" in query and "margin note" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Agent Style" in query and "canonical rules" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Story OS" in query and "creative workbench" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Novel-OS" in query and "standards files" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "anotherpanacea-eng/setec-voiceprint",
+                "html_url": "https://github.com/anotherpanacea-eng/setec-voiceprint",
+                "description": (
+                    "Text-only stylometry framework for authorial voice in prose with glass-box "
+                    "measurement, private baseline corpus, impostor corpora, Burrows Delta, "
+                    "function-word fingerprints, smoothing diagnostics, voice drift over time, "
+                    "idiolect detection and Claude Code/Cowork plugin scripts."
+                ),
+                "stargazers_count": 312,
+                "forks_count": 18,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["stylometry", "writing", "voiceprint", "claude-code"],
+                "updated_at": "2026-05-12T16:22:00Z",
+                "root_files": ["README.md", "LICENSE", "AGENTS.md"],
+            },
+            {
+                "full_name": "writer/writing-in-the-margins",
+                "html_url": "https://github.com/writer/writing-in-the-margins",
+                "description": (
+                    "Writing in the Margins long context retrieval pattern uses chunked KV-cache "
+                    "prefilling to create margin notes, classify intermediate information, "
+                    "guide generation and provide progress updates on where relevant context is used."
+                ),
+                "stargazers_count": 191,
+                "forks_count": 21,
+                "license": None,
+                "topics": ["long-context", "retrieval", "generation"],
+                "updated_at": "2025-08-29T00:00:00Z",
+                "root_files": ["README.md", "run.py", "templates"],
+            },
+            {
+                "full_name": "yzhao062/agent-style",
+                "html_url": "https://github.com/yzhao062/agent-style",
+                "description": (
+                    "The Elements of Agent Style rule pack with 12 canonical rules, 9 field-observed "
+                    "rules, soft enforcement at generation time, opt-in style-review skill, "
+                    "prose lint mapping and same-length revision comparisons."
+                ),
+                "stargazers_count": 842,
+                "forks_count": 37,
+                "license": None,
+                "topics": ["agent-style", "writing", "rules", "lint"],
+                "updated_at": "2026-06-08T10:30:00Z",
+                "root_files": ["README.md", "enforcement/proselint-map.md"],
+            },
+            {
+                "full_name": "rgwch/novelist",
+                "html_url": "https://github.com/rgwch/novelist",
+                "description": (
+                    "Novel writer toolkit that keeps story, persons, places, timeline and notes "
+                    "ready, with client/server editing, Markdown files and HTML/ePub export."
+                ),
+                "stargazers_count": 14,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing", "timeline", "epub"],
+                "updated_at": "2023-09-30T13:00:00Z",
+                "root_files": ["README.md", "LICENSE", "docker-compose.yml"],
+            },
+            {
+                "full_name": "Marcus9593/literary-studio",
+                "html_url": "https://github.com/Marcus9593/literary-studio",
+                "description": (
+                    "Literary Studio is a screenplay-grade AI creative workbench for web novels, "
+                    "long-form narrative and scripts with Story OS pipeline, RAG semantic retrieval, "
+                    "timeline, collaborative governance, multi-format DOCX/EPUB/Fountain export and Docker runtime."
+                ),
+                "stargazers_count": 120,
+                "forks_count": 8,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-writing", "web-novel", "rag", "story-os"],
+                "updated_at": "2026-06-09T18:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "Dockerfile"],
+            },
+            {
+                "full_name": "forsonny/book-os",
+                "html_url": "https://github.com/forsonny/book-os",
+                "description": (
+                    "Novel-OS structured workflow system for AI-assisted fiction with standards files, "
+                    "manuscript outlines, story outlines, current structure checks, chapter tasks, "
+                    "writing plan review and adaptable workflows for Claude Code or Cursor."
+                ),
+                "stargazers_count": 47,
+                "forks_count": 3,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel-os", "writing", "workflow", "claude-code"],
+                "updated_at": "2026-05-31T11:00:00Z",
+                "root_files": ["README.md", "LICENSE"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T22:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "voiceprint_private_baseline_drift_gate" in candidates["anotherpanacea-eng/setec-voiceprint"]["absorbed_patterns"]
+    assert "margin_guided_long_context_revision_gate" in candidates["writer/writing-in-the-margins"]["absorbed_patterns"]
+    assert "agent_style_rulebook_soft_enforcement_gate" in candidates["yzhao062/agent-style"]["absorbed_patterns"]
+    assert "private_person_place_timeline_output_gate" in candidates["rgwch/novelist"]["absorbed_patterns"]
+    assert "story_os_governed_studio_pipeline_gate" in candidates["Marcus9593/literary-studio"]["absorbed_patterns"]
+    assert "standards_file_workflow_os_gate" in candidates["forsonny/book-os"]["absorbed_patterns"]
+    assert "license:missing" in candidates["writer/writing-in-the-margins"]["trust_review"]["flags"]
+    assert "docker" in candidates["Marcus9593/literary-studio"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "voiceprint_private_baseline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "margin_note_context_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "agent_style_rulebook_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "person_place_timeline_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_os_governance_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "standards_file_workflow_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "private_baseline_voice_drift_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "margin_note_context_relevance_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "agent_style_rule_violation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "person_place_timeline_output_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_os_governance_pipeline_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "standards_file_workflow_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "voiceprint_private_baseline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "margin_note_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "agent_style_rulebook_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "person_place_timeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "story_os_governance_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "standards_file_workflow_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("private baseline" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("margin note" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("canonical rules" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("voiceprint" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "voiceprint_private_baseline_drift_gate_hints" in digest
+    assert "margin_guided_long_context_revision_gate_hints" in digest
+    assert "agent_style_rulebook_soft_enforcement_gate_hints" in digest
+    assert "private_person_place_timeline_output_gate_hints" in digest
+    assert "story_os_governed_studio_pipeline_gate_hints" in digest
+    assert "standards_file_workflow_os_gate_hints" in digest

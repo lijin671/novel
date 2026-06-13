@@ -397,6 +397,12 @@ export interface SourceDiscoveryPatternPack {
   six_agent_memory_debate_consistency_gate_hints?: string[];
   multi_phase_sensory_continuation_gate_hints?: string[];
   agentic_backstory_verification_rag_gate_hints?: string[];
+  voiceprint_private_baseline_drift_gate_hints?: string[];
+  margin_guided_long_context_revision_gate_hints?: string[];
+  agent_style_rulebook_soft_enforcement_gate_hints?: string[];
+  private_person_place_timeline_output_gate_hints?: string[];
+  story_os_governed_studio_pipeline_gate_hints?: string[];
+  standards_file_workflow_os_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

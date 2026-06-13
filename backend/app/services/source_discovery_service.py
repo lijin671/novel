@@ -539,6 +539,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("Writer-Editor Debate" OR "3-Layer Memory" OR "Consistency Evaluation") ("NovelForge" OR "6-Agent Pipeline") in:name,description,readme',
     '("Sensory Harvest" OR "autoSensoryMapping" OR "foreshadow ledger") ("Novel Continuation Studio" OR "cooldown memory") in:name,description,readme',
     '("Claim Extractor" OR "Investigator" OR "Reasoning Trace") ("character backstories" OR "Agentic Verification Pipeline") in:name,description,readme',
+    '("private baseline" OR "voice drift" OR "Burrows Delta") ("setec-voiceprint" OR "stylometry") in:name,description,readme',
+    '("Writing in the Margins" OR "margin note" OR "chunked prefilling") ("long context" OR "retrieval") in:name,description,readme',
+    '("Agent Style" OR "canonical rules" OR "field-observed rules") ("style-review" OR "soft enforcement") in:name,description,readme',
+    '("Story OS" OR "creative workbench" OR "governance") ("long-form narrative" OR "web novels" OR "scripts") in:name,description,readme',
+    '("Novel-OS" OR "standards files" OR "structured workflow system") ("Claude Code" OR "Cursor" OR "fiction") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1133,6 +1138,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/xiehuanyi/NovelForge",
     "https://github.com/DeadMark70/Novel_Continuation_Studio",
     "https://github.com/parijat1222q/Agentic-Verification-Pipeline",
+    "https://github.com/anotherpanacea-eng/setec-voiceprint",
+    "https://github.com/writer/writing-in-the-margins",
+    "https://github.com/yzhao062/agent-style",
+    "https://github.com/rgwch/novelist",
+    "https://github.com/Marcus9593/literary-studio",
+    "https://github.com/forsonny/book-os",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1669,6 +1680,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("six_agent_memory_debate_consistency_gate", ("NovelForge", "6-Agent Pipeline", "Writer-Editor Debate", "3-Layer Memory", "Consistency Evaluation", "Self-Reflection", "Memory Manager", "million-word", "Series Bible")),
     ("multi_phase_sensory_continuation_gate", ("Novel Continuation Studio", "Compression", "Analysis", "Outline", "Breakdown", "Drafting", "Sensory Harvest", "autoSensoryMapping", "cooldown memory", "foreshadow ledger", "Full Auto", "Range")),
     ("agentic_backstory_verification_rag_gate", ("Agentic Verification Pipeline", "Claim Extractor", "Investigator", "Judge", "Reasoning Trace", "results.csv", "cross-encoder", "backstory", "consistency report")),
+    ("voiceprint_private_baseline_drift_gate", ("setec-voiceprint", "voiceprint", "authorial voice", "private baseline", "baseline corpus", "impostor corpora", "Burrows Delta", "function-word", "smoothing", "voice drift", "idiolect")),
+    ("margin_guided_long_context_revision_gate", ("Writing in the Margins", "margin note", "margin notes", "chunked prefilling", "KV-Cache", "segment-wise inference", "classify intermediate information", "guide generation", "long context retrieval")),
+    ("agent_style_rulebook_soft_enforcement_gate", ("agent-style", "The Elements of Agent Style", "canonical rules", "field-observed rules", "soft enforcement", "style-review", "prose lint", "same-length revision", "rule pack")),
+    ("private_person_place_timeline_output_gate", ("rgwch/novelist", "Novelist", "persons", "places", "timeline", "notes", "story", "HTML", "ePub", "Novel writer toolkit")),
+    ("story_os_governed_studio_pipeline_gate", ("literary-studio", "Literary Studio", "Story OS", "creative workbench", "RAG semantic retrieval", "collaborative governance", "long-form narrative", "Fountain", "EPUB")),
+    ("standards_file_workflow_os_gate", ("Novel-OS", "book-os", "structured workflow system", "standards files", "manuscript outlines", "story outlines", "current structure", "chapter tasks", "writing plan", "Claude Code")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4291,6 +4308,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Agentic-Verification-Pipeline is a no-license-observed RAG verification project for checking character backstories against long novels. Static HEAD/README/root markers describe Claim Extractor, Investigator, Judge, advanced RAG with cross-encoder reranking, Reasoning Trace, vector server, consistency report results.csv, Gemini API key, requirements, and Dockerfile. "
         "Pattern-only adaptation for agentic backstory verification gates; Docker, vector server, Gemini/API-key runtime, datasets, requirements installs, generated results.csv, and source novel contents are not imported or executed."
     ),
+    "anotherpanacea-eng/setec-voiceprint": (
+        "setec-voiceprint is a GPL-3.0 text-only stylometry framework for authorial voice. Static HEAD/README/AGENTS markers describe glass-box measurements, private baseline and impostor corpora, Burrows Delta, function-word fingerprints, smoothing diagnostics, idiolect detection, POV/register drift over time, and Claude Code/Cowork plugin scripts. "
+        "Pattern-only adaptation for private-baseline voice-drift gates; GPL code, baseline corpora, plugin scripts, CLI execution, calibration datasets, author corpora, and prose voice profiles are not imported or executed."
+    ),
+    "writer/writing-in-the-margins": (
+        "Writing in the Margins is a no-license-file-observed long-context retrieval research repository. Static HEAD/README markers describe chunked KV-cache prefilling, segment-wise margin-note generation, classification of intermediate margins, progress updates, and final-answer guidance from relevant context. "
+        "Pattern-only adaptation for margin-guided context gates; run.py, templates, model calls, paper code, datasets, generated margins, and upstream prompts are not imported or executed."
+    ),
+    "yzhao062/agent-style": (
+        "agent-style is a README SPDX CC-BY-4.0 rule pack for AI coding and writing agents. Static HEAD/README markers describe 12 canonical rules, 9 field-observed rules, generation-time soft enforcement, opt-in style-review, prose-lint mappings, and same-length revision comparisons. "
+        "Pattern-only adaptation for rulebook soft-enforcement gates; install commands, fetched rule bodies, style-review skill files, CLI/runtime hooks, and upstream prose snippets are not imported or executed."
+    ),
+    "rgwch/novelist": (
+        "Novelist is an MIT client/server novel-writing toolkit. Static HEAD/README/LICENSE markers describe keeping story, persons, places, timeline, and notes ready, with Markdown-oriented files and HTML/ePub export. "
+        "Pattern-only adaptation for person/place/timeline output gates; Docker/client/server runtime, Storybook/Codecept tooling, local manuscript files, and generated exports are not imported or executed."
+    ),
+    "marcus9593/literary-studio": (
+        "Literary Studio is an MIT screenplay-grade AI writing workspace for web novels, long-form narrative, and scripts. Static HEAD/README/LICENSE/package markers describe Story OS pipeline, creative workbench, RAG semantic retrieval, timeline, collaboration/governance, version snapshots, and DOCX/EPUB/Fountain export. "
+        "Pattern-only adaptation for governed Story-OS studio gates; Node runtime, Docker, provider/API configuration, LanceDB vectors, local manuscripts, generated exports, and collaborative workspace data are not imported or executed."
+    ),
+    "forsonny/book-os": (
+        "Novel-OS / book-os is an MIT structured workflow system for AI-assisted fiction. Static HEAD/README/LICENSE markers describe standards files, manuscript outlines, story outlines, current-structure checks, chapter tasks, writing-plan review, and adaptable Claude Code/Cursor workflows. "
+        "Pattern-only adaptation for standards-file workflow gates; installation steps, local standards templates, project manuscripts, AI-tool configuration, and workflow files are not imported or executed."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -4981,6 +5022,12 @@ class NovelSourceDiscoveryService:
             "six_agent_memory_debate_consistency_gate_hints": self._build_six_agent_memory_debate_consistency_gate_hints(available_patterns),
             "multi_phase_sensory_continuation_gate_hints": self._build_multi_phase_sensory_continuation_gate_hints(available_patterns),
             "agentic_backstory_verification_rag_gate_hints": self._build_agentic_backstory_verification_rag_gate_hints(available_patterns),
+            "voiceprint_private_baseline_drift_gate_hints": self._build_voiceprint_private_baseline_drift_gate_hints(available_patterns),
+            "margin_guided_long_context_revision_gate_hints": self._build_margin_guided_long_context_revision_gate_hints(available_patterns),
+            "agent_style_rulebook_soft_enforcement_gate_hints": self._build_agent_style_rulebook_soft_enforcement_gate_hints(available_patterns),
+            "private_person_place_timeline_output_gate_hints": self._build_private_person_place_timeline_output_gate_hints(available_patterns),
+            "story_os_governed_studio_pipeline_gate_hints": self._build_story_os_governed_studio_pipeline_gate_hints(available_patterns),
+            "standards_file_workflow_os_gate_hints": self._build_standards_file_workflow_os_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -6054,6 +6101,12 @@ class NovelSourceDiscoveryService:
             "six_agent_memory_debate_consistency_gate": 69,
             "multi_phase_sensory_continuation_gate": 68,
             "agentic_backstory_verification_rag_gate": 67,
+            "voiceprint_private_baseline_drift_gate": 70,
+            "margin_guided_long_context_revision_gate": 69,
+            "agent_style_rulebook_soft_enforcement_gate": 66,
+            "private_person_place_timeline_output_gate": 65,
+            "story_os_governed_studio_pipeline_gate": 68,
+            "standards_file_workflow_os_gate": 67,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -7734,6 +7787,24 @@ class NovelSourceDiscoveryService:
         if "agentic_backstory_verification_rag_gate" in patterns:
             targets.append("agentic_backstory_verification_policy")
             targets.append("claim_evidence_judge_trace_policy")
+        if "voiceprint_private_baseline_drift_gate" in patterns:
+            targets.append("voiceprint_private_baseline_policy")
+            targets.append("stylometric_drift_disclaimer_policy")
+        if "margin_guided_long_context_revision_gate" in patterns:
+            targets.append("margin_note_context_policy")
+            targets.append("segment_relevance_progress_policy")
+        if "agent_style_rulebook_soft_enforcement_gate" in patterns:
+            targets.append("agent_style_rulebook_policy")
+            targets.append("soft_enforcement_review_policy")
+        if "private_person_place_timeline_output_gate" in patterns:
+            targets.append("person_place_timeline_policy")
+            targets.append("markdown_export_boundary_policy")
+        if "story_os_governed_studio_pipeline_gate" in patterns:
+            targets.append("story_os_governance_policy")
+            targets.append("rag_export_snapshot_policy")
+        if "standards_file_workflow_os_gate" in patterns:
+            targets.append("standards_file_workflow_policy")
+            targets.append("ai_tool_workflow_boundary_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8939,6 +9010,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["sensory_foreshadow_cooldown_report", "phase_breakdown_drafting_trace"])
         if "agentic_backstory_verification_rag_gate" in patterns:
             targets.extend(["backstory_claim_verification_report", "reasoning_trace_evidence_report"])
+        if "voiceprint_private_baseline_drift_gate" in patterns:
+            targets.extend(["private_baseline_voice_drift_report", "stylometry_smoothing_disclaimer_report"])
+        if "margin_guided_long_context_revision_gate" in patterns:
+            targets.extend(["margin_note_context_relevance_report", "segment_retrieval_progress_report"])
+        if "agent_style_rulebook_soft_enforcement_gate" in patterns:
+            targets.extend(["agent_style_rule_violation_report", "style_review_revision_trace"])
+        if "private_person_place_timeline_output_gate" in patterns:
+            targets.extend(["person_place_timeline_output_report", "notes_export_scope_report"])
+        if "story_os_governed_studio_pipeline_gate" in patterns:
+            targets.extend(["story_os_governance_pipeline_report", "rag_export_snapshot_report"])
+        if "standards_file_workflow_os_gate" in patterns:
+            targets.extend(["standards_file_workflow_report", "chapter_task_plan_review_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -9651,6 +9734,18 @@ class NovelSourceDiscoveryService:
             hints.append("Persist compression summary, analysis findings, outline beats, breakdown id, sensory routing hints, cooldown memory, foreshadow ledger delta, and manual/full-auto/range mode before drafting.")
         if "agentic_backstory_verification_rag_gate" in patterns:
             hints.append("Persist extracted backstory claims, investigator evidence ids, reranker settings, judge verdict, reasoning trace id, and unresolved consistency gaps before backstory facts enter canon.")
+        if "voiceprint_private_baseline_drift_gate" in patterns:
+            hints.append("Persist private baseline id, allowed corpus boundary, stylometry feature set, drift delta, smoothing caveat, and reviewer verdict before voice guidance affects continuation.")
+        if "margin_guided_long_context_revision_gate" in patterns:
+            hints.append("Persist segment id, margin note, relevance class, final-context inclusion reason, and unresolved segment gap before a long-context finding enters chapter drafting.")
+        if "agent_style_rulebook_soft_enforcement_gate" in patterns:
+            hints.append("Persist applied canonical rules, field-observed rule hits, soft-enforcement scope, style-review verdict, and accepted revision reason before polishing generated prose.")
+        if "private_person_place_timeline_output_gate" in patterns:
+            hints.append("Persist person/place/timeline/notes deltas and export scope separately so delivery artifacts cannot silently rewrite canon state.")
+        if "story_os_governed_studio_pipeline_gate" in patterns:
+            hints.append("Persist Story OS stage, RAG evidence ids, governance decision, version snapshot, and export target before a studio pipeline advances the manuscript.")
+        if "standards_file_workflow_os_gate" in patterns:
+            hints.append("Persist standards-file version, manuscript outline id, story outline id, chapter task cursor, and writing-plan review before an AI-tool workflow continues drafting.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -15363,6 +15458,60 @@ class NovelSourceDiscoveryService:
             "Agentic-Verification-Pipeline Docker/vector server/Gemini runtime, API keys, datasets, requirements installs, generated results.csv, and source novel contents remain excluded from static intake.",
         ]
 
+    def _build_voiceprint_private_baseline_drift_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "voiceprint_private_baseline_drift_gate" not in patterns:
+            return []
+        return [
+            "Use voiceprint analysis as glass-box craft diagnostics, not as an AI detector or author impersonation license; every metric needs a baseline id and caveat.",
+            "Compare continuation drafts against a private baseline only through abstract feature deltas such as rhythm, function-word drift, lexical diversity, and smoothing warnings.",
+            "setec-voiceprint GPL code, private corpora, plugin scripts, calibration datasets, voice profiles, and author-imitation examples remain excluded from static intake.",
+        ]
+
+    def _build_margin_guided_long_context_revision_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "margin_guided_long_context_revision_gate" not in patterns:
+            return []
+        return [
+            "Turn long-context ingestion into segment margin notes: each segment should emit relevance, contradiction, and draft-use notes before final prompt assembly.",
+            "Show which margin notes influenced the chapter plan so source evidence stays traceable instead of becoming hidden prompt mass.",
+            "Writing-in-the-Margins run.py, templates, model execution, paper code, generated margins, and upstream prompts remain excluded from static intake.",
+        ]
+
+    def _build_agent_style_rulebook_soft_enforcement_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agent_style_rulebook_soft_enforcement_gate" not in patterns:
+            return []
+        return [
+            "Separate style rules loaded before drafting from post-hoc review findings; rule hits should produce revision reasons, not silent rewrites.",
+            "Keep canonical rules and field-observed rules as a local rulebook with accepted/ignored decisions for each prose pass.",
+            "agent-style install commands, fetched rule bodies, review skill files, CLI hooks, and upstream example prose remain excluded from static intake.",
+        ]
+
+    def _build_private_person_place_timeline_output_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "private_person_place_timeline_output_gate" not in patterns:
+            return []
+        return [
+            "Keep persons, places, timeline, notes, and story text as separate exportable state surfaces so continuation edits do not blur facts with prose.",
+            "Before HTML/ePub/DOCX delivery, verify export artifacts reference the current person/place/timeline snapshots.",
+            "rgwch/novelist client/server runtime, Docker assets, tests, local manuscripts, and generated exports remain excluded from static intake.",
+        ]
+
+    def _build_story_os_governed_studio_pipeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_os_governed_studio_pipeline_gate" not in patterns:
+            return []
+        return [
+            "Model a Story OS stage gate for long-form work: idea, bible, timeline, RAG evidence, governance decision, version snapshot, and export must stay linked.",
+            "Treat collaborative governance and version snapshots as acceptance evidence before RAG-backed generated chapters enter the manuscript.",
+            "Literary Studio Node/Docker runtime, provider configuration, LanceDB vectors, local manuscripts, collaborative data, and generated exports remain excluded from static intake.",
+        ]
+
+    def _build_standards_file_workflow_os_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "standards_file_workflow_os_gate" not in patterns:
+            return []
+        return [
+            "Use standards files as editable contracts for voice, structure, and workflow rather than relying on hidden assistant memory.",
+            "Gate each chapter task through current-structure review, manuscript outline, story outline, and writing-plan feedback before drafting advances.",
+            "Novel-OS install steps, standards templates, AI-tool configuration, local manuscripts, and workflow files remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -16532,6 +16681,18 @@ class NovelSourceDiscoveryService:
         if "agentic_backstory_verification_rag_gate" in patterns:
             targets.append("backstory_claim_evidence_remap")
             targets.append("reasoning_trace_verdict_remap")
+        if "voiceprint_private_baseline_drift_gate" in patterns:
+            targets.append("voiceprint_private_baseline_remap")
+        if "margin_guided_long_context_revision_gate" in patterns:
+            targets.append("margin_note_context_remap")
+        if "agent_style_rulebook_soft_enforcement_gate" in patterns:
+            targets.append("agent_style_rulebook_remap")
+        if "private_person_place_timeline_output_gate" in patterns:
+            targets.append("person_place_timeline_remap")
+        if "story_os_governed_studio_pipeline_gate" in patterns:
+            targets.append("story_os_governance_remap")
+        if "standards_file_workflow_os_gate" in patterns:
+            targets.append("standards_file_workflow_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -16713,6 +16874,18 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt sensory details as late-bound target hints with cooldown and manual override markers; source sensory templates or UI wording stay outside drafting context.")
         if "agentic_backstory_verification_rag_gate" in patterns:
             hints.append("Prompt backstory use with extracted claim ids, evidence refs, judge verdicts, and unresolved-gap notes; unsupported claims remain non-canon.")
+        if "voiceprint_private_baseline_drift_gate" in patterns:
+            hints.append("Prompt with private baseline deltas as abstract craft constraints only: rhythm variance, drift warnings, idiolect categories, and smoothing caveats, never source phrasing.")
+        if "margin_guided_long_context_revision_gate" in patterns:
+            hints.append("Prompt long-context drafting from margin note ids, relevance classes, and unresolved gaps so chapter prose can cite why each source segment matters.")
+        if "agent_style_rulebook_soft_enforcement_gate" in patterns:
+            hints.append("Prompt style polishing with selected canonical rules, field-observed warnings, and accepted/ignored rule ids instead of generic improve-writing instructions.")
+        if "private_person_place_timeline_output_gate" in patterns:
+            hints.append("Prompt continuation with current person, place, timeline, and notes snapshots as separate state inputs before prose drafting.")
+        if "story_os_governed_studio_pipeline_gate" in patterns:
+            hints.append("Prompt Story OS stages with stage id, RAG evidence, governance verdict, snapshot id, and export target so generated chapters know their acceptance boundary.")
+        if "standards_file_workflow_os_gate" in patterns:
+            hints.append("Prompt from standards-file ids, manuscript outline, story outline, current-structure notes, and chapter task cursor rather than hidden assistant memory.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -17542,6 +17715,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform sensory continuation into target-owned sensory anchors, cooldown ledgers, foreshadow deltas, and manual override records rather than borrowed template language.")
         if "agentic_backstory_verification_rag_gate" in patterns:
             hints.append("Transform verification pipelines into target backstory claim tables, evidence gaps, rerank notes, and judge decisions without importing source-novel facts as default canon.")
+        if "voiceprint_private_baseline_drift_gate" in patterns:
+            hints.append("Transform voiceprint findings into target-owned rhythm and drift constraints; do not imitate a private author corpus or preserve source catchphrases.")
+        if "margin_guided_long_context_revision_gate" in patterns:
+            hints.append("Transform margin notes into target chapter evidence cards, relevance gaps, and revision cues before drafting from long context.")
+        if "agent_style_rulebook_soft_enforcement_gate" in patterns:
+            hints.append("Transform agent-style canonical rules and field-observed rules into local prose-rule cards with examples removed and fresh revision rationales for MuMuAINovel output.")
+        if "private_person_place_timeline_output_gate" in patterns:
+            hints.append("Transform person/place/timeline workspaces into target entity ledgers and export manifests instead of copying upstream file names or story state.")
+        if "story_os_governed_studio_pipeline_gate" in patterns:
+            hints.append("Transform Story OS into MuMuAINovel acceptance stages, RAG evidence custody, governance checkpoints, and export snapshots scoped to the new manuscript.")
+        if "standards_file_workflow_os_gate" in patterns:
+            hints.append("Transform Novel-OS standards into local writing standards, outline gates, task cursors, and review checkpoints without importing upstream standards text.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -18411,6 +18596,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that copy Novel_Continuation_Studio sensory templates, AGENTS text, UI labels, package script examples, generated chapters, or foreshadow ledger examples.")
         if "agentic_backstory_verification_rag_gate" in patterns:
             hints.append("Reject backstory imports that copy Agentic-Verification-Pipeline datasets, source novel facts, reasoning traces, results.csv rows, prompt text, or Docker/runtime examples.")
+        if "voiceprint_private_baseline_drift_gate" in patterns:
+            hints.append("Reject voiceprint-guided drafts that copy private baseline phrases, distinctive idiolect examples, calibration corpora, or source-author fingerprints as target prose.")
+        if "margin_guided_long_context_revision_gate" in patterns:
+            hints.append("Reject margin-guided prompts that paste upstream margin templates, raw long-context chunks, run.py examples, or source segment text into drafting context.")
+        if "agent_style_rulebook_soft_enforcement_gate" in patterns:
+            hints.append("Reject prose that copies agent-style README examples, rule wording, benchmark snippets, or style-review output as manuscript text.")
+        if "private_person_place_timeline_output_gate" in patterns:
+            hints.append("Reject outputs that copy Novelist demo persons, places, timeline files, notes, Docker/client labels, or generated ePub/HTML examples as canon.")
+        if "story_os_governed_studio_pipeline_gate" in patterns:
+            hints.append("Reject drafts that copy Literary Studio UI labels, Story OS demo text, RAG examples, version snapshots, provider config, or export samples.")
+        if "standards_file_workflow_os_gate" in patterns:
+            hints.append("Reject drafts that copy Novel-OS standards templates, workflow instructions, example project structure, or AI-tool setup text as story material.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -19358,6 +19555,12 @@ class NovelSourceDiscoveryService:
                 "six_agent_memory_debate_consistency_gate",
                 "multi_phase_sensory_continuation_gate",
                 "agentic_backstory_verification_rag_gate",
+                "voiceprint_private_baseline_drift_gate",
+                "margin_guided_long_context_revision_gate",
+                "agent_style_rulebook_soft_enforcement_gate",
+                "private_person_place_timeline_output_gate",
+                "story_os_governed_studio_pipeline_gate",
+                "standards_file_workflow_os_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",
