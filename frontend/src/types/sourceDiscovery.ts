@@ -319,6 +319,12 @@ export interface SourceDiscoveryPatternPack {
   living_document_plan_log_verify_gate_hints?: string[];
   markdown_frontmatter_continuity_engine_gate_hints?: string[];
   story_design_dependency_impact_gate_hints?: string[];
+  universal_novel_mode_contract_gate_hints?: string[];
+  portable_story_project_structure_gate_hints?: string[];
+  chapter_contract_scene_beat_gate_hints?: string[];
+  reader_promise_micro_payoff_gate_hints?: string[];
+  revision_order_natural_prose_gate_hints?: string[];
+  progress_report_continuity_writeback_gate_hints?: string[];
   writer_critic_verify_quality_cycle_gate_hints?: string[];
   q15_story_quality_benchmark_gate_hints?: string[];
   local_desktop_manuscript_revision_bible_gate_hints?: string[];

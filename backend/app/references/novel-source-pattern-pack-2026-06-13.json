@@ -1,0 +1,2485 @@
+{
+  "abstract_style_learning_skill_gate_hints": [],
+  "accepted_chapter_memory_hints": [],
+  "adaptive_quality_self_healing_autonomy_gate_hints": [],
+  "agent_architecture_catalog_workflow_gate_hints": [],
+  "agent_cache_concurrency_recovery_gate_hints": [],
+  "agent_context_provenance_budget_gate_hints": [],
+  "agent_role_profile_workflow_gate_hints": [],
+  "agent_style_rulebook_soft_enforcement_gate_hints": [],
+  "agent_writing_phase_polish_gate_hints": [],
+  "agentic_backstory_verification_rag_gate_hints": [],
+  "agentic_book_planner_pipeline_hints": [],
+  "agentic_editorial_pipeline_gate_hints": [],
+  "agentic_story_world_simulation_hints": [],
+  "agents_room_multistep_story_collaboration_gate_hints": [],
+  "agentwrite_plan_write_pipeline_hints": [],
+  "ai_book_generator_agent_mode_local_key_export_gate_hints": [],
+  "ai_flavor_template_shell_cleanup_gate_hints": [],
+  "ai_ism_detect_edit_convergence_gate_hints": [],
+  "ai_novel_mindmap_prompt_library_gate_hints": [],
+  "ai_prose_fingerprint_cluster_gate_hints": [],
+  "ai_tell_pattern_review_gate_hints": [],
+  "alternate_timeline_branching_hints": [],
+  "anti_ai_tone_polish_hints": [],
+  "anti_copy_style_rag_gate_hints": [],
+  "anti_hallucination_plan_check_hints": [],
+  "anti_hallucination_strand_weave_review_gate_hints": [],
+  "anti_repetition_prompt_rules_hints": [],
+  "anti_slop_audit_hints": [],
+  "anti_slop_rulepack_triage_gate_hints": [],
+  "anti_statistical_center_chapter_type_gate_hints": [],
+  "append_only_canon_pov_promise_gate_hints": [],
+  "append_only_generation_review_log_hints": [],
+  "arboris_story_direction_workspace_gate_hints": [],
+  "arc_state_foreshadowing_persistence_gate_hints": [],
+  "atelier_phase_pipeline_gate_hints": [],
+  "atomic_fact_precision_gate_hints": [],
+  "attribution_derivative_work_gate_hints": [],
+  "author_ai_project_contract_review_gate_hints": [],
+  "author_candidate_canon_confirmation_gate_hints": [],
+  "author_control_boundary_hints": [],
+  "author_control_context_assembly_gate_hints": [],
+  "author_keeps_pen_diagnostic_codex_gate_hints": [],
+  "author_note_layer_hints": [],
+  "authorship_attribution_similarity_gate_hints": [],
+  "auto_validation_rewrite_hints": [],
+  "automatic_director_checkpoint_chain_hints": [],
+  "backup_restore_checkpoint_hints": [],
+  "batch_continuation_progress_queue_gate_hints": [],
+  "beat_strand_framework_hints": [],
+  "beta_reader_archetype_panel_hints": [],
+  "beta_reader_summary_context_gate_hints": [],
+  "bible_enrichment_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "style_signature",
+    "hard_constraints",
+    "universal_mode_contract_policy",
+    "portable_story_project_structure_policy",
+    "chapter_contract_scene_beat_policy",
+    "reader_promise_micro_payoff_policy",
+    "revision_order_natural_prose_policy",
+    "progress_report_continuity_writeback_policy",
+    "layered_story_bible_artifact_policy",
+    "artifact_dependency_order_policy",
+    "storyteller_timeline_worldbuilding_policy",
+    "markdown_source_truth_policy",
+    "ink_export_validation_policy",
+    "truth_file_state_update_policy",
+    "write_next_package_policy",
+    "truth_file_canon_ledgers",
+    "phase_dashboard_writeback_policy",
+    "scene_blueprint_reader_reward_policy",
+    "scene_end_hook_information_gain_policy",
+    "contradiction_findings",
+    "reader_writer_interaction_log",
+    "chapter_file_acceptance_state",
+    "inspiration_bank_scope_policy",
+    "offline_style_mimicry_boundary_rules",
+    "setup_payoff_ledger",
+    "serial_reader_reward_contract",
+    "platform_packaging_boundary_policy",
+    "evidence_backed_canon_warning_policy",
+    "canon_suggestion_acceptance_ledger",
+    "synopsis_cross_refs",
+    "tei_scene_speaker_network_policy",
+    "dramatic_corpus_scene_cast_schema",
+    "book_memory_bank_manifest",
+    "active_context_progress_rules",
+    "reader_input_to_chapter_trace",
+    "interactive_revision_acceptance_log",
+    "inspiration_bank_retrieval_scope",
+    "style_mimicry_boundary_report",
+    "graph_vector_retrieval_policy",
+    "local_global_hybrid_query_modes",
+    "continuity_bridge_window",
+    "organizations",
+    "conflicts",
+    "story_arcs",
+    "foreshadows",
+    "chapter_change_packages",
+    "state_outline_record_policy",
+    "publish_translation_boundary_policy",
+    "writer_critic_quality_cycle_policy",
+    "revision_collapse_prevention_policy",
+    "story_bible_pov_location_lore_rule_policy",
+    "local_continuity_qa_console_policy",
+    "deconstruct_imitate_reference_boundary_policy",
+    "style_worldbuilding_abstraction_policy",
+    "multi_agent_rag_consistency_policy",
+    "role_split_consistency_guard_policy",
+    "eleven_dimension_novel_audit_policy",
+    "actionable_rewrite_suggestion_policy",
+    "kdp_metadata_export_validation_policy",
+    "chapter_preservation_merge_policy",
+    "phase1_style_manual_reference_policy",
+    "read_only_reference_to_target_project_policy",
+    "sdd_seven_step_skill_contract_policy",
+    "cross_platform_command_boundary_policy",
+    "fast_structure_content_model_policy",
+    "structure_content_model_cost_boundary_policy",
+    "multi_phase_sensory_continuation_policy",
+    "sensory_cooldown_foreshadow_policy",
+    "person_place_timeline_policy",
+    "markdown_export_boundary_policy"
+  ],
+  "big_five_character_psychology_gate_hints": [],
+  "book_build_export_delivery_gate_hints": [],
+  "book_memory_bank_context_lattice_hints": [
+    "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
+    "Before continuation, read the current active context and progress snapshot; after accepted chapter output, update every affected memory-bank layer.",
+    "Compare each completed chapter against its planned outline so drift becomes an explicit decision instead of hidden context loss."
+  ],
+  "book_mining_genesis_automation_gate_hints": [],
+  "book_writer_memory_arc_revision_gate_hints": [],
+  "bookend_closure_infill_gate_hints": [],
+  "bookrun_audit_trail_gate_hints": [],
+  "boring_opening_quality_gates_hints": [
+    "Gate chapters for boringness, weak opening hook, flat scene purpose, missing pressure, and weak end hook before acceptance.",
+    "Opening checks should protect the first scene and early chapters from exposition-only starts."
+  ],
+  "branching_choice_graph_hints": [],
+  "browser_local_story_bible_privacy_gate_hints": [],
+  "canon_drift_continuity_qa_gate_hints": [],
+  "canon_evidence_suggestion_review_gate_hints": [
+    "Continuity warnings need evidence: conflicting fact ids, chapter/scene refs, confidence, suggested repair, and the manuscript span affected by the warning.",
+    "Treat checker suggestions as pending changes; author or reviewer acceptance is required before they update bible, context pack, memory, or chapter text.",
+    "Local-first canon checks may inspect project artifacts only; provider-backed extraction, collaboration sync, and hosted databases stay runtime-deferred during intake."
+  ],
+  "canon_graph_hybrid_validation_gate_hints": [],
+  "canon_object_ledger_bookstate_diff_gate_hints": [],
+  "canonical_packet_source_promotion_gate_hints": [],
+  "canonkit_local_canon_drift_context_pack_gate_hints": [],
+  "capture_distillation_production_gate_hints": [],
+  "card_workbench_hints": [],
+  "causal_dramatica_agent_pipeline_hints": [],
+  "causal_why_explanation_gate_hints": [],
+  "chapter_change_package_hints": [
+    "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
+    "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
+    "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "chapter_contract_scene_beat_gate_hints": [
+    "Before drafting, create a chapter contract with job, reader promise, POV, opening hook, goal, obstacle, escalation, payoff, new hook, and forbidden contradictions.",
+    "Plan most chapters as 3-7 scene beats; each scene needs POV, location/time, goal, obstacle, tactic, turn, cost, and exit state.",
+    "A scene exit state must change plot, knowledge, relationship, risk, moral pressure, emotion, or world-rule understanding."
+  ],
+  "chapter_control_card_writeback_gate_hints": [],
+  "chapter_description_continuity_bridge_gate_hints": [],
+  "chapter_end_hook_retention_ladder_gate_hints": [],
+  "chapter_memory_ingestion_context_budget_gate_hints": [],
+  "chapter_packet_promise_debt_audit_gate_hints": [],
+  "chapter_progressive_disassembly_checkpoint_gate_hints": [],
+  "chapter_split_deconstruction_export_gate_hints": [],
+  "chapter_state_archive_ladder_hints": [],
+  "chapter_summary_alignment_gate_hints": [],
+  "chapter_summary_anchor_gate_hints": [],
+  "chapter_timeline_frontmatter_export_gate_hints": [],
+  "chapter_translation_style_context_gate_hints": [],
+  "character_continuity_dimension_schema_gate_hints": [],
+  "character_depth_interview_hints": [],
+  "character_dialogue_persona_memory_hints": [],
+  "character_interaction_network_gate_hints": [],
+  "character_knowledge_timeline_gate_hints": [],
+  "character_quote_attribution_map_hints": [],
+  "chinese_error_correction_review_gate_hints": [],
+  "chinese_ner_alias_consistency_gate_hints": [],
+  "chinese_segmentation_keyword_gate_hints": [],
+  "chinese_text_normalization_gate_hints": [],
+  "choice_stats_consequence_gate_hints": [],
+  "cjk_bm25_context_retrieval_gate_hints": [],
+  "codex_story_skill_project_scaffold_gate_hints": [],
+  "codex_webnovel_plugin_parity_gate_hints": [],
+  "collapse_prevention_hints": [],
+  "community_graph_source_deconstruction_hints": [],
+  "comp_title_market_positioning_hints": [],
+  "confirmed_action_audit_recovery_gate_hints": [],
+  "consequence_ledger_last_actions_context_gate_hints": [],
+  "constraint_harness_review_worktree_gate_hints": [],
+  "constraint_specificity_creativity_benchmark_hints": [],
+  "content_ref_externalization_hints": [],
+  "context_faithfulness_eval_gate_hints": [],
+  "context_pack_preview_hints": [],
+  "context_reference_hints": [],
+  "context_scrubber_beat_anchor_gate_hints": [],
+  "continuation_prompt_hints": [
+    "续写前先读取圣经草稿中的世界观、时间线、人物卡、组织关系、冲突与伏笔。",
+    "下一章必须承接原书尾章的状态变化，不重置人物关系、情感线和因果线。",
+    "把情感线当作连续状态处理：记录本章前后关系压力、误会、信任和欲望变化。",
+    "组织和势力关系要进入续写约束，避免角色突然脱离已有阵营逻辑。",
+    "Run local QA against Story Bible, POV, location, and lore-rule fields before drafting; unresolved findings become blocking continuity questions.",
+    "Keep Markdown as source of truth; generated Ink or branch exports are derived artifacts that require validation before reuse.",
+    "Build a write-next package from truth files, current state, unresolved threads, and snapshot id; only accepted chapters may trigger state-update.",
+    "章节进入正史前先检查时间线、人物状态、关系演化和设定规则是否互相冲突。",
+    "每次回收伏笔前先核对 setup/payoff ledger，避免无铺垫回收或重复回收。",
+    "Before writing the next episode, build a continuity bridge from the last accepted chapters, active timeline, foreshadows, character state, and editor notes.",
+    "Before prose, require a scene blueprint with location, cast, goal, obstacle, turning point, information gain, reader reward, and scene-end hook.",
+    "续写必须从故事合同和 accepted CHAPTER_COMMIT 主链取事实；草稿未提交前不能进入可复用状态。",
+    "章节验收同时检查一致性、OOC、节奏、爽点兑现和下一章拉力；流畅但无追读压力不能接受。",
+    "Serial chapters need a reader-reward contract before drafting: target reader, promised reward, opening hook, delivered scene reward, retention risk, and next-payment trust signal.",
+    "生成前核对本章 synopsis、评论、注释和交叉引用，避免遗漏已标记线索。",
+    "Inspiration-bank retrieval can guide tone or lore, but continuation prompts must label whether each item is accepted canon, note, or style-only reference.",
+    "Use layered story bible artifacts in dependency order: seed, world, characters, voice, mystery, outline, canon, foreshadowing, state, eval logs, and results ledger.",
+    "Before drafting, update STATE/OUTLINE/RECORD-style context: current workflow position, structural target, established facts, open threads, promises, payoffs, and continuity constraints.",
+    "Use write/review/revise/verify/gate cycles with bounded iteration counts; accept only revisions that improve named dimensions without collapsing story structure."
+  ],
+  "continuation_state_hints": [
+    "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
+    "Read recent chapter_change_packages before choosing the next continuation start, conflict, and causal bridge.",
+    "Treat emotional arc as inherited state, not as one-off plot decoration.",
+    "Write back the state snapshot, chapter change package, and unresolved hooks after every continuation pass.",
+    "Persist POV, location, lore-rule, and Story Bible QA findings separately from accepted canon so UI review does not silently mutate story state.",
+    "Persist deconstruction outputs as abstract outline, worldbuilding, volume, pacing, emotion, and style-feature records; keep reference text and source chapter order excluded.",
+    "Persist each agent role output, retrieval source class, metadata filter, timeline assertion, graph assertion, and emotion-state check as reviewable consistency evidence.",
+    "Persist 11-dimension audit findings with exact location, severity, rewrite suggestion id, rationale, A/B/C score component, and cross-chapter evidence ids.",
+    "Persist KDP metadata, keyword validation, description length checks, chapter file preservation status, merge manifest, and export boundary as publication metadata.",
+    "Persist source-reference scope, Phase-1 style manual id, target novel folder, chapter-count lock, outline approval, serial chapter cursor, and read-only reference boundary before imitation or continuation.",
+    "Persist SDD phase, command dialect, constitution/spec/clarification/plan/task/write/analyze artifact ids, plugin boundary, and cross-platform command mapping before handoff.",
+    "Persist book prompt id, structure model lane, content model lane, generated structure id, section-title context scope, generation statistics, and download artifact ids before accepting fast-generated book sections.",
+    "Persist compression summary, analysis findings, outline beats, breakdown id, sensory routing hints, cooldown memory, foreshadow ledger delta, and manual/full-auto/range mode before drafting.",
+    "Persist person/place/timeline/notes deltas and export scope separately so delivery artifacts cannot silently rewrite canon state.",
+    "Persist story bible artifacts as separate files or records—world, characters, outline, voice, canon, mystery, foreshadowing, state, eval logs, and results.tsv—so each layer can be reviewed independently.",
+    "Persist the bridge input set for each episode: recent chapters used, state slices selected, omitted risks, and why they were enough.",
+    "Persist serial reader-reward contracts as market-facing chapter state: persona demand, promise, hook, reward delivery, paid-turn risk, and platform package boundary.",
+    "Persist synopsis and cross-reference links beside chapter state so prompts can cite why a note is relevant.",
+    "Persist story contracts and accepted chapter commits as the canonical chain; every derived state should trace back to a commit id.",
+    "Treat reader/user guidance as a new state delta with acceptance status before it changes chapter files or canon memory.",
+    "Keep inspiration-bank files outside canon memory until the author accepts a fact; style mimicry output stays in a separate style-boundary record.",
+    "Persist each scene blueprint with goal, obstacle, turning point, information gain, reader reward, scene-end hook, and whether prose fulfilled the scene contract.",
+    "Keep STATE, OUTLINE, and RECORD as separate state surfaces so workflow progress, structure, and established canon/promises/payoffs do not overwrite each other.",
+    "Store writer draft, critic findings, applied revision ids, verification scores, failure reasons, and final gate decision separately from accepted manuscript state."
+  ],
+  "continuity_bridge_window_hints": [
+    "Build a compact continuity bridge from the last accepted chapters, active timeline, open hooks, character state, and editor notes.",
+    "The bridge should record which recent chapters were included and why older material was omitted."
+  ],
+  "continuity_passport_drift_repair_gate_hints": [],
+  "contradiction_detection_hints": [
+    "Check timeline order, location presence, relationship evolution, trait consistency, faction membership, and unresolved hook state before accepting drafts.",
+    "Every contradiction should name the conflicting canon facts and the scene or chapter that introduced the drift.",
+    "Revision guidance should fix concrete contradictions, then rerun extraction and validation before write-back."
+  ],
+  "contradiction_taxonomy_checker_hints": [],
+  "copilot_webnovel_research_runner_gate_hints": [],
+  "copyedit_diagnostic_triage_queue_hints": [],
+  "corpus_leakage_dedup_review_gate_hints": [],
+  "counterfactual_story_graph_rag_gate_hints": [],
+  "cover_kdp_metadata_boundary_hints": [],
+  "craft_companion_dual_entry_arbitration_gate_hints": [],
+  "craft_role_pipeline_hints": [],
+  "craft_scene_concrete_finding_revision_gate_hints": [],
+  "creative_scaffold_prompt_sequence_gate_hints": [],
+  "creative_writing_multiaxis_provider_gate_hints": [],
+  "critic_verifier_loop_hints": [],
+  "critique_revision_series_memory_gate_hints": [],
+  "cross_chapter_redundancy_audit_hints": [],
+  "cross_context_coreference_gate_hints": [],
+  "custom_entity_label_inventory_hints": [],
+  "dashboard_task_quality_resume_gate_hints": [],
+  "deeplore_lore_retrieval_gap_graph_gate_hints": [],
+  "delivery_manuscript_assembly_hints": [],
+  "desktop_agent_planning_reflection_gate_hints": [],
+  "desktop_langgraph_memory_observability_gate_hints": [],
+  "desktop_review_rag_retry_gate_hints": [],
+  "desktop_translation_batch_replacement_boundary_gate_hints": [],
+  "dialogoi_filetype_rag_novel_project_gate_hints": [],
+  "diff_span_copy_review_hints": [],
+  "director_orchestrator_trace_canonize_gate_hints": [],
+  "director_stage_checkpoint_gate_hints": [],
+  "distributed_fact_chain_recall_gate_hints": [],
+  "divergence_guidance_hints": [],
+  "document_gamebook_branching_adapter_gate_hints": [],
+  "document_partition_chapter_detection_gate_hints": [],
+  "dracor_tei_scene_speaker_network_gate_hints": [
+    "For source deconstruction, model each dramatic scene with TEI-style speaker, cast, act/scene id, entrance/exit, and relationship-network evidence.",
+    "Before continuation, verify speaker presence, dialogue ownership, scene transition, and cast-list coverage against the chapter or scene state.",
+    "For same-type creation, preserve only abstract scene/speaker function; rebuild cast membership, scene graph, and speaker order for the new work."
+  ],
+  "draft_candidate_promotion_gate_hints": [],
+  "draft_stage_revision_ladder_hints": [],
+  "drama_shot_list_camera_pattern_gate_hints": [],
+  "dual_engine_reader_sandbox_rag_gate_hints": [],
+  "dual_level_graph_vector_retrieval_hints": [
+    "Select continuation context with dual-level retrieval: vector similarity for related passages and graph traversal for canon-critical entities.",
+    "Choose query mode explicitly: local for character/state facts, global for theme or arc summaries, hybrid for chapter planning, naive only for fallback.",
+    "Log which retrieval mode supplied each context item so weak graph or vector coverage can be repaired."
+  ],
+  "dual_model_summary_continuation_session_gate_hints": [],
+  "dual_track_epub_manifest_pipeline_gate_hints": [],
+  "dynamic_architecture_extension_gate_hints": [],
+  "ebook_accessibility_audit_gate_hints": [],
+  "editor_context_prose_analysis_gate_hints": [],
+  "editor_notes_feedback_loop_hints": [],
+  "editorial_finding_resolution_rewrite_gate_hints": [],
+  "editorial_memory_card_graph_agent_gate_hints": [],
+  "editorial_persona_voice_workshop_gate_hints": [],
+  "element_swap_deconstruction_rewrite_pipeline_gate_hints": [],
+  "embedding_similarity_independence_gate_hints": [],
+  "entity_memory_slotfill_grounding_hints": [],
+  "entity_mention_arc_timeline_gate_hints": [],
+  "entity_schema_custom_fields_hints": [],
+  "entity_to_visual_asset_pipeline_hints": [],
+  "episode_range_rewrite_scope_hints": [],
+  "epub_structure_validation_gate_hints": [],
+  "event_outline_history_compression_hints": [],
+  "event_to_sentence_realization_trace_hints": [],
+  "expert_chain_alignment_creativity_gate_hints": [],
+  "export_format_fidelity_audit_hints": [],
+  "external_agent_api_free_cataloging_gate_hints": [],
+  "fact_snapshot_delta_gate_hints": [],
+  "fanqie_checkpoint_compliance_audit_gate_hints": [],
+  "fanqie_publish_dryrun_boundary_gate_hints": [],
+  "fast_structure_content_model_split_gate_hints": [
+    "Split fast book generation into visible lanes: one-line intent intake, structure generation, section drafting, generation stats, and downloadable artifact custody.",
+    "Treat large/small or structure/content model selection as a cost-quality-latency policy; fiction continuation must declare whether section-title-only context is sufficient or blocked.",
+    "Infinite Bookshelf/Groqbook Streamlit runtime, hosted app, Groq API keys, requirements, provider calls, generated examples, Markdown/PDF outputs, Google Drive flow, and sample prose remain excluded from static intake."
+  ],
+  "fiction_skill_agent_workbench_gate_hints": [],
+  "file_backed_promise_ledger_audit_gate_hints": [],
+  "file_based_showrunner_canon_approval_gate_hints": [],
+  "filesystem_memory_agent_loop_gate_hints": [],
+  "final_prompt_preview_span_revision_gate_hints": [],
+  "forensic_style_clone_audit_risk_gate_hints": [],
+  "foreshadowing_debt_budget_hints": [],
+  "forfiction_theia_story_extension_skill_gate_hints": [],
+  "forge_agent_mcp_eval_contract_gate_hints": [],
+  "fresh_context_chapter_iteration_gate_hints": [],
+  "front_back_matter_metadata_gate_hints": [],
+  "frontmatter_story_schema_hints": [],
+  "function_word_syntax_style_gate_hints": [],
+  "fuzzy_phrase_similarity_gate_hints": [],
+  "gemini_writer_context_recovery_gate_hints": [],
+  "generated_at": "2026-06-13T21:05:00+08:00",
+  "genre_gene_capsule_market_boundary_gate_hints": [],
+  "genre_inspiration_budget_library_gate_hints": [],
+  "genre_parameterized_worldbuilding_hints": [],
+  "genre_tag_taxonomy_router_gate_hints": [],
+  "goink_tool_state_autoreview_gate_hints": [],
+  "governed_full_reading_continuation_gate_hints": [],
+  "gradual_reveal_control_hints": [],
+  "grammar_spelling_copyedit_gate_hints": [],
+  "graph_branching_atomicity_hints": [],
+  "graph_healing_hints": [],
+  "grimodex_codex_attribution_scene_chat_gate_hints": [],
+  "group_collaboration_conflict_vote_memory_gate_hints": [],
+  "harnessnovel_deconstruct_imitate_gate_hints": [
+    "Separate deconstruction from drafting: extract outline function, world rules, volume shape, chapter purpose, pacing, emotion beats, and style axes before any same-type generation.",
+    "Use reference novels as abstraction sources only; raw text, source chapter summaries, source order, and source-specific names stay outside drafting context.",
+    "GPL code, pip install, global config, API keys, CLI commands, uploaded reference novels, and generated prose remain runtime-deferred and non-imported."
+  ],
+  "hierarchical_cowriting_story_scaffold_hints": [],
+  "hierarchical_narrative_memory_os_gate_hints": [],
+  "hierarchical_orchestrator_generation_gate_hints": [],
+  "hierarchical_semantic_snapshot_workspace_gate_hints": [],
+  "hierarchical_story_tree_evaluation_agent_gate_hints": [],
+  "homogeneity_prompt_variation_gate_hints": [],
+  "host_instruction_context_boundary_gate_hints": [],
+  "hosted_ai_sidebar_product_boundary_gate_hints": [],
+  "human_ai_decision_authority_gate_hints": [],
+  "human_coauthor_edit_boundary_hints": [],
+  "human_edit_memory_quality_warn_gate_hints": [],
+  "human_oversight_quality_signal_gate_hints": [],
+  "human_story_metric_panel_hints": [],
+  "human_synopsis_gate_hints": [],
+  "humanization_stylometry_levers_hints": [],
+  "hybrid_rubric_pairwise_elo_judge_hints": [],
+  "ide_workspace_local_git_version_gate_hints": [],
+  "ideation_worksheet_foundation_gate_hints": [],
+  "import_provenance_checksum_gate_hints": [],
+  "imported_manuscript_migration_outline_gate_hints": [],
+  "impromptu_thread_pool_chapter_gate_hints": [],
+  "inkfoundry_state_db_redteam_voice_sandbox_gate_hints": [],
+  "inkos_truthfile_api_fanfic_imitation_gate_hints": [],
+  "inline_author_edit_markup_versioning_hints": [],
+  "inline_human_machine_coauthoring_gate_hints": [],
+  "inspectable_memory_workspace_gate_hints": [],
+  "inspectable_run_workspace_hints": [],
+  "inspired_copy_risk_hints": [
+    "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
+    "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
+    "Reject same-type drafts that preserve source vault folder names, scene-card order, branch labels, compile presets, or frontmatter relationship labels as story content.",
+    "Reject drafts whose POV/location/lore-rule QA passes only because source bible facts leaked into target-story canon.",
+    "Reject outputs that retain reference-novel names, plot order, chapter summaries, distinctive emotional beat chains, or style samples beyond abstract labels.",
+    "Reject consistency reports that import upstream agent prompts, service configs, vector-store data, or graph/timeline examples instead of target-story evidence.",
+    "Reject audits that copy skill prompt bodies, reference examples, or generic AI-trace labels without target chapter location and evidence.",
+    "Reject publication metadata that reuses source title phrasing, KDP descriptions, keywords, cover prompts, or generated chapter examples.",
+    "Reject imitation drafts that move read-only reference prose, source chapter order, style-manual source notes, or workbench tutorial wording into accepted MuMuAINovel canon.",
+    "Reject drafts that copy novel-writer-cn slash-command bodies, initialized project templates, plugin examples, workflow docs, or command dialect labels as prose.",
+    "Reject drafts that copy Infinite Bookshelf/Groqbook demo topics, generated example books, README wording, asset text, hosted-app behavior, or section-title-only scaffolds as story canon.",
+    "Reject drafts that copy Novel_Continuation_Studio sensory templates, AGENTS text, UI labels, package script examples, generated chapters, or foreshadow ledger examples.",
+    "Reject outputs that copy Novelist demo persons, places, timeline files, notes, Docker/client labels, or generated ePub/HTML examples as canon.",
+    "Review each generated chapter for source-copy risk before accepting it.",
+    "Reject copied setup/payoff timing when the same clue, promise, and payoff window survive under new names.",
+    "Reject bridge packets that import source continuity as if it were accepted new-story history.",
+    "Reject transformed drafts whose contract or commit chain preserves source chapter-causality order under renamed labels.",
+    "Reject chapters whose retention score depends on recognizable source set pieces or hook sequence.",
+    "Reject same-type webnovel drafts that reuse source title formulas, reward order, paid-turn timing, platform package, or reader-promise wording.",
+    "Reject canon-fix suggestions that lack evidence refs, author/reviewer acceptance, or separation between source facts and transformed canon.",
+    "Reject same-type drafts that preserve source cast-list order, speaker-scene coverage, or dramatic scene graph under renamed roles.",
+    "Reject memory-bank updates that mix source analysis notes into transformed canon, active context, or progress state.",
+    "Reject reader-writer loop outputs when the accepted choice, chapter file delta, and continuity/copy-risk checks are not traceable.",
+    "Reject inspiration-bank prompts that blend source passages, local canon, and style goals without source labels and copy-risk review.",
+    "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
+    "Reject scene blueprints whose reader reward, information gain, obstacle, or scene-end hook is only a renamed source scene function.",
+    "Reject derived Ink or branch exports that reverse-sync source facts, branch variables, endings, tags, or example project content into Markdown canon.",
+    "Reject truth-file updates that promote source examples, upstream snapshot names, or unaccepted draft state into target canon.",
+    "Reject transformed runs that preserve source STATE/OUTLINE/RECORD entries, open-thread names, promise/payoff chains, publishing package text, or translation examples.",
+    "Reject revisions that copy source critique language, verifier JSON, accepted fixes, published clean text, or model-specific prompt scaffolding."
+  ],
+  "inspired_mapping_targets": [
+    "character_remap",
+    "organization_remap",
+    "world_rule_remap",
+    "plot_thread_remap",
+    "universal_mode_contract_remap",
+    "portable_project_structure_remap",
+    "chapter_contract_scene_beat_remap",
+    "reader_promise_micro_payoff_remap",
+    "revision_natural_prose_remap",
+    "progress_writeback_continuity_remap",
+    "obsidian_scene_compile_remap",
+    "markdown_ink_branch_remap",
+    "truth_file_state_update_remap",
+    "relationship_graph_remap",
+    "emotional_arc",
+    "setup_payoff_remap",
+    "scene_reward_hook_remap",
+    "information_gain_blueprint_remap",
+    "continuity_bridge_remap",
+    "commit_chain_remap",
+    "retention_hook_remap",
+    "serial_reward_contract_remap",
+    "canon_evidence_suggestion_remap",
+    "tei_scene_speaker_remap",
+    "memory_bank_context_remap",
+    "interactive_choice_delta_remap",
+    "inspiration_bank_style_boundary_remap",
+    "truth_file_relationship_graph_remap",
+    "graph_vector_retrieval_remap",
+    "state_outline_record_remap",
+    "writer_critic_quality_cycle_remap",
+    "pov_location_lore_rule_remap",
+    "deconstruct_imitate_reference_remap",
+    "multi_agent_consistency_remap",
+    "audit_dimension_rewrite_remap",
+    "publication_metadata_export_remap",
+    "phase1_style_manual_reference_remap",
+    "serial_chapter_lock_remap",
+    "sdd_seven_step_workflow_remap",
+    "cross_platform_command_contract_remap",
+    "structure_content_lane_remap",
+    "section_context_scope_remap",
+    "sensory_cooldown_ledger_remap",
+    "phase_breakdown_drafting_remap",
+    "person_place_timeline_remap"
+  ],
+  "inspired_prompt_hints": [
+    "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
+    "Generate an independent new story with new names, organizations, event chain, core conflict, and world rules.",
+    "For same-type prompts, state scene-card/version/compile scope, selected Obsidian-style context flow, and required distance from the source manuscript before drafting.",
+    "Prompt with target truth-file ids, snapshot id, unresolved thread ids, and state-update schema; raw source examples stay outside drafting context.",
+    "Prompt continuity QA to cite target Story Bible, POV, location, and lore-rule evidence ids for every finding.",
+    "Prompt source study to output abstract deconstruction cards for outline function, world rules, pacing, emotion beats, and style axes; never draft from raw reference text.",
+    "Prompt multi-agent consistency as independent target-story reviewer roles with cited retrieval metadata, then merge only approved findings into the new outline or continuation plan.",
+    "Prompt rewrite audits as a target 11-dimension scorecard with localized suggestions; do not copy upstream skill wording or reference examples.",
+    "Prompt KDP/export data as metadata validation and merge manifests; keep it outside canon and avoid source title/tagline reuse.",
+    "Prompt imitation only from the target style manual and approved abstract craft notes; references stay read-only and source prose does not enter drafting context.",
+    "Prompt each task with its SDD phase and exit criteria: constitution, specify, clarify, plan, tasks, write, or analyze; command dialects stay metadata.",
+    "Prompt from approved whole-book structure, model-lane policy, and declared section context scope; do not rely on a section title alone for fiction continuation unless continuity checks allow it.",
+    "Prompt sensory details as late-bound target hints with cooldown and manual override markers; source sensory templates or UI wording stay outside drafting context.",
+    "Prompt continuation with current person, place, timeline, and notes snapshots as separate state inputs before prose drafting.",
+    "For same-type scenes, rebuild every reader reward, information gain, and scene-end hook from transformed conflict and character desire.",
+    "Require evidence-backed canon warnings and reviewer decisions before a same-type draft can update bible, context pack, or memory.",
+    "Prompt from scene/speaker functions only; rebuild cast lists, speaker order, and act/scene coverage before prose expansion.",
+    "For same-type creation, create a new contract and commit chain; source contracts may guide artifact shape only.",
+    "Map reader-retention pressure to new hooks, pleasure points, rhythm, and cliffhangers; do not reuse source set pieces.",
+    "Rebuild the serial reader-reward contract for the transformed premise: new persona demand, reward ladder, opening hook, free-to-paid turn, and platform package.",
+    "Convert source deconstruction into separate memory-bank notes: craft observations, transformed canon, active context, and progress are never mixed.",
+    "Treat interactive reader choices as new-story author inputs, not as permission to preserve source scene route or event order.",
+    "Use inspiration-bank items as labeled craft references only; same-type prompts must not treat local source files as canon or reusable prose.",
+    "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
+    "Create new STATE/OUTLINE/RECORD-style ledgers for the transformed project and keep publishing/translation as bounded later-stage gates.",
+    "For same-type writing, use critic cycles to improve the transformed draft against local criteria, not to imitate the source story's fixes."
+  ],
+  "inspired_transformation_hints": [
+    "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
+    "Replace source organizations, abilities, locations, and plot triggers with transformed equivalents.",
+    "Transform Obsidian manuscript-workspace mechanics into target scene ids, statuses, branches, flow windows, and compile checks without preserving source scene order.",
+    "Transform QA fields into the target bible schema: POV holder, location state, lore rule, exception reason, and resolution owner.",
+    "Transform reference deconstruction into new-book abstractions: fresh premise, renamed factions, altered world rules, new chapter causality, and independent style targets.",
+    "Transform multi-agent/RAG architecture into target reviewer roles, retrieval labels, timeline checks, and graph assertions while excluding upstream service topology.",
+    "Transform audit dimensions into target acceptance criteria with new evidence ids and rewritten intent, not copied diagnostic phrasing.",
+    "Transform publication metadata into target-market fields and validation reports while preserving original chapter files and avoiding source marketing language.",
+    "Transform source-book deconstruction into a target-owned style manual, then derive outline and chapter constraints from that manual rather than from the source text.",
+    "Transform SDD command workflows into MuMuAINovel phase artifacts and exit gates; do not copy slash-command files, install paths, or prompt bodies.",
+    "Transform fast scaffold generation into MuMuAINovel cost/quality lanes, whole-book structure checkpoints, section-context windows, and continuity blockers for fiction work.",
+    "Transform sensory continuation into target-owned sensory anchors, cooldown ledgers, foreshadow deltas, and manual override records rather than borrowed template language.",
+    "Transform person/place/timeline workspaces into target entity ledgers and export manifests instead of copying upstream file names or story state.",
+    "Transform the world rules first, then derive new plot constraints from the transformed world.",
+    "Transform Markdown project structure, branch ids, ending statuses, and Ink export tags into new story labels before any export-derived prompt.",
+    "Transform truth files and state-update schemas into target-specific canon fields, unresolved-thread records, and snapshot names.",
+    "Preserve the emotional function of a relationship beat while changing who causes it and why.",
+    "Transform setup/payoff pairs by changing the promise, cost, and payoff consequence.",
+    "Transform the commit chain by changing the contract premise, accepted-fact categories, and chapter-causality ledger.",
+    "Transform retention mechanics into new chapter-end pull, emotional pressure, and reader promise.",
+    "Translate paid-conversion and platform-packaging ideas into independent reader promises, not copied chapter order, pricing-turn timing, or title/synopsis language.",
+    "Transform canon suggestions into pending review items with new-story evidence before any suggestion mutates accepted state.",
+    "Transform TEI-style scene/speaker maps by changing cast membership, scene coverage, dialogue ownership, and dramatic entrances.",
+    "Transform source memory-bank fields into new-story project brief, structure, characters, style, active context, and progress files.",
+    "Transform interactive choices into new plot deltas with new stakes, scene goals, and consequences before chapter write-back.",
+    "Transform inspiration-bank references into fresh style constraints and local lore tasks; source documents stay outside accepted canon until reviewed.",
+    "Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.",
+    "Transform each scene reward and hook by changing the goal, obstacle, information gain, emotional payoff, and exit question.",
+    "Transform state/outline/record ledgers with new story facts, promises, payoffs, and format targets rather than preserving source workflow copy or command text.",
+    "Transform writer/critic loops into new-story review cycles with different criteria, critique wording, revision ids, and gate thresholds."
+  ],
+  "instance_specific_writing_criteria_gate_hints": [],
+  "intent_tool_quality_style_checkpoint_gate_hints": [],
+  "interactive_branch_rehearsal_gate_hints": [],
+  "interactive_reader_writer_loop_gate_hints": [
+    "Separate reader guidance, author edits, assistant suggestions, and accepted chapter files so interactive continuation remains auditable.",
+    "Every user-guided plot turn should produce a state delta and acceptance decision before the chapter file or lore codex is updated.",
+    "Interactive revision tools may create candidates, but accepted prose must pass continuity, copy-risk, and patch-replay checks first."
+  ],
+  "interrupted_resume_flow_hints": [],
+  "jingwei_layered_canon_plugin_gate_hints": [],
+  "judge_bias_mitigation_check_hints": [],
+  "judgemark_literary_criteria_calibration_gate_hints": [],
+  "kdp_metadata_chapter_export_gate_hints": [
+    "Keep topic, target audience, outline, chapter order, KDP description, 7 keywords, and validation results as publication metadata rather than story canon.",
+    "Merging/export should preserve original chapter files and record a manifest for title, subtitle, author, table of contents, HTML/PDF target, and prohibited-content checks.",
+    "setup/generate/merge scripts, Playwright/PDF generation, cover prompts, KDP publishing operations, generated chapters, and upstream references remain static-only."
+  ],
+  "keyphrase_motif_extraction_hints": [],
+  "kindle_agent_pipeline_compile_gate_hints": [],
+  "kindling_local_outline_reference_import_gate_hints": [],
+  "knowledge_document_writeback_trace_gate_hints": [],
+  "l0_l3_memory_skeleton_volume_gate_hints": [],
+  "langgraph_story_state_machine_hints": [],
+  "langgraph_world_outline_review_memory_gate_hints": [],
+  "language_localization_style_profile_gate_hints": [],
+  "layered_memory_model_hints": [],
+  "layered_parallel_audit_state_machine_gate_hints": [],
+  "layered_story_bible_artifact_contract_gate_hints": [
+    "Keep layered artifacts separate: seed.txt, world.md, characters.md, outline.md, voice.md, canon.md, MYSTERY.md, foreshadowing.md, state.json, eval_logs, and results.tsv each have a distinct owner.",
+    "Generate layers in dependency order and rerun downstream checks when world, character, voice, mystery, outline, canon, or foreshadowing changes.",
+    "Do not treat eval logs or results.tsv as canon; they are evidence for why a layer version was accepted, rejected, restored, or regenerated."
+  ],
+  "layered_style_profile_fusion_eval_gate_hints": [],
+  "lexical_diversity_voice_audit_hints": [],
+  "literary_event_entity_annotation_gate_hints": [],
+  "living_codex_editorial_workbench_gate_hints": [],
+  "living_document_plan_log_verify_gate_hints": [],
+  "llm_style_dimension_matrix_gate_hints": [],
+  "local_author_data_boundary_gate_hints": [],
+  "local_block_manuscript_workspace_gate_hints": [],
+  "local_continuation_memory_export_gate_hints": [],
+  "local_continuation_workstation_context_export_gate_hints": [],
+  "local_copilot_layered_memory_workspace_gate_hints": [],
+  "local_desktop_manuscript_revision_bible_gate_hints": [],
+  "local_first_workspace_hints": [],
+  "local_flow_story_graph_workspace_gate_hints": [],
+  "local_node_graph_lore_fix_loop_gate_hints": [],
+  "local_rag_writing_ide_gate_hints": [],
+  "local_reader_experience_editor_hints": [],
+  "local_snapshot_backup_export_gate_hints": [],
+  "local_sqlite_author_ownership_gate_hints": [],
+  "local_storage_story_bible_snapshot_gate_hints": [],
+  "long_consistency_reverse_rag_retry_gate_hints": [],
+  "long_context_benchmark_task_suite_gate_hints": [],
+  "long_context_reward_dimension_gate_hints": [],
+  "long_context_role_boundary_state_validation_gate_hints": [],
+  "long_output_length_quality_ruler_hints": [],
+  "long_term_author_preference_memory_hints": [],
+  "longgu_engineering_harness_gate_hints": [],
+  "longrun_commit_projection_health_gate_hints": [],
+  "lora_style_adapter_memory_bank_gate_hints": [],
+  "lore_forge_knowledge_engineering_gate_hints": [],
+  "lorebook_context_hints": [],
+  "loreweave_graph_glossary_translation_gate_hints": [],
+  "lumintree_simulation_tree_category_gate_hints": [],
+  "manuscript_binder_scene_snapshot_gate_hints": [],
+  "manuscript_card_board_extraction_gate_hints": [],
+  "manuscript_export_formats_hints": [],
+  "manuscript_health_ai_prep_gate_hints": [],
+  "manuscript_pr_editorial_workflow_gate_hints": [],
+  "map_reduce_factual_anchor_adaptation_gate_hints": [],
+  "margin_guided_long_context_revision_gate_hints": [],
+  "markdown_frontmatter_continuity_engine_gate_hints": [],
+  "markdown_ink_export_validation_gate_hints": [
+    "Keep Markdown project files as source of truth; exported Ink is derived output and should not reverse-sync into canon.",
+    "Proposal, accepted, rejected, and open-question statuses must be explicit before scenes, branches, or endings enter generation.",
+    "Ink export, compile, tag validation, CLI runs, npm build, and skill installation are deferred static-review surfaces."
+  ],
+  "markdown_skill_story_project_contract_gate_hints": [],
+  "material_grounded_query_refinement_hints": [],
+  "mcp_novel_memory_gateway_tool_gate_hints": [],
+  "mcp_scene_index_revision_boundary_hints": [],
+  "mega_chapter_genre_layered_memory_gate_hints": [],
+  "memoir_story_spine_consensus_grounding_gate_hints": [],
+  "memory_augmented_delta_verification_gate_hints": [],
+  "memory_aware_chapter_workspace_hints": [],
+  "memory_snapshot_versioning_hints": [],
+  "microkernel_skill_plugin_isolation_gate_hints": [],
+  "mindmap_visual_planning_hints": [],
+  "minhash_lsh_near_duplicate_gate_hints": [],
+  "mock_first_multi_agent_continuation_gate_hints": [],
+  "mode_contract_generation_gate_hints": [],
+  "morpheus_trace_memory_revision_gate_hints": [],
+  "multi_agent_outline_continuity_review_gate_hints": [],
+  "multi_agent_reject_retry_review_gate_hints": [],
+  "multi_agent_vector_memory_timeline_gate_hints": [],
+  "multi_book_autopilot_studio_gate_hints": [],
+  "multi_level_review_trend_hints": [],
+  "multi_phase_sensory_continuation_gate_hints": [
+    "Gate continuation through Compression, Analysis, Outline, Breakdown, and Drafting so scene-level prose never skips context compression or consistency findings.",
+    "Maintain sensory anchors as late-bound, chapter-aware hints with cooldown memory, explicit manual override, and foreshadow ledger updates after acceptance.",
+    "Novel_Continuation_Studio npm/package scripts, AGENTS instructions, provider keys, generated chapters, UI state, local corpora, and runtime exports remain excluded from static intake."
+  ],
+  "multi_thread_knowledge_timeline_gate_hints": [],
+  "multi_work_style_imitation_mode_gate_hints": [],
+  "multidimensional_quality_rubric_hints": [],
+  "nai_multi_agent_rag_consistency_gate_hints": [
+    "Split continuation review into role outputs for worldbuilding, character dialogue, plot control, and consistency arbitration; each role cites target-story evidence ids.",
+    "Hybrid retrieval should record vector/BM25/metadata source classes, then validate findings against rule, graph, timeline, and emotion-state consistency layers.",
+    "FastAPI/LangGraph/LlamaIndex/Qdrant/PostgreSQL/Redis/Neo4j/Next.js/Docker runtimes, providers, and upstream data stores remain deferred and non-imported."
+  ],
+  "narrative_arc_template_control_hints": [],
+  "narrative_canon_version_branch_graph_gate_hints": [],
+  "narrative_event_evolution_graph_gate_hints": [],
+  "narrative_qa_comprehension_gate_hints": [],
+  "narrative_strand_mapping_hints": [],
+  "naturalization_detector_disclaimer_gate_hints": [],
+  "nebula_codex_character_knowledge_version_gate_hints": [],
+  "needle_haystack_context_recall_gate_hints": [],
+  "node_dialogue_state_machine_hints": [],
+  "nova_local_version_memory_role_gate_hints": [],
+  "novel_audit_11_dimension_rewrite_gate_hints": [
+    "Audit chapters across 11 dimensions: prose quality, AI trace, repetition, plot rationality, timeline, context, POV, pacing/payoff, characterization, worldbuilding, and dialogue.",
+    "Every rewrite suggestion needs location, problem type, replacement intent, rationale, score impact, and cross-chapter evidence before it can influence accepted prose.",
+    "Skill prompt bodies, reference text, scripts, local manuscripts, generated rewrite outputs, and external audit runtime are excluded from import and execution."
+  ],
+  "novel_control_chapter_card_writeback_gate_hints": [],
+  "novel_core_knowledge_pack_rag_gate_hints": [],
+  "novel_rewriter_copyright_cost_gate_hints": [],
+  "novel_rule_auditor_learning_loop_gate_hints": [],
+  "novel_studio_accepted_chapter_memory_gate_hints": [],
+  "novel_to_multimodal_pipeline_hints": [],
+  "novel_to_screenplay_structure_coverage_gate_hints": [],
+  "novelengine_weighted_rag_consistency_gate_hints": [],
+  "novelforge_version_safe_human_review_gate_hints": [],
+  "novelwriter_live_manuscript_analytics_gate_hints": [],
+  "nrd_task_tree_pipeline_hints": [],
+  "obsidian_draft_bench_scene_history_compile_gate_hints": [],
+  "obsidian_galley_scene_compile_gate_hints": [],
+  "obsidian_novelsmith_scene_version_graph_gate_hints": [],
+  "obsidian_storyteller_world_timeline_gate_hints": [
+    "Use branch-aware scene graph and timeline views to surface which worldbuilding/lore facts are active before a chapter or same-type scene is drafted.",
+    "Frontmatter relationship edges should stay reviewable: scene, timeline, character, location, and lore links need evidence ids rather than hidden prompt stuffing.",
+    "Obsidian Storyteller Suite plugin install, vault state, package scripts, and compile runtime remain excluded from static intake."
+  ],
+  "obsidian_textflow_context_flow_guard_gate_hints": [],
+  "ocr_scanned_page_import_gate_hints": [],
+  "offline_chapter_revision_export_gate_hints": [],
+  "offline_inspiration_bank_style_gate_hints": [
+    "Separate local inspiration-bank materials from accepted canon, author notes, and style-only references before any Continue or Rewrite action.",
+    "Style mimicry should compile an abstract boundary profile and banned carryover list, not inject source passages or proprietary phrasing.",
+    "Offline/local-first posture protects privacy but does not relax license, provenance, copy-risk, or source-material labeling gates."
+  ],
+  "open_storyline_media_style_transfer_boundary_gate_hints": [],
+  "openai_compatible_book_api_portability_gate_hints": [],
+  "originality_guard_project_creation_gate_hints": [],
+  "originality_report_multimetric_gate_hints": [],
+  "outline_checkpoint_milestone_gate_hints": [],
+  "outline_validator_change_declaration_gate_hints": [],
+  "outliner_index_cards_hints": [],
+  "p4_p5_foreshadow_relationship_outline_gate_hints": [],
+  "packet_first_style_overlay_context_gate_hints": [],
+  "pairwise_story_comparison_ranking_hints": [],
+  "parallel_agent_chapter_pipeline_hints": [],
+  "parallel_critic_tribunal_issue_gate_hints": [],
+  "paraphrase_independence_review_gate_hints": [],
+  "passage_link_navigation_map_hints": [],
+  "patch_replay_manuscript_state_gate_hints": [],
+  "pdf_layout_text_extraction_gate_hints": [],
+  "pending_fact_canon_promotion_graph_gate_hints": [],
+  "phase1_style_manual_reference_boundary_gate_hints": [
+    "For same-type imitation, split Phase 1 source deconstruction from Phase 2 target creation: source references stay read-only and the output is a target-owned style reference manual.",
+    "Lock target folder name and total chapter count before outline generation, then write chapters serially so imitation constraints do not create parallel plot drift.",
+    "novelist-workbench .claude skills, reference works, generated novels, package scripts, web-studio runtime, and prompt bodies remain excluded from static intake."
+  ],
+  "phase_acceptance_epub_delivery_gate_hints": [],
+  "placeholder_alias_consistency_map_hints": [],
+  "plain_text_project_storage_hints": [],
+  "plan_draft_log_verify_loop_gate_hints": [],
+  "plan_reflect_character_chapter_pipeline_hints": [],
+  "planner_writer_evaluator_editor_saga_gate_hints": [],
+  "platform_genre_style_stamp_gate_hints": [],
+  "platform_kb_retention_strategy_gate_hints": [],
+  "platform_publish_automation_boundary_gate_hints": [],
+  "platform_ranking_research_boundary_gate_hints": [],
+  "platform_voice_meme_emotion_gate_hints": [],
+  "plot_dependency_graph_hints": [],
+  "plot_storyline_improvement_epub_chain_gate_hints": [],
+  "plotgrid_scene_matrix_hints": [],
+  "plotline_thread_tracking_hints": [],
+  "portable_canon_skill_runtime_gate_hints": [],
+  "portable_story_project_structure_gate_hints": [
+    "Keep durable novel state in portable Markdown files: story-bible.md, outline.md, characters.md, worldbuilding.md, continuity.md, and progress.md.",
+    "Separate chapters/, notes/, and revision/ so manuscript text, research notes, and review artifacts do not overwrite each other.",
+    "When core files are missing, create a lightweight scaffold from available context instead of blocking the continuation loop."
+  ],
+  "possibility_graph_dependency_replay_gate_hints": [],
+  "pov_character_thread_filter_gate_hints": [],
+  "precision_edit_candidate_version_gate_hints": [],
+  "preference_memory_hints": [],
+  "premature_ending_guard_hints": [],
+  "preview_toc_packaging_hints": [],
+  "privacy_preserving_local_index_gate_hints": [],
+  "private_person_place_timeline_output_gate_hints": [
+    "Keep persons, places, timeline, notes, and story text as separate exportable state surfaces so continuation edits do not blur facts with prose.",
+    "Before HTML/ePub/DOCX delivery, verify export artifacts reference the current person/place/timeline snapshots.",
+    "rgwch/novelist client/server runtime, Docker assets, tests, local manuscripts, and generated exports remain excluded from static intake."
+  ],
+  "progress_report_continuity_writeback_gate_hints": [
+    "After each chapter, write a progress report with summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next likely focus, and risks.",
+    "Treat write-back as a separate accepted artifact; draft prose alone must not mutate continuity, progress, or character state.",
+    "The next continuation prompt should read the latest progress write-back before choosing opening state, unresolved hook, and conflict escalation."
+  ],
+  "progressive_disclosure_skill_protocol_gate_hints": [],
+  "progressive_spoiler_context_window_gate_hints": [],
+  "project_isolated_story_bible_query_gate_hints": [],
+  "project_skill_agent_loop_gate_hints": [],
+  "projection_sync_observability_hints": [],
+  "prompt_evolution_fitness_governance_gate_hints": [],
+  "prompt_library_hints": [],
+  "prompt_only_decay_ceiling_gate_hints": [],
+  "prompt_preset_variable_library_gate_hints": [],
+  "prompt_recipe_experiment_grid_hints": [],
+  "prompt_regression_eval_suite_hints": [],
+  "proper_noun_leakage_review_hints": [],
+  "proposal_accept_ledger_quality_gate_hints": [],
+  "prose_diff_accept_reject_version_gate_hints": [],
+  "prose_health_live_dashboard_gate_hints": [],
+  "prose_lint_style_rule_gate_hints": [],
+  "prose_metric_pov_dialogue_gate_hints": [],
+  "prose_preflight_voice_calibration_hints": [],
+  "provider_budget_smoke_gate_hints": [],
+  "public_domain_corpus_boundary_hints": [],
+  "public_showrunner_template_release_gate_hints": [],
+  "publication_pipeline_hints": [
+    "Keep export as a downstream pipeline stage: manuscript, review report, ePub/TXT/PDF, audiobook script, and landing copy are derived artifacts.",
+    "Do not let publication artifacts mutate canon; canon changes must flow through bible/state/chapter change packages first."
+  ],
+  "q15_story_quality_benchmark_gate_hints": [],
+  "qmai_hybrid_context_memory_acceptance_gate_hints": [],
+  "quality_score_loop_hints": [],
+  "quantified_style_learning_confidence_gate_hints": [],
+  "query_focused_long_summary_gate_hints": [],
+  "query_lint_contract_hints": [],
+  "radial_subplot_timeline_xray_gate_hints": [],
+  "rag_synopsis_spine_hints": [],
+  "rag_technique_catalog_context_retrieval_gate_hints": [],
+  "raw_story_assimilation_workflow_gate_hints": [],
+  "readability_pacing_metric_gate_hints": [],
+  "reader_promise_micro_payoff_gate_hints": [
+    "Name the reader promise before planning: mystery, romance, progression, justice, fear, wonder, comedy, or another concrete pleasure.",
+    "For Chinese webnovel continuation, include a chapter-level micro-payoff such as reveal, win, reversal, clue, upgrade, public proof, or relationship movement.",
+    "Payoff must change the board: track cost, debt, injury, reputation, faction reaction, power/resource change, or a larger new pressure."
+  ],
+  "reader_rating_signal_model_hints": [],
+  "reader_retention_review_gate_hints": [
+    "Review each chapter for consistency, continuity, OOC, pleasure-point delivery, rhythm, and reader-retention hook before acceptance.",
+    "Retention findings should become concrete revision tasks; do not accept a fluent chapter that has no pressure, payoff, or next-chapter pull."
+  ],
+  "reader_reward_channel_gate_hints": [
+    "Review each high-impact scene on separate reader channels: immersion/transportation, prose aesthetics, social-simulation believability, and flow.",
+    "Reader-sim output is a diagnostic signal, not canon: convert confusion, boredom, pull, or emotional miss into bounded revision tasks before accepting prose.",
+    "For same-type creation, score transformed chapters for reader reward and independence together; source resemblance must not count as reader pull."
+  ],
+  "recurrent_plan_memory_generation_gate_hints": [],
+  "recursive_adaptive_planning_hints": [],
+  "recursive_reprompt_revision_loop_hints": [],
+  "recursive_scene_reflection_long_context_gate_hints": [],
+  "reference_claim_verification_gate_hints": [],
+  "relationship_graph_global_replace_gate_hints": [],
+  "reliquery_reconstructive_recall_vault_gate_hints": [],
+  "renovel_tri_model_aligned_rewrite_gate_hints": [],
+  "reranker_guided_candidate_selection_hints": [],
+  "research_citation_boundary_gate_hints": [],
+  "research_taxonomy_story_map_hints": [],
+  "retrieval_guided_span_rewrite_hints": [],
+  "retrieval_trace_observability_gate_hints": [],
+  "review_queue_staging_hints": [],
+  "review_spoiler_sentiment_corpus_hints": [],
+  "revision_order_natural_prose_gate_hints": [
+    "Use revision order as a gate: developmental, character, continuity, scene, line, then proof/format.",
+    "Do not polish sentences before chapter job, character motive, continuity, and scene turn are valid.",
+    "Natural prose cleanup should replace generic emotional labels with concrete action, sensory detail, character-specific diction, subtext, and uneven human rhythm."
+  ],
+  "rights_first_adaptation_pipeline_gate_hints": [],
+  "rights_safe_source_to_memory_pipeline_gate_hints": [],
+  "risuai_lorebook_prompt_order_regex_gate_hints": [],
+  "robot_writers_room_human_card_flow_gate_hints": [],
+  "role_asset_quality_review_gate_hints": [],
+  "roleplay_branchable_save_world_gate_hints": [],
+  "rolling_chapter_direction_context_priority_gate_hints": [],
+  "rolling_summary_context_trim_hints": [],
+  "runtime_artifact_trace_hints": [],
+  "safety_constraints": [
+    "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
+    "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
+    "只采集公开元数据和公开摘要；不克隆、不安装、不执行外部项目。",
+    "GitHub 与论坛候选默认按 pattern-only 沉淀，后续吸收必须单独做许可证、安装面和安全边界复核。",
+    "Linux.do 仅使用公开 RSS/页面可访问摘要；不绕过登录、403、429、WAF 或 CAPTCHA。"
+  ],
+  "sampling_parameter_quality_sweep_hints": [],
+  "sandbox_godmode_branch_simulation_gate_hints": [],
+  "scene_asset_pipeline_hints": [],
+  "scene_blueprint_reader_reward_gate_hints": [
+    "Convert vague chapter direction into scene blueprints with location, characters, goals, obstacles, turning points, information gain, reader reward, and scene-end hook.",
+    "Treat reader reward as an explicit scene contract: each scene should deliver curiosity, emotion, clue, reversal, payoff, or pressure rather than only moving characters around.",
+    "Block prose generation when a scene has no active obstacle, no information gain, or no exit hook."
+  ],
+  "scene_card_hard_soft_field_gate_hints": [],
+  "scene_deconstruction_theory_report_gate_hints": [],
+  "scene_level_generation_hints": [],
+  "scene_promise_mob_review_gate_hints": [],
+  "scene_state_prompt_injection_gate_hints": [],
+  "scene_status_dashboard_hints": [],
+  "scene_type_directing_hints": [],
+  "schema_guided_graph_extraction_hints": [],
+  "schema_review_revision_recovery_gate_hints": [],
+  "schema_validated_state_delta_hints": [],
+  "screenplay_ast_yaml_adaptation_gate_hints": [],
+  "screenplay_realtime_writers_room_media_boundary_gate_hints": [],
+  "script_to_video_workflow_handoff_gate_hints": [],
+  "scriptwhisper_scriptyaml_adaptation_gate_hints": [],
+  "scrivener_mcp_direct_project_edit_boundary_gate_hints": [],
+  "scrivener_mcp_project_analysis_boundary_gate_hints": [],
+  "sdd_seven_step_cross_platform_skill_gate_hints": [
+    "Map novel work into an SDD-style phase ladder: constitution, specification, clarification, plan, tasks, write, and analyze, with artifacts and exit criteria for each phase.",
+    "Keep command dialects platform-neutral; Codex/Claude/Gemini/Cursor slash commands become workflow labels, not imported prompt files or installed global tools.",
+    "novel-writer-cn npm installs, initialized projects, plugins, generated command files, prompt bodies, user projects, and tool/provider runtimes remain excluded from static intake."
+  ],
+  "section_metadata_traceability_gate_hints": [],
+  "seed_to_bible_foundation_loop_gate_hints": [],
+  "selective_streaming_regeneration_gate_hints": [],
+  "self_consistency_hallucination_gate_hints": [],
+  "self_review_gate_hints": [
+    "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
+    "Every revision must explain which canon risk was fixed and which story state was preserved.",
+    "The loop may repeat many times, but it must still stop when the checks stop finding new problems."
+  ],
+  "self_review_policy_hints": [
+    "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
+    "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
+    "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
+  ],
+  "semantic_chunk_boundary_map_hints": [],
+  "semantic_context_consistency_gate_hints": [],
+  "semantic_duplicate_cluster_gate_hints": [],
+  "semantic_long_context_search_hints": [],
+  "semantic_stylometric_overlap_gate_hints": [],
+  "sentiment_arc_emotion_trajectory_gate_hints": [],
+  "serial_platform_minimum_audit_gate_hints": [],
+  "serial_reader_reward_contract_gate_hints": [
+    "Turn commercial-serial planning into a chapter contract: target reader persona, promised reward, opening hook, chapter function, delivered reward, ending hook, and retention risk.",
+    "Treat free-to-paid conversion as a trust check; paid-turn timing and platform packaging stay market artifacts until author-approved changes affect canon.",
+    "For same-type webnovel work, rebuild title, synopsis, platform package, and reader-promise wording from the new premise instead of copying a source work or upstream skill prompt."
+  ],
+  "setting_runtime_document_architecture_gate_hints": [],
+  "setup_payoff_tracking_hints": [
+    "Record every setup with source chapter, promised effect, expected payoff window, and current payoff status.",
+    "Payoff acceptance requires a matching setup edge and a visible consequence in character, plot, or world state.",
+    "Flag repeated payoff, orphan setup, and payoff without setup as review blockers."
+  ],
+  "seven_law_platform_closed_loop_gate_hints": [],
+  "short_drama_character_memory_forbidden_change_gate_hints": [],
+  "short_drama_production_stage_gate_hints": [],
+  "short_drama_story_bible_template_gate_hints": [],
+  "short_drama_worldbuilding_layer_gate_hints": [],
+  "sidecar_memory_profile_boundary_hints": [],
+  "simhash_hamming_similarity_gate_hints": [],
+  "simulated_event_log_narrative_layer_gate_hints": [],
+  "simulation_causal_ledger_verification_gate_hints": [],
+  "six_agent_memory_debate_consistency_gate_hints": [],
+  "six_dimension_continuation_audit_retry_gate_hints": [],
+  "six_layer_iron_law_chapter_gate_hints": [],
+  "skill_orchestrated_chinese_novel_workflow_hints": [],
+  "slash_command_context_tier_state_gate_hints": [],
+  "slima_book_mcp_beta_reader_file_gate_hints": [],
+  "snowflake_premise_expansion_hints": [],
+  "source_candidate_count": 1,
+  "source_entity_redaction_gate_hints": [],
+  "source_format_import_manifest_hints": [],
+  "source_license_detection_gate_hints": [],
+  "source_novel_dna_fusion_boundary_gate_hints": [],
+  "source_study_method_bank_isolation_gate_hints": [],
+  "source_text_fingerprint_gate_hints": [],
+  "source_titles": [
+    "local/universal-novel-writing"
+  ],
+  "sourcebook_author_workbench_hints": [],
+  "spdx_reuse_compliance_gate_hints": [],
+  "spec_driven_fiction_scene_tasks_hints": [],
+  "spec_driven_state_record_publish_gate_hints": [
+    "Keep STATE, OUTLINE, and RECORD surfaces separate: workflow position, structural intent, and established canon/promises/payoffs must not overwrite each other.",
+    "Route polish, continuity, voice, beta-reader, publish, and translation work through named gates with explicit inputs and reviewer decisions.",
+    "Keep publishing, export, and translation runtime-deferred unless target, rights, corpus, provider, output path, and reviewer are all named."
+  ],
+  "spire_roleplay_character_privacy_fiction_surface_gate_hints": [],
+  "staged_outline_chunk_window_gate_hints": [],
+  "staged_scene_beat_card_transaction_gate_hints": [],
+  "standards_file_workflow_os_gate_hints": [],
+  "state_current_reviewer_loop_gate_hints": [],
+  "statistical_style_benchmark_rewrite_gate_hints": [],
+  "stepwise_local_book_generation_file_gate_hints": [],
+  "story_bible_context_packet_branch_gate_hints": [],
+  "story_bible_qa_pov_lore_rule_gate_hints": [
+    "Run continuity QA over Story Bible, POV holder, location state, and lore-rule applicability before chapter generation or same-type remap.",
+    "Each QA finding should include source field, target scene id, severity, proposed fix, and whether the fix mutates canon or only the draft.",
+    "Treat local-first QA consoles as review surfaces only; package dependencies, browser UI state, and user story-bible data are runtime-deferred."
+  ],
+  "story_bible_relationship_analytics_gate_hints": [],
+  "story_commonsense_consistency_gate_hints": [],
+  "story_contract_commit_chain_hints": [
+    "Treat story contracts as the single source of truth for serialized continuation; drafts become canon only through accepted chapter commits.",
+    "Each chapter commit should record input contract version, accepted prose id, extracted facts, review status, and projection targets."
+  ],
+  "story_daemon_evolution_loop_hints": [],
+  "story_design_dependency_impact_gate_hints": [],
+  "story_factory_thousand_chapter_cache_gate_hints": [],
+  "story_import_pattern_revision_gate_hints": [],
+  "story_knowledge_layer_sot_adaptation_gate_hints": [],
+  "story_os_governed_studio_pipeline_gate_hints": [],
+  "story_question_answer_validation_gate_hints": [],
+  "story_state_output_contract_gate_hints": [],
+  "story_structure_rag_planning_hints": [],
+  "story_theory_beat_evaluation_hints": [],
+  "story_weaver_kg_bible_rag_gate_hints": [],
+  "storyboard_shot_list_prompt_gate_hints": [],
+  "storyboard_shot_pack_reuse_gate_hints": [],
+  "storyforge_wiki_ingest_lint_graph_gate_hints": [],
+  "strand_beat_quorum_canon_gate_hints": [],
+  "strict_requirement_planning_generation_gate_hints": [],
+  "structured_generation_hints": [],
+  "style_axis_diversity_fingerprint_hints": [],
+  "style_distillation_rights_boundary_gate_hints": [],
+  "style_dna_breakpoint_hierarchy_gate_hints": [],
+  "style_dna_reference_library_gate_hints": [],
+  "style_fidelity_hints": [
+    "Preserve the original voice, cadence, and narrative temperature; style preservation is a hard constraint, not a loose suggestion.",
+    "Keep the source book's flavor by matching sentence rhythm, POV behavior, scene density, and emotional pressure."
+  ],
+  "style_guide_layering_hints": [],
+  "style_overfit_regression_gate_hints": [],
+  "style_signature_hints": [
+    "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
+    "续写要保留原书味道，但只吸收写法模式，不复制外部项目代码或长文本。"
+  ],
+  "style_vocab_world_card_extraction_gate_hints": [],
+  "stylevec_style_signal_overfit_boundary_gate_hints": [],
+  "stylometric_author_fingerprint_gate_hints": [],
+  "stylometry_feature_extraction_baseline_gate_hints": [],
+  "substrate_spark_canon_promotion_gate_hints": [],
+  "summary_buffer_selective_rag_memory_gate_hints": [],
+  "supernovel_architecture_blueprint_state_search_gate_hints": [],
+  "synopsis_cross_reference_hints": [
+    "Attach synopsis, comments, notes, and cross-references to the chapter or scene they explain.",
+    "Before drafting, list which synopsis notes and refs are active for this chapter and why.",
+    "Cross-references should point to canon artifacts, not to source-intake inspiration as story fact."
+  ],
+  "system_world_fate_simulation_gate_hints": [],
+  "taleforge_memory_continuity_research_gate_hints": [],
+  "temporal_canon_context_graph_hints": [],
+  "temporal_signed_relationship_balance_gate_hints": [],
+  "three_path_graph_diff_recall_gate_hints": [],
+  "tiered_memory_fact_retirement_gate_hints": [],
+  "tinystyler_meaning_preserving_style_transfer_gate_hints": [],
+  "toc_aware_source_deconstruction_hints": [],
+  "toc_navigation_consistency_gate_hints": [],
+  "top_down_story_planning_hints": [],
+  "topic_drift_map_hints": [],
+  "trace_replay_revision_workspace_gate_hints": [],
+  "translation_glossary_context_qa_gate_hints": [],
+  "trend_deconstruction_pipeline_hints": [],
+  "tri_modal_workflow_validation_gate_hints": [],
+  "trope_density_novelty_budget_hints": [],
+  "trope_graph_expectation_map_hints": [],
+  "trope_inventory_similarity_gate_hints": [],
+  "trope_source_boundary_review_hints": [],
+  "truth_file_dual_audit_agent_pipeline_gate_hints": [],
+  "truth_file_phase_dashboard_gate_hints": [
+    "Truth files such as current_state, resource_ledger, relationship_graph, and hooks should be updated only by accepted phase outputs.",
+    "P0/P1/P2/P3 dashboard phases need separate permissions: setup, overview, outline management, writing pipeline, review, and writeback are not the same mutation.",
+    "L2/L3 review findings should produce task packages and writeback proposals before any Truth file or relationship_graph change is applied."
+  ],
+  "truth_file_rag_pyramid_audit_gate_hints": [],
+  "truth_file_write_next_state_update_gate_hints": [
+    "Truth files, chapter summaries, current state, unresolved promises, and snapshot id should be read into a write-next work package before drafting.",
+    "Revise and state-update are separate gates: revisions change a candidate draft; accepted chapters alone can update long-term state.",
+    "Skill install, OpenClaw runtime, scripts, examples, and generated story files remain deferred static-review surfaces."
+  ],
+  "truth_system_chapter_settlement_gate_hints": [],
+  "tutorial_case_library_curation_gate_hints": [],
+  "two_pass_context_glossary_pipeline_hints": [],
+  "universal_novel_mode_contract_gate_hints": [
+    "Select an explicit novel mode before work starts: quick-start, full-project, continue-chapter, revise, analyze, or export.",
+    "Mode choice controls the required artifact contract; do not let a continuation request silently become a full-project rewrite or export task.",
+    "If the mode is ambiguous, choose the smallest useful mode and record assumptions before any chapter or analysis output is accepted."
+  ],
+  "unorthodox_pipeline_stage_retry_gate_hints": [],
+  "uploaded_style_learning_api_boundary_gate_hints": [],
+  "user_modifier_project_blueprint_gate_hints": [],
+  "vector_story_frame_coordinate_gate_hints": [],
+  "verbalized_sampling_diversity_wiki_gate_hints": [],
+  "versioned_scene_fact_review_pipeline_gate_hints": [],
+  "versioned_workspace_chapter_index_gate_hints": [],
+  "vertical_drama_script_format_gate_hints": [],
+  "vertical_hook_cliffhanger_template_gate_hints": [],
+  "vibe_noveling_skill_agent_save_cat_gate_hints": [],
+  "visual_anchor_prompt_handoff_gate_hints": [],
+  "visual_story_bible_continuity_gate_hints": [],
+  "voice_fingerprint_hints": [],
+  "voice_table_polish_axis_hints": [],
+  "voiceprint_private_baseline_drift_gate_hints": [],
+  "volume_antipattern_dependency_graph_gate_hints": [],
+  "web_similarity_scrape_boundary_gate_hints": [],
+  "webnovel_genre_tracker_gate_hints": [],
+  "webnovel_kb_mcp_runtime_boundary_gate_hints": [],
+  "webnovel_quality_review_rewrite_memory_gate_hints": [],
+  "webnovel_skill_suite_release_boundary_gate_hints": [],
+  "webnovel_state_machine_knowledge_graph_gate_hints": [],
+  "whole_book_analysis_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "organizations",
+    "conflicts",
+    "story_arcs",
+    "foreshadows",
+    "style_signature",
+    "chapter_change_packages",
+    "universal_mode_contract_report",
+    "portable_story_project_structure_report",
+    "chapter_contract_scene_beat_report",
+    "reader_promise_micro_payoff_report",
+    "revision_order_natural_prose_report",
+    "progress_report_writeback_report",
+    "obsidian_scene_compile_report",
+    "layered_story_bible_artifact_report",
+    "artifact_dependency_order_findings",
+    "export_targets",
+    "delivery_artifacts",
+    "markdown_story_source_manifest",
+    "ink_export_validation_report",
+    "branch_ending_status_audit",
+    "truth_file_state_update_report",
+    "write_next_context_package_audit",
+    "revision_snapshot_report",
+    "truth_file_writeback_report",
+    "current_state_resource_relationship_hook_drift",
+    "phase_dashboard_review_findings",
+    "scene_blueprint_reader_reward_report",
+    "scene_hook_information_gain_report",
+    "evidence_backed_canon_warning_report",
+    "continuity_suggestion_review_log",
+    "context_pack_canon_scope_findings",
+    "contradiction_findings",
+    "timeline_conflicts",
+    "relationship_drift",
+    "setup_payoff_ledger",
+    "payoff_windows",
+    "unpaid_setup_risk",
+    "synopsis_cross_refs",
+    "comment_refs",
+    "note_backlinks",
+    "dracor_scene_speaker_network_report",
+    "tei_cast_scene_coverage",
+    "speaker_scene_network_consistency",
+    "interactive_reader_writer_trace",
+    "chapter_file_writeback_audit",
+    "revision_acceptance_findings",
+    "inspiration_bank_scope_report",
+    "offline_style_mimicry_findings",
+    "local_reference_boundary_notes",
+    "memory_bank_completeness_report",
+    "plan_to_actual_comparison",
+    "active_context_progress_report",
+    "graph_vector_retrieval_report",
+    "local_global_hybrid_context_selection",
+    "retrieval_mode_failure_notes",
+    "continuity_bridge_window",
+    "recent_episode_state",
+    "bridge_input_sources",
+    "boring_scene_findings",
+    "opening_hook_checks",
+    "reader_experience_findings",
+    "story_contracts",
+    "accepted_chapter_commits",
+    "canon_commit_chain",
+    "reader_retention_score",
+    "pleasure_point_checks",
+    "ooc_rhythm_review",
+    "chapter_hook_strength",
+    "reader_reward_map",
+    "opening_hook_contract",
+    "free_to_paid_turning_points",
+    "platform_packaging_fit_report",
+    "emotional_arc",
+    "emotion_curve",
+    "source_state_snapshot",
+    "state_outline_record_report",
+    "open_thread_promise_payoff_ledger",
+    "publish_translation_boundary_findings",
+    "writer_critic_revision_cycle_report",
+    "quality_threshold_gate_findings",
+    "story_collapse_prevention_findings",
+    "story_bible_qa_report",
+    "pov_location_lore_rule_findings",
+    "continuity_console_review_trace",
+    "deconstruct_imitate_boundary_report",
+    "style_worldbuilding_abstraction_findings",
+    "reference_plot_leakage_review",
+    "multi_agent_consistency_report",
+    "rag_metadata_timeline_findings",
+    "role_split_consistency_guard_trace",
+    "novel_audit_11_dimension_scorecard",
+    "cross_chapter_continuity_audit_findings",
+    "actionable_rewrite_suggestion_trace",
+    "kdp_metadata_validation_report",
+    "chapter_preservation_merge_trace",
+    "publication_export_boundary_findings",
+    "phase1_style_manual_reference_scope_report",
+    "serial_chapter_lock_readiness_report",
+    "sdd_skill_workflow_contract_report",
+    "seven_step_command_boundary_findings",
+    "structure_content_generation_cost_report",
+    "section_context_gap_findings",
+    "sensory_foreshadow_cooldown_report",
+    "phase_breakdown_drafting_trace",
+    "person_place_timeline_output_report",
+    "notes_export_scope_report"
+  ],
+  "wiki_canon_graph_lint_gate_hints": [],
+  "wikiplots_plot_corpus_boundary_gate_hints": [],
+  "woke_novel_template_resume_cli_gate_hints": [],
+  "work_corpus_reindex_autopilot_gate_hints": [],
+  "work_dna_method_transfer_eval_gate_hints": [],
+  "workflow_manuscript_compilation_hints": [],
+  "workflow_patterns": [
+    {
+      "candidate_count": 1,
+      "name": "continuation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "book_decomposition",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "worldbuilding",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "timeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "truth_file_write_next_state_update_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "writer_critic_verify_quality_cycle_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "canon_evidence_suggestion_review_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "character_cards",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "obsidian_storyteller_world_timeline_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "spec_driven_state_record_publish_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "truth_file_phase_dashboard_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "markdown_ink_export_validation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "phase1_style_manual_reference_boundary_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_blueprint_reader_reward_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "multi_phase_sensory_continuation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "sdd_seven_step_cross_platform_skill_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "serial_reader_reward_contract_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_contract_commit_chain",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "book_memory_bank_context_lattice",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "fast_structure_content_model_split_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "offline_inspiration_bank_style_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "continuity_bridge_window",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "layered_story_bible_artifact_contract_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "dracor_tei_scene_speaker_network_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "dual_level_graph_vector_retrieval",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "organization_graph",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "private_person_place_timeline_output_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "reader_reward_channel_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "interactive_reader_writer_loop_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "contradiction_detection",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "reader_retention_review_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "emotion_arc",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "setup_payoff_tracking",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "boring_opening_quality_gates",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "self_review",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "synopsis_cross_reference",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "publication_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "chapter_contract_scene_beat_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "harnessnovel_deconstruct_imitate_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "kdp_metadata_chapter_export_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "nai_multi_agent_rag_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "novel_audit_11_dimension_rewrite_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "portable_story_project_structure_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "progress_report_continuity_writeback_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "reader_promise_micro_payoff_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "revision_order_natural_prose_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_bible_qa_pov_lore_rule_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "universal_novel_mode_contract_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    }
+  ],
+  "world_state_tracking_hints": [],
+  "worldpkg_export_hints": [],
+  "writer_critic_verify_quality_cycle_gate_hints": [
+    "Use a bounded writer/critic loop: WRITE, REVIEW, REVISE, VERIFY, then GATE by explicit quality thresholds.",
+    "Critique must be multi-dimensional and specific: plot, character, setting, dialogue, mechanics, continuity, and story-collapse risk.",
+    "Store failed cycles and verifier scores so repeated revisions cannot drift away from the chapter brief or source-independent canon."
+  ],
+  "writer_git_exploration_review_gate_hints": [],
+  "writer_studio_binder_voice_rag_gate_hints": [],
+  "writeros_role_validator_boundary_gate_hints": [],
+  "writers_room_stop_authority_gate_hints": [],
+  "writing_session_goal_tracking_hints": [],
+  "xiaoshuo_local_canon_skill_studio_gate_hints": []
+}

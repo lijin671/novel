@@ -834,3 +834,33 @@ def test_source_discovery_panel_surfaces_workflow_pattern_evidence():
     assert "source.posture" in panel_text
     assert "pattern-only 静态吸收" in panel_text
     assert "不 clone、不安装、不执行" in panel_text
+
+
+def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    types_file = repo_root / "frontend" / "src" / "types" / "sourceDiscovery.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types_file.read_text(encoding="utf-8")
+
+    assert "Universal novel-writing skill gates" in panel_text
+    assert "Universal mode-contract gates" in panel_text
+    assert "Portable story project-structure gates" in panel_text
+    assert "Chapter contract / scene beat gates" in panel_text
+    assert "Reader promise / micro-payoff gates" in panel_text
+    assert "Revision order / natural prose gates" in panel_text
+    assert "Progress report / continuity write-back gates" in panel_text
+    assert "universal_novel_mode_contract_gate_hints" in panel_text
+    assert "portable_story_project_structure_gate_hints" in panel_text
+    assert "chapter_contract_scene_beat_gate_hints" in panel_text
+    assert "reader_promise_micro_payoff_gate_hints" in panel_text
+    assert "revision_order_natural_prose_gate_hints" in panel_text
+    assert "progress_report_continuity_writeback_gate_hints" in panel_text
+
+    assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
+    assert "portable_story_project_structure_gate_hints?: string[]" in types_text
+    assert "chapter_contract_scene_beat_gate_hints?: string[]" in types_text
+    assert "reader_promise_micro_payoff_gate_hints?: string[]" in types_text
+    assert "revision_order_natural_prose_gate_hints?: string[]" in types_text
+    assert "progress_report_continuity_writeback_gate_hints?: string[]" in types_text

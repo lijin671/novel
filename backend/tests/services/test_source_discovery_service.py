@@ -20180,3 +20180,76 @@ def test_local_first_editor_theia_api_production_sources_are_static_absorbed():
     assert "nebula_codex_character_knowledge_version_gate_hints" in digest
     assert "forfiction_theia_story_extension_skill_gate_hints" in digest
     assert "inkos_truthfile_api_fanfic_imitation_gate_hints" in digest
+
+
+def test_local_universal_novel_writing_skill_is_static_absorbed():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[],
+        forum_items=[],
+        local_references=[
+            {
+                "title": "local/universal-novel-writing",
+                "path": "D:/project/universal-novel-writing",
+                "url": "local://universal-novel-writing",
+                "summary": (
+                    "Portable universal-novel-writing SKILL.md with operating modes "
+                    "quick-start, full-project, continue-chapter, revise, analyze, export; "
+                    "project structure story-bible.md outline.md characters.md worldbuilding.md "
+                    "continuity.md progress.md chapters notes revision; chapter contract with "
+                    "reader promise, POV, opening hook, goal, obstacle, escalation, payoff, "
+                    "new hook, forbidden contradictions; scene beat sheet with 3-7 scenes and "
+                    "exit state; Chinese webnovel micro-payoff reader reward; revision order "
+                    "developmental character continuity scene line proof; anti-AI natural prose; "
+                    "chapter progress report writeback with new facts, hooks, character changes, risks."
+                ),
+                "root_files": [
+                    "SKILL.md",
+                    "references/chapter-workflow.md",
+                    "references/genre-patterns.md",
+                    "references/planning-templates.md",
+                    "references/revision-checklists.md",
+                    "references/story-bible.md",
+                ],
+                "license": "unknown",
+                "updated_at": "2026-06-13T20:40:00+08:00",
+            }
+        ],
+        generated_at="2026-06-13T21:05:00+08:00",
+    )
+
+    assert result["candidate_count"] == 1
+    candidate = result["candidates"][0]
+    assert candidate["source"] == "local-reference"
+    assert candidate["url"] == "local://universal-novel-writing"
+    assert candidate["posture"] == "pattern-only"
+    assert candidate["posture_hint"] == "local-static-review"
+    assert {
+        "universal_novel_mode_contract_gate",
+        "portable_story_project_structure_gate",
+        "chapter_contract_scene_beat_gate",
+        "reader_promise_micro_payoff_gate",
+        "revision_order_natural_prose_gate",
+        "progress_report_continuity_writeback_gate",
+    }.issubset(candidate["absorbed_patterns"])
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "universal_mode_contract_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "portable_story_project_structure_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_contract_scene_beat_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "progress_report_writeback_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "universal_mode_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("mode" in hint.lower() for hint in pattern_pack["universal_novel_mode_contract_gate_hints"])
+    assert any("story-bible.md" in hint for hint in pattern_pack["portable_story_project_structure_gate_hints"])
+    assert any("3-7" in hint for hint in pattern_pack["chapter_contract_scene_beat_gate_hints"])
+    assert any("micro-payoff" in hint.lower() for hint in pattern_pack["reader_promise_micro_payoff_gate_hints"])
+    assert any("revision order" in hint.lower() for hint in pattern_pack["revision_order_natural_prose_gate_hints"])
+    assert any("write-back" in hint.lower() for hint in pattern_pack["progress_report_continuity_writeback_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "universal_novel_mode_contract_gate_hints" in digest
+    assert "portable_story_project_structure_gate_hints" in digest
+    assert "chapter_contract_scene_beat_gate_hints" in digest
+    assert "reader_promise_micro_payoff_gate_hints" in digest
+    assert "revision_order_natural_prose_gate_hints" in digest
+    assert "progress_report_continuity_writeback_gate_hints" in digest

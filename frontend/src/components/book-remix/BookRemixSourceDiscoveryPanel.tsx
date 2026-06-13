@@ -336,6 +336,12 @@ const PINNED_HINT_KEYS = new Set([
   'living_document_plan_log_verify_gate_hints',
   'markdown_frontmatter_continuity_engine_gate_hints',
   'story_design_dependency_impact_gate_hints',
+  'universal_novel_mode_contract_gate_hints',
+  'portable_story_project_structure_gate_hints',
+  'chapter_contract_scene_beat_gate_hints',
+  'reader_promise_micro_payoff_gate_hints',
+  'revision_order_natural_prose_gate_hints',
+  'progress_report_continuity_writeback_gate_hints',
   'writer_critic_verify_quality_cycle_gate_hints',
   'q15_story_quality_benchmark_gate_hints',
   'local_desktop_manuscript_revision_bible_gate_hints',
@@ -712,6 +718,14 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Scene asset pipeline hints', patternPackPayload?.scene_asset_pipeline_hints],
               ['Publication pipeline hints', patternPackPayload?.publication_pipeline_hints],
               ['Self-review policy hints', patternPackPayload?.self_review_policy_hints],
+            ])}
+            {renderHintGroup('Universal novel-writing skill gates', [
+              ['Universal mode-contract gates', patternPackPayload?.universal_novel_mode_contract_gate_hints],
+              ['Portable story project-structure gates', patternPackPayload?.portable_story_project_structure_gate_hints],
+              ['Chapter contract / scene beat gates', patternPackPayload?.chapter_contract_scene_beat_gate_hints],
+              ['Reader promise / micro-payoff gates', patternPackPayload?.reader_promise_micro_payoff_gate_hints],
+              ['Revision order / natural prose gates', patternPackPayload?.revision_order_natural_prose_gate_hints],
+              ['Progress report / continuity write-back gates', patternPackPayload?.progress_report_continuity_writeback_gate_hints],
             ])}
             {renderHintBlock('Whole-book analysis targets', patternPackPayload?.whole_book_analysis_targets)}
             {renderHintBlock('Continuation state hints', patternPackPayload?.continuation_state_hints)}

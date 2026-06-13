@@ -1686,6 +1686,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("novel_audit_11_dimension_rewrite_gate", ("novel audit", "11 dimensions", "eleven dimensions", "ai trace", "repetition", "plot rationality", "timeline consistency", "context coherence", "pov consistency", "pacing", "characterization", "worldbuilding", "dialogue quality", "cross-chapter")),
     ("local_continuation_workstation_context_export_gate", ("novel-continuation", "local continuation", "three-layer outline", "style lock", "context assembly", "previous 5 chapters", "fts5", "token estimation", "self review", "character snapshot", "foreshadow status", "txt", "docx", "epub")),
     ("p4_p5_foreshadow_relationship_outline_gate", ("p4", "p5", "foreshadow", "relationship line", "chapter outline", "volume outline", "setup", "advance", "reveal", "relationship closure", "cross validation", "three consecutive chapters")),
+    ("universal_novel_mode_contract_gate", ("universal-novel-writing", "operating modes", "quick-start", "full-project", "continue-chapter", "revise", "analyze", "export")),
+    ("portable_story_project_structure_gate", ("story-bible.md", "outline.md", "characters.md", "worldbuilding.md", "continuity.md", "progress.md", "chapters", "notes", "revision")),
+    ("chapter_contract_scene_beat_gate", ("chapter contract", "reader promise", "opening hook", "main obstacle", "forbidden contradictions", "scene beat sheet", "3-7 scenes", "exit state")),
+    ("reader_promise_micro_payoff_gate", ("reader promise", "micro-payoff", "micro payoff", "reader reward", "chinese webnovel", "chapter-level micro-payoffs", "chapter-level payoff")),
+    ("revision_order_natural_prose_gate", ("revision order", "developmental", "character continuity scene line proof", "anti-ai natural prose", "natural prose", "generic emotional labels", "line edit")),
+    ("progress_report_continuity_writeback_gate", ("chapter progress report", "writeback", "write-back", "new facts", "character changes", "hooks paid off", "continuity updates", "next chapter likely focus")),
     ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
     ("kdp_metadata_chapter_export_gate", ("best-selling-book-writer", "topic selection", "outline", "chapters", "kdp metadata", "description.html", "7 keywords", "validation", "html", "pdf", "book-config.json", "chapters remain", "publishing checklist")),
@@ -4731,6 +4737,7 @@ class NovelSourceDiscoveryService:
         *,
         github_repositories: Iterable[dict[str, Any]],
         forum_items: Iterable[dict[str, Any]],
+        local_references: Iterable[dict[str, Any]] | None = None,
         generated_at: str | None = None,
     ) -> dict[str, Any]:
         generated = generated_at or _now_iso()
@@ -4744,6 +4751,12 @@ class NovelSourceDiscoveryService:
 
         for item in forum_items:
             candidate = self._candidate_from_forum(item)
+            if not self._is_novel_candidate(candidate):
+                continue
+            raw_candidates.append(candidate)
+
+        for reference in local_references or ():
+            candidate = self._candidate_from_local_reference(reference)
             if not self._is_novel_candidate(candidate):
                 continue
             raw_candidates.append(candidate)
@@ -4966,6 +4979,12 @@ class NovelSourceDiscoveryService:
             "canon_evidence_suggestion_review_gate_hints": self._build_canon_evidence_suggestion_review_gate_hints(available_patterns),
             "expert_chain_alignment_creativity_gate_hints": self._build_expert_chain_alignment_creativity_gate_hints(available_patterns),
             "visual_story_bible_continuity_gate_hints": self._build_visual_story_bible_continuity_gate_hints(available_patterns),
+            "universal_novel_mode_contract_gate_hints": self._build_universal_novel_mode_contract_gate_hints(available_patterns),
+            "portable_story_project_structure_gate_hints": self._build_portable_story_project_structure_gate_hints(available_patterns),
+            "chapter_contract_scene_beat_gate_hints": self._build_chapter_contract_scene_beat_gate_hints(available_patterns),
+            "reader_promise_micro_payoff_gate_hints": self._build_reader_promise_micro_payoff_gate_hints(available_patterns),
+            "revision_order_natural_prose_gate_hints": self._build_revision_order_natural_prose_gate_hints(available_patterns),
+            "progress_report_continuity_writeback_gate_hints": self._build_progress_report_continuity_writeback_gate_hints(available_patterns),
             "author_ai_project_contract_review_gate_hints": self._build_author_ai_project_contract_review_gate_hints(available_patterns),
             "manuscript_pr_editorial_workflow_gate_hints": self._build_manuscript_pr_editorial_workflow_gate_hints(available_patterns),
             "short_drama_story_bible_template_gate_hints": self._build_short_drama_story_bible_template_gate_hints(available_patterns),
@@ -6470,6 +6489,18 @@ class NovelSourceDiscoveryService:
 
     def _build_bible_enrichment_targets(self, patterns: set[str]) -> list[str]:
         targets = ["world_rules", "timeline", "character_cards", "style_signature", "hard_constraints"]
+        if "universal_novel_mode_contract_gate" in patterns:
+            targets.append("universal_mode_contract_policy")
+        if "portable_story_project_structure_gate" in patterns:
+            targets.append("portable_story_project_structure_policy")
+        if "chapter_contract_scene_beat_gate" in patterns:
+            targets.append("chapter_contract_scene_beat_policy")
+        if "reader_promise_micro_payoff_gate" in patterns:
+            targets.append("reader_promise_micro_payoff_policy")
+        if "revision_order_natural_prose_gate" in patterns:
+            targets.append("revision_order_natural_prose_policy")
+        if "progress_report_continuity_writeback_gate" in patterns:
+            targets.append("progress_report_continuity_writeback_policy")
         if "card_workbench" in patterns:
             targets.append("card_schema_catalog")
             targets.append("field_level_cards")
@@ -8170,6 +8201,18 @@ class NovelSourceDiscoveryService:
             "style_signature",
             "chapter_change_packages",
         ]
+        if "universal_novel_mode_contract_gate" in patterns:
+            targets.append("universal_mode_contract_report")
+        if "portable_story_project_structure_gate" in patterns:
+            targets.append("portable_story_project_structure_report")
+        if "chapter_contract_scene_beat_gate" in patterns:
+            targets.append("chapter_contract_scene_beat_report")
+        if "reader_promise_micro_payoff_gate" in patterns:
+            targets.append("reader_promise_micro_payoff_report")
+        if "revision_order_natural_prose_gate" in patterns:
+            targets.append("revision_order_natural_prose_report")
+        if "progress_report_continuity_writeback_gate" in patterns:
+            targets.append("progress_report_writeback_report")
         if "card_workbench" in patterns:
             targets.extend(["card_types", "card_field_dependencies"])
         if patterns.intersection({
@@ -11734,6 +11777,60 @@ class NovelSourceDiscoveryService:
             "When a novel workflow produces visual or adaptation artifacts, keep a visual story bible for character appearance, setting look, props, mood, and style continuity.",
             "Visual bible entries are derived from accepted prose and cards; they may not silently rewrite story canon or import source/reference character designs.",
             "Image, PDF, Gemini, browser, or hosted illustration surfaces remain runtime-deferred unless a separate safety and rights packet authorizes them.",
+        ]
+
+    def _build_universal_novel_mode_contract_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "universal_novel_mode_contract_gate" not in patterns:
+            return []
+        return [
+            "Select an explicit novel mode before work starts: quick-start, full-project, continue-chapter, revise, analyze, or export.",
+            "Mode choice controls the required artifact contract; do not let a continuation request silently become a full-project rewrite or export task.",
+            "If the mode is ambiguous, choose the smallest useful mode and record assumptions before any chapter or analysis output is accepted.",
+        ]
+
+    def _build_portable_story_project_structure_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "portable_story_project_structure_gate" not in patterns:
+            return []
+        return [
+            "Keep durable novel state in portable Markdown files: story-bible.md, outline.md, characters.md, worldbuilding.md, continuity.md, and progress.md.",
+            "Separate chapters/, notes/, and revision/ so manuscript text, research notes, and review artifacts do not overwrite each other.",
+            "When core files are missing, create a lightweight scaffold from available context instead of blocking the continuation loop.",
+        ]
+
+    def _build_chapter_contract_scene_beat_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_contract_scene_beat_gate" not in patterns:
+            return []
+        return [
+            "Before drafting, create a chapter contract with job, reader promise, POV, opening hook, goal, obstacle, escalation, payoff, new hook, and forbidden contradictions.",
+            "Plan most chapters as 3-7 scene beats; each scene needs POV, location/time, goal, obstacle, tactic, turn, cost, and exit state.",
+            "A scene exit state must change plot, knowledge, relationship, risk, moral pressure, emotion, or world-rule understanding.",
+        ]
+
+    def _build_reader_promise_micro_payoff_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "reader_promise_micro_payoff_gate" not in patterns:
+            return []
+        return [
+            "Name the reader promise before planning: mystery, romance, progression, justice, fear, wonder, comedy, or another concrete pleasure.",
+            "For Chinese webnovel continuation, include a chapter-level micro-payoff such as reveal, win, reversal, clue, upgrade, public proof, or relationship movement.",
+            "Payoff must change the board: track cost, debt, injury, reputation, faction reaction, power/resource change, or a larger new pressure.",
+        ]
+
+    def _build_revision_order_natural_prose_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "revision_order_natural_prose_gate" not in patterns:
+            return []
+        return [
+            "Use revision order as a gate: developmental, character, continuity, scene, line, then proof/format.",
+            "Do not polish sentences before chapter job, character motive, continuity, and scene turn are valid.",
+            "Natural prose cleanup should replace generic emotional labels with concrete action, sensory detail, character-specific diction, subtext, and uneven human rhythm.",
+        ]
+
+    def _build_progress_report_continuity_writeback_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "progress_report_continuity_writeback_gate" not in patterns:
+            return []
+        return [
+            "After each chapter, write a progress report with summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next likely focus, and risks.",
+            "Treat write-back as a separate accepted artifact; draft prose alone must not mutate continuity, progress, or character state.",
+            "The next continuation prompt should read the latest progress write-back before choosing opening state, unresolved hook, and conflict escalation.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -16180,6 +16277,18 @@ class NovelSourceDiscoveryService:
             "world_rule_remap",
             "plot_thread_remap",
         ]
+        if "universal_novel_mode_contract_gate" in patterns:
+            targets.append("universal_mode_contract_remap")
+        if "portable_story_project_structure_gate" in patterns:
+            targets.append("portable_project_structure_remap")
+        if "chapter_contract_scene_beat_gate" in patterns:
+            targets.append("chapter_contract_scene_beat_remap")
+        if "reader_promise_micro_payoff_gate" in patterns:
+            targets.append("reader_promise_micro_payoff_remap")
+        if "revision_order_natural_prose_gate" in patterns:
+            targets.append("revision_natural_prose_remap")
+        if "progress_report_continuity_writeback_gate" in patterns:
+            targets.append("progress_writeback_continuity_remap")
         if patterns.intersection({
             "obsidian_galley_scene_compile_gate",
             "obsidian_storyteller_world_timeline_gate",
@@ -20503,6 +20612,12 @@ class NovelSourceDiscoveryService:
                 "multi_book_autopilot_studio_gate",
                 "longrun_commit_projection_health_gate",
                 "fresh_context_chapter_iteration_gate",
+                "universal_novel_mode_contract_gate",
+                "portable_story_project_structure_gate",
+                "chapter_contract_scene_beat_gate",
+                "reader_promise_micro_payoff_gate",
+                "revision_order_natural_prose_gate",
+                "progress_report_continuity_writeback_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",
                 "story_state_output_contract_gate",
@@ -21105,6 +21220,39 @@ class NovelSourceDiscoveryService:
             return {}
         scripts = package_payload.get("scripts") if isinstance(package_payload, dict) else None
         return scripts if isinstance(scripts, dict) else {}
+
+    def _candidate_from_local_reference(self, reference: dict[str, Any]) -> dict[str, Any]:
+        title = _text(reference.get("title") or reference.get("name") or reference.get("path"))
+        summary = _text(reference.get("summary") or reference.get("description"))
+        root_files = _as_list(reference.get("root_files") or reference.get("files"))
+        file_hashes = reference.get("file_hashes") if isinstance(reference.get("file_hashes"), dict) else {}
+        url = _text(reference.get("url") or reference.get("path"))
+        haystack = _lower_haystack(
+            title,
+            summary,
+            _text(reference.get("path")),
+            " ".join(map(str, root_files)),
+            json.dumps(file_hashes, ensure_ascii=False),
+        )
+        return {
+            "source": "local-reference",
+            "url": url,
+            "title": title,
+            "summary": summary,
+            "stars": None,
+            "license": _text(reference.get("license")) or "unknown",
+            "family": self._classify_family(haystack),
+            "posture": "pattern-only",
+            "posture_hint": "local-static-review",
+            "risk_flags": self._risk_flags(haystack),
+            "trust_review": {
+                "posture_hint": "local-static-review",
+                "flags": ["local:static-only"],
+            },
+            "absorbed_patterns": self._absorbed_patterns(haystack),
+            "updated_at": _text(reference.get("updated_at")),
+            "score": self._score_candidate(haystack, stars=None),
+        }
 
     def _candidate_from_github(self, repository: dict[str, Any]) -> dict[str, Any]:
         topics = _as_list(repository.get("topics"))
