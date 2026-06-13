@@ -3897,6 +3897,101 @@ def test_build_remix_context_blocks_render_bookrun_skill_protocol_audit():
         assert "banned vocabulary" in block
 
 
+def test_build_remix_context_blocks_render_speckit_fiction_scene_task_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "story_bible_constitution_source_gate", "candidate_count": 1},
+            {"name": "scene_outline_approval_status_gate", "candidate_count": 1},
+            {"name": "pov_information_asymmetry_schedule_gate", "candidate_count": 1},
+            {"name": "pacing_arc_polish_pass_gate", "candidate_count": 1},
+        ],
+        "scene_outline_approval_status_gate_hints": ["Draft only scene outlines marked APPROVED."],
+        "pacing_arc_polish_pass_gate_hints": ["Run tension scoring before polish."],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Spec Kit Fiction Desk",
+        bible={
+            "style_signature": {"pov": "close third"},
+            "hard_constraints": [{"rule": "constitution controls voice"}],
+        },
+        plan={
+            "summary": "Continue through approved scene outlines.",
+            "scene_beats": [
+                {
+                    "status": "APPROVED",
+                    "required_context": ["characters.md", "timeline.md"],
+                    "opening_hook": "The witness refuses the obvious answer.",
+                    "goal": "Force a contradiction into view.",
+                    "exit_state": "New suspicion redirects the case.",
+                }
+            ],
+            "pov_schedule": [{"chapter": "next", "pov": "Inspector Lin", "knows": "ledger location"}],
+            "information_asymmetry": [{"secret": "ledger owner", "reader_knows": "partial"}],
+            "guardrails": [{"rule": "polish after checklist pass"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Spec Kit Workbench",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep only spec-driven scene task gates.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source scene ids or POV schedule.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Spec Kit fiction scene-task audit" in block
+        assert "story_bible_constitution_source_gate" in block
+        assert "scene_outline_approval_status_gate" in block
+        assert "pov_information_asymmetry_schedule_gate" in block
+        assert "pacing_arc_polish_pass_gate" in block
+        assert "constitution" in block
+        assert "APPROVED" in block
+        assert "information asymmetry" in block
+        assert "checklist PASS" in block
+
+
+def test_build_remix_continuation_control_audit_surfaces_speckit_scene_task_warnings():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "chapter_change_packages": [
+                {
+                    "chapter_number": 1,
+                    "summary": "The case opens.",
+                    "pov": "Inspector Lin",
+                    "quality_scores": {"checklist": "FAIL"},
+                }
+            ],
+        },
+        plan={"summary": "Draft from scene outlines.", "beats": [{"beat": "question witness"}]},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "story_bible_constitution_source_gate"},
+                {"name": "scene_outline_approval_status_gate"},
+                {"name": "pov_information_asymmetry_schedule_gate"},
+                {"name": "pacing_arc_polish_pass_gate"},
+            ],
+        },
+    )
+
+    assert "story_bible_constitution_authority" in audit["control_axes"]
+    assert "scene_outline_approval_status" in audit["control_axes"]
+    assert "pov_information_asymmetry_schedule" in audit["control_axes"]
+    assert "pacing_arc_polish_pass" in audit["control_axes"]
+    assert "verify_scene_outline_approval" in audit["acceptance_steps"]
+    assert "verify_pov_information_asymmetry" in audit["acceptance_steps"]
+    assert "verify_checklist_pass_before_polish" in audit["acceptance_steps"]
+    assert "spec_kit_fiction_warnings" in audit["warnings"]
+    assert "missing_story_bible_constitution" in audit["spec_kit_fiction_warnings"]
+    assert "missing_approved_scene_outline" in audit["spec_kit_fiction_warnings"]
+    assert "missing_pov_information_asymmetry_map" in audit["spec_kit_fiction_warnings"]
+    assert "missing_pacing_tension_or_checklist_pass" in audit["spec_kit_fiction_warnings"]
+
+
 def test_build_remix_context_blocks_render_project_workbench_memory_diversity_audit():
     pattern_pack = {
         "workflow_patterns": [

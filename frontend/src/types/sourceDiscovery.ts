@@ -326,6 +326,10 @@ export interface SourceDiscoveryPatternPack {
   revision_order_natural_prose_gate_hints?: string[];
   reader_pull_fresh_reader_gate_hints?: string[];
   progress_report_continuity_writeback_gate_hints?: string[];
+  story_bible_constitution_source_gate_hints?: string[];
+  scene_outline_approval_status_gate_hints?: string[];
+  pov_information_asymmetry_schedule_gate_hints?: string[];
+  pacing_arc_polish_pass_gate_hints?: string[];
   writer_critic_verify_quality_cycle_gate_hints?: string[];
   q15_story_quality_benchmark_gate_hints?: string[];
   local_desktop_manuscript_revision_bible_gate_hints?: string[];

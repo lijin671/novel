@@ -210,6 +210,23 @@ def build_remix_continuation_control_audit(
     if "reader_pull_fresh_reader_gate" in pattern_names:
         control_axes.append("reader_pull_fresh_reader_test")
         acceptance_steps.append("verify_reader_pull_answers")
+    if pattern_names.intersection({
+        "story_bible_constitution_source_gate",
+        "scene_outline_approval_status_gate",
+        "pov_information_asymmetry_schedule_gate",
+        "pacing_arc_polish_pass_gate",
+    }):
+        if "story_bible_constitution_source_gate" in pattern_names:
+            control_axes.append("story_bible_constitution_authority")
+        if "scene_outline_approval_status_gate" in pattern_names:
+            control_axes.append("scene_outline_approval_status")
+            acceptance_steps.append("verify_scene_outline_approval")
+        if "pov_information_asymmetry_schedule_gate" in pattern_names:
+            control_axes.append("pov_information_asymmetry_schedule")
+            acceptance_steps.append("verify_pov_information_asymmetry")
+        if "pacing_arc_polish_pass_gate" in pattern_names:
+            control_axes.append("pacing_arc_polish_pass")
+            acceptance_steps.append("verify_checklist_pass_before_polish")
     if "capture_distillation_production_gate" in pattern_names:
         control_axes.extend([
             "capture_distillation_production_stage_boundary",
@@ -291,6 +308,16 @@ def build_remix_continuation_control_audit(
         if "reader_pull_fresh_reader_gate" in pattern_names
         else _empty_reader_pull_fresh_reader_audit()
     )
+    spec_kit_fiction_audit = (
+        _spec_kit_fiction_scene_task_audit(bible=bible, plan=plan, max_items=12)
+        if pattern_names.intersection({
+            "story_bible_constitution_source_gate",
+            "scene_outline_approval_status_gate",
+            "pov_information_asymmetry_schedule_gate",
+            "pacing_arc_polish_pass_gate",
+        })
+        else _empty_spec_kit_fiction_scene_task_audit()
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -312,6 +339,8 @@ def build_remix_continuation_control_audit(
         warnings.append("production_handoff_warnings")
     if reader_pull_audit["warnings"]:
         warnings.append("reader_pull_warnings")
+    if spec_kit_fiction_audit["warnings"]:
+        warnings.append("spec_kit_fiction_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -351,6 +380,7 @@ def build_remix_continuation_control_audit(
         "chapter_contract_warnings": chapter_contract_audit["warnings"],
         "production_handoff_warnings": production_handoff_audit["warnings"],
         "reader_pull_warnings": reader_pull_audit["warnings"],
+        "spec_kit_fiction_warnings": spec_kit_fiction_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -420,6 +450,12 @@ def build_remix_continuation_context_block(
     _append_universal_reader_pull_fresh_reader_gate_section(
         lines=lines,
         bible=bible,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_speckit_fiction_scene_task_audit_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
     )
     _append_story_foundry_production_handoff_gate_section(
@@ -841,6 +877,7 @@ def build_remix_context_preview_audit(
         "chapter_contract_warnings": production_control_audit["chapter_contract_warnings"],
         "production_handoff_warnings": production_control_audit["production_handoff_warnings"],
         "reader_pull_warnings": production_control_audit["reader_pull_warnings"],
+        "spec_kit_fiction_warnings": production_control_audit["spec_kit_fiction_warnings"],
         **continuity_audit,
     }
 
@@ -937,6 +974,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_universal_same_type_creation_scaffold_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_speckit_fiction_scene_task_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -2092,6 +2133,104 @@ def _universal_chapter_contract_audit(
     return {"warnings": warnings[:max_items]}
 
 
+def _spec_kit_fiction_scene_task_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit Spec Kit fiction scene-task gates before continuation or polish."""
+    warnings: list[str] = []
+
+    if not _has_story_bible_constitution_surface(bible):
+        warnings.append("missing_story_bible_constitution")
+    if not _has_approved_scene_outline(plan):
+        warnings.append("missing_approved_scene_outline")
+    if not _has_pov_information_asymmetry_map(bible=bible, plan=plan):
+        warnings.append("missing_pov_information_asymmetry_map")
+    if not _has_pacing_tension_or_checklist_pass(bible=bible, plan=plan):
+        warnings.append("missing_pacing_tension_or_checklist_pass")
+
+    return {"warnings": warnings[:max_items]}
+
+
+def _empty_spec_kit_fiction_scene_task_audit() -> dict[str, Any]:
+    return {"warnings": []}
+
+
+def _has_story_bible_constitution_surface(bible: dict[str, Any]) -> bool:
+    if _axis_status(bible.get("constitution")) == "present":
+        return True
+    if _axis_status(bible.get("story_bible_constitution")) == "present":
+        return True
+    if _axis_status(bible.get("constitution_source")) == "present":
+        return True
+    return (
+        _axis_status(bible.get("style_signature")) == "present"
+        and _axis_status(bible.get("hard_constraints")) == "present"
+    )
+
+
+def _has_approved_scene_outline(plan: Optional[dict[str, Any]]) -> bool:
+    if not isinstance(plan, dict):
+        return False
+    for key in ("scene_beats", "scene_plan", "scenes", "approved_scenes", "beats"):
+        for item in _as_dict_list(plan.get(key)):
+            status = _string_value(item.get("status")).lower()
+            if status in {"approved", "pass", "accepted"}:
+                return True
+    return False
+
+
+def _has_pov_information_asymmetry_map(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [bible]
+    if isinstance(plan, dict):
+        carriers.append(plan)
+    has_pov_schedule = any(_axis_status(carrier.get("pov_schedule")) == "present" for carrier in carriers)
+    has_asymmetry = any(
+        _axis_status(carrier.get(key)) == "present"
+        for carrier in carriers
+        for key in ("information_asymmetry", "information_asymmetry_map", "secret_knowledge_map")
+    )
+    return has_pov_schedule and has_asymmetry
+
+
+def _has_pacing_tension_or_checklist_pass(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers: list[dict[str, Any]] = []
+    carriers.extend(_as_dict_list(bible.get("chapter_change_packages")))
+    carriers.extend(_as_dict_list(bible.get("chapter_packages")))
+    if isinstance(plan, dict):
+        carriers.extend(_as_dict_list(plan.get("scene_beats")))
+        carriers.extend(_as_dict_list(plan.get("scene_plan")))
+        carriers.extend(_as_dict_list(plan.get("scenes")))
+    for item in carriers:
+        for key in ("pacing_score", "tension_score", "pacing", "tension"):
+            value = item.get(key)
+            if isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0:
+                return True
+            if isinstance(value, str) and value.strip():
+                return True
+        if _checklist_passes(item):
+            return True
+    return False
+
+
+def _checklist_passes(item: dict[str, Any]) -> bool:
+    for key in ("checklist_verdict", "checklist", "quality_gate", "gate_status"):
+        value = _string_value(item.get(key)).lower()
+        if value in {"pass", "passed", "approved", "ok"}:
+            return True
+    quality_scores = item.get("quality_scores")
+    if isinstance(quality_scores, dict):
+        for key in ("checklist", "checklist_verdict", "pacing", "tension"):
+            value = quality_scores.get(key)
+            if isinstance(value, str) and value.strip().lower() in {"pass", "passed", "approved", "ok"}:
+                return True
+            if isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0:
+                return True
+    return False
+
+
 def _empty_universal_chapter_contract_audit() -> dict[str, Any]:
     return {"warnings": []}
 
@@ -2866,6 +3005,57 @@ def _append_universal_reader_pull_fresh_reader_gate_section(
         lines.append(f"- source_hint: {_truncate(hints[0], 240)}")
     if audit["warnings"]:
         lines.append(f"- reader_pull_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_speckit_fiction_scene_task_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    bible: Optional[dict[str, Any]] = None,
+    plan: Optional[dict[str, Any]] = None,
+) -> None:
+    """Render Spec Kit fiction scene task gates learned from static intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "story_bible_constitution_source_gate",
+        "scene_outline_approval_status_gate",
+        "pov_information_asymmetry_schedule_gate",
+        "pacing_arc_polish_pass_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    hints: list[str] = []
+    if isinstance(source_pattern_pack, dict):
+        for key in (
+            "story_bible_constitution_source_gate_hints",
+            "scene_outline_approval_status_gate_hints",
+            "pov_information_asymmetry_schedule_gate_hints",
+            "pacing_arc_polish_pass_gate_hints",
+        ):
+            hints.extend(_as_note_list(source_pattern_pack.get(key)))
+
+    audit = _spec_kit_fiction_scene_task_audit(
+        bible=bible or {},
+        plan=plan,
+        max_items=12,
+    ) if bible is not None or plan is not None else _empty_spec_kit_fiction_scene_task_audit()
+
+    lines.append("")
+    lines.append("Spec Kit fiction scene-task audit:")
+    if "story_bible_constitution_source_gate" in pattern_names:
+        lines.append("- story_bible_constitution_source_gate: constitution/story bible controls source-of-truth voice, tense, audience, hard rules, and accepted canon")
+    if "scene_outline_approval_status_gate" in pattern_names:
+        lines.append("- scene_outline_approval_status_gate: draft only scene outlines marked APPROVED; SKIP/TODO outlines stay out of prose context")
+    if "pov_information_asymmetry_schedule_gate" in pattern_names:
+        lines.append("- pov_information_asymmetry_schedule_gate: maintain POV schedule and information asymmetry map before drafting multi-POV scenes")
+    if "pacing_arc_polish_pass_gate" in pattern_names:
+        lines.append("- pacing_arc_polish_pass_gate: require pacing/tension evidence and checklist PASS before polish or export")
+    lines.append("- same_type_boundary: rebuild scene ids, POV timing, secrets, and checklist criteria for the target project; do not reuse source task rows")
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"]:
+        lines.append(f"- spec_kit_fiction_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_story_foundry_production_handoff_gate_section(
@@ -4783,6 +4973,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "author_note_layer_hints": "author_note_layer",
         "local_first_workspace_hints": "local_first_novel_workspace",
         "prompt_library_hints": "prompt_library",
+        "story_bible_constitution_source_gate_hints": "story_bible_constitution_source_gate",
+        "scene_outline_approval_status_gate_hints": "scene_outline_approval_status_gate",
+        "pov_information_asymmetry_schedule_gate_hints": "pov_information_asymmetry_schedule_gate",
+        "pacing_arc_polish_pass_gate_hints": "pacing_arc_polish_pass_gate",
         "style_guide_layering_hints": "style_guide_layering",
         "review_queue_staging_hints": "review_queue_staging",
         "entity_schema_custom_fields_hints": "entity_schema_custom_fields",

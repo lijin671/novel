@@ -945,6 +945,61 @@ def test_autonovel_metadata_maps_to_quality_voice_antislop_and_publication_pipel
     assert "publication_pipeline_hints" in digest
 
 
+def test_speckit_fiction_preset_metadata_maps_to_scene_task_pov_pacing_gates():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "adaumann/speckit-preset-fiction-book-writing",
+                "html_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+                "description": (
+                    "Fiction-book-writing preset for AI GitHub Spec Kit. "
+                    "Story Bible governance uses constitution.md as source of truth. "
+                    "Generates scene-by-scene writing tasks, editable scene outlines "
+                    "with status APPROVED/SKIP and required context/RAG query suggestions. "
+                    "Supports multi-POV schedules, information asymmetry maps, pacing "
+                    "tension-score audits, checklist PASS before polish, DOCX/EPUB export."
+                ),
+                "stargazers_count": 11,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["spec-kit", "fiction", "novel-writing", "multi-pov", "epub"],
+                "updated_at": "2026-06-09T15:28:17Z",
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-14T10:00:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert {
+        "story_bible_constitution_source_gate",
+        "scene_outline_approval_status_gate",
+        "pov_information_asymmetry_schedule_gate",
+        "pacing_arc_polish_pass_gate",
+        "scene_level_generation",
+        "publication_pipeline",
+    }.issubset(candidate["absorbed_patterns"])
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "story_bible_constitution_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_outline_approval_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "pov_information_asymmetry_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "pacing_arc_polish_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_bible_constitution_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_outline_status_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "pov_information_asymmetry_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("constitution" in hint.lower() for hint in pattern_pack["story_bible_constitution_source_gate_hints"])
+    assert any("approved" in hint.lower() for hint in pattern_pack["scene_outline_approval_status_gate_hints"])
+    assert any("information asymmetry" in hint.lower() for hint in pattern_pack["pov_information_asymmetry_schedule_gate_hints"])
+    assert any("checklist pass" in hint.lower() for hint in pattern_pack["pacing_arc_polish_pass_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "story_bible_constitution_source_gate_hints" in digest
+    assert "scene_outline_approval_status_gate_hints" in digest
+    assert "pov_information_asymmetry_schedule_gate_hints" in digest
+    assert "pacing_arc_polish_pass_gate_hints" in digest
+
+
 def test_default_discovery_sources_include_structured_writing_and_scene_pipeline_projects():
     assert "https://github.com/RhythmicWave/NovelForge" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/kaigani/codeywood" in DEFAULT_GITHUB_REPOSITORY_URLS
@@ -1402,6 +1457,7 @@ def test_default_github_repository_urls_cover_static_review_shortlist():
 
     assert "https://github.com/voocel/ainovel-cli" in normalized_urls
     assert "https://github.com/nousresearch/autonovel" in normalized_urls
+    assert "https://github.com/adaumann/speckit-preset-fiction-book-writing" in normalized_urls
     assert "https://github.com/leenbj/novel-creator-skill" in normalized_urls
     assert "https://github.com/kazkozdev/novelgenerator" in normalized_urls
     assert "https://github.com/raestrada/storycraftr" in normalized_urls

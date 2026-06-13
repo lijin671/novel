@@ -343,6 +343,10 @@ const PINNED_HINT_KEYS = new Set([
   'revision_order_natural_prose_gate_hints',
   'reader_pull_fresh_reader_gate_hints',
   'progress_report_continuity_writeback_gate_hints',
+  'story_bible_constitution_source_gate_hints',
+  'scene_outline_approval_status_gate_hints',
+  'pov_information_asymmetry_schedule_gate_hints',
+  'pacing_arc_polish_pass_gate_hints',
   'writer_critic_verify_quality_cycle_gate_hints',
   'q15_story_quality_benchmark_gate_hints',
   'local_desktop_manuscript_revision_bible_gate_hints',
@@ -728,6 +732,12 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Revision order / natural prose gates', patternPackPayload?.revision_order_natural_prose_gate_hints],
               ['Fresh-reader pull gates', patternPackPayload?.reader_pull_fresh_reader_gate_hints],
               ['Progress report / continuity write-back gates', patternPackPayload?.progress_report_continuity_writeback_gate_hints],
+            ])}
+            {renderHintGroup('Spec Kit fiction scene-task gates', [
+              ['Story-bible constitution gates', patternPackPayload?.story_bible_constitution_source_gate_hints],
+              ['Scene outline approval gates', patternPackPayload?.scene_outline_approval_status_gate_hints],
+              ['POV information-asymmetry gates', patternPackPayload?.pov_information_asymmetry_schedule_gate_hints],
+              ['Pacing arc / polish-pass gates', patternPackPayload?.pacing_arc_polish_pass_gate_hints],
             ])}
             {renderHintBlock('Whole-book analysis targets', patternPackPayload?.whole_book_analysis_targets)}
             {renderHintBlock('Continuation state hints', patternPackPayload?.continuation_state_hints)}

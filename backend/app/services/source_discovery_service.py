@@ -567,10 +567,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("forFiction" OR "story-memory" OR "Theia AI prompt fragments") ("story-preferences" OR "skill.yaml" OR "streaming insert") in:name,description,readme',
     '("inkos" OR "truth files" OR "fanfic spinoff imitation") ("OpenAI-compatible" OR "doctor diagnostic" OR "memory.db") in:name,description,readme',
     '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
+    '("Spec Kit" OR "constitution.md" OR "scene outline") ("APPROVED" OR "information asymmetry" OR "checklist PASS") ("fiction" OR "novel") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
     "https://github.com/NousResearch/autonovel",
+    "https://github.com/adaumann/speckit-preset-fiction-book-writing",
     "https://github.com/leenbj/novel-creator-skill",
     "https://github.com/KazKozDev/NovelGenerator",
     "https://github.com/raestrada/storycraftr",
@@ -1789,6 +1791,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("book_memory_bank_context_lattice", ("book memory bank", "stateless ai", "memory resets", "projectbrief.md", "story_structure.md", "world_and_characters.md", "activecontext.md", "progress.md", "comprehensive memory bank updating")),
     ("ideation_worksheet_foundation_gate", ("ideation worksheets", "five ideation worksheets", "premise discovery", "character genesis", "ghost/lie/want/need", "ghost lie want need", "structure blueprint", "theme discovery", "non-skippable", "filled once, referenced always", "what if framework")),
     ("spec_driven_fiction_scene_tasks", ("spec kit fiction", "story bible governance", "constitution.md", "scene-by-scene writing tasks", "quality gates instead of ci", "pov schedule", "information asymmetry map", "glossary audit", "subplot health dashboard")),
+    ("story_bible_constitution_source_gate", ("story bible governance", "constitution.md", "story bible constitution", "source of truth", "fiction constitution", "spec kit fiction")),
+    ("scene_outline_approval_status_gate", ("scene outline", "scene outlines", "editable scene outlines", "status approved", "approved/skip", "approved scene", "required context", "rag query suggestions")),
+    ("pov_information_asymmetry_schedule_gate", ("pov schedule", "multi-pov", "multi pov", "information asymmetry", "information asymmetry map", "who knows", "reader knows")),
+    ("pacing_arc_polish_pass_gate", ("pacing tension-score", "tension-score", "tension score", "checklist pass", "pass before polish", "pacing arc", "polish pass", "pacing audit")),
     ("toc_aware_source_deconstruction", ("llm ebook summarizer", "epub files", "pdf files", "table of contents", "nested chapters", "parent section introductions", "structured markdown notes", "quotes and anecdotes", "merge utility")),
     ("two_pass_context_glossary_pipeline", ("two-pass translation", "pass 1 (analysis)", "pass 2 (translation)", "previous chapter summary", "cumulative glossary", "proper nouns/terms", "resume support", "prompt templates")),
     ("inline_author_edit_markup_versioning", ("story framework", "markdown files and git", "source of truth", "continuity/timeline.md", "continuity/facts.md", "process edit notes", "[[pov", "{{fix", "git tag")),
@@ -5221,6 +5227,10 @@ class NovelSourceDiscoveryService:
             "book_memory_bank_context_lattice_hints": self._build_book_memory_bank_context_lattice_hints(available_patterns),
             "ideation_worksheet_foundation_gate_hints": self._build_ideation_worksheet_foundation_gate_hints(available_patterns),
             "spec_driven_fiction_scene_tasks_hints": self._build_spec_driven_fiction_scene_tasks_hints(available_patterns),
+            "story_bible_constitution_source_gate_hints": self._build_story_bible_constitution_source_gate_hints(available_patterns),
+            "scene_outline_approval_status_gate_hints": self._build_scene_outline_approval_status_gate_hints(available_patterns),
+            "pov_information_asymmetry_schedule_gate_hints": self._build_pov_information_asymmetry_schedule_gate_hints(available_patterns),
+            "pacing_arc_polish_pass_gate_hints": self._build_pacing_arc_polish_pass_gate_hints(available_patterns),
             "toc_aware_source_deconstruction_hints": self._build_toc_aware_source_deconstruction_hints(available_patterns),
             "two_pass_context_glossary_pipeline_hints": self._build_two_pass_context_glossary_pipeline_hints(available_patterns),
             "inline_author_edit_markup_versioning_hints": self._build_inline_author_edit_markup_versioning_hints(available_patterns),
@@ -6146,6 +6156,10 @@ class NovelSourceDiscoveryService:
             "book_memory_bank_context_lattice": 67,
             "ideation_worksheet_foundation_gate": 69,
             "spec_driven_fiction_scene_tasks": 66,
+            "story_bible_constitution_source_gate": 69,
+            "scene_outline_approval_status_gate": 68,
+            "pov_information_asymmetry_schedule_gate": 68,
+            "pacing_arc_polish_pass_gate": 67,
             "toc_aware_source_deconstruction": 65,
             "two_pass_context_glossary_pipeline": 64,
             "inline_author_edit_markup_versioning": 63,
@@ -6495,6 +6509,14 @@ class NovelSourceDiscoveryService:
             targets.append("universal_mode_contract_policy")
         if "portable_story_project_structure_gate" in patterns:
             targets.append("portable_story_project_structure_policy")
+        if "story_bible_constitution_source_gate" in patterns:
+            targets.append("story_bible_constitution_policy")
+        if "scene_outline_approval_status_gate" in patterns:
+            targets.append("scene_outline_approval_policy")
+        if "pov_information_asymmetry_schedule_gate" in patterns:
+            targets.append("pov_information_asymmetry_policy")
+        if "pacing_arc_polish_pass_gate" in patterns:
+            targets.append("pacing_arc_polish_policy")
         if "chapter_contract_scene_beat_gate" in patterns:
             targets.append("chapter_contract_scene_beat_policy")
         if "reader_promise_micro_payoff_gate" in patterns:
@@ -8209,6 +8231,14 @@ class NovelSourceDiscoveryService:
             targets.append("universal_mode_contract_report")
         if "portable_story_project_structure_gate" in patterns:
             targets.append("portable_story_project_structure_report")
+        if "story_bible_constitution_source_gate" in patterns:
+            targets.append("story_bible_constitution_report")
+        if "scene_outline_approval_status_gate" in patterns:
+            targets.append("scene_outline_approval_report")
+        if "pov_information_asymmetry_schedule_gate" in patterns:
+            targets.append("pov_information_asymmetry_report")
+        if "pacing_arc_polish_pass_gate" in patterns:
+            targets.append("pacing_arc_polish_report")
         if "chapter_contract_scene_beat_gate" in patterns:
             targets.append("chapter_contract_scene_beat_report")
         if "reader_promise_micro_payoff_gate" in patterns:
@@ -13787,6 +13817,42 @@ class NovelSourceDiscoveryService:
             "Run glossary, subplot, pacing, continuity, and sensitivity-style gates as read-only checks before accepting a chapter or same-type draft.",
         ]
 
+    def _build_story_bible_constitution_source_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "story_bible_constitution_source_gate" not in patterns:
+            return []
+        return [
+            "Treat constitution.md/story bible as the source of truth for voice, tense, audience, language, hard style rules, and non-negotiable canon constraints.",
+            "Before drafting or same-type transformation, verify every scene task and style choice against the approved story-bible constitution instead of upstream examples.",
+            "If constitution and scene task disagree, stop at an author-visible policy warning; do not silently promote draft facts into canon.",
+        ]
+
+    def _build_scene_outline_approval_status_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_outline_approval_status_gate" not in patterns:
+            return []
+        return [
+            "Draft only from scene outlines whose status is APPROVED; SKIP, TODO, or draft outlines stay out of generation context.",
+            "Each approved scene outline should carry required context, RAG/query needs, opening hook, goal, obstacle, turn, and exit state before prose starts.",
+            "For same-type creation, rebuild scene ids, order, status labels, and required context around the target project rather than copying source scene tasks.",
+        ]
+
+    def _build_pov_information_asymmetry_schedule_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "pov_information_asymmetry_schedule_gate" not in patterns:
+            return []
+        return [
+            "Maintain a POV schedule and information asymmetry map: who knows, reader knows, what is hidden, and when each secret can move onstage.",
+            "A multi-POV chapter must not reveal information unavailable to the active POV unless omniscience is explicitly accepted.",
+            "Same-type transformations must create new secrets and reveal timing; information asymmetry is a craft pattern, not a source-plot transplant.",
+        ]
+
+    def _build_pacing_arc_polish_pass_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "pacing_arc_polish_pass_gate" not in patterns:
+            return []
+        return [
+            "Run pacing/tension checks before polish: the scene or chapter should show pressure, turn, cost, and arc movement before sentence smoothing.",
+            "Require checklist PASS before polish/export; a fluent chapter with failed continuity, POV, approval, or tension gates is still not accepted.",
+            "For same-type creation, pacing arc and polish-pass gates must be evaluated on target-story evidence, not resemblance to source chapter rhythm.",
+        ]
+
     def _build_toc_aware_source_deconstruction_hints(self, patterns: set[str]) -> list[str]:
         if "toc_aware_source_deconstruction" not in patterns:
             return []
@@ -16296,6 +16362,14 @@ class NovelSourceDiscoveryService:
             targets.append("universal_mode_contract_remap")
         if "portable_story_project_structure_gate" in patterns:
             targets.append("portable_project_structure_remap")
+        if "story_bible_constitution_source_gate" in patterns:
+            targets.append("constitution_style_authority_remap")
+        if "scene_outline_approval_status_gate" in patterns:
+            targets.append("scene_outline_status_remap")
+        if "pov_information_asymmetry_schedule_gate" in patterns:
+            targets.append("pov_information_asymmetry_remap")
+        if "pacing_arc_polish_pass_gate" in patterns:
+            targets.append("pacing_polish_gate_remap")
         if "chapter_contract_scene_beat_gate" in patterns:
             targets.append("chapter_contract_scene_beat_remap")
         if "reader_promise_micro_payoff_gate" in patterns:
@@ -20608,6 +20682,10 @@ class NovelSourceDiscoveryService:
                 "entity_memory_slotfill_grounding",
                 "book_memory_bank_context_lattice",
                 "spec_driven_fiction_scene_tasks",
+                "story_bible_constitution_source_gate",
+                "scene_outline_approval_status_gate",
+                "pov_information_asymmetry_schedule_gate",
+                "pacing_arc_polish_pass_gate",
                 "toc_aware_source_deconstruction",
                 "two_pass_context_glossary_pipeline",
                 "inline_author_edit_markup_versioning",

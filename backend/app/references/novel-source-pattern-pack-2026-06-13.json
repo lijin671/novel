@@ -9,7 +9,10 @@
   "agent_style_rulebook_soft_enforcement_gate_hints": [],
   "agent_writing_phase_polish_gate_hints": [],
   "agentic_backstory_verification_rag_gate_hints": [],
-  "agentic_book_planner_pipeline_hints": [],
+  "agentic_book_planner_pipeline_hints": [
+    "Keep book-planning roles separate: Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker.",
+    "Writer output should cite the accepted planning artifacts it used, and Editor/Continuity findings should remain review records until accepted."
+  ],
   "agentic_editorial_pipeline_gate_hints": [],
   "agentic_story_world_simulation_hints": [],
   "agents_room_multistep_story_collaboration_gate_hints": [],
@@ -17,7 +20,11 @@
   "ai_book_generator_agent_mode_local_key_export_gate_hints": [],
   "ai_flavor_template_shell_cleanup_gate_hints": [],
   "ai_ism_detect_edit_convergence_gate_hints": [],
-  "ai_novel_mindmap_prompt_library_gate_hints": [],
+  "ai_novel_mindmap_prompt_library_gate_hints": [
+    "Use mind-map nodes to structure total outline, chapter plan, character/faction entries, and selected rewrite targets before invoking any generation or polish flow.",
+    "Prompt-library versions, knowledge-base slices, deconstruction notes, long-text memory inclusion, and low-cost self-iteration routes must be explicit and reviewable.",
+    "Flask app, model endpoint adapters, online demo, prompt bodies, generated examples, knowledge-base contents, and provider calls remain excluded during intake."
+  ],
   "ai_prose_fingerprint_cluster_gate_hints": [],
   "ai_tell_pattern_review_gate_hints": [],
   "alternate_timeline_branching_hints": [],
@@ -58,21 +65,47 @@
     "hard_constraints",
     "universal_mode_contract_policy",
     "portable_story_project_structure_policy",
+    "story_bible_constitution_policy",
+    "scene_outline_approval_policy",
+    "pov_information_asymmetry_policy",
+    "pacing_arc_polish_policy",
     "chapter_contract_scene_beat_policy",
     "reader_promise_micro_payoff_policy",
     "revision_order_natural_prose_policy",
+    "reader_pull_fresh_reader_policy",
     "progress_report_continuity_writeback_policy",
+    "story_bible_relationship_analytics_policy",
+    "appears_in_link_review_policy",
     "layered_story_bible_artifact_policy",
     "artifact_dependency_order_policy",
+    "context_reference_index",
+    "knowledge_graph_links",
     "storyteller_timeline_worldbuilding_policy",
+    "codex_character_knowledge_version_policy",
+    "editorial_persona_voice_policy",
+    "story_bible_source_citation_policy",
     "markdown_source_truth_policy",
     "ink_export_validation_policy",
+    "file_backed_promise_ledger_policy",
+    "post_write_audit_policy",
     "truth_file_state_update_policy",
     "write_next_package_policy",
     "truth_file_canon_ledgers",
     "phase_dashboard_writeback_policy",
+    "flow_session_story_graph_policy",
+    "local_story_workspace_boundary",
+    "editor_context_analysis_scope_policy",
+    "chapter_source_analysis_boundary",
     "scene_blueprint_reader_reward_policy",
     "scene_end_hook_information_gain_policy",
+    "raw_story_assimilation_approval_policy",
+    "finalized_chapter_continuity_policy",
+    "offline_chapter_document_boundary",
+    "revision_export_checkpoint_policy",
+    "screenplay_structure_coverage_policy",
+    "adaptation_structure_map_schema",
+    "scene_plan",
+    "scene_draft_units",
     "contradiction_findings",
     "reader_writer_interaction_log",
     "chapter_file_acceptance_state",
@@ -81,20 +114,37 @@
     "setup_payoff_ledger",
     "serial_reader_reward_contract",
     "platform_packaging_boundary_policy",
+    "markdown_story_file_contract",
+    "scene_state_frontmatter_schema",
     "evidence_backed_canon_warning_policy",
     "canon_suggestion_acceptance_ledger",
     "synopsis_cross_refs",
+    "dialogue_node_state_machine",
+    "dialogue_entry_exit_deltas",
+    "choice_stats_consequence_ledger",
+    "copyedit_diagnostic_queue",
+    "accepted_ignored_diagnostic_ledger",
+    "source_import_manifest",
+    "source_toc_spine_map",
     "tei_scene_speaker_network_policy",
     "dramatic_corpus_scene_cast_schema",
     "book_memory_bank_manifest",
     "active_context_progress_rules",
+    "fiction_constitution",
+    "scene_task_backlog",
+    "pov_information_asymmetry_map",
+    "inline_author_edit_markup_policy",
+    "revision_version_milestones",
     "reader_input_to_chapter_trace",
     "interactive_revision_acceptance_log",
     "inspiration_bank_retrieval_scope",
     "style_mimicry_boundary_report",
     "graph_vector_retrieval_policy",
     "local_global_hybrid_query_modes",
+    "frontmatter_story_schema",
+    "continuity_question_ledger",
     "continuity_bridge_window",
+    "agentic_planning_roles",
     "organizations",
     "conflicts",
     "story_arcs",
@@ -102,32 +152,63 @@
     "chapter_change_packages",
     "state_outline_record_policy",
     "publish_translation_boundary_policy",
+    "story_state_output_contract_policy",
+    "agent_state_parser_quality_gate_policy",
+    "living_document_plan_log_verify_policy",
+    "canon_always_wins_conflict_policy",
+    "markdown_frontmatter_continuity_policy",
+    "deterministic_story_contract_policy",
     "writer_critic_quality_cycle_policy",
     "revision_collapse_prevention_policy",
     "story_bible_pov_location_lore_rule_policy",
     "local_continuity_qa_console_policy",
+    "accepted_chapter_memory_writeback_policy",
+    "context_pack_canon_separation_policy",
+    "stage_gate_retry_budget_policy",
+    "rolling_synopsis_tail_continuity_policy",
     "deconstruct_imitate_reference_boundary_policy",
     "style_worldbuilding_abstraction_policy",
     "multi_agent_rag_consistency_policy",
     "role_split_consistency_guard_policy",
     "eleven_dimension_novel_audit_policy",
     "actionable_rewrite_suggestion_policy",
+    "local_continuation_context_assembly_policy",
+    "token_budget_export_policy",
+    "multi_agent_manuscript_pipeline_policy",
+    "style_anchor_chapter_expansion_policy",
     "kdp_metadata_export_validation_policy",
     "chapter_preservation_merge_policy",
+    "mindmap_outline_prompt_library_policy",
+    "deconstruction_low_cost_iteration_policy",
+    "frozen_layer_parallel_chapter_policy",
+    "multi_head_audit_retry_policy",
+    "weighted_rag_consistency_policy",
+    "memory_card_conflict_warning_policy",
     "phase1_style_manual_reference_policy",
     "read_only_reference_to_target_project_policy",
     "sdd_seven_step_skill_contract_policy",
     "cross_platform_command_boundary_policy",
+    "book_build_export_manifest_policy",
+    "multi_format_delivery_evidence_policy",
     "fast_structure_content_model_policy",
     "structure_content_model_cost_boundary_policy",
+    "phase_acceptance_delivery_policy",
+    "epub_manifest_validation_policy",
     "multi_phase_sensory_continuation_policy",
     "sensory_cooldown_foreshadow_policy",
     "person_place_timeline_policy",
     "markdown_export_boundary_policy",
-    "reader_pull_fresh_reader_policy"
+    "story_os_governance_policy",
+    "rag_export_snapshot_policy",
+    "local_manuscript_revision_bible_policy",
+    "accept_reject_diff_author_control_policy"
   ],
   "big_five_character_psychology_gate_hints": [],
-  "book_build_export_delivery_gate_hints": [],
+  "book_build_export_delivery_gate_hints": [
+    "Treat final book delivery as an explicit build graph: active book, metadata, numbered chapter drafts, source bible/outline/profile refs, wordcount, cover asset, and dist outputs.",
+    "Require delivery evidence per format: Markdown, DOCX, EPUB, PDF, cover image, submission notes, build log, and reproducible artifact ids before marking a project deliverable.",
+    "zencoder-based-novel-engine npm scripts, pandoc/PDF/DOCX/EPUB generation, sharp image processing, sample books, dist files, custom agents, system prompts, and manuscript text remain excluded from static intake."
+  ],
   "book_memory_bank_context_lattice_hints": [
     "Treat source deconstruction, story structure, world/characters, style guide, active context, and progress as separate but linked memory-bank files.",
     "Before continuation, read the current active context and progress snapshot; after accepted chapter output, update every affected memory-bank layer.",
@@ -189,7 +270,11 @@
   "chinese_ner_alias_consistency_gate_hints": [],
   "chinese_segmentation_keyword_gate_hints": [],
   "chinese_text_normalization_gate_hints": [],
-  "choice_stats_consequence_gate_hints": [],
+  "choice_stats_consequence_gate_hints": [
+    "Every choice-stat mutation needs a visible immediate or delayed consequence, plus a ledger entry naming trigger, stat delta, and payoff window.",
+    "Reject hidden variable drift: no branch may change canon, relationship, or world state without an explicit consequence record.",
+    "For same-type creation, transform stat categories and consequence timing so source achievements, variables, and thresholds do not copy across."
+  ],
   "cjk_bm25_context_retrieval_gate_hints": [],
   "codex_story_skill_project_scaffold_gate_hints": [],
   "codex_webnovel_plugin_parity_gate_hints": [],
@@ -203,7 +288,10 @@
   "content_ref_externalization_hints": [],
   "context_faithfulness_eval_gate_hints": [],
   "context_pack_preview_hints": [],
-  "context_reference_hints": [],
+  "context_reference_hints": [
+    "Build prompts from explicit context references: selected cards, recent chapter deltas, unresolved hooks, and relevant source-pattern notes.",
+    "Context inclusion must be justified by the current chapter goal; unrelated cards stay out to reduce drift and token noise."
+  ],
   "context_scrubber_beat_anchor_gate_hints": [],
   "continuation_prompt_hints": [
     "续写前先读取圣经草稿中的世界观、时间线、人物卡、组织关系、冲突与伏笔。",
@@ -211,12 +299,18 @@
     "把情感线当作连续状态处理：记录本章前后关系压力、误会、信任和欲望变化。",
     "组织和势力关系要进入续写约束，避免角色突然脱离已有阵营逻辑。",
     "Run local QA against Story Bible, POV, location, and lore-rule fields before drafting; unresolved findings become blocking continuity questions.",
+    "显式列出本章引用的上下文来源，避免把未检索或未确认的信息写入续写正史。",
+    "Run one editorial persona per pass: voice, structure, character, continuity, naive reader, and brainstorm findings should stay separately attributable.",
     "Keep Markdown as source of truth; generated Ink or branch exports are derived artifacts that require validation before reuse.",
+    "Before continuation, reread story bible, canon ledger, timeline, promise ledger, and decision log; after writing, run a post-write audit.",
     "Build a write-next package from truth files, current state, unresolved threads, and snapshot id; only accepted chapters may trigger state-update.",
+    "先规划场景列表，再逐场景生成；每个场景只注入本场需要的人物、地点、伏笔和前文切片。",
     "章节进入正史前先检查时间线、人物状态、关系演化和设定规则是否互相冲突。",
     "每次回收伏笔前先核对 setup/payoff ledger，避免无铺垫回收或重复回收。",
     "Before writing the next episode, build a continuity bridge from the last accepted chapters, active timeline, foreshadows, character state, and editor notes.",
     "Before prose, require a scene blueprint with location, cast, goal, obstacle, turning point, information gain, reader reward, and scene-end hook.",
+    "For imported raw story, propose Bible and Outline updates first; write/rewrite only after approval, then run review before continuity writeback.",
+    "Separate Story Bible, Characters, Plot Threads, Chapter Outlines, Writer, Editor, and Continuity Checker outputs before drafting.",
     "续写必须从故事合同和 accepted CHAPTER_COMMIT 主链取事实；草稿未提交前不能进入可复用状态。",
     "章节验收同时检查一致性、OOC、节奏、爽点兑现和下一章拉力；流畅但无追读压力不能接受。",
     "Serial chapters need a reader-reward contract before drafting: target reader, promised reward, opening hook, delivered scene reward, retention risk, and next-payment trust signal.",
@@ -224,6 +318,9 @@
     "Inspiration-bank retrieval can guide tone or lore, but continuation prompts must label whether each item is accepted canon, note, or style-only reference.",
     "Use layered story bible artifacts in dependency order: seed, world, characters, voice, mystery, outline, canon, foreshadowing, state, eval logs, and results ledger.",
     "Before drafting, update STATE/OUTLINE/RECORD-style context: current workflow position, structural target, established facts, open threads, promises, payoffs, and continuity constraints.",
+    "Require each agent handoff to emit a machine-parseable state-update block before the next chapter stage can use it as memory.",
+    "Continue chapters through Plan -> Draft -> Log -> Verify -> Repeat: outline first, draft second, then update scene logs, continuity, glossary, threads, and foreshadowing.",
+    "Before accepting continuation, validate frontmatter facts for dead-character appearances, payoff-before-setup, stale state, and explicit mention-only exceptions.",
     "Use write/review/revise/verify/gate cycles with bounded iteration counts; accept only revisions that improve named dimensions without collapsing story structure."
   ],
   "continuation_state_hints": [
@@ -232,24 +329,41 @@
     "Treat emotional arc as inherited state, not as one-off plot decoration.",
     "Write back the state snapshot, chapter change package, and unresolved hooks after every continuation pass.",
     "Persist POV, location, lore-rule, and Story Bible QA findings separately from accepted canon so UI review does not silently mutate story state.",
+    "Persist draft, continuity check, style revision, chapter acceptance, extracted summaries, graph facts, timeline events, and memory chunks as separate state transitions.",
+    "Persist per-stage metrics: bible digest id, rolling synopsis length, previous-tail overlap, retry count, gate result, artifact scan, and reviewer score.",
     "Persist deconstruction outputs as abstract outline, worldbuilding, volume, pacing, emotion, and style-feature records; keep reference text and source chapter order excluded.",
     "Persist each agent role output, retrieval source class, metadata filter, timeline assertion, graph assertion, and emotion-state check as reviewable consistency evidence.",
     "Persist 11-dimension audit findings with exact location, severity, rewrite suggestion id, rationale, A/B/C score component, and cross-chapter evidence ids.",
+    "Persist continuation context assembly inputs, style-lock scope, recent-chapter window, token estimate, self-review result, foreshadow status, and export format separately.",
+    "Persist pipeline phase, agent role, dependency input ids, style-anchor chapter ids, expansion chapter range, edit log, format spec, and compile readiness separately.",
     "Persist KDP metadata, keyword validation, description length checks, chapter file preservation status, merge manifest, and export boundary as publication metadata.",
+    "Persist mind-map nodes, prompt-library version, deconstruction source id, knowledge-base slice id, long-memory inclusion, low-cost iteration route, and polish/de-AI operation type.",
+    "Persist each layer freeze state, audit head verdicts, retry_hint, parallel chapter batch id, and whole-book premise review before allowing downstream prose or polish.",
+    "Persist Markdown setting chunk ids, collection weights, distance thresholds, memory-card hits, foreshadowing/timeline constraints, conflict severity, suggested fix, and incremental review status before continuation.",
     "Persist source-reference scope, Phase-1 style manual id, target novel folder, chapter-count lock, outline approval, serial chapter cursor, and read-only reference boundary before imitation or continuation.",
     "Persist SDD phase, command dialect, constitution/spec/clarification/plan/task/write/analyze artifact ids, plugin boundary, and cross-platform command mapping before handoff.",
+    "Persist active book id, about metadata, chapter draft manifest, wordcount result, build artifact ids, cover asset status, export formats, and submission-package evidence before delivery.",
     "Persist book prompt id, structure model lane, content model lane, generated structure id, section-title context scope, generation statistics, and download artifact ids before accepting fast-generated book sections.",
+    "Persist book manifest version, story_bible.md version, style_log.md checksum, review-log id, acceptance verdict, EPUB build plan, and epubcheck requirement before final delivery or next batch starts.",
     "Persist compression summary, analysis findings, outline beats, breakdown id, sensory routing hints, cooldown memory, foreshadow ledger delta, and manual/full-auto/range mode before drafting.",
     "Persist person/place/timeline/notes deltas and export scope separately so delivery artifacts cannot silently rewrite canon state.",
+    "Persist Story OS stage, RAG evidence ids, governance decision, version snapshot, and export target before a studio pipeline advances the manuscript.",
+    "Persist story bible relationships, appears in scene links, progress analytics, goal status, and deadline pacing as review metadata rather than hidden prompt state.",
     "Persist story bible artifacts as separate files or records—world, characters, outline, voice, canon, mystery, foreshadowing, state, eval logs, and results.tsv—so each layer can be reviewed independently.",
+    "Keep a compact context reference list with source artifact, card id, chapter id, and reason for inclusion.",
     "Persist the bridge input set for each episode: recent chapters used, state slices selected, omitted risks, and why they were enough.",
     "Persist serial reader-reward contracts as market-facing chapter state: persona demand, promise, hook, reward delivery, paid-turn risk, and platform package boundary.",
+    "Store agent role outputs separately; Writer drafts should cite Story Bible, Plot Thread, Chapter Outline, Editor, and Continuity Checker artifact ids.",
     "Persist synopsis and cross-reference links beside chapter state so prompts can cite why a note is relevant.",
     "Persist story contracts and accepted chapter commits as the canonical chain; every derived state should trace back to a commit id.",
     "Treat reader/user guidance as a new state delta with acceptance status before it changes chapter files or canon memory.",
     "Keep inspiration-bank files outside canon memory until the author accepts a fact; style mimicry output stays in a separate style-boundary record.",
     "Persist each scene blueprint with goal, obstacle, turning point, information gain, reader reward, scene-end hook, and whether prose fulfilled the scene contract.",
+    "Persist raw-story assimilation state: source manifest id, proposed Bible delta, proposed Outline delta, approval decision, review result, and finalized continuity update.",
     "Keep STATE, OUTLINE, and RECORD as separate state surfaces so workflow progress, structure, and established canon/promises/payoffs do not overwrite each other.",
+    "Persist StoryState-like JSON separately from prose: character locations, emotional state, plot advances, foreshadowing, quality scores, and validation status are structured state.",
+    "Living documents must grow from accepted chapters only: scene log, continuity, glossary, threads, and foreshadowing updates need chapter ids and verification status.",
+    "Keep YAML-frontmatter story facts deterministic and addressable so continuity findings can point to exact files, fields, chapters, and exception markers.",
     "Store writer draft, critic findings, applied revision ids, verification scores, failure reasons, and final gate decision separately from accepted manuscript state."
   ],
   "continuity_bridge_window_hints": [
@@ -264,7 +378,11 @@
   ],
   "contradiction_taxonomy_checker_hints": [],
   "copilot_webnovel_research_runner_gate_hints": [],
-  "copyedit_diagnostic_triage_queue_hints": [],
+  "copyedit_diagnostic_triage_queue_hints": [
+    "Convert lint and grammar diagnostics into a triage queue with accept, ignore, rewrite, and needs-author-review states.",
+    "Persist ignored diagnostics with reasons so repeated warnings do not hide new copyedit defects across chapters.",
+    "Batch diagnostics by chapter and rule id before final manuscript assembly or same-type draft acceptance."
+  ],
   "corpus_leakage_dedup_review_gate_hints": [],
   "counterfactual_story_graph_rag_gate_hints": [],
   "cover_kdp_metadata_boundary_hints": [],
@@ -311,11 +429,19 @@
   "dual_track_epub_manifest_pipeline_gate_hints": [],
   "dynamic_architecture_extension_gate_hints": [],
   "ebook_accessibility_audit_gate_hints": [],
-  "editor_context_prose_analysis_gate_hints": [],
+  "editor_context_prose_analysis_gate_hints": [
+    "Editor-context prose analysis should declare which chapter, selection, source note, and story bible slice were inspected before producing revision advice.",
+    "Keep manuscript/chapter/source analysis reports redacted by scope; do not leak raw source chunks into same-type prompts under a generic prose-analysis label.",
+    "Model or provider recommendation lists are discovery metadata only; runtime model selection stays outside source-discovery pattern packs."
+  ],
   "editor_notes_feedback_loop_hints": [],
   "editorial_finding_resolution_rewrite_gate_hints": [],
   "editorial_memory_card_graph_agent_gate_hints": [],
-  "editorial_persona_voice_workshop_gate_hints": [],
+  "editorial_persona_voice_workshop_gate_hints": [
+    "Calibrate voice into allowed registers, anti-patterns, and examples, then use it as review guidance rather than a source-prose cloning target.",
+    "Run developmental, line, character, continuity, naive-reader, and brainstorming passes separately so feedback remains attributable and non-conflicting.",
+    "Story-bible facts should cite their source chapter or note; contradictions can be preserved as open questions until the author resolves them."
+  ],
   "element_swap_deconstruction_rewrite_pipeline_gate_hints": [],
   "embedding_similarity_independence_gate_hints": [],
   "entity_memory_slotfill_grounding_hints": [],
@@ -338,7 +464,11 @@
     "Infinite Bookshelf/Groqbook Streamlit runtime, hosted app, Groq API keys, requirements, provider calls, generated examples, Markdown/PDF outputs, Google Drive flow, and sample prose remain excluded from static intake."
   ],
   "fiction_skill_agent_workbench_gate_hints": [],
-  "file_backed_promise_ledger_audit_gate_hints": [],
+  "file_backed_promise_ledger_audit_gate_hints": [
+    "Continuation must reread file-backed story bible, canon ledger, timeline, character files, outline, promise ledger, and decision log first.",
+    "Promise/payoff records should name setup, expected payoff window, current status, and accepted chapter evidence.",
+    "Post-write audits should separate continuity, grammar, repetition, verbal tics, stiff expression, and unresolved decision findings."
+  ],
   "file_based_showrunner_canon_approval_gate_hints": [],
   "filesystem_memory_agent_loop_gate_hints": [],
   "final_prompt_preview_span_revision_gate_hints": [],
@@ -348,11 +478,14 @@
   "forge_agent_mcp_eval_contract_gate_hints": [],
   "fresh_context_chapter_iteration_gate_hints": [],
   "front_back_matter_metadata_gate_hints": [],
-  "frontmatter_story_schema_hints": [],
+  "frontmatter_story_schema_hints": [
+    "Use stable frontmatter-like fields for story bible, scene state, continuity questions, promises/payoffs, and chapter drafts.",
+    "Keep prose bodies separate from metadata so checks can diff state without parsing the whole manuscript."
+  ],
   "function_word_syntax_style_gate_hints": [],
   "fuzzy_phrase_similarity_gate_hints": [],
   "gemini_writer_context_recovery_gate_hints": [],
-  "generated_at": "2026-06-13T21:05:00+08:00",
+  "generated_at": "2026-06-14T10:00:00+08:00",
   "genre_gene_capsule_market_boundary_gate_hints": [],
   "genre_inspiration_budget_library_gate_hints": [],
   "genre_parameterized_worldbuilding_hints": [],
@@ -393,7 +526,11 @@
   "impromptu_thread_pool_chapter_gate_hints": [],
   "inkfoundry_state_db_redteam_voice_sandbox_gate_hints": [],
   "inkos_truthfile_api_fanfic_imitation_gate_hints": [],
-  "inline_author_edit_markup_versioning_hints": [],
+  "inline_author_edit_markup_versioning_hints": [
+    "Allow inline author notes for POV, timeline, mood, active threads, and research context while keeping edit notes as a separate revision queue.",
+    "Process edit-note markers into concrete changes, then remove or resolve them before final manuscript assembly.",
+    "Tag major draft milestones and keep revision diffs inspectable so same-type rewrites and continuation repairs remain reversible."
+  ],
   "inline_human_machine_coauthoring_gate_hints": [],
   "inspectable_memory_workspace_gate_hints": [],
   "inspectable_run_workspace_hints": [],
@@ -401,33 +538,60 @@
     "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
     "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
     "Reject same-type drafts that preserve source vault folder names, scene-card order, branch labels, compile presets, or frontmatter relationship labels as story content.",
+    "Reject Nebula-inspired outputs that copy SQLite rows, Chroma passages, character-knowledge examples, Mermaid graphs, version-history text, user prose, or exported manuscripts.",
     "Reject drafts whose POV/location/lore-rule QA passes only because source bible facts leaked into target-story canon.",
+    "Reject drafts that treat unaccepted draft text, browser session keys, generated screenshots, or source project SQLite rows as target canon.",
+    "Reject pipeline outputs that pass only by reusing source novel text, copied previous-tail wording, external review prompts, or overwrite-oriented revision instructions.",
     "Reject outputs that retain reference-novel names, plot order, chapter summaries, distinctive emotional beat chains, or style samples beyond abstract labels.",
     "Reject consistency reports that import upstream agent prompts, service configs, vector-store data, or graph/timeline examples instead of target-story evidence.",
     "Reject audits that copy skill prompt bodies, reference examples, or generic AI-trace labels without target chapter location and evidence.",
+    "Reject continuation outputs that hide context assembly, style-lock range, token budget, self-review, or export artifacts as accepted story facts.",
+    "Reject agent-pipeline outputs that hide generated style-anchor text, copied agent prompts, or DOCX/formatting artifacts inside canon.",
     "Reject publication metadata that reuses source title phrasing, KDP descriptions, keywords, cover prompts, or generated chapter examples.",
+    "Reject outputs that copy prompt-library bodies, demo examples, knowledge-base text, online-demo content, or deconstruction source prose.",
+    "Reject outputs that preserve NOVEL-Studio demo skeletons, layer prompts, audit wording, retry_hint text, style-transfer examples, or generated sample scenes.",
+    "Reject outputs that copy NovelEngine prompt rules, sample memory cards, conflict report wording, Chroma collection data, uploaded settings, or vector-search snippets.",
     "Reject imitation drafts that move read-only reference prose, source chapter order, style-manual source notes, or workbench tutorial wording into accepted MuMuAINovel canon.",
     "Reject drafts that copy novel-writer-cn slash-command bodies, initialized project templates, plugin examples, workflow docs, or command dialect labels as prose.",
+    "Reject outputs that copy zencoder-based-novel-engine sample chapters, source story bible, voice profile, custom agent prompts, system prompts, package scripts, cover assets, or dist artifacts.",
     "Reject drafts that copy Infinite Bookshelf/Groqbook demo topics, generated example books, README wording, asset text, hosted-app behavior, or section-title-only scaffolds as story canon.",
+    "Reject outputs that copy book-writer CLAUDE.md wording, agent/skill prompt bodies, review-log examples, EPUB filenames, cover text, or generated book material.",
     "Reject drafts that copy Novel_Continuation_Studio sensory templates, AGENTS text, UI labels, package script examples, generated chapters, or foreshadow ledger examples.",
     "Reject outputs that copy Novelist demo persons, places, timeline files, notes, Docker/client labels, or generated ePub/HTML examples as canon.",
+    "Reject drafts that copy Literary Studio UI labels, Story OS demo text, RAG examples, version snapshots, provider config, or export samples.",
     "Review each generated chapter for source-copy risk before accepting it.",
+    "Reject drafts whose cited context reference points to source material as if it were new-story canon.",
+    "Reject raw-story assimilation when proposed Bible/Outline deltas are unapproved, review was skipped, or source plot order enters continuity as accepted history.",
     "Reject copied setup/payoff timing when the same clue, promise, and payoff window survive under new names.",
     "Reject bridge packets that import source continuity as if it were accepted new-story history.",
+    "Reject planner-role outputs that mirror source Story Bible facts, plot-thread labels, or chapter-outline sequence.",
     "Reject transformed drafts whose contract or commit chain preserves source chapter-causality order under renamed labels.",
     "Reject chapters whose retention score depends on recognizable source set pieces or hook sequence.",
     "Reject same-type webnovel drafts that reuse source title formulas, reward order, paid-turn timing, platform package, or reader-promise wording.",
+    "Reject dialogue nodes that preserve source lines, option labels, command names, or speaker-state order under renamed characters.",
+    "Reject stat ledgers that keep source variable names, achievement labels, thresholds, or delayed consequence cadence.",
+    "Reject accepted diagnostic batches that silently apply source-like rewrites without author-visible triage reasons.",
+    "Reject transformed outlines that preserve source TOC, spine order, metadata titles, or chapter grouping under new labels.",
+    "Reject markdown contracts that preserve source frontmatter ids, continuity questions, chapter headings, or promise/payoff labels under renamed content.",
     "Reject canon-fix suggestions that lack evidence refs, author/reviewer acceptance, or separation between source facts and transformed canon.",
     "Reject same-type drafts that preserve source cast-list order, speaker-scene coverage, or dramatic scene graph under renamed roles.",
     "Reject memory-bank updates that mix source analysis notes into transformed canon, active context, or progress state.",
+    "Reject scene tasks whose IDs, sequence, POV reveals, glossary terms, or quality gates recreate the source route.",
+    "Reject inline notes or edit queues that smuggle source scene instructions into final independent prose.",
     "Reject reader-writer loop outputs when the accepted choice, chapter file delta, and continuity/copy-risk checks are not traceable.",
     "Reject inspiration-bank prompts that blend source passages, local canon, and style goals without source labels and copy-risk review.",
     "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
     "Reject scene blueprints whose reader reward, information gain, obstacle, or scene-end hook is only a renamed source scene function.",
+    "Reject voice-calibration packs that reuse source prose examples, persona notes, story-bible facts, or contradiction lists as transformed-story material.",
     "Reject derived Ink or branch exports that reverse-sync source facts, branch variables, endings, tags, or example project content into Markdown canon.",
+    "Reject promise ledgers or decision logs that replay source setups, payoff windows, relationship states, or post-write findings under new names.",
     "Reject truth-file updates that promote source examples, upstream snapshot names, or unaccepted draft state into target canon.",
     "Reject transformed runs that preserve source STATE/OUTLINE/RECORD entries, open-thread names, promise/payoff chains, publishing package text, or translation examples.",
-    "Reject revisions that copy source critique language, verifier JSON, accepted fixes, published clean text, or model-specific prompt scaffolding."
+    "Reject drafts that copy source StoryState entries, role output contracts, validation reports, quality scores, or state-update block labels as new canon.",
+    "Reject drafts that preserve source scene logs, glossary entries, thread markers, foreshadowing checklists, or canon-conflict reports under renamed documents.",
+    "Reject drafts that reuse source YAML frontmatter, promise ids, question ids, character status rows, artifact status, or exception markers as transformed story data.",
+    "Reject revisions that copy source critique language, verifier JSON, accepted fixes, published clean text, or model-specific prompt scaffolding.",
+    "Reject drafts that copy source desktop sample entries, AI-generated descriptions, diff hunks, style analysis text, or local database fields as new canon."
   ],
   "inspired_mapping_targets": [
     "character_remap",
@@ -436,106 +600,200 @@
     "plot_thread_remap",
     "universal_mode_contract_remap",
     "portable_project_structure_remap",
+    "constitution_style_authority_remap",
+    "scene_outline_status_remap",
+    "pov_information_asymmetry_remap",
+    "pacing_polish_gate_remap",
     "chapter_contract_scene_beat_remap",
     "reader_promise_micro_payoff_remap",
     "revision_natural_prose_remap",
+    "reader_pull_fresh_reader_remap",
     "progress_writeback_continuity_remap",
     "obsidian_scene_compile_remap",
+    "codex_character_knowledge_version_remap",
+    "editorial_persona_voice_remap",
     "markdown_ink_branch_remap",
+    "promise_decision_audit_remap",
     "truth_file_state_update_remap",
+    "context_reference_remap",
+    "scene_plan_remap",
     "relationship_graph_remap",
     "emotional_arc",
     "setup_payoff_remap",
     "scene_reward_hook_remap",
     "information_gain_blueprint_remap",
+    "raw_story_bible_outline_delta_remap",
+    "finalized_continuity_update_remap",
+    "frontmatter_schema_remap",
     "continuity_bridge_remap",
+    "book_planner_role_remap",
     "commit_chain_remap",
     "retention_hook_remap",
     "serial_reward_contract_remap",
+    "markdown_story_contract_remap",
     "canon_evidence_suggestion_remap",
+    "dialogue_node_remap",
+    "choice_stat_consequence_remap",
+    "copyedit_triage_policy_remap",
+    "source_import_structure_remap",
     "tei_scene_speaker_remap",
     "memory_bank_context_remap",
+    "spec_scene_task_remap",
+    "inline_markup_revision_remap",
     "interactive_choice_delta_remap",
     "inspiration_bank_style_boundary_remap",
     "truth_file_relationship_graph_remap",
+    "local_flow_story_graph_remap",
+    "editor_context_analysis_remap",
+    "offline_chapter_export_remap",
+    "screenplay_adaptation_structure_remap",
     "graph_vector_retrieval_remap",
     "state_outline_record_remap",
+    "story_state_output_contract_remap",
+    "living_document_plan_log_verify_remap",
+    "markdown_frontmatter_continuity_engine_remap",
     "writer_critic_quality_cycle_remap",
+    "local_manuscript_revision_bible_remap",
     "pov_location_lore_rule_remap",
+    "accepted_chapter_memory_remap",
+    "stage_gate_retry_remap",
     "deconstruct_imitate_reference_remap",
     "multi_agent_consistency_remap",
     "audit_dimension_rewrite_remap",
+    "continuation_workstation_context_remap",
+    "agent_pipeline_style_anchor_remap",
     "publication_metadata_export_remap",
+    "mindmap_prompt_library_remap",
+    "frozen_layer_parallel_generation_remap",
+    "multi_head_audit_retry_remap",
+    "weighted_rag_consistency_remap",
+    "memory_card_conflict_warning_remap",
     "phase1_style_manual_reference_remap",
     "serial_chapter_lock_remap",
     "sdd_seven_step_workflow_remap",
     "cross_platform_command_contract_remap",
+    "book_delivery_artifact_remap",
+    "chapter_draft_manifest_remap",
     "structure_content_lane_remap",
     "section_context_scope_remap",
+    "phase_acceptance_manifest_remap",
+    "delivery_validator_remap",
     "sensory_cooldown_ledger_remap",
     "phase_breakdown_drafting_remap",
     "person_place_timeline_remap",
-    "reader_pull_fresh_reader_remap"
+    "story_os_governance_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
     "Generate an independent new story with new names, organizations, event chain, core conflict, and world rules.",
     "For same-type prompts, state scene-card/version/compile scope, selected Obsidian-style context flow, and required distance from the source manuscript before drafting.",
+    "For Codex-memory prompts, ask for character knowledge state, chapter version id, extracted-entity provenance, and consistency-check result before rewrite.",
     "Prompt with target truth-file ids, snapshot id, unresolved thread ids, and state-update schema; raw source examples stay outside drafting context.",
     "Prompt continuity QA to cite target Story Bible, POV, location, and lore-rule evidence ids for every finding.",
+    "Prompt drafting from a visible Context Pack with Story Bible, Style Bible, recent accepted summaries, character states, graph facts, and excluded draft-only material.",
+    "Prompt each stage with its gate contract, retry budget, rolling synopsis, previous-tail bridge, and explicit abort conditions for canon drift or AI artifacts.",
     "Prompt source study to output abstract deconstruction cards for outline function, world rules, pacing, emotion beats, and style axes; never draft from raw reference text.",
     "Prompt multi-agent consistency as independent target-story reviewer roles with cited retrieval metadata, then merge only approved findings into the new outline or continuation plan.",
     "Prompt rewrite audits as a target 11-dimension scorecard with localized suggestions; do not copy upstream skill wording or reference examples.",
+    "Prompt continuation with a visible context assembly manifest, token estimate, style-lock range, self-review result, and export boundary before accepting prose.",
+    "Prompt agent pipeline stages as reviewable target roles and style-anchor expansion gates; do not call Claude subprocesses or copy agent prompt bodies.",
     "Prompt KDP/export data as metadata validation and merge manifests; keep it outside canon and avoid source title/tagline reuse.",
+    "Prompt mind-map and prompt-library use as target project metadata; keep deconstruction notes and low-cost iteration routes outside accepted prose.",
+    "Prompt each generation layer from frozen target skeleton/outlines plus audit-head retry hints, not from upstream generated demo prose or provider prompt files.",
+    "Prompt consistency checks with weighted target memory lanes and conflict warnings before revision; do not import upstream check prompts or sample reports.",
     "Prompt imitation only from the target style manual and approved abstract craft notes; references stay read-only and source prose does not enter drafting context.",
     "Prompt each task with its SDD phase and exit criteria: constitution, specify, clarify, plan, tasks, write, or analyze; command dialects stay metadata.",
+    "Prompt finalization from chapter draft manifests, wordcount reports, accepted metadata, cover status, and export requirements; build scripts and sample manuscript text stay outside prose context.",
     "Prompt from approved whole-book structure, model-lane policy, and declared section context scope; do not rely on a section title alone for fiction continuation unless continuity checks allow it.",
+    "Prompt delivery work from accepted chapter ids, manifest version, style-log deltas, and acceptance criteria; do not use upstream book-writer agent prose or sample outputs.",
     "Prompt sensory details as late-bound target hints with cooldown and manual override markers; source sensory templates or UI wording stay outside drafting context.",
     "Prompt continuation with current person, place, timeline, and notes snapshots as separate state inputs before prose drafting.",
+    "Prompt Story OS stages with stage id, RAG evidence, governance verdict, snapshot id, and export target so generated chapters know their acceptance boundary.",
     "For same-type scenes, rebuild every reader reward, information gain, and scene-end hook from transformed conflict and character desire.",
+    "For same-type prompts, treat raw-story assimilation outputs as proposed deltas; author approval is required before any Bible, Outline, or Continuity field enters context.",
+    "Prompt from transformed markdown contracts and frontmatter scene state, not from source project files or upstream skill text.",
     "Require evidence-backed canon warnings and reviewer decisions before a same-type draft can update bible, context pack, or memory.",
+    "Keep source-pattern references separate from new-story canon references so inspiration never becomes factual canon.",
+    "Recreate planner-role outputs for the transformed story; source Story Bible, plot threads, and chapter outlines are reference evidence only.",
+    "Use node-based dialogue planning for the new cast, with fresh entry conditions, option wording, command hooks, and exit deltas.",
+    "Define new stat categories and consequence gates so choice mechanics support the new story rather than copying source variables.",
+    "Transform imported TOC/spine evidence into a new outline structure instead of preserving source chapter order.",
     "Prompt from scene/speaker functions only; rebuild cast lists, speaker order, and act/scene coverage before prose expansion.",
     "For same-type creation, create a new contract and commit chain; source contracts may guide artifact shape only.",
     "Map reader-retention pressure to new hooks, pleasure points, rhythm, and cliffhangers; do not reuse source set pieces.",
     "Rebuild the serial reader-reward contract for the transformed premise: new persona demand, reward ladder, opening hook, free-to-paid turn, and platform package.",
+    "Transform raw-story input into approved Bible/Outline deltas and finalized continuity changes; source order and raw plot facts cannot bypass review.",
     "Convert source deconstruction into separate memory-bank notes: craft observations, transformed canon, active context, and progress are never mixed.",
+    "Create transformed scene tasks from the new constitution/story bible; source scene tasks may guide format only, not content or order.",
+    "Use inline author notes to control new POV, timeline, mood, and active threads; edit notes should resolve into independent prose.",
     "Treat interactive reader choices as new-story author inputs, not as permission to preserve source scene route or event order.",
     "Use inspiration-bank items as labeled craft references only; same-type prompts must not treat local source files as canon or reusable prose.",
     "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
     "Create new STATE/OUTLINE/RECORD-style ledgers for the transformed project and keep publishing/translation as bounded later-stage gates.",
-    "For same-type writing, use critic cycles to improve the transformed draft against local criteria, not to imitate the source story's fixes."
+    "For same-type writing, create new state-update schemas and role handoff contracts before drafting; source agent names are process hints, not story authority.",
+    "For same-type writing, build new living documents and plan/log/verify checkpoints from the transformed story rather than copying source tracking rows.",
+    "For same-type writing, define fresh frontmatter fields, promise ids, question ids, and exception markers before prose generation.",
+    "For same-type writing, use critic cycles to improve the transformed draft against local criteria, not to imitate the source story's fixes.",
+    "For same-type writing, create a fresh local Story Bible, revision diff lane, and author-approved AI extraction queue before drafting."
   ],
   "inspired_transformation_hints": [
     "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
     "Replace source organizations, abilities, locations, and plot triggers with transformed equivalents.",
     "Transform Obsidian manuscript-workspace mechanics into target scene ids, statuses, branches, flow windows, and compile checks without preserving source scene order.",
+    "Transform Codex memory into versioned character-knowledge and relationship facts rather than importing upstream SQLite, Chroma, or graph data.",
     "Transform QA fields into the target bible schema: POV holder, location state, lore rule, exception reason, and resolution owner.",
+    "Transform accepted-chapter memory into target schema fields for summaries, character states, graph triples, timeline events, and retrieval chunks; draft-only state stays excluded.",
+    "Transform stage gates into target quality checks for beat coverage, previous-tail continuity, canon adherence, AI artifact density, retry cause, and final assembly status.",
     "Transform reference deconstruction into new-book abstractions: fresh premise, renamed factions, altered world rules, new chapter causality, and independent style targets.",
     "Transform multi-agent/RAG architecture into target reviewer roles, retrieval labels, timeline checks, and graph assertions while excluding upstream service topology.",
     "Transform audit dimensions into target acceptance criteria with new evidence ids and rewritten intent, not copied diagnostic phrasing.",
+    "Transform workstation context assembly into target continuation manifests, token budgets, foreshadow states, and export metadata without running desktop/server code.",
+    "Transform multi-agent pipeline roles into target review duties with fresh style anchors, dependency inputs, and expansion ranges.",
     "Transform publication metadata into target-market fields and validation reports while preserving original chapter files and avoiding source marketing language.",
+    "Transform mind-map/prompt-library patterns into target outline nodes, reusable prompt ids, and deconstruction summaries without copying upstream examples.",
+    "Transform layered generation into target freeze gates, parallel chapter batches, audit-head verdicts, and retry hints without carrying upstream skeletons or demos.",
+    "Transform weighted RAG checks into target memory-card lanes, conflict warning severities, and incremental review records tied to accepted MuMuAINovel state.",
     "Transform source-book deconstruction into a target-owned style manual, then derive outline and chapter constraints from that manual rather than from the source text.",
     "Transform SDD command workflows into MuMuAINovel phase artifacts and exit gates; do not copy slash-command files, install paths, or prompt bodies.",
+    "Transform book-engine delivery structure into MuMuAINovel build manifests, export evidence, cover checks, and submission package gates without copying sample books.",
     "Transform fast scaffold generation into MuMuAINovel cost/quality lanes, whole-book structure checkpoints, section-context windows, and continuity blockers for fiction work.",
+    "Transform phase acceptance into local acceptance manifests, export checklists, style-log deltas, and validator reports scoped to the new manuscript.",
     "Transform sensory continuation into target-owned sensory anchors, cooldown ledgers, foreshadow deltas, and manual override records rather than borrowed template language.",
     "Transform person/place/timeline workspaces into target entity ledgers and export manifests instead of copying upstream file names or story state.",
+    "Transform Story OS into MuMuAINovel acceptance stages, RAG evidence custody, governance checkpoints, and export snapshots scoped to the new manuscript.",
     "Transform the world rules first, then derive new plot constraints from the transformed world.",
+    "Transform voice registers and persona review rubrics into independent target-story criteria with new examples and source citations.",
     "Transform Markdown project structure, branch ids, ending statuses, and Ink export tags into new story labels before any export-derived prompt.",
+    "Transform story-bible files, canon ledger rows, promise/payoff records, decision-log entries, and post-write audit categories for the target work.",
     "Transform truth files and state-update schemas into target-specific canon fields, unresolved-thread records, and snapshot names.",
     "Preserve the emotional function of a relationship beat while changing who causes it and why.",
     "Transform setup/payoff pairs by changing the promise, cost, and payoff consequence.",
+    "Transform raw-story assimilation through approved Bible and Outline deltas first, then write continuity only after review and finalized-chapter acceptance.",
+    "Create new frontmatter/story-schema values instead of carrying source promises, questions, or scene state forward.",
+    "Transform Story Bible, character, plot-thread, and chapter-outline artifacts before any Writer role drafts prose.",
     "Transform the commit chain by changing the contract premise, accepted-fact categories, and chapter-causality ledger.",
     "Transform retention mechanics into new chapter-end pull, emotional pressure, and reader promise.",
     "Translate paid-conversion and platform-packaging ideas into independent reader promises, not copied chapter order, pricing-turn timing, or title/synopsis language.",
+    "Transform the story project contract by creating new frontmatter ids, continuity questions, promises, and payoff registers.",
     "Transform canon suggestions into pending review items with new-story evidence before any suggestion mutates accepted state.",
+    "Transform dialogue nodes around new speaker states and new exit deltas; do not preserve source line/order scaffolds.",
+    "Transform stat consequences by changing the tracked values, trigger thresholds, delayed payoff, and achievement labels.",
+    "Triage copyedit diagnostics as local revision tasks; source-derived diagnostics are evidence, not final wording.",
+    "Transform source import manifests by changing TOC hierarchy, chapter grouping, metadata use, and skipped-section policy.",
     "Transform TEI-style scene/speaker maps by changing cast membership, scene coverage, dialogue ownership, and dramatic entrances.",
     "Transform source memory-bank fields into new-story project brief, structure, characters, style, active context, and progress files.",
+    "Transform story-bible constitution, scene tasks, POV schedule, glossary, and quality gates before prose generation.",
+    "Transform inline notes into new-story POV/timeline/revision tasks; remove edit markers once the independent revision is accepted.",
     "Transform interactive choices into new plot deltas with new stakes, scene goals, and consequences before chapter write-back.",
     "Transform inspiration-bank references into fresh style constraints and local lore tasks; source documents stay outside accepted canon until reviewed.",
     "Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.",
     "Transform each scene reward and hook by changing the goal, obstacle, information gain, emotional payoff, and exit question.",
     "Transform state/outline/record ledgers with new story facts, promises, payoffs, and format targets rather than preserving source workflow copy or command text.",
-    "Transform writer/critic loops into new-story review cycles with different criteria, critique wording, revision ids, and gate thresholds."
+    "Transform StoryState by inventing new state fields, update blocks, quality thresholds, and validation findings; do not preserve source state rows or agent prompt contracts.",
+    "Transform living-document workflow by changing scene-log schema, thread ids, glossary terms, foreshadowing seeds, and verification cadence for the new manuscript.",
+    "Transform frontmatter continuity by creating new file ids, field names, promise/payoff links, and mention exceptions rather than copying source project metadata.",
+    "Transform writer/critic loops into new-story review cycles with different criteria, critique wording, revision ids, and gate thresholds.",
+    "Transform manuscript-workbench ideas into new diff spans, story-bible entities, health metrics, and style observations; never copy source app sample data or generated descriptions."
   ],
   "instance_specific_writing_criteria_gate_hints": [],
   "intent_tool_quality_style_checkpoint_gate_hints": [],
@@ -555,7 +813,11 @@
     "setup/generate/merge scripts, Playwright/PDF generation, cover prompts, KDP publishing operations, generated chapters, and upstream references remain static-only."
   ],
   "keyphrase_motif_extraction_hints": [],
-  "kindle_agent_pipeline_compile_gate_hints": [],
+  "kindle_agent_pipeline_compile_gate_hints": [
+    "Treat multi-agent book production as dependency-aware phases: research, style-anchor chapters, structural edit, chapter expansion, proofread, format, and compile readiness.",
+    "Style anchors should be accepted sample chapters with reviewer status before parallel expansion; expanded chapters inherit voice guide, outline, editor feedback, and audience notes.",
+    "Claude CLI subprocesses, Anthropic API, agent prompt bodies, write_chapters.py, compile_kindle.py, package scripts, and generated DOCX/manuscripts are not executed or imported."
+  ],
   "kindling_local_outline_reference_import_gate_hints": [],
   "knowledge_document_writeback_trace_gate_hints": [],
   "l0_l3_memory_skeleton_volume_gate_hints": [],
@@ -563,7 +825,11 @@
   "langgraph_world_outline_review_memory_gate_hints": [],
   "language_localization_style_profile_gate_hints": [],
   "layered_memory_model_hints": [],
-  "layered_parallel_audit_state_machine_gate_hints": [],
+  "layered_parallel_audit_state_machine_gate_hints": [
+    "Freeze and approve whole-book skeleton and chapter-outline layers before parallel chapter drafting; downstream prose reads frozen state rather than improvising new canon.",
+    "Run separate audit heads for logic, pacing, character, and style, then feed specific retry_hint items back to the failed layer instead of regenerating the whole project.",
+    "NOVEL-Studio demos, Claude Code session workflow, file-dumped prompts, provider handoff, style-transfer examples, package scripts, and generated sample novels remain excluded from static intake."
+  ],
   "layered_story_bible_artifact_contract_gate_hints": [
     "Keep layered artifacts separate: seed.txt, world.md, characters.md, outline.md, voice.md, canon.md, MYSTERY.md, foreshadowing.md, state.json, eval_logs, and results.tsv each have a distinct owner.",
     "Generate layers in dependency order and rerun downstream checks when world, character, voice, mystery, outline, canon, or foreshadowing changes.",
@@ -573,16 +839,32 @@
   "lexical_diversity_voice_audit_hints": [],
   "literary_event_entity_annotation_gate_hints": [],
   "living_codex_editorial_workbench_gate_hints": [],
-  "living_document_plan_log_verify_gate_hints": [],
+  "living_document_plan_log_verify_gate_hints": [
+    "Use a Plan -> Draft -> Log -> Verify -> Repeat loop: outline before prose, then update every tracking document after the chapter.",
+    "Treat scene logs, continuity records, glossary, threads, and foreshadowing as living documents that grow with accepted manuscript evidence.",
+    "When conflicts appear, canon always wins; record the losing thread, stale glossary entry, or foreshadowing drift as a review finding."
+  ],
   "llm_style_dimension_matrix_gate_hints": [],
   "local_author_data_boundary_gate_hints": [],
   "local_block_manuscript_workspace_gate_hints": [],
   "local_continuation_memory_export_gate_hints": [],
-  "local_continuation_workstation_context_export_gate_hints": [],
+  "local_continuation_workstation_context_export_gate_hints": [
+    "Assemble continuation context from hierarchy, recent accepted chapters, style-lock scope, chapter outline, character snapshots, foreshadow states, world rules, and early-snippet anchors.",
+    "Token estimates, self-review, timeline dedupe, export format, and foreshadow active/resolved/abandoned status should be visible acceptance gates, not hidden generation side effects.",
+    "Desktop installers, start scripts, servers, local databases, provider calls, generated manuscripts, TXT/DOCX/EPUB exports, and runtime state are deferred."
+  ],
   "local_copilot_layered_memory_workspace_gate_hints": [],
-  "local_desktop_manuscript_revision_bible_gate_hints": [],
+  "local_desktop_manuscript_revision_bible_gate_hints": [
+    "Keep local manuscript state, Story Bible entries, AI-generated descriptions, and author notes separately labeled before any continuation prompt uses them.",
+    "Use accept/reject diff review for prose refinements; partial AI edits remain candidates until the author accepts exact spans.",
+    "Treat semantic search, style analysis, import/export, and local database access as runtime-deferred unless file scope and data custody are explicit."
+  ],
   "local_first_workspace_hints": [],
-  "local_flow_story_graph_workspace_gate_hints": [],
+  "local_flow_story_graph_workspace_gate_hints": [
+    "Track local writing sprints with goal, word-count delta, idle/nudge notes, and accepted chapter id before they influence continuation planning.",
+    "Story graph, timeline, scene cards, and story bible entries should share stable IDs so拆书 findings, author edits, and generated drafts do not fork silently.",
+    "Local browser or IndexedDB-style workspaces must keep source-analysis notes, accepted canon, and style-only material in separate namespaces."
+  ],
   "local_node_graph_lore_fix_loop_gate_hints": [],
   "local_rag_writing_ide_gate_hints": [],
   "local_reader_experience_editor_hints": [],
@@ -609,13 +891,21 @@
   "manuscript_pr_editorial_workflow_gate_hints": [],
   "map_reduce_factual_anchor_adaptation_gate_hints": [],
   "margin_guided_long_context_revision_gate_hints": [],
-  "markdown_frontmatter_continuity_engine_gate_hints": [],
+  "markdown_frontmatter_continuity_engine_gate_hints": [
+    "Use markdown plus YAML frontmatter as a checkable story contract for characters, chapters, promises, questions, artifacts, and state.",
+    "Continuity findings must be deterministic and file-addressed: dead-character appearances, payoff-before-setup, unfired Chekhov guns, and stale state should name exact fields.",
+    "Keep intentional flashbacks and posthumous references legal only through explicit mentions/exception fields, not silent canon rewrites."
+  ],
   "markdown_ink_export_validation_gate_hints": [
     "Keep Markdown project files as source of truth; exported Ink is derived output and should not reverse-sync into canon.",
     "Proposal, accepted, rejected, and open-question statuses must be explicit before scenes, branches, or endings enter generation.",
     "Ink export, compile, tag validation, CLI runs, npm build, and skill installation are deferred static-review surfaces."
   ],
-  "markdown_skill_story_project_contract_gate_hints": [],
+  "markdown_skill_story_project_contract_gate_hints": [
+    "Store story bible, characters, world files, factions, artifacts, arcs, scenes, and chapters as inspectable markdown with YAML frontmatter instead of hidden chat state.",
+    "Each scene/chapter file should declare POV, location, scene state, promises/payoffs, continuity questions, and dependent canon ids before it can feed continuation prompts.",
+    "Skill bundles and CLI installers remain source-intake references; local story contracts should be repo-native and validated without importing upstream skill bodies."
+  ],
   "material_grounded_query_refinement_hints": [],
   "mcp_novel_memory_gateway_tool_gate_hints": [],
   "mcp_scene_index_revision_boundary_hints": [],
@@ -654,9 +944,17 @@
   "narrative_qa_comprehension_gate_hints": [],
   "narrative_strand_mapping_hints": [],
   "naturalization_detector_disclaimer_gate_hints": [],
-  "nebula_codex_character_knowledge_version_gate_hints": [],
+  "nebula_codex_character_knowledge_version_gate_hints": [
+    "The Codex should separate characters, locations, items, relationships, chapter versions, and character knowledge so revisions can explain who knows which fact when.",
+    "Auto-extracted prose entities and semantic-search hits need version ids, source spans, consistency findings, and graph-preview review before promotion.",
+    "Nebula-Writer no-license code, Docker/Supabase/PostgreSQL/ChromaDB runtime, provider keys, user prose, vector stores, graph exports, and generated manuscripts remain excluded from static intake."
+  ],
   "needle_haystack_context_recall_gate_hints": [],
-  "node_dialogue_state_machine_hints": [],
+  "node_dialogue_state_machine_hints": [
+    "Represent dialogue as nodes with entry conditions, active speaker state, available options, command hooks, and exit state deltas.",
+    "Continuation prompts should cite which dialogue node is active and which state changes are allowed before drafting dialogue.",
+    "For same-type creation, remap conversation pressure and state transitions while replacing source lines, option labels, and command names."
+  ],
   "nova_local_version_memory_role_gate_hints": [],
   "novel_audit_11_dimension_rewrite_gate_hints": [
     "Audit chapters across 11 dimensions: prose quality, AI trace, repetition, plot rationality, timeline, context, POV, pacing/payoff, characterization, worldbuilding, and dialogue.",
@@ -667,10 +965,22 @@
   "novel_core_knowledge_pack_rag_gate_hints": [],
   "novel_rewriter_copyright_cost_gate_hints": [],
   "novel_rule_auditor_learning_loop_gate_hints": [],
-  "novel_studio_accepted_chapter_memory_gate_hints": [],
+  "novel_studio_accepted_chapter_memory_gate_hints": [
+    "Keep draft, check, style revision, acceptance, and memory extraction as separate author-visible stages; only accepted chapters may update canon memory.",
+    "Build chapter context from explicit Story Bible, Style Bible, arc pack, chapter outline, recent summaries, character states, graph facts, timeline events, and selected memory chunks.",
+    "Local SQLite data, browser sessionStorage keys, provider calls, screenshots, Next.js runtime, and generated chapter text remain runtime-deferred and non-imported."
+  ],
   "novel_to_multimodal_pipeline_hints": [],
-  "novel_to_screenplay_structure_coverage_gate_hints": [],
-  "novelengine_weighted_rag_consistency_gate_hints": [],
+  "novel_to_screenplay_structure_coverage_gate_hints": [
+    "Before adaptation or续写, map chapters to acts, scenes, action, dialogue, transitions, structure beats, and unresolved questions with stable evidence IDs.",
+    "Coverage and quality reports should block export when chapter coverage, scene objective, conflict, turn, or continuity evidence is missing.",
+    "Fountain/YAML/Markdown exports are downstream artifacts; generating them cannot bypass source-boundary, copyright, or same-type transformation review."
+  ],
+  "novelengine_weighted_rag_consistency_gate_hints": [
+    "Before续写, run consistency evidence through weighted lanes: characters, events, factions, locations, raw chapter chunks, memory cards, foreshadowing, and timeline.",
+    "Treat conflict warnings as typed findings with severity, source memory refs, suggested fixes, and incremental review status before any rewrite is accepted.",
+    "NovelEngine Fastify/Vue runtime, Python bridge, ChromaDB execution, LLM calls, prompt bodies, uploaded settings, vector databases, and generated reports remain excluded from static intake."
+  ],
   "novelforge_version_safe_human_review_gate_hints": [],
   "novelwriter_live_manuscript_analytics_gate_hints": [],
   "nrd_task_tree_pipeline_hints": [],
@@ -684,7 +994,11 @@
   ],
   "obsidian_textflow_context_flow_guard_gate_hints": [],
   "ocr_scanned_page_import_gate_hints": [],
-  "offline_chapter_revision_export_gate_hints": [],
+  "offline_chapter_revision_export_gate_hints": [
+    "Treat each chapter as an isolated document with autosave, version, diff, and restore metadata before it is accepted into the whole-book continuation state.",
+    "Optional sync, collaboration, and export surfaces need separate hold gates; a local draft revision cannot imply upload or publication readiness.",
+    "Before DOCX/PDF/RTF-style export, record chapter order, accepted revision IDs, source-boundary review status, and unresolved continuation blockers."
+  ],
   "offline_inspiration_bank_style_gate_hints": [
     "Separate local inspiration-bank materials from accepted canon, author notes, and style-only references before any Continue or Rewrite action.",
     "Style mimicry should compile an abstract boundary profile and banned carryover list, not inject source passages or proprietary phrasing.",
@@ -698,6 +1012,11 @@
   "outline_validator_change_declaration_gate_hints": [],
   "outliner_index_cards_hints": [],
   "p4_p5_foreshadow_relationship_outline_gate_hints": [],
+  "pacing_arc_polish_pass_gate_hints": [
+    "Run pacing/tension checks before polish: the scene or chapter should show pressure, turn, cost, and arc movement before sentence smoothing.",
+    "Require checklist PASS before polish/export; a fluent chapter with failed continuity, POV, approval, or tension gates is still not accepted.",
+    "For same-type creation, pacing arc and polish-pass gates must be evaluated on target-story evidence, not resemblance to source chapter rhythm."
+  ],
   "packet_first_style_overlay_context_gate_hints": [],
   "pairwise_story_comparison_ranking_hints": [],
   "parallel_agent_chapter_pipeline_hints": [],
@@ -712,7 +1031,11 @@
     "Lock target folder name and total chapter count before outline generation, then write chapters serially so imitation constraints do not create parallel plot drift.",
     "novelist-workbench .claude skills, reference works, generated novels, package scripts, web-studio runtime, and prompt bodies remain excluded from static intake."
   ],
-  "phase_acceptance_epub_delivery_gate_hints": [],
+  "phase_acceptance_epub_delivery_gate_hints": [
+    "Treat book delivery as phase-gated: plan/review/chapter/style logs, story bible, acceptance verdict, book manifest, and export validator must all point to the same book version.",
+    "Keep manuscript build outputs separate from creative state; EPUB/DOCX/Markdown delivery should consume accepted chapters only and leave reproducible checksums or validator notes.",
+    "book-writer Claude Code agents/skills, CLAUDE.md bodies, scripts, pandoc/epubcheck execution, cover generation, generated books, and manuscript outputs remain excluded from static intake."
+  ],
   "placeholder_alias_consistency_map_hints": [],
   "plain_text_project_storage_hints": [],
   "plan_draft_log_verify_loop_gate_hints": [],
@@ -735,6 +1058,11 @@
   ],
   "possibility_graph_dependency_replay_gate_hints": [],
   "pov_character_thread_filter_gate_hints": [],
+  "pov_information_asymmetry_schedule_gate_hints": [
+    "Maintain a POV schedule and information asymmetry map: who knows, reader knows, what is hidden, and when each secret can move onstage.",
+    "A multi-POV chapter must not reveal information unavailable to the active POV unless omniscience is explicitly accepted.",
+    "Same-type transformations must create new secrets and reveal timing; information asymmetry is a craft pattern, not a source-plot transplant."
+  ],
   "precision_edit_candidate_version_gate_hints": [],
   "preference_memory_hints": [],
   "premature_ending_guard_hints": [],
@@ -784,7 +1112,11 @@
   "radial_subplot_timeline_xray_gate_hints": [],
   "rag_synopsis_spine_hints": [],
   "rag_technique_catalog_context_retrieval_gate_hints": [],
-  "raw_story_assimilation_workflow_gate_hints": [],
+  "raw_story_assimilation_workflow_gate_hints": [
+    "Raw-story assimilation must first emit proposed Story Bible and Outline deltas; these stay proposals until the author approves them.",
+    "Run review diagnosis before revision, and only allow finalized chapters to update continuity state.",
+    "Keep the phase order explicit: Bible → Outline → Write → Review → Revise → Continuity, with no hidden prompt-body or skill-pack import."
+  ],
   "readability_pacing_metric_gate_hints": [],
   "reader_promise_micro_payoff_gate_hints": [
     "Name the reader promise before planning: mystery, romance, progression, justice, fear, wonder, comedy, or another concrete pleasure.",
@@ -853,7 +1185,16 @@
   ],
   "scene_card_hard_soft_field_gate_hints": [],
   "scene_deconstruction_theory_report_gate_hints": [],
-  "scene_level_generation_hints": [],
+  "scene_level_generation_hints": [
+    "Plan chapters as ordered scene units before drafting; each scene carries goal, cast, location, pressure, reveal, and exit hook.",
+    "Generate and review one scene at a time with a focused context slice, then assemble the accepted scene drafts into a chapter.",
+    "Extract state changes at scene granularity so relationship shifts, location moves, and clue reveals stay attributable."
+  ],
+  "scene_outline_approval_status_gate_hints": [
+    "Draft only from scene outlines whose status is APPROVED; SKIP, TODO, or draft outlines stay out of generation context.",
+    "Each approved scene outline should carry required context, RAG/query needs, opening hook, goal, obstacle, turn, and exit state before prose starts.",
+    "For same-type creation, rebuild scene ids, order, status labels, and required context around the target project rather than copying source scene tasks."
+  ],
   "scene_promise_mob_review_gate_hints": [],
   "scene_state_prompt_injection_gate_hints": [],
   "scene_status_dashboard_hints": [],
@@ -920,19 +1261,28 @@
   "slash_command_context_tier_state_gate_hints": [],
   "slima_book_mcp_beta_reader_file_gate_hints": [],
   "snowflake_premise_expansion_hints": [],
-  "source_candidate_count": 1,
+  "source_candidate_count": 2,
   "source_entity_redaction_gate_hints": [],
-  "source_format_import_manifest_hints": [],
+  "source_format_import_manifest_hints": [
+    "Record source format, metadata, TOC, spine/order, detected chapter ids, and skipped sections before source deconstruction.",
+    "Treat EPUB/PDF/DOCX/conversion output as imported evidence, not canon, until chapters are reviewed and accepted.",
+    "For same-type creation, never reuse source TOC/spine order as the new outline without a transformation step."
+  ],
   "source_license_detection_gate_hints": [],
   "source_novel_dna_fusion_boundary_gate_hints": [],
   "source_study_method_bank_isolation_gate_hints": [],
   "source_text_fingerprint_gate_hints": [],
   "source_titles": [
+    "adaumann/speckit-preset-fiction-book-writing",
     "local/universal-novel-writing"
   ],
   "sourcebook_author_workbench_hints": [],
   "spdx_reuse_compliance_gate_hints": [],
-  "spec_driven_fiction_scene_tasks_hints": [],
+  "spec_driven_fiction_scene_tasks_hints": [
+    "Use the fiction constitution/story bible as the governing authority for voice, tense, prose profile, audience, language, and hard style rules.",
+    "Translate the book plan into scene-by-scene tasks with status, POV, information asymmetry, causal beats, and quality gates before drafting.",
+    "Run glossary, subplot, pacing, continuity, and sensitivity-style gates as read-only checks before accepting a chapter or same-type draft."
+  ],
   "spec_driven_state_record_publish_gate_hints": [
     "Keep STATE, OUTLINE, and RECORD surfaces separate: workflow position, structural intent, and established canon/promises/payoffs must not overwrite each other.",
     "Route polish, continuity, voice, beta-reader, publish, and translation work through named gates with explicit inputs and reviewer decisions.",
@@ -945,13 +1295,22 @@
   "state_current_reviewer_loop_gate_hints": [],
   "statistical_style_benchmark_rewrite_gate_hints": [],
   "stepwise_local_book_generation_file_gate_hints": [],
+  "story_bible_constitution_source_gate_hints": [
+    "Treat constitution.md/story bible as the source of truth for voice, tense, audience, language, hard style rules, and non-negotiable canon constraints.",
+    "Before drafting or same-type transformation, verify every scene task and style choice against the approved story-bible constitution instead of upstream examples.",
+    "If constitution and scene task disagree, stop at an author-visible policy warning; do not silently promote draft facts into canon."
+  ],
   "story_bible_context_packet_branch_gate_hints": [],
   "story_bible_qa_pov_lore_rule_gate_hints": [
     "Run continuity QA over Story Bible, POV holder, location state, and lore-rule applicability before chapter generation or same-type remap.",
     "Each QA finding should include source field, target scene id, severity, proposed fix, and whether the fix mutates canon or only the draft.",
     "Treat local-first QA consoles as review surfaces only; package dependencies, browser UI state, and user story-bible data are runtime-deferred."
   ],
-  "story_bible_relationship_analytics_gate_hints": [],
+  "story_bible_relationship_analytics_gate_hints": [
+    "Story bible entries should track characters, locations, factions, items, lore, custom attributes, relationships, and appears in scene links with evidence refs.",
+    "Automatic appears in links are review candidates until validated against accepted scenes; they should not silently add canon relationships.",
+    "Writing analytics can surface goal drift, streaks, heatmap gaps, projected finish date, and deadline pacing, but numeric pressure must not override continuity gates."
+  ],
   "story_commonsense_consistency_gate_hints": [],
   "story_contract_commit_chain_hints": [
     "Treat story contracts as the single source of truth for serialized continuation; drafts become canon only through accepted chapter commits.",
@@ -962,9 +1321,17 @@
   "story_factory_thousand_chapter_cache_gate_hints": [],
   "story_import_pattern_revision_gate_hints": [],
   "story_knowledge_layer_sot_adaptation_gate_hints": [],
-  "story_os_governed_studio_pipeline_gate_hints": [],
+  "story_os_governed_studio_pipeline_gate_hints": [
+    "Model a Story OS stage gate for long-form work: idea, bible, timeline, RAG evidence, governance decision, version snapshot, and export must stay linked.",
+    "Treat collaborative governance and version snapshots as acceptance evidence before RAG-backed generated chapters enter the manuscript.",
+    "Literary Studio Node/Docker runtime, provider configuration, LanceDB vectors, local manuscripts, collaborative data, and generated exports remain excluded from static intake."
+  ],
   "story_question_answer_validation_gate_hints": [],
-  "story_state_output_contract_gate_hints": [],
+  "story_state_output_contract_gate_hints": [
+    "Require each agent role to return parseable state-update blocks before its output can update persistent StoryState.",
+    "Separate Architect/Scribe/Editor/Guardian/Curator duties into auditable handoffs with quality scores and validation status.",
+    "Run deterministic continuity checks before LLM review; a failed quality gate blocks chapter approval until a repair delta is recorded."
+  ],
   "story_structure_rag_planning_hints": [],
   "story_theory_beat_evaluation_hints": [],
   "story_weaver_kg_bible_rag_gate_hints": [],
@@ -973,7 +1340,9 @@
   "storyforge_wiki_ingest_lint_graph_gate_hints": [],
   "strand_beat_quorum_canon_gate_hints": [],
   "strict_requirement_planning_generation_gate_hints": [],
-  "structured_generation_hints": [],
+  "structured_generation_hints": [
+    "Every generated field should declare which local context, card, chapter, or pattern-pack item supports it."
+  ],
   "style_axis_diversity_fingerprint_hints": [],
   "style_distillation_rights_boundary_gate_hints": [],
   "style_dna_breakpoint_hierarchy_gate_hints": [],
@@ -1039,7 +1408,11 @@
     "Mode choice controls the required artifact contract; do not let a continuation request silently become a full-project rewrite or export task.",
     "If the mode is ambiguous, choose the smallest useful mode and record assumptions before any chapter or analysis output is accepted."
   ],
-  "unorthodox_pipeline_stage_retry_gate_hints": [],
+  "unorthodox_pipeline_stage_retry_gate_hints": [
+    "Gate each pipeline stage before advancing: premise, bible, outline, chapter draft, critique, revision, polish, and final assembly each get independent retry/abort criteria.",
+    "For continuation, pair a bounded rolling synopsis with the previous ending tail, then reject duplicate openings, wrong POV, missing beat, truncation, canon drift, or AI-artifact spikes.",
+    "Provider calls, local test outputs, generated novels, external review prompts, and overwrite-oriented revision commands are excluded from import or execution."
+  ],
   "uploaded_style_learning_api_boundary_gate_hints": [],
   "user_modifier_project_blueprint_gate_hints": [],
   "vector_story_frame_coordinate_gate_hints": [],
@@ -1073,29 +1446,68 @@
     "chapter_change_packages",
     "universal_mode_contract_report",
     "portable_story_project_structure_report",
+    "story_bible_constitution_report",
+    "scene_outline_approval_report",
+    "pov_information_asymmetry_report",
+    "pacing_arc_polish_report",
     "chapter_contract_scene_beat_report",
     "reader_promise_micro_payoff_report",
     "revision_order_natural_prose_report",
+    "reader_pull_fresh_reader_report",
     "progress_report_writeback_report",
     "obsidian_scene_compile_report",
+    "codex_character_knowledge_version_report",
+    "story_bible_relationship_analytics_report",
+    "appears_in_link_consistency_findings",
     "layered_story_bible_artifact_report",
     "artifact_dependency_order_findings",
+    "context_references",
+    "knowledge_graph_edges",
+    "retrieval_scope",
     "export_targets",
     "delivery_artifacts",
+    "voice_calibration_report",
+    "persona_review_matrix",
+    "story_bible_source_citation_audit",
     "markdown_story_source_manifest",
     "ink_export_validation_report",
     "branch_ending_status_audit",
+    "promise_ledger_payoff_report",
+    "decision_log_continuity_report",
+    "post_write_audit_findings",
     "truth_file_state_update_report",
     "write_next_context_package_audit",
     "revision_snapshot_report",
     "truth_file_writeback_report",
     "current_state_resource_relationship_hook_drift",
     "phase_dashboard_review_findings",
+    "local_flow_story_graph_report",
+    "flow_session_goal_trace",
+    "story_network_timeline_findings",
+    "editor_context_prose_analysis_report",
+    "chapter_context_scope_findings",
+    "source_analysis_redaction_notes",
     "scene_blueprint_reader_reward_report",
     "scene_hook_information_gain_report",
+    "raw_story_bible_outline_update_report",
+    "six_layer_review_resolution_report",
+    "finalized_continuity_writeback_report",
+    "offline_revision_export_manifest",
+    "chapter_isolation_version_history_findings",
+    "export_format_checkpoint_notes",
+    "novel_to_screenplay_structure_map_report",
+    "screenplay_coverage_quality_gate_findings",
+    "fountain_export_hold_notes",
+    "markdown_story_contract_audit",
+    "yaml_frontmatter_scene_state_findings",
+    "continuity_question_payoff_register",
     "evidence_backed_canon_warning_report",
     "continuity_suggestion_review_log",
     "context_pack_canon_scope_findings",
+    "scene_plan",
+    "scene_drafts",
+    "scene_context_slices",
+    "scene_extraction_results",
     "contradiction_findings",
     "timeline_conflicts",
     "relationship_drift",
@@ -1105,6 +1517,17 @@
     "synopsis_cross_refs",
     "comment_refs",
     "note_backlinks",
+    "dialogue_node_state_machine",
+    "dialogue_entry_conditions",
+    "dialogue_exit_state_deltas",
+    "choice_stats_consequence_ledger",
+    "visible_delayed_consequence_checks",
+    "copyedit_diagnostic_triage_report",
+    "accepted_ignored_lint_ledger",
+    "revision_task_queue",
+    "source_import_manifest_report",
+    "toc_spine_chapter_map",
+    "source_metadata_findings",
     "dracor_scene_speaker_network_report",
     "tei_cast_scene_coverage",
     "speaker_scene_network_consistency",
@@ -1117,15 +1540,29 @@
     "memory_bank_completeness_report",
     "plan_to_actual_comparison",
     "active_context_progress_report",
+    "story_bible_quality_gate_report",
+    "scene_task_coverage_report",
+    "pov_schedule_information_asymmetry_report",
+    "inline_edit_note_queue",
+    "author_note_context_map",
+    "revision_diff_milestones",
     "graph_vector_retrieval_report",
     "local_global_hybrid_context_selection",
     "retrieval_mode_failure_notes",
+    "frontmatter_story_schema",
+    "scene_state_frontmatter",
+    "continuity_questions",
+    "promise_payoff_refs",
     "continuity_bridge_window",
     "recent_episode_state",
     "bridge_input_sources",
     "boring_scene_findings",
     "opening_hook_checks",
     "reader_experience_findings",
+    "story_bible_agent_outputs",
+    "plot_thread_agent_outputs",
+    "chapter_outline_agent_outputs",
+    "continuity_checker_outputs",
     "story_contracts",
     "accepted_chapter_commits",
     "canon_commit_chain",
@@ -1143,12 +1580,30 @@
     "state_outline_record_report",
     "open_thread_promise_payoff_ledger",
     "publish_translation_boundary_findings",
+    "story_state_output_contract_report",
+    "agent_state_update_block_findings",
+    "quality_gate_status_report",
+    "plan_draft_log_verify_report",
+    "living_document_update_trace",
+    "thread_foreshadowing_health_findings",
+    "frontmatter_continuity_engine_report",
+    "promise_payoff_order_findings",
+    "state_exception_mentions_findings",
     "writer_critic_revision_cycle_report",
     "quality_threshold_gate_findings",
     "story_collapse_prevention_findings",
+    "local_manuscript_revision_bible_report",
+    "accept_reject_diff_findings",
+    "ai_character_extraction_review",
     "story_bible_qa_report",
     "pov_location_lore_rule_findings",
     "continuity_console_review_trace",
+    "accepted_chapter_memory_report",
+    "context_pack_preview_trace",
+    "graph_fact_continuity_findings",
+    "pipeline_stage_gate_report",
+    "rolling_synopsis_tail_overlap_findings",
+    "retry_budget_artifact_scan",
     "deconstruct_imitate_boundary_report",
     "style_worldbuilding_abstraction_findings",
     "reference_plot_leakage_review",
@@ -1158,20 +1613,38 @@
     "novel_audit_11_dimension_scorecard",
     "cross_chapter_continuity_audit_findings",
     "actionable_rewrite_suggestion_trace",
+    "continuation_context_assembly_report",
+    "token_estimation_export_trace",
+    "foreshadow_status_snapshot_findings",
+    "multi_agent_manuscript_pipeline_report",
+    "style_anchor_chapter_expansion_trace",
+    "kindle_compile_readiness_findings",
     "kdp_metadata_validation_report",
     "chapter_preservation_merge_trace",
     "publication_export_boundary_findings",
+    "mindmap_outline_prompt_library_report",
+    "deconstruction_iteration_boundary_findings",
+    "knowledge_base_long_memory_trace",
+    "layer_freeze_parallel_generation_report",
+    "multi_head_audit_retry_report",
+    "weighted_rag_conflict_warning_report",
+    "memory_card_timeline_foreshadowing_report",
     "phase1_style_manual_reference_scope_report",
     "serial_chapter_lock_readiness_report",
     "sdd_skill_workflow_contract_report",
     "seven_step_command_boundary_findings",
+    "wordcount_build_export_report",
+    "cover_and_submission_asset_report",
     "structure_content_generation_cost_report",
     "section_context_gap_findings",
+    "acceptance_epub_delivery_report",
+    "style_log_acceptance_trace",
     "sensory_foreshadow_cooldown_report",
     "phase_breakdown_drafting_trace",
     "person_place_timeline_output_report",
     "notes_export_scope_report",
-    "reader_pull_fresh_reader_report"
+    "story_os_governance_pipeline_report",
+    "rag_export_snapshot_report"
   ],
   "wiki_canon_graph_lint_gate_hints": [],
   "wikiplots_plot_corpus_boundary_gate_hints": [],
@@ -1191,7 +1664,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1218,7 +1691,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1245,7 +1718,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1272,7 +1745,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1290,6 +1763,121 @@
     },
     {
       "candidate_count": 1,
+      "name": "markdown_frontmatter_continuity_engine_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "local_desktop_manuscript_revision_bible_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_state_output_contract_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "file_backed_promise_ledger_audit_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "living_document_plan_log_verify_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "truth_file_write_next_state_update_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1299,7 +1887,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1326,7 +1914,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1344,6 +1932,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "raw_story_assimilation_workflow_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "canon_evidence_suggestion_review_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1353,7 +1964,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1380,7 +1991,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1407,7 +2018,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1434,7 +2045,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1461,7 +2072,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1479,6 +2090,98 @@
     },
     {
       "candidate_count": 1,
+      "name": "markdown_skill_story_project_contract_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "nebula_codex_character_knowledge_version_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "novel_to_screenplay_structure_coverage_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_bible_constitution_source_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "markdown_ink_export_validation_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1488,7 +2191,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1515,7 +2218,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1542,7 +2245,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1557,6 +2260,138 @@
       "trust_flags": [
         "local:static-only"
       ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "sdd_seven_step_cross_platform_skill_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "editorial_persona_voice_workshop_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "pov_information_asymmetry_schedule_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_outline_approval_status_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_os_governed_studio_pipeline_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -1569,34 +2404,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
-          "source": "local-reference",
-          "stars": null,
-          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
-          "title": "local/universal-novel-writing",
-          "trust_flags": [
-            "local:static-only"
-          ],
-          "url": "local://universal-novel-writing"
-        }
-      ],
-      "top_source_url": "local://universal-novel-writing",
-      "trust_flags": [
-        "local:static-only"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "sdd_seven_step_cross_platform_skill_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "local-static-review",
-          "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1623,7 +2431,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1650,7 +2458,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1668,6 +2476,98 @@
     },
     {
       "candidate_count": 1,
+      "name": "book_build_export_delivery_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "editor_context_prose_analysis_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "pacing_arc_polish_pass_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "phase_acceptance_epub_delivery_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "book_memory_bank_context_lattice",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1677,7 +2577,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1704,7 +2604,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1731,7 +2631,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1749,6 +2649,52 @@
     },
     {
       "candidate_count": 1,
+      "name": "local_flow_story_graph_workspace_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "spec_driven_fiction_scene_tasks",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "continuity_bridge_window",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1758,7 +2704,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1785,7 +2731,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1802,6 +2748,92 @@
       ]
     },
     {
+      "candidate_count": 2,
+      "name": "private_person_place_timeline_output_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "offline_chapter_revision_export_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_bible_relationship_analytics_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
       "candidate_count": 1,
       "name": "dracor_tei_scene_speaker_network_gate",
       "posture_hint": "metadata-triage",
@@ -1812,7 +2844,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1839,7 +2871,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1866,34 +2898,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
-          "source": "local-reference",
-          "stars": null,
-          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
-          "title": "local/universal-novel-writing",
-          "trust_flags": [
-            "local:static-only"
-          ],
-          "url": "local://universal-novel-writing"
-        }
-      ],
-      "top_source_url": "local://universal-novel-writing",
-      "trust_flags": [
-        "local:static-only"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "private_person_place_timeline_output_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "local-static-review",
-          "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1920,7 +2925,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1935,6 +2940,29 @@
       "trust_flags": [
         "local:static-only"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "source_format_import_manifest",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -1947,7 +2975,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -1965,6 +2993,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "inline_author_edit_markup_versioning",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "contradiction_detection",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -1974,7 +3025,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2001,7 +3052,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2019,6 +3070,29 @@
     },
     {
       "candidate_count": 1,
+      "name": "agentic_book_planner_pipeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
       "name": "emotion_arc",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
@@ -2028,7 +3102,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2055,7 +3129,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2070,6 +3144,75 @@
       "trust_flags": [
         "local:static-only"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "copyedit_diagnostic_triage_queue",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "choice_stats_consequence_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_level_generation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -2082,7 +3225,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2097,6 +3240,52 @@
       "trust_flags": [
         "local:static-only"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "node_dialogue_state_machine",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "frontmatter_story_schema",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -2109,7 +3298,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2124,6 +3313,29 @@
       "trust_flags": [
         "local:static-only"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "context_reference",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -2136,7 +3348,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2153,17 +3365,30 @@
       ]
     },
     {
-      "candidate_count": 1,
+      "candidate_count": 2,
       "name": "publication_pipeline",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [
         {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        },
+        {
           "license": "unknown",
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2174,10 +3399,331 @@
           "url": "local://universal-novel-writing"
         }
       ],
-      "top_source_url": "local://universal-novel-writing",
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
       "trust_flags": [
         "local:static-only"
       ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "nai_multi_agent_rag_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "novel_audit_11_dimension_rewrite_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "story_bible_qa_pov_lore_rule_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "universal_novel_mode_contract_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "ai_novel_mindmap_prompt_library_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "kindle_agent_pipeline_compile_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "layered_parallel_audit_state_machine_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "local_continuation_workstation_context_export_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "novel_studio_accepted_chapter_memory_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "novelengine_weighted_rag_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "unorthodox_pipeline_stage_retry_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 715,
+          "source": "github",
+          "stars": 11,
+          "summary": "Fiction-book-writing preset for AI GitHub Spec Kit. Story Bible governance uses constitution.md as source of truth. Generates scene-by-scene writing tasks, editable scene outlines with status APPROVED/SKIP and required context/RAG query suggestions. Supports multi-POV schedules, ",
+          "title": "adaumann/speckit-preset-fiction-book-writing",
+          "trust_flags": [],
+          "url": "https://github.com/adaumann/speckit-preset-fiction-book-writing"
+        }
+      ],
+      "top_source_url": "https://github.com/adaumann/speckit-preset-fiction-book-writing",
+      "trust_flags": []
     },
     {
       "candidate_count": 1,
@@ -2190,7 +3736,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2217,7 +3763,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2244,61 +3790,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
-          "source": "local-reference",
-          "stars": null,
-          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
-          "title": "local/universal-novel-writing",
-          "trust_flags": [
-            "local:static-only"
-          ],
-          "url": "local://universal-novel-writing"
-        }
-      ],
-      "top_source_url": "local://universal-novel-writing",
-      "trust_flags": [
-        "local:static-only"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "nai_multi_agent_rag_consistency_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "local-static-review",
-          "risk_flags": [],
-          "score": 592,
-          "source": "local-reference",
-          "stars": null,
-          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
-          "title": "local/universal-novel-writing",
-          "trust_flags": [
-            "local:static-only"
-          ],
-          "url": "local://universal-novel-writing"
-        }
-      ],
-      "top_source_url": "local://universal-novel-writing",
-      "trust_flags": [
-        "local:static-only"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "novel_audit_11_dimension_rewrite_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "local-static-review",
-          "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2325,7 +3817,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2352,7 +3844,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2379,88 +3871,7 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
-          "source": "local-reference",
-          "stars": null,
-          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
-          "title": "local/universal-novel-writing",
-          "trust_flags": [
-            "local:static-only"
-          ],
-          "url": "local://universal-novel-writing"
-        }
-      ],
-      "top_source_url": "local://universal-novel-writing",
-      "trust_flags": [
-        "local:static-only"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "revision_order_natural_prose_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "local-static-review",
-          "risk_flags": [],
-          "score": 592,
-          "source": "local-reference",
-          "stars": null,
-          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
-          "title": "local/universal-novel-writing",
-          "trust_flags": [
-            "local:static-only"
-          ],
-          "url": "local://universal-novel-writing"
-        }
-      ],
-      "top_source_url": "local://universal-novel-writing",
-      "trust_flags": [
-        "local:static-only"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "story_bible_qa_pov_lore_rule_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "local-static-review",
-          "risk_flags": [],
-          "score": 592,
-          "source": "local-reference",
-          "stars": null,
-          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
-          "title": "local/universal-novel-writing",
-          "trust_flags": [
-            "local:static-only"
-          ],
-          "url": "local://universal-novel-writing"
-        }
-      ],
-      "top_source_url": "local://universal-novel-writing",
-      "trust_flags": [
-        "local:static-only"
-      ]
-    },
-    {
-      "candidate_count": 1,
-      "name": "universal_novel_mode_contract_gate",
-      "posture_hint": "metadata-triage",
-      "risk_flags": [],
-      "sources": [
-        {
-          "license": "unknown",
-          "posture": "pattern-only",
-          "posture_hint": "local-static-review",
-          "risk_flags": [],
-          "score": 592,
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
@@ -2487,7 +3898,34 @@
           "posture": "pattern-only",
           "posture_hint": "local-static-review",
           "risk_flags": [],
-          "score": 592,
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "revision_order_natural_prose_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",

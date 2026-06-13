@@ -38,6 +38,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "language_localization_style_profile_gate_hints",
         "progressive_disclosure_skill_protocol_gate_hints",
         "anti_slop_rulepack_triage_gate_hints",
+        "story_bible_constitution_source_gate_hints",
+        "scene_outline_approval_status_gate_hints",
+        "pov_information_asymmetry_schedule_gate_hints",
+        "pacing_arc_polish_pass_gate_hints",
         "user_modifier_project_blueprint_gate_hints",
         "portable_canon_skill_runtime_gate_hints",
         "staged_outline_chunk_window_gate_hints",
@@ -866,4 +870,40 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "reader_promise_micro_payoff_gate_hints?: string[]" in types_text
     assert "revision_order_natural_prose_gate_hints?: string[]" in types_text
     assert "reader_pull_fresh_reader_gate_hints?: string[]" in types_text
+
+
+def test_source_discovery_panel_surfaces_speckit_fiction_scene_task_gates():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "sourceDiscovery.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    assert "Spec Kit fiction scene-task gates" in panel_text
+    assert "Story-bible constitution gates" in panel_text
+    assert "Scene outline approval gates" in panel_text
+    assert "POV information-asymmetry gates" in panel_text
+    assert "Pacing arc / polish-pass gates" in panel_text
+    assert "story_bible_constitution_source_gate_hints" in panel_text
+    assert "scene_outline_approval_status_gate_hints" in panel_text
+    assert "pov_information_asymmetry_schedule_gate_hints" in panel_text
+    assert "pacing_arc_polish_pass_gate_hints" in panel_text
+    assert "story_bible_constitution_source_gate_hints?: string[]" in types_text
+    assert "scene_outline_approval_status_gate_hints?: string[]" in types_text
+    assert "pov_information_asymmetry_schedule_gate_hints?: string[]" in types_text
+    assert "pacing_arc_polish_pass_gate_hints?: string[]" in types_text
+
+
+def test_continuation_preview_panel_surfaces_speckit_fiction_warnings():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "bookRemixBible.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    assert "Spec Kit 场景任务 gate" in panel_text
+    assert "spec_kit_fiction_warnings" in panel_text
+    assert "spec_kit_fiction_warnings: string[]" in types_text
     assert "progress_report_continuity_writeback_gate_hints?: string[]" in types_text
