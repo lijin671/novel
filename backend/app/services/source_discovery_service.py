@@ -556,6 +556,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("Slima MCP" OR "AI Beta Reader" OR "book management") ("MCP" OR "novel authors") in:name,description,readme',
     '("Dialogoi" OR "file type" OR "novel.json") ("RAG" OR "MCP" OR "Qdrant") in:name,description,readme',
     '("vector storytelling" OR "VRGB" OR "StateDB") ("long-form novel" OR "AI fiction") in:name,description,readme',
+    '("Robot Writers Room" OR "idea cards" OR "Chapter Outliner") ("Worldbuilder" OR "Character Designer") in:name,description,readme',
+    '("roleplay-focused chat" OR "long-form fiction" OR "characters as first-class") ("chapters and reviews" OR "in-app wiki") in:name,description,readme',
+    '("RisuAI" OR "lorebook" OR "prompting order") ("regex script" OR "group chats" OR "world infos") in:name,description,readme',
+    '("AI Book Generator" OR "Generate Complete Book" OR "Agent Mode") ("chapter outline" OR "localStorage" OR "export") in:name,description,readme',
     '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
@@ -1181,6 +1185,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/nickcottrell/abits",
     "https://github.com/novemberjae-cmyk/Novel-Setting-Runtime-Construction",
     "https://github.com/wangjiaquangithub/InkFoundry",
+    "https://github.com/jbpayton/robot-writers-room",
+    "https://github.com/WASasquatch/TheSpire_Roleplay",
+    "https://github.com/SimonWaldherr/AI-Book-Generator",
+    "https://github.com/kwaroran/RisuAI",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1742,6 +1750,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("vector_story_frame_coordinate_gate", ("vector storytelling", "vrgb", "story beats", "tone density and register", "colorspace geometry", "baseline word counts", "frame configs", "canonical baseline frames", "diff against the canonical baseline")),
     ("setting_runtime_document_architecture_gate", ("setting construction", "multi-document fictional settings", "voice bibles", "story bibles", "project instructions", "tracked items", "opening scenarios", "theory of mind", "anti-patterns", "document jobs", "session start protocol", "runtime operations")),
     ("inkfoundry_state_db_redteam_voice_sandbox_gate", ("inkfoundry", "narrative os", "statedb", "single source of truth", "statefilter", "redteam", "navigator", "voicesandbox", "atomic locks", "versioning", "snapshots", "circuit breaker", "watchdog timeout")),
+    ("robot_writers_room_human_card_flow_gate", ("robot writers room", "brainstormer", "researcher", "refiner", "scribe", "chapter outliner", "character designer", "human user", "final say", "accept, reject, or modify", "idea cards", "world elements", "plot elements", "theme elements")),
+    ("spire_roleplay_character_privacy_fiction_surface_gate", ("the spire", "roleplay-focused chat", "characters as first-class", "ooc and ic", "rich html", "in-character journal", "mutual relationship titles", "in-app wiki", "long-form fiction surface", "chapters and reviews", "privacy guarantees")),
+    ("ai_book_generator_agent_mode_local_key_export_gate", ("ai book generator", "generate complete book", "agent mode", "title suggestions", "book concept", "chapter outline", "all chapter content in sequence", "step-by-step workflow", "live log panel", "cancel the agent", "localstorage", "exports to txt html markdown json pdf")),
+    ("risuai_lorebook_prompt_order_regex_gate", ("risuai", "multiple api support", "assets in the chat", "emotion images", "group chats", "regex script", "modify model's output", "lorebook", "world infos", "memory book", "prompting order", "impersonate inside prompts", "conditions", "variables")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -1859,11 +1871,11 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("powershell_script", (".ps1", "install.ps1", "setup.ps1")),
     ("native_binary", (".exe", ".dll", ".so", ".dylib")),
     ("binary_distribution", (".zip", "release/", "release zip", "zip download", "windows packaged", "windows 打包版", "安装包", "客户端")),
-    ("auto_update", ("auto upgrade", "automatic update", "自动升级", "upgrade.zip", "在线升级")),
+    ("auto_update", ("auto upgrade", "automatic update", "auto-updating", "updater", "plugin-updater", "自动升级", "upgrade.zip", "在线升级")),
     ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
     ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "connection profile", "analysis profile", "openai api access", "aws bedrock access", "model api access", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
     ("cloud_sync_oauth_surface", ("oauth", "oauth 2.0", "google drive", "cloud sync", "auth0", "jwt token", "auth cookie", "passphrase", "pkce", "database_url", "postgres", "supabase", "neon")),
-    ("browser_storage_surface", ("indexeddb", "localstorage", "local storage", "browser sandbox", "service worker", "pwa", "webllm", "tauri")),
+    ("browser_storage_surface", ("indexeddb", "localstorage", "local storage", "localforage", "browser sandbox", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
     ("mcp_server", ("mcp", "server.py", "server.ts")),
     ("skill_install_surface", ("codex skills", "clawhub install", ".codex\\skills", ".claude/skills", "copy-item -recurse", "skill install", "openclaw")),
@@ -1871,7 +1883,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("platform_publish_automation_surface", ("browser automation login", "http api upload", "one-click publish", "webnovel-publish", "publish to fanqie", "fanqie publish")),
     ("host_permission_bypass_surface", ("dangerously-skip-permissions", "skip permissions", "bypass permissions")),
     ("device_control", ("adb", "root", "accessibility", "plugin marketplace")),
-    ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url", "undetected-chromedriver")),
+    ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url", "undetected-chromedriver", "duckduckgosearchrun", "duckduckgo-search", "wikipediaqueryrun")),
     ("corpus_downloader", ("download texts", "parallel downloads", "gutenberg scraper", "build public-domain book corpora", "full-text search")),
 )
 STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
@@ -4486,6 +4498,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "InkFoundry is a narrative OS for AI-assisted long-form novel generation. Static HEAD/README/requirements markers describe Navigator, Writer, Editor, and RedTeam agents, StateDB as single source of truth, StateFilter blocking contradictory RAG, SQLite atomic locks/versioning/snapshots, circuit breaker, graceful degradation, watchdog timeout, ChromaDB memory, path-traversal-protected import/export, token tracking, daemon scheduler, genre validator, VoiceSandbox, and SideStoryAgent. "
         "Pattern-only adaptation for StateDB/RedTeam/VoiceSandbox gates; no license was observed, and backend/frontend runtime, ChromaDB, provider calls, daemon scheduling, imports/exports, and generated manuscripts are not installed or imported."
     ),
+    "jbpayton/robot-writers-room": (
+        "Robot Writers Room is an MIT multi-agent story brainstorming workflow. Static HEAD/README/requirements markers describe a human final-say loop, Brainstormer, Researcher, Refiner, Scribe, Outliner, Worldbuilder, Character Designer, Chapter Outliner, accept/reject/modify decisions, and idea cards split into World, Character, Plot, and Theme elements. "
+        "Pattern-only adaptation for human-card ideation gates; LangChain, WikipediaQueryRun, DuckDuckGoSearchRun, web research, run.py orchestration, logs, prompts, and generated story material are not executed or imported."
+    ),
+    "wasasquatch/thespire_roleplay": (
+        "The Spire is an AGPL-3.0 roleplay-focused chat and long-form fiction surface. Static HEAD/README/LICENSE/package markers describe characters as first-class citizens, OOC/IC separation, rich HTML bios, stats, avatars, in-character journals, mutual relationship titles, in-app wiki worlds, friends/DM privacy, chapters and reviews. "
+        "Pattern-only adaptation for roleplay character/privacy and fiction-surface gates; AGPL code, server/web runtime, database/chat/private DM state, deploy scripts, moderation actions, and user content are not installed or imported."
+    ),
+    "simonwaldherr/ai-book-generator": (
+        "AI Book Generator is a browser-local complete-book generator with conflicting license markers: LICENSE is GPL-3.0 while package metadata claims MIT. Static HEAD/README/package markers describe Agent Mode, Generate Complete Book, title suggestions, book concept, chapter outline, sequential chapter generation, live streaming/log/cancel, cover generation, auto-save drafts, localStorage, API keys, and TXT/HTML/Markdown/JSON/PDF export. "
+        "Pattern-only adaptation for staged book-generation gates; license conflict, provider keys, localStorage drafts, cover generation, browser runtime, generated books, and export artifacts are not imported."
+    ),
+    "kwaroran/risuai": (
+        "RisuAI is a GPL-3.0 cross-platform AI roleplay/chat app. Static HEAD/README/LICENSE/package markers describe multi-provider support, assets and emotion images in chat, group chats, plugins, regex output modification, translators, lorebook/world infos/memory book, prompting order, impersonate prompts, conditions, variables, TTS, Tauri, Electron, localforage, WebLLM, transformers, providers, and updater/plugin surfaces. "
+        "Pattern-only adaptation for lorebook/prompt-order/regex review gates; GPL code, providers, plugins, Tauri/Electron runtime, browser storage, updater channels, model assets, and chat content are not installed or imported."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -5201,6 +5229,10 @@ class NovelSourceDiscoveryService:
             "vector_story_frame_coordinate_gate_hints": self._build_vector_story_frame_coordinate_gate_hints(available_patterns),
             "setting_runtime_document_architecture_gate_hints": self._build_setting_runtime_document_architecture_gate_hints(available_patterns),
             "inkfoundry_state_db_redteam_voice_sandbox_gate_hints": self._build_inkfoundry_state_db_redteam_voice_sandbox_gate_hints(available_patterns),
+            "robot_writers_room_human_card_flow_gate_hints": self._build_robot_writers_room_human_card_flow_gate_hints(available_patterns),
+            "spire_roleplay_character_privacy_fiction_surface_gate_hints": self._build_spire_roleplay_character_privacy_fiction_surface_gate_hints(available_patterns),
+            "ai_book_generator_agent_mode_local_key_export_gate_hints": self._build_ai_book_generator_agent_mode_local_key_export_gate_hints(available_patterns),
+            "risuai_lorebook_prompt_order_regex_gate_hints": self._build_risuai_lorebook_prompt_order_regex_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -6299,6 +6331,10 @@ class NovelSourceDiscoveryService:
             "vector_story_frame_coordinate_gate": 68,
             "setting_runtime_document_architecture_gate": 69,
             "inkfoundry_state_db_redteam_voice_sandbox_gate": 72,
+            "robot_writers_room_human_card_flow_gate": 69,
+            "spire_roleplay_character_privacy_fiction_surface_gate": 68,
+            "ai_book_generator_agent_mode_local_key_export_gate": 67,
+            "risuai_lorebook_prompt_order_regex_gate": 69,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -6487,6 +6523,14 @@ class NovelSourceDiscoveryService:
             targets.append("setting_runtime_document_policy")
         if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
             targets.append("state_db_redteam_voice_sandbox_policy")
+        if "robot_writers_room_human_card_flow_gate" in patterns:
+            targets.append("human_card_flow_story_ideation_policy")
+        if "spire_roleplay_character_privacy_fiction_surface_gate" in patterns:
+            targets.append("roleplay_character_privacy_fiction_surface_policy")
+        if "ai_book_generator_agent_mode_local_key_export_gate" in patterns:
+            targets.append("agent_mode_book_generation_local_key_policy")
+        if "risuai_lorebook_prompt_order_regex_gate" in patterns:
+            targets.append("lorebook_prompt_order_regex_policy")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_inspiration_matrix_policy")
             targets.append("cost_quality_budget_policy")
@@ -8094,6 +8138,14 @@ class NovelSourceDiscoveryService:
             targets.append("setting_runtime_document_architecture_report")
         if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
             targets.append("state_db_redteam_voice_sandbox_report")
+        if "robot_writers_room_human_card_flow_gate" in patterns:
+            targets.append("human_card_flow_story_ideation_report")
+        if "spire_roleplay_character_privacy_fiction_surface_gate" in patterns:
+            targets.append("roleplay_character_privacy_surface_report")
+        if "ai_book_generator_agent_mode_local_key_export_gate" in patterns:
+            targets.append("agent_mode_book_generation_local_key_report")
+        if "risuai_lorebook_prompt_order_regex_gate" in patterns:
+            targets.append("lorebook_prompt_order_regex_report")
         if "manuscript_card_board_extraction_gate" in patterns:
             targets.extend(["manuscript_card_board_extraction_report", "duplicate_card_merge_findings"])
         if "chapter_timeline_frontmatter_export_gate" in patterns:
@@ -15951,6 +16003,42 @@ class NovelSourceDiscoveryService:
             "InkFoundry unlicensed code, backend/frontend runtime, ChromaDB, provider calls, daemon scheduler, import/export artifacts, and generated manuscripts remain excluded from static intake.",
         ]
 
+    def _build_robot_writers_room_human_card_flow_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "robot_writers_room_human_card_flow_gate" not in patterns:
+            return []
+        return [
+            "Human final say is the ideation gate: every brainstorm, refiner pass, outline card, and chapter-outliner proposal must be accepted, rejected, or modified before it can enter canon.",
+            "Model idea cards as typed candidates only: World, Character, Plot, and Theme elements carry source/provenance notes, decision status, and target-project ids before becoming bible facts.",
+            "Robot Writers Room Researcher web-search runtime, LangChain tools, WikipediaQueryRun, DuckDuckGoSearchRun, run.py orchestration, logs, prompts, and generated story text remain excluded from static intake.",
+        ]
+
+    def _build_spire_roleplay_character_privacy_fiction_surface_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "spire_roleplay_character_privacy_fiction_surface_gate" not in patterns:
+            return []
+        return [
+            "Keep OOC/IC boundaries explicit: out-of-character notes, in-character journals, relationship titles, wiki facts, and chapter/review surfaces must not collapse into one hidden memory bucket.",
+            "Character profiles should carry privacy and visibility labels before use: bios, stats, avatars, portraits, friend/DM context, and review comments stay separate from publishable fiction state.",
+            "The Spire AGPL code, server/web runtime, database/chat state, private DMs, deploy scripts, moderation actions, and user-generated content remain excluded from static intake.",
+        ]
+
+    def _build_ai_book_generator_agent_mode_local_key_export_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "ai_book_generator_agent_mode_local_key_export_gate" not in patterns:
+            return []
+        return [
+            "Treat Agent Mode as a visible staged state machine: title suggestions, concept, chapter outline, sequential chapter drafting, cover/export readiness, cancel state, and accepted output ids are separate checkpoints.",
+            "localStorage drafts and API keys are an auth/storage surface, not source material; same-type book generation may copy the staged workflow shape but never provider credentials, browser state, or generated examples.",
+            "AI Book Generator browser runtime, live streaming provider calls, cover generation, TXT/HTML/Markdown/JSON/PDF exports, local drafts, and license-conflicted code remain excluded from static intake.",
+        ]
+
+    def _build_risuai_lorebook_prompt_order_regex_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "risuai_lorebook_prompt_order_regex_gate" not in patterns:
+            return []
+        return [
+            "Treat lorebook/world infos/memory book and prompting order as explicit review gates: activation, insertion order, impersonation scope, variables, and conditions must be inspectable before drafting.",
+            "Regex output modification is a controlled post-processing step: each rule needs purpose, scope, before/after preview, copy-risk review, and human acceptance before it can affect manuscript text.",
+            "RisuAI GPL code, provider/plugin surfaces, Tauri/Electron runtime, localforage/browser storage, WebLLM/model assets, updaters, translators, TTS, and chat content remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -15992,6 +16080,14 @@ class NovelSourceDiscoveryService:
             targets.append("setting_runtime_document_architecture_remap")
         if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
             targets.append("state_db_redteam_voice_sandbox_remap")
+        if "robot_writers_room_human_card_flow_gate" in patterns:
+            targets.append("human_card_flow_story_ideation_remap")
+        if "spire_roleplay_character_privacy_fiction_surface_gate" in patterns:
+            targets.append("roleplay_character_privacy_fiction_surface_remap")
+        if "ai_book_generator_agent_mode_local_key_export_gate" in patterns:
+            targets.append("agent_mode_book_generation_local_key_remap")
+        if "risuai_lorebook_prompt_order_regex_gate" in patterns:
+            targets.append("lorebook_prompt_order_regex_remap")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_trope_budget_remap")
         if "stepwise_local_book_generation_file_gate" in patterns:
@@ -17209,6 +17305,14 @@ class NovelSourceDiscoveryService:
             hints.append("For resumed setting prompts, include a session start packet listing story bible, voice bible, tracked items, scenario, and anti-pattern docs loaded.")
         if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
             hints.append("For long-form generation prompts, make StateDB facts outrank RAG and route contradictions to RedTeam/VoiceSandbox review before drafting.")
+        if "robot_writers_room_human_card_flow_gate" in patterns:
+            hints.append("For human-card ideation prompts, ask for candidate idea cards with final-say decision slots, not autonomous canon changes.")
+        if "spire_roleplay_character_privacy_fiction_surface_gate" in patterns:
+            hints.append("For roleplay-derived fiction prompts, state OOC/IC scope, character privacy class, wiki source class, and chapter/review visibility before generation.")
+        if "ai_book_generator_agent_mode_local_key_export_gate" in patterns:
+            hints.append("For book-agent prompts, declare the current stage, local-key/storage exclusion, export target, cancel behavior, and accepted-output checkpoint before drafting.")
+        if "risuai_lorebook_prompt_order_regex_gate" in patterns:
+            hints.append("For lorebook prompts, list activation keys, insertion order, regex rewrite rules, variables, and impersonation boundaries as reviewable metadata.")
         if "mock_first_multi_agent_continuation_gate" in patterns:
             hints.append("Prompt from pipeline roles as abstract duties: planner, drafter, reviewer, linter, budget auditor, and author gate; do not reuse upstream role wording or source-book facts.")
         if "truth_file_write_next_state_update_gate" in patterns:
@@ -18110,6 +18214,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform setting-runtime documents into owned bible modules and resume packets, with upstream paths and campaign content removed.")
         if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
             hints.append("Transform StateDB/StateFilter/RedTeam lessons into canon-first contradiction gates and adversarial review reports before chapter acceptance.")
+        if "robot_writers_room_human_card_flow_gate" in patterns:
+            hints.append("Transform writers-room roles into target-owned duties and decision records; idea-card taxonomy may transfer, but upstream card text, agent prompts, and research traces do not.")
+        if "spire_roleplay_character_privacy_fiction_surface_gate" in patterns:
+            hints.append("Transform roleplay character surfaces into target-owned profile/privacy/wiki/chapter review envelopes without importing upstream bios, journals, relationship labels, or private chat state.")
+        if "ai_book_generator_agent_mode_local_key_export_gate" in patterns:
+            hints.append("Transform complete-book Agent Mode into a local staged workflow with explicit title/concept/outline/chapter/export checkpoints and no provider-key or browser-storage carryover.")
+        if "risuai_lorebook_prompt_order_regex_gate" in patterns:
+            hints.append("Transform lorebook/prompt-order/regex mechanics into auditable MuMuAINovel context assembly and post-processing gates with new project variables and review ids.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Transform collaboration roles into new project duties and new evidence ids; do not preserve upstream prompt/story pairings or agent-room wording.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -19027,6 +19139,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject setting-runtime reuse that copies upstream prompt bodies, environment paths, campaign facts, document-job wording, or anti-pattern examples as project instructions.")
         if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
             hints.append("Reject workflows that import InkFoundry unlicensed code, StateDB artifacts, ChromaDB vectors, daemon jobs, provider traces, generated manuscripts, or VoiceSandbox prompt bodies.")
+        if "robot_writers_room_human_card_flow_gate" in patterns:
+            hints.append("Reject outputs that copy Robot Writers Room agent prompts, idea-card text, logs, research snippets, flow-diagram labels, or generated brainstorm material as project canon.")
+        if "spire_roleplay_character_privacy_fiction_surface_gate" in patterns:
+            hints.append("Reject drafts that copy The Spire bios, stats, avatar/portrait semantics, journals, relationship titles, wiki entries, private chat/DM context, chapters, reviews, or moderation text.")
+        if "ai_book_generator_agent_mode_local_key_export_gate" in patterns:
+            hints.append("Reject outputs that copy AI Book Generator UI text, init prompts, generated book examples, cover/export artifacts, provider-key guidance, localStorage state, or license-conflicted code structure.")
+        if "risuai_lorebook_prompt_order_regex_gate" in patterns:
+            hints.append("Reject drafts that copy RisuAI lorebook entries, prompt ordering templates, regex scripts, character cards, chat examples, plugin behavior, provider traces, or browser-storage data.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Reject drafts that reuse Tell Me A Story prompt structure, human-written story arcs, or Agents' Room task wording as hidden source scaffolding.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -20008,6 +20128,10 @@ class NovelSourceDiscoveryService:
                 "vector_story_frame_coordinate_gate",
                 "setting_runtime_document_architecture_gate",
                 "inkfoundry_state_db_redteam_voice_sandbox_gate",
+                "robot_writers_room_human_card_flow_gate",
+                "spire_roleplay_character_privacy_fiction_surface_gate",
+                "ai_book_generator_agent_mode_local_key_export_gate",
+                "risuai_lorebook_prompt_order_regex_gate",
                 "manuscript_card_board_extraction_gate",
                 "chapter_timeline_frontmatter_export_gate",
                 "node_dialogue_state_machine",

@@ -19896,3 +19896,121 @@ def test_novel_mcp_runtime_setting_frame_sources_are_static_absorbed():
     assert "vector_story_frame_coordinate_gate_hints" in digest
     assert "setting_runtime_document_architecture_gate_hints" in digest
     assert "inkfoundry_state_db_redteam_voice_sandbox_gate_hints" in digest
+
+
+def test_human_in_loop_roleplay_agent_book_sources_are_static_absorbed():
+    assert "https://github.com/jbpayton/robot-writers-room" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/WASasquatch/TheSpire_Roleplay" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/SimonWaldherr/AI-Book-Generator" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/kwaroran/RisuAI" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Robot Writers Room" in query and "idea cards" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("roleplay-focused chat" in query and "long-form fiction" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("RisuAI" in query and "lorebook" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "jbpayton/robot-writers-room",
+                "html_url": "https://github.com/jbpayton/robot-writers-room",
+                "description": (
+                    "Robot Writers Room is an MIT multi-agent story brainstorming workflow. Public README and requirements markers describe "
+                    "a human user with final say, Brainstormer, Researcher, Refiner, Scribe, Outliner, Worldbuilder, Character Designer, "
+                    "Chapter Outliner, collaborative accept/reject/modify decisions, idea cards categorized as World Elements, Character "
+                    "Elements, Plot Elements and Theme Elements, log files, run.py orchestration, LangChain, WikipediaQueryRun and DuckDuckGoSearchRun."
+                ),
+                "stargazers_count": 17,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai", "creative-writing", "agents", "story"],
+                "updated_at": "2023-08-05T16:47:10Z",
+                "root_files": ["readme.md", "LICENSE", "requirements.txt", "run.py", "FlowDiagram.png"],
+            },
+            {
+                "full_name": "WASasquatch/TheSpire_Roleplay",
+                "html_url": "https://github.com/WASasquatch/TheSpire_Roleplay",
+                "description": (
+                    "The Spire is an AGPL-3.0 roleplay-focused chat sanctuary. Public README, LICENSE and package markers describe collaborative "
+                    "storytelling with characters as first-class citizens, OOC/IC distinction, rich HTML bios, custom stats, avatars, portraits, "
+                    "in-character journals, mutual relationship titles, in-app wiki for worlds, DMs and friends, privacy guarantees, long-form "
+                    "fiction surface with chapters and reviews, content warnings, moderation, slash commands, pnpm workspace, ship/deploy bash scripts."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["roleplay", "fiction", "chat", "worldbuilding"],
+                "updated_at": "2026-06-12T19:12:01Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "scripts/ship.sh", "apps/server", "apps/web"],
+            },
+            {
+                "full_name": "SimonWaldherr/AI-Book-Generator",
+                "html_url": "https://github.com/SimonWaldherr/AI-Book-Generator",
+                "description": (
+                    "AI Book Generator is a browser-local complete book generator. Public README, LICENSE and package markers describe multi-LLM support, "
+                    "Agent Mode one-click Generate Complete Book, title suggestions, book concept, chapter outline, all chapter content in sequence, "
+                    "step-by-step workflow concept to outline to chapters, rich init prompting, live streaming, live log panel, cancel agent, cover image "
+                    "generation, exports to TXT HTML Markdown JSON PDF, auto-save drafts, localStorage and API keys for OpenAI, Anthropic and Gemini."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["book", "generator", "creative-writing", "automation"],
+                "updated_at": "2026-06-12T10:03:44Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "index.html", "js", "styles.css"],
+            },
+            {
+                "full_name": "kwaroran/RisuAI",
+                "html_url": "https://github.com/kwaroran/RisuAI",
+                "description": (
+                    "RisuAI is a GPL-3.0 cross-platform AI chatting and roleplay app. Public README, LICENSE and package markers describe multiple API support, "
+                    "assets in chat, emotion images, group chats, plugins, regex script for modifying model output, translators, lorebook also known as "
+                    "world infos or memory book, prompting order, impersonate inside prompts, conditions, variables, TTS, Tauri, Electron, localforage, "
+                    "WebLLM, transformers, provider SDKs and updater/plugin surfaces."
+                ),
+                "stargazers_count": 1530,
+                "forks_count": 140,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["roleplay", "chat", "lorebook", "ai"],
+                "updated_at": "2026-06-13T09:22:17Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "src-tauri", "electron", "server"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T19:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "robot_writers_room_human_card_flow_gate" in candidates["jbpayton/robot-writers-room"]["absorbed_patterns"]
+    assert "spire_roleplay_character_privacy_fiction_surface_gate" in candidates["WASasquatch/TheSpire_Roleplay"]["absorbed_patterns"]
+    assert "ai_book_generator_agent_mode_local_key_export_gate" in candidates["SimonWaldherr/AI-Book-Generator"]["absorbed_patterns"]
+    assert "risuai_lorebook_prompt_order_regex_gate" in candidates["kwaroran/RisuAI"]["absorbed_patterns"]
+    assert "network_scraper" in candidates["jbpayton/robot-writers-room"]["risk_flags"]
+    assert "shell_script" in candidates["WASasquatch/TheSpire_Roleplay"]["risk_flags"]
+    assert "provider_key_surface" in candidates["SimonWaldherr/AI-Book-Generator"]["risk_flags"]
+    assert "browser_storage_surface" in candidates["SimonWaldherr/AI-Book-Generator"]["risk_flags"]
+    assert "browser_storage_surface" in candidates["kwaroran/RisuAI"]["risk_flags"]
+    assert "auto_update" in candidates["kwaroran/RisuAI"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "human_card_flow_story_ideation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "roleplay_character_privacy_fiction_surface_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "agent_mode_book_generation_local_key_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "lorebook_prompt_order_regex_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "human_card_flow_story_ideation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "roleplay_character_privacy_surface_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "agent_mode_book_generation_local_key_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "lorebook_prompt_order_regex_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "human_card_flow_story_ideation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "roleplay_character_privacy_fiction_surface_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "agent_mode_book_generation_local_key_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "lorebook_prompt_order_regex_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("final say" in hint.lower() for hint in pattern_pack["robot_writers_room_human_card_flow_gate_hints"])
+    assert any("OOC" in hint for hint in pattern_pack["spire_roleplay_character_privacy_fiction_surface_gate_hints"])
+    assert any("localStorage" in hint for hint in pattern_pack["ai_book_generator_agent_mode_local_key_export_gate_hints"])
+    assert any("prompting order" in hint.lower() for hint in pattern_pack["risuai_lorebook_prompt_order_regex_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "robot_writers_room_human_card_flow_gate_hints" in digest
+    assert "spire_roleplay_character_privacy_fiction_surface_gate_hints" in digest
+    assert "ai_book_generator_agent_mode_local_key_export_gate_hints" in digest
+    assert "risuai_lorebook_prompt_order_regex_gate_hints" in digest

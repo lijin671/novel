@@ -382,6 +382,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "story_weaver_kg_bible_rag_gate_hints",
             "taleforge_memory_continuity_research_gate_hints",
             "ai_flavor_template_shell_cleanup_gate_hints",
+            "robot_writers_room_human_card_flow_gate_hints",
+            "spire_roleplay_character_privacy_fiction_surface_gate_hints",
+            "ai_book_generator_agent_mode_local_key_export_gate_hints",
+            "risuai_lorebook_prompt_order_regex_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -392,6 +396,10 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Story-Weaver KG / bible / RAG gates" in panel_text
     assert "TaleForge memory continuity research gates" in panel_text
     assert "Core remix kernel gates" in panel_text
+    assert "Robot Writers Room human-card flow gates" in panel_text
+    assert "Spire roleplay character privacy fiction-surface gates" in panel_text
+    assert "AI Book Generator agent-mode local-key export gates" in panel_text
+    assert "RisuAI lorebook prompt-order regex gates" in panel_text
     assert "default_github_queries" in types_text
     assert "default_github_queries" in panel_text
     assert "default_github_repository_urls" in types_text

@@ -420,6 +420,10 @@ export interface SourceDiscoveryPatternPack {
   vector_story_frame_coordinate_gate_hints?: string[];
   setting_runtime_document_architecture_gate_hints?: string[];
   inkfoundry_state_db_redteam_voice_sandbox_gate_hints?: string[];
+  robot_writers_room_human_card_flow_gate_hints?: string[];
+  spire_roleplay_character_privacy_fiction_surface_gate_hints?: string[];
+  ai_book_generator_agent_mode_local_key_export_gate_hints?: string[];
+  risuai_lorebook_prompt_order_regex_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];
