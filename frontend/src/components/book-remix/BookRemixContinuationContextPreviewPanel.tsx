@@ -23,6 +23,11 @@ const TEXT = {
   activatedSections: "\u5df2\u6ce8\u5165\u7247\u6bb5\uff1a",
   activeSourcePatterns: "\u6e90\u6a21\u5f0f\uff1a",
   contextWarnings: "\u9884\u89c8\u63d0\u9192\uff1a",
+  productionControlAxes: "\u751f\u4ea7\u63a7\u5236\u8f74\uff1a",
+  productionWarnings: "\u751f\u4ea7 gate \u63d0\u9192\uff1a",
+  progressReportGaps: "\u7ae0\u8282\u8fdb\u5ea6\u5199\u56de\u7f3a\u53e3\uff1a",
+  genreTrackerWarnings: "\u7f51\u6587\u4f53\u88c1\u8ffd\u8e2a\u63d0\u9192\uff1a",
+  entityArcTimelineRisks: "\u5b9e\u4f53/\u5f27\u7ebf\u65f6\u95f4\u7ebf\u98ce\u9669\uff1a",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -128,6 +133,69 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Space wrap>
                 {value.context_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.production_control_axes?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.productionControlAxes}</Text>
+              <Space wrap>
+                {value.production_control_axes.slice(0, 16).map(axis => (
+                  <Tag key={axis} color="blue">{axis}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.production_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.productionWarnings}</Text>
+              <Space wrap>
+                {value.production_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.chapter_progress_report_gaps?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.progressReportGaps}</Text>
+              <Space wrap>
+                {value.chapter_progress_report_gaps.slice(0, 8).map((gap, index) => {
+                  const chapter = typeof gap.chapter === 'string' ? gap.chapter : `#${index + 1}`;
+                  const missing = Array.isArray(gap.missing_fields)
+                    ? gap.missing_fields.join(', ')
+                    : String(gap.missing_fields || '');
+                  return (
+                    <Tag key={`${chapter}:${missing}`} color="volcano">
+                      {chapter}{missing ? ` 路 ${missing}` : ''}
+                    </Tag>
+                  );
+                })}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.genre_tracker_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.genreTrackerWarnings}</Text>
+              <Space wrap>
+                {value.genre_tracker_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.entity_arc_timeline_risks?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.entityArcTimelineRisks}</Text>
+              <Space wrap>
+                {value.entity_arc_timeline_risks.slice(0, 8).map(risk => (
+                  <Tag key={risk} color="red">{risk}</Tag>
                 ))}
               </Space>
             </Space>

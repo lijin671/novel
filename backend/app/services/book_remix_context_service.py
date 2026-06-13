@@ -181,6 +181,43 @@ def build_remix_continuation_control_audit(
     if "progress_report_continuity_writeback_gate" in pattern_names:
         control_axes.append("chapter_progress_report_completeness")
         acceptance_steps.append("verify_progress_report_fields")
+    if "genre_inspiration_budget_library_gate" in pattern_names:
+        control_axes.extend([
+            "genre_reader_promise_matrix",
+            "trope_option_budget",
+        ])
+        acceptance_steps.append("verify_genre_promise_independence")
+    if "volume_antipattern_dependency_graph_gate" in pattern_names:
+        control_axes.extend([
+            "volume_escalation_ladder",
+            "event_dependency_graph",
+        ])
+        acceptance_steps.append("verify_volume_dependency_edges")
+    if "webnovel_genre_tracker_gate" in pattern_names:
+        control_axes.extend([
+            "webnovel_genre_tracker_state",
+            "chapter_gap_tracker",
+            "cliffhanger_rotation_review",
+            "stale_character_review",
+        ])
+        acceptance_steps.append("verify_genre_tracker_warnings")
+    if "entity_mention_arc_timeline_gate" in pattern_names:
+        control_axes.extend([
+            "entity_mention_timeline",
+            "arc_entity_appearance_gap",
+        ])
+        acceptance_steps.append("verify_entity_arc_timeline")
+
+    genre_tracker_warnings = (
+        _webnovel_genre_tracker_warnings(bible=bible, plan=plan, max_items=8)
+        if "webnovel_genre_tracker_gate" in pattern_names
+        else []
+    )
+    entity_arc_timeline_risks = (
+        _entity_mention_arc_timeline_risks(bible=bible, plan=plan, max_items=8)
+        if "entity_mention_arc_timeline_gate" in pattern_names
+        else []
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -188,6 +225,10 @@ def build_remix_continuation_control_audit(
         warnings.append("chapter_sequence_gaps")
     if "progress_report_continuity_writeback_gate" in pattern_names and progress_report_gaps:
         warnings.append("chapter_progress_report_missing_fields")
+    if genre_tracker_warnings:
+        warnings.append("webnovel_genre_tracker_warnings")
+    if entity_arc_timeline_risks:
+        warnings.append("entity_arc_timeline_risks")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -217,6 +258,8 @@ def build_remix_continuation_control_audit(
         "has_style_signature": isinstance(style_signature, dict) and bool(style_signature),
         "chapter_progress_report_gap_count": len(progress_report_gaps),
         "chapter_progress_report_gaps": progress_report_gaps,
+        "genre_tracker_warnings": genre_tracker_warnings,
+        "entity_arc_timeline_risks": entity_arc_timeline_risks,
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -523,6 +566,7 @@ def build_remix_continuation_context_block(
         lines=lines,
         bible=bible,
         plan=plan,
+        source_pattern_pack=source_pattern_pack,
     )
 
     foreshadows = _as_dict_list(bible.get("foreshadows"))
@@ -639,6 +683,12 @@ def build_remix_context_preview_audit(
     continuity_audit = build_remix_continuity_control_audit(
         bible=bible,
         plan=plan,
+        source_pattern_pack=source_pattern_pack,
+    )
+    production_control_audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
     )
 
     warnings: list[str] = []
@@ -654,6 +704,8 @@ def build_remix_context_preview_audit(
         warnings.append("context_budget_high_trim_or_stage_required")
     if continuity_audit["canon_drift_risks"]:
         warnings.append("canon_drift_risk_review_required")
+    if production_control_audit["warnings"]:
+        warnings.append("production_control_review_required")
 
     return {
         "context_estimated_tokens": estimated_tokens,
@@ -661,6 +713,13 @@ def build_remix_context_preview_audit(
         "activated_sections": activated_sections,
         "active_source_patterns": active_source_patterns,
         "context_warnings": warnings,
+        "production_control_axes": production_control_audit["control_axes"],
+        "production_acceptance_steps": production_control_audit["acceptance_steps"],
+        "production_warnings": production_control_audit["warnings"],
+        "chapter_progress_report_gap_count": production_control_audit["chapter_progress_report_gap_count"],
+        "chapter_progress_report_gaps": production_control_audit["chapter_progress_report_gaps"],
+        "genre_tracker_warnings": production_control_audit["genre_tracker_warnings"],
+        "entity_arc_timeline_risks": production_control_audit["entity_arc_timeline_risks"],
         **continuity_audit,
     }
 
@@ -669,13 +728,19 @@ def build_remix_continuity_control_audit(
     *,
     bible: dict[str, Any],
     plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]] = None,
 ) -> dict[str, Any]:
     """Build story-bible QA fields from current canon, plans, and chapter state."""
     return {
         "continuity_questions": _continuity_questions(bible=bible, plan=plan, max_items=8),
         "promise_payoff_debts": _promise_payoff_debts(bible=bible, plan=plan, max_items=8),
         "scene_state_snapshot": _scene_state_snapshot(bible=bible, plan=plan, max_items=8),
-        "canon_drift_risks": _canon_drift_risks(bible=bible, plan=plan, max_items=8),
+        "canon_drift_risks": _canon_drift_risks(
+            bible=bible,
+            plan=plan,
+            source_pattern_pack=source_pattern_pack,
+            max_items=8,
+        ),
     }
 
 
@@ -1137,9 +1202,14 @@ def _append_continuity_question_control_section(
     lines: list[str],
     bible: dict[str, Any],
     plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]] = None,
 ) -> None:
     """Render current continuity questions, promise debts, and drift risks."""
-    audit = build_remix_continuity_control_audit(bible=bible, plan=plan)
+    audit = build_remix_continuity_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+    )
     questions = audit["continuity_questions"]
     debts = audit["promise_payoff_debts"]
     snapshot = audit["scene_state_snapshot"]
@@ -1341,12 +1411,14 @@ def _canon_drift_risks(
     *,
     bible: dict[str, Any],
     plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]] = None,
     max_items: int,
 ) -> list[str]:
     risks: list[str] = []
     packages = _chapter_analysis_packages(bible.get("chapter_change_packages"))
     latest_chapter = _latest_chapter_number(packages)
     open_debts = _promise_payoff_debts(bible=bible, plan=plan, max_items=99)
+    pattern_names = _source_pattern_names(source_pattern_pack)
 
     if not packages:
         _append_unique(risks, "missing_chapter_change_packages: no accepted chapter-state evidence is available")
@@ -1369,7 +1441,247 @@ def _canon_drift_risks(
         if len(risks) >= max_items:
             return risks[:max_items]
 
+    if "entity_mention_arc_timeline_gate" in pattern_names:
+        for risk in _entity_mention_arc_timeline_risks(bible=bible, plan=plan, max_items=max_items):
+            _append_unique(risks, risk)
+            if len(risks) >= max_items:
+                return risks[:max_items]
+
     return risks[:max_items]
+
+
+def _webnovel_genre_tracker_warnings(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> list[str]:
+    """Return structured warnings for serial-fiction genre trackers."""
+    warnings: list[str] = []
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    chapter_numbers = [_int_or_none(package.get("chapter_number")) for package in packages]
+    chapter_numbers = [number for number in chapter_numbers if number is not None]
+    chapter_gaps = _chapter_sequence_gaps(chapter_numbers)
+    open_hooks = _status_items(_as_dict_list(bible.get("foreshadows")), done=False, max_items=99)
+    pending_beats = _pending_plan_beats(plan=plan, max_items=99)
+    pending_priority_hooks = _status_items(
+        _as_dict_list(plan.get("priority_hooks")) if plan else [],
+        done=False,
+        max_items=99,
+    )
+
+    if not _has_genre_promise_surface(bible=bible, plan=plan):
+        _append_unique(warnings, "webnovel_missing_genre_promise")
+    if chapter_gaps:
+        _append_unique(warnings, f"webnovel_chapter_sequence_gaps: {', '.join(chapter_gaps[:4])}")
+    if open_hooks and not pending_beats and not pending_priority_hooks:
+        _append_unique(warnings, "webnovel_open_hooks_without_rotation_plan")
+    if len(open_hooks) > 8:
+        _append_unique(warnings, f"webnovel_open_hook_overflow: {len(open_hooks)}")
+
+    latest_package = packages[-1] if packages else None
+    if latest_package and not _has_latest_chapter_micro_payoff_signal(latest_package):
+        _append_unique(warnings, "webnovel_latest_chapter_missing_micro_payoff_signal")
+    if latest_package and not _has_latest_chapter_cliffhanger_signal(latest_package, bible=bible):
+        _append_unique(warnings, "webnovel_cliffhanger_rotation_missing")
+
+    entity_risks = _entity_mention_arc_timeline_risks(bible=bible, plan=plan, max_items=99)
+    if any("stale_character_absence_gap" in risk for risk in entity_risks):
+        _append_unique(warnings, "webnovel_stale_character_review_required")
+
+    return warnings[:max_items]
+
+
+def _entity_mention_arc_timeline_risks(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> list[str]:
+    """Detect entity appearance gaps before canon or same-type arc reuse."""
+    risks: list[str] = []
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_chapter = _latest_chapter_number(packages)
+    mentions = _entity_mentions_by_chapter(packages)
+    card_names = {
+        _entity_key(name): name
+        for card in _as_dict_list(bible.get("character_cards"))
+        for name in (_card_entity_name(card),)
+        if name
+    }
+
+    for card in _as_dict_list(bible.get("character_cards")):
+        name = _card_entity_name(card)
+        if not name or _is_inactive_entity_status(card.get("status")):
+            continue
+        mention_chapters = mentions.get(_entity_key(name), [])
+        card_chapter = _chapter_value(
+            card,
+            (
+                "last_chapter_number",
+                "last_seen_chapter",
+                "last_seen",
+                "chapter_number",
+                "first_appearance",
+                "introduced_chapter",
+            ),
+        )
+        known_chapters = [chapter for chapter in mention_chapters if chapter is not None]
+        if card_chapter is not None:
+            known_chapters.append(card_chapter)
+        if not known_chapters:
+            _append_unique(risks, f"entity_without_chapter_appearance: {name}")
+            if len(risks) >= max_items:
+                return risks[:max_items]
+            continue
+        last_seen = max(known_chapters)
+        if (
+            latest_chapter is not None
+            and latest_chapter - last_seen >= 6
+            and not _plan_mentions_label(plan=plan, label=name)
+        ):
+            _append_unique(
+                risks,
+                f"stale_character_absence_gap: {name} last_seen=Ch{last_seen} latest=Ch{latest_chapter}",
+            )
+        if len(risks) >= max_items:
+            return risks[:max_items]
+
+    for key, chapters in mentions.items():
+        if key in card_names:
+            continue
+        display_name = _display_entity_key(key)
+        if display_name:
+            latest = max(chapter for chapter in chapters if chapter is not None) if chapters else None
+            suffix = f" last_seen=Ch{latest}" if latest is not None else ""
+            _append_unique(risks, f"mentioned_entity_without_card: {display_name}{suffix}")
+        if len(risks) >= max_items:
+            return risks[:max_items]
+
+    for arc in _as_dict_list(bible.get("story_arcs")):
+        if _is_done_status(arc.get("status")):
+            continue
+        label = _first_text(arc, ("name", "arc", "summary", "goal"))
+        if not label:
+            continue
+        if _chapter_value(arc, ("chapter_number", "last_chapter_number", "setup_chapter", "introduced_chapter")) is None:
+            _append_unique(risks, f"active_arc_without_chapter_link: {_truncate(label, 120)}")
+        if len(risks) >= max_items:
+            return risks[:max_items]
+
+    return risks[:max_items]
+
+
+def _has_genre_promise_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    direct_keys = (
+        "genre",
+        "genres",
+        "genre_promise",
+        "reader_promise",
+        "target_reader",
+        "market_shape",
+        "platform",
+    )
+    if any(_has_any_package_value(bible, (key,)) for key in direct_keys):
+        return True
+    if plan and any(_has_any_package_value(plan, (key,)) for key in direct_keys):
+        return True
+    review_items = _as_dict_list(bible.get("hard_constraints"))
+    if plan:
+        review_items.extend(_as_dict_list(plan.get("guardrails")))
+    for item in review_items:
+        text = _first_text(item, ("genre", "reader_promise", "rule", "summary", "content"))
+        lowered = text.lower()
+        if any(marker in lowered for marker in ("genre", "reader promise", "webnovel", "romance", "mystery", "xianxia", "fantasy")):
+            return True
+    return False
+
+
+def _has_latest_chapter_micro_payoff_signal(package: dict[str, Any]) -> bool:
+    return any(
+        _has_any_package_value(package, keys)
+        for keys in (
+            ("timeline_delta", "new_facts", "fact_deltas", "facts"),
+            ("character_state_changes", "character_changes", "character_state_delta"),
+            ("foreshadow_changes", "hooks_paid_off", "new_hooks", "promise_payoff_changes"),
+            ("plan_progress",),
+            ("emotional_arc",),
+        )
+    )
+
+
+def _has_latest_chapter_cliffhanger_signal(package: dict[str, Any], *, bible: dict[str, Any]) -> bool:
+    if _has_any_package_value(
+        package,
+        ("new_hooks", "foreshadow_changes", "promise_payoff_changes", "next_chapter_focus", "next_focus"),
+    ):
+        return True
+    chapter_number = _int_or_none(package.get("chapter_number"))
+    if chapter_number is None:
+        return False
+    for item in _status_items(_as_dict_list(bible.get("foreshadows")), done=False, max_items=99):
+        setup_chapter = _chapter_value(item, ("setup_chapter", "planted_chapter", "introduced_chapter", "chapter_number"))
+        if setup_chapter == chapter_number:
+            return True
+    return False
+
+
+def _entity_mentions_by_chapter(packages: list[dict[str, Any]]) -> dict[str, list[int]]:
+    mentions: dict[str, list[int]] = {}
+    for package in packages:
+        package_chapter = _int_or_none(package.get("chapter_number"))
+        for item in _as_dict_list(package.get("character_state_changes")):
+            name = _first_named_value(item, ("character_name", "name", "entity", "character"))
+            key = _entity_key(name)
+            if key:
+                mentions.setdefault(key, []).append(
+                    _chapter_value(item, ("chapter_number", "last_chapter_number")) or package_chapter or 0
+                )
+    return mentions
+
+
+def _card_entity_name(card: dict[str, Any]) -> str:
+    return _first_named_value(card, ("name", "character_name", "entity", "label", "title"))
+
+
+def _first_named_value(item: dict[str, Any], keys: tuple[str, ...]) -> str:
+    for key in keys:
+        value = _string_value(item.get(key))
+        if value:
+            return value
+    return ""
+
+
+def _entity_key(value: str) -> str:
+    return re.sub(r"\s+", " ", _string_value(value)).strip().lower()
+
+
+def _display_entity_key(key: str) -> str:
+    return " ".join(part.capitalize() for part in _string_value(key).split())
+
+
+def _is_inactive_entity_status(value: Any) -> bool:
+    normalized = _string_value(value).strip().lower()
+    return normalized in {"inactive", "retired", "dead", "removed", "closed", "complete", "completed"}
+
+
+def _plan_mentions_label(*, plan: Optional[dict[str, Any]], label: str) -> bool:
+    if not plan:
+        return False
+    needle = _entity_key(label)
+    if not needle:
+        return False
+    haystacks = [
+        _string_value(plan.get("summary")),
+        *[_first_text(item, ("beat", "summary", "content", "name")) for item in _as_dict_list(plan.get("beats"))],
+        *[_first_text(item, ("hook", "summary", "content", "name")) for item in _as_dict_list(plan.get("priority_hooks"))],
+        *[_first_text(item, ("rule", "summary", "content", "name")) for item in _as_dict_list(plan.get("guardrails"))],
+    ]
+    return any(needle in _entity_key(text) for text in haystacks)
 
 
 def _latest_chapter_number(packages: list[dict[str, Any]]) -> Optional[int]:

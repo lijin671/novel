@@ -12,6 +12,7 @@ from app.services.book_remix_context_service import (
     build_remix_continuation_control_audit,
     build_remix_continuation_context_block,
     build_remix_continuation_progress_summary,
+    build_remix_continuity_control_audit,
     build_remix_context_preview_audit,
     build_remix_inspired_context_block,
     build_remix_inspired_independence_audit,
@@ -518,8 +519,97 @@ def test_build_remix_context_preview_audit_reports_sections_tokens_and_patterns(
     assert any("Old rival returns" in question for question in audit["continuity_questions"])
     assert audit["promise_payoff_debts"][0]["label"] == "Old rival returns"
     assert any(item["kind"] == "character" for item in audit["scene_state_snapshot"])
+    assert "checkpoint_resume_state" in audit["production_control_axes"]
+    assert "review_continuity" in audit["production_acceptance_steps"]
+    assert audit["production_warnings"] == []
+    assert audit["genre_tracker_warnings"] == []
+    assert audit["entity_arc_timeline_risks"] == []
     assert audit["canon_drift_risks"] == []
     assert audit["context_warnings"] == []
+
+
+def test_build_remix_context_preview_audit_surfaces_production_gate_warnings():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "progress_report_continuity_writeback_gate"},
+            {"name": "genre_inspiration_budget_library_gate"},
+            {"name": "volume_antipattern_dependency_graph_gate"},
+            {"name": "webnovel_genre_tracker_gate"},
+            {"name": "entity_mention_arc_timeline_gate"},
+        ],
+    }
+    bible = {
+        "genre_promise": "serialized mystery pressure",
+        "character_cards": [
+            {"name": "Inspector Lin", "last_seen_chapter": 1},
+            {"name": "Archivist Ren", "last_seen_chapter": 2},
+        ],
+        "timeline": [{"event": "Old case opened", "source": "chapter_analysis", "chapter_number": 1}],
+        "style_signature": {"voice": "spare"},
+        "foreshadows": [{"hook": "Missing seal", "status": "open", "setup_chapter": 1}],
+        "story_arcs": [{"name": "Ledger conspiracy", "status": "open"}],
+        "chapter_change_packages": [
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 1,
+                "summary": "Inspector Lin found the first clue.",
+                "timeline_delta": [{"event": "First clue found"}],
+                "character_state_changes": [
+                    {"character_name": "Inspector Lin", "state_after": "alert"}
+                ],
+            },
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 8,
+                "summary": "The city archive stayed quiet.",
+            },
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nRecent chapter change packages",
+        bible=bible,
+        plan={"summary": "Continue pressure without resolving the seal off-screen.", "guardrails": []},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "chapter_progress_report_completeness" in audit["production_control_axes"]
+    assert "webnovel_genre_tracker_state" in audit["production_control_axes"]
+    assert "entity_mention_timeline" in audit["production_control_axes"]
+    assert "production_control_review_required" in audit["context_warnings"]
+    assert "chapter_progress_report_missing_fields" in audit["production_warnings"]
+    assert "webnovel_genre_tracker_warnings" in audit["production_warnings"]
+    assert "entity_arc_timeline_risks" in audit["production_warnings"]
+    assert audit["chapter_progress_report_gap_count"] == 2
+    assert any("webnovel_chapter_sequence_gaps" in item for item in audit["genre_tracker_warnings"])
+    assert "webnovel_open_hooks_without_rotation_plan" in audit["genre_tracker_warnings"]
+    assert any("stale_character_absence_gap: Inspector Lin" in item for item in audit["entity_arc_timeline_risks"])
+    assert any("active_arc_without_chapter_link: Ledger conspiracy" in item for item in audit["canon_drift_risks"])
+
+
+def test_build_remix_continuity_control_audit_projects_entity_timeline_risks():
+    audit = build_remix_continuity_control_audit(
+        bible={
+            "character_cards": [{"name": "Mira", "last_seen_chapter": 1}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 9,
+                    "summary": "A courier arrived without a card.",
+                    "character_state_changes": [
+                        {"character_name": "Courier Vale", "state_after": "watching"}
+                    ],
+                }
+            ],
+        },
+        plan={"summary": "Continue the courier route."},
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "entity_mention_arc_timeline_gate"}],
+        },
+    )
+
+    assert any("stale_character_absence_gap: Mira" in risk for risk in audit["canon_drift_risks"])
+    assert any("mentioned_entity_without_card: Courier Vale" in risk for risk in audit["canon_drift_risks"])
 
 
 def test_build_remix_continuation_context_block_renders_continuity_control_section():

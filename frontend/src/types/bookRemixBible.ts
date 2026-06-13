@@ -77,6 +77,13 @@ export interface BookRemixContinuationContextPreview {
   activated_sections: Array<{ key: string; summary: string }>;
   active_source_patterns: string[];
   context_warnings: string[];
+  production_control_axes: string[];
+  production_acceptance_steps: string[];
+  production_warnings: string[];
+  chapter_progress_report_gap_count: number;
+  chapter_progress_report_gaps: Array<Record<string, unknown>>;
+  genre_tracker_warnings: string[];
+  entity_arc_timeline_risks: string[];
   continuity_questions: string[];
   promise_payoff_debts: Array<Record<string, string>>;
   scene_state_snapshot: Array<Record<string, string>>;

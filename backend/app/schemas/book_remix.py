@@ -127,6 +127,13 @@ class BookRemixContinuationContextPreviewResponse(BaseModel):
     activated_sections: list[dict[str, str]] = Field(default_factory=list)
     active_source_patterns: list[str] = Field(default_factory=list)
     context_warnings: list[str] = Field(default_factory=list)
+    production_control_axes: list[str] = Field(default_factory=list)
+    production_acceptance_steps: list[str] = Field(default_factory=list)
+    production_warnings: list[str] = Field(default_factory=list)
+    chapter_progress_report_gap_count: int = 0
+    chapter_progress_report_gaps: list[dict[str, Any]] = Field(default_factory=list)
+    genre_tracker_warnings: list[str] = Field(default_factory=list)
+    entity_arc_timeline_risks: list[str] = Field(default_factory=list)
     continuity_questions: list[str] = Field(default_factory=list)
     promise_payoff_debts: list[dict[str, str]] = Field(default_factory=list)
     scene_state_snapshot: list[dict[str, str]] = Field(default_factory=list)
