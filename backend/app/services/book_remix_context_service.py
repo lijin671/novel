@@ -227,6 +227,10 @@ def build_remix_continuation_context_block(
         plan=plan,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_truth_file_write_next_state_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_scene_graph_review_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -689,6 +693,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_universal_same_type_creation_scaffold_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_truth_file_write_next_state_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1799,6 +1807,44 @@ def _append_universal_same_type_creation_scaffold_section(
         "- target_writeback: record transformed outline decisions, new hooks/payoffs, "
         "continuity updates, and copy-risk findings as target-owned artifacts"
     )
+
+
+def _append_truth_file_write_next_state_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render write-next/state-update gates from truth-file workflow sources."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "truth_file_write_next_state_update_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("truth_file_write_next_state_update_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Truth-file write-next state gate:")
+    lines.append(
+        "- truth_file_write_next_state_update_gate: build every continuation task from "
+        "truth files, chapter summaries, current state, unresolved promises, and snapshot_id"
+    )
+    lines.append(
+        "- write_next_package: record selected authority files, latest accepted chapter, "
+        "open hook/payoff debt, planned beat, and blocking assumptions before drafting"
+    )
+    lines.append(
+        "- candidate_revision_boundary: revise changes the candidate draft only; it must not "
+        "silently mutate long-term bible, timeline, character, hook, or plan state"
+    )
+    lines.append(
+        "- state_update_authority: accepted chapters alone can trigger state-update, and every "
+        "delta needs source chapter id, reviewer status, and rollback/snapshot_id evidence"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 220)}")
 
 
 def _build_universal_next_chapter_contract(
@@ -3570,6 +3616,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "custom_entity_label_inventory_hints": "custom_entity_label_inventory",
         "placeholder_alias_consistency_map_hints": "placeholder_alias_consistency_map",
         "proper_noun_leakage_review_hints": "proper_noun_leakage_review",
+        "truth_file_write_next_state_update_gate_hints": "truth_file_write_next_state_update_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

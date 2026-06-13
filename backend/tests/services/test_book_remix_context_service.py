@@ -155,6 +155,52 @@ def test_build_remix_inspired_context_block_renders_universal_same_type_scaffold
     assert "project-local continuity" in block
 
 
+def test_build_remix_context_blocks_render_truth_file_write_next_state_gate():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "truth_file_write_next_state_update_gate"},
+        ],
+        "truth_file_write_next_state_update_gate_hints": [
+            "Truth files, chapter summaries, current state, unresolved promises, and snapshot id should be read into a write-next work package before drafting.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Truth File Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "foreshadows": [{"hook": "Archive seal breaks", "status": "open"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 8,
+                    "summary": "Lin locked the archive after the seal trembled.",
+                }
+            ],
+        },
+        plan={"beats": [{"beat": "Open with the seal consequence", "status": "pending"}]},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Truth File Inspired Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep pressure without source facts.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source truth-file names.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Truth-file write-next state gate:" in block
+        assert "write_next_package" in block
+        assert "candidate_revision_boundary" in block
+        assert "state_update_authority" in block
+        assert "snapshot_id" in block
+        assert "truth_file_write_next_state_update_gate" in block
+
+
 def test_build_remix_continuation_control_audit_tracks_resume_and_memory_gates():
     audit = build_remix_continuation_control_audit(
         bible={

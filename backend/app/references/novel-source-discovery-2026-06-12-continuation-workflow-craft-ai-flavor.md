@@ -94,3 +94,23 @@ No clone, install, package manager, script, provider call, browser automation, M
 
 - `backend/tests/services/test_source_discovery_service.py::test_continuation_workflow_curation_and_ai_flavor_sources_are_static_absorbed`
 - `backend/tests/frontend/test_source_discovery_panel_copy.py::test_source_discovery_panel_surfaces_inspired_pattern_pack_fields`
+
+## 2026-06-13 projection update
+
+The `truth_file_write_next_state_update_gate` from `qiyan233/inkos-like-novel-os`
+is now projected into the real remix prompt-context path, not only the discovery
+panel:
+
+- continuation context renders a `Truth-file write-next state gate`
+  requiring selected authority files, latest accepted chapter, open
+  hook/payoff debt, planned beat, blocking assumptions, and `snapshot_id`
+  before drafting.
+- inspired/same-type context renders the same state boundary so target projects
+  rebuild their own truth/state package instead of carrying source truth-file
+  names or example state.
+- revise and state-update remain separate: candidate drafts do not mutate
+  long-term bible/timeline/character/hook/plan state until a chapter is accepted.
+
+Verification addendum:
+
+- `backend/tests/services/test_book_remix_context_service.py::test_build_remix_context_blocks_render_truth_file_write_next_state_gate`
