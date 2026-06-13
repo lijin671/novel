@@ -221,6 +221,12 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_universal_next_chapter_scaffold_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_scene_graph_review_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -679,6 +685,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_universal_novel_workflow_contract_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_universal_same_type_creation_scaffold_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1719,6 +1729,178 @@ def _append_universal_novel_workflow_contract_section(
         lines.append("- natural_prose_pass: replace generic emotion labels with concrete action, sensory detail, subtext, character diction, and varied rhythm")
     if "progress_report_continuity_writeback_gate" in pattern_names:
         lines.append("- progress_writeback: after an accepted chapter, record summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
+
+
+def _append_universal_next_chapter_scaffold_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Project universal chapter-contract gates into the concrete next step."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "chapter_contract_scene_beat_gate",
+        "reader_promise_micro_payoff_gate",
+        "progress_report_continuity_writeback_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    contract = _build_universal_next_chapter_contract(bible=bible, plan=plan)
+
+    lines.append("")
+    lines.append("Universal next chapter scaffold:")
+    lines.append("- mode: continue-chapter")
+    lines.append(f"- chapter_job: {contract['chapter_job']}")
+    lines.append(f"- reader_promise: {contract['reader_promise']}")
+    lines.append(f"- opening_hook: {contract['opening_hook']}")
+    lines.append("- scene_plan: 3-7 scene beats; each beat needs goal, obstacle, turn, cost, and changed exit state")
+    if contract["main_goal"]:
+        lines.append(f"- main_goal: {contract['main_goal']}")
+    if contract["main_obstacle"]:
+        lines.append(f"- main_obstacle: {contract['main_obstacle']}")
+    if contract["required_payoff"]:
+        lines.append(f"- required_payoff: {contract['required_payoff']}")
+    if contract["forbidden_contradiction"]:
+        lines.append(f"- forbidden_contradiction: {contract['forbidden_contradiction']}")
+    lines.append("- writeback_after_acceptance: summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
+
+
+def _append_universal_same_type_creation_scaffold_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render same-type drafting gates learned from the portable skill."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "universal_novel_mode_contract_gate",
+        "chapter_contract_scene_beat_gate",
+        "reader_promise_micro_payoff_gate",
+        "progress_report_continuity_writeback_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Universal same-type creation scaffold:")
+    lines.append(
+        "- same_type_creation_scaffold: rebuild reader promise, protagonist want/need, "
+        "opposition, chapter contract, hook/payoff ledger, and project-local continuity "
+        "before drafting independent prose"
+    )
+    lines.append(
+        "- source_boundary: transfer workflow shape and craft pressure only; do not reuse "
+        "source event order, proper nouns, set pieces, or distinctive phrasing"
+    )
+    lines.append(
+        "- target_writeback: record transformed outline decisions, new hooks/payoffs, "
+        "continuity updates, and copy-risk findings as target-owned artifacts"
+    )
+
+
+def _build_universal_next_chapter_contract(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> dict[str, str]:
+    """Build a compact concrete chapter contract from current canon state."""
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_package = packages[-1] if packages else None
+    latest_chapter = _chapter_reference(latest_package or {})
+    latest_summary = _string_value(latest_package.get("summary")) if latest_package else ""
+
+    pending_beat = _first_pending_plan_beat(plan=plan)
+    plan_summary = _string_value(plan.get("summary")) if plan else ""
+    promise_debt = _first_promise_payoff_debt_label(bible=bible, plan=plan)
+    guardrail = _first_plan_guardrail(plan=plan)
+    hard_constraint = _first_hard_constraint(bible=bible)
+    character_goal = _first_character_goal(bible=bible)
+    conflict = _first_conflict_text(bible=bible)
+
+    if pending_beat:
+        chapter_job = pending_beat
+    elif plan_summary:
+        chapter_job = plan_summary
+    elif latest_summary:
+        chapter_job = f"Continue from accepted state: {latest_summary}"
+    else:
+        chapter_job = "Continue accepted canon while preserving visible conflict and payoff debt"
+
+    if promise_debt:
+        reader_promise = f"serve visible promise/payoff debt: {promise_debt}"
+    else:
+        reader_promise = "name the reader promise before prose and make the first scene serve it"
+
+    if latest_chapter and latest_summary:
+        opening_hook = f"Continue from {latest_chapter}: {latest_summary}"
+    elif promise_debt:
+        opening_hook = f"Open on consequence or pressure from: {promise_debt}"
+    else:
+        opening_hook = "Open with consequence, conflict, or a concrete unanswered question"
+
+    return {
+        "chapter_job": _truncate(chapter_job, 220),
+        "reader_promise": _truncate(reader_promise, 220),
+        "opening_hook": _truncate(opening_hook, 220),
+        "main_goal": _truncate(character_goal or pending_beat, 220),
+        "main_obstacle": _truncate(conflict or guardrail or hard_constraint, 220),
+        "required_payoff": _truncate(promise_debt, 220),
+        "forbidden_contradiction": _truncate(guardrail or hard_constraint, 220),
+    }
+
+
+def _first_pending_plan_beat(*, plan: Optional[dict[str, Any]]) -> str:
+    beats = _pending_plan_beats(plan=plan, max_items=1)
+    return beats[0] if beats else ""
+
+
+def _first_promise_payoff_debt_label(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> str:
+    debts = _promise_payoff_debts(bible=bible, plan=plan, max_items=1)
+    return _string_value(debts[0].get("label")) if debts else ""
+
+
+def _first_plan_guardrail(*, plan: Optional[dict[str, Any]]) -> str:
+    if not plan:
+        return ""
+    for item in _as_dict_list(plan.get("guardrails")):
+        text = _first_text(item, ("rule", "constraint", "content", "name"))
+        if text:
+            return text
+    return ""
+
+
+def _first_hard_constraint(*, bible: dict[str, Any]) -> str:
+    for item in _as_dict_list(bible.get("hard_constraints")):
+        text = _first_text(item, ("rule", "constraint", "content", "name"))
+        if text:
+            return text
+    return ""
+
+
+def _first_character_goal(*, bible: dict[str, Any]) -> str:
+    for item in _as_dict_list(bible.get("character_cards")):
+        name = _string_value(item.get("name") or item.get("character_name"))
+        goal = _string_value(item.get("goal") or item.get("external_want") or item.get("want"))
+        if name and goal:
+            return f"{name}: {goal}"
+        if goal:
+            return goal
+    return ""
+
+
+def _first_conflict_text(*, bible: dict[str, Any]) -> str:
+    for item in _as_dict_list(bible.get("conflicts")):
+        text = _first_text(item, ("conflict", "pressure", "summary", "name", "status"))
+        if text:
+            return text
+    return ""
 
 
 def _append_context_activation_audit_section(

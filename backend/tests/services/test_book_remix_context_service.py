@@ -84,6 +84,77 @@ def test_build_remix_continuation_context_block_renders_universal_novel_workflow
     assert "progress_writeback" in block
 
 
+def test_build_remix_continuation_context_block_projects_universal_next_chapter_scaffold():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "chapter_contract_scene_beat_gate"},
+            {"name": "reader_promise_micro_payoff_gate"},
+            {"name": "progress_report_continuity_writeback_gate"},
+        ],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Universal Chapter Desk",
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "hard_constraints": [{"rule": "Do not unlock the archive off-screen"}],
+            "foreshadows": [{"hook": "Archive seal breaks", "status": "open", "setup_chapter": 8}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 8,
+                    "summary": "Lin locked the archive after the seal trembled.",
+                    "character_state_changes": [
+                        {"character_name": "Lin", "state_after": "alert but isolated"}
+                    ],
+                    "foreshadow_changes": [{"hook": "Archive seal breaks", "status": "open"}],
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue the archive-seal consequence before widening the cast.",
+            "beats": [{"beat": "Open with the seal consequence", "status": "pending"}],
+            "priority_hooks": [{"hook": "Archive seal breaks onstage", "status": "pending"}],
+            "guardrails": [{"rule": "No off-screen payoff"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "Universal next chapter scaffold:" in block
+    assert "mode: continue-chapter" in block
+    assert "chapter_job: Open with the seal consequence" in block
+    assert "opening_hook: Continue from Ch8" in block
+    assert "reader_promise: serve visible promise/payoff debt: Archive seal breaks onstage" in block
+    assert "scene_plan: 3-7 scene beats" in block
+    assert "forbidden_contradiction: No off-screen payoff" in block
+    assert "writeback_after_acceptance" in block
+
+
+def test_build_remix_inspired_context_block_renders_universal_same_type_scaffold():
+    block = build_remix_inspired_context_block(
+        project_title="Universal Inspired Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep compressed pressure and concrete sensory turns.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source factions, titles, or scene order.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "universal_novel_mode_contract_gate"},
+                {"name": "chapter_contract_scene_beat_gate"},
+                {"name": "reader_promise_micro_payoff_gate"},
+                {"name": "progress_report_continuity_writeback_gate"},
+            ],
+        },
+    )
+
+    assert "Universal novel workflow contract:" in block
+    assert "same_type_creation_scaffold" in block
+    assert "rebuild reader promise" in block
+    assert "project-local continuity" in block
+
+
 def test_build_remix_continuation_control_audit_tracks_resume_and_memory_gates():
     audit = build_remix_continuation_control_audit(
         bible={
