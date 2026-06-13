@@ -19364,3 +19364,92 @@ def test_static_ebook_mindmap_ai_reader_workspace_sources_are_absorbed():
     assert "schema_guided_graph_extraction_hints" in digest
     assert "section_metadata_traceability_gate_hints" in digest
     assert "relationship_graph_global_replace_gate_hints" in digest
+
+
+def test_static_dramatic_corpus_character_network_sources_are_absorbed():
+    assert "https://github.com/dracor-org/dracor-api" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dracor-org/dracor-schema" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/L-Earthling/litnet-balance" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("DraCor" in query and "TEI" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("temporal signed character networks" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "dracor-org/dracor-api",
+                "html_url": "https://github.com/dracor-org/dracor-api",
+                "description": (
+                    "DraCor API serves drama corpora with TEI text, characters, speakers, "
+                    "scenes, network metrics, and API endpoints for character network analysis. "
+                    "The README documents Docker Compose and eXist DB runtime setup."
+                ),
+                "stargazers_count": 219,
+                "forks_count": 58,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["drama-corpora", "tei", "character-network"],
+                "updated_at": "2026-06-13T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "compose.yml", "xquery"],
+            },
+            {
+                "full_name": "dracor-org/dracor-schema",
+                "html_url": "https://github.com/dracor-org/dracor-schema",
+                "description": (
+                    "DraCor Schema is a TEI customization with ODD, Relax NG Schema and "
+                    "Schematron rules for drama encoding guidelines, speaker roles, scenes, "
+                    "cast lists and character-network-ready dramatic corpora."
+                ),
+                "stargazers_count": 18,
+                "forks_count": 11,
+                "license": {"spdx_id": "CC-BY-4.0"},
+                "topics": ["tei", "schema", "dracor"],
+                "updated_at": "2026-06-13T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "build", "schema.rng"],
+            },
+            {
+                "full_name": "L-Earthling/litnet-balance",
+                "html_url": "https://github.com/L-Earthling/litnet-balance",
+                "description": (
+                    "Temporal Dynamics of Social Balance in Fictional Character Networks "
+                    "provides 873 temporal signed character networks across 8 genres and "
+                    "6 historical epochs, with chapter-level positive negative neutral "
+                    "relationship polarity, structural balance, centrality and bridge roles."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": [
+                    "character-networks",
+                    "temporal-networks",
+                    "signed-networks",
+                    "computational-literary-studies",
+                ],
+                "updated_at": "2026-06-13T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "data", "notebooks", "requirements.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T23:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "dracor_tei_scene_speaker_network_gate" in candidates["dracor-org/dracor-api"]["absorbed_patterns"]
+    assert "dracor_tei_scene_speaker_network_gate" in candidates["dracor-org/dracor-schema"]["absorbed_patterns"]
+    assert "temporal_signed_relationship_balance_gate" in candidates["L-Earthling/litnet-balance"]["absorbed_patterns"]
+    assert "character_interaction_network_gate" in candidates["L-Earthling/litnet-balance"]["absorbed_patterns"]
+    assert "docker" in candidates["dracor-org/dracor-api"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "tei_scene_speaker_network_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "temporal_signed_relationship_balance_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "dracor_scene_speaker_network_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "temporal_relationship_balance_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "tei_scene_speaker_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "relationship_balance_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("speaker" in hint.lower() for hint in pattern_pack["dracor_tei_scene_speaker_network_gate_hints"])
+    assert any("positive" in hint.lower() for hint in pattern_pack["temporal_signed_relationship_balance_gate_hints"])
+    assert any("relationship balance" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "dracor_tei_scene_speaker_network_gate_hints" in digest
+    assert "temporal_signed_relationship_balance_gate_hints" in digest

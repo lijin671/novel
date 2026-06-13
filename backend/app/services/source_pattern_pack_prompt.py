@@ -410,6 +410,8 @@ def render_source_pattern_pack_digest(
         "sentiment_arc_emotion_trajectory_gate_hints",
         "cross_context_coreference_gate_hints",
         "character_interaction_network_gate_hints",
+        "dracor_tei_scene_speaker_network_gate_hints",
+        "temporal_signed_relationship_balance_gate_hints",
         "semantic_chunk_boundary_map_hints",
         "chapter_summary_anchor_gate_hints",
         "topic_drift_map_hints",

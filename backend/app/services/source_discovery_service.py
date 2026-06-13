@@ -141,6 +141,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("sentiment arcs" OR "sentiment-based plot arcs" OR "emotion in text over time") ("fiction" OR "novel" OR "text") in:name,description,readme',
     '("cross-context coreference" OR "cross-document coreference" OR "XCoref") ("entity" OR "event" OR "literature") in:name,description,readme',
     '("character network" OR "fictional character network" OR "character interactions") ("novel" OR "literary" OR "fiction") in:name,description,readme',
+    '("DraCor" OR "TEI drama" OR "speaker network") ("character network" OR "dramatic corpus" OR "scene graph") in:name,description,readme',
+    '("temporal signed character networks" OR "social balance" OR "relationship polarity") ("fiction" OR "character network") in:name,description,readme',
     '("stylometry" OR "computational stylistics" OR "Burrows Delta") ("authorship attribution" OR "author style" OR "fiction") in:name,description,readme',
     '("text reuse" OR "Burrow\'s delta" OR "pydelta") ("source similarity" OR "author style" OR "manuscript") in:name,description,readme',
     '("function words" OR "syntactic features" OR "lexical richness") ("authorship attribution" OR "writing style" OR "stylometry") in:name,description,readme',
@@ -731,6 +733,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/jon-chun/sentimentarcs_notebooks",
     "https://github.com/SapienzaNLP/xcore",
     "https://github.com/anastasia-zhukova/XCoref",
+    "https://github.com/dracor-org/dracor-api",
+    "https://github.com/dracor-org/dracor-schema",
+    "https://github.com/dracor-org/dracor-frontend",
+    "https://github.com/L-Earthling/litnet-balance",
     "https://github.com/hzjken/character-network",
     "https://github.com/devbret/character-interactions",
     "https://github.com/computationalstylistics/stylo",
@@ -1591,6 +1597,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("sentiment_arc_emotion_trajectory_gate", ("syuzhet", "sentiment arcs", "sentimentarcs", "sentiment-based plot arcs", "sentiment based plot arcs", "emotion in text over time", "literary emotion dynamics", "emotion trajectory", "emotion timeline", "\u60c5\u7eea\u5f27", "\u60c5\u611f\u8d70\u5411")),
     ("cross_context_coreference_gate", ("cross-context coreference", "cross context coreference", "cross-document coreference", "cross document coreference", "xcore", "xcoref", "entity, event, and abstract concepts", "multiple contexts", "multiple documents", "mention cluster", "\u8de8\u6587\u6863\u5171\u6307", "\u5171\u6307\u6d88\u89e3")),
     ("character_interaction_network_gate", ("character network", "character-network", "character networks", "fictional characters", "social networks of fictional characters", "character interactions", "relationship network", "temporal signed character networks", "character social relationship", "\u4eba\u7269\u5173\u7cfb\u7f51", "\u89d2\u8272\u4e92\u52a8")),
+    ("dracor_tei_scene_speaker_network_gate", ("dracor", "tei drama", "tei customization", "dramatic corpora", "drama corpora", "speaker network", "speaker roles", "cast list", "cast lists", "scenes", "scene graph", "network metrics", "character network analysis")),
+    ("temporal_signed_relationship_balance_gate", ("temporal signed character networks", "social balance", "structural balance", "positive / negative / neutral", "positive negative neutral", "relationship polarity", "signed-networks", "temporal-networks", "chapter-level resolution", "centrality and bridge roles")),
     ("semantic_chunk_boundary_map", ("semantic text splitter", "semantic chunk", "semantic chunking", "text splitter", "text splitting", "recursive character text splitter", "recursive character splitter", "chunk capacity", "chunk boundary", "boundary preservation")),
     ("chapter_summary_anchor_gate", ("automatic text summarizer", "extractive summarizer", "extractive summarization", "summarization chains", "lsa", "lexrank", "textrank", "representative sentences", "chapter summary", "summary anchor")),
     ("topic_drift_map", ("topic modeling", "bertopic", "dynamic topic modeling", "dynamic topics", "topic representation", "c-tf-idf", "topic drift", "topic clusters")),
@@ -2703,6 +2711,24 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "dbamman/litbank": (
         "LitBank is an annotated dataset of 100 works of fiction covering literary entities, literary events, and coreference in English literature. "
         "Absorb entity/event/coreference annotation gates only; dataset files and models are not imported."
+    ),
+    "dracor-org/dracor-api": (
+        "DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. "
+        "Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Compose, and corpus loading surfaces. "
+        "Absorb TEI scene/speaker and character-network evidence gates only; Docker, eXist DB, services, API calls, corpora, and generated network data are not executed or imported."
+    ),
+    "dracor-org/dracor-schema": (
+        "DraCor Schema is a CC-BY-4.0 TEI customization with ODD, Relax NG schema, Schematron rules, and encoding guidelines for dramatic corpora. "
+        "Absorb scene, speaker, cast-list, and schema-validation vocabulary only; build scripts, submodules, generated schema assets, and corpus files are not executed or imported."
+    ),
+    "dracor-org/dracor-frontend": (
+        "DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. "
+        "Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies, and live API calls are not started."
+    ),
+    "l-earthling/litnet-balance": (
+        "LitNet Balance is a 2026 MSc thesis repository with code MIT and dataset CC-BY-4.0 markers for 873 temporal signed fictional character networks across genres and epochs. "
+        "Public README markers describe chapter-level positive/negative/neutral relationship polarity, structural balance, centrality, and bridge-role analysis. "
+        "Absorb temporal relationship-balance review gates only; datasets, notebooks, Python requirements, and derived networks are not downloaded or executed."
     ),
     "eecrazy/constructingneeg_ijcai_2018": (
         "ConstructingNEEG studies narrative event evolutionary graphs for script event prediction. "
@@ -4961,6 +4987,8 @@ class NovelSourceDiscoveryService:
             "sentiment_arc_emotion_trajectory_gate_hints": self._build_sentiment_arc_emotion_trajectory_gate_hints(available_patterns),
             "cross_context_coreference_gate_hints": self._build_cross_context_coreference_gate_hints(available_patterns),
             "character_interaction_network_gate_hints": self._build_character_interaction_network_gate_hints(available_patterns),
+            "dracor_tei_scene_speaker_network_gate_hints": self._build_dracor_tei_scene_speaker_network_gate_hints(available_patterns),
+            "temporal_signed_relationship_balance_gate_hints": self._build_temporal_signed_relationship_balance_gate_hints(available_patterns),
             "semantic_chunk_boundary_map_hints": self._build_semantic_chunk_boundary_map_hints(available_patterns),
             "chapter_summary_anchor_gate_hints": self._build_chapter_summary_anchor_gate_hints(available_patterns),
             "topic_drift_map_hints": self._build_topic_drift_map_hints(available_patterns),
@@ -5857,6 +5885,8 @@ class NovelSourceDiscoveryService:
             "sentiment_arc_emotion_trajectory_gate": 62,
             "cross_context_coreference_gate": 64,
             "character_interaction_network_gate": 63,
+            "dracor_tei_scene_speaker_network_gate": 65,
+            "temporal_signed_relationship_balance_gate": 66,
             "semantic_chunk_boundary_map": 62,
             "chapter_summary_anchor_gate": 61,
             "topic_drift_map": 60,
@@ -7308,6 +7338,12 @@ class NovelSourceDiscoveryService:
         if "character_interaction_network_gate" in patterns:
             targets.append("character_interaction_network")
             targets.append("relationship_polarity_timeline")
+        if "dracor_tei_scene_speaker_network_gate" in patterns:
+            targets.append("tei_scene_speaker_network_policy")
+            targets.append("dramatic_corpus_scene_cast_schema")
+        if "temporal_signed_relationship_balance_gate" in patterns:
+            targets.append("temporal_signed_relationship_balance_policy")
+            targets.append("relationship_polarity_balance_thresholds")
         if "semantic_chunk_boundary_map" in patterns:
             targets.append("semantic_chunk_boundary_manifest")
             targets.append("chunk_inclusion_rules")
@@ -8490,6 +8526,10 @@ class NovelSourceDiscoveryService:
             targets.extend(["cross_context_coreference_report", "mention_cluster_conflicts", "entity_event_identity_gaps"])
         if "character_interaction_network_gate" in patterns:
             targets.extend(["character_interaction_network_report", "relationship_polarity_drift", "centrality_role_shift_findings"])
+        if "dracor_tei_scene_speaker_network_gate" in patterns:
+            targets.extend(["dracor_scene_speaker_network_report", "tei_cast_scene_coverage", "speaker_scene_network_consistency"])
+        if "temporal_signed_relationship_balance_gate" in patterns:
+            targets.extend(["temporal_relationship_balance_report", "signed_relationship_polarity_drift", "bridge_character_balance_findings"])
         if "semantic_chunk_boundary_map" in patterns:
             targets.extend(["semantic_chunk_boundary_report", "chunk_overlap_manifest", "context_boundary_findings"])
         if "chapter_summary_anchor_gate" in patterns:
@@ -12998,6 +13038,24 @@ class NovelSourceDiscoveryService:
             "For same-type creation, alter graph topology and relationship timing so renamed characters do not preserve the source network.",
         ]
 
+    def _build_dracor_tei_scene_speaker_network_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "dracor_tei_scene_speaker_network_gate" not in patterns:
+            return []
+        return [
+            "For source deconstruction, model each dramatic scene with TEI-style speaker, cast, act/scene id, entrance/exit, and relationship-network evidence.",
+            "Before continuation, verify speaker presence, dialogue ownership, scene transition, and cast-list coverage against the chapter or scene state.",
+            "For same-type creation, preserve only abstract scene/speaker function; rebuild cast membership, scene graph, and speaker order for the new work.",
+        ]
+
+    def _build_temporal_signed_relationship_balance_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "temporal_signed_relationship_balance_gate" not in patterns:
+            return []
+        return [
+            "Track positive, negative, and neutral relationship edges by chapter window so alliance/conflict drift is visible before drafting.",
+            "Review structural-balance changes, centrality shifts, bridge-character load, and polarity reversals before accepting relationship canon.",
+            "For same-type creation, change relationship balance, polarity timing, and bridge roles so the transformed cast does not keep the source social graph.",
+        ]
+
     def _build_semantic_chunk_boundary_map_hints(self, patterns: set[str]) -> list[str]:
         if "semantic_chunk_boundary_map" not in patterns:
             return []
@@ -16252,6 +16310,10 @@ class NovelSourceDiscoveryService:
             targets.append("cross_context_coreference_remap")
         if "character_interaction_network_gate" in patterns:
             targets.append("character_network_relationship_remap")
+        if "dracor_tei_scene_speaker_network_gate" in patterns:
+            targets.append("tei_scene_speaker_remap")
+        if "temporal_signed_relationship_balance_gate" in patterns:
+            targets.append("relationship_balance_remap")
         if "semantic_chunk_boundary_map" in patterns:
             targets.append("chunk_boundary_remap")
         if "chapter_summary_anchor_gate" in patterns:
@@ -17364,6 +17426,10 @@ class NovelSourceDiscoveryService:
             hints.append("Rebuild mention clusters around the transformed cast so source entities and events cannot leak across context packs.")
         if "character_interaction_network_gate" in patterns:
             hints.append("Transform character networks by changing centrality, alliance, conflict polarity, and relationship timing before prose expansion.")
+        if "dracor_tei_scene_speaker_network_gate" in patterns:
+            hints.append("Prompt from scene/speaker functions only; rebuild cast lists, speaker order, and act/scene coverage before prose expansion.")
+        if "temporal_signed_relationship_balance_gate" in patterns:
+            hints.append("Prompt from relationship-balance pressure only; change positive/negative/neutral edge timing and bridge-character roles.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Use source chunk boundaries as analysis evidence only; rebuild transformed chapter chunks around the new event chain.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -18179,6 +18245,10 @@ class NovelSourceDiscoveryService:
             hints.append("Transform coreference ledgers so old source aliases and event mentions never resolve to new-story entities.")
         if "character_interaction_network_gate" in patterns:
             hints.append("Transform relationship graphs by changing interaction frequency, polarity, faction membership, and bridge characters.")
+        if "dracor_tei_scene_speaker_network_gate" in patterns:
+            hints.append("Transform TEI-style scene/speaker maps by changing cast membership, scene coverage, dialogue ownership, and dramatic entrances.")
+        if "temporal_signed_relationship_balance_gate" in patterns:
+            hints.append("Transform relationship-balance maps by changing polarity windows, alliance triangles, centrality, and bridge-character pressure.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Transform chunk boundaries by changing chapter segmentation, included evidence, and transition logic.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -19136,6 +19206,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject coreference ledgers that allow source aliases, events, or abstract concepts to resolve into transformed canon.")
         if "character_interaction_network_gate" in patterns:
             hints.append("Reject relationship networks that preserve source central characters, alliance/conflict polarity, or interaction timing under new names.")
+        if "dracor_tei_scene_speaker_network_gate" in patterns:
+            hints.append("Reject same-type drafts that preserve source cast-list order, speaker-scene coverage, or dramatic scene graph under renamed roles.")
+        if "temporal_signed_relationship_balance_gate" in patterns:
+            hints.append("Reject same-type drafts that preserve source relationship balance, positive/negative polarity timing, or bridge-character load under new names.")
         if "semantic_chunk_boundary_map" in patterns:
             hints.append("Reject transformed context packs that preserve source chunk order, boundary labels, or inclusion sequence under new names.")
         if "chapter_summary_anchor_gate" in patterns:
@@ -19508,6 +19582,8 @@ class NovelSourceDiscoveryService:
                 "sentiment_arc_emotion_trajectory_gate",
                 "cross_context_coreference_gate",
                 "character_interaction_network_gate",
+                "dracor_tei_scene_speaker_network_gate",
+                "temporal_signed_relationship_balance_gate",
                 "semantic_chunk_boundary_map",
                 "chapter_summary_anchor_gate",
                 "topic_drift_map",
@@ -20530,6 +20606,20 @@ class NovelSourceDiscoveryService:
             "fictional characters",
             "character interactions",
             "relationship network",
+            "dracor",
+            "tei drama",
+            "tei customization",
+            "dramatic corpora",
+            "drama corpora",
+            "speaker roles",
+            "cast lists",
+            "scene graph",
+            "temporal signed character networks",
+            "social balance",
+            "structural balance",
+            "relationship polarity",
+            "signed-networks",
+            "temporal-networks",
         )
         return any(term in haystack for term in terms)
 
