@@ -177,11 +177,17 @@ def build_remix_continuation_control_audit(
             "template_shell_cleanup",
         ])
         acceptance_steps.append("final_craft_cleanup_scan")
+    progress_report_gaps = _chapter_progress_report_gaps(chapter_packages)
+    if "progress_report_continuity_writeback_gate" in pattern_names:
+        control_axes.append("chapter_progress_report_completeness")
+        acceptance_steps.append("verify_progress_report_fields")
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
     if chapter_gaps:
         warnings.append("chapter_sequence_gaps")
+    if "progress_report_continuity_writeback_gate" in pattern_names and progress_report_gaps:
+        warnings.append("chapter_progress_report_missing_fields")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -209,6 +215,8 @@ def build_remix_continuation_control_audit(
         "pending_priority_hook_count": len(pending_priority_hooks),
         "plan_guardrail_count": len(plan_guardrails),
         "has_style_signature": isinstance(style_signature, dict) and bool(style_signature),
+        "chapter_progress_report_gap_count": len(progress_report_gaps),
+        "chapter_progress_report_gaps": progress_report_gaps,
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -262,6 +270,11 @@ def build_remix_continuation_context_block(
         lines=lines,
         bible=bible,
         plan=plan,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_universal_progress_report_completeness_gate_section(
+        lines=lines,
+        bible=bible,
         source_pattern_pack=source_pattern_pack,
     )
     _append_truth_file_write_next_state_gate_section(
@@ -1402,6 +1415,38 @@ def _chapter_analysis_packages(packages: Any) -> list[dict[str, Any]]:
     return _sort_by_chapter_desc(preferred_packages)
 
 
+def _chapter_progress_report_gaps(packages: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Return accepted chapter-report fields that are missing from package state."""
+    required_fields: tuple[tuple[str, tuple[str, ...]], ...] = (
+        ("summary", ("summary",)),
+        ("new_facts", ("new_facts", "fact_deltas", "timeline_delta", "facts")),
+        ("character_changes", ("character_changes", "character_state_changes")),
+        (
+            "hook_deltas",
+            ("hooks_paid_off", "new_hooks", "foreshadow_changes", "promise_payoff_changes"),
+        ),
+        ("continuity_updates", ("continuity_updates", "continuity_delta", "ledger_updates")),
+        ("next_chapter_focus", ("next_chapter_focus", "next_focus", "next_likely_focus")),
+        ("risks", ("risks", "risk_notes", "audit_risks")),
+    )
+
+    gaps: list[dict[str, Any]] = []
+    for package in packages:
+        missing_fields = [
+            label
+            for label, keys in required_fields
+            if not _has_any_package_value(package, keys)
+        ]
+        if missing_fields:
+            chapter = (
+                _chapter_reference(package)
+                or _string_value(package.get("chapter_id"))
+                or "unknown"
+            )
+            gaps.append({"chapter": chapter, "missing_fields": missing_fields})
+    return gaps[:8]
+
+
 def _chapter_identity_key(package: dict[str, Any]) -> tuple[str, int | str] | None:
     chapter_number = _int_or_none(package.get("chapter_number"))
     if chapter_number is not None:
@@ -1819,6 +1864,42 @@ def _append_universal_next_chapter_scaffold_section(
     if contract["forbidden_contradiction"]:
         lines.append(f"- forbidden_contradiction: {contract['forbidden_contradiction']}")
     lines.append("- writeback_after_acceptance: summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
+
+
+def _append_universal_progress_report_completeness_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render concrete chapter progress-report gaps before canon writeback."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "progress_report_continuity_writeback_gate" not in pattern_names:
+        return
+
+    chapter_packages = _sort_by_chapter_asc(
+        _chapter_analysis_packages(bible.get("chapter_change_packages"))
+    )
+    report_gaps = _chapter_progress_report_gaps(chapter_packages)
+
+    lines.append("")
+    lines.append("Universal progress report completeness gate:")
+    lines.append(
+        "- required_fields: summary, new_facts, character_changes, hook_deltas, "
+        "continuity_updates, next_chapter_focus, word_count, risks"
+    )
+    lines.append(
+        "- writeback_scope: accepted chapter reports must separate manuscript summary, "
+        "canon facts, character state, hook/payoff movement, continuity ledger updates, "
+        "next focus, measurable length, and unresolved risks"
+    )
+    if not report_gaps:
+        lines.append("- chapter_progress_report_missing_fields: none")
+        return
+
+    for gap in report_gaps[:5]:
+        missing = ", ".join(gap["missing_fields"])
+        lines.append(f"- chapter_progress_report_missing_fields: {gap['chapter']} -> {missing}")
 
 
 def _append_universal_same_type_creation_scaffold_section(
@@ -3963,6 +4044,18 @@ def _as_note_list(value: Any) -> list[str]:
         if text:
             notes.append(text)
     return notes
+
+
+def _has_any_package_value(package: dict[str, Any], keys: tuple[str, ...]) -> bool:
+    for key in keys:
+        value = package.get(key)
+        if isinstance(value, str) and value.strip():
+            return True
+        if isinstance(value, (list, dict)) and bool(value):
+            return True
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return True
+    return False
 
 
 def _dedupe_ordered(items: list[str]) -> list[str]:

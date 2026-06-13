@@ -130,6 +130,86 @@ def test_build_remix_continuation_context_block_projects_universal_next_chapter_
     assert "writeback_after_acceptance" in block
 
 
+def test_build_remix_continuation_control_audit_flags_universal_progress_report_gaps():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "timeline": [{"event": "The archive seal trembled", "chapter_number": 9}],
+            "style_signature": {"voice": "restrained"},
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 9,
+                    "summary": "Lin kept the broken archive seal from the crowd.",
+                    "timeline_delta": [{"event": "The seal failed in public"}],
+                }
+            ],
+        },
+        plan={
+            "beats": [{"beat": "Make the public failure cost Lin leverage", "status": "pending"}],
+            "guardrails": [{"rule": "Do not repair the seal off-screen"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "progress_report_continuity_writeback_gate"},
+            ],
+        },
+    )
+
+    assert "chapter_progress_report_completeness" in audit["control_axes"]
+    assert "verify_progress_report_fields" in audit["acceptance_steps"]
+    assert audit["chapter_progress_report_gap_count"] == 1
+    assert audit["chapter_progress_report_gaps"] == [
+        {
+            "chapter": "Ch9",
+            "missing_fields": [
+                "character_changes",
+                "hook_deltas",
+                "continuity_updates",
+                "next_chapter_focus",
+                "risks",
+            ],
+        }
+    ]
+    assert "chapter_progress_report_missing_fields" in audit["warnings"]
+
+
+def test_build_remix_continuation_context_block_renders_universal_progress_report_gap_gate():
+    block = build_remix_continuation_context_block(
+        project_title="Progress Report Desk",
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "timeline": [{"event": "The archive seal trembled", "chapter_number": 9}],
+            "style_signature": {"voice": "restrained"},
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 9,
+                    "summary": "Lin kept the broken archive seal from the crowd.",
+                    "timeline_delta": [{"event": "The seal failed in public"}],
+                }
+            ],
+        },
+        plan={
+            "beats": [{"beat": "Make the public failure cost Lin leverage", "status": "pending"}],
+            "guardrails": [{"rule": "Do not repair the seal off-screen"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "progress_report_continuity_writeback_gate"},
+            ],
+        },
+    )
+
+    assert "Universal progress report completeness gate:" in block
+    assert (
+        "required_fields: summary, new_facts, character_changes, hook_deltas, "
+        "continuity_updates, next_chapter_focus, word_count, risks"
+    ) in block
+    assert "chapter_progress_report_missing_fields: Ch9" in block
+    assert "character_changes, hook_deltas, continuity_updates, next_chapter_focus, risks" in block
+
+
 def test_build_remix_inspired_context_block_renders_universal_same_type_scaffold():
     block = build_remix_inspired_context_block(
         project_title="Universal Inspired Desk",

@@ -62,6 +62,8 @@ FC12A7DD8CDF7188E53AABA29B4C6C14B8A7CC100D11B9F7BE7DE000AA8FCA4B  references/sto
   - Makes mode selection, chapter contract, scene exit-state, reader micro-payoff, revision order, natural prose pass, and progress write-back visible before generation.
   - Adds a concrete `Universal next chapter scaffold` for continuation prompts by deriving the next chapter job, reader promise, opening hook, scene-plan rule, payoff debt, forbidden contradiction, and write-back requirement from the confirmed bible and continuation plan.
   - Adds a `Universal same-type creation scaffold` for inspired prompts so同类型仿写 rebuilds reader promise, protagonist want/need, opposition, chapter contract, hook/payoff ledger, and project-local continuity instead of carrying source canon into the new work.
+  - Adds `chapter_progress_report_completeness` to continuation control audit when `progress_report_continuity_writeback_gate` is active. It reports missing accepted-chapter write-back fields before canon reuse.
+  - Adds `Universal progress report completeness gate` to continuation context so drafts cannot silently skip summary, new facts, character changes, hook deltas, continuity updates, next focus, measurable length, or risk review.
 
 ## Verification targets
 
@@ -70,4 +72,5 @@ python -m pytest backend/tests/services/test_source_discovery_service.py::test_l
 python -m pytest backend/tests/frontend/test_source_discovery_panel_copy.py::test_source_discovery_panel_surfaces_universal_novel_writing_gates -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_novel_workflow_contract -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_projects_universal_next_chapter_scaffold backend/tests/services/test_book_remix_context_service.py::test_build_remix_inspired_context_block_renders_universal_same_type_scaffold -q
+python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_control_audit_flags_universal_progress_report_gaps backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_progress_report_gap_gate -q
 ```
