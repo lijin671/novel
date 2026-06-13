@@ -758,6 +758,7 @@ def render_source_pattern_pack_digest(
         "chapter_contract_scene_beat_gate_hints",
         "reader_promise_micro_payoff_gate_hints",
         "revision_order_natural_prose_gate_hints",
+        "reader_pull_fresh_reader_gate_hints",
         "progress_report_continuity_writeback_gate_hints",
         "causal_dramatica_agent_pipeline_hints",
         "capture_distillation_production_gate_hints",
@@ -840,7 +841,7 @@ def render_source_pattern_pack_digest(
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:
-            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:32]))
+            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:40]))
 
         inspired_prompt_hints = _as_note_list(source_pattern_pack.get("inspired_prompt_hints"))
         if inspired_prompt_hints:

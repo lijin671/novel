@@ -341,6 +341,7 @@ const PINNED_HINT_KEYS = new Set([
   'chapter_contract_scene_beat_gate_hints',
   'reader_promise_micro_payoff_gate_hints',
   'revision_order_natural_prose_gate_hints',
+  'reader_pull_fresh_reader_gate_hints',
   'progress_report_continuity_writeback_gate_hints',
   'writer_critic_verify_quality_cycle_gate_hints',
   'q15_story_quality_benchmark_gate_hints',
@@ -725,6 +726,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Chapter contract / scene beat gates', patternPackPayload?.chapter_contract_scene_beat_gate_hints],
               ['Reader promise / micro-payoff gates', patternPackPayload?.reader_promise_micro_payoff_gate_hints],
               ['Revision order / natural prose gates', patternPackPayload?.revision_order_natural_prose_gate_hints],
+              ['Fresh-reader pull gates', patternPackPayload?.reader_pull_fresh_reader_gate_hints],
               ['Progress report / continuity write-back gates', patternPackPayload?.progress_report_continuity_writeback_gate_hints],
             ])}
             {renderHintBlock('Whole-book analysis targets', patternPackPayload?.whole_book_analysis_targets)}

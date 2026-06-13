@@ -324,6 +324,7 @@ export interface SourceDiscoveryPatternPack {
   chapter_contract_scene_beat_gate_hints?: string[];
   reader_promise_micro_payoff_gate_hints?: string[];
   revision_order_natural_prose_gate_hints?: string[];
+  reader_pull_fresh_reader_gate_hints?: string[];
   progress_report_continuity_writeback_gate_hints?: string[];
   writer_critic_verify_quality_cycle_gate_hints?: string[];
   q15_story_quality_benchmark_gate_hints?: string[];

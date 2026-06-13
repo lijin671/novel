@@ -20201,7 +20201,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     "new hook, forbidden contradictions; scene beat sheet with 3-7 scenes and "
                     "exit state; Chinese webnovel micro-payoff reader reward; revision order "
                     "developmental character continuity scene line proof; anti-AI natural prose; "
-                    "chapter progress report writeback with new facts, hooks, character changes, risks."
+                    "reader pull fresh-reader test with POV, want, block, stakes, changed by end, "
+                    "and pull onward; chapter progress report writeback with new facts, hooks, "
+                    "character changes, risks."
                 ),
                 "root_files": [
                     "SKILL.md",
@@ -20230,6 +20232,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "chapter_contract_scene_beat_gate",
         "reader_promise_micro_payoff_gate",
         "revision_order_natural_prose_gate",
+        "reader_pull_fresh_reader_gate",
         "progress_report_continuity_writeback_gate",
     }.issubset(candidate["absorbed_patterns"])
 
@@ -20244,6 +20247,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("3-7" in hint for hint in pattern_pack["chapter_contract_scene_beat_gate_hints"])
     assert any("micro-payoff" in hint.lower() for hint in pattern_pack["reader_promise_micro_payoff_gate_hints"])
     assert any("revision order" in hint.lower() for hint in pattern_pack["revision_order_natural_prose_gate_hints"])
+    assert any("fresh reader" in hint.lower() for hint in pattern_pack["reader_pull_fresh_reader_gate_hints"])
     assert any("write-back" in hint.lower() for hint in pattern_pack["progress_report_continuity_writeback_gate_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
@@ -20252,4 +20256,5 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "chapter_contract_scene_beat_gate_hints" in digest
     assert "reader_promise_micro_payoff_gate_hints" in digest
     assert "revision_order_natural_prose_gate_hints" in digest
+    assert "reader_pull_fresh_reader_gate_hints" in digest
     assert "progress_report_continuity_writeback_gate_hints" in digest

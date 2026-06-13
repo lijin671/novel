@@ -850,12 +850,14 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "Chapter contract / scene beat gates" in panel_text
     assert "Reader promise / micro-payoff gates" in panel_text
     assert "Revision order / natural prose gates" in panel_text
+    assert "Fresh-reader pull gates" in panel_text
     assert "Progress report / continuity write-back gates" in panel_text
     assert "universal_novel_mode_contract_gate_hints" in panel_text
     assert "portable_story_project_structure_gate_hints" in panel_text
     assert "chapter_contract_scene_beat_gate_hints" in panel_text
     assert "reader_promise_micro_payoff_gate_hints" in panel_text
     assert "revision_order_natural_prose_gate_hints" in panel_text
+    assert "reader_pull_fresh_reader_gate_hints" in panel_text
     assert "progress_report_continuity_writeback_gate_hints" in panel_text
 
     assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
@@ -863,4 +865,5 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "chapter_contract_scene_beat_gate_hints?: string[]" in types_text
     assert "reader_promise_micro_payoff_gate_hints?: string[]" in types_text
     assert "revision_order_natural_prose_gate_hints?: string[]" in types_text
+    assert "reader_pull_fresh_reader_gate_hints?: string[]" in types_text
     assert "progress_report_continuity_writeback_gate_hints?: string[]" in types_text

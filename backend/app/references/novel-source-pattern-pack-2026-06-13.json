@@ -123,7 +123,8 @@
     "multi_phase_sensory_continuation_policy",
     "sensory_cooldown_foreshadow_policy",
     "person_place_timeline_policy",
-    "markdown_export_boundary_policy"
+    "markdown_export_boundary_policy",
+    "reader_pull_fresh_reader_policy"
   ],
   "big_five_character_psychology_gate_hints": [],
   "book_build_export_delivery_gate_hints": [],
@@ -473,7 +474,8 @@
     "section_context_scope_remap",
     "sensory_cooldown_ledger_remap",
     "phase_breakdown_drafting_remap",
-    "person_place_timeline_remap"
+    "person_place_timeline_remap",
+    "reader_pull_fresh_reader_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -788,6 +790,11 @@
     "Name the reader promise before planning: mystery, romance, progression, justice, fear, wonder, comedy, or another concrete pleasure.",
     "For Chinese webnovel continuation, include a chapter-level micro-payoff such as reveal, win, reversal, clue, upgrade, public proof, or relationship movement.",
     "Payoff must change the board: track cost, debt, injury, reputation, faction reaction, power/resource change, or a larger new pressure."
+  ],
+  "reader_pull_fresh_reader_gate_hints": [
+    "Run a fresh reader pull test after each accepted chapter: POV, current want, obstacle, stakes, changed exit state, and pull onward must be answerable from the page.",
+    "Reader pull is a story-state gate, not praise: convert confusion, weak stakes, or no changed state into concrete revision tasks before acceptance.",
+    "For same-type creation, source resemblance must not count as pull; the target chapter needs its own pressure, reward, and next question."
   ],
   "reader_rating_signal_model_hints": [],
   "reader_retention_review_gate_hints": [
@@ -1163,7 +1170,8 @@
     "sensory_foreshadow_cooldown_report",
     "phase_breakdown_drafting_trace",
     "person_place_timeline_output_report",
-    "notes_export_scope_report"
+    "notes_export_scope_report",
+    "reader_pull_fresh_reader_report"
   ],
   "wiki_canon_graph_lint_gate_hints": [],
   "wikiplots_plot_corpus_boundary_gate_hints": [],
@@ -2444,6 +2452,33 @@
     {
       "candidate_count": 1,
       "name": "universal_novel_mode_contract_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 592,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "reader_pull_fresh_reader_gate",
       "posture_hint": "metadata-triage",
       "risk_flags": [],
       "sources": [

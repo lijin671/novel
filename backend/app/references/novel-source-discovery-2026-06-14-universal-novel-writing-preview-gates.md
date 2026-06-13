@@ -35,6 +35,8 @@ its creative contract before prose:
 - accepted chapter write-back includes measurable length, not just summary
 - revision order must fix structure, character, continuity, and scene purpose
   before line polish
+- reader-pull review asks whether a fresh reader can answer POV, current want,
+  obstacle, stakes, changed exit state, and next pull from the page
 
 ## MuMuAINovel projection
 
@@ -49,6 +51,9 @@ preview:
   `reader_promise_micro_payoff_contract`
 - `revision_order_natural_prose_gate` adds
   `revision_order_natural_prose_review`
+- `reader_pull_fresh_reader_gate` adds
+  `reader_pull_fresh_reader_test`, `verify_reader_pull_answers`, and
+  preview-level `reader_pull_warnings`
 - preview responses expose `chapter_contract_warnings`
 - progress-report completeness now checks `word_count` / `char_count` /
   `character_count` / `length`

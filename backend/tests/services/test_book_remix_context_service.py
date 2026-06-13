@@ -808,6 +808,74 @@ def test_build_remix_context_preview_audit_projects_universal_chapter_contract_g
     assert "latest_chapter_missing_micro_payoff_signal" in audit["chapter_contract_warnings"]
 
 
+def test_build_remix_context_preview_audit_projects_universal_reader_pull_gate():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "reader_pull_fresh_reader_gate"},
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nUniversal fresh-reader pull gate",
+        bible={
+            "style_signature": {"voice": "restrained"},
+            "character_cards": [{"name": "Inspector Lin"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 5,
+                    "summary": "Lin left the hearing with a vague warning.",
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue the hearing aftermath.",
+            "beats": [{"beat": "Lin returns to the archive", "status": "pending"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "reader_pull_fresh_reader_test" in audit["production_control_axes"]
+    assert "verify_reader_pull_answers" in audit["production_acceptance_steps"]
+    assert "reader_pull_warnings" in audit["production_warnings"]
+    assert "missing_pov_anchor" in audit["reader_pull_warnings"]
+    assert "missing_current_want" in audit["reader_pull_warnings"]
+    assert "missing_main_obstacle" in audit["reader_pull_warnings"]
+    assert "missing_stakes_or_why_it_matters" in audit["reader_pull_warnings"]
+    assert "missing_changed_exit_state" in audit["reader_pull_warnings"]
+    assert "missing_next_reader_pull" in audit["reader_pull_warnings"]
+
+
+def test_build_remix_continuation_context_block_renders_universal_reader_pull_gate():
+    block = build_remix_continuation_context_block(
+        project_title="Fresh Reader Desk",
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 5,
+                    "summary": "Lin left the hearing with a vague warning.",
+                }
+            ],
+        },
+        plan={"summary": "Continue the hearing aftermath."},
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "reader_pull_fresh_reader_gate"}],
+            "reader_pull_fresh_reader_gate_hints": [
+                "A fresh reader must answer POV, want, block, stakes, change, and pull."
+            ],
+        },
+    )
+
+    assert "Universal reader-pull fresh-reader gate" in block
+    assert "reader_pull_questions" in block
+    assert "POV, want, obstacle, stakes" in block
+    assert "A fresh reader must answer POV" in block
+    assert "reader_pull_warnings" in block
+    assert "missing_pov_anchor" in block
+    assert "missing_next_reader_pull" in block
+
+
 def test_build_remix_continuation_context_block_renders_mode_contract_generation_gate():
     block = build_remix_continuation_context_block(
         project_title="Mode Contract Desk",

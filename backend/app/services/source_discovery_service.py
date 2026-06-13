@@ -1691,6 +1691,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("chapter_contract_scene_beat_gate", ("chapter contract", "reader promise", "opening hook", "main obstacle", "forbidden contradictions", "scene beat sheet", "3-7 scenes", "exit state")),
     ("reader_promise_micro_payoff_gate", ("reader promise", "micro-payoff", "micro payoff", "reader reward", "chinese webnovel", "chapter-level micro-payoffs", "chapter-level payoff")),
     ("revision_order_natural_prose_gate", ("revision order", "developmental", "character continuity scene line proof", "anti-ai natural prose", "natural prose", "generic emotional labels", "line edit")),
+    ("reader_pull_fresh_reader_gate", ("reader pull", "fresh-reader", "fresh reader", "who is the pov", "what do they want", "what blocks them", "why does it matter", "what changed by the end", "pulls me onward")),
     ("progress_report_continuity_writeback_gate", ("chapter progress report", "writeback", "write-back", "new facts", "character changes", "hooks paid off", "continuity updates", "next chapter likely focus")),
     ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
@@ -4984,6 +4985,7 @@ class NovelSourceDiscoveryService:
             "chapter_contract_scene_beat_gate_hints": self._build_chapter_contract_scene_beat_gate_hints(available_patterns),
             "reader_promise_micro_payoff_gate_hints": self._build_reader_promise_micro_payoff_gate_hints(available_patterns),
             "revision_order_natural_prose_gate_hints": self._build_revision_order_natural_prose_gate_hints(available_patterns),
+            "reader_pull_fresh_reader_gate_hints": self._build_reader_pull_fresh_reader_gate_hints(available_patterns),
             "progress_report_continuity_writeback_gate_hints": self._build_progress_report_continuity_writeback_gate_hints(available_patterns),
             "author_ai_project_contract_review_gate_hints": self._build_author_ai_project_contract_review_gate_hints(available_patterns),
             "manuscript_pr_editorial_workflow_gate_hints": self._build_manuscript_pr_editorial_workflow_gate_hints(available_patterns),
@@ -6499,6 +6501,8 @@ class NovelSourceDiscoveryService:
             targets.append("reader_promise_micro_payoff_policy")
         if "revision_order_natural_prose_gate" in patterns:
             targets.append("revision_order_natural_prose_policy")
+        if "reader_pull_fresh_reader_gate" in patterns:
+            targets.append("reader_pull_fresh_reader_policy")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_report_continuity_writeback_policy")
         if "card_workbench" in patterns:
@@ -8211,6 +8215,8 @@ class NovelSourceDiscoveryService:
             targets.append("reader_promise_micro_payoff_report")
         if "revision_order_natural_prose_gate" in patterns:
             targets.append("revision_order_natural_prose_report")
+        if "reader_pull_fresh_reader_gate" in patterns:
+            targets.append("reader_pull_fresh_reader_report")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_report_writeback_report")
         if "card_workbench" in patterns:
@@ -11822,6 +11828,15 @@ class NovelSourceDiscoveryService:
             "Use revision order as a gate: developmental, character, continuity, scene, line, then proof/format.",
             "Do not polish sentences before chapter job, character motive, continuity, and scene turn are valid.",
             "Natural prose cleanup should replace generic emotional labels with concrete action, sensory detail, character-specific diction, subtext, and uneven human rhythm.",
+        ]
+
+    def _build_reader_pull_fresh_reader_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "reader_pull_fresh_reader_gate" not in patterns:
+            return []
+        return [
+            "Run a fresh reader pull test after each accepted chapter: POV, current want, obstacle, stakes, changed exit state, and pull onward must be answerable from the page.",
+            "Reader pull is a story-state gate, not praise: convert confusion, weak stakes, or no changed state into concrete revision tasks before acceptance.",
+            "For same-type creation, source resemblance must not count as pull; the target chapter needs its own pressure, reward, and next question.",
         ]
 
     def _build_progress_report_continuity_writeback_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -16287,6 +16302,8 @@ class NovelSourceDiscoveryService:
             targets.append("reader_promise_micro_payoff_remap")
         if "revision_order_natural_prose_gate" in patterns:
             targets.append("revision_natural_prose_remap")
+        if "reader_pull_fresh_reader_gate" in patterns:
+            targets.append("reader_pull_fresh_reader_remap")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_writeback_continuity_remap")
         if patterns.intersection({
@@ -20617,6 +20634,7 @@ class NovelSourceDiscoveryService:
                 "chapter_contract_scene_beat_gate",
                 "reader_promise_micro_payoff_gate",
                 "revision_order_natural_prose_gate",
+                "reader_pull_fresh_reader_gate",
                 "progress_report_continuity_writeback_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",

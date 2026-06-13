@@ -207,6 +207,9 @@ def build_remix_continuation_control_audit(
     if "revision_order_natural_prose_gate" in pattern_names:
         control_axes.append("revision_order_natural_prose_review")
         acceptance_steps.append("verify_revision_order_before_line_polish")
+    if "reader_pull_fresh_reader_gate" in pattern_names:
+        control_axes.append("reader_pull_fresh_reader_test")
+        acceptance_steps.append("verify_reader_pull_answers")
     if "capture_distillation_production_gate" in pattern_names:
         control_axes.extend([
             "capture_distillation_production_stage_boundary",
@@ -283,6 +286,11 @@ def build_remix_continuation_control_audit(
         if "capture_distillation_production_gate" in pattern_names
         else _empty_story_foundry_production_handoff_audit()
     )
+    reader_pull_audit = (
+        _reader_pull_fresh_reader_audit(bible=bible, max_items=12)
+        if "reader_pull_fresh_reader_gate" in pattern_names
+        else _empty_reader_pull_fresh_reader_audit()
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -302,6 +310,8 @@ def build_remix_continuation_control_audit(
         warnings.append("chapter_contract_warnings")
     if production_handoff_audit["warnings"]:
         warnings.append("production_handoff_warnings")
+    if reader_pull_audit["warnings"]:
+        warnings.append("reader_pull_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -340,6 +350,7 @@ def build_remix_continuation_control_audit(
         "mode_contract_warnings": mode_contract_audit["warnings"],
         "chapter_contract_warnings": chapter_contract_audit["warnings"],
         "production_handoff_warnings": production_handoff_audit["warnings"],
+        "reader_pull_warnings": reader_pull_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -402,6 +413,11 @@ def build_remix_continuation_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_universal_progress_report_completeness_gate_section(
+        lines=lines,
+        bible=bible,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_universal_reader_pull_fresh_reader_gate_section(
         lines=lines,
         bible=bible,
         source_pattern_pack=source_pattern_pack,
@@ -824,6 +840,7 @@ def build_remix_context_preview_audit(
         "mode_contract_warnings": production_control_audit["mode_contract_warnings"],
         "chapter_contract_warnings": production_control_audit["chapter_contract_warnings"],
         "production_handoff_warnings": production_control_audit["production_handoff_warnings"],
+        "reader_pull_warnings": production_control_audit["reader_pull_warnings"],
         **continuity_audit,
     }
 
@@ -2079,6 +2096,73 @@ def _empty_universal_chapter_contract_audit() -> dict[str, Any]:
     return {"warnings": []}
 
 
+def _reader_pull_fresh_reader_audit(
+    *,
+    bible: dict[str, Any],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit whether the latest accepted chapter answers a fresh reader's pull test."""
+    warnings: list[str] = []
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_package = packages[-1] if packages else None
+
+    if latest_package is None:
+        return {"warnings": ["missing_latest_chapter_for_reader_pull_review"][:max_items]}
+
+    style_signature = bible.get("style_signature") if isinstance(bible.get("style_signature"), dict) else {}
+
+    if not (
+        _has_any_package_value(latest_package, ("pov", "point_of_view", "viewpoint", "narrator"))
+        or _has_any_package_value(style_signature, ("pov", "point_of_view", "viewpoint", "narrator"))
+    ):
+        warnings.append("missing_pov_anchor")
+
+    if not (
+        _has_any_package_value(
+            latest_package,
+            ("current_want", "want", "desire", "goal", "main_goal", "character_goal", "objective"),
+        )
+        or _chapter_package_character_state_has(latest_package, ("current_goal", "goal", "want", "desire"))
+        or any(_has_any_package_value(card, ("goal", "external_want", "want", "current_goal")) for card in _as_dict_list(bible.get("character_cards")))
+    ):
+        warnings.append("missing_current_want")
+
+    if not (
+        _has_any_package_value(
+            latest_package,
+            ("obstacle", "main_obstacle", "conflict", "block", "blocked_by", "friction", "opposition"),
+        )
+        or _chapter_package_character_state_has(latest_package, ("obstacle", "block", "conflict", "opposition"))
+        or any(_has_any_package_value(item, ("conflict", "pressure", "obstacle", "opposition")) for item in _as_dict_list(bible.get("conflicts")))
+    ):
+        warnings.append("missing_main_obstacle")
+
+    if not _has_any_package_value(
+        latest_package,
+        ("stakes", "why_it_matters", "consequence", "cost", "risk", "risks", "danger", "pressure"),
+    ):
+        warnings.append("missing_stakes_or_why_it_matters")
+
+    if not _has_latest_chapter_micro_payoff_signal(latest_package):
+        warnings.append("missing_changed_exit_state")
+
+    if not _has_latest_chapter_cliffhanger_signal(latest_package, bible=bible):
+        warnings.append("missing_next_reader_pull")
+
+    return {"warnings": warnings[:max_items]}
+
+
+def _empty_reader_pull_fresh_reader_audit() -> dict[str, Any]:
+    return {"warnings": []}
+
+
+def _chapter_package_character_state_has(package: dict[str, Any], keys: tuple[str, ...]) -> bool:
+    return any(
+        _has_any_package_value(item, keys)
+        for item in _as_dict_list(package.get("character_state_changes"))
+    )
+
+
 def _has_structured_scene_beat_sheet(plan: Optional[dict[str, Any]]) -> bool:
     if not plan:
         return False
@@ -2597,6 +2681,7 @@ def _append_universal_novel_workflow_contract_section(
         "chapter_contract_scene_beat_gate",
         "reader_promise_micro_payoff_gate",
         "revision_order_natural_prose_gate",
+        "reader_pull_fresh_reader_gate",
         "progress_report_continuity_writeback_gate",
     }
     if not pattern_names.intersection(relevant_patterns):
@@ -2616,6 +2701,8 @@ def _append_universal_novel_workflow_contract_section(
     if "revision_order_natural_prose_gate" in pattern_names:
         lines.append("- revision_order: fix developmental, character, continuity, and scene problems before line polish or proof/format cleanup")
         lines.append("- natural_prose_pass: replace generic emotion labels with concrete action, sensory detail, subtext, character diction, and varied rhythm")
+    if "reader_pull_fresh_reader_gate" in pattern_names:
+        lines.append("- reader_pull_test: a fresh reader must identify POV, want, obstacle, stakes, changed exit state, and the next pull")
     if "progress_report_continuity_writeback_gate" in pattern_names:
         lines.append("- progress_writeback: after an accepted chapter, record summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
 
@@ -2741,6 +2828,44 @@ def _append_universal_progress_report_completeness_gate_section(
     for gap in report_gaps[:5]:
         missing = ", ".join(gap["missing_fields"])
         lines.append(f"- chapter_progress_report_missing_fields: {gap['chapter']} -> {missing}")
+
+
+def _append_universal_reader_pull_fresh_reader_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render fresh-reader pull-test requirements from the universal writing skill."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "reader_pull_fresh_reader_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("reader_pull_fresh_reader_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _reader_pull_fresh_reader_audit(bible=bible, max_items=12)
+
+    lines.append("")
+    lines.append("Universal reader-pull fresh-reader gate:")
+    lines.append(
+        "- reader_pull_questions: after each accepted chapter, a fresh reader must answer "
+        "POV, want, obstacle, stakes, what changed, and what pulls onward"
+    )
+    lines.append(
+        "- acceptance_boundary: fluent prose is not enough if the chapter does not change "
+        "plot, knowledge, relationship, risk, moral pressure, emotion, or world-rule state"
+    )
+    lines.append(
+        "- same_type_boundary: source resemblance must never count as reader pull; the "
+        "target chapter needs its own pressure, reward, and next question"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 240)}")
+    if audit["warnings"]:
+        lines.append(f"- reader_pull_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_story_foundry_production_handoff_gate_section(
