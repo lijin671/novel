@@ -244,6 +244,18 @@ def build_remix_continuation_control_audit(
     if "scrivener_mcp_direct_project_edit_boundary_gate" in pattern_names:
         control_axes.append("direct_project_edit_boundary_report")
         acceptance_steps.append("verify_direct_project_patch_scope")
+    if "vector_story_frame_coordinate_gate" in pattern_names:
+        control_axes.append("story_frame_coordinate_contract")
+        acceptance_steps.append("verify_frame_coordinate_contract")
+    if "setting_runtime_document_architecture_gate" in pattern_names:
+        control_axes.append("setting_document_session_packet")
+        acceptance_steps.append("verify_setting_document_session_packet")
+    if "inkfoundry_state_db_redteam_voice_sandbox_gate" in pattern_names:
+        control_axes.extend([
+            "state_db_over_vector_review",
+            "redteam_voice_sandbox_findings",
+        ])
+        acceptance_steps.append("verify_state_db_redteam_voice_review")
     if pattern_names.intersection({
         "story_bible_constitution_source_gate",
         "scene_outline_approval_status_gate",
@@ -497,6 +509,11 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_filetype_rag_project_edit_boundary_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_frame_setting_state_runtime_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1037,6 +1054,11 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_filetype_rag_project_edit_boundary_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_frame_setting_state_runtime_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -3412,6 +3434,84 @@ def _append_filetype_rag_project_edit_boundary_gate_section(
         lines.append(f"- dialogoi_source_hint: {_truncate(dialogoi_hints[0], 240)}")
     if scrivener_hints:
         lines.append(f"- scrivener_source_hint: {_truncate(scrivener_hints[0], 240)}")
+
+
+def _append_frame_setting_state_runtime_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render frame-coordinate, setting-document, and hard-state review gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    has_frame = "vector_story_frame_coordinate_gate" in pattern_names
+    has_setting_docs = "setting_runtime_document_architecture_gate" in pattern_names
+    has_state_review = "inkfoundry_state_db_redteam_voice_sandbox_gate" in pattern_names
+    if not has_frame and not has_setting_docs and not has_state_review:
+        return
+
+    frame_hints = (
+        _as_note_list(source_pattern_pack.get("vector_story_frame_coordinate_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    setting_hints = (
+        _as_note_list(source_pattern_pack.get("setting_runtime_document_architecture_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    state_hints = (
+        _as_note_list(source_pattern_pack.get("inkfoundry_state_db_redteam_voice_sandbox_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Frame, setting runtime, and StateDB gate:")
+    if has_frame:
+        lines.append(
+            "- frame_coordinate_contract: each target-owned frame declares story beat, "
+            "tone, density, register, target length, and diff/review status before prose"
+        )
+    if has_setting_docs:
+        lines.append(
+            "- setting_document_architecture: separate story bible, voice bible, project "
+            "instructions, tracked items, opening scenario, theory-of-mind notes, and anti-patterns"
+        )
+        lines.append(
+            "- session_start_packet: list loaded documents, stale documents, closed/forbidden "
+            "jobs, relevant current files, and handoff snapshot before resumed continuation"
+        )
+    if has_state_review:
+        lines.append(
+            "- state_over_vector_boundary: accepted hard state, locks, snapshots, version ids, "
+            "dead/alive facts, and continuity records outrank contradictory vector recall"
+        )
+        lines.append(
+            "- redteam_voice_sandbox_review: RedTeam plot attacks and VoiceSandbox character "
+            "constraints produce review findings, not hidden generation authority"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source VRGB frames, setting documents, StateDB facts, "
+            "voice profiles, and RedTeam findings can define target review axes only"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: only target-owned frame coordinates, accepted setting "
+            "documents, and current state-review findings can influence the next chapter task"
+        )
+    lines.append(
+        "- runtime_boundary: no generation engine, provider call, environment variable, shell "
+        "script, campaign prompt body, MCP/filesystem runtime, ChromaDB, daemon scheduler, "
+        "import/export artifact, or generated manuscript is authorized"
+    )
+    if frame_hints:
+        lines.append(f"- frame_source_hint: {_truncate(frame_hints[0], 240)}")
+    if setting_hints:
+        lines.append(f"- setting_source_hint: {_truncate(setting_hints[0], 240)}")
+    if state_hints:
+        lines.append(f"- state_source_hint: {_truncate(state_hints[0], 240)}")
 
 
 def _append_truth_file_write_next_state_gate_section(

@@ -4401,3 +4401,87 @@ def test_filetype_rag_and_project_edit_boundary_gates_extend_control_audit():
     assert "direct_project_edit_boundary_report" in audit["control_axes"]
     assert "verify_filetype_retrieval_scope" in audit["acceptance_steps"]
     assert "verify_direct_project_patch_scope" in audit["acceptance_steps"]
+
+
+def test_frame_setting_state_runtime_gates_render_continuation_context():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "vector_story_frame_coordinate_gate", "candidate_count": 1},
+            {"name": "setting_runtime_document_architecture_gate", "candidate_count": 1},
+            {"name": "inkfoundry_state_db_redteam_voice_sandbox_gate", "candidate_count": 1},
+        ],
+        "vector_story_frame_coordinate_gate_hints": [
+            "Use VRGB-like frame coordinates as target-owned beat, tone, density, and register controls.",
+        ],
+        "setting_runtime_document_architecture_gate_hints": [
+            "Require a session start packet for loaded, stale, and forbidden setting documents.",
+        ],
+        "inkfoundry_state_db_redteam_voice_sandbox_gate_hints": [
+            "StateDB must outrank vector recall before drafting.",
+        ],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="State Frame Desk",
+        bible={"hard_constraints": [{"rule": "Accepted state outranks vector recall"}]},
+        plan={"summary": "Continue with frame coordinates, session packet, and RedTeam findings."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "Frame, setting runtime, and StateDB gate:" in block
+    assert "frame_coordinate_contract" in block
+    assert "tone, density, register" in block
+    assert "setting_document_architecture" in block
+    assert "session_start_packet" in block
+    assert "state_over_vector_boundary" in block
+    assert "redteam_voice_sandbox_review" in block
+    assert "continuation_boundary" in block
+    assert "runtime_boundary" in block
+
+
+def test_frame_setting_state_runtime_gates_render_same_type_boundary():
+    block = build_remix_inspired_context_block(
+        project_title="Inspired State Frame Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep frame and state discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source VRGB frames, setting docs, or StateDB facts.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "vector_story_frame_coordinate_gate", "candidate_count": 1},
+                {"name": "setting_runtime_document_architecture_gate", "candidate_count": 1},
+                {"name": "inkfoundry_state_db_redteam_voice_sandbox_gate", "candidate_count": 1},
+            ],
+        },
+    )
+
+    assert "Frame, setting runtime, and StateDB gate:" in block
+    assert "frame_coordinate_contract" in block
+    assert "setting_document_architecture" in block
+    assert "state_over_vector_boundary" in block
+    assert "same_type_boundary" in block
+    assert "runtime_boundary" in block
+
+
+def test_frame_setting_state_runtime_gates_extend_control_audit():
+    audit = build_remix_continuation_control_audit(
+        bible={"hard_constraints": [{"rule": "RedTeam findings are review proposals"}]},
+        plan={"summary": "Check frame, setting docs, and hard state before draft."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "vector_story_frame_coordinate_gate"},
+                {"name": "setting_runtime_document_architecture_gate"},
+                {"name": "inkfoundry_state_db_redteam_voice_sandbox_gate"},
+            ],
+        },
+    )
+
+    assert "story_frame_coordinate_contract" in audit["control_axes"]
+    assert "setting_document_session_packet" in audit["control_axes"]
+    assert "state_db_over_vector_review" in audit["control_axes"]
+    assert "redteam_voice_sandbox_findings" in audit["control_axes"]
+    assert "verify_frame_coordinate_contract" in audit["acceptance_steps"]
+    assert "verify_setting_document_session_packet" in audit["acceptance_steps"]
+    assert "verify_state_db_redteam_voice_review" in audit["acceptance_steps"]
