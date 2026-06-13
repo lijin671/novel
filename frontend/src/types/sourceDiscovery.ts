@@ -353,6 +353,9 @@ export interface SourceDiscoveryPatternPack {
   qmai_hybrid_context_memory_acceptance_gate_hints?: string[];
   renovel_tri_model_aligned_rewrite_gate_hints?: string[];
   ai_novel_mindmap_prompt_library_gate_hints?: string[];
+  file_based_showrunner_canon_approval_gate_hints?: string[];
+  nova_local_version_memory_role_gate_hints?: string[];
+  forge_agent_mcp_eval_contract_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

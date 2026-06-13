@@ -495,6 +495,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("????" OR "????" OR "????") ("??" OR "????") in:name,description,readme',
     '("copyright_check" OR "deai_enabled" OR "chapter_budget") ("novel rewriter" OR "??") in:name,description,readme',
     '("template-driven" OR "Resume from Breakpoint" OR "Strict Template") ("Chinese web novel" OR "Codex CLI") in:name,description,readme',
+    '("human is final showrunner" OR "chapter brief" OR "reference chain") ("Novel Writer" OR "web fiction") in:name,description,readme',
+    '("local-first desktop workspace" OR "version history" OR "author voice") ("long-form fiction" OR "novel") in:name,description,readme',
+    '("MCP Server" OR "writing eval fixtures" OR "chapter missions") ("long-form fiction" OR "chapter generation") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1044,6 +1047,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/dylantneal/ai-author",
     "https://github.com/Shubhj8989/STORY-WEAVER-AI",
     "https://github.com/Binusha123/Taleforge",
+    "https://github.com/sumo91/Novel_Writer",
+    "https://github.com/TaylorMia0617/Nova",
+    "https://github.com/luo-cccc/ForClaw",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1537,6 +1543,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("qmai_hybrid_context_memory_acceptance_gate", ("qmai", "chapter ingestion", "context package", "token budget", "hybrid retrieval", "chapter summaries", "ending hooks", "relationship changes", "foreshadowing", "graph nodes", "graph edges", "human confirmation", "final draft")),
     ("renovel_tri_model_aligned_rewrite_gate", ("renovel", "tri-model", "writer", "reviewer", "parallel comparison", "paragraph alignment", "OOC", "plot inconsistencies", "style matrix", "retention", "batch workflow", "chapter splitting", "memory retrieval")),
     ("ai_novel_mindmap_prompt_library_gate", ("ai automatically generates novels", "mind map", "??", "????", "prompt library", "????", "knowledge base", "writing knowledge base", "long text memory", "polish", "expand", "?AI?", "gen2", "batch self iteration")),
+    ("file_based_showrunner_canon_approval_gate", ("novel_writer", "novel writer", "file-based cli writers' room", "showrunner skill", "human is final showrunner", "canon owner", "chapter brief", "reference chain", "do not treat drafts", "book-local style bible", "approval gates")),
+    ("nova_local_version_memory_role_gate", ("nova", "local-first desktop workspace", "reference database", "version history", "project author voice", "project snapshot", "project cache", "architect", "writer", "editor", "byok", "openai-compatible endpoint")),
+    ("forge_agent_mcp_eval_contract_gate", ("forge agent", "mcp server", "91 tools", "chapter missions", "promise progression", "writing eval fixtures", "141 eval tasks", "typed operations", "context assembly", "quality evaluation", "targeted revision", "budget checks")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3971,6 +3980,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "HLNovel_Writing_Agent is a no-license-observed Chinese novel continuation assistant. Static README/config markers describe separate summary_bot and writing_bot roles, 100k-character threshold summarization before continuation, continue/restart/new-task modes, SSE streaming, text/file upload, word limits, extra requirements, segment storage, and session clearing. "
         "Pattern-only adaptation for dual-model summary continuation session gates; Flask server, qwen-agent, provider endpoints, API keys, prompts, uploads, streaming runtime, and generated continuation text are not executed or imported."
     ),
+    "sumo91/novel_writer": (
+        "Novel_Writer is a no-license-observed file-based CLI writers' room for long-form AI-assisted web fiction. Static README/AGENTS/SKILL markers describe a routing showrunner skill, human-as-final-canon-owner rule, engine/knowledge separation from book projects, book-local canon/outlines/chapters/reviews/state/exports, style-bible checks, chapter brief contracts, reference-chain obligations, and approval gates before prose or canon promotion. "
+        "Pattern-only adaptation for file-backed showrunner approval gates; pip install commands, engine CLI runtime, generated sample book content, prompt bodies, validators, local book projects, and exports are not executed or imported."
+    ),
+    "taylormia0617/nova": (
+        "Nova is a MulanPSL-2.0 local-first desktop workspace for long-form fiction. Static README/source markers describe file editor, reference database, version history, blueprint planning, AI copilot roles, project memory slots for author voice/obsessions/important/snapshot/cache, role separation among architect/writer/editor, local files including DOCX, and BYOK OpenAI-compatible endpoint surfaces. "
+        "Pattern-only adaptation for local version-memory role gates; Electron runtime, provider calls, local project files, version snapshots, desktop storage, package installs, and user workspace data are not executed or imported."
+    ),
+    "luo-cccc/forclaw": (
+        "ForClaw / Forge Agent is a source-available no-redistribution-license headless long-form fiction MCP backend. Static README/fixture markers describe 91 stdio JSON-RPC tools, structured error kinds, writer-agent kernel with story ledger/proposals/typed operations/canon/promises/chapter missions/reader compensation/decision tracking, context assembly -> provider-budget checks -> craft prompt -> draft -> quality evaluation -> targeted revision -> repair/compression, and writing eval fixtures with 141 tasks across three profiles. "
+        "Reference-only adaptation for MCP eval contract gates; MCP server launch, provider calls, credential pools, package builds, eval execution, generated fixture text, runtime traces, and plugin marketplace install are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4804,6 +4825,9 @@ class NovelSourceDiscoveryService:
             "qmai_hybrid_context_memory_acceptance_gate_hints": self._build_qmai_hybrid_context_memory_acceptance_gate_hints(available_patterns),
             "renovel_tri_model_aligned_rewrite_gate_hints": self._build_renovel_tri_model_aligned_rewrite_gate_hints(available_patterns),
             "ai_novel_mindmap_prompt_library_gate_hints": self._build_ai_novel_mindmap_prompt_library_gate_hints(available_patterns),
+            "file_based_showrunner_canon_approval_gate_hints": self._build_file_based_showrunner_canon_approval_gate_hints(available_patterns),
+            "nova_local_version_memory_role_gate_hints": self._build_nova_local_version_memory_role_gate_hints(available_patterns),
+            "forge_agent_mcp_eval_contract_gate_hints": self._build_forge_agent_mcp_eval_contract_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -7210,6 +7234,15 @@ class NovelSourceDiscoveryService:
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
             targets.append("mindmap_outline_prompt_library_policy")
             targets.append("deconstruction_low_cost_iteration_policy")
+        if "file_based_showrunner_canon_approval_gate" in patterns:
+            targets.append("file_based_showrunner_approval_policy")
+            targets.append("chapter_brief_reference_chain_policy")
+        if "nova_local_version_memory_role_gate" in patterns:
+            targets.append("local_version_memory_role_policy")
+            targets.append("author_voice_snapshot_cache_policy")
+        if "forge_agent_mcp_eval_contract_gate" in patterns:
+            targets.append("typed_chapter_operation_eval_policy")
+            targets.append("mcp_runtime_deferred_contract_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8327,6 +8360,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["tri_model_aligned_rewrite_report", "paragraph_alignment_ooc_findings", "style_matrix_batch_rewrite_trace"])
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
             targets.extend(["mindmap_outline_prompt_library_report", "deconstruction_iteration_boundary_findings", "knowledge_base_long_memory_trace"])
+        if "file_based_showrunner_canon_approval_gate" in patterns:
+            targets.extend(["showrunner_approval_chain_report", "chapter_brief_obligation_trace_report"])
+        if "nova_local_version_memory_role_gate" in patterns:
+            targets.extend(["local_version_memory_role_report", "author_memory_layer_snapshot_report"])
+        if "forge_agent_mcp_eval_contract_gate" in patterns:
+            targets.extend(["typed_operation_eval_contract_report", "chapter_mission_promise_budget_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8951,6 +8990,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist original/rewrite paragraph alignment, writer instruction, reviewer OOC/logic verdict, style-matrix settings, event extraction, and batch rewrite checkpoint separately.")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
             hints.append("Persist mind-map nodes, prompt-library version, deconstruction source id, knowledge-base slice id, long-memory inclusion, low-cost iteration route, and polish/de-AI operation type.")
+        if "file_based_showrunner_canon_approval_gate" in patterns:
+            hints.append("Persist showrunner state, approval gate status, chapter brief reference chain, parent obligations, review packet id, and canon promotion decision before continuation.")
+        if "nova_local_version_memory_role_gate" in patterns:
+            hints.append("Persist local version id, author voice, obsessions, important facts, snapshot, cache memory, role handoff, and accepted/rejected edit status for each chapter.")
+        if "forge_agent_mcp_eval_contract_gate" in patterns:
+            hints.append("Persist typed operation ids, proposal status, promise progression, chapter mission, budget check result, targeted revision outcome, and eval-task regression notes.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -14266,6 +14311,33 @@ class NovelSourceDiscoveryService:
             "Flask app, model endpoint adapters, online demo, prompt bodies, generated examples, knowledge-base contents, and provider calls remain excluded during intake.",
         ]
 
+    def _build_file_based_showrunner_canon_approval_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "file_based_showrunner_canon_approval_gate" not in patterns:
+            return []
+        return [
+            "Route long-form work through a showrunner layer that records the current state, required upstream approvals, and whether prose, outline, review, or canon promotion is allowed.",
+            "Keep engine prompts/templates separate from book-local canon, outlines, chapters, reviews, state, exports, and approval packets; chapter briefs should cite parent volume/arc/unit obligations.",
+            "Novel_Writer engine commands, validators, generated sample book content, skill prompt bodies, local projects, pip install flows, and exports remain excluded from static intake.",
+        ]
+
+    def _build_nova_local_version_memory_role_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "nova_local_version_memory_role_gate" not in patterns:
+            return []
+        return [
+            "Before drafting, assemble local workspace memory as distinct author-voice, obsession, important, snapshot, and cache layers with version ids and source paths.",
+            "Separate architect diagnosis/planning, writer prose, and editor review roles; accepted changes should produce version-history snapshots rather than overwrite-only updates.",
+            "Nova desktop runtime, Electron storage, provider calls, BYOK endpoint configuration, local user files, version snapshots, and package installs remain excluded from static intake.",
+        ]
+
+    def _build_forge_agent_mcp_eval_contract_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "forge_agent_mcp_eval_contract_gate" not in patterns:
+            return []
+        return [
+            "Model chapter work as typed proposals and operations over canon, promises, chapter missions, decisions, and reader-compensation ledgers before any draft is accepted.",
+            "Gate generation through context assembly, provider-budget checks, quality evaluation, targeted revision, repair/compression, and regression-style writing eval tasks.",
+            "ForClaw MCP server, stdio tools, provider calls, credential pools, plugin marketplace config, Rust builds, eval fixtures, generated text, and traces remain non-executed and non-imported.",
+        ]
+
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
@@ -15304,6 +15376,15 @@ class NovelSourceDiscoveryService:
             targets.append("tri_model_aligned_rewrite_remap")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
             targets.append("mindmap_prompt_library_remap")
+        if "file_based_showrunner_canon_approval_gate" in patterns:
+            targets.append("showrunner_approval_chain_remap")
+            targets.append("chapter_brief_obligation_remap")
+        if "nova_local_version_memory_role_gate" in patterns:
+            targets.append("local_memory_version_role_remap")
+            targets.append("author_voice_snapshot_remap")
+        if "forge_agent_mcp_eval_contract_gate" in patterns:
+            targets.append("typed_operation_eval_contract_remap")
+            targets.append("chapter_mission_promise_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15397,6 +15478,12 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt rewrite candidates as aligned paragraph deltas with reviewer verdicts, not as direct source-to-target prose copying.")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
             hints.append("Prompt mind-map and prompt-library use as target project metadata; keep deconstruction notes and low-cost iteration routes outside accepted prose.")
+        if "file_based_showrunner_canon_approval_gate" in patterns:
+            hints.append("Prompt from target showrunner state and approved chapter brief obligations; source book examples and skill bodies stay outside drafting context.")
+        if "nova_local_version_memory_role_gate" in patterns:
+            hints.append("Prompt with local memory layers and role boundaries as abstract slots: author voice, snapshot, cache, architect plan, writer draft, editor review.")
+        if "forge_agent_mcp_eval_contract_gate" in patterns:
+            hints.append("Prompt chapter work as typed proposals with promise, mission, budget, revision, and eval evidence; do not call MCP tools or import fixtures.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -16138,6 +16225,12 @@ class NovelSourceDiscoveryService:
             hints.append("Transform aligned rewrite mechanics into target paragraph deltas, review findings, style-matrix budgets, and event-state updates.")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
             hints.append("Transform mind-map/prompt-library patterns into target outline nodes, reusable prompt ids, and deconstruction summaries without copying upstream examples.")
+        if "file_based_showrunner_canon_approval_gate" in patterns:
+            hints.append("Transform showrunner workflows into target approval packets, parent obligation chains, and book-local state ids without carrying sample novel canon.")
+        if "nova_local_version_memory_role_gate" in patterns:
+            hints.append("Transform Nova-style memory slots into target author preferences, project snapshots, role notes, and version labels tied to accepted MuMuAINovel artifacts.")
+        if "forge_agent_mcp_eval_contract_gate" in patterns:
+            hints.append("Transform Forge-style chapter missions, promise ledgers, typed operations, and eval task categories into local non-runtime review criteria.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -16919,6 +17012,12 @@ class NovelSourceDiscoveryService:
             hints.append("Reject rewrites that preserve source paragraphs, prompt YAML, style-matrix examples, or reviewer wording instead of target paragraph-level transformations.")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
             hints.append("Reject outputs that copy prompt-library bodies, demo examples, knowledge-base text, online-demo content, or deconstruction source prose.")
+        if "file_based_showrunner_canon_approval_gate" in patterns:
+            hints.append("Reject outputs that copy Novel_Writer sample book canon, chapter briefs, HTML exports, showrunner skill text, or local project paths as target story material.")
+        if "nova_local_version_memory_role_gate" in patterns:
+            hints.append("Reject outputs that import Nova local workspace files, version snapshots, memory candidates, endpoint profiles, or desktop storage labels into accepted canon.")
+        if "forge_agent_mcp_eval_contract_gate" in patterns:
+            hints.append("Reject outputs that import ForClaw fixture stories, MCP tool schemas, trace text, provider-budget logs, or eval task wording as new story content.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -17822,6 +17921,9 @@ class NovelSourceDiscoveryService:
                 "judge_bias_mitigation_check",
                 "plan_reflect_character_chapter_pipeline",
                 "human_story_metric_panel",
+                "file_based_showrunner_canon_approval_gate",
+                "nova_local_version_memory_role_gate",
+                "forge_agent_mcp_eval_contract_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",

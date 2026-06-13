@@ -17822,3 +17822,99 @@ def test_chinese_control_memory_rewrite_sources_are_static_absorbed():
     assert "qmai_hybrid_context_memory_acceptance_gate_hints" in digest
     assert "renovel_tri_model_aligned_rewrite_gate_hints" in digest
     assert "ai_novel_mindmap_prompt_library_gate_hints" in digest
+
+
+
+def test_static_showrunner_local_memory_mcp_eval_sources_are_absorbed():
+    assert "https://github.com/sumo91/Novel_Writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/TaylorMia0617/Nova" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/luo-cccc/ForClaw" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("human is final showrunner" in query and "chapter brief" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("local-first desktop workspace" in query and "version history" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("MCP Server" in query and "writing eval fixtures" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "sumo91/Novel_Writer",
+                "html_url": "https://github.com/sumo91/Novel_Writer",
+                "description": (
+                    "Novel_Writer is a file-based CLI writers' room for long-form AI-assisted web fiction. "
+                    "It has a showrunner skill, human is final showrunner and canon owner, approval gates, "
+                    "engine and knowledge files separated from book-local canon, outlines, chapters, reviews, state and exports, "
+                    "chapter brief contracts with reference chain, style-bible checks, and do not treat drafts as canon until approved."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "web-fiction", "showrunner"],
+                "updated_at": "2026-06-13T09:00:00Z",
+                "root_files": ["README.md", "AGENTS.md", ".agents/skills/novel-writing-showrunner/SKILL.md", "pyproject.toml", "engine", "books"],
+            },
+            {
+                "full_name": "TaylorMia0617/Nova",
+                "html_url": "https://github.com/TaylorMia0617/Nova",
+                "description": (
+                    "Nova is a local-first desktop workspace for long-form fiction with file editor, reference database, "
+                    "version history, blueprint planning, project author voice, project obsessions, project important facts, "
+                    "project snapshot, project cache memory, architect writer editor roles, DOCX files, BYOK OpenAI-compatible endpoint, and API key surfaces."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MulanPSL-2.0"},
+                "topics": ["novel", "local-first", "memory"],
+                "updated_at": "2026-06-13T09:01:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "src/services/memoryService.ts", "src/services/versionHistoryService.ts"],
+            },
+            {
+                "full_name": "luo-cccc/ForClaw",
+                "html_url": "https://github.com/luo-cccc/ForClaw",
+                "description": (
+                    "Forge Agent is a headless long-form fiction MCP Server with 91 tools, structured error kinds, "
+                    "story ledger, typed operations, canon, promises, chapter missions, reader compensation, decisions, "
+                    "context assembly, provider-budget checks, quality evaluation, targeted revision, repair compression, "
+                    "writing eval fixtures, 141 eval tasks, and promise progression tests."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "mcp", "eval"],
+                "updated_at": "2026-06-13T09:02:00Z",
+                "root_files": ["README.md", "LICENSE", "agent-harness-core", "fixtures/writing_eval/README.md", ".agents/plugins/marketplace.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T09:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "file_based_showrunner_canon_approval_gate" in candidates["sumo91/Novel_Writer"]["absorbed_patterns"]
+    assert "nova_local_version_memory_role_gate" in candidates["TaylorMia0617/Nova"]["absorbed_patterns"]
+    assert "forge_agent_mcp_eval_contract_gate" in candidates["luo-cccc/ForClaw"]["absorbed_patterns"]
+    assert "license:missing" in candidates["sumo91/Novel_Writer"]["trust_review"]["flags"]
+    assert "provider_key_surface" in candidates["TaylorMia0617/Nova"]["risk_flags"]
+    assert "mcp_server" in candidates["luo-cccc/ForClaw"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "file_based_showrunner_approval_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_brief_reference_chain_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_version_memory_role_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "typed_chapter_operation_eval_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "showrunner_approval_chain_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "local_version_memory_role_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "typed_operation_eval_contract_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "showrunner_approval_chain_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "local_memory_version_role_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "typed_operation_eval_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("showrunner" in hint.lower() for hint in pattern_pack["file_based_showrunner_canon_approval_gate_hints"])
+    assert any("author-voice" in hint.lower() for hint in pattern_pack["nova_local_version_memory_role_gate_hints"])
+    assert any("typed proposals" in hint.lower() for hint in pattern_pack["forge_agent_mcp_eval_contract_gate_hints"])
+    assert any("showrunner state" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("role boundaries" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("fixture stories" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "file_based_showrunner_canon_approval_gate_hints" in digest
+    assert "nova_local_version_memory_role_gate_hints" in digest
+    assert "forge_agent_mcp_eval_contract_gate_hints" in digest

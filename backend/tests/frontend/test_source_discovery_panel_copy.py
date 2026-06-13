@@ -146,6 +146,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "constraint_harness_review_worktree_gate_hints",
             "state_current_reviewer_loop_gate_hints",
             "versioned_scene_fact_review_pipeline_gate_hints",
+            "file_based_showrunner_canon_approval_gate_hints",
+            "nova_local_version_memory_role_gate_hints",
+            "forge_agent_mcp_eval_contract_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -474,6 +477,9 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "QMAI hybrid context acceptance gates" in panel_text
     assert "ReNovel tri-model aligned rewrite gates" in panel_text
     assert "AI Novel mindmap prompt-library gates" in panel_text
+    assert "File-based showrunner canon approval gates" in panel_text
+    assert "Nova local version-memory role gates" in panel_text
+    assert "Forge Agent MCP eval contract gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text
