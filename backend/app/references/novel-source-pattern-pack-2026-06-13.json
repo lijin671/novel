@@ -211,7 +211,9 @@
     "scene_goal_obstacle_cost_exit_policy",
     "revision_finding_patch_strategy_policy",
     "opening_ending_hook_integrity_policy",
-    "anti_ai_naturalness_texture_policy"
+    "anti_ai_naturalness_texture_policy",
+    "genre_promise_contract_matrix_policy",
+    "subgenre_specific_ledger_policy"
   ],
   "big_five_character_psychology_gate_hints": [],
   "book_build_export_delivery_gate_hints": [
@@ -696,7 +698,9 @@
     "scene_goal_obstacle_cost_exit_remap",
     "revision_finding_patch_strategy_remap",
     "opening_ending_hook_integrity_remap",
-    "anti_ai_texture_review_remap"
+    "anti_ai_texture_review_remap",
+    "genre_promise_contract_matrix_remap",
+    "subgenre_specific_ledger_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1684,7 +1688,9 @@
     "scene_goal_obstacle_cost_exit_report",
     "revision_finding_patch_strategy_report",
     "opening_ending_hook_integrity_report",
-    "anti_ai_naturalness_texture_report"
+    "anti_ai_naturalness_texture_report",
+    "genre_promise_contract_matrix_report",
+    "subgenre_specific_ledger_report"
   ],
   "wiki_canon_graph_lint_gate_hints": [],
   "wikiplots_plot_corpus_boundary_gate_hints": [],
@@ -4115,6 +4121,60 @@
       "trust_flags": [
         "local:static-only"
       ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "genre_promise_contract_matrix_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing references/genre-patterns.md with genre promise matrix, payoff timing, trope twist boundary, and emotional aftertaste contract.",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "subgenre_specific_ledger_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing references/genre-patterns.md with genre-specific ledgers for romance trust, mystery clues/suspects, cultivation realms/resources, thriller deadlines/asymmetry, magic costs, threat rules, and motif tracking.",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
     }
   ],
   "world_state_tracking_hints": [],
@@ -4129,5 +4189,15 @@
   "writeros_role_validator_boundary_gate_hints": [],
   "writers_room_stop_authority_gate_hints": [],
   "writing_session_goal_tracking_hints": [],
-  "xiaoshuo_local_canon_skill_studio_gate_hints": []
+  "xiaoshuo_local_canon_skill_studio_gate_hints": [],
+  "genre_promise_contract_matrix_gate_hints": [
+    "Before planning or same-type creation, write a genre promise matrix: expected reader pleasure, payoff speed, planted-before-payoff items, welcome tropes, tired tropes to twist, and emotional aftertaste.",
+    "Use genre-specific promises as contracts, not decoration: mystery needs fair clues, romance needs trust/obstacle movement, thriller needs urgency, fantasy needs rules and costs, and literary work needs pressured interior change.",
+    "For same-type drafting, transfer only the abstract promise timing and aftertaste; rebuild characters, tropes, reveals, scenes, and payoff objects independently."
+  ],
+  "subgenre_specific_ledger_gate_hints": [
+    "After the genre-promise matrix, choose active subgenre ledgers such as romance trust, mystery clue/suspect, xianxia realm-resource-cost, thriller deadline/asymmetry, fantasy magic-rule-cost, sci-fi what-if consequence, horror threat-rule/dread, historical research, or literary motif/interior-change ledgers.",
+    "Each selected ledger must name what is tracked, who knows it, when it was planted, what payoff or cost is owed, and what contradiction would break reader trust.",
+    "For same-type drafting, transfer only the ledger category and payoff discipline; rebuild clues, suspects, trust breaks, realms, rules, threats, motifs, deadlines, and consequences independently."
+  ]
 }

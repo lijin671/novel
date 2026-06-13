@@ -36,6 +36,8 @@ const TEXT = {
   readerPull: "\u8bfb\u8005\u7275\u5f15\u6d4b\u8bd5\uff1a",
   specKitFiction: "Spec Kit 场景任务 gate：",
   hookNaturalness: "Hook / naturalness gate:",
+  genrePromiseContract: "Genre promise contract gate:",
+  subgenreLedger: "Subgenre ledger gate:",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -293,6 +295,28 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Text type="secondary">{TEXT.hookNaturalness}</Text>
               <Space wrap>
                 {value.hook_naturalness_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.genre_promise_contract_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.genrePromiseContract}</Text>
+              <Space wrap>
+                {value.genre_promise_contract_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.subgenre_ledger_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.subgenreLedger}</Text>
+              <Space wrap>
+                {value.subgenre_ledger_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>

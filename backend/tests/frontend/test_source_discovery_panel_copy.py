@@ -862,6 +862,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "Revision finding / patch strategy gates" in panel_text
     assert "Opening / ending hook integrity gates" in panel_text
     assert "Anti-AI naturalness texture gates" in panel_text
+    assert "Genre promise contract matrix gates" in panel_text
+    assert "Subgenre-specific ledger gates" in panel_text
     assert "universal_novel_mode_contract_gate_hints" in panel_text
     assert "portable_story_project_structure_gate_hints" in panel_text
     assert "chapter_contract_scene_beat_gate_hints" in panel_text
@@ -874,6 +876,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "revision_finding_patch_strategy_gate_hints" in panel_text
     assert "opening_ending_hook_integrity_gate_hints" in panel_text
     assert "anti_ai_naturalness_texture_gate_hints" in panel_text
+    assert "genre_promise_contract_matrix_gate_hints" in panel_text
+    assert "subgenre_specific_ledger_gate_hints" in panel_text
 
     assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
     assert "portable_story_project_structure_gate_hints?: string[]" in types_text
@@ -886,6 +890,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "revision_finding_patch_strategy_gate_hints?: string[]" in types_text
     assert "opening_ending_hook_integrity_gate_hints?: string[]" in types_text
     assert "anti_ai_naturalness_texture_gate_hints?: string[]" in types_text
+    assert "genre_promise_contract_matrix_gate_hints?: string[]" in types_text
+    assert "subgenre_specific_ledger_gate_hints?: string[]" in types_text
 
 
 def test_source_discovery_panel_surfaces_speckit_fiction_scene_task_gates():
@@ -921,5 +927,14 @@ def test_continuation_preview_panel_surfaces_speckit_fiction_warnings():
 
     assert "Spec Kit 场景任务 gate" in panel_text
     assert "spec_kit_fiction_warnings" in panel_text
+    assert "Hook / naturalness gate" in panel_text
+    assert "Genre promise contract gate" in panel_text
+    assert "Subgenre ledger gate" in panel_text
+    assert "hook_naturalness_warnings" in panel_text
+    assert "genre_promise_contract_warnings" in panel_text
+    assert "subgenre_ledger_warnings" in panel_text
     assert "spec_kit_fiction_warnings: string[]" in types_text
+    assert "hook_naturalness_warnings: string[]" in types_text
+    assert "genre_promise_contract_warnings: string[]" in types_text
+    assert "subgenre_ledger_warnings: string[]" in types_text
     assert "progress_report_continuity_writeback_gate_hints?: string[]" in types_text

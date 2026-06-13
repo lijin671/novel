@@ -332,6 +332,8 @@ export interface SourceDiscoveryPatternPack {
   revision_finding_patch_strategy_gate_hints?: string[];
   opening_ending_hook_integrity_gate_hints?: string[];
   anti_ai_naturalness_texture_gate_hints?: string[];
+  genre_promise_contract_matrix_gate_hints?: string[];
+  subgenre_specific_ledger_gate_hints?: string[];
   story_bible_constitution_source_gate_hints?: string[];
   scene_outline_approval_status_gate_hints?: string[];
   pov_information_asymmetry_schedule_gate_hints?: string[];

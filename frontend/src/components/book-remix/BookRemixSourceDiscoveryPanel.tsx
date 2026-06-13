@@ -349,6 +349,8 @@ const PINNED_HINT_KEYS = new Set([
   'revision_finding_patch_strategy_gate_hints',
   'opening_ending_hook_integrity_gate_hints',
   'anti_ai_naturalness_texture_gate_hints',
+  'genre_promise_contract_matrix_gate_hints',
+  'subgenre_specific_ledger_gate_hints',
   'story_bible_constitution_source_gate_hints',
   'scene_outline_approval_status_gate_hints',
   'pov_information_asymmetry_schedule_gate_hints',
@@ -743,6 +745,8 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Revision finding / patch strategy gates', patternPackPayload?.revision_finding_patch_strategy_gate_hints],
               ['Opening / ending hook integrity gates', patternPackPayload?.opening_ending_hook_integrity_gate_hints],
               ['Anti-AI naturalness texture gates', patternPackPayload?.anti_ai_naturalness_texture_gate_hints],
+              ['Genre promise contract matrix gates', patternPackPayload?.genre_promise_contract_matrix_gate_hints],
+              ['Subgenre-specific ledger gates', patternPackPayload?.subgenre_specific_ledger_gate_hints],
             ])}
             {renderHintGroup('Spec Kit fiction scene-task gates', [
               ['Story-bible constitution gates', patternPackPayload?.story_bible_constitution_source_gate_hints],

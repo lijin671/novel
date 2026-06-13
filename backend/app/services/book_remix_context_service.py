@@ -243,6 +243,20 @@ def build_remix_continuation_control_audit(
     if "anti_ai_naturalness_texture_gate" in pattern_names:
         control_axes.append("anti_ai_texture_naturalness_review")
         acceptance_steps.append("verify_anti_ai_naturalness_texture")
+    if "genre_promise_contract_matrix_gate" in pattern_names:
+        control_axes.extend([
+            "genre_promise_contract_matrix",
+            "genre_trope_twist_boundary",
+            "emotional_aftertaste_target",
+        ])
+        acceptance_steps.append("verify_genre_promise_contract_matrix")
+    if "subgenre_specific_ledger_gate" in pattern_names:
+        control_axes.extend([
+            "subgenre_specific_active_ledgers",
+            "genre_payoff_debt_custody",
+            "same_type_ledger_independence",
+        ])
+        acceptance_steps.append("verify_subgenre_specific_ledgers")
     if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names:
         control_axes.extend([
             "source_chapter_analysis_coverage",
@@ -434,6 +448,16 @@ def build_remix_continuation_control_audit(
         })
         else _empty_universal_hook_naturalness_audit()
     )
+    genre_promise_contract_audit = (
+        _genre_promise_contract_matrix_audit(bible=bible, plan=plan, max_items=12)
+        if "genre_promise_contract_matrix_gate" in pattern_names
+        else {"warnings": []}
+    )
+    subgenre_ledger_audit = (
+        _subgenre_specific_ledger_audit(bible=bible, plan=plan, max_items=12)
+        if "subgenre_specific_ledger_gate" in pattern_names
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -461,6 +485,10 @@ def build_remix_continuation_control_audit(
         warnings.append("spec_kit_fiction_warnings")
     if hook_naturalness_audit["warnings"]:
         warnings.append("hook_naturalness_warnings")
+    if genre_promise_contract_audit["warnings"]:
+        warnings.append("genre_promise_contract_warnings")
+    if subgenre_ledger_audit["warnings"]:
+        warnings.append("subgenre_ledger_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -503,6 +531,8 @@ def build_remix_continuation_control_audit(
         "reader_pull_warnings": reader_pull_audit["warnings"],
         "spec_kit_fiction_warnings": spec_kit_fiction_audit["warnings"],
         "hook_naturalness_warnings": hook_naturalness_audit["warnings"],
+        "genre_promise_contract_warnings": genre_promise_contract_audit["warnings"],
+        "subgenre_ledger_warnings": subgenre_ledger_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -563,6 +593,16 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_universal_deep_planning_revision_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_genre_promise_contract_matrix_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_subgenre_specific_ledger_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1044,6 +1084,8 @@ def build_remix_context_preview_audit(
         "reader_pull_warnings": production_control_audit["reader_pull_warnings"],
         "spec_kit_fiction_warnings": production_control_audit["spec_kit_fiction_warnings"],
         "hook_naturalness_warnings": production_control_audit["hook_naturalness_warnings"],
+        "genre_promise_contract_warnings": production_control_audit["genre_promise_contract_warnings"],
+        "subgenre_ledger_warnings": production_control_audit["subgenre_ledger_warnings"],
         **continuity_audit,
     }
 
@@ -1150,6 +1192,16 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_universal_deep_planning_revision_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_genre_promise_contract_matrix_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_subgenre_specific_ledger_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -2448,6 +2500,127 @@ def _universal_chapter_contract_audit(
     return {"warnings": warnings[:max_items]}
 
 
+def _genre_promise_contract_matrix_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit genre-promise matrix coverage before planning or same-type drafting."""
+    warnings: list[str] = []
+    if not _has_genre_promise_surface(bible=bible, plan=plan):
+        warnings.append("missing_genre_or_reader_promise")
+    if not _has_genre_promise_matrix_surface(bible=bible, plan=plan):
+        warnings.append("missing_genre_promise_matrix")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_genre_promise_matrix_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    matrix_keys = (
+        "genre_promise_matrix",
+        "genre_contract_matrix",
+        "reader_promise_matrix",
+        "genre_contract",
+        "genre_expectations",
+        "genre_conventions",
+        "trope_strategy",
+        "market_positioning",
+    )
+    fields = []
+    for container in (bible, plan or {}):
+        for key in matrix_keys:
+            value = container.get(key) if isinstance(container, dict) else None
+            if isinstance(value, dict) and value:
+                fields.extend(value.keys())
+            elif isinstance(value, list) and value:
+                return True
+            elif isinstance(value, str) and value.strip():
+                return True
+    normalized_fields = {str(field).lower() for field in fields}
+    expected_axes = (
+        ("expected_pleasure", "reader_pleasure", "reader_promise", "genre_promise"),
+        ("payoff_speed", "payoff_timing", "pleasure_speed", "reward_density"),
+        ("plant_before_payoff", "setup_before_payoff", "clues", "setup_requirements"),
+        ("welcome_tropes", "tired_tropes_to_twist", "trope_strategy", "tropes"),
+        ("emotional_aftertaste", "aftertaste", "emotional_target"),
+    )
+    matched_axes = 0
+    for axis_keys in expected_axes:
+        if any(key in normalized_fields for key in axis_keys):
+            matched_axes += 1
+    return matched_axes >= 3
+
+
+def _subgenre_specific_ledger_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit whether active genre promises have concrete subgenre ledgers."""
+    warnings: list[str] = []
+    if not _has_genre_promise_surface(bible=bible, plan=plan):
+        warnings.append("missing_genre_or_reader_promise")
+    if not _has_subgenre_specific_ledger_surface(bible=bible, plan=plan):
+        warnings.append("missing_subgenre_specific_ledger")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_subgenre_specific_ledger_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    ledger_keys = (
+        "subgenre_ledgers",
+        "genre_ledgers",
+        "active_genre_ledgers",
+        "romance_trust_ledger",
+        "trust_ledger",
+        "mystery_clue_ledger",
+        "clue_ledger",
+        "suspect_ledger",
+        "realm_ledger",
+        "realm_ladder",
+        "cultivation_ladder",
+        "resource_ledger",
+        "power_level_ledger",
+        "deadline_clock",
+        "deadline",
+        "information_asymmetry",
+        "safe_place_status",
+        "magic_rules",
+        "magic_costs",
+        "rules_and_costs",
+        "technology_rules",
+        "what_if_consequences",
+        "threat_rules",
+        "dread_ladder",
+        "motif_tracker",
+        "theme_motifs",
+        "historical_research",
+        "research_notes",
+        "reputation_ledger",
+        "faction_consequences",
+    )
+    for container in (bible, plan or {}):
+        if not isinstance(container, dict):
+            continue
+        for key in ledger_keys:
+            value = container.get(key)
+            if isinstance(value, dict) and value:
+                return True
+            if isinstance(value, list) and value:
+                return True
+            if isinstance(value, str) and value.strip():
+                return True
+    return False
+
+
 def _spec_kit_fiction_scene_task_audit(
     *,
     bible: dict[str, Any],
@@ -3480,6 +3653,91 @@ def _append_universal_deep_planning_revision_gate_section(
     ):
         if hints:
             lines.append(f"- {label}: {_truncate(hints[0], 240)}")
+
+
+def _append_genre_promise_contract_matrix_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render genre-promise matrix gates from universal genre-pattern intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "genre_promise_contract_matrix_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("genre_promise_contract_matrix_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Genre promise contract matrix gate:")
+    lines.append(
+        "- expected_reader_pleasure: name what the reader came for before outlining: "
+        "mystery, romance, progression, justice, fear, wonder, comedy, literary resonance, or another concrete promise"
+    )
+    lines.append(
+        "- payoff_timing_boundary: record how quickly that pleasure appears and what must be planted before each payoff"
+    )
+    lines.append(
+        "- welcome_and_tired_tropes: list welcome tropes, tired tropes that need a twist, and taboo moves for this subgenre"
+    )
+    lines.append(
+        "- emotional_aftertaste: state the intended aftertaste so hooks, scene costs, and line polish serve the same reader contract"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source genre promise, trope timing, and emotional aftertaste are craft axes only; "
+            "do not reuse source trope sequence, reveal order, scene objects, names, or payoff mechanics"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: genre promise choices must follow accepted canon, open hooks, character state, and current payoff debt"
+        )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+
+
+def _append_subgenre_specific_ledger_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render subgenre-specific ledger gates from universal genre-pattern intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "subgenre_specific_ledger_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("subgenre_specific_ledger_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Subgenre-specific ledger gate:")
+    lines.append(
+        "- active_ledger_selection: choose only the ledgers the current genre promise needs, such as trust, clue/suspect, realm-resource-cost, deadline/asymmetry, magic-rule-cost, what-if consequence, threat-rule, research, or motif ledgers"
+    )
+    lines.append(
+        "- ledger_debt_fields: each selected ledger names what is tracked, who knows it, where it was planted, payoff/cost owed, max safe delay, and contradiction risk"
+    )
+    lines.append(
+        "- acceptance_boundary: a chapter or plan passes only when its payoffs, reveals, trust moves, upgrades, threats, or motifs update the selected ledger"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: transfer the ledger category and discipline only; rebuild all clues, suspects, trust breaks, realms, rules, deadlines, threats, motifs, and consequences"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: selected ledgers must extend accepted canon and current open debts, not create a parallel unsupported genre system"
+        )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -6217,6 +6475,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "revision_order_natural_prose_gate_hints": "revision_order_natural_prose_gate",
         "reader_pull_fresh_reader_gate_hints": "reader_pull_fresh_reader_gate",
         "progress_report_continuity_writeback_gate_hints": "progress_report_continuity_writeback_gate",
+        "genre_promise_contract_matrix_gate_hints": "genre_promise_contract_matrix_gate",
+        "subgenre_specific_ledger_gate_hints": "subgenre_specific_ledger_gate",
         "seed_to_bible_foundation_loop_gate_hints": "seed_to_bible_foundation_loop_gate",
         "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",

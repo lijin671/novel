@@ -20268,7 +20268,14 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     "ending hook job, and fake cliffhanger risk; anti-AI "
                     "naturalness pass replaces balanced essay paragraphs, "
                     "generic emotion labels, and polished summaries with "
-                    "concrete action, uneven rhythm, subtext, and character-specific diction."
+                    "concrete action, uneven rhythm, subtext, and character-specific diction. "
+                    "Genre is a promise: record what pleasure the reader expects, "
+                    "how quickly that pleasure should appear, what must be planted "
+                    "before payoff, welcome tropes, tired tropes unless twisted, "
+                    "and the emotional aftertaste. Genre-specific ledgers include "
+                    "romance trust ledger, mystery clue ledger, suspects, realm names, "
+                    "breakthrough requirements, deadline, information asymmetry, "
+                    "magic rules and costs, rule of the threat, motifs and images."
                 ),
                 "root_files": [
                     "SKILL.md",
@@ -20304,6 +20311,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "revision_finding_patch_strategy_gate",
         "opening_ending_hook_integrity_gate",
         "anti_ai_naturalness_texture_gate",
+        "genre_promise_contract_matrix_gate",
+        "subgenre_specific_ledger_gate",
     }.issubset(candidate["absorbed_patterns"])
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
@@ -20311,7 +20320,11 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "portable_story_project_structure_policy" in pattern_pack["bible_enrichment_targets"]
     assert "chapter_contract_scene_beat_report" in pattern_pack["whole_book_analysis_targets"]
     assert "progress_report_writeback_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "genre_promise_contract_matrix_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "subgenre_specific_ledger_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_mode_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "genre_promise_contract_matrix_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "subgenre_specific_ledger_remap" in pattern_pack["inspired_mapping_targets"]
     assert any("mode" in hint.lower() for hint in pattern_pack["universal_novel_mode_contract_gate_hints"])
     assert any("story-bible.md" in hint for hint in pattern_pack["portable_story_project_structure_gate_hints"])
     assert any("3-7" in hint for hint in pattern_pack["chapter_contract_scene_beat_gate_hints"])
@@ -20324,6 +20337,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("severity" in hint.lower() for hint in pattern_pack["revision_finding_patch_strategy_gate_hints"])
     assert any("opening hook" in hint.lower() for hint in pattern_pack["opening_ending_hook_integrity_gate_hints"])
     assert any("concrete action" in hint.lower() for hint in pattern_pack["anti_ai_naturalness_texture_gate_hints"])
+    assert any("emotional aftertaste" in hint.lower() for hint in pattern_pack["genre_promise_contract_matrix_gate_hints"])
+    assert any("clue" in hint.lower() for hint in pattern_pack["subgenre_specific_ledger_gate_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "universal_novel_mode_contract_gate_hints" in digest
@@ -20338,6 +20353,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "revision_finding_patch_strategy_gate_hints" in digest
     assert "opening_ending_hook_integrity_gate_hints" in digest
     assert "anti_ai_naturalness_texture_gate_hints" in digest
+    assert "genre_promise_contract_matrix_gate_hints" in digest
+    assert "subgenre_specific_ledger_gate_hints" in digest
 
 
 def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():

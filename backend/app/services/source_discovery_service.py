@@ -1703,6 +1703,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("revision_finding_patch_strategy_gate", ("review report findings", "critical/high/medium/low", "critical high medium low", "severity", "patch strategy", "least destructive patch", "findings by severity")),
     ("opening_ending_hook_integrity_gate", ("opening hooks", "ending hooks", "opening hook type", "ending hook job", "fake cliffhanger", "resolved instantly without consequence", "generic weather", "mirror description")),
     ("anti_ai_naturalness_texture_gate", ("anti-ai naturalness pass", "anti-ai naturalness", "generic emotion labels", "balanced essay paragraphs", "polished summaries", "concrete action, uneven rhythm", "character-specific diction")),
+    ("genre_promise_contract_matrix_gate", ("genre is a promise", "what pleasure the reader expects", "how quickly that pleasure should appear", "what must be planted before payoff", "welcome tropes", "tired tropes", "emotional aftertaste")),
+    ("subgenre_specific_ledger_gate", ("trust ledger", "clue ledger", "suspects: motive", "realm names and gaps", "breakthrough requirements and costs", "deadline/asymmetry ledger", "information asymmetry", "magic rules and costs", "rule of the threat", "motifs and images that evolve", "subgenre ledgers")),
     ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
     ("kdp_metadata_chapter_export_gate", ("best-selling-book-writer", "topic selection", "outline", "chapters", "kdp metadata", "description.html", "7 keywords", "validation", "html", "pdf", "book-config.json", "chapters remain", "publishing checklist")),
@@ -5015,6 +5017,8 @@ class NovelSourceDiscoveryService:
             "revision_finding_patch_strategy_gate_hints": self._build_revision_finding_patch_strategy_gate_hints(available_patterns),
             "opening_ending_hook_integrity_gate_hints": self._build_opening_ending_hook_integrity_gate_hints(available_patterns),
             "anti_ai_naturalness_texture_gate_hints": self._build_anti_ai_naturalness_texture_gate_hints(available_patterns),
+            "genre_promise_contract_matrix_gate_hints": self._build_genre_promise_contract_matrix_gate_hints(available_patterns),
+            "subgenre_specific_ledger_gate_hints": self._build_subgenre_specific_ledger_gate_hints(available_patterns),
             "author_ai_project_contract_review_gate_hints": self._build_author_ai_project_contract_review_gate_hints(available_patterns),
             "manuscript_pr_editorial_workflow_gate_hints": self._build_manuscript_pr_editorial_workflow_gate_hints(available_patterns),
             "short_drama_story_bible_template_gate_hints": self._build_short_drama_story_bible_template_gate_hints(available_patterns),
@@ -6509,6 +6513,8 @@ class NovelSourceDiscoveryService:
             "revision_finding_patch_strategy_gate": 66,
             "opening_ending_hook_integrity_gate": 66,
             "anti_ai_naturalness_texture_gate": 66,
+            "genre_promise_contract_matrix_gate": 66,
+            "subgenre_specific_ledger_gate": 66,
             "author_ai_project_contract_review_gate": 67,
             "manuscript_pr_editorial_workflow_gate": 66,
             "short_drama_story_bible_template_gate": 66,
@@ -6566,6 +6572,10 @@ class NovelSourceDiscoveryService:
             targets.append("opening_ending_hook_integrity_policy")
         if "anti_ai_naturalness_texture_gate" in patterns:
             targets.append("anti_ai_naturalness_texture_policy")
+        if "genre_promise_contract_matrix_gate" in patterns:
+            targets.append("genre_promise_contract_matrix_policy")
+        if "subgenre_specific_ledger_gate" in patterns:
+            targets.append("subgenre_specific_ledger_policy")
         if "card_workbench" in patterns:
             targets.append("card_schema_catalog")
             targets.append("field_level_cards")
@@ -8299,6 +8309,10 @@ class NovelSourceDiscoveryService:
             targets.append("opening_ending_hook_integrity_report")
         if "anti_ai_naturalness_texture_gate" in patterns:
             targets.append("anti_ai_naturalness_texture_report")
+        if "genre_promise_contract_matrix_gate" in patterns:
+            targets.append("genre_promise_contract_matrix_report")
+        if "subgenre_specific_ledger_gate" in patterns:
+            targets.append("subgenre_specific_ledger_report")
         if "card_workbench" in patterns:
             targets.extend(["card_types", "card_field_dependencies"])
         if patterns.intersection({
@@ -11973,6 +11987,24 @@ class NovelSourceDiscoveryService:
             "Run an anti-AI naturalness texture pass for balanced essay rhythm, generic emotion labels, polished summary dialogue, repetitive transitions, and over-neat moral explanation.",
             "Repair AI-like texture with concrete action, uneven rhythm, sensory pressure, subtext, silence or avoidance, and character-specific diction.",
             "Naturalness review improves manuscript quality; it is not an AI-detector bypass claim and must not import source phrasing, imagery, or scene order.",
+        ]
+
+    def _build_genre_promise_contract_matrix_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "genre_promise_contract_matrix_gate" not in patterns:
+            return []
+        return [
+            "Before planning or same-type creation, write a genre promise matrix: expected reader pleasure, payoff speed, planted-before-payoff items, welcome tropes, tired tropes to twist, and emotional aftertaste.",
+            "Use genre-specific promises as contracts, not decoration: mystery needs fair clues, romance needs trust/obstacle movement, thriller needs urgency, fantasy needs rules and costs, and literary work needs pressured interior change.",
+            "For same-type drafting, transfer only the abstract promise timing and aftertaste; rebuild characters, tropes, reveals, scenes, and payoff objects independently.",
+        ]
+
+    def _build_subgenre_specific_ledger_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "subgenre_specific_ledger_gate" not in patterns:
+            return []
+        return [
+            "After the genre-promise matrix, choose the active subgenre ledgers: romance trust ledger, mystery clue/suspect ledger, xianxia realm-resource-cost ledger, thriller deadline/asymmetry ledger, fantasy magic-rule-cost ledger, sci-fi what-if consequence ledger, horror threat-rule/dread ledger, or literary motif/interior-change ledger.",
+            "Each selected ledger must name what is tracked, who knows it, when it was planted, what payoff or cost is owed, and what contradiction would break reader trust.",
+            "For same-type work, keep only the ledger category and payoff discipline; create new clues, suspects, trust breaks, realms, rules, threats, motifs, deadlines, and consequences.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -16496,6 +16528,10 @@ class NovelSourceDiscoveryService:
             targets.append("opening_ending_hook_integrity_remap")
         if "anti_ai_naturalness_texture_gate" in patterns:
             targets.append("anti_ai_texture_review_remap")
+        if "genre_promise_contract_matrix_gate" in patterns:
+            targets.append("genre_promise_contract_matrix_remap")
+        if "subgenre_specific_ledger_gate" in patterns:
+            targets.append("subgenre_specific_ledger_remap")
         if patterns.intersection({
             "obsidian_galley_scene_compile_gate",
             "obsidian_storyteller_world_timeline_gate",
@@ -20844,6 +20880,8 @@ class NovelSourceDiscoveryService:
                 "revision_finding_patch_strategy_gate",
                 "opening_ending_hook_integrity_gate",
                 "anti_ai_naturalness_texture_gate",
+                "genre_promise_contract_matrix_gate",
+                "subgenre_specific_ledger_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",
                 "story_state_output_contract_gate",

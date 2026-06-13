@@ -4833,3 +4833,80 @@ def test_universal_hook_integrity_and_anti_ai_texture_gates_render_context_and_a
     assert "verify_anti_ai_naturalness_texture" in audit["acceptance_steps"]
     assert "hook_naturalness_warnings" in audit["warnings"]
     assert "missing_opening_hook_type" in audit["hook_naturalness_warnings"]
+
+
+def test_genre_promise_contract_matrix_gate_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "genre_promise_contract_matrix_gate", "candidate_count": 1},
+            {"name": "subgenre_specific_ledger_gate", "candidate_count": 1},
+        ],
+        "genre_promise_contract_matrix_gate_hints": [
+            "Record reader pleasure, payoff speed, planted-before-payoff items, welcome tropes, tired tropes, and emotional aftertaste.",
+        ],
+        "subgenre_specific_ledger_gate_hints": [
+            "Pick the active romance trust, mystery clue, realm-resource-cost, or threat-rule ledger before drafting.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Genre Matrix Desk",
+        bible={
+            "genre": "mystery romance",
+            "style_signature": {"reader_promise": "fair puzzle plus slow-burn trust"},
+            "genre_promise_matrix": {
+                "expected_pleasure": "fair clue puzzle and emotional intimacy",
+                "payoff_speed": "one clue or trust shift per chapter",
+                "plant_before_payoff": ["motive clue before reveal"],
+                "welcome_tropes": ["rivals to allies"],
+                "tired_tropes_to_twist": ["one-sentence misunderstanding"],
+                "emotional_aftertaste": "earned tenderness under danger",
+            },
+            "mystery_clue_ledger": [{"clue": "blue wax seal", "payoff": "archive heir proof"}],
+        },
+        plan={"summary": "Continue the clue interview."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Genre Matrix Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Preserve only genre pleasure timing and aftertaste.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source trope sequence or reveal order.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={"genre": "mystery"},
+        plan={"summary": "Plan without a matrix."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Genre promise contract matrix gate:" in block
+        assert "expected_reader_pleasure" in block
+        assert "payoff_timing_boundary" in block
+        assert "welcome_and_tired_tropes" in block
+        assert "emotional_aftertaste" in block
+        assert "Record reader pleasure" in block
+        assert "Subgenre-specific ledger gate:" in block
+        assert "active_ledger_selection" in block
+        assert "ledger_debt_fields" in block
+        assert "Pick the active romance trust" in block
+    assert "same_type_boundary" in inspired
+    assert "source trope sequence" in inspired
+    assert "trust breaks" in inspired
+
+    assert "genre_promise_contract_matrix" in audit["control_axes"]
+    assert "genre_trope_twist_boundary" in audit["control_axes"]
+    assert "emotional_aftertaste_target" in audit["control_axes"]
+    assert "subgenre_specific_active_ledgers" in audit["control_axes"]
+    assert "genre_payoff_debt_custody" in audit["control_axes"]
+    assert "same_type_ledger_independence" in audit["control_axes"]
+    assert "verify_genre_promise_contract_matrix" in audit["acceptance_steps"]
+    assert "verify_subgenre_specific_ledgers" in audit["acceptance_steps"]
+    assert "genre_promise_contract_warnings" in audit["warnings"]
+    assert "missing_genre_promise_matrix" in audit["genre_promise_contract_warnings"]
+    assert "subgenre_ledger_warnings" in audit["warnings"]
+    assert "missing_subgenre_specific_ledger" in audit["subgenre_ledger_warnings"]
