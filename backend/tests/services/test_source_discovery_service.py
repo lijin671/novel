@@ -18757,3 +18757,74 @@ def test_static_agent_loop_desktop_rag_harness_sources_are_absorbed():
     assert "filesystem_memory_agent_loop_gate_hints" in digest
     assert "desktop_review_rag_retry_gate_hints" in digest
     assert "novel_core_knowledge_pack_rag_gate_hints" in digest
+
+
+def test_static_rag_and_agent_catalog_sources_are_absorbed():
+    assert "https://github.com/NirDiamant/RAG_Techniques" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/NirDiamant/GenAI_Agents" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Proposition Chunking" in query and "GraphRAG" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("GenAI_Agents" in query and "Murder Mystery" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "NirDiamant/RAG_Techniques",
+                "html_url": "https://github.com/NirDiamant/RAG_Techniques",
+                "description": (
+                    "Advanced RAG Techniques catalog with Proposition Chunking, Contextual Chunk Headers, Semantic Chunking, "
+                    "HyDE, Query Transformations, Reranking, Hierarchical Indices, Feedback Loop, Adaptive Retrieval, "
+                    "GraphRAG, RAPTOR, Self-RAG, CRAG, and evaluation."
+                ),
+                "stargazers_count": 22000,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["rag", "retrieval", "evaluation"],
+                "updated_at": "2026-06-13T18:00:00Z",
+                "root_files": ["README.md", "LICENSE", "notebooks", "requirements.txt"],
+            },
+            {
+                "full_name": "NirDiamant/GenAI_Agents",
+                "html_url": "https://github.com/NirDiamant/GenAI_Agents",
+                "description": (
+                    "GenAI_Agents comprehensive repository for development and implementation with LangGraph, MCP, "
+                    "memory-enhanced conversational agents, multi-agent collaboration, self-improving agent, "
+                    "task-oriented agent, creative agents, Murder Mystery, and procedural story generation."
+                ),
+                "stargazers_count": 12000,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["agents", "langgraph", "mcp", "creative-ai"],
+                "updated_at": "2026-06-13T18:01:00Z",
+                "root_files": ["README.md", "LICENSE", "notebooks", "mcp", "requirements.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T18:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "rag_technique_catalog_context_retrieval_gate" in candidates["NirDiamant/RAG_Techniques"]["absorbed_patterns"]
+    assert "agent_architecture_catalog_workflow_gate" in candidates["NirDiamant/GenAI_Agents"]["absorbed_patterns"]
+    assert "license:noassertion" in candidates["NirDiamant/RAG_Techniques"]["trust_review"]["flags"]
+    assert "mcp_server" in candidates["NirDiamant/GenAI_Agents"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "rag_technique_selection_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "agent_workflow_template_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "retrieval_recipe_context_coverage_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "agent_workflow_state_schema_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "rag_recipe_layer_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "agent_template_state_machine_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("retrieval recipe id" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("agent workflow id" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("selected retrieval recipe" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("selected agent workflow stages" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("context tiers" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("workflow cards" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("rag_techniques notebook cells" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("genai_agents tutorial code" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "rag_technique_catalog_context_retrieval_gate_hints" in digest
+    assert "agent_architecture_catalog_workflow_gate_hints" in digest

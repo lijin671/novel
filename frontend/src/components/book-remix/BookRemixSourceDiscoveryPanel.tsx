@@ -403,6 +403,8 @@ const PINNED_HINT_KEYS = new Set([
   'filesystem_memory_agent_loop_gate_hints',
   'desktop_review_rag_retry_gate_hints',
   'novel_core_knowledge_pack_rag_gate_hints',
+  'rag_technique_catalog_context_retrieval_gate_hints',
+  'agent_architecture_catalog_workflow_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -868,6 +870,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Filesystem memory agent-loop gates', patternPackPayload?.filesystem_memory_agent_loop_gate_hints],
               ['Desktop review RAG retry gates', patternPackPayload?.desktop_review_rag_retry_gate_hints],
               ['Novel-core knowledge-pack RAG gates', patternPackPayload?.novel_core_knowledge_pack_rag_gate_hints],
+              ['Agent architecture catalog workflow gates', patternPackPayload?.agent_architecture_catalog_workflow_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],
@@ -897,6 +900,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Long-term author preference memory gates', patternPackPayload?.long_term_author_preference_memory_hints],
               ['Community graph source deconstruction gates', patternPackPayload?.community_graph_source_deconstruction_hints],
               ['Dual-level graph vector retrieval gates', patternPackPayload?.dual_level_graph_vector_retrieval_hints],
+              ['RAG technique catalog retrieval gates', patternPackPayload?.rag_technique_catalog_context_retrieval_gate_hints],
               ['CJK BM25 context retrieval gates', patternPackPayload?.cjk_bm25_context_retrieval_gate_hints],
               ['Schema-guided graph extraction gates', patternPackPayload?.schema_guided_graph_extraction_hints],
               ['Counterfactual story Graph-RAG gates', patternPackPayload?.counterfactual_story_graph_rag_gate_hints],

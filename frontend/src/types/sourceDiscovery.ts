@@ -215,6 +215,7 @@ export interface SourceDiscoveryPatternPack {
   long_term_author_preference_memory_hints?: string[];
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];
+  rag_technique_catalog_context_retrieval_gate_hints?: string[];
   schema_guided_graph_extraction_hints?: string[];
   counterfactual_story_graph_rag_gate_hints?: string[];
   character_knowledge_timeline_gate_hints?: string[];
@@ -385,6 +386,7 @@ export interface SourceDiscoveryPatternPack {
   filesystem_memory_agent_loop_gate_hints?: string[];
   desktop_review_rag_retry_gate_hints?: string[];
   novel_core_knowledge_pack_rag_gate_hints?: string[];
+  agent_architecture_catalog_workflow_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

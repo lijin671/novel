@@ -527,6 +527,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("Filesystem as Memory" OR "continuous Agent Loop" OR "Smart Question Policy") ("novel-bot" OR "Novel Bot") in:name,description,readme',
     '("WriterAgent" OR "ReviewerAgent" OR "???8" OR "RAG??") ("??????" OR "auto_novel_writer") in:name,description,readme',
     '("/novel-core" OR "?????" OR "??Agent") ("novel-harness" OR "????" OR "? AI ?") in:name,description,readme',
+    '("Proposition Chunking" OR "HyDE" OR "RAPTOR" OR "GraphRAG") ("RAG_Techniques" OR "Advanced RAG Techniques") in:name,description,readme',
+    '("GenAI_Agents" OR "memory-enhanced" OR "multi-agent collaboration" OR "Murder Mystery") ("LangGraph" OR "MCP" OR "creative agents") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1108,6 +1110,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/xiaoxiaoxiaotao/novel-ai-agent-Chinese",
     "https://github.com/bbhzyq-dotcom/auto_novel_writer",
     "https://github.com/manhai934/novel-harness",
+    "https://github.com/NirDiamant/RAG_Techniques",
+    "https://github.com/NirDiamant/GenAI_Agents",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1633,6 +1637,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("filesystem_memory_agent_loop_gate", ("Novel Bot", "novel-bot", "Filesystem as Memory", "continuous Agent Loop", "Smart Question Policy", "workspace/", "MEMORY.md", "memory/chapters", "Persona", "Soul", "Settings", "World", "Auto-Update", "OpenAI Compatibility")),
     ("desktop_review_rag_retry_gate", ("auto_novel_writer", "??????????", "WriterAgent", "ReviewerAgent", "??30%", "??40%", "??30%", "???8", "??", "??3?", "RAG??", "SQLite????", "????", "????????")),
     ("novel_core_knowledge_pack_rag_gate", ("novel-harness", "/novel-core", "??Agent", "??Agent", "??Agent", "??Agent", "???Agent", "?????", ".harness/knowledge", "?? MCP", "RAG ??", "???", "???", "? AI ??", "????")),
+    ("rag_technique_catalog_context_retrieval_gate", ("RAG_Techniques", "Advanced RAG Techniques", "Proposition Chunking", "Contextual Chunk Headers", "Semantic Chunking", "HyDE", "Query Transformations", "Reranking", "Hierarchical Indices", "Feedback Loop", "Adaptive Retrieval", "GraphRAG", "RAPTOR", "Self-RAG", "CRAG", "evaluation")),
+    ("agent_architecture_catalog_workflow_gate", ("GenAI_Agents", "comprehensive repository for development and implementation", "LangGraph", "MCP", "memory-enhanced", "multi-agent collaboration", "self-improving agent", "task-oriented agent", "creative agents", "Murder Mystery", "procedural story generation")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4203,6 +4209,14 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "novel-harness is a CC-BY-NC-SA-4.0 Chinese Codex/Claude/Cursor/OpenCode novel workflow harness. Static README/AGENTS markers describe /novel-core routing, chief-editor entry, planning/writing/review/context agents, current-project state, human-linguistics anti-AI rules, local RAG, included and remote knowledge packs, and a local MCP download/install flow for genre/writing/anti-AI packs. "
         "Pattern-only adaptation for novel-core knowledge-pack RAG gates; installation prompts, AGENTS instructions, agent files, skill bodies, knowledge-pack contents, MCP server/download/install flow, RAG index build, provider calls, local projects, and generated prose are not executed or imported."
     ),
+    "nirdiamant/rag_techniques": (
+        "RAG_Techniques is a custom non-commercial licensed Advanced RAG technique catalog. Static HEAD/README/LICENSE markers describe foundational and advanced retrieval methods including proposition chunking, contextual chunk headers, semantic chunking, HyDE/query transformation, reranking, hierarchical indices, feedback loops, adaptive retrieval, GraphRAG, RAPTOR, Self-RAG, CRAG, and evaluation. "
+        "Pattern-only adaptation for context-retrieval recipe gates; notebooks, datasets, embeddings, provider calls, package installs, sample questions, code, and license-restricted material are not imported or executed."
+    ),
+    "nirdiamant/genai_agents": (
+        "GenAI_Agents is a custom non-commercial licensed catalog of GenAI agent tutorials. Static HEAD/README/LICENSE markers describe LangGraph, MCP, memory-enhanced conversational agents, multi-agent collaboration, self-improving and task-oriented agents, creative/content generation agents, and procedural murder-mystery story-generation examples. "
+        "Pattern-only adaptation for agent workflow template gates; tutorial code, notebooks, prompt bodies, MCP/server configs, generated examples, provider calls, and license-restricted material are not imported or executed."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4886,6 +4900,7 @@ class NovelSourceDiscoveryService:
             "long_term_author_preference_memory_hints": self._build_long_term_author_preference_memory_hints(available_patterns),
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
             "dual_level_graph_vector_retrieval_hints": self._build_dual_level_graph_vector_retrieval_hints(available_patterns),
+            "rag_technique_catalog_context_retrieval_gate_hints": self._build_rag_technique_catalog_context_retrieval_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -5068,6 +5083,7 @@ class NovelSourceDiscoveryService:
             "filesystem_memory_agent_loop_gate_hints": self._build_filesystem_memory_agent_loop_gate_hints(available_patterns),
             "desktop_review_rag_retry_gate_hints": self._build_desktop_review_rag_retry_gate_hints(available_patterns),
             "novel_core_knowledge_pack_rag_gate_hints": self._build_novel_core_knowledge_pack_rag_gate_hints(available_patterns),
+            "agent_architecture_catalog_workflow_gate_hints": self._build_agent_architecture_catalog_workflow_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5946,6 +5962,8 @@ class NovelSourceDiscoveryService:
             "filesystem_memory_agent_loop_gate": 69,
             "desktop_review_rag_retry_gate": 68,
             "novel_core_knowledge_pack_rag_gate": 69,
+            "rag_technique_catalog_context_retrieval_gate": 70,
+            "agent_architecture_catalog_workflow_gate": 69,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -7590,6 +7608,12 @@ class NovelSourceDiscoveryService:
         if "novel_core_knowledge_pack_rag_gate" in patterns:
             targets.append("novel_core_chief_editor_route_policy")
             targets.append("knowledge_pack_local_rag_policy")
+        if "rag_technique_catalog_context_retrieval_gate" in patterns:
+            targets.append("rag_technique_selection_policy")
+            targets.append("retrieval_recipe_evaluation_policy")
+        if "agent_architecture_catalog_workflow_gate" in patterns:
+            targets.append("agent_workflow_template_policy")
+            targets.append("agent_memory_tool_boundary_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8771,6 +8795,10 @@ class NovelSourceDiscoveryService:
             targets.extend(["reviewer_score_retry_report", "local_rag_version_history_report"])
         if "novel_core_knowledge_pack_rag_gate" in patterns:
             targets.extend(["chief_editor_agent_route_report", "knowledge_pack_install_boundary_report"])
+        if "rag_technique_catalog_context_retrieval_gate" in patterns:
+            targets.extend(["retrieval_recipe_context_coverage_report", "rag_evaluation_faithfulness_report"])
+        if "agent_architecture_catalog_workflow_gate" in patterns:
+            targets.extend(["agent_workflow_state_schema_report", "tool_memory_boundary_readiness_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -9459,6 +9487,10 @@ class NovelSourceDiscoveryService:
             hints.append("Persist project id, chapter outline row, writer output id, reviewer score components, retry attempt, local RAG hit ids, version snapshot, and export status before finalizing a chapter.")
         if "novel_core_knowledge_pack_rag_gate" in patterns:
             hints.append("Persist novel-core task type, chief-editor route, selected agent refs, current-project id, knowledge-pack ids, RAG index status, MCP download boundary, and anti-AI rule refs before generation.")
+        if "rag_technique_catalog_context_retrieval_gate" in patterns:
+            hints.append("Persist retrieval recipe id, chunking mode, query transform, reranker, graph/vector scope, source-layer ids, and evaluation verdict before retrieved context can enter a continuation prompt.")
+        if "agent_architecture_catalog_workflow_gate" in patterns:
+            hints.append("Persist agent workflow id, state schema version, memory contract, tool/MCP allowlist, evaluator verdict, and rollback note before an agent template can drive story generation.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -13305,6 +13337,15 @@ class NovelSourceDiscoveryService:
             "Log which retrieval mode supplied each context item so weak graph or vector coverage can be repaired.",
         ]
 
+    def _build_rag_technique_catalog_context_retrieval_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "rag_technique_catalog_context_retrieval_gate" not in patterns:
+            return []
+        return [
+            "Treat RAG technique catalogs as retrieval recipe menus: chunking, query rewrite, hypothetical answer, rerank, hierarchy, graph, feedback, and evaluation steps must be selected explicitly.",
+            "For拆书续写, map each recipe to a target-owned source layer: accepted chapters, bible facts, chapter summaries, style notes, relationship graph, or research notes.",
+            "RAG_Techniques notebooks, package installs, datasets, embeddings, sample questions, code cells, provider calls, and non-commercial licensed material remain excluded from static intake.",
+        ]
+
     def _build_schema_guided_graph_extraction_hints(self, patterns: set[str]) -> list[str]:
         if "schema_guided_graph_extraction" not in patterns:
             return []
@@ -15063,6 +15104,15 @@ class NovelSourceDiscoveryService:
             "novel-harness install prompts, AGENTS instructions, agent files, skills, knowledge-pack bodies, MCP download/install flow, RAG index build, local projects, and generated prose remain excluded from static intake.",
         ]
 
+    def _build_agent_architecture_catalog_workflow_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agent_architecture_catalog_workflow_gate" not in patterns:
+            return []
+        return [
+            "Treat agent tutorial catalogs as workflow-template inventories: each adopted template needs a state schema, memory contract, tool/MCP boundary, evaluator, and rollback path.",
+            "For creative-writing agents, keep planner, memory, collaborator, evaluator, and self-improvement loops as abstract duties; story examples and tutorial prompts are not source canon.",
+            "GenAI_Agents notebooks, tutorial code, prompt bodies, MCP/server configs, generated examples, provider calls, and non-commercial licensed material remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -16196,6 +16246,12 @@ class NovelSourceDiscoveryService:
         if "novel_core_knowledge_pack_rag_gate" in patterns:
             targets.append("chief_editor_agent_route_remap")
             targets.append("knowledge_pack_rag_boundary_remap")
+        if "rag_technique_catalog_context_retrieval_gate" in patterns:
+            targets.append("rag_recipe_layer_remap")
+            targets.append("retrieval_evaluation_gate_remap")
+        if "agent_architecture_catalog_workflow_gate" in patterns:
+            targets.append("agent_template_state_machine_remap")
+            targets.append("memory_tool_boundary_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -16353,6 +16409,10 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt revision with reviewer score components, retry cap, RAG citations, and version snapshot ids; GUI/provider settings and database rows stay metadata only.")
         if "novel_core_knowledge_pack_rag_gate" in patterns:
             hints.append("Prompt through the chief-editor route and selected agent obligations; use knowledge-pack hits as cited method refs, not copied pack bodies or upstream AGENTS instructions.")
+        if "rag_technique_catalog_context_retrieval_gate" in patterns:
+            hints.append("Prompt with a selected retrieval recipe, target-owned evidence refs, and evaluation criteria; RAG technique names stay metadata, not borrowed source content.")
+        if "agent_architecture_catalog_workflow_gate" in patterns:
+            hints.append("Prompt from selected agent workflow stages as abstract roles with state inputs and exit checks; tutorial prompts, creative samples, and MCP configs stay outside prose context.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -17158,6 +17218,10 @@ class NovelSourceDiscoveryService:
             hints.append("Transform desktop write-review-memory loops into MuMuAINovel scoring rubrics, retry budgets, RAG evidence ids, version snapshots, and finalization gates.")
         if "novel_core_knowledge_pack_rag_gate" in patterns:
             hints.append("Transform novel-core and knowledge-pack ideas into route cards, selected-agent duties, rights-safe reference inventories, and RAG boundary records without importing upstream pack contents.")
+        if "rag_technique_catalog_context_retrieval_gate" in patterns:
+            hints.append("Transform generic RAG techniques into MuMuAINovel-owned retrieval recipes with context tiers, evidence refs, rerank/eval gates, and canon-write blockers.")
+        if "agent_architecture_catalog_workflow_gate" in patterns:
+            hints.append("Transform agent catalog templates into MuMuAINovel workflow cards: state schema, stage owner, memory/tool boundary, retry rule, evaluator, and rollback artifact.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -18003,6 +18067,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outputs that copy auto_novel_writer GUI text, provider configuration examples, SQLite/project data, reviewer comments, version files, exported novels, or weighted-score examples as prose.")
         if "novel_core_knowledge_pack_rag_gate" in patterns:
             hints.append("Reject drafts that copy novel-harness AGENTS instructions, agent files, skill bodies, knowledge-pack contents, MCP package metadata, RAG samples, or /novel-core command text.")
+        if "rag_technique_catalog_context_retrieval_gate" in patterns:
+            hints.append("Reject outputs that copy RAG_Techniques notebook cells, README/tutorial text, sample questions, datasets, diagrams, embeddings, provider snippets, or non-commercial licensed material.")
+        if "agent_architecture_catalog_workflow_gate" in patterns:
+            hints.append("Reject outputs that copy GenAI_Agents tutorial code, notebooks, prompt bodies, MCP configs, generated story examples, agent names, or non-commercial licensed material.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -18938,6 +19006,8 @@ class NovelSourceDiscoveryService:
                 "filesystem_memory_agent_loop_gate",
                 "desktop_review_rag_retry_gate",
                 "novel_core_knowledge_pack_rag_gate",
+                "rag_technique_catalog_context_retrieval_gate",
+                "agent_architecture_catalog_workflow_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",

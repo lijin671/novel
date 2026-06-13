@@ -178,6 +178,8 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "filesystem_memory_agent_loop_gate_hints",
             "desktop_review_rag_retry_gate_hints",
             "novel_core_knowledge_pack_rag_gate_hints",
+            "rag_technique_catalog_context_retrieval_gate_hints",
+            "agent_architecture_catalog_workflow_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -693,6 +695,8 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Local node-graph lore fix-loop gates" in panel_text
     assert "Uploaded style-learning API boundary gates" in panel_text
     assert "Editorial memory-card graph agent gates" in panel_text
+    assert "RAG technique catalog retrieval gates" in panel_text
+    assert "Agent architecture catalog workflow gates" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():
