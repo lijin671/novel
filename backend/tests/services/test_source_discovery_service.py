@@ -18297,3 +18297,155 @@ def test_static_showrunner_workbench_ironlaw_elementswap_sources_are_absorbed():
     assert "phase1_style_manual_reference_boundary_gate_hints" in digest
     assert "six_layer_iron_law_chapter_gate_hints" in digest
     assert "element_swap_deconstruction_rewrite_pipeline_gate_hints" in digest
+
+
+def test_static_disassembly_style_truth_collaboration_workspace_sources_are_absorbed():
+    assert "https://github.com/novel-writer-pro/novel_disassembly_agent_mini" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lsg1103275794/novel-writer-style-cn" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/lgz-star/novel-pro" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/blueraina/astrbot_plugin_novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/t59688/arboris-novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wordflowlab/novel-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("PostgreSQL-first" in query and "checkpoint" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("NLP" in query and "novel writer" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("真相系统" in query and "novel workflow" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("投票决策" in query and "novel plugin" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Arboris" in query and "写作界面" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("七步方法论" in query and "AI writing" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "novel-writer-pro/novel_disassembly_agent_mini",
+                "html_url": "https://github.com/novel-writer-pro/novel_disassembly_agent_mini",
+                "description": (
+                    "novel-analyzer is a chapter-progressive 小说拆书 system with PostgreSQL-first runtime, checkpoints, "
+                    "chapter_job and raw_output models, JSON-first chapter analysis, Markdown pipeline, QA workspace, and 引用章节跳转."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "disassembly", "checkpoint"],
+                "updated_at": "2026-06-13T14:00:00Z",
+                "root_files": ["README.md", "docs/roles/imitation/README.md", "apps/api", "apps/web", "alembic", "skills_dir"],
+            },
+            {
+                "full_name": "lsg1103275794/novel-writer-style-cn",
+                "html_url": "https://github.com/lsg1103275794/novel-writer-style-cn",
+                "description": (
+                    "novel-writer-style-cn supports AI风格学习 with NLP 算法 for 词汇分析, 句法分析, 情感分析, "
+                    "置信度, 风格验证, 风格融合, and 中文小说创作."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "style", "nlp"],
+                "updated_at": "2026-06-13T14:01:00Z",
+                "root_files": ["README.md", "LICENSE", "docs/nlp-analysis-flow.md", "package.json", "plugins"],
+            },
+            {
+                "full_name": "lgz-star/novel-pro",
+                "html_url": "https://github.com/lgz-star/novel-pro",
+                "description": (
+                    "novel-pro is a workflow + agent + 真相系统 long novel system with 章节结算, 事实总账, 快照视图, "
+                    "待同步章节, Auditor, Reviser, 上下文控制, and 接管存量小说."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel", "workflow", "truth"],
+                "updated_at": "2026-06-13T14:02:00Z",
+                "root_files": ["README.md", "LICENSE", "agents", "workflows", "references"],
+            },
+            {
+                "full_name": "blueraina/astrbot_plugin_novel",
+                "html_url": "https://github.com/blueraina/astrbot_plugin_novel",
+                "description": (
+                    "astrbot_plugin_novel is a 群体协作长篇小说 plugin with 创意系统, 多AI打分, 冲突检测, 投票决策, "
+                    "群隔离, 贡献者追踪, HCA, CSA, and 剧情检查器."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "collaboration", "astrbot"],
+                "updated_at": "2026-06-13T14:03:00Z",
+                "root_files": ["README.md", "LICENSE", "docs/images", "main.py", "_conf_schema.json"],
+            },
+            {
+                "full_name": "t59688/arboris-novel",
+                "html_url": "https://github.com/t59688/arboris-novel",
+                "description": (
+                    "Arboris is a 写作辅助工具 for creators with 角色管理, 大纲编辑, 写作界面, 可选方向, "
+                    "记录设定, and a linked novel-kit command-line/editor workflow."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "workspace", "outline"],
+                "updated_at": "2026-06-13T14:04:00Z",
+                "root_files": ["README.md", "README-en.md", "package.json", "src", "app"],
+            },
+            {
+                "full_name": "wordflowlab/novel-writer",
+                "html_url": "https://github.com/wordflowlab/novel-writer",
+                "description": (
+                    "novel-writer-cn is a 规格驱动开发 Chinese novel tool with 七步方法论, slash commands, constitution, "
+                    "specify, clarify, plan, tasks, write, analyze, and support for 13 个 AI 工具."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "sdd", "commands"],
+                "updated_at": "2026-06-13T14:05:00Z",
+                "root_files": ["README.md", "LICENSE", "docs/workflow.md", "docs/ai-platform-commands.md", "package.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T14:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "chapter_progressive_disassembly_checkpoint_gate" in candidates["novel-writer-pro/novel_disassembly_agent_mini"]["absorbed_patterns"]
+    assert "quantified_style_learning_confidence_gate" in candidates["lsg1103275794/novel-writer-style-cn"]["absorbed_patterns"]
+    assert "truth_system_chapter_settlement_gate" in candidates["lgz-star/novel-pro"]["absorbed_patterns"]
+    assert "group_collaboration_conflict_vote_memory_gate" in candidates["blueraina/astrbot_plugin_novel"]["absorbed_patterns"]
+    assert "arboris_story_direction_workspace_gate" in candidates["t59688/arboris-novel"]["absorbed_patterns"]
+    assert "sdd_seven_step_cross_platform_skill_gate" in candidates["wordflowlab/novel-writer"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "chapter_progressive_disassembly_checkpoint_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "quantified_style_confidence_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "truth_system_chapter_settlement_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "collaborative_conflict_vote_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "creator_workspace_direction_card_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "sdd_seven_step_skill_contract_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_progressive_disassembly_checkpoint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_confidence_feature_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "truth_ledger_snapshot_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "collaboration_conflict_vote_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_direction_workspace_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "sdd_skill_workflow_contract_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "disassembly_checkpoint_qa_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "quantified_style_feature_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "truth_system_settlement_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "group_collaboration_conflict_vote_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "story_direction_option_card_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "sdd_seven_step_workflow_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("chapter-progressive" in hint.lower() for hint in pattern_pack["chapter_progressive_disassembly_checkpoint_gate_hints"])
+    assert any("confidence report" in hint.lower() for hint in pattern_pack["quantified_style_learning_confidence_gate_hints"])
+    assert any("pending-sync" in hint.lower() for hint in pattern_pack["truth_system_chapter_settlement_gate_hints"])
+    assert any("group-isolated" in hint.lower() for hint in pattern_pack["group_collaboration_conflict_vote_memory_gate_hints"])
+    assert any("direction candidates" in hint.lower() for hint in pattern_pack["arboris_story_direction_workspace_gate_hints"])
+    assert any("sdd-style" in hint.lower() for hint in pattern_pack["sdd_seven_step_cross_platform_skill_gate_hints"])
+    assert any("confidence formula" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("style guidance" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("slash-command bodies" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "chapter_progressive_disassembly_checkpoint_gate_hints" in digest
+    assert "quantified_style_learning_confidence_gate_hints" in digest
+    assert "truth_system_chapter_settlement_gate_hints" in digest
+    assert "group_collaboration_conflict_vote_memory_gate_hints" in digest
+    assert "arboris_story_direction_workspace_gate_hints" in digest
+    assert "sdd_seven_step_cross_platform_skill_gate_hints" in digest

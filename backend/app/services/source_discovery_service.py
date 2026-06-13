@@ -511,6 +511,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("Scrivener MCP" OR ".scriv project" OR "pacing analysis") ("novel" OR "manuscript") in:name,description,readme',
     '("outline stays visible" OR "scaffolded writing view" OR "smart reference detection") ("writing software" OR "novel") in:name,description,readme',
     '("吃书" OR "加权向量检索" OR "冲突预警面板") ("长篇小说" OR "网络小说") in:name,description,readme',
+    '("chapter-progressive" OR "PostgreSQL-first" OR "checkpoint") ("novel analyzer" OR "小说拆书") in:name,description,readme',
+    '("AI风格学习" OR "NLP 算法" OR "置信度") ("中文小说" OR "novel writer") in:name,description,readme',
+    '("真相系统" OR "章节结算" OR "事实总账") ("长篇小说" OR "novel workflow") in:name,description,readme',
+    '("群体协作长篇小说" OR "投票决策" OR "冲突检测") ("AI小说" OR "novel plugin") in:name,description,readme',
+    '("Arboris" OR "写作辅助" OR "角色管理" OR "写作界面") ("可选方向" OR "novel") in:name,description,readme',
+    '("七步方法论" OR "规格驱动开发" OR "slash commands") ("小说" OR "AI writing") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1076,6 +1082,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/huahaiwujiang/novelist-workbench",
     "https://github.com/BillChen-29/novel-base",
     "https://github.com/dama-cyber/novel-ai-system",
+    "https://github.com/novel-writer-pro/novel_disassembly_agent_mini",
+    "https://github.com/lsg1103275794/novel-writer-style-cn",
+    "https://github.com/lgz-star/novel-pro",
+    "https://github.com/blueraina/astrbot_plugin_novel",
+    "https://github.com/t59688/arboris-novel",
+    "https://github.com/wordflowlab/novel-writer",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1585,6 +1597,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("phase1_style_manual_reference_boundary_gate", ("novelist-workbench", "AI 中文小说创作工作站", "原创和仿写", "Phase 1 拆书", "风格参考手册", "references/", "只读参考", "章数锁定", "逐章必须串行", "详情在 SKILL")),
     ("six_layer_iron_law_chapter_gate", ("novel-base", "Iron Law", "六层一致性", "真相文件", "状态追踪", "知识图谱", "大纲锚点", "反解决机制", "门禁失败", "修复本章", "outline_anchors.json")),
     ("element_swap_deconstruction_rewrite_pipeline_gate", ("novel-ai-system", "拆书分析与换元仿写", "split-book-analyzer", "element-swapper", "content-rewriter", "combined-revision", "逐章累积分析", "AI文体工程", "sandbox 创作法", "enhancement suite")),
+    ("chapter_progressive_disassembly_checkpoint_gate", ("novel-analyzer", "novel_disassembly_agent_mini", "chapter-progressive", "小说拆书", "PostgreSQL-first", "checkpoint", "chapter_job", "raw_output", "JSON-first chapter analysis", "Markdown pipeline", "QA", "引用章节跳转")),
+    ("quantified_style_learning_confidence_gate", ("novel-writer-style-cn", "AI风格学习", "NLP 算法", "词汇分析", "句法分析", "情感分析", "置信度", "风格验证", "风格融合", "中文小说创作")),
+    ("truth_system_chapter_settlement_gate", ("novel-pro", "真相系统", "章节结算", "事实总账", "快照视图", "待同步章节", "Auditor", "Reviser", "上下文控制", "接管存量小说")),
+    ("group_collaboration_conflict_vote_memory_gate", ("astrbot_plugin_novel", "群体协作长篇小说", "创意系统", "多AI打分", "冲突检测", "投票决策", "群隔离", "贡献者追踪", "HCA", "CSA", "剧情检查器")),
+    ("arboris_story_direction_workspace_gate", ("arboris", "写作辅助工具", "角色管理", "大纲编辑", "写作界面", "可选方向", "记录设定", "novel-kit", "下一章决策")),
+    ("sdd_seven_step_cross_platform_skill_gate", ("novel-writer-cn", "novel-writer", "规格驱动开发", "七步方法论", "slash commands", "constitution", "specify", "clarify", "plan", "tasks", "write", "analyze", "13 个 AI 工具")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4083,6 +4101,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "novel-ai-system is an MIT ultra-long Chinese novel AI creation system. Static README/SKILLS/PROMPTS/MODULE_INDEX markers describe split-book analysis, element swap, content rewrite, combined deconstruction-and-imitation revision, chapter-by-chapter cumulative analysis, stylus/style engineering, enhancement suite continuation/revision/optimization, sandbox creation, quality checks, and module indexes. "
         "Pattern-only adaptation for element-swap deconstruction rewrite pipelines; Docker, Qwen CLI/OAuth, npm scripts, shell/PowerShell/batch scripts, server runtime, provider calls, prompt bodies, and generated examples are not executed or imported."
     ),
+    "novel-writer-pro/novel_disassembly_agent_mini": (
+        "novel_disassembly_agent_mini is a no-license-file-observed chapter-progressive novel disassembly scaffold. Static README markers describe text import, chapter normalization, PostgreSQL-only runtime, Alembic data evolution, run/branch/checkpoint/chapter_job/raw_output models, hidden fallback branches, LangGraph seams, SkillKit loading, JSON-first chapter analysis into PostgreSQL and Markdown, and a QA workspace with cited chapter jumps. "
+        "Pattern-only adaptation for chapter-progressive disassembly checkpoint gates; PostgreSQL, Alembic, LangGraph, SkillKit, apps/api, apps/web, runtime scripts, databases, user corpora, prompts, and generated analyses are not executed or imported."
+    ),
+    "lsg1103275794/novel-writer-style-cn": (
+        "novel-writer-style-cn is an MIT Chinese novel writing assistant with SDD-style commands and a style-learning track. Static README markers describe AI style learning and imitation, quantitative NLP analysis for vocabulary/syntax/emotion, confidence scoring across sample sufficiency, feature consistency, style uniqueness and data completeness, style validation, style fusion, Chinese word-count and multi-thread support, and cross-platform assistant commands. "
+        "Pattern-only adaptation for quantified style-learning confidence gates; npm packages, slash-command installation, plugins, style corpora, prompt bodies, generated works, model calls, and author-style datasets are not executed or imported."
+    ),
+    "lgz-star/novel-pro": (
+        "novel-pro is an AGPL-3.0 Chinese long-novel workflow skill. Static README markers describe workflow + agent + truth-system layers, existing-novel takeover through sequential chapter reading and chapter settlement, truth ledgers and snapshot views, pending-sync chapter clearance before next drafting, Auditor/Reviser review loops, context control through progressive reading, and final settlement/audit stages. "
+        "Pattern-only adaptation for truth-system chapter-settlement gates; AGPL code, skills, agents, templates, generated novels, prompt bodies, provider calls, and runtime command packs are not executed or imported."
+    ),
+    "blueraina/astrbot_plugin_novel": (
+        "astrbot_plugin_novel is an MIT AstrBot plugin for group-collaborative long-form fiction. Static README markers describe JSON world/character/style knowledge bases, idea submission with multi-AI scoring, conflict detection, voting decisions, scene-level writing, multi-AI revise/review loops, character duplicate blocking, user feedback revision, per-group data isolation, contributor tracking, TXT/EPUB/PDF export, HCA-style story archives, CSA-style related-history recall, and a plot checker for mainline/continuity/conflict/foreshadowing. "
+        "Pattern-only adaptation for collaborative conflict-vote memory gates; AstrBot runtime, QQ/group messages, provider models, image APIs, exports, generated chapters, plugin install, chat logs, and user identities are not executed, collected, or imported."
+    ),
+    "t59688/arboris-novel": (
+        "Arboris-Novel is a README-MIT-badge/no-root-license-file-observed creator writing workspace. Static README markers describe a writing assistant that records settings, helps with protagonist/place/next-chapter decisions, exposes character management, outline editing, and writing views, and links a separate novel-kit command-line/editor workflow. "
+        "Pattern-only adaptation for author-facing story-direction workspace gates; online demo, account/community surfaces, novel-kit runtime, package installs, local projects, provider calls, screenshots, generated prose, and user manuscripts are not executed or imported."
+    ),
+    "wordflowlab/novel-writer": (
+        "Novel Writer / novel-writer-cn is an MIT SDD-based Chinese novel writing tool. Static README markers describe cross-platform slash commands for Claude, Gemini, Codex, Cursor, Windsurf and Roo Code, a seven-step method of constitution/specify/clarify/plan/tasks/write/analyze, Chinese word-count support, multi-thread management, plugin extension, plot tracking, timeline management and character consistency verification. "
+        "Pattern-only adaptation for SDD seven-step cross-platform skill gates; npm global install, initialized projects, plugins, command files, prompts, user projects, generated chapters, and provider/tool runtimes are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4932,6 +4974,12 @@ class NovelSourceDiscoveryService:
             "phase1_style_manual_reference_boundary_gate_hints": self._build_phase1_style_manual_reference_boundary_gate_hints(available_patterns),
             "six_layer_iron_law_chapter_gate_hints": self._build_six_layer_iron_law_chapter_gate_hints(available_patterns),
             "element_swap_deconstruction_rewrite_pipeline_gate_hints": self._build_element_swap_deconstruction_rewrite_pipeline_gate_hints(available_patterns),
+            "chapter_progressive_disassembly_checkpoint_gate_hints": self._build_chapter_progressive_disassembly_checkpoint_gate_hints(available_patterns),
+            "quantified_style_learning_confidence_gate_hints": self._build_quantified_style_learning_confidence_gate_hints(available_patterns),
+            "truth_system_chapter_settlement_gate_hints": self._build_truth_system_chapter_settlement_gate_hints(available_patterns),
+            "group_collaboration_conflict_vote_memory_gate_hints": self._build_group_collaboration_conflict_vote_memory_gate_hints(available_patterns),
+            "arboris_story_direction_workspace_gate_hints": self._build_arboris_story_direction_workspace_gate_hints(available_patterns),
+            "sdd_seven_step_cross_platform_skill_gate_hints": self._build_sdd_seven_step_cross_platform_skill_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5794,6 +5842,12 @@ class NovelSourceDiscoveryService:
             "phase1_style_manual_reference_boundary_gate": 69,
             "six_layer_iron_law_chapter_gate": 70,
             "element_swap_deconstruction_rewrite_pipeline_gate": 69,
+            "chapter_progressive_disassembly_checkpoint_gate": 70,
+            "quantified_style_learning_confidence_gate": 69,
+            "truth_system_chapter_settlement_gate": 71,
+            "group_collaboration_conflict_vote_memory_gate": 67,
+            "arboris_story_direction_workspace_gate": 66,
+            "sdd_seven_step_cross_platform_skill_gate": 68,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -7390,6 +7444,24 @@ class NovelSourceDiscoveryService:
         if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
             targets.append("deconstruction_element_swap_rewrite_policy")
             targets.append("chapter_by_chapter_cumulative_analysis_policy")
+        if "chapter_progressive_disassembly_checkpoint_gate" in patterns:
+            targets.append("chapter_progressive_disassembly_checkpoint_policy")
+            targets.append("qa_evidence_jump_boundary_policy")
+        if "quantified_style_learning_confidence_gate" in patterns:
+            targets.append("quantified_style_confidence_policy")
+            targets.append("style_feature_axis_verification_policy")
+        if "truth_system_chapter_settlement_gate" in patterns:
+            targets.append("truth_system_chapter_settlement_policy")
+            targets.append("pending_sync_before_next_chapter_policy")
+        if "group_collaboration_conflict_vote_memory_gate" in patterns:
+            targets.append("collaborative_conflict_vote_memory_policy")
+            targets.append("group_isolated_contributor_boundary_policy")
+        if "arboris_story_direction_workspace_gate" in patterns:
+            targets.append("creator_workspace_direction_card_policy")
+            targets.append("author_option_decision_custody_policy")
+        if "sdd_seven_step_cross_platform_skill_gate" in patterns:
+            targets.append("sdd_seven_step_skill_contract_policy")
+            targets.append("cross_platform_command_boundary_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8539,6 +8611,18 @@ class NovelSourceDiscoveryService:
             targets.extend(["six_layer_iron_law_gate_report", "outline_anchor_reverse_brake_report"])
         if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
             targets.extend(["element_swap_rewrite_pipeline_report", "chapter_cumulative_deconstruction_report"])
+        if "chapter_progressive_disassembly_checkpoint_gate" in patterns:
+            targets.extend(["chapter_progressive_disassembly_checkpoint_report", "qa_citation_jump_trace"])
+        if "quantified_style_learning_confidence_gate" in patterns:
+            targets.extend(["style_confidence_feature_report", "style_axis_validation_findings"])
+        if "truth_system_chapter_settlement_gate" in patterns:
+            targets.extend(["truth_ledger_snapshot_report", "pending_sync_chapter_settlement_trace"])
+        if "group_collaboration_conflict_vote_memory_gate" in patterns:
+            targets.extend(["collaboration_conflict_vote_report", "hca_csa_memory_recall_findings"])
+        if "arboris_story_direction_workspace_gate" in patterns:
+            targets.extend(["story_direction_workspace_report", "author_option_decision_trace"])
+        if "sdd_seven_step_cross_platform_skill_gate" in patterns:
+            targets.extend(["sdd_skill_workflow_contract_report", "seven_step_command_boundary_findings"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -9195,6 +9279,18 @@ class NovelSourceDiscoveryService:
             hints.append("Persist truth-file delta, state-tracker delta, graph update, outline anchor status, retrieved context ids, cross-agent review result, gate artifact path, and fix-required status before advancing chapters.")
         if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
             hints.append("Persist deconstruction range, element-swap design id, rewrite target range, cumulative chapter analysis, style-engineering profile, enhancement action, and sandbox validation status before accepting rewritten prose.")
+        if "chapter_progressive_disassembly_checkpoint_gate" in patterns:
+            hints.append("Persist import batch id, normalized chapter id, run/branch/checkpoint id, chapter_job status, raw_output custody, analysis JSON id, Markdown report id, and QA evidence jump refs before reuse.")
+        if "quantified_style_learning_confidence_gate" in patterns:
+            hints.append("Persist style sample scope, feature axes, vocabulary/syntax/emotion metrics, confidence formula inputs, validation result, and rights boundary before using a style profile.")
+        if "truth_system_chapter_settlement_gate" in patterns:
+            hints.append("Persist chapter settlement status, fact-ledger delta, snapshot refresh id, pending-sync queue, Auditor/Reviser verdict, and next-chapter clearance before drafting continues.")
+        if "group_collaboration_conflict_vote_memory_gate" in patterns:
+            hints.append("Persist idea source, conflict finding, vote result, group isolation id, contributor attribution mode, HCA story archive ids, CSA related-memory refs, and plot-checker findings per scene.")
+        if "arboris_story_direction_workspace_gate" in patterns:
+            hints.append("Persist author-facing setting cards, character edits, outline node decisions, next-direction options, selected option rationale, and workspace/export custody before generation.")
+        if "sdd_seven_step_cross_platform_skill_gate" in patterns:
+            hints.append("Persist SDD phase, command dialect, constitution/spec/clarification/plan/task/write/analyze artifact ids, plugin boundary, and cross-platform command mapping before handoff.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -14655,6 +14751,60 @@ class NovelSourceDiscoveryService:
             "novel-ai-system Docker, Qwen CLI/OAuth, npm scripts, shell/PowerShell/batch scripts, provider calls, server runtime, and prompt bodies remain excluded from static intake.",
         ]
 
+    def _build_chapter_progressive_disassembly_checkpoint_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_progressive_disassembly_checkpoint_gate" not in patterns:
+            return []
+        return [
+            "Treat source-book disassembly as a chapter-progressive job ledger: normalize text, create chapter jobs, keep raw output separately, and checkpoint every accepted analysis state.",
+            "Expose QA as evidence navigation: answer, reasoning summary, cited chapter jumps, and graph signals should be review metadata before they influence continuation prompts.",
+            "novel_disassembly_agent_mini PostgreSQL/Alembic/LangGraph/SkillKit runtime, local corpora, databases, prompts, API/web apps, and generated analyses remain excluded from static intake.",
+        ]
+
+    def _build_quantified_style_learning_confidence_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "quantified_style_learning_confidence_gate" not in patterns:
+            return []
+        return [
+            "Convert style learning into measurable axes: vocabulary, syntax, punctuation, narration, emotion tendency, sample sufficiency, feature consistency, uniqueness, and completeness.",
+            "Require a confidence report and rights boundary before style imitation; low confidence should route to abstract style guidance, not author-like prose replication.",
+            "novel-writer-style-cn npm packages, slash-command installs, plugins, prompt bodies, author corpora, generated works, and provider/model calls remain excluded from static intake.",
+        ]
+
+    def _build_truth_system_chapter_settlement_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "truth_system_chapter_settlement_gate" not in patterns:
+            return []
+        return [
+            "Before taking over or continuing a long novel, settle existing chapters sequentially into a fact ledger and snapshot view; pending-sync chapters block next-chapter drafting.",
+            "Split chapter work into workflow routing, agent execution, truth-system writeback, Auditor/Reviser findings, and final settlement so context does not grow into hidden prompt debt.",
+            "novel-pro AGPL code, skill folders, agents, templates, generated novels, prompt bodies, provider calls, and runtime command packs remain excluded from static intake.",
+        ]
+
+    def _build_group_collaboration_conflict_vote_memory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "group_collaboration_conflict_vote_memory_gate" not in patterns:
+            return []
+        return [
+            "For collaborative story input, separate idea intake, multi-review scoring, conflict detection, vote decision, scene drafting, and contributor attribution before accepting canon.",
+            "Use HCA/CSA-like memory only as bounded recall: mainline, conflict, character state, foreshadowing, recent chapter, and related-history refs must remain visible and group-isolated.",
+            "astrbot_plugin_novel runtime, QQ/group chat data, user identities, provider configurations, generated exports, image APIs, and plugin installs remain excluded from static intake.",
+        ]
+
+    def _build_arboris_story_direction_workspace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "arboris_story_direction_workspace_gate" not in patterns:
+            return []
+        return [
+            "Keep author-facing decisions visible as workspace cards: characters, places, outline nodes, next-chapter options, selected direction, and rejected alternatives.",
+            "Treat AI suggestions as optional direction candidates; accepted settings and outline changes need author confirmation before entering continuation memory.",
+            "Arboris online demo, account/community surfaces, linked novel-kit runtime, local projects, provider calls, screenshots, and user manuscripts remain excluded from static intake.",
+        ]
+
+    def _build_sdd_seven_step_cross_platform_skill_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "sdd_seven_step_cross_platform_skill_gate" not in patterns:
+            return []
+        return [
+            "Map novel work into an SDD-style phase ladder: constitution, specification, clarification, plan, tasks, write, and analyze, with artifacts and exit criteria for each phase.",
+            "Keep command dialects platform-neutral; Codex/Claude/Gemini/Cursor slash commands become workflow labels, not imported prompt files or installed global tools.",
+            "novel-writer-cn npm installs, initialized projects, plugins, generated command files, prompt bodies, user projects, and tool/provider runtimes remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -15740,6 +15890,24 @@ class NovelSourceDiscoveryService:
         if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
             targets.append("element_swap_rewrite_pipeline_remap")
             targets.append("cumulative_deconstruction_remap")
+        if "chapter_progressive_disassembly_checkpoint_gate" in patterns:
+            targets.append("disassembly_checkpoint_qa_remap")
+            targets.append("chapter_progressive_analysis_remap")
+        if "quantified_style_learning_confidence_gate" in patterns:
+            targets.append("quantified_style_feature_remap")
+            targets.append("style_confidence_boundary_remap")
+        if "truth_system_chapter_settlement_gate" in patterns:
+            targets.append("truth_system_settlement_remap")
+            targets.append("pending_sync_snapshot_remap")
+        if "group_collaboration_conflict_vote_memory_gate" in patterns:
+            targets.append("group_collaboration_conflict_vote_remap")
+            targets.append("hca_csa_memory_boundary_remap")
+        if "arboris_story_direction_workspace_gate" in patterns:
+            targets.append("story_direction_option_card_remap")
+            targets.append("author_workspace_decision_remap")
+        if "sdd_seven_step_cross_platform_skill_gate" in patterns:
+            targets.append("sdd_seven_step_workflow_remap")
+            targets.append("cross_platform_command_contract_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15865,6 +16033,18 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt continuation only after six-layer gate evidence passes; when the gate fails, the prompt must repair the current chapter instead of advancing the outline.")
         if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
             hints.append("Prompt element-swap rewrites from deconstruction findings as abstract roles, stakes, and pacing functions; keep upstream scripts and prompt bodies outside the context.")
+        if "chapter_progressive_disassembly_checkpoint_gate" in patterns:
+            hints.append("Prompt 拆书 output as cited analysis cards with checkpoint ids, chapter_job status, and QA evidence jumps; raw source text and raw_output stay outside generation context.")
+        if "quantified_style_learning_confidence_gate" in patterns:
+            hints.append("Prompt style guidance from quantified axes and confidence notes, not from protected samples; low-confidence axes become review questions instead of prose constraints.")
+        if "truth_system_chapter_settlement_gate" in patterns:
+            hints.append("Prompt continuation only after truth-ledger and snapshot settlement proves no pending-sync chapters remain; Auditor/Reviser findings define repair scope.")
+        if "group_collaboration_conflict_vote_memory_gate" in patterns:
+            hints.append("Prompt collaborative ideas through accepted vote decisions, conflict findings, group-isolated memory refs, and contributor policy, not raw chat or identity data.")
+        if "arboris_story_direction_workspace_gate" in patterns:
+            hints.append("Prompt next-chapter drafting from author-selected direction cards, setting records, and outline nodes; rejected options remain visible but non-canon.")
+        if "sdd_seven_step_cross_platform_skill_gate" in patterns:
+            hints.append("Prompt each task with its SDD phase and exit criteria: constitution, specify, clarify, plan, tasks, write, or analyze; command dialects stay metadata.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -16638,6 +16818,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform Iron Law gates into target chapter blockers, repair tasks, outline-anchor checks, and anti-resolution budgets instead of upstream command workflows.")
         if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
             hints.append("Transform split-book and element-swap mechanics into target deconstruction cards, replacement matrices, and rewrite acceptance reports without carrying source chapters.")
+        if "chapter_progressive_disassembly_checkpoint_gate" in patterns:
+            hints.append("Transform chapter-progressive disassembly into MuMuAINovel import ledgers, checkpointed chapter-analysis cards, QA citations, and evidence jumps without carrying raw source chunks.")
+        if "quantified_style_learning_confidence_gate" in patterns:
+            hints.append("Transform style learning into permission-safe feature vectors, confidence scores, and validation findings; replace author-like imitation with abstract target voice controls.")
+        if "truth_system_chapter_settlement_gate" in patterns:
+            hints.append("Transform truth-system settlement into target fact-ledger deltas, snapshot refreshes, pending-sync blockers, and review-revision tasks before next-chapter generation.")
+        if "group_collaboration_conflict_vote_memory_gate" in patterns:
+            hints.append("Transform collaboration mechanics into local idea queues, conflict votes, contributor-attribution policy, and memory recall cards without importing chat logs or group identities.")
+        if "arboris_story_direction_workspace_gate" in patterns:
+            hints.append("Transform author-option workspaces into target character/outline/direction cards and selected-option rationale while keeping screenshots, demos, and external projects out.")
+        if "sdd_seven_step_cross_platform_skill_gate" in patterns:
+            hints.append("Transform SDD command workflows into MuMuAINovel phase artifacts and exit gates; do not copy slash-command files, install paths, or prompt bodies.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -17451,6 +17643,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject chapters that bypass a failed gate, copy novel-base slash commands, include meta-analysis markers in prose, or resolve the main conflict before the target outline allows it.")
         if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
             hints.append("Reject rewrites that copy novel-ai-system prompt bodies, shell-script examples, source deconstruction text, source chapter order, or element-swap examples as fiction.")
+        if "chapter_progressive_disassembly_checkpoint_gate" in patterns:
+            hints.append("Reject outputs that copy novel_disassembly_agent_mini schema names, database rows, raw_output text, QA examples, role docs, or user-corpus analysis as target canon.")
+        if "quantified_style_learning_confidence_gate" in patterns:
+            hints.append("Reject drafts that clone a protected author's measurable style fingerprint, imported sample corpus, NLP report wording, plugin prompts, or style-profile examples.")
+        if "truth_system_chapter_settlement_gate" in patterns:
+            hints.append("Reject chapters that skip truth-ledger settlement, copy novel-pro workflow/agent files, import AGPL templates, or hide pending-sync facts inside prose.")
+        if "group_collaboration_conflict_vote_memory_gate" in patterns:
+            hints.append("Reject drafts that import group chat messages, contributor names, vote text, plugin commands, generated exports, HCA/CSA files, or QQ-specific state as story material.")
+        if "arboris_story_direction_workspace_gate" in patterns:
+            hints.append("Reject outputs that copy Arboris screenshots, online-demo data, community links, linked novel-kit behavior, direction examples, or local author projects into canon.")
+        if "sdd_seven_step_cross_platform_skill_gate" in patterns:
+            hints.append("Reject drafts that copy novel-writer-cn slash-command bodies, initialized project templates, plugin examples, workflow docs, or command dialect labels as prose.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -18370,6 +18574,12 @@ class NovelSourceDiscoveryService:
                 "phase1_style_manual_reference_boundary_gate",
                 "six_layer_iron_law_chapter_gate",
                 "element_swap_deconstruction_rewrite_pipeline_gate",
+                "chapter_progressive_disassembly_checkpoint_gate",
+                "quantified_style_learning_confidence_gate",
+                "truth_system_chapter_settlement_gate",
+                "group_collaboration_conflict_vote_memory_gate",
+                "arboris_story_direction_workspace_gate",
+                "sdd_seven_step_cross_platform_skill_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",

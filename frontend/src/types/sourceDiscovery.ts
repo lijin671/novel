@@ -369,6 +369,12 @@ export interface SourceDiscoveryPatternPack {
   phase1_style_manual_reference_boundary_gate_hints?: string[];
   six_layer_iron_law_chapter_gate_hints?: string[];
   element_swap_deconstruction_rewrite_pipeline_gate_hints?: string[];
+  chapter_progressive_disassembly_checkpoint_gate_hints?: string[];
+  quantified_style_learning_confidence_gate_hints?: string[];
+  truth_system_chapter_settlement_gate_hints?: string[];
+  group_collaboration_conflict_vote_memory_gate_hints?: string[];
+  arboris_story_direction_workspace_gate_hints?: string[];
+  sdd_seven_step_cross_platform_skill_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

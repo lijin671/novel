@@ -162,6 +162,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "phase1_style_manual_reference_boundary_gate_hints",
             "six_layer_iron_law_chapter_gate_hints",
             "element_swap_deconstruction_rewrite_pipeline_gate_hints",
+            "chapter_progressive_disassembly_checkpoint_gate_hints",
+            "quantified_style_learning_confidence_gate_hints",
+            "truth_system_chapter_settlement_gate_hints",
+            "group_collaboration_conflict_vote_memory_gate_hints",
+            "arboris_story_direction_workspace_gate_hints",
+            "sdd_seven_step_cross_platform_skill_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -502,6 +508,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Scrivener MCP project analysis boundary gates" in panel_text
     assert "Kindling local outline reference import gates" in panel_text
     assert "NovelEngine weighted RAG consistency gates" in panel_text
+    assert "Chapter-progressive disassembly checkpoint gates" in panel_text
+    assert "Quantified style-learning confidence gates" in panel_text
+    assert "Truth-system chapter settlement gates" in panel_text
+    assert "Group collaboration conflict-vote memory gates" in panel_text
+    assert "Arboris story-direction workspace gates" in panel_text
+    assert "SDD seven-step cross-platform skill gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text
