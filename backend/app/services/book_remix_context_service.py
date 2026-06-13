@@ -139,7 +139,44 @@ def build_remix_continuation_control_audit(
             "pov_knowledge_timeline",
             "thread_convergence_chronology",
         ])
-
+    if "confirmed_action_audit_recovery_gate" in pattern_names:
+        control_axes.extend([
+            "confirmed_action_artifact_evidence",
+            "critical_finding_recovery",
+        ])
+        acceptance_steps.extend([
+            "verify_action_artifacts",
+            "resolve_critical_findings",
+        ])
+    if "planner_writer_evaluator_editor_saga_gate" in pattern_names:
+        control_axes.extend([
+            "role_separated_findings",
+            "canon_promotion_decision",
+        ])
+        acceptance_steps.append("approve_or_reject_canon_promotion")
+    if pattern_names.intersection(
+        {
+            "story_state_output_contract_gate",
+            "markdown_frontmatter_continuity_engine_gate",
+        }
+    ):
+        control_axes.extend([
+            "structured_state_delta_contract",
+            "frontmatter_continuity_metadata",
+        ])
+    if pattern_names.intersection(
+        {
+            "craft_scene_concrete_finding_revision_gate",
+            "anti_hallucination_strand_weave_review_gate",
+            "ai_flavor_template_shell_cleanup_gate",
+        }
+    ):
+        control_axes.extend([
+            "concrete_revision_finding",
+            "strand_weave_hallucination_review",
+            "template_shell_cleanup",
+        ])
+        acceptance_steps.append("final_craft_cleanup_scan")
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -228,6 +265,10 @@ def build_remix_continuation_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_truth_file_write_next_state_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_action_review_canonization_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -697,6 +738,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_truth_file_write_next_state_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_action_review_canonization_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1845,6 +1890,81 @@ def _append_truth_file_write_next_state_gate_section(
     )
     if hints:
         lines.append(f"- source_hint: {_truncate(hints[0], 220)}")
+
+
+def _append_action_review_canonization_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render artifact-backed action, review, and canon-promotion gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    action_review_patterns = {
+        "confirmed_action_audit_recovery_gate",
+        "planner_writer_evaluator_editor_saga_gate",
+        "story_state_output_contract_gate",
+        "markdown_frontmatter_continuity_engine_gate",
+        "craft_scene_concrete_finding_revision_gate",
+        "anti_hallucination_strand_weave_review_gate",
+        "ai_flavor_template_shell_cleanup_gate",
+    }
+    active_patterns = pattern_names.intersection(action_review_patterns)
+    if not active_patterns:
+        return
+
+    confirmed_hints = (
+        _as_note_list(source_pattern_pack.get("confirmed_action_audit_recovery_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    saga_hints = (
+        _as_note_list(source_pattern_pack.get("planner_writer_evaluator_editor_saga_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Action-review canonization gate:")
+    if "confirmed_action_audit_recovery_gate" in active_patterns:
+        lines.append(
+            "- confirmed_action_audit_recovery_gate: generation, rewrite, state writeback, "
+            "and completion claims require confirmed action ids, artifact evidence, and "
+            "unresolved critical finding review"
+        )
+    if "planner_writer_evaluator_editor_saga_gate" in active_patterns:
+        lines.append(
+            "- planner_writer_evaluator_editor_saga_gate: keep planner, writer, evaluator, "
+            "and editor findings separate until an explicit canon-promotion decision"
+        )
+    if "story_state_output_contract_gate" in active_patterns:
+        lines.append(
+            "- story_state_output_contract_gate: prose output and state-update blocks stay "
+            "separate; proposed deltas need reviewer status before memory writeback"
+        )
+    if "markdown_frontmatter_continuity_engine_gate" in active_patterns:
+        lines.append(
+            "- markdown_frontmatter_continuity_engine_gate: chapter/scene metadata must track "
+            "pov, timeline, mentions, promises, payoffs, and canon status before reuse"
+        )
+    if "craft_scene_concrete_finding_revision_gate" in active_patterns:
+        lines.append(
+            "- concrete_revision_finding: every revision request names the concrete finding, "
+            "narrative function, protected style-bearing material, and acceptance criterion"
+        )
+    if "anti_hallucination_strand_weave_review_gate" in active_patterns:
+        lines.append(
+            "- anti_hallucination_strand_weave: outline is law, setting is physics, invented "
+            "facts are flagged, and quest/fire/constellation strands are reviewed before prose"
+        )
+    if "ai_flavor_template_shell_cleanup_gate" in active_patterns:
+        lines.append(
+            "- ai_flavor_template_shell_cleanup_gate: final cleanup rejects template sentence "
+            "shells, assistant-roadmap wording, fake engagement endings, and paragraph homology"
+        )
+    if confirmed_hints:
+        lines.append(f"- confirmed_action_source_hint: {_truncate(confirmed_hints[0], 220)}")
+    if saga_hints:
+        lines.append(f"- saga_source_hint: {_truncate(saga_hints[0], 220)}")
 
 
 def _build_universal_next_chapter_contract(

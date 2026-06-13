@@ -201,6 +201,63 @@ def test_build_remix_context_blocks_render_truth_file_write_next_state_gate():
         assert "truth_file_write_next_state_update_gate" in block
 
 
+def test_build_remix_context_blocks_render_action_review_canonization_gate():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "confirmed_action_audit_recovery_gate"},
+            {"name": "planner_writer_evaluator_editor_saga_gate"},
+            {"name": "story_state_output_contract_gate"},
+            {"name": "markdown_frontmatter_continuity_engine_gate"},
+            {"name": "craft_scene_concrete_finding_revision_gate"},
+            {"name": "anti_hallucination_strand_weave_review_gate"},
+            {"name": "ai_flavor_template_shell_cleanup_gate"},
+        ],
+        "confirmed_action_audit_recovery_gate_hints": [
+            "Completion must come from confirmed actions, artifacts, and unresolved critical finding review."
+        ],
+        "planner_writer_evaluator_editor_saga_gate_hints": [
+            "Planner, writer, evaluator and editor findings stay separate until canon approval."
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Action Review Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "foreshadows": [{"hook": "Archive seal breaks", "status": "open"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 8,
+                    "summary": "Lin locked the archive after the seal trembled.",
+                }
+            ],
+        },
+        plan={"beats": [{"beat": "Open with the seal consequence", "status": "pending"}]},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Action Review Inspired Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep pressure without source facts.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source audit labels as prose.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Action-review canonization gate:" in block
+        assert "confirmed_action_audit_recovery_gate" in block
+        assert "planner_writer_evaluator_editor_saga_gate" in block
+        assert "story_state_output_contract_gate" in block
+        assert "markdown_frontmatter_continuity_engine_gate" in block
+        assert "concrete_revision_finding" in block
+        assert "anti_hallucination_strand_weave" in block
+        assert "ai_flavor_template_shell_cleanup_gate" in block
+
+
 def test_build_remix_continuation_control_audit_tracks_resume_and_memory_gates():
     audit = build_remix_continuation_control_audit(
         bible={
@@ -250,6 +307,60 @@ def test_build_remix_continuation_control_audit_tracks_resume_and_memory_gates()
     assert "pov_knowledge_timeline" in audit["control_axes"]
     assert "stage_checkpoint_review" in audit["acceptance_steps"]
     assert audit["warnings"] == ["chapter_sequence_gaps"]
+
+
+def test_build_remix_continuation_control_audit_tracks_action_review_gates():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "goal": "Recover the ledger"}],
+            "timeline": [
+                {
+                    "event": "Ledger clue recovered",
+                    "source": "chapter_analysis",
+                    "chapter_number": 3,
+                }
+            ],
+            "foreshadows": [{"hook": "Old rival returns", "status": "open"}],
+            "style_signature": {"voice": "spare"},
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 3,
+                    "summary": "Inspector Lin confirmed the ledger clue.",
+                },
+            ],
+        },
+        plan={
+            "beats": [{"beat": "Confront the archive witness", "status": "pending"}],
+            "priority_hooks": [{"hook": "Old rival returns", "status": "pending"}],
+            "guardrails": [{"rule": "No false final confrontation"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "confirmed_action_audit_recovery_gate"},
+                {"name": "planner_writer_evaluator_editor_saga_gate"},
+                {"name": "story_state_output_contract_gate"},
+                {"name": "markdown_frontmatter_continuity_engine_gate"},
+                {"name": "craft_scene_concrete_finding_revision_gate"},
+                {"name": "anti_hallucination_strand_weave_review_gate"},
+                {"name": "ai_flavor_template_shell_cleanup_gate"},
+            ]
+        },
+    )
+
+    assert "confirmed_action_artifact_evidence" in audit["control_axes"]
+    assert "critical_finding_recovery" in audit["control_axes"]
+    assert "role_separated_findings" in audit["control_axes"]
+    assert "canon_promotion_decision" in audit["control_axes"]
+    assert "structured_state_delta_contract" in audit["control_axes"]
+    assert "frontmatter_continuity_metadata" in audit["control_axes"]
+    assert "concrete_revision_finding" in audit["control_axes"]
+    assert "strand_weave_hallucination_review" in audit["control_axes"]
+    assert "template_shell_cleanup" in audit["control_axes"]
+    assert "verify_action_artifacts" in audit["acceptance_steps"]
+    assert "resolve_critical_findings" in audit["acceptance_steps"]
+    assert "approve_or_reject_canon_promotion" in audit["acceptance_steps"]
+    assert "final_craft_cleanup_scan" in audit["acceptance_steps"]
 
 
 def test_build_remix_context_preview_audit_reports_sections_tokens_and_patterns():
