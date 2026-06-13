@@ -28,6 +28,8 @@ const TEXT = {
   progressReportGaps: "\u7ae0\u8282\u8fdb\u5ea6\u5199\u56de\u7f3a\u53e3\uff1a",
   genreTrackerWarnings: "\u7f51\u6587\u4f53\u88c1\u8ffd\u8e2a\u63d0\u9192\uff1a",
   entityArcTimelineRisks: "\u5b9e\u4f53/\u5f27\u7ebf\u65f6\u95f4\u7ebf\u98ce\u9669\uff1a",
+  disassemblyCheckpoint: "\u62c6\u4e66 checkpoint\uff1a",
+  missingSourceAnalysis: "\u7f3a\u5931\u6e90\u7ae0\u5206\u6790\uff1a",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -196,6 +198,25 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Space wrap>
                 {value.entity_arc_timeline_risks.slice(0, 8).map(risk => (
                   <Tag key={risk} color="red">{risk}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {(value.source_analysis_coverage_percent || value.missing_source_analysis_chapters?.length || value.disassembly_checkpoint_warnings?.length) ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.disassemblyCheckpoint}</Text>
+              <Space wrap>
+                <Tag color={value.disassembly_checkpoint_warnings?.length ? 'orange' : 'green'}>
+                  coverage {value.source_analysis_coverage_percent ?? 0}%
+                </Tag>
+                {value.missing_source_analysis_chapters?.length ? (
+                  <Tag color="volcano">
+                    {TEXT.missingSourceAnalysis}{value.missing_source_analysis_chapters.join(', ')}
+                  </Tag>
+                ) : null}
+                {value.disassembly_checkpoint_warnings?.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>
             </Space>

@@ -181,6 +181,13 @@ def build_remix_continuation_control_audit(
     if "progress_report_continuity_writeback_gate" in pattern_names:
         control_axes.append("chapter_progress_report_completeness")
         acceptance_steps.append("verify_progress_report_fields")
+    if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names:
+        control_axes.extend([
+            "source_chapter_analysis_coverage",
+            "disassembly_checkpoint_ledger",
+            "qa_citation_jump_trace",
+        ])
+        acceptance_steps.append("verify_disassembly_checkpoint_coverage")
     if "genre_inspiration_budget_library_gate" in pattern_names:
         control_axes.extend([
             "genre_reader_promise_matrix",
@@ -218,6 +225,11 @@ def build_remix_continuation_control_audit(
         if "entity_mention_arc_timeline_gate" in pattern_names
         else []
     )
+    disassembly_checkpoint_audit = (
+        _chapter_progressive_disassembly_checkpoint_audit(bible=bible, max_items=8)
+        if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names
+        else _empty_disassembly_checkpoint_audit()
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -229,6 +241,8 @@ def build_remix_continuation_control_audit(
         warnings.append("webnovel_genre_tracker_warnings")
     if entity_arc_timeline_risks:
         warnings.append("entity_arc_timeline_risks")
+    if disassembly_checkpoint_audit["warnings"]:
+        warnings.append("disassembly_checkpoint_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -260,6 +274,9 @@ def build_remix_continuation_control_audit(
         "chapter_progress_report_gaps": progress_report_gaps,
         "genre_tracker_warnings": genre_tracker_warnings,
         "entity_arc_timeline_risks": entity_arc_timeline_risks,
+        "source_analysis_coverage_percent": disassembly_checkpoint_audit["source_analysis_coverage_percent"],
+        "missing_source_analysis_chapters": disassembly_checkpoint_audit["missing_source_analysis_chapters"],
+        "disassembly_checkpoint_warnings": disassembly_checkpoint_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -462,6 +479,11 @@ def build_remix_continuation_context_block(
     )
     _append_source_deconstruction_memory_audit_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_chapter_progressive_disassembly_checkpoint_section(
+        lines=lines,
+        bible=bible,
         source_pattern_pack=source_pattern_pack,
     )
     _append_canon_graph_retrieval_audit_section(
@@ -720,6 +742,9 @@ def build_remix_context_preview_audit(
         "chapter_progress_report_gaps": production_control_audit["chapter_progress_report_gaps"],
         "genre_tracker_warnings": production_control_audit["genre_tracker_warnings"],
         "entity_arc_timeline_risks": production_control_audit["entity_arc_timeline_risks"],
+        "source_analysis_coverage_percent": production_control_audit["source_analysis_coverage_percent"],
+        "missing_source_analysis_chapters": production_control_audit["missing_source_analysis_chapters"],
+        "disassembly_checkpoint_warnings": production_control_audit["disassembly_checkpoint_warnings"],
         **continuity_audit,
     }
 
@@ -1086,6 +1111,7 @@ class BookRemixContextService:
             "style_signature": bible.style_signature or {},
             "conflicts": bible.conflicts or [],
             "chapter_change_packages": bible.chapter_change_packages or [],
+            "source_chapter_count": int(bible.source_chapter_count or 0),
         }
 
     def _has_confirmed_remix_lineage(
@@ -1765,6 +1791,104 @@ def _chapter_progress_report_gaps(packages: list[dict[str, Any]]) -> list[dict[s
             )
             gaps.append({"chapter": chapter, "missing_fields": missing_fields})
     return gaps[:8]
+
+
+def _chapter_progressive_disassembly_checkpoint_audit(
+    *,
+    bible: dict[str, Any],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit source-book chapter analysis coverage for拆书-driven continuation."""
+    source_chapter_count = _int_or_none(bible.get("source_chapter_count")) or 0
+    analysis_packages = [
+        package
+        for package in _as_dict_list(bible.get("chapter_change_packages"))
+        if _string_value(package.get("source")) == "chapter_analysis"
+    ]
+    analyzed_chapters = sorted(
+        {
+            chapter
+            for package in analysis_packages
+            for chapter in (_int_or_none(package.get("chapter_number")),)
+            if chapter is not None and chapter > 0
+        }
+    )
+
+    if source_chapter_count > 0:
+        covered_chapters = [chapter for chapter in analyzed_chapters if chapter <= source_chapter_count]
+        missing_chapters = [
+            chapter
+            for chapter in range(1, source_chapter_count + 1)
+            if chapter not in set(covered_chapters)
+        ]
+        coverage_percent = int(round((len(covered_chapters) / source_chapter_count) * 100))
+    else:
+        missing_chapters = []
+        coverage_percent = 0
+
+    warnings: list[str] = []
+    if source_chapter_count <= 0:
+        warnings.append("source_chapter_count_missing")
+    if not analysis_packages:
+        warnings.append("missing_chapter_analysis_packages")
+    if source_chapter_count > 0 and missing_chapters:
+        warnings.append("source_analysis_coverage_incomplete")
+    if analysis_packages and not _has_disassembly_evidence_refs(analysis_packages):
+        warnings.append("missing_qa_citation_jump_trace")
+
+    return {
+        "source_chapter_count": source_chapter_count,
+        "source_analysis_package_count": len(analysis_packages),
+        "source_analysis_coverage_percent": coverage_percent,
+        "missing_source_analysis_chapters": _compress_chapter_numbers(missing_chapters)[:max_items],
+        "has_qa_citation_jump_trace": _has_disassembly_evidence_refs(analysis_packages),
+        "warnings": warnings[:max_items],
+    }
+
+
+def _empty_disassembly_checkpoint_audit() -> dict[str, Any]:
+    return {
+        "source_chapter_count": 0,
+        "source_analysis_package_count": 0,
+        "source_analysis_coverage_percent": 0,
+        "missing_source_analysis_chapters": [],
+        "has_qa_citation_jump_trace": False,
+        "warnings": [],
+    }
+
+
+def _has_disassembly_evidence_refs(packages: list[dict[str, Any]]) -> bool:
+    evidence_keys = (
+        "evidence_refs",
+        "source_refs",
+        "citation_refs",
+        "qa_citations",
+        "chapter_jump_refs",
+        "source_chapter_refs",
+    )
+    for package in packages:
+        if _has_any_package_value(package, evidence_keys):
+            return True
+        for item in _as_dict_list(package.get("qa_notes")) + _as_dict_list(package.get("citations")):
+            if _has_any_package_value(item, evidence_keys + ("chapter_number", "chapter_ref", "source_ref")):
+                return True
+    return False
+
+
+def _compress_chapter_numbers(chapter_numbers: list[int]) -> list[str]:
+    if not chapter_numbers:
+        return []
+    ordered = sorted(set(chapter_numbers))
+    ranges: list[str] = []
+    start = previous = ordered[0]
+    for current in ordered[1:]:
+        if current == previous + 1:
+            previous = current
+            continue
+        ranges.append(str(start) if start == previous else f"{start}-{previous}")
+        start = previous = current
+    ranges.append(str(start) if start == previous else f"{start}-{previous}")
+    return ranges
 
 
 def _chapter_identity_key(package: dict[str, Any]) -> tuple[str, int | str] | None:
@@ -3351,6 +3475,47 @@ def _append_source_deconstruction_memory_audit_section(
         lines.append("- two_pass_context_glossary_pipeline: run analysis before generation, then use summary, previous-summary bridge, and cumulative glossary consistently")
     if "inline_author_edit_markup_versioning" in pattern_names:
         lines.append("- inline_author_edit_markup_versioning: keep author notes and edit notes visible until processed, reviewed, and versioned")
+
+
+def _append_chapter_progressive_disassembly_checkpoint_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render source-analysis coverage before continuation uses拆书 state."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "chapter_progressive_disassembly_checkpoint_gate" not in pattern_names:
+        return
+
+    audit = _chapter_progressive_disassembly_checkpoint_audit(bible=bible, max_items=8)
+    hints = _as_note_list(source_pattern_pack.get("chapter_progressive_disassembly_checkpoint_gate_hints")) if source_pattern_pack else []
+
+    lines.append("")
+    lines.append("Chapter-progressive disassembly checkpoint audit:")
+    lines.append(
+        "- source_analysis_coverage: "
+        f"source_chapters={audit['source_chapter_count']}, "
+        f"analysis_packages={audit['source_analysis_package_count']}, "
+        f"coverage={audit['source_analysis_coverage_percent']}%"
+    )
+    if audit["missing_source_analysis_chapters"]:
+        lines.append(
+            "- missing_source_analysis_chapters: "
+            f"{', '.join(audit['missing_source_analysis_chapters'])}"
+        )
+    lines.append(
+        "- checkpoint_rule: normalize source chapters, keep raw_output outside canon, "
+        "and checkpoint accepted JSON/Markdown analysis before continuation"
+    )
+    lines.append(
+        "- qa_citation_jump_trace: QA citation jumps are required before full-scope "
+        "continuation, source claims, or same-type transformation"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"]:
+        lines.append(f"- disassembly_checkpoint_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_canon_graph_retrieval_audit_section(

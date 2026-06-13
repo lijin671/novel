@@ -84,6 +84,9 @@ export interface BookRemixContinuationContextPreview {
   chapter_progress_report_gaps: Array<Record<string, unknown>>;
   genre_tracker_warnings: string[];
   entity_arc_timeline_risks: string[];
+  source_analysis_coverage_percent: number;
+  missing_source_analysis_chapters: string[];
+  disassembly_checkpoint_warnings: string[];
   continuity_questions: string[];
   promise_payoff_debts: Array<Record<string, string>>;
   scene_state_snapshot: Array<Record<string, string>>;

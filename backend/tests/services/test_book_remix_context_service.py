@@ -587,6 +587,89 @@ def test_build_remix_context_preview_audit_surfaces_production_gate_warnings():
     assert any("active_arc_without_chapter_link: Ledger conspiracy" in item for item in audit["canon_drift_risks"])
 
 
+def test_build_remix_context_preview_audit_surfaces_disassembly_checkpoint_coverage():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "chapter_progressive_disassembly_checkpoint_gate"},
+        ],
+    }
+    bible = {
+        "source_chapter_count": 5,
+        "character_cards": [{"name": "Inspector Lin", "last_seen_chapter": 3}],
+        "timeline": [{"event": "Source opening", "source": "chapter_analysis", "chapter_number": 1}],
+        "style_signature": {"voice": "spare"},
+        "chapter_change_packages": [
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 1,
+                "summary": "Source chapter one was analyzed.",
+                "timeline_delta": [{"event": "Case opened"}],
+                "character_state_changes": [
+                    {"character_name": "Inspector Lin", "state_after": "curious"}
+                ],
+            },
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 3,
+                "summary": "Source chapter three exposed the archive.",
+                "timeline_delta": [{"event": "Archive appeared"}],
+                "character_state_changes": [
+                    {"character_name": "Inspector Lin", "state_after": "alarmed"}
+                ],
+            },
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nRecent chapter change packages",
+        bible=bible,
+        plan={"summary": "Continue only from checkpointed analysis.", "guardrails": [{"rule": "cite source evidence"}]},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "source_chapter_analysis_coverage" in audit["production_control_axes"]
+    assert "verify_disassembly_checkpoint_coverage" in audit["production_acceptance_steps"]
+    assert "disassembly_checkpoint_warnings" in audit["production_warnings"]
+    assert "production_control_review_required" in audit["context_warnings"]
+    assert audit["source_analysis_coverage_percent"] == 40
+    assert audit["missing_source_analysis_chapters"] == ["2", "4-5"]
+    assert "source_analysis_coverage_incomplete" in audit["disassembly_checkpoint_warnings"]
+
+
+def test_build_remix_continuation_context_block_renders_disassembly_checkpoint_gate():
+    block = build_remix_continuation_context_block(
+        project_title="Disassembly Desk",
+        bible={
+            "source_chapter_count": 4,
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 1,
+                    "summary": "Opening source chapter was normalized.",
+                    "timeline_delta": [{"event": "Opening source clue"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "alert"}
+                    ],
+                }
+            ],
+        },
+        plan={"summary": "Do not write beyond accepted source-analysis coverage."},
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "chapter_progressive_disassembly_checkpoint_gate"}],
+            "chapter_progressive_disassembly_checkpoint_gate_hints": [
+                "Keep chapter-progressive raw output separate from accepted analysis."
+            ],
+        },
+    )
+
+    assert "Chapter-progressive disassembly checkpoint audit" in block
+    assert "coverage=25%" in block
+    assert "missing_source_analysis_chapters: 2-4" in block
+    assert "raw_output outside canon" in block
+    assert "QA citation jumps" in block
+    assert "Keep chapter-progressive raw output separate" in block
+
+
 def test_build_remix_continuity_control_audit_projects_entity_timeline_risks():
     audit = build_remix_continuity_control_audit(
         bible={
