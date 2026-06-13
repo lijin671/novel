@@ -3501,3 +3501,78 @@ def test_build_remix_context_blocks_render_project_workbench_memory_diversity_au
         assert "foreshadowing checklists" in block
         assert "reversible diff" in block
         assert "probability-scored variants" in block
+
+
+def test_build_remix_context_blocks_render_genre_arc_style_governance_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "genre_inspiration_budget_library_gate", "candidate_count": 1},
+            {"name": "volume_antipattern_dependency_graph_gate", "candidate_count": 1},
+            {"name": "style_dna_breakpoint_hierarchy_gate", "candidate_count": 1},
+            {"name": "arc_state_foreshadowing_persistence_gate", "candidate_count": 1},
+            {"name": "webnovel_genre_tracker_gate", "candidate_count": 1},
+            {"name": "platform_ranking_research_boundary_gate", "candidate_count": 1},
+            {"name": "entity_mention_arc_timeline_gate", "candidate_count": 1},
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Genre Arc Desk",
+        bible={"hard_constraints": [{"rule": "Do not copy source chapter order"}]},
+        plan={"summary": "Continue by preserving arc custody and volume dependencies."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Genre Arc Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer market promise and pressure only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source genre bundle, volume ladder, or arc ids.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Genre, arc, and style governance audit" in block
+        assert "genre_inspiration_budget_library_gate" in block
+        assert "volume_antipattern_dependency_graph_gate" in block
+        assert "style_dna_breakpoint_hierarchy_gate" in block
+        assert "arc_state_foreshadowing_persistence_gate" in block
+        assert "webnovel_genre_tracker_gate" in block
+        assert "platform_ranking_research_boundary_gate" in block
+        assert "entity_mention_arc_timeline_gate" in block
+        assert "abstract option matrix" in block
+        assert "event dependency graph" in block
+        assert "style-DNA" in block
+        assert "major/minor/micro arcs" in block
+        assert "appearance rhythm" in block
+
+
+def test_build_remix_inspired_independence_audit_expands_genre_arc_difference_axes():
+    audit = build_remix_inspired_independence_audit(
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep genre promise and emotional pressure.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source cast, volume ladder, or payoff sequence.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "genre_inspiration_budget_library_gate"},
+                {"name": "volume_antipattern_dependency_graph_gate"},
+                {"name": "style_dna_breakpoint_hierarchy_gate"},
+                {"name": "arc_state_foreshadowing_persistence_gate"},
+                {"name": "entity_mention_arc_timeline_gate"},
+            ],
+        },
+    )
+
+    assert "genre_promise_matrix" in audit["transfer_axes"]
+    assert "trope_option_budget" in audit["transfer_axes"]
+    assert "volume_escalation_ladder" in audit["required_difference_axes"]
+    assert "event_dependency_edges" in audit["required_difference_axes"]
+    assert "arc_id_namespace" in audit["required_difference_axes"]
+    assert "appearance_rhythm" in audit["required_difference_axes"]
+    assert "source_dependency_graph_clone" in audit["copy_risk_checks"]
+    assert "style_dna_overfit_review" in audit["copy_risk_checks"]

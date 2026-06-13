@@ -333,6 +333,10 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_genre_arc_style_governance_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_delivery_packaging_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -771,6 +775,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_trope_independence_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_genre_arc_style_governance_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -3456,6 +3464,71 @@ def _append_trope_independence_audit_section(
         lines.append("- trope_source_boundary_review: trope sources stay metadata-only by default; no live scraping, parser runtime, copied page prose, or mass mirroring in prompts")
 
 
+def _append_genre_arc_style_governance_audit_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render genre, volume, style-DNA, arc, platform, and entity-timeline gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant = {
+        "genre_inspiration_budget_library_gate",
+        "volume_antipattern_dependency_graph_gate",
+        "style_dna_breakpoint_hierarchy_gate",
+        "arc_state_foreshadowing_persistence_gate",
+        "webnovel_genre_tracker_gate",
+        "platform_ranking_research_boundary_gate",
+        "entity_mention_arc_timeline_gate",
+    }
+    if not pattern_names.intersection(relevant):
+        return
+
+    lines.append("")
+    lines.append("Genre, arc, and style governance audit:")
+    if "genre_inspiration_budget_library_gate" in pattern_names:
+        lines.append(
+            "- genre_inspiration_budget_library_gate: convert genre mix, trope "
+            "inspiration, format, quality level, target length, chapter count, and "
+            "cost estimate into an abstract option matrix, not a copied premise bundle"
+        )
+    if "volume_antipattern_dependency_graph_gate" in pattern_names:
+        lines.append(
+            "- volume_antipattern_dependency_graph_gate: validate volume plan, chapter "
+            "rhythm, anti-pattern scan, character-arc enforcement, and event dependency "
+            "graph before writer execution"
+        )
+    if "style_dna_breakpoint_hierarchy_gate" in pattern_names:
+        lines.append(
+            "- style_dna_breakpoint_hierarchy_gate: keep style-DNA analysis, hierarchy "
+            "generation, review dimensions, repair rounds, and breakpoint state as "
+            "review artifacts instead of canon facts"
+        )
+    if "arc_state_foreshadowing_persistence_gate" in pattern_names:
+        lines.append(
+            "- arc_state_foreshadowing_persistence_gate: maintain major/minor/micro "
+            "arcs, character entry/exit state, relationship logs, and foreshadowing "
+            "ledgers across chapters"
+        )
+    if "webnovel_genre_tracker_gate" in pattern_names:
+        lines.append(
+            "- webnovel_genre_tracker_gate: apply genre-specific trackers for timeline, "
+            "foreshadowing, LitRPG stats, romance stages, cliffhanger rotation, stale "
+            "characters, and chapter gaps"
+        )
+    if "platform_ranking_research_boundary_gate" in pattern_names:
+        lines.append(
+            "- platform_ranking_research_boundary_gate: use platform ranking and category "
+            "research only as reader-promise pressure; never import titles, proprietary "
+            "tags, chapter text, or paid/free platform details as story canon"
+        )
+    if "entity_mention_arc_timeline_gate" in pattern_names:
+        lines.append(
+            "- entity_mention_arc_timeline_gate: link entities to chapter appearances, "
+            "flag absence gaps and unsupported returns, and rebuild appearance rhythm "
+            "for same-type creation on new entities"
+        )
+
+
 def build_remix_inspired_independence_audit(
     *,
     style_content: str,
@@ -3530,6 +3603,40 @@ def build_remix_inspired_independence_audit(
         ])
     if "governed_full_reading_continuation_gate" in pattern_names:
         copy_risk_checks.append("reading_evidence_not_new_story_canon")
+    if "genre_inspiration_budget_library_gate" in pattern_names:
+        transfer_axes.extend([
+            "genre_promise_matrix",
+            "trope_option_budget",
+        ])
+        required_difference_axes.extend([
+            "premise_bundle",
+            "chapter_order",
+            "budget_lineage",
+        ])
+        copy_risk_checks.append("inspiration_library_canon_leakage")
+    if "volume_antipattern_dependency_graph_gate" in pattern_names:
+        required_difference_axes.extend([
+            "volume_escalation_ladder",
+            "event_dependency_edges",
+            "character_arc_checkpoints",
+        ])
+        copy_risk_checks.append("source_dependency_graph_clone")
+    if "style_dna_breakpoint_hierarchy_gate" in pattern_names:
+        transfer_axes.append("style_pressure_axes")
+        copy_risk_checks.append("style_dna_overfit_review")
+    if "arc_state_foreshadowing_persistence_gate" in pattern_names:
+        required_difference_axes.extend([
+            "arc_id_namespace",
+            "foreshadowing_id_namespace",
+            "relationship_state_route",
+        ])
+        copy_risk_checks.append("source_arc_state_persistence_leak")
+    if "entity_mention_arc_timeline_gate" in pattern_names:
+        required_difference_axes.extend([
+            "appearance_rhythm",
+            "entity_absence_gaps",
+        ])
+        copy_risk_checks.append("source_entity_timeline_clone")
 
     warnings: list[str] = []
     if not style_principles:
