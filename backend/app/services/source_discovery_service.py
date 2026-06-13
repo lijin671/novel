@@ -522,6 +522,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("directions" OR "blueprint" OR "QA" OR "canonize") ("AI-Powered Serial Fiction Workbench" OR "Canon Memory") in:name,description,readme',
     '("active-book.json" OR "wordcount" OR "auto-pandoc") ("KDP" OR "DOCX" OR "EPUB" OR "cover.jpg") in:name,description,readme',
     '("plot candidates" OR "detailed storyline" OR "cover art prompt") ("EPUB" OR "gpt-author") in:name,description,readme',
+    '("larger model" OR "smaller model" OR "scaffolded prompting") ("Infinite Bookshelf" OR "Groqbook") in:name,description,readme',
+    '("OpenAI-like API server" OR "LlamaEdgeBook" OR "GaiaNet") ("generate book" OR "Markdown" OR "PDF") in:name,description,readme',
+    '("Filesystem as Memory" OR "continuous Agent Loop" OR "Smart Question Policy") ("novel-bot" OR "Novel Bot") in:name,description,readme',
+    '("WriterAgent" OR "ReviewerAgent" OR "???8" OR "RAG??") ("??????" OR "auto_novel_writer") in:name,description,readme',
+    '("/novel-core" OR "?????" OR "??Agent") ("novel-harness" OR "????" OR "? AI ?") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1098,6 +1103,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/songzhiyuan98/Novel-Studio",
     "https://github.com/john-paul-ruf/zencoder-based-novel-engine",
     "https://github.com/mshumer/gpt-author",
+    "https://github.com/Bklieger/infinite-bookshelf",
+    "https://github.com/second-state/LlamaEdgeBook",
+    "https://github.com/xiaoxiaoxiaotao/novel-ai-agent-Chinese",
+    "https://github.com/bbhzyq-dotcom/auto_novel_writer",
+    "https://github.com/manhai934/novel-harness",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1618,6 +1628,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("director_orchestrator_trace_canonize_gate", ("Novel-Studio", "AI-Powered Serial Fiction Workbench", "directions", "blueprint", "write", "QA", "canonize", "deterministic orchestrator", "Canon Memory", "Cost Tracking", "Orchestration Trace", "DeepSeek", "GPT-4o-mini")),
     ("book_build_export_delivery_gate", ("zencoder-based-novel-engine", "active-book.json", "wordcount", "about.json", "draft.md", "dist", "auto-pandoc", "md-to-pdf", "DOCX", "EPUB", "PDF", "KDP", "cover-art.jpg", "cover.jpg", "6×9")),
     ("plot_storyline_improvement_epub_chain_gate", ("gpt-author", "plot candidates", "selects the most engaging plot", "improves upon it", "extracts a title", "detailed storyline", "specified number of chapters", "previous chapters", "cover art prompt", "EPUB file", "Claude_Author.ipynb")),
+    ("fast_structure_content_model_split_gate", ("Infinite Bookshelf", "Groqbook", "Groq", "Llama", "scaffolded prompting", "larger model", "smaller model", "structure", "section title", "markdown styling", "download a text file", "seconds", "book contents")),
+    ("openai_compatible_book_api_portability_gate", ("LlamaEdgeBook", "OpenAI-like API server", "LlamaEdge", "GaiaNet", "OPENAI_BASE_URL", "OPENAI_MODEL_NAME", "OPENAI_API_KEY", "JSONFixer", "text or PDF", "Streamlit", "Gemma-2-9b")),
+    ("filesystem_memory_agent_loop_gate", ("Novel Bot", "novel-bot", "Filesystem as Memory", "continuous Agent Loop", "Smart Question Policy", "workspace/", "MEMORY.md", "memory/chapters", "Persona", "Soul", "Settings", "World", "Auto-Update", "OpenAI Compatibility")),
+    ("desktop_review_rag_retry_gate", ("auto_novel_writer", "??????????", "WriterAgent", "ReviewerAgent", "??30%", "??40%", "??30%", "???8", "??", "??3?", "RAG??", "SQLite????", "????", "????????")),
+    ("novel_core_knowledge_pack_rag_gate", ("novel-harness", "/novel-core", "??Agent", "??Agent", "??Agent", "??Agent", "???Agent", "?????", ".harness/knowledge", "?? MCP", "RAG ??", "???", "???", "? AI ??", "????")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4160,6 +4175,34 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "gpt-author is an MIT notebook-driven AI novel generation chain. Static README markers describe prompt-driven plot candidate generation, selecting and improving the strongest plot, title extraction, detailed storyline creation for a chosen chapter count, storyline improvement, chapter-by-chapter writing using previous chapter context, cover-art prompt generation, cover creation, and EPUB compilation. "
         "Pattern-only adaptation for plot/storyline improvement EPUB chain gates; Google Colab/Jupyter notebooks, pip installs, OpenAI/Anthropic/Stable Diffusion calls, API keys, generated sample novels, cover images, EPUB output, notebook cells, and prompt bodies are not executed or imported."
     ),
+    "bklieger/infinite-bookshelf": (
+        "Infinite Bookshelf, also reachable through the historical Groqbook name, is an MIT Streamlit/Groq/Llama book-generation scaffold. Static README markers describe one-line prompt intake, book structure generation, scaffolded prompting, switching larger and smaller models for structure versus content, section-title-scoped content generation, Markdown styling, text downloads, PDF downloads, examples, and generation speed claims. "
+        "Pattern-only adaptation for fast structure/content model-split gates; Streamlit runtime, hosted app, Groq API keys, provider calls, requirements, generated example books, markdown/PDF outputs, Google Drive save flow, assets, and sample prose are not executed or imported."
+    ),
+    "bklieger/groqbook": (
+        "Groqbook redirects to the MIT Infinite Bookshelf repository. Static README markers describe one-line book scaffolding, model-lane split between structure and content generation, section-title-only content scope, Markdown display, text/PDF downloads, and entertainment-use warnings. "
+        "Pattern-only adaptation for fast structure/content model-split gates; the hosted app, Streamlit, Groq runtime, API keys, dependencies, generated examples, assets, and manuscript output are not executed or imported."
+    ),
+    "second-state/llamaedgebook": (
+        "LlamaEdgeBook is an MIT fork/adaptation of Groqbook for OpenAI-like API servers. Static README and main.py markers describe LlamaEdge/GaiaNet endpoint portability, OPENAI_BASE_URL, OPENAI_MODEL_NAME, OPENAI_API_KEY custody, OpenAI Client use, JSONFixer repair, Streamlit generation, Markdown content assembly, and text/PDF download output. "
+        "Pattern-only adaptation for OpenAI-compatible book API portability gates; clone, Streamlit runtime, LlamaEdge/GaiaNet nodes, environment variables, API calls, JSON repair execution, WeasyPrint/PDF generation, sample outputs, and provider credentials are not executed or imported."
+    ),
+    "xiaoxiaoxiaotao/novel-ai-agent-chinese": (
+        "Novel Bot is an MIT LLM novel-writing agent. Static README/pyproject markers describe Filesystem as Memory, a continuous Agent Loop, Smart Question Policy, workspace Markdown files for Memory/Persona/Soul/Settings/World, dual global and chapter memory, automatic memory updates after each chapter, and OpenAI-compatible model access. "
+        "Pattern-only adaptation for filesystem-memory agent-loop gates; uv/pip installs, CLI entrypoint, .env files, provider calls, workspace content, generated memory/chapter files, prompts, and runtime agent behavior are not executed or imported."
+    ),
+    "xiaoxiaoxiaotao/novel-bot": (
+        "Novel Bot is the repository name referenced by xiaoxiaoxiaotao/novel-ai-agent-Chinese. Static markers describe Filesystem as Memory, continuous Agent Loop, Smart Question Policy, Markdown workspace state, global/chapter memory, auto-updates, and OpenAI-compatible settings. "
+        "Pattern-only adaptation for filesystem-memory agent-loop gates; installs, provider calls, workspace state, generated chapters, .env files, and prompt/runtime files remain excluded."
+    ),
+    "bbhzyq-dotcom/auto_novel_writer": (
+        "auto_novel_writer is a no-license-file-observed Chinese multi-agent desktop long-novel writer. Static README markers describe GUI project management, WriterAgent chapter generation, ReviewerAgent scoring with style/logic/detail weights, retry until score threshold or max attempts, SQLite local RAG memory, multiple provider surfaces, version history, txt export, and project-data export. "
+        "Pattern-only adaptation for desktop review/RAG/retry gates; GUI runtime, PyInstaller, pip installs, agent dependencies, provider/API keys, Ollama endpoints, SQLite databases, project data, generated chapters, version files, and exports are not executed or imported."
+    ),
+    "manhai934/novel-harness": (
+        "novel-harness is a CC-BY-NC-SA-4.0 Chinese Codex/Claude/Cursor/OpenCode novel workflow harness. Static README/AGENTS markers describe /novel-core routing, chief-editor entry, planning/writing/review/context agents, current-project state, human-linguistics anti-AI rules, local RAG, included and remote knowledge packs, and a local MCP download/install flow for genre/writing/anti-AI packs. "
+        "Pattern-only adaptation for novel-core knowledge-pack RAG gates; installation prompts, AGENTS instructions, agent files, skill bodies, knowledge-pack contents, MCP server/download/install flow, RAG index build, provider calls, local projects, and generated prose are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -5020,6 +5063,11 @@ class NovelSourceDiscoveryService:
             "director_orchestrator_trace_canonize_gate_hints": self._build_director_orchestrator_trace_canonize_gate_hints(available_patterns),
             "book_build_export_delivery_gate_hints": self._build_book_build_export_delivery_gate_hints(available_patterns),
             "plot_storyline_improvement_epub_chain_gate_hints": self._build_plot_storyline_improvement_epub_chain_gate_hints(available_patterns),
+            "fast_structure_content_model_split_gate_hints": self._build_fast_structure_content_model_split_gate_hints(available_patterns),
+            "openai_compatible_book_api_portability_gate_hints": self._build_openai_compatible_book_api_portability_gate_hints(available_patterns),
+            "filesystem_memory_agent_loop_gate_hints": self._build_filesystem_memory_agent_loop_gate_hints(available_patterns),
+            "desktop_review_rag_retry_gate_hints": self._build_desktop_review_rag_retry_gate_hints(available_patterns),
+            "novel_core_knowledge_pack_rag_gate_hints": self._build_novel_core_knowledge_pack_rag_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5893,6 +5941,11 @@ class NovelSourceDiscoveryService:
             "director_orchestrator_trace_canonize_gate": 69,
             "book_build_export_delivery_gate": 67,
             "plot_storyline_improvement_epub_chain_gate": 66,
+            "fast_structure_content_model_split_gate": 67,
+            "openai_compatible_book_api_portability_gate": 66,
+            "filesystem_memory_agent_loop_gate": 69,
+            "desktop_review_rag_retry_gate": 68,
+            "novel_core_knowledge_pack_rag_gate": 69,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -7522,6 +7575,21 @@ class NovelSourceDiscoveryService:
         if "plot_storyline_improvement_epub_chain_gate" in patterns:
             targets.append("plot_storyline_improvement_chain_policy")
             targets.append("cover_epub_generation_boundary_policy")
+        if "fast_structure_content_model_split_gate" in patterns:
+            targets.append("fast_structure_content_model_policy")
+            targets.append("structure_content_model_cost_boundary_policy")
+        if "openai_compatible_book_api_portability_gate" in patterns:
+            targets.append("openai_compatible_book_api_policy")
+            targets.append("api_base_model_export_boundary_policy")
+        if "filesystem_memory_agent_loop_gate" in patterns:
+            targets.append("filesystem_memory_agent_loop_policy")
+            targets.append("dual_memory_auto_update_policy")
+        if "desktop_review_rag_retry_gate" in patterns:
+            targets.append("desktop_review_rag_retry_policy")
+            targets.append("score_threshold_rewrite_policy")
+        if "novel_core_knowledge_pack_rag_gate" in patterns:
+            targets.append("novel_core_chief_editor_route_policy")
+            targets.append("knowledge_pack_local_rag_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8693,6 +8761,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["wordcount_build_export_report", "cover_and_submission_asset_report"])
         if "plot_storyline_improvement_epub_chain_gate" in patterns:
             targets.extend(["plot_storyline_selection_report", "chapter_context_epub_cover_report"])
+        if "fast_structure_content_model_split_gate" in patterns:
+            targets.extend(["structure_content_generation_cost_report", "section_context_gap_findings"])
+        if "openai_compatible_book_api_portability_gate" in patterns:
+            targets.extend(["openai_compatible_endpoint_boundary_report", "json_pdf_export_readiness_report"])
+        if "filesystem_memory_agent_loop_gate" in patterns:
+            targets.extend(["filesystem_memory_workspace_report", "chapter_memory_autoupdate_trace"])
+        if "desktop_review_rag_retry_gate" in patterns:
+            targets.extend(["reviewer_score_retry_report", "local_rag_version_history_report"])
+        if "novel_core_knowledge_pack_rag_gate" in patterns:
+            targets.extend(["chief_editor_agent_route_report", "knowledge_pack_install_boundary_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -9371,6 +9449,16 @@ class NovelSourceDiscoveryService:
             hints.append("Persist active book id, about metadata, chapter draft manifest, wordcount result, build artifact ids, cover asset status, export formats, and submission-package evidence before delivery.")
         if "plot_storyline_improvement_epub_chain_gate" in patterns:
             hints.append("Persist prompt id, plot-candidate set, selected plot rationale, storyline version, chapter-count target, previous-chapter context ids, cover prompt id, and EPUB artifact status before accepting generation.")
+        if "fast_structure_content_model_split_gate" in patterns:
+            hints.append("Persist book prompt id, structure model lane, content model lane, generated structure id, section-title context scope, generation statistics, and download artifact ids before accepting fast-generated book sections.")
+        if "openai_compatible_book_api_portability_gate" in patterns:
+            hints.append("Persist API base identity, model name, API-key custody status, JSON repair status, Markdown/PDF export ids, and local/server boundary before using OpenAI-compatible book generation.")
+        if "filesystem_memory_agent_loop_gate" in patterns:
+            hints.append("Persist workspace id, global memory id, chapter-memory ids, persona/soul refs, world-setting refs, smart-question answers, and auto-update status before an agent loop advances chapters.")
+        if "desktop_review_rag_retry_gate" in patterns:
+            hints.append("Persist project id, chapter outline row, writer output id, reviewer score components, retry attempt, local RAG hit ids, version snapshot, and export status before finalizing a chapter.")
+        if "novel_core_knowledge_pack_rag_gate" in patterns:
+            hints.append("Persist novel-core task type, chief-editor route, selected agent refs, current-project id, knowledge-pack ids, RAG index status, MCP download boundary, and anti-AI rule refs before generation.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -14930,6 +15018,51 @@ class NovelSourceDiscoveryService:
             "gpt-author Colab/Jupyter notebooks, pip installs, OpenAI/Anthropic/Stable Diffusion calls, API keys, sample novels, cover images, EPUB outputs, notebook cells, and prompt bodies remain excluded from static intake.",
         ]
 
+    def _build_fast_structure_content_model_split_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "fast_structure_content_model_split_gate" not in patterns:
+            return []
+        return [
+            "Split fast book generation into visible lanes: one-line intent intake, structure generation, section drafting, generation stats, and downloadable artifact custody.",
+            "Treat large/small or structure/content model selection as a cost-quality-latency policy; fiction continuation must declare whether section-title-only context is sufficient or blocked.",
+            "Infinite Bookshelf/Groqbook Streamlit runtime, hosted app, Groq API keys, requirements, provider calls, generated examples, Markdown/PDF outputs, Google Drive flow, and sample prose remain excluded from static intake.",
+        ]
+
+    def _build_openai_compatible_book_api_portability_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "openai_compatible_book_api_portability_gate" not in patterns:
+            return []
+        return [
+            "Represent OpenAI-compatible book generation as an endpoint contract: base URL, model name, key custody, client adapter, JSON repair status, and export targets are metadata, not canon.",
+            "Require provider-portability evidence before generation handoff: endpoint class, local/server boundary, output schema health, Markdown assembly, PDF readiness, and artifact custody.",
+            "LlamaEdgeBook clone, Streamlit runtime, LlamaEdge/GaiaNet node launch, environment variables, API calls, JSONFixer execution, WeasyPrint/PDF generation, sample outputs, and credentials remain excluded from static intake.",
+        ]
+
+    def _build_filesystem_memory_agent_loop_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "filesystem_memory_agent_loop_gate" not in patterns:
+            return []
+        return [
+            "Treat long-form writing as a visible agent loop over filesystem-backed state: smart-question seed, world settings, persona/soul, global memory, chapter memory, draft, and memory update.",
+            "Make memory writes reviewable; accepted chapters update global memory and recent chapter summaries, while raw workspace files and generated prose stay under project custody.",
+            "Novel Bot uv/pip installs, CLI runtime, .env files, provider calls, workspace contents, generated chapters, memory files, and prompt/runtime code remain excluded from static intake.",
+        ]
+
+    def _build_desktop_review_rag_retry_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "desktop_review_rag_retry_gate" not in patterns:
+            return []
+        return [
+            "Represent desktop long-novel drafting as write -> review score -> memory update -> retry/accept; score components and retry limits are acceptance evidence, not hidden GUI behavior.",
+            "Keep local RAG, version history, project export, and chapter snapshots explicit so rewritten chapters can be compared before promotion to final manuscript state.",
+            "auto_novel_writer GUI runtime, PyInstaller, pip installs, provider keys, Ollama endpoints, SQLite databases, project data, generated chapters, version files, and exports remain excluded from static intake.",
+        ]
+
+    def _build_novel_core_knowledge_pack_rag_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novel_core_knowledge_pack_rag_gate" not in patterns:
+            return []
+        return [
+            "Route writing tasks through a chief-editor contract: classify intent, select planning/writing/review/context agents, then attach only the required knowledge-pack/RAG references.",
+            "Treat knowledge packs as optional local reference inventories with provenance, install boundary, RAG index status, and rights class before any topic, writing, anti-AI, or deconstruction rule is used.",
+            "novel-harness install prompts, AGENTS instructions, agent files, skills, knowledge-pack bodies, MCP download/install flow, RAG index build, local projects, and generated prose remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -16048,6 +16181,21 @@ class NovelSourceDiscoveryService:
         if "plot_storyline_improvement_epub_chain_gate" in patterns:
             targets.append("plot_candidate_storyline_remap")
             targets.append("cover_epub_delivery_boundary_remap")
+        if "fast_structure_content_model_split_gate" in patterns:
+            targets.append("structure_content_lane_remap")
+            targets.append("section_context_scope_remap")
+        if "openai_compatible_book_api_portability_gate" in patterns:
+            targets.append("openai_compatible_endpoint_remap")
+            targets.append("json_export_artifact_remap")
+        if "filesystem_memory_agent_loop_gate" in patterns:
+            targets.append("filesystem_memory_workspace_remap")
+            targets.append("smart_question_seed_remap")
+        if "desktop_review_rag_retry_gate" in patterns:
+            targets.append("review_score_retry_remap")
+            targets.append("local_project_version_history_remap")
+        if "novel_core_knowledge_pack_rag_gate" in patterns:
+            targets.append("chief_editor_agent_route_remap")
+            targets.append("knowledge_pack_rag_boundary_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -16195,6 +16343,16 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt finalization from chapter draft manifests, wordcount reports, accepted metadata, cover status, and export requirements; build scripts and sample manuscript text stay outside prose context.")
         if "plot_storyline_improvement_epub_chain_gate" in patterns:
             hints.append("Prompt generation from selected plot rationale, improved storyline, chapter count, and approved previous-chapter summaries; notebook cells, sample novels, and cover-generation prompts stay out of prose context.")
+        if "fast_structure_content_model_split_gate" in patterns:
+            hints.append("Prompt from approved whole-book structure, model-lane policy, and declared section context scope; do not rely on a section title alone for fiction continuation unless continuity checks allow it.")
+        if "openai_compatible_book_api_portability_gate" in patterns:
+            hints.append("Prompt with endpoint/model/export settings as metadata only; JSON repair notes, environment variable names, and provider examples stay outside prose context.")
+        if "filesystem_memory_agent_loop_gate" in patterns:
+            hints.append("Prompt from target-owned global memory, chapter summaries, world settings, and persona refs; raw workspace files, generated examples, and upstream prompt wording stay outside prose context.")
+        if "desktop_review_rag_retry_gate" in patterns:
+            hints.append("Prompt revision with reviewer score components, retry cap, RAG citations, and version snapshot ids; GUI/provider settings and database rows stay metadata only.")
+        if "novel_core_knowledge_pack_rag_gate" in patterns:
+            hints.append("Prompt through the chief-editor route and selected agent obligations; use knowledge-pack hits as cited method refs, not copied pack bodies or upstream AGENTS instructions.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -16990,6 +17148,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform book-engine delivery structure into MuMuAINovel build manifests, export evidence, cover checks, and submission package gates without copying sample books.")
         if "plot_storyline_improvement_epub_chain_gate" in patterns:
             hints.append("Transform gpt-author's plot/storyline chain into MuMuAINovel planning checkpoints, storyline diffs, previous-chapter context refs, and EPUB/cover boundary gates.")
+        if "fast_structure_content_model_split_gate" in patterns:
+            hints.append("Transform fast scaffold generation into MuMuAINovel cost/quality lanes, whole-book structure checkpoints, section-context windows, and continuity blockers for fiction work.")
+        if "openai_compatible_book_api_portability_gate" in patterns:
+            hints.append("Transform OpenAI-like server support into a provider-neutral adapter contract with explicit base URL class, model lane, output schema health, and export evidence.")
+        if "filesystem_memory_agent_loop_gate" in patterns:
+            hints.append("Transform filesystem memory into MuMuAINovel-owned memory ledgers, chapter-summary windows, smart-question seed forms, and auditable post-chapter memory updates.")
+        if "desktop_review_rag_retry_gate" in patterns:
+            hints.append("Transform desktop write-review-memory loops into MuMuAINovel scoring rubrics, retry budgets, RAG evidence ids, version snapshots, and finalization gates.")
+        if "novel_core_knowledge_pack_rag_gate" in patterns:
+            hints.append("Transform novel-core and knowledge-pack ideas into route cards, selected-agent duties, rights-safe reference inventories, and RAG boundary records without importing upstream pack contents.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -17825,6 +17993,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outputs that copy zencoder-based-novel-engine sample chapters, source story bible, voice profile, custom agent prompts, system prompts, package scripts, cover assets, or dist artifacts.")
         if "plot_storyline_improvement_epub_chain_gate" in patterns:
             hints.append("Reject outputs that copy gpt-author notebook cells, prompt bodies, sample novels, generated EPUBs, cover prompts, cover images, Colab setup text, or provider/API-key examples.")
+        if "fast_structure_content_model_split_gate" in patterns:
+            hints.append("Reject drafts that copy Infinite Bookshelf/Groqbook demo topics, generated example books, README wording, asset text, hosted-app behavior, or section-title-only scaffolds as story canon.")
+        if "openai_compatible_book_api_portability_gate" in patterns:
+            hints.append("Reject outputs that copy LlamaEdgeBook command examples, endpoint URLs, environment values, improved prompt wording, sample cookbook material, Streamlit text, or JSON/PDF examples.")
+        if "filesystem_memory_agent_loop_gate" in patterns:
+            hints.append("Reject drafts that copy Novel Bot install text, .env guidance, workspace examples, memory/chapter files, CLI wording, persona/soul labels, or generated project state as canon.")
+        if "desktop_review_rag_retry_gate" in patterns:
+            hints.append("Reject outputs that copy auto_novel_writer GUI text, provider configuration examples, SQLite/project data, reviewer comments, version files, exported novels, or weighted-score examples as prose.")
+        if "novel_core_knowledge_pack_rag_gate" in patterns:
+            hints.append("Reject drafts that copy novel-harness AGENTS instructions, agent files, skill bodies, knowledge-pack contents, MCP package metadata, RAG samples, or /novel-core command text.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -18755,6 +18933,11 @@ class NovelSourceDiscoveryService:
                 "director_orchestrator_trace_canonize_gate",
                 "book_build_export_delivery_gate",
                 "plot_storyline_improvement_epub_chain_gate",
+                "fast_structure_content_model_split_gate",
+                "openai_compatible_book_api_portability_gate",
+                "filesystem_memory_agent_loop_gate",
+                "desktop_review_rag_retry_gate",
+                "novel_core_knowledge_pack_rag_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",

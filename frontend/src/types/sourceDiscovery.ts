@@ -380,6 +380,11 @@ export interface SourceDiscoveryPatternPack {
   director_orchestrator_trace_canonize_gate_hints?: string[];
   book_build_export_delivery_gate_hints?: string[];
   plot_storyline_improvement_epub_chain_gate_hints?: string[];
+  fast_structure_content_model_split_gate_hints?: string[];
+  openai_compatible_book_api_portability_gate_hints?: string[];
+  filesystem_memory_agent_loop_gate_hints?: string[];
+  desktop_review_rag_retry_gate_hints?: string[];
+  novel_core_knowledge_pack_rag_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

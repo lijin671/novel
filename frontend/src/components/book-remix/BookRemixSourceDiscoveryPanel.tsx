@@ -398,6 +398,11 @@ const PINNED_HINT_KEYS = new Set([
   'director_orchestrator_trace_canonize_gate_hints',
   'book_build_export_delivery_gate_hints',
   'plot_storyline_improvement_epub_chain_gate_hints',
+  'fast_structure_content_model_split_gate_hints',
+  'openai_compatible_book_api_portability_gate_hints',
+  'filesystem_memory_agent_loop_gate_hints',
+  'desktop_review_rag_retry_gate_hints',
+  'novel_core_knowledge_pack_rag_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -858,6 +863,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Director-orchestrator trace canonize gates', patternPackPayload?.director_orchestrator_trace_canonize_gate_hints],
               ['Book build export delivery gates', patternPackPayload?.book_build_export_delivery_gate_hints],
               ['Plot-storyline improvement EPUB chain gates', patternPackPayload?.plot_storyline_improvement_epub_chain_gate_hints],
+              ['Fast structure/content model split gates', patternPackPayload?.fast_structure_content_model_split_gate_hints],
+              ['OpenAI-compatible book API portability gates', patternPackPayload?.openai_compatible_book_api_portability_gate_hints],
+              ['Filesystem memory agent-loop gates', patternPackPayload?.filesystem_memory_agent_loop_gate_hints],
+              ['Desktop review RAG retry gates', patternPackPayload?.desktop_review_rag_retry_gate_hints],
+              ['Novel-core knowledge-pack RAG gates', patternPackPayload?.novel_core_knowledge_pack_rag_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

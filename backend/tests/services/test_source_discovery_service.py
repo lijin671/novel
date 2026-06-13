@@ -18589,3 +18589,171 @@ def test_static_langgraph_canon_skill_studio_sources_are_absorbed():
     assert "director_orchestrator_trace_canonize_gate_hints" in digest
     assert "book_build_export_delivery_gate_hints" in digest
     assert "plot_storyline_improvement_epub_chain_gate_hints" in digest
+
+
+
+def test_static_fast_book_api_portability_sources_are_absorbed():
+    assert "https://github.com/Bklieger/infinite-bookshelf" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/second-state/LlamaEdgeBook" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("larger model" in query and "Infinite Bookshelf" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("OpenAI-like API server" in query and "LlamaEdgeBook" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Bklieger/infinite-bookshelf",
+                "html_url": "https://github.com/Bklieger/infinite-bookshelf",
+                "description": (
+                    "Infinite Bookshelf / Groqbook scaffolds entire books from a one-line prompt using Groq and Llama, "
+                    "with scaffolded prompting, larger model structure generation, smaller model content generation, "
+                    "section-title context, markdown styling, text download, PDF download, and generation statistics."
+                ),
+                "stargazers_count": 1348,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai", "groq", "groq-api", "llama3"],
+                "updated_at": "2025-10-09T21:16:44Z",
+                "root_files": ["README.md", "LICENSE.md", "requirements.txt", "main.py", "assets"],
+            },
+            {
+                "full_name": "second-state/LlamaEdgeBook",
+                "html_url": "https://github.com/second-state/LlamaEdgeBook",
+                "description": (
+                    "LlamaEdgeBook adapts Groqbook to OpenAI-like API server endpoints such as LlamaEdge and GaiaNet, "
+                    "using OPENAI_BASE_URL, OPENAI_MODEL_NAME, OPENAI_API_KEY, OpenAI Client, JSONFixer, Streamlit, "
+                    "Markdown assembly, and text or PDF book downloads."
+                ),
+                "stargazers_count": 9,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["llamaedge", "openai-compatible", "book-generation"],
+                "updated_at": "2024-07-26T10:28:49Z",
+                "root_files": ["README.md", "LICENSE.md", "requirements.txt", "main.py"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T16:40:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "fast_structure_content_model_split_gate" in candidates["Bklieger/infinite-bookshelf"]["absorbed_patterns"]
+    assert "openai_compatible_book_api_portability_gate" in candidates["second-state/LlamaEdgeBook"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["Bklieger/infinite-bookshelf"]["risk_flags"]
+    assert "provider_key_surface" in candidates["second-state/LlamaEdgeBook"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "fast_structure_content_model_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "openai_compatible_book_api_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "structure_content_generation_cost_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "openai_compatible_endpoint_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "structure_content_lane_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "openai_compatible_endpoint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("section-title context scope" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("base identity" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("section title alone" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("endpoint/model/export" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("cost/quality lanes" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("provider-neutral adapter" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("infinite bookshelf/groqbook demo topics" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("llamaedgebook command examples" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "fast_structure_content_model_split_gate_hints" in digest
+    assert "openai_compatible_book_api_portability_gate_hints" in digest
+
+
+
+def test_static_agent_loop_desktop_rag_harness_sources_are_absorbed():
+    assert "https://github.com/xiaoxiaoxiaotao/novel-ai-agent-Chinese" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/bbhzyq-dotcom/auto_novel_writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/manhai934/novel-harness" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Filesystem as Memory" in query and "Novel Bot" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("WriterAgent" in query and "auto_novel_writer" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("/novel-core" in query and "novel-harness" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "xiaoxiaoxiaotao/novel-ai-agent-Chinese",
+                "html_url": "https://github.com/xiaoxiaoxiaotao/novel-ai-agent-Chinese",
+                "description": (
+                    "Novel Bot uses Filesystem as Memory, a continuous Agent Loop, Smart Question Policy, "
+                    "workspace Markdown files, MEMORY.md, memory/chapters, Persona, Soul, Settings, World, "
+                    "Auto-Update after each chapter, and OpenAI Compatibility."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel-bot", "agent", "memory"],
+                "updated_at": "2026-06-13T17:00:00Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml", "requirements.txt"],
+            },
+            {
+                "full_name": "bbhzyq-dotcom/auto_novel_writer",
+                "html_url": "https://github.com/bbhzyq-dotcom/auto_novel_writer",
+                "description": (
+                    "?????????? with WriterAgent, ReviewerAgent, ??30%, ??40%, ??30%, "
+                    "???8, ????3?, RAG??, SQLite????, ?AI??, ????, and ????????."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "rag", "desktop"],
+                "updated_at": "2026-06-13T17:01:00Z",
+                "root_files": ["README.md", "gui", "agents", "requirements-gui.txt", "auto_novel_writer.spec"],
+            },
+            {
+                "full_name": "manhai934/novel-harness",
+                "html_url": "https://github.com/manhai934/novel-harness",
+                "description": (
+                    "novel-harness routes /novel-core through ??Agent, ??Agent, ??Agent, ??Agent, ???Agent, "
+                    "knowledge pack market, .harness/knowledge, local MCP, RAG ??, ???, ???, ? AI ??, and ????."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "CC-BY-NC-SA-4.0"},
+                "topics": ["novel", "codex", "rag"],
+                "updated_at": "2026-06-13T17:02:00Z",
+                "root_files": ["README.md", "LICENSE", "AGENTS.md", ".harness", "rag"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T17:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "filesystem_memory_agent_loop_gate" in candidates["xiaoxiaoxiaotao/novel-ai-agent-Chinese"]["absorbed_patterns"]
+    assert "desktop_review_rag_retry_gate" in candidates["bbhzyq-dotcom/auto_novel_writer"]["absorbed_patterns"]
+    assert "novel_core_knowledge_pack_rag_gate" in candidates["manhai934/novel-harness"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["bbhzyq-dotcom/auto_novel_writer"]["risk_flags"]
+    assert "mcp_server" in candidates["manhai934/novel-harness"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "filesystem_memory_agent_loop_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "desktop_review_rag_retry_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "novel_core_chief_editor_route_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_memory_autoupdate_trace" in pattern_pack["whole_book_analysis_targets"]
+    assert "reviewer_score_retry_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "knowledge_pack_install_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "filesystem_memory_workspace_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "review_score_retry_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "knowledge_pack_rag_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("auto-update status" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("reviewer score components" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("mcp download boundary" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("target-owned global memory" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("retry cap" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("chief-editor route" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("memory ledgers" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("scoring rubrics" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("rights-safe reference inventories" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("novel bot install text" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("auto_novel_writer gui text" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("novel-harness agents instructions" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "filesystem_memory_agent_loop_gate_hints" in digest
+    assert "desktop_review_rag_retry_gate_hints" in digest
+    assert "novel_core_knowledge_pack_rag_gate_hints" in digest
