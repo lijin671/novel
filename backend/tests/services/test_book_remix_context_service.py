@@ -4327,3 +4327,77 @@ def test_live_diagnostics_and_outline_import_gates_extend_control_audit():
     assert "visible_outline_import_export_custody" in audit["control_axes"]
     assert "verify_live_diagnostics_review_state" in audit["acceptance_steps"]
     assert "verify_outline_import_export_custody" in audit["acceptance_steps"]
+
+
+def test_filetype_rag_and_project_edit_boundary_gates_render_continuation_context():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "dialogoi_filetype_rag_novel_project_gate", "candidate_count": 1},
+            {"name": "scrivener_mcp_direct_project_edit_boundary_gate", "candidate_count": 1},
+        ],
+        "dialogoi_filetype_rag_novel_project_gate_hints": [
+            "Separate project settings, manuscript content, and instruction files before RAG.",
+        ],
+        "scrivener_mcp_direct_project_edit_boundary_gate_hints": [
+            "Direct project access needs a boundary report before any edit patch.",
+        ],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="RAG Boundary Desk",
+        bible={"hard_constraints": [{"rule": "Retrieval scope must be visible"}]},
+        plan={"summary": "Continue after scoped retrieval and project-boundary review."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "FileType RAG and project edit boundary gate:" in block
+    assert "filetype_retrieval_scope" in block
+    assert "content | settings | instructions | both" in block
+    assert "hybrid_search_evidence" in block
+    assert "direct_project_boundary_report" in block
+    assert "accepted_patch_scope" in block
+    assert "continuation_boundary" in block
+    assert "runtime_boundary" in block
+
+
+def test_filetype_rag_and_project_edit_boundary_gates_render_same_type_boundary():
+    block = build_remix_inspired_context_block(
+        project_title="Inspired RAG Boundary Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep retrieval discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source manuscript chunks or project structure.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "dialogoi_filetype_rag_novel_project_gate", "candidate_count": 1},
+                {"name": "scrivener_mcp_direct_project_edit_boundary_gate", "candidate_count": 1},
+            ],
+        },
+    )
+
+    assert "FileType RAG and project edit boundary gate:" in block
+    assert "source_file_class_custody" in block
+    assert "direct_project_boundary_report" in block
+    assert "same_type_boundary" in block
+    assert "runtime_boundary" in block
+
+
+def test_filetype_rag_and_project_edit_boundary_gates_extend_control_audit():
+    audit = build_remix_continuation_control_audit(
+        bible={"hard_constraints": [{"rule": "Direct project edits require accepted patch scope"}]},
+        plan={"summary": "Review scoped retrieval before accepting edits."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "dialogoi_filetype_rag_novel_project_gate"},
+                {"name": "scrivener_mcp_direct_project_edit_boundary_gate"},
+            ],
+        },
+    )
+
+    assert "filetype_scoped_retrieval_evidence" in audit["control_axes"]
+    assert "hybrid_search_source_file_custody" in audit["control_axes"]
+    assert "direct_project_edit_boundary_report" in audit["control_axes"]
+    assert "verify_filetype_retrieval_scope" in audit["acceptance_steps"]
+    assert "verify_direct_project_patch_scope" in audit["acceptance_steps"]

@@ -235,6 +235,15 @@ def build_remix_continuation_control_audit(
     if "kindling_local_outline_reference_import_gate" in pattern_names:
         control_axes.append("visible_outline_import_export_custody")
         acceptance_steps.append("verify_outline_import_export_custody")
+    if "dialogoi_filetype_rag_novel_project_gate" in pattern_names:
+        control_axes.extend([
+            "filetype_scoped_retrieval_evidence",
+            "hybrid_search_source_file_custody",
+        ])
+        acceptance_steps.append("verify_filetype_retrieval_scope")
+    if "scrivener_mcp_direct_project_edit_boundary_gate" in pattern_names:
+        control_axes.append("direct_project_edit_boundary_report")
+        acceptance_steps.append("verify_direct_project_patch_scope")
     if pattern_names.intersection({
         "story_bible_constitution_source_gate",
         "scene_outline_approval_status_gate",
@@ -483,6 +492,11 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_live_diagnostics_outline_import_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_filetype_rag_project_edit_boundary_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1018,6 +1032,11 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_live_diagnostics_outline_import_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_filetype_rag_project_edit_boundary_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -3324,6 +3343,75 @@ def _append_live_diagnostics_outline_import_gate_section(
         lines.append(f"- novelwriter_source_hint: {_truncate(novelwriter_hints[0], 240)}")
     if kindling_hints:
         lines.append(f"- kindling_source_hint: {_truncate(kindling_hints[0], 240)}")
+
+
+def _append_filetype_rag_project_edit_boundary_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render fileType-scoped RAG and direct project edit custody."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    has_filetype_rag = "dialogoi_filetype_rag_novel_project_gate" in pattern_names
+    has_project_edit = "scrivener_mcp_direct_project_edit_boundary_gate" in pattern_names
+    if not has_filetype_rag and not has_project_edit:
+        return
+
+    dialogoi_hints = (
+        _as_note_list(source_pattern_pack.get("dialogoi_filetype_rag_novel_project_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    scrivener_hints = (
+        _as_note_list(source_pattern_pack.get("scrivener_mcp_direct_project_edit_boundary_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("FileType RAG and project edit boundary gate:")
+    if has_filetype_rag:
+        lines.append(
+            "- filetype_retrieval_scope: every retrieval request must declare one scope: "
+            "content | settings | instructions | both"
+        )
+        lines.append(
+            "- hybrid_search_evidence: combine regex/full-text matches and semantic RAG "
+            "only when chunk overlap, source file class, and missing-index fallback are recorded"
+        )
+        lines.append(
+            "- source_file_class_custody: settings, manuscript content, and instruction files "
+            "remain separate evidence classes before they can influence continuation context"
+        )
+    if has_project_edit:
+        lines.append(
+            "- direct_project_boundary_report: open/read/analyze/search findings are review "
+            "inputs tied to document ids, structure, pacing, RTF parsing, and word-count evidence"
+        )
+        lines.append(
+            "- accepted_patch_scope: edit/write/reorder operations need a human-accepted patch "
+            "envelope before any project, canon, synopsis, or manuscript mutation"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source RAG chunks, settings files, Scrivener binders, and "
+            "document structure examples cannot become target canon or target outline order"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: only retrieval/project-boundary findings scoped to the "
+            "current owned chapter, scene, or accepted bible section can affect the next task"
+        )
+    lines.append(
+        "- runtime_boundary: no MCP launch, Docker/Qdrant, model download, npm script, "
+        "file watcher, .scriv project access, RTF read, postinstall hook, Neo4j/Redis/OpenAI "
+        "runtime, or live manuscript edit is authorized"
+    )
+    if dialogoi_hints:
+        lines.append(f"- dialogoi_source_hint: {_truncate(dialogoi_hints[0], 240)}")
+    if scrivener_hints:
+        lines.append(f"- scrivener_source_hint: {_truncate(scrivener_hints[0], 240)}")
 
 
 def _append_truth_file_write_next_state_gate_section(
