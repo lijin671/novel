@@ -324,6 +324,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "tinystyler_meaning_preserving_style_transfer_gate_hints",
             "stylevec_style_signal_overfit_boundary_gate_hints",
             "chapter_translation_style_context_gate_hints",
+            "slima_book_mcp_beta_reader_file_gate_hints",
+            "dialogoi_filetype_rag_novel_project_gate_hints",
+            "scrivener_mcp_direct_project_edit_boundary_gate_hints",
+            "vector_story_frame_coordinate_gate_hints",
+            "setting_runtime_document_architecture_gate_hints",
+            "inkfoundry_state_db_redteam_voice_sandbox_gate_hints",
             "local_snapshot_backup_export_gate_hints",
             "continuity_passport_drift_repair_gate_hints",
             "originality_report_multimetric_gate_hints",
@@ -557,6 +563,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "TinyStyler meaning-preserving style transfer gates" in panel_text
     assert "stylevec style-signal overfit boundary gates" in panel_text
     assert "Chapter translation style-context gates" in panel_text
+    assert "Slima book-MCP beta-reader file gates" in panel_text
+    assert "Dialogoi fileType RAG novel-project gates" in panel_text
+    assert "Scrivener MCP direct project-edit boundary gates" in panel_text
+    assert "Vector-story frame coordinate gates" in panel_text
+    assert "Setting runtime document architecture gates" in panel_text
+    assert "InkFoundry StateDB RedTeam VoiceSandbox gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text

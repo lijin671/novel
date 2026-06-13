@@ -553,6 +553,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("Writer Studio" OR "Binder" OR "manuscript evaluation") ("voice" OR "RAG" OR "plagiarism") in:name,description,readme',
     '("TinyStyler" OR "style embeddings" OR "meaning threshold") ("few-shot style transfer" OR "authorship embeddings") in:name,description,readme',
     '("StoryTeller Agents" OR "character voice files" OR "scene weight") ("chapter by chapter" OR "fanfiction") in:name,description,readme',
+    '("Slima MCP" OR "AI Beta Reader" OR "book management") ("MCP" OR "novel authors") in:name,description,readme',
+    '("Dialogoi" OR "file type" OR "novel.json") ("RAG" OR "MCP" OR "Qdrant") in:name,description,readme',
+    '("vector storytelling" OR "VRGB" OR "StateDB") ("long-form novel" OR "AI fiction") in:name,description,readme',
     '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
@@ -1172,6 +1175,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/zacharyhorvitz/TinyStyler",
     "https://github.com/earmer/stylevec",
     "https://github.com/kirstieuppermost767/gemini-book-translator-2.0",
+    "https://github.com/slima-ai/slima-mcp",
+    "https://github.com/cedretaber/dialogoi",
+    "https://github.com/dcondrey/scrivener-mcp",
+    "https://github.com/nickcottrell/abits",
+    "https://github.com/novemberjae-cmyk/Novel-Setting-Runtime-Construction",
+    "https://github.com/wangjiaquangithub/InkFoundry",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1727,6 +1736,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("tinystyler_meaning_preserving_style_transfer_gate", ("tinystyler", "few-shot text style transfer", "desired style", "preserving original meaning", "authorship embeddings", "tinystylersim", "meaning threshold", "authorship evaluation")),
     ("stylevec_style_signal_overfit_boundary_gate", ("stylevec", "style not content embeddings", "stylistic fingerprint", "independent of topic", "content masking", "style residual", "extreme overfitting", "negative silhouette", "char n-gram jaccard", "normalized levenshtein")),
     ("chapter_translation_style_context_gate", ("gemini-book-translator", "translate books with clear style", "style control", "chapter-level context", "writing style", "chapter-by-chapter translation", "consistent terms and names", "nearby chapters", "preserved names and terms")),
+    ("slima_book_mcp_beta_reader_file_gate", ("slima mcp", "ai writing ide for novel authors", "book management", "file/folder structure", "writing statistics", "read/edit/search/write/create/delete/append", "ai beta reader", "virtual reader personas", "remote http mcp", "oauth login")),
+    ("dialogoi_filetype_rag_novel_project_gate", ("dialogoi", "rag-powered mcp server", "novel.json", "settings directories", "content directories", "instruction files", "search_novel_text", "search_rag", "filetype", "qdrant", "multilingual-e5-small", "smart chunking")),
+    ("scrivener_mcp_direct_project_edit_boundary_gate", ("scrivener mcp", "open, read, edit, analyze, and search", ".scriv projects", "pacing analysis", "rtf parsing", "document structure analysis", "word counting", "auto-configure claude desktop", "postinstall")),
+    ("vector_story_frame_coordinate_gate", ("vector storytelling", "vrgb", "story beats", "tone density and register", "colorspace geometry", "baseline word counts", "frame configs", "canonical baseline frames", "diff against the canonical baseline")),
+    ("setting_runtime_document_architecture_gate", ("setting construction", "multi-document fictional settings", "voice bibles", "story bibles", "project instructions", "tracked items", "opening scenarios", "theory of mind", "anti-patterns", "document jobs", "session start protocol", "runtime operations")),
+    ("inkfoundry_state_db_redteam_voice_sandbox_gate", ("inkfoundry", "narrative os", "statedb", "single source of truth", "statefilter", "redteam", "navigator", "voicesandbox", "atomic locks", "versioning", "snapshots", "circuit breaker", "watchdog timeout")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -1846,7 +1861,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("binary_distribution", (".zip", "release/", "release zip", "zip download", "windows packaged", "windows 打包版", "安装包", "客户端")),
     ("auto_update", ("auto upgrade", "automatic update", "自动升级", "upgrade.zip", "在线升级")),
     ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
-    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "connection profile", "analysis profile", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
+    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "connection profile", "analysis profile", "openai api access", "aws bedrock access", "model api access", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
     ("cloud_sync_oauth_surface", ("oauth", "oauth 2.0", "google drive", "cloud sync", "auth0", "jwt token", "auth cookie", "passphrase", "pkce", "database_url", "postgres", "supabase", "neon")),
     ("browser_storage_surface", ("indexeddb", "localstorage", "local storage", "browser sandbox", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
@@ -4447,6 +4462,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "gemini-book-translator-2.0 is an MIT Windows-friendly book translation tool. Static HEAD/README/LICENSE markers describe long-form book translation with style control, chapter-level context, source style analysis, chapter-by-chapter translation, consistent terms/names, nearby chapter context, review-one-chapter-at-a-time workflow, preserved names/terms, Gemini API key, and ZIP download. "
         "Pattern-only adaptation for chapter-level style/context translation gates; ZIP downloads, Windows installers, Gemini/API calls, requirements, source books, translated outputs, and private API keys are not downloaded, launched, or imported."
     ),
+    "slima-ai/slima-mcp": (
+        "Slima MCP is an MIT Model Context Protocol server for the Slima AI Writing IDE for novel authors. Static HEAD/README/LICENSE/package markers describe local stdio MCP, remote HTTP MCP connectors, OAuth login, book management, file/folder structure, writing statistics, read/edit/search/write/create/delete/append file tools, and AI beta reader feedback from virtual reader personas. "
+        "Pattern-only adaptation for book-file MCP and beta-reader gates; npm/npx installs, Cloudflare worker deploys, remote MCP, OAuth sessions, book files, delete/write tools, and generated feedback are not launched or imported."
+    ),
+    "cedretaber/dialogoi": (
+        "Dialogoi is a novel-writing support MCP server with RAG. Static HEAD/README/package markers describe novel.json project settings, settings/content/instruction file classes, get_novel_settings/content/instructions, regex full-text search, search_rag, fileType filters for content/settings/both, Qdrant, multilingual-e5-small, smart chunking, file watchers, and Docker auto-start. "
+        "Pattern-only adaptation for filetype-scoped RAG gates; MCP runtime, Docker/Qdrant, model downloads, file watchers, npm scripts, and user novel projects are not installed, launched, or imported."
+    ),
+    "dcondrey/scrivener-mcp": (
+        "Scrivener MCP is an AGPL-3.0 MCP server for Scrivener projects. Static HEAD/README/LICENSE/package markers describe opening, reading, editing, analyzing, and searching .scriv projects, pacing analysis, RTF parsing, document-structure analysis, word counts, Claude Desktop auto-configuration, global npm install, setup wizard, Neo4j auto-install, Redis/BullMQ, OpenAI/LangChain, postinstall and uninstall hooks. "
+        "Pattern-only adaptation for direct-project-edit boundary gates; AGPL code, global install, postinstall/uninstall hooks, Scrivener projects, RTF content, Neo4j/Redis/OpenAI runtime, and assistant edits are not imported or executed."
+    ),
+    "nickcottrell/abits": (
+        "A Bridge in the Sky is a vector-storytelling fiction repository. Static HEAD/README/requirements markers describe story beats, VRGB coordinates for tone/density/register, colorspace geometry, baseline word-count targets, frame configs, canonical baseline frames, generated timestamped drafts, diff against canonical baseline, OpenAI API access, AWS Bedrock access, environment variables, and shell generation scripts. "
+        "Pattern-only adaptation for frame-coordinate planning gates; manuscript prose, canonical baseline frames, generated drafts, prompts, provider access, shell scripts, and generation engine are not imported or executed."
+    ),
+    "novemberjae-cmyk/novel-setting-runtime-construction": (
+        "Novel Setting Runtime Construction is an MIT prompt-skill style setting workflow. Static HEAD/README/LICENSE markers describe multi-document fictional settings, voice bibles, story bibles, project instructions, tracked items, opening scenarios, theory-of-mind notes, anti-patterns, document jobs, concept-to-architecture mapping, review, runtime operations, maintenance, session start/resume protocols, and environment-specific paths. "
+        "Pattern-only adaptation for setting-runtime document architecture; upstream prompt body, environment-specific paths, campaign facts, project files, instructions, and runtime procedures are not imported as authoritative instructions."
+    ),
+    "wangjiaquangithub/inkfoundry": (
+        "InkFoundry is a narrative OS for AI-assisted long-form novel generation. Static HEAD/README/requirements markers describe Navigator, Writer, Editor, and RedTeam agents, StateDB as single source of truth, StateFilter blocking contradictory RAG, SQLite atomic locks/versioning/snapshots, circuit breaker, graceful degradation, watchdog timeout, ChromaDB memory, path-traversal-protected import/export, token tracking, daemon scheduler, genre validator, VoiceSandbox, and SideStoryAgent. "
+        "Pattern-only adaptation for StateDB/RedTeam/VoiceSandbox gates; no license was observed, and backend/frontend runtime, ChromaDB, provider calls, daemon scheduling, imports/exports, and generated manuscripts are not installed or imported."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -5156,6 +5195,12 @@ class NovelSourceDiscoveryService:
             "tinystyler_meaning_preserving_style_transfer_gate_hints": self._build_tinystyler_meaning_preserving_style_transfer_gate_hints(available_patterns),
             "stylevec_style_signal_overfit_boundary_gate_hints": self._build_stylevec_style_signal_overfit_boundary_gate_hints(available_patterns),
             "chapter_translation_style_context_gate_hints": self._build_chapter_translation_style_context_gate_hints(available_patterns),
+            "slima_book_mcp_beta_reader_file_gate_hints": self._build_slima_book_mcp_beta_reader_file_gate_hints(available_patterns),
+            "dialogoi_filetype_rag_novel_project_gate_hints": self._build_dialogoi_filetype_rag_novel_project_gate_hints(available_patterns),
+            "scrivener_mcp_direct_project_edit_boundary_gate_hints": self._build_scrivener_mcp_direct_project_edit_boundary_gate_hints(available_patterns),
+            "vector_story_frame_coordinate_gate_hints": self._build_vector_story_frame_coordinate_gate_hints(available_patterns),
+            "setting_runtime_document_architecture_gate_hints": self._build_setting_runtime_document_architecture_gate_hints(available_patterns),
+            "inkfoundry_state_db_redteam_voice_sandbox_gate_hints": self._build_inkfoundry_state_db_redteam_voice_sandbox_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -6248,6 +6293,12 @@ class NovelSourceDiscoveryService:
             "tinystyler_meaning_preserving_style_transfer_gate": 71,
             "stylevec_style_signal_overfit_boundary_gate": 71,
             "chapter_translation_style_context_gate": 68,
+            "slima_book_mcp_beta_reader_file_gate": 69,
+            "dialogoi_filetype_rag_novel_project_gate": 70,
+            "scrivener_mcp_direct_project_edit_boundary_gate": 70,
+            "vector_story_frame_coordinate_gate": 68,
+            "setting_runtime_document_architecture_gate": 69,
+            "inkfoundry_state_db_redteam_voice_sandbox_gate": 72,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -6424,6 +6475,18 @@ class NovelSourceDiscoveryService:
             targets.append("style_signal_overfit_boundary_policy")
         if "chapter_translation_style_context_gate" in patterns:
             targets.append("chapter_translation_style_context_policy")
+        if "slima_book_mcp_beta_reader_file_gate" in patterns:
+            targets.append("book_mcp_file_beta_reader_policy")
+        if "dialogoi_filetype_rag_novel_project_gate" in patterns:
+            targets.append("filetype_rag_novel_project_policy")
+        if "scrivener_mcp_direct_project_edit_boundary_gate" in patterns:
+            targets.append("scrivener_project_edit_boundary_policy")
+        if "vector_story_frame_coordinate_gate" in patterns:
+            targets.append("vector_frame_coordinate_policy")
+        if "setting_runtime_document_architecture_gate" in patterns:
+            targets.append("setting_runtime_document_policy")
+        if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
+            targets.append("state_db_redteam_voice_sandbox_policy")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_inspiration_matrix_policy")
             targets.append("cost_quality_budget_policy")
@@ -8019,6 +8082,18 @@ class NovelSourceDiscoveryService:
             targets.append("style_signal_overfit_corpus_custody_report")
         if "chapter_translation_style_context_gate" in patterns:
             targets.append("chapter_translation_context_report")
+        if "slima_book_mcp_beta_reader_file_gate" in patterns:
+            targets.append("book_mcp_file_beta_reader_report")
+        if "dialogoi_filetype_rag_novel_project_gate" in patterns:
+            targets.append("filetype_rag_project_search_report")
+        if "scrivener_mcp_direct_project_edit_boundary_gate" in patterns:
+            targets.append("scrivener_project_boundary_report")
+        if "vector_story_frame_coordinate_gate" in patterns:
+            targets.append("vector_frame_coordinate_report")
+        if "setting_runtime_document_architecture_gate" in patterns:
+            targets.append("setting_runtime_document_architecture_report")
+        if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
+            targets.append("state_db_redteam_voice_sandbox_report")
         if "manuscript_card_board_extraction_gate" in patterns:
             targets.extend(["manuscript_card_board_extraction_report", "duplicate_card_merge_findings"])
         if "chapter_timeline_frontmatter_export_gate" in patterns:
@@ -15822,6 +15897,60 @@ class NovelSourceDiscoveryService:
             "Gemini/API calls, Windows ZIP installers, requirements, private source books, translated outputs, preserved-name tables, and API keys remain excluded from static intake.",
         ]
 
+    def _build_slima_book_mcp_beta_reader_file_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "slima_book_mcp_beta_reader_file_gate" not in patterns:
+            return []
+        return [
+            "Treat book-file MCP access as a rights-scoped edit envelope: list/read/search can inform review, while write/delete/append require explicit human acceptance.",
+            "AI beta reader feedback should be stored as persona-labeled notes with book id, file path, chapter scope, and no hidden remote OAuth/session dependency.",
+            "Slima npx installs, remote HTTP MCP, OAuth login, Cloudflare deploys, live book files, delete/write tools, and generated feedback remain excluded from static intake.",
+        ]
+
+    def _build_dialogoi_filetype_rag_novel_project_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "dialogoi_filetype_rag_novel_project_gate" not in patterns:
+            return []
+        return [
+            "Separate project settings, manuscript content, and instruction files before RAG; every retrieval request needs an explicit fileType scope of content, settings, or both.",
+            "For continuation, combine regex/full-text evidence with semantic RAG and record chunk overlap, source file class, and missing-index fallback before drafting.",
+            "Dialogoi MCP runtime, Docker/Qdrant, multilingual-e5 model downloads, file watchers, npm scripts, and user novel projects remain excluded from static intake.",
+        ]
+
+    def _build_scrivener_mcp_direct_project_edit_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scrivener_mcp_direct_project_edit_boundary_gate" not in patterns:
+            return []
+        return [
+            "Scrivener-style direct project access must stay behind a boundary report: open/read/analyze/search are review inputs; edit/write operations require accepted patch scope.",
+            "Pacing, RTF parsing, document structure, and word counts should become derived diagnostics tied to document ids, not copied manuscript text.",
+            "Scrivener MCP AGPL code, global installs, postinstall/uninstall hooks, .scriv projects, RTF content, Neo4j/Redis/OpenAI runtime, and assistant edits remain excluded from static intake.",
+        ]
+
+    def _build_vector_story_frame_coordinate_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "vector_story_frame_coordinate_gate" not in patterns:
+            return []
+        return [
+            "Use VRGB-like frame coordinates only as MuMuAINovel-owned abstractions: story beat, tone, density, register, and baseline word-count target per frame.",
+            "Same-type drafting may inherit coordinate slots and diff discipline, but never canonical baseline prose, prompts, generated drafts, or source frame text.",
+            "ABITS manuscript prose, baseline frames, generated drafts, provider access, environment variables, shell scripts, and generation engine remain excluded from static intake.",
+        ]
+
+    def _build_setting_runtime_document_architecture_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "setting_runtime_document_architecture_gate" not in patterns:
+            return []
+        return [
+            "Model long-form settings as multiple explicit documents: story bible, voice bible, project instructions, tracked items, opening scenario, theory-of-mind notes, and anti-patterns.",
+            "Before a resumed continuation session, require a session start packet that states which setting documents were loaded, which are stale, and which jobs are forbidden.",
+            "Novel Setting Runtime prompt bodies, environment-specific paths, campaign facts, project instructions, and upstream runtime procedures remain excluded from static intake.",
+        ]
+
+    def _build_inkfoundry_state_db_redteam_voice_sandbox_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "inkfoundry_state_db_redteam_voice_sandbox_gate" not in patterns:
+            return []
+        return [
+            "StateDB must outrank vector recall: accepted facts, dead/alive states, locks, snapshots, and version ids can block contradictory RAG before drafting.",
+            "Use RedTeam and VoiceSandbox as review envelopes: adversarial plot attack and character-voice constraints produce findings, not hidden generation authority.",
+            "InkFoundry unlicensed code, backend/frontend runtime, ChromaDB, provider calls, daemon scheduler, import/export artifacts, and generated manuscripts remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -15851,6 +15980,18 @@ class NovelSourceDiscoveryService:
             targets.append("style_signal_overfit_boundary_remap")
         if "chapter_translation_style_context_gate" in patterns:
             targets.append("chapter_translation_style_context_remap")
+        if "slima_book_mcp_beta_reader_file_gate" in patterns:
+            targets.append("book_mcp_file_beta_reader_remap")
+        if "dialogoi_filetype_rag_novel_project_gate" in patterns:
+            targets.append("filetype_rag_novel_project_remap")
+        if "scrivener_mcp_direct_project_edit_boundary_gate" in patterns:
+            targets.append("scrivener_direct_edit_boundary_remap")
+        if "vector_story_frame_coordinate_gate" in patterns:
+            targets.append("vector_frame_coordinate_remap")
+        if "setting_runtime_document_architecture_gate" in patterns:
+            targets.append("setting_runtime_document_architecture_remap")
+        if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
+            targets.append("state_db_redteam_voice_sandbox_remap")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_trope_budget_remap")
         if "stepwise_local_book_generation_file_gate" in patterns:
@@ -17056,6 +17197,18 @@ class NovelSourceDiscoveryService:
             hints.append("For style-vector-inspired prompts, treat style similarity as an audit signal with corpus custody notes and overfit warnings, not as a generation target.")
         if "chapter_translation_style_context_gate" in patterns:
             hints.append("For translation-style continuation prompts, include chapter-level context, glossary/term map, and review checkpoint while keeping source text out of same-type drafting.")
+        if "slima_book_mcp_beta_reader_file_gate" in patterns:
+            hints.append("For book-MCP prompts, state book id, file path, allowed read/search/write scope, beta-reader persona, and human acceptance gate before any file mutation.")
+        if "dialogoi_filetype_rag_novel_project_gate" in patterns:
+            hints.append("For RAG prompts, declare whether retrieval can see content, settings, instructions, or both, and require source file class in every cited note.")
+        if "scrivener_mcp_direct_project_edit_boundary_gate" in patterns:
+            hints.append("For Scrivener-style project prompts, request pacing/structure diagnostics as derived notes first; direct project edits need an accepted patch envelope.")
+        if "vector_story_frame_coordinate_gate" in patterns:
+            hints.append("For frame-coordinate prompts, fill story beat, tone, density, register, and word-count target as abstract controls before generating prose.")
+        if "setting_runtime_document_architecture_gate" in patterns:
+            hints.append("For resumed setting prompts, include a session start packet listing story bible, voice bible, tracked items, scenario, and anti-pattern docs loaded.")
+        if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
+            hints.append("For long-form generation prompts, make StateDB facts outrank RAG and route contradictions to RedTeam/VoiceSandbox review before drafting.")
         if "mock_first_multi_agent_continuation_gate" in patterns:
             hints.append("Prompt from pipeline roles as abstract duties: planner, drafter, reviewer, linter, budget auditor, and author gate; do not reuse upstream role wording or source-book facts.")
         if "truth_file_write_next_state_update_gate" in patterns:
@@ -17945,6 +18098,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform style-vector lessons into negative controls, overfit regressions, and corpus-custody reports before any same-type style guidance is trusted.")
         if "chapter_translation_style_context_gate" in patterns:
             hints.append("Transform chapter translation mechanics into glossary consistency, nearby-context review, and chapter-by-chapter acceptance checks for owned source material only.")
+        if "slima_book_mcp_beta_reader_file_gate" in patterns:
+            hints.append("Transform book-MCP file tools into read/search/review/edit envelopes with explicit file ids, not into autonomous remote book mutation.")
+        if "dialogoi_filetype_rag_novel_project_gate" in patterns:
+            hints.append("Transform fileType-scoped RAG into MuMuAINovel-owned content/settings/instruction retrieval classes with logged fallback when vector search is unavailable.")
+        if "scrivener_mcp_direct_project_edit_boundary_gate" in patterns:
+            hints.append("Transform Scrivener project analysis into portable pacing, structure, and word-count reports while keeping direct .scriv edits outside static intake.")
+        if "vector_story_frame_coordinate_gate" in patterns:
+            hints.append("Transform VRGB/vector storytelling into original frame control cards; never reuse source baseline frames, prose, or prompt scaffolds.")
+        if "setting_runtime_document_architecture_gate" in patterns:
+            hints.append("Transform setting-runtime documents into owned bible modules and resume packets, with upstream paths and campaign content removed.")
+        if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
+            hints.append("Transform StateDB/StateFilter/RedTeam lessons into canon-first contradiction gates and adversarial review reports before chapter acceptance.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Transform collaboration roles into new project duties and new evidence ids; do not preserve upstream prompt/story pairings or agent-room wording.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -18850,6 +19015,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject style-vector workflows that import AO3/literary corpora, scraped text, copyrighted datasets, browser-automation traces, or overfit speaker fingerprints into MuMuAINovel.")
         if "chapter_translation_style_context_gate" in patterns:
             hints.append("Reject translation-style outputs that carry source chapter wording, glossary entries without rights review, Gemini/API traces, ZIP installer content, or preserved names/terms into same-type fiction.")
+        if "slima_book_mcp_beta_reader_file_gate" in patterns:
+            hints.append("Reject book-MCP workflows that import remote OAuth sessions, live book files, delete/write traces, hosted connector behavior, or beta-reader feedback as canon without review.")
+        if "dialogoi_filetype_rag_novel_project_gate" in patterns:
+            hints.append("Reject RAG outputs that blur settings, content, and instructions, or import user novel project files, Qdrant vectors, watchers, Docker state, or model artifacts.")
+        if "scrivener_mcp_direct_project_edit_boundary_gate" in patterns:
+            hints.append("Reject direct Scrivener edits, .scriv/RTF manuscript imports, AGPL code reuse, postinstall hooks, Neo4j/Redis/OpenAI runtime, or assistant patch traces.")
+        if "vector_story_frame_coordinate_gate" in patterns:
+            hints.append("Reject drafts that preserve ABITS baseline prose, frame text, generated drafts, prompt files, shell-script output, provider traces, or its named fictional sequence.")
+        if "setting_runtime_document_architecture_gate" in patterns:
+            hints.append("Reject setting-runtime reuse that copies upstream prompt bodies, environment paths, campaign facts, document-job wording, or anti-pattern examples as project instructions.")
+        if "inkfoundry_state_db_redteam_voice_sandbox_gate" in patterns:
+            hints.append("Reject workflows that import InkFoundry unlicensed code, StateDB artifacts, ChromaDB vectors, daemon jobs, provider traces, generated manuscripts, or VoiceSandbox prompt bodies.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Reject drafts that reuse Tell Me A Story prompt structure, human-written story arcs, or Agents' Room task wording as hidden source scaffolding.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -19825,6 +20002,12 @@ class NovelSourceDiscoveryService:
                 "tinystyler_meaning_preserving_style_transfer_gate",
                 "stylevec_style_signal_overfit_boundary_gate",
                 "chapter_translation_style_context_gate",
+                "slima_book_mcp_beta_reader_file_gate",
+                "dialogoi_filetype_rag_novel_project_gate",
+                "scrivener_mcp_direct_project_edit_boundary_gate",
+                "vector_story_frame_coordinate_gate",
+                "setting_runtime_document_architecture_gate",
+                "inkfoundry_state_db_redteam_voice_sandbox_gate",
                 "manuscript_card_board_extraction_gate",
                 "chapter_timeline_frontmatter_export_gate",
                 "node_dialogue_state_machine",

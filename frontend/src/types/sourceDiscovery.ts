@@ -414,6 +414,12 @@ export interface SourceDiscoveryPatternPack {
   tinystyler_meaning_preserving_style_transfer_gate_hints?: string[];
   stylevec_style_signal_overfit_boundary_gate_hints?: string[];
   chapter_translation_style_context_gate_hints?: string[];
+  slima_book_mcp_beta_reader_file_gate_hints?: string[];
+  dialogoi_filetype_rag_novel_project_gate_hints?: string[];
+  scrivener_mcp_direct_project_edit_boundary_gate_hints?: string[];
+  vector_story_frame_coordinate_gate_hints?: string[];
+  setting_runtime_document_architecture_gate_hints?: string[];
+  inkfoundry_state_db_redteam_voice_sandbox_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

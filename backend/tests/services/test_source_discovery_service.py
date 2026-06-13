@@ -19731,3 +19731,168 @@ def test_longform_voice_workspace_and_style_boundary_sources_are_static_absorbed
     assert "tinystyler_meaning_preserving_style_transfer_gate_hints" in digest
     assert "stylevec_style_signal_overfit_boundary_gate_hints" in digest
     assert "chapter_translation_style_context_gate_hints" in digest
+
+
+def test_novel_mcp_runtime_setting_frame_sources_are_static_absorbed():
+    assert "https://github.com/slima-ai/slima-mcp" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/cedretaber/dialogoi" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dcondrey/scrivener-mcp" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/nickcottrell/abits" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/novemberjae-cmyk/Novel-Setting-Runtime-Construction" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/wangjiaquangithub/InkFoundry" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Slima MCP" in query and "AI Beta Reader" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Dialogoi" in query and "file type" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("vector storytelling" in query and "StateDB" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "slima-ai/slima-mcp",
+                "html_url": "https://github.com/slima-ai/slima-mcp",
+                "description": (
+                    "Slima MCP is an MIT Model Context Protocol server for the Slima AI Writing IDE for novel authors. "
+                    "Public README and package markers describe local stdio MCP and remote HTTP MCP connectors, OAuth login, "
+                    "book management, file/folder structure, writing statistics, read/edit/search/write/create/delete/append "
+                    "book files, and AI beta reader feedback from virtual reader personas. It uses npx, Cloudflare worker "
+                    "deploy scripts, wrangler and MCP SDK."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["mcp", "writing", "novel", "beta-reader"],
+                "updated_at": "2026-06-13T09:37:38Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "dist", "src"],
+            },
+            {
+                "full_name": "cedretaber/dialogoi",
+                "html_url": "https://github.com/cedretaber/dialogoi",
+                "description": (
+                    "Dialogoi is a RAG-powered MCP server for novel writing support. Public README and package markers describe "
+                    "novel.json project settings, settings and contents directories, instruction files, get_novel_settings, "
+                    "get_novel_content, search_novel_text, search_rag, fileType filters for content/settings/both, regex full-text search, "
+                    "Qdrant, multilingual-e5-small, smart chunking, file watchers and Docker auto start."
+                ),
+                "stargazers_count": 3,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["mcp", "rag", "novel", "qdrant"],
+                "updated_at": "2026-06-13T07:31:21Z",
+                "root_files": ["README.md", "package.json", "src", "scripts/setup-test-qdrant.sh"],
+            },
+            {
+                "full_name": "dcondrey/scrivener-mcp",
+                "html_url": "https://github.com/dcondrey/scrivener-mcp",
+                "description": (
+                    "Scrivener MCP is an AGPL-3.0 MCP server for Scrivener projects. Public README, LICENSE and package markers describe "
+                    "opening, reading, editing, analyzing and searching .scriv projects, pacing analysis, RTF parsing, document structure, "
+                    "word counting, Claude Desktop auto configuration, global npm install, setup wizard, Neo4j auto install, Redis/BullMQ, "
+                    "OpenAI/LangChain, setup scripts, postinstall and uninstall hooks."
+                ),
+                "stargazers_count": 4,
+                "forks_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["scrivener", "mcp", "writing", "novel"],
+                "updated_at": "2026-06-12T18:23:11Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "scripts/postinstall.cjs", "scripts/uninstall.js"],
+            },
+            {
+                "full_name": "nickcottrell/abits",
+                "html_url": "https://github.com/nickcottrell/abits",
+                "description": (
+                    "A Bridge in the Sky presents vector storytelling. Public README and requirements markers describe story beats, "
+                    "VRGB coordinates for tone density and register, baseline word-count targets, frame configs, canonical baseline frames, "
+                    "generated timestamped drafts, diff against canonical baseline, generation engine, OpenAI API access, AWS Bedrock access, "
+                    "environment variables and shell generation scripts."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "storytelling", "llm", "style"],
+                "updated_at": "2026-06-10T21:17:49Z",
+                "root_files": ["README.md", "requirements.txt", "gen/code/generate_unified_all.sh", "manuscript/_seed/baseline"],
+            },
+            {
+                "full_name": "novemberjae-cmyk/Novel-Setting-Runtime-Construction",
+                "html_url": "https://github.com/novemberjae-cmyk/Novel-Setting-Runtime-Construction",
+                "description": (
+                    "Novel Setting Runtime Construction is an MIT prompt-skill style setting construction workflow. Public README and LICENSE "
+                    "markers describe multi-document fictional settings, voice bibles, story bibles, project instructions, tracked items, "
+                    "opening scenarios, theory of mind, anti-patterns, document jobs, concept to architecture mapping, review, runtime operations, "
+                    "maintenance, session start protocol, resume protocol and environment-specific file locations."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["skill", "story-bible", "setting", "fiction"],
+                "updated_at": "2026-06-11T23:17:39Z",
+                "root_files": ["README.md", "LICENSE", "references/document-jobs.md", "references/failure-modes.md"],
+            },
+            {
+                "full_name": "wangjiaquangithub/InkFoundry",
+                "html_url": "https://github.com/wangjiaquangithub/InkFoundry",
+                "description": (
+                    "InkFoundry is a narrative OS for AI-assisted long-form novel generation. Public README and requirements markers describe "
+                    "Navigator, Writer, Editor and RedTeam agents, StateDB as single source of truth, StateFilter blocking contradictory RAG, "
+                    "SQLite atomic locks, versioning, snapshots, circuit breaker, graceful degradation, watchdog timeout, ChromaDB memory, "
+                    "import/export with path traversal protection, token tracker, daemon scheduler, genre validator, VoiceSandbox and SideStoryAgent."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "agent", "rag", "state-machine"],
+                "updated_at": "2026-06-09T14:11:49Z",
+                "root_files": ["README.md", "requirements.txt", "backend", "frontend"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T19:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "slima_book_mcp_beta_reader_file_gate" in candidates["slima-ai/slima-mcp"]["absorbed_patterns"]
+    assert "dialogoi_filetype_rag_novel_project_gate" in candidates["cedretaber/dialogoi"]["absorbed_patterns"]
+    assert "scrivener_mcp_direct_project_edit_boundary_gate" in candidates["dcondrey/scrivener-mcp"]["absorbed_patterns"]
+    assert "vector_story_frame_coordinate_gate" in candidates["nickcottrell/abits"]["absorbed_patterns"]
+    assert "setting_runtime_document_architecture_gate" in candidates["novemberjae-cmyk/Novel-Setting-Runtime-Construction"]["absorbed_patterns"]
+    assert "inkfoundry_state_db_redteam_voice_sandbox_gate" in candidates["wangjiaquangithub/InkFoundry"]["absorbed_patterns"]
+    assert "mcp_server" in candidates["slima-ai/slima-mcp"]["risk_flags"]
+    assert "cloud_sync_oauth_surface" in candidates["slima-ai/slima-mcp"]["risk_flags"]
+    assert "docker" in candidates["cedretaber/dialogoi"]["risk_flags"]
+    assert "postinstall" in candidates["dcondrey/scrivener-mcp"]["risk_flags"]
+    assert "provider_key_surface" in candidates["nickcottrell/abits"]["risk_flags"]
+    assert "shell_script" in candidates["nickcottrell/abits"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "book_mcp_file_beta_reader_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "filetype_rag_novel_project_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scrivener_project_edit_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "vector_frame_coordinate_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "setting_runtime_document_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "state_db_redteam_voice_sandbox_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "book_mcp_file_beta_reader_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "filetype_rag_project_search_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scrivener_project_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "vector_frame_coordinate_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "setting_runtime_document_architecture_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "state_db_redteam_voice_sandbox_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "book_mcp_file_beta_reader_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "filetype_rag_novel_project_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "scrivener_direct_edit_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "vector_frame_coordinate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "setting_runtime_document_architecture_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "state_db_redteam_voice_sandbox_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("beta reader" in hint.lower() for hint in pattern_pack["slima_book_mcp_beta_reader_file_gate_hints"])
+    assert any("fileType" in hint for hint in pattern_pack["dialogoi_filetype_rag_novel_project_gate_hints"])
+    assert any("Scrivener" in hint for hint in pattern_pack["scrivener_mcp_direct_project_edit_boundary_gate_hints"])
+    assert any("VRGB" in hint for hint in pattern_pack["vector_story_frame_coordinate_gate_hints"])
+    assert any("session start" in hint.lower() for hint in pattern_pack["setting_runtime_document_architecture_gate_hints"])
+    assert any("StateDB" in hint for hint in pattern_pack["inkfoundry_state_db_redteam_voice_sandbox_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "slima_book_mcp_beta_reader_file_gate_hints" in digest
+    assert "dialogoi_filetype_rag_novel_project_gate_hints" in digest
+    assert "scrivener_mcp_direct_project_edit_boundary_gate_hints" in digest
+    assert "vector_story_frame_coordinate_gate_hints" in digest
+    assert "setting_runtime_document_architecture_gate_hints" in digest
+    assert "inkfoundry_state_db_redteam_voice_sandbox_gate_hints" in digest
