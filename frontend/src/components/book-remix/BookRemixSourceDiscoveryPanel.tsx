@@ -393,6 +393,11 @@ const PINNED_HINT_KEYS = new Set([
   'group_collaboration_conflict_vote_memory_gate_hints',
   'arboris_story_direction_workspace_gate_hints',
   'sdd_seven_step_cross_platform_skill_gate_hints',
+  'langgraph_world_outline_review_memory_gate_hints',
+  'xiaoshuo_local_canon_skill_studio_gate_hints',
+  'director_orchestrator_trace_canonize_gate_hints',
+  'book_build_export_delivery_gate_hints',
+  'plot_storyline_improvement_epub_chain_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -848,6 +853,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Group collaboration conflict-vote memory gates', patternPackPayload?.group_collaboration_conflict_vote_memory_gate_hints],
               ['Arboris story-direction workspace gates', patternPackPayload?.arboris_story_direction_workspace_gate_hints],
               ['SDD seven-step cross-platform skill gates', patternPackPayload?.sdd_seven_step_cross_platform_skill_gate_hints],
+              ['LangGraph world-outline-review memory gates', patternPackPayload?.langgraph_world_outline_review_memory_gate_hints],
+              ['Xiaoshuo local canon skill-studio gates', patternPackPayload?.xiaoshuo_local_canon_skill_studio_gate_hints],
+              ['Director-orchestrator trace canonize gates', patternPackPayload?.director_orchestrator_trace_canonize_gate_hints],
+              ['Book build export delivery gates', patternPackPayload?.book_build_export_delivery_gate_hints],
+              ['Plot-storyline improvement EPUB chain gates', patternPackPayload?.plot_storyline_improvement_epub_chain_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

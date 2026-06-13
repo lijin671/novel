@@ -168,6 +168,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "group_collaboration_conflict_vote_memory_gate_hints",
             "arboris_story_direction_workspace_gate_hints",
             "sdd_seven_step_cross_platform_skill_gate_hints",
+            "langgraph_world_outline_review_memory_gate_hints",
+            "xiaoshuo_local_canon_skill_studio_gate_hints",
+            "director_orchestrator_trace_canonize_gate_hints",
+            "book_build_export_delivery_gate_hints",
+            "plot_storyline_improvement_epub_chain_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -514,6 +519,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Group collaboration conflict-vote memory gates" in panel_text
     assert "Arboris story-direction workspace gates" in panel_text
     assert "SDD seven-step cross-platform skill gates" in panel_text
+    assert "LangGraph world-outline-review memory gates" in panel_text
+    assert "Xiaoshuo local canon skill-studio gates" in panel_text
+    assert "Director-orchestrator trace canonize gates" in panel_text
+    assert "Book build export delivery gates" in panel_text
+    assert "Plot-storyline improvement EPUB chain gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text

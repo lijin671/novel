@@ -18449,3 +18449,143 @@ def test_static_disassembly_style_truth_collaboration_workspace_sources_are_abso
     assert "group_collaboration_conflict_vote_memory_gate_hints" in digest
     assert "arboris_story_direction_workspace_gate_hints" in digest
     assert "sdd_seven_step_cross_platform_skill_gate_hints" in digest
+
+
+def test_static_langgraph_canon_skill_studio_sources_are_absorbed():
+    assert "https://github.com/Aubrey481/novel_agent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Zhao73/xiaoshuo-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/songzhiyuan98/Novel-Studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/john-paul-ruf/zencoder-based-novel-engine" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mshumer/gpt-author" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("LangGraph" in query and "chapter generation" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("xiaoshuo-studio" in query and "连续性检查" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("blueprint" in query and "canonize" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("active-book.json" in query and "DOCX" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("plot candidates" in query and "gpt-author" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Aubrey481/novel_agent",
+                "html_url": "https://github.com/Aubrey481/novel_agent",
+                "description": (
+                    "novel_agent connects world setting, outline, chapter generation, and review using LangGraph, "
+                    "with critic_agent, rewrite_agent, memory_agent, vector_knowledge_base, KIMI, and critique_log."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "langgraph", "memory"],
+                "updated_at": "2026-06-13T15:00:00Z",
+                "root_files": ["README.md", "requirements.txt", "vector_db.py", "novel_agent", "legacy_root"],
+            },
+            {
+                "full_name": "Zhao73/xiaoshuo-studio",
+                "html_url": "https://github.com/Zhao73/xiaoshuo-studio",
+                "description": (
+                    "xiaoshuo-studio is a local fiction studio with 建书向导, Canon 记忆层, 参考小说学习, 混合风格卡, "
+                    "连续性检查, skill 聚合入口, chapter brief, 回写 canon, and anti-AI focus."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "canon", "skills"],
+                "updated_at": "2026-06-13T15:01:00Z",
+                "root_files": ["README.md", "LICENSE", ".agents/skills", "src", "python", "tests", "scripts"],
+            },
+            {
+                "full_name": "songzhiyuan98/Novel-Studio",
+                "html_url": "https://github.com/songzhiyuan98/Novel-Studio",
+                "description": (
+                    "Novel-Studio is an AI-Powered Serial Fiction Workbench where user directions become blueprint, "
+                    "write, QA, and canonize stages through a deterministic orchestrator, Canon Memory, "
+                    "Cost Tracking, Orchestration Trace, DeepSeek, and GPT-4o-mini workers."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "orchestration", "canon"],
+                "updated_at": "2026-06-13T15:02:00Z",
+                "root_files": ["README.md", "package.json", "docker-compose.yml", "apps/api", "apps/web"],
+            },
+            {
+                "full_name": "john-paul-ruf/zencoder-based-novel-engine",
+                "html_url": "https://github.com/john-paul-ruf/zencoder-based-novel-engine",
+                "description": (
+                    "zencoder-based-novel-engine uses active-book.json, about.json, numbered draft.md chapters, "
+                    "wordcount, build, cover, auto-pandoc, md-to-pdf, DOCX, EPUB, PDF, KDP 6x9, "
+                    "cover-art.jpg, cover.jpg, and dist delivery artifacts."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "book", "delivery"],
+                "updated_at": "2026-06-13T15:03:00Z",
+                "root_files": ["package.json", "active-book.json", "books", "scripts/build.js", "scripts/cover.js", "the-pipeline.md"],
+            },
+            {
+                "full_name": "mshumer/gpt-author",
+                "html_url": "https://github.com/mshumer/gpt-author",
+                "description": (
+                    "gpt-author generates plot candidates, selects and improves the strongest plot, extracts a title, "
+                    "creates a detailed storyline for a specified number of chapters, improves the storyline, writes chapters "
+                    "with previous chapter context, creates a cover art prompt, and compiles an EPUB file."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "epub", "plot"],
+                "updated_at": "2026-06-13T15:04:00Z",
+                "root_files": ["README.md", "LICENSE", "gpt_author_v2.ipynb", "Claude_Author.ipynb", "examples"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T15:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "langgraph_world_outline_review_memory_gate" in candidates["Aubrey481/novel_agent"]["absorbed_patterns"]
+    assert "xiaoshuo_local_canon_skill_studio_gate" in candidates["Zhao73/xiaoshuo-studio"]["absorbed_patterns"]
+    assert "director_orchestrator_trace_canonize_gate" in candidates["songzhiyuan98/Novel-Studio"]["absorbed_patterns"]
+    assert "book_build_export_delivery_gate" in candidates["john-paul-ruf/zencoder-based-novel-engine"]["absorbed_patterns"]
+    assert "plot_storyline_improvement_epub_chain_gate" in candidates["mshumer/gpt-author"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "langgraph_world_outline_review_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_canon_skill_studio_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "director_orchestrator_trace_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "book_build_export_manifest_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "plot_storyline_improvement_chain_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "graph_stage_state_transition_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "canon_memory_refresh_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "orchestration_trace_canonize_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "wordcount_build_export_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "plot_storyline_selection_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "world_outline_graph_state_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "canon_skill_studio_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "director_orchestrator_chain_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "book_delivery_artifact_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "plot_candidate_storyline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("graph stages" in hint.lower() for hint in pattern_pack["langgraph_world_outline_review_memory_gate_hints"])
+    assert any("studio contract" in hint.lower() for hint in pattern_pack["xiaoshuo_local_canon_skill_studio_gate_hints"])
+    assert any("director-orchestrator chain" in hint.lower() for hint in pattern_pack["director_orchestrator_trace_canonize_gate_hints"])
+    assert any("delivery evidence" in hint.lower() for hint in pattern_pack["book_build_export_delivery_gate_hints"])
+    assert any("plot candidates" in hint.lower() for hint in pattern_pack["plot_storyline_improvement_epub_chain_gate_hints"])
+    assert any("vector-index refs" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("canon snapshots" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("approved director direction" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("wordcount reports" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("selected plot rationale" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("generated worlds" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("xiaoshuo-studio skill bodies" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("novel-studio runtime scripts" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("zencoder-based-novel-engine sample chapters" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("gpt-author notebook cells" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "langgraph_world_outline_review_memory_gate_hints" in digest
+    assert "xiaoshuo_local_canon_skill_studio_gate_hints" in digest
+    assert "director_orchestrator_trace_canonize_gate_hints" in digest
+    assert "book_build_export_delivery_gate_hints" in digest
+    assert "plot_storyline_improvement_epub_chain_gate_hints" in digest

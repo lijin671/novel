@@ -517,6 +517,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("群体协作长篇小说" OR "投票决策" OR "冲突检测") ("AI小说" OR "novel plugin") in:name,description,readme',
     '("Arboris" OR "写作辅助" OR "角色管理" OR "写作界面") ("可选方向" OR "novel") in:name,description,readme',
     '("七步方法论" OR "规格驱动开发" OR "slash commands") ("小说" OR "AI writing") in:name,description,readme',
+    '("LangGraph" OR "world setting" OR "critic_agent") ("novel_agent" OR "chapter generation") in:name,description,readme',
+    '("xiaoshuo-studio" OR "Canon 记忆层" OR "参考小说学习") ("连续性检查" OR "skill 聚合入口") in:name,description,readme',
+    '("directions" OR "blueprint" OR "QA" OR "canonize") ("AI-Powered Serial Fiction Workbench" OR "Canon Memory") in:name,description,readme',
+    '("active-book.json" OR "wordcount" OR "auto-pandoc") ("KDP" OR "DOCX" OR "EPUB" OR "cover.jpg") in:name,description,readme',
+    '("plot candidates" OR "detailed storyline" OR "cover art prompt") ("EPUB" OR "gpt-author") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1088,6 +1093,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/blueraina/astrbot_plugin_novel",
     "https://github.com/t59688/arboris-novel",
     "https://github.com/wordflowlab/novel-writer",
+    "https://github.com/Aubrey481/novel_agent",
+    "https://github.com/Zhao73/xiaoshuo-studio",
+    "https://github.com/songzhiyuan98/Novel-Studio",
+    "https://github.com/john-paul-ruf/zencoder-based-novel-engine",
+    "https://github.com/mshumer/gpt-author",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1603,6 +1613,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("group_collaboration_conflict_vote_memory_gate", ("astrbot_plugin_novel", "群体协作长篇小说", "创意系统", "多AI打分", "冲突检测", "投票决策", "群隔离", "贡献者追踪", "HCA", "CSA", "剧情检查器")),
     ("arboris_story_direction_workspace_gate", ("arboris", "写作辅助工具", "角色管理", "大纲编辑", "写作界面", "可选方向", "记录设定", "novel-kit", "下一章决策")),
     ("sdd_seven_step_cross_platform_skill_gate", ("novel-writer-cn", "novel-writer", "规格驱动开发", "七步方法论", "slash commands", "constitution", "specify", "clarify", "plan", "tasks", "write", "analyze", "13 个 AI 工具")),
+    ("langgraph_world_outline_review_memory_gate", ("novel_agent", "LangGraph", "世界观", "大纲", "章节生成", "评审", "critic_agent", "rewrite_agent", "memory_agent", "vector_knowledge_base", "KIMI", "critique_log")),
+    ("xiaoshuo_local_canon_skill_studio_gate", ("xiaoshuo-studio", "建书向导", "Canon 记忆层", "参考小说学习", "混合风格卡", "连续性检查", "skill 聚合入口", "chapter brief", "回写 canon", "anti-AI focus")),
+    ("director_orchestrator_trace_canonize_gate", ("Novel-Studio", "AI-Powered Serial Fiction Workbench", "directions", "blueprint", "write", "QA", "canonize", "deterministic orchestrator", "Canon Memory", "Cost Tracking", "Orchestration Trace", "DeepSeek", "GPT-4o-mini")),
+    ("book_build_export_delivery_gate", ("zencoder-based-novel-engine", "active-book.json", "wordcount", "about.json", "draft.md", "dist", "auto-pandoc", "md-to-pdf", "DOCX", "EPUB", "PDF", "KDP", "cover-art.jpg", "cover.jpg", "6×9")),
+    ("plot_storyline_improvement_epub_chain_gate", ("gpt-author", "plot candidates", "selects the most engaging plot", "improves upon it", "extracts a title", "detailed storyline", "specified number of chapters", "previous chapters", "cover art prompt", "EPUB file", "Claude_Author.ipynb")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4125,6 +4140,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Novel Writer / novel-writer-cn is an MIT SDD-based Chinese novel writing tool. Static README markers describe cross-platform slash commands for Claude, Gemini, Codex, Cursor, Windsurf and Roo Code, a seven-step method of constitution/specify/clarify/plan/tasks/write/analyze, Chinese word-count support, multi-thread management, plugin extension, plot tracking, timeline management and character consistency verification. "
         "Pattern-only adaptation for SDD seven-step cross-platform skill gates; npm global install, initialized projects, plugins, command files, prompts, user projects, generated chapters, and provider/tool runtimes are not executed or imported."
     ),
+    "aubrey481/novel_agent": (
+        "novel_agent is a no-license-file-observed Chinese LangGraph novel-generation scaffold. Static README markers describe a graph pipeline for world setting, summary/vector initialization, outline generation, outline critique, chapter generation, chapter critique/rewrite, long-term JSON memory, FAISS/vector knowledge bases, storage numbering, critique logs, and separated legacy artifacts. "
+        "Pattern-only adaptation for LangGraph world-outline-review memory gates; requirements, virtual environments, KIMI provider calls, FAISS/sentence-transformer downloads, vector databases, generated worlds/outlines/chapters, local data folders, .env files, scripts, and legacy artifacts are not executed or imported."
+    ),
+    "zhao73/xiaoshuo-studio": (
+        "xiaoshuo-studio is an MIT local long-form Chinese fiction workbench. Static README markers describe a deep book-building wizard, canon memory layer for characters/timeline/foreshadowing/threads/world rules, reference-novel technique learning, style cards, chapter brief generation, continuity checking, canon writeback, anti-AI focus, review-to-learning loops, skill aggregation, and aggregator/full-bundle export modes. "
+        "Pattern-only adaptation for local canon skill-studio gates; Next.js runtime, API routes, npm scripts, skill exports/installs, local novel folders, imported reference corpora, screenshots, Codex/Claude login state, generated chapters, and upstream skill bodies are not executed, installed, collected, or imported."
+    ),
+    "songzhiyuan98/novel-studio": (
+        "Novel-Studio is a no-license-file-observed AI-powered serial fiction workbench. Static README markers describe a director/operator model where the user acts as director and AI workers execute directions -> blueprint -> write -> QA -> canonize, with deterministic orchestrator code, planner/writer/QA/summarizer workers, Canon Memory for characters/world/timeline/threads, character cards, chapter viewer, cost tracking, orchestration trace, multi-model routing, project templates, per-scene rewrite, and planned impact analysis. "
+        "Pattern-only adaptation for director-orchestrator trace canonize gates; Docker, PostgreSQL, pnpm, Drizzle migrations, seed scripts, API/web dev servers, provider/API keys, LLM calls, database state, generated chapters, and local project data are not executed or imported."
+    ),
+    "john-paul-ruf/zencoder-based-novel-engine": (
+        "zencoder-based-novel-engine is a no-license-file-observed book-production workspace. Static package/tree markers describe active-book.json selection, books/<book>/about.json metadata, numbered chapter draft.md folders, notes.md sidecars, source story-bible/scene-outline/voice-profile files, submissions folders, wordcount command, build command, cover command, auto-pandoc/md-to-pdf/sharp dependencies, dist outputs for Markdown/DOCX/EPUB/PDF, KDP 6x9 trim settings, manuscript-format DOCX post-processing, and cover-art.jpg -> cover.jpg normalization. "
+        "Pattern-only adaptation for book build/export delivery gates; npm scripts, pandoc/PDF/DOCX/EPUB generation, sharp image processing, sample books, generated dist artifacts, cover art, custom agents, system prompts, and manuscript text are not executed or imported."
+    ),
+    "mshumer/gpt-author": (
+        "gpt-author is an MIT notebook-driven AI novel generation chain. Static README markers describe prompt-driven plot candidate generation, selecting and improving the strongest plot, title extraction, detailed storyline creation for a chosen chapter count, storyline improvement, chapter-by-chapter writing using previous chapter context, cover-art prompt generation, cover creation, and EPUB compilation. "
+        "Pattern-only adaptation for plot/storyline improvement EPUB chain gates; Google Colab/Jupyter notebooks, pip installs, OpenAI/Anthropic/Stable Diffusion calls, API keys, generated sample novels, cover images, EPUB output, notebook cells, and prompt bodies are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4980,6 +5015,11 @@ class NovelSourceDiscoveryService:
             "group_collaboration_conflict_vote_memory_gate_hints": self._build_group_collaboration_conflict_vote_memory_gate_hints(available_patterns),
             "arboris_story_direction_workspace_gate_hints": self._build_arboris_story_direction_workspace_gate_hints(available_patterns),
             "sdd_seven_step_cross_platform_skill_gate_hints": self._build_sdd_seven_step_cross_platform_skill_gate_hints(available_patterns),
+            "langgraph_world_outline_review_memory_gate_hints": self._build_langgraph_world_outline_review_memory_gate_hints(available_patterns),
+            "xiaoshuo_local_canon_skill_studio_gate_hints": self._build_xiaoshuo_local_canon_skill_studio_gate_hints(available_patterns),
+            "director_orchestrator_trace_canonize_gate_hints": self._build_director_orchestrator_trace_canonize_gate_hints(available_patterns),
+            "book_build_export_delivery_gate_hints": self._build_book_build_export_delivery_gate_hints(available_patterns),
+            "plot_storyline_improvement_epub_chain_gate_hints": self._build_plot_storyline_improvement_epub_chain_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5848,6 +5888,11 @@ class NovelSourceDiscoveryService:
             "group_collaboration_conflict_vote_memory_gate": 67,
             "arboris_story_direction_workspace_gate": 66,
             "sdd_seven_step_cross_platform_skill_gate": 68,
+            "langgraph_world_outline_review_memory_gate": 68,
+            "xiaoshuo_local_canon_skill_studio_gate": 70,
+            "director_orchestrator_trace_canonize_gate": 69,
+            "book_build_export_delivery_gate": 67,
+            "plot_storyline_improvement_epub_chain_gate": 66,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -7462,6 +7507,21 @@ class NovelSourceDiscoveryService:
         if "sdd_seven_step_cross_platform_skill_gate" in patterns:
             targets.append("sdd_seven_step_skill_contract_policy")
             targets.append("cross_platform_command_boundary_policy")
+        if "langgraph_world_outline_review_memory_gate" in patterns:
+            targets.append("langgraph_world_outline_review_memory_policy")
+            targets.append("critic_rewrite_memory_feedback_policy")
+        if "xiaoshuo_local_canon_skill_studio_gate" in patterns:
+            targets.append("local_canon_skill_studio_policy")
+            targets.append("reference_learning_to_anti_ai_focus_policy")
+        if "director_orchestrator_trace_canonize_gate" in patterns:
+            targets.append("director_orchestrator_trace_policy")
+            targets.append("qa_canonize_cost_boundary_policy")
+        if "book_build_export_delivery_gate" in patterns:
+            targets.append("book_build_export_manifest_policy")
+            targets.append("multi_format_delivery_evidence_policy")
+        if "plot_storyline_improvement_epub_chain_gate" in patterns:
+            targets.append("plot_storyline_improvement_chain_policy")
+            targets.append("cover_epub_generation_boundary_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8623,6 +8683,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["story_direction_workspace_report", "author_option_decision_trace"])
         if "sdd_seven_step_cross_platform_skill_gate" in patterns:
             targets.extend(["sdd_skill_workflow_contract_report", "seven_step_command_boundary_findings"])
+        if "langgraph_world_outline_review_memory_gate" in patterns:
+            targets.extend(["graph_stage_state_transition_report", "critic_rewrite_feedback_trace"])
+        if "xiaoshuo_local_canon_skill_studio_gate" in patterns:
+            targets.extend(["canon_memory_refresh_report", "reference_style_card_learning_report"])
+        if "director_orchestrator_trace_canonize_gate" in patterns:
+            targets.extend(["orchestration_trace_canonize_report", "worker_cost_role_boundary_report"])
+        if "book_build_export_delivery_gate" in patterns:
+            targets.extend(["wordcount_build_export_report", "cover_and_submission_asset_report"])
+        if "plot_storyline_improvement_epub_chain_gate" in patterns:
+            targets.extend(["plot_storyline_selection_report", "chapter_context_epub_cover_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -9291,6 +9361,16 @@ class NovelSourceDiscoveryService:
             hints.append("Persist author-facing setting cards, character edits, outline node decisions, next-direction options, selected option rationale, and workspace/export custody before generation.")
         if "sdd_seven_step_cross_platform_skill_gate" in patterns:
             hints.append("Persist SDD phase, command dialect, constitution/spec/clarification/plan/task/write/analyze artifact ids, plugin boundary, and cross-platform command mapping before handoff.")
+        if "langgraph_world_outline_review_memory_gate" in patterns:
+            hints.append("Persist world id, outline id, graph node, chapter range, critique log id, rewrite result, memory-store id, and vector-index refs before accepting graph-generated chapters.")
+        if "xiaoshuo_local_canon_skill_studio_gate" in patterns:
+            hints.append("Persist wizard session id, canon seed, chapter brief id, continuity findings, canon writeback id, style-card refs, skill route id, and review-learning notes before continuing.")
+        if "director_orchestrator_trace_canonize_gate" in patterns:
+            hints.append("Persist director instruction id, blueprint id, writer output id, QA verdict, canonize commit id, worker role/model/cost trace, and impact-analysis status before accepting serial chapters.")
+        if "book_build_export_delivery_gate" in patterns:
+            hints.append("Persist active book id, about metadata, chapter draft manifest, wordcount result, build artifact ids, cover asset status, export formats, and submission-package evidence before delivery.")
+        if "plot_storyline_improvement_epub_chain_gate" in patterns:
+            hints.append("Persist prompt id, plot-candidate set, selected plot rationale, storyline version, chapter-count target, previous-chapter context ids, cover prompt id, and EPUB artifact status before accepting generation.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -14805,6 +14885,51 @@ class NovelSourceDiscoveryService:
             "novel-writer-cn npm installs, initialized projects, plugins, generated command files, prompt bodies, user projects, and tool/provider runtimes remain excluded from static intake.",
         ]
 
+    def _build_langgraph_world_outline_review_memory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "langgraph_world_outline_review_memory_gate" not in patterns:
+            return []
+        return [
+            "Represent long-form generation as explicit graph stages: world setting, summary/vector initialization, outline, critique, chapter drafting, critique, rewrite, and memory update.",
+            "Keep graph state inspectable with world ids, outline ids, chapter ranges, critique logs, rewrite verdicts, memory refs, and vector-index refs before a chapter can advance.",
+            "novel_agent requirements, virtualenvs, KIMI calls, FAISS/sentence-transformer downloads, local data folders, generated artifacts, .env files, and legacy scripts remain excluded from static intake.",
+        ]
+
+    def _build_xiaoshuo_local_canon_skill_studio_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "xiaoshuo_local_canon_skill_studio_gate" not in patterns:
+            return []
+        return [
+            "Treat local novel work as one studio contract: guided book setup, canon seed, reference-technique learning, chapter brief, continuity check, canon writeback, polish, and review-learning loop.",
+            "Convert reference novels into reusable technique cards and anti-AI focus notes; do not let source chapters, imported folders, or author-like voice profiles enter target canon as prose.",
+            "xiaoshuo-studio Next.js runtime, API routes, npm scripts, skill exports/installs, local novel folders, imported corpora, screenshots, login state, and upstream skill bodies remain excluded from static intake.",
+        ]
+
+    def _build_director_orchestrator_trace_canonize_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "director_orchestrator_trace_canonize_gate" not in patterns:
+            return []
+        return [
+            "Route serial fiction work through a visible director-orchestrator chain: user direction, blueprint, draft, QA, canonize, memory update, and impact-analysis queue.",
+            "Record worker role, model lane, token/cost trace, orchestration step, QA verdict, and canonize delta so chapter acceptance is based on traceable work rather than chat confidence.",
+            "Novel-Studio Docker/PostgreSQL/pnpm/Drizzle/API/Web runtime, provider keys, LLM calls, database state, generated chapters, and local project data remain excluded from static intake.",
+        ]
+
+    def _build_book_build_export_delivery_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "book_build_export_delivery_gate" not in patterns:
+            return []
+        return [
+            "Treat final book delivery as an explicit build graph: active book, metadata, numbered chapter drafts, source bible/outline/profile refs, wordcount, cover asset, and dist outputs.",
+            "Require delivery evidence per format: Markdown, DOCX, EPUB, PDF, cover image, submission notes, build log, and reproducible artifact ids before marking a project deliverable.",
+            "zencoder-based-novel-engine npm scripts, pandoc/PDF/DOCX/EPUB generation, sharp image processing, sample books, dist files, custom agents, system prompts, and manuscript text remain excluded from static intake.",
+        ]
+
+    def _build_plot_storyline_improvement_epub_chain_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "plot_storyline_improvement_epub_chain_gate" not in patterns:
+            return []
+        return [
+            "Treat one-shot novel generation as a staged chain: prompt intake, plot candidates, plot selection, plot improvement, title extraction, storyline draft, storyline improvement, chapter writing, cover prompt, and EPUB packaging.",
+            "Make every improvement step reviewable: selected-plot rationale, storyline diff, chapter-count target, previous-chapter context refs, cover prompt status, and EPUB artifact status must be separate evidence.",
+            "gpt-author Colab/Jupyter notebooks, pip installs, OpenAI/Anthropic/Stable Diffusion calls, API keys, sample novels, cover images, EPUB outputs, notebook cells, and prompt bodies remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -15908,6 +16033,21 @@ class NovelSourceDiscoveryService:
         if "sdd_seven_step_cross_platform_skill_gate" in patterns:
             targets.append("sdd_seven_step_workflow_remap")
             targets.append("cross_platform_command_contract_remap")
+        if "langgraph_world_outline_review_memory_gate" in patterns:
+            targets.append("world_outline_graph_state_remap")
+            targets.append("critic_rewrite_feedback_remap")
+        if "xiaoshuo_local_canon_skill_studio_gate" in patterns:
+            targets.append("canon_skill_studio_remap")
+            targets.append("reference_technique_card_remap")
+        if "director_orchestrator_trace_canonize_gate" in patterns:
+            targets.append("director_orchestrator_chain_remap")
+            targets.append("qa_canonize_trace_remap")
+        if "book_build_export_delivery_gate" in patterns:
+            targets.append("book_delivery_artifact_remap")
+            targets.append("chapter_draft_manifest_remap")
+        if "plot_storyline_improvement_epub_chain_gate" in patterns:
+            targets.append("plot_candidate_storyline_remap")
+            targets.append("cover_epub_delivery_boundary_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -16045,6 +16185,16 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt next-chapter drafting from author-selected direction cards, setting records, and outline nodes; rejected options remain visible but non-canon.")
         if "sdd_seven_step_cross_platform_skill_gate" in patterns:
             hints.append("Prompt each task with its SDD phase and exit criteria: constitution, specify, clarify, plan, tasks, write, or analyze; command dialects stay metadata.")
+        if "langgraph_world_outline_review_memory_gate" in patterns:
+            hints.append("Prompt from approved graph state, critique findings, and rewrite verdicts; raw graph node outputs, provider settings, and vector-store internals stay outside prose context.")
+        if "xiaoshuo_local_canon_skill_studio_gate" in patterns:
+            hints.append("Prompt continuation from canon snapshots, chapter briefs, continuity findings, technique cards, and anti-AI focus notes; source folders and skill bodies stay out of context.")
+        if "director_orchestrator_trace_canonize_gate" in patterns:
+            hints.append("Prompt each chapter from the approved director direction, blueprint, worker role boundary, QA verdict, and canonize delta; cost/trace metadata stays evidence, not prose.")
+        if "book_build_export_delivery_gate" in patterns:
+            hints.append("Prompt finalization from chapter draft manifests, wordcount reports, accepted metadata, cover status, and export requirements; build scripts and sample manuscript text stay outside prose context.")
+        if "plot_storyline_improvement_epub_chain_gate" in patterns:
+            hints.append("Prompt generation from selected plot rationale, improved storyline, chapter count, and approved previous-chapter summaries; notebook cells, sample novels, and cover-generation prompts stay out of prose context.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -16830,6 +16980,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform author-option workspaces into target character/outline/direction cards and selected-option rationale while keeping screenshots, demos, and external projects out.")
         if "sdd_seven_step_cross_platform_skill_gate" in patterns:
             hints.append("Transform SDD command workflows into MuMuAINovel phase artifacts and exit gates; do not copy slash-command files, install paths, or prompt bodies.")
+        if "langgraph_world_outline_review_memory_gate" in patterns:
+            hints.append("Transform LangGraph orchestration into MuMuAINovel graph-stage cards, critique/rewrite feedback traces, and memory refs without importing provider code or vector data.")
+        if "xiaoshuo_local_canon_skill_studio_gate" in patterns:
+            hints.append("Transform xiaoshuo-studio workflow into target-owned wizard answers, canon snapshots, chapter briefs, style technique cards, and review-learning notes.")
+        if "director_orchestrator_trace_canonize_gate" in patterns:
+            hints.append("Transform Novel-Studio orchestration into target-owned direction cards, blueprint approvals, QA/canonize traces, and role-cost ledgers without importing runtime state.")
+        if "book_build_export_delivery_gate" in patterns:
+            hints.append("Transform book-engine delivery structure into MuMuAINovel build manifests, export evidence, cover checks, and submission package gates without copying sample books.")
+        if "plot_storyline_improvement_epub_chain_gate" in patterns:
+            hints.append("Transform gpt-author's plot/storyline chain into MuMuAINovel planning checkpoints, storyline diffs, previous-chapter context refs, and EPUB/cover boundary gates.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -17655,6 +17815,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outputs that copy Arboris screenshots, online-demo data, community links, linked novel-kit behavior, direction examples, or local author projects into canon.")
         if "sdd_seven_step_cross_platform_skill_gate" in patterns:
             hints.append("Reject drafts that copy novel-writer-cn slash-command bodies, initialized project templates, plugin examples, workflow docs, or command dialect labels as prose.")
+        if "langgraph_world_outline_review_memory_gate" in patterns:
+            hints.append("Reject outputs that copy novel_agent code, CLI examples, KIMI configuration, .env guidance, generated worlds/outlines/chapters, critique logs, vector data, or legacy artifacts.")
+        if "xiaoshuo_local_canon_skill_studio_gate" in patterns:
+            hints.append("Reject drafts that copy xiaoshuo-studio skill bodies, screenshots, imported reference chapters, local project data, npm workflow text, canon examples, or exported bundle contents.")
+        if "director_orchestrator_trace_canonize_gate" in patterns:
+            hints.append("Reject drafts that copy Novel-Studio runtime scripts, Docker/Drizzle setup text, provider key examples, orchestration logs, database rows, generated chapters, or project templates.")
+        if "book_build_export_delivery_gate" in patterns:
+            hints.append("Reject outputs that copy zencoder-based-novel-engine sample chapters, source story bible, voice profile, custom agent prompts, system prompts, package scripts, cover assets, or dist artifacts.")
+        if "plot_storyline_improvement_epub_chain_gate" in patterns:
+            hints.append("Reject outputs that copy gpt-author notebook cells, prompt bodies, sample novels, generated EPUBs, cover prompts, cover images, Colab setup text, or provider/API-key examples.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -18580,6 +18750,11 @@ class NovelSourceDiscoveryService:
                 "group_collaboration_conflict_vote_memory_gate",
                 "arboris_story_direction_workspace_gate",
                 "sdd_seven_step_cross_platform_skill_gate",
+                "langgraph_world_outline_review_memory_gate",
+                "xiaoshuo_local_canon_skill_studio_gate",
+                "director_orchestrator_trace_canonize_gate",
+                "book_build_export_delivery_gate",
+                "plot_storyline_improvement_epub_chain_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",

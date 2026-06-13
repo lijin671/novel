@@ -375,6 +375,11 @@ export interface SourceDiscoveryPatternPack {
   group_collaboration_conflict_vote_memory_gate_hints?: string[];
   arboris_story_direction_workspace_gate_hints?: string[];
   sdd_seven_step_cross_platform_skill_gate_hints?: string[];
+  langgraph_world_outline_review_memory_gate_hints?: string[];
+  xiaoshuo_local_canon_skill_studio_gate_hints?: string[];
+  director_orchestrator_trace_canonize_gate_hints?: string[];
+  book_build_export_delivery_gate_hints?: string[];
+  plot_storyline_improvement_epub_chain_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];
