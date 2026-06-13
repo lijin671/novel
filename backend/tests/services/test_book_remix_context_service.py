@@ -4252,3 +4252,78 @@ def test_book_mcp_beta_reader_file_gate_extends_continuation_control_audit():
     assert "book_file_scope_envelope" in audit["control_axes"]
     assert "beta_reader_persona_feedback_custody" in audit["control_axes"]
     assert "verify_beta_reader_feedback_review_state" in audit["acceptance_steps"]
+
+
+def test_live_diagnostics_and_outline_import_gates_render_continuation_context():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "novelwriter_live_manuscript_analytics_gate", "candidate_count": 1},
+            {"name": "kindling_local_outline_reference_import_gate", "candidate_count": 1},
+        ],
+        "novelwriter_live_manuscript_analytics_gate_hints": [
+            "Surface Event Line, open plot lines, Connection Web, and Story Pulse as advisory diagnostics.",
+        ],
+        "kindling_local_outline_reference_import_gate_hints": [
+            "Keep scene beats visible as prompts and record import/export custody.",
+        ],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Live Diagnostics Desk",
+        bible={"hard_constraints": [{"rule": "Diagnostics require author acceptance"}]},
+        plan={"summary": "Continue after outline and diagnostic findings are reviewed."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "Live diagnostics and outline-import gate:" in block
+    assert "live_diagnostic_layers" in block
+    assert "Event Line" in block
+    assert "Story Pulse" in block
+    assert "visible_outline_scaffold" in block
+    assert "import_export_custody" in block
+    assert "reference_detection_boundary" in block
+    assert "continuation_boundary" in block
+    assert "runtime_boundary" in block
+
+
+def test_live_diagnostics_and_outline_import_gates_render_same_type_boundary():
+    block = build_remix_inspired_context_block(
+        project_title="Inspired Live Diagnostics Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep diagnostic discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source event-line examples or import snapshots.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "novelwriter_live_manuscript_analytics_gate", "candidate_count": 1},
+                {"name": "kindling_local_outline_reference_import_gate", "candidate_count": 1},
+            ],
+        },
+    )
+
+    assert "Live diagnostics and outline-import gate:" in block
+    assert "advisory_analysis_boundary" in block
+    assert "visible_outline_scaffold" in block
+    assert "same_type_boundary" in block
+    assert "runtime_boundary" in block
+
+
+def test_live_diagnostics_and_outline_import_gates_extend_control_audit():
+    audit = build_remix_continuation_control_audit(
+        bible={"hard_constraints": [{"rule": "Outline imports are proposed deltas only"}]},
+        plan={"summary": "Review diagnostics and import custody before drafting."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "novelwriter_live_manuscript_analytics_gate"},
+                {"name": "kindling_local_outline_reference_import_gate"},
+            ],
+        },
+    )
+
+    assert "live_manuscript_diagnostic_layers" in audit["control_axes"]
+    assert "advisory_scene_suggestion_review" in audit["control_axes"]
+    assert "visible_outline_import_export_custody" in audit["control_axes"]
+    assert "verify_live_diagnostics_review_state" in audit["acceptance_steps"]
+    assert "verify_outline_import_export_custody" in audit["acceptance_steps"]

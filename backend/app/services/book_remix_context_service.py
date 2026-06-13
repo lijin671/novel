@@ -226,6 +226,15 @@ def build_remix_continuation_control_audit(
             "beta_reader_persona_feedback_custody",
         ])
         acceptance_steps.append("verify_beta_reader_feedback_review_state")
+    if "novelwriter_live_manuscript_analytics_gate" in pattern_names:
+        control_axes.extend([
+            "live_manuscript_diagnostic_layers",
+            "advisory_scene_suggestion_review",
+        ])
+        acceptance_steps.append("verify_live_diagnostics_review_state")
+    if "kindling_local_outline_reference_import_gate" in pattern_names:
+        control_axes.append("visible_outline_import_export_custody")
+        acceptance_steps.append("verify_outline_import_export_custody")
     if pattern_names.intersection({
         "story_bible_constitution_source_gate",
         "scene_outline_approval_status_gate",
@@ -469,6 +478,11 @@ def build_remix_continuation_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_book_mcp_beta_reader_file_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_live_diagnostics_outline_import_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -999,6 +1013,11 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_book_mcp_beta_reader_file_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_live_diagnostics_outline_import_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -3237,6 +3256,74 @@ def _append_book_mcp_beta_reader_file_gate_section(
     )
     if hints:
         lines.append(f"- source_hint: {_truncate(hints[0], 240)}")
+
+
+def _append_live_diagnostics_outline_import_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render live manuscript diagnostics and visible outline/import custody."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    has_live_diagnostics = "novelwriter_live_manuscript_analytics_gate" in pattern_names
+    has_outline_import = "kindling_local_outline_reference_import_gate" in pattern_names
+    if not has_live_diagnostics and not has_outline_import:
+        return
+
+    novelwriter_hints = (
+        _as_note_list(source_pattern_pack.get("novelwriter_live_manuscript_analytics_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    kindling_hints = (
+        _as_note_list(source_pattern_pack.get("kindling_local_outline_reference_import_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Live diagnostics and outline-import gate:")
+    if has_live_diagnostics:
+        lines.append(
+            "- live_diagnostic_layers: keep Event Line, open plot lines, Connection Web, "
+            "Story Pulse, plot-hole findings, and scene suggestions as named review layers"
+        )
+        lines.append(
+            "- advisory_analysis_boundary: live mood, remarks, Echo Chamber reader reactions, "
+            "summaries, and inline suggestions cannot change canon or prose without acceptance"
+        )
+    if has_outline_import:
+        lines.append(
+            "- visible_outline_scaffold: scene beats may stay visible as expandable drafting "
+            "prompts, but outline prompts remain separate from accepted prose"
+        )
+        lines.append(
+            "- import_export_custody: record source tool/format, import snapshot, parser status, "
+            "sync/reimport preview, export target, and rejected deltas before remapping structure"
+        )
+        lines.append(
+            "- reference_detection_boundary: detected characters, locations, items, tags, and "
+            "custom fields are metadata proposals, not automatic canon entities"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source diagnostics, import examples, outline cards, and "
+            "reference labels define review axes only; the target story needs fresh diagnostic state"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: only diagnostics and outline deltas tied to the current "
+            "owned chapter/scene can influence the next revision task"
+        )
+    lines.append(
+        "- runtime_boundary: no npm/Tauri runtime, provider call, AI side panel, PDF export, "
+        "SQLite project, parser execution, import/export action, or manuscript data access is authorized"
+    )
+    if novelwriter_hints:
+        lines.append(f"- novelwriter_source_hint: {_truncate(novelwriter_hints[0], 240)}")
+    if kindling_hints:
+        lines.append(f"- kindling_source_hint: {_truncate(kindling_hints[0], 240)}")
 
 
 def _append_truth_file_write_next_state_gate_section(
