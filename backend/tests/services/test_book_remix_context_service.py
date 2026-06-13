@@ -4186,3 +4186,69 @@ def test_build_remix_inspired_independence_audit_expands_genre_arc_difference_ax
     assert "appearance_rhythm" in audit["required_difference_axes"]
     assert "source_dependency_graph_clone" in audit["copy_risk_checks"]
     assert "style_dna_overfit_review" in audit["copy_risk_checks"]
+
+
+def test_book_mcp_beta_reader_file_gate_renders_continuation_context():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "slima_book_mcp_beta_reader_file_gate", "candidate_count": 1},
+        ],
+        "slima_book_mcp_beta_reader_file_gate_hints": [
+            "AI beta reader personas review chapter files through explicit file tools.",
+        ],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Beta Reader Desk",
+        bible={"hard_constraints": [{"rule": "Human accepts review notes before canon change"}]},
+        plan={"summary": "Continue after beta-reader findings are reviewed."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "Book-MCP beta reader file gate:" in block
+    assert "file_scope_envelope" in block
+    assert "beta_reader_feedback" in block
+    assert "mutation_boundary" in block
+    assert "continuation_boundary" in block
+    assert "runtime_boundary" in block
+    assert "AI beta reader personas" in block
+
+
+def test_book_mcp_beta_reader_file_gate_renders_same_type_boundary():
+    block = build_remix_inspired_context_block(
+        project_title="Inspired Beta Reader Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Keep review discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source files or reader notes.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "slima_book_mcp_beta_reader_file_gate", "candidate_count": 1},
+            ],
+        },
+    )
+
+    assert "Book-MCP beta reader file gate:" in block
+    assert "file_scope_envelope" in block
+    assert "beta_reader_feedback" in block
+    assert "mutation_boundary" in block
+    assert "same_type_boundary" in block
+    assert "runtime_boundary" in block
+
+
+def test_book_mcp_beta_reader_file_gate_extends_continuation_control_audit():
+    audit = build_remix_continuation_control_audit(
+        bible={"hard_constraints": [{"rule": "Review notes cannot mutate manuscripts directly"}]},
+        plan={"summary": "Review beta-reader feedback before next write."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "slima_book_mcp_beta_reader_file_gate"},
+            ],
+        },
+    )
+
+    assert "book_file_scope_envelope" in audit["control_axes"]
+    assert "beta_reader_persona_feedback_custody" in audit["control_axes"]
+    assert "verify_beta_reader_feedback_review_state" in audit["acceptance_steps"]

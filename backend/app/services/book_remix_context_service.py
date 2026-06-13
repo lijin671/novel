@@ -220,6 +220,12 @@ def build_remix_continuation_control_audit(
     if "reader_pull_fresh_reader_gate" in pattern_names:
         control_axes.append("reader_pull_fresh_reader_test")
         acceptance_steps.append("verify_reader_pull_answers")
+    if "slima_book_mcp_beta_reader_file_gate" in pattern_names:
+        control_axes.extend([
+            "book_file_scope_envelope",
+            "beta_reader_persona_feedback_custody",
+        ])
+        acceptance_steps.append("verify_beta_reader_feedback_review_state")
     if pattern_names.intersection({
         "story_bible_constitution_source_gate",
         "scene_outline_approval_status_gate",
@@ -461,6 +467,11 @@ def build_remix_continuation_context_block(
         lines=lines,
         bible=bible,
         source_pattern_pack=source_pattern_pack,
+    )
+    _append_book_mcp_beta_reader_file_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
     )
     _append_speckit_fiction_scene_task_audit_section(
         lines=lines,
@@ -986,6 +997,11 @@ def build_remix_inspired_context_block(
     _append_universal_same_type_creation_scaffold_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
+    )
+    _append_book_mcp_beta_reader_file_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
     )
     _append_speckit_fiction_scene_task_audit_section(
         lines=lines,
@@ -3172,6 +3188,55 @@ def _append_universal_same_type_creation_scaffold_section(
         "- target_writeback: record transformed outline decisions, new hooks/payoffs, "
         "continuity updates, and copy-risk findings as target-owned artifacts"
     )
+
+
+def _append_book_mcp_beta_reader_file_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render book-file and beta-reader custody learned from Slima MCP intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "slima_book_mcp_beta_reader_file_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("slima_book_mcp_beta_reader_file_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Book-MCP beta reader file gate:")
+    lines.append(
+        "- file_scope_envelope: book_id, file_path, chapter_scope, allowed read/search "
+        "scope, and forbidden write/delete/append scope must be explicit before review"
+    )
+    lines.append(
+        "- beta_reader_feedback: store persona, reader lens, finding, severity, affected "
+        "chapter/span, suggested action, and accepted/dismissed state as review notes"
+    )
+    lines.append(
+        "- mutation_boundary: beta-reader notes and file search results are advisory; "
+        "they cannot mutate canon, progress, manuscript, or export files without human acceptance"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source beta-reader feedback may define review axes only; "
+            "the target story needs fresh personas, target-owned files, and independent findings"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: only feedback scoped to the current owned chapter/file "
+            "can influence the next revision task"
+        )
+    lines.append(
+        "- runtime_boundary: no npx install, hosted/remote MCP, OAuth login, token read, "
+        "Cloudflare worker, live file tool, or hidden book mutation is authorized from static intake"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 240)}")
 
 
 def _append_truth_file_write_next_state_gate_section(
