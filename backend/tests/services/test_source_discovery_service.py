@@ -18828,3 +18828,139 @@ def test_static_rag_and_agent_catalog_sources_are_absorbed():
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "rag_technique_catalog_context_retrieval_gate_hints" in digest
     assert "agent_architecture_catalog_workflow_gate_hints" in digest
+
+
+def test_static_canonical_truth_audit_memory_sources_are_absorbed():
+    assert "https://github.com/LiPu-jpg/Openwrite" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/real-Elysia886/inkflow" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/MRXOAD/xuanji-write" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/sorlros/NovelAIne" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dingzhilin1990/zhilinainovel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Dante" in query and "ledger.md" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("7-Agent" in query and "truth files" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("11 层一致性" in query and "反向 RAG" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Summary Buffer Memory" in query and "selective RAG" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("风格基因库" in query and "爽点分析" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "LiPu-jpg/Openwrite",
+                "html_url": "https://github.com/LiPu-jpg/Openwrite",
+                "description": (
+                    "AI小说创作引擎 with Goethe/Dante workflow, current_state.md, ledger.md, "
+                    "relationships.md, sources/{source_id}, style/manifest.toml, three-layer style synthesis, "
+                    "foreshadow DAG, arc beat templates, and quality review."
+                ),
+                "stargazers_count": 129,
+                "forks_count": 13,
+                "license": None,
+                "topics": ["novel", "ai-writing", "style"],
+                "updated_at": "2026-05-08T05:28:52Z",
+                "root_files": ["README.md", "SKILL.md", "pyproject.toml", "requirements.txt", "skills"],
+            },
+            {
+                "full_name": "real-Elysia886/inkflow",
+                "html_url": "https://github.com/real-Elysia886/inkflow",
+                "description": (
+                    "Industrial long novel engine with 7-Agent collaborative pipeline, Plan Compose Write Edit Observe "
+                    "Reflect Librarian, dual-layer audit, truth files, world state, branch tracking, emotion arcs, "
+                    "style distillation, Docker and provider API keys."
+                ),
+                "stargazers_count": 13,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["llm", "agent", "novel"],
+                "updated_at": "2026-05-21T10:35:05Z",
+                "root_files": ["README.md", "LICENSE", "Dockerfile", "docker-compose.yml", "skills", "pyproject.toml"],
+            },
+            {
+                "full_name": "MRXOAD/xuanji-write",
+                "html_url": "https://github.com/MRXOAD/xuanji-write",
+                "description": (
+                    "中文长篇网文 LLM 续写框架 with 11 层一致性堵漏, Story System contract, recent two chapters, "
+                    "卷头章, 跨段锚点, quest 主线, 未回收伏笔, chapter-end audit regex, failed retry, L2/L3 checks, "
+                    "RAG 反向检索防桥段复读, token/cost stats, Docker dashboard and .env."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["webnovel", "rag", "continuity"],
+                "updated_at": "2026-06-11T15:49:10Z",
+                "root_files": ["README.md", "LICENSE", "Dockerfile", "docker-compose.yml", ".env.docker.example"],
+            },
+            {
+                "full_name": "sorlros/NovelAIne",
+                "html_url": "https://github.com/sorlros/NovelAIne",
+                "description": (
+                    "AI interactive storytelling platform with dual AI engines, RAG-based Memory, Summary Buffer Memory, "
+                    "recent 5-10 turns retained verbatim, older context summarized, structured keyword compression, "
+                    "API token optimization, scene visualization, frontend/backend runtime."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["interactive-story", "rag", "memory"],
+                "updated_at": "2026-06-04T06:09:54Z",
+                "root_files": ["README.md", "README_EN.md", "backend", "frontend", "PIPELINE.md", "AGENTS.md"],
+            },
+            {
+                "full_name": "dingzhilin1990/zhilinainovel",
+                "html_url": "https://github.com/dingzhilin1990/zhilinainovel",
+                "description": (
+                    "智林AI小说生成系统 with 数据采集, 分析引擎, 风格基因库, 创作引擎, 题材识别, 人设提取, "
+                    "爽点分析, 情绪曲线, 金句提取, style gene market/capsule, MiniMax, Docker, API server."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai-novel", "style-analysis"],
+                "updated_at": "2026-05-21T03:25:47Z",
+                "root_files": ["README.md", "LICENSE", ".env.example", "docker", "prompts", "requirements.txt"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T20:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "canonical_packet_source_promotion_gate" in candidates["LiPu-jpg/Openwrite"]["absorbed_patterns"]
+    assert "truth_file_dual_audit_agent_pipeline_gate" in candidates["real-Elysia886/inkflow"]["absorbed_patterns"]
+    assert "long_consistency_reverse_rag_retry_gate" in candidates["MRXOAD/xuanji-write"]["absorbed_patterns"]
+    assert "summary_buffer_selective_rag_memory_gate" in candidates["sorlros/NovelAIne"]["absorbed_patterns"]
+    assert "genre_gene_capsule_market_boundary_gate" in candidates["dingzhilin1990/zhilinainovel"]["absorbed_patterns"]
+    assert "license:missing" in candidates["LiPu-jpg/Openwrite"]["trust_review"]["flags"]
+    assert "docker" in candidates["real-Elysia886/inkflow"]["risk_flags"]
+    assert "provider_key_surface" in candidates["dingzhilin1990/zhilinainovel"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "canonical_packet_source_promotion_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "truth_file_dual_audit_agent_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "long_consistency_reverse_rag_retry_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "summary_buffer_selective_rag_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "genre_gene_capsule_market_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "canonical_packet_style_manifest_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "truth_file_dual_audit_pipeline_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "reverse_rag_consistency_retry_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "summary_buffer_context_budget_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "genre_gene_style_capsule_market_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "canonical_packet_source_note_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "truth_file_agent_pipeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reverse_rag_consistency_retry_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "summary_buffer_memory_tier_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "genre_gene_capsule_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("canonical packet id" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("truth-file snapshot" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("reverse-rag" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("summary buffer" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("style-gene capsule" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("openwrite skill" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("inkflow truth-file" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "canonical_packet_source_promotion_gate_hints" in digest
+    assert "truth_file_dual_audit_agent_pipeline_gate_hints" in digest
+    assert "long_consistency_reverse_rag_retry_gate_hints" in digest
+    assert "summary_buffer_selective_rag_memory_gate_hints" in digest
+    assert "genre_gene_capsule_market_boundary_gate_hints" in digest

@@ -387,6 +387,11 @@ export interface SourceDiscoveryPatternPack {
   desktop_review_rag_retry_gate_hints?: string[];
   novel_core_knowledge_pack_rag_gate_hints?: string[];
   agent_architecture_catalog_workflow_gate_hints?: string[];
+  canonical_packet_source_promotion_gate_hints?: string[];
+  truth_file_dual_audit_agent_pipeline_gate_hints?: string[];
+  long_consistency_reverse_rag_retry_gate_hints?: string[];
+  summary_buffer_selective_rag_memory_gate_hints?: string[];
+  genre_gene_capsule_market_boundary_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

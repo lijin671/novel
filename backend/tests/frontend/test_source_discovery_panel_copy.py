@@ -180,6 +180,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "novel_core_knowledge_pack_rag_gate_hints",
             "rag_technique_catalog_context_retrieval_gate_hints",
             "agent_architecture_catalog_workflow_gate_hints",
+            "canonical_packet_source_promotion_gate_hints",
+            "truth_file_dual_audit_agent_pipeline_gate_hints",
+            "long_consistency_reverse_rag_retry_gate_hints",
+            "summary_buffer_selective_rag_memory_gate_hints",
+            "genre_gene_capsule_market_boundary_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -697,6 +702,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Editorial memory-card graph agent gates" in panel_text
     assert "RAG technique catalog retrieval gates" in panel_text
     assert "Agent architecture catalog workflow gates" in panel_text
+    assert "Canonical packet source-promotion gates" in panel_text
+    assert "Truth-file dual-audit agent gates" in panel_text
+    assert "Long-consistency reverse-RAG retry gates" in panel_text
+    assert "Summary-buffer selective RAG memory gates" in panel_text
+    assert "Genre-gene capsule market-boundary gates" in panel_text
 
 
 def test_source_discovery_panel_uses_compact_seed_fallback_and_backend_registry_hydration():

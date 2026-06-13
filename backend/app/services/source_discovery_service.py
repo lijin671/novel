@@ -529,6 +529,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("/novel-core" OR "?????" OR "??Agent") ("novel-harness" OR "????" OR "? AI ?") in:name,description,readme',
     '("Proposition Chunking" OR "HyDE" OR "RAPTOR" OR "GraphRAG") ("RAG_Techniques" OR "Advanced RAG Techniques") in:name,description,readme',
     '("GenAI_Agents" OR "memory-enhanced" OR "multi-agent collaboration" OR "Murder Mystery") ("LangGraph" OR "MCP" OR "creative agents") in:name,description,readme',
+    '("Dante" OR "canonical packet" OR "ledger.md") ("Openwrite" OR "style/manifest.toml") in:name,description,readme',
+    '("7-Agent" OR "dual-layer audit" OR "truth files") ("InkFlow" OR "long novel engine") in:name,description,readme',
+    '("11 层一致性" OR "反向 RAG" OR "未回收伏笔") ("xuanji-write" OR "长篇网文") in:name,description,readme',
+    '("Summary Buffer Memory" OR "selective RAG" OR "recent 5-10 turns") ("NovelAIne" OR "dual AI engines") in:name,description,readme',
+    '("风格基因库" OR "爽点分析" OR "情绪曲线") ("zhilinainovel" OR "AI小说生成系统") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1112,6 +1117,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/manhai934/novel-harness",
     "https://github.com/NirDiamant/RAG_Techniques",
     "https://github.com/NirDiamant/GenAI_Agents",
+    "https://github.com/LiPu-jpg/Openwrite",
+    "https://github.com/real-Elysia886/inkflow",
+    "https://github.com/MRXOAD/xuanji-write",
+    "https://github.com/sorlros/NovelAIne",
+    "https://github.com/dingzhilin1990/zhilinainovel",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1639,6 +1649,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("novel_core_knowledge_pack_rag_gate", ("novel-harness", "/novel-core", "??Agent", "??Agent", "??Agent", "??Agent", "???Agent", "?????", ".harness/knowledge", "?? MCP", "RAG ??", "???", "???", "? AI ??", "????")),
     ("rag_technique_catalog_context_retrieval_gate", ("RAG_Techniques", "Advanced RAG Techniques", "Proposition Chunking", "Contextual Chunk Headers", "Semantic Chunking", "HyDE", "Query Transformations", "Reranking", "Hierarchical Indices", "Feedback Loop", "Adaptive Retrieval", "GraphRAG", "RAPTOR", "Self-RAG", "CRAG", "evaluation")),
     ("agent_architecture_catalog_workflow_gate", ("GenAI_Agents", "comprehensive repository for development and implementation", "LangGraph", "MCP", "memory-enhanced", "multi-agent collaboration", "self-improving agent", "task-oriented agent", "creative agents", "Murder Mystery", "procedural story generation")),
+    ("canonical_packet_source_promotion_gate", ("Openwrite", "Goethe", "Dante", "canonical packet", "current_state.md", "ledger.md", "relationships.md", "sources/{source_id}", "style/manifest.toml", "three-layer style synthesis", "foreshadow DAG", "arc beat templates")),
+    ("truth_file_dual_audit_agent_pipeline_gate", ("inkflow", "InkFlow", "7-Agent", "7-Agent collaborative pipeline", "Plan Compose Write Edit Observe Reflect Librarian", "dual-layer audit", "truth files", "World State", "branch tracking", "emotion arcs", "style distillation")),
+    ("long_consistency_reverse_rag_retry_gate", ("xuanji-write", "11 层一致性", "Story System contract", "recent two chapters", "卷头章", "跨段锚点", "quest 主线", "未回收伏笔", "chapter-end audit regex", "failed retry", "L2/L3 checks", "RAG 反向检索", "token/cost stats")),
+    ("summary_buffer_selective_rag_memory_gate", ("NovelAIne", "Summary Buffer Memory", "RAG-based Memory", "selective RAG", "recent 5-10 turns", "older context summarized", "structured keyword compression", "dual AI engines", "API token optimization", "scene visualization")),
+    ("genre_gene_capsule_market_boundary_gate", ("zhilinainovel", "风格基因库", "style gene", "style gene market", "style capsule", "数据采集", "分析引擎", "创作引擎", "题材识别", "人设提取", "爽点分析", "情绪曲线", "金句提取")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4217,6 +4232,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "GenAI_Agents is a custom non-commercial licensed catalog of GenAI agent tutorials. Static HEAD/README/LICENSE markers describe LangGraph, MCP, memory-enhanced conversational agents, multi-agent collaboration, self-improving and task-oriented agents, creative/content generation agents, and procedural murder-mystery story-generation examples. "
         "Pattern-only adaptation for agent workflow template gates; tutorial code, notebooks, prompt bodies, MCP/server configs, generated examples, provider calls, and license-restricted material are not imported or executed."
     ),
+    "lipu-jpg/openwrite": (
+        "Openwrite is a no-license-observed Chinese AI novel creation engine. Static HEAD/README/root markers describe Goethe-to-Dante project promotion, canonical packet handoff, current_state.md, ledger.md, relationships.md, sources/{source_id}, style/manifest.toml, three-layer style synthesis, foreshadow DAGs, arc/beat templates, and quality review. "
+        "Pattern-only adaptation for canonical source packets and source-note promotion gates; SKILL.md bodies, prompt text, installs, requirements, provider/API-key flows, source novels, style-reference folders, generated project files, and runtime tools are not imported or executed."
+    ),
+    "real-elysia886/inkflow": (
+        "InkFlow is an MIT industrial long-novel engine. Static HEAD/README/root markers describe a 7-Agent pipeline, Plan/Compose/Write/Edit/Observe/Reflect/Librarian stages, dual-layer audit, truth-file world state, branch tracking, emotional arcs, glass UI, full-auto mode, and style distillation. "
+        "Pattern-only adaptation for truth-file dual-audit agent pipelines; Docker, uv/Python runtime, skills, provider/API keys, web UI, truth-file examples, generated chapters, and project state are not imported or executed."
+    ),
+    "mrxoad/xuanji-write": (
+        "xuanji-write is a GPL-3.0 Chinese long webnovel LLM continuation framework. Static HEAD/README/root markers describe 11-layer consistency blocking, Story System contract, recent two chapters plus volume-start and cross-segment anchors, quest mainline, unrecovered foreshadowing, chapter-end regex audit, failed retry, L2/L3 checks, reverse-RAG repetition prevention, token/cost stats, and a dashboard. "
+        "Pattern-only adaptation for long-consistency reverse-RAG retry gates; GPL code, Docker, .env examples, dashboard/server runtime, provider calls, demo chapters, and local project data are not imported or executed."
+    ),
+    "sorlros/novelaine": (
+        "NovelAIne is a no-license-observed interactive storytelling platform. Static HEAD/README/root markers describe dual AI engines, RAG-based memory, Summary Buffer Memory, retaining recent 5-10 turns verbatim while summarizing older context, structured keyword compression, API token optimization, dynamic character cards, and scene visualization. "
+        "Pattern-only adaptation for summary-buffer selective-RAG memory gates; backend/frontend runtime, Supabase, tests, scene assets, API calls, user story data, and generated examples are not imported or executed."
+    ),
+    "dingzhilin1990/zhilinainovel": (
+        "zhilinainovel is an MIT Chinese MiniMax-based novel generation system. Static HEAD/README/root markers describe data collection, analysis engine, style-gene library, creative engine, genre recognition, persona extraction,爽点 analysis, emotion-curve analysis, quote extraction, style-gene/capsule market concepts, API server, Web UI, prompts, and Docker. "
+        "Pattern-only adaptation for genre-gene capsule market-boundary gates; platform collection workflows, prompts, Docker, API server, MiniMax/OpenAI-compatible provider API keys, generated novels, and runtime scripts are not imported or executed."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4901,6 +4936,11 @@ class NovelSourceDiscoveryService:
             "community_graph_source_deconstruction_hints": self._build_community_graph_source_deconstruction_hints(available_patterns),
             "dual_level_graph_vector_retrieval_hints": self._build_dual_level_graph_vector_retrieval_hints(available_patterns),
             "rag_technique_catalog_context_retrieval_gate_hints": self._build_rag_technique_catalog_context_retrieval_gate_hints(available_patterns),
+            "canonical_packet_source_promotion_gate_hints": self._build_canonical_packet_source_promotion_gate_hints(available_patterns),
+            "truth_file_dual_audit_agent_pipeline_gate_hints": self._build_truth_file_dual_audit_agent_pipeline_gate_hints(available_patterns),
+            "long_consistency_reverse_rag_retry_gate_hints": self._build_long_consistency_reverse_rag_retry_gate_hints(available_patterns),
+            "summary_buffer_selective_rag_memory_gate_hints": self._build_summary_buffer_selective_rag_memory_gate_hints(available_patterns),
+            "genre_gene_capsule_market_boundary_gate_hints": self._build_genre_gene_capsule_market_boundary_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -5964,6 +6004,11 @@ class NovelSourceDiscoveryService:
             "novel_core_knowledge_pack_rag_gate": 69,
             "rag_technique_catalog_context_retrieval_gate": 70,
             "agent_architecture_catalog_workflow_gate": 69,
+            "canonical_packet_source_promotion_gate": 70,
+            "truth_file_dual_audit_agent_pipeline_gate": 71,
+            "long_consistency_reverse_rag_retry_gate": 71,
+            "summary_buffer_selective_rag_memory_gate": 68,
+            "genre_gene_capsule_market_boundary_gate": 67,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -7614,6 +7659,21 @@ class NovelSourceDiscoveryService:
         if "agent_architecture_catalog_workflow_gate" in patterns:
             targets.append("agent_workflow_template_policy")
             targets.append("agent_memory_tool_boundary_policy")
+        if "canonical_packet_source_promotion_gate" in patterns:
+            targets.append("canonical_packet_source_promotion_policy")
+            targets.append("source_note_style_manifest_policy")
+        if "truth_file_dual_audit_agent_pipeline_gate" in patterns:
+            targets.append("truth_file_dual_audit_agent_policy")
+            targets.append("agent_role_truth_file_boundary_policy")
+        if "long_consistency_reverse_rag_retry_gate" in patterns:
+            targets.append("long_consistency_reverse_rag_retry_policy")
+            targets.append("cross_segment_anchor_retry_policy")
+        if "summary_buffer_selective_rag_memory_gate" in patterns:
+            targets.append("summary_buffer_selective_rag_memory_policy")
+            targets.append("recent_verbatim_old_summary_budget_policy")
+        if "genre_gene_capsule_market_boundary_gate" in patterns:
+            targets.append("genre_gene_capsule_market_boundary_policy")
+            targets.append("style_gene_rights_safe_intake_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8799,6 +8859,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["retrieval_recipe_context_coverage_report", "rag_evaluation_faithfulness_report"])
         if "agent_architecture_catalog_workflow_gate" in patterns:
             targets.extend(["agent_workflow_state_schema_report", "tool_memory_boundary_readiness_report"])
+        if "canonical_packet_source_promotion_gate" in patterns:
+            targets.extend(["canonical_packet_style_manifest_report", "source_note_promotion_boundary_report"])
+        if "truth_file_dual_audit_agent_pipeline_gate" in patterns:
+            targets.extend(["truth_file_dual_audit_pipeline_report", "agent_stage_exit_check_report"])
+        if "long_consistency_reverse_rag_retry_gate" in patterns:
+            targets.extend(["reverse_rag_consistency_retry_report", "cross_segment_anchor_debt_report"])
+        if "summary_buffer_selective_rag_memory_gate" in patterns:
+            targets.extend(["summary_buffer_context_budget_report", "selective_rag_memory_trace"])
+        if "genre_gene_capsule_market_boundary_gate" in patterns:
+            targets.extend(["genre_gene_style_capsule_market_report", "source_collection_boundary_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -9491,6 +9561,16 @@ class NovelSourceDiscoveryService:
             hints.append("Persist retrieval recipe id, chunking mode, query transform, reranker, graph/vector scope, source-layer ids, and evaluation verdict before retrieved context can enter a continuation prompt.")
         if "agent_architecture_catalog_workflow_gate" in patterns:
             hints.append("Persist agent workflow id, state schema version, memory contract, tool/MCP allowlist, evaluator verdict, and rollback note before an agent template can drive story generation.")
+        if "canonical_packet_source_promotion_gate" in patterns:
+            hints.append("Persist canonical packet id, Goethe/Dante stage, source-note ids, style-manifest version, ledger delta, and promotion reviewer before packet data can enter chapter context.")
+        if "truth_file_dual_audit_agent_pipeline_gate" in patterns:
+            hints.append("Persist truth-file snapshot, agent stage owner, code/LLM audit verdicts, branch/emotion arc deltas, and librarian update id before the next agent advances the manuscript.")
+        if "long_consistency_reverse_rag_retry_gate" in patterns:
+            hints.append("Persist Story System version, recent-chapter anchors, volume-start anchors, quest/foreshadow debt, reverse-RAG repetition verdict, retry attempt, and token/cost trace before accepting a continuation.")
+        if "summary_buffer_selective_rag_memory_gate" in patterns:
+            hints.append("Persist summary buffer window, recent verbatim turn ids, old-summary checksum, selective-RAG hit ids, keyword-compression notes, and token budget before interactive story turns are reused.")
+        if "genre_gene_capsule_market_boundary_gate" in patterns:
+            hints.append("Persist style-gene capsule id, genre/persona/emotion-curve extraction source, quote-extraction exclusion proof, market-boundary note, and reviewer before capsule guidance enters prompts.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -15113,6 +15193,51 @@ class NovelSourceDiscoveryService:
             "GenAI_Agents notebooks, tutorial code, prompt bodies, MCP/server configs, generated examples, provider calls, and non-commercial licensed material remain excluded from static intake.",
         ]
 
+    def _build_canonical_packet_source_promotion_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "canonical_packet_source_promotion_gate" not in patterns:
+            return []
+        return [
+            "Promote reference learning through a canonical packet: current state, ledger, relationship file, source-note ids, style manifest, and reviewer verdict must be present before drafting.",
+            "Separate source-study evidence from target canon; use the packet as a provenance envelope and only expose approved abstract technique ids to continuation or same-type creation prompts.",
+            "Openwrite SKILL.md bodies, prompt text, installs, provider/API-key flows, style-reference folders, source novels, generated project files, and tools remain excluded from static intake.",
+        ]
+
+    def _build_truth_file_dual_audit_agent_pipeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "truth_file_dual_audit_agent_pipeline_gate" not in patterns:
+            return []
+        return [
+            "Treat multi-agent writing as stage-gated truth-file mutation: Plan, Compose, Write, Edit, Observe, Reflect, and Librarian stages need explicit inputs, outputs, exit checks, and ownership.",
+            "Require dual audit before promotion: deterministic/code checks catch missing state and schema drift, while LLM review catches craft, emotion, and continuity issues against target facts.",
+            "InkFlow Docker, uv/Python runtime, skills, provider keys, web UI, truth-file examples, generated chapters, and project state remain excluded from static intake.",
+        ]
+
+    def _build_long_consistency_reverse_rag_retry_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "long_consistency_reverse_rag_retry_gate" not in patterns:
+            return []
+        return [
+            "Model long-webnovel continuation as an evidence stack: Story System contract, recent chapters, volume-start anchors, cross-segment anchors, quest line, and unresolved foreshadow debt.",
+            "Use reverse-RAG and regex-style chapter-end audits to detect repeated bridges, skipped payoffs, anchor drift, and forbidden closure before retrying or accepting a chapter.",
+            "xuanji-write GPL code, Docker, .env examples, dashboard/server runtime, provider calls, demo chapters, and local project data remain excluded from static intake.",
+        ]
+
+    def _build_summary_buffer_selective_rag_memory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "summary_buffer_selective_rag_memory_gate" not in patterns:
+            return []
+        return [
+            "Keep memory tiering explicit: recent turns or chapters stay verbatim for continuity, older material is summarized, and selective RAG only injects target-owned evidence relevant to the next beat.",
+            "Record context-budget decisions, summary checksums, keyword-compression output, and selected memory hits before using compressed history in continuation or interactive story sessions.",
+            "NovelAIne backend/frontend runtime, Supabase, tests, scene assets, API calls, user story data, and generated examples remain excluded from static intake.",
+        ]
+
+    def _build_genre_gene_capsule_market_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "genre_gene_capsule_market_boundary_gate" not in patterns:
+            return []
+        return [
+            "Represent genre/style learning as a rights-safe capsule: genre, persona,爽点, emotion curve, trope pressure, and quote-free language guidance are metadata, not copied source text.",
+            "Keep market or platform analysis as a boundary note; collection sources, extracted quotes, and style-gene examples require provenance and reviewer approval before they influence prompts.",
+            "zhilinainovel platform collection workflows, prompts, Docker/API server runtime, provider keys, generated novels, and shell scripts remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -16252,6 +16377,21 @@ class NovelSourceDiscoveryService:
         if "agent_architecture_catalog_workflow_gate" in patterns:
             targets.append("agent_template_state_machine_remap")
             targets.append("memory_tool_boundary_remap")
+        if "canonical_packet_source_promotion_gate" in patterns:
+            targets.append("canonical_packet_source_note_remap")
+            targets.append("style_manifest_promotion_remap")
+        if "truth_file_dual_audit_agent_pipeline_gate" in patterns:
+            targets.append("truth_file_agent_pipeline_remap")
+            targets.append("dual_audit_exit_check_remap")
+        if "long_consistency_reverse_rag_retry_gate" in patterns:
+            targets.append("reverse_rag_consistency_retry_remap")
+            targets.append("cross_segment_anchor_debt_remap")
+        if "summary_buffer_selective_rag_memory_gate" in patterns:
+            targets.append("summary_buffer_memory_tier_remap")
+            targets.append("selective_rag_context_budget_remap")
+        if "genre_gene_capsule_market_boundary_gate" in patterns:
+            targets.append("genre_gene_capsule_remap")
+            targets.append("market_boundary_signal_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -16413,6 +16553,16 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt with a selected retrieval recipe, target-owned evidence refs, and evaluation criteria; RAG technique names stay metadata, not borrowed source content.")
         if "agent_architecture_catalog_workflow_gate" in patterns:
             hints.append("Prompt from selected agent workflow stages as abstract roles with state inputs and exit checks; tutorial prompts, creative samples, and MCP configs stay outside prose context.")
+        if "canonical_packet_source_promotion_gate" in patterns:
+            hints.append("Prompt from a target-owned canonical packet: state summary, ledger delta, relationship deltas, source-note ids, style-manifest labels, and reviewer decision; raw Openwrite prompts stay out of context.")
+        if "truth_file_dual_audit_agent_pipeline_gate" in patterns:
+            hints.append("Prompt each agent stage from approved truth-file snapshots, stage intent, audit findings, branch/emotion deltas, and librarian updates; upstream agent prompts and truth-file examples stay outside prose.")
+        if "long_consistency_reverse_rag_retry_gate" in patterns:
+            hints.append("Prompt continuation with Story System anchors, recent chapters, quest/foreshadow debt, reverse-RAG repetition verdict, and retry budget; demo chapter text and dashboard settings stay metadata.")
+        if "summary_buffer_selective_rag_memory_gate" in patterns:
+            hints.append("Prompt with summary buffer boundaries, recent verbatim ids, selective RAG hits, and keyword-compressed old context; never substitute compressed summaries for target canon evidence.")
+        if "genre_gene_capsule_market_boundary_gate" in patterns:
+            hints.append("Prompt from approved style-gene capsule labels, genre promise, persona map,爽点 pressure, and emotion-curve goals; extracted quotes and source market examples stay outside prose context.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -17222,6 +17372,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform generic RAG techniques into MuMuAINovel-owned retrieval recipes with context tiers, evidence refs, rerank/eval gates, and canon-write blockers.")
         if "agent_architecture_catalog_workflow_gate" in patterns:
             hints.append("Transform agent catalog templates into MuMuAINovel workflow cards: state schema, stage owner, memory/tool boundary, retry rule, evaluator, and rollback artifact.")
+        if "canonical_packet_source_promotion_gate" in patterns:
+            hints.append("Transform Openwrite-style packets into MuMuAINovel source-note envelopes, style-manifest versions, ledger deltas, and promotion reviewers without copying prompt bodies or source prose.")
+        if "truth_file_dual_audit_agent_pipeline_gate" in patterns:
+            hints.append("Transform InkFlow stages into MuMuAINovel truth-file stage cards with deterministic audit, LLM craft audit, librarian write-back, and branch/emotion delta evidence.")
+        if "long_consistency_reverse_rag_retry_gate" in patterns:
+            hints.append("Transform xuanji-write consistency layers into MuMuAINovel anchor stacks, reverse-RAG repetition checks, retry budgets, L2/L3 drift reports, and token/cost evidence.")
+        if "summary_buffer_selective_rag_memory_gate" in patterns:
+            hints.append("Transform NovelAIne memory into explicit recent-verbatim windows, older-summary buffers, selective-RAG evidence sets, keyword compression, and context-budget gates.")
+        if "genre_gene_capsule_market_boundary_gate" in patterns:
+            hints.append("Transform genre/style analysis into style-gene capsules with new cast, new stakes, new setting, new爽点 chain, quote-free language guidance, and market-boundary notes.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -18071,6 +18231,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outputs that copy RAG_Techniques notebook cells, README/tutorial text, sample questions, datasets, diagrams, embeddings, provider snippets, or non-commercial licensed material.")
         if "agent_architecture_catalog_workflow_gate" in patterns:
             hints.append("Reject outputs that copy GenAI_Agents tutorial code, notebooks, prompt bodies, MCP configs, generated story examples, agent names, or non-commercial licensed material.")
+        if "canonical_packet_source_promotion_gate" in patterns:
+            hints.append("Reject outputs that copy Openwrite skill bodies, prompt wording, source-reference folders, generated project state, style-manifest examples, or ledger examples as target canon.")
+        if "truth_file_dual_audit_agent_pipeline_gate" in patterns:
+            hints.append("Reject outputs that copy InkFlow truth-file examples, agent prompts, Docker/runtime text, style-distillation samples, web UI labels, or generated chapters as story material.")
+        if "long_consistency_reverse_rag_retry_gate" in patterns:
+            hints.append("Reject outputs that copy xuanji-write demo chapters, Story System examples, dashboard text, regex/audit wording, GPL code, or provider configuration into prose or canon.")
+        if "summary_buffer_selective_rag_memory_gate" in patterns:
+            hints.append("Reject drafts that import NovelAIne user-story examples, scene visualization assets, API traces, Supabase/runtime data, or compressed sample summaries as target memory.")
+        if "genre_gene_capsule_market_boundary_gate" in patterns:
+            hints.append("Reject same-type outputs that reuse zhilinainovel collected quotes, prompt files, platform-scraped material, style-gene examples, Docker/API text, or generated sample novels.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -19008,6 +19178,11 @@ class NovelSourceDiscoveryService:
                 "novel_core_knowledge_pack_rag_gate",
                 "rag_technique_catalog_context_retrieval_gate",
                 "agent_architecture_catalog_workflow_gate",
+                "canonical_packet_source_promotion_gate",
+                "truth_file_dual_audit_agent_pipeline_gate",
+                "long_consistency_reverse_rag_retry_gate",
+                "summary_buffer_selective_rag_memory_gate",
+                "genre_gene_capsule_market_boundary_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",

@@ -405,6 +405,11 @@ const PINNED_HINT_KEYS = new Set([
   'novel_core_knowledge_pack_rag_gate_hints',
   'rag_technique_catalog_context_retrieval_gate_hints',
   'agent_architecture_catalog_workflow_gate_hints',
+  'canonical_packet_source_promotion_gate_hints',
+  'truth_file_dual_audit_agent_pipeline_gate_hints',
+  'long_consistency_reverse_rag_retry_gate_hints',
+  'summary_buffer_selective_rag_memory_gate_hints',
+  'genre_gene_capsule_market_boundary_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -871,6 +876,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Desktop review RAG retry gates', patternPackPayload?.desktop_review_rag_retry_gate_hints],
               ['Novel-core knowledge-pack RAG gates', patternPackPayload?.novel_core_knowledge_pack_rag_gate_hints],
               ['Agent architecture catalog workflow gates', patternPackPayload?.agent_architecture_catalog_workflow_gate_hints],
+              ['Canonical packet source-promotion gates', patternPackPayload?.canonical_packet_source_promotion_gate_hints],
+              ['Truth-file dual-audit agent gates', patternPackPayload?.truth_file_dual_audit_agent_pipeline_gate_hints],
+              ['Long-consistency reverse-RAG retry gates', patternPackPayload?.long_consistency_reverse_rag_retry_gate_hints],
+              ['Summary-buffer selective RAG memory gates', patternPackPayload?.summary_buffer_selective_rag_memory_gate_hints],
+              ['Genre-gene capsule market-boundary gates', patternPackPayload?.genre_gene_capsule_market_boundary_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],
