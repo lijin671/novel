@@ -207,6 +207,14 @@ def build_remix_continuation_control_audit(
     if "revision_order_natural_prose_gate" in pattern_names:
         control_axes.append("revision_order_natural_prose_review")
         acceptance_steps.append("verify_revision_order_before_line_polish")
+    if "capture_distillation_production_gate" in pattern_names:
+        control_axes.extend([
+            "capture_distillation_production_stage_boundary",
+            "scene_card_external_internal_spine",
+            "draft_critique_fixspec_revision_chain",
+            "archivist_canon_promotion_telemetry",
+        ])
+        acceptance_steps.append("verify_story_foundry_production_handoff")
     if "genre_inspiration_budget_library_gate" in pattern_names:
         control_axes.extend([
             "genre_reader_promise_matrix",
@@ -270,6 +278,11 @@ def build_remix_continuation_control_audit(
         )
         else _empty_universal_chapter_contract_audit()
     )
+    production_handoff_audit = (
+        _story_foundry_production_handoff_audit(bible=bible, plan=plan, max_items=12)
+        if "capture_distillation_production_gate" in pattern_names
+        else _empty_story_foundry_production_handoff_audit()
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -287,6 +300,8 @@ def build_remix_continuation_control_audit(
         warnings.append("mode_contract_warnings")
     if chapter_contract_audit["warnings"]:
         warnings.append("chapter_contract_warnings")
+    if production_handoff_audit["warnings"]:
+        warnings.append("production_handoff_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -324,6 +339,7 @@ def build_remix_continuation_control_audit(
         "mode_contract_axes": mode_contract_audit["axes"],
         "mode_contract_warnings": mode_contract_audit["warnings"],
         "chapter_contract_warnings": chapter_contract_audit["warnings"],
+        "production_handoff_warnings": production_handoff_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -388,6 +404,12 @@ def build_remix_continuation_context_block(
     _append_universal_progress_report_completeness_gate_section(
         lines=lines,
         bible=bible,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_story_foundry_production_handoff_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
     )
     _append_truth_file_write_next_state_gate_section(
@@ -801,6 +823,7 @@ def build_remix_context_preview_audit(
         "mode_contract_axes": production_control_audit["mode_contract_axes"],
         "mode_contract_warnings": production_control_audit["mode_contract_warnings"],
         "chapter_contract_warnings": production_control_audit["chapter_contract_warnings"],
+        "production_handoff_warnings": production_control_audit["production_handoff_warnings"],
         **continuity_audit,
     }
 
@@ -2070,6 +2093,106 @@ def _has_structured_scene_beat_sheet(plan: Optional[dict[str, Any]]) -> bool:
     return structured_count >= 2
 
 
+def _story_foundry_production_handoff_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit Story Foundry-style draft→critique→fix→merge handoff evidence."""
+    warnings: list[str] = []
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_package = packages[-1] if packages else None
+
+    if not _has_story_foundry_scene_card_surface(bible=bible, plan=plan):
+        warnings.append("missing_scene_card_external_internal_spine")
+    if not _has_story_bible_voice_canon_constraints(bible):
+        warnings.append("missing_story_bible_voice_canon_constraints")
+
+    if latest_package is None:
+        warnings.append("missing_latest_chapter_for_production_handoff")
+    else:
+        if not _has_any_package_value(
+            latest_package,
+            ("critique", "critique_ref", "editor_feedback", "editor_report"),
+        ):
+            warnings.append("missing_editor_critique")
+        if not _has_any_package_value(
+            latest_package,
+            ("fix_spec", "fix_spec_ref", "patch_plan", "revision_plan"),
+        ):
+            warnings.append("missing_fix_spec")
+        if not _has_any_package_value(
+            latest_package,
+            ("revision_ref", "agent_draft_rev", "revised_draft_ref", "revision_summary"),
+        ):
+            warnings.append("missing_revision_evidence")
+        if not _has_any_package_value(
+            latest_package,
+            ("editor_log", "editor_log_ref", "canon_promotion_log", "merge_log"),
+        ):
+            warnings.append("missing_editor_log")
+        if not _has_any_package_value(
+            latest_package,
+            ("archivist_approval", "canon_promoted_by", "canon_promotion_status", "approved_by"),
+        ):
+            warnings.append("missing_archivist_canon_promotion")
+
+    return {"warnings": warnings[:max_items]}
+
+
+def _empty_story_foundry_production_handoff_audit() -> dict[str, Any]:
+    return {"warnings": []}
+
+
+def _has_story_foundry_scene_card_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    for source in (bible, plan or {}):
+        for key in ("scene_cards", "scene_card", "scene_beats", "scene_plan", "scenes"):
+            value = source.get(key)
+            if isinstance(value, dict) and _scene_card_has_spine(value):
+                return True
+            for item in _as_dict_list(value):
+                if _scene_card_has_spine(item):
+                    return True
+    return False
+
+
+def _scene_card_has_spine(item: dict[str, Any]) -> bool:
+    external = any(
+        _has_any_package_value(item, keys)
+        for keys in (
+            ("alpha_point", "scene_function", "purpose"),
+            ("goal", "external_goal"),
+            ("conflict", "obstacles", "main_obstacle"),
+            ("disaster", "hook", "ending_hook", "outcome"),
+        )
+    )
+    internal = any(
+        _has_any_package_value(item, keys)
+        for keys in (
+            ("desire", "internal_desire"),
+            ("misbelief", "wound", "vulnerability"),
+            ("emotional_stakes", "emotion", "internal_shift", "realization"),
+            ("reaction", "dilemma", "decision"),
+        )
+    )
+    return external and internal
+
+
+def _has_story_bible_voice_canon_constraints(bible: dict[str, Any]) -> bool:
+    has_voice = _has_any_package_value(bible, ("style_signature", "voiceSpec", "voice_spec"))
+    has_canon = _has_any_package_value(
+        bible,
+        ("world_rules", "canon", "timeline", "organizations", "character_cards"),
+    )
+    has_constraints = _has_any_package_value(bible, ("hard_constraints", "constraints"))
+    return has_voice and has_canon and has_constraints
+
+
 def _empty_disassembly_checkpoint_audit() -> dict[str, Any]:
     return {
         "source_chapter_count": 0,
@@ -2618,6 +2741,53 @@ def _append_universal_progress_report_completeness_gate_section(
     for gap in report_gaps[:5]:
         missing = ", ".join(gap["missing_fields"])
         lines.append(f"- chapter_progress_report_missing_fields: {gap['chapter']} -> {missing}")
+
+
+def _append_story_foundry_production_handoff_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render Story Foundry-style production stage handoff gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "capture_distillation_production_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("capture_distillation_production_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _story_foundry_production_handoff_audit(
+        bible=bible,
+        plan=plan,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Story Foundry production handoff gate:")
+    lines.append(
+        "- stage_boundary: keep Capture notes, Distillation outlines/scene cards, "
+        "and Production drafts/revisions as separate artifacts"
+    )
+    lines.append(
+        "- scene_card_spine: scene cards need alpha point, goal, obstacles, "
+        "disaster/hook, internal desire/misbelief, emotional stakes, and aftermath"
+    )
+    lines.append(
+        "- production_chain: draft -> critique -> numbered fix_spec -> revised draft "
+        "-> editor_log -> canon promotion"
+    )
+    lines.append(
+        "- archivist_promotion: only accepted/approved artifacts update manuscript, "
+        "story bible, index, changelog, or reusable canon state"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 240)}")
+    if audit["warnings"]:
+        lines.append(f"- production_handoff_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_same_type_creation_scaffold_section(

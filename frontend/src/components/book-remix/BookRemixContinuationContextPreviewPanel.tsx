@@ -32,6 +32,7 @@ const TEXT = {
   missingSourceAnalysis: "\u7f3a\u5931\u6e90\u7ae0\u5206\u6790\uff1a",
   modeContract: "\u6a21\u5f0f\u5951\u7ea6\uff1a",
   chapterContract: "\u7ae0\u8282\u5951\u7ea6\uff1a",
+  productionHandoff: "\u751f\u4ea7\u4ea4\u63a5\uff1a",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -245,6 +246,17 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Text type="secondary">{TEXT.chapterContract}</Text>
               <Space wrap>
                 {value.chapter_contract_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.production_handoff_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.productionHandoff}</Text>
+              <Space wrap>
+                {value.production_handoff_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>

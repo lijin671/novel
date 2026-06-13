@@ -342,6 +342,86 @@ def test_build_remix_context_blocks_render_action_review_canonization_gate():
         assert "ai_flavor_template_shell_cleanup_gate" in block
 
 
+def test_build_remix_context_preview_audit_surfaces_story_foundry_production_handoff_gate():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "capture_distillation_production_gate"},
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nStory Foundry production handoff gate",
+        bible={
+            "style_signature": {"voice": "spare close third"},
+            "world_rules": {"setting": "archive city"},
+            "hard_constraints": [{"rule": "No off-screen canon promotion"}],
+            "character_cards": [{"name": "Inspector Lin", "goal": "protect the archive"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 5,
+                    "summary": "Lin questioned the witness and exposed a false timeline.",
+                    "timeline_delta": [{"event": "False timeline exposed"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "publicly cornered"}
+                    ],
+                }
+            ],
+        },
+        plan={
+            "summary": "Revise the witness scene only after editor critique.",
+            "beats": [{"beat": "Make the witness scene cost Lin public trust", "status": "pending"}],
+            "guardrails": [{"rule": "No direct manuscript merge without editor log"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "capture_distillation_production_stage_boundary" in audit["production_control_axes"]
+    assert "scene_card_external_internal_spine" in audit["production_control_axes"]
+    assert "draft_critique_fixspec_revision_chain" in audit["production_control_axes"]
+    assert "archivist_canon_promotion_telemetry" in audit["production_control_axes"]
+    assert "verify_story_foundry_production_handoff" in audit["production_acceptance_steps"]
+    assert "production_handoff_warnings" in audit["production_warnings"]
+    assert "missing_scene_card_external_internal_spine" in audit["production_handoff_warnings"]
+    assert "missing_editor_critique" in audit["production_handoff_warnings"]
+    assert "missing_fix_spec" in audit["production_handoff_warnings"]
+    assert "missing_editor_log" in audit["production_handoff_warnings"]
+    assert "missing_archivist_canon_promotion" in audit["production_handoff_warnings"]
+
+
+def test_build_remix_continuation_context_block_renders_story_foundry_production_handoff_gate():
+    block = build_remix_continuation_context_block(
+        project_title="Story Foundry Desk",
+        bible={
+            "style_signature": {"voice": "spare close third"},
+            "world_rules": {"setting": "archive city"},
+            "hard_constraints": [{"rule": "No off-screen canon promotion"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 5,
+                    "summary": "Lin questioned the witness and exposed a false timeline.",
+                }
+            ],
+        },
+        plan={"summary": "Draft only after the scene card and critique path are visible."},
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "capture_distillation_production_gate"}],
+            "capture_distillation_production_gate_hints": [
+                "Story Foundry separates Capture, Distillation and Production artifacts."
+            ],
+        },
+    )
+
+    assert "Story Foundry production handoff gate:" in block
+    assert "stage_boundary" in block
+    assert "scene_card_spine" in block
+    assert "production_chain" in block
+    assert "archivist_promotion" in block
+    assert "Story Foundry separates Capture, Distillation and Production artifacts." in block
+    assert "production_handoff_warnings" in block
+
+
 def test_build_remix_continuation_control_audit_tracks_resume_and_memory_gates():
     audit = build_remix_continuation_control_audit(
         bible={

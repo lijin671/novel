@@ -140,6 +140,7 @@ class BookRemixContinuationContextPreviewResponse(BaseModel):
     mode_contract_axes: dict[str, str] = Field(default_factory=dict)
     mode_contract_warnings: list[str] = Field(default_factory=list)
     chapter_contract_warnings: list[str] = Field(default_factory=list)
+    production_handoff_warnings: list[str] = Field(default_factory=list)
     continuity_questions: list[str] = Field(default_factory=list)
     promise_payoff_debts: list[dict[str, str]] = Field(default_factory=list)
     scene_state_snapshot: list[dict[str, str]] = Field(default_factory=list)

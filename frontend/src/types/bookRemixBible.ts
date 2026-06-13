@@ -90,6 +90,7 @@ export interface BookRemixContinuationContextPreview {
   mode_contract_axes: Record<string, string>;
   mode_contract_warnings: string[];
   chapter_contract_warnings: string[];
+  production_handoff_warnings: string[];
   continuity_questions: string[];
   promise_payoff_debts: Array<Record<string, string>>;
   scene_state_snapshot: Array<Record<string, string>>;
