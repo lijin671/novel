@@ -57,10 +57,14 @@ FC12A7DD8CDF7188E53AABA29B4C6C14B8A7CC100D11B9F7BE7DE000AA8FCA4B  references/sto
   - Renders the new gate hints into generation/guardrail prompt digests.
 - `BookRemixSourceDiscoveryPanel.tsx`
   - Surfaces the universal novel-writing gates in the source-discovery pattern panel.
+- `book_remix_context_service.py`
+  - Projects the same gates into actual continuation / same-type creation prompt context as a compact `Universal novel workflow contract`.
+  - Makes mode selection, chapter contract, scene exit-state, reader micro-payoff, revision order, natural prose pass, and progress write-back visible before generation.
 
 ## Verification targets
 
 ```powershell
 python -m pytest backend/tests/services/test_source_discovery_service.py::test_local_universal_novel_writing_skill_is_static_absorbed -q
 python -m pytest backend/tests/frontend/test_source_discovery_panel_copy.py::test_source_discovery_panel_surfaces_universal_novel_writing_gates -q
+python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_novel_workflow_contract -q
 ```

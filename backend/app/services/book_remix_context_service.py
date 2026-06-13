@@ -217,6 +217,10 @@ def build_remix_continuation_context_block(
         plan=plan,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_universal_novel_workflow_contract_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
     _append_scene_graph_review_audit_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -671,6 +675,10 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_inspired_transformation_audit_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_universal_novel_workflow_contract_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
@@ -1675,6 +1683,42 @@ def _append_source_entity_redaction_audit_section(
         lines.append("- placeholder_alias_consistency_map: keep stable placeholders and replacement ids across chapters; review alias collisions before context reuse")
     if "proper_noun_leakage_review" in pattern_names:
         lines.append("- proper_noun_leakage_review: compare drafts against source blocklists and approved exceptions before accepting continuation or same-type prose")
+
+
+def _append_universal_novel_workflow_contract_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render portable novel-writing gates learned from static skill intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "universal_novel_mode_contract_gate",
+        "portable_story_project_structure_gate",
+        "chapter_contract_scene_beat_gate",
+        "reader_promise_micro_payoff_gate",
+        "revision_order_natural_prose_gate",
+        "progress_report_continuity_writeback_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    lines.append("")
+    lines.append("Universal novel workflow contract:")
+    if "universal_novel_mode_contract_gate" in pattern_names:
+        lines.append("- mode_selection: choose the smallest explicit mode before output: continue-chapter, full-project, revise, analyze, export, or quick-start")
+    if "portable_story_project_structure_gate" in pattern_names:
+        lines.append("- portable_state_files: keep story-bible.md, outline.md, characters.md, worldbuilding.md, continuity.md, progress.md, chapters/, notes/, and revision/ as separate state layers")
+    if "chapter_contract_scene_beat_gate" in pattern_names:
+        lines.append("- chapter_contract: require job, reader promise, POV, opening hook, goal, obstacle, escalation, payoff, new hook, and forbidden contradictions before prose")
+        lines.append("- scene_exit_state: each scene should leave a changed plot, knowledge, relationship, risk, moral pressure, emotion, or world-rule state")
+    if "reader_promise_micro_payoff_gate" in pattern_names:
+        lines.append("- reader_micro_payoff: each serial chapter needs a concrete payoff or pressure turn, and wins must carry cost, debt, reaction, or board-state change")
+    if "revision_order_natural_prose_gate" in pattern_names:
+        lines.append("- revision_order: fix developmental, character, continuity, and scene problems before line polish or proof/format cleanup")
+        lines.append("- natural_prose_pass: replace generic emotion labels with concrete action, sensory detail, subtext, character diction, and varied rhythm")
+    if "progress_report_continuity_writeback_gate" in pattern_names:
+        lines.append("- progress_writeback: after an accepted chapter, record summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
 
 
 def _append_context_activation_audit_section(

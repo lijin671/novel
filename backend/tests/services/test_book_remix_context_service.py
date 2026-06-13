@@ -45,6 +45,45 @@ def test_build_remix_continuation_context_block_contains_constraints_and_plan():
     assert "writeback_rule" in block
 
 
+def test_build_remix_continuation_context_block_renders_universal_novel_workflow_contract():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "universal_novel_mode_contract_gate"},
+            {"name": "portable_story_project_structure_gate"},
+            {"name": "chapter_contract_scene_beat_gate"},
+            {"name": "reader_promise_micro_payoff_gate"},
+            {"name": "revision_order_natural_prose_gate"},
+            {"name": "progress_report_continuity_writeback_gate"},
+        ],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Universal Continuation Desk",
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "foreshadows": [{"hook": "Archive seal breaks", "status": "open"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 8,
+                    "summary": "Lin locked the archive after the seal trembled.",
+                }
+            ],
+        },
+        plan={"beats": [{"beat": "Open with the seal consequence", "status": "pending"}]},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "Universal novel workflow contract:" in block
+    assert "mode_selection" in block
+    assert "portable_state_files" in block
+    assert "chapter_contract" in block
+    assert "scene_exit_state" in block
+    assert "reader_micro_payoff" in block
+    assert "revision_order" in block
+    assert "progress_writeback" in block
+
+
 def test_build_remix_continuation_control_audit_tracks_resume_and_memory_gates():
     audit = build_remix_continuation_control_audit(
         bible={
