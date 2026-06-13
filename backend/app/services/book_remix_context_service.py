@@ -205,6 +205,19 @@ def build_remix_continuation_control_audit(
             "verify_story_bible_project_memory_axes",
             "verify_no_overwrite_manuscript_patch_scope",
         ])
+    if "seed_to_bible_foundation_loop_gate" in pattern_names:
+        control_axes.extend([
+            "foundation_score_loop_review",
+            "weakest_dimension_regeneration_trace",
+            "foundation_keep_discard_restore_decision",
+        ])
+        acceptance_steps.append("verify_foundation_loop_score_review")
+    if "layered_story_bible_artifact_contract_gate" in pattern_names:
+        control_axes.extend([
+            "layered_story_bible_artifact_contract",
+            "story_layer_dependency_order",
+        ])
+        acceptance_steps.append("verify_layered_story_bible_artifacts")
     if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names:
         control_axes.extend([
             "source_chapter_analysis_coverage",
@@ -499,6 +512,11 @@ def build_remix_continuation_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_universal_project_memory_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_seed_to_bible_foundation_loop_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1068,6 +1086,11 @@ def build_remix_inspired_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_universal_project_memory_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_seed_to_bible_foundation_loop_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -3137,6 +3160,78 @@ def _append_universal_project_memory_gate_section(
     )
     if hints:
         lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+
+
+def _append_seed_to_bible_foundation_loop_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render seed-to-bible scoring loops and layered bible artifact custody."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    has_foundation_loop = "seed_to_bible_foundation_loop_gate" in pattern_names
+    has_layer_contract = "layered_story_bible_artifact_contract_gate" in pattern_names
+    if not has_foundation_loop and not has_layer_contract:
+        return
+
+    foundation_hints = (
+        _as_note_list(source_pattern_pack.get("seed_to_bible_foundation_loop_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    layer_hints = (
+        _as_note_list(source_pattern_pack.get("layered_story_bible_artifact_contract_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Seed-to-bible foundation loop gate:")
+    if has_foundation_loop:
+        lines.append(
+            "- foundation_score_loop: validate seed differentiator, central tension, "
+            "cost/constraint, sensory hook, foundation_score, lore_score, and max-iteration stop"
+        )
+        lines.append(
+            "- weakest_dimension_repair: identify the weakest dimension before any rewrite; "
+            "regenerate only that layer or chapter brief instead of restarting the whole project"
+        )
+        lines.append(
+            "- keep_discard_restore_policy: compare before/after scores, keep accepted "
+            "improvements, discard regressions, and restore the previous accepted version"
+        )
+        lines.append(
+            "- independent_eval_boundary: generation, judge, mechanical slop scan, "
+            "cross-layer consistency check, and reader-panel findings stay separate"
+        )
+    if has_layer_contract:
+        lines.append(
+            "- layered_story_bible_artifacts: seed, world, characters, voice, mystery, "
+            "outline, canon, foreshadowing, state, eval logs, and score ledger remain separate"
+        )
+        lines.append(
+            "- dependency_order: world -> characters -> voice -> mystery -> outline -> "
+            "canon -> foreshadowing before chapter-level automation"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source seed, bible layers, scores, reader-panel findings, "
+            "and accepted artifacts define review axes only, never target canon"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: only target-owned accepted foundation layers and "
+            "current score-review findings can seed outline or chapter continuation"
+        )
+    lines.append(
+        "- runtime_boundary: no auto-outline CLI, uv/pip install, provider/API key, gateway, "
+        "proxy transport, model call, generated bible, eval log import, or upstream prompt body is authorized"
+    )
+    if foundation_hints:
+        lines.append(f"- foundation_source_hint: {_truncate(foundation_hints[0], 240)}")
+    if layer_hints:
+        lines.append(f"- layer_source_hint: {_truncate(layer_hints[0], 240)}")
 
 
 def _append_mode_contract_generation_audit_section(
@@ -5746,6 +5841,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "revision_order_natural_prose_gate_hints": "revision_order_natural_prose_gate",
         "reader_pull_fresh_reader_gate_hints": "reader_pull_fresh_reader_gate",
         "progress_report_continuity_writeback_gate_hints": "progress_report_continuity_writeback_gate",
+        "seed_to_bible_foundation_loop_gate_hints": "seed_to_bible_foundation_loop_gate",
+        "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

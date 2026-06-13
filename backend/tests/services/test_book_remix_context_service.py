@@ -4586,3 +4586,74 @@ def test_frame_setting_state_runtime_gates_extend_control_audit():
     assert "verify_frame_coordinate_contract" in audit["acceptance_steps"]
     assert "verify_setting_document_session_packet" in audit["acceptance_steps"]
     assert "verify_state_db_redteam_voice_review" in audit["acceptance_steps"]
+
+
+def test_seed_to_bible_foundation_loop_gates_render_context_blocks():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "seed_to_bible_foundation_loop_gate", "candidate_count": 1},
+            {"name": "layered_story_bible_artifact_contract_gate", "candidate_count": 1},
+        ],
+        "seed_to_bible_foundation_loop_gate_hints": [
+            "Target the weakest dimension, then keep or discard by score comparison.",
+        ],
+        "layered_story_bible_artifact_contract_gate_hints": [
+            "Generate world, characters, voice, mystery, outline, canon, and foreshadowing in dependency order.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Foundation Loop Desk",
+        bible={
+            "world_rules": {"archive_magic": "Each seal has a public cost."},
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "hard_constraints": [{"rule": "Do not promote worse foundation attempts"}],
+        },
+        plan={"summary": "Continue after foundation score and lore score pass."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Foundation Loop Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Use foundation-loop discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source world, character, mystery, or canon files.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Seed-to-bible foundation loop gate:" in block
+        assert "foundation_score_loop" in block
+        assert "weakest_dimension_repair" in block
+        assert "keep_discard_restore_policy" in block
+        assert "layered_story_bible_artifacts" in block
+        assert "independent_eval_boundary" in block
+        assert "runtime_boundary" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+    assert "Target the weakest dimension" in continuation
+
+
+def test_seed_to_bible_foundation_loop_gates_extend_control_audit():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "hard_constraints": [{"rule": "Only accepted foundation layers can seed chapters"}],
+        },
+        plan={"summary": "Check foundation layers before chapter automation."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "seed_to_bible_foundation_loop_gate"},
+                {"name": "layered_story_bible_artifact_contract_gate"},
+            ],
+        },
+    )
+
+    assert "foundation_score_loop_review" in audit["control_axes"]
+    assert "weakest_dimension_regeneration_trace" in audit["control_axes"]
+    assert "foundation_keep_discard_restore_decision" in audit["control_axes"]
+    assert "layered_story_bible_artifact_contract" in audit["control_axes"]
+    assert "story_layer_dependency_order" in audit["control_axes"]
+    assert "verify_foundation_loop_score_review" in audit["acceptance_steps"]
+    assert "verify_layered_story_bible_artifacts" in audit["acceptance_steps"]
