@@ -17918,3 +17918,271 @@ def test_static_showrunner_local_memory_mcp_eval_sources_are_absorbed():
     assert "file_based_showrunner_canon_approval_gate_hints" in digest
     assert "nova_local_version_memory_role_gate_hints" in digest
     assert "forge_agent_mcp_eval_contract_gate_hints" in digest
+
+
+
+def test_static_graph_diff_layered_replay_sources_are_absorbed():
+    assert "https://github.com/Leolai6-7/write_ai_agent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/giyojisan-glitch/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/derekmerck/storytangl" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("narrative diff" in query and "3-path context recall" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("layered state machine" in query and "multi-head audit" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("possibility space" in query and "dependency closure" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Leolai6-7/write_ai_agent",
+                "html_url": "https://github.com/Leolai6-7/write_ai_agent",
+                "description": (
+                    "write_ai_agent is a Claude Code Plugin for long-form novel generation with knowledge graphs as external memory. "
+                    "It writes a chapter, extracts a narrative diff, updates a NetworkX story graph, then queries graph and semantic memory for the next chapter. "
+                    "Context assembly uses 3-path context recall: structured lookup, graph traversal, and semantic search with ChromaDB and LLM Wiki location references."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "knowledge-graph", "claude-code"],
+                "updated_at": "2026-06-13T10:00:00Z",
+                "root_files": ["README.md", "LICENSE", "agents", "skills", "scripts/assemble_context.py", "scripts/story_graph_nx.py", "scripts/index_chapter.py"],
+            },
+            {
+                "full_name": "giyojisan-glitch/novel-studio",
+                "html_url": "https://github.com/giyojisan-glitch/novel-studio",
+                "description": (
+                    "NOVEL-Studio is a structured fiction architecture with a layered state machine: skeleton, chapter outlines, paragraph writing and polish. "
+                    "It freezes each layer before downstream work, supports parallel chapter generation, multi-head audit gates for logic pace character style, retry_hint feedback, and whole-book review."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "parallel", "audit"],
+                "updated_at": "2026-06-13T10:01:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "prompts", "demos"],
+            },
+            {
+                "full_name": "derekmerck/storytangl",
+                "html_url": "https://github.com/derekmerck/storytangl",
+                "description": (
+                    "StoryTangl is a graph-based computational narratology platform with possibility space, fabula, episodic process, syuzhet, dependency closure, "
+                    "satisfiability checks, role-binding constraints, deterministic replay, materializer, phase-bus, and linear narrative journal output."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["interactive-fiction", "narratology", "graph"],
+                "updated_at": "2026-06-13T10:02:00Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml", "docs", "storytangl"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T10:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "three_path_graph_diff_recall_gate" in candidates["Leolai6-7/write_ai_agent"]["absorbed_patterns"]
+    assert "layered_parallel_audit_state_machine_gate" in candidates["giyojisan-glitch/novel-studio"]["absorbed_patterns"]
+    assert "possibility_graph_dependency_replay_gate" in candidates["derekmerck/storytangl"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "chapter_diff_graph_recall_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "frozen_layer_parallel_chapter_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "possibility_graph_dependency_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_diff_graph_recall_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "layer_freeze_parallel_generation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "possibility_graph_dependency_closure_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "graph_diff_recall_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "frozen_layer_parallel_generation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "possibility_graph_dependency_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("narrative diff" in hint.lower() for hint in pattern_pack["three_path_graph_diff_recall_gate_hints"])
+    assert any("frozen" in hint.lower() for hint in pattern_pack["layered_parallel_audit_state_machine_gate_hints"])
+    assert any("dependency closure" in hint.lower() for hint in pattern_pack["possibility_graph_dependency_replay_gate_hints"])
+    assert any("accepted chapter diffs" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("frozen target skeleton" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("storytangl docs examples" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "three_path_graph_diff_recall_gate_hints" in digest
+    assert "layered_parallel_audit_state_machine_gate_hints" in digest
+    assert "possibility_graph_dependency_replay_gate_hints" in digest
+
+
+
+def test_static_dual_entry_live_analytics_simulation_tree_sources_are_absorbed():
+    assert "https://github.com/qcx1919788736-collab/craft-companion" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/akarshkashyap4-ui/NovelWriter" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/FrankS-IntelLab/LuminTree-Intel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Evaluator" in query and "Arbiter" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Event Line" in query and "Story Pulse" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("structured creative simulation" in query and "category-aware AI assistant" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "qcx1919788736-collab/craft-companion",
+                "html_url": "https://github.com/qcx1919788736-collab/craft-companion",
+                "description": (
+                    "Craft Companion is a local-first AI collaborative novel framework with dual entry onboarding from scratch or imported existing novel, "
+                    "AI入口_统一指令, five-stage workflow, Writer execution layer, Evaluator review layer with confirmed disputed dismissed findings, "
+                    "Arbiter dispute decisions, final confirmation, checkpoints, knowledge base update, bootstrap-entry migration, and doctor health checks."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "local-first", "workflow"],
+                "updated_at": "2026-06-13T11:00:00Z",
+                "root_files": ["README.md", "LICENSE", "AI入口_统一指令.md", "START_HERE.md", "tools/init.js", "docs/releases/v1.2.0.md"],
+            },
+            {
+                "full_name": "akarshkashyap4-ui/NovelWriter",
+                "html_url": "https://github.com/akarshkashyap4-ui/NovelWriter",
+                "description": (
+                    "NovelWriter is a web-based novel writing app with AI-powered manuscript analysis, four Agent panel modes, Event Line, open plot lines, plot hole detection, "
+                    "Connection Web, Story Pulse for pacing tension atmosphere depth, Echo Chamber reader reactions, live mood remarks, inline scene suggestions, summaries and world information."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "manuscript", "analytics"],
+                "updated_at": "2026-06-13T11:01:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "docs/guide.md", "src"],
+            },
+            {
+                "full_name": "FrankS-IntelLab/LuminTree-Intel",
+                "html_url": "https://github.com/FrankS-IntelLab/LuminTree-Intel",
+                "description": (
+                    "LuminTree-Intel is a structured creative simulation web app with a six-category tree: Core Concept, Worldview Setting, Plot Framework, "
+                    "Character Profiles, Chapter Structure, Writing Materials, category-aware AI assistant, AI writer following style directives, smart import classification, "
+                    "two-way chapter sync, persistent AI history per node and chapter, localStorage, JSON export import, BYOK compatible endpoints, and API key configuration."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "worldbuilding", "simulation"],
+                "updated_at": "2026-06-13T11:02:00Z",
+                "root_files": ["README.md", "LICENSE", "index.html", "assets"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T11:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "craft_companion_dual_entry_arbitration_gate" in candidates["qcx1919788736-collab/craft-companion"]["absorbed_patterns"]
+    assert "novelwriter_live_manuscript_analytics_gate" in candidates["akarshkashyap4-ui/NovelWriter"]["absorbed_patterns"]
+    assert "lumintree_simulation_tree_category_gate" in candidates["FrankS-IntelLab/LuminTree-Intel"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["FrankS-IntelLab/LuminTree-Intel"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "dual_entry_import_initialization_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "live_manuscript_analytics_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "six_category_simulation_tree_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "writer_evaluator_arbiter_checkpoint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "event_line_connection_web_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "six_category_tree_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "dual_entry_import_checkpoint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "event_line_story_pulse_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "six_category_simulation_tree_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("dual entry" in hint.lower() for hint in pattern_pack["craft_companion_dual_entry_arbitration_gate_hints"])
+    assert any("event line" in hint.lower() for hint in pattern_pack["novelwriter_live_manuscript_analytics_gate_hints"])
+    assert any("six-category" in hint.lower() for hint in pattern_pack["lumintree_simulation_tree_category_gate_hints"])
+    assert any("writer draft id" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("echo chamber" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("lumintree tree examples" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "craft_companion_dual_entry_arbitration_gate_hints" in digest
+    assert "novelwriter_live_manuscript_analytics_gate_hints" in digest
+    assert "lumintree_simulation_tree_category_gate_hints" in digest
+
+
+
+def test_static_external_project_outline_weighted_rag_sources_are_absorbed():
+    assert "https://github.com/writerslogic/scrivener-mcp" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/smith-and-web/kindling" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/jianghuaqi85-sys/Novel-Consistency-Checker" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Scrivener MCP" in query and "pacing analysis" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("outline stays visible" in query and "smart reference detection" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("吃书" in query and "加权向量检索" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "writerslogic/scrivener-mcp",
+                "html_url": "https://github.com/writerslogic/scrivener-mcp",
+                "description": (
+                    "Scrivener MCP lets AI assistants open, read, edit, analyze, and search .scriv project files directly. "
+                    "It works with MCP-compatible clients such as Claude Desktop, Claude Code, VS Code, Cursor, and supports chapter pacing analysis without copy-pasting or exporting."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["scrivener", "mcp", "manuscript"],
+                "updated_at": "2026-06-13T12:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "src", "assets"],
+            },
+            {
+                "full_name": "smith-and-web/kindling",
+                "html_url": "https://github.com/smith-and-web/kindling",
+                "description": (
+                    "Kindling is local-first writing software for plotters and outliners where your outline stays visible while you write. "
+                    "It has scaffolded writing view, scene beats as expandable prompts, local SQLite, import from Scrivener Plottr yWriter Obsidian Longform Markdown, "
+                    "export to Scrivener DOCX EPUB Markdown Treatment, smart reference detection, custom fields tags, beat sheet templates, and no AI no cloud."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "outline", "local-first"],
+                "updated_at": "2026-06-13T12:01:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "src-tauri", "docs"],
+            },
+            {
+                "full_name": "jianghuaqi85-sys/Novel-Consistency-Checker",
+                "html_url": "https://github.com/jianghuaqi85-sys/Novel-Consistency-Checker",
+                "description": (
+                    "NovelEngine is a Chinese RAG consistency checker for long serial novels and 吃书 prevention. "
+                    "It uploads Markdown settings, chunks by headings, stores ChromaDB collections, shows a conflict warning panel, and manages character cards, setting cards, foreshadowing and timeline. "
+                    "Weighted vector retrieval searches characters 1.5, events 1.2, factions, locations, novel_chunks, with distance threshold filtering, summary compression, and incremental review."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "rag", "consistency"],
+                "updated_at": "2026-06-13T12:02:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "frontend", "backend", "docs/novel_consistency_checker_ui.png"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T12:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "scrivener_mcp_project_analysis_boundary_gate" in candidates["writerslogic/scrivener-mcp"]["absorbed_patterns"]
+    assert "kindling_local_outline_reference_import_gate" in candidates["smith-and-web/kindling"]["absorbed_patterns"]
+    assert "novelengine_weighted_rag_consistency_gate" in candidates["jianghuaqi85-sys/Novel-Consistency-Checker"]["absorbed_patterns"]
+    assert "mcp_server" in candidates["writerslogic/scrivener-mcp"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "external_manuscript_project_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "visible_outline_scene_beat_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "weighted_rag_consistency_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "external_manuscript_project_scope_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "outline_scene_beat_reference_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "weighted_rag_conflict_warning_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "external_manuscript_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "visible_outline_scene_beat_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "weighted_rag_consistency_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any(".scriv" in hint.lower() for hint in pattern_pack["scrivener_mcp_project_analysis_boundary_gate_hints"])
+    assert any("scene beats" in hint.lower() for hint in pattern_pack["kindling_local_outline_reference_import_gate_hints"])
+    assert any("weighted lanes" in hint.lower() for hint in pattern_pack["novelengine_weighted_rag_consistency_gate_hints"])
+    assert any("external manuscript project id" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("weighted target memory lanes" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("novelengine prompt rules" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "scrivener_mcp_project_analysis_boundary_gate_hints" in digest
+    assert "kindling_local_outline_reference_import_gate_hints" in digest
+    assert "novelengine_weighted_rag_consistency_gate_hints" in digest

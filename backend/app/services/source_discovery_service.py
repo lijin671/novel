@@ -498,6 +498,15 @@ DEFAULT_GITHUB_QUERIES = (
     '("human is final showrunner" OR "chapter brief" OR "reference chain") ("Novel Writer" OR "web fiction") in:name,description,readme',
     '("local-first desktop workspace" OR "version history" OR "author voice") ("long-form fiction" OR "novel") in:name,description,readme',
     '("MCP Server" OR "writing eval fixtures" OR "chapter missions") ("long-form fiction" OR "chapter generation") in:name,description,readme',
+    '("narrative diff" OR "3-path context recall" OR "knowledge graphs as external memory") ("novel" OR "long-form fiction") in:name,description,readme',
+    '("layered state machine" OR "multi-head audit" OR "parallel chapter generation") ("novel" OR "fiction") in:name,description,readme',
+    '("possibility space" OR "dependency closure" OR "deterministic replay") ("interactive narrative" OR "fiction graph") in:name,description,readme',
+    '("Writer" OR "Evaluator" OR "Arbiter") ("knowledge base update" OR "checkpoint") ("novel" OR "AI writing") in:name,description,readme',
+    '("Event Line" OR "Story Pulse" OR "Echo Chamber") ("novel writer" OR "manuscript") in:name,description,readme',
+    '("structured creative simulation" OR "six-category tree" OR "category-aware AI assistant") ("novel" OR "worldbuilding") in:name,description,readme',
+    '("Scrivener MCP" OR ".scriv project" OR "pacing analysis") ("novel" OR "manuscript") in:name,description,readme',
+    '("outline stays visible" OR "scaffolded writing view" OR "smart reference detection") ("writing software" OR "novel") in:name,description,readme',
+    '("吃书" OR "加权向量检索" OR "冲突预警面板") ("长篇小说" OR "网络小说") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1050,6 +1059,15 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/sumo91/Novel_Writer",
     "https://github.com/TaylorMia0617/Nova",
     "https://github.com/luo-cccc/ForClaw",
+    "https://github.com/Leolai6-7/write_ai_agent",
+    "https://github.com/giyojisan-glitch/novel-studio",
+    "https://github.com/derekmerck/storytangl",
+    "https://github.com/qcx1919788736-collab/craft-companion",
+    "https://github.com/akarshkashyap4-ui/NovelWriter",
+    "https://github.com/FrankS-IntelLab/LuminTree-Intel",
+    "https://github.com/writerslogic/scrivener-mcp",
+    "https://github.com/smith-and-web/kindling",
+    "https://github.com/jianghuaqi85-sys/Novel-Consistency-Checker",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1546,6 +1564,15 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("file_based_showrunner_canon_approval_gate", ("novel_writer", "novel writer", "file-based cli writers' room", "showrunner skill", "human is final showrunner", "canon owner", "chapter brief", "reference chain", "do not treat drafts", "book-local style bible", "approval gates")),
     ("nova_local_version_memory_role_gate", ("nova", "local-first desktop workspace", "reference database", "version history", "project author voice", "project snapshot", "project cache", "architect", "writer", "editor", "byok", "openai-compatible endpoint")),
     ("forge_agent_mcp_eval_contract_gate", ("forge agent", "mcp server", "91 tools", "chapter missions", "promise progression", "writing eval fixtures", "141 eval tasks", "typed operations", "context assembly", "quality evaluation", "targeted revision", "budget checks")),
+    ("three_path_graph_diff_recall_gate", ("write_ai_agent", "knowledge graphs as external memory", "narrative diff", "3-path context recall", "structured lookup", "graph traversal", "semantic search", "networkx", "chromadb", "llm wiki", "foreshadowing threads", "causal chains")),
+    ("layered_parallel_audit_state_machine_gate", ("novel-studio", "layered state machine", "skeleton", "chapter outlines", "paragraph writing", "polish", "multi-head audit", "parallel chapter generation", "retry_hint", "frozen skeleton", "whole-book review", "human-in-the-loop")),
+    ("possibility_graph_dependency_replay_gate", ("storytangl", "possibility space", "fabula", "episodic process", "syuzhet", "dependency closure", "satisfiability", "role-binding constraints", "deterministic replay", "narrative journal", "phase-bus", "materializer")),
+    ("craft_companion_dual_entry_arbitration_gate", ("craft companion", "dual entry", "from scratch", "import existing novel", "ai入口_统一指令", "writer", "evaluator", "arbiter", "confirmed", "disputed", "dismissed", "checkpoint", "knowledge base update", "doctor")),
+    ("novelwriter_live_manuscript_analytics_gate", ("novelwriter", "agent panel", "event line", "open plot lines", "connection web", "story pulse", "echo chamber", "live mood", "remarks", "inline suggestions", "plot tracker", "scene suggestions")),
+    ("lumintree_simulation_tree_category_gate", ("lumintree", "structured creative simulation", "six-category tree", "core concept", "worldview setting", "plot framework", "character profiles", "chapter structure", "writing materials", "category-aware ai assistant", "smart import", "persistent ai history")),
+    ("scrivener_mcp_project_analysis_boundary_gate", ("scrivener mcp", ".scriv project", "open, read, edit, analyze, and search", "pacing analysis", "chapter 12", "no copy-pasting", "mcp-compatible client", "claude desktop", "claude code", "scrivener 3")),
+    ("kindling_local_outline_reference_import_gate", ("kindling", "outline stays visible", "scaffolded writing view", "scene beats", "expandable prompts", "scrivener import/export", "plottr", "ywriter", "obsidian longform", "local sqlite", "smart reference detection", "beat sheet templates")),
+    ("novelengine_weighted_rag_consistency_gate", ("novelengine", "吃书", "rag", "冲突预警面板", "markdown 解析", "chroma", "加权检索", "characters 1.5", "events 1.2", "foreshadowing", "timeline", "人物卡", "设定卡", "增量审查")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -3992,6 +4019,42 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "ForClaw / Forge Agent is a source-available no-redistribution-license headless long-form fiction MCP backend. Static README/fixture markers describe 91 stdio JSON-RPC tools, structured error kinds, writer-agent kernel with story ledger/proposals/typed operations/canon/promises/chapter missions/reader compensation/decision tracking, context assembly -> provider-budget checks -> craft prompt -> draft -> quality evaluation -> targeted revision -> repair/compression, and writing eval fixtures with 141 tasks across three profiles. "
         "Reference-only adaptation for MCP eval contract gates; MCP server launch, provider calls, credential pools, package builds, eval execution, generated fixture text, runtime traces, and plugin marketplace install are not executed or imported."
     ),
+    "leolai6-7/write_ai_agent": (
+        "write_ai_agent is an MIT Claude Code Plugin for long-form novel generation with knowledge graphs as external memory. Static README markers describe a chapter feedback loop of write chapter -> extract narrative diff -> update graph -> query graph -> write next chapter, NetworkX story graph nodes for chapters/characters/locations/events/foreshadowing/values/concepts/mirrors, edges for appears_in/located_in/plants/hints/resolves/causes/mirrors, and three-path context recall across structured lookup, graph traversal, and semantic search. "
+        "Pattern-only adaptation for graph-diff and context-recall gates; Claude Code plugin runtime, scripts, ChromaDB/NetworkX execution, generated YAML diffs, semantic indexes, provider calls, and upstream prompt bodies are not executed or imported."
+    ),
+    "giyojisan-glitch/novel-studio": (
+        "NOVEL-Studio is an MIT architecture experiment for structurally complete fiction generation. Static README markers describe a layered state machine from skeleton to chapter outlines to paragraph writing to polish, frozen layer approvals before downstream work, parallel chapter generation after the skeleton is stable, multi-head audit gates for logic/pace/character/style, retry_hint feedback, and final whole-book review against the premise. "
+        "Pattern-only adaptation for layered parallel audit gates; Claude Code session runtime, file-dumped prompts, human-in-the-loop provider workflow, generated demos, scripts, package setup, and style-transfer examples are not executed or imported."
+    ),
+    "derekmerck/storytangl": (
+        "StoryTangl is an MIT research platform for graph-based computational narratology. Static README markers describe a three-layer fabula/episodic-process/syuzhet model, possibility-space story graphs with characters/events/places/assets/rules/requirements/relationships, VM traversal that resolves dependencies and emits a linear narrative journal, and structural checks for reachability, satisfiability, dependency closure, and role-binding constraints. "
+        "Pattern-only adaptation for possibility-graph and deterministic replay gates; Python package runtime, compilers/loaders, docs examples, scripts, CI, and generated narrative journals are not executed or imported."
+    ),
+    "qcx1919788736-collab/craft-companion": (
+        "Craft Companion is an MIT local-first Chinese AI collaborative novel framework. Static README markers describe dual-entry onboarding for new novels and existing-manuscript imports, a unified AI entry instruction, a five-stage workflow, Writer execution layer, Evaluator review layer with confirmed/disputed/dismissed findings, Arbiter dispute resolution, final confirmation, checkpoints plus knowledge-base updates, bootstrap-entry migration, and doctor health checks. "
+        "Pattern-only adaptation for dual-entry arbitrated checkpoint gates; Node init, CLI commands, doctor runtime, project templates, generated prose, prompt bodies, and local knowledge bases are not executed or imported."
+    ),
+    "akarshkashyap4-ui/novelwriter": (
+        "NovelWriter is an MIT web-based novel writing app with AI-powered analysis tools embedded in the writing experience. Static README markers describe chapter/scene organization, character and plot planning, four Agent panel modes, Event Line, open plot-line and plot-hole detection, Connection Web, Story Pulse for pacing/tension/atmosphere/depth, optional Echo Chamber reader reactions, live mood/remarks, context-aware side panel, scene suggestions, summaries, world information, reading mode, and PDF export. "
+        "Pattern-only adaptation for live manuscript analytics and reader-reaction gates; npm install/dev runtime, AI side panel execution, mood art, generated summaries, reader simulations, provider calls, and manuscript data are not executed or imported."
+    ),
+    "franks-intellab/lumintree-intel": (
+        "LuminTree-Intel is an MIT local-first standalone web app for structured creative simulation through AI-assisted novel creation. Static README markers describe a six-category tree for Core Concept, Worldview Setting, Plot Framework, Character Profiles, Chapter Structure, and Writing Materials, a four-panel layout, category-aware AI assistant, AI writer that reads settings and style directives, smart import with AI classification, compile/export, two-way chapter sync, persistent AI history per node/chapter, localStorage, JSON export/import, and BYOK compatible endpoints. "
+        "Pattern-only adaptation for simulation-tree category gates; browser runtime, API configuration, voice input, provider calls, AI import classification, generated drafts, localStorage data, and JSON project backups are not executed or imported."
+    ),
+    "writerslogic/scrivener-mcp": (
+        "Scrivener MCP is an AGPL-3.0 MCP bridge for Scrivener 3 projects. Static README markers describe AI assistants opening, reading, editing, analyzing, and searching .scriv projects directly across Claude Desktop, Claude Code, VS Code, Cursor, and MCP-compatible clients, with examples such as chapter pacing analysis and manuscript search without copy-paste/export loops. "
+        "Pattern-only adaptation for external manuscript project analysis boundaries; npm/npx/Smithery/Homebrew/Docker install flows, MCP server launch, auto-configuration, .scriv project access, editing tools, local manuscripts, and assistant runtime are not executed or imported."
+    ),
+    "smith-and-web/kindling": (
+        "Kindling is an MIT local-first writing app for plotters and outliners. Static README markers describe visible outline/scene beats while drafting, scaffolded writing view, rich text prose editor with auto-save and word count, local SQLite project files, import from Scrivener/Plottr/yWriter/Obsidian Longform/Markdown, export to Scrivener/DOCX/EPUB/Markdown/Longform/Treatment, screenplay support, smart reference detection, custom fields/tags, beat sheet templates, reference panels, sync/reimport previews, and no AI/no subscription/no cloud posture. "
+        "Pattern-only adaptation for local outline/reference import-export gates; Tauri/Rust/Svelte runtime, installers, release assets, package builds, local SQLite projects, imports/exports, and manuscript data are not executed or imported."
+    ),
+    "jianghuaqi85-sys/novel-consistency-checker": (
+        "NovelEngine / Novel-Consistency-Checker is an MIT Chinese RAG consistency checker for long serial novels. Static README markers describe solving 吃书 through Markdown setting upload, heading-based chunking, ChromaDB collections, conflict warning panel, memory manager for character cards/setting cards/foreshadowing/timeline, five anti-contradiction rules for character/event/foreshadowing/style/checkflow, weighted retrieval across characters/events/factions/locations/novel_chunks, distance thresholds, summary compression, and incremental consistency review. "
+        "Pattern-only adaptation for weighted RAG consistency and memory-card gates; Fastify/Vue runtime, Python bridge, ChromaDB execution, LLM calls, prompt bodies, uploaded settings, vector databases, and generated conflict reports are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4828,6 +4891,15 @@ class NovelSourceDiscoveryService:
             "file_based_showrunner_canon_approval_gate_hints": self._build_file_based_showrunner_canon_approval_gate_hints(available_patterns),
             "nova_local_version_memory_role_gate_hints": self._build_nova_local_version_memory_role_gate_hints(available_patterns),
             "forge_agent_mcp_eval_contract_gate_hints": self._build_forge_agent_mcp_eval_contract_gate_hints(available_patterns),
+            "three_path_graph_diff_recall_gate_hints": self._build_three_path_graph_diff_recall_gate_hints(available_patterns),
+            "layered_parallel_audit_state_machine_gate_hints": self._build_layered_parallel_audit_state_machine_gate_hints(available_patterns),
+            "possibility_graph_dependency_replay_gate_hints": self._build_possibility_graph_dependency_replay_gate_hints(available_patterns),
+            "craft_companion_dual_entry_arbitration_gate_hints": self._build_craft_companion_dual_entry_arbitration_gate_hints(available_patterns),
+            "novelwriter_live_manuscript_analytics_gate_hints": self._build_novelwriter_live_manuscript_analytics_gate_hints(available_patterns),
+            "lumintree_simulation_tree_category_gate_hints": self._build_lumintree_simulation_tree_category_gate_hints(available_patterns),
+            "scrivener_mcp_project_analysis_boundary_gate_hints": self._build_scrivener_mcp_project_analysis_boundary_gate_hints(available_patterns),
+            "kindling_local_outline_reference_import_gate_hints": self._build_kindling_local_outline_reference_import_gate_hints(available_patterns),
+            "novelengine_weighted_rag_consistency_gate_hints": self._build_novelengine_weighted_rag_consistency_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -7243,6 +7315,33 @@ class NovelSourceDiscoveryService:
         if "forge_agent_mcp_eval_contract_gate" in patterns:
             targets.append("typed_chapter_operation_eval_policy")
             targets.append("mcp_runtime_deferred_contract_policy")
+        if "three_path_graph_diff_recall_gate" in patterns:
+            targets.append("chapter_diff_graph_recall_policy")
+            targets.append("three_path_context_assembly_policy")
+        if "layered_parallel_audit_state_machine_gate" in patterns:
+            targets.append("frozen_layer_parallel_chapter_policy")
+            targets.append("multi_head_audit_retry_policy")
+        if "possibility_graph_dependency_replay_gate" in patterns:
+            targets.append("possibility_graph_dependency_policy")
+            targets.append("deterministic_story_replay_policy")
+        if "craft_companion_dual_entry_arbitration_gate" in patterns:
+            targets.append("dual_entry_import_initialization_policy")
+            targets.append("writer_evaluator_arbiter_checkpoint_policy")
+        if "novelwriter_live_manuscript_analytics_gate" in patterns:
+            targets.append("live_manuscript_analytics_policy")
+            targets.append("reader_reaction_echo_policy")
+        if "lumintree_simulation_tree_category_gate" in patterns:
+            targets.append("six_category_simulation_tree_policy")
+            targets.append("category_aware_ai_panel_policy")
+        if "scrivener_mcp_project_analysis_boundary_gate" in patterns:
+            targets.append("external_manuscript_project_boundary_policy")
+            targets.append("direct_project_analysis_edit_scope_policy")
+        if "kindling_local_outline_reference_import_gate" in patterns:
+            targets.append("visible_outline_scene_beat_policy")
+            targets.append("local_import_export_reference_policy")
+        if "novelengine_weighted_rag_consistency_gate" in patterns:
+            targets.append("weighted_rag_consistency_policy")
+            targets.append("memory_card_conflict_warning_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8366,6 +8465,24 @@ class NovelSourceDiscoveryService:
             targets.extend(["local_version_memory_role_report", "author_memory_layer_snapshot_report"])
         if "forge_agent_mcp_eval_contract_gate" in patterns:
             targets.extend(["typed_operation_eval_contract_report", "chapter_mission_promise_budget_report"])
+        if "three_path_graph_diff_recall_gate" in patterns:
+            targets.extend(["chapter_diff_graph_recall_report", "three_path_context_coverage_report"])
+        if "layered_parallel_audit_state_machine_gate" in patterns:
+            targets.extend(["layer_freeze_parallel_generation_report", "multi_head_audit_retry_report"])
+        if "possibility_graph_dependency_replay_gate" in patterns:
+            targets.extend(["possibility_graph_dependency_closure_report", "deterministic_replay_journal_report"])
+        if "craft_companion_dual_entry_arbitration_gate" in patterns:
+            targets.extend(["dual_entry_import_readiness_report", "writer_evaluator_arbiter_checkpoint_report"])
+        if "novelwriter_live_manuscript_analytics_gate" in patterns:
+            targets.extend(["event_line_connection_web_report", "story_pulse_echo_chamber_report"])
+        if "lumintree_simulation_tree_category_gate" in patterns:
+            targets.extend(["six_category_tree_consistency_report", "category_aware_panel_history_report"])
+        if "scrivener_mcp_project_analysis_boundary_gate" in patterns:
+            targets.extend(["external_manuscript_project_scope_report", "direct_analysis_edit_boundary_report"])
+        if "kindling_local_outline_reference_import_gate" in patterns:
+            targets.extend(["outline_scene_beat_reference_report", "import_export_custody_report"])
+        if "novelengine_weighted_rag_consistency_gate" in patterns:
+            targets.extend(["weighted_rag_conflict_warning_report", "memory_card_timeline_foreshadowing_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -8996,6 +9113,24 @@ class NovelSourceDiscoveryService:
             hints.append("Persist local version id, author voice, obsessions, important facts, snapshot, cache memory, role handoff, and accepted/rejected edit status for each chapter.")
         if "forge_agent_mcp_eval_contract_gate" in patterns:
             hints.append("Persist typed operation ids, proposal status, promise progression, chapter mission, budget check result, targeted revision outcome, and eval-task regression notes.")
+        if "three_path_graph_diff_recall_gate" in patterns:
+            hints.append("Persist accepted chapter diffs, story-graph node/edge deltas, active foreshadowing threads, causal-chain deltas, structured lookup refs, graph traversal refs, and semantic-search refs before assembling the next chapter context.")
+        if "layered_parallel_audit_state_machine_gate" in patterns:
+            hints.append("Persist each layer freeze state, audit head verdicts, retry_hint, parallel chapter batch id, and whole-book premise review before allowing downstream prose or polish.")
+        if "possibility_graph_dependency_replay_gate" in patterns:
+            hints.append("Persist possibility-graph version, dependency closure, satisfiability findings, role bindings, traversal cursor, effects, and replay journal ids before accepting a branch or continuation path.")
+        if "craft_companion_dual_entry_arbitration_gate" in patterns:
+            hints.append("Persist onboarding path, imported-manuscript scope, knowledge-base readiness, Writer draft id, Evaluator confirmed/disputed/dismissed findings, Arbiter decision, checkpoint id, and knowledge-base update status.")
+        if "novelwriter_live_manuscript_analytics_gate" in patterns:
+            hints.append("Persist Event Line entries, open plot-line ids, Connection Web edges, Story Pulse metrics, inline suggestion status, Echo Chamber reaction ids, and live mood/remark snapshots as diagnostics, not canon.")
+        if "lumintree_simulation_tree_category_gate" in patterns:
+            hints.append("Persist six-category tree nodes, category-aware AI history ids, smart-import classification decisions, chapter sync links, writing-material directives, and JSON backup version before generation.")
+        if "scrivener_mcp_project_analysis_boundary_gate" in patterns:
+            hints.append("Persist external manuscript project id, read/analyze/edit/search scope, chapter targets, pacing findings, proposed edits, author acceptance, and MCP runtime exclusion before any direct-project workflow is considered.")
+        if "kindling_local_outline_reference_import_gate" in patterns:
+            hints.append("Persist visible outline beat ids, scene references, custom fields/tags, smart reference links, import source, export target, sync/reimport preview id, and local custody status with each draft package.")
+        if "novelengine_weighted_rag_consistency_gate" in patterns:
+            hints.append("Persist Markdown setting chunk ids, collection weights, distance thresholds, memory-card hits, foreshadowing/timeline constraints, conflict severity, suggested fix, and incremental review status before continuation.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -14338,6 +14473,87 @@ class NovelSourceDiscoveryService:
             "ForClaw MCP server, stdio tools, provider calls, credential pools, plugin marketplace config, Rust builds, eval fixtures, generated text, and traces remain non-executed and non-imported.",
         ]
 
+    def _build_three_path_graph_diff_recall_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "three_path_graph_diff_recall_gate" not in patterns:
+            return []
+        return [
+            "After each accepted chapter, record a narrative diff as typed graph node/edge deltas before updating continuation memory.",
+            "Assemble the next chapter context through three explicit paths: structured beat/source lookup, graph traversal for causal and foreshadowing obligations, and semantic search for thematic echoes.",
+            "write_ai_agent plugin runtime, Python scripts, ChromaDB/NetworkX execution, generated YAML diffs, vector indexes, provider calls, and upstream prompt bodies remain excluded from static intake.",
+        ]
+
+    def _build_layered_parallel_audit_state_machine_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "layered_parallel_audit_state_machine_gate" not in patterns:
+            return []
+        return [
+            "Freeze and approve whole-book skeleton and chapter-outline layers before parallel chapter drafting; downstream prose reads frozen state rather than improvising new canon.",
+            "Run separate audit heads for logic, pacing, character, and style, then feed specific retry_hint items back to the failed layer instead of regenerating the whole project.",
+            "NOVEL-Studio demos, Claude Code session workflow, file-dumped prompts, provider handoff, style-transfer examples, package scripts, and generated sample novels remain excluded from static intake.",
+        ]
+
+    def _build_possibility_graph_dependency_replay_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "possibility_graph_dependency_replay_gate" not in patterns:
+            return []
+        return [
+            "Treat same-type and branchable story work as a possibility graph: events, roles, places, rules, requirements, and relationships must pass dependency closure before prose is emitted.",
+            "Record traversal cursor, resolved bindings, effects, and linear journal ids so a chosen story path can be replayed and audited deterministically.",
+            "StoryTangl runtime, Python loaders, compilers, docs examples, CI, scripts, and generated narrative journals remain excluded from static intake.",
+        ]
+
+    def _build_craft_companion_dual_entry_arbitration_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "craft_companion_dual_entry_arbitration_gate" not in patterns:
+            return []
+        return [
+            "Route project setup through an explicit dual entry: from-zero creation or existing-manuscript import, then require knowledge-base readiness before drafting.",
+            "Split chapter acceptance into Writer self-check, Evaluator findings marked confirmed/disputed/dismissed, Arbiter dispute decisions, final confirmation, checkpoint, and knowledge-base update.",
+            "Craft Companion Node init, CLI commands, doctor runtime, project templates, prompt bodies, generated prose, and local knowledge bases remain excluded from static intake.",
+        ]
+
+    def _build_novelwriter_live_manuscript_analytics_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novelwriter_live_manuscript_analytics_gate" not in patterns:
+            return []
+        return [
+            "Surface live manuscript diagnostics as separate evidence layers: Event Line, open plot lines, Connection Web, Story Pulse, inline suggestions, and optional Echo Chamber reader reactions.",
+            "Treat live mood, remarks, reader simulations, and side-panel analysis as advisory diagnostics that need author acceptance before changing canon or prose.",
+            "NovelWriter npm runtime, AI side panel execution, provider calls, mood art, generated summaries, reader simulations, PDF export, and manuscript data remain excluded from static intake.",
+        ]
+
+    def _build_lumintree_simulation_tree_category_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "lumintree_simulation_tree_category_gate" not in patterns:
+            return []
+        return [
+            "Organize book memory as a six-category simulation tree: core concept, worldview setting, plot framework, character profiles, chapter structure, and writing materials.",
+            "Bind AI assistance to the active category and preserve per-node/per-chapter history so setting advice, plot advice, style directives, and chapter generation do not bleed together.",
+            "LuminTree browser runtime, API endpoint configuration, voice input, provider calls, AI import classification, generated drafts, localStorage data, and JSON project backups remain excluded from static intake.",
+        ]
+
+    def _build_scrivener_mcp_project_analysis_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scrivener_mcp_project_analysis_boundary_gate" not in patterns:
+            return []
+        return [
+            "Treat external manuscript containers such as .scriv projects as explicit project-boundary artifacts with separate read, analyze, search, and edit scopes.",
+            "Pacing, structure, or continuity findings from a direct project bridge should become review proposals with author acceptance, not automatic edits to the source manuscript.",
+            "Scrivener MCP install flows, MCP server launch, auto-configuration, .scriv project access, editing tools, local manuscripts, and assistant runtime remain excluded from static intake.",
+        ]
+
+    def _build_kindling_local_outline_reference_import_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "kindling_local_outline_reference_import_gate" not in patterns:
+            return []
+        return [
+            "Keep scene beats visible as scaffolded prompts while drafting, with a clean boundary between outline context and accepted prose.",
+            "Record import/export custody across Scrivener, Plottr, yWriter, Obsidian Longform, Markdown, DOCX, EPUB, and Treatment targets before remapping manuscript structure.",
+            "Kindling Tauri/Rust/Svelte runtime, installers, release assets, local SQLite projects, parser execution, imports/exports, and manuscript data remain excluded from static intake.",
+        ]
+
+    def _build_novelengine_weighted_rag_consistency_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novelengine_weighted_rag_consistency_gate" not in patterns:
+            return []
+        return [
+            "Before续写, run consistency evidence through weighted lanes: characters, events, factions, locations, raw chapter chunks, memory cards, foreshadowing, and timeline.",
+            "Treat conflict warnings as typed findings with severity, source memory refs, suggested fixes, and incremental review status before any rewrite is accepted.",
+            "NovelEngine Fastify/Vue runtime, Python bridge, ChromaDB execution, LLM calls, prompt bodies, uploaded settings, vector databases, and generated reports remain excluded from static intake.",
+        ]
+
 
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
@@ -15385,6 +15601,33 @@ class NovelSourceDiscoveryService:
         if "forge_agent_mcp_eval_contract_gate" in patterns:
             targets.append("typed_operation_eval_contract_remap")
             targets.append("chapter_mission_promise_remap")
+        if "three_path_graph_diff_recall_gate" in patterns:
+            targets.append("graph_diff_recall_remap")
+            targets.append("three_path_context_remap")
+        if "layered_parallel_audit_state_machine_gate" in patterns:
+            targets.append("frozen_layer_parallel_generation_remap")
+            targets.append("multi_head_audit_retry_remap")
+        if "possibility_graph_dependency_replay_gate" in patterns:
+            targets.append("possibility_graph_dependency_remap")
+            targets.append("deterministic_replay_journal_remap")
+        if "craft_companion_dual_entry_arbitration_gate" in patterns:
+            targets.append("dual_entry_import_checkpoint_remap")
+            targets.append("writer_evaluator_arbiter_remap")
+        if "novelwriter_live_manuscript_analytics_gate" in patterns:
+            targets.append("event_line_story_pulse_remap")
+            targets.append("reader_echo_reaction_remap")
+        if "lumintree_simulation_tree_category_gate" in patterns:
+            targets.append("six_category_simulation_tree_remap")
+            targets.append("category_aware_history_remap")
+        if "scrivener_mcp_project_analysis_boundary_gate" in patterns:
+            targets.append("external_manuscript_boundary_remap")
+            targets.append("direct_project_analysis_edit_remap")
+        if "kindling_local_outline_reference_import_gate" in patterns:
+            targets.append("visible_outline_scene_beat_remap")
+            targets.append("local_import_export_reference_remap")
+        if "novelengine_weighted_rag_consistency_gate" in patterns:
+            targets.append("weighted_rag_consistency_remap")
+            targets.append("memory_card_conflict_warning_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15484,6 +15727,24 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt with local memory layers and role boundaries as abstract slots: author voice, snapshot, cache, architect plan, writer draft, editor review.")
         if "forge_agent_mcp_eval_contract_gate" in patterns:
             hints.append("Prompt chapter work as typed proposals with promise, mission, budget, revision, and eval evidence; do not call MCP tools or import fixtures.")
+        if "three_path_graph_diff_recall_gate" in patterns:
+            hints.append("Prompt from target-story graph diffs and three-path recall evidence; source graph schemas and example YAML stay outside drafting context.")
+        if "layered_parallel_audit_state_machine_gate" in patterns:
+            hints.append("Prompt each generation layer from frozen target skeleton/outlines plus audit-head retry hints, not from upstream generated demo prose or provider prompt files.")
+        if "possibility_graph_dependency_replay_gate" in patterns:
+            hints.append("Prompt branchable scenes from target possibility-graph bindings, dependency checks, and replay cursor rather than copying upstream graph examples.")
+        if "craft_companion_dual_entry_arbitration_gate" in patterns:
+            hints.append("Prompt using the target project's selected onboarding path, knowledge-base readiness, checkpoint, and arbitrated findings; upstream templates and unified-entry prompt bodies stay out.")
+        if "novelwriter_live_manuscript_analytics_gate" in patterns:
+            hints.append("Prompt revisions from target Event Line, Connection Web, Story Pulse, and accepted inline suggestions; Echo Chamber reactions remain advisory unless the author accepts them.")
+        if "lumintree_simulation_tree_category_gate" in patterns:
+            hints.append("Prompt each pass from the active target category tree node and its writing-material directives, keeping category-specific AI history separate from accepted canon.")
+        if "scrivener_mcp_project_analysis_boundary_gate" in patterns:
+            hints.append("Prompt direct manuscript analysis only from target-authorized project excerpts and scope metadata; bridge findings must become review proposals, not source edits.")
+        if "kindling_local_outline_reference_import_gate" in patterns:
+            hints.append("Prompt drafting with target scene beats visible beside prose, while import/export mapping and reference links stay metadata rather than story content.")
+        if "novelengine_weighted_rag_consistency_gate" in patterns:
+            hints.append("Prompt consistency checks with weighted target memory lanes and conflict warnings before revision; do not import upstream check prompts or sample reports.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -16231,6 +16492,24 @@ class NovelSourceDiscoveryService:
             hints.append("Transform Nova-style memory slots into target author preferences, project snapshots, role notes, and version labels tied to accepted MuMuAINovel artifacts.")
         if "forge_agent_mcp_eval_contract_gate" in patterns:
             hints.append("Transform Forge-style chapter missions, promise ledgers, typed operations, and eval task categories into local non-runtime review criteria.")
+        if "three_path_graph_diff_recall_gate" in patterns:
+            hints.append("Transform graph-diff recall into MuMuAINovel chapter-state deltas, causal/foreshadowing obligations, and context-source ids tied to accepted target chapters.")
+        if "layered_parallel_audit_state_machine_gate" in patterns:
+            hints.append("Transform layered generation into target freeze gates, parallel chapter batches, audit-head verdicts, and retry hints without carrying upstream skeletons or demos.")
+        if "possibility_graph_dependency_replay_gate" in patterns:
+            hints.append("Transform possibility-graph mechanics into target dependency closures, role bindings, traversal cursors, and replay journals with fresh story entities.")
+        if "craft_companion_dual_entry_arbitration_gate" in patterns:
+            hints.append("Transform dual-entry workflows into MuMuAINovel import/new-project readiness packets, Writer/Evaluator/Arbiter findings, checkpoints, and knowledge-base update records.")
+        if "novelwriter_live_manuscript_analytics_gate" in patterns:
+            hints.append("Transform live analytics into local event lines, plot-line debt, connection edges, pulse metrics, and author-accepted scene suggestions for the target manuscript.")
+        if "lumintree_simulation_tree_category_gate" in patterns:
+            hints.append("Transform simulation-tree categories into target core concept, worldview, plot framework, character, chapter, and writing-material nodes with independent history.")
+        if "scrivener_mcp_project_analysis_boundary_gate" in patterns:
+            hints.append("Transform direct-project bridge ideas into MuMuAINovel scoped analysis packets, proposed edit spans, and author-accepted deltas without touching external manuscript containers.")
+        if "kindling_local_outline_reference_import_gate" in patterns:
+            hints.append("Transform outline-visible drafting into target scene beat prompts, reference links, import/export custody, and sync-preview records separate from prose.")
+        if "novelengine_weighted_rag_consistency_gate" in patterns:
+            hints.append("Transform weighted RAG checks into target memory-card lanes, conflict warning severities, and incremental review records tied to accepted MuMuAINovel state.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -17018,6 +17297,24 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outputs that import Nova local workspace files, version snapshots, memory candidates, endpoint profiles, or desktop storage labels into accepted canon.")
         if "forge_agent_mcp_eval_contract_gate" in patterns:
             hints.append("Reject outputs that import ForClaw fixture stories, MCP tool schemas, trace text, provider-budget logs, or eval task wording as new story content.")
+        if "three_path_graph_diff_recall_gate" in patterns:
+            hints.append("Reject outputs that copy write_ai_agent sample chapter diffs, graph edge labels as story content, LLM Wiki entries, semantic-search snippets, or plugin prompt bodies.")
+        if "layered_parallel_audit_state_machine_gate" in patterns:
+            hints.append("Reject outputs that preserve NOVEL-Studio demo skeletons, layer prompts, audit wording, retry_hint text, style-transfer examples, or generated sample scenes.")
+        if "possibility_graph_dependency_replay_gate" in patterns:
+            hints.append("Reject outputs that copy StoryTangl docs examples, graph scripts, phase-bus labels, traversal journals, or named narratology examples as accepted fiction.")
+        if "craft_companion_dual_entry_arbitration_gate" in patterns:
+            hints.append("Reject outputs that copy Craft Companion prompt templates, START_HERE instructions, local knowledge-base examples, checkpoint wording, or generated project scaffolds.")
+        if "novelwriter_live_manuscript_analytics_gate" in patterns:
+            hints.append("Reject outputs that import NovelWriter reader-reaction text, mood remarks, Event Line examples, Connection Web labels, Story Pulse wording, or side-panel generated prose.")
+        if "lumintree_simulation_tree_category_gate" in patterns:
+            hints.append("Reject outputs that copy LuminTree tree examples, category prompt wording, smart-import classifications, AI chat history, localStorage data, or JSON backup content.")
+        if "scrivener_mcp_project_analysis_boundary_gate" in patterns:
+            hints.append("Reject outputs that copy Scrivener MCP tool schemas, install commands, sample project analysis text, local .scriv content, or direct-edit instructions as story material.")
+        if "kindling_local_outline_reference_import_gate" in patterns:
+            hints.append("Reject outputs that copy Kindling demo beats, parser examples, reference labels, export templates, local SQLite data, or release/demo assets into accepted fiction.")
+        if "novelengine_weighted_rag_consistency_gate" in patterns:
+            hints.append("Reject outputs that copy NovelEngine prompt rules, sample memory cards, conflict report wording, Chroma collection data, uploaded settings, or vector-search snippets.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -17924,6 +18221,15 @@ class NovelSourceDiscoveryService:
                 "file_based_showrunner_canon_approval_gate",
                 "nova_local_version_memory_role_gate",
                 "forge_agent_mcp_eval_contract_gate",
+                "three_path_graph_diff_recall_gate",
+                "layered_parallel_audit_state_machine_gate",
+                "possibility_graph_dependency_replay_gate",
+                "craft_companion_dual_entry_arbitration_gate",
+                "novelwriter_live_manuscript_analytics_gate",
+                "lumintree_simulation_tree_category_gate",
+                "scrivener_mcp_project_analysis_boundary_gate",
+                "kindling_local_outline_reference_import_gate",
+                "novelengine_weighted_rag_consistency_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",

@@ -356,6 +356,15 @@ export interface SourceDiscoveryPatternPack {
   file_based_showrunner_canon_approval_gate_hints?: string[];
   nova_local_version_memory_role_gate_hints?: string[];
   forge_agent_mcp_eval_contract_gate_hints?: string[];
+  three_path_graph_diff_recall_gate_hints?: string[];
+  layered_parallel_audit_state_machine_gate_hints?: string[];
+  possibility_graph_dependency_replay_gate_hints?: string[];
+  craft_companion_dual_entry_arbitration_gate_hints?: string[];
+  novelwriter_live_manuscript_analytics_gate_hints?: string[];
+  lumintree_simulation_tree_category_gate_hints?: string[];
+  scrivener_mcp_project_analysis_boundary_gate_hints?: string[];
+  kindling_local_outline_reference_import_gate_hints?: string[];
+  novelengine_weighted_rag_consistency_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

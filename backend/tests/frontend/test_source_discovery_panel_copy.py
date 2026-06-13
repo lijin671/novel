@@ -149,6 +149,15 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "file_based_showrunner_canon_approval_gate_hints",
             "nova_local_version_memory_role_gate_hints",
             "forge_agent_mcp_eval_contract_gate_hints",
+            "three_path_graph_diff_recall_gate_hints",
+            "layered_parallel_audit_state_machine_gate_hints",
+            "possibility_graph_dependency_replay_gate_hints",
+            "craft_companion_dual_entry_arbitration_gate_hints",
+            "novelwriter_live_manuscript_analytics_gate_hints",
+            "lumintree_simulation_tree_category_gate_hints",
+            "scrivener_mcp_project_analysis_boundary_gate_hints",
+            "kindling_local_outline_reference_import_gate_hints",
+            "novelengine_weighted_rag_consistency_gate_hints",
             "chinese_segmentation_keyword_gate_hints",
             "chinese_ner_alias_consistency_gate_hints",
             "chinese_text_normalization_gate_hints",
@@ -480,6 +489,15 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "File-based showrunner canon approval gates" in panel_text
     assert "Nova local version-memory role gates" in panel_text
     assert "Forge Agent MCP eval contract gates" in panel_text
+    assert "Three-path graph diff recall gates" in panel_text
+    assert "Layered parallel audit state-machine gates" in panel_text
+    assert "Possibility graph dependency replay gates" in panel_text
+    assert "Craft Companion dual-entry arbitration gates" in panel_text
+    assert "NovelWriter live manuscript analytics gates" in panel_text
+    assert "LuminTree simulation category gates" in panel_text
+    assert "Scrivener MCP project analysis boundary gates" in panel_text
+    assert "Kindling local outline reference import gates" in panel_text
+    assert "NovelEngine weighted RAG consistency gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text
