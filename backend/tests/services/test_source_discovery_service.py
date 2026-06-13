@@ -18186,3 +18186,114 @@ def test_static_external_project_outline_weighted_rag_sources_are_absorbed():
     assert "scrivener_mcp_project_analysis_boundary_gate_hints" in digest
     assert "kindling_local_outline_reference_import_gate_hints" in digest
     assert "novelengine_weighted_rag_consistency_gate_hints" in digest
+
+
+def test_static_showrunner_workbench_ironlaw_elementswap_sources_are_absorbed():
+    assert "https://github.com/liuyichen118-png/fiction-showrunner-skill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/huahaiwujiang/novelist-workbench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/BillChen-29/novel-base" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dama-cyber/novel-ai-system" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("fiction-showrunner-skill" in query and "foreshadowing-tracker" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Phase 1 拆书" in query and "风格参考手册" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Iron Law" in query and "outline anchors" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("拆书分析与换元仿写" in query and "combined-revision" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "liuyichen118-png/fiction-showrunner-skill",
+                "html_url": "https://github.com/liuyichen118-png/fiction-showrunner-skill",
+                "description": (
+                    "fiction-showrunner-skill is a reusable Agent Skill for long-form fiction. "
+                    "It runs story bible -> character bible -> chapter brief -> draft -> continuity update -> quality check, "
+                    "with continuity-tracker.md, foreshadowing-tracker.md, revision-checklist.md, a quality scanner, and public release review with no private story canon."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["fiction", "showrunner", "continuity"],
+                "updated_at": "2026-06-12T15:28:16Z",
+                "root_files": ["README.md", "README.zh-CN.md", "LICENSE", "SKILL.md", "PUBLIC_RELEASE_REVIEW.md", "templates", "scripts/scan_chapter_quality.py"],
+            },
+            {
+                "full_name": "huahaiwujiang/novelist-workbench",
+                "html_url": "https://github.com/huahaiwujiang/novelist-workbench",
+                "description": (
+                    "AI 中文小说创作工作站 separates original and imitation workflows. "
+                    "For 仿写, Phase 1 拆书 writes 风格参考手册 from read-only references/, then chinese-novelist locks chapter count, writes outline, and advances chapters serially. "
+                    "README stays short while SKILL is the authority."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "skills", "imitation"],
+                "updated_at": "2026-06-02T08:29:44Z",
+                "root_files": ["README.md", "AGENTS.md", "CLAUDE.md", "LICENSE", ".claude/skills/chinese-novelist/SKILL.md", "references", "novels", "web-studio", "package.json"],
+            },
+            {
+                "full_name": "BillChen-29/novel-base",
+                "html_url": "https://github.com/BillChen-29/novel-base",
+                "description": (
+                    "Novel Base is a Chinese novel skill with motif -> archetype -> plot chains, 六层一致性, truth files, state tracking, knowledge graph, outline anchors, RAG, cross-agent review, "
+                    "Iron Law chapter gates, 反解决机制, event cooldown, mandatory chapter loops, outline_anchors.json, and gate artifacts."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "skill", "knowledge-graph"],
+                "updated_at": "2026-05-21T07:45:03Z",
+                "root_files": ["README.md", "SKILL.md", "WORKFLOW.md", "skill-definition.json", "scripts", "templates", "references"],
+            },
+            {
+                "full_name": "dama-cyber/novel-ai-system",
+                "html_url": "https://github.com/dama-cyber/novel-ai-system",
+                "description": (
+                    "novel-ai-system is an ultra-long Chinese novel system with 拆书分析与换元仿写, split-book-analyzer, element-swapper, content-rewriter, combined-revision, "
+                    "逐章累积分析, AI文体工程, enhancement suite continuation revision optimization, sandbox creation, and quality checks."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "rewrite", "style"],
+                "updated_at": "2026-02-19T12:34:00Z",
+                "root_files": ["README.md", "LICENSE", "Dockerfile", "package.json", "novelai.ps1", "SKILLS.md", "PROMPTS.md", "MODULE_INDEX.md", "scripts/21-combined-revision.sh", "scripts/24-content-rewriter.sh"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T13:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "public_showrunner_template_release_gate" in candidates["liuyichen118-png/fiction-showrunner-skill"]["absorbed_patterns"]
+    assert "phase1_style_manual_reference_boundary_gate" in candidates["huahaiwujiang/novelist-workbench"]["absorbed_patterns"]
+    assert "six_layer_iron_law_chapter_gate" in candidates["BillChen-29/novel-base"]["absorbed_patterns"]
+    assert "element_swap_deconstruction_rewrite_pipeline_gate" in candidates["dama-cyber/novel-ai-system"]["absorbed_patterns"]
+    assert "license:noassertion" in candidates["BillChen-29/novel-base"]["trust_review"]["flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "public_showrunner_template_chain_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "phase1_style_manual_reference_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "six_layer_chapter_consistency_gate_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "deconstruction_element_swap_rewrite_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "showrunner_template_release_scope_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "phase1_style_manual_reference_scope_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "six_layer_iron_law_gate_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "element_swap_rewrite_pipeline_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "showrunner_template_release_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "phase1_style_manual_reference_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "six_layer_iron_law_gate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "element_swap_rewrite_pipeline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("public-release" in hint.lower() for hint in pattern_pack["public_showrunner_template_release_gate_hints"])
+    assert any("phase 1 source deconstruction" in hint.lower() for hint in pattern_pack["phase1_style_manual_reference_boundary_gate_hints"])
+    assert any("failed gate blocks" in hint.lower() for hint in pattern_pack["six_layer_iron_law_chapter_gate_hints"])
+    assert any("element swaps abstract" in hint.lower() for hint in pattern_pack["element_swap_deconstruction_rewrite_pipeline_gate_hints"])
+    assert any("chapter-count lock" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("element-swap rewrites" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("novel-ai-system prompt bodies" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "public_showrunner_template_release_gate_hints" in digest
+    assert "phase1_style_manual_reference_boundary_gate_hints" in digest
+    assert "six_layer_iron_law_chapter_gate_hints" in digest
+    assert "element_swap_deconstruction_rewrite_pipeline_gate_hints" in digest

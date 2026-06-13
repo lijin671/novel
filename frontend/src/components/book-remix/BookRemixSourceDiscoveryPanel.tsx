@@ -383,6 +383,10 @@ const PINNED_HINT_KEYS = new Set([
   'scrivener_mcp_project_analysis_boundary_gate_hints',
   'kindling_local_outline_reference_import_gate_hints',
   'novelengine_weighted_rag_consistency_gate_hints',
+  'public_showrunner_template_release_gate_hints',
+  'phase1_style_manual_reference_boundary_gate_hints',
+  'six_layer_iron_law_chapter_gate_hints',
+  'element_swap_deconstruction_rewrite_pipeline_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -828,6 +832,10 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Scrivener MCP project analysis boundary gates', patternPackPayload?.scrivener_mcp_project_analysis_boundary_gate_hints],
               ['Kindling local outline reference import gates', patternPackPayload?.kindling_local_outline_reference_import_gate_hints],
               ['NovelEngine weighted RAG consistency gates', patternPackPayload?.novelengine_weighted_rag_consistency_gate_hints],
+              ['Public showrunner template release gates', patternPackPayload?.public_showrunner_template_release_gate_hints],
+              ['Phase-1 style manual reference boundary gates', patternPackPayload?.phase1_style_manual_reference_boundary_gate_hints],
+              ['Six-layer Iron Law chapter gates', patternPackPayload?.six_layer_iron_law_chapter_gate_hints],
+              ['Element-swap deconstruction rewrite gates', patternPackPayload?.element_swap_deconstruction_rewrite_pipeline_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

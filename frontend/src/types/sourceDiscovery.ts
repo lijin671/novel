@@ -365,6 +365,10 @@ export interface SourceDiscoveryPatternPack {
   scrivener_mcp_project_analysis_boundary_gate_hints?: string[];
   kindling_local_outline_reference_import_gate_hints?: string[];
   novelengine_weighted_rag_consistency_gate_hints?: string[];
+  public_showrunner_template_release_gate_hints?: string[];
+  phase1_style_manual_reference_boundary_gate_hints?: string[];
+  six_layer_iron_law_chapter_gate_hints?: string[];
+  element_swap_deconstruction_rewrite_pipeline_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

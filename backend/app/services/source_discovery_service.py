@@ -443,6 +443,10 @@ DEFAULT_GITHUB_QUERIES = (
     '("Webnovel Writer Codex" OR "Codex-native" OR "parity validation") ("webnovel" OR "skills" OR "agents") in:name,description,readme',
     '("API-free external flow" OR "cataloging_external_no_api" OR "prepare_external_writing_context") ("novel" OR "external agent" OR "chapter draft") in:name,description,readme',
     '("rolling summaries" OR "global memory file" OR "chapter plans") ("long-form fiction" OR "copyright note" OR "source material") in:name,description,readme',
+    '("fiction-showrunner-skill" OR "story bible -> character bible" OR "foreshadowing-tracker") ("chapter brief" OR "quality scanner" OR "public release review") in:name,description,readme',
+    '("AI 中文小说创作工作站" OR "Phase 1 拆书" OR "风格参考手册") ("references/" OR "章数锁定" OR "逐章必须串行") in:name,description,readme',
+    '("Novel Base" OR "Iron Law" OR "outline anchors") ("六层一致性" OR "反解决机制" OR "门禁失败") in:name,description,readme',
+    '("拆书分析与换元仿写" OR "逐章累积分析" OR "AI文体工程") ("content-rewriter" OR "element-swapper" OR "combined-revision") in:name,description,readme',
     '("AI + tools + memory + planning + reflection" OR "Agent（智能体）" OR "网文写作助手") ("续写" OR "伏笔" OR "语义搜索") in:name,description,readme',
     '("AI自动写小说系统" OR "5000章" OR "分层记忆架构") ("15种类型" OR "80+标签" OR "一致性审校") in:name,description,readme',
     '("L3" OR "L2" OR "L1" OR "L0") ("主线 + 支线" OR "自动分卷" OR "一致性检查") ("AI 小说" OR "Electron") in:name,description,readme',
@@ -1068,6 +1072,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/writerslogic/scrivener-mcp",
     "https://github.com/smith-and-web/kindling",
     "https://github.com/jianghuaqi85-sys/Novel-Consistency-Checker",
+    "https://github.com/liuyichen118-png/fiction-showrunner-skill",
+    "https://github.com/huahaiwujiang/novelist-workbench",
+    "https://github.com/BillChen-29/novel-base",
+    "https://github.com/dama-cyber/novel-ai-system",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
@@ -1573,6 +1581,10 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("scrivener_mcp_project_analysis_boundary_gate", ("scrivener mcp", ".scriv project", "open, read, edit, analyze, and search", "pacing analysis", "chapter 12", "no copy-pasting", "mcp-compatible client", "claude desktop", "claude code", "scrivener 3")),
     ("kindling_local_outline_reference_import_gate", ("kindling", "outline stays visible", "scaffolded writing view", "scene beats", "expandable prompts", "scrivener import/export", "plottr", "ywriter", "obsidian longform", "local sqlite", "smart reference detection", "beat sheet templates")),
     ("novelengine_weighted_rag_consistency_gate", ("novelengine", "吃书", "rag", "冲突预警面板", "markdown 解析", "chroma", "加权检索", "characters 1.5", "events 1.2", "foreshadowing", "timeline", "人物卡", "设定卡", "增量审查")),
+    ("public_showrunner_template_release_gate", ("fiction-showrunner-skill", "story bible -> character bible", "chapter brief", "continuity-tracker.md", "foreshadowing-tracker.md", "revision-checklist.md", "quality scanner", "public release review", "no private story canon")),
+    ("phase1_style_manual_reference_boundary_gate", ("novelist-workbench", "AI 中文小说创作工作站", "原创和仿写", "Phase 1 拆书", "风格参考手册", "references/", "只读参考", "章数锁定", "逐章必须串行", "详情在 SKILL")),
+    ("six_layer_iron_law_chapter_gate", ("novel-base", "Iron Law", "六层一致性", "真相文件", "状态追踪", "知识图谱", "大纲锚点", "反解决机制", "门禁失败", "修复本章", "outline_anchors.json")),
+    ("element_swap_deconstruction_rewrite_pipeline_gate", ("novel-ai-system", "拆书分析与换元仿写", "split-book-analyzer", "element-swapper", "content-rewriter", "combined-revision", "逐章累积分析", "AI文体工程", "sandbox 创作法", "enhancement suite")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4055,6 +4067,22 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "NovelEngine / Novel-Consistency-Checker is an MIT Chinese RAG consistency checker for long serial novels. Static README markers describe solving 吃书 through Markdown setting upload, heading-based chunking, ChromaDB collections, conflict warning panel, memory manager for character cards/setting cards/foreshadowing/timeline, five anti-contradiction rules for character/event/foreshadowing/style/checkflow, weighted retrieval across characters/events/factions/locations/novel_chunks, distance thresholds, summary compression, and incremental consistency review. "
         "Pattern-only adaptation for weighted RAG consistency and memory-card gates; Fastify/Vue runtime, Python bridge, ChromaDB execution, LLM calls, prompt bodies, uploaded settings, vector databases, and generated conflict reports are not executed or imported."
     ),
+    "liuyichen118-png/fiction-showrunner-skill": (
+        "fiction-showrunner-skill is an MIT reusable Agent Skill for long-form fiction planning, drafting, revision, and continuity. Static README/SKILL markers describe story bible -> character bible -> chapter brief -> draft -> continuity update -> quality check, viewpoint knowledge boundaries, pacing guardrails, foreshadowing tracking, reusable templates, a chapter quality scanner, and a public-release review that excludes private story canon. "
+        "Pattern-only adaptation for public showrunner template release gates; copied skill folders, helper scripts, templates, sample chapters, and upstream prompt bodies are not installed, executed, or imported."
+    ),
+    "huahaiwujiang/novelist-workbench": (
+        "novelist-workbench is an MIT Chinese local novel workbench for AI assistants. Static README/AGENTS markers describe short root instructions with SKILL as the authority, original versus imitation workflows, Phase 1 source-book deconstruction into a style reference manual, read-only references/, confirmed novel folders, chapter-count locking before outlines, serial chapter writing, built-in skills, and docx/export lanes. "
+        "Pattern-only adaptation for Phase-1 style-manual and read-only reference boundaries; local .claude skills, reference works, generated novels, package scripts, web-studio runtime, and upstream prompt bodies are not executed or imported."
+    ),
+    "billchen-29/novel-base": (
+        "novel-base is a no-license-file-observed Chinese novel creation skill/workflow. Static README/SKILL/skill-definition markers describe motif -> archetype -> plot chains, six-layer consistency through truth files, state tracking, knowledge graph, outline anchors, RAG retrieval and cross-agent review, Iron Law chapter gates, anti-resolution brakes, event cooldown, mandatory chapter loops, smart-state reads, outline_anchors.json, and chapter gate artifacts. "
+        "Pattern-only adaptation for six-layer Iron Law chapter gates; Hermes skill runtime, scripts, databases, provider endpoints, slash commands, assets, and generated story content are not executed or imported."
+    ),
+    "dama-cyber/novel-ai-system": (
+        "novel-ai-system is an MIT ultra-long Chinese novel AI creation system. Static README/SKILLS/PROMPTS/MODULE_INDEX markers describe split-book analysis, element swap, content rewrite, combined deconstruction-and-imitation revision, chapter-by-chapter cumulative analysis, stylus/style engineering, enhancement suite continuation/revision/optimization, sandbox creation, quality checks, and module indexes. "
+        "Pattern-only adaptation for element-swap deconstruction rewrite pipelines; Docker, Qwen CLI/OAuth, npm scripts, shell/PowerShell/batch scripts, server runtime, provider calls, prompt bodies, and generated examples are not executed or imported."
+    ),
     "b1lli/remove-ai-flavor-writing-skill": (
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
@@ -4900,6 +4928,10 @@ class NovelSourceDiscoveryService:
             "scrivener_mcp_project_analysis_boundary_gate_hints": self._build_scrivener_mcp_project_analysis_boundary_gate_hints(available_patterns),
             "kindling_local_outline_reference_import_gate_hints": self._build_kindling_local_outline_reference_import_gate_hints(available_patterns),
             "novelengine_weighted_rag_consistency_gate_hints": self._build_novelengine_weighted_rag_consistency_gate_hints(available_patterns),
+            "public_showrunner_template_release_gate_hints": self._build_public_showrunner_template_release_gate_hints(available_patterns),
+            "phase1_style_manual_reference_boundary_gate_hints": self._build_phase1_style_manual_reference_boundary_gate_hints(available_patterns),
+            "six_layer_iron_law_chapter_gate_hints": self._build_six_layer_iron_law_chapter_gate_hints(available_patterns),
+            "element_swap_deconstruction_rewrite_pipeline_gate_hints": self._build_element_swap_deconstruction_rewrite_pipeline_gate_hints(available_patterns),
             "inspired_mapping_targets": self._build_inspired_mapping_targets(available_patterns),
             "inspired_prompt_hints": self._build_inspired_prompt_hints(available_patterns),
             "inspired_transformation_hints": self._build_inspired_transformation_hints(available_patterns),
@@ -5758,6 +5790,10 @@ class NovelSourceDiscoveryService:
             "atelier_phase_pipeline_gate": 66,
             "book_mining_genesis_automation_gate": 70,
             "multi_book_autopilot_studio_gate": 66,
+            "public_showrunner_template_release_gate": 68,
+            "phase1_style_manual_reference_boundary_gate": 69,
+            "six_layer_iron_law_chapter_gate": 70,
+            "element_swap_deconstruction_rewrite_pipeline_gate": 69,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -7342,6 +7378,18 @@ class NovelSourceDiscoveryService:
         if "novelengine_weighted_rag_consistency_gate" in patterns:
             targets.append("weighted_rag_consistency_policy")
             targets.append("memory_card_conflict_warning_policy")
+        if "public_showrunner_template_release_gate" in patterns:
+            targets.append("public_showrunner_template_chain_policy")
+            targets.append("generic_release_no_private_canon_policy")
+        if "phase1_style_manual_reference_boundary_gate" in patterns:
+            targets.append("phase1_style_manual_reference_policy")
+            targets.append("read_only_reference_to_target_project_policy")
+        if "six_layer_iron_law_chapter_gate" in patterns:
+            targets.append("six_layer_chapter_consistency_gate_policy")
+            targets.append("outline_anchor_anti_resolution_policy")
+        if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
+            targets.append("deconstruction_element_swap_rewrite_policy")
+            targets.append("chapter_by_chapter_cumulative_analysis_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8483,6 +8531,14 @@ class NovelSourceDiscoveryService:
             targets.extend(["outline_scene_beat_reference_report", "import_export_custody_report"])
         if "novelengine_weighted_rag_consistency_gate" in patterns:
             targets.extend(["weighted_rag_conflict_warning_report", "memory_card_timeline_foreshadowing_report"])
+        if "public_showrunner_template_release_gate" in patterns:
+            targets.extend(["showrunner_template_release_scope_report", "foreshadowing_quality_scanner_report"])
+        if "phase1_style_manual_reference_boundary_gate" in patterns:
+            targets.extend(["phase1_style_manual_reference_scope_report", "serial_chapter_lock_readiness_report"])
+        if "six_layer_iron_law_chapter_gate" in patterns:
+            targets.extend(["six_layer_iron_law_gate_report", "outline_anchor_reverse_brake_report"])
+        if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
+            targets.extend(["element_swap_rewrite_pipeline_report", "chapter_cumulative_deconstruction_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -9131,6 +9187,14 @@ class NovelSourceDiscoveryService:
             hints.append("Persist visible outline beat ids, scene references, custom fields/tags, smart reference links, import source, export target, sync/reimport preview id, and local custody status with each draft package.")
         if "novelengine_weighted_rag_consistency_gate" in patterns:
             hints.append("Persist Markdown setting chunk ids, collection weights, distance thresholds, memory-card hits, foreshadowing/timeline constraints, conflict severity, suggested fix, and incremental review status before continuation.")
+        if "public_showrunner_template_release_gate" in patterns:
+            hints.append("Persist story-bible version, character-bible version, chapter brief id, continuity tracker delta, foreshadowing tracker delta, revision checklist result, and quality-scan finding ids before the next chapter.")
+        if "phase1_style_manual_reference_boundary_gate" in patterns:
+            hints.append("Persist source-reference scope, Phase-1 style manual id, target novel folder, chapter-count lock, outline approval, serial chapter cursor, and read-only reference boundary before imitation or continuation.")
+        if "six_layer_iron_law_chapter_gate" in patterns:
+            hints.append("Persist truth-file delta, state-tracker delta, graph update, outline anchor status, retrieved context ids, cross-agent review result, gate artifact path, and fix-required status before advancing chapters.")
+        if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
+            hints.append("Persist deconstruction range, element-swap design id, rewrite target range, cumulative chapter analysis, style-engineering profile, enhancement action, and sandbox validation status before accepting rewritten prose.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -14555,6 +14619,42 @@ class NovelSourceDiscoveryService:
         ]
 
 
+    def _build_public_showrunner_template_release_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "public_showrunner_template_release_gate" not in patterns:
+            return []
+        return [
+            "Run a generic showrunner chain for long-form work: story bible, character bible, chapter brief, draft, continuity update, foreshadowing tracker, revision checklist, then chapter quality scan.",
+            "Treat public-release review as an intake gate: reusable templates are allowed as pattern vocabulary, but private canon, sample plot twists, and upstream prompt bodies stay outside MuMuAINovel state.",
+            "fiction-showrunner skill folders, helper scripts, examples, and copied templates remain excluded from static intake unless a separate runtime contract is approved.",
+        ]
+
+    def _build_phase1_style_manual_reference_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "phase1_style_manual_reference_boundary_gate" not in patterns:
+            return []
+        return [
+            "For same-type imitation, split Phase 1 source deconstruction from Phase 2 target creation: source references stay read-only and the output is a target-owned style reference manual.",
+            "Lock target folder name and total chapter count before outline generation, then write chapters serially so imitation constraints do not create parallel plot drift.",
+            "novelist-workbench .claude skills, reference works, generated novels, package scripts, web-studio runtime, and prompt bodies remain excluded from static intake.",
+        ]
+
+    def _build_six_layer_iron_law_chapter_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "six_layer_iron_law_chapter_gate" not in patterns:
+            return []
+        return [
+            "Gate every chapter through six separated evidence layers: truth files, state tracking, knowledge graph, outline anchors, retrieval context, and cross-agent review.",
+            "Apply Iron Law semantics: a failed gate blocks the next chapter; anti-resolution brakes prevent non-final chapters from prematurely solving the main conflict.",
+            "novel-base runtime scripts, Hermes skill files, provider endpoints, slash commands, assets, databases, and generated story content remain excluded from static intake.",
+        ]
+
+    def _build_element_swap_deconstruction_rewrite_pipeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "element_swap_deconstruction_rewrite_pipeline_gate" not in patterns:
+            return []
+        return [
+            "Model 拆书续写 as a staged pipeline: split-book analysis, element-swap design, content rewrite, cumulative chapter analysis, style engineering, and enhancement review.",
+            "Keep element swaps abstract: replace character functions, stakes, scene mechanics, and pacing roles with target-owned equivalents instead of copying source prose or plot order.",
+            "novel-ai-system Docker, Qwen CLI/OAuth, npm scripts, shell/PowerShell/batch scripts, provider calls, server runtime, and prompt bodies remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -15628,6 +15728,18 @@ class NovelSourceDiscoveryService:
         if "novelengine_weighted_rag_consistency_gate" in patterns:
             targets.append("weighted_rag_consistency_remap")
             targets.append("memory_card_conflict_warning_remap")
+        if "public_showrunner_template_release_gate" in patterns:
+            targets.append("showrunner_template_release_remap")
+            targets.append("foreshadowing_quality_scan_remap")
+        if "phase1_style_manual_reference_boundary_gate" in patterns:
+            targets.append("phase1_style_manual_reference_remap")
+            targets.append("serial_chapter_lock_remap")
+        if "six_layer_iron_law_chapter_gate" in patterns:
+            targets.append("six_layer_iron_law_gate_remap")
+            targets.append("outline_anchor_reverse_brake_remap")
+        if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
+            targets.append("element_swap_rewrite_pipeline_remap")
+            targets.append("cumulative_deconstruction_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -15745,6 +15857,14 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt drafting with target scene beats visible beside prose, while import/export mapping and reference links stay metadata rather than story content.")
         if "novelengine_weighted_rag_consistency_gate" in patterns:
             hints.append("Prompt consistency checks with weighted target memory lanes and conflict warnings before revision; do not import upstream check prompts or sample reports.")
+        if "public_showrunner_template_release_gate" in patterns:
+            hints.append("Prompt with target-owned showrunner artifacts: story bible, character bible, chapter brief, continuity delta, foreshadowing delta, and quality-scan findings.")
+        if "phase1_style_manual_reference_boundary_gate" in patterns:
+            hints.append("Prompt imitation only from the target style manual and approved abstract craft notes; references stay read-only and source prose does not enter drafting context.")
+        if "six_layer_iron_law_chapter_gate" in patterns:
+            hints.append("Prompt continuation only after six-layer gate evidence passes; when the gate fails, the prompt must repair the current chapter instead of advancing the outline.")
+        if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
+            hints.append("Prompt element-swap rewrites from deconstruction findings as abstract roles, stakes, and pacing functions; keep upstream scripts and prompt bodies outside the context.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -16510,6 +16630,14 @@ class NovelSourceDiscoveryService:
             hints.append("Transform outline-visible drafting into target scene beat prompts, reference links, import/export custody, and sync-preview records separate from prose.")
         if "novelengine_weighted_rag_consistency_gate" in patterns:
             hints.append("Transform weighted RAG checks into target memory-card lanes, conflict warning severities, and incremental review records tied to accepted MuMuAINovel state.")
+        if "public_showrunner_template_release_gate" in patterns:
+            hints.append("Transform public showrunner templates into MuMuAINovel artifact contracts and scanner findings without copying generic examples or private-story placeholders.")
+        if "phase1_style_manual_reference_boundary_gate" in patterns:
+            hints.append("Transform source-book deconstruction into a target-owned style manual, then derive outline and chapter constraints from that manual rather than from the source text.")
+        if "six_layer_iron_law_chapter_gate" in patterns:
+            hints.append("Transform Iron Law gates into target chapter blockers, repair tasks, outline-anchor checks, and anti-resolution budgets instead of upstream command workflows.")
+        if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
+            hints.append("Transform split-book and element-swap mechanics into target deconstruction cards, replacement matrices, and rewrite acceptance reports without carrying source chapters.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -17315,6 +17443,14 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outputs that copy Kindling demo beats, parser examples, reference labels, export templates, local SQLite data, or release/demo assets into accepted fiction.")
         if "novelengine_weighted_rag_consistency_gate" in patterns:
             hints.append("Reject outputs that copy NovelEngine prompt rules, sample memory cards, conflict report wording, Chroma collection data, uploaded settings, or vector-search snippets.")
+        if "public_showrunner_template_release_gate" in patterns:
+            hints.append("Reject outputs that copy fiction-showrunner templates, sample chapters, private-canon placeholders, quality-script messages, or release-review wording as story content.")
+        if "phase1_style_manual_reference_boundary_gate" in patterns:
+            hints.append("Reject imitation drafts that move read-only reference prose, source chapter order, style-manual source notes, or workbench tutorial wording into accepted MuMuAINovel canon.")
+        if "six_layer_iron_law_chapter_gate" in patterns:
+            hints.append("Reject chapters that bypass a failed gate, copy novel-base slash commands, include meta-analysis markers in prose, or resolve the main conflict before the target outline allows it.")
+        if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:
+            hints.append("Reject rewrites that copy novel-ai-system prompt bodies, shell-script examples, source deconstruction text, source chapter order, or element-swap examples as fiction.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -18230,6 +18366,10 @@ class NovelSourceDiscoveryService:
                 "scrivener_mcp_project_analysis_boundary_gate",
                 "kindling_local_outline_reference_import_gate",
                 "novelengine_weighted_rag_consistency_gate",
+                "public_showrunner_template_release_gate",
+                "phase1_style_manual_reference_boundary_gate",
+                "six_layer_iron_law_chapter_gate",
+                "element_swap_deconstruction_rewrite_pipeline_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",
