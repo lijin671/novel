@@ -198,7 +198,12 @@ def test_build_remix_continuation_context_block_projects_universal_next_chapter_
     block = build_remix_continuation_context_block(
         project_title="Universal Chapter Desk",
         bible={
+            "style_signature": {
+                "pov": "close third",
+                "word_count_target": "10000 Chinese characters",
+            },
             "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "timeline": [{"event": "Archive seal already failed in public", "chapter_number": 8}],
             "hard_constraints": [{"rule": "Do not unlock the archive off-screen"}],
             "foreshadows": [{"hook": "Archive seal breaks", "status": "open", "setup_chapter": 8}],
             "chapter_change_packages": [
@@ -206,8 +211,13 @@ def test_build_remix_continuation_context_block_projects_universal_next_chapter_
                     "source": "chapter_analysis",
                     "chapter_number": 8,
                     "summary": "Lin locked the archive after the seal trembled.",
+                    "timeline_delta": [{"event": "The seal failed in public"}],
                     "character_state_changes": [
-                        {"character_name": "Lin", "state_after": "alert but isolated"}
+                        {
+                            "character_name": "Lin",
+                            "state_after": "alert but isolated",
+                            "psychological_change": "trust in allies cracks",
+                        }
                     ],
                     "foreshadow_changes": [{"hook": "Archive seal breaks", "status": "open"}],
                 }
@@ -215,7 +225,13 @@ def test_build_remix_continuation_context_block_projects_universal_next_chapter_
         },
         plan={
             "summary": "Continue the archive-seal consequence before widening the cast.",
-            "beats": [{"beat": "Open with the seal consequence", "status": "pending"}],
+            "beats": [
+                {
+                    "beat": "Open with the seal consequence",
+                    "status": "pending",
+                    "escalation": "crowd turns hostile before Lin can explain",
+                }
+            ],
             "priority_hooks": [{"hook": "Archive seal breaks onstage", "status": "pending"}],
             "guardrails": [{"rule": "No off-screen payoff"}],
         },
@@ -225,9 +241,16 @@ def test_build_remix_continuation_context_block_projects_universal_next_chapter_
     assert "Universal next chapter scaffold:" in block
     assert "mode: continue-chapter" in block
     assert "chapter_job: Open with the seal consequence" in block
+    assert "pov: close third" in block
+    assert "starting_status: Lin: alert but isolated" in block
     assert "opening_hook: Continue from Ch8" in block
     assert "reader_promise: serve visible promise/payoff debt: Archive seal breaks onstage" in block
     assert "scene_plan: 3-7 scene beats" in block
+    assert "escalation: crowd turns hostile before Lin can explain" in block
+    assert "new_hook: Archive seal breaks onstage" in block
+    assert "character_change: Lin: trust in allies cracks" in block
+    assert "continuity_facts: The seal failed in public" in block
+    assert "word_count_target: 10000 Chinese characters" in block
     assert "forbidden_contradiction: No off-screen payoff" in block
     assert "writeback_after_acceptance" in block
     assert "chapter_contract_warnings" in block
@@ -975,6 +998,11 @@ def test_build_remix_context_preview_audit_projects_universal_chapter_contract_g
     assert audit["mode_contract_axes"]["mode"] == "continue-chapter"
     assert "chapter_contract_warnings" in audit["production_warnings"]
     assert "missing_scene_beat_sheet" in audit["chapter_contract_warnings"]
+    assert "missing_starting_status" in audit["chapter_contract_warnings"]
+    assert "missing_new_hook" in audit["chapter_contract_warnings"]
+    assert "missing_character_change" in audit["chapter_contract_warnings"]
+    assert "missing_continuity_facts" in audit["chapter_contract_warnings"]
+    assert "missing_word_count_target" in audit["chapter_contract_warnings"]
     assert "latest_chapter_missing_micro_payoff_signal" in audit["chapter_contract_warnings"]
 
 

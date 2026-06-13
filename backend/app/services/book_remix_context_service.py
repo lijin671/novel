@@ -2464,6 +2464,7 @@ def _universal_chapter_contract_audit(
     latest_package = packages[-1] if packages else None
     latest_summary = _string_value(latest_package.get("summary")) if latest_package else ""
     pending_beat = _first_pending_plan_beat(plan=plan)
+    pending_beat_item = _first_pending_plan_item(plan=plan)
     plan_summary = _string_value(plan.get("summary")) if plan else ""
     promise_debt = _first_promise_payoff_debt_label(bible=bible, plan=plan)
     guardrail = _first_plan_guardrail(plan=plan)
@@ -2484,6 +2485,20 @@ def _universal_chapter_contract_audit(
             warnings.append("missing_forbidden_contradiction")
         if not _has_structured_scene_beat_sheet(plan):
             warnings.append("missing_scene_beat_sheet")
+        if not _first_contract_pov(bible=bible, plan=plan, latest_package=latest_package):
+            warnings.append("missing_pov_anchor")
+        if not _first_starting_status(latest_package=latest_package):
+            warnings.append("missing_starting_status")
+        if not _first_escalation(plan=plan, pending_beat_item=pending_beat_item, conflict=conflict):
+            warnings.append("missing_escalation")
+        if not _first_new_hook(bible=bible, plan=plan):
+            warnings.append("missing_new_hook")
+        if not _first_character_change(latest_package=latest_package):
+            warnings.append("missing_character_change")
+        if not _first_continuity_fact(bible=bible, latest_package=latest_package):
+            warnings.append("missing_continuity_facts")
+        if not _first_word_count_target(bible=bible, plan=plan):
+            warnings.append("missing_word_count_target")
 
     if "reader_promise_micro_payoff_gate" in pattern_names:
         if not (promise_debt or _has_genre_promise_surface(bible=bible, plan=plan)):
@@ -3904,6 +3919,10 @@ def _append_universal_next_chapter_scaffold_section(
     lines.append("Universal next chapter scaffold:")
     lines.append("- mode: continue-chapter")
     lines.append(f"- chapter_job: {contract['chapter_job']}")
+    if contract["pov"]:
+        lines.append(f"- pov: {contract['pov']}")
+    if contract["starting_status"]:
+        lines.append(f"- starting_status: {contract['starting_status']}")
     lines.append(f"- reader_promise: {contract['reader_promise']}")
     lines.append(f"- opening_hook: {contract['opening_hook']}")
     lines.append("- scene_plan: 3-7 scene beats; each beat needs goal, obstacle, turn, cost, and changed exit state")
@@ -3911,10 +3930,20 @@ def _append_universal_next_chapter_scaffold_section(
         lines.append(f"- main_goal: {contract['main_goal']}")
     if contract["main_obstacle"]:
         lines.append(f"- main_obstacle: {contract['main_obstacle']}")
+    if contract["escalation"]:
+        lines.append(f"- escalation: {contract['escalation']}")
     if contract["required_payoff"]:
         lines.append(f"- required_payoff: {contract['required_payoff']}")
+    if contract["new_hook"]:
+        lines.append(f"- new_hook: {contract['new_hook']}")
+    if contract["character_change"]:
+        lines.append(f"- character_change: {contract['character_change']}")
+    if contract["continuity_facts"]:
+        lines.append(f"- continuity_facts: {contract['continuity_facts']}")
     if contract["forbidden_contradiction"]:
         lines.append(f"- forbidden_contradiction: {contract['forbidden_contradiction']}")
+    if contract["word_count_target"]:
+        lines.append(f"- word_count_target: {contract['word_count_target']}")
     lines.append("- writeback_after_acceptance: summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
     audit = _universal_chapter_contract_audit(
         bible=bible,
@@ -4533,12 +4562,20 @@ def _build_universal_next_chapter_contract(
     latest_summary = _string_value(latest_package.get("summary")) if latest_package else ""
 
     pending_beat = _first_pending_plan_beat(plan=plan)
+    pending_beat_item = _first_pending_plan_item(plan=plan)
     plan_summary = _string_value(plan.get("summary")) if plan else ""
     promise_debt = _first_promise_payoff_debt_label(bible=bible, plan=plan)
     guardrail = _first_plan_guardrail(plan=plan)
     hard_constraint = _first_hard_constraint(bible=bible)
     character_goal = _first_character_goal(bible=bible)
     conflict = _first_conflict_text(bible=bible)
+    pov = _first_contract_pov(bible=bible, plan=plan, latest_package=latest_package)
+    starting_status = _first_starting_status(latest_package=latest_package)
+    escalation = _first_escalation(plan=plan, pending_beat_item=pending_beat_item, conflict=conflict)
+    new_hook = _first_new_hook(bible=bible, plan=plan)
+    character_change = _first_character_change(latest_package=latest_package)
+    continuity_fact = _first_continuity_fact(bible=bible, latest_package=latest_package)
+    word_count_target = _first_word_count_target(bible=bible, plan=plan)
 
     if pending_beat:
         chapter_job = pending_beat
@@ -4563,18 +4600,35 @@ def _build_universal_next_chapter_contract(
 
     return {
         "chapter_job": _truncate(chapter_job, 220),
+        "pov": _truncate(pov, 220),
+        "starting_status": _truncate(starting_status, 220),
         "reader_promise": _truncate(reader_promise, 220),
         "opening_hook": _truncate(opening_hook, 220),
         "main_goal": _truncate(character_goal or pending_beat, 220),
         "main_obstacle": _truncate(conflict or guardrail or hard_constraint, 220),
+        "escalation": _truncate(escalation, 220),
         "required_payoff": _truncate(promise_debt, 220),
+        "new_hook": _truncate(new_hook, 220),
+        "character_change": _truncate(character_change, 220),
+        "continuity_facts": _truncate(continuity_fact, 220),
         "forbidden_contradiction": _truncate(guardrail or hard_constraint, 220),
+        "word_count_target": _truncate(word_count_target, 220),
     }
 
 
 def _first_pending_plan_beat(*, plan: Optional[dict[str, Any]]) -> str:
     beats = _pending_plan_beats(plan=plan, max_items=1)
     return beats[0] if beats else ""
+
+
+def _first_pending_plan_item(*, plan: Optional[dict[str, Any]]) -> dict[str, Any]:
+    if not plan:
+        return {}
+    for item in _as_dict_list(plan.get("beats")):
+        if not _is_done_status(item.get("status")):
+            return item
+    beats = _as_dict_list(plan.get("beats"))
+    return beats[0] if beats else {}
 
 
 def _first_promise_payoff_debt_label(
@@ -4584,6 +4638,153 @@ def _first_promise_payoff_debt_label(
 ) -> str:
     debts = _promise_payoff_debts(bible=bible, plan=plan, max_items=1)
     return _string_value(debts[0].get("label")) if debts else ""
+
+
+def _first_contract_pov(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    latest_package: Optional[dict[str, Any]],
+) -> str:
+    carriers = [carrier for carrier in (latest_package, plan, bible) if isinstance(carrier, dict)]
+    for carrier in carriers:
+        text = _direct_first_text(
+            carrier,
+            ("pov", "point_of_view", "viewpoint", "narrator", "narrative_distance"),
+        )
+        if text:
+            return text
+
+    style_signature = bible.get("style_signature")
+    if isinstance(style_signature, dict):
+        text = _direct_first_text(
+            style_signature,
+            ("pov", "point_of_view", "viewpoint", "narrator", "narrative_distance"),
+        )
+        if text:
+            return text
+    return ""
+
+
+def _first_starting_status(*, latest_package: Optional[dict[str, Any]]) -> str:
+    if not latest_package:
+        return ""
+
+    direct = _direct_first_text(
+        latest_package,
+        ("starting_status", "starting_emotion", "starting_emotional_state", "status_before"),
+    )
+    if direct:
+        return direct
+
+    for item in _as_dict_list(latest_package.get("character_state_changes")):
+        state = _direct_first_text(
+            item,
+            ("state_after", "status_after", "current_state", "emotional_state", "relationship_state"),
+        )
+        if state:
+            name = _string_value(item.get("character_name") or item.get("name"))
+            return f"{name}: {state}" if name else state
+    return ""
+
+
+def _first_escalation(
+    *,
+    plan: Optional[dict[str, Any]],
+    pending_beat_item: dict[str, Any],
+    conflict: str,
+) -> str:
+    text = _direct_first_text(
+        pending_beat_item,
+        ("escalation", "pressure", "turn", "cost", "stakes", "risk"),
+    )
+    if text:
+        return text
+    if plan:
+        text = _direct_first_text(plan, ("escalation", "pressure", "turn", "stakes", "risk"))
+        if text:
+            return text
+    return conflict
+
+
+def _first_new_hook(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> str:
+    if plan:
+        for item in _as_dict_list(plan.get("priority_hooks")):
+            if not _is_done_status(item.get("status")):
+                text = _first_text(item, ("hook", "thread", "question", "promise", "name"))
+                if text:
+                    return text
+    for item in _status_items(_as_dict_list(bible.get("foreshadows")), done=False, max_items=1):
+        text = _first_text(item, ("hook", "thread", "question", "promise", "name"))
+        if text:
+            return text
+    return ""
+
+
+def _first_character_change(*, latest_package: Optional[dict[str, Any]]) -> str:
+    if not latest_package:
+        return ""
+
+    direct = _direct_first_text(
+        latest_package,
+        ("character_change", "character_movement", "relationship_change", "emotional_shift"),
+    )
+    if direct:
+        return direct
+
+    for item in _as_dict_list(latest_package.get("character_state_changes")):
+        change = _direct_first_text(
+            item,
+            ("psychological_change", "relationship_change", "state_delta", "change", "state_after", "key_event"),
+        )
+        if change:
+            name = _string_value(item.get("character_name") or item.get("name"))
+            return f"{name}: {change}" if name else change
+    return ""
+
+
+def _first_continuity_fact(
+    *,
+    bible: dict[str, Any],
+    latest_package: Optional[dict[str, Any]],
+) -> str:
+    if latest_package:
+        for key in ("timeline_delta", "new_facts", "continuity_updates"):
+            for item in _as_dict_list(latest_package.get(key)):
+                text = _first_text(item, ("event", "fact", "update", "content", "summary", "consequence"))
+                if text:
+                    return text
+        direct = _direct_first_text(latest_package, ("continuity_fact", "new_fact", "continuity_update"))
+        if direct:
+            return direct
+
+    timeline = _sort_by_chapter_desc(_as_dict_list(bible.get("timeline")))
+    for item in timeline:
+        text = _first_text(item, ("event", "fact", "summary", "consequence", "impact"))
+        if text:
+            return text
+    return ""
+
+
+def _first_word_count_target(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> str:
+    keys = (
+        "word_count_target",
+        "target_word_count",
+        "chapter_word_count",
+        "length_target",
+        "chapter_length",
+    )
+    for carrier in (plan, bible):
+        if isinstance(carrier, dict):
+            text = _direct_first_text(carrier, keys)
+            if text:
+                return text
+    style_signature = bible.get("style_signature")
+    if isinstance(style_signature, dict):
+        text = _direct_first_text(style_signature, keys)
+        if text:
+            return text
+    return ""
 
 
 def _first_plan_guardrail(*, plan: Optional[dict[str, Any]]) -> str:
@@ -6750,6 +6951,16 @@ def _first_text(item: dict[str, Any], keys: tuple[str, ...]) -> str:
             return value
     compact = json.dumps(item, ensure_ascii=False, sort_keys=True)
     return compact[:240]
+
+
+def _direct_first_text(item: dict[str, Any], keys: tuple[str, ...]) -> str:
+    for key in keys:
+        value = item.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return str(value)
+    return ""
 
 
 def _manual_items(items: list[dict[str, Any]], *, max_items: int) -> list[dict[str, Any]]:
