@@ -4757,3 +4757,79 @@ def test_universal_deep_planning_revision_gates_render_context_and_audit():
     assert "verify_premise_structure_hook_payoff" in audit["acceptance_steps"]
     assert "verify_scene_goal_obstacle_cost_exit" in audit["acceptance_steps"]
     assert "verify_revision_findings_patch_scope" in audit["acceptance_steps"]
+
+
+def test_universal_hook_integrity_and_anti_ai_texture_gates_render_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "opening_ending_hook_integrity_gate", "candidate_count": 1},
+            {"name": "anti_ai_naturalness_texture_gate", "candidate_count": 1},
+        ],
+        "opening_ending_hook_integrity_gate_hints": [
+            "Choose an opening hook type and ending hook job; reject fake cliffhangers resolved without consequence.",
+        ],
+        "anti_ai_naturalness_texture_gate_hints": [
+            "Replace generic AI texture with concrete action, uneven rhythm, subtext, and character-specific diction.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Hook Texture Desk",
+        bible={
+            "style_signature": {"reader_promise": "public mystery pressure"},
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 6,
+                    "summary": "Lin exposed the forged seal but lost the crowd.",
+                    "opening_hook_type": "consequence from last chapter",
+                    "ending_hook_job": "force a decision",
+                    "new_hooks": [{"hook": "The crowd demands the archive key"}],
+                    "prose_texture_review": {"status": "pass"},
+                }
+            ],
+        },
+        plan={
+            "summary": "Open with the crowd demanding the key.",
+            "beats": [{"beat": "Make Lin choose between truth and crowd safety"}],
+            "guardrails": [{"rule": "No fake cliffhanger or generic emotion summary"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Hook Texture Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only hook pressure and prose texture review axes.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source opening hooks, ending hook jobs, or AI-text cleanup notes.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={"chapter_change_packages": [{"source": "chapter_analysis", "chapter_number": 2}]},
+        plan={"summary": "Minimal plan"},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Opening/ending hook integrity gate:" in block
+        assert "opening_hook_type" in block
+        assert "ending_hook_job" in block
+        assert "fake_cliffhanger_boundary" in block
+        assert "Anti-AI naturalness texture gate:" in block
+        assert "texture_review" in block
+        assert "generic_ai_texture_boundary" in block
+        assert "concrete action, uneven rhythm" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+    assert "source opening hooks, ending hook jobs" in inspired
+
+    assert "opening_hook_type_selection" in audit["control_axes"]
+    assert "ending_hook_job_integrity" in audit["control_axes"]
+    assert "fake_cliffhanger_integrity" in audit["control_axes"]
+    assert "anti_ai_texture_naturalness_review" in audit["control_axes"]
+    assert "verify_opening_ending_hook_integrity" in audit["acceptance_steps"]
+    assert "verify_anti_ai_naturalness_texture" in audit["acceptance_steps"]
+    assert "hook_naturalness_warnings" in audit["warnings"]
+    assert "missing_opening_hook_type" in audit["hook_naturalness_warnings"]

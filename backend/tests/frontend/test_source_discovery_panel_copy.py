@@ -860,6 +860,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "Premise / hook-payoff structure gates" in panel_text
     assert "Scene goal / cost / exit-state gates" in panel_text
     assert "Revision finding / patch strategy gates" in panel_text
+    assert "Opening / ending hook integrity gates" in panel_text
+    assert "Anti-AI naturalness texture gates" in panel_text
     assert "universal_novel_mode_contract_gate_hints" in panel_text
     assert "portable_story_project_structure_gate_hints" in panel_text
     assert "chapter_contract_scene_beat_gate_hints" in panel_text
@@ -870,6 +872,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "premise_structure_hook_payoff_gate_hints" in panel_text
     assert "scene_goal_obstacle_cost_exit_gate_hints" in panel_text
     assert "revision_finding_patch_strategy_gate_hints" in panel_text
+    assert "opening_ending_hook_integrity_gate_hints" in panel_text
+    assert "anti_ai_naturalness_texture_gate_hints" in panel_text
 
     assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
     assert "portable_story_project_structure_gate_hints?: string[]" in types_text
@@ -880,6 +884,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "premise_structure_hook_payoff_gate_hints?: string[]" in types_text
     assert "scene_goal_obstacle_cost_exit_gate_hints?: string[]" in types_text
     assert "revision_finding_patch_strategy_gate_hints?: string[]" in types_text
+    assert "opening_ending_hook_integrity_gate_hints?: string[]" in types_text
+    assert "anti_ai_naturalness_texture_gate_hints?: string[]" in types_text
 
 
 def test_source_discovery_panel_surfaces_speckit_fiction_scene_task_gates():

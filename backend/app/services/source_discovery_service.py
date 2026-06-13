@@ -1701,6 +1701,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("premise_structure_hook_payoff_gate", ("workable premise", "premise stress-test", "stress-test the premise", "three-act structure", "serial/webnovel volume arc", "hook and payoff matrix", "ending direction")),
     ("scene_goal_obstacle_cost_exit_gate", ("goal -> obstacle", "outcome/cost", "reaction -> dilemma", "decision -> new goal", "goal, obstacle, tactic, turn, cost", "changed exit state")),
     ("revision_finding_patch_strategy_gate", ("review report findings", "critical/high/medium/low", "critical high medium low", "severity", "patch strategy", "least destructive patch", "findings by severity")),
+    ("opening_ending_hook_integrity_gate", ("opening hooks", "ending hooks", "opening hook type", "ending hook job", "fake cliffhanger", "resolved instantly without consequence", "generic weather", "mirror description")),
+    ("anti_ai_naturalness_texture_gate", ("anti-ai naturalness pass", "anti-ai naturalness", "generic emotion labels", "balanced essay paragraphs", "polished summaries", "concrete action, uneven rhythm", "character-specific diction")),
     ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
     ("kdp_metadata_chapter_export_gate", ("best-selling-book-writer", "topic selection", "outline", "chapters", "kdp metadata", "description.html", "7 keywords", "validation", "html", "pdf", "book-config.json", "chapters remain", "publishing checklist")),
@@ -5011,6 +5013,8 @@ class NovelSourceDiscoveryService:
             "premise_structure_hook_payoff_gate_hints": self._build_premise_structure_hook_payoff_gate_hints(available_patterns),
             "scene_goal_obstacle_cost_exit_gate_hints": self._build_scene_goal_obstacle_cost_exit_gate_hints(available_patterns),
             "revision_finding_patch_strategy_gate_hints": self._build_revision_finding_patch_strategy_gate_hints(available_patterns),
+            "opening_ending_hook_integrity_gate_hints": self._build_opening_ending_hook_integrity_gate_hints(available_patterns),
+            "anti_ai_naturalness_texture_gate_hints": self._build_anti_ai_naturalness_texture_gate_hints(available_patterns),
             "author_ai_project_contract_review_gate_hints": self._build_author_ai_project_contract_review_gate_hints(available_patterns),
             "manuscript_pr_editorial_workflow_gate_hints": self._build_manuscript_pr_editorial_workflow_gate_hints(available_patterns),
             "short_drama_story_bible_template_gate_hints": self._build_short_drama_story_bible_template_gate_hints(available_patterns),
@@ -6503,6 +6507,8 @@ class NovelSourceDiscoveryService:
             "premise_structure_hook_payoff_gate": 66,
             "scene_goal_obstacle_cost_exit_gate": 66,
             "revision_finding_patch_strategy_gate": 66,
+            "opening_ending_hook_integrity_gate": 66,
+            "anti_ai_naturalness_texture_gate": 66,
             "author_ai_project_contract_review_gate": 67,
             "manuscript_pr_editorial_workflow_gate": 66,
             "short_drama_story_bible_template_gate": 66,
@@ -6556,6 +6562,10 @@ class NovelSourceDiscoveryService:
             targets.append("scene_goal_obstacle_cost_exit_policy")
         if "revision_finding_patch_strategy_gate" in patterns:
             targets.append("revision_finding_patch_strategy_policy")
+        if "opening_ending_hook_integrity_gate" in patterns:
+            targets.append("opening_ending_hook_integrity_policy")
+        if "anti_ai_naturalness_texture_gate" in patterns:
+            targets.append("anti_ai_naturalness_texture_policy")
         if "card_workbench" in patterns:
             targets.append("card_schema_catalog")
             targets.append("field_level_cards")
@@ -8285,6 +8295,10 @@ class NovelSourceDiscoveryService:
             targets.append("scene_goal_obstacle_cost_exit_report")
         if "revision_finding_patch_strategy_gate" in patterns:
             targets.append("revision_finding_patch_strategy_report")
+        if "opening_ending_hook_integrity_gate" in patterns:
+            targets.append("opening_ending_hook_integrity_report")
+        if "anti_ai_naturalness_texture_gate" in patterns:
+            targets.append("anti_ai_naturalness_texture_report")
         if "card_workbench" in patterns:
             targets.extend(["card_types", "card_field_dependencies"])
         if patterns.intersection({
@@ -11941,6 +11955,24 @@ class NovelSourceDiscoveryService:
             "Revision reports should lead with findings by Critical/High/Medium/Low severity, then specify the smallest viable patch scope.",
             "Fix developmental, character, continuity, and scene failures before line polish; sentence cleanup cannot pass a broken chapter job.",
             "Patch only the affected paragraph, scene, ledger field, or chapter contract unless a structural rewrite is justified by findings.",
+        ]
+
+    def _build_opening_ending_hook_integrity_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "opening_ending_hook_integrity_gate" not in patterns:
+            return []
+        return [
+            "Declare the opening hook type before prose and reject generic weather, waking, mirror, or lore openings unless they carry immediate conflict or subtext.",
+            "Each ending hook needs a named job: danger, reframed fact, forced decision, cost of a win, collided desires, thread payoff plus larger question, or changed image.",
+            "Reject fake cliffhangers that resolve instantly without cost, state change, payoff movement, or a stronger reason to defer.",
+        ]
+
+    def _build_anti_ai_naturalness_texture_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "anti_ai_naturalness_texture_gate" not in patterns:
+            return []
+        return [
+            "Run an anti-AI naturalness texture pass for balanced essay rhythm, generic emotion labels, polished summary dialogue, repetitive transitions, and over-neat moral explanation.",
+            "Repair AI-like texture with concrete action, uneven rhythm, sensory pressure, subtext, silence or avoidance, and character-specific diction.",
+            "Naturalness review improves manuscript quality; it is not an AI-detector bypass claim and must not import source phrasing, imagery, or scene order.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -16460,6 +16492,10 @@ class NovelSourceDiscoveryService:
             targets.append("scene_goal_obstacle_cost_exit_remap")
         if "revision_finding_patch_strategy_gate" in patterns:
             targets.append("revision_finding_patch_strategy_remap")
+        if "opening_ending_hook_integrity_gate" in patterns:
+            targets.append("opening_ending_hook_integrity_remap")
+        if "anti_ai_naturalness_texture_gate" in patterns:
+            targets.append("anti_ai_texture_review_remap")
         if patterns.intersection({
             "obsidian_galley_scene_compile_gate",
             "obsidian_storyteller_world_timeline_gate",
@@ -20806,6 +20842,8 @@ class NovelSourceDiscoveryService:
                 "premise_structure_hook_payoff_gate",
                 "scene_goal_obstacle_cost_exit_gate",
                 "revision_finding_patch_strategy_gate",
+                "opening_ending_hook_integrity_gate",
+                "anti_ai_naturalness_texture_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",
                 "story_state_output_contract_gate",

@@ -93,6 +93,7 @@ export interface BookRemixContinuationContextPreview {
   production_handoff_warnings: string[];
   reader_pull_warnings: string[];
   spec_kit_fiction_warnings: string[];
+  hook_naturalness_warnings: string[];
   progress_report_continuity_writeback_gate_hints?: string[];
   continuity_questions: string[];
   promise_payoff_debts: Array<Record<string, string>>;

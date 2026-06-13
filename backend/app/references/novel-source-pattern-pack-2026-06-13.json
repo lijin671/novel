@@ -28,6 +28,11 @@
   "ai_prose_fingerprint_cluster_gate_hints": [],
   "ai_tell_pattern_review_gate_hints": [],
   "alternate_timeline_branching_hints": [],
+  "anti_ai_naturalness_texture_gate_hints": [
+    "Run an anti-AI naturalness texture pass for balanced essay rhythm, generic emotion labels, polished summary dialogue, repetitive transitions, and over-neat moral explanation.",
+    "Repair AI-like texture with concrete action, uneven rhythm, sensory pressure, subtext, silence or avoidance, and character-specific diction.",
+    "Naturalness review improves manuscript quality; it is not an AI-detector bypass claim and must not import source phrasing, imagery, or scene order."
+  ],
   "anti_ai_tone_polish_hints": [],
   "anti_copy_style_rag_gate_hints": [],
   "anti_hallucination_plan_check_hints": [],
@@ -204,7 +209,9 @@
     "accept_reject_diff_author_control_policy",
     "premise_structure_hook_payoff_policy",
     "scene_goal_obstacle_cost_exit_policy",
-    "revision_finding_patch_strategy_policy"
+    "revision_finding_patch_strategy_policy",
+    "opening_ending_hook_integrity_policy",
+    "anti_ai_naturalness_texture_policy"
   ],
   "big_five_character_psychology_gate_hints": [],
   "book_build_export_delivery_gate_hints": [
@@ -687,7 +694,9 @@
     "story_os_governance_remap",
     "premise_structure_hook_payoff_remap",
     "scene_goal_obstacle_cost_exit_remap",
-    "revision_finding_patch_strategy_remap"
+    "revision_finding_patch_strategy_remap",
+    "opening_ending_hook_integrity_remap",
+    "anti_ai_texture_review_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1012,6 +1021,11 @@
   ],
   "open_storyline_media_style_transfer_boundary_gate_hints": [],
   "openai_compatible_book_api_portability_gate_hints": [],
+  "opening_ending_hook_integrity_gate_hints": [
+    "Declare the opening hook type before prose and reject generic weather, waking, mirror, or lore openings unless they carry immediate conflict or subtext.",
+    "Each ending hook needs a named job: danger, reframed fact, forced decision, cost of a win, collided desires, thread payoff plus larger question, or changed image.",
+    "Reject fake cliffhangers that resolve instantly without cost, state change, payoff movement, or a stronger reason to defer."
+  ],
   "originality_guard_project_creation_gate_hints": [],
   "originality_report_multimetric_gate_hints": [],
   "outline_checkpoint_milestone_gate_hints": [],
@@ -1668,7 +1682,9 @@
     "rag_export_snapshot_report",
     "premise_structure_hook_payoff_report",
     "scene_goal_obstacle_cost_exit_report",
-    "revision_finding_patch_strategy_report"
+    "revision_finding_patch_strategy_report",
+    "opening_ending_hook_integrity_report",
+    "anti_ai_naturalness_texture_report"
   ],
   "wiki_canon_graph_lint_gate_hints": [],
   "wikiplots_plot_corpus_boundary_gate_hints": [],
@@ -4034,6 +4050,60 @@
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "opening_ending_hook_integrity_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with opening/ending hook integrity, fake-cliffhanger review, and anti-AI naturalness texture pass.",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "anti_ai_naturalness_texture_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with opening/ending hook integrity, fake-cliffhanger review, and anti-AI naturalness texture pass.",
           "title": "local/universal-novel-writing",
           "trust_flags": [
             "local:static-only"

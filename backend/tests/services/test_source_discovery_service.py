@@ -20264,6 +20264,11 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     "goal -> obstacle -> conflict -> outcome/cost and reaction -> dilemma "
                     "-> decision -> new goal; review report findings with Critical/High/"
                     "Medium/Low severity and least destructive patch strategy."
+                    " Opening hooks and ending hooks must identify hook type, "
+                    "ending hook job, and fake cliffhanger risk; anti-AI "
+                    "naturalness pass replaces balanced essay paragraphs, "
+                    "generic emotion labels, and polished summaries with "
+                    "concrete action, uneven rhythm, subtext, and character-specific diction."
                 ),
                 "root_files": [
                     "SKILL.md",
@@ -20297,6 +20302,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "premise_structure_hook_payoff_gate",
         "scene_goal_obstacle_cost_exit_gate",
         "revision_finding_patch_strategy_gate",
+        "opening_ending_hook_integrity_gate",
+        "anti_ai_naturalness_texture_gate",
     }.issubset(candidate["absorbed_patterns"])
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
@@ -20315,6 +20322,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("premise" in hint.lower() for hint in pattern_pack["premise_structure_hook_payoff_gate_hints"])
     assert any("goal, obstacle" in hint.lower() for hint in pattern_pack["scene_goal_obstacle_cost_exit_gate_hints"])
     assert any("severity" in hint.lower() for hint in pattern_pack["revision_finding_patch_strategy_gate_hints"])
+    assert any("opening hook" in hint.lower() for hint in pattern_pack["opening_ending_hook_integrity_gate_hints"])
+    assert any("concrete action" in hint.lower() for hint in pattern_pack["anti_ai_naturalness_texture_gate_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "universal_novel_mode_contract_gate_hints" in digest
@@ -20327,6 +20336,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "premise_structure_hook_payoff_gate_hints" in digest
     assert "scene_goal_obstacle_cost_exit_gate_hints" in digest
     assert "revision_finding_patch_strategy_gate_hints" in digest
+    assert "opening_ending_hook_integrity_gate_hints" in digest
+    assert "anti_ai_naturalness_texture_gate_hints" in digest
 
 
 def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():

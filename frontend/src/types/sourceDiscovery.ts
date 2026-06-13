@@ -330,6 +330,8 @@ export interface SourceDiscoveryPatternPack {
   premise_structure_hook_payoff_gate_hints?: string[];
   scene_goal_obstacle_cost_exit_gate_hints?: string[];
   revision_finding_patch_strategy_gate_hints?: string[];
+  opening_ending_hook_integrity_gate_hints?: string[];
+  anti_ai_naturalness_texture_gate_hints?: string[];
   story_bible_constitution_source_gate_hints?: string[];
   scene_outline_approval_status_gate_hints?: string[];
   pov_information_asymmetry_schedule_gate_hints?: string[];

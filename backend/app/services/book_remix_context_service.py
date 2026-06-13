@@ -233,6 +233,16 @@ def build_remix_continuation_control_audit(
             "least_destructive_patch_scope",
         ])
         acceptance_steps.append("verify_revision_findings_patch_scope")
+    if "opening_ending_hook_integrity_gate" in pattern_names:
+        control_axes.extend([
+            "opening_hook_type_selection",
+            "ending_hook_job_integrity",
+            "fake_cliffhanger_integrity",
+        ])
+        acceptance_steps.append("verify_opening_ending_hook_integrity")
+    if "anti_ai_naturalness_texture_gate" in pattern_names:
+        control_axes.append("anti_ai_texture_naturalness_review")
+        acceptance_steps.append("verify_anti_ai_naturalness_texture")
     if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names:
         control_axes.extend([
             "source_chapter_analysis_coverage",
@@ -411,6 +421,19 @@ def build_remix_continuation_control_audit(
         })
         else _empty_spec_kit_fiction_scene_task_audit()
     )
+    hook_naturalness_audit = (
+        _universal_hook_naturalness_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if pattern_names.intersection({
+            "opening_ending_hook_integrity_gate",
+            "anti_ai_naturalness_texture_gate",
+        })
+        else _empty_universal_hook_naturalness_audit()
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -436,6 +459,8 @@ def build_remix_continuation_control_audit(
         warnings.append("reader_pull_warnings")
     if spec_kit_fiction_audit["warnings"]:
         warnings.append("spec_kit_fiction_warnings")
+    if hook_naturalness_audit["warnings"]:
+        warnings.append("hook_naturalness_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -477,6 +502,7 @@ def build_remix_continuation_control_audit(
         "production_handoff_warnings": production_handoff_audit["warnings"],
         "reader_pull_warnings": reader_pull_audit["warnings"],
         "spec_kit_fiction_warnings": spec_kit_fiction_audit["warnings"],
+        "hook_naturalness_warnings": hook_naturalness_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -538,6 +564,13 @@ def build_remix_continuation_context_block(
     )
     _append_universal_deep_planning_revision_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_universal_hook_naturalness_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
     )
@@ -1010,6 +1043,7 @@ def build_remix_context_preview_audit(
         "production_handoff_warnings": production_control_audit["production_handoff_warnings"],
         "reader_pull_warnings": production_control_audit["reader_pull_warnings"],
         "spec_kit_fiction_warnings": production_control_audit["spec_kit_fiction_warnings"],
+        "hook_naturalness_warnings": production_control_audit["hook_naturalness_warnings"],
         **continuity_audit,
     }
 
@@ -1117,6 +1151,13 @@ def build_remix_inspired_context_block(
     )
     _append_universal_deep_planning_revision_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_universal_hook_naturalness_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
     )
@@ -2509,6 +2550,105 @@ def _empty_universal_chapter_contract_audit() -> dict[str, Any]:
     return {"warnings": []}
 
 
+def _universal_hook_naturalness_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit hook-type and prose-texture evidence before chapter acceptance."""
+    warnings: list[str] = []
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_package = packages[-1] if packages else None
+
+    if "opening_ending_hook_integrity_gate" in pattern_names:
+        if not _has_opening_hook_type_surface(latest_package=latest_package, bible=bible, plan=plan):
+            warnings.append("missing_opening_hook_type")
+        if not _has_ending_hook_job_surface(latest_package=latest_package, bible=bible, plan=plan):
+            warnings.append("missing_ending_hook_job")
+        if latest_package and not _has_latest_chapter_cliffhanger_signal(latest_package, bible=bible):
+            warnings.append("missing_ending_hook_or_next_pull")
+        if latest_package is None:
+            warnings.append("missing_latest_chapter_for_hook_integrity")
+
+    if "anti_ai_naturalness_texture_gate" in pattern_names:
+        if not _has_naturalness_texture_review_surface(latest_package=latest_package, bible=bible, plan=plan):
+            warnings.append("missing_naturalness_texture_review")
+
+    return {"warnings": warnings[:max_items]}
+
+
+def _empty_universal_hook_naturalness_audit() -> dict[str, Any]:
+    return {"warnings": []}
+
+
+def _has_opening_hook_type_surface(
+    *,
+    latest_package: Optional[dict[str, Any]],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (latest_package, bible, plan) if isinstance(carrier, dict)]
+    if any(
+        _has_any_package_value(
+            carrier,
+            ("opening_hook_type", "opening_hook", "hook_type", "chapter_opening_hook"),
+        )
+        for carrier in carriers
+    ):
+        return True
+    return bool(_first_promise_payoff_debt_label(bible=bible, plan=plan))
+
+
+def _has_ending_hook_job_surface(
+    *,
+    latest_package: Optional[dict[str, Any]],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (latest_package, bible, plan) if isinstance(carrier, dict)]
+    if any(
+        _has_any_package_value(
+            carrier,
+            ("ending_hook_job", "ending_hook", "chapter_ending_hook", "new_hook", "new_hooks"),
+        )
+        for carrier in carriers
+    ):
+        return True
+    return bool(_status_items(_as_dict_list(bible.get("foreshadows")), done=False, max_items=1))
+
+
+def _has_naturalness_texture_review_surface(
+    *,
+    latest_package: Optional[dict[str, Any]],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (latest_package, bible, plan) if isinstance(carrier, dict)]
+    for carrier in carriers:
+        if _has_any_package_value(
+            carrier,
+            (
+                "prose_texture_review",
+                "naturalness_review",
+                "anti_ai_review",
+                "ai_texture_review",
+                "line_edit_notes",
+                "prose_polish_notes",
+                "natural_prose_pass",
+            ),
+        ):
+            return True
+    style_signature = bible.get("style_signature")
+    if isinstance(style_signature, dict) and _has_any_package_value(
+        style_signature,
+        ("naturalness_review", "anti_ai_review", "prose_texture_review"),
+    ):
+        return True
+    return False
+
+
 def _reader_pull_fresh_reader_audit(
     *,
     bible: dict[str, Any],
@@ -3340,6 +3480,105 @@ def _append_universal_deep_planning_revision_gate_section(
     ):
         if hints:
             lines.append(f"- {label}: {_truncate(hints[0], 240)}")
+
+
+def _append_universal_hook_naturalness_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render chapter hook integrity and anti-AI texture gates from universal intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    has_hook_gate = "opening_ending_hook_integrity_gate" in pattern_names
+    has_texture_gate = "anti_ai_naturalness_texture_gate" in pattern_names
+    if not has_hook_gate and not has_texture_gate:
+        return
+
+    hook_hints = (
+        _as_note_list(source_pattern_pack.get("opening_ending_hook_integrity_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    texture_hints = (
+        _as_note_list(source_pattern_pack.get("anti_ai_naturalness_texture_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _universal_hook_naturalness_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    if has_hook_gate:
+        lines.append("")
+        lines.append("Opening/ending hook integrity gate:")
+        lines.append(
+            "- opening_hook_type: choose a visible hook type before prose: danger, "
+            "question, almost-within-reach promise, contradiction, unexpected action, "
+            "meaningful sensory image, prior-choice consequence, conflict dialogue, "
+            "public pressure, or quiet image before disruption"
+        )
+        lines.append(
+            "- bad_opening_boundary: generic weather, waking up, mirror description, "
+            "and lore exposition are rejected unless they carry immediate conflict or subtext"
+        )
+        lines.append(
+            "- ending_hook_job: ending must reveal danger, reframe fact, force decision, "
+            "show cost, collide desires, pay one thread while opening another, or end on a changed image"
+        )
+        lines.append(
+            "- fake_cliffhanger_boundary: do not accept a cliffhanger that resolves instantly "
+            "without cost, state change, or payoff debt movement"
+        )
+        if mode == "same-type":
+            lines.append(
+                "- same_type_boundary: source opening hooks, ending hook jobs, and hook pressure define craft axes only; "
+                "the target story needs independent hook content and consequences"
+            )
+        else:
+            lines.append(
+                "- continuation_boundary: hook choices must follow the target's last accepted "
+                "physical/emotional state and open promise debts"
+            )
+        if hook_hints:
+            lines.append(f"- hook_source_hint: {_truncate(hook_hints[0], 240)}")
+
+    if has_texture_gate:
+        lines.append("")
+        lines.append("Anti-AI naturalness texture gate:")
+        lines.append(
+            "- texture_review: scan for balanced essay rhythm, generic emotion labels, "
+            "over-neat moral summaries, repetitive transition words, polished summary dialogue, "
+            "and same-length paragraphs before accepting prose"
+        )
+        lines.append(
+            "- naturalness_repair: replace generic AI texture with concrete action, uneven rhythm, "
+            "subtext, silence/avoidance, sensory pressure, and character-specific diction"
+        )
+        lines.append(
+            "- generic_ai_texture_boundary: naturalization is a manuscript-quality review, "
+            "not an AI-detector bypass claim and not permission to imitate source phrasing"
+        )
+        if mode == "same-type":
+            lines.append(
+                "- same_type_boundary: source cleanup notes may define review criteria only; "
+                "target prose must remain independent in phrasing, imagery, and scene order"
+            )
+        else:
+            lines.append(
+                "- continuation_boundary: texture repair preserves accepted facts, sequence, "
+                "POV, and continuity while changing only expression where needed"
+            )
+        if texture_hints:
+            lines.append(f"- texture_source_hint: {_truncate(texture_hints[0], 240)}")
+
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- hook_naturalness_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_mode_contract_generation_audit_section(
