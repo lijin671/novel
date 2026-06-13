@@ -191,6 +191,20 @@ def build_remix_continuation_control_audit(
     if include_time_trace_progress:
         control_axes.append("narrative_time_age_progress_writeback")
         acceptance_steps.append("verify_narrative_time_age_writeback")
+    if "portable_story_project_structure_gate" in pattern_names:
+        control_axes.extend([
+            "portable_project_file_manifest",
+            "startup_status_open_thread_scan",
+            "story_bible_north_star",
+            "character_want_need_wound_voice",
+            "world_rule_cost_research_custody",
+            "continuity_decision_log_writeback",
+        ])
+        acceptance_steps.extend([
+            "verify_project_memory_startup_packet",
+            "verify_story_bible_project_memory_axes",
+            "verify_no_overwrite_manuscript_patch_scope",
+        ])
     if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names:
         control_axes.extend([
             "source_chapter_analysis_coverage",
@@ -328,6 +342,11 @@ def build_remix_continuation_control_audit(
         if pattern_names.intersection({"mode_contract_generation_gate", "universal_novel_mode_contract_gate"})
         else _empty_mode_contract_generation_audit()
     )
+    portable_project_memory_audit = (
+        _portable_project_memory_audit(bible=bible, plan=plan, max_items=12)
+        if "portable_story_project_structure_gate" in pattern_names
+        else _empty_portable_project_memory_audit()
+    )
     chapter_contract_audit = (
         _universal_chapter_contract_audit(
             bible=bible,
@@ -379,6 +398,8 @@ def build_remix_continuation_control_audit(
         warnings.append("disassembly_checkpoint_warnings")
     if mode_contract_audit["warnings"]:
         warnings.append("mode_contract_warnings")
+    if portable_project_memory_audit["warnings"]:
+        warnings.append("portable_project_memory_warnings")
     if chapter_contract_audit["warnings"]:
         warnings.append("chapter_contract_warnings")
     if production_handoff_audit["warnings"]:
@@ -423,6 +444,7 @@ def build_remix_continuation_control_audit(
         "disassembly_checkpoint_warnings": disassembly_checkpoint_audit["warnings"],
         "mode_contract_axes": mode_contract_audit["axes"],
         "mode_contract_warnings": mode_contract_audit["warnings"],
+        "portable_project_memory_warnings": portable_project_memory_audit["warnings"],
         "chapter_contract_warnings": chapter_contract_audit["warnings"],
         "production_handoff_warnings": production_handoff_audit["warnings"],
         "reader_pull_warnings": reader_pull_audit["warnings"],
@@ -475,6 +497,11 @@ def build_remix_continuation_context_block(
     _append_universal_novel_workflow_contract_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
+    )
+    _append_universal_project_memory_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
     )
     _append_mode_contract_generation_audit_section(
         lines=lines,
@@ -940,6 +967,7 @@ def build_remix_context_preview_audit(
         "disassembly_checkpoint_warnings": production_control_audit["disassembly_checkpoint_warnings"],
         "mode_contract_axes": production_control_audit["mode_contract_axes"],
         "mode_contract_warnings": production_control_audit["mode_contract_warnings"],
+        "portable_project_memory_warnings": production_control_audit["portable_project_memory_warnings"],
         "chapter_contract_warnings": production_control_audit["chapter_contract_warnings"],
         "production_handoff_warnings": production_control_audit["production_handoff_warnings"],
         "reader_pull_warnings": production_control_audit["reader_pull_warnings"],
@@ -1038,6 +1066,11 @@ def build_remix_inspired_context_block(
     _append_universal_novel_workflow_contract_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
+    )
+    _append_universal_project_memory_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
     )
     _append_universal_same_type_creation_scaffold_section(
         lines=lines,
@@ -2135,6 +2168,100 @@ def _empty_mode_contract_generation_audit() -> dict[str, Any]:
     return {"axes": {}, "warnings": []}
 
 
+def _portable_project_memory_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit durable project-memory surfaces before continuation reuse."""
+    warnings: list[str] = []
+    if not _has_story_bible_north_star_surface(bible=bible, plan=plan):
+        warnings.append("missing_story_bible_north_star")
+    if not _has_character_engine_card_surface(bible):
+        warnings.append("missing_character_engine_card")
+    if not _has_world_rule_cost_custody_surface(bible):
+        warnings.append("missing_world_rule_cost_custody")
+    if not _has_continuity_decision_ledger_surface(bible):
+        warnings.append("missing_continuity_decision_ledger")
+    if not _has_startup_status_packet_surface(bible=bible, plan=plan):
+        warnings.append("missing_startup_status_packet")
+    return {"warnings": warnings[:max_items]}
+
+
+def _empty_portable_project_memory_audit() -> dict[str, Any]:
+    return {"warnings": []}
+
+
+def _has_story_bible_north_star_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    style_signature = bible.get("style_signature") if isinstance(bible.get("style_signature"), dict) else {}
+    carriers = [bible, style_signature]
+    if isinstance(plan, dict):
+        carriers.append(plan)
+    keys = (
+        "premise",
+        "one_sentence_premise",
+        "reader_promise",
+        "genre_promise",
+        "emotional_target",
+        "theme",
+        "core_theme",
+        "ending_direction",
+        "must_preserve",
+        "must_avoid",
+        "genre",
+        "target_reader",
+        "platform",
+    )
+    return any(_axis_status(carrier.get(key)) == "present" for carrier in carriers for key in keys)
+
+
+def _has_character_engine_card_surface(bible: dict[str, Any]) -> bool:
+    want_keys = ("external_want", "want", "goal", "current_goal", "desire")
+    need_keys = ("internal_need", "need", "wound", "lie", "flaw", "fear", "cost", "voice_fingerprint")
+    for card in _as_dict_list(bible.get("character_cards")):
+        if any(_axis_status(card.get(key)) == "present" for key in want_keys) and any(
+            _axis_status(card.get(key)) == "present" for key in need_keys
+        ):
+            return True
+    return False
+
+
+def _has_world_rule_cost_custody_surface(bible: dict[str, Any]) -> bool:
+    if _axis_status(bible.get("world_rules")) == "present":
+        return True
+    for key in ("worldbuilding", "setting", "research_notes", "locations", "factions", "organizations"):
+        if _axis_status(bible.get(key)) == "present":
+            return True
+    return False
+
+
+def _has_continuity_decision_ledger_surface(bible: dict[str, Any]) -> bool:
+    for key in ("timeline", "foreshadows", "facts", "decision_log", "continuity_updates"):
+        if _axis_status(bible.get(key)) == "present":
+            return True
+    return bool(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+
+
+def _has_startup_status_packet_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    has_latest_chapter = bool(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    has_progress = _axis_status(bible.get("progress")) == "present" or _axis_status(bible.get("current_status")) == "present"
+    has_plan = isinstance(plan, dict) and (
+        _axis_status(plan.get("summary")) == "present"
+        or bool(_as_dict_list(plan.get("beats")))
+        or bool(_as_dict_list(plan.get("priority_hooks")))
+    )
+    return bool((has_latest_chapter or has_progress) and has_plan)
+
+
 def _axis_status(value: Any) -> str:
     if isinstance(value, str):
         return "present" if value.strip() else "missing"
@@ -2943,6 +3070,73 @@ def _append_universal_novel_workflow_contract_section(
         lines.append("- reader_pull_test: a fresh reader must identify POV, want, obstacle, stakes, changed exit state, and the next pull")
     if "progress_report_continuity_writeback_gate" in pattern_names:
         lines.append("- progress_writeback: after an accepted chapter, record summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
+
+
+def _append_universal_project_memory_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render durable project-memory and file-custody gates from universal writing intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "portable_story_project_structure_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("portable_story_project_structure_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Universal project memory gate:")
+    lines.append(
+        "- project_file_manifest: keep story-bible.md, outline.md, characters.md, "
+        "worldbuilding.md, continuity.md, progress.md, chapters/, notes/, and revision/ "
+        "as target-owned memory surfaces"
+    )
+    lines.append(
+        "- startup_status_packet: record loaded files, current progress, last chapter "
+        "summary, top open threads/promises, and next likely action before drafting"
+    )
+    lines.append(
+        "- story_bible_north_star: preserve premise, reader promise, emotional target, "
+        "theme, ending direction, must-preserve facts, and must-avoid boundaries"
+    )
+    lines.append(
+        "- character_engine_cards: track external want, internal need, wound/lie/flaw, "
+        "cost, relationship movement, and voice fingerprint before scene prose"
+    )
+    lines.append(
+        "- world_rule_cost_custody: rules, factions, locations, research notes, costs, "
+        "limits, and uncertainty labels must be explicit before they affect canon"
+    )
+    lines.append(
+        "- continuity_decision_ledger: update timeline, facts, foreshadowing/payoff, "
+        "unresolved questions, character state, and decision log after acceptance"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source story bible, character sheets, world rules, "
+            "continuity ledgers, progress files, and chapter files define workflow axes only"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: only target-owned project memory, current accepted "
+            "chapter state, and approved plan deltas can influence the next chapter"
+        )
+    lines.append(
+        "- no_overwrite_boundary: never overwrite, delete, or silently rewrite manuscript "
+        "or canon files; use accepted patches, versioned files, or revision notes"
+    )
+    lines.append(
+        "- runtime_boundary: no local skill install, script execution, provider call, "
+        "browser/MCP/desktop runtime, credential read, prompt-body transplant, or "
+        "out-of-scope manuscript access is authorized"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
 
 
 def _append_mode_contract_generation_audit_section(
@@ -5545,6 +5739,13 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "placeholder_alias_consistency_map_hints": "placeholder_alias_consistency_map",
         "proper_noun_leakage_review_hints": "proper_noun_leakage_review",
         "truth_file_write_next_state_update_gate_hints": "truth_file_write_next_state_update_gate",
+        "universal_novel_mode_contract_gate_hints": "universal_novel_mode_contract_gate",
+        "portable_story_project_structure_gate_hints": "portable_story_project_structure_gate",
+        "chapter_contract_scene_beat_gate_hints": "chapter_contract_scene_beat_gate",
+        "reader_promise_micro_payoff_gate_hints": "reader_promise_micro_payoff_gate",
+        "revision_order_natural_prose_gate_hints": "revision_order_natural_prose_gate",
+        "reader_pull_fresh_reader_gate_hints": "reader_pull_fresh_reader_gate",
+        "progress_report_continuity_writeback_gate_hints": "progress_report_continuity_writeback_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

@@ -85,6 +85,107 @@ def test_build_remix_continuation_context_block_renders_universal_novel_workflow
     assert "progress_writeback" in block
 
 
+def test_universal_project_memory_gate_renders_startup_status_and_boundaries():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "portable_story_project_structure_gate", "candidate_count": 1},
+        ],
+        "portable_story_project_structure_gate_hints": [
+            "Load story bible, outline, characters, worldbuilding, continuity, progress, and last chapters only.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Universal Project Memory Desk",
+        bible={
+            "world_rules": {"archive_seal": "Breaking the seal costs public trust."},
+            "character_cards": [
+                {
+                    "name": "Lin",
+                    "external_want": "protect the archive",
+                    "internal_need": "trust allies",
+                    "wound": "failed public testimony",
+                    "voice_fingerprint": "short guarded answers",
+                }
+            ],
+            "timeline": [{"event": "The seal trembled", "chapter_number": 8}],
+            "foreshadows": [{"hook": "Archive seal breaks", "status": "open"}],
+            "hard_constraints": [{"rule": "Do not overwrite accepted chapters without a patch"}],
+            "style_signature": {"reader_promise": "mystery pressure with earned payoff"},
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 8,
+                    "summary": "Lin locked the archive after the seal trembled.",
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue from the seal consequence.",
+            "beats": [{"beat": "Open with public trust damage", "status": "pending"}],
+            "priority_hooks": [{"hook": "Archive seal breaks onstage", "status": "pending"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Project Memory Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Use project-memory discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source story bible, characters, or continuity ledger.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "Universal project memory gate:" in continuation
+    assert "project_file_manifest" in continuation
+    assert "startup_status_packet" in continuation
+    assert "story_bible_north_star" in continuation
+    assert "character_engine_cards" in continuation
+    assert "world_rule_cost_custody" in continuation
+    assert "continuity_decision_ledger" in continuation
+    assert "no_overwrite_boundary" in continuation
+    assert "runtime_boundary" in continuation
+    assert "Load story bible, outline, characters" in continuation
+    assert "same_type_boundary" in inspired
+    assert "source story bible, character sheets, world rules" in inspired
+
+
+def test_universal_project_memory_gate_extends_control_audit_and_warnings():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 2,
+                    "summary": "Lin found a sealed room.",
+                }
+            ],
+        },
+        plan={"summary": "Continue with a minimal plan."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "portable_story_project_structure_gate"},
+            ],
+        },
+    )
+
+    assert "portable_project_file_manifest" in audit["control_axes"]
+    assert "startup_status_open_thread_scan" in audit["control_axes"]
+    assert "story_bible_north_star" in audit["control_axes"]
+    assert "character_want_need_wound_voice" in audit["control_axes"]
+    assert "world_rule_cost_research_custody" in audit["control_axes"]
+    assert "continuity_decision_log_writeback" in audit["control_axes"]
+    assert "verify_project_memory_startup_packet" in audit["acceptance_steps"]
+    assert "verify_story_bible_project_memory_axes" in audit["acceptance_steps"]
+    assert "verify_no_overwrite_manuscript_patch_scope" in audit["acceptance_steps"]
+    assert "portable_project_memory_warnings" in audit["warnings"]
+    assert "missing_story_bible_north_star" in audit["portable_project_memory_warnings"]
+    assert "missing_character_engine_card" in audit["portable_project_memory_warnings"]
+    assert "missing_world_rule_cost_custody" in audit["portable_project_memory_warnings"]
+
+
 def test_build_remix_continuation_context_block_projects_universal_next_chapter_scaffold():
     pattern_pack = {
         "workflow_patterns": [
