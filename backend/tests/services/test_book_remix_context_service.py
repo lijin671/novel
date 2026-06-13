@@ -129,6 +129,8 @@ def test_build_remix_continuation_context_block_projects_universal_next_chapter_
     assert "scene_plan: 3-7 scene beats" in block
     assert "forbidden_contradiction: No off-screen payoff" in block
     assert "writeback_after_acceptance" in block
+    assert "chapter_contract_warnings" in block
+    assert "missing_scene_beat_sheet" in block
 
 
 def test_build_remix_continuation_control_audit_flags_universal_progress_report_gaps():
@@ -168,6 +170,7 @@ def test_build_remix_continuation_control_audit_flags_universal_progress_report_
                 "hook_deltas",
                 "continuity_updates",
                 "next_chapter_focus",
+                "word_count",
                 "risks",
             ],
         }
@@ -208,7 +211,7 @@ def test_build_remix_continuation_context_block_renders_universal_progress_repor
         "continuity_updates, next_chapter_focus, word_count, risks"
     ) in block
     assert "chapter_progress_report_missing_fields: Ch9" in block
-    assert "character_changes, hook_deltas, continuity_updates, next_chapter_focus, risks" in block
+    assert "character_changes, hook_deltas, continuity_updates, next_chapter_focus, word_count, risks" in block
 
 
 def test_build_remix_inspired_context_block_renders_universal_same_type_scaffold():
@@ -634,6 +637,126 @@ def test_build_remix_context_preview_audit_surfaces_disassembly_checkpoint_cover
     assert audit["source_analysis_coverage_percent"] == 40
     assert audit["missing_source_analysis_chapters"] == ["2", "4-5"]
     assert "source_analysis_coverage_incomplete" in audit["disassembly_checkpoint_warnings"]
+
+
+def test_build_remix_context_preview_audit_surfaces_mode_contract_axis_gaps():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "mode_contract_generation_gate"},
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nCurrent continuation strategy",
+        bible={
+            "character_cards": [{"name": "Inspector Lin", "role": "detective"}],
+            "hard_constraints": [{"rule": "Do not change POV"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 2,
+                    "summary": "The archive clue was accepted.",
+                    "timeline_delta": [{"event": "Archive clue accepted"}],
+                    "character_state_changes": [
+                        {"character_name": "Inspector Lin", "state_after": "suspicious"}
+                    ],
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue from the archive clue.",
+            "beats": [{"beat": "Question the witness", "status": "pending"}],
+            "guardrails": [{"rule": "No sudden genre shift"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "selected_output_mode_priority" in audit["production_control_axes"]
+    assert "visible_creative_axis_contract" in audit["production_control_axes"]
+    assert "verify_mode_contract_axes" in audit["production_acceptance_steps"]
+    assert "mode_contract_warnings" in audit["production_warnings"]
+    assert "missing_visible_axis: genre" in audit["mode_contract_warnings"]
+    assert "missing_visible_axis: audience" in audit["mode_contract_warnings"]
+    assert audit["mode_contract_axes"]["mode"] == "continue-chapter"
+    assert audit["mode_contract_axes"]["characters"] == "present"
+
+
+def test_build_remix_context_preview_audit_projects_universal_chapter_contract_gates():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "universal_novel_mode_contract_gate"},
+            {"name": "chapter_contract_scene_beat_gate"},
+            {"name": "reader_promise_micro_payoff_gate"},
+            {"name": "revision_order_natural_prose_gate"},
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nUniversal novel workflow contract",
+        bible={
+            "genre": "serialized mystery",
+            "target_reader": "mobile webnovel readers",
+            "world_rules": {"setting": "archive city"},
+            "style_signature": {"pov": "close third", "voice": "restrained"},
+            "character_cards": [{"name": "Inspector Lin", "goal": "protect the archive"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 4,
+                    "summary": "Lin kept the witness alive but learned nothing decisive.",
+                }
+            ],
+        },
+        plan={
+            "summary": "Force the witness interview to create a visible cost.",
+            "beats": [{"beat": "Question the witness under public pressure", "status": "pending"}],
+            "guardrails": [{"rule": "No off-screen payoff"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "selected_output_mode_priority" in audit["production_control_axes"]
+    assert "chapter_contract_completeness" in audit["production_control_axes"]
+    assert "reader_promise_micro_payoff_contract" in audit["production_control_axes"]
+    assert "revision_order_natural_prose_review" in audit["production_control_axes"]
+    assert "verify_chapter_contract_scene_beats" in audit["production_acceptance_steps"]
+    assert "verify_reader_micro_payoff" in audit["production_acceptance_steps"]
+    assert "verify_revision_order_before_line_polish" in audit["production_acceptance_steps"]
+    assert audit["mode_contract_axes"]["mode"] == "continue-chapter"
+    assert "chapter_contract_warnings" in audit["production_warnings"]
+    assert "missing_scene_beat_sheet" in audit["chapter_contract_warnings"]
+    assert "latest_chapter_missing_micro_payoff_signal" in audit["chapter_contract_warnings"]
+
+
+def test_build_remix_continuation_context_block_renders_mode_contract_generation_gate():
+    block = build_remix_continuation_context_block(
+        project_title="Mode Contract Desk",
+        bible={
+            "genre": "serialized mystery",
+            "character_cards": [{"name": "Inspector Lin", "role": "detective"}],
+            "world_rules": {"setting": "archive city"},
+            "style_signature": {"pov": "close third", "voice": "restrained"},
+            "hard_constraints": [{"rule": "No provider key or source material in prompt output"}],
+        },
+        plan={
+            "summary": "Continue the archive clue with a costly witness scene.",
+            "beats": [{"beat": "Question the witness", "status": "pending"}],
+            "guardrails": [{"rule": "No sudden ending"}],
+        },
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "mode_contract_generation_gate"}],
+            "mode_contract_generation_gate_hints": [
+                "Selected-mode priority should beat incidental source-material wording."
+            ],
+        },
+    )
+
+    assert "Mode contract generation audit" in block
+    assert "mode: continue-chapter" in block
+    assert "visible_axes" in block
+    assert "selected_mode_priority" in block
+    assert "under_length_rewrite_boundary" in block
+    assert "Selected-mode priority should beat incidental source-material wording." in block
 
 
 def test_build_remix_continuation_context_block_renders_disassembly_checkpoint_gate():

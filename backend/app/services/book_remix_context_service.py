@@ -188,6 +188,25 @@ def build_remix_continuation_control_audit(
             "qa_citation_jump_trace",
         ])
         acceptance_steps.append("verify_disassembly_checkpoint_coverage")
+    if pattern_names.intersection({"mode_contract_generation_gate", "universal_novel_mode_contract_gate"}):
+        control_axes.extend([
+            "selected_output_mode_priority",
+            "visible_creative_axis_contract",
+            "under_length_rewrite_boundary",
+        ])
+        acceptance_steps.append("verify_mode_contract_axes")
+    if "chapter_contract_scene_beat_gate" in pattern_names:
+        control_axes.extend([
+            "chapter_contract_completeness",
+            "scene_beat_exit_state_contract",
+        ])
+        acceptance_steps.append("verify_chapter_contract_scene_beats")
+    if "reader_promise_micro_payoff_gate" in pattern_names:
+        control_axes.append("reader_promise_micro_payoff_contract")
+        acceptance_steps.append("verify_reader_micro_payoff")
+    if "revision_order_natural_prose_gate" in pattern_names:
+        control_axes.append("revision_order_natural_prose_review")
+        acceptance_steps.append("verify_revision_order_before_line_polish")
     if "genre_inspiration_budget_library_gate" in pattern_names:
         control_axes.extend([
             "genre_reader_promise_matrix",
@@ -230,6 +249,27 @@ def build_remix_continuation_control_audit(
         if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names
         else _empty_disassembly_checkpoint_audit()
     )
+    mode_contract_audit = (
+        _mode_contract_generation_audit(bible=bible, plan=plan, max_items=12)
+        if pattern_names.intersection({"mode_contract_generation_gate", "universal_novel_mode_contract_gate"})
+        else _empty_mode_contract_generation_audit()
+    )
+    chapter_contract_audit = (
+        _universal_chapter_contract_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if pattern_names.intersection(
+            {
+                "chapter_contract_scene_beat_gate",
+                "reader_promise_micro_payoff_gate",
+                "revision_order_natural_prose_gate",
+            }
+        )
+        else _empty_universal_chapter_contract_audit()
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -243,6 +283,10 @@ def build_remix_continuation_control_audit(
         warnings.append("entity_arc_timeline_risks")
     if disassembly_checkpoint_audit["warnings"]:
         warnings.append("disassembly_checkpoint_warnings")
+    if mode_contract_audit["warnings"]:
+        warnings.append("mode_contract_warnings")
+    if chapter_contract_audit["warnings"]:
+        warnings.append("chapter_contract_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -277,6 +321,9 @@ def build_remix_continuation_control_audit(
         "source_analysis_coverage_percent": disassembly_checkpoint_audit["source_analysis_coverage_percent"],
         "missing_source_analysis_chapters": disassembly_checkpoint_audit["missing_source_analysis_chapters"],
         "disassembly_checkpoint_warnings": disassembly_checkpoint_audit["warnings"],
+        "mode_contract_axes": mode_contract_audit["axes"],
+        "mode_contract_warnings": mode_contract_audit["warnings"],
+        "chapter_contract_warnings": chapter_contract_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -324,6 +371,12 @@ def build_remix_continuation_context_block(
     )
     _append_universal_novel_workflow_contract_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_mode_contract_generation_audit_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
     )
     _append_universal_next_chapter_scaffold_section(
@@ -745,6 +798,9 @@ def build_remix_context_preview_audit(
         "source_analysis_coverage_percent": production_control_audit["source_analysis_coverage_percent"],
         "missing_source_analysis_chapters": production_control_audit["missing_source_analysis_chapters"],
         "disassembly_checkpoint_warnings": production_control_audit["disassembly_checkpoint_warnings"],
+        "mode_contract_axes": production_control_audit["mode_contract_axes"],
+        "mode_contract_warnings": production_control_audit["mode_contract_warnings"],
+        "chapter_contract_warnings": production_control_audit["chapter_contract_warnings"],
         **continuity_audit,
     }
 
@@ -1773,6 +1829,7 @@ def _chapter_progress_report_gaps(packages: list[dict[str, Any]]) -> list[dict[s
         ),
         ("continuity_updates", ("continuity_updates", "continuity_delta", "ledger_updates")),
         ("next_chapter_focus", ("next_chapter_focus", "next_focus", "next_likely_focus")),
+        ("word_count", ("word_count", "char_count", "character_count", "length")),
         ("risks", ("risks", "risk_notes", "audit_risks")),
     )
 
@@ -1844,6 +1901,173 @@ def _chapter_progressive_disassembly_checkpoint_audit(
         "has_qa_citation_jump_trace": _has_disassembly_evidence_refs(analysis_packages),
         "warnings": warnings[:max_items],
     }
+
+
+def _mode_contract_generation_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit visible creative-axis coverage before prompt assembly."""
+    axes = {
+        "mode": "continue-chapter" if plan else "missing",
+        "theme_or_seed": _axis_status(_string_value(plan.get("summary")) if plan else ""),
+        "characters": "present" if _as_dict_list(bible.get("character_cards")) else "missing",
+        "genre": _axis_status(_mode_axis_value(bible, plan, ("genre", "genres", "genre_promise", "reader_promise"))),
+        "worldview_or_setting": _axis_status(_mode_worldview_value(bible)),
+        "audience": _axis_status(_mode_axis_value(bible, plan, ("audience", "target_reader", "platform"))),
+        "era": _axis_status(_mode_axis_value(bible, plan, ("era", "period", "time_period"))),
+        "ending_style": _axis_status(_mode_axis_value(bible, plan, ("ending_style", "ending_direction", "ending"))),
+        "narrator_or_pov": _axis_status(_mode_narrator_or_pov_value(bible, plan)),
+        "source_material_boundary": "present" if _chapter_analysis_packages(bible.get("chapter_change_packages")) else "missing",
+        "supplemental_constraints": "present" if _as_dict_list(bible.get("hard_constraints")) or (plan and _as_dict_list(plan.get("guardrails"))) else "missing",
+        "style_analysis": "present" if isinstance(bible.get("style_signature"), dict) and bool(bible.get("style_signature")) else "missing",
+    }
+
+    required_axes = (
+        "mode",
+        "theme_or_seed",
+        "characters",
+        "genre",
+        "worldview_or_setting",
+        "audience",
+        "narrator_or_pov",
+        "source_material_boundary",
+        "supplemental_constraints",
+    )
+    warnings: list[str] = []
+    for axis in required_axes:
+        if axes.get(axis) == "missing":
+            warnings.append(f"missing_visible_axis: {axis}")
+    if axes["mode"] != "continue-chapter":
+        warnings.append("selected_mode_missing_or_ambiguous")
+    if axes["source_material_boundary"] == "present" and axes["mode"] == "continue-chapter":
+        warnings.append("selected_mode_must_override_incidental_source_material")
+
+    return {
+        "axes": axes,
+        "warnings": warnings[:max_items],
+    }
+
+
+def _empty_mode_contract_generation_audit() -> dict[str, Any]:
+    return {"axes": {}, "warnings": []}
+
+
+def _axis_status(value: Any) -> str:
+    if isinstance(value, str):
+        return "present" if value.strip() else "missing"
+    if isinstance(value, (list, dict)):
+        return "present" if bool(value) else "missing"
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        return "present"
+    return "missing"
+
+
+def _mode_axis_value(
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    keys: tuple[str, ...],
+) -> Any:
+    for key in keys:
+        if key in bible and _axis_status(bible.get(key)) == "present":
+            return bible.get(key)
+        if plan and key in plan and _axis_status(plan.get(key)) == "present":
+            return plan.get(key)
+    return ""
+
+
+def _mode_worldview_value(bible: dict[str, Any]) -> Any:
+    for key in ("world_rules", "worldbuilding", "setting", "worldview", "organizations", "timeline"):
+        value = bible.get(key)
+        if _axis_status(value) == "present":
+            return value
+    return ""
+
+
+def _mode_narrator_or_pov_value(bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> Any:
+    style_signature = bible.get("style_signature")
+    if isinstance(style_signature, dict):
+        for key in ("pov", "point_of_view", "narrator", "narrative_distance"):
+            value = style_signature.get(key)
+            if _axis_status(value) == "present":
+                return value
+    value = _mode_axis_value(bible, plan, ("pov", "point_of_view", "narrator"))
+    if _axis_status(value) == "present":
+        return value
+    for item in _as_dict_list(bible.get("hard_constraints")) + (_as_dict_list(plan.get("guardrails")) if plan else []):
+        text = _first_text(item, ("rule", "constraint", "content", "summary"))
+        if any(marker in text.lower() for marker in ("pov", "point of view", "narrator", "视角", "叙述")):
+            return text
+    return ""
+
+
+def _universal_chapter_contract_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit universal chapter-contract inputs before continuation drafting."""
+    warnings: list[str] = []
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_package = packages[-1] if packages else None
+    latest_summary = _string_value(latest_package.get("summary")) if latest_package else ""
+    pending_beat = _first_pending_plan_beat(plan=plan)
+    plan_summary = _string_value(plan.get("summary")) if plan else ""
+    promise_debt = _first_promise_payoff_debt_label(bible=bible, plan=plan)
+    guardrail = _first_plan_guardrail(plan=plan)
+    hard_constraint = _first_hard_constraint(bible=bible)
+    character_goal = _first_character_goal(bible=bible)
+    conflict = _first_conflict_text(bible=bible)
+
+    if "chapter_contract_scene_beat_gate" in pattern_names:
+        if not (pending_beat or plan_summary or latest_summary):
+            warnings.append("missing_chapter_job_source")
+        if not (latest_summary or promise_debt):
+            warnings.append("missing_opening_hook_source")
+        if not (character_goal or pending_beat):
+            warnings.append("missing_main_goal")
+        if not (conflict or guardrail or hard_constraint):
+            warnings.append("missing_main_obstacle")
+        if not (guardrail or hard_constraint):
+            warnings.append("missing_forbidden_contradiction")
+        if not _has_structured_scene_beat_sheet(plan):
+            warnings.append("missing_scene_beat_sheet")
+
+    if "reader_promise_micro_payoff_gate" in pattern_names:
+        if not (promise_debt or _has_genre_promise_surface(bible=bible, plan=plan)):
+            warnings.append("missing_reader_promise_surface")
+        if latest_package and not _has_latest_chapter_micro_payoff_signal(latest_package):
+            warnings.append("latest_chapter_missing_micro_payoff_signal")
+        if not latest_package:
+            warnings.append("missing_latest_chapter_for_micro_payoff_review")
+
+    if "revision_order_natural_prose_gate" in pattern_names:
+        if not (guardrail or hard_constraint):
+            warnings.append("missing_revision_acceptance_boundary")
+
+    return {"warnings": warnings[:max_items]}
+
+
+def _empty_universal_chapter_contract_audit() -> dict[str, Any]:
+    return {"warnings": []}
+
+
+def _has_structured_scene_beat_sheet(plan: Optional[dict[str, Any]]) -> bool:
+    if not plan:
+        return False
+    for key in ("scene_beats", "scene_plan", "scenes", "beat_sheet"):
+        if _has_any_package_value(plan, (key,)):
+            return True
+    scene_markers = ("scene", "location", "obstacle", "turn", "cost", "exit_state", "goal")
+    structured_count = 0
+    for beat in _as_dict_list(plan.get("beats")):
+        if any(_has_any_package_value(beat, (marker,)) for marker in scene_markers):
+            structured_count += 1
+    return structured_count >= 2
 
 
 def _empty_disassembly_checkpoint_audit() -> dict[str, Any]:
@@ -2273,6 +2497,48 @@ def _append_universal_novel_workflow_contract_section(
         lines.append("- progress_writeback: after an accepted chapter, record summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
 
 
+def _append_mode_contract_generation_audit_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render visible creative axes from mode-contract sources."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if not pattern_names.intersection({"mode_contract_generation_gate", "universal_novel_mode_contract_gate"}):
+        return
+
+    audit = _mode_contract_generation_audit(bible=bible, plan=plan, max_items=12)
+    axes = audit["axes"]
+    hints = []
+    if source_pattern_pack:
+        hints.extend(_as_note_list(source_pattern_pack.get("mode_contract_generation_gate_hints")))
+        hints.extend(_as_note_list(source_pattern_pack.get("universal_novel_mode_contract_gate_hints")))
+
+    lines.append("")
+    lines.append("Mode contract generation audit:")
+    lines.append(f"- mode: {axes.get('mode', 'missing')}")
+    visible_axes = [
+        f"{key}={value}"
+        for key, value in axes.items()
+        if key != "mode"
+    ]
+    lines.append(f"- visible_axes: {', '.join(visible_axes[:12])}")
+    lines.append(
+        "- selected_mode_priority: selected output mode wins over incidental words "
+        "inside source material, notes, or style-analysis snippets"
+    )
+    lines.append(
+        "- under_length_rewrite_boundary: repair short or generic drafts from the "
+        "same accepted axes; do not add source-specific facts, names, or plot order"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"]:
+        lines.append(f"- mode_contract_warnings: {', '.join(audit['warnings'])}")
+
+
 def _append_universal_next_chapter_scaffold_section(
     *,
     lines: list[str],
@@ -2308,6 +2574,14 @@ def _append_universal_next_chapter_scaffold_section(
     if contract["forbidden_contradiction"]:
         lines.append(f"- forbidden_contradiction: {contract['forbidden_contradiction']}")
     lines.append("- writeback_after_acceptance: summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
+    audit = _universal_chapter_contract_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+    if audit["warnings"]:
+        lines.append(f"- chapter_contract_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_progress_report_completeness_gate_section(

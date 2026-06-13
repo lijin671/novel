@@ -30,6 +30,8 @@ const TEXT = {
   entityArcTimelineRisks: "\u5b9e\u4f53/\u5f27\u7ebf\u65f6\u95f4\u7ebf\u98ce\u9669\uff1a",
   disassemblyCheckpoint: "\u62c6\u4e66 checkpoint\uff1a",
   missingSourceAnalysis: "\u7f3a\u5931\u6e90\u7ae0\u5206\u6790\uff1a",
+  modeContract: "\u6a21\u5f0f\u5951\u7ea6\uff1a",
+  chapterContract: "\u7ae0\u8282\u5951\u7ea6\uff1a",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -216,6 +218,33 @@ export default function BookRemixContinuationContextPreviewPanel({
                   </Tag>
                 ) : null}
                 {value.disassembly_checkpoint_warnings?.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {(Object.keys(value.mode_contract_axes || {}).length || value.mode_contract_warnings?.length) ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.modeContract}</Text>
+              <Space wrap>
+                {Object.entries(value.mode_contract_axes || {}).slice(0, 12).map(([axis, status]) => (
+                  <Tag key={axis} color={status === 'missing' ? 'orange' : 'geekblue'}>
+                    {axis}: {status}
+                  </Tag>
+                ))}
+                {value.mode_contract_warnings?.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.chapter_contract_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.chapterContract}</Text>
+              <Space wrap>
+                {value.chapter_contract_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>
