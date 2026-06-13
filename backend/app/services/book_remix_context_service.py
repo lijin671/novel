@@ -218,6 +218,21 @@ def build_remix_continuation_control_audit(
             "story_layer_dependency_order",
         ])
         acceptance_steps.append("verify_layered_story_bible_artifacts")
+    if "premise_structure_hook_payoff_gate" in pattern_names:
+        control_axes.extend([
+            "premise_structure_stress_test",
+            "hook_payoff_matrix_review",
+        ])
+        acceptance_steps.append("verify_premise_structure_hook_payoff")
+    if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
+        control_axes.append("scene_goal_obstacle_cost_exit_state")
+        acceptance_steps.append("verify_scene_goal_obstacle_cost_exit")
+    if "revision_finding_patch_strategy_gate" in pattern_names:
+        control_axes.extend([
+            "revision_finding_severity_triage",
+            "least_destructive_patch_scope",
+        ])
+        acceptance_steps.append("verify_revision_findings_patch_scope")
     if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names:
         control_axes.extend([
             "source_chapter_analysis_coverage",
@@ -517,6 +532,11 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_seed_to_bible_foundation_loop_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_universal_deep_planning_revision_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1091,6 +1111,11 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_seed_to_bible_foundation_loop_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_universal_deep_planning_revision_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -3232,6 +3257,89 @@ def _append_seed_to_bible_foundation_loop_gate_section(
         lines.append(f"- foundation_source_hint: {_truncate(foundation_hints[0], 240)}")
     if layer_hints:
         lines.append(f"- layer_source_hint: {_truncate(layer_hints[0], 240)}")
+
+
+def _append_universal_deep_planning_revision_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render deeper universal-novel planning, scene, and revision contracts."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    has_premise_gate = "premise_structure_hook_payoff_gate" in pattern_names
+    has_scene_gate = "scene_goal_obstacle_cost_exit_gate" in pattern_names
+    has_revision_gate = "revision_finding_patch_strategy_gate" in pattern_names
+    if not (has_premise_gate or has_scene_gate or has_revision_gate):
+        return
+
+    premise_hints = (
+        _as_note_list(source_pattern_pack.get("premise_structure_hook_payoff_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    scene_hints = (
+        _as_note_list(source_pattern_pack.get("scene_goal_obstacle_cost_exit_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    revision_hints = (
+        _as_note_list(source_pattern_pack.get("revision_finding_patch_strategy_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Universal deep planning and revision gate:")
+    if has_premise_gate:
+        lines.append(
+            "- premise_stress_test: cite premise/logline, protagonist want, opposition, "
+            "stakes, ending direction, and chosen structure before long drafting"
+        )
+        lines.append(
+            "- hook_payoff_matrix: list thread, seeded-in point, reader expectation, "
+            "planned payoff, maximum delay, and current status"
+        )
+    if has_scene_gate:
+        lines.append(
+            "- scene_goal_obstacle_cost_exit: each scene needs POV, goal, obstacle, "
+            "tactic, turn, cost, and changed exit state"
+        )
+        lines.append(
+            "- scene_exit_change_rule: exit must change plot, knowledge, relationship, "
+            "risk, moral pressure, emotion, or world-rule understanding"
+        )
+    if has_revision_gate:
+        lines.append(
+            "- revision_findings_severity: lead review with Critical/High/Medium/Low "
+            "findings before line-level polish"
+        )
+        lines.append(
+            "- least_destructive_patch_strategy: repair only the failing paragraph, "
+            "scene, ledger field, or chapter contract unless structural scope is proven"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: rebuild premise/logline, cast, hook-payoff ids, "
+            "scene goals, costs, and patch notes inside target canon; never reuse the "
+            "source premise, hook/payoff matrix, scene beats, or revision findings"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: use only target-owned accepted premise, arc, "
+            "hook/payoff, scene, and revision artifacts as continuation authority"
+        )
+    lines.append(
+        "- runtime_boundary: no source prompt bodies, manuscript imports, provider calls, "
+        "browser/MCP runtime, or upstream patch notes may be promoted without target review"
+    )
+    for label, hints in (
+        ("premise_source_hint", premise_hints),
+        ("scene_source_hint", scene_hints),
+        ("revision_source_hint", revision_hints),
+    ):
+        if hints:
+            lines.append(f"- {label}: {_truncate(hints[0], 240)}")
 
 
 def _append_mode_contract_generation_audit_section(
@@ -5541,6 +5649,35 @@ def build_remix_inspired_independence_audit(
             "entity_absence_gaps",
         ])
         copy_risk_checks.append("source_entity_timeline_clone")
+    if "premise_structure_hook_payoff_gate" in pattern_names:
+        transfer_axes.extend([
+            "reader_promise_shape",
+            "hook_payoff_timing",
+            "structure_pressure_curve",
+        ])
+        required_difference_axes.extend([
+            "premise_logline",
+            "inciting_disruption",
+            "stakes_consequence",
+            "hook_payoff_thread_ids",
+        ])
+        copy_risk_checks.append("source_hook_payoff_matrix_clone")
+    if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
+        transfer_axes.extend([
+            "scene_engine_pattern",
+            "micro_tension_density",
+        ])
+        required_difference_axes.extend([
+            "scene_goal_sequence",
+            "obstacle_tactics",
+            "cost_pattern",
+            "exit_state_route",
+        ])
+        copy_risk_checks.append("source_scene_beat_clone")
+    if "revision_finding_patch_strategy_gate" in pattern_names:
+        transfer_axes.append("revision_triage_discipline")
+        required_difference_axes.append("patch_scope_ids")
+        copy_risk_checks.append("source_revision_note_canon_leak")
 
     warnings: list[str] = []
     if not style_principles:
@@ -5843,6 +5980,9 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "progress_report_continuity_writeback_gate_hints": "progress_report_continuity_writeback_gate",
         "seed_to_bible_foundation_loop_gate_hints": "seed_to_bible_foundation_loop_gate",
         "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
+        "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",
+        "scene_goal_obstacle_cost_exit_gate_hints": "scene_goal_obstacle_cost_exit_gate",
+        "revision_finding_patch_strategy_gate_hints": "revision_finding_patch_strategy_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():
         if _as_note_list(source_pattern_pack.get(hint_key)):

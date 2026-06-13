@@ -201,7 +201,10 @@
     "story_os_governance_policy",
     "rag_export_snapshot_policy",
     "local_manuscript_revision_bible_policy",
-    "accept_reject_diff_author_control_policy"
+    "accept_reject_diff_author_control_policy",
+    "premise_structure_hook_payoff_policy",
+    "scene_goal_obstacle_cost_exit_policy",
+    "revision_finding_patch_strategy_policy"
   ],
   "big_five_character_psychology_gate_hints": [],
   "book_build_export_delivery_gate_hints": [
@@ -681,7 +684,10 @@
     "sensory_cooldown_ledger_remap",
     "phase_breakdown_drafting_remap",
     "person_place_timeline_remap",
-    "story_os_governance_remap"
+    "story_os_governance_remap",
+    "premise_structure_hook_payoff_remap",
+    "scene_goal_obstacle_cost_exit_remap",
+    "revision_finding_patch_strategy_remap"
   ],
   "inspired_prompt_hints": [
     "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
@@ -1066,6 +1072,11 @@
   "precision_edit_candidate_version_gate_hints": [],
   "preference_memory_hints": [],
   "premature_ending_guard_hints": [],
+  "premise_structure_hook_payoff_gate_hints": [
+    "Before long drafting, stress-test premise, reader promise, protagonist want, opposition, stakes, ending direction, and structure choice.",
+    "Use three-act, serial/webnovel volume arc, or character-driven arc as scaffolding; map it to accepted project facts before prose.",
+    "Maintain a hook/payoff matrix with thread, seeded-in point, reader expectation, planned payoff, maximum delay, and current status."
+  ],
   "preview_toc_packaging_hints": [],
   "privacy_preserving_local_index_gate_hints": [],
   "private_person_place_timeline_output_gate_hints": [
@@ -1153,6 +1164,11 @@
   "retrieval_trace_observability_gate_hints": [],
   "review_queue_staging_hints": [],
   "review_spoiler_sentiment_corpus_hints": [],
+  "revision_finding_patch_strategy_gate_hints": [
+    "Revision reports should lead with findings by Critical/High/Medium/Low severity, then specify the smallest viable patch scope.",
+    "Fix developmental, character, continuity, and scene failures before line polish; sentence cleanup cannot pass a broken chapter job.",
+    "Patch only the affected paragraph, scene, ledger field, or chapter contract unless a structural rewrite is justified by findings."
+  ],
   "revision_order_natural_prose_gate_hints": [
     "Use revision order as a gate: developmental, character, continuity, scene, line, then proof/format.",
     "Do not polish sentences before chapter job, character motive, continuity, and scene turn are valid.",
@@ -1185,6 +1201,11 @@
   ],
   "scene_card_hard_soft_field_gate_hints": [],
   "scene_deconstruction_theory_report_gate_hints": [],
+  "scene_goal_obstacle_cost_exit_gate_hints": [
+    "Each scene beat should name goal, obstacle, tactic, turn, cost, and changed exit state before it is accepted.",
+    "Use goal -> obstacle -> conflict -> outcome/cost, then reaction -> dilemma -> decision -> new goal as the scene engine.",
+    "Reject scenes whose exit state does not change plot, knowledge, relationship, risk, moral pressure, emotion, or world-rule understanding."
+  ],
   "scene_level_generation_hints": [
     "Plan chapters as ordered scene units before drafting; each scene carries goal, cast, location, pressure, reveal, and exit hook.",
     "Generate and review one scene at a time with a focused context slice, then assemble the accepted scene drafts into a chapter.",
@@ -1644,7 +1665,10 @@
     "person_place_timeline_output_report",
     "notes_export_scope_report",
     "story_os_governance_pipeline_report",
-    "rag_export_snapshot_report"
+    "rag_export_snapshot_report",
+    "premise_structure_hook_payoff_report",
+    "scene_goal_obstacle_cost_exit_report",
+    "revision_finding_patch_strategy_report"
   ],
   "wiki_canon_graph_lint_gate_hints": [],
   "wikiplots_plot_corpus_boundary_gate_hints": [],
@@ -3848,6 +3872,87 @@
           "source": "local-reference",
           "stars": null,
           "summary": "Portable universal-novel-writing SKILL.md with operating modes quick-start, full-project, continue-chapter, revise, analyze, export; project structure story-bible.md outline.md characters.md worldbuilding.md continuity.md progress.md chapters notes revision; chapter contract with",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "premise_structure_hook_payoff_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with premise stress-test, hook/payoff matrix, scene goal-obstacle-cost-exit engine, and severity-first patch strategy.",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "revision_finding_patch_strategy_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with premise stress-test, hook/payoff matrix, scene goal-obstacle-cost-exit engine, and severity-first patch strategy.",
+          "title": "local/universal-novel-writing",
+          "trust_flags": [
+            "local:static-only"
+          ],
+          "url": "local://universal-novel-writing"
+        }
+      ],
+      "top_source_url": "local://universal-novel-writing",
+      "trust_flags": [
+        "local:static-only"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "scene_goal_obstacle_cost_exit_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "local-static-review",
+          "risk_flags": [],
+          "score": 604,
+          "source": "local-reference",
+          "stars": null,
+          "summary": "Portable universal-novel-writing SKILL.md with premise stress-test, hook/payoff matrix, scene goal-obstacle-cost-exit engine, and severity-first patch strategy.",
           "title": "local/universal-novel-writing",
           "trust_flags": [
             "local:static-only"

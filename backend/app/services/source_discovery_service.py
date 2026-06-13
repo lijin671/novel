@@ -1698,6 +1698,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("revision_order_natural_prose_gate", ("revision order", "developmental", "character continuity scene line proof", "anti-ai natural prose", "natural prose", "generic emotional labels", "line edit")),
     ("reader_pull_fresh_reader_gate", ("reader pull", "fresh-reader", "fresh reader", "who is the pov", "what do they want", "what blocks them", "why does it matter", "what changed by the end", "pulls me onward")),
     ("progress_report_continuity_writeback_gate", ("chapter progress report", "writeback", "write-back", "new facts", "character changes", "hooks paid off", "continuity updates", "next chapter likely focus")),
+    ("premise_structure_hook_payoff_gate", ("workable premise", "premise stress-test", "stress-test the premise", "three-act structure", "serial/webnovel volume arc", "hook and payoff matrix", "ending direction")),
+    ("scene_goal_obstacle_cost_exit_gate", ("goal -> obstacle", "outcome/cost", "reaction -> dilemma", "decision -> new goal", "goal, obstacle, tactic, turn, cost", "changed exit state")),
+    ("revision_finding_patch_strategy_gate", ("review report findings", "critical/high/medium/low", "critical high medium low", "severity", "patch strategy", "least destructive patch", "findings by severity")),
     ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
     ("kdp_metadata_chapter_export_gate", ("best-selling-book-writer", "topic selection", "outline", "chapters", "kdp metadata", "description.html", "7 keywords", "validation", "html", "pdf", "book-config.json", "chapters remain", "publishing checklist")),
@@ -5005,6 +5008,9 @@ class NovelSourceDiscoveryService:
             "revision_order_natural_prose_gate_hints": self._build_revision_order_natural_prose_gate_hints(available_patterns),
             "reader_pull_fresh_reader_gate_hints": self._build_reader_pull_fresh_reader_gate_hints(available_patterns),
             "progress_report_continuity_writeback_gate_hints": self._build_progress_report_continuity_writeback_gate_hints(available_patterns),
+            "premise_structure_hook_payoff_gate_hints": self._build_premise_structure_hook_payoff_gate_hints(available_patterns),
+            "scene_goal_obstacle_cost_exit_gate_hints": self._build_scene_goal_obstacle_cost_exit_gate_hints(available_patterns),
+            "revision_finding_patch_strategy_gate_hints": self._build_revision_finding_patch_strategy_gate_hints(available_patterns),
             "author_ai_project_contract_review_gate_hints": self._build_author_ai_project_contract_review_gate_hints(available_patterns),
             "manuscript_pr_editorial_workflow_gate_hints": self._build_manuscript_pr_editorial_workflow_gate_hints(available_patterns),
             "short_drama_story_bible_template_gate_hints": self._build_short_drama_story_bible_template_gate_hints(available_patterns),
@@ -6494,6 +6500,9 @@ class NovelSourceDiscoveryService:
             "story_bible_relationship_analytics_gate": 65,
             "seed_to_bible_foundation_loop_gate": 67,
             "layered_story_bible_artifact_contract_gate": 66,
+            "premise_structure_hook_payoff_gate": 66,
+            "scene_goal_obstacle_cost_exit_gate": 66,
+            "revision_finding_patch_strategy_gate": 66,
             "author_ai_project_contract_review_gate": 67,
             "manuscript_pr_editorial_workflow_gate": 66,
             "short_drama_story_bible_template_gate": 66,
@@ -6541,6 +6550,12 @@ class NovelSourceDiscoveryService:
             targets.append("reader_pull_fresh_reader_policy")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_report_continuity_writeback_policy")
+        if "premise_structure_hook_payoff_gate" in patterns:
+            targets.append("premise_structure_hook_payoff_policy")
+        if "scene_goal_obstacle_cost_exit_gate" in patterns:
+            targets.append("scene_goal_obstacle_cost_exit_policy")
+        if "revision_finding_patch_strategy_gate" in patterns:
+            targets.append("revision_finding_patch_strategy_policy")
         if "card_workbench" in patterns:
             targets.append("card_schema_catalog")
             targets.append("field_level_cards")
@@ -8264,6 +8279,12 @@ class NovelSourceDiscoveryService:
             targets.append("reader_pull_fresh_reader_report")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_report_writeback_report")
+        if "premise_structure_hook_payoff_gate" in patterns:
+            targets.append("premise_structure_hook_payoff_report")
+        if "scene_goal_obstacle_cost_exit_gate" in patterns:
+            targets.append("scene_goal_obstacle_cost_exit_report")
+        if "revision_finding_patch_strategy_gate" in patterns:
+            targets.append("revision_finding_patch_strategy_report")
         if "card_workbench" in patterns:
             targets.extend(["card_types", "card_field_dependencies"])
         if patterns.intersection({
@@ -11893,6 +11914,33 @@ class NovelSourceDiscoveryService:
             "After each chapter, write a progress report with summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next likely focus, and risks.",
             "Treat write-back as a separate accepted artifact; draft prose alone must not mutate continuity, progress, or character state.",
             "The next continuation prompt should read the latest progress write-back before choosing opening state, unresolved hook, and conflict escalation.",
+        ]
+
+    def _build_premise_structure_hook_payoff_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "premise_structure_hook_payoff_gate" not in patterns:
+            return []
+        return [
+            "Before long drafting, stress-test premise, reader promise, protagonist want, opposition, stakes, ending direction, and structure choice.",
+            "Use three-act, serial/webnovel volume arc, or character-driven arc as scaffolding; map it to accepted project facts before prose.",
+            "Maintain a hook/payoff matrix with thread, seeded-in point, reader expectation, planned payoff, maximum delay, and current status.",
+        ]
+
+    def _build_scene_goal_obstacle_cost_exit_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scene_goal_obstacle_cost_exit_gate" not in patterns:
+            return []
+        return [
+            "Each scene beat should name goal, obstacle, tactic, turn, cost, and changed exit state before it is accepted.",
+            "Use goal -> obstacle -> conflict -> outcome/cost, then reaction -> dilemma -> decision -> new goal as the scene engine.",
+            "Reject scenes whose exit state does not change plot, knowledge, relationship, risk, moral pressure, emotion, or world-rule understanding.",
+        ]
+
+    def _build_revision_finding_patch_strategy_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "revision_finding_patch_strategy_gate" not in patterns:
+            return []
+        return [
+            "Revision reports should lead with findings by Critical/High/Medium/Low severity, then specify the smallest viable patch scope.",
+            "Fix developmental, character, continuity, and scene failures before line polish; sentence cleanup cannot pass a broken chapter job.",
+            "Patch only the affected paragraph, scene, ledger field, or chapter contract unless a structural rewrite is justified by findings.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -16406,6 +16454,12 @@ class NovelSourceDiscoveryService:
             targets.append("reader_pull_fresh_reader_remap")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_writeback_continuity_remap")
+        if "premise_structure_hook_payoff_gate" in patterns:
+            targets.append("premise_structure_hook_payoff_remap")
+        if "scene_goal_obstacle_cost_exit_gate" in patterns:
+            targets.append("scene_goal_obstacle_cost_exit_remap")
+        if "revision_finding_patch_strategy_gate" in patterns:
+            targets.append("revision_finding_patch_strategy_remap")
         if patterns.intersection({
             "obsidian_galley_scene_compile_gate",
             "obsidian_storyteller_world_timeline_gate",
@@ -20749,6 +20803,9 @@ class NovelSourceDiscoveryService:
                 "revision_order_natural_prose_gate",
                 "reader_pull_fresh_reader_gate",
                 "progress_report_continuity_writeback_gate",
+                "premise_structure_hook_payoff_gate",
+                "scene_goal_obstacle_cost_exit_gate",
+                "revision_finding_patch_strategy_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",
                 "story_state_output_contract_gate",

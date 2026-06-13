@@ -344,6 +344,9 @@ const PINNED_HINT_KEYS = new Set([
   'revision_order_natural_prose_gate_hints',
   'reader_pull_fresh_reader_gate_hints',
   'progress_report_continuity_writeback_gate_hints',
+  'premise_structure_hook_payoff_gate_hints',
+  'scene_goal_obstacle_cost_exit_gate_hints',
+  'revision_finding_patch_strategy_gate_hints',
   'story_bible_constitution_source_gate_hints',
   'scene_outline_approval_status_gate_hints',
   'pov_information_asymmetry_schedule_gate_hints',
@@ -733,6 +736,9 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Revision order / natural prose gates', patternPackPayload?.revision_order_natural_prose_gate_hints],
               ['Fresh-reader pull gates', patternPackPayload?.reader_pull_fresh_reader_gate_hints],
               ['Progress report / continuity write-back gates', patternPackPayload?.progress_report_continuity_writeback_gate_hints],
+              ['Premise / hook-payoff structure gates', patternPackPayload?.premise_structure_hook_payoff_gate_hints],
+              ['Scene goal / cost / exit-state gates', patternPackPayload?.scene_goal_obstacle_cost_exit_gate_hints],
+              ['Revision finding / patch strategy gates', patternPackPayload?.revision_finding_patch_strategy_gate_hints],
             ])}
             {renderHintGroup('Spec Kit fiction scene-task gates', [
               ['Story-bible constitution gates', patternPackPayload?.story_bible_constitution_source_gate_hints],

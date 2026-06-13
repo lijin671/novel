@@ -20259,7 +20259,11 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     "developmental character continuity scene line proof; anti-AI natural prose; "
                     "reader pull fresh-reader test with POV, want, block, stakes, changed by end, "
                     "and pull onward; chapter progress report writeback with new facts, hooks, "
-                    "character changes, risks."
+                    "character changes, risks. Workable premise stress-test, three-act or "
+                    "serial/webnovel volume arc, hook and payoff matrix; scene structure "
+                    "goal -> obstacle -> conflict -> outcome/cost and reaction -> dilemma "
+                    "-> decision -> new goal; review report findings with Critical/High/"
+                    "Medium/Low severity and least destructive patch strategy."
                 ),
                 "root_files": [
                     "SKILL.md",
@@ -20290,6 +20294,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "revision_order_natural_prose_gate",
         "reader_pull_fresh_reader_gate",
         "progress_report_continuity_writeback_gate",
+        "premise_structure_hook_payoff_gate",
+        "scene_goal_obstacle_cost_exit_gate",
+        "revision_finding_patch_strategy_gate",
     }.issubset(candidate["absorbed_patterns"])
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
@@ -20305,6 +20312,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("revision order" in hint.lower() for hint in pattern_pack["revision_order_natural_prose_gate_hints"])
     assert any("fresh reader" in hint.lower() for hint in pattern_pack["reader_pull_fresh_reader_gate_hints"])
     assert any("write-back" in hint.lower() for hint in pattern_pack["progress_report_continuity_writeback_gate_hints"])
+    assert any("premise" in hint.lower() for hint in pattern_pack["premise_structure_hook_payoff_gate_hints"])
+    assert any("goal, obstacle" in hint.lower() for hint in pattern_pack["scene_goal_obstacle_cost_exit_gate_hints"])
+    assert any("severity" in hint.lower() for hint in pattern_pack["revision_finding_patch_strategy_gate_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "universal_novel_mode_contract_gate_hints" in digest
@@ -20314,6 +20324,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "revision_order_natural_prose_gate_hints" in digest
     assert "reader_pull_fresh_reader_gate_hints" in digest
     assert "progress_report_continuity_writeback_gate_hints" in digest
+    assert "premise_structure_hook_payoff_gate_hints" in digest
+    assert "scene_goal_obstacle_cost_exit_gate_hints" in digest
+    assert "revision_finding_patch_strategy_gate_hints" in digest
 
 
 def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():

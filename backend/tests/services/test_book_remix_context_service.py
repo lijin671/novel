@@ -4657,3 +4657,103 @@ def test_seed_to_bible_foundation_loop_gates_extend_control_audit():
     assert "story_layer_dependency_order" in audit["control_axes"]
     assert "verify_foundation_loop_score_review" in audit["acceptance_steps"]
     assert "verify_layered_story_bible_artifacts" in audit["acceptance_steps"]
+
+
+def test_universal_deep_planning_revision_gates_render_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "premise_structure_hook_payoff_gate", "candidate_count": 1},
+            {"name": "scene_goal_obstacle_cost_exit_gate", "candidate_count": 1},
+            {"name": "revision_finding_patch_strategy_gate", "candidate_count": 1},
+        ],
+        "premise_structure_hook_payoff_gate_hints": [
+            "Stress-test premise, reader promise, structure choice, and hook/payoff matrix before long drafting.",
+        ],
+        "scene_goal_obstacle_cost_exit_gate_hints": [
+            "Each scene needs goal, obstacle, tactic, turn, cost, and changed exit state.",
+        ],
+        "revision_finding_patch_strategy_gate_hints": [
+            "Lead revision with severity findings and patch the smallest failing section first.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Deep Universal Desk",
+        bible={
+            "style_signature": {"reader_promise": "mystery pressure with earned payoff"},
+            "story_arcs": [{"name": "Archive Arc", "status": "open"}],
+            "foreshadows": [{"hook": "Archive seal breaks", "status": "open"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 12,
+                    "summary": "Lin caught the archive contradiction.",
+                    "scene_beats": [
+                        {
+                            "goal": "prove the seal was forged",
+                            "obstacle": "the witness retracts",
+                            "tactic": "force public comparison",
+                            "turn": "the seal burns",
+                            "cost": "Lin loses crowd trust",
+                            "exit_state": "public danger escalates",
+                        }
+                    ],
+                    "revision_findings": [
+                        {"severity": "High", "issue": "weak public cost", "patch_scope": "scene 2"}
+                    ],
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue from the public contradiction.",
+            "beats": [
+                {
+                    "beat": "Make the public contradiction cost Lin leverage",
+                    "goal": "restore order",
+                    "obstacle": "the rival weaponizes the seal",
+                    "cost": "Lin loses the archive key",
+                    "status": "pending",
+                }
+            ],
+            "guardrails": [{"rule": "No instant solution"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Deep Universal Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer promise pressure only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source premise, hook/payoff matrix, scene beats, or patch notes.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={"summary": "Minimal plan without deep universal surfaces."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Universal deep planning and revision gate:" in block
+        assert "premise_stress_test" in block
+        assert "hook_payoff_matrix" in block
+        assert "scene_goal_obstacle_cost_exit" in block
+        assert "revision_findings_severity" in block
+        assert "least_destructive_patch_strategy" in block
+        assert "Stress-test premise" in block
+        assert "goal, obstacle, tactic, turn, cost" in block
+        assert "severity findings" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+    assert "source premise, hook/payoff matrix, scene beats" in inspired
+
+    assert "premise_structure_stress_test" in audit["control_axes"]
+    assert "hook_payoff_matrix_review" in audit["control_axes"]
+    assert "scene_goal_obstacle_cost_exit_state" in audit["control_axes"]
+    assert "revision_finding_severity_triage" in audit["control_axes"]
+    assert "least_destructive_patch_scope" in audit["control_axes"]
+    assert "verify_premise_structure_hook_payoff" in audit["acceptance_steps"]
+    assert "verify_scene_goal_obstacle_cost_exit" in audit["acceptance_steps"]
+    assert "verify_revision_findings_patch_scope" in audit["acceptance_steps"]

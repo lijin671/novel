@@ -857,6 +857,9 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "Revision order / natural prose gates" in panel_text
     assert "Fresh-reader pull gates" in panel_text
     assert "Progress report / continuity write-back gates" in panel_text
+    assert "Premise / hook-payoff structure gates" in panel_text
+    assert "Scene goal / cost / exit-state gates" in panel_text
+    assert "Revision finding / patch strategy gates" in panel_text
     assert "universal_novel_mode_contract_gate_hints" in panel_text
     assert "portable_story_project_structure_gate_hints" in panel_text
     assert "chapter_contract_scene_beat_gate_hints" in panel_text
@@ -864,6 +867,9 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "revision_order_natural_prose_gate_hints" in panel_text
     assert "reader_pull_fresh_reader_gate_hints" in panel_text
     assert "progress_report_continuity_writeback_gate_hints" in panel_text
+    assert "premise_structure_hook_payoff_gate_hints" in panel_text
+    assert "scene_goal_obstacle_cost_exit_gate_hints" in panel_text
+    assert "revision_finding_patch_strategy_gate_hints" in panel_text
 
     assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
     assert "portable_story_project_structure_gate_hints?: string[]" in types_text
@@ -871,6 +877,9 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "reader_promise_micro_payoff_gate_hints?: string[]" in types_text
     assert "revision_order_natural_prose_gate_hints?: string[]" in types_text
     assert "reader_pull_fresh_reader_gate_hints?: string[]" in types_text
+    assert "premise_structure_hook_payoff_gate_hints?: string[]" in types_text
+    assert "scene_goal_obstacle_cost_exit_gate_hints?: string[]" in types_text
+    assert "revision_finding_patch_strategy_gate_hints?: string[]" in types_text
 
 
 def test_source_discovery_panel_surfaces_speckit_fiction_scene_task_gates():
