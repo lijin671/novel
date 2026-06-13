@@ -544,6 +544,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("Agent Style" OR "canonical rules" OR "field-observed rules") ("style-review" OR "soft enforcement") in:name,description,readme',
     '("Story OS" OR "creative workbench" OR "governance") ("long-form narrative" OR "web novels" OR "scripts") in:name,description,readme',
     '("Novel-OS" OR "standards files" OR "structured workflow system") ("Claude Code" OR "Cursor" OR "fiction") in:name,description,readme',
+    '("ebook-to-mindmap" OR "epub/pdf 拆书" OR "AI 总结") ("mind map" OR "Mind Elixir" OR "table of contents") in:name,description,readme',
+    '("AI Reader V2" OR "novel analysis visualization") ("relationship graph" OR "knowledge graph" OR "timeline") in:name,description,readme',
+    '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1144,6 +1147,9 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/rgwch/novelist",
     "https://github.com/Marcus9593/literary-studio",
     "https://github.com/forsonny/book-os",
+    "https://github.com/SSShooter/ebook-to-mindmap",
+    "https://github.com/mouseart2025/AI-Reader-V2",
+    "https://github.com/xiaoshengxianjun/51mazi",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -4331,6 +4337,18 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "forsonny/book-os": (
         "Novel-OS / book-os is an MIT structured workflow system for AI-assisted fiction. Static HEAD/README/LICENSE markers describe standards files, manuscript outlines, story outlines, current-structure checks, chapter tasks, writing-plan review, and adaptable Claude Code/Cursor workflows. "
         "Pattern-only adaptation for standards-file workflow gates; installation steps, local standards templates, project manuscripts, AI-tool configuration, and workflow files are not imported or executed."
+    ),
+    "ssshooter/ebook-to-mindmap": (
+        "ebook-to-mindmap is an MIT AI-powered ebook deconstruction and mind-map workspace. Static HEAD/README/LICENSE/package/root markers describe EPUB and PDF 拆书 AI summaries, table of contents hierarchy, nested chapters, structured mind-map export, editable Mind Elixir data, custom prompts, source chapter summaries, structured markdown notes, Vite/React package scripts, Dockerfile, and docker-compose. "
+        "Pattern-only adaptation for source-format manifests, TOC-aware deconstruction, mindmap planning, and scene-deconstruction gates; Docker, package scripts, model/provider calls, uploaded ebooks, generated summaries, prompt bodies, and exported mind-map files are not imported or executed."
+    ),
+    "mouseart2025/ai-reader-v2": (
+        "AI Reader V2 is an AGPL-3.0 AI novel analysis and visualization tool. Static HEAD/README/LICENSE/root markers describe TXT/Markdown novel upload, character relationship graphs, geographic maps, event timelines, encyclopedia entries, local SQLite storage, FastAPI/React/Tauri desktop surfaces, Ollama local models, cloud LLM analysis profiles, and extraction of characters, locations, events, relationships, properties, and source metadata into a knowledge graph. "
+        "Pattern-only adaptation for schema-guided graph extraction, entity appearance/timeline review, and relationship-graph consistency gates; AGPL code, desktop installers, Tauri/runtime scripts, model/provider calls, local novels, extracted graphs, and generated analysis artifacts are not imported or executed."
+    ),
+    "xiaoshengxianjun/51mazi": (
+        "51mazi is an MIT Electron desktop novel-writing workspace. Static HEAD/README/LICENSE/package markers describe multi-book management, outline planning, map design, relationship graph management, entry dictionary, random name generator, character profiles, timeline management, event sequence charts, organization charts, AI cover/character/scene image features, novel download support, Electron package scripts, release scripts, and a postinstall hook. "
+        "Pattern-only adaptation for relationship graph, timeline/organization planning, local author workspace, and download/update-surface boundary gates; Electron runtime, postinstall hooks, packaged apps, release scripts, AI image/provider calls, downloaded novels, local manuscripts, and generated assets are not imported or executed."
     ),
 }
 

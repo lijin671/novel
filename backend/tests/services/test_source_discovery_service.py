@@ -19254,3 +19254,113 @@ def test_static_voiceprint_margin_style_studio_sources_are_absorbed():
     assert "private_person_place_timeline_output_gate_hints" in digest
     assert "story_os_governed_studio_pipeline_gate_hints" in digest
     assert "standards_file_workflow_os_gate_hints" in digest
+
+
+def test_static_ebook_mindmap_ai_reader_workspace_sources_are_absorbed():
+    assert "https://github.com/SSShooter/ebook-to-mindmap" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mouseart2025/AI-Reader-V2" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/xiaoshengxianjun/51mazi" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("ebook-to-mindmap" in query.lower() and "拆书" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("AI Reader V2" in query and "relationship graph" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("51mazi" in query and "timeline" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "SSShooter/ebook-to-mindmap",
+                "html_url": "https://github.com/SSShooter/ebook-to-mindmap",
+                "description": (
+                    "AI-powered summaries by extracting content from EPUB and PDF, epub/pdf 拆书 AI 总结, "
+                    "table-of-contents hierarchy, structured mind map export, editable Mind Elixir data, "
+                    "custom prompts and source chapter summaries for deconstruction."
+                ),
+                "stargazers_count": 1236,
+                "forks_count": 150,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ebook", "mindmap", "summary", "ai"],
+                "updated_at": "2026-06-11T04:33:40Z",
+                "root_files": ["README.md", "README.en.md", "LICENSE", "package.json", "Dockerfile", "docker-compose.yml"],
+                "has_downloads": True,
+                "owner": {"type": "User"},
+            },
+            {
+                "full_name": "mouseart2025/AI-Reader-V2",
+                "html_url": "https://github.com/mouseart2025/AI-Reader-V2",
+                "description": (
+                    "AI Reader V2 is an AI novel analysis visualization tool. It uploads TXT or Markdown novels, "
+                    "extracts characters, locations, events, relationships and properties with source metadata, "
+                    "builds character relationship graph, geographic map, event timeline, encyclopedia and knowledge graph, "
+                    "and stores data locally with FastAPI, SQLite, Tauri, Ollama and cloud LLM analysis profiles."
+                ),
+                "stargazers_count": 177,
+                "forks_count": 41,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel", "knowledge-graph", "timeline", "ollama"],
+                "updated_at": "2026-06-12T22:33:12Z",
+                "root_files": ["README.md", "LICENSE", "LICENSE-COMMERCIAL.md", "backend", "frontend", "src-tauri"],
+            },
+            {
+                "full_name": "xiaoshengxianjun/51mazi",
+                "html_url": "https://github.com/xiaoshengxianjun/51mazi",
+                "description": (
+                    "51mazi is a desktop writing software for novel writers with multi-book management, "
+                    "outline planning, professional writing, map design, relationship graph management, "
+                    "entry dictionary, random name generator, character profiles, timeline management, "
+                    "event sequence chart, organization chart, AI cover, AI character images, AI scene images, "
+                    "download novel support, Electron package scripts and postinstall hook."
+                ),
+                "stargazers_count": 110,
+                "forks_count": 14,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing", "electron", "timeline"],
+                "updated_at": "2026-06-11T10:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "scripts"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T23:05:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    mindmap = candidates["SSShooter/ebook-to-mindmap"]
+    reader = candidates["mouseart2025/AI-Reader-V2"]
+    mazi = candidates["xiaoshengxianjun/51mazi"]
+
+    assert "source_format_import_manifest" in mindmap["absorbed_patterns"]
+    assert "toc_aware_source_deconstruction" in mindmap["absorbed_patterns"]
+    assert "mindmap_visual_planning" in mindmap["absorbed_patterns"]
+    assert "docker" in mindmap["risk_flags"]
+
+    assert "schema_guided_graph_extraction" in reader["absorbed_patterns"]
+    assert "section_metadata_traceability_gate" in reader["absorbed_patterns"]
+    assert "relationship_graph_global_replace_gate" in reader["absorbed_patterns"]
+    assert "browser_storage_surface" in reader["risk_flags"]
+
+    assert "relationship_graph_global_replace_gate" in mazi["absorbed_patterns"]
+    assert "timeline" in mazi["absorbed_patterns"]
+    assert "organization_graph" in mazi["absorbed_patterns"]
+    assert "postinstall" in mazi["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "source_import_manifest" in pattern_pack["bible_enrichment_targets"]
+    assert "source_toc_deconstruction_index" in pattern_pack["bible_enrichment_targets"]
+    assert "canon_graph_extraction_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "section_metadata_schema" in pattern_pack["bible_enrichment_targets"]
+    assert "relationship_graph_update_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "toc_hierarchy_summary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "schema_guided_extraction_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "relationship_graph_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "source_import_structure_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "source_toc_summary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "section_metadata_traceability_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("拆书" in hint for hint in pattern_pack["scene_deconstruction_theory_report_gate_hints"])
+    assert any("TOC-aware" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("source TOC" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "source_format_import_manifest_hints" in digest
+    assert "toc_aware_source_deconstruction_hints" in digest
+    assert "schema_guided_graph_extraction_hints" in digest
+    assert "section_metadata_traceability_gate_hints" in digest
+    assert "relationship_graph_global_replace_gate_hints" in digest
