@@ -409,6 +409,11 @@ export interface SourceDiscoveryPatternPack {
   obsidian_draft_bench_scene_history_compile_gate_hints?: string[];
   obsidian_textflow_context_flow_guard_gate_hints?: string[];
   deeplore_lore_retrieval_gap_graph_gate_hints?: string[];
+  writer_studio_binder_voice_rag_gate_hints?: string[];
+  copilot_webnovel_research_runner_gate_hints?: string[];
+  tinystyler_meaning_preserving_style_transfer_gate_hints?: string[];
+  stylevec_style_signal_overfit_boundary_gate_hints?: string[];
+  chapter_translation_style_context_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

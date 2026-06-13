@@ -19586,3 +19586,148 @@ def test_static_dramatic_corpus_character_network_sources_are_absorbed():
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "dracor_tei_scene_speaker_network_gate_hints" in digest
     assert "temporal_signed_relationship_balance_gate_hints" in digest
+
+
+
+def test_longform_voice_workspace_and_style_boundary_sources_are_static_absorbed():
+    assert "https://github.com/Dirgha-AI/writer-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Varun-Patkar/StoryTeller-Github-Agents" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/zacharyhorvitz/TinyStyler" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/earmer/stylevec" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/kirstieuppermost767/gemini-book-translator-2.0" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Writer Studio" in query and "Binder" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("TinyStyler" in query and "style embeddings" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("StoryTeller Agents" in query and "character voice files" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Dirgha-AI/writer-studio",
+                "html_url": "https://github.com/Dirgha-AI/writer-studio",
+                "description": (
+                    "Writer Studio is a long-form writing studio for fiction, screenplays, research and papers. "
+                    "Public README describes outline in a Binder, manuscript drafting, voice, agents in one workspace, "
+                    "Scrivener-style nested chapter/scene tree, saved AI drafts, manuscript evaluation, RAG over documents, "
+                    "worldbuilding, story universes, story scenes, plagiarism similarity detection, export to PDF/DOCX/EPUB, "
+                    "Postgres, Qdrant, API keys and pluggable providers."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["ai", "editor", "rag", "writing"],
+                "updated_at": "2026-04-27T11:02:34Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "src", "DATABASE_URL"],
+            },
+            {
+                "full_name": "Varun-Patkar/StoryTeller-Github-Agents",
+                "html_url": "https://github.com/Varun-Patkar/StoryTeller-Github-Agents",
+                "description": (
+                    "StoryTeller Agents are VS Code and GitHub Copilot agents for webnovel-style fiction chapter by chapter, "
+                    "fanfiction or original. Public README describes Storyteller orchestrator, Story Setup and Story Runner, "
+                    "wiki-first research, plan.md, summary.md, chapters, character voice files with quotes and speech patterns, "
+                    "scene weight Heavy Medium Light Skip, tonal variation, post-chapter bookkeeping, interactive decision points, "
+                    "SearXNG Docker and MCP tools."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["ai", "copilot", "creative-writing", "fanfiction", "storytelling"],
+                "updated_at": "2026-06-08T15:46:54Z",
+                "root_files": ["README.md", "LICENSE", ".github", "agents"],
+            },
+            {
+                "full_name": "zacharyhorvitz/TinyStyler",
+                "html_url": "https://github.com/zacharyhorvitz/TinyStyler",
+                "description": (
+                    "TinyStyler is an MIT few-shot text style transfer model. Public README describes using only a few sample texts "
+                    "in the desired style to transform source text while preserving original meaning, authorship embeddings, "
+                    "TinyStylerSim with higher meaning threshold, authorship evaluation, generation scripts, Hugging Face model, "
+                    "Google Drive checkpoint download and pip install requirements."
+                ),
+                "stargazers_count": 65,
+                "forks_count": 6,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["style-transfer", "authorship", "nlp"],
+                "updated_at": "2026-05-28T14:30:00Z",
+                "root_files": ["README.md", "requirements.txt", "models/download.sh", "tinystyler"],
+            },
+            {
+                "full_name": "earmer/stylevec",
+                "html_url": "https://github.com/earmer/stylevec",
+                "description": (
+                    "stylevec is a GPL-3.0 research project exploring style not content embeddings for short texts. "
+                    "Public README describes extracting speaker stylistic fingerprint independent of topic, content masking, "
+                    "AO3 fanfiction corpus, literary book collection, style residual experiments, extreme overfitting warnings, "
+                    "negative silhouette results, Rust similarity utility with char n-gram Jaccard and normalized Levenshtein, "
+                    "OpenRouter API, undetected-chromedriver, dataset copyright disclaimers and out-of-date main branch."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": ["style", "embeddings", "stylometry"],
+                "updated_at": "2026-06-06T16:34:45Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml", "tools/simlar", "data", "artifacts"],
+            },
+            {
+                "full_name": "kirstieuppermost767/gemini-book-translator-2.0",
+                "html_url": "https://github.com/kirstieuppermost767/gemini-book-translator-2.0",
+                "description": (
+                    "gemini-book-translator-2.0 is a Windows-friendly book translation tool. Public README describes long-form text "
+                    "style control, chapter-level context, source style analysis, chapter-by-chapter translation, consistent terms and names, "
+                    "nearby chapter context, review chapters one by one, output with chapter breaks/headings, preserved names and terms, "
+                    "Gemini API key, Windows install flow and ZIP download."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["agentic-workflow", "generative-ai", "translation", "books"],
+                "updated_at": "2026-06-13T07:22:29Z",
+                "root_files": ["README.md", "LICENSE", "requirements.txt", "src/gemini_translator_book_2.1.zip"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T23:55:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "writer_studio_binder_voice_rag_gate" in candidates["Dirgha-AI/writer-studio"]["absorbed_patterns"]
+    assert "copilot_webnovel_research_runner_gate" in candidates["Varun-Patkar/StoryTeller-Github-Agents"]["absorbed_patterns"]
+    assert "tinystyler_meaning_preserving_style_transfer_gate" in candidates["zacharyhorvitz/TinyStyler"]["absorbed_patterns"]
+    assert "stylevec_style_signal_overfit_boundary_gate" in candidates["earmer/stylevec"]["absorbed_patterns"]
+    assert "chapter_translation_style_context_gate" in candidates["kirstieuppermost767/gemini-book-translator-2.0"]["absorbed_patterns"]
+    assert "provider_key_surface" in candidates["Dirgha-AI/writer-studio"]["risk_flags"]
+    assert "docker" in candidates["Varun-Patkar/StoryTeller-Github-Agents"]["risk_flags"]
+    assert "mcp_server" in candidates["Varun-Patkar/StoryTeller-Github-Agents"]["risk_flags"]
+    assert "binary_distribution" in candidates["kirstieuppermost767/gemini-book-translator-2.0"]["risk_flags"]
+    assert "network_scraper" in candidates["earmer/stylevec"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "binder_voice_rag_workspace_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_research_runner_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "meaning_preserving_style_transfer_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "style_signal_overfit_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_translation_style_context_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "binder_voice_workspace_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_research_voice_file_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_transfer_meaning_preservation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_signal_overfit_corpus_custody_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_translation_context_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "binder_voice_workspace_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_research_voice_file_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "meaning_preserving_style_transfer_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "style_signal_overfit_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_translation_style_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("Binder" in hint for hint in pattern_pack["writer_studio_binder_voice_rag_gate_hints"])
+    assert any("scene weight" in hint.lower() for hint in pattern_pack["copilot_webnovel_research_runner_gate_hints"])
+    assert any("meaning" in hint.lower() for hint in pattern_pack["tinystyler_meaning_preserving_style_transfer_gate_hints"])
+    assert any("overfit" in hint.lower() for hint in pattern_pack["stylevec_style_signal_overfit_boundary_gate_hints"])
+    assert any("chapter-level context" in hint.lower() for hint in pattern_pack["chapter_translation_style_context_gate_hints"])
+    assert any("style transfer" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "writer_studio_binder_voice_rag_gate_hints" in digest
+    assert "copilot_webnovel_research_runner_gate_hints" in digest
+    assert "tinystyler_meaning_preserving_style_transfer_gate_hints" in digest
+    assert "stylevec_style_signal_overfit_boundary_gate_hints" in digest
+    assert "chapter_translation_style_context_gate_hints" in digest

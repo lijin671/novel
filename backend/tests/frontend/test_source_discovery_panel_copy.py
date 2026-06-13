@@ -319,6 +319,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "chapter_packet_promise_debt_audit_gate_hints",
             "webnovel_state_machine_knowledge_graph_gate_hints",
             "story_knowledge_layer_sot_adaptation_gate_hints",
+            "writer_studio_binder_voice_rag_gate_hints",
+            "copilot_webnovel_research_runner_gate_hints",
+            "tinystyler_meaning_preserving_style_transfer_gate_hints",
+            "stylevec_style_signal_overfit_boundary_gate_hints",
+            "chapter_translation_style_context_gate_hints",
             "local_snapshot_backup_export_gate_hints",
             "continuity_passport_drift_repair_gate_hints",
             "originality_report_multimetric_gate_hints",
@@ -547,6 +552,11 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Director-orchestrator trace canonize gates" in panel_text
     assert "Book build export delivery gates" in panel_text
     assert "Plot-storyline improvement EPUB chain gates" in panel_text
+    assert "Writer Studio binder/voice/RAG gates" in panel_text
+    assert "Copilot webnovel research-runner gates" in panel_text
+    assert "TinyStyler meaning-preserving style transfer gates" in panel_text
+    assert "stylevec style-signal overfit boundary gates" in panel_text
+    assert "Chapter translation style-context gates" in panel_text
     assert "Co-writing / recursive revision gates" in panel_text
     assert "Hierarchical co-writing story scaffold gates" in panel_text
     assert "Human coauthor edit boundaries" in panel_text

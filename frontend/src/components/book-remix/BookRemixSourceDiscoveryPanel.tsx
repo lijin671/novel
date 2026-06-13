@@ -427,6 +427,11 @@ const PINNED_HINT_KEYS = new Set([
   'obsidian_draft_bench_scene_history_compile_gate_hints',
   'obsidian_textflow_context_flow_guard_gate_hints',
   'deeplore_lore_retrieval_gap_graph_gate_hints',
+  'writer_studio_binder_voice_rag_gate_hints',
+  'copilot_webnovel_research_runner_gate_hints',
+  'tinystyler_meaning_preserving_style_transfer_gate_hints',
+  'stylevec_style_signal_overfit_boundary_gate_hints',
+  'chapter_translation_style_context_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -915,6 +920,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Obsidian Draft Bench history compile gates', patternPackPayload?.obsidian_draft_bench_scene_history_compile_gate_hints],
               ['Obsidian textFlow context flow gates', patternPackPayload?.obsidian_textflow_context_flow_guard_gate_hints],
               ['DeepLore retrieval gap graph gates', patternPackPayload?.deeplore_lore_retrieval_gap_graph_gate_hints],
+              ['Writer Studio binder/voice/RAG gates', patternPackPayload?.writer_studio_binder_voice_rag_gate_hints],
+              ['Copilot webnovel research-runner gates', patternPackPayload?.copilot_webnovel_research_runner_gate_hints],
+              ['TinyStyler meaning-preserving style transfer gates', patternPackPayload?.tinystyler_meaning_preserving_style_transfer_gate_hints],
+              ['stylevec style-signal overfit boundary gates', patternPackPayload?.stylevec_style_signal_overfit_boundary_gate_hints],
+              ['Chapter translation style-context gates', patternPackPayload?.chapter_translation_style_context_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

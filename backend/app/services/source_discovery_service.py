@@ -550,6 +550,9 @@ DEFAULT_GITHUB_QUERIES = (
     '("AI Reader V2" OR "novel analysis visualization") ("relationship graph" OR "knowledge graph" OR "timeline") in:name,description,readme',
     '("Galley" OR "scene drafts" OR "compile") ("Obsidian" OR "long-form writing") in:name,description,readme',
     '("DeepLore" OR "two-stage retrieval" OR "world info keyword matching") ("Obsidian" OR "SillyTavern") in:name,description,readme',
+    '("Writer Studio" OR "Binder" OR "manuscript evaluation") ("voice" OR "RAG" OR "plagiarism") in:name,description,readme',
+    '("TinyStyler" OR "style embeddings" OR "meaning threshold") ("few-shot style transfer" OR "authorship embeddings") in:name,description,readme',
+    '("StoryTeller Agents" OR "character voice files" OR "scene weight") ("chapter by chapter" OR "fanfiction") in:name,description,readme',
     '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
@@ -1164,6 +1167,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/banisterious/obsidian-draft-bench",
     "https://github.com/tine-schreibt/textflow",
     "https://github.com/pixelnull/sillytavern-DeepLore-Enhanced",
+    "https://github.com/Dirgha-AI/writer-studio",
+    "https://github.com/Varun-Patkar/StoryTeller-Github-Agents",
+    "https://github.com/zacharyhorvitz/TinyStyler",
+    "https://github.com/earmer/stylevec",
+    "https://github.com/kirstieuppermost767/gemini-book-translator-2.0",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1714,6 +1722,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("obsidian_draft_bench_scene_history_compile_gate", ("draft bench", "per-scene draft history", "frontmatter metadata", "bases-compatible status queues", "compile presets", "preview", "markdown, odt, pdf, docx export")),
     ("obsidian_textflow_context_flow_guard_gate", ("textflow", "ordered flows", "notes, chapters, and scenes in context", "source note cursor tracking", "auto-rebuild", "flow navigation", "crash/backup safety")),
     ("deeplore_lore_retrieval_gap_graph_gate", ("deeplore", "two-stage retrieval", "world info keyword matching", "lore gating", "era, location, scene and character", "gap flagging", "relationship graph", "activation simulation", "pseudonymized diagnostics")),
+    ("writer_studio_binder_voice_rag_gate", ("writer studio", "outline in a binder", "binder", "manuscript evaluation", "scrivener-style nested chapter/scene tree", "voice", "rag over documents", "plagiarism", "story universes", "story scenes")),
+    ("copilot_webnovel_research_runner_gate", ("storyteller agents", "github copilot agents", "webnovel-style fiction", "story setup", "story runner", "wiki-first research", "character voice files", "scene weight", "heavy medium light skip", "post-chapter bookkeeping")),
+    ("tinystyler_meaning_preserving_style_transfer_gate", ("tinystyler", "few-shot text style transfer", "desired style", "preserving original meaning", "authorship embeddings", "tinystylersim", "meaning threshold", "authorship evaluation")),
+    ("stylevec_style_signal_overfit_boundary_gate", ("stylevec", "style not content embeddings", "stylistic fingerprint", "independent of topic", "content masking", "style residual", "extreme overfitting", "negative silhouette", "char n-gram jaccard", "normalized levenshtein")),
+    ("chapter_translation_style_context_gate", ("gemini-book-translator", "translate books with clear style", "style control", "chapter-level context", "writing style", "chapter-by-chapter translation", "consistent terms and names", "nearby chapters", "preserved names and terms")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -1825,7 +1838,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
-    ("docker", ("dockerfile", "docker-compose", "compose.yaml", "compose.yml")),
+    ("docker", ("docker", "dockerfile", "docker-compose", "compose.yaml", "compose.yml")),
     ("shell_script", (".sh", "install.sh", "setup.sh")),
     ("shell_hook_surface", (".sh", "bash", "shell script", ".claude/scripts", "pretooluse hook", "stop hook")),
     ("powershell_script", (".ps1", "install.ps1", "setup.ps1")),
@@ -1843,7 +1856,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("platform_publish_automation_surface", ("browser automation login", "http api upload", "one-click publish", "webnovel-publish", "publish to fanqie", "fanqie publish")),
     ("host_permission_bypass_surface", ("dangerously-skip-permissions", "skip permissions", "bypass permissions")),
     ("device_control", ("adb", "root", "accessibility", "plugin marketplace")),
-    ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url")),
+    ("network_scraper", ("scraper", "scrape", "crawler", "tropescraper", "tv tropes url", "undetected-chromedriver")),
     ("corpus_downloader", ("download texts", "parallel downloads", "gutenberg scraper", "build public-domain book corpora", "full-text search")),
 )
 STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
@@ -4414,6 +4427,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "DeepLore Enhanced is an MIT SillyTavern/Obsidian lore workflow. Public markers describe two-stage retrieval, world-info keyword matching, lore gating by era/location/scene/character, gap flagging, relationship graph, clustering, activation simulation, pseudonymized diagnostics, and local-provider boundaries. "
         "Pattern-only adaptation for lore retrieval, gap, and graph gates; SillyTavern extension runtime, Obsidian vaults, world-info books, local providers, diagnostics, and chat logs are not launched or imported."
     ),
+    "dirgha-ai/writer-studio": (
+        "Writer Studio is an Apache-2.0 long-form writing studio. Static HEAD/README/LICENSE/package markers describe a Binder for outlines, manuscript drafting, voice, agents in one workspace, Scrivener-style nested chapter/scene tree, saved AI drafts, manuscript evaluations, RAG over documents, story universes/scenes, plagiarism similarity detection, and PDF/DOCX/EPUB export. "
+        "Pattern-only adaptation for binder/voice/RAG workspace gates; package scripts, Postgres/Qdrant, provider keys, uploaded PDFs, generated drafts, local manuscripts, exports, and runtime services are not installed, launched, or imported."
+    ),
+    "varun-patkar/storyteller-github-agents": (
+        "StoryTeller GitHub Agents is an MIT VS Code/GitHub Copilot agent pack for webnovel-style fiction. Static HEAD/README/LICENSE markers describe Storyteller orchestrator, Story Setup, Story Runner, chapter-by-chapter fanfiction/original drafting, wiki-first research, plan/summary/chapter folders, character voice files, scene-weight classification, tonal variation, post-chapter bookkeeping, and interactive decision points. "
+        "Pattern-only adaptation for research-runner chapter gates; Docker, SearXNG, MCP tools, wiki crawling, Copilot/VS Code agent runtime, fandom data, prompt bodies, and generated chapters are not launched or imported."
+    ),
+    "zacharyhorvitz/tinystyler": (
+        "TinyStyler is an MIT few-shot text style-transfer research project. Static HEAD/README markers describe transforming source text toward a desired style while preserving original meaning, authorship embeddings, TinyStylerSim meaning threshold, authorship evaluation, generation scripts, Hugging Face model, and checkpoint download scripts. "
+        "Pattern-only adaptation for meaning-preserving style-transfer boundaries; model weights, Google Drive/Hugging Face downloads, pip installs, training code, generated samples, and style-transfer runtime are not executed or imported."
+    ),
+    "earmer/stylevec": (
+        "stylevec is a GPL-3.0 style-vector research project. Static HEAD/README/LICENSE/pyproject markers describe style-not-content embeddings, speaker stylistic fingerprint extraction independent of topic, content masking, style residual experiments, extreme overfitting, negative silhouette results, char n-gram Jaccard/Levenshtein similarity utilities, corpus copyright disclaimers, AO3/literary corpora, OpenRouter API, and undetected-chromedriver. "
+        "Pattern-only adaptation for style-signal overfit and corpus-custody gates; GPL code, scraped/copyrighted corpora, model downloads, browser automation, provider calls, datasets, artifacts, and similarity utilities are not imported or executed."
+    ),
+    "kirstieuppermost767/gemini-book-translator-2.0": (
+        "gemini-book-translator-2.0 is an MIT Windows-friendly book translation tool. Static HEAD/README/LICENSE markers describe long-form book translation with style control, chapter-level context, source style analysis, chapter-by-chapter translation, consistent terms/names, nearby chapter context, review-one-chapter-at-a-time workflow, preserved names/terms, Gemini API key, and ZIP download. "
+        "Pattern-only adaptation for chapter-level style/context translation gates; ZIP downloads, Windows installers, Gemini/API calls, requirements, source books, translated outputs, and private API keys are not downloaded, launched, or imported."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -5118,6 +5151,11 @@ class NovelSourceDiscoveryService:
             "obsidian_draft_bench_scene_history_compile_gate_hints": self._build_obsidian_draft_bench_scene_history_compile_gate_hints(available_patterns),
             "obsidian_textflow_context_flow_guard_gate_hints": self._build_obsidian_textflow_context_flow_guard_gate_hints(available_patterns),
             "deeplore_lore_retrieval_gap_graph_gate_hints": self._build_deeplore_lore_retrieval_gap_graph_gate_hints(available_patterns),
+            "writer_studio_binder_voice_rag_gate_hints": self._build_writer_studio_binder_voice_rag_gate_hints(available_patterns),
+            "copilot_webnovel_research_runner_gate_hints": self._build_copilot_webnovel_research_runner_gate_hints(available_patterns),
+            "tinystyler_meaning_preserving_style_transfer_gate_hints": self._build_tinystyler_meaning_preserving_style_transfer_gate_hints(available_patterns),
+            "stylevec_style_signal_overfit_boundary_gate_hints": self._build_stylevec_style_signal_overfit_boundary_gate_hints(available_patterns),
+            "chapter_translation_style_context_gate_hints": self._build_chapter_translation_style_context_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -6205,6 +6243,11 @@ class NovelSourceDiscoveryService:
             "obsidian_draft_bench_scene_history_compile_gate": 68,
             "obsidian_textflow_context_flow_guard_gate": 67,
             "deeplore_lore_retrieval_gap_graph_gate": 70,
+            "writer_studio_binder_voice_rag_gate": 70,
+            "copilot_webnovel_research_runner_gate": 69,
+            "tinystyler_meaning_preserving_style_transfer_gate": 71,
+            "stylevec_style_signal_overfit_boundary_gate": 71,
+            "chapter_translation_style_context_gate": 68,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -6371,6 +6414,16 @@ class NovelSourceDiscoveryService:
             targets.append("textflow_context_flow_policy")
         if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
             targets.append("deeplore_lore_gap_retrieval_policy")
+        if "writer_studio_binder_voice_rag_gate" in patterns:
+            targets.append("binder_voice_rag_workspace_policy")
+        if "copilot_webnovel_research_runner_gate" in patterns:
+            targets.append("chapter_research_runner_policy")
+        if "tinystyler_meaning_preserving_style_transfer_gate" in patterns:
+            targets.append("meaning_preserving_style_transfer_policy")
+        if "stylevec_style_signal_overfit_boundary_gate" in patterns:
+            targets.append("style_signal_overfit_boundary_policy")
+        if "chapter_translation_style_context_gate" in patterns:
+            targets.append("chapter_translation_style_context_policy")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_inspiration_matrix_policy")
             targets.append("cost_quality_budget_policy")
@@ -7956,6 +8009,16 @@ class NovelSourceDiscoveryService:
             targets.append("obsidian_scene_compile_report")
         if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
             targets.append("lore_retrieval_gap_graph_report")
+        if "writer_studio_binder_voice_rag_gate" in patterns:
+            targets.append("binder_voice_workspace_report")
+        if "copilot_webnovel_research_runner_gate" in patterns:
+            targets.append("chapter_research_voice_file_report")
+        if "tinystyler_meaning_preserving_style_transfer_gate" in patterns:
+            targets.append("style_transfer_meaning_preservation_report")
+        if "stylevec_style_signal_overfit_boundary_gate" in patterns:
+            targets.append("style_signal_overfit_corpus_custody_report")
+        if "chapter_translation_style_context_gate" in patterns:
+            targets.append("chapter_translation_context_report")
         if "manuscript_card_board_extraction_gate" in patterns:
             targets.extend(["manuscript_card_board_extraction_report", "duplicate_card_merge_findings"])
         if "chapter_timeline_frontmatter_export_gate" in patterns:
@@ -15714,6 +15777,51 @@ class NovelSourceDiscoveryService:
             "DeepLore/SillyTavern runtime, Obsidian vaults, world-info books, local-provider calls, diagnostics, and chat logs remain excluded from static intake.",
         ]
 
+    def _build_writer_studio_binder_voice_rag_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "writer_studio_binder_voice_rag_gate" not in patterns:
+            return []
+        return [
+            "Use a Binder-like outline as a visible chapter/scene tree with manuscript draft, voice guide, RAG reference set, and evaluation status kept separate.",
+            "Before continuation or same-type drafting, require Binder node id, accepted draft version, voice scope, document-RAG citations, and plagiarism/similarity review state.",
+            "Writer Studio package scripts, Postgres/Qdrant, provider keys, uploaded PDFs, generated drafts, exports, and runtime services remain excluded from static intake.",
+        ]
+
+    def _build_copilot_webnovel_research_runner_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "copilot_webnovel_research_runner_gate" not in patterns:
+            return []
+        return [
+            "Split webnovel work into setup and runner lanes: setup creates research packet, plan, summaries, and character voice files; runner writes one chapter per session.",
+            "Scene weight labels Heavy/Medium/Light/Skip should guide pacing and tonal variation before post-chapter bookkeeping updates summaries or next-chapter state.",
+            "Copilot agent runtime, SearXNG Docker, MCP tools, wiki crawling, fandom pages, prompt bodies, exact quotes, and generated chapter files remain excluded from static intake.",
+        ]
+
+    def _build_tinystyler_meaning_preserving_style_transfer_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "tinystyler_meaning_preserving_style_transfer_gate" not in patterns:
+            return []
+        return [
+            "Treat style transfer as an audit-bound abstraction: allowed style axes need a meaning-preservation check and a protected-author mimicry refusal path.",
+            "Few-shot samples may define abstract rhythm/register features only; they must not be stored as source prose inside the generated chapter context.",
+            "TinyStyler model weights, checkpoint downloads, training scripts, Hugging Face demos, generated samples, and style-transfer runtime remain excluded from static intake.",
+        ]
+
+    def _build_stylevec_style_signal_overfit_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "stylevec_style_signal_overfit_boundary_gate" not in patterns:
+            return []
+        return [
+            "Use style-vector lessons as a warning gate: speaker-style signals overfit quickly and must be validated with topic-independent negative controls.",
+            "Any style-similarity report needs corpus custody, copyright class, content-masking method, overfit evidence, and false-positive notes before it can guide revisions.",
+            "stylevec GPL code, AO3/literary corpora, scraped datasets, browser automation, model artifacts, provider calls, and similarity utilities remain excluded from static intake.",
+        ]
+
+    def _build_chapter_translation_style_context_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chapter_translation_style_context_gate" not in patterns:
+            return []
+        return [
+            "For owned books or licensed material, carry chapter-level context, glossary/term map, source-style notes, and per-chapter review state through translation or adaptation.",
+            "Same-type creation may reuse the consistency pattern only: chapter context, nearby-summary window, and term drift checks; source wording and names stay out.",
+            "Gemini/API calls, Windows ZIP installers, requirements, private source books, translated outputs, preserved-name tables, and API keys remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -15733,6 +15841,16 @@ class NovelSourceDiscoveryService:
             targets.append("obsidian_scene_compile_remap")
         if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
             targets.append("lore_gap_graph_remap")
+        if "writer_studio_binder_voice_rag_gate" in patterns:
+            targets.append("binder_voice_workspace_remap")
+        if "copilot_webnovel_research_runner_gate" in patterns:
+            targets.append("chapter_research_voice_file_remap")
+        if "tinystyler_meaning_preserving_style_transfer_gate" in patterns:
+            targets.append("meaning_preserving_style_transfer_remap")
+        if "stylevec_style_signal_overfit_boundary_gate" in patterns:
+            targets.append("style_signal_overfit_boundary_remap")
+        if "chapter_translation_style_context_gate" in patterns:
+            targets.append("chapter_translation_style_context_remap")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_trope_budget_remap")
         if "stepwise_local_book_generation_file_gate" in patterns:
@@ -16928,6 +17046,16 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type prompts, state scene-card/version/compile scope, selected Obsidian-style context flow, and required distance from the source manuscript before drafting.")
         if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
             hints.append("For same-type prompts, include target lore retrieval gates and gap-graph ids; source world-info keywords may inspire categories only, not names or facts.")
+        if "writer_studio_binder_voice_rag_gate" in patterns:
+            hints.append("For same-type prompts, separate Binder outline, manuscript draft, voice guide, RAG references, and plagiarism checks into visible stages before drafting.")
+        if "copilot_webnovel_research_runner_gate" in patterns:
+            hints.append("For chapter prompts, require research packet, plan.md equivalent, running summary, character voice files, and scene weight before the runner writes.")
+        if "tinystyler_meaning_preserving_style_transfer_gate" in patterns:
+            hints.append("For style-transfer-inspired prompts, name the allowed abstract style axes and the meaning-preservation test; do not request protected-author mimicry.")
+        if "stylevec_style_signal_overfit_boundary_gate" in patterns:
+            hints.append("For style-vector-inspired prompts, treat style similarity as an audit signal with corpus custody notes and overfit warnings, not as a generation target.")
+        if "chapter_translation_style_context_gate" in patterns:
+            hints.append("For translation-style continuation prompts, include chapter-level context, glossary/term map, and review checkpoint while keeping source text out of same-type drafting.")
         if "mock_first_multi_agent_continuation_gate" in patterns:
             hints.append("Prompt from pipeline roles as abstract duties: planner, drafter, reviewer, linter, budget auditor, and author gate; do not reuse upstream role wording or source-book facts.")
         if "truth_file_write_next_state_update_gate" in patterns:
@@ -17807,6 +17935,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform Obsidian manuscript-workspace mechanics into target scene ids, statuses, branches, flow windows, and compile checks without preserving source scene order.")
         if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
             hints.append("Transform lore retrieval into target-era, target-location, target-character gates and rebuild the gap graph with new world facts.")
+        if "writer_studio_binder_voice_rag_gate" in patterns:
+            hints.append("Transform Binder trees into MuMuAINovel-owned outline nodes, voice guides, RAG citations, and export checks rather than importing upstream workspace structures.")
+        if "copilot_webnovel_research_runner_gate" in patterns:
+            hints.append("Transform wiki-first research into a rights-reviewed local research packet and scene-weight schedule; character voice files become abstract dialogue-function constraints only.")
+        if "tinystyler_meaning_preserving_style_transfer_gate" in patterns:
+            hints.append("Transform style transfer into a meaning-change-safe abstraction pass: preserve target scene intent, not source author identity or sample wording.")
+        if "stylevec_style_signal_overfit_boundary_gate" in patterns:
+            hints.append("Transform style-vector lessons into negative controls, overfit regressions, and corpus-custody reports before any same-type style guidance is trusted.")
+        if "chapter_translation_style_context_gate" in patterns:
+            hints.append("Transform chapter translation mechanics into glossary consistency, nearby-context review, and chapter-by-chapter acceptance checks for owned source material only.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Transform collaboration roles into new project duties and new evidence ids; do not preserve upstream prompt/story pairings or agent-room wording.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -18702,6 +18840,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type drafts that preserve source vault folder names, scene-card order, branch labels, compile presets, or frontmatter relationship labels as story content.")
         if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
             hints.append("Reject lore-guided drafts that copy source world-info keywords, era/location labels, relationship graph names, diagnostic traces, or SillyTavern card text.")
+        if "writer_studio_binder_voice_rag_gate" in patterns:
+            hints.append("Reject drafts that copy Writer Studio endpoint names, Binder tree examples, RAG snippets, plagiarism report text, provider config, or exported manuscript artifacts as story content.")
+        if "copilot_webnovel_research_runner_gate" in patterns:
+            hints.append("Reject drafts that copy fandom wiki facts, exact quotes, character voice files, SearXNG/MCP traces, agent prompts, chapter folders, or runner bookkeeping into new canon.")
+        if "tinystyler_meaning_preserving_style_transfer_gate" in patterns:
+            hints.append("Reject style transfer outputs that preserve source meaning, protected author fingerprint, sample wording, model demo examples, or checkpoint-derived artifacts beyond abstract style labels.")
+        if "stylevec_style_signal_overfit_boundary_gate" in patterns:
+            hints.append("Reject style-vector workflows that import AO3/literary corpora, scraped text, copyrighted datasets, browser-automation traces, or overfit speaker fingerprints into MuMuAINovel.")
+        if "chapter_translation_style_context_gate" in patterns:
+            hints.append("Reject translation-style outputs that carry source chapter wording, glossary entries without rights review, Gemini/API traces, ZIP installer content, or preserved names/terms into same-type fiction.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Reject drafts that reuse Tell Me A Story prompt structure, human-written story arcs, or Agents' Room task wording as hidden source scaffolding.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -19672,6 +19820,11 @@ class NovelSourceDiscoveryService:
                 "obsidian_draft_bench_scene_history_compile_gate",
                 "obsidian_textflow_context_flow_guard_gate",
                 "deeplore_lore_retrieval_gap_graph_gate",
+                "writer_studio_binder_voice_rag_gate",
+                "copilot_webnovel_research_runner_gate",
+                "tinystyler_meaning_preserving_style_transfer_gate",
+                "stylevec_style_signal_overfit_boundary_gate",
+                "chapter_translation_style_context_gate",
                 "manuscript_card_board_extraction_gate",
                 "chapter_timeline_frontmatter_export_gate",
                 "node_dialogue_state_machine",
