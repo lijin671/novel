@@ -58,6 +58,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
         "character_dialogue_persona_memory_hints",
         "anti_repetition_prompt_rules_hints",
         "temporal_canon_context_graph_hints",
+        "narrative_time_age_trace_gate_hints",
         "plotline_thread_tracking_hints",
         "rolling_summary_context_trim_hints",
         "local_first_workspace_hints",

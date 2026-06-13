@@ -105,6 +105,7 @@ export interface SourceDiscoveryPatternPack {
   character_dialogue_persona_memory_hints?: string[];
   anti_repetition_prompt_rules_hints?: string[];
   temporal_canon_context_graph_hints?: string[];
+  narrative_time_age_trace_gate_hints?: string[];
   character_interaction_network_gate_hints?: string[];
   character_quote_attribution_map_hints?: string[];
   readability_pacing_metric_gate_hints?: string[];

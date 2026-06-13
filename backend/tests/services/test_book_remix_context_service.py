@@ -214,6 +214,75 @@ def test_build_remix_continuation_context_block_renders_universal_progress_repor
     assert "character_changes, hook_deltas, continuity_updates, next_chapter_focus, word_count, risks" in block
 
 
+def test_universal_progress_report_fuses_narrative_time_age_trace_gate():
+    source_pattern_pack = {
+        "workflow_patterns": [
+            {"name": "progress_report_continuity_writeback_gate"},
+            {"name": "narrative_time_age_trace_gate"},
+        ],
+    }
+
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 10,
+                    "summary": "Lin hid the seal failure until midnight.",
+                    "new_facts": [{"fact": "The seal failed at midnight"}],
+                    "character_state_changes": [{"character_name": "Lin", "state_after": "isolated"}],
+                    "foreshadow_changes": [{"hook": "Archive seal breaks", "status": "open"}],
+                    "continuity_updates": [{"field": "archive_status", "value": "unstable"}],
+                    "next_chapter_focus": "Make the failure public.",
+                    "word_count": 2400,
+                    "risks": ["time pressure may compress too fast"],
+                }
+            ],
+        },
+        plan={"beats": [{"beat": "Expose the midnight failure", "status": "pending"}]},
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    assert "narrative_time_age_progress_writeback" in audit["control_axes"]
+    assert "verify_narrative_time_age_writeback" in audit["acceptance_steps"]
+    assert audit["chapter_progress_report_gaps"] == [
+        {
+            "chapter": "Ch10",
+            "missing_fields": [
+                "narrative_time",
+                "duration",
+                "weekday",
+                "character_age_refs",
+                "section_status",
+                "export_included",
+            ],
+        }
+    ]
+
+    block = build_remix_continuation_context_block(
+        project_title="Time Trace Progress Desk",
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 10,
+                    "summary": "Lin hid the seal failure until midnight.",
+                    "word_count": 2400,
+                }
+            ],
+        },
+        plan={"beats": [{"beat": "Expose the midnight failure", "status": "pending"}]},
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    assert "required_time_trace_fields: narrative_time, duration, weekday" in block
+    assert "mdnovel-style section time/status/export boundary" in block
+    assert "chapter_progress_report_missing_fields: Ch10" in block
+    assert "narrative_time, duration, weekday, character_age_refs, section_status, export_included" in block
+
+
 def test_build_remix_inspired_context_block_renders_universal_same_type_scaffold():
     block = build_remix_inspired_context_block(
         project_title="Universal Inspired Desk",
@@ -2405,6 +2474,7 @@ def test_build_remix_continuation_context_block_renders_plotgrid_reveal_and_bran
                 {"name": "plot_dependency_graph"},
                 {"name": "plotgrid_scene_matrix"},
                 {"name": "plotline_thread_tracking"},
+                {"name": "narrative_time_age_trace_gate"},
                 {"name": "scene_status_dashboard"},
                 {"name": "gradual_reveal_control"},
                 {"name": "setup_payoff_tracking"},
@@ -2425,6 +2495,7 @@ def test_build_remix_continuation_context_block_renders_plotgrid_reveal_and_bran
     assert "plot_dependency_graph: every payoff should trace back to an active setup" in block
     assert "plotgrid_scene_matrix: map each scene against plotline, POV, location, emotion, status, and thread coverage" in block
     assert "plotline_thread_tracking: keep active, paused, paid-off, and abandoned threads visible before drafting" in block
+    assert "narrative_time_age_trace_gate: verify section date/time, duration, weekday, character age, status, and unused/export boundary" in block
     assert "scene_status_dashboard: mark scene cards by planned, drafted, reviewed, accepted, or blocked state" in block
     assert "gradual_reveal_budget: expose world facts through action and dialogue" in block
     assert "setup_payoff_ledger: record setup chapter, expected payoff window, payoff state, and dependency risk" in block

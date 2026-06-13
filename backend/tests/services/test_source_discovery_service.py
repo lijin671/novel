@@ -20314,3 +20314,61 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "revision_order_natural_prose_gate_hints" in digest
     assert "reader_pull_fresh_reader_gate_hints" in digest
     assert "progress_report_continuity_writeback_gate_hints" in digest
+
+
+def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():
+    assert "https://github.com/peter88213/mdnovel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("mdnovel" in query and "narrative time" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "peter88213/mdnovel",
+                "html_url": "https://github.com/peter88213/mdnovel",
+                "description": "An experimental novel writing application using Markdown.",
+                "stargazers_count": 9,
+                "forks_count": 0,
+                "license": {"spdx_id": "GPL-3.0"},
+                "topics": [
+                    "markdown",
+                    "novel",
+                    "python",
+                    "tkinter",
+                    "writer-tools",
+                    "writing-novels",
+                ],
+                "updated_at": "2026-05-29T21:04:09Z",
+                "pushed_at": "2026-04-12T11:13:02Z",
+                "archived": True,
+                "root_files": ["README.md", "LICENSE", "dist", "templates", "src", "tools"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-14T05:40:00+08:00",
+    )
+
+    mdnovel = result["candidates"][0]
+    assert mdnovel["title"] == "peter88213/mdnovel"
+    assert mdnovel["posture"] == "pattern-only"
+    assert "repo:archived" in mdnovel["trust_review"]["flags"]
+    assert {
+        "plain_text_project_storage",
+        "synopsis_cross_reference",
+        "plotgrid_scene_matrix",
+        "plotline_thread_tracking",
+        "section_metadata_traceability_gate",
+        "narrative_time_age_trace_gate",
+        "manuscript_export_formats",
+    }.issubset(mdnovel["absorbed_patterns"])
+    assert "binary_distribution" in mdnovel["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "narrative_time_age_export_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "narrative_time_age_trace_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "narrative_time_age_export_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("weekday" in hint.lower() for hint in pattern_pack["narrative_time_age_trace_gate_hints"])
+    assert any("unused" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "narrative_time_age_trace_gate_hints" in digest

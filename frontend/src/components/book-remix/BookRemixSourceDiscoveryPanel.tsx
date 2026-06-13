@@ -123,6 +123,7 @@ const PINNED_HINT_KEYS = new Set([
   'character_dialogue_persona_memory_hints',
   'anti_repetition_prompt_rules_hints',
   'temporal_canon_context_graph_hints',
+  'narrative_time_age_trace_gate_hints',
   'plotline_thread_tracking_hints',
   'rolling_summary_context_trim_hints',
   'local_first_workspace_hints',
@@ -785,6 +786,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Character dialogue persona memory gates', patternPackPayload?.character_dialogue_persona_memory_hints],
               ['Anti-repetition prompt rule gates', patternPackPayload?.anti_repetition_prompt_rules_hints],
               ['Temporal canon context graph gates', patternPackPayload?.temporal_canon_context_graph_hints],
+              ['Narrative time / age trace gates', patternPackPayload?.narrative_time_age_trace_gate_hints],
               ['Plotline thread tracking gates', patternPackPayload?.plotline_thread_tracking_hints],
               ['Rolling summary context trim gates', patternPackPayload?.rolling_summary_context_trim_hints],
             ])}

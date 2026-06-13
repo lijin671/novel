@@ -177,10 +177,20 @@ def build_remix_continuation_control_audit(
             "template_shell_cleanup",
         ])
         acceptance_steps.append("final_craft_cleanup_scan")
-    progress_report_gaps = _chapter_progress_report_gaps(chapter_packages)
+    include_time_trace_progress = (
+        "progress_report_continuity_writeback_gate" in pattern_names
+        and "narrative_time_age_trace_gate" in pattern_names
+    )
+    progress_report_gaps = _chapter_progress_report_gaps(
+        chapter_packages,
+        include_time_trace=include_time_trace_progress,
+    )
     if "progress_report_continuity_writeback_gate" in pattern_names:
         control_axes.append("chapter_progress_report_completeness")
         acceptance_steps.append("verify_progress_report_fields")
+    if include_time_trace_progress:
+        control_axes.append("narrative_time_age_progress_writeback")
+        acceptance_steps.append("verify_narrative_time_age_writeback")
     if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names:
         control_axes.extend([
             "source_chapter_analysis_coverage",
@@ -1898,7 +1908,11 @@ def _chapter_analysis_packages(packages: Any) -> list[dict[str, Any]]:
     return _sort_by_chapter_desc(preferred_packages)
 
 
-def _chapter_progress_report_gaps(packages: list[dict[str, Any]]) -> list[dict[str, Any]]:
+def _chapter_progress_report_gaps(
+    packages: list[dict[str, Any]],
+    *,
+    include_time_trace: bool = False,
+) -> list[dict[str, Any]]:
     """Return accepted chapter-report fields that are missing from package state."""
     required_fields: tuple[tuple[str, tuple[str, ...]], ...] = (
         ("summary", ("summary",)),
@@ -1913,6 +1927,15 @@ def _chapter_progress_report_gaps(packages: list[dict[str, Any]]) -> list[dict[s
         ("word_count", ("word_count", "char_count", "character_count", "length")),
         ("risks", ("risks", "risk_notes", "audit_risks")),
     )
+    if include_time_trace:
+        required_fields += (
+            ("narrative_time", ("narrative_time", "narrative_date_time", "timeline_anchor", "date_time")),
+            ("duration", ("duration", "scene_duration", "elapsed_time")),
+            ("weekday", ("weekday", "day_of_week")),
+            ("character_age_refs", ("character_age_refs", "character_ages", "age_refs")),
+            ("section_status", ("section_status", "status", "acceptance_status")),
+            ("export_included", ("export_included", "included_in_export", "export_status")),
+        )
 
     gaps: list[dict[str, Any]] = []
     for package in packages:
@@ -2947,7 +2970,11 @@ def _append_universal_progress_report_completeness_gate_section(
     chapter_packages = _sort_by_chapter_asc(
         _chapter_analysis_packages(bible.get("chapter_change_packages"))
     )
-    report_gaps = _chapter_progress_report_gaps(chapter_packages)
+    include_time_trace = "narrative_time_age_trace_gate" in pattern_names
+    report_gaps = _chapter_progress_report_gaps(
+        chapter_packages,
+        include_time_trace=include_time_trace,
+    )
 
     lines.append("")
     lines.append("Universal progress report completeness gate:")
@@ -2960,6 +2987,15 @@ def _append_universal_progress_report_completeness_gate_section(
         "canon facts, character state, hook/payoff movement, continuity ledger updates, "
         "next focus, measurable length, and unresolved risks"
     )
+    if include_time_trace:
+        lines.append(
+            "- required_time_trace_fields: narrative_time, duration, weekday, "
+            "character_age_refs, section_status, export_included"
+        )
+        lines.append(
+            "- time_trace_writeback_scope: universal progress reports must also carry "
+            "the mdnovel-style section time/status/export boundary before canon reuse"
+        )
     if not report_gaps:
         lines.append("- chapter_progress_report_missing_fields: none")
         return
@@ -3487,6 +3523,7 @@ def _append_plotgrid_reveal_branch_audit_section(
         "plot_dependency_graph",
         "plotgrid_scene_matrix",
         "plotline_thread_tracking",
+        "narrative_time_age_trace_gate",
         "scene_status_dashboard",
         "gradual_reveal_control",
         "setup_payoff_tracking",
@@ -3510,6 +3547,8 @@ def _append_plotgrid_reveal_branch_audit_section(
         lines.append("- plotgrid_scene_matrix: map each scene against plotline, POV, location, emotion, status, and thread coverage")
     if "plotline_thread_tracking" in pattern_names:
         lines.append("- plotline_thread_tracking: keep active, paused, paid-off, and abandoned threads visible before drafting")
+    if "narrative_time_age_trace_gate" in pattern_names:
+        lines.append("- narrative_time_age_trace_gate: verify section date/time, duration, weekday, character age, status, and unused/export boundary before acceptance")
     if "scene_status_dashboard" in pattern_names:
         lines.append("- scene_status_dashboard: mark scene cards by planned, drafted, reviewed, accepted, or blocked state before write-back")
     if "gradual_reveal_control" in pattern_names:
@@ -4991,6 +5030,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "plot_dependency_graph_hints": "plot_dependency_graph",
         "plotgrid_scene_matrix_hints": "plotgrid_scene_matrix",
         "plotline_thread_tracking_hints": "plotline_thread_tracking",
+        "narrative_time_age_trace_gate_hints": "narrative_time_age_trace_gate",
         "scene_status_dashboard_hints": "scene_status_dashboard",
         "gradual_reveal_control_hints": "gradual_reveal_control",
         "setup_payoff_tracking_hints": "setup_payoff_tracking",

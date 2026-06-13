@@ -178,6 +178,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("event-to-sentence" OR "plot events into sentences" OR "slot filling" OR "memory graph") ("story realization" OR "story generation") in:name,description,readme',
     '("book memory bank" OR "stateless AI" OR "activeContext.md" OR "progress.md") ("book writing" OR "novel") in:name,description,readme',
     '("Spec Kit" OR "constitution.md" OR "scene-by-scene writing tasks" OR "story bible governance") ("fiction" OR "novel") in:name,description,readme',
+    '("mdnovel" OR "Markdown novel") ("narrative time" OR "plot grid" OR "viewpoint character") ("sections" OR "unused") in:name,description,readme',
     '("nested chapters" OR "parent section introductions" OR "table of contents") ("ebook summarizer" OR "chapter summaries" OR "book summary") in:name,description,readme',
     '("two-pass translation" OR "cumulative glossary" OR "previous chapter summary") ("novel translation" OR "serialized novels") in:name,description,readme',
     '("author notes" OR "edit notes" OR "source of truth") ("markdown files" OR "story framework" OR "fiction") in:name,description,readme',
@@ -848,6 +849,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/geobond13/fiction-forge",
     "https://github.com/shenminglinyi/PlotPilot",
     "https://github.com/peter88213/novelibre",
+    "https://github.com/peter88213/mdnovel",
     "https://github.com/WENZIZZHENG/story-spec",
     "https://github.com/KKKenChow/ai-novel-writer",
     "https://github.com/papysans/Morpheus",
@@ -1434,6 +1436,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("agentic_editorial_pipeline_gate", ("multi-agent framework", "seven specialized ai agents", "editorial production pipeline", "editorial pipeline", "professional editorial team", "book-building system", "planner writer reviewer", "copy-edit", "compile your manuscript", "claude book framework", "\u591a\u667a\u80fd\u4f53", "\u7f16\u8f91\u6d41\u6c34\u7ebf")),
     ("chapter_state_archive_ladder", ("permanent bible", "transient state", "versioned per chapter", "chapter-nn", "archived states", "state/current", "state file templates", "timeline/history", "chapter state", "current symlink", "\u7ae0\u8282\u72b6\u6001", "\u72b6\u6001\u5f52\u6863")),
     ("section_metadata_traceability_gate", ("section metadata", "characters, locations, and items", "characters locations items", "plot lines", "plot points", "pacing visualization", "structural analysis", "acts", "beats", "chapter metadata", "narrative dag", "knowledge graph", "\u77e5\u8bc6\u56fe\u8c31", "\u7ae0\u8282\u5143\u6570\u636e")),
+    ("narrative_time_age_trace_gate", ("narrative time", "date and time information", "day of the week", "age of characters", "character age", "unused sections", "unused section", "exclude them from document export", "completion status of the sections", "daily word count log", "timeline application")),
     ("ai_prose_fingerprint_cluster_gate", ("ai writing fingerprints", "prose pattern scanner", "overused patterns", "em-dashes", "show-then-tell", "hedging language", "voice drift", "severity scoring", "cluster detection", "defingerprint", "prose scanner", "\u673a\u5473", "\u98ce\u683c\u6f02\u79fb")),
     ("author_candidate_canon_confirmation_gate", ("candidate is not canon", "candidates are not canon", "candidate-not-canon", "preview confirm apply", "preview / confirm / apply", "preview/confirm/apply", "propose-then-confirm", "safe propose-then-confirm", "ai is off by default", "ai levels", "workspace level", "level 0 to 5", "single dial", "ai prose, in a slot you defined", "confirmed true", "source: user-explicit", "ai-suggested", "clarification rollback", "candidate outline", "canon review", "候选不入正典", "预览确认应用", "候选大纲", "作者确认", "回滚")),
     ("automatic_director_checkpoint_chain", ("automatic director checkpoint chain", "automatic director checkpoint", "director workflow", "director checkpoint chain", "book decomposition, automatic director", "导演检查点", "自动导演")),
@@ -2631,6 +2634,15 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "peter88213/novelibre": (
         "novelibre is a GPL novel organizer that keeps section metadata associated with manuscript chapters, relates characters, locations, items, plot lines, and plot points, and supports large-novel planning. "
         "Absorb section metadata traceability patterns only; LibreOffice/OpenOffice add-ons and runtime files are not executed."
+    ),
+    "peter88213/mdnovel": (
+        "mdnovel is an archived GPL-3.0 Markdown novel-writing application. Static HEAD/README/root markers describe parts, chapters, sections, "
+        "characters, locations, items, optional viewpoint character per section, summaries and synopses, narrative-structure templates, plot lines, "
+        "plot grid and spreadsheet-style matrices, word-count/status tracking, unused sections excluded from export, narrative time, duration, date, weekday, "
+        "character age by section, Timeline sync, synopsis generation, human readable text files via JSON text-file storage, "
+        "Markdown export and Pandoc export formats. "
+        "Pattern-only adaptation for section hierarchy, plotline matrix, narrative-time/age traceability, and unused-export boundaries; GPL code, pyzw/.zip releases, "
+        "Tkinter runtime, Pandoc/Timeline integration, templates, sample data, and converters are not imported or executed."
     ),
     "wenzizzheng/story-spec": (
         "StorySpec is a MIT Chinese long-form fiction co-creation workbench. Public README describes preserving author ideas, offering consequence-bearing candidates, preview/confirm/apply flows, candidate-not-canon status, rollback, story specs, plans, drafts, tracking files, and agent guides. "
@@ -5162,6 +5174,7 @@ class NovelSourceDiscoveryService:
             "agentic_editorial_pipeline_gate_hints": self._build_agentic_editorial_pipeline_gate_hints(available_patterns),
             "chapter_state_archive_ladder_hints": self._build_chapter_state_archive_ladder_hints(available_patterns),
             "section_metadata_traceability_gate_hints": self._build_section_metadata_traceability_gate_hints(available_patterns),
+            "narrative_time_age_trace_gate_hints": self._build_narrative_time_age_trace_gate_hints(available_patterns),
             "ai_prose_fingerprint_cluster_gate_hints": self._build_ai_prose_fingerprint_cluster_gate_hints(available_patterns),
             "author_candidate_canon_confirmation_gate_hints": self._build_author_candidate_canon_confirmation_gate_hints(available_patterns),
             "progressive_spoiler_context_window_gate_hints": self._build_progressive_spoiler_context_window_gate_hints(available_patterns),
@@ -6091,6 +6104,7 @@ class NovelSourceDiscoveryService:
             "agentic_editorial_pipeline_gate": 65,
             "chapter_state_archive_ladder": 66,
             "section_metadata_traceability_gate": 64,
+            "narrative_time_age_trace_gate": 65,
             "ai_prose_fingerprint_cluster_gate": 65,
             "author_candidate_canon_confirmation_gate": 67,
             "progressive_spoiler_context_window_gate": 66,
@@ -7312,6 +7326,7 @@ class NovelSourceDiscoveryService:
         if "section_metadata_traceability_gate" in patterns:
             targets.append("section_metadata_schema")
             targets.append("cast_location_item_section_index")
+            targets.append("narrative_time_age_export_policy")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             targets.append("ai_prose_fingerprint_scan_policy")
             targets.append("fingerprint_exception_ledger")
@@ -8881,6 +8896,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["chapter_state_archive_diff_report", "permanent_bible_state_drift_findings", "current_state_pointer_findings"])
         if "section_metadata_traceability_gate" in patterns:
             targets.extend(["section_metadata_coverage_report", "cast_location_item_section_gaps", "plotline_section_trace_findings"])
+        if "narrative_time_age_trace_gate" in patterns:
+            targets.extend(["narrative_time_age_trace_report", "weekday_duration_age_conflicts", "unused_section_export_boundary_findings"])
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             targets.extend(["ai_prose_fingerprint_cluster_report", "voice_drift_cluster_findings", "accepted_exception_pattern_ledger"])
         if "author_candidate_canon_confirmation_gate" in patterns:
@@ -13232,6 +13249,15 @@ class NovelSourceDiscoveryService:
             "For same-type creation, remap section metadata into new cast, places, objects, and plotline ids before drafting prose.",
         ]
 
+    def _build_narrative_time_age_trace_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "narrative_time_age_trace_gate" not in patterns:
+            return []
+        return [
+            "Record narrative time, duration, date, weekday, and character age for each section before it becomes canon context.",
+            "Keep unused, draft, and excluded sections out of continuation prompts, bible write-back, and manuscript export until explicitly accepted.",
+            "For same-type creation, recalculate time/age/status from the transformed story instead of inheriting the source project timeline.",
+        ]
+
     def _build_ai_prose_fingerprint_cluster_gate_hints(self, patterns: set[str]) -> list[str]:
         if "ai_prose_fingerprint_cluster_gate" not in patterns:
             return []
@@ -17095,6 +17121,8 @@ class NovelSourceDiscoveryService:
             targets.append("chapter_state_ladder_remap")
         if "section_metadata_traceability_gate" in patterns:
             targets.append("section_metadata_traceability_remap")
+        if "narrative_time_age_trace_gate" in patterns:
+            targets.append("narrative_time_age_export_boundary_remap")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             targets.append("prose_fingerprint_threshold_remap")
         if "author_candidate_canon_confirmation_gate" in patterns:
@@ -18263,6 +18291,8 @@ class NovelSourceDiscoveryService:
             hints.append("Use a fresh chapter-state archive for the new story and keep source-state snapshots as reference evidence only.")
         if "section_metadata_traceability_gate" in patterns:
             hints.append("Regenerate section metadata for new cast, locations, items, plotlines, beats, and pacing before same-type drafting.")
+        if "narrative_time_age_trace_gate" in patterns:
+            hints.append("Regenerate narrative time, duration, date/weekday, character ages, and unused/export status for the transformed section map before drafting.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Clean AI-prose fingerprints through local revision while preserving transformed-story identity and avoiding source-like cadence.")
         if "author_candidate_canon_confirmation_gate" in patterns:
@@ -19026,6 +19056,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform chapter state by creating a new bible/state/archive ladder before generating or revising chapters.")
         if "section_metadata_traceability_gate" in patterns:
             hints.append("Transform section metadata into new cast, location, item, plotline, beat, pacing, and status fields.")
+        if "narrative_time_age_trace_gate" in patterns:
+            hints.append("Transform narrative-time and character-age traces by recalculating dates, durations, weekdays, section status, and export inclusion for the new story.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Transform prose-fingerprint findings into local revision targets instead of copying source sentence rhythm.")
         if "ai_ism_detect_edit_convergence_gate" in patterns:
@@ -20133,6 +20165,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject context packs where permanent bible, transient state, source state snapshots, and current chapter deltas are mixed without lineage.")
         if "section_metadata_traceability_gate" in patterns:
             hints.append("Reject section metadata that keeps source cast, location, item, plotline, beat, or pacing ids under renamed prose.")
+        if "narrative_time_age_trace_gate" in patterns:
+            hints.append("Reject drafts whose section dates, duration ladder, character-age reveals, unused/draft flags, or export boundary mirror the source project.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Reject fingerprint cleanup that merely paraphrases source passages or preserves a source-like chapter cadence under smoother prose.")
         if "author_candidate_canon_confirmation_gate" in patterns:
@@ -20575,6 +20609,7 @@ class NovelSourceDiscoveryService:
                 "agentic_editorial_pipeline_gate",
                 "chapter_state_archive_ladder",
                 "section_metadata_traceability_gate",
+                "narrative_time_age_trace_gate",
                 "ai_prose_fingerprint_cluster_gate",
                 "author_candidate_canon_confirmation_gate",
                 "progressive_spoiler_context_window_gate",
@@ -20968,6 +21003,7 @@ class NovelSourceDiscoveryService:
                 "snowflake_premise_expansion",
                 "outliner_index_cards",
                 "narrative_strand_mapping",
+                "narrative_time_age_trace_gate",
                 "character_depth_interview",
                 "mindmap_visual_planning",
                 "human_synopsis_gate",
@@ -21057,6 +21093,7 @@ class NovelSourceDiscoveryService:
                 "snowflake_premise_expansion",
                 "outliner_index_cards",
                 "narrative_strand_mapping",
+                "narrative_time_age_trace_gate",
                 "character_depth_interview",
                 "mindmap_visual_planning",
                 "human_synopsis_gate",

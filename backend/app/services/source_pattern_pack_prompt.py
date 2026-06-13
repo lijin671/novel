@@ -378,6 +378,7 @@ def render_source_pattern_pack_digest(
         "agentic_editorial_pipeline_gate_hints",
         "chapter_state_archive_ladder_hints",
         "section_metadata_traceability_gate_hints",
+        "narrative_time_age_trace_gate_hints",
         "ai_prose_fingerprint_cluster_gate_hints",
         "author_candidate_canon_confirmation_gate_hints",
         "progressive_spoiler_context_window_gate_hints",
