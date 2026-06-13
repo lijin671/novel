@@ -392,6 +392,11 @@ export interface SourceDiscoveryPatternPack {
   long_consistency_reverse_rag_retry_gate_hints?: string[];
   summary_buffer_selective_rag_memory_gate_hints?: string[];
   genre_gene_capsule_market_boundary_gate_hints?: string[];
+  phase_acceptance_epub_delivery_gate_hints?: string[];
+  local_continuation_memory_export_gate_hints?: string[];
+  six_agent_memory_debate_consistency_gate_hints?: string[];
+  multi_phase_sensory_continuation_gate_hints?: string[];
+  agentic_backstory_verification_rag_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

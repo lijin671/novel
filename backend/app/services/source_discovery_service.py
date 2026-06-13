@@ -534,6 +534,11 @@ DEFAULT_GITHUB_QUERIES = (
     '("11 层一致性" OR "反向 RAG" OR "未回收伏笔") ("xuanji-write" OR "长篇网文") in:name,description,readme',
     '("Summary Buffer Memory" OR "selective RAG" OR "recent 5-10 turns") ("NovelAIne" OR "dual AI engines") in:name,description,readme',
     '("风格基因库" OR "爽点分析" OR "情绪曲线") ("zhilinainovel" OR "AI小说生成系统") in:name,description,readme',
+    '("book_manifest.json" OR "05_acceptance.md" OR "epubcheck") ("book-writer" OR "EPUB" OR "style_log.md") in:name,description,readme',
+    '("story_memory.json" OR "continuation only" OR "with_continuation") ("novelcraft-agent" OR "Ollama") in:name,description,readme',
+    '("Writer-Editor Debate" OR "3-Layer Memory" OR "Consistency Evaluation") ("NovelForge" OR "6-Agent Pipeline") in:name,description,readme',
+    '("Sensory Harvest" OR "autoSensoryMapping" OR "foreshadow ledger") ("Novel Continuation Studio" OR "cooldown memory") in:name,description,readme',
+    '("Claim Extractor" OR "Investigator" OR "Reasoning Trace") ("character backstories" OR "Agentic Verification Pipeline") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1123,6 +1128,11 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/sorlros/NovelAIne",
     "https://github.com/dingzhilin1990/zhilinainovel",
     "https://github.com/B1lli/remove-ai-flavor-writing-skill",
+    "https://github.com/tobyilee/book-writer",
+    "https://github.com/kino-6/novelcraft-agent",
+    "https://github.com/xiehuanyi/NovelForge",
+    "https://github.com/DeadMark70/Novel_Continuation_Studio",
+    "https://github.com/parijat1222q/Agentic-Verification-Pipeline",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1654,6 +1664,11 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("long_consistency_reverse_rag_retry_gate", ("xuanji-write", "11 层一致性", "Story System contract", "recent two chapters", "卷头章", "跨段锚点", "quest 主线", "未回收伏笔", "chapter-end audit regex", "failed retry", "L2/L3 checks", "RAG 反向检索", "token/cost stats")),
     ("summary_buffer_selective_rag_memory_gate", ("NovelAIne", "Summary Buffer Memory", "RAG-based Memory", "selective RAG", "recent 5-10 turns", "older context summarized", "structured keyword compression", "dual AI engines", "API token optimization", "scene visualization")),
     ("genre_gene_capsule_market_boundary_gate", ("zhilinainovel", "风格基因库", "style gene", "style gene market", "style capsule", "数据采集", "分析引擎", "创作引擎", "题材识别", "人设提取", "爽点分析", "情绪曲线", "金句提取")),
+    ("phase_acceptance_epub_delivery_gate", ("book-writer", "book_manifest.json", "05_acceptance.md", "style_log.md", "story_bible.md", "epubcheck", "EPUB", "11 agents", "10 skills", "manuscript-reviewer")),
+    ("local_continuation_memory_export_gate", ("novelcraft-agent", "continuation only", "with_continuation", "story_memory.json", "preview-chars", "mock mode", "Ollama", "Analyzer", "Director", "light Polish")),
+    ("six_agent_memory_debate_consistency_gate", ("NovelForge", "6-Agent Pipeline", "Writer-Editor Debate", "3-Layer Memory", "Consistency Evaluation", "Self-Reflection", "Memory Manager", "million-word", "Series Bible")),
+    ("multi_phase_sensory_continuation_gate", ("Novel Continuation Studio", "Compression", "Analysis", "Outline", "Breakdown", "Drafting", "Sensory Harvest", "autoSensoryMapping", "cooldown memory", "foreshadow ledger", "Full Auto", "Range")),
+    ("agentic_backstory_verification_rag_gate", ("Agentic Verification Pipeline", "Claim Extractor", "Investigator", "Judge", "Reasoning Trace", "results.csv", "cross-encoder", "backstory", "consistency report")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4256,6 +4271,26 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "remove-ai-flavor-writing-skill is an MIT Chinese writing cleanup skill. Public README markers describe preserving meaning, facts, tone and style while removing AI-like template shells such as binary contrast, mechanical sequence, abstract elevation, assistant signposts, colon templates, paragraph isomorphism, and fake engagement endings, including tests for Chinese fiction prose. "
         "Pattern-only adaptation for AI-flavor template-shell cleanup gates; Codex skill install, scripts, tests, agents, and prompt bodies are not imported or executed."
     ),
+    "tobyilee/book-writer": (
+        "book-writer is an MIT Claude Code book-writing harness. Static HEAD/README/root markers describe 11 agents plus 10 skills, book_manifest.json, story_bible.md, append-only style_log.md, 03_review_log.md, 05_acceptance.md, chapter drafting with style guardian and continuity keeper, paired book-description markdown, EPUB output, pandoc, and epubcheck validation. "
+        "Pattern-only adaptation for phase acceptance and EPUB delivery gates; Claude Code agents/skills, CLAUDE.md instruction bodies, scripts, pandoc/epubcheck execution, cover generation, generated books, and manuscript outputs are not imported or executed."
+    ),
+    "kino-6/novelcraft-agent": (
+        "novelcraft-agent is an Apache-2.0 local LLM continuation CLI. Static HEAD/README/root markers describe continuing an existing novel text file through Analyzer, Director, Skills, Writer, and light Polish passes, Ollama model setup, mock mode, preview-chars, continuation-only final TXT, original-plus-continuation TXT, and story_memory.json exports per run. "
+        "Pattern-only adaptation for local continuation memory/export gates; uv/Python setup, Ollama model pulls, CLI execution, generated continuation files, story_memory.json runtime state, and local source novels are not imported or executed."
+    ),
+    "xiehuanyi/novelforge": (
+        "NovelForge is a no-license-observed multi-agent collaborative novel writing system. Static HEAD/README/root markers describe a 6-Agent Pipeline, WorldBuilder, Character Designer, Outliner, Writer, Editor, Memory Manager, Writer-Editor Debate, 3-Layer Memory, Consistency Evaluation, Self-Reflection, million-word support, Series Bible, outline view, chapter review, and TUI commands. "
+        "Pattern-only adaptation for six-agent memory/debate consistency gates; requirements installs, TUI/headless runtime, provider/API keys, vector/RAG stores, generated examples, scripts, and prompt/runtime state are not imported or executed."
+    ),
+    "deadmark70/novel_continuation_studio": (
+        "Novel_Continuation_Studio is an Apache-2.0 local-first continuation environment. Static HEAD/README/root markers describe a multi-phase pipeline of Compression -> Analysis -> Outline -> Breakdown -> Drafting, hybrid consistency checks, chapter-level sensory routing, Sensory Harvest, autoSensoryMapping, cooldown memory, character timelines, foreshadow ledger, Manual/Full Auto/Range modes, export, provider API keys, and package scripts. "
+        "Pattern-only adaptation for multi-phase sensory continuation gates; npm/package scripts, AGENTS instructions, provider keys, generated chapters, UI state, local corpora, and runtime exports are not imported or executed."
+    ),
+    "parijat1222q/agentic-verification-pipeline": (
+        "Agentic-Verification-Pipeline is a no-license-observed RAG verification project for checking character backstories against long novels. Static HEAD/README/root markers describe Claim Extractor, Investigator, Judge, advanced RAG with cross-encoder reranking, Reasoning Trace, vector server, consistency report results.csv, Gemini API key, requirements, and Dockerfile. "
+        "Pattern-only adaptation for agentic backstory verification gates; Docker, vector server, Gemini/API-key runtime, datasets, requirements installs, generated results.csv, and source novel contents are not imported or executed."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -4941,6 +4976,11 @@ class NovelSourceDiscoveryService:
             "long_consistency_reverse_rag_retry_gate_hints": self._build_long_consistency_reverse_rag_retry_gate_hints(available_patterns),
             "summary_buffer_selective_rag_memory_gate_hints": self._build_summary_buffer_selective_rag_memory_gate_hints(available_patterns),
             "genre_gene_capsule_market_boundary_gate_hints": self._build_genre_gene_capsule_market_boundary_gate_hints(available_patterns),
+            "phase_acceptance_epub_delivery_gate_hints": self._build_phase_acceptance_epub_delivery_gate_hints(available_patterns),
+            "local_continuation_memory_export_gate_hints": self._build_local_continuation_memory_export_gate_hints(available_patterns),
+            "six_agent_memory_debate_consistency_gate_hints": self._build_six_agent_memory_debate_consistency_gate_hints(available_patterns),
+            "multi_phase_sensory_continuation_gate_hints": self._build_multi_phase_sensory_continuation_gate_hints(available_patterns),
+            "agentic_backstory_verification_rag_gate_hints": self._build_agentic_backstory_verification_rag_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -6009,6 +6049,11 @@ class NovelSourceDiscoveryService:
             "long_consistency_reverse_rag_retry_gate": 71,
             "summary_buffer_selective_rag_memory_gate": 68,
             "genre_gene_capsule_market_boundary_gate": 67,
+            "phase_acceptance_epub_delivery_gate": 67,
+            "local_continuation_memory_export_gate": 68,
+            "six_agent_memory_debate_consistency_gate": 69,
+            "multi_phase_sensory_continuation_gate": 68,
+            "agentic_backstory_verification_rag_gate": 67,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -7674,6 +7719,21 @@ class NovelSourceDiscoveryService:
         if "genre_gene_capsule_market_boundary_gate" in patterns:
             targets.append("genre_gene_capsule_market_boundary_policy")
             targets.append("style_gene_rights_safe_intake_policy")
+        if "phase_acceptance_epub_delivery_gate" in patterns:
+            targets.append("phase_acceptance_delivery_policy")
+            targets.append("epub_manifest_validation_policy")
+        if "local_continuation_memory_export_gate" in patterns:
+            targets.append("local_continuation_memory_export_policy")
+            targets.append("continuation_only_full_merge_output_policy")
+        if "six_agent_memory_debate_consistency_gate" in patterns:
+            targets.append("six_agent_memory_debate_policy")
+            targets.append("writer_editor_consistency_review_policy")
+        if "multi_phase_sensory_continuation_gate" in patterns:
+            targets.append("multi_phase_sensory_continuation_policy")
+            targets.append("sensory_cooldown_foreshadow_policy")
+        if "agentic_backstory_verification_rag_gate" in patterns:
+            targets.append("agentic_backstory_verification_policy")
+            targets.append("claim_evidence_judge_trace_policy")
         if "local_desktop_manuscript_revision_bible_gate" in patterns:
             targets.append("local_manuscript_revision_bible_policy")
             targets.append("accept_reject_diff_author_control_policy")
@@ -8869,6 +8929,16 @@ class NovelSourceDiscoveryService:
             targets.extend(["summary_buffer_context_budget_report", "selective_rag_memory_trace"])
         if "genre_gene_capsule_market_boundary_gate" in patterns:
             targets.extend(["genre_gene_style_capsule_market_report", "source_collection_boundary_report"])
+        if "phase_acceptance_epub_delivery_gate" in patterns:
+            targets.extend(["acceptance_epub_delivery_report", "style_log_acceptance_trace"])
+        if "local_continuation_memory_export_gate" in patterns:
+            targets.extend(["story_memory_export_report", "continuation_merge_scope_report"])
+        if "six_agent_memory_debate_consistency_gate" in patterns:
+            targets.extend(["writer_editor_debate_consistency_report", "three_layer_memory_review_report"])
+        if "multi_phase_sensory_continuation_gate" in patterns:
+            targets.extend(["sensory_foreshadow_cooldown_report", "phase_breakdown_drafting_trace"])
+        if "agentic_backstory_verification_rag_gate" in patterns:
+            targets.extend(["backstory_claim_verification_report", "reasoning_trace_evidence_report"])
         return self._dedupe_texts(targets)
 
     def _build_continuation_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -9571,6 +9641,16 @@ class NovelSourceDiscoveryService:
             hints.append("Persist summary buffer window, recent verbatim turn ids, old-summary checksum, selective-RAG hit ids, keyword-compression notes, and token budget before interactive story turns are reused.")
         if "genre_gene_capsule_market_boundary_gate" in patterns:
             hints.append("Persist style-gene capsule id, genre/persona/emotion-curve extraction source, quote-extraction exclusion proof, market-boundary note, and reviewer before capsule guidance enters prompts.")
+        if "phase_acceptance_epub_delivery_gate" in patterns:
+            hints.append("Persist book manifest version, story_bible.md version, style_log.md checksum, review-log id, acceptance verdict, EPUB build plan, and epubcheck requirement before final delivery or next batch starts.")
+        if "local_continuation_memory_export_gate" in patterns:
+            hints.append("Persist source text checksum, iteration id, Analyzer/Director/Skills/Writer/Polish pass summaries, story_memory.json checksum, continuation-only path, and full-merge path before accepting a local continuation.")
+        if "six_agent_memory_debate_consistency_gate" in patterns:
+            hints.append("Persist six-agent stage owner, writer-editor debate verdict, three-layer memory snapshot, consistency score, self-reflection note, and TUI/headless runtime exclusion before chapter promotion.")
+        if "multi_phase_sensory_continuation_gate" in patterns:
+            hints.append("Persist compression summary, analysis findings, outline beats, breakdown id, sensory routing hints, cooldown memory, foreshadow ledger delta, and manual/full-auto/range mode before drafting.")
+        if "agentic_backstory_verification_rag_gate" in patterns:
+            hints.append("Persist extracted backstory claims, investigator evidence ids, reranker settings, judge verdict, reasoning trace id, and unresolved consistency gaps before backstory facts enter canon.")
         if "structured_generation_schema" in patterns:
             hints.append("Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.")
         if "card_workbench" in patterns:
@@ -15238,6 +15318,51 @@ class NovelSourceDiscoveryService:
             "zhilinainovel platform collection workflows, prompts, Docker/API server runtime, provider keys, generated novels, and shell scripts remain excluded from static intake.",
         ]
 
+    def _build_phase_acceptance_epub_delivery_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "phase_acceptance_epub_delivery_gate" not in patterns:
+            return []
+        return [
+            "Treat book delivery as phase-gated: plan/review/chapter/style logs, story bible, acceptance verdict, book manifest, and export validator must all point to the same book version.",
+            "Keep manuscript build outputs separate from creative state; EPUB/DOCX/Markdown delivery should consume accepted chapters only and leave reproducible checksums or validator notes.",
+            "book-writer Claude Code agents/skills, CLAUDE.md bodies, scripts, pandoc/epubcheck execution, cover generation, generated books, and manuscript outputs remain excluded from static intake.",
+        ]
+
+    def _build_local_continuation_memory_export_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_continuation_memory_export_gate" not in patterns:
+            return []
+        return [
+            "Split local continuation outputs into continuation-only and source-plus-continuation artifacts, each tied to the same source checksum and story_memory snapshot.",
+            "Run continuation through explicit Analyzer, Director, skill-selection, Writer, and Polish pass records before accepting generated text as the next chapter.",
+            "novelcraft-agent uv/Python setup, Ollama model pulls, CLI execution, generated continuation files, story_memory.json runtime state, and local source novels remain excluded from static intake.",
+        ]
+
+    def _build_six_agent_memory_debate_consistency_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "six_agent_memory_debate_consistency_gate" not in patterns:
+            return []
+        return [
+            "Use six-agent collaboration as a state contract: WorldBuilder, Character Designer, Outliner, Writer, Editor, and Memory Manager each produce reviewable deltas rather than hidden chat state.",
+            "Writer-Editor Debate should create a score, revision reason, and accepted/rejected decision before updating three-layer working, episodic, or semantic memory.",
+            "NovelForge requirements installs, TUI/headless runtime, provider/API keys, vector/RAG stores, generated examples, scripts, and prompt/runtime state remain excluded from static intake.",
+        ]
+
+    def _build_multi_phase_sensory_continuation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "multi_phase_sensory_continuation_gate" not in patterns:
+            return []
+        return [
+            "Gate continuation through Compression, Analysis, Outline, Breakdown, and Drafting so scene-level prose never skips context compression or consistency findings.",
+            "Maintain sensory anchors as late-bound, chapter-aware hints with cooldown memory, explicit manual override, and foreshadow ledger updates after acceptance.",
+            "Novel_Continuation_Studio npm/package scripts, AGENTS instructions, provider keys, generated chapters, UI state, local corpora, and runtime exports remain excluded from static intake.",
+        ]
+
+    def _build_agentic_backstory_verification_rag_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "agentic_backstory_verification_rag_gate" not in patterns:
+            return []
+        return [
+            "Verify character backstories as claims: extract atomic claims, retrieve evidence, rerank support, judge consistency, and keep a reasoning trace before promoting facts to canon.",
+            "Use verification reports to block or annotate imported character history instead of silently merging contradictory source or generated backstory material.",
+            "Agentic-Verification-Pipeline Docker/vector server/Gemini runtime, API keys, datasets, requirements installs, generated results.csv, and source novel contents remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -16392,6 +16517,21 @@ class NovelSourceDiscoveryService:
         if "genre_gene_capsule_market_boundary_gate" in patterns:
             targets.append("genre_gene_capsule_remap")
             targets.append("market_boundary_signal_remap")
+        if "phase_acceptance_epub_delivery_gate" in patterns:
+            targets.append("phase_acceptance_manifest_remap")
+            targets.append("delivery_validator_remap")
+        if "local_continuation_memory_export_gate" in patterns:
+            targets.append("story_memory_export_remap")
+            targets.append("continuation_merge_scope_remap")
+        if "six_agent_memory_debate_consistency_gate" in patterns:
+            targets.append("writer_editor_debate_remap")
+            targets.append("three_layer_memory_remap")
+        if "multi_phase_sensory_continuation_gate" in patterns:
+            targets.append("sensory_cooldown_ledger_remap")
+            targets.append("phase_breakdown_drafting_remap")
+        if "agentic_backstory_verification_rag_gate" in patterns:
+            targets.append("backstory_claim_evidence_remap")
+            targets.append("reasoning_trace_verdict_remap")
         return self._dedupe_texts(targets)
 
     def _build_inspired_prompt_hints(self, patterns: set[str]) -> list[str]:
@@ -16563,6 +16703,16 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt with summary buffer boundaries, recent verbatim ids, selective RAG hits, and keyword-compressed old context; never substitute compressed summaries for target canon evidence.")
         if "genre_gene_capsule_market_boundary_gate" in patterns:
             hints.append("Prompt from approved style-gene capsule labels, genre promise, persona map,爽点 pressure, and emotion-curve goals; extracted quotes and source market examples stay outside prose context.")
+        if "phase_acceptance_epub_delivery_gate" in patterns:
+            hints.append("Prompt delivery work from accepted chapter ids, manifest version, style-log deltas, and acceptance criteria; do not use upstream book-writer agent prose or sample outputs.")
+        if "local_continuation_memory_export_gate" in patterns:
+            hints.append("Prompt continuation with target Analyzer/Director/Skills/Writer/Polish pass summaries plus story_memory.json-derived facts, not raw upstream CLI examples or source text.")
+        if "six_agent_memory_debate_consistency_gate" in patterns:
+            hints.append("Prompt Writer-Editor Debate as a local review loop with target-owned memory snapshots, revision reasons, and consistency scores before final prose acceptance.")
+        if "multi_phase_sensory_continuation_gate" in patterns:
+            hints.append("Prompt sensory details as late-bound target hints with cooldown and manual override markers; source sensory templates or UI wording stay outside drafting context.")
+        if "agentic_backstory_verification_rag_gate" in patterns:
+            hints.append("Prompt backstory use with extracted claim ids, evidence refs, judge verdicts, and unresolved-gap notes; unsupported claims remain non-canon.")
         if "style_signature" in patterns:
             hints.append("Carry the style signature into drafting and review, but do not preserve source facts as canon.")
         if "chapter_generation" in patterns:
@@ -17382,6 +17532,16 @@ class NovelSourceDiscoveryService:
             hints.append("Transform NovelAIne memory into explicit recent-verbatim windows, older-summary buffers, selective-RAG evidence sets, keyword compression, and context-budget gates.")
         if "genre_gene_capsule_market_boundary_gate" in patterns:
             hints.append("Transform genre/style analysis into style-gene capsules with new cast, new stakes, new setting, new爽点 chain, quote-free language guidance, and market-boundary notes.")
+        if "phase_acceptance_epub_delivery_gate" in patterns:
+            hints.append("Transform phase acceptance into local acceptance manifests, export checklists, style-log deltas, and validator reports scoped to the new manuscript.")
+        if "local_continuation_memory_export_gate" in patterns:
+            hints.append("Transform local continuation mechanics into MuMuAINovel-owned source checksums, memory snapshots, pass traces, and explicit continuation-only versus full-merge outputs.")
+        if "six_agent_memory_debate_consistency_gate" in patterns:
+            hints.append("Transform six-agent debate into target review cards, memory-tier deltas, consistency thresholds, and revision decisions with fresh characters and plot state.")
+        if "multi_phase_sensory_continuation_gate" in patterns:
+            hints.append("Transform sensory continuation into target-owned sensory anchors, cooldown ledgers, foreshadow deltas, and manual override records rather than borrowed template language.")
+        if "agentic_backstory_verification_rag_gate" in patterns:
+            hints.append("Transform verification pipelines into target backstory claim tables, evidence gaps, rerank notes, and judge decisions without importing source-novel facts as default canon.")
         if "worldbuilding" in patterns:
             hints.append("Transform the world rules first, then derive new plot constraints from the transformed world.")
         if "genre_inspiration_budget_library_gate" in patterns:
@@ -18241,6 +18401,16 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that import NovelAIne user-story examples, scene visualization assets, API traces, Supabase/runtime data, or compressed sample summaries as target memory.")
         if "genre_gene_capsule_market_boundary_gate" in patterns:
             hints.append("Reject same-type outputs that reuse zhilinainovel collected quotes, prompt files, platform-scraped material, style-gene examples, Docker/API text, or generated sample novels.")
+        if "phase_acceptance_epub_delivery_gate" in patterns:
+            hints.append("Reject outputs that copy book-writer CLAUDE.md wording, agent/skill prompt bodies, review-log examples, EPUB filenames, cover text, or generated book material.")
+        if "local_continuation_memory_export_gate" in patterns:
+            hints.append("Reject drafts that copy novelcraft-agent CLI examples, mock outputs, story_memory.json samples, source text paths, or generated continuation files as canon.")
+        if "six_agent_memory_debate_consistency_gate" in patterns:
+            hints.append("Reject outputs that copy NovelForge TUI labels, generated examples, provider setup text, Series Bible examples, memory snapshots, or agent prompt wording as story content.")
+        if "multi_phase_sensory_continuation_gate" in patterns:
+            hints.append("Reject drafts that copy Novel_Continuation_Studio sensory templates, AGENTS text, UI labels, package script examples, generated chapters, or foreshadow ledger examples.")
+        if "agentic_backstory_verification_rag_gate" in patterns:
+            hints.append("Reject backstory imports that copy Agentic-Verification-Pipeline datasets, source novel facts, reasoning traces, results.csv rows, prompt text, or Docker/runtime examples.")
         if "self_review" in patterns:
             hints.append("Review each generated chapter for source-copy risk before accepting it.")
         if "structured_generation_schema" in patterns:
@@ -19183,6 +19353,11 @@ class NovelSourceDiscoveryService:
                 "long_consistency_reverse_rag_retry_gate",
                 "summary_buffer_selective_rag_memory_gate",
                 "genre_gene_capsule_market_boundary_gate",
+                "phase_acceptance_epub_delivery_gate",
+                "local_continuation_memory_export_gate",
+                "six_agent_memory_debate_consistency_gate",
+                "multi_phase_sensory_continuation_gate",
+                "agentic_backstory_verification_rag_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
                 "recursive_reprompt_revision_loop",

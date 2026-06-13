@@ -410,6 +410,11 @@ const PINNED_HINT_KEYS = new Set([
   'long_consistency_reverse_rag_retry_gate_hints',
   'summary_buffer_selective_rag_memory_gate_hints',
   'genre_gene_capsule_market_boundary_gate_hints',
+  'phase_acceptance_epub_delivery_gate_hints',
+  'local_continuation_memory_export_gate_hints',
+  'six_agent_memory_debate_consistency_gate_hints',
+  'multi_phase_sensory_continuation_gate_hints',
+  'agentic_backstory_verification_rag_gate_hints',
   'local_copilot_layered_memory_workspace_gate_hints',
   'pending_fact_canon_promotion_graph_gate_hints',
   'work_corpus_reindex_autopilot_gate_hints',
@@ -881,6 +886,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Long-consistency reverse-RAG retry gates', patternPackPayload?.long_consistency_reverse_rag_retry_gate_hints],
               ['Summary-buffer selective RAG memory gates', patternPackPayload?.summary_buffer_selective_rag_memory_gate_hints],
               ['Genre-gene capsule market-boundary gates', patternPackPayload?.genre_gene_capsule_market_boundary_gate_hints],
+              ['Phase acceptance EPUB delivery gates', patternPackPayload?.phase_acceptance_epub_delivery_gate_hints],
+              ['Local continuation memory export gates', patternPackPayload?.local_continuation_memory_export_gate_hints],
+              ['Six-agent memory debate consistency gates', patternPackPayload?.six_agent_memory_debate_consistency_gate_hints],
+              ['Multi-phase sensory continuation gates', patternPackPayload?.multi_phase_sensory_continuation_gate_hints],
+              ['Agentic backstory verification RAG gates', patternPackPayload?.agentic_backstory_verification_rag_gate_hints],
             ])}
             {renderHintGroup('Co-writing / recursive revision gates', [
               ['Hierarchical co-writing story scaffold gates', patternPackPayload?.hierarchical_cowriting_story_scaffold_hints],

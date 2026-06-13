@@ -18964,3 +18964,139 @@ def test_static_canonical_truth_audit_memory_sources_are_absorbed():
     assert "long_consistency_reverse_rag_retry_gate_hints" in digest
     assert "summary_buffer_selective_rag_memory_gate_hints" in digest
     assert "genre_gene_capsule_market_boundary_gate_hints" in digest
+
+
+def test_static_phase_acceptance_continuation_verification_sources_are_absorbed():
+    assert "https://github.com/tobyilee/book-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/kino-6/novelcraft-agent" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/xiehuanyi/NovelForge" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/DeadMark70/Novel_Continuation_Studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/parijat1222q/Agentic-Verification-Pipeline" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("book_manifest.json" in query and "epubcheck" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("story_memory.json" in query and "continuation only" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Writer-Editor Debate" in query and "3-Layer Memory" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Sensory Harvest" in query and "foreshadow ledger" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("Claim Extractor" in query and "Reasoning Trace" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "tobyilee/book-writer",
+                "html_url": "https://github.com/tobyilee/book-writer",
+                "description": (
+                    "Automated book-writing harness for Claude Code with 11 agents and 10 skills, "
+                    "book_manifest.json, story_bible.md, append-only style_log.md, 05_acceptance.md, "
+                    "chapter writing, style guardian, review logs, EPUB output, pandoc and epubcheck."
+                ),
+                "stargazers_count": 70,
+                "forks_count": 7,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["book-writing", "claude-code", "epub", "novel"],
+                "updated_at": "2026-06-11T02:35:01Z",
+                "root_files": ["README.md", "LICENSE", "CLAUDE.md"],
+            },
+            {
+                "full_name": "kino-6/novelcraft-agent",
+                "html_url": "https://github.com/kino-6/novelcraft-agent",
+                "description": (
+                    "Local LLM novel continuation pipeline with Analyzer, Director, Skills, Writer, "
+                    "light Polish passes, continuation-only export, original plus continuation export, "
+                    "story_memory.json, mock mode, preview-chars, and Ollama setup."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "continuation", "local-llm"],
+                "updated_at": "2026-04-27T06:37:15Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml"],
+            },
+            {
+                "full_name": "xiehuanyi/NovelForge",
+                "html_url": "https://github.com/xiehuanyi/NovelForge",
+                "description": (
+                    "Multi-Agent Collaborative Novel Writing System with 6-Agent Pipeline, "
+                    "WorldBuilder, Character Designer, Outliner, Writer, Editor, Memory Manager, "
+                    "Writer-Editor Debate, 3-Layer Memory, Consistency Evaluation, Self-Reflection, "
+                    "Series Bible, outline, RAG/vector memory, API key and TUI runtime."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "multi-agent", "rag"],
+                "updated_at": "2026-04-03T07:58:59Z",
+                "root_files": ["README.md", "requirements.txt"],
+            },
+            {
+                "full_name": "DeadMark70/Novel_Continuation_Studio",
+                "html_url": "https://github.com/DeadMark70/Novel_Continuation_Studio",
+                "description": (
+                    "Novel Continuation Studio local-first continuation environment with Compression, "
+                    "Analysis, Outline, Breakdown, Drafting pipeline, sensory automation, Sensory Harvest, "
+                    "autoSensoryMapping, cooldown memory, character timelines, foreshadow ledger, "
+                    "Manual Full Auto Range modes, provider API key and package scripts."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "continuation", "rag"],
+                "updated_at": "2026-04-10T09:13:59Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "AGENTS.md"],
+            },
+            {
+                "full_name": "parijat1222q/Agentic-Verification-Pipeline",
+                "html_url": "https://github.com/parijat1222q/Agentic-Verification-Pipeline",
+                "description": (
+                    "Agentic RAG verification pipeline for character backstories against long novels "
+                    "with Claim Extractor, Investigator, Judge, re-ranking, Reasoning Trace, "
+                    "consistency report results.csv, vector server, Gemini API key and Dockerfile."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["rag", "verification", "novel"],
+                "updated_at": "2026-01-09T11:21:37Z",
+                "root_files": ["README.md", "requirements.txt", "Dockerfile"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T21:45:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "phase_acceptance_epub_delivery_gate" in candidates["tobyilee/book-writer"]["absorbed_patterns"]
+    assert "local_continuation_memory_export_gate" in candidates["kino-6/novelcraft-agent"]["absorbed_patterns"]
+    assert "six_agent_memory_debate_consistency_gate" in candidates["xiehuanyi/NovelForge"]["absorbed_patterns"]
+    assert "multi_phase_sensory_continuation_gate" in candidates["DeadMark70/Novel_Continuation_Studio"]["absorbed_patterns"]
+    assert "agentic_backstory_verification_rag_gate" in candidates["parijat1222q/Agentic-Verification-Pipeline"]["absorbed_patterns"]
+    assert "license:missing" in candidates["xiehuanyi/NovelForge"]["trust_review"]["flags"]
+    assert "provider_key_surface" in candidates["DeadMark70/Novel_Continuation_Studio"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "phase_acceptance_delivery_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "local_continuation_memory_export_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "six_agent_memory_debate_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "multi_phase_sensory_continuation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "agentic_backstory_verification_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "acceptance_epub_delivery_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_memory_export_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "writer_editor_debate_consistency_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "sensory_foreshadow_cooldown_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "backstory_claim_verification_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "phase_acceptance_manifest_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "story_memory_export_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "writer_editor_debate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "sensory_cooldown_ledger_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "backstory_claim_evidence_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("acceptance" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("story_memory.json" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("writer-editor debate" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("sensory" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("backstory" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "phase_acceptance_epub_delivery_gate_hints" in digest
+    assert "local_continuation_memory_export_gate_hints" in digest
+    assert "six_agent_memory_debate_consistency_gate_hints" in digest
+    assert "multi_phase_sensory_continuation_gate_hints" in digest
+    assert "agentic_backstory_verification_rag_gate_hints" in digest
