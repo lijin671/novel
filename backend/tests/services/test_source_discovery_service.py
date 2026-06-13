@@ -17694,6 +17694,139 @@ def test_style_memory_publication_sources_are_static_absorbed():
     assert "dual_model_summary_continuation_session_gate_hints" in digest
 
 
+def test_obsidian_manuscript_lore_workspace_sources_are_static_absorbed():
+    assert "https://github.com/Dromena-xyz/quire" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Maws7140/obsidian-storyteller-suite" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/palchung/obsidian-novelsmith" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/banisterious/obsidian-draft-bench" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/tine-schreibt/textflow" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/pixelnull/sillytavern-DeepLore-Enhanced" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Galley" in query and "scene drafts" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("DeepLore" in query and "two-stage retrieval" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Dromena-xyz/quire",
+                "html_url": "https://github.com/Dromena-xyz/quire",
+                "description": (
+                    "Quire is a local-first Obsidian long-form writing project with scene-by-scene outline, "
+                    "Galley continuous editing, branchable scene drafts, scene-by-scene merge, compile, privacy and offline network notes."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["obsidian", "longform", "novel-writing", "manuscript"],
+                "updated_at": "2026-06-12T13:38:18Z",
+                "root_files": ["README.md", "LICENSE.md", "PRIVACY.md", "manifest.json"],
+            },
+            {
+                "full_name": "Maws7140/obsidian-storyteller-suite",
+                "html_url": "https://github.com/Maws7140/obsidian-storyteller-suite",
+                "description": (
+                    "Storyteller Suite is an Obsidian plugin for planning stories, worldbuilding, timelines, "
+                    "scene graph branch-aware progression, lore surfacing, markdown frontmatter relationships, and compile workflows."
+                ),
+                "stargazers_count": 62,
+                "forks_count": 8,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "story", "timeline"],
+                "updated_at": "2026-06-12T00:24:52Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "manifest.json", "src"],
+            },
+            {
+                "full_name": "palchung/obsidian-novelsmith",
+                "html_url": "https://github.com/palchung/obsidian-novelsmith",
+                "description": (
+                    "NovelSmith is a Scrivener-inspired Obsidian writing environment with scene cards, corkboard reorder, "
+                    "Scrivenings merge draft, archive/discard draft, Auto Wiki, dynamic worldbuilding, graph relations, and atomic scene version control."
+                ),
+                "stargazers_count": 5,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "novel"],
+                "updated_at": "2026-04-23T18:16:28Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "manifest.json", "src"],
+            },
+            {
+                "full_name": "banisterious/obsidian-draft-bench",
+                "html_url": "https://github.com/banisterious/obsidian-draft-bench",
+                "description": (
+                    "Draft Bench is an Obsidian workflow for projects, scenes, versioned per-scene draft history as files, "
+                    "frontmatter metadata, Bases-compatible status queues, compile presets, preview, Markdown, ODT, PDF, DOCX export."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "draft", "manuscript"],
+                "updated_at": "2026-06-12T09:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "manifest.json", "docs"],
+            },
+            {
+                "full_name": "tine-schreibt/textflow",
+                "html_url": "https://github.com/tine-schreibt/textflow",
+                "description": (
+                    "textFlow is an Obsidian plugin for viewing and editing notes, chapters, and scenes in context, "
+                    "with ordered flows, source note cursor tracking, auto-rebuild after flagged changes, flow navigation, and crash/backup safety notes."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "writing", "flow"],
+                "updated_at": "2026-06-12T09:10:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "manifest.json"],
+            },
+            {
+                "full_name": "pixelnull/sillytavern-DeepLore-Enhanced",
+                "html_url": "https://github.com/pixelnull/sillytavern-DeepLore-Enhanced",
+                "description": (
+                    "DeepLore connects SillyTavern world info with an Obsidian vault using two-stage retrieval, lore gating by era, location, scene and character, "
+                    "gap flagging, relationship graph, clustering, activation simulation, pseudonymized diagnostics, and local provider boundaries."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "sillytavern", "lorebook"],
+                "updated_at": "2026-06-12T09:20:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "manifest.json"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T14:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "obsidian_galley_scene_compile_gate" in candidates["Dromena-xyz/quire"]["absorbed_patterns"]
+    assert "obsidian_storyteller_world_timeline_gate" in candidates["Maws7140/obsidian-storyteller-suite"]["absorbed_patterns"]
+    assert "obsidian_novelsmith_scene_version_graph_gate" in candidates["palchung/obsidian-novelsmith"]["absorbed_patterns"]
+    assert "obsidian_draft_bench_scene_history_compile_gate" in candidates["banisterious/obsidian-draft-bench"]["absorbed_patterns"]
+    assert "obsidian_textflow_context_flow_guard_gate" in candidates["tine-schreibt/textflow"]["absorbed_patterns"]
+    assert "deeplore_lore_retrieval_gap_graph_gate" in candidates["pixelnull/sillytavern-DeepLore-Enhanced"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "obsidian_scene_galley_compile_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "storyteller_timeline_worldbuilding_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_version_graph_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "draft_bench_scene_history_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "textflow_context_flow_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "deeplore_lore_gap_retrieval_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "obsidian_scene_compile_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "lore_retrieval_gap_graph_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "obsidian_scene_compile_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "lore_gap_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("galley" in hint.lower() for hint in pattern_pack["obsidian_galley_scene_compile_gate_hints"])
+    assert any("branch-aware" in hint.lower() for hint in pattern_pack["obsidian_storyteller_world_timeline_gate_hints"])
+    assert any("atomic scene" in hint.lower() for hint in pattern_pack["obsidian_novelsmith_scene_version_graph_gate_hints"])
+    assert any("per-scene draft" in hint.lower() for hint in pattern_pack["obsidian_draft_bench_scene_history_compile_gate_hints"])
+    assert any("auto-rebuild" in hint.lower() for hint in pattern_pack["obsidian_textflow_context_flow_guard_gate_hints"])
+    assert any("two-stage retrieval" in hint.lower() for hint in pattern_pack["deeplore_lore_retrieval_gap_graph_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "obsidian_galley_scene_compile_gate_hints" in digest
+    assert "deeplore_lore_retrieval_gap_graph_gate_hints" in digest
+
+
 
 def test_chinese_control_memory_rewrite_sources_are_static_absorbed():
     assert "https://github.com/papysans/Morpheus" in DEFAULT_GITHUB_REPOSITORY_URLS

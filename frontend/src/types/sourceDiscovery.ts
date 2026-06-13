@@ -403,6 +403,12 @@ export interface SourceDiscoveryPatternPack {
   private_person_place_timeline_output_gate_hints?: string[];
   story_os_governed_studio_pipeline_gate_hints?: string[];
   standards_file_workflow_os_gate_hints?: string[];
+  obsidian_galley_scene_compile_gate_hints?: string[];
+  obsidian_storyteller_world_timeline_gate_hints?: string[];
+  obsidian_novelsmith_scene_version_graph_gate_hints?: string[];
+  obsidian_draft_bench_scene_history_compile_gate_hints?: string[];
+  obsidian_textflow_context_flow_guard_gate_hints?: string[];
+  deeplore_lore_retrieval_gap_graph_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

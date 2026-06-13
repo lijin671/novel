@@ -548,6 +548,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("Novel-OS" OR "standards files" OR "structured workflow system") ("Claude Code" OR "Cursor" OR "fiction") in:name,description,readme',
     '("ebook-to-mindmap" OR "epub/pdf 拆书" OR "AI 总结") ("mind map" OR "Mind Elixir" OR "table of contents") in:name,description,readme',
     '("AI Reader V2" OR "novel analysis visualization") ("relationship graph" OR "knowledge graph" OR "timeline") in:name,description,readme',
+    '("Galley" OR "scene drafts" OR "compile") ("Obsidian" OR "long-form writing") in:name,description,readme',
+    '("DeepLore" OR "two-stage retrieval" OR "world info keyword matching") ("Obsidian" OR "SillyTavern") in:name,description,readme',
     '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
@@ -1156,6 +1158,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/SSShooter/ebook-to-mindmap",
     "https://github.com/mouseart2025/AI-Reader-V2",
     "https://github.com/xiaoshengxianjun/51mazi",
+    "https://github.com/Dromena-xyz/quire",
+    "https://github.com/Maws7140/obsidian-storyteller-suite",
+    "https://github.com/palchung/obsidian-novelsmith",
+    "https://github.com/banisterious/obsidian-draft-bench",
+    "https://github.com/tine-schreibt/textflow",
+    "https://github.com/pixelnull/sillytavern-DeepLore-Enhanced",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1700,6 +1708,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("private_person_place_timeline_output_gate", ("rgwch/novelist", "Novelist", "persons", "places", "timeline", "notes", "story", "HTML", "ePub", "Novel writer toolkit")),
     ("story_os_governed_studio_pipeline_gate", ("literary-studio", "Literary Studio", "Story OS", "creative workbench", "RAG semantic retrieval", "collaborative governance", "long-form narrative", "Fountain", "EPUB")),
     ("standards_file_workflow_os_gate", ("Novel-OS", "book-os", "structured workflow system", "standards files", "manuscript outlines", "story outlines", "current structure", "chapter tasks", "writing plan", "Claude Code")),
+    ("obsidian_galley_scene_compile_gate", ("quire", "galley", "continuous editing", "scene-by-scene outline", "branchable scene drafts", "scene-by-scene merge", "compile", "local-first obsidian long-form", "offline network notes")),
+    ("obsidian_storyteller_world_timeline_gate", ("storyteller suite", "branch-aware scene graph", "lore surfacing", "worldbuilding", "timelines", "frontmatter relationships", "compile workflows")),
+    ("obsidian_novelsmith_scene_version_graph_gate", ("novelsmith", "scrivener-inspired", "scene cards", "corkboard reorder", "scrivenings merge draft", "archive/discard draft", "auto wiki", "atomic scene version control")),
+    ("obsidian_draft_bench_scene_history_compile_gate", ("draft bench", "per-scene draft history", "frontmatter metadata", "bases-compatible status queues", "compile presets", "preview", "markdown, odt, pdf, docx export")),
+    ("obsidian_textflow_context_flow_guard_gate", ("textflow", "ordered flows", "notes, chapters, and scenes in context", "source note cursor tracking", "auto-rebuild", "flow navigation", "crash/backup safety")),
+    ("deeplore_lore_retrieval_gap_graph_gate", ("deeplore", "two-stage retrieval", "world info keyword matching", "lore gating", "era, location, scene and character", "gap flagging", "relationship graph", "activation simulation", "pseudonymized diagnostics")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4376,6 +4390,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "51mazi is an MIT Electron desktop novel-writing workspace. Static HEAD/README/LICENSE/package markers describe multi-book management, outline planning, map design, relationship graph management, entry dictionary, random name generator, character profiles, timeline management, event sequence charts, organization charts, AI cover/character/scene image features, novel download support, Electron package scripts, release scripts, and a postinstall hook. "
         "Pattern-only adaptation for relationship graph, timeline/organization planning, local author workspace, and download/update-surface boundary gates; Electron runtime, postinstall hooks, packaged apps, release scripts, AI image/provider calls, downloaded novels, local manuscripts, and generated assets are not imported or executed."
     ),
+    "dromena-xyz/quire": (
+        "Quire is a source-closed/no-license-asserted Obsidian long-form writing project. Public metadata markers describe a Galley continuous-editing surface, scene-by-scene outlines, branchable scene drafts, scene merge, compile workflow, offline/local-first posture, and privacy notes. "
+        "Pattern-only adaptation for Obsidian galley scene compile gates; source-closed code, vault data, plugin runtime, drafts, generated manuscripts, and provider/model calls are not imported or executed."
+    ),
+    "maws7140/obsidian-storyteller-suite": (
+        "Obsidian Storyteller Suite is an MIT Obsidian story-planning plugin. Public markers describe timelines, branch-aware scene graph progression, lore surfacing, worldbuilding, frontmatter relationships, and compile workflows. "
+        "Pattern-only adaptation for storyteller timeline/worldbuilding gates; Obsidian plugin install, Node build scripts, vault files, and user manuscripts are not launched or imported."
+    ),
+    "palchung/obsidian-novelsmith": (
+        "Obsidian NovelSmith is an MIT Scrivener-inspired Obsidian writing environment. Public markers describe scene cards, corkboard reorder, Scrivenings-style merge draft, archive/discard draft actions, Auto Wiki, dynamic worldbuilding, relationship graph, and atomic scene version control. "
+        "Pattern-only adaptation for scene-version graph gates; plugin runtime, Obsidian vault data, generated drafts, and upstream code reuse are not imported or executed."
+    ),
+    "banisterious/obsidian-draft-bench": (
+        "Obsidian Draft Bench is an MIT manuscript workflow. Public markers describe project and scene files, versioned per-scene draft history, frontmatter metadata, Bases-compatible queues, compile presets, preview, and Markdown/ODT/PDF/DOCX export. "
+        "Pattern-only adaptation for per-scene draft history and compile gates; Obsidian runtime, package scripts, Pandoc/export tooling, vault drafts, and generated documents are not executed or imported."
+    ),
+    "tine-schreibt/textflow": (
+        "textFlow is an MIT Obsidian context-flow plugin. Public markers describe ordered flows over notes/chapters/scenes, in-context editing, source-note cursor tracking, auto-rebuild after flagged changes, flow navigation, and crash/backup safety notes. "
+        "Pattern-only adaptation for context-flow guard gates; Obsidian plugin runtime, vault files, package scripts, and backup artifacts are not opened, launched, or imported."
+    ),
+    "pixelnull/sillytavern-deeplore-enhanced": (
+        "DeepLore Enhanced is an MIT SillyTavern/Obsidian lore workflow. Public markers describe two-stage retrieval, world-info keyword matching, lore gating by era/location/scene/character, gap flagging, relationship graph, clustering, activation simulation, pseudonymized diagnostics, and local-provider boundaries. "
+        "Pattern-only adaptation for lore retrieval, gap, and graph gates; SillyTavern extension runtime, Obsidian vaults, world-info books, local providers, diagnostics, and chat logs are not launched or imported."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -5074,6 +5112,12 @@ class NovelSourceDiscoveryService:
             "private_person_place_timeline_output_gate_hints": self._build_private_person_place_timeline_output_gate_hints(available_patterns),
             "story_os_governed_studio_pipeline_gate_hints": self._build_story_os_governed_studio_pipeline_gate_hints(available_patterns),
             "standards_file_workflow_os_gate_hints": self._build_standards_file_workflow_os_gate_hints(available_patterns),
+            "obsidian_galley_scene_compile_gate_hints": self._build_obsidian_galley_scene_compile_gate_hints(available_patterns),
+            "obsidian_storyteller_world_timeline_gate_hints": self._build_obsidian_storyteller_world_timeline_gate_hints(available_patterns),
+            "obsidian_novelsmith_scene_version_graph_gate_hints": self._build_obsidian_novelsmith_scene_version_graph_gate_hints(available_patterns),
+            "obsidian_draft_bench_scene_history_compile_gate_hints": self._build_obsidian_draft_bench_scene_history_compile_gate_hints(available_patterns),
+            "obsidian_textflow_context_flow_guard_gate_hints": self._build_obsidian_textflow_context_flow_guard_gate_hints(available_patterns),
+            "deeplore_lore_retrieval_gap_graph_gate_hints": self._build_deeplore_lore_retrieval_gap_graph_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -6155,6 +6199,12 @@ class NovelSourceDiscoveryService:
             "private_person_place_timeline_output_gate": 65,
             "story_os_governed_studio_pipeline_gate": 68,
             "standards_file_workflow_os_gate": 67,
+            "obsidian_galley_scene_compile_gate": 70,
+            "obsidian_storyteller_world_timeline_gate": 70,
+            "obsidian_novelsmith_scene_version_graph_gate": 69,
+            "obsidian_draft_bench_scene_history_compile_gate": 68,
+            "obsidian_textflow_context_flow_guard_gate": 67,
+            "deeplore_lore_retrieval_gap_graph_gate": 70,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -6309,6 +6359,18 @@ class NovelSourceDiscoveryService:
             targets.append("lorebook_entries")
             targets.append("activation_keywords")
             targets.append("context_insertion_rules")
+        if "obsidian_galley_scene_compile_gate" in patterns:
+            targets.append("obsidian_scene_galley_compile_policy")
+        if "obsidian_storyteller_world_timeline_gate" in patterns:
+            targets.append("storyteller_timeline_worldbuilding_policy")
+        if "obsidian_novelsmith_scene_version_graph_gate" in patterns:
+            targets.append("scene_version_graph_policy")
+        if "obsidian_draft_bench_scene_history_compile_gate" in patterns:
+            targets.append("draft_bench_scene_history_policy")
+        if "obsidian_textflow_context_flow_guard_gate" in patterns:
+            targets.append("textflow_context_flow_policy")
+        if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
+            targets.append("deeplore_lore_gap_retrieval_policy")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_inspiration_matrix_policy")
             targets.append("cost_quality_budget_policy")
@@ -7884,6 +7946,16 @@ class NovelSourceDiscoveryService:
         ]
         if "card_workbench" in patterns:
             targets.extend(["card_types", "card_field_dependencies"])
+        if patterns.intersection({
+            "obsidian_galley_scene_compile_gate",
+            "obsidian_storyteller_world_timeline_gate",
+            "obsidian_novelsmith_scene_version_graph_gate",
+            "obsidian_draft_bench_scene_history_compile_gate",
+            "obsidian_textflow_context_flow_guard_gate",
+        }):
+            targets.append("obsidian_scene_compile_report")
+        if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
+            targets.append("lore_retrieval_gap_graph_report")
         if "manuscript_card_board_extraction_gate" in patterns:
             targets.extend(["manuscript_card_board_extraction_report", "duplicate_card_merge_findings"])
         if "chapter_timeline_frontmatter_export_gate" in patterns:
@@ -15588,6 +15660,60 @@ class NovelSourceDiscoveryService:
             "Novel-OS install steps, standards templates, AI-tool configuration, local manuscripts, and workflow files remain excluded from static intake.",
         ]
 
+    def _build_obsidian_galley_scene_compile_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "obsidian_galley_scene_compile_gate" not in patterns:
+            return []
+        return [
+            "Treat Galley as a continuous editing lane over scene-by-scene drafts; every merge into manuscript order needs source scene ids and a compile preview.",
+            "Branchable scene drafts should carry branch id, merge reason, rejected branch note, and offline/local-first custody before canon promotion.",
+            "Quire source-closed code, Obsidian vault data, private drafts, plugin runtime, and generated manuscripts remain excluded from static intake.",
+        ]
+
+    def _build_obsidian_storyteller_world_timeline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "obsidian_storyteller_world_timeline_gate" not in patterns:
+            return []
+        return [
+            "Use branch-aware scene graph and timeline views to surface which worldbuilding/lore facts are active before a chapter or same-type scene is drafted.",
+            "Frontmatter relationship edges should stay reviewable: scene, timeline, character, location, and lore links need evidence ids rather than hidden prompt stuffing.",
+            "Obsidian Storyteller Suite plugin install, vault state, package scripts, and compile runtime remain excluded from static intake.",
+        ]
+
+    def _build_obsidian_novelsmith_scene_version_graph_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "obsidian_novelsmith_scene_version_graph_gate" not in patterns:
+            return []
+        return [
+            "Represent each scene card as an atomic scene version: current, archived, discarded, merged, and wiki-linked states must not overwrite each other silently.",
+            "Corkboard reorder or Scrivenings-style merge should emit a graph impact note for timeline, character knowledge, and worldbuilding links.",
+            "NovelSmith plugin code, Obsidian vaults, Auto Wiki generated text, and user drafts remain excluded from static intake.",
+        ]
+
+    def _build_obsidian_draft_bench_scene_history_compile_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "obsidian_draft_bench_scene_history_compile_gate" not in patterns:
+            return []
+        return [
+            "Keep per-scene draft history as first-class evidence: draft id, frontmatter status, queue state, compile preset, and export target must be visible before acceptance.",
+            "Compile preview should compare scene order, skipped/archive status, and output-format readiness before Markdown/ODT/PDF/DOCX delivery is trusted.",
+            "Draft Bench plugin runtime, package scripts, Pandoc/export tools, vault drafts, and generated files remain excluded from static intake.",
+        ]
+
+    def _build_obsidian_textflow_context_flow_guard_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "obsidian_textflow_context_flow_guard_gate" not in patterns:
+            return []
+        return [
+            "Model context flows as ordered scene/note windows with source-note cursor tracking, changed-note flags, and explicit auto-rebuild reasons.",
+            "Before drafting from a flow, verify that rebuilt context names included notes, omitted notes, cursor location, and crash/backup safety state.",
+            "textFlow plugin runtime, Obsidian vault content, package scripts, and backup files remain excluded from static intake.",
+        ]
+
+    def _build_deeplore_lore_retrieval_gap_graph_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "deeplore_lore_retrieval_gap_graph_gate" not in patterns:
+            return []
+        return [
+            "Use two-stage retrieval for lore: first select candidate world-info entries, then gate them by era, location, scene, character, and activation reason.",
+            "Gap flagging should produce a lore-gap graph with missing fact, affected scene, relationship edge, confidence, and reviewer action before the draft proceeds.",
+            "DeepLore/SillyTavern runtime, Obsidian vaults, world-info books, local-provider calls, diagnostics, and chat logs remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -15597,6 +15723,16 @@ class NovelSourceDiscoveryService:
             "world_rule_remap",
             "plot_thread_remap",
         ]
+        if patterns.intersection({
+            "obsidian_galley_scene_compile_gate",
+            "obsidian_storyteller_world_timeline_gate",
+            "obsidian_novelsmith_scene_version_graph_gate",
+            "obsidian_draft_bench_scene_history_compile_gate",
+            "obsidian_textflow_context_flow_guard_gate",
+        }):
+            targets.append("obsidian_scene_compile_remap")
+        if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
+            targets.append("lore_gap_graph_remap")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_trope_budget_remap")
         if "stepwise_local_book_generation_file_gate" in patterns:
@@ -16782,6 +16918,16 @@ class NovelSourceDiscoveryService:
             "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
             "Generate an independent new story with new names, organizations, event chain, core conflict, and world rules.",
         ]
+        if patterns.intersection({
+            "obsidian_galley_scene_compile_gate",
+            "obsidian_storyteller_world_timeline_gate",
+            "obsidian_novelsmith_scene_version_graph_gate",
+            "obsidian_draft_bench_scene_history_compile_gate",
+            "obsidian_textflow_context_flow_guard_gate",
+        }):
+            hints.append("For same-type prompts, state scene-card/version/compile scope, selected Obsidian-style context flow, and required distance from the source manuscript before drafting.")
+        if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
+            hints.append("For same-type prompts, include target lore retrieval gates and gap-graph ids; source world-info keywords may inspire categories only, not names or facts.")
         if "mock_first_multi_agent_continuation_gate" in patterns:
             hints.append("Prompt from pipeline roles as abstract duties: planner, drafter, reviewer, linter, budget auditor, and author gate; do not reuse upstream role wording or source-book facts.")
         if "truth_file_write_next_state_update_gate" in patterns:
@@ -17651,6 +17797,16 @@ class NovelSourceDiscoveryService:
             "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
             "Replace source organizations, abilities, locations, and plot triggers with transformed equivalents.",
         ]
+        if patterns.intersection({
+            "obsidian_galley_scene_compile_gate",
+            "obsidian_storyteller_world_timeline_gate",
+            "obsidian_novelsmith_scene_version_graph_gate",
+            "obsidian_draft_bench_scene_history_compile_gate",
+            "obsidian_textflow_context_flow_guard_gate",
+        }):
+            hints.append("Transform Obsidian manuscript-workspace mechanics into target scene ids, statuses, branches, flow windows, and compile checks without preserving source scene order.")
+        if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
+            hints.append("Transform lore retrieval into target-era, target-location, target-character gates and rebuild the gap graph with new world facts.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Transform collaboration roles into new project duties and new evidence ids; do not preserve upstream prompt/story pairings or agent-room wording.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -18536,6 +18692,16 @@ class NovelSourceDiscoveryService:
             "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
             "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
         ]
+        if patterns.intersection({
+            "obsidian_galley_scene_compile_gate",
+            "obsidian_storyteller_world_timeline_gate",
+            "obsidian_novelsmith_scene_version_graph_gate",
+            "obsidian_draft_bench_scene_history_compile_gate",
+            "obsidian_textflow_context_flow_guard_gate",
+        }):
+            hints.append("Reject same-type drafts that preserve source vault folder names, scene-card order, branch labels, compile presets, or frontmatter relationship labels as story content.")
+        if "deeplore_lore_retrieval_gap_graph_gate" in patterns:
+            hints.append("Reject lore-guided drafts that copy source world-info keywords, era/location labels, relationship graph names, diagnostic traces, or SillyTavern card text.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Reject drafts that reuse Tell Me A Story prompt structure, human-written story arcs, or Agents' Room task wording as hidden source scaffolding.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -19500,6 +19666,12 @@ class NovelSourceDiscoveryService:
         if patterns.intersection(
             {
                 "branching_choice_graph",
+                "obsidian_galley_scene_compile_gate",
+                "obsidian_storyteller_world_timeline_gate",
+                "obsidian_novelsmith_scene_version_graph_gate",
+                "obsidian_draft_bench_scene_history_compile_gate",
+                "obsidian_textflow_context_flow_guard_gate",
+                "deeplore_lore_retrieval_gap_graph_gate",
                 "manuscript_card_board_extraction_gate",
                 "chapter_timeline_frontmatter_export_gate",
                 "node_dialogue_state_machine",
