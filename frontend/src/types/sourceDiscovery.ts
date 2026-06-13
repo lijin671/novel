@@ -424,6 +424,12 @@ export interface SourceDiscoveryPatternPack {
   spire_roleplay_character_privacy_fiction_surface_gate_hints?: string[];
   ai_book_generator_agent_mode_local_key_export_gate_hints?: string[];
   risuai_lorebook_prompt_order_regex_gate_hints?: string[];
+  grimodex_codex_attribution_scene_chat_gate_hints?: string[];
+  supernovel_architecture_blueprint_state_search_gate_hints?: string[];
+  screenplay_realtime_writers_room_media_boundary_gate_hints?: string[];
+  nebula_codex_character_knowledge_version_gate_hints?: string[];
+  forfiction_theia_story_extension_skill_gate_hints?: string[];
+  inkos_truthfile_api_fanfic_imitation_gate_hints?: string[];
   local_copilot_layered_memory_workspace_gate_hints?: string[];
   pending_fact_canon_promotion_graph_gate_hints?: string[];
   work_corpus_reindex_autopilot_gate_hints?: string[];

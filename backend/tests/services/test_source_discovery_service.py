@@ -20014,3 +20014,169 @@ def test_human_in_loop_roleplay_agent_book_sources_are_static_absorbed():
     assert "spire_roleplay_character_privacy_fiction_surface_gate_hints" in digest
     assert "ai_book_generator_agent_mode_local_key_export_gate_hints" in digest
     assert "risuai_lorebook_prompt_order_regex_gate_hints" in digest
+
+
+
+def test_local_first_editor_theia_api_production_sources_are_static_absorbed():
+    assert "https://github.com/kazormia296/Grimodex" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/StanleyChanH/SuperNovel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/keysforthewin/screenplay" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/sagar0163/Nebula-Writer-2" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/dandanthedan/forfiction-theia" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/mariamjensen42-glitch/inkos" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Grimodex" in query and "source attribution" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("SuperNovel" in query and "State Tracking" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("forFiction" in query and "story-memory" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("inkos" in query and "truth files" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "kazormia296/Grimodex",
+                "html_url": "https://github.com/kazormia296/Grimodex",
+                "description": (
+                    "Grimodex is an Elastic-2.0 AI-integrated desktop novel-writing editor. Public README, LICENSE and package markers describe "
+                    "a Novelcrafter-like manuscript plus AI chat plus Codex shape, Tauri and React, local SQLite storage, chapter/scene editor, "
+                    "AI chat per scene, extracting characters, worldbuilding and snippets from chat, origin attribution as human ai unknown, source attribution, "
+                    "Japanese novel typesetting, prose linter, .exe installers, OpenRouter OpenAI Anthropic API keys, local Ollama and agentic CLI surfaces."
+                ),
+                "stargazers_count": 2,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "writing", "tauri", "codex"],
+                "updated_at": "2026-06-13T10:55:25Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "src-tauri", "AGENTS.md", "CLAUDE.md"],
+            },
+            {
+                "full_name": "StanleyChanH/SuperNovel",
+                "html_url": "https://github.com/StanleyChanH/SuperNovel",
+                "description": (
+                    "SuperNovel is a no-license-observed long-form novel generation framework. Public README and pyproject markers describe Novel Setting Workshop, "
+                    "worldbuilding, character design, plot blueprint, intelligent chapter generation, multi-stage generation, architecture stage, chapter blueprint, "
+                    "chapter draft, finalization, State Tracking System for character development trajectory and foreshadowing management, vector semantic search, "
+                    "knowledge base integration, local document references, automatic proofreading for plot contradictions, FastAPI Web UI, ChromaDB and provider API keys."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "llm", "story", "generation"],
+                "updated_at": "2026-06-13T10:06:57Z",
+                "root_files": ["README.md", "pyproject.toml", "config.example.json", "novel_generator", "web"],
+            },
+            {
+                "full_name": "keysforthewin/screenplay",
+                "html_url": "https://github.com/keysforthewin/screenplay",
+                "description": (
+                    "screenplay is a no-license-observed collaborative writers-room and pre-vis workspace. Public README and package markers describe a Discord channel bot, "
+                    "browser-based real-time editor, mutable character templates, bulk character updates, ordered plot beats, current beat pointer, Director notes, "
+                    "reference images and file attachments, repetition and pacing scans, PDF and CSV export, TheMovieDB grounding, concept art, video clips, audio, "
+                    "Kling Veo Sora lip-sync providers, Dockerfiles, docker-compose, .env examples and provider API key surfaces."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["screenplay", "writers-room", "previs"],
+                "updated_at": "2026-06-10T14:39:36Z",
+                "root_files": ["README.md", "package.json", "Dockerfile", "docker-compose.yml", ".env.example", "deploy.sh"],
+            },
+            {
+                "full_name": "sagar0163/Nebula-Writer-2",
+                "html_url": "https://github.com/sagar0163/Nebula-Writer-2",
+                "description": (
+                    "Nebula-Writer is a no-license-observed fiction System of Record with persistent memory. Public README, requirements and pyproject markers describe "
+                    "The Codex SQLite database for characters, locations, items and relationships, chapter management with version history, story templates, "
+                    "character knowledge tracking, auto-extract entities from prose, ChromaDB semantic search, consistency check, Mermaid relationship graphs, "
+                    "Markdown HTML Plain Text DOCX export, Dockerfile, docker-compose, Supabase/PostgreSQL, GEMINI_API_KEY OPENAI_API_KEY and ANTHROPIC_API_KEY surfaces."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "memory", "rag"],
+                "updated_at": "2026-06-05T17:51:54Z",
+                "root_files": ["README.md", "requirements.txt", "pyproject.toml", "Dockerfile", "docker-compose.yml", ".env.example"],
+            },
+            {
+                "full_name": "dandanthedan/forfiction-theia",
+                "html_url": "https://github.com/dandanthedan/forfiction-theia",
+                "description": (
+                    "forFiction Theia is a no-license-observed agentic fiction writing studio. Public README and package markers describe Theia shell plus NestJS backend, "
+                    "story-memory extension providing currentChapter and characters to agents via RAG, story-preferences writing rules, Monaco streaming insert editor, "
+                    "story-chat Orchestrator Writer Reviewer agents, story-explorer file tree, skill.yaml loader registering Theia AI prompt fragments, SSE streaming, "
+                    "lorebook, Supabase auth and DB, SETUP.sh, yarn workspaces and backend runtime surfaces."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["fiction", "theia", "agents"],
+                "updated_at": "2026-04-15T09:10:42Z",
+                "root_files": ["README.md", "SPEC.md", "RUN.md", "SETUP.sh", "package.json", "apps"],
+            },
+            {
+                "full_name": "mariamjensen42-glitch/inkos",
+                "html_url": "https://github.com/mariamjensen42-glitch/inkos",
+                "description": (
+                    "InkOS API is an AGPL-3.0 single-binary Go HTTP API for a novel-writing pipeline. Public README and go.mod markers describe inkos.json, books, story markdown, "
+                    "memory.db, play.db, REST and SSE endpoints for books, chapters, truth files, project config, LLM services, cover, genres, sessions, agent sessions, daemon, logs, "
+                    "fanfic, spinoff, imitation, radar and doctor diagnostic, OpenAI-compatible base URL model API keys, .inkos/secrets.json mode 0600, file-locked JSON writes and SQLite."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "AGPL-3.0"},
+                "topics": ["novel", "api", "truth-files"],
+                "updated_at": "2026-06-12T00:19:04Z",
+                "root_files": ["README.md", "LICENSE", "go.mod", ".env.example", "cmd", "internal", "test-project"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-13T21:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "grimodex_codex_attribution_scene_chat_gate" in candidates["kazormia296/Grimodex"]["absorbed_patterns"]
+    assert "supernovel_architecture_blueprint_state_search_gate" in candidates["StanleyChanH/SuperNovel"]["absorbed_patterns"]
+    assert "screenplay_realtime_writers_room_media_boundary_gate" in candidates["keysforthewin/screenplay"]["absorbed_patterns"]
+    assert "nebula_codex_character_knowledge_version_gate" in candidates["sagar0163/Nebula-Writer-2"]["absorbed_patterns"]
+    assert "forfiction_theia_story_extension_skill_gate" in candidates["dandanthedan/forfiction-theia"]["absorbed_patterns"]
+    assert "inkos_truthfile_api_fanfic_imitation_gate" in candidates["mariamjensen42-glitch/inkos"]["absorbed_patterns"]
+    assert "native_binary" in candidates["kazormia296/Grimodex"]["risk_flags"]
+    assert "browser_storage_surface" in candidates["kazormia296/Grimodex"]["risk_flags"]
+    assert "provider_key_surface" in candidates["StanleyChanH/SuperNovel"]["risk_flags"]
+    assert "docker" in candidates["keysforthewin/screenplay"]["risk_flags"]
+    assert "provider_key_surface" in candidates["sagar0163/Nebula-Writer-2"]["risk_flags"]
+    assert "cloud_sync_oauth_surface" in candidates["dandanthedan/forfiction-theia"]["risk_flags"]
+    assert "provider_key_surface" in candidates["mariamjensen42-glitch/inkos"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "codex_attribution_scene_chat_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "architecture_blueprint_state_search_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "realtime_writers_room_director_notes_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "codex_character_knowledge_version_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "theia_story_extension_skill_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "truthfile_api_fanfic_imitation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "codex_attribution_scene_chat_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "architecture_blueprint_state_search_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "realtime_writers_room_director_notes_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "codex_character_knowledge_version_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "theia_story_extension_skill_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "truthfile_api_fanfic_imitation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "codex_attribution_scene_chat_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "architecture_blueprint_state_search_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "realtime_writers_room_director_notes_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "codex_character_knowledge_version_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "theia_story_extension_skill_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "truthfile_api_fanfic_imitation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("origin" in hint.lower() for hint in pattern_pack["grimodex_codex_attribution_scene_chat_gate_hints"])
+    assert any("blueprint" in hint.lower() for hint in pattern_pack["supernovel_architecture_blueprint_state_search_gate_hints"])
+    assert any("current beat" in hint.lower() for hint in pattern_pack["screenplay_realtime_writers_room_media_boundary_gate_hints"])
+    assert any("character knowledge" in hint.lower() for hint in pattern_pack["nebula_codex_character_knowledge_version_gate_hints"])
+    assert any("skill.yaml" in hint for hint in pattern_pack["forfiction_theia_story_extension_skill_gate_hints"])
+    assert any("fanfic" in hint.lower() and "imitation" in hint.lower() for hint in pattern_pack["inkos_truthfile_api_fanfic_imitation_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "grimodex_codex_attribution_scene_chat_gate_hints" in digest
+    assert "supernovel_architecture_blueprint_state_search_gate_hints" in digest
+    assert "screenplay_realtime_writers_room_media_boundary_gate_hints" in digest
+    assert "nebula_codex_character_knowledge_version_gate_hints" in digest
+    assert "forfiction_theia_story_extension_skill_gate_hints" in digest
+    assert "inkos_truthfile_api_fanfic_imitation_gate_hints" in digest

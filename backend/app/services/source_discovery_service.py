@@ -560,6 +560,12 @@ DEFAULT_GITHUB_QUERIES = (
     '("roleplay-focused chat" OR "long-form fiction" OR "characters as first-class") ("chapters and reviews" OR "in-app wiki") in:name,description,readme',
     '("RisuAI" OR "lorebook" OR "prompting order") ("regex script" OR "group chats" OR "world infos") in:name,description,readme',
     '("AI Book Generator" OR "Generate Complete Book" OR "Agent Mode") ("chapter outline" OR "localStorage" OR "export") in:name,description,readme',
+    '("Grimodex" OR "source attribution" OR "Codex knowledge extraction") ("AI chat per scene" OR "Tauri" OR "local SQLite") in:name,description,readme',
+    '("SuperNovel" OR "State Tracking System" OR "chapter blueprint") ("foreshadowing" OR "semantic search" OR "automatic proofreading") in:name,description,readme',
+    '("screenplay" OR "current beat pointer" OR "Director notes") ("writers-room" OR "pre-vis" OR "TheMovieDB") in:name,description,readme',
+    '("Nebula-Writer" OR "System of Record" OR "Character Knowledge") ("version history" OR "ChromaDB" OR "Mermaid") in:name,description,readme',
+    '("forFiction" OR "story-memory" OR "Theia AI prompt fragments") ("story-preferences" OR "skill.yaml" OR "streaming insert") in:name,description,readme',
+    '("inkos" OR "truth files" OR "fanfic spinoff imitation") ("OpenAI-compatible" OR "doctor diagnostic" OR "memory.db") in:name,description,readme',
     '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
@@ -1189,6 +1195,12 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/WASasquatch/TheSpire_Roleplay",
     "https://github.com/SimonWaldherr/AI-Book-Generator",
     "https://github.com/kwaroran/RisuAI",
+    "https://github.com/kazormia296/Grimodex",
+    "https://github.com/StanleyChanH/SuperNovel",
+    "https://github.com/keysforthewin/screenplay",
+    "https://github.com/sagar0163/Nebula-Writer-2",
+    "https://github.com/dandanthedan/forfiction-theia",
+    "https://github.com/mariamjensen42-glitch/inkos",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1754,6 +1766,12 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("spire_roleplay_character_privacy_fiction_surface_gate", ("the spire", "roleplay-focused chat", "characters as first-class", "ooc and ic", "rich html", "in-character journal", "mutual relationship titles", "in-app wiki", "long-form fiction surface", "chapters and reviews", "privacy guarantees")),
     ("ai_book_generator_agent_mode_local_key_export_gate", ("ai book generator", "generate complete book", "agent mode", "title suggestions", "book concept", "chapter outline", "all chapter content in sequence", "step-by-step workflow", "live log panel", "cancel the agent", "localstorage", "exports to txt html markdown json pdf")),
     ("risuai_lorebook_prompt_order_regex_gate", ("risuai", "multiple api support", "assets in the chat", "emotion images", "group chats", "regex script", "modify model's output", "lorebook", "world infos", "memory book", "prompting order", "impersonate inside prompts", "conditions", "variables")),
+    ("grimodex_codex_attribution_scene_chat_gate", ("grimodex", "codex knowledge extraction", "source attribution", "origin attribution", "human / ai / unknown", "ai chat per scene", "chapter / scene editor", "local sqlite", "japanese novel typesetting", "prose linter")),
+    ("supernovel_architecture_blueprint_state_search_gate", ("supernovel", "novel setting workshop", "chapter blueprint", "chapter draft", "finalization", "state tracking system", "character development trajectory", "foreshadowing management", "semantic search engine", "automatic proofreading", "plot contradictions")),
+    ("screenplay_realtime_writers_room_media_boundary_gate", ("screenplay", "collaborative writers'-room", "real-time editor", "mutable character template", "bulk character updates", "ordered beats", "current beat pointer", "director notes", "reference images", "themoviedb", "concept art", "video clips")),
+    ("nebula_codex_character_knowledge_version_gate", ("nebula-writer", "system of record", "the codex", "sqlite database", "chapter management", "version history", "story templates", "character knowledge", "auto-extract", "semantic search", "mermaid.js relationship graphs", "docx")),
+    ("forfiction_theia_story_extension_skill_gate", ("forfiction", "theia", "story-memory", "{{story:currentchapter}}", "story-preferences", "streaming insert", "story-chat", "orchestrator, writer, reviewer", "story-explorer", "skill.yaml", "theia ai prompt fragments", "supabase")),
+    ("inkos_truthfile_api_fanfic_imitation_gate", ("inkos", "inkos.json", "truth files", "memory.db", "play.db", "rest", "sse", "fanfic", "spinoff", "imitation", "radar", "doctor diagnostic", "openai-compatible", ".inkos/secrets.json")),
     ("hierarchical_cowriting_story_scaffold", ("dramatron", "hierarchical story generation", "log line", "character descriptions", "plot points", "location descriptions", "dialogue", "co-writing")),
     ("human_coauthor_edit_boundary", ("human authors", "compilation, editing, and rewriting", "human editing", "plagiarism", "toxicity scores", "formulaic", "co-writer")),
     ("recursive_reprompt_revision_loop", ("re3", "recursive reprompting", "recursive reprompting and revision", "plan, draft, rewrite, edit", "plan-draft-rewrite", "outline reload", "setup-only")),
@@ -4514,6 +4532,30 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "RisuAI is a GPL-3.0 cross-platform AI roleplay/chat app. Static HEAD/README/LICENSE/package markers describe multi-provider support, assets and emotion images in chat, group chats, plugins, regex output modification, translators, lorebook/world infos/memory book, prompting order, impersonate prompts, conditions, variables, TTS, Tauri, Electron, localforage, WebLLM, transformers, providers, and updater/plugin surfaces. "
         "Pattern-only adaptation for lorebook/prompt-order/regex review gates; GPL code, providers, plugins, Tauri/Electron runtime, browser storage, updater channels, model assets, and chat content are not installed or imported."
     ),
+    "kazormia296/grimodex": (
+        "Grimodex is an Elastic-2.0 AI-integrated desktop novel-writing editor. Static HEAD/README/LICENSE/package markers describe a Novelcrafter-like manuscript plus AI chat plus Codex shape, Tauri + React, local SQLite, chapter/scene editor, AI chat per scene, extracting characters/worldbuilding/snippets from chat, origin attribution as human/AI/unknown, Japanese novel typesetting, and prose linter. "
+        "Pattern-only adaptation for Codex attribution and scene-chat gates; Elastic-2.0 code, installers, Tauri/runtime, packaged binaries, provider keys, Ollama/agentic CLI, upstream AGENTS/CLAUDE instructions, screenshots, and sample manuscripts are not imported or executed."
+    ),
+    "stanleychanh/supernovel": (
+        "SuperNovel is a no-license-observed long-form novel generation framework. Static HEAD/README/pyproject markers describe Novel Setting Workshop, worldbuilding, character design, plot blueprint, architecture stage, chapter blueprint, chapter draft, finalization, State Tracking System, character-development trajectories, foreshadowing management, semantic search, knowledge-base references, and proofreading for plot contradictions. "
+        "Pattern-only adaptation for architecture/blueprint/state-search gates; no-license code, FastAPI/Web UI, ChromaDB, provider SDKs, config files, local documents, generated chapters, and model calls are not imported or executed."
+    ),
+    "keysforthewin/screenplay": (
+        "screenplay is a no-license-observed collaborative writers-room and pre-vis workspace. Static HEAD/README/package markers describe Discord colleague bot, browser real-time editor, mutable character templates, bulk character updates, ordered plot beats, current beat pointer, Director notes, reference images/attachments, repetition/pacing scans, PDF/CSV export, TheMovieDB grounding, concept art, video clips, audio, and media providers. "
+        "Pattern-only adaptation for realtime writers-room/director-note gates; Docker, deploy scripts, Discord/bot runtime, database state, attachments, TheMovieDB/API calls, media generation, provider keys, PDF/CSV exports, and screenplay content are not imported or executed."
+    ),
+    "sagar0163/nebula-writer-2": (
+        "Nebula-Writer is a no-license-observed fiction System of Record with persistent memory. Static HEAD/README/requirements/pyproject markers describe The Codex SQLite store for characters, locations, items, relationships, chapter management with version history, story templates, character knowledge, auto-extracting entities from prose, ChromaDB semantic search, consistency checks, Mermaid relationship graphs, and Markdown/HTML/plain text/DOCX exports. "
+        "Pattern-only adaptation for Codex character-knowledge/version gates; no-license code, Docker/Supabase/PostgreSQL/ChromaDB runtime, provider keys, user prose, vector stores, graph exports, and generated manuscripts are not imported or executed."
+    ),
+    "dandanthedan/forfiction-theia": (
+        "forFiction Theia is a no-license-observed agentic fiction writing studio. Static HEAD/README/package markers describe Theia shell plus NestJS backend, story-memory extension with currentChapter/characters RAG variables, story-preferences writing rules, Monaco streaming insert editor, story-chat Orchestrator/Writer/Reviewer agents, story-explorer file tree, skill.yaml loader, Theia AI prompt fragments, SSE streaming, lorebook, and Supabase auth/DB. "
+        "Pattern-only adaptation for Theia story-extension/skill gates; setup scripts, Yarn workspaces, Theia/NestJS runtime, Supabase auth/database, SSE, skill prompt bodies, backend agents, and manuscript data are not imported or executed."
+    ),
+    "mariamjensen42-glitch/inkos": (
+        "InkOS API is an AGPL-3.0 single-binary Go HTTP API for a novel-writing pipeline. Static HEAD/README/go markers describe inkos.json, books folders, story markdown, memory.db, play.db, REST/SSE endpoints for books, chapters, truth files, project config, LLM services, cover, genres, sessions, agent sessions, daemon, logs, fanfic, spinoff, imitation, radar, doctor diagnostics, OpenAI-compatible provider config, .inkos/secrets.json mode 0600, file-locked JSON writes, and SQLite. "
+        "Pattern-only adaptation for truth-file/API fanfic-imitation gates; AGPL code, Go server binary, provider keys, secrets files, project roots, daemon/log endpoints, fanfic/spinoff/imitation generation, and test project content are not imported or executed."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -5233,6 +5275,12 @@ class NovelSourceDiscoveryService:
             "spire_roleplay_character_privacy_fiction_surface_gate_hints": self._build_spire_roleplay_character_privacy_fiction_surface_gate_hints(available_patterns),
             "ai_book_generator_agent_mode_local_key_export_gate_hints": self._build_ai_book_generator_agent_mode_local_key_export_gate_hints(available_patterns),
             "risuai_lorebook_prompt_order_regex_gate_hints": self._build_risuai_lorebook_prompt_order_regex_gate_hints(available_patterns),
+            "grimodex_codex_attribution_scene_chat_gate_hints": self._build_grimodex_codex_attribution_scene_chat_gate_hints(available_patterns),
+            "supernovel_architecture_blueprint_state_search_gate_hints": self._build_supernovel_architecture_blueprint_state_search_gate_hints(available_patterns),
+            "screenplay_realtime_writers_room_media_boundary_gate_hints": self._build_screenplay_realtime_writers_room_media_boundary_gate_hints(available_patterns),
+            "nebula_codex_character_knowledge_version_gate_hints": self._build_nebula_codex_character_knowledge_version_gate_hints(available_patterns),
+            "forfiction_theia_story_extension_skill_gate_hints": self._build_forfiction_theia_story_extension_skill_gate_hints(available_patterns),
+            "inkos_truthfile_api_fanfic_imitation_gate_hints": self._build_inkos_truthfile_api_fanfic_imitation_gate_hints(available_patterns),
             "schema_guided_graph_extraction_hints": self._build_schema_guided_graph_extraction_hints(available_patterns),
             "counterfactual_story_graph_rag_gate_hints": self._build_counterfactual_story_graph_rag_gate_hints(available_patterns),
             "character_knowledge_timeline_gate_hints": self._build_character_knowledge_timeline_gate_hints(available_patterns),
@@ -6335,6 +6383,12 @@ class NovelSourceDiscoveryService:
             "spire_roleplay_character_privacy_fiction_surface_gate": 68,
             "ai_book_generator_agent_mode_local_key_export_gate": 67,
             "risuai_lorebook_prompt_order_regex_gate": 69,
+            "grimodex_codex_attribution_scene_chat_gate": 68,
+            "supernovel_architecture_blueprint_state_search_gate": 70,
+            "screenplay_realtime_writers_room_media_boundary_gate": 67,
+            "nebula_codex_character_knowledge_version_gate": 69,
+            "forfiction_theia_story_extension_skill_gate": 67,
+            "inkos_truthfile_api_fanfic_imitation_gate": 68,
             "longrun_commit_projection_health_gate": 68,
             "fresh_context_chapter_iteration_gate": 67,
             "reader_reward_channel_gate": 65,
@@ -6531,6 +6585,18 @@ class NovelSourceDiscoveryService:
             targets.append("agent_mode_book_generation_local_key_policy")
         if "risuai_lorebook_prompt_order_regex_gate" in patterns:
             targets.append("lorebook_prompt_order_regex_policy")
+        if "grimodex_codex_attribution_scene_chat_gate" in patterns:
+            targets.append("codex_attribution_scene_chat_policy")
+        if "supernovel_architecture_blueprint_state_search_gate" in patterns:
+            targets.append("architecture_blueprint_state_search_policy")
+        if "screenplay_realtime_writers_room_media_boundary_gate" in patterns:
+            targets.append("realtime_writers_room_director_notes_policy")
+        if "nebula_codex_character_knowledge_version_gate" in patterns:
+            targets.append("codex_character_knowledge_version_policy")
+        if "forfiction_theia_story_extension_skill_gate" in patterns:
+            targets.append("theia_story_extension_skill_policy")
+        if "inkos_truthfile_api_fanfic_imitation_gate" in patterns:
+            targets.append("truthfile_api_fanfic_imitation_policy")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_inspiration_matrix_policy")
             targets.append("cost_quality_budget_policy")
@@ -8146,6 +8212,18 @@ class NovelSourceDiscoveryService:
             targets.append("agent_mode_book_generation_local_key_report")
         if "risuai_lorebook_prompt_order_regex_gate" in patterns:
             targets.append("lorebook_prompt_order_regex_report")
+        if "grimodex_codex_attribution_scene_chat_gate" in patterns:
+            targets.append("codex_attribution_scene_chat_report")
+        if "supernovel_architecture_blueprint_state_search_gate" in patterns:
+            targets.append("architecture_blueprint_state_search_report")
+        if "screenplay_realtime_writers_room_media_boundary_gate" in patterns:
+            targets.append("realtime_writers_room_director_notes_report")
+        if "nebula_codex_character_knowledge_version_gate" in patterns:
+            targets.append("codex_character_knowledge_version_report")
+        if "forfiction_theia_story_extension_skill_gate" in patterns:
+            targets.append("theia_story_extension_skill_report")
+        if "inkos_truthfile_api_fanfic_imitation_gate" in patterns:
+            targets.append("truthfile_api_fanfic_imitation_report")
         if "manuscript_card_board_extraction_gate" in patterns:
             targets.extend(["manuscript_card_board_extraction_report", "duplicate_card_merge_findings"])
         if "chapter_timeline_frontmatter_export_gate" in patterns:
@@ -16039,6 +16117,60 @@ class NovelSourceDiscoveryService:
             "RisuAI GPL code, provider/plugin surfaces, Tauri/Electron runtime, localforage/browser storage, WebLLM/model assets, updaters, translators, TTS, and chat content remain excluded from static intake.",
         ]
 
+    def _build_grimodex_codex_attribution_scene_chat_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "grimodex_codex_attribution_scene_chat_gate" not in patterns:
+            return []
+        return [
+            "Scene chat extractions must keep origin labels: human, AI, unknown, source chat id, accepted insertion id, and reviewer state stay visible before becoming Codex facts.",
+            "Codex attribution is a manuscript safety gate: extracted characters, worldbuilding, and snippets become candidates first, not hidden canon or prose.",
+            "Grimodex Elastic-2.0 code, installers, Tauri runtime, provider keys, Ollama/agentic CLI, upstream AGENTS/CLAUDE instructions, screenshots, and sample manuscripts remain excluded from static intake.",
+        ]
+
+    def _build_supernovel_architecture_blueprint_state_search_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "supernovel_architecture_blueprint_state_search_gate" not in patterns:
+            return []
+        return [
+            "Treat architecture, chapter blueprint, chapter draft, and finalization as separate checkpoints with explicit inputs, state deltas, and contradiction review.",
+            "State tracking should include character-development trajectory, foreshadowing ledger, semantic-search citations, and proofreading findings before chapter acceptance.",
+            "SuperNovel no-license code, FastAPI/Web UI, ChromaDB, provider SDKs, config files, local documents, generated chapters, and model calls remain excluded from static intake.",
+        ]
+
+    def _build_screenplay_realtime_writers_room_media_boundary_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "screenplay_realtime_writers_room_media_boundary_gate" not in patterns:
+            return []
+        return [
+            "Ordered beats need a current beat pointer, Director notes, and mutable character-template change log before writers-room suggestions can affect plot state.",
+            "Media and grounding surfaces are boundary-only: attachments, actor/movie lookup, concept art, video clips, audio, PDF, and CSV exports must not enter prose canon without review.",
+            "screenplay Docker/deploy scripts, Discord bot runtime, database state, TheMovieDB/API calls, provider media generation, keys, exports, and screenplay content remain excluded from static intake.",
+        ]
+
+    def _build_nebula_codex_character_knowledge_version_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "nebula_codex_character_knowledge_version_gate" not in patterns:
+            return []
+        return [
+            "The Codex should separate characters, locations, items, relationships, chapter versions, and character knowledge so revisions can explain who knows which fact when.",
+            "Auto-extracted prose entities and semantic-search hits need version ids, source spans, consistency findings, and graph-preview review before promotion.",
+            "Nebula-Writer no-license code, Docker/Supabase/PostgreSQL/ChromaDB runtime, provider keys, user prose, vector stores, graph exports, and generated manuscripts remain excluded from static intake.",
+        ]
+
+    def _build_forfiction_theia_story_extension_skill_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "forfiction_theia_story_extension_skill_gate" not in patterns:
+            return []
+        return [
+            "Theia-style story extensions map to explicit context variables: current chapter, characters, preferences, editor selection, explorer node, and agent role must be declared before use.",
+            "skill.yaml prompt fragments are reusable only as a contract shape; story-memory, story-preferences, story-chat, streaming insert, and review agents need owned prompt bodies.",
+            "forFiction setup scripts, Yarn workspaces, Theia/NestJS runtime, Supabase auth/database, SSE, skill.yaml contents, backend agents, and manuscript data remain excluded from static intake.",
+        ]
+
+    def _build_inkos_truthfile_api_fanfic_imitation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "inkos_truthfile_api_fanfic_imitation_gate" not in patterns:
+            return []
+        return [
+            "Truth-file APIs should keep project config, chapter state, memory.db/play.db projections, session logs, and doctor diagnostics as inspectable state, not invisible prompt context.",
+            "Fanfic, spinoff, and imitation endpoints are high-risk mode gates: require rights scope, source boundary, copy-risk review, and human acceptance before any generation path is enabled.",
+            "InkOS AGPL code, Go server binary, provider keys, .inkos/secrets.json, project roots, daemon/log endpoints, fanfic/spinoff/imitation generation, and test-project content remain excluded from static intake.",
+        ]
+
     def _build_inspired_mapping_targets(self, patterns: set[str]) -> list[str]:
         if not self._supports_inspired_creation(patterns):
             return []
@@ -16088,6 +16220,18 @@ class NovelSourceDiscoveryService:
             targets.append("agent_mode_book_generation_local_key_remap")
         if "risuai_lorebook_prompt_order_regex_gate" in patterns:
             targets.append("lorebook_prompt_order_regex_remap")
+        if "grimodex_codex_attribution_scene_chat_gate" in patterns:
+            targets.append("codex_attribution_scene_chat_remap")
+        if "supernovel_architecture_blueprint_state_search_gate" in patterns:
+            targets.append("architecture_blueprint_state_search_remap")
+        if "screenplay_realtime_writers_room_media_boundary_gate" in patterns:
+            targets.append("realtime_writers_room_director_notes_remap")
+        if "nebula_codex_character_knowledge_version_gate" in patterns:
+            targets.append("codex_character_knowledge_version_remap")
+        if "forfiction_theia_story_extension_skill_gate" in patterns:
+            targets.append("theia_story_extension_skill_remap")
+        if "inkos_truthfile_api_fanfic_imitation_gate" in patterns:
+            targets.append("truthfile_api_fanfic_imitation_remap")
         if "genre_inspiration_budget_library_gate" in patterns:
             targets.append("genre_trope_budget_remap")
         if "stepwise_local_book_generation_file_gate" in patterns:
@@ -17313,6 +17457,18 @@ class NovelSourceDiscoveryService:
             hints.append("For book-agent prompts, declare the current stage, local-key/storage exclusion, export target, cancel behavior, and accepted-output checkpoint before drafting.")
         if "risuai_lorebook_prompt_order_regex_gate" in patterns:
             hints.append("For lorebook prompts, list activation keys, insertion order, regex rewrite rules, variables, and impersonation boundaries as reviewable metadata.")
+        if "grimodex_codex_attribution_scene_chat_gate" in patterns:
+            hints.append("For scene-chat prompts, request origin labels and extraction candidates before writing; accepted Codex facts must cite source chat ids and reviewer decisions.")
+        if "supernovel_architecture_blueprint_state_search_gate" in patterns:
+            hints.append("For long-form prompts, declare whether the task is architecture, chapter blueprint, chapter draft, or finalization, and include state-search contradiction findings.")
+        if "screenplay_realtime_writers_room_media_boundary_gate" in patterns:
+            hints.append("For writers-room prompts, include current beat pointer, Director notes, mutable character schema changes, and media/attachment exclusions.")
+        if "nebula_codex_character_knowledge_version_gate" in patterns:
+            hints.append("For Codex-memory prompts, ask for character knowledge state, chapter version id, extracted-entity provenance, and consistency-check result before rewrite.")
+        if "forfiction_theia_story_extension_skill_gate" in patterns:
+            hints.append("For Theia-style prompts, list story-memory variables, story-preferences, editor selection, agent role, and skill.yaml-derived contract id without copying prompt fragments.")
+        if "inkos_truthfile_api_fanfic_imitation_gate" in patterns:
+            hints.append("For truth-file API prompts, declare endpoint mode, rights boundary, fanfic/spinoff/imitation status, doctor result, and secrets exclusion before generation.")
         if "mock_first_multi_agent_continuation_gate" in patterns:
             hints.append("Prompt from pipeline roles as abstract duties: planner, drafter, reviewer, linter, budget auditor, and author gate; do not reuse upstream role wording or source-book facts.")
         if "truth_file_write_next_state_update_gate" in patterns:
@@ -18222,6 +18378,18 @@ class NovelSourceDiscoveryService:
             hints.append("Transform complete-book Agent Mode into a local staged workflow with explicit title/concept/outline/chapter/export checkpoints and no provider-key or browser-storage carryover.")
         if "risuai_lorebook_prompt_order_regex_gate" in patterns:
             hints.append("Transform lorebook/prompt-order/regex mechanics into auditable MuMuAINovel context assembly and post-processing gates with new project variables and review ids.")
+        if "grimodex_codex_attribution_scene_chat_gate" in patterns:
+            hints.append("Transform scene-chat extraction into target-owned Codex candidate records with new ids, origin labels, and accepted insertion decisions.")
+        if "supernovel_architecture_blueprint_state_search_gate" in patterns:
+            hints.append("Transform architecture/blueprint/state-search stages into MuMuAINovel checkpoints; rebuild world, character, foreshadow, and contradiction ledgers from owned facts.")
+        if "screenplay_realtime_writers_room_media_boundary_gate" in patterns:
+            hints.append("Transform realtime writers-room beats into text-only target beat cards; media attachments, actor lookups, and video/image generation stay as excluded boundary notes.")
+        if "nebula_codex_character_knowledge_version_gate" in patterns:
+            hints.append("Transform Codex memory into versioned character-knowledge and relationship facts rather than importing upstream SQLite, Chroma, or graph data.")
+        if "forfiction_theia_story_extension_skill_gate" in patterns:
+            hints.append("Transform Theia extensions into repo-native context slots and workflow roles; skill.yaml structures inspire contracts only, not prompt bodies or runtime wiring.")
+        if "inkos_truthfile_api_fanfic_imitation_gate" in patterns:
+            hints.append("Transform truth-file/API lessons into owned state envelopes; fanfic, spinoff, and imitation modes require source-rights proof and copy-risk review.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Transform collaboration roles into new project duties and new evidence ids; do not preserve upstream prompt/story pairings or agent-room wording.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -19147,6 +19315,18 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outputs that copy AI Book Generator UI text, init prompts, generated book examples, cover/export artifacts, provider-key guidance, localStorage state, or license-conflicted code structure.")
         if "risuai_lorebook_prompt_order_regex_gate" in patterns:
             hints.append("Reject drafts that copy RisuAI lorebook entries, prompt ordering templates, regex scripts, character cards, chat examples, plugin behavior, provider traces, or browser-storage data.")
+        if "grimodex_codex_attribution_scene_chat_gate" in patterns:
+            hints.append("Reject drafts that copy Grimodex sample manuscripts, chat snippets, Codex extraction examples, screenshots, Japanese sample text, upstream AGENTS/CLAUDE text, or attribution records as canon.")
+        if "supernovel_architecture_blueprint_state_search_gate" in patterns:
+            hints.append("Reject outputs that copy SuperNovel generated chapters, prompts, config examples, local documents, semantic-search chunks, contradiction reports, or web UI text.")
+        if "screenplay_realtime_writers_room_media_boundary_gate" in patterns:
+            hints.append("Reject screenplay-derived drafts that copy beat names, Director notes, character templates, attachments, actor/movie facts, concept-art prompts, media-provider traces, or exported PDF/CSV text.")
+        if "nebula_codex_character_knowledge_version_gate" in patterns:
+            hints.append("Reject Nebula-inspired outputs that copy SQLite rows, Chroma passages, character-knowledge examples, Mermaid graphs, version-history text, user prose, or exported manuscripts.")
+        if "forfiction_theia_story_extension_skill_gate" in patterns:
+            hints.append("Reject forFiction reuse that copies skill.yaml prompt fragments, story-memory values, story-preference rules, backend agent prompts, Supabase data, or Theia extension text.")
+        if "inkos_truthfile_api_fanfic_imitation_gate" in patterns:
+            hints.append("Reject InkOS reuse that imports truth files, secrets examples, project roots, test-project content, daemon logs, fanfic/spinoff/imitation outputs, or API response bodies into canon.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Reject drafts that reuse Tell Me A Story prompt structure, human-written story arcs, or Agents' Room task wording as hidden source scaffolding.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -20132,6 +20312,12 @@ class NovelSourceDiscoveryService:
                 "spire_roleplay_character_privacy_fiction_surface_gate",
                 "ai_book_generator_agent_mode_local_key_export_gate",
                 "risuai_lorebook_prompt_order_regex_gate",
+                "grimodex_codex_attribution_scene_chat_gate",
+                "supernovel_architecture_blueprint_state_search_gate",
+                "screenplay_realtime_writers_room_media_boundary_gate",
+                "nebula_codex_character_knowledge_version_gate",
+                "forfiction_theia_story_extension_skill_gate",
+                "inkos_truthfile_api_fanfic_imitation_gate",
                 "manuscript_card_board_extraction_gate",
                 "chapter_timeline_frontmatter_export_gate",
                 "node_dialogue_state_machine",

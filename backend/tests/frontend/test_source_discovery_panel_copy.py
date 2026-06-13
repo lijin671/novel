@@ -386,6 +386,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "spire_roleplay_character_privacy_fiction_surface_gate_hints",
             "ai_book_generator_agent_mode_local_key_export_gate_hints",
             "risuai_lorebook_prompt_order_regex_gate_hints",
+            "grimodex_codex_attribution_scene_chat_gate_hints",
+            "supernovel_architecture_blueprint_state_search_gate_hints",
+            "screenplay_realtime_writers_room_media_boundary_gate_hints",
+            "nebula_codex_character_knowledge_version_gate_hints",
+            "forfiction_theia_story_extension_skill_gate_hints",
+            "inkos_truthfile_api_fanfic_imitation_gate_hints",
         ):
         assert field in types_text
         assert field in panel_text
@@ -400,6 +406,12 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
     assert "Spire roleplay character privacy fiction-surface gates" in panel_text
     assert "AI Book Generator agent-mode local-key export gates" in panel_text
     assert "RisuAI lorebook prompt-order regex gates" in panel_text
+    assert "Grimodex Codex attribution scene-chat gates" in panel_text
+    assert "SuperNovel architecture blueprint state-search gates" in panel_text
+    assert "Screenplay realtime writers-room media boundary gates" in panel_text
+    assert "Nebula Codex character knowledge version gates" in panel_text
+    assert "forFiction Theia story-extension skill gates" in panel_text
+    assert "InkOS truth-file API fanfic/imitation gates" in panel_text
     assert "default_github_queries" in types_text
     assert "default_github_queries" in panel_text
     assert "default_github_repository_urls" in types_text
