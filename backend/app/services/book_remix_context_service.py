@@ -419,6 +419,30 @@ def build_remix_continuation_control_audit(
             "verify_checkpoint_staging_validation",
             "verify_transactional_commit_manifest",
         ])
+    if "raw_story_assimilation_workflow_gate" in pattern_names:
+        control_axes.extend([
+            "raw_story_import_manifest",
+            "proposed_bible_outline_delta",
+            "diagnosis_only_assimilation_review",
+            "finalized_chapter_continuity_writeback",
+        ])
+        acceptance_steps.extend([
+            "verify_raw_story_manifest_scope",
+            "verify_bible_outline_delta_approval",
+            "verify_diagnosis_only_review_before_draft",
+            "verify_finalized_chapter_writeback_policy",
+        ])
+    if "six_layer_iron_law_chapter_gate" in pattern_names:
+        control_axes.extend([
+            "six_layer_truth_state_graph",
+            "outline_anchor_reverse_brake",
+            "failed_gate_chapter_acceptance_block",
+        ])
+        acceptance_steps.extend([
+            "verify_six_layer_truth_state_graph",
+            "verify_outline_anchor_reverse_brake",
+            "verify_failed_gate_blocks_acceptance",
+        ])
     if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
@@ -717,6 +741,26 @@ def build_remix_continuation_control_audit(
         )
         else {"warnings": []}
     )
+    raw_story_assimilation_audit = (
+        _raw_story_assimilation_workflow_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "raw_story_assimilation_workflow_gate" in pattern_names
+        else {"warnings": []}
+    )
+    six_layer_iron_law_audit = (
+        _six_layer_iron_law_chapter_gate_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "six_layer_iron_law_chapter_gate" in pattern_names
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -760,6 +804,10 @@ def build_remix_continuation_control_audit(
         warnings.append("local_first_authoring_warnings")
     if deterministic_volume_spec_audit["warnings"]:
         warnings.append("deterministic_volume_spec_warnings")
+    if raw_story_assimilation_audit["warnings"]:
+        warnings.append("raw_story_assimilation_warnings")
+    if six_layer_iron_law_audit["warnings"]:
+        warnings.append("six_layer_iron_law_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -810,6 +858,8 @@ def build_remix_continuation_control_audit(
         "context_scope_authority_warnings": context_scope_authority_audit["warnings"],
         "local_first_authoring_warnings": local_first_authoring_audit["warnings"],
         "deterministic_volume_spec_warnings": deterministic_volume_spec_audit["warnings"],
+        "raw_story_assimilation_warnings": raw_story_assimilation_audit["warnings"],
+        "six_layer_iron_law_warnings": six_layer_iron_law_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -921,6 +971,20 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_deterministic_volume_spec_orchestration_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_raw_story_assimilation_workflow_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_six_layer_iron_law_chapter_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1434,6 +1498,8 @@ def build_remix_context_preview_audit(
         "genre_promise_contract_warnings": production_control_audit["genre_promise_contract_warnings"],
         "subgenre_ledger_warnings": production_control_audit["subgenre_ledger_warnings"],
         "context_scope_authority_warnings": production_control_audit["context_scope_authority_warnings"],
+        "raw_story_assimilation_warnings": production_control_audit["raw_story_assimilation_warnings"],
+        "six_layer_iron_law_warnings": production_control_audit["six_layer_iron_law_warnings"],
         **continuity_audit,
     }
 
@@ -1591,6 +1657,20 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_deterministic_volume_spec_orchestration_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_raw_story_assimilation_workflow_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_six_layer_iron_law_chapter_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -3341,6 +3421,233 @@ def _deterministic_volume_spec_orchestration_audit(
         if not _has_transactional_commit_surface(bible=bible, plan=plan):
             warnings.append("missing_commit_transaction_scope")
     return {"warnings": warnings[:max_items]}
+
+
+def _raw_story_assimilation_workflow_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit raw-story assimilation gates before raw source affects canon."""
+    warnings: list[str] = []
+    if "raw_story_assimilation_workflow_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_raw_story_manifest_surface(bible=bible, plan=plan):
+        warnings.append("missing_raw_story_manifest")
+    if not _has_bible_outline_delta_proposal_surface(bible=bible, plan=plan):
+        warnings.append("missing_bible_outline_delta_proposal")
+    if not _has_diagnosis_only_review_surface(bible=bible, plan=plan):
+        warnings.append("missing_diagnosis_only_review")
+    if not _has_finalized_chapter_writeback_policy_surface(bible=bible, plan=plan):
+        warnings.append("missing_finalized_chapter_writeback_policy")
+    return {"warnings": warnings[:max_items]}
+
+
+def _six_layer_iron_law_chapter_gate_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit six-layer consistency evidence before chapter acceptance."""
+    warnings: list[str] = []
+    if "six_layer_iron_law_chapter_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_truth_file_surface(bible=bible, plan=plan):
+        warnings.append("missing_truth_file_surface")
+    if not _has_state_tracking_surface(bible=bible, plan=plan):
+        warnings.append("missing_state_tracking_surface")
+    if not _has_knowledge_graph_surface(bible=bible, plan=plan):
+        warnings.append("missing_knowledge_graph_surface")
+    if not _has_outline_anchor_surface(bible=bible, plan=plan):
+        warnings.append("missing_outline_anchor_surface")
+    if not _has_reverse_brake_surface(bible=bible, plan=plan):
+        warnings.append("missing_reverse_brake_surface")
+    if not _has_failed_gate_block_policy_surface(bible=bible, plan=plan):
+        warnings.append("missing_failed_gate_block_policy")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_raw_story_manifest_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "raw_story_manifest",
+        "raw_import_manifest",
+        "imported_raw_story_manifest",
+        "raw_source_manifest",
+        "raw_story_sources",
+        "raw_story_intake_status",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_bible_outline_delta_proposal_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    bible_keys = (
+        "proposed_bible_delta",
+        "bible_delta",
+        "story_bible_delta",
+        "pending_bible_delta",
+        "target_bible_delta",
+    )
+    outline_keys = (
+        "proposed_outline_delta",
+        "outline_delta",
+        "pending_outline_delta",
+        "target_outline_delta",
+        "plan_delta",
+    )
+    return (
+        _has_any_surface_value(bible=bible, plan=plan, keys=bible_keys)
+        and _has_any_surface_value(bible=bible, plan=plan, keys=outline_keys)
+    )
+
+
+def _has_diagnosis_only_review_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "diagnosis_only_review",
+        "raw_story_diagnosis",
+        "assimilation_review",
+        "review_mode",
+        "prewrite_review_findings",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_finalized_chapter_writeback_policy_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "finalized_chapter_writeback_policy",
+        "finalized_chapter_continuity_writeback",
+        "continuity_writeback_policy",
+        "accepted_chapter_writeback_policy",
+        "canon_promotion_policy",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_truth_file_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "truth_file",
+        "truth_files",
+        "fact_truth_file",
+        "canonical_truth_file",
+        "source_of_truth",
+        "truth_ledger",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_state_tracking_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "state_tracking",
+        "character_state_tracking",
+        "state_tracker",
+        "current_state",
+        "state_ledger",
+        "chapter_state",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_knowledge_graph_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "knowledge_graph",
+        "graph_facts",
+        "fact_graph",
+        "story_graph",
+        "knowledge_triples",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_outline_anchor_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "outline_anchors",
+        "outline_anchor_map",
+        "anchor_plan",
+        "plan_anchors",
+        "outline_anchor_status",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_reverse_brake_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "reverse_brake",
+        "reverse_brakes",
+        "anti_premature_resolution",
+        "reverse_brake_policy",
+        "premature_resolution_brake",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_failed_gate_block_policy_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "gate_failure_policy",
+        "failed_gate_policy",
+        "chapter_acceptance_gate",
+        "gate_decision",
+        "failed_gate_blocks",
+        "acceptance_block_policy",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_any_surface_value(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    keys: tuple[str, ...],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    if any(_has_any_package_value(carrier, keys) for carrier in carriers):
+        return True
+    for package in _chapter_analysis_packages(bible.get("chapter_change_packages")):
+        if _has_any_package_value(package, keys):
+            return True
+    return False
 
 
 def _has_volume_spec_plan_surface(
@@ -5334,6 +5641,130 @@ def _append_deterministic_volume_spec_orchestration_gate_section(
             lines.append(f"- {label}: {_truncate(hints[0], 260)}")
     if audit["warnings"] and mode != "same-type":
         lines.append(f"- deterministic_volume_spec_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_raw_story_assimilation_workflow_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render OpenNovel-style raw-story assimilation boundaries."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "raw_story_assimilation_workflow_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("raw_story_assimilation_workflow_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _raw_story_assimilation_workflow_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Raw story assimilation gate:")
+    lines.append(
+        "- raw_story_manifest: imported raw story or legacy notes are input evidence; "
+        "record source scope, review status, and excluded prose before any generation"
+    )
+    lines.append(
+        "- proposed_bible_outline_delta: raw plot facts must become explicit target "
+        "Bible and Outline delta proposals before they can influence drafting"
+    )
+    lines.append(
+        "- diagnosis_only_review: review imported material for gaps, contradictions, "
+        "unsafe order jumps, and continuity risks before writing or rewriting"
+    )
+    lines.append(
+        "- finalized_chapter_continuity_writeback: write continuity only from accepted/"
+        "finalized target chapters, not from raw-source notes or unapproved deltas"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: raw source order cannot become the target outline; "
+            "source plot facts require an approved Bible/Outline delta rebuilt for the new story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: raw source facts stay non-canon until an approved "
+            "Bible/Outline delta attaches them to accepted target state"
+        )
+    lines.append(
+        "- runtime_boundary: no upstream skills, agent bodies, scripts, generated prose, "
+        "provider calls, or raw prompt bodies are imported by this static projection"
+    )
+    if hints:
+        lines.append(f"- raw_story_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- raw_story_assimilation_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_six_layer_iron_law_chapter_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render novel-base six-layer consistency and chapter acceptance gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "six_layer_iron_law_chapter_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("six_layer_iron_law_chapter_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _six_layer_iron_law_chapter_gate_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Six-layer Iron Law consistency gate:")
+    lines.append(
+        "- truth_file_state_tracking: chapter decisions must reconcile target truth "
+        "files, character/world state, known facts, and latest accepted chapter state"
+    )
+    lines.append(
+        "- knowledge_graph_outline_anchors: use graph facts and outline anchors as "
+        "acceptance evidence; do not advance when anchor order contradicts current state"
+    )
+    lines.append(
+        "- reverse_brake_anti_premature_resolution: keep anti-premature-resolution "
+        "brakes visible so the chapter repairs setup before solving the core conflict"
+    )
+    lines.append(
+        "- failed_gate_blocks_chapter_acceptance: a failed consistency gate blocks "
+        "chapter acceptance and triggers current-chapter repair instead of outline advance"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: reuse only the consistency review shape; rebuild truth "
+            "facts, outline anchor order, knowledge graph ids, and brake labels for the new story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: all truth files, graph facts, anchors, brake labels, "
+            "and gate decisions must reference the target project's accepted canon only"
+        )
+    lines.append(
+        "- runtime_boundary: no Hermes runtime, slash command, script, database, provider "
+        "endpoint, upstream skill file, asset, or generated story content is imported"
+    )
+    if hints:
+        lines.append(f"- six_layer_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- six_layer_iron_law_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -8284,6 +8715,31 @@ def build_remix_inspired_independence_audit(
             "staging_artifact_namespace",
         ])
         copy_risk_checks.append("source_checkpoint_staging_template_clone")
+    if "raw_story_assimilation_workflow_gate" in pattern_names:
+        transfer_axes.append("raw_story_assimilation_sequence")
+        required_difference_axes.extend([
+            "target_bible_delta_namespace",
+            "target_outline_delta_namespace",
+            "source_plot_order_independence",
+        ])
+        copy_risk_checks.extend([
+            "source_raw_order_outline_clone",
+            "source_plot_fact_canon_leak",
+        ])
+    if "six_layer_iron_law_chapter_gate" in pattern_names:
+        transfer_axes.extend([
+            "six_layer_consistency_review_shape",
+            "anti_premature_resolution_brake",
+        ])
+        required_difference_axes.extend([
+            "truth_file_fact_namespace",
+            "outline_anchor_order",
+            "reverse_brake_labels",
+        ])
+        copy_risk_checks.extend([
+            "source_truth_file_clone",
+            "source_reverse_brake_label_clone",
+        ])
     if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
         transfer_axes.extend([
             "scene_engine_pattern",
@@ -8623,6 +9079,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "saga_tui_adversarial_publish_gate_hints": "saga_tui_adversarial_publish_gate",
         "volume_rolling_spec_quality_gate_hints": "volume_rolling_spec_quality_gate",
         "executor_agnostic_instruction_checkpoint_gate_hints": "executor_agnostic_instruction_checkpoint_gate",
+        "raw_story_assimilation_workflow_gate_hints": "raw_story_assimilation_workflow_gate",
+        "six_layer_iron_law_chapter_gate_hints": "six_layer_iron_law_chapter_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",

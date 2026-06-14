@@ -5927,3 +5927,180 @@ def test_deterministic_volume_spec_orchestration_gates_render_context_and_audit(
     assert "instruction_packet_namespace" in independence["required_difference_axes"]
     assert "source_storyline_contract_clone" in independence["copy_risk_checks"]
     assert "source_checkpoint_staging_template_clone" in independence["copy_risk_checks"]
+
+
+def test_raw_story_assimilation_gate_projects_deltas_review_and_writeback_boundaries():
+    pattern_pack = {
+        "raw_story_assimilation_workflow_gate_hints": [
+            "Treat imported raw story as input evidence: propose Bible/Outline deltas, run diagnosis-only review, and write continuity only after finalized chapters.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Raw Story Assimilation Desk",
+        bible={
+            "raw_story_manifest": {"source": "legacy-notes.md", "status": "reviewed"},
+            "proposed_bible_delta": [{"fact": "Archive seal has a public cost", "status": "pending"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 6,
+                    "summary": "Accepted chapter left the seal unresolved.",
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue only after assimilation deltas are approved.",
+            "proposed_outline_delta": [{"beat": "Make public cost visible", "status": "pending"}],
+            "diagnosis_only_review": [{"issue": "raw source order would skip current consequence"}],
+            "finalized_chapter_writeback_policy": "Write continuity only after accepted chapter status.",
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Raw Story Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only the raw-story assimilation workflow.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source raw order, plot facts, chapter sequence, or Bible deltas.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible={
+            "raw_story_manifest": {"source": "legacy-notes.md"},
+            "proposed_bible_delta": [{"fact": "new target fact"}],
+        },
+        plan={
+            "proposed_outline_delta": [{"beat": "target beat"}],
+            "diagnosis_only_review": [{"status": "reviewed"}],
+            "finalized_chapter_writeback_policy": "accepted chapters only",
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "銆愬悓绫诲瀷鍒涗綔鎬诲師鍒欍€慭n- Abstract workflow only.\n"
+            "銆愭簮涔﹁姘旀牱鏈€慭n- No source prose.\n"
+            "銆愭簮涔︽樉鎬у厓绱犵鐢ㄦ竻鍗曘€慭n- No source plot order.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Raw story assimilation gate:" in block
+        assert "raw_story_manifest" in block
+        assert "proposed_bible_outline_delta" in block
+        assert "diagnosis_only_review" in block
+        assert "finalized_chapter_continuity_writeback" in block
+        assert "approved Bible/Outline delta" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "raw_story_import_manifest" in missing_audit["control_axes"]
+    assert "proposed_bible_outline_delta" in missing_audit["control_axes"]
+    assert "diagnosis_only_assimilation_review" in missing_audit["control_axes"]
+    assert "finalized_chapter_continuity_writeback" in missing_audit["control_axes"]
+    assert "verify_raw_story_manifest_scope" in missing_audit["acceptance_steps"]
+    assert "verify_bible_outline_delta_approval" in missing_audit["acceptance_steps"]
+    assert "raw_story_assimilation_warnings" in missing_audit["warnings"]
+    assert "missing_raw_story_manifest" in missing_audit["raw_story_assimilation_warnings"]
+    assert "missing_bible_outline_delta_proposal" in missing_audit["raw_story_assimilation_warnings"]
+    assert "raw_story_assimilation_warnings" not in satisfied_audit["warnings"]
+
+    assert "raw_story_assimilation_sequence" in independence["transfer_axes"]
+    assert "target_bible_delta_namespace" in independence["required_difference_axes"]
+    assert "source_plot_order_independence" in independence["required_difference_axes"]
+    assert "source_raw_order_outline_clone" in independence["copy_risk_checks"]
+    assert "source_plot_fact_canon_leak" in independence["copy_risk_checks"]
+
+
+def test_six_layer_iron_law_gate_projects_consistency_brake_and_failure_block():
+    pattern_pack = {
+        "six_layer_iron_law_chapter_gate_hints": [
+            "Require truth file, state tracking, knowledge graph, outline anchors, reverse-brake checks, and block acceptance when a gate fails.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Iron Law Continuation Desk",
+        bible={
+            "truth_file": {"seal_rule": "public trust cost is canonical"},
+            "state_tracking": [{"character": "Lin", "knowledge": "seal cost"}],
+            "knowledge_graph": [{"subject": "seal", "relation": "costs", "object": "trust"}],
+            "outline_anchors": [{"id": "A-12", "beat": "public cost before solution"}],
+            "reverse_brake": [{"label": "no premature archive unlock", "status": "active"}],
+            "chapter_change_packages": [{"chapter_number": 12, "summary": "Seal cost became public."}],
+        },
+        plan={
+            "summary": "Repair any failed gate before accepting chapter 13.",
+            "gate_failure_policy": "failed gate blocks chapter acceptance",
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Iron Law Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only six-layer consistency and reverse-brake review.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source truth-file facts, outline anchor order, or brake labels.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible={
+            "truth_file": {"target_fact": "fact"},
+            "state_tracking": [{"character": "Lin"}],
+            "knowledge_graph": [{"subject": "Lin"}],
+            "outline_anchors": [{"id": "target-A"}],
+            "reverse_brake": [{"label": "target-brake"}],
+        },
+        plan={"gate_failure_policy": "failed gate blocks acceptance"},
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "銆愬悓绫诲瀷鍒涗綔鎬诲師鍒欍€慭n- Abstract consistency workflow only.\n"
+            "銆愭簮涔﹁姘旀牱鏈€慭n- No source prose.\n"
+            "銆愭簮涔︽樉鎬у厓绱犵鐢ㄦ竻鍗曘€慭n- No source anchors.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Six-layer Iron Law consistency gate:" in block
+        assert "truth_file_state_tracking" in block
+        assert "knowledge_graph_outline_anchors" in block
+        assert "reverse_brake_anti_premature_resolution" in block
+        assert "failed_gate_blocks_chapter_acceptance" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "six_layer_truth_state_graph" in missing_audit["control_axes"]
+    assert "outline_anchor_reverse_brake" in missing_audit["control_axes"]
+    assert "failed_gate_chapter_acceptance_block" in missing_audit["control_axes"]
+    assert "verify_six_layer_truth_state_graph" in missing_audit["acceptance_steps"]
+    assert "verify_failed_gate_blocks_acceptance" in missing_audit["acceptance_steps"]
+    assert "six_layer_iron_law_warnings" in missing_audit["warnings"]
+    assert "missing_truth_file_surface" in missing_audit["six_layer_iron_law_warnings"]
+    assert "missing_failed_gate_block_policy" in missing_audit["six_layer_iron_law_warnings"]
+    assert "six_layer_iron_law_warnings" not in satisfied_audit["warnings"]
+
+    assert "six_layer_consistency_review_shape" in independence["transfer_axes"]
+    assert "anti_premature_resolution_brake" in independence["transfer_axes"]
+    assert "truth_file_fact_namespace" in independence["required_difference_axes"]
+    assert "outline_anchor_order" in independence["required_difference_axes"]
+    assert "source_truth_file_clone" in independence["copy_risk_checks"]
+    assert "source_reverse_brake_label_clone" in independence["copy_risk_checks"]
