@@ -274,6 +274,24 @@ def build_remix_continuation_control_audit(
             "verify_no_detection_evasion_or_prompt_body_import",
         ])
     if pattern_names.intersection({
+        "novel_studio_graph_memory_continuity_gate",
+        "novel_studio_accepted_chapter_writeback_gate",
+    }):
+        control_axes.extend([
+            "accepted_chapter_writeback_surface",
+            "graph_fact_triple_consistency",
+            "character_state_versioning",
+            "timeline_event_ordering",
+            "contradiction_checklist_review",
+            "hybrid_retrieval_context_pack",
+        ])
+        acceptance_steps.extend([
+            "verify_accepted_chapter_writeback",
+            "verify_graph_fact_triples",
+            "verify_character_state_timeline_conflicts",
+            "verify_hybrid_retrieval_pack_scope",
+        ])
+    if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
     }):
@@ -653,6 +671,11 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_distilled_novel_toolbox_platform_compliance_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_novel_studio_graph_memory_continuity_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1262,6 +1285,11 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_distilled_novel_toolbox_platform_compliance_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_novel_studio_graph_memory_continuity_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -4035,6 +4063,73 @@ def _append_distilled_novel_toolbox_platform_compliance_gate_section(
         lines.append(f"- platform_compliance_source_hint: {_truncate(platform_hints[0], 260)}")
     if polish_hints:
         lines.append(f"- human_polish_source_hint: {_truncate(polish_hints[0], 260)}")
+
+
+def _append_novel_studio_graph_memory_continuity_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render graph-memory and accepted-chapter writeback gates from Novel Studio AI intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "novel_studio_graph_memory_continuity_gate",
+        "novel_studio_accepted_chapter_writeback_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    graph_hints: list[str] = []
+    writeback_hints: list[str] = []
+    if isinstance(source_pattern_pack, dict):
+        graph_hints = _as_note_list(
+            source_pattern_pack.get("novel_studio_graph_memory_continuity_gate_hints")
+        )
+        writeback_hints = _as_note_list(
+            source_pattern_pack.get("novel_studio_accepted_chapter_writeback_gate_hints")
+        )
+
+    lines.append("")
+    lines.append("Novel Studio graph-memory continuity gate:")
+    lines.append(
+        "- accepted_chapter_writeback: drafts stay temporary; only accepted chapters may update "
+        "summaries, character states, graph triples, timeline events, and memory chunks"
+    )
+    lines.append(
+        "- graph_fact_triples: record subject, relation, object, chapter/source, canon status, "
+        "and contradiction risk before a fact enters retrieval memory"
+    )
+    lines.append(
+        "- character_state_versions: track location, injury/status, knowledge, relationship, "
+        "items, and public reputation by accepted chapter"
+    )
+    lines.append(
+        "- timeline_event_order: verify recent accepted summaries and timeline events before "
+        "moving characters, resurrecting characters, changing ownership, or paying hooks"
+    )
+    lines.append(
+        "- contradiction_checklist: check dead-character conflicts, impossible locations, item ownership drift, "
+        "relationship resets, and style-rule drift before canon promotion"
+    )
+    lines.append(
+        "- hybrid_retrieval_pack: build the next context pack from story bible, outline, recent summaries, "
+        "active character states, graph facts, retrieved memory chunks, and timeline events"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: copy only the graph-memory discipline; rebuild all source graph triples, "
+            "character states, timeline events, memory chunks, names, locations, and chapter summaries"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: graph facts and character states must extend the target book's accepted "
+            "canon and cannot promote draft-only events"
+        )
+    if graph_hints:
+        lines.append(f"- graph_memory_source_hint: {_truncate(graph_hints[0], 260)}")
+    if writeback_hints:
+        lines.append(f"- accepted_writeback_source_hint: {_truncate(writeback_hints[0], 260)}")
 
 
 def _append_mode_contract_generation_audit_section(
@@ -6865,6 +6960,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",
         "distilled_novel_toolbox_human_polish_boundary_gate_hints": "distilled_novel_toolbox_human_polish_boundary_gate",
+        "novel_studio_graph_memory_continuity_gate_hints": "novel_studio_graph_memory_continuity_gate",
+        "novel_studio_accepted_chapter_writeback_gate_hints": "novel_studio_accepted_chapter_writeback_gate",
         "seed_to_bible_foundation_loop_gate_hints": "seed_to_bible_foundation_loop_gate",
         "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",

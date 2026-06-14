@@ -4933,6 +4933,72 @@ def test_novelforge_version_safe_scene_fact_pipeline_renders_context_and_audit()
     assert "verify_continuity_reviewreport_findings" in audit["acceptance_steps"]
 
 
+def test_novel_studio_graph_memory_continuity_gate_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "novel_studio_graph_memory_continuity_gate", "candidate_count": 1},
+            {"name": "novel_studio_accepted_chapter_writeback_gate", "candidate_count": 1},
+        ],
+        "novel_studio_graph_memory_continuity_gate_hints": [
+            "Use character states, graph triples, timeline events, retrieved memory chunks, and continuity checks to ground the next context pack.",
+        ],
+        "novel_studio_accepted_chapter_writeback_gate_hints": [
+            "Drafts do not update canon; only accepted chapters write summaries, character states, graph triples, timeline events, and memory chunks.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Graph Memory Desk",
+        bible={
+            "character_cards": [{"name": "Lin", "status": "injured", "location": "archive"}],
+            "timeline": [{"event": "Lin kept the archive key", "chapter_number": 8}],
+            "hard_constraints": [{"rule": "Do not revive dead characters without canon reason"}],
+        },
+        plan={"summary": "Continue only after graph facts and timeline conflicts are checked."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Graph Memory Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn graph-memory continuity discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source graph triples, character states, timeline events, or memory chunks.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={"summary": "Plan with graph-memory review."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Novel Studio graph-memory continuity gate:" in block
+        assert "accepted_chapter_writeback" in block
+        assert "graph_fact_triples" in block
+        assert "character_state_versions" in block
+        assert "timeline_event_order" in block
+        assert "contradiction_checklist" in block
+        assert "hybrid_retrieval_pack" in block
+        assert "character states, graph triples, timeline events" in block
+        assert "Drafts do not update canon" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+    assert "source graph triples, character states" in inspired
+
+    assert "accepted_chapter_writeback_surface" in audit["control_axes"]
+    assert "graph_fact_triple_consistency" in audit["control_axes"]
+    assert "character_state_versioning" in audit["control_axes"]
+    assert "timeline_event_ordering" in audit["control_axes"]
+    assert "contradiction_checklist_review" in audit["control_axes"]
+    assert "hybrid_retrieval_context_pack" in audit["control_axes"]
+    assert "verify_accepted_chapter_writeback" in audit["acceptance_steps"]
+    assert "verify_graph_fact_triples" in audit["acceptance_steps"]
+    assert "verify_character_state_timeline_conflicts" in audit["acceptance_steps"]
+    assert "verify_hybrid_retrieval_pack_scope" in audit["acceptance_steps"]
+
+
 def test_genre_promise_contract_matrix_gate_renders_context_and_audit():
     pattern_pack = {
         "workflow_patterns": [
