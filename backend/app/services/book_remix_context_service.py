@@ -254,6 +254,19 @@ def build_remix_continuation_control_audit(
             "verify_mobile_readability_before_acceptance",
             "verify_smallest_failing_artifact_repair",
         ])
+    if "canonkit_local_canon_drift_context_pack_gate" in pattern_names:
+        control_axes.extend([
+            "local_first_canon_drift_check",
+            "focused_scene_context_pack",
+            "character_age_year_consistency",
+            "missing_entity_reference_review",
+            "relationship_symmetry_review",
+            "scene_state_conflict_review",
+        ])
+        acceptance_steps.extend([
+            "verify_canonkit_drift_detectors",
+            "verify_focused_scene_context_pack",
+        ])
     if "genre_promise_contract_matrix_gate" in pattern_names:
         control_axes.extend([
             "genre_promise_contract_matrix",
@@ -519,6 +532,15 @@ def build_remix_continuation_control_audit(
         if "post_draft_review_checklist_gate" in pattern_names
         else {"warnings": []}
     )
+    canonkit_context_pack_audit = (
+        _canonkit_local_canon_drift_context_pack_audit(
+            bible=bible,
+            plan=plan,
+            max_items=12,
+        )
+        if "canonkit_local_canon_drift_context_pack_gate" in pattern_names
+        else {"warnings": []}
+    )
     genre_promise_contract_audit = (
         _genre_promise_contract_matrix_audit(bible=bible, plan=plan, max_items=12)
         if "genre_promise_contract_matrix_gate" in pattern_names
@@ -558,6 +580,8 @@ def build_remix_continuation_control_audit(
         warnings.append("hook_naturalness_warnings")
     if post_draft_review_audit["warnings"]:
         warnings.append("post_draft_review_warnings")
+    if canonkit_context_pack_audit["warnings"]:
+        warnings.append("canonkit_context_pack_warnings")
     if genre_promise_contract_audit["warnings"]:
         warnings.append("genre_promise_contract_warnings")
     if subgenre_ledger_audit["warnings"]:
@@ -605,6 +629,7 @@ def build_remix_continuation_control_audit(
         "spec_kit_fiction_warnings": spec_kit_fiction_audit["warnings"],
         "hook_naturalness_warnings": hook_naturalness_audit["warnings"],
         "post_draft_review_warnings": post_draft_review_audit["warnings"],
+        "canonkit_context_pack_warnings": canonkit_context_pack_audit["warnings"],
         "genre_promise_contract_warnings": genre_promise_contract_audit["warnings"],
         "subgenre_ledger_warnings": subgenre_ledger_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
@@ -919,7 +944,10 @@ def build_remix_continuation_context_block(
     )
     _append_story_bible_continuity_qa_audit_section(
         lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
+        mode="continuation",
     )
 
     world_rules = bible.get("world_rules")
@@ -1181,6 +1209,7 @@ def build_remix_context_preview_audit(
         "spec_kit_fiction_warnings": production_control_audit["spec_kit_fiction_warnings"],
         "hook_naturalness_warnings": production_control_audit["hook_naturalness_warnings"],
         "post_draft_review_warnings": production_control_audit["post_draft_review_warnings"],
+        "canonkit_context_pack_warnings": production_control_audit["canonkit_context_pack_warnings"],
         "genre_promise_contract_warnings": production_control_audit["genre_promise_contract_warnings"],
         "subgenre_ledger_warnings": production_control_audit["subgenre_ledger_warnings"],
         **continuity_audit,
@@ -1462,7 +1491,10 @@ def build_remix_inspired_context_block(
     )
     _append_story_bible_continuity_qa_audit_section(
         lines=lines,
+        bible={},
+        plan=None,
         source_pattern_pack=source_pattern_pack,
+        mode="same-type",
     )
 
     return "\n".join(lines).strip()
@@ -2888,6 +2920,188 @@ def _universal_hook_naturalness_audit(
 
 def _empty_universal_hook_naturalness_audit() -> dict[str, Any]:
     return {"warnings": []}
+
+
+def _canonkit_local_canon_drift_context_pack_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit CanonKit-style local canon drift and focused scene context readiness."""
+    warnings: list[str] = []
+
+    if not _has_focused_scene_context_pack_surface(bible=bible, plan=plan):
+        warnings.append("missing_focused_scene_context_pack")
+
+    for warning in _missing_core_character_setup_warnings(bible=bible):
+        _append_unique(warnings, warning)
+        if len(warnings) >= max_items:
+            return {"warnings": warnings[:max_items]}
+
+    for warning in _character_age_year_mismatch_warnings(bible=bible):
+        _append_unique(warnings, warning)
+        if len(warnings) >= max_items:
+            return {"warnings": warnings[:max_items]}
+
+    for warning in _missing_entity_reference_warnings(bible=bible):
+        _append_unique(warnings, warning)
+        if len(warnings) >= max_items:
+            return {"warnings": warnings[:max_items]}
+
+    for warning in _asymmetric_relationship_warnings(bible=bible):
+        _append_unique(warnings, warning)
+        if len(warnings) >= max_items:
+            return {"warnings": warnings[:max_items]}
+
+    for warning in _scene_state_conflict_warnings(bible=bible):
+        _append_unique(warnings, warning)
+        if len(warnings) >= max_items:
+            return {"warnings": warnings[:max_items]}
+
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_focused_scene_context_pack_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    for carrier in (bible, plan):
+        if isinstance(carrier, dict) and _has_any_package_value(
+            carrier,
+            (
+                "focused_scene_context_pack",
+                "scene_context_pack",
+                "llm_context_pack",
+                "context_pack_preview",
+            ),
+        ):
+            return True
+    return False
+
+
+def _missing_core_character_setup_warnings(*, bible: dict[str, Any]) -> list[str]:
+    warnings: list[str] = []
+    for card in _as_dict_list(bible.get("character_cards")):
+        name = _card_entity_name(card)
+        if not name:
+            continue
+        if not _has_any_package_value(card, ("role", "goal", "external_want", "want", "summary", "identity")):
+            warnings.append(f"missing_core_character_setup: {_truncate(name, 120)}")
+    return warnings
+
+
+def _character_age_year_mismatch_warnings(*, bible: dict[str, Any]) -> list[str]:
+    warnings: list[str] = []
+    current_year = _int_or_none(
+        bible.get("current_year")
+        or bible.get("story_year")
+        or bible.get("narrative_year")
+    )
+    if current_year is None:
+        return warnings
+
+    for card in _as_dict_list(bible.get("character_cards")):
+        name = _card_entity_name(card)
+        age = _int_or_none(card.get("age") or card.get("current_age"))
+        birth_year = _int_or_none(card.get("birth_year") or card.get("born_year"))
+        if name and age is not None and birth_year is not None and abs((current_year - birth_year) - age) > 1:
+            warnings.append(f"character_age_year_mismatch: {_truncate(name, 120)}")
+    return warnings
+
+
+def _missing_entity_reference_warnings(*, bible: dict[str, Any]) -> list[str]:
+    known_entities = _known_canon_entity_keys(bible=bible)
+    warnings: list[str] = []
+
+    for scene in _as_dict_list(bible.get("scenes")) + _as_dict_list(bible.get("scene_cards")):
+        for entity in _scene_referenced_entities(scene):
+            key = _entity_key(entity)
+            if key and key not in known_entities:
+                warnings.append(f"missing_entity_reference: {_truncate(entity, 120)}")
+
+    for package in _as_dict_list(bible.get("chapter_change_packages")):
+        for entity in _scene_referenced_entities(package):
+            key = _entity_key(entity)
+            if key and key not in known_entities:
+                warnings.append(f"missing_entity_reference: {_truncate(entity, 120)}")
+
+    return _dedupe_ordered(warnings)
+
+
+def _known_canon_entity_keys(*, bible: dict[str, Any]) -> set[str]:
+    known: set[str] = set()
+    for key in ("character_cards", "locations", "organizations", "world_rules", "items", "artifacts"):
+        value = bible.get(key)
+        if isinstance(value, dict):
+            for name in value.keys():
+                entity = _entity_key(str(name))
+                if entity:
+                    known.add(entity)
+        for item in _as_dict_list(value):
+            name = _first_named_value(item, ("name", "character_name", "location", "organization", "item", "artifact", "title"))
+            entity = _entity_key(name)
+            if entity:
+                known.add(entity)
+    return known
+
+
+def _scene_referenced_entities(item: dict[str, Any]) -> list[str]:
+    references: list[str] = []
+    for key in ("entities", "referenced_entities", "mentions", "entity_refs"):
+        value = item.get(key)
+        if isinstance(value, list):
+            for entry in value:
+                if isinstance(entry, str):
+                    references.append(entry)
+                elif isinstance(entry, dict):
+                    name = _first_named_value(entry, ("name", "entity", "label", "title"))
+                    if name:
+                        references.append(name)
+        elif isinstance(value, str):
+            references.append(value)
+    return references
+
+
+def _asymmetric_relationship_warnings(*, bible: dict[str, Any]) -> list[str]:
+    relationships = _as_dict_list(bible.get("relationships"))
+    if not relationships:
+        return []
+
+    edges: set[tuple[str, str, str]] = set()
+    for item in relationships:
+        source = _entity_key(_string_value(item.get("from") or item.get("source") or item.get("a") or item.get("character")))
+        target = _entity_key(_string_value(item.get("to") or item.get("target") or item.get("b") or item.get("other")))
+        relation = _entity_key(_string_value(item.get("type") or item.get("relationship") or item.get("status")))
+        if source and target:
+            edges.add((source, target, relation))
+
+    warnings: list[str] = []
+    for source, target, relation in edges:
+        reverse_exists = any(
+            other_source == target and other_target == source and (not relation or other_relation == relation)
+            for other_source, other_target, other_relation in edges
+        )
+        if not reverse_exists:
+            warnings.append(f"asymmetric_relationship: {_display_entity_key(source)}->{_display_entity_key(target)}")
+    return _dedupe_ordered(warnings)
+
+
+def _scene_state_conflict_warnings(*, bible: dict[str, Any]) -> list[str]:
+    warnings: list[str] = []
+    for conflict in _as_dict_list(bible.get("scene_state_conflicts")):
+        scene = _first_text(conflict, ("scene", "scene_name", "name", "location"))
+        issue = _first_text(conflict, ("issue", "conflict", "description", "summary"))
+        label = scene or issue or "unknown"
+        suffix = f": {_truncate(issue, 120)}" if issue and issue != label else ""
+        warnings.append(f"scene_state_conflict: {_truncate(label, 120)}{suffix}")
+
+    for scene in _as_dict_list(bible.get("scenes")) + _as_dict_list(bible.get("scene_cards")):
+        if _has_any_package_value(scene, ("state_conflict", "conflict", "contradiction")):
+            label = _first_text(scene, ("name", "scene", "title", "summary"))
+            warnings.append(f"scene_state_conflict: {_truncate(label or 'unknown', 120)}")
+    return _dedupe_ordered(warnings)
 
 
 def _universal_post_draft_review_audit(
@@ -6266,7 +6480,10 @@ def _append_canon_graph_retrieval_audit_section(
 def _append_story_bible_continuity_qa_audit_section(
     *,
     lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
     source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
 ) -> None:
     """Render story-bible QA, canon drift, and consequence-ledger gates."""
     pattern_names = _source_pattern_names(source_pattern_pack)
@@ -6295,9 +6512,25 @@ def _append_story_bible_continuity_qa_audit_section(
         "governed_full_reading_continuation_gate",
         "story_import_pattern_revision_gate",
         "consequence_ledger_last_actions_context_gate",
+        "canonkit_local_canon_drift_context_pack_gate",
     }
     if not pattern_names.intersection(relevant_patterns):
         return
+
+    canonkit_hints = (
+        _as_note_list(source_pattern_pack.get("canonkit_local_canon_drift_context_pack_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    canonkit_audit = (
+        _canonkit_local_canon_drift_context_pack_audit(
+            bible=bible,
+            plan=plan,
+            max_items=12,
+        )
+        if "canonkit_local_canon_drift_context_pack_gate" in pattern_names
+        else {"warnings": []}
+    )
 
     lines.append("")
     lines.append("Story-bible continuity QA audit:")
@@ -6307,6 +6540,40 @@ def _append_story_bible_continuity_qa_audit_section(
         lines.append("- canon_evidence_suggestion_review_gate: canon fixes need evidence refs plus author/reviewer acceptance before writeback")
     if "canon_drift_continuity_qa_gate" in pattern_names:
         lines.append("- canon_drift_continuity_qa_gate: ask drift questions for characters, objects, scene facts, and relationship timing before draft promotion")
+    if "canonkit_local_canon_drift_context_pack_gate" in pattern_names:
+        lines.append("")
+        lines.append("CanonKit local canon-drift context-pack gate:")
+        lines.append(
+            "- local_first_canon_system: treat character cards, locations, rules, "
+            "scenes, and accepted state as the local source of truth before drafting"
+        )
+        lines.append(
+            "- drift_detectors: detect missing core character setup, age/year mismatch, "
+            "missing entity references, state conflicts, and asymmetric relationships"
+        )
+        lines.append(
+            "- focused_scene_context_pack: build a scene-scoped context pack from "
+            "accepted canon only, with included facts, omitted-but-relevant notes, "
+            "and current-scene reason"
+        )
+        lines.append(
+            "- JSON import/export boundary: external JSON, browser persistence, demo "
+            "state, and local project storage stay runtime-deferred during static intake"
+        )
+        if mode == "same-type":
+            lines.append(
+                "- same_type_boundary: transfer detector categories only; rebuild target "
+                "character cards, scene records, JSON context packs, and canon facts independently"
+            )
+        else:
+            lines.append(
+                "- continuation_boundary: drift checks and focused context packs must use "
+                "target-owned accepted bible, plan, scene, and chapter packages"
+            )
+        if canonkit_hints:
+            lines.append(f"- source_hint: {_truncate(canonkit_hints[0], 260)}")
+        if canonkit_audit["warnings"] and mode != "same-type":
+            lines.append(f"- canonkit_context_pack_warnings: {', '.join(canonkit_audit['warnings'])}")
     if "consequence_ledger_last_actions_context_gate" in pattern_names:
         lines.append("- consequence_ledger_last_actions_context_gate: keep last actions, consequences, state mutation, and compression freshness visible as short-term context")
     if "story_import_pattern_revision_gate" in pattern_names:
@@ -7158,6 +7425,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "reader_pull_fresh_reader_gate_hints": "reader_pull_fresh_reader_gate",
         "progress_report_continuity_writeback_gate_hints": "progress_report_continuity_writeback_gate",
         "post_draft_review_checklist_gate_hints": "post_draft_review_checklist_gate",
+        "canonkit_local_canon_drift_context_pack_gate_hints": "canonkit_local_canon_drift_context_pack_gate",
         "genre_promise_contract_matrix_gate_hints": "genre_promise_contract_matrix_gate",
         "subgenre_specific_ledger_gate_hints": "subgenre_specific_ledger_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",

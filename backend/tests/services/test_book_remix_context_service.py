@@ -1229,6 +1229,133 @@ def test_build_remix_context_blocks_render_story_bible_continuity_qa_audit():
         assert "coverage, finalized reading state, and evidence refs" in block
 
 
+def test_canonkit_local_canon_drift_context_pack_gate_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "canonkit_local_canon_drift_context_pack_gate", "candidate_count": 1},
+        ],
+        "canonkit_local_canon_drift_context_pack_gate_hints": [
+            "Detect canon-drift across character cards, ages/years, missing entities, state conflicts, and asymmetric relationships before building a focused scene context pack.",
+        ],
+    }
+
+    bible = {
+        "current_year": 2020,
+        "character_cards": [
+            {"name": "Mira", "age": 17, "birth_year": 1990},
+            {"name": "Vale", "role": "ally", "goal": "protect Mira"},
+        ],
+        "relationships": [
+            {"from": "Mira", "to": "Vale", "type": "trusts"},
+        ],
+        "scenes": [
+            {"name": "Atrium confrontation", "entities": ["Mira", "Ghost Ledger"]},
+        ],
+        "scene_state_conflicts": [
+            {"scene": "Atrium confrontation", "issue": "Mira is both outside and inside the archive"},
+        ],
+        "chapter_change_packages": [
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 21,
+                "summary": "Mira found the archive door open.",
+            }
+        ],
+    }
+    plan = {"summary": "Continue after the archive door opens."}
+
+    continuation = build_remix_continuation_context_block(
+        project_title="CanonKit Desk",
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired CanonKit Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only canon-drift detector categories.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source character cards, scene records, or JSON context packs.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "CanonKit local canon-drift context-pack gate:" in block
+        assert "local_first_canon_system" in block
+        assert "drift_detectors" in block
+        assert "missing core character setup, age/year mismatch" in block
+        assert "focused_scene_context_pack" in block
+        assert "JSON import/export" in block
+        assert "Detect canon-drift" in block
+    assert "continuation_boundary" in continuation
+    assert "canonkit_context_pack_warnings" in continuation
+    assert "same_type_boundary" in inspired
+    assert "target character cards, scene records" in inspired
+
+    assert "local_first_canon_drift_check" in audit["control_axes"]
+    assert "focused_scene_context_pack" in audit["control_axes"]
+    assert "character_age_year_consistency" in audit["control_axes"]
+    assert "missing_entity_reference_review" in audit["control_axes"]
+    assert "relationship_symmetry_review" in audit["control_axes"]
+    assert "scene_state_conflict_review" in audit["control_axes"]
+    assert "verify_canonkit_drift_detectors" in audit["acceptance_steps"]
+    assert "verify_focused_scene_context_pack" in audit["acceptance_steps"]
+    assert "canonkit_context_pack_warnings" in audit["warnings"]
+    assert "missing_focused_scene_context_pack" in audit["canonkit_context_pack_warnings"]
+    assert "missing_core_character_setup: Mira" in audit["canonkit_context_pack_warnings"]
+    assert "character_age_year_mismatch: Mira" in audit["canonkit_context_pack_warnings"]
+    assert "missing_entity_reference: Ghost Ledger" in audit["canonkit_context_pack_warnings"]
+    assert "asymmetric_relationship: Mira->Vale" in audit["canonkit_context_pack_warnings"]
+    assert any(
+        warning.startswith("scene_state_conflict: Atrium confrontation")
+        for warning in audit["canonkit_context_pack_warnings"]
+    )
+
+
+def test_canonkit_local_canon_drift_context_pack_gate_passes_with_complete_surfaces():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "current_year": 2020,
+            "character_cards": [
+                {"name": "Mira", "role": "lead", "goal": "protect the archive", "age": 30, "birth_year": 1990},
+                {"name": "Vale", "role": "ally", "goal": "restore public trust"},
+            ],
+            "relationships": [
+                {"from": "Mira", "to": "Vale", "type": "trusts"},
+                {"from": "Vale", "to": "Mira", "type": "trusts"},
+            ],
+            "locations": [{"name": "Archive"}],
+            "scenes": [{"name": "Archive confrontation", "entities": ["Mira", "Vale", "Archive"]}],
+            "focused_scene_context_pack": {
+                "scene": "Archive confrontation",
+                "included_canon_facts": ["Mira and Vale trust each other"],
+            },
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 22,
+                    "summary": "Mira and Vale entered the archive together.",
+                }
+            ],
+        },
+        plan={"summary": "Continue from the accepted focused context pack."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "canonkit_local_canon_drift_context_pack_gate"},
+            ],
+        },
+    )
+
+    assert audit["canonkit_context_pack_warnings"] == []
+
+
 def test_build_remix_continuation_context_block_renders_source_pattern_pack_guidance():
     block = build_remix_continuation_context_block(
         project_title="Continuation Desk",
