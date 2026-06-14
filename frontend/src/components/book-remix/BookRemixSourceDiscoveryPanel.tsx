@@ -129,6 +129,8 @@ const PINNED_HINT_KEYS = new Set([
   'narrative_time_age_trace_gate_hints',
   'plotline_thread_tracking_hints',
   'rolling_summary_context_trim_hints',
+  'linked_chapter_workspace_state_gate_hints',
+  'tri_reviewer_context_rebuild_gate_hints',
   'local_first_workspace_hints',
   'prompt_library_hints',
   'scene_level_generation_hints',
@@ -341,6 +343,7 @@ const PINNED_HINT_KEYS = new Set([
   'markdown_frontmatter_continuity_engine_gate_hints',
   'story_design_dependency_impact_gate_hints',
   'universal_novel_mode_contract_gate_hints',
+  'universal_portable_tool_policy_gate_hints',
   'portable_story_project_structure_gate_hints',
   'chapter_contract_scene_beat_gate_hints',
   'reader_promise_micro_payoff_gate_hints',
@@ -745,6 +748,7 @@ export default function BookRemixSourceDiscoveryPanel() {
             ])}
             {renderHintGroup('Universal novel-writing skill gates', [
               ['Universal mode-contract gates', patternPackPayload?.universal_novel_mode_contract_gate_hints],
+              ['Portable tool policy gates', patternPackPayload?.universal_portable_tool_policy_gate_hints],
               ['Portable story project-structure gates', patternPackPayload?.portable_story_project_structure_gate_hints],
               ['Chapter contract / scene beat gates', patternPackPayload?.chapter_contract_scene_beat_gate_hints],
               ['Reader promise / micro-payoff gates', patternPackPayload?.reader_promise_micro_payoff_gate_hints],
@@ -824,6 +828,8 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Narrative time / age trace gates', patternPackPayload?.narrative_time_age_trace_gate_hints],
               ['Plotline thread tracking gates', patternPackPayload?.plotline_thread_tracking_hints],
               ['Rolling summary context trim gates', patternPackPayload?.rolling_summary_context_trim_hints],
+              ['Linked chapter workspace state gates', patternPackPayload?.linked_chapter_workspace_state_gate_hints],
+              ['Writer/style/continuity context-rebuild gates', patternPackPayload?.tri_reviewer_context_rebuild_gate_hints],
             ])}
             {renderHintGroup('Workspace / scene planning gates', [
               ['Local-first workspace gates', patternPackPayload?.local_first_workspace_hints],

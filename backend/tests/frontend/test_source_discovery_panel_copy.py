@@ -851,6 +851,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
 
     assert "Universal novel-writing skill gates" in panel_text
     assert "Universal mode-contract gates" in panel_text
+    assert "Portable tool policy gates" in panel_text
     assert "Portable story project-structure gates" in panel_text
     assert "Chapter contract / scene beat gates" in panel_text
     assert "Reader promise / micro-payoff gates" in panel_text
@@ -888,8 +889,10 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "minimal_rollback_repair_scope_gate_hints" in panel_text
     assert "progressive_context_loading_gate_hints" in panel_text
     assert "author_intent_confirmation_gate_hints" in panel_text
+    assert "universal_portable_tool_policy_gate_hints" in panel_text
 
     assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
+    assert "universal_portable_tool_policy_gate_hints?: string[]" in types_text
     assert "portable_story_project_structure_gate_hints?: string[]" in types_text
     assert "chapter_contract_scene_beat_gate_hints?: string[]" in types_text
     assert "reader_promise_micro_payoff_gate_hints?: string[]" in types_text

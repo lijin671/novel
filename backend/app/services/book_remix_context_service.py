@@ -120,6 +120,21 @@ def build_remix_continuation_control_audit(
             "session_artifact_trace",
             "editable_memory_bank_review",
         ])
+    if "linked_chapter_workspace_state_gate" in pattern_names:
+        control_axes.extend([
+            "linked_imported_chapter_workspace",
+            "current_writing_state_memory",
+        ])
+        acceptance_steps.append("verify_linked_chapter_workspace_state")
+    if "tri_reviewer_context_rebuild_gate" in pattern_names:
+        control_axes.extend([
+            "writer_style_continuity_review_loop",
+            "context_rebuild_before_midstream_adoption",
+        ])
+        acceptance_steps.extend([
+            "verify_context_rebuild_from_existing_chapters",
+            "verify_tri_reviewer_resolution",
+        ])
     if pattern_names.intersection(
         {
             "semantic_context_consistency_gate",
@@ -205,6 +220,13 @@ def build_remix_continuation_control_audit(
             "verify_story_bible_project_memory_axes",
             "verify_no_overwrite_manuscript_patch_scope",
         ])
+    if "universal_portable_tool_policy_gate" in pattern_names:
+        control_axes.extend([
+            "portable_tool_surface_policy",
+            "assumption_register_for_unavailable_search",
+            "nonoverwrite_versioned_revision_lane",
+        ])
+        acceptance_steps.append("verify_portable_tool_policy_scope")
     if "seed_to_bible_foundation_loop_gate" in pattern_names:
         control_axes.extend([
             "foundation_score_loop_review",
@@ -4302,6 +4324,7 @@ def _append_universal_novel_workflow_contract_section(
     pattern_names = _source_pattern_names(source_pattern_pack)
     relevant_patterns = {
         "universal_novel_mode_contract_gate",
+        "universal_portable_tool_policy_gate",
         "portable_story_project_structure_gate",
         "chapter_contract_scene_beat_gate",
         "reader_promise_micro_payoff_gate",
@@ -4317,6 +4340,8 @@ def _append_universal_novel_workflow_contract_section(
     lines.append("Universal novel workflow contract:")
     if "universal_novel_mode_contract_gate" in pattern_names:
         lines.append("- mode_selection: choose the smallest explicit mode before output: continue-chapter, full-project, revise, analyze, export, or quick-start")
+    if "universal_portable_tool_policy_gate" in pattern_names:
+        lines.append("- portable_tool_policy: declare file/search/task/command availability; unavailable search becomes assumptions, commands stay mechanical checks, and manuscript edits use non-overwrite revision lanes")
     if "portable_story_project_structure_gate" in pattern_names:
         lines.append("- portable_state_files: keep story-bible.md, outline.md, characters.md, worldbuilding.md, continuity.md, progress.md, chapters/, notes/, and revision/ as separate state layers")
     if "chapter_contract_scene_beat_gate" in pattern_names:
@@ -7621,6 +7646,8 @@ def _append_serialized_continuity_audit_section(
         "reader_retention_review_gate",
         "draft_stage_revision_ladder",
         "rolling_summary_context_trim",
+        "linked_chapter_workspace_state_gate",
+        "tri_reviewer_context_rebuild_gate",
     }
     if not pattern_names.intersection(relevant_patterns):
         return
@@ -7641,6 +7668,10 @@ def _append_serialized_continuity_audit_section(
         lines.append("- draft_stage_revision_ladder: blueprint -> key info -> task card -> Draft A/B/C -> continuity handoff")
     if "rolling_summary_context_trim" in pattern_names:
         lines.append("- rolling_summary_context_trim: selected rolling summary, character state, timeline events, and dropped context need a manifest")
+    if "linked_chapter_workspace_state_gate" in pattern_names:
+        lines.append("- linked_chapter_workspace_state_gate: imported chapter list, extracted outlines, reference pane, writing pane, output folder, and cursor state must stay visible and chapter-id bound")
+    if "tri_reviewer_context_rebuild_gate" in pattern_names:
+        lines.append("- tri_reviewer_context_rebuild_gate: rebuild context before midstream adoption, then review each chapter with Writer, Style, and Continuity findings over a declared previous/next 2 chapter window")
 
 
 def _append_story_quality_evaluation_audit_section(
@@ -7925,6 +7956,13 @@ def build_remix_inspired_independence_audit(
             "hook_payoff_thread_ids",
         ])
         copy_risk_checks.append("source_hook_payoff_matrix_clone")
+    if "universal_portable_tool_policy_gate" in pattern_names:
+        required_difference_axes.extend([
+            "artifact_path_namespace",
+            "filename_convention",
+            "tool_surface_policy",
+        ])
+        copy_risk_checks.append("source_tool_policy_path_clone")
     if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
         transfer_axes.extend([
             "scene_engine_pattern",
@@ -8136,6 +8174,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "reader_retention_review_gate_hints": "reader_retention_review_gate",
         "draft_stage_revision_ladder_hints": "draft_stage_revision_ladder",
         "rolling_summary_context_trim_hints": "rolling_summary_context_trim",
+        "linked_chapter_workspace_state_gate_hints": "linked_chapter_workspace_state_gate",
+        "tri_reviewer_context_rebuild_gate_hints": "tri_reviewer_context_rebuild_gate",
         "pairwise_story_comparison_ranking_hints": "pairwise_story_comparison_ranking",
         "multidimensional_quality_rubric_hints": "multidimensional_quality_rubric",
         "story_theory_beat_evaluation_hints": "story_theory_beat_evaluation",
@@ -8239,6 +8279,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "proper_noun_leakage_review_hints": "proper_noun_leakage_review",
         "truth_file_write_next_state_update_gate_hints": "truth_file_write_next_state_update_gate",
         "universal_novel_mode_contract_gate_hints": "universal_novel_mode_contract_gate",
+        "universal_portable_tool_policy_gate_hints": "universal_portable_tool_policy_gate",
         "portable_story_project_structure_gate_hints": "portable_story_project_structure_gate",
         "chapter_contract_scene_beat_gate_hints": "chapter_contract_scene_beat_gate",
         "reader_promise_micro_payoff_gate_hints": "reader_promise_micro_payoff_gate",

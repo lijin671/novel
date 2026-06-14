@@ -3700,6 +3700,62 @@ def test_default_discovery_sources_include_serialized_webnovel_projects():
     assert any("rolling summary" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
 
 
+def test_gc_writer_and_writeflow_workspace_gates_project_to_pattern_pack():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "guchendesigndog/GC-Writer-Assistant",
+                "html_url": "https://github.com/guchendesigndog/GC-Writer-Assistant",
+                "description": (
+                    "GC-Writer Assistant is a Chinese web-novel local writing assistant with chapter import, "
+                    "chapter list, chapter display and writing area linkage, outline extraction, local folder "
+                    "save, and auto memory current writing state."
+                ),
+                "stargazers_count": 8,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "ai-writing", "local-first"],
+                "updated_at": "2026-04-26T05:11:47Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "start.bat"],
+            },
+            {
+                "full_name": "jinmawang/claude-novel-writeFlow",
+                "html_url": "https://github.com/jinmawang/claude-novel-writeFlow",
+                "description": (
+                    "claude-novel-writeFlow uses Writer Agent, Style Reviewer, and Continuity Reviewer, "
+                    "bounded review loops, /context --rebuild for existing chapters, and a ±2 chapter context "
+                    "window before each chapter is accepted."
+                ),
+                "stargazers_count": 1,
+                "license": None,
+                "topics": ["claude-code", "novel-writing"],
+                "updated_at": "2026-04-03T05:59:07Z",
+                "root_files": ["README.md", ".claude"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-15T12:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "linked_chapter_workspace_state_gate" in candidates["guchendesigndog/GC-Writer-Assistant"]["absorbed_patterns"]
+    assert "tri_reviewer_context_rebuild_gate" in candidates["jinmawang/claude-novel-writeFlow"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert any("imported chapter list" in hint.lower() for hint in pattern_pack["linked_chapter_workspace_state_gate_hints"])
+    assert any("context init/rebuild" in hint.lower() for hint in pattern_pack["tri_reviewer_context_rebuild_gate_hints"])
+    assert "imported_chapter_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "context_rebuild_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "linked_workspace_state_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "tri_reviewer_context_rebuild_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "linked_chapter_workspace_state_gate_hints" in digest
+    assert "tri_reviewer_context_rebuild_gate_hints" in digest
+
+
 def test_story_quality_eval_projects_are_classified_as_quality_patterns():
     service = NovelSourceDiscoveryService()
 
@@ -20305,6 +20361,11 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                 "summary": (
                     "Portable universal-novel-writing SKILL.md with operating modes "
                     "quick-start, full-project, continue-chapter, revise, analyze, export; "
+                    "portable tool policy never makes a specific client mandatory, uses file tools "
+                    "for artifacts, marks real-world facts as assumptions when search is unavailable, "
+                    "limits command tools to mechanical checks, uses absolute paths, and does not "
+                    "overwrite or delete existing manuscript files without patches, versioned files, "
+                    "revision notes, localized filenames, and the existing naming convention; "
                     "project structure story-bible.md outline.md characters.md worldbuilding.md "
                     "continuity.md progress.md chapters notes revision; chapter contract with "
                     "reader promise, POV, opening hook, goal, obstacle, escalation, payoff, "
@@ -20366,6 +20427,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert candidate["posture_hint"] == "local-static-review"
     assert {
         "universal_novel_mode_contract_gate",
+        "universal_portable_tool_policy_gate",
         "portable_story_project_structure_gate",
         "chapter_contract_scene_beat_gate",
         "reader_promise_micro_payoff_gate",
@@ -20388,8 +20450,10 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
     assert "universal_mode_contract_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "universal_portable_tool_policy" in pattern_pack["bible_enrichment_targets"]
     assert "portable_story_project_structure_policy" in pattern_pack["bible_enrichment_targets"]
     assert "chapter_contract_scene_beat_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "universal_portable_tool_policy_report" in pattern_pack["whole_book_analysis_targets"]
     assert "progress_report_writeback_report" in pattern_pack["whole_book_analysis_targets"]
     assert "genre_promise_contract_matrix_report" in pattern_pack["whole_book_analysis_targets"]
     assert "subgenre_specific_ledger_report" in pattern_pack["whole_book_analysis_targets"]
@@ -20399,6 +20463,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "progressive_context_loading_report" in pattern_pack["whole_book_analysis_targets"]
     assert "author_intent_confirmation_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_mode_contract_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "universal_portable_tool_policy_remap" in pattern_pack["inspired_mapping_targets"]
     assert "genre_promise_contract_matrix_remap" in pattern_pack["inspired_mapping_targets"]
     assert "subgenre_specific_ledger_remap" in pattern_pack["inspired_mapping_targets"]
     assert "five_question_intake_story_promise_remap" in pattern_pack["inspired_mapping_targets"]
@@ -20407,6 +20472,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "progressive_context_loading_remap" in pattern_pack["inspired_mapping_targets"]
     assert "author_intent_confirmation_remap" in pattern_pack["inspired_mapping_targets"]
     assert any("mode" in hint.lower() for hint in pattern_pack["universal_novel_mode_contract_gate_hints"])
+    assert any("unavailable" in hint.lower() and "assumptions" in hint.lower() for hint in pattern_pack["universal_portable_tool_policy_gate_hints"])
     assert any("story-bible.md" in hint for hint in pattern_pack["portable_story_project_structure_gate_hints"])
     assert any("3-7" in hint for hint in pattern_pack["chapter_contract_scene_beat_gate_hints"])
     assert any("micro-payoff" in hint.lower() for hint in pattern_pack["reader_promise_micro_payoff_gate_hints"])
@@ -20428,6 +20494,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "universal_novel_mode_contract_gate_hints" in digest
+    assert "universal_portable_tool_policy_gate_hints" in digest
     assert "portable_story_project_structure_gate_hints" in digest
     assert "chapter_contract_scene_beat_gate_hints" in digest
     assert "reader_promise_micro_payoff_gate_hints" in digest

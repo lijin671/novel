@@ -50,6 +50,7 @@ def test_build_remix_continuation_context_block_renders_universal_novel_workflow
     pattern_pack = {
         "workflow_patterns": [
             {"name": "universal_novel_mode_contract_gate"},
+            {"name": "universal_portable_tool_policy_gate"},
             {"name": "portable_story_project_structure_gate"},
             {"name": "chapter_contract_scene_beat_gate"},
             {"name": "reader_promise_micro_payoff_gate"},
@@ -77,6 +78,7 @@ def test_build_remix_continuation_context_block_renders_universal_novel_workflow
 
     assert "Universal novel workflow contract:" in block
     assert "mode_selection" in block
+    assert "portable_tool_policy" in block
     assert "portable_state_files" in block
     assert "chapter_contract" in block
     assert "scene_exit_state" in block
@@ -167,6 +169,7 @@ def test_universal_project_memory_gate_extends_control_audit_and_warnings():
         source_pattern_pack={
             "workflow_patterns": [
                 {"name": "portable_story_project_structure_gate"},
+                {"name": "universal_portable_tool_policy_gate"},
             ],
         },
     )
@@ -180,6 +183,10 @@ def test_universal_project_memory_gate_extends_control_audit_and_warnings():
     assert "verify_project_memory_startup_packet" in audit["acceptance_steps"]
     assert "verify_story_bible_project_memory_axes" in audit["acceptance_steps"]
     assert "verify_no_overwrite_manuscript_patch_scope" in audit["acceptance_steps"]
+    assert "portable_tool_surface_policy" in audit["control_axes"]
+    assert "assumption_register_for_unavailable_search" in audit["control_axes"]
+    assert "nonoverwrite_versioned_revision_lane" in audit["control_axes"]
+    assert "verify_portable_tool_policy_scope" in audit["acceptance_steps"]
     assert "portable_project_memory_warnings" in audit["warnings"]
     assert "missing_story_bible_north_star" in audit["portable_project_memory_warnings"]
     assert "missing_character_engine_card" in audit["portable_project_memory_warnings"]
@@ -259,6 +266,66 @@ def test_universal_progressive_loading_and_author_intent_gates_render_context_an
     assert "missing_progressive_context_scope" in audit["context_scope_authority_warnings"]
     assert "missing_author_intent_boundary" in audit["context_scope_authority_warnings"]
     assert "missing_long_sequence_confirmation_policy" in audit["context_scope_authority_warnings"]
+
+
+def test_gc_writer_writeflow_workspace_and_review_gates_render_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "linked_chapter_workspace_state_gate", "candidate_count": 1},
+            {"name": "tri_reviewer_context_rebuild_gate", "candidate_count": 1},
+        ],
+        "linked_chapter_workspace_state_gate_hints": [
+            "Bind imported chapter list, extracted outlines, reference display, writing area, local output folder, and current cursor.",
+        ],
+        "tri_reviewer_context_rebuild_gate_hints": [
+            "Run context init/rebuild, then review each chapter through writer, style, and continuity findings.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Writer Desk Continuation",
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "imported_chapter_manifest",
+                    "chapter_number": 12,
+                    "summary": "The imported chapter list ends with a failed promise and a saved cursor.",
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue from the saved cursor and review before acceptance.",
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Writer Desk Same Type",
+        style_content=(
+            "same-type creation only learns the workspace and review-loop shape\n"
+            "source voice is reference-only and forbidden source elements stay excluded"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Serialized continuity audit:" in block
+        assert "linked_chapter_workspace_state_gate" in block
+        assert "tri_reviewer_context_rebuild_gate" in block
+        assert "chapter-id bound" in block
+        assert "previous/next 2 chapter window" in block
+
+    assert "linked_imported_chapter_workspace" in audit["control_axes"]
+    assert "current_writing_state_memory" in audit["control_axes"]
+    assert "writer_style_continuity_review_loop" in audit["control_axes"]
+    assert "context_rebuild_before_midstream_adoption" in audit["control_axes"]
+    assert "verify_linked_chapter_workspace_state" in audit["acceptance_steps"]
+    assert "verify_context_rebuild_from_existing_chapters" in audit["acceptance_steps"]
+    assert "verify_tri_reviewer_resolution" in audit["acceptance_steps"]
 
 
 def test_build_remix_continuation_context_block_projects_universal_next_chapter_scaffold():

@@ -119,6 +119,8 @@ export interface SourceDiscoveryPatternPack {
   prompt_regression_eval_suite_hints?: string[];
   plotline_thread_tracking_hints?: string[];
   rolling_summary_context_trim_hints?: string[];
+  linked_chapter_workspace_state_gate_hints?: string[];
+  tri_reviewer_context_rebuild_gate_hints?: string[];
   local_first_workspace_hints?: string[];
   prompt_library_hints?: string[];
   scene_level_generation_hints?: string[];
@@ -321,6 +323,7 @@ export interface SourceDiscoveryPatternPack {
   markdown_frontmatter_continuity_engine_gate_hints?: string[];
   story_design_dependency_impact_gate_hints?: string[];
   universal_novel_mode_contract_gate_hints?: string[];
+  universal_portable_tool_policy_gate_hints?: string[];
   portable_story_project_structure_gate_hints?: string[];
   chapter_contract_scene_beat_gate_hints?: string[];
   reader_promise_micro_payoff_gate_hints?: string[];

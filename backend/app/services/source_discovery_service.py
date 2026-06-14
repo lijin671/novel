@@ -1381,6 +1381,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("anti_statistical_center_chapter_type_gate", ("three-type", "chapter type", "a-type emotion", "b-type action", "c-type function", "三型分流", "a型情绪章", "b型动作章", "c型功能章", "概率陷阱", "最可能的续写", "事件冷却矩阵", "唯一画面测试", "story contract", "反向刹车", "3+1熔断", "自创公式检测", "nucleus-first", "seven knives", "golden finger")),
     ("draft_stage_revision_ladder", ("draft a", "draft b", "draft c", "chapter blueprint", "key-information file", "chapter task card", "初稿", "定向修改", "去ai", "连续性记录", "drafting, revision, and final polish")),
     ("rolling_summary_context_trim", ("rolling summary", "compressed plot summary", "context trimmed", "token budget", "character state tracking", "timeline events", "relevant passages", "session progress", "context trimming", "chapter_summaries", "chapter summaries", "events.jsonl", "timeline.jsonl", "relationship graph", "memory update after each chapter", "rolling compression", "active ledger", "cold storage", "滚动压缩", "活跃账本", "冷库")),
+    ("linked_chapter_workspace_state_gate", ("gc-writer assistant", "chapter management", "chapter import", "chapter list", "chapter display", "writing area", "outline extraction", "local folder save", "auto memory current writing state", "章节导入", "章节展示区", "码字区", "章节大纲提取", "本地文件夹保存", "自动记忆当前写作状态")),
+    ("tri_reviewer_context_rebuild_gate", ("claude-novel-writeflow", "writer agent", "style reviewer", "continuity reviewer", "bounded review loops", "context extraction for existing chapters", "context init", "context rebuild", "/context --rebuild", "±2 chapter context window", "前后 2 章", "每章完成后会暂停", "三重智能体", "衔接审核")),
     ("multidimensional_quality_rubric", ("q1-q15", "q1 to q15", "q1", "q15", "15 quality metrics", "overall score", "ranked weaknesses", "character consistency", "reader interest", "plot resolution", "quality metrics", "quality evaluations")),
     ("big_five_character_psychology_gate", ("big five", "big five personality", "big five personality model", "personality model", "personality design", "psychological depth", "character psychology", "openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism", "人格模型", "角色心理", "心理深度")),
     ("six_dimension_continuation_audit_retry_gate", ("six-dimensional audit", "six dimension audit", "six-dimensional parallel audit", "6d quality audit", "6-dimension", "six consistency auditors", "character consistency, plot logic, world coherence, style fidelity, reader experience, and long-term threads", "quality threshold", "80-point", "score below threshold", "targeted improvement", "re-audit", "六维", "六维评分", "质量审计", "专项改进", "不达标自动重写")),
@@ -1706,6 +1708,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("local_continuation_workstation_context_export_gate", ("novel-continuation", "local continuation", "three-layer outline", "style lock", "context assembly", "previous 5 chapters", "fts5", "token estimation", "self review", "character snapshot", "foreshadow status", "txt", "docx", "epub")),
     ("p4_p5_foreshadow_relationship_outline_gate", ("p4", "p5", "foreshadow", "relationship line", "chapter outline", "volume outline", "setup", "advance", "reveal", "relationship closure", "cross validation", "three consecutive chapters")),
     ("universal_novel_mode_contract_gate", ("universal-novel-writing", "operating modes", "quick-start", "full-project", "continue-chapter", "revise", "analyze", "export")),
+    ("universal_portable_tool_policy_gate", ("portable tool policy", "never make a specific client mandatory", "if file tools exist", "if search is unavailable", "task/subagent tools", "command tools", "mechanical checks", "absolute paths", "do not overwrite or delete existing manuscript files", "versioned files", "localized filenames", "preserve the user's existing naming convention")),
     ("portable_story_project_structure_gate", ("story-bible.md", "outline.md", "characters.md", "worldbuilding.md", "continuity.md", "progress.md", "chapters", "notes", "revision")),
     ("chapter_contract_scene_beat_gate", ("chapter contract", "reader promise", "opening hook", "main obstacle", "forbidden contradictions", "scene beat sheet", "3-7 scenes", "exit state")),
     ("reader_promise_micro_payoff_gate", ("reader promise", "micro-payoff", "micro payoff", "reader reward", "chinese webnovel", "chapter-level micro-payoffs", "chapter-level payoff")),
@@ -5041,6 +5044,7 @@ class NovelSourceDiscoveryService:
             "expert_chain_alignment_creativity_gate_hints": self._build_expert_chain_alignment_creativity_gate_hints(available_patterns),
             "visual_story_bible_continuity_gate_hints": self._build_visual_story_bible_continuity_gate_hints(available_patterns),
             "universal_novel_mode_contract_gate_hints": self._build_universal_novel_mode_contract_gate_hints(available_patterns),
+            "universal_portable_tool_policy_gate_hints": self._build_universal_portable_tool_policy_gate_hints(available_patterns),
             "portable_story_project_structure_gate_hints": self._build_portable_story_project_structure_gate_hints(available_patterns),
             "chapter_contract_scene_beat_gate_hints": self._build_chapter_contract_scene_beat_gate_hints(available_patterns),
             "reader_promise_micro_payoff_gate_hints": self._build_reader_promise_micro_payoff_gate_hints(available_patterns),
@@ -5163,6 +5167,8 @@ class NovelSourceDiscoveryService:
             "serial_reader_reward_contract_gate_hints": self._build_serial_reader_reward_contract_gate_hints(available_patterns),
             "draft_stage_revision_ladder_hints": self._build_draft_stage_revision_ladder_hints(available_patterns),
             "rolling_summary_context_trim_hints": self._build_rolling_summary_context_trim_hints(available_patterns),
+            "linked_chapter_workspace_state_gate_hints": self._build_linked_chapter_workspace_state_gate_hints(available_patterns),
+            "tri_reviewer_context_rebuild_gate_hints": self._build_tri_reviewer_context_rebuild_gate_hints(available_patterns),
             "pairwise_story_comparison_ranking_hints": self._build_pairwise_story_comparison_ranking_hints(available_patterns),
             "multidimensional_quality_rubric_hints": self._build_multidimensional_quality_rubric_hints(available_patterns),
             "big_five_character_psychology_gate_hints": self._build_big_five_character_psychology_gate_hints(available_patterns),
@@ -6096,6 +6102,8 @@ class NovelSourceDiscoveryService:
             "serial_reader_reward_contract_gate": 68,
             "draft_stage_revision_ladder": 56,
             "rolling_summary_context_trim": 59,
+            "linked_chapter_workspace_state_gate": 61,
+            "tri_reviewer_context_rebuild_gate": 62,
             "pairwise_story_comparison_ranking": 58,
             "multidimensional_quality_rubric": 57,
             "big_five_character_psychology_gate": 66,
@@ -6582,6 +6590,7 @@ class NovelSourceDiscoveryService:
             "visual_story_bible_continuity_gate": 66,
             "mode_contract_generation_gate": 66,
             "source_study_method_bank_isolation_gate": 66,
+            "universal_portable_tool_policy_gate": 66,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -6590,6 +6599,8 @@ class NovelSourceDiscoveryService:
         targets = ["world_rules", "timeline", "character_cards", "style_signature", "hard_constraints"]
         if "universal_novel_mode_contract_gate" in patterns:
             targets.append("universal_mode_contract_policy")
+        if "universal_portable_tool_policy_gate" in patterns:
+            targets.append("universal_portable_tool_policy")
         if "portable_story_project_structure_gate" in patterns:
             targets.append("portable_story_project_structure_policy")
         if "story_bible_constitution_source_gate" in patterns:
@@ -8350,6 +8361,8 @@ class NovelSourceDiscoveryService:
         ]
         if "universal_novel_mode_contract_gate" in patterns:
             targets.append("universal_mode_contract_report")
+        if "universal_portable_tool_policy_gate" in patterns:
+            targets.append("universal_portable_tool_policy_report")
         if "portable_story_project_structure_gate" in patterns:
             targets.append("portable_story_project_structure_report")
         if "story_bible_constitution_source_gate" in patterns:
@@ -9380,6 +9393,10 @@ class NovelSourceDiscoveryService:
             targets.extend(["chapter_blueprint", "key_information_file", "draft_stage_status", "next_chapter_handoff"])
         if "rolling_summary_context_trim" in patterns:
             targets.extend(["rolling_summary", "character_state_snapshot", "timeline_event_log", "context_trim_manifest"])
+        if "linked_chapter_workspace_state_gate" in patterns:
+            targets.extend(["imported_chapter_manifest", "chapter_outline_extraction_status", "linked_reference_write_state", "current_writing_state_memory"])
+        if "tri_reviewer_context_rebuild_gate" in patterns:
+            targets.extend(["context_rebuild_manifest", "writer_style_continuity_review_findings", "review_iteration_resolution_log", "chapter_pause_confirmation_status"])
         if "pairwise_story_comparison_ranking" in patterns:
             targets.extend(["pairwise_story_comparisons", "matched_variant_briefs", "evaluator_agreement_report"])
         if "multidimensional_quality_rubric" in patterns:
@@ -10029,10 +10046,16 @@ class NovelSourceDiscoveryService:
             hints.append("章节验收同时检查一致性、OOC、节奏、爽点兑现和下一章拉力；流畅但无追读压力不能接受。")
         if "serial_reader_reward_contract_gate" in patterns:
             hints.append("Serial chapters need a reader-reward contract before drafting: target reader, promised reward, opening hook, delivered scene reward, retention risk, and next-payment trust signal.")
+        if "universal_portable_tool_policy_gate" in patterns:
+            hints.append("Before drafting, declare file/search/task/command availability: persist artifacts when file tools exist, mark unavailable research as assumptions, and keep command use to mechanical checks.")
         if "draft_stage_revision_ladder" in patterns:
             hints.append("按章节蓝图、关键信息、任务卡到 Draft A/B/C 逐级修订；Draft C 只做去 AI 味和语言收束，不改事实。")
         if "rolling_summary_context_trim" in patterns:
             hints.append("用 rolling summary、人物状态、时间线事件和裁剪清单控制长上下文，只注入与当前章节有关的片段。")
+        if "linked_chapter_workspace_state_gate" in patterns:
+            hints.append("Before continuation, bind imported chapter ids, extracted outlines, reference display, writing surface, output folder, and current cursor into one visible workspace state.")
+        if "tri_reviewer_context_rebuild_gate" in patterns:
+            hints.append("When existing chapters are adopted midstream, rebuild context first and keep Writer/Style/Continuity review findings plus the previous/next 2 chapter outline window in the chapter packet.")
         if "pairwise_story_comparison_ranking" in patterns:
             hints.append("关键章节可生成同约束变体并做成对比较；验收依据是相同创意简报下的优劣证据，不是单稿直觉。")
         if "multidimensional_quality_rubric" in patterns:
@@ -10556,6 +10579,12 @@ class NovelSourceDiscoveryService:
             hints.append("Persist Draft A/B/C status and the next-chapter handoff separately from the final accepted prose.")
         if "rolling_summary_context_trim" in patterns:
             hints.append("Store rolling summaries, context trim manifests, and selected relevant passages beside the chapter run for restore and review.")
+        if "universal_portable_tool_policy_gate" in patterns:
+            hints.append("Persist tool-surface policy, assumption register, non-overwrite patch scope, versioned revision path, and localized filename convention with each chapter run.")
+        if "linked_chapter_workspace_state_gate" in patterns:
+            hints.append("Persist imported chapter ids, outline extraction status, linked reference/write panes, selected output folder, and current writing cursor before drafting.")
+        if "tri_reviewer_context_rebuild_gate" in patterns:
+            hints.append("Persist context init/rebuild mode, ±2 chapter outline window, reviewer findings, iteration count, and author pause/continue decision per chapter.")
         if "pairwise_story_comparison_ranking" in patterns:
             hints.append("Store matched variant ids, shared brief, evaluator notes, order-swap result, and keep/discard decision for every pairwise comparison.")
         if "multidimensional_quality_rubric" in patterns:
@@ -11983,6 +12012,15 @@ class NovelSourceDiscoveryService:
             "If the mode is ambiguous, choose the smallest useful mode and record assumptions before any chapter or analysis output is accepted.",
         ]
 
+    def _build_universal_portable_tool_policy_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "universal_portable_tool_policy_gate" not in patterns:
+            return []
+        return [
+            "Record the available file, search, task/subagent, and command surfaces before a novel step; no client or runtime is mandatory for the story contract.",
+            "If search is unavailable, mark real-world facts as assumptions; command tools are limited to mechanical checks such as file discovery, word counts, formatting, and packaging.",
+            "Do not overwrite or delete existing manuscript files without explicit scope; prefer patches, versioned files, revision notes, absolute paths, and the project's localized filename convention.",
+        ]
+
     def _build_portable_story_project_structure_gate_hints(self, patterns: set[str]) -> list[str]:
         if "portable_story_project_structure_gate" not in patterns:
             return []
@@ -12912,6 +12950,24 @@ class NovelSourceDiscoveryService:
         return [
             "Maintain a rolling summary plus character states, timeline events, world state, and relevant passages for each chapter.",
             "When context is trimmed, record dropped items and keep enough evidence to explain why the selected context supports the next beat.",
+        ]
+
+    def _build_linked_chapter_workspace_state_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "linked_chapter_workspace_state_gate" not in patterns:
+            return []
+        return [
+            "Bind imported chapter list, extracted outlines, reference display, writing area, local output folder, and current writing cursor into one visible workspace state packet.",
+            "Before continuation, record which chapter ids are reference-only, which chapter or scene is being drafted, and which local state fields update after acceptance.",
+            "For same-type creation, reuse only the chapter-workspace workflow shape; never carry source chapter headings, extracted outlines, or local file paths into target canon.",
+        ]
+
+    def _build_tri_reviewer_context_rebuild_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "tri_reviewer_context_rebuild_gate" not in patterns:
+            return []
+        return [
+            "When adopting an existing manuscript midstream, run a context init/rebuild pass before continuity review; stale context blocks chapter acceptance.",
+            "Review each generated chapter through writer, style, and continuity findings, with the previous/next 2 chapter-outline window declared in the prompt packet.",
+            "Pause or require author-visible confirmation after each auto-written chapter before advancing to the next chapter or exporting the manuscript.",
         ]
 
     def _build_pairwise_story_comparison_ranking_hints(self, patterns: set[str]) -> list[str]:
@@ -16690,6 +16746,8 @@ class NovelSourceDiscoveryService:
         ]
         if "universal_novel_mode_contract_gate" in patterns:
             targets.append("universal_mode_contract_remap")
+        if "universal_portable_tool_policy_gate" in patterns:
+            targets.append("universal_portable_tool_policy_remap")
         if "portable_story_project_structure_gate" in patterns:
             targets.append("portable_project_structure_remap")
         if "story_bible_constitution_source_gate" in patterns:
@@ -17337,6 +17395,10 @@ class NovelSourceDiscoveryService:
             targets.append("draft_stage_remap")
         if "rolling_summary_context_trim" in patterns:
             targets.append("rolling_context_remap")
+        if "linked_chapter_workspace_state_gate" in patterns:
+            targets.append("linked_workspace_state_remap")
+        if "tri_reviewer_context_rebuild_gate" in patterns:
+            targets.append("tri_reviewer_context_rebuild_remap")
         if "pairwise_story_comparison_ranking" in patterns:
             targets.append("pairwise_variant_remap")
         if "multidimensional_quality_rubric" in patterns:
@@ -18103,6 +18165,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt continuation with a visible context assembly manifest, token estimate, style-lock range, self-review result, and export boundary before accepting prose.")
         if "p4_p5_foreshadow_relationship_outline_gate" in patterns:
             hints.append("Prompt P4/P5 outline work as transformed foreshadow and relationship operations with payoff owners, not as copied chapter-by-chapter source structures.")
+        if "universal_portable_tool_policy_gate" in patterns:
+            hints.append("Prompt same-type or continuation work with a target-owned tool policy: artifact paths, unavailable-search assumptions, mechanical-check commands, and non-overwrite revision scope must be declared.")
         if "book_writer_memory_arc_revision_gate" in patterns:
             hints.append("Prompt memory-bank and revision-pass guidance as target-story artifacts with cited chapter evidence; do not import upstream skill commands or examples.")
         if "kindle_agent_pipeline_compile_gate" in patterns:
@@ -18899,6 +18963,8 @@ class NovelSourceDiscoveryService:
             hints.append("For same-type writing, build focused-scene context packs from the transformed canon and mark any copied source context as reference-only.")
         if "storyforge_wiki_ingest_lint_graph_gate" in patterns:
             hints.append("For same-type writing, rebuild wiki pages, canon-lint questions, graph links, and map-reduce extraction traces for the new story namespace.")
+        if "universal_portable_tool_policy_gate" in patterns:
+            hints.append("For same-type writing, rebuild artifact paths, filename conventions, assumption registers, and revision lanes for the target project; upstream paths and client-specific habits remain reference-only.")
         return hints
 
     def _build_inspired_transformation_hints(self, patterns: set[str]) -> list[str]:
@@ -19929,6 +19995,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject any import of WriterOS proprietary code, schemas, Obsidian plugin behavior, Docker/runtime setup, or commercial manuscript assumptions into MuMuAINovel.")
         if "harnessnovel_deconstruct_imitate_gate" in patterns:
             hints.append("Reject outputs that retain reference-novel names, plot order, chapter summaries, distinctive emotional beat chains, or style samples beyond abstract labels.")
+        if "universal_portable_tool_policy_gate" in patterns:
+            hints.append("Reject drafts or project state that copy the source local path, localized filenames, client/tool assumptions, revision notes, or unavailable-search assumptions into target canon.")
         if "novel_rule_auditor_learning_loop_gate" in patterns:
             hints.append("Reject rule updates that are generated from unapproved drafts, source skill prompt text, or one-off stylistic preferences mislabeled as hard constraints.")
         if "novel_rewriter_copyright_cost_gate" in patterns:
@@ -21092,6 +21160,7 @@ class NovelSourceDiscoveryService:
                 "longrun_commit_projection_health_gate",
                 "fresh_context_chapter_iteration_gate",
                 "universal_novel_mode_contract_gate",
+                "universal_portable_tool_policy_gate",
                 "portable_story_project_structure_gate",
                 "chapter_contract_scene_beat_gate",
                 "reader_promise_micro_payoff_gate",
@@ -21400,6 +21469,8 @@ class NovelSourceDiscoveryService:
                 "serial_reader_reward_contract_gate",
                 "draft_stage_revision_ladder",
                 "rolling_summary_context_trim",
+                "linked_chapter_workspace_state_gate",
+                "tri_reviewer_context_rebuild_gate",
                 "pairwise_story_comparison_ranking",
                 "multidimensional_quality_rubric",
                 "big_five_character_psychology_gate",
