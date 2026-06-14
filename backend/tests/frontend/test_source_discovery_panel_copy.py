@@ -1048,3 +1048,35 @@ def test_continuation_context_preview_panel_surfaces_raw_story_and_iron_law_warn
         assert field in panel_text
     assert "Raw story assimilation gate" in panel_text
     assert "Six-layer Iron Law gate" in panel_text
+
+
+def test_continuation_context_preview_panel_surfaces_universal_gate_warning_buckets():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "bookRemixBible.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    for field in (
+        "portable_project_memory_warnings",
+        "post_draft_review_warnings",
+        "canonkit_context_pack_warnings",
+        "intake_export_rollback_warnings",
+        "context_scope_authority_warnings",
+        "local_first_authoring_warnings",
+        "deterministic_volume_spec_warnings",
+    ):
+        assert f"{field}: string[]" in types_text
+        assert field in panel_text
+
+    for label in (
+        "Portable project memory gate",
+        "Post-draft review gate",
+        "CanonKit context pack gate",
+        "Intake/export rollback gate",
+        "Context scope authority gate",
+        "Local-first authoring gate",
+        "Deterministic volume spec gate",
+    ):
+        assert label in panel_text

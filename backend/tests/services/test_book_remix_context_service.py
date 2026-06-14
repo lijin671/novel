@@ -1005,6 +1005,63 @@ def test_build_remix_context_preview_audit_surfaces_production_gate_warnings():
     assert any("active_arc_without_chapter_link: Ledger conspiracy" in item for item in audit["canon_drift_risks"])
 
 
+def test_build_remix_context_preview_audit_surfaces_universal_gate_warning_buckets():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "portable_story_project_structure_gate"},
+            {"name": "post_draft_review_checklist_gate"},
+            {"name": "canonkit_local_canon_drift_context_pack_gate"},
+            {"name": "five_question_intake_story_promise_gate"},
+            {"name": "universal_export_clean_manuscript_gate"},
+            {"name": "minimal_rollback_repair_scope_gate"},
+            {"name": "progressive_context_loading_gate"},
+            {"name": "author_intent_confirmation_gate"},
+            {"name": "local_first_provider_boundary_authoring_gate"},
+            {"name": "suggestion_card_nonoverwrite_revision_gate"},
+            {"name": "book_view_import_export_manifest_gate"},
+            {"name": "volume_rolling_spec_quality_gate"},
+            {"name": "executor_agnostic_instruction_checkpoint_gate"},
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nUniversal novel workflow gates",
+        bible={
+            "character_cards": [{"name": "Inspector Lin"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 1,
+                    "summary": "The archive clue was accepted.",
+                }
+            ],
+        },
+        plan={"summary": "Continue the archive pressure."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for field in (
+        "portable_project_memory_warnings",
+        "post_draft_review_warnings",
+        "canonkit_context_pack_warnings",
+        "intake_export_rollback_warnings",
+        "context_scope_authority_warnings",
+        "local_first_authoring_warnings",
+        "deterministic_volume_spec_warnings",
+    ):
+        assert field in audit
+        assert isinstance(audit[field], list)
+        assert audit[field], field
+
+    assert "portable_project_memory_warnings" in audit["production_warnings"]
+    assert "post_draft_review_warnings" in audit["production_warnings"]
+    assert "canonkit_context_pack_warnings" in audit["production_warnings"]
+    assert "intake_export_rollback_warnings" in audit["production_warnings"]
+    assert "context_scope_authority_warnings" in audit["production_warnings"]
+    assert "local_first_authoring_warnings" in audit["production_warnings"]
+    assert "deterministic_volume_spec_warnings" in audit["production_warnings"]
+
+
 def test_build_remix_context_preview_audit_surfaces_disassembly_checkpoint_coverage():
     pattern_pack = {
         "workflow_patterns": [

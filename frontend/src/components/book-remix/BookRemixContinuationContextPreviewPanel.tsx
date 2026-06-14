@@ -38,6 +38,13 @@ const TEXT = {
   hookNaturalness: "Hook / naturalness gate:",
   genrePromiseContract: "Genre promise contract gate:",
   subgenreLedger: "Subgenre ledger gate:",
+  portableProjectMemory: "Portable project memory gate:",
+  postDraftReview: "Post-draft review gate:",
+  canonkitContextPack: "CanonKit context pack gate:",
+  intakeExportRollback: "Intake/export rollback gate:",
+  contextScopeAuthority: "Context scope authority gate:",
+  localFirstAuthoring: "Local-first authoring gate:",
+  deterministicVolumeSpec: "Deterministic volume spec gate:",
   rawStoryAssimilation: "Raw story assimilation gate:",
   sixLayerIronLaw: "Six-layer Iron Law gate:",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
@@ -81,6 +88,15 @@ export default function BookRemixContinuationContextPreviewPanel({
   onRefresh,
 }: BookRemixContinuationContextPreviewPanelProps) {
   const hasContext = Boolean(value?.has_context && value.context);
+  const universalGateWarnings = value ? [
+    { label: TEXT.portableProjectMemory, values: value.portable_project_memory_warnings },
+    { label: TEXT.postDraftReview, values: value.post_draft_review_warnings },
+    { label: TEXT.canonkitContextPack, values: value.canonkit_context_pack_warnings },
+    { label: TEXT.intakeExportRollback, values: value.intake_export_rollback_warnings },
+    { label: TEXT.contextScopeAuthority, values: value.context_scope_authority_warnings },
+    { label: TEXT.localFirstAuthoring, values: value.local_first_authoring_warnings },
+    { label: TEXT.deterministicVolumeSpec, values: value.deterministic_volume_spec_warnings },
+  ].filter(group => group.values?.length) : [];
 
   return (
     <Card
@@ -324,6 +340,17 @@ export default function BookRemixContinuationContextPreviewPanel({
               </Space>
             </Space>
           ) : null}
+
+          {universalGateWarnings.map(group => (
+            <Space key={group.label} direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{group.label}</Text>
+              <Space wrap>
+                {group.values.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ))}
 
           {value.raw_story_assimilation_warnings?.length ? (
             <Space direction="vertical" size={4} style={{ width: '100%' }}>
