@@ -993,6 +993,22 @@ def test_source_discovery_panel_surfaces_four_agent_quality_loop_gates():
     assert "four_agent_chapter_quality_loop_gate_hints?: string[]" in types_text
 
 
+def test_source_discovery_panel_surfaces_deterministic_volume_spec_gates():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "sourceDiscovery.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    assert "Volume rolling spec-quality gates" in panel_text
+    assert "Executor-agnostic instruction checkpoint gates" in panel_text
+    assert "volume_rolling_spec_quality_gate_hints" in panel_text
+    assert "executor_agnostic_instruction_checkpoint_gate_hints" in panel_text
+    assert "volume_rolling_spec_quality_gate_hints?: string[]" in types_text
+    assert "executor_agnostic_instruction_checkpoint_gate_hints?: string[]" in types_text
+
+
 def test_continuation_preview_panel_surfaces_speckit_fiction_warnings():
     repo_root = Path(__file__).resolve().parents[3]
     panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"

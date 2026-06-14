@@ -632,6 +632,8 @@ def render_source_pattern_pack_digest(
         "chinese_skill_workstation_phase_quality_gate_hints",
         "saga_tui_adversarial_publish_gate_hints",
         "four_agent_chapter_quality_loop_gate_hints",
+        "volume_rolling_spec_quality_gate_hints",
+        "executor_agnostic_instruction_checkpoint_gate_hints",
         "novel_studio_accepted_chapter_memory_gate_hints",
         "novelforge_version_safe_human_review_gate_hints",
         "unorthodox_pipeline_stage_retry_gate_hints",

@@ -573,6 +573,8 @@ DEFAULT_GITHUB_QUERIES = (
     '("humanizer-zh" OR "novelist-analyst" OR "task_plan.md") ("Claude Code Skills" OR "中文小说创作工作站") in:name,description,readme',
     '("SAGA" OR "adversarial score gates" OR "split-view status card") ("novel engineering" OR "story vault") in:name,description,readme',
     '("planner" OR "writer" OR "reviewer" OR "polisher") ("ten-dimension" OR "quality thresholds" OR "chapter quality loop") ("novel" OR "Claude Code") in:name,description,readme',
+    '("WorldBuilder" OR "PlotArchitect" OR "QualityJudge") ("chapter-contracts" OR "storylines.json" OR "8 dimension" OR "8 维度") ("novel" OR "webnovel") in:name,description,readme',
+    '("executor-agnostic" OR "instruction packet" OR ".checkpoint.json" OR "staging") ("novel" OR "fiction" OR "chapter") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1213,6 +1215,8 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/sagar0163/Nebula-Writer-2",
     "https://github.com/dandanthedan/forfiction-theia",
     "https://github.com/mariamjensen42-glitch/inkos",
+    "https://github.com/DankerMu/novel-writer-plugin",
+    "https://github.com/DankerMu/novel-writer-cli",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1694,6 +1698,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("chinese_skill_workstation_phase_quality_gate", ("ai 中文小说创作工作站", "中文小说创作工作站", "claude code skills", "7 个专业 skills", "1 个 agent", "6 个阶段", "风格拆书", "逐章创作", "humanizer-zh", "novelist-analyst", "task_plan.md", "findings.md", "progress.md", "build_reader.py", "80 分制", "24 种 ai 写作模式")),
     ("saga_tui_adversarial_publish_gate", ("saga", "novel engineering studio", "split-view status card", "adversarial score gates", "story vault", "00_story_bible", "01_planning", "02_drafting", "03_review", "04_publishing", "pov filter words", "slop clichés", "dialogue subtext", "multi-project state isolation", "wav audiobooks", "epub", "print typeset html")),
     ("four_agent_chapter_quality_loop_gate", ("writeagent", "planner, writer, reviewer", "writer, reviewer, and polisher", "ten-dimension", "ten dimension", "quality thresholds", "chapter quality loop", "pass >=35", "25-34", "core dimension <=1", "every 5 chapters", "bible/", "plans/", "chapters/", "reviews/")),
+    ("volume_rolling_spec_quality_gate", ("novel-writer-plugin", "worldbuilder", "plotarchitect", "chapterwriter", "summarizer", "qualityjudge", "5 agent", "5 个 ai agent", "卷制滚动工作流", "卷规划", "每5章滑窗", "每10章深度盘点", "卷末自动核查", "spec-driven 四层规范", "l1 世界规则", "l2 角色契约", "l3 章节契约", "chapter-contracts", "storylines.json", "8 维度加权评分", "五档门控")),
+    ("executor_agnostic_instruction_checkpoint_gate", ("novel-writer-cli", "executor-agnostic", "deterministic novel orchestration", "确定性小说编排 cli", "不调用任何 llm api", "instruction packet", ".checkpoint.json", "staging/**", "validate", "advance", "commit", "写入事务", "可审计", "可回放", "checkpoint")),
     ("novel_studio_accepted_chapter_memory_gate", ("novel studio ai", "accepted chapter", "context pack", "story bible", "style bible", "five-chapter arc pack", "character states", "graph facts", "memory chunks", "drafts do not update canon", "sqlite", "continuity checks")),
     ("novelforge_version_safe_human_review_gate", ("novelforge ai", "version-safe", "scene cards", "scene versions", "human review queue", "continuity state", "story state ledger", "fact approval", "review reports", "revision plans", "never overwrite", "reference assets")),
     ("unorthodox_pipeline_stage_retry_gate", ("unorthodox writer", "pipeline stage gates", "rolling synopsis", "previous-tail continuity", "bible digest", "quality gate", "self-review", "external review", "retry only the failed stage", "canon drift", "ai artifact scan")),
@@ -3730,6 +3736,16 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "writeAgent is a no-license-observed Chinese AI novel collaboration framework for Claude Code. Public README markers describe planner, writer, reviewer, and polisher roles; bible/, plans/, chapters/, and reviews/ artifact boundaries; a single-chapter loop of scene planning -> drafting -> ten-dimension review -> pass/modify/rewrite decision -> polish -> archive update; every-5-chapter milestone reviews; and pass/modify/rewrite score thresholds. "
         "Pattern-only adaptation for four-agent chapter quality-loop gates; Claude Code Task runtime, upstream skills, prompt bodies, generated chapters, reviews, bible files, and project artifacts are not imported or executed."
     ),
+    "dankermu/novel-writer-plugin": (
+        "novel-writer-plugin is an MIT Claude/Codex-style novel-writing plugin. Static README/LICENSE markers describe WorldBuilder, PlotArchitect, ChapterWriter, Summarizer, and QualityJudge roles; "
+        "volume-oriented rolling workflow; L1 world rules, L2 character contracts, L3 chapter contracts, and LS storylines; storylines.json and chapter-contracts artifacts; eight-dimension weighted scoring; and five-tier quality gates. "
+        "Pattern-only adaptation for volume rolling spec-quality gates; plugin installs, SessionStart hooks, shell scripts, agent prompt bodies, evaluation data, generated prose, and the stale README license note are not imported or executed."
+    ),
+    "dankermu/novel-writer-cli": (
+        "novel-writer-cli is an MIT executor-agnostic deterministic novel orchestration CLI. Static README/LICENSE/package markers describe a CLI that does not call LLM APIs directly, emits instruction packets, "
+        "tracks .checkpoint.json and staging artifacts, validates before state advance, commits staged artifacts transactionally, and writes audit logs/reports for replay. "
+        "Pattern-only adaptation for instruction-packet/checkpoint/staging gates; npm/global install, npx runs, package scripts, upstream prompt bodies, lock files, runtime logs, and generated prose are not imported or executed."
+    ),
     "hayrgpt-rgb/novelforge-ai": (
         "NovelForge AI is a no-license-observed long-form novel writing platform. Public README and AGENTS markers describe a durable pipeline from idea to story bible, outline, scene cards, scene draft, fact extraction, review, revision, memory update, and export. "
         "Markers include version-safe traceable AI generation, AI scene draft jobs, user-edited SceneVersion records, accept/archive controls, side-by-side version viewing, fact approval/rejection, memory chunks, focused fact/memory/reference-asset/state retrieval, persistent continuity reports, multi-pass editorial ReviewReports, Story State ledger, Canon dashboard, progress metrics, accepted-version Markdown/DOCX export, Pydantic output validation, prompt-file separation, mocked provider tests, Docker/Postgres/Redis/RQ surfaces, and OpenAI-compatible provider keys. "
@@ -5519,6 +5535,8 @@ class NovelSourceDiscoveryService:
             "chinese_skill_workstation_phase_quality_gate_hints": self._build_chinese_skill_workstation_phase_quality_gate_hints(available_patterns),
             "saga_tui_adversarial_publish_gate_hints": self._build_saga_tui_adversarial_publish_gate_hints(available_patterns),
             "four_agent_chapter_quality_loop_gate_hints": self._build_four_agent_chapter_quality_loop_gate_hints(available_patterns),
+            "volume_rolling_spec_quality_gate_hints": self._build_volume_rolling_spec_quality_gate_hints(available_patterns),
+            "executor_agnostic_instruction_checkpoint_gate_hints": self._build_executor_agnostic_instruction_checkpoint_gate_hints(available_patterns),
             "novel_studio_accepted_chapter_memory_gate_hints": self._build_novel_studio_accepted_chapter_memory_gate_hints(available_patterns),
             "novelforge_version_safe_human_review_gate_hints": self._build_novelforge_version_safe_human_review_gate_hints(available_patterns),
             "unorthodox_pipeline_stage_retry_gate_hints": self._build_unorthodox_pipeline_stage_retry_gate_hints(available_patterns),
@@ -6591,6 +6609,8 @@ class NovelSourceDiscoveryService:
             "mode_contract_generation_gate": 66,
             "source_study_method_bank_isolation_gate": 66,
             "universal_portable_tool_policy_gate": 66,
+            "volume_rolling_spec_quality_gate": 66,
+            "executor_agnostic_instruction_checkpoint_gate": 66,
             "source_discovery": 10,
         }
         return priority.get(pattern_name, 1)
@@ -6652,6 +6672,10 @@ class NovelSourceDiscoveryService:
             targets.append("saga_story_vault_status_policy")
         if "four_agent_chapter_quality_loop_gate" in patterns:
             targets.append("four_agent_chapter_quality_loop_policy")
+        if "volume_rolling_spec_quality_gate" in patterns:
+            targets.append("volume_spec_contract_quality_policy")
+        if "executor_agnostic_instruction_checkpoint_gate" in patterns:
+            targets.append("instruction_packet_checkpoint_policy")
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -8413,6 +8437,10 @@ class NovelSourceDiscoveryService:
             targets.append("saga_adversarial_publish_report")
         if "four_agent_chapter_quality_loop_gate" in patterns:
             targets.append("chapter_quality_score_loop_report")
+        if "volume_rolling_spec_quality_gate" in patterns:
+            targets.append("volume_rolling_spec_quality_report")
+        if "executor_agnostic_instruction_checkpoint_gate" in patterns:
+            targets.append("instruction_checkpoint_staging_audit_report")
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary_report")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -15852,6 +15880,26 @@ class NovelSourceDiscoveryService:
             "Apply score thresholds before acceptance: pass >=35 with no item <=2, modify 25-34 or any item <=2, rewrite <25 or core dimension <=1; record human confirmation at setup, outline, every 5 chapters, major turns, and completion.",
         ]
 
+    def _build_volume_rolling_spec_quality_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "volume_rolling_spec_quality_gate" not in patterns:
+            return []
+        return [
+            "Model serialized webnovel work as a volume loop: volume plan -> daily chapter pipeline -> 5-chapter sliding check -> 10-chapter deep inventory -> volume-end audit -> next-volume handoff.",
+            "Keep L1 world rules, L2 character contracts, L3 chapter contracts, and LS storylines as separate acceptance layers; cross-storyline leakage and hard-rule breaks block chapter acceptance.",
+            "Use eight quality dimensions and five decision tiers as target-owned review evidence: pass, polish again, revise automatically, human review, or forced rewrite.",
+            "Claude plugin installs, SessionStart hooks, shell scripts, agent prompt bodies, eval datasets, and generated prose remain static-reference only.",
+        ]
+
+    def _build_executor_agnostic_instruction_checkpoint_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "executor_agnostic_instruction_checkpoint_gate" not in patterns:
+            return []
+        return [
+            "Separate deterministic orchestration from model execution: the orchestrator emits an instruction packet, an executor writes staging artifacts, then validation decides whether state can advance.",
+            "Use checkpoint plus staging state to compute the next step and recovery cursor; no LLM/provider call is implied by the orchestration layer itself.",
+            "Treat commit as a transaction from staging into official chapter, state, and foreshadowing artifacts only after validate/advance gates pass.",
+            "npm/global install, npx runs, package scripts, subagent prompts, lock files, and upstream runtime logs remain excluded from static intake.",
+        ]
+
     def _build_novel_studio_accepted_chapter_memory_gate_hints(self, patterns: set[str]) -> list[str]:
         if "novel_studio_accepted_chapter_memory_gate" not in patterns:
             return []
@@ -16798,6 +16846,10 @@ class NovelSourceDiscoveryService:
             targets.append("saga_status_score_publish_remap")
         if "four_agent_chapter_quality_loop_gate" in patterns:
             targets.append("four_agent_role_quality_loop_remap")
+        if "volume_rolling_spec_quality_gate" in patterns:
+            targets.append("volume_rolling_spec_quality_remap")
+        if "executor_agnostic_instruction_checkpoint_gate" in patterns:
+            targets.append("instruction_checkpoint_staging_remap")
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary_remap")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -18167,6 +18219,10 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt P4/P5 outline work as transformed foreshadow and relationship operations with payoff owners, not as copied chapter-by-chapter source structures.")
         if "universal_portable_tool_policy_gate" in patterns:
             hints.append("Prompt same-type or continuation work with a target-owned tool policy: artifact paths, unavailable-search assumptions, mechanical-check commands, and non-overwrite revision scope must be declared.")
+        if "volume_rolling_spec_quality_gate" in patterns:
+            hints.append("Prompt volume continuation with target L1/L2/L3/LS contract ids, volume plan, 5-chapter and 10-chapter audit cadence, and the quality-tier decision required before acceptance.")
+        if "executor_agnostic_instruction_checkpoint_gate" in patterns:
+            hints.append("Prompt orchestration as an instruction packet with current checkpoint, staging refs, validation criteria, advance boundary, and commit transaction scope; executor/provider behavior stays separate.")
         if "book_writer_memory_arc_revision_gate" in patterns:
             hints.append("Prompt memory-bank and revision-pass guidance as target-story artifacts with cited chapter evidence; do not import upstream skill commands or examples.")
         if "kindle_agent_pipeline_compile_gate" in patterns:
@@ -19046,6 +19102,10 @@ class NovelSourceDiscoveryService:
             hints.append("Transform the six-phase Chinese webnovel workstation into a new project plan: new style abstraction, world skeleton, chapter hooks, anti-AI review, quality rubric, and delivery manifest.")
         if "saga_tui_adversarial_publish_gate" in patterns:
             hints.append("Transform SAGA adversarial score and status-card workflow into target-owned vault phases, score thresholds, reviewer findings, and publish manifests before continuation or same-type drafting.")
+        if "volume_rolling_spec_quality_gate" in patterns:
+            hints.append("Transform volume-rolling roles into MuMuAINovel-owned volume plans, storyline ledgers, chapter contracts, quality dimensions, and handoff audits before generating or accepting prose.")
+        if "executor_agnostic_instruction_checkpoint_gate" in patterns:
+            hints.append("Transform instruction/checkpoint/staging orchestration into target recovery cursors, staged artifact manifests, validate/advance decisions, and transactional commit records.")
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             hints.append("Transform accepted-chapter memory into target schema fields for summaries, character states, graph triples, timeline events, and retrieval chunks; draft-only state stays excluded.")
         if "novelforge_version_safe_human_review_gate" in patterns:
@@ -20785,6 +20845,10 @@ class NovelSourceDiscoveryService:
             hints.append("Reject six-phase workstation outputs that reuse reference originals, upstream skill wording, qimao submission material, generated chapter examples, cover prompts, or reader/docx script artifacts.")
         if "saga_tui_adversarial_publish_gate" in patterns:
             hints.append("Reject SAGA-inspired outputs that copy upstream TUI labels, agent prompts, example books, ePUB names, print HTML layouts, speaker CSV rows, WAV audiobook assets, or provider configuration text.")
+        if "volume_rolling_spec_quality_gate" in patterns:
+            hints.append("Reject volume-gate outputs that copy upstream agent prompt bodies, storylines.json examples, chapter-contract files, quality-judge wording, generated prose, or plugin hook/script text.")
+        if "executor_agnostic_instruction_checkpoint_gate" in patterns:
+            hints.append("Reject instruction-checkpoint outputs that copy upstream packet templates, .checkpoint schemas, staging paths, command text, audit logs, lock files, or runtime reports into target canon.")
         if "creative_writing_multiaxis_provider_gate" in patterns:
             hints.append("Reject drafts that use style simulation, famous-author labels, provider-tier prompts, or language translation as a shortcut around source-boundary and copy-risk review.")
         if "constraint_harness_review_worktree_gate" in patterns:
@@ -20941,6 +21005,8 @@ class NovelSourceDiscoveryService:
         if patterns.intersection(
             {
                 "four_agent_chapter_quality_loop_gate",
+                "volume_rolling_spec_quality_gate",
+                "executor_agnostic_instruction_checkpoint_gate",
                 "branching_choice_graph",
                 "obsidian_galley_scene_compile_gate",
                 "obsidian_storyteller_world_timeline_gate",

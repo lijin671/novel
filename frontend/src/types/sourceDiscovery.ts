@@ -365,6 +365,8 @@ export interface SourceDiscoveryPatternPack {
   chinese_skill_workstation_phase_quality_gate_hints?: string[];
   saga_tui_adversarial_publish_gate_hints?: string[];
   four_agent_chapter_quality_loop_gate_hints?: string[];
+  volume_rolling_spec_quality_gate_hints?: string[];
+  executor_agnostic_instruction_checkpoint_gate_hints?: string[];
   novel_studio_accepted_chapter_memory_gate_hints?: string[];
   novelforge_version_safe_human_review_gate_hints?: string[];
   unorthodox_pipeline_stage_retry_gate_hints?: string[];

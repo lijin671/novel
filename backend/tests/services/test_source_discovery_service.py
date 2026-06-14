@@ -20733,3 +20733,79 @@ def test_writeagent_four_agent_quality_loop_is_static_absorbed():
 def test_default_discovery_sources_include_writeagent_quality_loop_project():
     assert any("planner" in query.lower() and "polisher" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert "https://github.com/Ddhjx-code/writeAgent" in DEFAULT_GITHUB_REPOSITORY_URLS
+
+
+def test_dankermu_deterministic_volume_spec_orchestration_sources_are_static_absorbed():
+    assert "https://github.com/DankerMu/novel-writer-plugin" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/DankerMu/novel-writer-cli" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("WorldBuilder" in query and "QualityJudge" in query for query in DEFAULT_GITHUB_QUERIES)
+    assert any("executor-agnostic" in query and "instruction packet" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "DankerMu/novel-writer-plugin",
+                "html_url": "https://github.com/DankerMu/novel-writer-plugin",
+                "description": (
+                    "Novel writer plugin with WorldBuilder, PlotArchitect, ChapterWriter, "
+                    "Summarizer and QualityJudge agents for webnovel volume rolling workflow."
+                ),
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing", "webnovel"],
+                "updated_at": "2026-06-15T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "agents", "chapter-contracts"],
+                "readme_excerpt": (
+                    "Spec-Driven L1 world rules, L2 character contracts, L3 chapter contracts "
+                    "and LS storylines in storylines.json. Volume plan, daily chapter pipeline, "
+                    "5 chapter sliding review, 10 chapter deep inventory, volume-end audit, "
+                    "8 dimension weighted score and five tier quality gate."
+                ),
+            },
+            {
+                "full_name": "DankerMu/novel-writer-cli",
+                "html_url": "https://github.com/DankerMu/novel-writer-cli",
+                "description": (
+                    "Executor-agnostic deterministic novel orchestration CLI that does not call "
+                    "LLM APIs directly."
+                ),
+                "stargazers_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "cli", "writing"],
+                "updated_at": "2026-06-15T00:00:00Z",
+                "root_files": ["README.md", "LICENSE", "package.json"],
+                "readme_excerpt": (
+                    "The CLI emits instruction packet tasks, tracks .checkpoint.json and staging/** "
+                    "artifacts, then validates, advances and commits staged artifacts as a transaction "
+                    "with audit logs and reports."
+                ),
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-15T12:30:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "volume_rolling_spec_quality_gate" in candidates["DankerMu/novel-writer-plugin"]["absorbed_patterns"]
+    assert "executor_agnostic_instruction_checkpoint_gate" in candidates["DankerMu/novel-writer-cli"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "volume_spec_contract_quality_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "instruction_packet_checkpoint_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "volume_rolling_spec_quality_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "instruction_checkpoint_staging_audit_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "volume_rolling_spec_quality_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "instruction_checkpoint_staging_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("L1" in hint and "L3" in hint for hint in pattern_pack["volume_rolling_spec_quality_gate_hints"])
+    assert any("checkpoint" in hint.lower() and "staging" in hint.lower() for hint in pattern_pack["executor_agnostic_instruction_checkpoint_gate_hints"])
+    assert any("volume continuation" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("instruction packet" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("volume-rolling" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("transactional commit" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("storylines.json" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any(".checkpoint" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "volume_rolling_spec_quality_gate_hints" in digest
+    assert "executor_agnostic_instruction_checkpoint_gate_hints" in digest
