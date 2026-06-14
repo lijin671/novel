@@ -337,6 +337,9 @@ export interface SourceDiscoveryPatternPack {
   five_question_intake_story_promise_gate_hints?: string[];
   universal_export_clean_manuscript_gate_hints?: string[];
   minimal_rollback_repair_scope_gate_hints?: string[];
+  local_first_provider_boundary_authoring_gate_hints?: string[];
+  suggestion_card_nonoverwrite_revision_gate_hints?: string[];
+  book_view_import_export_manifest_gate_hints?: string[];
   story_bible_constitution_source_gate_hints?: string[];
   scene_outline_approval_status_gate_hints?: string[];
   pov_information_asymmetry_schedule_gate_hints?: string[];

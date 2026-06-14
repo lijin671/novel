@@ -90,6 +90,9 @@ const PINNED_HINT_KEYS = new Set([
   'truth_file_write_next_state_update_gate_hints',
   'author_control_context_assembly_gate_hints',
   'craft_scene_concrete_finding_revision_gate_hints',
+  'local_first_provider_boundary_authoring_gate_hints',
+  'suggestion_card_nonoverwrite_revision_gate_hints',
+  'book_view_import_export_manifest_gate_hints',
   'tutorial_case_library_curation_gate_hints',
   'anti_hallucination_strand_weave_review_gate_hints',
   'hierarchical_narrative_memory_os_gate_hints',
@@ -753,6 +756,11 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Five-question intake / story promise gates', patternPackPayload?.five_question_intake_story_promise_gate_hints],
               ['Clean manuscript export gates', patternPackPayload?.universal_export_clean_manuscript_gate_hints],
               ['Minimal rollback repair-scope gates', patternPackPayload?.minimal_rollback_repair_scope_gate_hints],
+            ])}
+            {renderHintGroup('Local-first authoring / revision acceptance gates', [
+              ['Local-first provider boundary gates', patternPackPayload?.local_first_provider_boundary_authoring_gate_hints],
+              ['Suggestion-card non-overwrite gates', patternPackPayload?.suggestion_card_nonoverwrite_revision_gate_hints],
+              ['Book view import/export manifest gates', patternPackPayload?.book_view_import_export_manifest_gate_hints],
             ])}
             {renderHintGroup('Spec Kit fiction scene-task gates', [
               ['Story-bible constitution gates', patternPackPayload?.story_bible_constitution_source_gate_hints],

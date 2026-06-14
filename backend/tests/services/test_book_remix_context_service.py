@@ -5449,3 +5449,60 @@ def test_universal_intake_export_rollback_gates_render_context_and_audit():
     assert "missing_reader_promise_or_premise" in audit["intake_export_rollback_warnings"]
     assert "missing_clean_export_manifest" in audit["intake_export_rollback_warnings"]
     assert "missing_minimal_rollback_repair_scope" in audit["intake_export_rollback_warnings"]
+
+
+def test_local_first_provider_and_suggestion_card_gates_render_context_and_audit():
+    source_pattern_pack = {
+        "patterns": [
+            {"name": "local_first_provider_boundary_authoring_gate", "candidate_count": 1},
+            {"name": "suggestion_card_nonoverwrite_revision_gate", "candidate_count": 1},
+            {"name": "book_view_import_export_manifest_gate", "candidate_count": 1},
+        ],
+        "local_first_provider_boundary_authoring_gate_hints": [
+            "Record whether the chapter run uses WebLLM/WebGPU, Ollama, cloud key, or no-model fallback before any prompt can leave local storage.",
+        ],
+        "suggestion_card_nonoverwrite_revision_gate_hints": [
+            "AI edits must arrive as accept/reject suggestion cards and never overwrite accepted prose without author approval.",
+        ],
+        "book_view_import_export_manifest_gate_hints": [
+            "Book view/export needs front matter, live pagination, import auto-split status, and EPUB/PDF/Markdown manifest evidence.",
+        ],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Incipit Fusion",
+        bible={
+            "provider_boundary": "Ollama local by default; cloud key disabled for this pass.",
+            "offline_fallback": "No-model proofread and outline scaffold only.",
+        },
+        plan={
+            "suggestion_cards": [{"id": "s1", "status": "pending_author_acceptance"}],
+            "export_manifest": {"formats": ["Markdown"], "front_matter": ["Title Page"]},
+        },
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    assert "Local-first authoring and suggestion-card gate:" in block
+    assert "local_first_provider_boundary_authoring_gate" in block
+    assert "suggestion_card_nonoverwrite_revision_gate" in block
+    assert "book_view_import_export_manifest_gate" in block
+    assert "WebLLM/WebGPU" in block
+    assert "accept/reject" in block
+    assert "auto-split" in block
+
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    assert "local_first_authoring_provider_boundary" in audit["control_axes"]
+    assert "suggestion_card_accept_reject_queue" in audit["control_axes"]
+    assert "book_view_import_export_manifest" in audit["control_axes"]
+    assert "verify_local_first_provider_boundary" in audit["acceptance_steps"]
+    assert "verify_suggestion_card_acceptance_boundary" in audit["acceptance_steps"]
+    assert "verify_book_view_import_export_manifest" in audit["acceptance_steps"]
+    assert "local_first_authoring_warnings" in audit["warnings"]
+    assert "missing_local_first_provider_boundary" in audit["local_first_authoring_warnings"]
+    assert "missing_suggestion_card_acceptance_policy" in audit["local_first_authoring_warnings"]
+    assert "missing_book_view_import_export_manifest" in audit["local_first_authoring_warnings"]

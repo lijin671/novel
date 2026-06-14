@@ -29,6 +29,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("world info" OR "lorebook" OR "author note" OR "memory book") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("snapshot" OR "branch" OR "rollback") ("memory" OR "context") ("agent" OR "story") in:name,description,readme',
     '("local-first" OR "IndexedDB" OR "workspace") ("novel" OR "fiction" OR "story") in:name,description,readme',
+    '("local-first" OR "offline-capable" OR "WebLLM") ("suggestion-card" OR "accept/reject cards" OR "book view") ("novel" OR "fiction writing") in:name,description,readme',
     '("review queue" OR "PendingChange" OR "staging area") ("novel" OR "fiction" OR "worldbuilding") in:name,description,readme',
     '("style guide" OR "character voice" OR "scene override") ("novel" OR "fiction" OR "worldbuilding") in:name,description,readme',
     '("ContentRef" OR "graph healing" OR "contradiction detection") ("novel" OR "fiction" OR "narrative") in:name,description,readme',
@@ -927,6 +928,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/hezhengtao/MortalAINovel-AIWritingSystem-ai-",
     "https://github.com/linnnn89/novel-agent-workbench",
     "https://github.com/qnbs/StoryCraft-Studio",
+    "https://github.com/server9-dev/incipit",
     "https://github.com/dlintin/sidekickwriter",
     "https://github.com/gennitdev/ai-beta-reader-frontend",
     "https://github.com/gennitdev/ai-beta-reader-backend",
@@ -1281,6 +1283,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("world_state_tracking", ("solo tabletop game master", "players, locations, regions, and items", "world state", "story state", "story world", "world model", "story rules", "clear world model", "characters relationships", "persistent state", "central state", "state parser", "event memory", "event memories", "fact memory", "fact memories", "emotional memory", "emotional memories", "relationship memory", "relationship memories", "scene log", "review logs", "structured prompts", "世界状态", "实体状态", "场景日志")),
     ("memory_snapshot_versioning", ("git for ai agent memory", "snapshot", "branch", "merge", "rollback", "memory versioning", "memory branch", "compaction", "consolidation", "memory rollup", "memory rollups", "multi-tier memory", "记忆快照", "记忆分支", "回滚")),
     ("local_first_novel_workspace", ("local-first", "local first", "privacy-first", "offline access", "indexeddb", "multi-novel", "active novel", "workspace", "local data persistence", "novel workspace", "own every word", "no subscription", "your prose stays on your device", "local model", "本地优先", "离线访问", "多小说工作区")),
+    ("local_first_provider_boundary_authoring_gate", ("client-only indexeddb", "local-first authoring", "webllm", "webgpu", "ollama", "cloud key", "cloud-key", "provider modes", "provider boundary", "no model fallback", "no-model fallback", "local provider", "offline-capable")),
+    ("suggestion_card_nonoverwrite_revision_gate", ("suggestion-card", "suggestion card", "suggestion cards", "accept/reject cards", "accept reject cards", "accept/reject", "pending author acceptance", "never overwrite", "without overwriting text", "non-overwrite", "nonoverwrite", "ai edits must arrive")),
+    ("book_view_import_export_manifest_gate", ("book view", "live pagination", "front matter", "front-matter", "quick-adds", "quick add", "import auto-split", "auto-split", "auto split", "docx/pdf/md/txt", "epub/pdf/markdown", "export manifest", "markdown export", "pdf export", "epub export")),
     ("prompt_library", ("prompt manager", "prompt library", "task-specific prompt", "task prompts", "system prompt", "reset prompts", "prompt template", "prompttemplates", "prompt workflows", "visible, editable, and savable", "visible editable savable", "system/user/parameters", "saveTarget", "提示词库", "提示词管理", "任务提示词")),
     ("scene_level_generation", ("scene-level generation", "scene level generation", "scene-by-scene", "scene drafts", "plan scenes", "draft scene", "scene text writing", "generate prose for each scene", "场景级生成", "逐场景生成")),
     ("review_queue_staging", ("review queue", "pendingchange", "pending change", "staging area", "diff view", "line-level diff", "automatic snapshots", "draft awaiting your review", "accept edit reject", "accept all", "apply or dismiss", "undoable", "inline annotations", "diagnostic not generative", "revision candidates", "staged not applied", "审查队列", "暂存区", "待审核变更")),
@@ -1917,7 +1922,7 @@ RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("binary_distribution", (".zip", "release/", "release zip", "zip download", "windows packaged", "windows 打包版", "安装包", "客户端")),
     ("auto_update", ("auto upgrade", "automatic update", "auto-updating", "updater", "plugin-updater", "自动升级", "upgrade.zip", "在线升级")),
     ("windows_script", (".bat", ".cmd", "build_", "setup_env", "start_")),
-    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "connection profile", "analysis profile", "openai api access", "aws bedrock access", "model api access", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
+    ("provider_key_surface", ("api key", "api keys", "api_key", "openai_api_key", "private api key", "private user api", "encrypted api key", "encrypted api keys", "user-configured api", "user configured api", "service_role", "service role", "service-role key", "connection profile", "analysis profile", "openai api access", "aws bedrock access", "model api access", "cloud key", "cloud-key", "cloud provider key", "byok", "私有api key", "用户可配置私有api key", "用户自行配置", "api密钥", "密钥")),
     ("cloud_sync_oauth_surface", ("oauth", "oauth 2.0", "google drive", "cloud sync", "auth0", "jwt token", "auth cookie", "passphrase", "pkce", "database_url", "postgres", "supabase", "neon")),
     ("browser_storage_surface", ("indexeddb", "localstorage", "local storage", "localforage", "browser sandbox", "service worker", "pwa", "webllm", "tauri")),
     ("browser_extension", ("manifest.json", "chrome-extension", "extension")),
@@ -3409,6 +3414,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "qq1375828505/ai-fic-ide": (
         "AI-Fic-IDE is an Android-native Chinese web-novel writing IDE forked from Operit AI. Public README describes character cards, setting cards, foreshadowing states, AI memory, cross-chapter search/replace, autosave, history snapshots, local models, multi-model providers, MCP plugin market, ADB/root/accessibility surfaces, and APK releases. "
         "Pattern-only adaptation for mobile/offline writing workspace cards and snapshot boundaries; APKs, Android runtime, ADB/root/accessibility, MCP plugins, provider keys, and native binaries are not installed or launched."
+    ),
+    "server9-dev/incipit": (
+        "Incipit is an MPL-2.0 local-first fiction writing studio. Public README markers describe client-only IndexedDB storage, WebLLM/WebGPU, Ollama, cloud-key and no-model provider modes, suggestion cards with accept/reject review rather than text overwrite, manuscript tree views, live book pagination, import auto-split, and EPUB/PDF/Markdown export. "
+        "Pattern-only adaptation for local-first provider boundaries, suggestion-card revision acceptance, and book-view import/export manifests; WebLLM/Ollama/cloud calls, browser storage, Tauri/PWA runtime, package scripts, imports, exports, and user manuscripts are not opened or executed."
     ),
     "dlintin/sidekickwriter": (
         "SidekickWriter is an AI-powered book writing platform. Public README describes guided/pro modes, writing style selection, character development, chapter-by-chapter outline generation, chapter descriptions aware of previous chapters for continuity, full-book or per-chapter generation, real-time streaming, inline editing, specific-chapter regeneration, research sources, and citation styles. "
@@ -5025,6 +5034,9 @@ class NovelSourceDiscoveryService:
             "five_question_intake_story_promise_gate_hints": self._build_five_question_intake_story_promise_gate_hints(available_patterns),
             "universal_export_clean_manuscript_gate_hints": self._build_universal_export_clean_manuscript_gate_hints(available_patterns),
             "minimal_rollback_repair_scope_gate_hints": self._build_minimal_rollback_repair_scope_gate_hints(available_patterns),
+            "local_first_provider_boundary_authoring_gate_hints": self._build_local_first_provider_boundary_authoring_gate_hints(available_patterns),
+            "suggestion_card_nonoverwrite_revision_gate_hints": self._build_suggestion_card_nonoverwrite_revision_gate_hints(available_patterns),
+            "book_view_import_export_manifest_gate_hints": self._build_book_view_import_export_manifest_gate_hints(available_patterns),
             "author_ai_project_contract_review_gate_hints": self._build_author_ai_project_contract_review_gate_hints(available_patterns),
             "manuscript_pr_editorial_workflow_gate_hints": self._build_manuscript_pr_editorial_workflow_gate_hints(available_patterns),
             "short_drama_story_bible_template_gate_hints": self._build_short_drama_story_bible_template_gate_hints(available_patterns),
@@ -6588,6 +6600,12 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_policy")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_policy")
+        if "local_first_provider_boundary_authoring_gate" in patterns:
+            targets.append("local_first_provider_boundary")
+        if "suggestion_card_nonoverwrite_revision_gate" in patterns:
+            targets.append("suggestion_card_acceptance_policy")
+        if "book_view_import_export_manifest_gate" in patterns:
+            targets.append("book_view_import_export_manifest_policy")
         if "card_workbench" in patterns:
             targets.append("card_schema_catalog")
             targets.append("field_level_cards")
@@ -8331,6 +8349,12 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_report")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_report")
+        if "local_first_provider_boundary_authoring_gate" in patterns:
+            targets.append("local_first_provider_boundary_report")
+        if "suggestion_card_nonoverwrite_revision_gate" in patterns:
+            targets.append("suggestion_card_revision_queue")
+        if "book_view_import_export_manifest_gate" in patterns:
+            targets.append("book_view_import_export_manifest")
         if "card_workbench" in patterns:
             targets.extend(["card_types", "card_field_dependencies"])
         if patterns.intersection({
@@ -12050,6 +12074,33 @@ class NovelSourceDiscoveryService:
             "When a gate fails, repair the smallest failing artifact first: intake packet, chapter contract, scene beat, ledger field, review note, or export manifest.",
             "Do not restart the whole project or overwrite accepted manuscript state unless the failure proves a broader structural dependency.",
             "Record rollback scope, failing gate, repaired artifact, and post-repair verifier so continuation and same-type workflows can resume safely.",
+        ]
+
+    def _build_local_first_provider_boundary_authoring_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "local_first_provider_boundary_authoring_gate" not in patterns:
+            return []
+        return [
+            "Record whether each chapter run uses WebLLM/WebGPU, Ollama, a cloud-key provider, or no-model fallback before prompts or manuscript slices leave local storage.",
+            "Treat local-first IndexedDB, PWA, Tauri, and browser storage as private project surfaces; source intake may copy the boundary vocabulary only, not user data or runtime code.",
+            "When provider mode changes, create a review note with prompt-scope, output custody, cost/privacy posture, and rollback target before accepting generated prose.",
+        ]
+
+    def _build_suggestion_card_nonoverwrite_revision_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "suggestion_card_nonoverwrite_revision_gate" not in patterns:
+            return []
+        return [
+            "AI edits must arrive as accept/reject suggestion cards and never overwrite accepted prose, canon, or style memory without an explicit author decision.",
+            "Suggestion cards should name the affected span, reason, proposed replacement, risk, and acceptance state so partial revisions remain auditable.",
+            "Rejected or pending cards stay outside continuation context except as warnings; only accepted deltas may update chapter text, bible state, or progress write-back.",
+        ]
+
+    def _build_book_view_import_export_manifest_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "book_view_import_export_manifest_gate" not in patterns:
+            return []
+        return [
+            "Book view and export need a manifest for front matter, live pagination checks, import auto-split status, and EPUB/PDF/Markdown output scope.",
+            "Imported DOCX/PDF/Markdown/TXT manuscripts should record parser settings, chapter split evidence, checksum/provenance, and manual review gaps before they affect canon.",
+            "Export previews are derived artifacts: they may compile accepted chapters and metadata, but they cannot silently change manuscript order, front matter, or canon state.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -16583,6 +16634,12 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_remap")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_remap")
+        if "local_first_provider_boundary_authoring_gate" in patterns:
+            targets.append("local_first_provider_boundary_remap")
+        if "suggestion_card_nonoverwrite_revision_gate" in patterns:
+            targets.append("suggestion_card_revision_remap")
+        if "book_view_import_export_manifest_gate" in patterns:
+            targets.append("book_view_export_manifest_remap")
         if patterns.intersection({
             "obsidian_galley_scene_compile_gate",
             "obsidian_storyteller_world_timeline_gate",

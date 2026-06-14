@@ -926,6 +926,26 @@ def test_source_discovery_panel_surfaces_speckit_fiction_scene_task_gates():
     assert "pacing_arc_polish_pass_gate_hints?: string[]" in types_text
 
 
+def test_source_discovery_panel_surfaces_local_first_authoring_gates():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "sourceDiscovery.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    assert "Local-first authoring / revision acceptance gates" in panel_text
+    assert "Local-first provider boundary gates" in panel_text
+    assert "Suggestion-card non-overwrite gates" in panel_text
+    assert "Book view import/export manifest gates" in panel_text
+    assert "local_first_provider_boundary_authoring_gate_hints" in panel_text
+    assert "suggestion_card_nonoverwrite_revision_gate_hints" in panel_text
+    assert "book_view_import_export_manifest_gate_hints" in panel_text
+    assert "local_first_provider_boundary_authoring_gate_hints?: string[]" in types_text
+    assert "suggestion_card_nonoverwrite_revision_gate_hints?: string[]" in types_text
+    assert "book_view_import_export_manifest_gate_hints?: string[]" in types_text
+
+
 def test_continuation_preview_panel_surfaces_speckit_fiction_warnings():
     repo_root = Path(__file__).resolve().parents[3]
     panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"

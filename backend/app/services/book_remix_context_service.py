@@ -290,6 +290,15 @@ def build_remix_continuation_control_audit(
     if "minimal_rollback_repair_scope_gate" in pattern_names:
         control_axes.append("minimal_rollback_repair_scope")
         acceptance_steps.append("verify_minimal_rollback_scope")
+    if "local_first_provider_boundary_authoring_gate" in pattern_names:
+        control_axes.append("local_first_authoring_provider_boundary")
+        acceptance_steps.append("verify_local_first_provider_boundary")
+    if "suggestion_card_nonoverwrite_revision_gate" in pattern_names:
+        control_axes.append("suggestion_card_accept_reject_queue")
+        acceptance_steps.append("verify_suggestion_card_acceptance_boundary")
+    if "book_view_import_export_manifest_gate" in pattern_names:
+        control_axes.append("book_view_import_export_manifest")
+        acceptance_steps.append("verify_book_view_import_export_manifest")
     if pattern_names.intersection({
         "distilled_novel_toolbox_platform_compliance_gate",
         "distilled_novel_toolbox_human_polish_boundary_gate",
@@ -576,6 +585,22 @@ def build_remix_continuation_control_audit(
         )
         else {"warnings": []}
     )
+    local_first_authoring_audit = (
+        _local_first_authoring_revision_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if pattern_names.intersection(
+            {
+                "local_first_provider_boundary_authoring_gate",
+                "suggestion_card_nonoverwrite_revision_gate",
+                "book_view_import_export_manifest_gate",
+            }
+        )
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -613,6 +638,8 @@ def build_remix_continuation_control_audit(
         warnings.append("subgenre_ledger_warnings")
     if intake_export_rollback_audit["warnings"]:
         warnings.append("intake_export_rollback_warnings")
+    if local_first_authoring_audit["warnings"]:
+        warnings.append("local_first_authoring_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -660,6 +687,7 @@ def build_remix_continuation_control_audit(
         "genre_promise_contract_warnings": genre_promise_contract_audit["warnings"],
         "subgenre_ledger_warnings": subgenre_ledger_audit["warnings"],
         "intake_export_rollback_warnings": intake_export_rollback_audit["warnings"],
+        "local_first_authoring_warnings": local_first_authoring_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -735,6 +763,13 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_universal_intake_export_rollback_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_local_first_authoring_revision_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1368,6 +1403,13 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_universal_intake_export_rollback_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_local_first_authoring_revision_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -2919,6 +2961,92 @@ def _has_clean_export_manifest_surface(
     return False
 
 
+def _local_first_authoring_revision_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit provider boundary, suggestion-card review, and book-view export custody."""
+    warnings: list[str] = []
+    if "local_first_provider_boundary_authoring_gate" in pattern_names:
+        if not _has_local_first_provider_boundary_surface(bible=bible, plan=plan):
+            warnings.append("missing_local_first_provider_boundary")
+    if "suggestion_card_nonoverwrite_revision_gate" in pattern_names:
+        if not _has_suggestion_card_acceptance_surface(bible=bible, plan=plan):
+            warnings.append("missing_suggestion_card_acceptance_policy")
+    if "book_view_import_export_manifest_gate" in pattern_names:
+        if not _has_book_view_import_export_manifest_surface(bible=bible, plan=plan):
+            warnings.append("missing_book_view_import_export_manifest")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_local_first_provider_boundary_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "provider_boundary",
+        "provider_mode",
+        "model_provider",
+        "local_model_provider",
+        "local_first_provider_boundary",
+        "webllm_boundary",
+        "ollama_boundary",
+        "cloud_key_policy",
+        "offline_fallback",
+        "no_model_fallback",
+        "prompt_egress_policy",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_suggestion_card_acceptance_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "suggestion_cards",
+        "revision_cards",
+        "accept_reject_queue",
+        "pending_suggestions",
+        "revision_acceptance_policy",
+        "author_acceptance_log",
+        "accepted_revision_deltas",
+        "rejected_revision_deltas",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_book_view_import_export_manifest_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "book_view_manifest",
+        "book_view",
+        "export_manifest",
+        "import_manifest",
+        "front_matter",
+        "frontmatter",
+        "pagination_manifest",
+        "live_pagination",
+        "import_auto_split",
+        "auto_split_status",
+        "epub_export_manifest",
+        "pdf_export_manifest",
+        "markdown_export_manifest",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
 def _spec_kit_fiction_scene_task_audit(
     *,
     bible: dict[str, Any],
@@ -4407,6 +4535,85 @@ def _append_universal_intake_export_rollback_gate_section(
             lines.append(f"- {label}: {_truncate(hints[0], 260)}")
     if audit["warnings"] and mode != "same-type":
         lines.append(f"- intake_export_rollback_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_local_first_authoring_revision_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render local-first provider, suggestion-card, and book-view manifest gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "local_first_provider_boundary_authoring_gate",
+        "suggestion_card_nonoverwrite_revision_gate",
+        "book_view_import_export_manifest_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    provider_hints = (
+        _as_note_list(source_pattern_pack.get("local_first_provider_boundary_authoring_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    suggestion_hints = (
+        _as_note_list(source_pattern_pack.get("suggestion_card_nonoverwrite_revision_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    book_view_hints = (
+        _as_note_list(source_pattern_pack.get("book_view_import_export_manifest_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _local_first_authoring_revision_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Local-first authoring and suggestion-card gate:")
+    if "local_first_provider_boundary_authoring_gate" in pattern_names:
+        lines.append(
+            "- local_first_provider_boundary_authoring_gate: record whether this run uses "
+            "WebLLM/WebGPU, Ollama, cloud-key provider, or no-model fallback before any prompt leaves local storage"
+        )
+    if "suggestion_card_nonoverwrite_revision_gate" in pattern_names:
+        lines.append(
+            "- suggestion_card_nonoverwrite_revision_gate: AI edits stay as accept/reject "
+            "cards and never overwrite accepted prose without author approval"
+        )
+    if "book_view_import_export_manifest_gate" in pattern_names:
+        lines.append(
+            "- book_view_import_export_manifest_gate: book view/export needs front matter, "
+            "live pagination, import auto-split status, and EPUB/PDF/Markdown manifest evidence"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: provider posture, suggestion-card workflow, and book-view manifest are transferable control patterns; source app UI, storage, examples, and code stay excluded"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: local-first provider mode, accepted suggestion cards, and export manifest must reference the target project state only"
+        )
+    lines.append(
+        "- runtime_boundary: no browser storage read, package install, WebLLM/Ollama/cloud call, import parser execution, or export build is authorized by static intake"
+    )
+    for label, hints in (
+        ("provider_boundary_source_hint", provider_hints),
+        ("suggestion_card_source_hint", suggestion_hints),
+        ("book_view_source_hint", book_view_hints),
+    ):
+        if hints:
+            lines.append(f"- {label}: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- local_first_authoring_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -7432,6 +7639,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         name = _string_value(pattern.get("name"))
         if name:
             names.add(name)
+    for pattern in _as_dict_list(source_pattern_pack.get("patterns")):
+        name = _string_value(pattern.get("name"))
+        if name:
+            names.add(name)
 
     hint_to_name = {
         "lorebook_context_hints": "lorebook_context",
@@ -7648,6 +7859,9 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "five_question_intake_story_promise_gate_hints": "five_question_intake_story_promise_gate",
         "universal_export_clean_manuscript_gate_hints": "universal_export_clean_manuscript_gate",
         "minimal_rollback_repair_scope_gate_hints": "minimal_rollback_repair_scope_gate",
+        "local_first_provider_boundary_authoring_gate_hints": "local_first_provider_boundary_authoring_gate",
+        "suggestion_card_nonoverwrite_revision_gate_hints": "suggestion_card_nonoverwrite_revision_gate",
+        "book_view_import_export_manifest_gate_hints": "book_view_import_export_manifest_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",

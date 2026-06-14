@@ -14470,6 +14470,60 @@ def test_latest_longform_webnovel_editor_sources_are_static_absorbed():
     assert "quality_score_loop_hints" in digest
 
 
+def test_static_incipit_local_first_authoring_source_adds_provider_and_suggestion_gates():
+    assert "https://github.com/server9-dev/incipit" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("WebLLM" in query and "suggestion-card" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "server9-dev/incipit",
+                "html_url": "https://github.com/server9-dev/incipit",
+                "description": (
+                    "Incipit is an MPL-2.0 local-first fiction writing studio. README markers describe "
+                    "client-only IndexedDB storage, WebLLM/WebGPU, Ollama, cloud key provider modes, "
+                    "no model fallback, suggestion-card editor with accept/reject cards instead of "
+                    "overwriting text, manuscript tree folders/parts -> chapters -> scenes, front-matter "
+                    "quick-adds, live book view pagination, import docx/pdf/md/txt auto-split into chapters, "
+                    "and EPUB/PDF/Markdown export."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MPL-2.0"},
+                "topics": ["fiction-writing", "local-first", "pwa", "tauri", "webllm"],
+                "updated_at": "2026-06-14T16:03:28Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "apps/web", "src-tauri"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-15T00:25:00+08:00",
+    )
+
+    incipit = result["candidates"][0]
+    assert incipit["title"] == "server9-dev/incipit"
+    assert "local_first_provider_boundary_authoring_gate" in incipit["absorbed_patterns"]
+    assert "suggestion_card_nonoverwrite_revision_gate" in incipit["absorbed_patterns"]
+    assert "book_view_import_export_manifest_gate" in incipit["absorbed_patterns"]
+    assert "provider_key_surface" in incipit["risk_flags"]
+    assert "browser_storage_surface" in incipit["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "local_first_provider_boundary" in pattern_pack["bible_enrichment_targets"]
+    assert "suggestion_card_revision_queue" in pattern_pack["whole_book_analysis_targets"]
+    assert "book_view_import_export_manifest" in pattern_pack["whole_book_analysis_targets"]
+    assert "local_first_provider_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "suggestion_card_revision_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("WebLLM" in hint for hint in pattern_pack["local_first_provider_boundary_authoring_gate_hints"])
+    assert any("accept/reject" in hint for hint in pattern_pack["suggestion_card_nonoverwrite_revision_gate_hints"])
+    assert any("auto-split" in hint for hint in pattern_pack["book_view_import_export_manifest_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "local_first_provider_boundary_authoring_gate_hints" in digest
+    assert "suggestion_card_nonoverwrite_revision_gate_hints" in digest
+    assert "book_view_import_export_manifest_gate_hints" in digest
+
+
 def test_latest_worldbuilder_orchestra_webnovel_dsl_sources_are_static_absorbed():
     assert "https://github.com/Malekyo4520/worldbuilder" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/irvinghu07/fiction-orchestra" in DEFAULT_GITHUB_REPOSITORY_URLS
