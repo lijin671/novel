@@ -281,6 +281,15 @@ def build_remix_continuation_control_audit(
             "same_type_ledger_independence",
         ])
         acceptance_steps.append("verify_subgenre_specific_ledgers")
+    if "five_question_intake_story_promise_gate" in pattern_names:
+        control_axes.append("five_question_intake_packet")
+        acceptance_steps.append("verify_five_question_intake_packet")
+    if "universal_export_clean_manuscript_gate" in pattern_names:
+        control_axes.append("clean_manuscript_export_scope")
+        acceptance_steps.append("verify_clean_export_scope")
+    if "minimal_rollback_repair_scope_gate" in pattern_names:
+        control_axes.append("minimal_rollback_repair_scope")
+        acceptance_steps.append("verify_minimal_rollback_scope")
     if pattern_names.intersection({
         "distilled_novel_toolbox_platform_compliance_gate",
         "distilled_novel_toolbox_human_polish_boundary_gate",
@@ -551,6 +560,22 @@ def build_remix_continuation_control_audit(
         if "subgenre_specific_ledger_gate" in pattern_names
         else {"warnings": []}
     )
+    intake_export_rollback_audit = (
+        _universal_intake_export_rollback_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if pattern_names.intersection(
+            {
+                "five_question_intake_story_promise_gate",
+                "universal_export_clean_manuscript_gate",
+                "minimal_rollback_repair_scope_gate",
+            }
+        )
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -586,6 +611,8 @@ def build_remix_continuation_control_audit(
         warnings.append("genre_promise_contract_warnings")
     if subgenre_ledger_audit["warnings"]:
         warnings.append("subgenre_ledger_warnings")
+    if intake_export_rollback_audit["warnings"]:
+        warnings.append("intake_export_rollback_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -632,6 +659,7 @@ def build_remix_continuation_control_audit(
         "canonkit_context_pack_warnings": canonkit_context_pack_audit["warnings"],
         "genre_promise_contract_warnings": genre_promise_contract_audit["warnings"],
         "subgenre_ledger_warnings": subgenre_ledger_audit["warnings"],
+        "intake_export_rollback_warnings": intake_export_rollback_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -703,6 +731,13 @@ def build_remix_continuation_context_block(
     )
     _append_subgenre_specific_ledger_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_universal_intake_export_rollback_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
     )
@@ -1329,6 +1364,13 @@ def build_remix_inspired_context_block(
     )
     _append_subgenre_specific_ledger_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_universal_intake_export_rollback_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
     )
@@ -2787,6 +2829,96 @@ def _has_subgenre_specific_ledger_surface(
     return False
 
 
+def _universal_intake_export_rollback_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit compact intake, export cleanliness, and smallest-repair scope."""
+    warnings: list[str] = []
+    if "five_question_intake_story_promise_gate" in pattern_names:
+        if not _has_five_question_intake_story_promise_surface(bible=bible, plan=plan):
+            warnings.append("missing_reader_promise_or_premise")
+    if "universal_export_clean_manuscript_gate" in pattern_names:
+        if not _has_clean_export_manifest_surface(bible=bible, plan=plan):
+            warnings.append("missing_clean_export_manifest")
+    if "minimal_rollback_repair_scope_gate" in pattern_names:
+        chapter_packages = _sort_by_chapter_asc(
+            _chapter_analysis_packages(bible.get("chapter_change_packages"))
+        )
+        latest_package = chapter_packages[-1] if chapter_packages else {}
+        if not _has_least_destructive_repair_scope_surface(
+            latest_package=latest_package,
+            bible=bible,
+            plan=plan,
+        ):
+            warnings.append("missing_minimal_rollback_repair_scope")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_five_question_intake_story_promise_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    intake_keys = (
+        "five_question_intake",
+        "intake_packet",
+        "quick_start_packet",
+        "story_promise_packet",
+    )
+    promise_keys = (
+        "logline",
+        "premise",
+        "one_sentence_premise",
+        "reader_promise",
+        "protagonist_arc",
+        "central_conflict",
+        "story_promise",
+    )
+    beat_keys = (
+        "opposition",
+        "world_rules",
+        "ending_direction",
+        "beat_outline",
+        "chapter_beats",
+    )
+    if any(_has_any_package_value(carrier, intake_keys) for carrier in carriers):
+        return True
+    has_promise = any(_has_any_package_value(carrier, promise_keys) for carrier in carriers)
+    has_beat_context = any(_has_any_package_value(carrier, beat_keys) for carrier in carriers)
+    return bool(has_promise and has_beat_context)
+
+
+def _has_clean_export_manifest_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    manifest_keys = (
+        "clean_export_manifest",
+        "export_manifest",
+        "manuscript_export_manifest",
+        "accepted_chapter_manifest",
+        "export_chapter_range",
+        "export_included_chapters",
+        "accepted_chapters",
+        "excluded_drafts",
+        "export_output_path",
+        "export_sha256",
+    )
+    if any(_has_any_package_value(carrier, manifest_keys) for carrier in carriers):
+        return True
+    for package in _chapter_analysis_packages(bible.get("chapter_change_packages")):
+        if _has_any_package_value(package, manifest_keys):
+            return True
+    return False
+
+
 def _spec_kit_fiction_scene_task_audit(
     *,
     bible: dict[str, Any],
@@ -4190,6 +4322,91 @@ def _append_subgenre_specific_ledger_gate_section(
         )
     if hints:
         lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+
+
+def _append_universal_intake_export_rollback_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render compact intake, export, and rollback gates from universal writing intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "five_question_intake_story_promise_gate",
+        "universal_export_clean_manuscript_gate",
+        "minimal_rollback_repair_scope_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    five_question_hints = (
+        _as_note_list(source_pattern_pack.get("five_question_intake_story_promise_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    export_hints = (
+        _as_note_list(source_pattern_pack.get("universal_export_clean_manuscript_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    rollback_hints = (
+        _as_note_list(source_pattern_pack.get("minimal_rollback_repair_scope_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _universal_intake_export_rollback_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Universal intake, export, and rollback gate:")
+    if "five_question_intake_story_promise_gate" in pattern_names:
+        lines.append(
+            "- five_question_intake: ask at most five setup questions before producing "
+            "logline, reader promise, protagonist arc, opposition, world rules, ending "
+            "direction, and 5-15 beats"
+        )
+    if "universal_export_clean_manuscript_gate" in pattern_names:
+        lines.append(
+            "- clean_manuscript_export: export mode packages only accepted chapters into "
+            "a clean manuscript or structured export plan; drafts, review notes, and prompt "
+            "residue stay out"
+        )
+    if "minimal_rollback_repair_scope_gate" in pattern_names:
+        lines.append(
+            "- minimal_rollback_repair_scope: when a gate fails, repair the smallest "
+            "failing artifact before broad regeneration"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source intake shape, export checklist, and rollback "
+            "discipline are workflow axes only; rebuild the target premise, beats, export "
+            "manifest, and repair notes independently"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: intake, export, and rollback decisions must follow "
+            "target-owned canon, accepted chapters, current plan, and explicit export scope"
+        )
+    lines.append(
+        "- runtime_boundary: static intake authorizes no provider call, source manuscript "
+        "body import, installer, export tool execution, or broad overwrite"
+    )
+    for label, hints in (
+        ("five_question_source_hint", five_question_hints),
+        ("clean_export_source_hint", export_hints),
+        ("rollback_source_hint", rollback_hints),
+    ):
+        if hints:
+            lines.append(f"- {label}: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- intake_export_rollback_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -7428,6 +7645,9 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "canonkit_local_canon_drift_context_pack_gate_hints": "canonkit_local_canon_drift_context_pack_gate",
         "genre_promise_contract_matrix_gate_hints": "genre_promise_contract_matrix_gate",
         "subgenre_specific_ledger_gate_hints": "subgenre_specific_ledger_gate",
+        "five_question_intake_story_promise_gate_hints": "five_question_intake_story_promise_gate",
+        "universal_export_clean_manuscript_gate_hints": "universal_export_clean_manuscript_gate",
+        "minimal_rollback_repair_scope_gate_hints": "minimal_rollback_repair_scope_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",

@@ -5372,3 +5372,80 @@ def test_universal_post_draft_review_gate_passes_with_review_surfaces():
     )
 
     assert audit["post_draft_review_warnings"] == []
+
+
+def test_universal_intake_export_rollback_gates_render_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "five_question_intake_story_promise_gate", "candidate_count": 1},
+            {"name": "universal_export_clean_manuscript_gate", "candidate_count": 1},
+            {"name": "minimal_rollback_repair_scope_gate", "candidate_count": 1},
+        ],
+        "five_question_intake_story_promise_gate_hints": [
+            "Ask no more than five setup questions, then produce logline, reader promise, protagonist arc, opposition, world rules, ending direction, and 5-15 beats.",
+        ],
+        "universal_export_clean_manuscript_gate_hints": [
+            "Export mode packages a clean manuscript or structured export plan from accepted chapters only.",
+        ],
+        "minimal_rollback_repair_scope_gate_hints": [
+            "When a gate fails, repair the smallest failing artifact instead of restarting the whole project.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Universal Intake Export Desk",
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 3,
+                    "summary": "Lin exposed the false witness but left a trust debt open.",
+                }
+            ],
+        },
+        plan={"mode": "export", "summary": "Prepare accepted chapters for a clean manuscript export."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Intake Export Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only the compact intake, export, and smallest-repair workflow.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source questions, export text, chapter order, or repair notes.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 3,
+                    "summary": "Lin exposed the false witness.",
+                }
+            ],
+        },
+        plan={"mode": "export", "summary": "Prepare accepted chapters for export."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Universal intake, export, and rollback gate:" in block
+        assert "five_question_intake" in block
+        assert "clean_manuscript_export" in block
+        assert "minimal_rollback_repair_scope" in block
+        assert "Ask no more than five setup questions" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "five_question_intake_packet" in audit["control_axes"]
+    assert "clean_manuscript_export_scope" in audit["control_axes"]
+    assert "minimal_rollback_repair_scope" in audit["control_axes"]
+    assert "verify_five_question_intake_packet" in audit["acceptance_steps"]
+    assert "verify_clean_export_scope" in audit["acceptance_steps"]
+    assert "verify_minimal_rollback_scope" in audit["acceptance_steps"]
+    assert "intake_export_rollback_warnings" in audit["warnings"]
+    assert "missing_reader_promise_or_premise" in audit["intake_export_rollback_warnings"]
+    assert "missing_clean_export_manifest" in audit["intake_export_rollback_warnings"]
+    assert "missing_minimal_rollback_repair_scope" in audit["intake_export_rollback_warnings"]

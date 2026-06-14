@@ -20264,6 +20264,12 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     "goal -> obstacle -> conflict -> outcome/cost and reaction -> dilemma "
                     "-> decision -> new goal; review report findings with Critical/High/"
                     "Medium/Low severity and least destructive patch strategy."
+                    " Five-question intake asks no more than five questions before a useful "
+                    "logline, reader promise, protagonist arc, opposition, world rules, "
+                    "ending direction, and 5-15 beat package. Export mode creates a clean "
+                    "manuscript or structured export plan from accepted chapters only. "
+                    "Minimal rollback repairs the smallest failing artifact instead of "
+                    "restarting the whole project."
                     " Opening hooks and ending hooks must identify hook type, "
                     "ending hook job, and fake cliffhanger risk; anti-AI "
                     "naturalness pass replaces balanced essay paragraphs, "
@@ -20313,6 +20319,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "anti_ai_naturalness_texture_gate",
         "genre_promise_contract_matrix_gate",
         "subgenre_specific_ledger_gate",
+        "five_question_intake_story_promise_gate",
+        "universal_export_clean_manuscript_gate",
+        "minimal_rollback_repair_scope_gate",
     }.issubset(candidate["absorbed_patterns"])
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
@@ -20322,9 +20331,15 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "progress_report_writeback_report" in pattern_pack["whole_book_analysis_targets"]
     assert "genre_promise_contract_matrix_report" in pattern_pack["whole_book_analysis_targets"]
     assert "subgenre_specific_ledger_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "five_question_intake_story_promise_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "universal_export_clean_manuscript_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "minimal_rollback_repair_scope_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_mode_contract_remap" in pattern_pack["inspired_mapping_targets"]
     assert "genre_promise_contract_matrix_remap" in pattern_pack["inspired_mapping_targets"]
     assert "subgenre_specific_ledger_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "five_question_intake_story_promise_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "universal_export_clean_manuscript_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "minimal_rollback_repair_scope_remap" in pattern_pack["inspired_mapping_targets"]
     assert any("mode" in hint.lower() for hint in pattern_pack["universal_novel_mode_contract_gate_hints"])
     assert any("story-bible.md" in hint for hint in pattern_pack["portable_story_project_structure_gate_hints"])
     assert any("3-7" in hint for hint in pattern_pack["chapter_contract_scene_beat_gate_hints"])
@@ -20339,6 +20354,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("concrete action" in hint.lower() for hint in pattern_pack["anti_ai_naturalness_texture_gate_hints"])
     assert any("emotional aftertaste" in hint.lower() for hint in pattern_pack["genre_promise_contract_matrix_gate_hints"])
     assert any("clue" in hint.lower() for hint in pattern_pack["subgenre_specific_ledger_gate_hints"])
+    assert any("five" in hint.lower() and "question" in hint.lower() for hint in pattern_pack["five_question_intake_story_promise_gate_hints"])
+    assert any("accepted chapter" in hint.lower() for hint in pattern_pack["universal_export_clean_manuscript_gate_hints"])
+    assert any("smallest failing artifact" in hint.lower() for hint in pattern_pack["minimal_rollback_repair_scope_gate_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "universal_novel_mode_contract_gate_hints" in digest
@@ -20355,6 +20373,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "anti_ai_naturalness_texture_gate_hints" in digest
     assert "genre_promise_contract_matrix_gate_hints" in digest
     assert "subgenre_specific_ledger_gate_hints" in digest
+    assert "five_question_intake_story_promise_gate_hints" in digest
+    assert "universal_export_clean_manuscript_gate_hints" in digest
+    assert "minimal_rollback_repair_scope_gate_hints" in digest
 
 
 def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():

@@ -864,6 +864,9 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "Anti-AI naturalness texture gates" in panel_text
     assert "Genre promise contract matrix gates" in panel_text
     assert "Subgenre-specific ledger gates" in panel_text
+    assert "Five-question intake / story promise gates" in panel_text
+    assert "Clean manuscript export gates" in panel_text
+    assert "Minimal rollback repair-scope gates" in panel_text
     assert "universal_novel_mode_contract_gate_hints" in panel_text
     assert "portable_story_project_structure_gate_hints" in panel_text
     assert "chapter_contract_scene_beat_gate_hints" in panel_text
@@ -878,6 +881,9 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "anti_ai_naturalness_texture_gate_hints" in panel_text
     assert "genre_promise_contract_matrix_gate_hints" in panel_text
     assert "subgenre_specific_ledger_gate_hints" in panel_text
+    assert "five_question_intake_story_promise_gate_hints" in panel_text
+    assert "universal_export_clean_manuscript_gate_hints" in panel_text
+    assert "minimal_rollback_repair_scope_gate_hints" in panel_text
 
     assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
     assert "portable_story_project_structure_gate_hints?: string[]" in types_text
@@ -892,6 +898,9 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "anti_ai_naturalness_texture_gate_hints?: string[]" in types_text
     assert "genre_promise_contract_matrix_gate_hints?: string[]" in types_text
     assert "subgenre_specific_ledger_gate_hints?: string[]" in types_text
+    assert "five_question_intake_story_promise_gate_hints?: string[]" in types_text
+    assert "universal_export_clean_manuscript_gate_hints?: string[]" in types_text
+    assert "minimal_rollback_repair_scope_gate_hints?: string[]" in types_text
 
 
 def test_source_discovery_panel_surfaces_speckit_fiction_scene_task_gates():

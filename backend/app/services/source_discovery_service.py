@@ -1705,6 +1705,9 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("anti_ai_naturalness_texture_gate", ("anti-ai naturalness pass", "anti-ai naturalness", "generic emotion labels", "balanced essay paragraphs", "polished summaries", "concrete action, uneven rhythm", "character-specific diction")),
     ("genre_promise_contract_matrix_gate", ("genre is a promise", "what pleasure the reader expects", "how quickly that pleasure should appear", "what must be planted before payoff", "welcome tropes", "tired tropes", "emotional aftertaste")),
     ("subgenre_specific_ledger_gate", ("trust ledger", "clue ledger", "suspects: motive", "realm names and gaps", "breakthrough requirements and costs", "deadline/asymmetry ledger", "information asymmetry", "magic rules and costs", "rule of the threat", "motifs and images that evolve", "subgenre ledgers")),
+    ("five_question_intake_story_promise_gate", ("five-question intake", "five question intake", "no more than five questions", "logline, reader promise", "protagonist arc, opposition, world rules", "ending direction", "5-15 beat", "first package")),
+    ("universal_export_clean_manuscript_gate", ("export mode", "clean manuscript", "structured export plan", "accepted chapters only", "package, compile, summarize, or prepare for publishing", "export plan")),
+    ("minimal_rollback_repair_scope_gate", ("minimal rollback", "smallest failing artifact", "repair the smallest failing artifact", "instead of restarting the whole project", "least destructive patch", "repair only the failed")),
     ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
     ("kdp_metadata_chapter_export_gate", ("best-selling-book-writer", "topic selection", "outline", "chapters", "kdp metadata", "description.html", "7 keywords", "validation", "html", "pdf", "book-config.json", "chapters remain", "publishing checklist")),
@@ -5019,6 +5022,9 @@ class NovelSourceDiscoveryService:
             "anti_ai_naturalness_texture_gate_hints": self._build_anti_ai_naturalness_texture_gate_hints(available_patterns),
             "genre_promise_contract_matrix_gate_hints": self._build_genre_promise_contract_matrix_gate_hints(available_patterns),
             "subgenre_specific_ledger_gate_hints": self._build_subgenre_specific_ledger_gate_hints(available_patterns),
+            "five_question_intake_story_promise_gate_hints": self._build_five_question_intake_story_promise_gate_hints(available_patterns),
+            "universal_export_clean_manuscript_gate_hints": self._build_universal_export_clean_manuscript_gate_hints(available_patterns),
+            "minimal_rollback_repair_scope_gate_hints": self._build_minimal_rollback_repair_scope_gate_hints(available_patterns),
             "author_ai_project_contract_review_gate_hints": self._build_author_ai_project_contract_review_gate_hints(available_patterns),
             "manuscript_pr_editorial_workflow_gate_hints": self._build_manuscript_pr_editorial_workflow_gate_hints(available_patterns),
             "short_drama_story_bible_template_gate_hints": self._build_short_drama_story_bible_template_gate_hints(available_patterns),
@@ -6576,6 +6582,12 @@ class NovelSourceDiscoveryService:
             targets.append("genre_promise_contract_matrix_policy")
         if "subgenre_specific_ledger_gate" in patterns:
             targets.append("subgenre_specific_ledger_policy")
+        if "five_question_intake_story_promise_gate" in patterns:
+            targets.append("five_question_intake_story_promise_policy")
+        if "universal_export_clean_manuscript_gate" in patterns:
+            targets.append("universal_export_clean_manuscript_policy")
+        if "minimal_rollback_repair_scope_gate" in patterns:
+            targets.append("minimal_rollback_repair_scope_policy")
         if "card_workbench" in patterns:
             targets.append("card_schema_catalog")
             targets.append("field_level_cards")
@@ -8313,6 +8325,12 @@ class NovelSourceDiscoveryService:
             targets.append("genre_promise_contract_matrix_report")
         if "subgenre_specific_ledger_gate" in patterns:
             targets.append("subgenre_specific_ledger_report")
+        if "five_question_intake_story_promise_gate" in patterns:
+            targets.append("five_question_intake_story_promise_report")
+        if "universal_export_clean_manuscript_gate" in patterns:
+            targets.append("universal_export_clean_manuscript_report")
+        if "minimal_rollback_repair_scope_gate" in patterns:
+            targets.append("minimal_rollback_repair_scope_report")
         if "card_workbench" in patterns:
             targets.extend(["card_types", "card_field_dependencies"])
         if patterns.intersection({
@@ -12005,6 +12023,33 @@ class NovelSourceDiscoveryService:
             "After the genre-promise matrix, choose the active subgenre ledgers: romance trust ledger, mystery clue/suspect ledger, xianxia realm-resource-cost ledger, thriller deadline/asymmetry ledger, fantasy magic-rule-cost ledger, sci-fi what-if consequence ledger, horror threat-rule/dread ledger, or literary motif/interior-change ledger.",
             "Each selected ledger must name what is tracked, who knows it, when it was planted, what payoff or cost is owed, and what contradiction would break reader trust.",
             "For same-type work, keep only the ledger category and payoff discipline; create new clues, suspects, trust breaks, realms, rules, threats, motifs, deadlines, and consequences.",
+        ]
+
+    def _build_five_question_intake_story_promise_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "five_question_intake_story_promise_gate" not in patterns:
+            return []
+        return [
+            "Use a compact intake gate: ask no more than five setup questions before producing useful story material.",
+            "The first package should name logline, reader promise, protagonist arc, opposition, world rules, ending direction, and a 5-15 beat outline.",
+            "For same-type creation, intake captures the target project's promise and boundaries; source questions or source answers are not reusable canon.",
+        ]
+
+    def _build_universal_export_clean_manuscript_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "universal_export_clean_manuscript_gate" not in patterns:
+            return []
+        return [
+            "Treat export mode as a derived-artifact gate: package only accepted chapters into a clean manuscript or a structured export plan.",
+            "Before export, verify chapter order, headings, accepted range, excluded drafts, notes, review fragments, and prompt residue.",
+            "Export files must not write back into canon unless a separate accepted chapter or continuity patch is reviewed.",
+        ]
+
+    def _build_minimal_rollback_repair_scope_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "minimal_rollback_repair_scope_gate" not in patterns:
+            return []
+        return [
+            "When a gate fails, repair the smallest failing artifact first: intake packet, chapter contract, scene beat, ledger field, review note, or export manifest.",
+            "Do not restart the whole project or overwrite accepted manuscript state unless the failure proves a broader structural dependency.",
+            "Record rollback scope, failing gate, repaired artifact, and post-repair verifier so continuation and same-type workflows can resume safely.",
         ]
 
     def _build_style_guide_layering_hints(self, patterns: set[str]) -> list[str]:
@@ -16532,6 +16577,12 @@ class NovelSourceDiscoveryService:
             targets.append("genre_promise_contract_matrix_remap")
         if "subgenre_specific_ledger_gate" in patterns:
             targets.append("subgenre_specific_ledger_remap")
+        if "five_question_intake_story_promise_gate" in patterns:
+            targets.append("five_question_intake_story_promise_remap")
+        if "universal_export_clean_manuscript_gate" in patterns:
+            targets.append("universal_export_clean_manuscript_remap")
+        if "minimal_rollback_repair_scope_gate" in patterns:
+            targets.append("minimal_rollback_repair_scope_remap")
         if patterns.intersection({
             "obsidian_galley_scene_compile_gate",
             "obsidian_storyteller_world_timeline_gate",
