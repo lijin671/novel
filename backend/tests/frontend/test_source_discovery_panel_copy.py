@@ -1030,3 +1030,21 @@ def test_continuation_preview_panel_surfaces_speckit_fiction_warnings():
     assert "genre_promise_contract_warnings: string[]" in types_text
     assert "subgenre_ledger_warnings: string[]" in types_text
     assert "progress_report_continuity_writeback_gate_hints?: string[]" in types_text
+
+
+def test_continuation_context_preview_panel_surfaces_raw_story_and_iron_law_warnings():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "bookRemixBible.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    for field in (
+        "raw_story_assimilation_warnings",
+        "six_layer_iron_law_warnings",
+    ):
+        assert field in types_text
+        assert field in panel_text
+    assert "Raw story assimilation gate" in panel_text
+    assert "Six-layer Iron Law gate" in panel_text

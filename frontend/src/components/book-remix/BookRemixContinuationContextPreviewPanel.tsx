@@ -38,6 +38,8 @@ const TEXT = {
   hookNaturalness: "Hook / naturalness gate:",
   genrePromiseContract: "Genre promise contract gate:",
   subgenreLedger: "Subgenre ledger gate:",
+  rawStoryAssimilation: "Raw story assimilation gate:",
+  sixLayerIronLaw: "Six-layer Iron Law gate:",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -317,6 +319,28 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Text type="secondary">{TEXT.subgenreLedger}</Text>
               <Space wrap>
                 {value.subgenre_ledger_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.raw_story_assimilation_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.rawStoryAssimilation}</Text>
+              <Space wrap>
+                {value.raw_story_assimilation_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.six_layer_iron_law_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.sixLayerIronLaw}</Text>
+              <Space wrap>
+                {value.six_layer_iron_law_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>
