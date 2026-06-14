@@ -571,6 +571,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
     '("Spec Kit" OR "constitution.md" OR "scene outline") ("APPROVED" OR "information asymmetry" OR "checklist PASS") ("fiction" OR "novel") in:name,description,readme',
     '("humanizer-zh" OR "novelist-analyst" OR "task_plan.md") ("Claude Code Skills" OR "中文小说创作工作站") in:name,description,readme',
+    '("SAGA" OR "adversarial score gates" OR "split-view status card") ("novel engineering" OR "story vault") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -578,6 +579,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/adaumann/speckit-preset-fiction-book-writing",
     "https://github.com/leenbj/novel-creator-skill",
     "https://github.com/YuppyChen/novelist-test",
+    "https://github.com/richardelder2/saga-novel-studio",
     "https://github.com/KazKozDev/NovelGenerator",
     "https://github.com/raestrada/storycraftr",
     "https://github.com/YuanShiJiLoong/author",
@@ -1686,6 +1688,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("wikiplots_plot_corpus_boundary_gate", ("wikiplots", "112,936 story plots", "story plots", "plot summary", "plot extraction", "one sentence per line", "eos", "titles", "wikipedia dump", "plots.zip")),
     ("reliquery_reconstructive_recall_vault_gate", ("reliquery", "persistent ai memory", "reconstructive recall", "structured markdown files", "relics", "creative vault", "semantic search engine", "chronicle", "memorize", "cartograph", "forget", "study this", "knowledge graph")),
     ("chinese_skill_workstation_phase_quality_gate", ("ai 中文小说创作工作站", "中文小说创作工作站", "claude code skills", "7 个专业 skills", "1 个 agent", "6 个阶段", "风格拆书", "逐章创作", "humanizer-zh", "novelist-analyst", "task_plan.md", "findings.md", "progress.md", "build_reader.py", "80 分制", "24 种 ai 写作模式")),
+    ("saga_tui_adversarial_publish_gate", ("saga", "novel engineering studio", "split-view status card", "adversarial score gates", "story vault", "00_story_bible", "01_planning", "02_drafting", "03_review", "04_publishing", "pov filter words", "slop clichés", "dialogue subtext", "multi-project state isolation", "wav audiobooks", "epub", "print typeset html")),
     ("novel_studio_accepted_chapter_memory_gate", ("novel studio ai", "accepted chapter", "context pack", "story bible", "style bible", "five-chapter arc pack", "character states", "graph facts", "memory chunks", "drafts do not update canon", "sqlite", "continuity checks")),
     ("novelforge_version_safe_human_review_gate", ("novelforge ai", "version-safe", "scene cards", "scene versions", "human review queue", "continuity state", "story state ledger", "fact approval", "review reports", "revision plans", "never overwrite", "reference assets")),
     ("unorthodox_pipeline_stage_retry_gate", ("unorthodox writer", "pipeline stage gates", "rolling synopsis", "previous-tail continuity", "bible digest", "quality gate", "self-review", "external review", "retry only the failed stage", "canon drift", "ai artifact scan")),
@@ -3409,6 +3412,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
     "yuppychen/novelist-test": (
         "novelist-test is an MIT Chinese AI novel creation workstation built around Claude Code Skills. Public README markers describe a staged workflow for style deconstruction, outline/world/character scaffold, serial chapter writing, humanizer-zh anti-AI-text polish, novelist-analyst quality review, DOCX/HTML reader delivery, task_plan.md/findings.md/progress.md file-backed planning, 24 AI-writing pattern checks, 8-dimension 80-point review, and reference/qimao folders. "
         "Pattern-only adaptation for six-phase Chinese webnovel workstation gates; upstream skills, scripts, reference originals, qimao submission material, generated chapters, cover prompts, docx/runtime commands, and Claude instructions are not imported or executed."
+    ),
+    "richardelder2/saga-novel-studio": (
+        "SAGA Novel Studio is an MIT model-agnostic CLI novel engineering studio. Public README markers describe a split-view TUI status card, adversarial score gates for POV filter words, slop clichés and dialogue subtext, story-vault folders 00_Story_Bible through 04_Publishing, multi-project state isolation, ePUB/print HTML/speaker CSV/WAV audiobook publishing, Gemini API-key requirements, editable .env setup, and global pip editable install instructions. "
+        "Pattern-only adaptation for status-card, score-gate, story-vault, and publish-manifest boundaries; Gemini/provider calls, .env keys, pip install, scripts, global PATH registration, generated books, illustrations, speaker CSVs, WAV files, and upstream agent prompts are not imported or executed."
     ),
     "yuanbw2025/storyforge": (
         "StoryForge is a Chinese privacy-first offline browser writing studio. Public README describes visible/editable/savable prompt templates, prompt workflows, IndexedDB storage, 11 BYOK providers, chain workflows, chunked million-word import, three-layer memory, consistency checks, and master-study tables. "
@@ -5493,6 +5500,7 @@ class NovelSourceDiscoveryService:
             "wikiplots_plot_corpus_boundary_gate_hints": self._build_wikiplots_plot_corpus_boundary_gate_hints(available_patterns),
             "reliquery_reconstructive_recall_vault_gate_hints": self._build_reliquery_reconstructive_recall_vault_gate_hints(available_patterns),
             "chinese_skill_workstation_phase_quality_gate_hints": self._build_chinese_skill_workstation_phase_quality_gate_hints(available_patterns),
+            "saga_tui_adversarial_publish_gate_hints": self._build_saga_tui_adversarial_publish_gate_hints(available_patterns),
             "novel_studio_accepted_chapter_memory_gate_hints": self._build_novel_studio_accepted_chapter_memory_gate_hints(available_patterns),
             "novelforge_version_safe_human_review_gate_hints": self._build_novelforge_version_safe_human_review_gate_hints(available_patterns),
             "unorthodox_pipeline_stage_retry_gate_hints": self._build_unorthodox_pipeline_stage_retry_gate_hints(available_patterns),
@@ -6611,6 +6619,8 @@ class NovelSourceDiscoveryService:
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
             targets.append("chinese_skill_workstation_phase_policy")
             targets.append("file_backed_creation_progress_policy")
+        if "saga_tui_adversarial_publish_gate" in patterns:
+            targets.append("saga_story_vault_status_policy")
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -8362,6 +8372,8 @@ class NovelSourceDiscoveryService:
             targets.append("minimal_rollback_repair_scope_report")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
             targets.extend(["six_phase_creation_quality_report", "task_findings_progress_delivery_report"])
+        if "saga_tui_adversarial_publish_gate" in patterns:
+            targets.append("saga_adversarial_publish_report")
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary_report")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -15722,6 +15734,15 @@ class NovelSourceDiscoveryService:
             "Reference originals, qimao submission material, upstream skill bodies, scripts, generated chapters, cover prompts, DOCX/reader builders, and provider/runtime commands stay excluded during static intake.",
         ]
 
+    def _build_saga_tui_adversarial_publish_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "saga_tui_adversarial_publish_gate" not in patterns:
+            return []
+        return [
+            "Use a split-view status card as planning evidence: active chapter, word-count target, current vault phase, score-gate state, and next action should be visible before drafting.",
+            "Run adversarial score gates before accepting chapter text: POV filter words, slop clichés, dialogue subtext, and anti-generic findings become bounded rewrite tasks.",
+            "Keep story-vault folders and publish manifests separate; ePUB, print HTML, speaker CSV, WAV audiobook, illustration, .env, pip install, and provider commands stay excluded from static intake.",
+        ]
+
     def _build_novel_studio_accepted_chapter_memory_gate_hints(self, patterns: set[str]) -> list[str]:
         if "novel_studio_accepted_chapter_memory_gate" not in patterns:
             return []
@@ -16658,6 +16679,8 @@ class NovelSourceDiscoveryService:
             targets.append("minimal_rollback_repair_scope_remap")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
             targets.append("six_phase_chinese_webnovel_workstation_remap")
+        if "saga_tui_adversarial_publish_gate" in patterns:
+            targets.append("saga_status_score_publish_remap")
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary_remap")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -18896,6 +18919,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform relic categories into the target story's character, faction, location, concept, and relationship schema before retrieval or same-type drafting.")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
             hints.append("Transform the six-phase Chinese webnovel workstation into a new project plan: new style abstraction, world skeleton, chapter hooks, anti-AI review, quality rubric, and delivery manifest.")
+        if "saga_tui_adversarial_publish_gate" in patterns:
+            hints.append("Transform SAGA adversarial score and status-card workflow into target-owned vault phases, score thresholds, reviewer findings, and publish manifests before continuation or same-type drafting.")
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             hints.append("Transform accepted-chapter memory into target schema fields for summaries, character states, graph triples, timeline events, and retrieval chunks; draft-only state stays excluded.")
         if "novelforge_version_safe_human_review_gate" in patterns:
@@ -20631,6 +20656,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject imported skill-pack instructions or tracking files that silently become project canon without local author review.")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
             hints.append("Reject six-phase workstation outputs that reuse reference originals, upstream skill wording, qimao submission material, generated chapter examples, cover prompts, or reader/docx script artifacts.")
+        if "saga_tui_adversarial_publish_gate" in patterns:
+            hints.append("Reject SAGA-inspired outputs that copy upstream TUI labels, agent prompts, example books, ePUB names, print HTML layouts, speaker CSV rows, WAV audiobook assets, or provider configuration text.")
         if "creative_writing_multiaxis_provider_gate" in patterns:
             hints.append("Reject drafts that use style simulation, famous-author labels, provider-tier prompts, or language translation as a shortcut around source-boundary and copy-risk review.")
         if "constraint_harness_review_worktree_gate" in patterns:

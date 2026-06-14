@@ -628,6 +628,7 @@ def render_source_pattern_pack_digest(
         "wikiplots_plot_corpus_boundary_gate_hints",
         "reliquery_reconstructive_recall_vault_gate_hints",
         "chinese_skill_workstation_phase_quality_gate_hints",
+        "saga_tui_adversarial_publish_gate_hints",
         "novel_studio_accepted_chapter_memory_gate_hints",
         "novelforge_version_safe_human_review_gate_hints",
         "unorthodox_pipeline_stage_retry_gate_hints",

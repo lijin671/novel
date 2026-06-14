@@ -344,6 +344,17 @@ def build_remix_continuation_control_audit(
             "verify_task_findings_progress_ledgers",
             "verify_quality_review_before_delivery",
         ])
+    if "saga_tui_adversarial_publish_gate" in pattern_names:
+        control_axes.extend([
+            "saga_story_vault_status_card",
+            "saga_adversarial_score_retry_gate",
+            "saga_publish_artifact_boundary",
+        ])
+        acceptance_steps.extend([
+            "verify_saga_story_vault_status_manifest",
+            "verify_saga_adversarial_score_gate_log",
+            "verify_saga_publish_artifact_boundary",
+        ])
     if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
@@ -788,6 +799,11 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_chinese_skill_workstation_phase_quality_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_saga_tui_adversarial_publish_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1433,6 +1449,11 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_chinese_skill_workstation_phase_quality_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_saga_tui_adversarial_publish_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -4671,6 +4692,45 @@ def _append_chinese_skill_workstation_phase_quality_gate_section(
     else:
         lines.append(
             "- continuation_boundary: phases and ledgers must reference the target project's accepted canon, current plan, quality findings, and delivery scope"
+        )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+
+
+def _append_saga_tui_adversarial_publish_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render SAGA status-card, adversarial score, and publishing gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "saga_tui_adversarial_publish_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("saga_tui_adversarial_publish_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("SAGA TUI/adversarial publishing gate:")
+    lines.append(
+        "- story_vault_status_card: track active chapter, word-count target, current vault phase, latest score-gate state, and next action before drafting"
+    )
+    lines.append(
+        "- adversarial_score_gate: convert POV filter-word, slop-cliche, dialogue-subtext, and anti-generic findings into bounded rewrite tasks before accepting prose"
+    )
+    lines.append(
+        "- publish_manifest_boundary: ePUB, print HTML, speaker CSV, WAV audiobook, illustration, .env, pip install, provider, and global PATH artifacts remain outside accepted manuscript canon"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: rebuild the status card, score thresholds, story vault, and publish manifest for the new project; do not inherit upstream labels or sample assets"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: status and score gates must reference accepted target chapters, current anti-slop rules, review findings, and delivery scope"
         )
     if hints:
         lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
@@ -7923,6 +7983,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "suggestion_card_nonoverwrite_revision_gate_hints": "suggestion_card_nonoverwrite_revision_gate",
         "book_view_import_export_manifest_gate_hints": "book_view_import_export_manifest_gate",
         "chinese_skill_workstation_phase_quality_gate_hints": "chinese_skill_workstation_phase_quality_gate",
+        "saga_tui_adversarial_publish_gate_hints": "saga_tui_adversarial_publish_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",

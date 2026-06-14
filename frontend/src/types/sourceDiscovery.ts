@@ -358,6 +358,7 @@ export interface SourceDiscoveryPatternPack {
   wikiplots_plot_corpus_boundary_gate_hints?: string[];
   reliquery_reconstructive_recall_vault_gate_hints?: string[];
   chinese_skill_workstation_phase_quality_gate_hints?: string[];
+  saga_tui_adversarial_publish_gate_hints?: string[];
   novel_studio_accepted_chapter_memory_gate_hints?: string[];
   novelforge_version_safe_human_review_gate_hints?: string[];
   unorthodox_pipeline_stage_retry_gate_hints?: string[];

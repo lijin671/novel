@@ -5564,3 +5564,60 @@ def test_chinese_skill_workstation_phase_quality_gate_renders_context_and_audit(
     assert "verify_six_phase_creation_artifacts" in audit["acceptance_steps"]
     assert "verify_task_findings_progress_ledgers" in audit["acceptance_steps"]
     assert "verify_quality_review_before_delivery" in audit["acceptance_steps"]
+
+
+def test_saga_tui_adversarial_publish_gate_renders_context_and_audit():
+    source_pattern_pack = {
+        "workflow_patterns": [
+            {"name": "saga_tui_adversarial_publish_gate", "candidate_count": 1},
+        ],
+        "saga_tui_adversarial_publish_gate_hints": [
+            "Use story-vault folders, split-view status cards, adversarial score gates, and publish manifests as evidence.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="SAGA Fusion Desk",
+        bible={
+            "style_signature": {"anti_slop_rules": ["avoid generic dialogue beats"]},
+            "chapter_change_packages": [{"chapter_number": 4, "summary": "Accepted chapter reached midpoint."}],
+        },
+        plan={
+            "summary": "Draft chapter 5 after score gate review.",
+            "review_scorecards": [{"target": "POV filter words", "status": "pending"}],
+        },
+        source_pattern_pack=source_pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired SAGA Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only the status and score-gate workflow.\n"
+            "forbidden source elements\n"
+            "- Do not reuse SAGA prompt text, agent files, example books, or audiobook assets.\n"
+        ),
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "SAGA TUI/adversarial publishing gate:" in block
+        assert "story_vault_status_card" in block
+        assert "adversarial_score_gate" in block
+        assert "publish_manifest_boundary" in block
+        assert "split-view status cards" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+    assert "rebuild the status card, score thresholds" in inspired
+
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    assert "saga_story_vault_status_card" in audit["control_axes"]
+    assert "saga_adversarial_score_retry_gate" in audit["control_axes"]
+    assert "saga_publish_artifact_boundary" in audit["control_axes"]
+    assert "verify_saga_story_vault_status_manifest" in audit["acceptance_steps"]
+    assert "verify_saga_adversarial_score_gate_log" in audit["acceptance_steps"]
+    assert "verify_saga_publish_artifact_boundary" in audit["acceptance_steps"]

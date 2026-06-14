@@ -20491,6 +20491,60 @@ def test_static_novelist_test_workstation_source_adds_phase_quality_gates():
     assert "chinese_skill_workstation_phase_quality_gate_hints" in digest
 
 
+def test_static_saga_novel_studio_source_adds_tui_adversarial_publish_gates():
+    assert "https://github.com/richardelder2/saga-novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("adversarial score gates" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "richardelder2/saga-novel-studio",
+                "html_url": "https://github.com/richardelder2/saga-novel-studio",
+                "description": (
+                    "SAGA is a model-agnostic command-line novel engineering studio with "
+                    "premium TUI split-view status card, adversarial score gates, "
+                    "story vault structure, multi-project state isolation, and publishing pipeline."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "cli", "writing", "gemini"],
+                "updated_at": "2026-05-23T19:27:36Z",
+                "pushed_at": "2026-05-23T19:27:36Z",
+                "root_files": ["README.md", "LICENSE", "pyproject.toml", ".env.example"],
+                "readme_excerpt": (
+                    "Workspace has 00_Story_Bible, 01_Planning, 02_Drafting, 03_Review, "
+                    "04_Publishing and .agent. Adversarial score gates audit drafted chapters "
+                    "for POV filter words, slop clichés and dialogue subtext before saving files. "
+                    "Publish compiles ePUB, print HTML, speaker CSV and WAV audiobooks."
+                ),
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-15T02:10:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "richardelder2/saga-novel-studio"
+    assert candidate["posture"] == "pattern-only"
+    assert "saga_tui_adversarial_publish_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "saga_story_vault_status_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "saga_adversarial_publish_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "saga_status_score_publish_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any(
+        "split-view status" in hint
+        for hint in pattern_pack["saga_tui_adversarial_publish_gate_hints"]
+    )
+    assert any("adversarial score" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("WAV audiobook" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "saga_tui_adversarial_publish_gate_hints" in digest
+
+
 def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():
     assert "https://github.com/peter88213/mdnovel" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("mdnovel" in query and "narrative time" in query for query in DEFAULT_GITHUB_QUERIES)
