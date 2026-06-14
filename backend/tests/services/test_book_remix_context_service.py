@@ -5506,3 +5506,61 @@ def test_local_first_provider_and_suggestion_card_gates_render_context_and_audit
     assert "missing_local_first_provider_boundary" in audit["local_first_authoring_warnings"]
     assert "missing_suggestion_card_acceptance_policy" in audit["local_first_authoring_warnings"]
     assert "missing_book_view_import_export_manifest" in audit["local_first_authoring_warnings"]
+
+
+def test_chinese_skill_workstation_phase_quality_gate_renders_context_and_audit():
+    source_pattern_pack = {
+        "patterns": [
+            {"name": "chinese_skill_workstation_phase_quality_gate", "candidate_count": 1},
+        ],
+        "chinese_skill_workstation_phase_quality_gate_hints": [
+            "Model Chinese webnovel production as six visible phases and keep task_plan.md, findings.md, and progress.md ledgers.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Chinese Webnovel Workstation",
+        bible={
+            "accepted_canon": "Accepted chapters stop at chapter 18.",
+            "quality_findings": [{"severity": "High", "issue": "weak chapter hook"}],
+        },
+        plan={
+            "summary": "Continue from accepted canon and run quality review before delivery.",
+            "delivery_manifest": {"formats": ["clean Markdown"]},
+        },
+        source_pattern_pack=source_pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Webnovel Workstation",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only staged workflow and quality gates.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source originals, examples, cover prompts, or qimao materials.\n"
+        ),
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Chinese skill workstation phase-quality gate:" in block
+        assert "six_phase_workflow" in block
+        assert "file_backed_ledgers" in block
+        assert "quality_delivery_boundary" in block
+        assert "task_plan.md, findings.md, and progress.md" in block
+        assert "DOCX/HTML/reader delivery" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+    assert "rebuild premise, cast, style abstraction" in inspired
+
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    assert "six_phase_chinese_webnovel_workstation" in audit["control_axes"]
+    assert "file_backed_task_findings_progress" in audit["control_axes"]
+    assert "quality_review_delivery_manifest" in audit["control_axes"]
+    assert "verify_six_phase_creation_artifacts" in audit["acceptance_steps"]
+    assert "verify_task_findings_progress_ledgers" in audit["acceptance_steps"]
+    assert "verify_quality_review_before_delivery" in audit["acceptance_steps"]

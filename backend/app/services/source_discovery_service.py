@@ -570,12 +570,14 @@ DEFAULT_GITHUB_QUERIES = (
     '("inkos" OR "truth files" OR "fanfic spinoff imitation") ("OpenAI-compatible" OR "doctor diagnostic" OR "memory.db") in:name,description,readme',
     '("51mazi" OR "小说写作软件") ("relationship graph" OR "timeline" OR "organization chart") in:name,description,readme',
     '("Spec Kit" OR "constitution.md" OR "scene outline") ("APPROVED" OR "information asymmetry" OR "checklist PASS") ("fiction" OR "novel") in:name,description,readme',
+    '("humanizer-zh" OR "novelist-analyst" OR "task_plan.md") ("Claude Code Skills" OR "中文小说创作工作站") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
     "https://github.com/NousResearch/autonovel",
     "https://github.com/adaumann/speckit-preset-fiction-book-writing",
     "https://github.com/leenbj/novel-creator-skill",
+    "https://github.com/YuppyChen/novelist-test",
     "https://github.com/KazKozDev/NovelGenerator",
     "https://github.com/raestrada/storycraftr",
     "https://github.com/YuanShiJiLoong/author",
@@ -1683,6 +1685,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("gemini_writer_context_recovery_gate", ("gemini writing agent", "smart context management", "recovery mode", "token monitoring", "automatic context compression", "context summaries", "resume interrupted work", "maximum 300 iterations", "create novels", "short story collections")),
     ("wikiplots_plot_corpus_boundary_gate", ("wikiplots", "112,936 story plots", "story plots", "plot summary", "plot extraction", "one sentence per line", "eos", "titles", "wikipedia dump", "plots.zip")),
     ("reliquery_reconstructive_recall_vault_gate", ("reliquery", "persistent ai memory", "reconstructive recall", "structured markdown files", "relics", "creative vault", "semantic search engine", "chronicle", "memorize", "cartograph", "forget", "study this", "knowledge graph")),
+    ("chinese_skill_workstation_phase_quality_gate", ("ai 中文小说创作工作站", "中文小说创作工作站", "claude code skills", "7 个专业 skills", "1 个 agent", "6 个阶段", "风格拆书", "逐章创作", "humanizer-zh", "novelist-analyst", "task_plan.md", "findings.md", "progress.md", "build_reader.py", "80 分制", "24 种 ai 写作模式")),
     ("novel_studio_accepted_chapter_memory_gate", ("novel studio ai", "accepted chapter", "context pack", "story bible", "style bible", "five-chapter arc pack", "character states", "graph facts", "memory chunks", "drafts do not update canon", "sqlite", "continuity checks")),
     ("novelforge_version_safe_human_review_gate", ("novelforge ai", "version-safe", "scene cards", "scene versions", "human review queue", "continuity state", "story state ledger", "fact approval", "review reports", "revision plans", "never overwrite", "reference assets")),
     ("unorthodox_pipeline_stage_retry_gate", ("unorthodox writer", "pipeline stage gates", "rolling synopsis", "previous-tail continuity", "bible digest", "quality gate", "self-review", "external review", "retry only the failed stage", "canon drift", "ai artifact scan")),
@@ -3402,6 +3405,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Story Maker is a static creative-text web app that builds generation from visible axes: output mode, theme, genre, worldview, audience, era, ending style, narrator, characters, source material, image material, and optional style analysis. "
         "Public README describes selected-mode-first contracts, mode-specific output shapes, under-length draft rewrite handling, axis tags, provider key safety, and explicit legal/publication caveats. "
         "Pattern-only adaptation for mode-contract generation gates and anti-generic prose checks; Vite app, GitHub Pages deployment, provider calls, keys, and browser runtime are not used."
+    ),
+    "yuppychen/novelist-test": (
+        "novelist-test is an MIT Chinese AI novel creation workstation built around Claude Code Skills. Public README markers describe a staged workflow for style deconstruction, outline/world/character scaffold, serial chapter writing, humanizer-zh anti-AI-text polish, novelist-analyst quality review, DOCX/HTML reader delivery, task_plan.md/findings.md/progress.md file-backed planning, 24 AI-writing pattern checks, 8-dimension 80-point review, and reference/qimao folders. "
+        "Pattern-only adaptation for six-phase Chinese webnovel workstation gates; upstream skills, scripts, reference originals, qimao submission material, generated chapters, cover prompts, docx/runtime commands, and Claude instructions are not imported or executed."
     ),
     "yuanbw2025/storyforge": (
         "StoryForge is a Chinese privacy-first offline browser writing studio. Public README describes visible/editable/savable prompt templates, prompt workflows, IndexedDB storage, 11 BYOK providers, chain workflows, chunked million-word import, three-layer memory, consistency checks, and master-study tables. "
@@ -5485,6 +5492,7 @@ class NovelSourceDiscoveryService:
             "gemini_writer_context_recovery_gate_hints": self._build_gemini_writer_context_recovery_gate_hints(available_patterns),
             "wikiplots_plot_corpus_boundary_gate_hints": self._build_wikiplots_plot_corpus_boundary_gate_hints(available_patterns),
             "reliquery_reconstructive_recall_vault_gate_hints": self._build_reliquery_reconstructive_recall_vault_gate_hints(available_patterns),
+            "chinese_skill_workstation_phase_quality_gate_hints": self._build_chinese_skill_workstation_phase_quality_gate_hints(available_patterns),
             "novel_studio_accepted_chapter_memory_gate_hints": self._build_novel_studio_accepted_chapter_memory_gate_hints(available_patterns),
             "novelforge_version_safe_human_review_gate_hints": self._build_novelforge_version_safe_human_review_gate_hints(available_patterns),
             "unorthodox_pipeline_stage_retry_gate_hints": self._build_unorthodox_pipeline_stage_retry_gate_hints(available_patterns),
@@ -6600,6 +6608,9 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_policy")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_policy")
+        if "chinese_skill_workstation_phase_quality_gate" in patterns:
+            targets.append("chinese_skill_workstation_phase_policy")
+            targets.append("file_backed_creation_progress_policy")
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -8349,6 +8360,8 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_report")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_report")
+        if "chinese_skill_workstation_phase_quality_gate" in patterns:
+            targets.extend(["six_phase_creation_quality_report", "task_findings_progress_delivery_report"])
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary_report")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -15700,6 +15713,15 @@ class NovelSourceDiscoveryService:
             "Local vault content, semantic indexes, ChromaDB/SQLite memory, Claude skills, and plugin runtime are deferred unless explicitly authorized.",
         ]
 
+    def _build_chinese_skill_workstation_phase_quality_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "chinese_skill_workstation_phase_quality_gate" not in patterns:
+            return []
+        return [
+            "Model Chinese webnovel production as six visible phases: style deconstruction, skeleton setup, serial chapter drafting, anti-AI-text polish, quality review, and delivery packaging.",
+            "Keep task_plan.md, findings.md, and progress.md style ledgers for every long run so planning decisions, review findings, and chapter progress survive session breaks.",
+            "Reference originals, qimao submission material, upstream skill bodies, scripts, generated chapters, cover prompts, DOCX/reader builders, and provider/runtime commands stay excluded during static intake.",
+        ]
+
     def _build_novel_studio_accepted_chapter_memory_gate_hints(self, patterns: set[str]) -> list[str]:
         if "novel_studio_accepted_chapter_memory_gate" not in patterns:
             return []
@@ -16634,6 +16656,8 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_remap")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_remap")
+        if "chinese_skill_workstation_phase_quality_gate" in patterns:
+            targets.append("six_phase_chinese_webnovel_workstation_remap")
         if "local_first_provider_boundary_authoring_gate" in patterns:
             targets.append("local_first_provider_boundary_remap")
         if "suggestion_card_nonoverwrite_revision_gate" in patterns:
@@ -18870,6 +18894,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform plot-corpus insights into new causal templates and pacing labels while rejecting source titles, order, sentence wording, and set-piece chains.")
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             hints.append("Transform relic categories into the target story's character, faction, location, concept, and relationship schema before retrieval or same-type drafting.")
+        if "chinese_skill_workstation_phase_quality_gate" in patterns:
+            hints.append("Transform the six-phase Chinese webnovel workstation into a new project plan: new style abstraction, world skeleton, chapter hooks, anti-AI review, quality rubric, and delivery manifest.")
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             hints.append("Transform accepted-chapter memory into target schema fields for summaries, character states, graph triples, timeline events, and retrieval chunks; draft-only state stays excluded.")
         if "novelforge_version_safe_human_review_gate" in patterns:
@@ -20603,6 +20629,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject entity timelines that preserve source character disappearance gaps, reunion timing, relationship turns, or appearance sequence.")
         if "codex_story_skill_project_scaffold_gate" in patterns:
             hints.append("Reject imported skill-pack instructions or tracking files that silently become project canon without local author review.")
+        if "chinese_skill_workstation_phase_quality_gate" in patterns:
+            hints.append("Reject six-phase workstation outputs that reuse reference originals, upstream skill wording, qimao submission material, generated chapter examples, cover prompts, or reader/docx script artifacts.")
         if "creative_writing_multiaxis_provider_gate" in patterns:
             hints.append("Reject drafts that use style simulation, famous-author labels, provider-tier prompts, or language translation as a shortcut around source-boundary and copy-risk review.")
         if "constraint_harness_review_worktree_gate" in patterns:

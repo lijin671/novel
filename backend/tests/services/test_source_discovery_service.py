@@ -20432,6 +20432,65 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "minimal_rollback_repair_scope_gate_hints" in digest
 
 
+def test_static_novelist_test_workstation_source_adds_phase_quality_gates():
+    assert "https://github.com/YuppyChen/novelist-test" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("humanizer-zh" in query and "中文小说创作工作站" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "YuppyChen/novelist-test",
+                "html_url": "https://github.com/YuppyChen/novelist-test",
+                "description": "AI 中文小说创作工作站，Claude Code Skills，7 个专业 Skills + 1 个 Agent。",
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "claude-code", "skills", "chinese-writing"],
+                "updated_at": "2026-06-14T10:00:00Z",
+                "pushed_at": "2026-06-14T10:00:00Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    "package.json",
+                    "task_plan.md",
+                    "findings.md",
+                    "progress.md",
+                    "build_reader.py",
+                ],
+                "readme_excerpt": (
+                    "6 个阶段：风格拆书、骨架搭建、逐章创作、润色去 AI、质量审查、输出成稿。"
+                    "包含 humanizer-zh、novelist-analyst、24 种 AI 写作模式检测、"
+                    "8 维度 80 分制评分、DOCX / HTML 阅读器输出。"
+                ),
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-14T23:30:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "YuppyChen/novelist-test"
+    assert candidate["posture"] == "pattern-only"
+    assert "chinese_skill_workstation_phase_quality_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "chinese_skill_workstation_phase_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "file_backed_creation_progress_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "six_phase_creation_quality_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "task_findings_progress_delivery_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "six_phase_chinese_webnovel_workstation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any(
+        "six visible phases" in hint
+        for hint in pattern_pack["chinese_skill_workstation_phase_quality_gate_hints"]
+    )
+    assert any("six-phase Chinese webnovel workstation" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("upstream skill wording" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "chinese_skill_workstation_phase_quality_gate_hints" in digest
+
+
 def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():
     assert "https://github.com/peter88213/mdnovel" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("mdnovel" in query and "narrative time" in query for query in DEFAULT_GITHUB_QUERIES)

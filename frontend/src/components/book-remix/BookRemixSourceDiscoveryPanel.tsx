@@ -915,6 +915,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Gemini Writer context-recovery gates', patternPackPayload?.gemini_writer_context_recovery_gate_hints],
               ['WikiPlots corpus-boundary gates', patternPackPayload?.wikiplots_plot_corpus_boundary_gate_hints],
               ['Reliquery reconstructive-recall vault gates', patternPackPayload?.reliquery_reconstructive_recall_vault_gate_hints],
+              ['Chinese skill workstation phase-quality gates', patternPackPayload?.chinese_skill_workstation_phase_quality_gate_hints],
               ['Novel Studio accepted-chapter memory gates', patternPackPayload?.novel_studio_accepted_chapter_memory_gate_hints],
               ['NovelForge version-safe human-review gates', patternPackPayload?.novelforge_version_safe_human_review_gate_hints],
               ['Unorthodox pipeline stage retry gates', patternPackPayload?.unorthodox_pipeline_stage_retry_gate_hints],

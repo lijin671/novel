@@ -333,6 +333,17 @@ def build_remix_continuation_control_audit(
             "verify_character_state_timeline_conflicts",
             "verify_hybrid_retrieval_pack_scope",
         ])
+    if "chinese_skill_workstation_phase_quality_gate" in pattern_names:
+        control_axes.extend([
+            "six_phase_chinese_webnovel_workstation",
+            "file_backed_task_findings_progress",
+            "quality_review_delivery_manifest",
+        ])
+        acceptance_steps.extend([
+            "verify_six_phase_creation_artifacts",
+            "verify_task_findings_progress_ledgers",
+            "verify_quality_review_before_delivery",
+        ])
     if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
@@ -773,6 +784,11 @@ def build_remix_continuation_context_block(
         lines=lines,
         bible=bible,
         plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_chinese_skill_workstation_phase_quality_gate_section(
+        lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
     )
@@ -1413,6 +1429,11 @@ def build_remix_inspired_context_block(
         lines=lines,
         bible={},
         plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_chinese_skill_workstation_phase_quality_gate_section(
+        lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
     )
@@ -4614,6 +4635,45 @@ def _append_local_first_authoring_revision_gate_section(
             lines.append(f"- {label}: {_truncate(hints[0], 260)}")
     if audit["warnings"] and mode != "same-type":
         lines.append(f"- local_first_authoring_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_chinese_skill_workstation_phase_quality_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render six-phase Chinese webnovel workstation gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "chinese_skill_workstation_phase_quality_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("chinese_skill_workstation_phase_quality_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Chinese skill workstation phase-quality gate:")
+    lines.append(
+        "- six_phase_workflow: style deconstruction -> skeleton setup -> serial chapter drafting -> anti-AI-text polish -> quality review -> delivery packaging"
+    )
+    lines.append(
+        "- file_backed_ledgers: keep task_plan.md, findings.md, and progress.md equivalents for long runs so decisions, findings, and chapter status remain inspectable"
+    )
+    lines.append(
+        "- quality_delivery_boundary: quality review must precede DOCX/HTML/reader delivery, and generated examples, cover prompts, submission materials, and upstream scripts stay excluded"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: reuse only the phase contract and score gates; rebuild premise, cast, style abstraction, chapter hooks, and delivery manifest independently"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: phases and ledgers must reference the target project's accepted canon, current plan, quality findings, and delivery scope"
+        )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -7862,6 +7922,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "local_first_provider_boundary_authoring_gate_hints": "local_first_provider_boundary_authoring_gate",
         "suggestion_card_nonoverwrite_revision_gate_hints": "suggestion_card_nonoverwrite_revision_gate",
         "book_view_import_export_manifest_gate_hints": "book_view_import_export_manifest_gate",
+        "chinese_skill_workstation_phase_quality_gate_hints": "chinese_skill_workstation_phase_quality_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",
