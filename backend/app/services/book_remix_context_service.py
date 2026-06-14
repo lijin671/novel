@@ -397,6 +397,28 @@ def build_remix_continuation_control_audit(
             "verify_chapter_quality_threshold_decision",
             "verify_human_milestone_confirmation_points",
         ])
+    if "volume_rolling_spec_quality_gate" in pattern_names:
+        control_axes.extend([
+            "volume_l1_l2_l3_ls_spec_contracts",
+            "rolling_volume_audit_cadence",
+            "volume_quality_tier_decision",
+        ])
+        acceptance_steps.extend([
+            "verify_volume_spec_contract_layers",
+            "verify_5_10_chapter_audit_cadence",
+            "verify_volume_quality_tier_decision",
+        ])
+    if "executor_agnostic_instruction_checkpoint_gate" in pattern_names:
+        control_axes.extend([
+            "instruction_packet_execution_boundary",
+            "checkpoint_staging_recovery_cursor",
+            "transactional_commit_manifest",
+        ])
+        acceptance_steps.extend([
+            "verify_instruction_packet_scope",
+            "verify_checkpoint_staging_validation",
+            "verify_transactional_commit_manifest",
+        ])
     if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
@@ -680,6 +702,21 @@ def build_remix_continuation_control_audit(
         )
         else {"warnings": []}
     )
+    deterministic_volume_spec_audit = (
+        _deterministic_volume_spec_orchestration_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if pattern_names.intersection(
+            {
+                "volume_rolling_spec_quality_gate",
+                "executor_agnostic_instruction_checkpoint_gate",
+            }
+        )
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -721,6 +758,8 @@ def build_remix_continuation_control_audit(
         warnings.append("context_scope_authority_warnings")
     if local_first_authoring_audit["warnings"]:
         warnings.append("local_first_authoring_warnings")
+    if deterministic_volume_spec_audit["warnings"]:
+        warnings.append("deterministic_volume_spec_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -770,6 +809,7 @@ def build_remix_continuation_control_audit(
         "intake_export_rollback_warnings": intake_export_rollback_audit["warnings"],
         "context_scope_authority_warnings": context_scope_authority_audit["warnings"],
         "local_first_authoring_warnings": local_first_authoring_audit["warnings"],
+        "deterministic_volume_spec_warnings": deterministic_volume_spec_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -877,6 +917,13 @@ def build_remix_continuation_context_block(
     )
     _append_four_agent_chapter_quality_loop_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_deterministic_volume_spec_orchestration_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
     )
@@ -1540,6 +1587,13 @@ def build_remix_inspired_context_block(
     )
     _append_four_agent_chapter_quality_loop_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_deterministic_volume_spec_orchestration_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
     )
@@ -3255,6 +3309,175 @@ def _has_book_view_import_export_manifest_surface(
         "epub_export_manifest",
         "pdf_export_manifest",
         "markdown_export_manifest",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _deterministic_volume_spec_orchestration_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit volume spec layers and executor-agnostic checkpoint surfaces."""
+    warnings: list[str] = []
+    if "volume_rolling_spec_quality_gate" in pattern_names:
+        if not _has_volume_spec_plan_surface(bible=bible, plan=plan):
+            warnings.append("missing_volume_spec_plan")
+        if not _has_storyline_contract_surface(bible=bible, plan=plan):
+            warnings.append("missing_storyline_contract_layers")
+        if not _has_volume_quality_audit_surface(bible=bible, plan=plan):
+            warnings.append("missing_volume_quality_audit_cadence")
+        if not _has_volume_quality_tier_decision_surface(bible=bible, plan=plan):
+            warnings.append("missing_volume_quality_tier_decision")
+    if "executor_agnostic_instruction_checkpoint_gate" in pattern_names:
+        if not _has_instruction_packet_surface(bible=bible, plan=plan):
+            warnings.append("missing_instruction_packet_scope")
+        if not _has_checkpoint_recovery_surface(bible=bible, plan=plan):
+            warnings.append("missing_checkpoint_recovery_cursor")
+        if not _has_staging_validation_surface(bible=bible, plan=plan):
+            warnings.append("missing_staging_validation_gate")
+        if not _has_transactional_commit_surface(bible=bible, plan=plan):
+            warnings.append("missing_commit_transaction_scope")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_volume_spec_plan_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "volume_plan",
+        "volumes",
+        "current_volume",
+        "volume_arc",
+        "volume_handoff",
+        "volume_pipeline",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_storyline_contract_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "l1_world_rules",
+        "l2_character_contracts",
+        "l3_chapter_contracts",
+        "ls_storylines",
+        "storyline_contracts",
+        "storylines",
+        "chapter_contracts",
+        "world_rule_contracts",
+        "character_contracts",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_volume_quality_audit_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "rolling_volume_audit",
+        "volume_audit_cadence",
+        "five_chapter_sliding_check",
+        "ten_chapter_deep_inventory",
+        "volume_end_audit",
+        "chapter_window_review",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_volume_quality_tier_decision_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "quality_tier_decision",
+        "quality_decision",
+        "eight_dimension_score",
+        "quality_scorecard",
+        "quality_gate_result",
+        "human_review_required",
+        "forced_rewrite_decision",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_instruction_packet_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "instruction_packet",
+        "instruction_packet_scope",
+        "packet_intent",
+        "executor_packet",
+        "orchestration_packet",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_checkpoint_recovery_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "checkpoint",
+        "checkpoint_cursor",
+        "checkpoint_recovery",
+        "recovery_cursor",
+        "resume_cursor",
+        "checkpoint_state",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_staging_validation_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "staging_manifest",
+        "staging_artifacts",
+        "validation_result",
+        "validate_advance_gate",
+        "advance_decision",
+        "staged_artifact_validation",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_transactional_commit_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "commit_transaction",
+        "transactional_commit",
+        "commit_scope",
+        "writeback_transaction",
+        "official_artifact_promotion",
+        "commit_manifest",
     )
     return any(_has_any_package_value(carrier, keys) for carrier in carriers)
 
@@ -5032,6 +5255,85 @@ def _append_four_agent_chapter_quality_loop_gate_section(
         )
     if hints:
         lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+
+
+def _append_deterministic_volume_spec_orchestration_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render DankerMu-style volume specs and executor-agnostic checkpoints."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    has_volume_gate = "volume_rolling_spec_quality_gate" in pattern_names
+    has_checkpoint_gate = "executor_agnostic_instruction_checkpoint_gate" in pattern_names
+    if not has_volume_gate and not has_checkpoint_gate:
+        return
+    volume_hints = (
+        _as_note_list(source_pattern_pack.get("volume_rolling_spec_quality_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    checkpoint_hints = (
+        _as_note_list(source_pattern_pack.get("executor_agnostic_instruction_checkpoint_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _deterministic_volume_spec_orchestration_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Deterministic volume spec orchestration gate:")
+    if has_volume_gate:
+        lines.append(
+            "- volume_spec_layers: separate L1 world rules, L2 character contracts, "
+            "L3 chapter contracts, and LS storylines before chapter acceptance"
+        )
+        lines.append(
+            "- rolling_volume_audit: volume plan -> chapter pipeline -> 5-chapter sliding "
+            "check -> 10-chapter deep inventory -> volume-end handoff"
+        )
+        lines.append(
+            "- quality_tier_decision: record eight-dimension score evidence and pass/polish/"
+            "revise/human-review/forced-rewrite decision before promotion"
+        )
+    if has_checkpoint_gate:
+        lines.append(
+            "- instruction_packet_boundary: deterministic orchestration emits packet intent, "
+            "executor writes staging artifacts, and validation decides state advance"
+        )
+        lines.append(
+            "- checkpoint_staging_commit: checkpoint cursor, staging manifest, validation "
+            "result, and commit transaction scope must be visible before write-back"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: reuse only the spec/checkpoint workflow; rebuild storyline ids, "
+            "chapter-contract ids, quality dimensions, packet namespace, and staging refs for the new story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: spec layers, checkpoints, staging manifests, validation "
+            "results, and commit records must attach to accepted target canon only"
+        )
+    lines.append(
+        "- runtime_boundary: no plugin install, SessionStart hook, npm/npx run, package script, "
+        "agent prompt import, provider call, upstream generated prose, or runtime log import is authorized"
+    )
+    for label, hints in (
+        ("volume_spec_source_hint", volume_hints),
+        ("instruction_checkpoint_source_hint", checkpoint_hints),
+    ):
+        if hints:
+            lines.append(f"- {label}: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- deterministic_volume_spec_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -7963,6 +8265,25 @@ def build_remix_inspired_independence_audit(
             "tool_surface_policy",
         ])
         copy_risk_checks.append("source_tool_policy_path_clone")
+    if "volume_rolling_spec_quality_gate" in pattern_names:
+        transfer_axes.extend([
+            "volume_audit_cadence",
+            "quality_tier_review_shape",
+        ])
+        required_difference_axes.extend([
+            "volume_storyline_ids",
+            "chapter_contract_ids",
+            "quality_dimension_namespace",
+        ])
+        copy_risk_checks.append("source_storyline_contract_clone")
+    if "executor_agnostic_instruction_checkpoint_gate" in pattern_names:
+        transfer_axes.append("deterministic_orchestration_shape")
+        required_difference_axes.extend([
+            "instruction_packet_namespace",
+            "checkpoint_cursor_namespace",
+            "staging_artifact_namespace",
+        ])
+        copy_risk_checks.append("source_checkpoint_staging_template_clone")
     if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
         transfer_axes.extend([
             "scene_engine_pattern",
@@ -8300,6 +8621,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "book_view_import_export_manifest_gate_hints": "book_view_import_export_manifest_gate",
         "chinese_skill_workstation_phase_quality_gate_hints": "chinese_skill_workstation_phase_quality_gate",
         "saga_tui_adversarial_publish_gate_hints": "saga_tui_adversarial_publish_gate",
+        "volume_rolling_spec_quality_gate_hints": "volume_rolling_spec_quality_gate",
+        "executor_agnostic_instruction_checkpoint_gate_hints": "executor_agnostic_instruction_checkpoint_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",

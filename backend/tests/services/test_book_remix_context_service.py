@@ -5824,3 +5824,106 @@ def test_writeagent_four_agent_quality_loop_renders_context_and_audit():
     assert "verify_four_agent_role_boundaries" in audit["acceptance_steps"]
     assert "verify_chapter_quality_threshold_decision" in audit["acceptance_steps"]
     assert "verify_human_milestone_confirmation_points" in audit["acceptance_steps"]
+
+
+def test_deterministic_volume_spec_orchestration_gates_render_context_and_audit():
+    pattern_pack = {
+        "volume_rolling_spec_quality_gate_hints": [
+            "Model serialized webnovel work as a volume loop with L1/L2/L3/LS contracts and 5/10 chapter audits.",
+        ],
+        "executor_agnostic_instruction_checkpoint_gate_hints": [
+            "Separate deterministic orchestration from model execution with instruction packets, checkpoints, staging, validation, and commit transactions.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Deterministic Volume Desk",
+        bible={
+            "volume_plan": [{"volume": 1, "promise": "Archive trial"}],
+            "storyline_contracts": [{"id": "LS-archive", "status": "active"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 10,
+                    "summary": "The first volume reached its deep inventory point.",
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue with validated staging only.",
+            "volume_audit_cadence": {"sliding": 5, "deep_inventory": 10},
+            "quality_tier_decision": {"tier": "human_review"},
+            "instruction_packet": {"intent": "draft next chapter"},
+            "checkpoint_cursor": "ch010",
+            "staging_manifest": [{"path": "staging/ch011.md"}],
+            "commit_transaction": {"scope": ["chapter", "state", "foreshadowing"]},
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Deterministic Volume Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only volume cadence and deterministic checkpoint workflow.\n"
+            "forbidden source elements\n"
+            "- Do not reuse upstream storylines, chapter-contract ids, packet templates, or staging paths.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible={
+            "volume_plan": [{"volume": 1}],
+            "storyline_contracts": [{"id": "LS-1"}],
+        },
+        plan={
+            "volume_audit_cadence": {"sliding": 5, "deep_inventory": 10},
+            "quality_tier_decision": {"tier": "pass"},
+            "instruction_packet": {"intent": "draft"},
+            "checkpoint_cursor": "ch001",
+            "staging_manifest": [{"path": "staging/ch002.md"}],
+            "commit_transaction": {"scope": ["chapter"]},
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "【同类型创作总原则】\n- Abstract only.\n"
+            "【源书语气样本】\n- No source prose.\n"
+            "【源书显性元素禁用清单】\n- No source names.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Deterministic volume spec orchestration gate:" in block
+        assert "volume_spec_layers" in block
+        assert "rolling_volume_audit" in block
+        assert "quality_tier_decision" in block
+        assert "instruction_packet_boundary" in block
+        assert "checkpoint_staging_commit" in block
+        assert "L1/L2/L3/LS contracts" in block
+        assert "instruction packets, checkpoints, staging" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "volume_l1_l2_l3_ls_spec_contracts" in missing_audit["control_axes"]
+    assert "instruction_packet_execution_boundary" in missing_audit["control_axes"]
+    assert "verify_volume_spec_contract_layers" in missing_audit["acceptance_steps"]
+    assert "verify_instruction_packet_scope" in missing_audit["acceptance_steps"]
+    assert "deterministic_volume_spec_warnings" in missing_audit["warnings"]
+    assert "missing_volume_spec_plan" in missing_audit["deterministic_volume_spec_warnings"]
+    assert "missing_instruction_packet_scope" in missing_audit["deterministic_volume_spec_warnings"]
+    assert "deterministic_volume_spec_warnings" not in satisfied_audit["warnings"]
+    assert satisfied_audit["deterministic_volume_spec_warnings"] == []
+
+    assert "volume_audit_cadence" in independence["transfer_axes"]
+    assert "deterministic_orchestration_shape" in independence["transfer_axes"]
+    assert "volume_storyline_ids" in independence["required_difference_axes"]
+    assert "instruction_packet_namespace" in independence["required_difference_axes"]
+    assert "source_storyline_contract_clone" in independence["copy_risk_checks"]
+    assert "source_checkpoint_staging_template_clone" in independence["copy_risk_checks"]

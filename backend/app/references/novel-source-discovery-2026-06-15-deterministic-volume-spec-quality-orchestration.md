@@ -72,3 +72,20 @@ python -m pytest `
   backend/tests/frontend/test_source_discovery_panel_copy.py::test_source_discovery_panel_surfaces_deterministic_volume_spec_gates `
   -q
 ```
+
+## MuMuAINovel context projection
+
+Follow-up projection adds the same two gates to continuation and same-type context assembly:
+
+- continuation prompt block renders `Deterministic volume spec orchestration gate`;
+- continuation audit adds:
+  - `volume_l1_l2_l3_ls_spec_contracts`
+  - `rolling_volume_audit_cadence`
+  - `volume_quality_tier_decision`
+  - `instruction_packet_execution_boundary`
+  - `checkpoint_staging_recovery_cursor`
+  - `transactional_commit_manifest`
+- missing packet/spec surfaces emit `deterministic_volume_spec_warnings`;
+- same-type independence audit requires new namespaces for storyline ids, chapter-contract ids, instruction packets, checkpoint cursors, and staging artifacts.
+
+Runtime boundary remains unchanged: no plugin install, package-script execution, provider call, upstream prompt-body import, upstream generated prose import, or runtime-log import.
