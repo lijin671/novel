@@ -47,6 +47,8 @@ const TEXT = {
   deterministicVolumeSpec: "Deterministic volume spec gate:",
   rawStoryAssimilation: "Raw story assimilation gate:",
   sixLayerIronLaw: "Six-layer Iron Law gate:",
+  sourceNovelDnaFusion: "NovelDNA fusion boundary gate:",
+  originalityGuard: "Originality guard gate:",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -368,6 +370,28 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Text type="secondary">{TEXT.sixLayerIronLaw}</Text>
               <Space wrap>
                 {value.six_layer_iron_law_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.source_novel_dna_fusion_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.sourceNovelDnaFusion}</Text>
+              <Space wrap>
+                {value.source_novel_dna_fusion_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.originality_guard_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.originalityGuard}</Text>
+              <Space wrap>
+                {value.originality_guard_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>

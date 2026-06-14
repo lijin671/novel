@@ -443,6 +443,28 @@ def build_remix_continuation_control_audit(
             "verify_outline_anchor_reverse_brake",
             "verify_failed_gate_blocks_acceptance",
         ])
+    if "source_novel_dna_fusion_boundary_gate" in pattern_names:
+        control_axes.extend([
+            "source_analysis_to_novel_dna_boundary",
+            "fusion_blueprint_writing_layer_boundary",
+            "raw_source_marker_blocker",
+        ])
+        acceptance_steps.extend([
+            "verify_source_novel_chunk_exclusion",
+            "verify_novel_dna_fusion_blueprint_boundary",
+            "verify_raw_source_marker_scan",
+        ])
+    if "originality_guard_project_creation_gate" in pattern_names:
+        control_axes.extend([
+            "explicit_originality_check_gate",
+            "create_project_originality_recheck",
+            "high_risk_project_creation_block",
+        ])
+        acceptance_steps.extend([
+            "verify_explicit_originality_check",
+            "rerun_originality_guard_before_project_creation",
+            "block_high_risk_or_unresolved_rights",
+        ])
     if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
@@ -761,6 +783,26 @@ def build_remix_continuation_control_audit(
         if "six_layer_iron_law_chapter_gate" in pattern_names
         else {"warnings": []}
     )
+    source_novel_dna_fusion_audit = (
+        _source_novel_dna_fusion_boundary_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "source_novel_dna_fusion_boundary_gate" in pattern_names
+        else {"warnings": []}
+    )
+    originality_guard_audit = (
+        _originality_guard_project_creation_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "originality_guard_project_creation_gate" in pattern_names
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -808,6 +850,10 @@ def build_remix_continuation_control_audit(
         warnings.append("raw_story_assimilation_warnings")
     if six_layer_iron_law_audit["warnings"]:
         warnings.append("six_layer_iron_law_warnings")
+    if source_novel_dna_fusion_audit["warnings"]:
+        warnings.append("source_novel_dna_fusion_warnings")
+    if originality_guard_audit["warnings"]:
+        warnings.append("originality_guard_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -860,6 +906,8 @@ def build_remix_continuation_control_audit(
         "deterministic_volume_spec_warnings": deterministic_volume_spec_audit["warnings"],
         "raw_story_assimilation_warnings": raw_story_assimilation_audit["warnings"],
         "six_layer_iron_law_warnings": six_layer_iron_law_audit["warnings"],
+        "source_novel_dna_fusion_warnings": source_novel_dna_fusion_audit["warnings"],
+        "originality_guard_warnings": originality_guard_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -985,6 +1033,20 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_six_layer_iron_law_chapter_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_source_novel_dna_fusion_boundary_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_originality_guard_project_creation_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1503,6 +1565,8 @@ def build_remix_context_preview_audit(
         "deterministic_volume_spec_warnings": production_control_audit["deterministic_volume_spec_warnings"],
         "raw_story_assimilation_warnings": production_control_audit["raw_story_assimilation_warnings"],
         "six_layer_iron_law_warnings": production_control_audit["six_layer_iron_law_warnings"],
+        "source_novel_dna_fusion_warnings": production_control_audit["source_novel_dna_fusion_warnings"],
+        "originality_guard_warnings": production_control_audit["originality_guard_warnings"],
         **continuity_audit,
     }
 
@@ -1674,6 +1738,20 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_six_layer_iron_law_chapter_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_source_novel_dna_fusion_boundary_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_originality_guard_project_creation_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -3474,6 +3552,52 @@ def _six_layer_iron_law_chapter_gate_audit(
     return {"warnings": warnings[:max_items]}
 
 
+def _source_novel_dna_fusion_boundary_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit source-analysis, NovelDNA, FusionBlueprint, and writing-layer split."""
+    warnings: list[str] = []
+    if "source_novel_dna_fusion_boundary_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_source_analysis_layer_manifest_surface(bible=bible, plan=plan):
+        warnings.append("missing_source_analysis_layer_manifest")
+    if not _has_novel_dna_or_fusion_blueprint_surface(bible=bible, plan=plan):
+        warnings.append("missing_novel_dna_or_fusion_blueprint")
+    if not _has_writing_layer_chunk_exclusion_policy_surface(bible=bible, plan=plan):
+        warnings.append("missing_writing_layer_chunk_exclusion_policy")
+    if not _has_raw_source_marker_scan_surface(bible=bible, plan=plan):
+        warnings.append("missing_raw_source_marker_scan")
+    return {"warnings": warnings[:max_items]}
+
+
+def _originality_guard_project_creation_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit explicit originality checks before fusion result promotion."""
+    warnings: list[str] = []
+    if "originality_guard_project_creation_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_explicit_originality_check_surface(bible=bible, plan=plan):
+        warnings.append("missing_explicit_originality_check")
+    if not _has_rights_status_surface(bible=bible, plan=plan):
+        warnings.append("missing_rights_status")
+    if not _has_originality_risk_level_surface(bible=bible, plan=plan):
+        warnings.append("missing_originality_risk_level")
+    if not _has_forbidden_similarity_terms_surface(bible=bible, plan=plan):
+        warnings.append("missing_forbidden_similarity_terms")
+    if not _has_create_project_recheck_surface(bible=bible, plan=plan):
+        warnings.append("missing_create_project_recheck")
+    return {"warnings": warnings[:max_items]}
+
+
 def _has_raw_story_manifest_surface(
     *,
     bible: dict[str, Any],
@@ -3638,6 +3762,171 @@ def _has_failed_gate_block_policy_surface(
     return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
 
 
+def _has_source_analysis_layer_manifest_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "source_analysis_layer_manifest",
+        "source_analysis_manifest",
+        "source_novel_analysis",
+        "source_novel_analysis_ids",
+        "source_analysis_ids",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_novel_dna_or_fusion_blueprint_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    dna_keys = (
+        "novel_dna",
+        "novel_dna_id",
+        "source_novel_dna",
+        "source_novel_dna_ids",
+    )
+    blueprint_keys = (
+        "fusion_blueprint",
+        "fusion_blueprint_id",
+        "fusion_design",
+        "fusion_result",
+    )
+    return (
+        _has_any_surface_value(bible=bible, plan=plan, keys=dna_keys)
+        and _has_any_surface_value(bible=bible, plan=plan, keys=blueprint_keys)
+    )
+
+
+def _has_writing_layer_chunk_exclusion_policy_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "writing_layer_context_policy",
+        "writing_layer_chunk_exclusion",
+        "source_chunk_exclusion_policy",
+        "raw_chunk_exclusion_policy",
+        "source_novel_chunk_exclusion",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_raw_source_marker_scan_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "raw_source_marker_scan",
+        "raw_source_marker_scan_result",
+        "source_excerpt_marker_scan",
+        "source_novel_raw_marker_scan",
+        "verbatim_excerpt_scan",
+    )
+    return _has_any_surface_value(bible=bible, plan=plan, keys=keys)
+
+
+def _has_explicit_originality_check_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "originality_check_id",
+        "explicit_originality_check",
+        "user_triggered_originality_check",
+        "check_id",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_guard", "originality_report", "fusion_originality_report"),
+    )
+
+
+def _has_rights_status_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "rights_status",
+        "source_rights_status",
+        "copyright_status",
+        "licensed_transform_status",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_guard", "originality_report", "source_rights"),
+    )
+
+
+def _has_originality_risk_level_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "originality_risk_level",
+        "risk_level",
+        "copy_risk_level",
+        "similarity_risk_level",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_guard", "originality_report", "fusion_originality_report"),
+    )
+
+
+def _has_forbidden_similarity_terms_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "forbidden_similarity_terms",
+        "forbidden_similarities",
+        "taboo_direct_copy_elements",
+        "taboo_terms",
+        "direct_copy_warnings",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_guard", "originality_report", "fusion_blueprint"),
+    )
+
+
+def _has_create_project_recheck_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "create_project_originality_recheck",
+        "create_project_recheck_timestamp",
+        "project_creation_recheck",
+        "originality_recheck_timestamp",
+        "rerun_before_create_project",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_guard", "originality_report"),
+    )
+
+
 def _has_any_surface_value(
     *,
     bible: dict[str, Any],
@@ -3650,6 +3939,29 @@ def _has_any_surface_value(
     for package in _chapter_analysis_packages(bible.get("chapter_change_packages")):
         if _has_any_package_value(package, keys):
             return True
+    return False
+
+
+def _has_any_surface_or_nested_value(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    keys: tuple[str, ...],
+    nested_carrier_keys: tuple[str, ...],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    for carrier in carriers:
+        if _has_any_package_value(carrier, keys):
+            return True
+        for nested_key in nested_carrier_keys:
+            nested = carrier.get(nested_key)
+            if isinstance(nested, dict) and _has_any_package_value(nested, keys):
+                return True
+            if isinstance(nested, list):
+                for item in nested:
+                    if isinstance(item, dict) and _has_any_package_value(item, keys):
+                        return True
     return False
 
 
@@ -5768,6 +6080,130 @@ def _append_six_layer_iron_law_chapter_gate_section(
         lines.append(f"- six_layer_source_hint: {_truncate(hints[0], 260)}")
     if audit["warnings"] and mode != "same-type":
         lines.append(f"- six_layer_iron_law_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_source_novel_dna_fusion_boundary_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render NovelForge-style source-analysis, DNA, fusion, and writing split."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "source_novel_dna_fusion_boundary_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("source_novel_dna_fusion_boundary_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _source_novel_dna_fusion_boundary_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("NovelDNA fusion boundary gate:")
+    lines.append(
+        "- source_analysis_layer_only: SourceNovelChunk content, source scene summaries, "
+        "and raw excerpts stay in the source-analysis layer"
+    )
+    lines.append(
+        "- novel_dna_fusion_blueprint_boundary: fusion design may use abstract "
+        "SourceNovelAnalysis, NovelDNA, FusionBlueprint, taboo elements, and risk metadata"
+    )
+    lines.append(
+        "- writing_layer_raw_chunk_exclusion: drafts, outlines, AILeadWriter, and "
+        "ContextBuilder receive accepted target-project records only"
+    )
+    lines.append(
+        "- raw_source_marker_blocker: raw_excerpt, source_text, verbatim_excerpt, "
+        "source_novel_raw, and SourceNovelChunk markers block fusion promotion"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: transfer only abstract DNA and FusionBlueprint shape; "
+            "rebuild premise, cast, world rules, taboo terms, and writing context for the new story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: continuation context may cite target canon and accepted "
+            "fusion decisions, never raw source chunks or source-scene summaries"
+        )
+    lines.append(
+        "- runtime_boundary: no upstream services, Docker, queues, provider calls, "
+        "source chunks, prompts, or agent instructions are imported"
+    )
+    if hints:
+        lines.append(f"- noveldna_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- source_novel_dna_fusion_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_originality_guard_project_creation_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render explicit originality guardrails before fusion project creation."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "originality_guard_project_creation_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("originality_guard_project_creation_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _originality_guard_project_creation_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Originality guard project creation gate:")
+    lines.append(
+        "- explicit_originality_check: a user-triggered originality check id is required "
+        "before FusionResult can create or continue a formal project"
+    )
+    lines.append(
+        "- create_project_originality_rerun: rerun checks at project-creation time "
+        "against current FusionResult, forbidden similarities, and residual source markers"
+    )
+    lines.append(
+        "- rights_status_risk_blocker: unresolved rights, high/critical originality risk, "
+        "or stale checks block promotion instead of becoming draft warnings"
+    )
+    lines.append(
+        "- forbidden_similarity_terms: taboo terms, direct-copy warnings, and similarity "
+        "findings must be transformed or rejected before drafting"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: remap forbidden-similarity terms and risk evidence to "
+            "the new story; do not reuse source spans as hidden project canon"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: only low-risk, rights-reviewed, freshly checked "
+            "fusion decisions can enter continuation context"
+        )
+    lines.append(
+        "- runtime_boundary: static projection only; no plagiarism service, MCP/server, "
+        "provider/API call, source upload, or report-generation runtime is executed"
+    )
+    if hints:
+        lines.append(f"- originality_guard_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- originality_guard_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -8743,6 +9179,33 @@ def build_remix_inspired_independence_audit(
             "source_truth_file_clone",
             "source_reverse_brake_label_clone",
         ])
+    if "source_novel_dna_fusion_boundary_gate" in pattern_names:
+        transfer_axes.extend([
+            "novel_dna_abstraction",
+            "fusion_blueprint_transformation_contract",
+        ])
+        required_difference_axes.extend([
+            "target_premise_cast_world_namespace",
+            "target_writing_layer_context",
+            "taboo_element_namespace",
+        ])
+        copy_risk_checks.extend([
+            "source_novel_chunk_prompt_leak",
+            "source_scene_summary_clone",
+            "raw_source_marker_retention",
+        ])
+    if "originality_guard_project_creation_gate" in pattern_names:
+        transfer_axes.append("originality_guard_decision_shape")
+        required_difference_axes.extend([
+            "forbidden_similarity_term_remap",
+            "rights_status_evidence_namespace",
+            "originality_check_id_namespace",
+        ])
+        copy_risk_checks.extend([
+            "high_risk_fusion_promotion",
+            "stale_originality_check_acceptance",
+            "forbidden_similarity_retention",
+        ])
     if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
         transfer_axes.extend([
             "scene_engine_pattern",
@@ -9084,6 +9547,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "executor_agnostic_instruction_checkpoint_gate_hints": "executor_agnostic_instruction_checkpoint_gate",
         "raw_story_assimilation_workflow_gate_hints": "raw_story_assimilation_workflow_gate",
         "six_layer_iron_law_chapter_gate_hints": "six_layer_iron_law_chapter_gate",
+        "source_novel_dna_fusion_boundary_gate_hints": "source_novel_dna_fusion_boundary_gate",
+        "originality_guard_project_creation_gate_hints": "originality_guard_project_creation_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",

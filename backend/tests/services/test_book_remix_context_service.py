@@ -1062,6 +1062,31 @@ def test_build_remix_context_preview_audit_surfaces_universal_gate_warning_bucke
     assert "deterministic_volume_spec_warnings" in audit["production_warnings"]
 
 
+def test_build_remix_context_preview_audit_surfaces_noveldna_originality_warning_buckets():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "source_novel_dna_fusion_boundary_gate"},
+            {"name": "originality_guard_project_creation_gate"},
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nNovelDNA originality gates",
+        bible={"chapter_change_packages": [{"chapter_number": 1, "summary": "Target opening accepted."}]},
+        plan={"summary": "Continue through abstract fusion only."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "source_novel_dna_fusion_warnings" in audit
+    assert "originality_guard_warnings" in audit
+    assert isinstance(audit["source_novel_dna_fusion_warnings"], list)
+    assert isinstance(audit["originality_guard_warnings"], list)
+    assert audit["source_novel_dna_fusion_warnings"]
+    assert audit["originality_guard_warnings"]
+    assert "source_novel_dna_fusion_warnings" in audit["production_warnings"]
+    assert "originality_guard_warnings" in audit["production_warnings"]
+
+
 def test_build_remix_context_preview_audit_surfaces_disassembly_checkpoint_coverage():
     pattern_pack = {
         "workflow_patterns": [
@@ -6076,6 +6101,135 @@ def test_raw_story_assimilation_gate_projects_deltas_review_and_writeback_bounda
     assert "source_plot_order_independence" in independence["required_difference_axes"]
     assert "source_raw_order_outline_clone" in independence["copy_risk_checks"]
     assert "source_plot_fact_canon_leak" in independence["copy_risk_checks"]
+
+
+def test_noveldna_originality_gates_project_source_analysis_boundary_and_project_blockers():
+    pattern_pack = {
+        "source_novel_dna_fusion_boundary_gate_hints": [
+            "Keep SourceNovelChunk content in the source-analysis layer only; fusion design reads abstract SourceNovelAnalysis, NovelDNA, FusionBlueprint, taboo terms, and risk metadata.",
+        ],
+        "originality_guard_project_creation_gate_hints": [
+            "Require an explicit user-triggered originality check before a fusion result can create a formal project.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="NovelDNA Fusion Desk",
+        bible={
+            "source_analysis_layer_manifest": {"analysis_id": "src-analysis-7", "chunk_policy": "source-only"},
+            "novel_dna": {"engine": "pressure + mystery", "voice": "abstract"},
+            "raw_source_marker_scan": {"status": "clean"},
+            "originality_guard": {
+                "check_id": "og-42",
+                "rights_status": "cleared_for_transform",
+                "risk_level": "low",
+            },
+            "chapter_change_packages": [{"chapter_number": 4, "summary": "Target canon accepted a new clue."}],
+        },
+        plan={
+            "summary": "Continue from accepted target canon only.",
+            "fusion_blueprint": {"id": "fb-9", "premise": "new target premise"},
+            "writing_layer_context_policy": "Novel writing receives only accepted new-project records; no SourceNovelChunk content.",
+            "taboo_direct_copy_elements": ["source scene order", "source names"],
+            "forbidden_similarity_terms": ["source catchphrase"],
+            "create_project_originality_recheck": {"timestamp": "2026-06-15T08:00:00Z"},
+            "guardrails": [{"rule": "raw source chunks stay outside drafting context"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired NovelDNA Desk",
+        style_content=(
+            "同类型创作总原则\n"
+            "- Transfer only abstract DNA and fusion contract.\n"
+            "源书语气样本\n"
+            "- No source prose or chunks.\n"
+            "源书显性元素禁用清单\n"
+            "- No source scene summaries or raw chunk ids.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible={
+            "source_analysis_layer_manifest": {"analysis_id": "src-analysis-7"},
+            "novel_dna": {"engine": "target abstract engine"},
+            "raw_source_marker_scan": {"status": "clean"},
+            "originality_guard": {
+                "check_id": "og-42",
+                "rights_status": "cleared_for_transform",
+                "risk_level": "low",
+            },
+        },
+        plan={
+            "fusion_blueprint": {"id": "fb-9"},
+            "writing_layer_context_policy": "exclude source chunks",
+            "taboo_direct_copy_elements": ["source set piece"],
+            "forbidden_similarity_terms": ["source catchphrase"],
+            "create_project_originality_recheck": {"timestamp": "2026-06-15T08:00:00Z"},
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "同类型创作总原则\n"
+            "- Abstract NovelDNA only.\n"
+            "源书语气样本\n"
+            "- No source prose.\n"
+            "源书显性元素禁用清单\n"
+            "- No SourceNovelChunk content.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "NovelDNA fusion boundary gate:" in block
+        assert "source_analysis_layer_only" in block
+        assert "novel_dna_fusion_blueprint_boundary" in block
+        assert "writing_layer_raw_chunk_exclusion" in block
+        assert "raw_source_marker_blocker" in block
+        assert "Originality guard project creation gate:" in block
+        assert "explicit_originality_check" in block
+        assert "create_project_originality_rerun" in block
+        assert "rights_status_risk_blocker" in block
+        assert "forbidden_similarity_terms" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "source_analysis_to_novel_dna_boundary" in missing_audit["control_axes"]
+    assert "fusion_blueprint_writing_layer_boundary" in missing_audit["control_axes"]
+    assert "raw_source_marker_blocker" in missing_audit["control_axes"]
+    assert "explicit_originality_check_gate" in missing_audit["control_axes"]
+    assert "create_project_originality_recheck" in missing_audit["control_axes"]
+    assert "high_risk_project_creation_block" in missing_audit["control_axes"]
+    assert "verify_source_novel_chunk_exclusion" in missing_audit["acceptance_steps"]
+    assert "verify_novel_dna_fusion_blueprint_boundary" in missing_audit["acceptance_steps"]
+    assert "rerun_originality_guard_before_project_creation" in missing_audit["acceptance_steps"]
+    assert "block_high_risk_or_unresolved_rights" in missing_audit["acceptance_steps"]
+    assert "source_novel_dna_fusion_warnings" in missing_audit["warnings"]
+    assert "originality_guard_warnings" in missing_audit["warnings"]
+    assert "missing_source_analysis_layer_manifest" in missing_audit["source_novel_dna_fusion_warnings"]
+    assert "missing_novel_dna_or_fusion_blueprint" in missing_audit["source_novel_dna_fusion_warnings"]
+    assert "missing_writing_layer_chunk_exclusion_policy" in missing_audit["source_novel_dna_fusion_warnings"]
+    assert "missing_raw_source_marker_scan" in missing_audit["source_novel_dna_fusion_warnings"]
+    assert "missing_explicit_originality_check" in missing_audit["originality_guard_warnings"]
+    assert "missing_rights_status" in missing_audit["originality_guard_warnings"]
+    assert "missing_originality_risk_level" in missing_audit["originality_guard_warnings"]
+    assert "missing_create_project_recheck" in missing_audit["originality_guard_warnings"]
+    assert "source_novel_dna_fusion_warnings" not in satisfied_audit["warnings"]
+    assert "originality_guard_warnings" not in satisfied_audit["warnings"]
+
+    assert "novel_dna_abstraction" in independence["transfer_axes"]
+    assert "fusion_blueprint_transformation_contract" in independence["transfer_axes"]
+    assert "target_premise_cast_world_namespace" in independence["required_difference_axes"]
+    assert "forbidden_similarity_term_remap" in independence["required_difference_axes"]
+    assert "source_novel_chunk_prompt_leak" in independence["copy_risk_checks"]
+    assert "source_scene_summary_clone" in independence["copy_risk_checks"]
+    assert "stale_originality_check_acceptance" in independence["copy_risk_checks"]
 
 
 def test_six_layer_iron_law_gate_projects_consistency_brake_and_failure_block():

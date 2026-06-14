@@ -105,6 +105,8 @@ export interface BookRemixContinuationContextPreview {
   deterministic_volume_spec_warnings: string[];
   raw_story_assimilation_warnings: string[];
   six_layer_iron_law_warnings: string[];
+  source_novel_dna_fusion_warnings: string[];
+  originality_guard_warnings: string[];
   progress_report_continuity_writeback_gate_hints?: string[];
   continuity_questions: string[];
   promise_payoff_debts: Array<Record<string, string>>;

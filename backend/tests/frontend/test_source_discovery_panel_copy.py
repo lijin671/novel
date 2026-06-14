@@ -1050,6 +1050,25 @@ def test_continuation_context_preview_panel_surfaces_raw_story_and_iron_law_warn
     assert "Six-layer Iron Law gate" in panel_text
 
 
+def test_continuation_context_preview_panel_surfaces_noveldna_originality_warnings():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "bookRemixBible.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    for field in (
+        "source_novel_dna_fusion_warnings",
+        "originality_guard_warnings",
+    ):
+        assert f"{field}: string[]" in types_text
+        assert field in panel_text
+
+    assert "NovelDNA fusion boundary gate" in panel_text
+    assert "Originality guard gate" in panel_text
+
+
 def test_continuation_context_preview_panel_surfaces_universal_gate_warning_buckets():
     repo_root = Path(__file__).resolve().parents[3]
     panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
