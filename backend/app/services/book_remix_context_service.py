@@ -258,6 +258,22 @@ def build_remix_continuation_control_audit(
         ])
         acceptance_steps.append("verify_subgenre_specific_ledgers")
     if pattern_names.intersection({
+        "distilled_novel_toolbox_platform_compliance_gate",
+        "distilled_novel_toolbox_human_polish_boundary_gate",
+    }):
+        control_axes.extend([
+            "market_fit_card",
+            "platform_policy_verification",
+            "compliance_review_packet",
+            "human_polish_boundary",
+            "prompt_body_import_policy",
+        ])
+        acceptance_steps.extend([
+            "verify_platform_policy_current",
+            "verify_compliance_review_packet",
+            "verify_no_detection_evasion_or_prompt_body_import",
+        ])
+    if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
     }):
@@ -632,6 +648,11 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_novelforge_version_safe_scene_fact_pipeline_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_distilled_novel_toolbox_platform_compliance_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1236,6 +1257,11 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_novelforge_version_safe_scene_fact_pipeline_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_distilled_novel_toolbox_platform_compliance_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -3942,6 +3968,73 @@ def _append_novelforge_version_safe_scene_fact_pipeline_gate_section(
         lines.append(f"- version_pipeline_source_hint: {_truncate(version_hints[0], 260)}")
     if review_hints:
         lines.append(f"- human_review_source_hint: {_truncate(review_hints[0], 260)}")
+
+
+def _append_distilled_novel_toolbox_platform_compliance_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render platform/compliance and human-polish boundaries from Distilled Novel Toolbox intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "distilled_novel_toolbox_platform_compliance_gate",
+        "distilled_novel_toolbox_human_polish_boundary_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    platform_hints: list[str] = []
+    polish_hints: list[str] = []
+    if isinstance(source_pattern_pack, dict):
+        platform_hints = _as_note_list(
+            source_pattern_pack.get("distilled_novel_toolbox_platform_compliance_gate_hints")
+        )
+        polish_hints = _as_note_list(
+            source_pattern_pack.get("distilled_novel_toolbox_human_polish_boundary_gate_hints")
+        )
+
+    lines.append("")
+    lines.append("Distilled Novel Toolbox platform/compliance gate:")
+    lines.append(
+        "- market_fit_card: record target platform, reader promise, format, update cadence, "
+        "commercial intent, and local evidence as planning metadata only"
+    )
+    lines.append(
+        "- platform_policy_verification: platform rules, sensitive-word claims, and legal notes "
+        "must be checked against current authoritative sources before use"
+    )
+    lines.append(
+        "- compliance_review_packet: keep compliance issue, affected scene/chapter, severity, "
+        "reviewer, decision, evidence date, and rewrite action visible before publishing claims"
+    )
+    lines.append(
+        "- human_polish_boundary: use anti-AI/de-AI vocabulary only for human quality review: "
+        "reduce generic texture, improve specificity, preserve author voice, and avoid evasion services"
+    )
+    lines.append(
+        "- prompt_body_import_policy: upstream prompt templates, skill bodies, detection bypass instructions, "
+        "and platform-policy bodies stay excluded from default context"
+    )
+    lines.append(
+        "- example_fiction_import_policy: upstream sample fiction and generated outputs are not style memory, "
+        "training corpus, or same-type source prose"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: transfer only the review packet shape; do not reuse source platform claims, "
+            "prompt templates, anti-detection instructions, sample fiction, module text, or commercial recipes"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: market fit, compliance, and polish reviews can constrain the target manuscript, "
+            "but cannot override accepted canon or current verified policy"
+        )
+    if platform_hints:
+        lines.append(f"- platform_compliance_source_hint: {_truncate(platform_hints[0], 260)}")
+    if polish_hints:
+        lines.append(f"- human_polish_source_hint: {_truncate(polish_hints[0], 260)}")
 
 
 def _append_mode_contract_generation_audit_section(
@@ -6770,6 +6863,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "subgenre_specific_ledger_gate_hints": "subgenre_specific_ledger_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
+        "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",
+        "distilled_novel_toolbox_human_polish_boundary_gate_hints": "distilled_novel_toolbox_human_polish_boundary_gate",
         "seed_to_bible_foundation_loop_gate_hints": "seed_to_bible_foundation_loop_gate",
         "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",

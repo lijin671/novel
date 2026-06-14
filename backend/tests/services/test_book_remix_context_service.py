@@ -5008,3 +5008,67 @@ def test_genre_promise_contract_matrix_gate_renders_context_and_audit():
     assert "missing_genre_promise_matrix" in audit["genre_promise_contract_warnings"]
     assert "subgenre_ledger_warnings" in audit["warnings"]
     assert "missing_subgenre_specific_ledger" in audit["subgenre_ledger_warnings"]
+
+
+def test_distilled_novel_toolbox_platform_compliance_gate_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "distilled_novel_toolbox_platform_compliance_gate", "candidate_count": 1},
+            {"name": "distilled_novel_toolbox_human_polish_boundary_gate", "candidate_count": 1},
+        ],
+        "distilled_novel_toolbox_platform_compliance_gate_hints": [
+            "Turn commercialization, platform fit, compliance, sensitive-word review, and publishing analytics into local review packet fields.",
+        ],
+        "distilled_novel_toolbox_human_polish_boundary_gate_hints": [
+            "Use de-AI/polishing vocabulary only for human quality review; do not provide detection evasion or prompt-body imports.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Platform Compliance Desk",
+        bible={
+            "reader_promise": "fast webnovel revenge with emotional cost",
+            "platform": "Fanqie-style short serial",
+            "hard_constraints": [{"rule": "No platform policy text is canonical without current verification"}],
+        },
+        plan={"summary": "Draft after market fit and compliance packet review."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Platform Compliance Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn market-fit and compliance packet shape only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source platform claims, prompt templates, anti-detection instructions, or sample fiction.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={"reader_promise": "serial suspense"},
+        plan={"summary": "Plan without platform packet."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Distilled Novel Toolbox platform/compliance gate:" in block
+        assert "market_fit_card" in block
+        assert "platform_policy_verification" in block
+        assert "compliance_review_packet" in block
+        assert "human_polish_boundary" in block
+        assert "prompt_body_import_policy" in block
+        assert "example_fiction_import_policy" in block
+        assert "Turn commercialization, platform fit" in block
+        assert "quality review" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+    assert "source platform claims, prompt templates" in inspired
+
+    assert "market_fit_card" in audit["control_axes"]
+    assert "platform_policy_verification" in audit["control_axes"]
+    assert "compliance_review_packet" in audit["control_axes"]
+    assert "human_polish_boundary" in audit["control_axes"]
+    assert "prompt_body_import_policy" in audit["control_axes"]
+    assert "verify_platform_policy_current" in audit["acceptance_steps"]
+    assert "verify_compliance_review_packet" in audit["acceptance_steps"]
+    assert "verify_no_detection_evasion_or_prompt_body_import" in audit["acceptance_steps"]
