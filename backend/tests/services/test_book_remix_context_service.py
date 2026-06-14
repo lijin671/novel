@@ -4863,6 +4863,76 @@ def test_universal_hook_integrity_and_anti_ai_texture_gates_render_context_and_a
     assert "missing_opening_hook_type" in audit["hook_naturalness_warnings"]
 
 
+def test_novelforge_version_safe_scene_fact_pipeline_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "versioned_scene_fact_review_pipeline_gate", "candidate_count": 1},
+            {"name": "novelforge_version_safe_human_review_gate", "candidate_count": 1},
+        ],
+        "versioned_scene_fact_review_pipeline_gate_hints": [
+            "Keep scene versions, fact approval, memory chunks, reference assets, ReviewReports, and accepted exports traceable.",
+        ],
+        "novelforge_version_safe_human_review_gate_hints": [
+            "Never overwrite accepted prose; archive drafts and promote only reviewed facts into canon.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Version Safe Desk",
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 14,
+                    "summary": "Lin accepted the revised archive scene.",
+                    "fact_approval": [{"fact": "The archive key stayed with Lin", "status": "approved"}],
+                    "review_reports": [{"severity": "Medium", "issue": "weak motive"}],
+                    "reference_assets": [{"name": "archive floor plan", "status": "approved"}],
+                }
+            ],
+        },
+        plan={"summary": "Draft only from accepted scene and approved fact memory."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Version Safe Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only version-safe scene/fact custody.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source scene versions, fact memories, reference assets, or ReviewReports.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={"summary": "Minimal version-safe plan."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "NovelForge version-safe scene/fact pipeline gate:" in block
+        assert "scene_version_lineage" in block
+        assert "fact_approval_queue" in block
+        assert "focused_retrieval_scope" in block
+        assert "continuity_reviewreport" in block
+        assert "accepted_export_readiness" in block
+        assert "scene versions, fact approval, memory chunks" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+    assert "source scene versions, fact memories" in inspired
+
+    assert "scene_version_lineage" in audit["control_axes"]
+    assert "fact_approval_queue" in audit["control_axes"]
+    assert "focused_memory_reference_asset_retrieval" in audit["control_axes"]
+    assert "continuity_reviewreport_findings" in audit["control_axes"]
+    assert "accepted_export_readiness" in audit["control_axes"]
+    assert "verify_scene_version_lineage" in audit["acceptance_steps"]
+    assert "approve_fact_extraction_before_memory" in audit["acceptance_steps"]
+    assert "verify_reference_asset_retrieval_scope" in audit["acceptance_steps"]
+    assert "verify_continuity_reviewreport_findings" in audit["acceptance_steps"]
+
+
 def test_genre_promise_contract_matrix_gate_renders_context_and_audit():
     pattern_pack = {
         "workflow_patterns": [

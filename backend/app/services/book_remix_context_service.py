@@ -257,6 +257,23 @@ def build_remix_continuation_control_audit(
             "same_type_ledger_independence",
         ])
         acceptance_steps.append("verify_subgenre_specific_ledgers")
+    if pattern_names.intersection({
+        "versioned_scene_fact_review_pipeline_gate",
+        "novelforge_version_safe_human_review_gate",
+    }):
+        control_axes.extend([
+            "scene_version_lineage",
+            "fact_approval_queue",
+            "focused_memory_reference_asset_retrieval",
+            "continuity_reviewreport_findings",
+            "accepted_export_readiness",
+        ])
+        acceptance_steps.extend([
+            "verify_scene_version_lineage",
+            "approve_fact_extraction_before_memory",
+            "verify_reference_asset_retrieval_scope",
+            "verify_continuity_reviewreport_findings",
+        ])
     if "chapter_progressive_disassembly_checkpoint_gate" in pattern_names:
         control_axes.extend([
             "source_chapter_analysis_coverage",
@@ -611,6 +628,11 @@ def build_remix_continuation_context_block(
         lines=lines,
         bible=bible,
         plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_novelforge_version_safe_scene_fact_pipeline_gate_section(
+        lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
     )
@@ -1210,6 +1232,11 @@ def build_remix_inspired_context_block(
         lines=lines,
         bible={},
         plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_novelforge_version_safe_scene_fact_pipeline_gate_section(
+        lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
     )
@@ -3852,6 +3879,69 @@ def _append_universal_hook_naturalness_gate_section(
 
     if audit["warnings"] and mode != "same-type":
         lines.append(f"- hook_naturalness_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_novelforge_version_safe_scene_fact_pipeline_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render version-safe scene/fact custody gates from NovelForge-style intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "versioned_scene_fact_review_pipeline_gate",
+        "novelforge_version_safe_human_review_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    version_hints: list[str] = []
+    review_hints: list[str] = []
+    if isinstance(source_pattern_pack, dict):
+        version_hints = _as_note_list(
+            source_pattern_pack.get("versioned_scene_fact_review_pipeline_gate_hints")
+        )
+        review_hints = _as_note_list(
+            source_pattern_pack.get("novelforge_version_safe_human_review_gate_hints")
+        )
+
+    lines.append("")
+    lines.append("NovelForge version-safe scene/fact pipeline gate:")
+    lines.append(
+        "- scene_version_lineage: keep draft, archived, revised, and accepted scene states traceable; "
+        "do not overwrite accepted prose without a new reviewable version"
+    )
+    lines.append(
+        "- fact_approval_queue: extracted facts stay pending until reviewed; only approved facts may update canon, "
+        "memory chunks, summaries, or continuity state"
+    )
+    lines.append(
+        "- focused_retrieval_scope: assemble only the facts, memory chunks, reference assets, state, and scene versions "
+        "needed for the next decision"
+    )
+    lines.append(
+        "- continuity_reviewreport: review contradictions, missing motive, stale references, and source-boundary risks "
+        "before accepting the scene or chapter"
+    )
+    lines.append(
+        "- accepted_export_readiness: only accepted scenes/chapters can move into manuscript merge, Markdown/DOCX export, "
+        "or downstream continuity memory"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: absorb the custody workflow only; do not reuse source scene versions, fact memories, "
+            "reference assets, ReviewReports, prose, prompts, names, or plot order"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: version lineage and fact approval extend the target book's accepted canon only; "
+            "drafts remain non-canon until reviewed"
+        )
+    if version_hints:
+        lines.append(f"- version_pipeline_source_hint: {_truncate(version_hints[0], 260)}")
+    if review_hints:
+        lines.append(f"- human_review_source_hint: {_truncate(review_hints[0], 260)}")
 
 
 def _append_mode_contract_generation_audit_section(
@@ -6678,6 +6768,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "progress_report_continuity_writeback_gate_hints": "progress_report_continuity_writeback_gate",
         "genre_promise_contract_matrix_gate_hints": "genre_promise_contract_matrix_gate",
         "subgenre_specific_ledger_gate_hints": "subgenre_specific_ledger_gate",
+        "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
+        "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "seed_to_bible_foundation_loop_gate_hints": "seed_to_bible_foundation_loop_gate",
         "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",
