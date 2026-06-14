@@ -5621,3 +5621,64 @@ def test_saga_tui_adversarial_publish_gate_renders_context_and_audit():
     assert "verify_saga_story_vault_status_manifest" in audit["acceptance_steps"]
     assert "verify_saga_adversarial_score_gate_log" in audit["acceptance_steps"]
     assert "verify_saga_publish_artifact_boundary" in audit["acceptance_steps"]
+
+
+def test_writeagent_four_agent_quality_loop_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "four_agent_chapter_quality_loop_gate", "candidate_count": 1},
+        ],
+        "four_agent_chapter_quality_loop_gate_hints": [
+            "Planner maintains bible/plans, writer drafts chapters, reviewer scores ten dimensions, polisher removes AI flavor, then planner archives accepted changes.",
+            "Pass >=35 with no item <=2; modify 25-34 or any item <=2; rewrite <25 or core item <=1.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Four Agent Quality Desk",
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "timeline": [{"event": "Archive seal broke", "chapter_number": 4}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 4,
+                    "summary": "Lin saw the seal break in public.",
+                }
+            ],
+        },
+        plan={"summary": "Continue after the public failure.", "beats": [{"beat": "Reviewer blocks shortcut resolution"}]},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Four Agent Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only the visible quality loop.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source roles as hidden authority or copy review reports.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={"summary": "Plan without score packet."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Four-agent chapter quality loop gate:" in block
+        assert "planner_writer_reviewer_polisher_roles" in block
+        assert "chapter_quality_loop" in block
+        assert "ten_dimension_score_thresholds" in block
+        assert "human_confirmation_points" in block
+        assert "Pass >=35" in block
+        assert "main-agent decision" in block
+    assert "same_type_boundary" in inspired
+    assert "continuation_boundary" in continuation
+    assert "four_agent_role_boundary" in audit["control_axes"]
+    assert "chapter_quality_score_packet" in audit["control_axes"]
+    assert "human_milestone_confirmation" in audit["control_axes"]
+    assert "verify_four_agent_role_boundaries" in audit["acceptance_steps"]
+    assert "verify_chapter_quality_threshold_decision" in audit["acceptance_steps"]
+    assert "verify_human_milestone_confirmation_points" in audit["acceptance_steps"]

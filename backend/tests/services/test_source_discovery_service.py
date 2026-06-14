@@ -20601,3 +20601,52 @@ def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "narrative_time_age_trace_gate_hints" in digest
+def test_writeagent_four_agent_quality_loop_is_static_absorbed():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Ddhjx-code/writeAgent",
+                "html_url": "https://github.com/Ddhjx-code/writeAgent",
+                "description": (
+                    "Chinese AI novel writing system based on Claude Code multi-agent collaboration. "
+                    "Planner writes bible and plans, writer writes chapters, reviewer performs ten-dimension "
+                    "chapter quality review, polisher removes AI flavor and overwrites chapters after review. "
+                    "Chapter loop: planner scene plan, writer draft, reviewer review, main agent decide pass "
+                    "modify or rewrite, polisher polish, planner archive update. Human confirmation at project "
+                    "setup, outline, every 5 chapters milestone, major turning points and final completion. "
+                    "Quality thresholds: pass >=35 and no item <=2, modify 25-34 or item <=2, rewrite <25 "
+                    "or core dimension <=1."
+                ),
+                "stargazers_count": 0,
+                "license": None,
+                "topics": ["novel", "writing", "claude-code", "multi-agent"],
+                "updated_at": "2026-06-15T00:00:00Z",
+                "root_files": ["README.md", "skills", "bible", "plans", "chapters", "reviews"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-15T12:00:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "Ddhjx-code/writeAgent"
+    assert candidate["posture"] == "pattern-only"
+    assert "license:missing" in candidate["trust_review"]["flags"]
+    assert "four_agent_chapter_quality_loop_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "four_agent_chapter_quality_loop_gate_hints" in pattern_pack
+    assert "four_agent_chapter_quality_loop_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "chapter_quality_score_loop_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "four_agent_role_quality_loop_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("planner" in hint and "writer" in hint for hint in pattern_pack["four_agent_chapter_quality_loop_gate_hints"])
+    assert any(">=35" in hint for hint in pattern_pack["four_agent_chapter_quality_loop_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "four_agent_chapter_quality_loop_gate_hints" in digest
+
+
+def test_default_discovery_sources_include_writeagent_quality_loop_project():
+    assert any("planner" in query.lower() and "polisher" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert "https://github.com/Ddhjx-code/writeAgent" in DEFAULT_GITHUB_REPOSITORY_URLS

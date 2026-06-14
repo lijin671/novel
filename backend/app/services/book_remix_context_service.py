@@ -355,6 +355,17 @@ def build_remix_continuation_control_audit(
             "verify_saga_adversarial_score_gate_log",
             "verify_saga_publish_artifact_boundary",
         ])
+    if "four_agent_chapter_quality_loop_gate" in pattern_names:
+        control_axes.extend([
+            "four_agent_role_boundary",
+            "chapter_quality_score_packet",
+            "human_milestone_confirmation",
+        ])
+        acceptance_steps.extend([
+            "verify_four_agent_role_boundaries",
+            "verify_chapter_quality_threshold_decision",
+            "verify_human_milestone_confirmation_points",
+        ])
     if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
@@ -804,6 +815,11 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_saga_tui_adversarial_publish_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_four_agent_chapter_quality_loop_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
@@ -1454,6 +1470,11 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_saga_tui_adversarial_publish_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_four_agent_chapter_quality_loop_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
@@ -4731,6 +4752,54 @@ def _append_saga_tui_adversarial_publish_gate_section(
     else:
         lines.append(
             "- continuation_boundary: status and score gates must reference accepted target chapters, current anti-slop rules, review findings, and delivery scope"
+        )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+
+
+def _append_four_agent_chapter_quality_loop_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render planner/writer/reviewer/polisher chapter quality gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "four_agent_chapter_quality_loop_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("four_agent_chapter_quality_loop_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Four-agent chapter quality loop gate:")
+    lines.append(
+        "- planner_writer_reviewer_polisher_roles: planner owns bible/plans/archive, "
+        "writer drafts chapters, reviewer writes scored reviews, and polisher revises only after review"
+    )
+    lines.append(
+        "- chapter_quality_loop: planner scene plan -> writer draft -> reviewer ten-dimension review -> "
+        "main-agent decision pass/modify/rewrite -> polisher polish -> planner archive update"
+    )
+    lines.append(
+        "- ten_dimension_score_thresholds: Pass >=35 with no item <=2; modify 25-34 or any item <=2; "
+        "rewrite <25 or core dimension <=1"
+    )
+    lines.append(
+        "- human_confirmation_points: require visible author confirmation at project setup, outline approval, "
+        "every 5 chapters milestone, major turns, and final completion"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: reuse only the role boundary and quality-loop shape; do not copy source roles as "
+            "hidden authority, review reports, chapter text, bible files, plans, prompts, or milestone decisions"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: all role handoffs, score decisions, polish passes, and archive updates must attach "
+            "to the target project's accepted canon and current plan"
         )
     if hints:
         lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
