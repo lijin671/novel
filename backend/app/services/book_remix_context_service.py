@@ -486,6 +486,34 @@ def build_remix_continuation_control_audit(
             "verify_semantic_stylometric_thresholds",
             "verify_section_level_overlap_risk",
         ])
+    if "human_oversight_quality_signal_gate" in pattern_names:
+        control_axes.extend([
+            "human_author_decision_log",
+            "revision_rationale_evidence",
+            "specific_change_acceptance_packet",
+        ])
+        acceptance_steps.append("verify_human_oversight_quality_signal")
+    if "ai_tell_pattern_review_gate" in pattern_names:
+        control_axes.extend([
+            "ai_tell_pattern_scan",
+            "generic_emotion_label_review",
+            "sentence_rhythm_voice_variation",
+        ])
+        acceptance_steps.append("verify_ai_tell_pattern_review")
+    if "naturalization_detector_disclaimer_gate" in pattern_names:
+        control_axes.extend([
+            "naturalization_quality_boundary",
+            "disclosure_policy_verification",
+            "detector_evasion_block",
+        ])
+        acceptance_steps.append("verify_naturalization_boundary_disclaimer")
+    if "web_similarity_scrape_boundary_gate" in pattern_names:
+        control_axes.extend([
+            "web_similarity_runtime_safety_contract",
+            "live_web_api_scrape_deferred",
+            "offline_similarity_fallback_scope",
+        ])
+        acceptance_steps.append("block_live_web_similarity_without_runtime_contract")
     if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
@@ -844,6 +872,46 @@ def build_remix_continuation_control_audit(
         if "semantic_stylometric_overlap_gate" in pattern_names
         else {"warnings": []}
     )
+    human_oversight_quality_audit = (
+        _human_oversight_quality_signal_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "human_oversight_quality_signal_gate" in pattern_names
+        else {"warnings": []}
+    )
+    ai_tell_pattern_audit = (
+        _ai_tell_pattern_review_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "ai_tell_pattern_review_gate" in pattern_names
+        else {"warnings": []}
+    )
+    naturalization_boundary_audit = (
+        _naturalization_detector_disclaimer_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "naturalization_detector_disclaimer_gate" in pattern_names
+        else {"warnings": []}
+    )
+    web_similarity_runtime_boundary_audit = (
+        _web_similarity_runtime_boundary_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "web_similarity_scrape_boundary_gate" in pattern_names
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -899,6 +967,14 @@ def build_remix_continuation_control_audit(
         warnings.append("originality_report_multimetric_warnings")
     if semantic_stylometric_overlap_audit["warnings"]:
         warnings.append("semantic_stylometric_overlap_warnings")
+    if human_oversight_quality_audit["warnings"]:
+        warnings.append("human_oversight_quality_warnings")
+    if ai_tell_pattern_audit["warnings"]:
+        warnings.append("ai_tell_pattern_warnings")
+    if naturalization_boundary_audit["warnings"]:
+        warnings.append("naturalization_boundary_warnings")
+    if web_similarity_runtime_boundary_audit["warnings"]:
+        warnings.append("web_similarity_runtime_boundary_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -955,6 +1031,10 @@ def build_remix_continuation_control_audit(
         "originality_guard_warnings": originality_guard_audit["warnings"],
         "originality_report_multimetric_warnings": originality_report_multimetric_audit["warnings"],
         "semantic_stylometric_overlap_warnings": semantic_stylometric_overlap_audit["warnings"],
+        "human_oversight_quality_warnings": human_oversight_quality_audit["warnings"],
+        "ai_tell_pattern_warnings": ai_tell_pattern_audit["warnings"],
+        "naturalization_boundary_warnings": naturalization_boundary_audit["warnings"],
+        "web_similarity_runtime_boundary_warnings": web_similarity_runtime_boundary_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -1108,6 +1188,13 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_semantic_stylometric_overlap_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_quality_safety_boundary_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1630,6 +1717,10 @@ def build_remix_context_preview_audit(
         "originality_guard_warnings": production_control_audit["originality_guard_warnings"],
         "originality_report_multimetric_warnings": production_control_audit["originality_report_multimetric_warnings"],
         "semantic_stylometric_overlap_warnings": production_control_audit["semantic_stylometric_overlap_warnings"],
+        "human_oversight_quality_warnings": production_control_audit["human_oversight_quality_warnings"],
+        "ai_tell_pattern_warnings": production_control_audit["ai_tell_pattern_warnings"],
+        "naturalization_boundary_warnings": production_control_audit["naturalization_boundary_warnings"],
+        "web_similarity_runtime_boundary_warnings": production_control_audit["web_similarity_runtime_boundary_warnings"],
         **continuity_audit,
     }
 
@@ -1829,6 +1920,13 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_semantic_stylometric_overlap_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_quality_safety_boundary_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -3721,6 +3819,270 @@ def _semantic_stylometric_overlap_audit(
     if not _has_section_level_risk_label_surface(bible=bible, plan=plan):
         warnings.append("missing_section_level_risk_label")
     return {"warnings": warnings[:max_items]}
+
+
+def _human_oversight_quality_signal_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit human-authored decision evidence before quality claims pass."""
+    warnings: list[str] = []
+    if "human_oversight_quality_signal_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_human_review_packet_surface(bible=bible, plan=plan):
+        warnings.append("missing_human_review_packet")
+    if not _has_revision_rationale_surface(bible=bible, plan=plan):
+        warnings.append("missing_revision_rationale")
+    if not _has_concrete_quality_evidence_surface(bible=bible, plan=plan):
+        warnings.append("missing_concrete_quality_evidence")
+    return {"warnings": warnings[:max_items]}
+
+
+def _ai_tell_pattern_review_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit explicit AI-tell pattern findings and edit actions."""
+    warnings: list[str] = []
+    if "ai_tell_pattern_review_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_ai_tell_pattern_review_surface(bible=bible, plan=plan):
+        warnings.append("missing_ai_tell_pattern_review")
+    if not _has_ai_tell_edit_action_surface(bible=bible, plan=plan):
+        warnings.append("missing_ai_tell_edit_actions")
+    return {"warnings": warnings[:max_items]}
+
+
+def _naturalization_detector_disclaimer_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit that naturalization is quality-boundary work, not detector evasion."""
+    warnings: list[str] = []
+    if "naturalization_detector_disclaimer_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_naturalization_quality_boundary_surface(bible=bible, plan=plan):
+        warnings.append("missing_naturalization_quality_boundary")
+    if not _has_detector_evasion_disclaimer_surface(bible=bible, plan=plan):
+        warnings.append("missing_detector_evasion_disclaimer")
+    if _contains_detector_evasion_language(bible=bible, plan=plan):
+        warnings.append("detector_evasion_language_present")
+    return {"warnings": warnings[:max_items]}
+
+
+def _web_similarity_runtime_boundary_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit that live web/search similarity work stays behind runtime admission."""
+    warnings: list[str] = []
+    if "web_similarity_scrape_boundary_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_web_similarity_runtime_boundary_surface(bible=bible, plan=plan):
+        warnings.append("missing_web_similarity_runtime_boundary")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_human_review_packet_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "human_review_packet",
+        "human_oversight_quality_signal",
+        "author_decision_log",
+        "review_decision_log",
+        "accepted_change_evidence",
+        "human_acceptance_record",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("human_review_packet", "quality_review_packet", "editorial_review_packet"),
+    )
+
+
+def _has_revision_rationale_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "revision_rationale",
+        "change_rationale",
+        "author_choice_reason",
+        "why_this_change",
+        "revision_reason",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("human_review_packet", "quality_review_packet", "editorial_review_packet"),
+    )
+
+
+def _has_concrete_quality_evidence_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "concrete_evidence_refs",
+        "evidence_refs",
+        "specific_span_refs",
+        "chapter_span_evidence",
+        "accepted_change_evidence",
+        "reviewer_notes",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("human_review_packet", "quality_review_packet", "editorial_review_packet"),
+    )
+
+
+def _has_ai_tell_pattern_review_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "ai_tell_pattern_review",
+        "ai_tell_pattern_findings",
+        "anti_ai_naturalness_review",
+        "generic_model_slop_review",
+        "generic_emotion_label_findings",
+        "balanced_paragraph_findings",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("ai_tell_pattern_review", "anti_ai_naturalness_review", "naturalness_review"),
+    )
+
+
+def _has_ai_tell_edit_action_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "edit_actions",
+        "naturalness_edit_actions",
+        "rewrite_actions",
+        "sentence_rhythm_actions",
+        "voice_specificity_actions",
+        "targeted_prose_edit_suggestions",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("ai_tell_pattern_review", "anti_ai_naturalness_review", "naturalness_review"),
+    )
+
+
+def _has_naturalization_quality_boundary_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "naturalization_boundary",
+        "naturalness_policy",
+        "quality_purpose",
+        "clarity_rhythm_voice_specificity",
+        "human_polish_boundary",
+        "naturalization_quality_scope",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("naturalization_boundary", "naturalness_policy", "human_polish_boundary"),
+    )
+
+
+def _has_detector_evasion_disclaimer_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "detector_evasion_blocked",
+        "detector_evasion_disclaimer",
+        "disclosure_policy",
+        "not_detector_bypass",
+        "no_detector_bypass_policy",
+        "authorship_disclosure_policy",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("naturalization_boundary", "naturalness_policy", "human_polish_boundary"),
+    )
+
+
+def _has_web_similarity_runtime_boundary_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "web_similarity_runtime_boundary",
+        "web_similarity_runtime_contract",
+        "external_similarity_boundary",
+        "web_similarity_policy",
+        "runtime_safety_contract",
+        "live_web_similarity_deferred",
+        "blocked_live_similarity_actions",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("web_similarity_runtime_boundary", "web_similarity_policy", "runtime_safety_contract"),
+    )
+
+
+def _contains_detector_evasion_language(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    evasion_terms = (
+        "bypass detector",
+        "bypass ai detector",
+        "avoid detection",
+        "undetectable",
+        "make it undetectable",
+        "evade detector",
+        "detector evasion",
+        "绕过检测",
+        "规避检测",
+        "逃避检测",
+        "骗过检测",
+        "去ai检测",
+        "过检测",
+    )
+    disclaimer_terms = (
+        "not a bypass",
+        "not for bypass",
+        "no detector bypass",
+        "not detector evasion",
+        "not a bypass guarantee",
+        "禁止绕过",
+        "不是绕过",
+        "不用于绕过",
+        "不承诺绕过",
+    )
+    carriers: list[Any] = [bible]
+    if isinstance(plan, dict):
+        carriers.append(plan)
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    for text in _iter_string_values(carriers):
+        lowered = text.lower()
+        if any(term in lowered for term in disclaimer_terms):
+            continue
+        if any(term in lowered for term in evasion_terms):
+            return True
+    return False
+
+
+def _iter_string_values(values: list[Any]) -> list[str]:
+    found: list[str] = []
+    stack = list(values)
+    while stack:
+        value = stack.pop()
+        if isinstance(value, str) and value.strip():
+            found.append(value.strip())
+        elif isinstance(value, dict):
+            stack.extend(value.values())
+        elif isinstance(value, list):
+            stack.extend(value)
+    return found
 
 
 def _has_raw_story_manifest_surface(
@@ -6644,6 +7006,164 @@ def _append_semantic_stylometric_overlap_gate_section(
         lines.append(f"- semantic_overlap_source_hint: {_truncate(hints[0], 260)}")
     if audit["warnings"] and mode != "same-type":
         lines.append(f"- semantic_stylometric_overlap_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_quality_safety_boundary_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render human oversight, AI-tell, naturalization, and web-similarity safety gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "human_oversight_quality_signal_gate",
+        "ai_tell_pattern_review_gate",
+        "naturalization_detector_disclaimer_gate",
+        "web_similarity_scrape_boundary_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    hint_map = {
+        "human_oversight_quality_signal_gate": "human_oversight_quality_signal_gate_hints",
+        "ai_tell_pattern_review_gate": "ai_tell_pattern_review_gate_hints",
+        "naturalization_detector_disclaimer_gate": "naturalization_detector_disclaimer_gate_hints",
+        "web_similarity_scrape_boundary_gate": "web_similarity_scrape_boundary_gate_hints",
+    }
+    hints = {
+        pattern: _as_note_list(source_pattern_pack.get(key)) if isinstance(source_pattern_pack, dict) else []
+        for pattern, key in hint_map.items()
+    }
+
+    if "human_oversight_quality_signal_gate" in pattern_names:
+        audit = _human_oversight_quality_signal_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        lines.append("")
+        lines.append("Human oversight quality signal gate:")
+        lines.append(
+            "- author_decision_revision_rationale: a quality claim passes only when "
+            "the author or reviewer records the accepted decision, reason, and concrete span evidence"
+        )
+        lines.append(
+            "- specific_change_acceptance_packet: store what changed, why it improved the story promise, "
+            "and which chapter/scene/paragraph proves it"
+        )
+        if mode == "same-type":
+            lines.append(
+                "- same_type_boundary: transfer the review discipline only; do not claim source-review decisions "
+                "or upstream human notes as target author intent"
+            )
+        else:
+            lines.append(
+                "- continuation_boundary: target continuation accepts review packets only after they reference "
+                "target-owned chapters, contracts, ledgers, or scene spans"
+            )
+        if hints["human_oversight_quality_signal_gate"]:
+            lines.append(f"- human_oversight_source_hint: {_truncate(hints['human_oversight_quality_signal_gate'][0], 260)}")
+        if audit["warnings"] and mode != "same-type":
+            lines.append(f"- human_oversight_quality_warnings: {', '.join(audit['warnings'])}")
+
+    if "ai_tell_pattern_review_gate" in pattern_names:
+        audit = _ai_tell_pattern_review_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        lines.append("")
+        lines.append("AI-tell pattern review gate:")
+        lines.append(
+            "- generic_model_slop_pattern_scan: review balanced essay cadence, generic emotion labels, "
+            "polished summary dialogue, over-neat moral explanation, repeated transitions, and flat rhythm"
+        )
+        lines.append(
+            "- targeted_prose_edit_actions: repairs must name concrete actions such as subtext, sensory pressure, "
+            "sentence rhythm variation, silence/avoidance, or character-specific diction"
+        )
+        if mode == "same-type":
+            lines.append(
+                "- same_type_boundary: source AI-tell findings are review categories only; target prose needs its own "
+                "rhythm, voice, and scene-pressure evidence"
+            )
+        else:
+            lines.append(
+                "- continuation_boundary: do not accept a chapter until AI-tell findings either pass or become "
+                "explicit revision tasks tied to target spans"
+            )
+        if hints["ai_tell_pattern_review_gate"]:
+            lines.append(f"- ai_tell_source_hint: {_truncate(hints['ai_tell_pattern_review_gate'][0], 260)}")
+        if audit["warnings"] and mode != "same-type":
+            lines.append(f"- ai_tell_pattern_warnings: {', '.join(audit['warnings'])}")
+
+    if "naturalization_detector_disclaimer_gate" in pattern_names:
+        audit = _naturalization_detector_disclaimer_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        lines.append("")
+        lines.append("Naturalization boundary disclaimer gate:")
+        lines.append(
+            "- quality_not_detector_evasion: naturalization may improve clarity, rhythm, voice, specificity, "
+            "mobile readability, and scene pressure; it must not optimize for bypassing detectors"
+        )
+        lines.append(
+            "- disclosure_and_policy_boundary: record authorship/disclosure policy and block any detector-targeted "
+            "claim, guarantee, or rewrite objective"
+        )
+        if mode == "same-type":
+            lines.append(
+                "- same_type_boundary: humanization wording from sources is reduced to quality-review vocabulary; "
+                "no evasion recipe, detector target, or source phrase is transferred"
+            )
+        else:
+            lines.append(
+                "- continuation_boundary: accepted naturalness edits must cite story-quality reasons, not detector scores"
+            )
+        if hints["naturalization_detector_disclaimer_gate"]:
+            lines.append(f"- naturalization_source_hint: {_truncate(hints['naturalization_detector_disclaimer_gate'][0], 260)}")
+        if audit["warnings"] and mode != "same-type":
+            lines.append(f"- naturalization_boundary_warnings: {', '.join(audit['warnings'])}")
+
+    if "web_similarity_scrape_boundary_gate" in pattern_names:
+        audit = _web_similarity_runtime_boundary_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        lines.append("")
+        lines.append("Web similarity runtime boundary gate:")
+        lines.append(
+            "- live_web_api_scrape_deferred: browser sessions, scraping, search APIs, remote similarity services, "
+            "and external uploads require a separate runtime safety contract before use"
+        )
+        lines.append(
+            "- offline_similarity_fallback_scope: static/offline n-gram, sequence, TF-IDF, semantic, and stylometric "
+            "reports may feed review only when source custody and output custody are explicit"
+        )
+        if mode == "same-type":
+            lines.append(
+                "- same_type_boundary: web similarity evidence cannot import live pages, search snippets, or copied "
+                "source spans into the target prompt"
+            )
+        else:
+            lines.append(
+                "- continuation_boundary: unresolved live-web similarity work blocks promotion rather than silently "
+                "running scraping or search-provider checks"
+            )
+        if hints["web_similarity_scrape_boundary_gate"]:
+            lines.append(f"- web_similarity_source_hint: {_truncate(hints['web_similarity_scrape_boundary_gate'][0], 260)}")
+        if audit["warnings"] and mode != "same-type":
+            lines.append(f"- web_similarity_runtime_boundary_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -9673,6 +10193,37 @@ def build_remix_inspired_independence_audit(
             "tfidf_keyword_skeleton_clone",
             "stylometric_signature_near_source",
         ])
+    if "human_oversight_quality_signal_gate" in pattern_names:
+        transfer_axes.append("human_review_decision_shape")
+        required_difference_axes.extend([
+            "target_author_decision_namespace",
+            "target_revision_rationale_refs",
+        ])
+        copy_risk_checks.extend([
+            "synthetic_human_review_claim",
+            "source_human_review_note_import",
+        ])
+    if "ai_tell_pattern_review_gate" in pattern_names:
+        transfer_axes.append("ai_tell_pattern_review_shape")
+        required_difference_axes.extend([
+            "target_sentence_rhythm_voice",
+            "target_generic_texture_findings",
+        ])
+        copy_risk_checks.append("source_ai_tell_pattern_blind_rewrite")
+    if "naturalization_detector_disclaimer_gate" in pattern_names:
+        transfer_axes.append("naturalization_quality_boundary")
+        required_difference_axes.extend([
+            "target_disclosure_policy",
+            "target_quality_purpose",
+        ])
+        copy_risk_checks.append("detector_evasion_optimization")
+    if "web_similarity_scrape_boundary_gate" in pattern_names:
+        transfer_axes.append("web_similarity_boundary_contract")
+        required_difference_axes.extend([
+            "runtime_contract_namespace",
+            "offline_similarity_report_namespace",
+        ])
+        copy_risk_checks.append("live_web_scrape_without_contract")
     if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
         transfer_axes.extend([
             "scene_engine_pattern",
@@ -10018,6 +10569,10 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "originality_guard_project_creation_gate_hints": "originality_guard_project_creation_gate",
         "originality_report_multimetric_gate_hints": "originality_report_multimetric_gate",
         "semantic_stylometric_overlap_gate_hints": "semantic_stylometric_overlap_gate",
+        "human_oversight_quality_signal_gate_hints": "human_oversight_quality_signal_gate",
+        "ai_tell_pattern_review_gate_hints": "ai_tell_pattern_review_gate",
+        "naturalization_detector_disclaimer_gate_hints": "naturalization_detector_disclaimer_gate",
+        "web_similarity_scrape_boundary_gate_hints": "web_similarity_scrape_boundary_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",

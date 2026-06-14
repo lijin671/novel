@@ -109,6 +109,10 @@ export interface BookRemixContinuationContextPreview {
   originality_guard_warnings: string[];
   originality_report_multimetric_warnings: string[];
   semantic_stylometric_overlap_warnings: string[];
+  human_oversight_quality_warnings: string[];
+  ai_tell_pattern_warnings: string[];
+  naturalization_boundary_warnings: string[];
+  web_similarity_runtime_boundary_warnings: string[];
   progress_report_continuity_writeback_gate_hints?: string[];
   continuity_questions: string[];
   promise_payoff_debts: Array<Record<string, string>>;

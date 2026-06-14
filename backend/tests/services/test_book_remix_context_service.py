@@ -6391,6 +6391,152 @@ def test_multimetric_originality_similarity_gates_project_report_thresholds_and_
     assert "tfidf_keyword_skeleton_clone" in independence["copy_risk_checks"]
 
 
+def test_quality_safety_boundary_gates_project_human_ai_and_web_similarity_controls():
+    pattern_pack = {
+        "human_oversight_quality_signal_gate_hints": [
+            "Human oversight is accepted only when author decisions, revision rationale, and concrete evidence are recorded.",
+        ],
+        "ai_tell_pattern_review_gate_hints": [
+            "Run an AI-tell pattern pass for balanced paragraphs, generic emotion labels, and polished summary dialogue.",
+        ],
+        "naturalization_detector_disclaimer_gate_hints": [
+            "Naturalization improves clarity, rhythm, voice, and specificity; it is not for bypassing detectors.",
+        ],
+        "web_similarity_scrape_boundary_gate_hints": [
+            "Live web/API checks, scraping, and search-provider similarity review stay runtime-deferred behind a safety contract.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Quality Safety Desk",
+        bible={
+            "human_review_packet": {"reviewer": "author", "decision": "accept targeted rewrite"},
+            "revision_rationale": "Replace generic summary with a concrete choice under pressure.",
+            "concrete_evidence_refs": ["Ch5 scene 2 decision beat"],
+            "ai_tell_pattern_review": {
+                "flagged_patterns": ["balanced essay cadence"],
+                "edit_actions": ["vary sentence rhythm"],
+            },
+            "naturalization_boundary": {
+                "quality_purpose": "clarity, rhythm, voice, and specificity",
+                "detector_evasion_blocked": True,
+            },
+            "disclosure_policy": "AI-assisted drafts are disclosed where the project requires it.",
+            "web_similarity_runtime_boundary": {
+                "runtime_allowed": False,
+                "blocked_actions": ["scraping", "search API", "browser session"],
+            },
+            "chapter_change_packages": [{"chapter_number": 6, "summary": "Target canon accepted a revised scene."}],
+        },
+        plan={
+            "summary": "Continue only after the quality safety packet is accepted.",
+            "guardrails": [{"rule": "No detector-targeted rewriting"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Quality Safety Desk",
+        style_content=(
+            "【同类型创作总原则】\n"
+            "- Transfer only human-review and quality-boundary workflow shape.\n"
+            "【源书语气样本】\n"
+            "- No source prose.\n"
+            "【源书显性元素禁用清单】\n"
+            "- No detector-targeted rewrite or live web scrape.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible={
+            "human_review_packet": {"decision": "accept"},
+            "revision_rationale": "specific craft reason",
+            "concrete_evidence_refs": ["Ch1 paragraph 4"],
+            "ai_tell_pattern_review": {"flagged_patterns": ["generic cadence"], "edit_actions": ["add subtext"]},
+            "naturalization_boundary": {
+                "quality_purpose": "clarity rhythm voice specificity",
+                "detector_evasion_blocked": True,
+            },
+            "disclosure_policy": "disclose AI assistance when required",
+            "web_similarity_runtime_boundary": {"runtime_allowed": False, "contract_status": "deferred"},
+        },
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    risky_audit = build_remix_continuation_control_audit(
+        bible={
+            "human_review_packet": {"decision": "accept"},
+            "revision_rationale": "specific craft reason",
+            "concrete_evidence_refs": ["Ch1 paragraph 4"],
+            "ai_tell_pattern_review": {"flagged_patterns": ["generic cadence"], "edit_actions": ["add subtext"]},
+            "naturalization_boundary": {"quality_purpose": "make it undetectable by AI detectors"},
+            "disclosure_policy": "not a bypass guarantee",
+            "web_similarity_runtime_boundary": {"runtime_allowed": False, "contract_status": "deferred"},
+        },
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "【同类型创作总原则】\n"
+            "- Quality workflow only.\n"
+            "【源书语气样本】\n"
+            "- No source prose.\n"
+            "【源书显性元素禁用清单】\n"
+            "- No web scraping or detector-evasion promise.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Human oversight quality signal gate:" in block
+        assert "author_decision_revision_rationale" in block
+        assert "AI-tell pattern review gate:" in block
+        assert "generic_model_slop_pattern_scan" in block
+        assert "Naturalization boundary disclaimer gate:" in block
+        assert "quality_not_detector_evasion" in block
+        assert "Web similarity runtime boundary gate:" in block
+        assert "live_web_api_scrape_deferred" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "human_author_decision_log" in missing_audit["control_axes"]
+    assert "ai_tell_pattern_scan" in missing_audit["control_axes"]
+    assert "naturalization_quality_boundary" in missing_audit["control_axes"]
+    assert "web_similarity_runtime_safety_contract" in missing_audit["control_axes"]
+    assert "verify_human_oversight_quality_signal" in missing_audit["acceptance_steps"]
+    assert "verify_ai_tell_pattern_review" in missing_audit["acceptance_steps"]
+    assert "verify_naturalization_boundary_disclaimer" in missing_audit["acceptance_steps"]
+    assert "block_live_web_similarity_without_runtime_contract" in missing_audit["acceptance_steps"]
+    assert "human_oversight_quality_warnings" in missing_audit["warnings"]
+    assert "ai_tell_pattern_warnings" in missing_audit["warnings"]
+    assert "naturalization_boundary_warnings" in missing_audit["warnings"]
+    assert "web_similarity_runtime_boundary_warnings" in missing_audit["warnings"]
+    assert "missing_human_review_packet" in missing_audit["human_oversight_quality_warnings"]
+    assert "missing_ai_tell_pattern_review" in missing_audit["ai_tell_pattern_warnings"]
+    assert "missing_naturalization_quality_boundary" in missing_audit["naturalization_boundary_warnings"]
+    assert "missing_web_similarity_runtime_boundary" in missing_audit["web_similarity_runtime_boundary_warnings"]
+    assert "human_oversight_quality_warnings" not in satisfied_audit["warnings"]
+    assert "ai_tell_pattern_warnings" not in satisfied_audit["warnings"]
+    assert "naturalization_boundary_warnings" not in satisfied_audit["warnings"]
+    assert "web_similarity_runtime_boundary_warnings" not in satisfied_audit["warnings"]
+    assert "detector_evasion_language_present" in risky_audit["naturalization_boundary_warnings"]
+
+    assert "human_review_decision_shape" in independence["transfer_axes"]
+    assert "ai_tell_pattern_review_shape" in independence["transfer_axes"]
+    assert "naturalization_quality_boundary" in independence["transfer_axes"]
+    assert "web_similarity_boundary_contract" in independence["transfer_axes"]
+    assert "target_author_decision_namespace" in independence["required_difference_axes"]
+    assert "target_sentence_rhythm_voice" in independence["required_difference_axes"]
+    assert "synthetic_human_review_claim" in independence["copy_risk_checks"]
+    assert "detector_evasion_optimization" in independence["copy_risk_checks"]
+    assert "live_web_scrape_without_contract" in independence["copy_risk_checks"]
+
+
 def test_six_layer_iron_law_gate_projects_consistency_brake_and_failure_block():
     pattern_pack = {
         "six_layer_iron_law_chapter_gate_hints": [

@@ -1088,6 +1088,29 @@ def test_continuation_context_preview_panel_surfaces_multimetric_similarity_warn
     assert "Semantic stylometric overlap gate" in panel_text
 
 
+def test_continuation_context_preview_panel_surfaces_quality_safety_warning_buckets():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "bookRemixBible.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    for field in (
+        "human_oversight_quality_warnings",
+        "ai_tell_pattern_warnings",
+        "naturalization_boundary_warnings",
+        "web_similarity_runtime_boundary_warnings",
+    ):
+        assert f"{field}: string[]" in types_text
+        assert field in panel_text
+
+    assert "Human oversight quality gate" in panel_text
+    assert "AI-tell pattern review gate" in panel_text
+    assert "Naturalization boundary gate" in panel_text
+    assert "Web similarity runtime boundary gate" in panel_text
+
+
 def test_continuation_context_preview_panel_surfaces_universal_gate_warning_buckets():
     repo_root = Path(__file__).resolve().parents[3]
     panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
