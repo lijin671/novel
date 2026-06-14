@@ -774,6 +774,8 @@ def render_source_pattern_pack_digest(
         "five_question_intake_story_promise_gate_hints",
         "universal_export_clean_manuscript_gate_hints",
         "minimal_rollback_repair_scope_gate_hints",
+        "progressive_context_loading_gate_hints",
+        "author_intent_confirmation_gate_hints",
         "local_first_provider_boundary_authoring_gate_hints",
         "suggestion_card_nonoverwrite_revision_gate_hints",
         "book_view_import_export_manifest_gate_hints",

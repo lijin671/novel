@@ -20336,6 +20336,12 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     "romance trust ledger, mystery clue ledger, suspects, realm names, "
                     "breakthrough requirements, deadline, information asymmetry, "
                     "magic rules and costs, rule of the threat, motifs and images."
+                    " Progressive Loading loads only the reference needed for the "
+                    "current task, plus the minimum story-bible/outline/characters/"
+                    "continuity/progress files and previous 1-2 relevant chapters. "
+                    "Preserve authorial intent: do not hijack the premise, genre, "
+                    "voice, content limits, or long-sequence direction without "
+                    "explicit confirmation."
                 ),
                 "root_files": [
                     "SKILL.md",
@@ -20376,6 +20382,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "five_question_intake_story_promise_gate",
         "universal_export_clean_manuscript_gate",
         "minimal_rollback_repair_scope_gate",
+        "progressive_context_loading_gate",
+        "author_intent_confirmation_gate",
     }.issubset(candidate["absorbed_patterns"])
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
@@ -20388,12 +20396,16 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "five_question_intake_story_promise_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_export_clean_manuscript_report" in pattern_pack["whole_book_analysis_targets"]
     assert "minimal_rollback_repair_scope_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "progressive_context_loading_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "author_intent_confirmation_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_mode_contract_remap" in pattern_pack["inspired_mapping_targets"]
     assert "genre_promise_contract_matrix_remap" in pattern_pack["inspired_mapping_targets"]
     assert "subgenre_specific_ledger_remap" in pattern_pack["inspired_mapping_targets"]
     assert "five_question_intake_story_promise_remap" in pattern_pack["inspired_mapping_targets"]
     assert "universal_export_clean_manuscript_remap" in pattern_pack["inspired_mapping_targets"]
     assert "minimal_rollback_repair_scope_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "progressive_context_loading_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "author_intent_confirmation_remap" in pattern_pack["inspired_mapping_targets"]
     assert any("mode" in hint.lower() for hint in pattern_pack["universal_novel_mode_contract_gate_hints"])
     assert any("story-bible.md" in hint for hint in pattern_pack["portable_story_project_structure_gate_hints"])
     assert any("3-7" in hint for hint in pattern_pack["chapter_contract_scene_beat_gate_hints"])
@@ -20411,6 +20423,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("five" in hint.lower() and "question" in hint.lower() for hint in pattern_pack["five_question_intake_story_promise_gate_hints"])
     assert any("accepted chapter" in hint.lower() for hint in pattern_pack["universal_export_clean_manuscript_gate_hints"])
     assert any("smallest failing artifact" in hint.lower() for hint in pattern_pack["minimal_rollback_repair_scope_gate_hints"])
+    assert any("minimum needed files" in hint.lower() for hint in pattern_pack["progressive_context_loading_gate_hints"])
+    assert any("authorial intent" in hint.lower() for hint in pattern_pack["author_intent_confirmation_gate_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "universal_novel_mode_contract_gate_hints" in digest
@@ -20430,6 +20444,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "five_question_intake_story_promise_gate_hints" in digest
     assert "universal_export_clean_manuscript_gate_hints" in digest
     assert "minimal_rollback_repair_scope_gate_hints" in digest
+    assert "progressive_context_loading_gate_hints" in digest
+    assert "author_intent_confirmation_gate_hints" in digest
 
 
 def test_static_novelist_test_workstation_source_adds_phase_quality_gates():

@@ -290,6 +290,15 @@ def build_remix_continuation_control_audit(
     if "minimal_rollback_repair_scope_gate" in pattern_names:
         control_axes.append("minimal_rollback_repair_scope")
         acceptance_steps.append("verify_minimal_rollback_scope")
+    if "progressive_context_loading_gate" in pattern_names:
+        control_axes.append("progressive_reference_scope_selection")
+        acceptance_steps.append("verify_progressive_context_scope")
+    if "author_intent_confirmation_gate" in pattern_names:
+        control_axes.extend([
+            "author_intent_preservation_boundary",
+            "human_confirmation_before_long_sequence",
+        ])
+        acceptance_steps.append("verify_author_intent_confirmation")
     if "local_first_provider_boundary_authoring_gate" in pattern_names:
         control_axes.append("local_first_authoring_provider_boundary")
         acceptance_steps.append("verify_local_first_provider_boundary")
@@ -618,6 +627,21 @@ def build_remix_continuation_control_audit(
         )
         else {"warnings": []}
     )
+    context_scope_authority_audit = (
+        _universal_context_scope_authority_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if pattern_names.intersection(
+            {
+                "progressive_context_loading_gate",
+                "author_intent_confirmation_gate",
+            }
+        )
+        else {"warnings": []}
+    )
     local_first_authoring_audit = (
         _local_first_authoring_revision_audit(
             bible=bible,
@@ -671,6 +695,8 @@ def build_remix_continuation_control_audit(
         warnings.append("subgenre_ledger_warnings")
     if intake_export_rollback_audit["warnings"]:
         warnings.append("intake_export_rollback_warnings")
+    if context_scope_authority_audit["warnings"]:
+        warnings.append("context_scope_authority_warnings")
     if local_first_authoring_audit["warnings"]:
         warnings.append("local_first_authoring_warnings")
     if not character_cards:
@@ -720,6 +746,7 @@ def build_remix_continuation_control_audit(
         "genre_promise_contract_warnings": genre_promise_contract_audit["warnings"],
         "subgenre_ledger_warnings": subgenre_ledger_audit["warnings"],
         "intake_export_rollback_warnings": intake_export_rollback_audit["warnings"],
+        "context_scope_authority_warnings": context_scope_authority_audit["warnings"],
         "local_first_authoring_warnings": local_first_authoring_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
@@ -772,6 +799,13 @@ def build_remix_continuation_context_block(
     )
     _append_universal_project_memory_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_universal_context_scope_authority_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
     )
@@ -1330,6 +1364,7 @@ def build_remix_context_preview_audit(
         "canonkit_context_pack_warnings": production_control_audit["canonkit_context_pack_warnings"],
         "genre_promise_contract_warnings": production_control_audit["genre_promise_contract_warnings"],
         "subgenre_ledger_warnings": production_control_audit["subgenre_ledger_warnings"],
+        "context_scope_authority_warnings": production_control_audit["context_scope_authority_warnings"],
         **continuity_audit,
     }
 
@@ -1427,6 +1462,13 @@ def build_remix_inspired_context_block(
     )
     _append_universal_project_memory_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_universal_context_scope_authority_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
     )
@@ -3024,6 +3066,91 @@ def _has_clean_export_manifest_surface(
     return False
 
 
+def _universal_context_scope_authority_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit progressive context scope and author-control boundaries."""
+    warnings: list[str] = []
+    if "progressive_context_loading_gate" in pattern_names:
+        if not _has_progressive_context_scope_surface(bible=bible, plan=plan):
+            warnings.append("missing_progressive_context_scope")
+    if "author_intent_confirmation_gate" in pattern_names:
+        if not _has_author_intent_surface(bible=bible, plan=plan):
+            warnings.append("missing_author_intent_boundary")
+        if not _has_long_sequence_confirmation_surface(bible=bible, plan=plan):
+            warnings.append("missing_long_sequence_confirmation_policy")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_progressive_context_scope_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "context_scope",
+        "selected_context_refs",
+        "loaded_context_refs",
+        "context_refs",
+        "context_window",
+        "chapter_context_window",
+        "last_chapter_refs",
+        "selected_files",
+        "context_selection_policy",
+        "minimum_context_files",
+        "compact_context_summary",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_author_intent_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "author_intent",
+        "authorial_intent",
+        "user_direction",
+        "content_limits",
+        "must_preserve",
+        "must_avoid",
+        "style_boundaries",
+        "voice_policy",
+        "ending_direction",
+        "author_constraints",
+        "author_preferences",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_long_sequence_confirmation_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "human_confirmation_points",
+        "confirmation_points",
+        "author_confirmation",
+        "long_sequence_confirmation",
+        "drafting_confirmation",
+        "milestone_confirmations",
+        "major_turn_confirmation",
+        "requires_author_confirmation",
+        "confirmation_required",
+        "mode_shift_confirmation",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
 def _local_first_authoring_revision_audit(
     *,
     bible: dict[str, Any],
@@ -4273,6 +4400,83 @@ def _append_universal_project_memory_gate_section(
     )
     if hints:
         lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+
+
+def _append_universal_context_scope_authority_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render progressive-loading and author-intent gates from universal writing intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    has_scope_gate = "progressive_context_loading_gate" in pattern_names
+    has_author_gate = "author_intent_confirmation_gate" in pattern_names
+    if not has_scope_gate and not has_author_gate:
+        return
+
+    scope_hints = (
+        _as_note_list(source_pattern_pack.get("progressive_context_loading_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    author_hints = (
+        _as_note_list(source_pattern_pack.get("author_intent_confirmation_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _universal_context_scope_authority_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Universal context scope and author-intent gate:")
+    if has_scope_gate:
+        lines.append(
+            "- progressive_context_loading_gate: choose the selected mode first, then load "
+            "only the minimum needed files, current project ledgers, and previous 1-2 "
+            "relevant chapters or summaries"
+        )
+        lines.append(
+            "- context_scope_packet: record selected_context_refs, chapter window, excluded "
+            "source/prose bodies, assumptions, and compact fallback summary before drafting"
+        )
+    if has_author_gate:
+        lines.append(
+            "- author_intent_confirmation_gate: preserve authorial intent, genre promise, "
+            "voice/POV, content limits, ending direction, and accepted user instructions"
+        )
+        lines.append(
+            "- long_sequence_confirmation: require an author-visible checkpoint before "
+            "major turns, mode shifts, long batch drafting, or overwrite-like rewrites"
+        )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source context-loading and author-control workflow may "
+            "shape the target process only; source context files, author choices, and "
+            "long-sequence decisions do not become target canon"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: continue from target-owned accepted context and user "
+            "direction; do not expand scope to unrelated source chapters or rewrite the "
+            "project premise without confirmation"
+        )
+    lines.append(
+        "- runtime_boundary: this gate authorizes no source ingestion, provider call, "
+        "runtime launch, hidden prompt-body import, or out-of-scope manuscript access"
+    )
+    if scope_hints:
+        lines.append(f"- scope_source_hint: {_truncate(scope_hints[0], 260)}")
+    if author_hints:
+        lines.append(f"- author_source_hint: {_truncate(author_hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- context_scope_authority_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_seed_to_bible_foundation_loop_gate_section(
@@ -8048,6 +8252,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "five_question_intake_story_promise_gate_hints": "five_question_intake_story_promise_gate",
         "universal_export_clean_manuscript_gate_hints": "universal_export_clean_manuscript_gate",
         "minimal_rollback_repair_scope_gate_hints": "minimal_rollback_repair_scope_gate",
+        "progressive_context_loading_gate_hints": "progressive_context_loading_gate",
+        "author_intent_confirmation_gate_hints": "author_intent_confirmation_gate",
         "local_first_provider_boundary_authoring_gate_hints": "local_first_provider_boundary_authoring_gate",
         "suggestion_card_nonoverwrite_revision_gate_hints": "suggestion_card_nonoverwrite_revision_gate",
         "book_view_import_export_manifest_gate_hints": "book_view_import_export_manifest_gate",

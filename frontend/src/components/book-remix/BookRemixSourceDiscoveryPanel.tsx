@@ -357,6 +357,8 @@ const PINNED_HINT_KEYS = new Set([
   'five_question_intake_story_promise_gate_hints',
   'universal_export_clean_manuscript_gate_hints',
   'minimal_rollback_repair_scope_gate_hints',
+  'progressive_context_loading_gate_hints',
+  'author_intent_confirmation_gate_hints',
   'story_bible_constitution_source_gate_hints',
   'scene_outline_approval_status_gate_hints',
   'pov_information_asymmetry_schedule_gate_hints',
@@ -759,6 +761,8 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Five-question intake / story promise gates', patternPackPayload?.five_question_intake_story_promise_gate_hints],
               ['Clean manuscript export gates', patternPackPayload?.universal_export_clean_manuscript_gate_hints],
               ['Minimal rollback repair-scope gates', patternPackPayload?.minimal_rollback_repair_scope_gate_hints],
+              ['Progressive context-loading gates', patternPackPayload?.progressive_context_loading_gate_hints],
+              ['Author intent / confirmation gates', patternPackPayload?.author_intent_confirmation_gate_hints],
             ])}
             {renderHintGroup('Local-first authoring / revision acceptance gates', [
               ['Local-first provider boundary gates', patternPackPayload?.local_first_provider_boundary_authoring_gate_hints],

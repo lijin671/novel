@@ -1722,6 +1722,8 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("five_question_intake_story_promise_gate", ("five-question intake", "five question intake", "no more than five questions", "logline, reader promise", "protagonist arc, opposition, world rules", "ending direction", "5-15 beat", "first package")),
     ("universal_export_clean_manuscript_gate", ("export mode", "clean manuscript", "structured export plan", "accepted chapters only", "package, compile, summarize, or prepare for publishing", "export plan")),
     ("minimal_rollback_repair_scope_gate", ("minimal rollback", "smallest failing artifact", "repair the smallest failing artifact", "instead of restarting the whole project", "least destructive patch", "repair only the failed")),
+    ("progressive_context_loading_gate", ("progressive loading", "load only the reference needed", "minimum needed files", "previous 1-2 relevant chapters", "last 1-2 relevant chapters", "compact context summary")),
+    ("author_intent_confirmation_gate", ("preserve authorial intent", "authorial intent", "do not hijack", "content limits", "long-sequence", "long sequence", "explicit confirmation")),
     ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
     ("kdp_metadata_chapter_export_gate", ("best-selling-book-writer", "topic selection", "outline", "chapters", "kdp metadata", "description.html", "7 keywords", "validation", "html", "pdf", "book-config.json", "chapters remain", "publishing checklist")),
@@ -5055,6 +5057,8 @@ class NovelSourceDiscoveryService:
             "five_question_intake_story_promise_gate_hints": self._build_five_question_intake_story_promise_gate_hints(available_patterns),
             "universal_export_clean_manuscript_gate_hints": self._build_universal_export_clean_manuscript_gate_hints(available_patterns),
             "minimal_rollback_repair_scope_gate_hints": self._build_minimal_rollback_repair_scope_gate_hints(available_patterns),
+            "progressive_context_loading_gate_hints": self._build_progressive_context_loading_gate_hints(available_patterns),
+            "author_intent_confirmation_gate_hints": self._build_author_intent_confirmation_gate_hints(available_patterns),
             "local_first_provider_boundary_authoring_gate_hints": self._build_local_first_provider_boundary_authoring_gate_hints(available_patterns),
             "suggestion_card_nonoverwrite_revision_gate_hints": self._build_suggestion_card_nonoverwrite_revision_gate_hints(available_patterns),
             "book_view_import_export_manifest_gate_hints": self._build_book_view_import_export_manifest_gate_hints(available_patterns),
@@ -6557,6 +6561,8 @@ class NovelSourceDiscoveryService:
             "anti_ai_naturalness_texture_gate": 66,
             "genre_promise_contract_matrix_gate": 66,
             "subgenre_specific_ledger_gate": 66,
+            "progressive_context_loading_gate": 66,
+            "author_intent_confirmation_gate": 66,
             "author_ai_project_contract_review_gate": 67,
             "manuscript_pr_editorial_workflow_gate": 66,
             "short_drama_story_bible_template_gate": 66,
@@ -6624,6 +6630,10 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_policy")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_policy")
+        if "progressive_context_loading_gate" in patterns:
+            targets.append("progressive_context_loading_policy")
+        if "author_intent_confirmation_gate" in patterns:
+            targets.append("author_intent_confirmation_policy")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
             targets.append("chinese_skill_workstation_phase_policy")
             targets.append("file_backed_creation_progress_policy")
@@ -8380,6 +8390,10 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_report")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_report")
+        if "progressive_context_loading_gate" in patterns:
+            targets.append("progressive_context_loading_report")
+        if "author_intent_confirmation_gate" in patterns:
+            targets.append("author_intent_confirmation_report")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
             targets.extend(["six_phase_creation_quality_report", "task_findings_progress_delivery_report"])
         if "saga_tui_adversarial_publish_gate" in patterns:
@@ -12111,6 +12125,24 @@ class NovelSourceDiscoveryService:
             "When a gate fails, repair the smallest failing artifact first: intake packet, chapter contract, scene beat, ledger field, review note, or export manifest.",
             "Do not restart the whole project or overwrite accepted manuscript state unless the failure proves a broader structural dependency.",
             "Record rollback scope, failing gate, repaired artifact, and post-repair verifier so continuation and same-type workflows can resume safely.",
+        ]
+
+    def _build_progressive_context_loading_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "progressive_context_loading_gate" not in patterns:
+            return []
+        return [
+            "Load only the minimum needed files for the selected mode: story bible, outline, characters, continuity, progress, and previous 1-2 relevant chapters.",
+            "Declare the selected context references before drafting so source text, reference docs, and old chapters are not silently over-injected.",
+            "If files are missing, reconstruct a compact context summary with known premise, current chapter, character states, open hooks, constraints, and assumptions.",
+        ]
+
+    def _build_author_intent_confirmation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "author_intent_confirmation_gate" not in patterns:
+            return []
+        return [
+            "Preserve authorial intent: do not hijack the premise, genre promise, voice, POV, content limits, or ending direction while optimizing continuation or same-type drafting.",
+            "Before a long sequence, major turn, mode shift, or overwrite-like rewrite, require an explicit author-visible confirmation point.",
+            "Suggestions may strengthen craft, but accepted canon and user direction stay authoritative over imported reference workflows.",
         ]
 
     def _build_local_first_provider_boundary_authoring_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -16698,6 +16730,10 @@ class NovelSourceDiscoveryService:
             targets.append("universal_export_clean_manuscript_remap")
         if "minimal_rollback_repair_scope_gate" in patterns:
             targets.append("minimal_rollback_repair_scope_remap")
+        if "progressive_context_loading_gate" in patterns:
+            targets.append("progressive_context_loading_remap")
+        if "author_intent_confirmation_gate" in patterns:
+            targets.append("author_intent_confirmation_remap")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
             targets.append("six_phase_chinese_webnovel_workstation_remap")
         if "saga_tui_adversarial_publish_gate" in patterns:
@@ -21069,6 +21105,8 @@ class NovelSourceDiscoveryService:
                 "anti_ai_naturalness_texture_gate",
                 "genre_promise_contract_matrix_gate",
                 "subgenre_specific_ledger_gate",
+                "progressive_context_loading_gate",
+                "author_intent_confirmation_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",
                 "story_state_output_contract_gate",

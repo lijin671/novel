@@ -186,6 +186,81 @@ def test_universal_project_memory_gate_extends_control_audit_and_warnings():
     assert "missing_world_rule_cost_custody" in audit["portable_project_memory_warnings"]
 
 
+def test_universal_progressive_loading_and_author_intent_gates_render_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "progressive_context_loading_gate", "candidate_count": 1},
+            {"name": "author_intent_confirmation_gate", "candidate_count": 1},
+        ],
+        "progressive_context_loading_gate_hints": [
+            "Load only the minimum needed files and previous 1-2 chapters for the current mode.",
+        ],
+        "author_intent_confirmation_gate_hints": [
+            "Preserve authorial intent and require confirmation before long-sequence drafting changes.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Universal Scope Authority Desk",
+        bible={
+            "context_scope": {
+                "files": ["story-bible.md", "outline.md", "progress.md"],
+                "chapter_window": "previous 1-2 chapters",
+            },
+            "author_intent": "Keep the mystery-romance promise and guarded close-third voice.",
+            "content_limits": ["no off-screen archive unlock"],
+            "human_confirmation_points": ["before replacing the next 5-chapter direction"],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 8,
+                    "summary": "Lin left the archive sealed and the crowd suspicious.",
+                }
+            ],
+        },
+        plan={
+            "summary": "Continue from the crowd consequence.",
+            "selected_context_refs": ["progress.md", "continuity.md", "chapter-008-summary"],
+            "user_direction": "Keep Lin morally cautious.",
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Scope Authority Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only the scoped context-loading and author-control workflow.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source context files, author choices, or long-sequence decisions.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Universal context scope and author-intent gate:" in block
+        assert "progressive_context_loading_gate" in block
+        assert "author_intent_confirmation_gate" in block
+        assert "minimum needed files" in block
+        assert "Preserve authorial intent" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "progressive_reference_scope_selection" in audit["control_axes"]
+    assert "author_intent_preservation_boundary" in audit["control_axes"]
+    assert "human_confirmation_before_long_sequence" in audit["control_axes"]
+    assert "verify_progressive_context_scope" in audit["acceptance_steps"]
+    assert "verify_author_intent_confirmation" in audit["acceptance_steps"]
+    assert "context_scope_authority_warnings" in audit["warnings"]
+    assert "missing_progressive_context_scope" in audit["context_scope_authority_warnings"]
+    assert "missing_author_intent_boundary" in audit["context_scope_authority_warnings"]
+    assert "missing_long_sequence_confirmation_policy" in audit["context_scope_authority_warnings"]
+
+
 def test_build_remix_continuation_context_block_projects_universal_next_chapter_scaffold():
     pattern_pack = {
         "workflow_patterns": [

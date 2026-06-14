@@ -146,6 +146,7 @@ class BookRemixContinuationContextPreviewResponse(BaseModel):
     hook_naturalness_warnings: list[str] = Field(default_factory=list)
     genre_promise_contract_warnings: list[str] = Field(default_factory=list)
     subgenre_ledger_warnings: list[str] = Field(default_factory=list)
+    context_scope_authority_warnings: list[str] = Field(default_factory=list)
     continuity_questions: list[str] = Field(default_factory=list)
     promise_payoff_debts: list[dict[str, str]] = Field(default_factory=list)
     scene_state_snapshot: list[dict[str, str]] = Field(default_factory=list)

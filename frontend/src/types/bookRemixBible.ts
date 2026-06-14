@@ -96,6 +96,7 @@ export interface BookRemixContinuationContextPreview {
   hook_naturalness_warnings: string[];
   genre_promise_contract_warnings: string[];
   subgenre_ledger_warnings: string[];
+  context_scope_authority_warnings: string[];
   progress_report_continuity_writeback_gate_hints?: string[];
   continuity_questions: string[];
   promise_payoff_debts: Array<Record<string, string>>;

@@ -867,6 +867,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "Five-question intake / story promise gates" in panel_text
     assert "Clean manuscript export gates" in panel_text
     assert "Minimal rollback repair-scope gates" in panel_text
+    assert "Progressive context-loading gates" in panel_text
+    assert "Author intent / confirmation gates" in panel_text
     assert "universal_novel_mode_contract_gate_hints" in panel_text
     assert "portable_story_project_structure_gate_hints" in panel_text
     assert "chapter_contract_scene_beat_gate_hints" in panel_text
@@ -884,6 +886,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "five_question_intake_story_promise_gate_hints" in panel_text
     assert "universal_export_clean_manuscript_gate_hints" in panel_text
     assert "minimal_rollback_repair_scope_gate_hints" in panel_text
+    assert "progressive_context_loading_gate_hints" in panel_text
+    assert "author_intent_confirmation_gate_hints" in panel_text
 
     assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
     assert "portable_story_project_structure_gate_hints?: string[]" in types_text
@@ -901,6 +905,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "five_question_intake_story_promise_gate_hints?: string[]" in types_text
     assert "universal_export_clean_manuscript_gate_hints?: string[]" in types_text
     assert "minimal_rollback_repair_scope_gate_hints?: string[]" in types_text
+    assert "progressive_context_loading_gate_hints?: string[]" in types_text
+    assert "author_intent_confirmation_gate_hints?: string[]" in types_text
 
 
 def test_source_discovery_panel_surfaces_speckit_fiction_scene_task_gates():
