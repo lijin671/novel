@@ -157,6 +157,8 @@ class BookRemixContinuationContextPreviewResponse(BaseModel):
     six_layer_iron_law_warnings: list[str] = Field(default_factory=list)
     source_novel_dna_fusion_warnings: list[str] = Field(default_factory=list)
     originality_guard_warnings: list[str] = Field(default_factory=list)
+    originality_report_multimetric_warnings: list[str] = Field(default_factory=list)
+    semantic_stylometric_overlap_warnings: list[str] = Field(default_factory=list)
     continuity_questions: list[str] = Field(default_factory=list)
     promise_payoff_debts: list[dict[str, str]] = Field(default_factory=list)
     scene_state_snapshot: list[dict[str, str]] = Field(default_factory=list)

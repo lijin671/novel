@@ -1069,6 +1069,25 @@ def test_continuation_context_preview_panel_surfaces_noveldna_originality_warnin
     assert "Originality guard gate" in panel_text
 
 
+def test_continuation_context_preview_panel_surfaces_multimetric_similarity_warnings():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "bookRemixBible.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    for field in (
+        "originality_report_multimetric_warnings",
+        "semantic_stylometric_overlap_warnings",
+    ):
+        assert f"{field}: string[]" in types_text
+        assert field in panel_text
+
+    assert "Multi-metric originality report gate" in panel_text
+    assert "Semantic stylometric overlap gate" in panel_text
+
+
 def test_continuation_context_preview_panel_surfaces_universal_gate_warning_buckets():
     repo_root = Path(__file__).resolve().parents[3]
     panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"

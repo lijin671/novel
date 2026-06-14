@@ -465,6 +465,27 @@ def build_remix_continuation_control_audit(
             "rerun_originality_guard_before_project_creation",
             "block_high_risk_or_unresolved_rights",
         ])
+    if "originality_report_multimetric_gate" in pattern_names:
+        control_axes.extend([
+            "multimetric_originality_report",
+            "source_overlap_span_manifest",
+            "transform_action_decision_log",
+        ])
+        acceptance_steps.extend([
+            "verify_multimetric_originality_report",
+            "verify_source_overlap_span_manifest",
+            "verify_transform_action_decisions",
+        ])
+    if "semantic_stylometric_overlap_gate" in pattern_names:
+        control_axes.extend([
+            "semantic_stylometric_similarity_report",
+            "paraphrase_structure_risk_review",
+            "overlap_threshold_reviewer_notes",
+        ])
+        acceptance_steps.extend([
+            "verify_semantic_stylometric_thresholds",
+            "verify_section_level_overlap_risk",
+        ])
     if pattern_names.intersection({
         "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate",
@@ -803,6 +824,26 @@ def build_remix_continuation_control_audit(
         if "originality_guard_project_creation_gate" in pattern_names
         else {"warnings": []}
     )
+    originality_report_multimetric_audit = (
+        _originality_report_multimetric_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "originality_report_multimetric_gate" in pattern_names
+        else {"warnings": []}
+    )
+    semantic_stylometric_overlap_audit = (
+        _semantic_stylometric_overlap_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "semantic_stylometric_overlap_gate" in pattern_names
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -854,6 +895,10 @@ def build_remix_continuation_control_audit(
         warnings.append("source_novel_dna_fusion_warnings")
     if originality_guard_audit["warnings"]:
         warnings.append("originality_guard_warnings")
+    if originality_report_multimetric_audit["warnings"]:
+        warnings.append("originality_report_multimetric_warnings")
+    if semantic_stylometric_overlap_audit["warnings"]:
+        warnings.append("semantic_stylometric_overlap_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -908,6 +953,8 @@ def build_remix_continuation_control_audit(
         "six_layer_iron_law_warnings": six_layer_iron_law_audit["warnings"],
         "source_novel_dna_fusion_warnings": source_novel_dna_fusion_audit["warnings"],
         "originality_guard_warnings": originality_guard_audit["warnings"],
+        "originality_report_multimetric_warnings": originality_report_multimetric_audit["warnings"],
+        "semantic_stylometric_overlap_warnings": semantic_stylometric_overlap_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -1047,6 +1094,20 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_originality_guard_project_creation_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_originality_report_multimetric_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_semantic_stylometric_overlap_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1567,6 +1628,8 @@ def build_remix_context_preview_audit(
         "six_layer_iron_law_warnings": production_control_audit["six_layer_iron_law_warnings"],
         "source_novel_dna_fusion_warnings": production_control_audit["source_novel_dna_fusion_warnings"],
         "originality_guard_warnings": production_control_audit["originality_guard_warnings"],
+        "originality_report_multimetric_warnings": production_control_audit["originality_report_multimetric_warnings"],
+        "semantic_stylometric_overlap_warnings": production_control_audit["semantic_stylometric_overlap_warnings"],
         **continuity_audit,
     }
 
@@ -1752,6 +1815,20 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_originality_guard_project_creation_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_originality_report_multimetric_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_semantic_stylometric_overlap_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -3598,6 +3675,54 @@ def _originality_guard_project_creation_audit(
     return {"warnings": warnings[:max_items]}
 
 
+def _originality_report_multimetric_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit multi-metric originality report evidence before same-type drafting."""
+    warnings: list[str] = []
+    if "originality_report_multimetric_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_originality_report_id_surface(bible=bible, plan=plan):
+        warnings.append("missing_originality_report_id")
+    if not _has_source_overlap_span_manifest_surface(bible=bible, plan=plan):
+        warnings.append("missing_source_overlap_span_manifest")
+    if not _has_ngram_sequence_stylometric_findings_surface(bible=bible, plan=plan):
+        warnings.append("missing_ngram_sequence_stylometric_findings")
+    if not _has_citation_source_check_status_surface(bible=bible, plan=plan):
+        warnings.append("missing_citation_source_check_status")
+    if not _has_transform_action_decision_surface(bible=bible, plan=plan):
+        warnings.append("missing_transform_action_decisions")
+    return {"warnings": warnings[:max_items]}
+
+
+def _semantic_stylometric_overlap_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit semantic, TF-IDF, stylometric, and reviewer-threshold evidence."""
+    warnings: list[str] = []
+    if "semantic_stylometric_overlap_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_semantic_similarity_score_surface(bible=bible, plan=plan):
+        warnings.append("missing_semantic_similarity_score")
+    if not _has_tfidf_keyword_overlap_surface(bible=bible, plan=plan):
+        warnings.append("missing_tfidf_keyword_overlap")
+    if not _has_stylometric_overlap_distance_surface(bible=bible, plan=plan):
+        warnings.append("missing_stylometric_distance")
+    if not _has_overlap_threshold_reviewer_note_surface(bible=bible, plan=plan):
+        warnings.append("missing_overlap_threshold_reviewer_note")
+    if not _has_section_level_risk_label_surface(bible=bible, plan=plan):
+        warnings.append("missing_section_level_risk_label")
+    return {"warnings": warnings[:max_items]}
+
+
 def _has_raw_story_manifest_surface(
     *,
     bible: dict[str, Any],
@@ -3924,6 +4049,205 @@ def _has_create_project_recheck_surface(
         plan=plan,
         keys=keys,
         nested_carrier_keys=("originality_guard", "originality_report"),
+    )
+
+
+def _has_originality_report_id_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "originality_report_id",
+        "report_id",
+        "multimetric_originality_report_id",
+        "originality_report",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_report", "multimetric_originality_report"),
+    )
+
+
+def _has_source_overlap_span_manifest_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "source_overlap_span_manifest",
+        "source_overlap_spans",
+        "source_span_ids",
+        "overlap_span_manifest",
+        "source_span_manifest",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_report", "multimetric_originality_report"),
+    )
+
+
+def _has_ngram_sequence_stylometric_findings_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    ngram_keys = ("ngram_overlap_findings", "n_gram_overlap", "ngram_overlap", "ngram_findings")
+    sequence_keys = ("sequence_match_findings", "sequence_matches", "sequence_matching_findings")
+    stylometric_keys = (
+        "stylometric_distance_findings",
+        "stylometric_features",
+        "stylometric_distance",
+        "stylometric_risk",
+    )
+    nested = ("originality_report", "multimetric_originality_report")
+    return (
+        _has_any_surface_or_nested_value(bible=bible, plan=plan, keys=ngram_keys, nested_carrier_keys=nested)
+        and _has_any_surface_or_nested_value(bible=bible, plan=plan, keys=sequence_keys, nested_carrier_keys=nested)
+        and _has_any_surface_or_nested_value(bible=bible, plan=plan, keys=stylometric_keys, nested_carrier_keys=nested)
+    )
+
+
+def _has_citation_source_check_status_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "citation_source_check_status",
+        "source_check_status",
+        "citation_check_status",
+        "source_verification_status",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_report", "multimetric_originality_report"),
+    )
+
+
+def _has_transform_action_decision_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "transform_action_decisions",
+        "transform_decision_log",
+        "transform_actions",
+        "overlap_decisions",
+        "required_transformation_actions",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("originality_report", "multimetric_originality_report"),
+    )
+
+
+def _has_semantic_similarity_score_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "semantic_similarity_score",
+        "semantic_overlap_score",
+        "semantic_similarity",
+        "semantic_overlap",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("semantic_similarity_report", "semantic_stylometric_overlap_report"),
+    )
+
+
+def _has_tfidf_keyword_overlap_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "tfidf_keyword_overlap",
+        "tf_idf_keyword_overlap",
+        "keyword_overlap",
+        "keyword_skeleton_overlap",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("semantic_similarity_report", "semantic_stylometric_overlap_report"),
+    )
+
+
+def _has_stylometric_overlap_distance_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "stylometric_distance",
+        "stylometric_overlap_distance",
+        "stylometric_resemblance_score",
+        "style_distance",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("semantic_similarity_report", "semantic_stylometric_overlap_report"),
+    )
+
+
+def _has_overlap_threshold_reviewer_note_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    threshold_keys = (
+        "overlap_threshold_version",
+        "threshold_version",
+        "similarity_threshold_version",
+        "risk_threshold_version",
+    )
+    reviewer_keys = (
+        "overlap_reviewer_notes",
+        "reviewer_notes",
+        "threshold_reviewer_note",
+        "similarity_reviewer_decision",
+    )
+    nested = ("semantic_similarity_report", "semantic_stylometric_overlap_report")
+    return (
+        _has_any_surface_or_nested_value(bible=bible, plan=plan, keys=threshold_keys, nested_carrier_keys=nested)
+        and _has_any_surface_or_nested_value(bible=bible, plan=plan, keys=reviewer_keys, nested_carrier_keys=nested)
+    )
+
+
+def _has_section_level_risk_label_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    keys = (
+        "section_risk_labels",
+        "section_level_risk_label",
+        "section_overlap_risks",
+        "risk_sections",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("semantic_similarity_report", "semantic_stylometric_overlap_report"),
     )
 
 
@@ -6204,6 +6528,122 @@ def _append_originality_guard_project_creation_gate_section(
         lines.append(f"- originality_guard_source_hint: {_truncate(hints[0], 260)}")
     if audit["warnings"] and mode != "same-type":
         lines.append(f"- originality_guard_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_originality_report_multimetric_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render multi-metric originality report requirements."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "originality_report_multimetric_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("originality_report_multimetric_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _originality_report_multimetric_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Multi-metric originality report gate:")
+    lines.append(
+        "- ngram_sequence_stylometric_report: originality evidence must combine "
+        "n-gram overlap, sequence matches, stylometric distance, citation/source checks, and reviewer notes"
+    )
+    lines.append(
+        "- source_overlap_span_manifest: report names source span ids, overlap class, "
+        "and section-level evidence instead of relying on a single similarity score"
+    )
+    lines.append(
+        "- transform_action_decision_log: each risky span needs transform/hold/reject "
+        "decision evidence before analysis can advance into generation"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: reuse report vocabulary and decision shape only; "
+            "remap source spans, overlap classes, and transformation actions for the new story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: continuation can proceed only from accepted target "
+            "text whose overlap decisions are recorded and reviewable"
+        )
+    lines.append(
+        "- runtime_boundary: MCP/package originality checkers remain static vocabulary; "
+        "no text upload, server, provider/API call, or report-generation runtime is executed"
+    )
+    if hints:
+        lines.append(f"- originality_report_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- originality_report_multimetric_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_semantic_stylometric_overlap_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render semantic and stylometric overlap checks for paraphrase risk."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "semantic_stylometric_overlap_gate" not in pattern_names:
+        return
+    hints = (
+        _as_note_list(source_pattern_pack.get("semantic_stylometric_overlap_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _semantic_stylometric_overlap_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Semantic stylometric overlap gate:")
+    lines.append(
+        "- semantic_tfidf_stylometric_overlap: review semantic similarity, TF-IDF "
+        "keyword skeleton, and stylometric resemblance so paraphrased structure stays visible"
+    )
+    lines.append(
+        "- threshold_reviewer_note: thresholds, detector version, reviewer note, "
+        "and action decision must be stored before the result influences canon"
+    )
+    lines.append(
+        "- section_level_risk_label: high-risk passages are labeled by section, "
+        "source function, evidence span, and required abstraction action"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: same-type drafts must remap semantic function, "
+            "keyword skeleton, and voice distance; close paraphrase is not accepted"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: accepted continuation text must resolve semantic, "
+            "keyword, and stylometric overlap risks before confirmation"
+        )
+    lines.append(
+        "- runtime_boundary: Streamlit/UI detectors, datasets, browser sessions, "
+        "web scraping, and source uploads remain deferred behind a safety contract"
+    )
+    if hints:
+        lines.append(f"- semantic_overlap_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- semantic_stylometric_overlap_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_universal_hook_naturalness_gate_section(
@@ -9206,6 +9646,33 @@ def build_remix_inspired_independence_audit(
             "stale_originality_check_acceptance",
             "forbidden_similarity_retention",
         ])
+    if "originality_report_multimetric_gate" in pattern_names:
+        transfer_axes.append("originality_report_shape")
+        required_difference_axes.extend([
+            "source_span_id_namespace",
+            "transform_action_namespace",
+            "overlap_class_namespace",
+        ])
+        copy_risk_checks.extend([
+            "single_score_acceptance",
+            "source_overlap_span_omission",
+            "untransformed_overlap_decision",
+        ])
+    if "semantic_stylometric_overlap_gate" in pattern_names:
+        transfer_axes.extend([
+            "semantic_overlap_review_shape",
+            "stylometric_threshold_review",
+        ])
+        required_difference_axes.extend([
+            "semantic_function_remap",
+            "keyword_skeleton_remap",
+            "threshold_version_namespace",
+        ])
+        copy_risk_checks.extend([
+            "semantic_paraphrase_clone",
+            "tfidf_keyword_skeleton_clone",
+            "stylometric_signature_near_source",
+        ])
     if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
         transfer_axes.extend([
             "scene_engine_pattern",
@@ -9549,6 +10016,8 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "six_layer_iron_law_chapter_gate_hints": "six_layer_iron_law_chapter_gate",
         "source_novel_dna_fusion_boundary_gate_hints": "source_novel_dna_fusion_boundary_gate",
         "originality_guard_project_creation_gate_hints": "originality_guard_project_creation_gate",
+        "originality_report_multimetric_gate_hints": "originality_report_multimetric_gate",
+        "semantic_stylometric_overlap_gate_hints": "semantic_stylometric_overlap_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",
         "novelforge_version_safe_human_review_gate_hints": "novelforge_version_safe_human_review_gate",
         "distilled_novel_toolbox_platform_compliance_gate_hints": "distilled_novel_toolbox_platform_compliance_gate",

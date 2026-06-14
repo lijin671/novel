@@ -1087,6 +1087,31 @@ def test_build_remix_context_preview_audit_surfaces_noveldna_originality_warning
     assert "originality_guard_warnings" in audit["production_warnings"]
 
 
+def test_build_remix_context_preview_audit_surfaces_multimetric_similarity_warning_buckets():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "originality_report_multimetric_gate"},
+            {"name": "semantic_stylometric_overlap_gate"},
+        ],
+    }
+
+    audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nOriginality report similarity gates",
+        bible={"chapter_change_packages": [{"chapter_number": 1, "summary": "Target opening accepted."}]},
+        plan={"summary": "Continue only after overlap decisions are reviewed."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "originality_report_multimetric_warnings" in audit
+    assert "semantic_stylometric_overlap_warnings" in audit
+    assert isinstance(audit["originality_report_multimetric_warnings"], list)
+    assert isinstance(audit["semantic_stylometric_overlap_warnings"], list)
+    assert audit["originality_report_multimetric_warnings"]
+    assert audit["semantic_stylometric_overlap_warnings"]
+    assert "originality_report_multimetric_warnings" in audit["production_warnings"]
+    assert "semantic_stylometric_overlap_warnings" in audit["production_warnings"]
+
+
 def test_build_remix_context_preview_audit_surfaces_disassembly_checkpoint_coverage():
     pattern_pack = {
         "workflow_patterns": [
@@ -6230,6 +6255,140 @@ def test_noveldna_originality_gates_project_source_analysis_boundary_and_project
     assert "source_novel_chunk_prompt_leak" in independence["copy_risk_checks"]
     assert "source_scene_summary_clone" in independence["copy_risk_checks"]
     assert "stale_originality_check_acceptance" in independence["copy_risk_checks"]
+
+
+def test_multimetric_originality_similarity_gates_project_report_thresholds_and_decisions():
+    pattern_pack = {
+        "originality_report_multimetric_gate_hints": [
+            "A multi-metric originality report should combine n-gram overlap, sequence matching, stylometric distance, citation/source checks, and reviewer notes rather than one score.",
+        ],
+        "semantic_stylometric_overlap_gate_hints": [
+            "Similarity review should check semantic overlap, TF-IDF keyword overlap, and stylometric resemblance so paraphrased source structure is still visible.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Similarity Review Desk",
+        bible={
+            "originality_report": {
+                "report_id": "or-7",
+                "source_span_ids": ["src-1"],
+                "ngram_overlap_findings": [{"span": "src-1", "risk": "low"}],
+                "sequence_match_findings": [{"span": "src-1", "risk": "low"}],
+                "stylometric_distance_findings": [{"distance": 0.72}],
+                "citation_source_check_status": "checked",
+                "transform_action_decisions": [{"span": "src-1", "decision": "abstracted"}],
+            },
+            "semantic_similarity_report": {
+                "semantic_similarity_score": 0.21,
+                "tfidf_keyword_overlap": [{"keyword": "archive", "action": "remap"}],
+                "stylometric_distance": 0.68,
+                "overlap_threshold_version": "v1",
+                "overlap_reviewer_notes": ["No paraphrase clone."],
+                "section_risk_labels": [{"section": "scene-1", "risk": "low"}],
+            },
+            "chapter_change_packages": [{"chapter_number": 5, "summary": "Accepted target scene diverged."}],
+        },
+        plan={
+            "summary": "Continue after transform decisions.",
+            "guardrails": [{"rule": "No single-score originality acceptance"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Similarity Desk",
+        style_content=(
+            "同类型创作总原则\n"
+            "- Transfer only report shape and threshold review.\n"
+            "源书语气样本\n"
+            "- No source prose.\n"
+            "源书显性元素禁用清单\n"
+            "- No source overlap spans or keyword skeleton.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible={
+            "originality_report": {
+                "report_id": "or-7",
+                "source_span_ids": ["src-1"],
+                "ngram_overlap_findings": [{"span": "src-1"}],
+                "sequence_match_findings": [{"span": "src-1"}],
+                "stylometric_distance_findings": [{"distance": 0.72}],
+                "citation_source_check_status": "checked",
+                "transform_action_decisions": [{"decision": "abstracted"}],
+            },
+            "semantic_similarity_report": {
+                "semantic_similarity_score": 0.21,
+                "tfidf_keyword_overlap": [{"keyword": "archive"}],
+                "stylometric_distance": 0.68,
+                "overlap_threshold_version": "v1",
+                "overlap_reviewer_notes": ["reviewed"],
+                "section_risk_labels": [{"section": "scene-1"}],
+            },
+        },
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "同类型创作总原则\n"
+            "- Report shape only.\n"
+            "源书语气样本\n"
+            "- No source prose.\n"
+            "源书显性元素禁用清单\n"
+            "- No source overlap spans.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Multi-metric originality report gate:" in block
+        assert "ngram_sequence_stylometric_report" in block
+        assert "source_overlap_span_manifest" in block
+        assert "transform_action_decision_log" in block
+        assert "Semantic stylometric overlap gate:" in block
+        assert "semantic_tfidf_stylometric_overlap" in block
+        assert "threshold_reviewer_note" in block
+        assert "section_level_risk_label" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "multimetric_originality_report" in missing_audit["control_axes"]
+    assert "source_overlap_span_manifest" in missing_audit["control_axes"]
+    assert "transform_action_decision_log" in missing_audit["control_axes"]
+    assert "semantic_stylometric_similarity_report" in missing_audit["control_axes"]
+    assert "paraphrase_structure_risk_review" in missing_audit["control_axes"]
+    assert "overlap_threshold_reviewer_notes" in missing_audit["control_axes"]
+    assert "verify_multimetric_originality_report" in missing_audit["acceptance_steps"]
+    assert "verify_source_overlap_span_manifest" in missing_audit["acceptance_steps"]
+    assert "verify_transform_action_decisions" in missing_audit["acceptance_steps"]
+    assert "verify_semantic_stylometric_thresholds" in missing_audit["acceptance_steps"]
+    assert "verify_section_level_overlap_risk" in missing_audit["acceptance_steps"]
+    assert "originality_report_multimetric_warnings" in missing_audit["warnings"]
+    assert "semantic_stylometric_overlap_warnings" in missing_audit["warnings"]
+    assert "missing_originality_report_id" in missing_audit["originality_report_multimetric_warnings"]
+    assert "missing_source_overlap_span_manifest" in missing_audit["originality_report_multimetric_warnings"]
+    assert "missing_ngram_sequence_stylometric_findings" in missing_audit["originality_report_multimetric_warnings"]
+    assert "missing_transform_action_decisions" in missing_audit["originality_report_multimetric_warnings"]
+    assert "missing_semantic_similarity_score" in missing_audit["semantic_stylometric_overlap_warnings"]
+    assert "missing_tfidf_keyword_overlap" in missing_audit["semantic_stylometric_overlap_warnings"]
+    assert "missing_overlap_threshold_reviewer_note" in missing_audit["semantic_stylometric_overlap_warnings"]
+    assert "originality_report_multimetric_warnings" not in satisfied_audit["warnings"]
+    assert "semantic_stylometric_overlap_warnings" not in satisfied_audit["warnings"]
+
+    assert "originality_report_shape" in independence["transfer_axes"]
+    assert "semantic_overlap_review_shape" in independence["transfer_axes"]
+    assert "source_span_id_namespace" in independence["required_difference_axes"]
+    assert "keyword_skeleton_remap" in independence["required_difference_axes"]
+    assert "single_score_acceptance" in independence["copy_risk_checks"]
+    assert "semantic_paraphrase_clone" in independence["copy_risk_checks"]
+    assert "tfidf_keyword_skeleton_clone" in independence["copy_risk_checks"]
 
 
 def test_six_layer_iron_law_gate_projects_consistency_brake_and_failure_block():

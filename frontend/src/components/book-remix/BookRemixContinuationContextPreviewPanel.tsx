@@ -49,6 +49,8 @@ const TEXT = {
   sixLayerIronLaw: "Six-layer Iron Law gate:",
   sourceNovelDnaFusion: "NovelDNA fusion boundary gate:",
   originalityGuard: "Originality guard gate:",
+  originalityReportMultimetric: "Multi-metric originality report gate:",
+  semanticStylometricOverlap: "Semantic stylometric overlap gate:",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -392,6 +394,28 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Text type="secondary">{TEXT.originalityGuard}</Text>
               <Space wrap>
                 {value.originality_guard_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.originality_report_multimetric_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.originalityReportMultimetric}</Text>
+              <Space wrap>
+                {value.originality_report_multimetric_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.semantic_stylometric_overlap_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.semanticStylometricOverlap}</Text>
+              <Space wrap>
+                {value.semantic_stylometric_overlap_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>
