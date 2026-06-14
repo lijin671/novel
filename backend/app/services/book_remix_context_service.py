@@ -243,6 +243,17 @@ def build_remix_continuation_control_audit(
     if "anti_ai_naturalness_texture_gate" in pattern_names:
         control_axes.append("anti_ai_texture_naturalness_review")
         acceptance_steps.append("verify_anti_ai_naturalness_texture")
+    if "post_draft_review_checklist_gate" in pattern_names:
+        control_axes.extend([
+            "post_draft_review_checklist",
+            "mobile_readability_review",
+            "least_destructive_repair_scope",
+        ])
+        acceptance_steps.extend([
+            "verify_post_draft_review_checklist",
+            "verify_mobile_readability_before_acceptance",
+            "verify_smallest_failing_artifact_repair",
+        ])
     if "genre_promise_contract_matrix_gate" in pattern_names:
         control_axes.extend([
             "genre_promise_contract_matrix",
@@ -499,6 +510,15 @@ def build_remix_continuation_control_audit(
         })
         else _empty_universal_hook_naturalness_audit()
     )
+    post_draft_review_audit = (
+        _universal_post_draft_review_audit(
+            bible=bible,
+            plan=plan,
+            max_items=12,
+        )
+        if "post_draft_review_checklist_gate" in pattern_names
+        else {"warnings": []}
+    )
     genre_promise_contract_audit = (
         _genre_promise_contract_matrix_audit(bible=bible, plan=plan, max_items=12)
         if "genre_promise_contract_matrix_gate" in pattern_names
@@ -536,6 +556,8 @@ def build_remix_continuation_control_audit(
         warnings.append("spec_kit_fiction_warnings")
     if hook_naturalness_audit["warnings"]:
         warnings.append("hook_naturalness_warnings")
+    if post_draft_review_audit["warnings"]:
+        warnings.append("post_draft_review_warnings")
     if genre_promise_contract_audit["warnings"]:
         warnings.append("genre_promise_contract_warnings")
     if subgenre_ledger_audit["warnings"]:
@@ -582,6 +604,7 @@ def build_remix_continuation_control_audit(
         "reader_pull_warnings": reader_pull_audit["warnings"],
         "spec_kit_fiction_warnings": spec_kit_fiction_audit["warnings"],
         "hook_naturalness_warnings": hook_naturalness_audit["warnings"],
+        "post_draft_review_warnings": post_draft_review_audit["warnings"],
         "genre_promise_contract_warnings": genre_promise_contract_audit["warnings"],
         "subgenre_ledger_warnings": subgenre_ledger_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
@@ -659,6 +682,13 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_universal_hook_naturalness_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_universal_post_draft_review_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1150,6 +1180,7 @@ def build_remix_context_preview_audit(
         "reader_pull_warnings": production_control_audit["reader_pull_warnings"],
         "spec_kit_fiction_warnings": production_control_audit["spec_kit_fiction_warnings"],
         "hook_naturalness_warnings": production_control_audit["hook_naturalness_warnings"],
+        "post_draft_review_warnings": production_control_audit["post_draft_review_warnings"],
         "genre_promise_contract_warnings": production_control_audit["genre_promise_contract_warnings"],
         "subgenre_ledger_warnings": production_control_audit["subgenre_ledger_warnings"],
         **continuity_audit,
@@ -1273,6 +1304,13 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_universal_hook_naturalness_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_universal_post_draft_review_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -2852,6 +2890,107 @@ def _empty_universal_hook_naturalness_audit() -> dict[str, Any]:
     return {"warnings": []}
 
 
+def _universal_post_draft_review_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit whether an accepted chapter has a full post-draft review packet."""
+    warnings: list[str] = []
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_package = packages[-1] if packages else None
+
+    if latest_package is None:
+        return {"warnings": ["missing_latest_chapter_for_post_draft_review"][:max_items]}
+
+    if not _has_post_draft_review_checklist_surface(latest_package=latest_package, bible=bible, plan=plan):
+        warnings.append("missing_post_draft_review_checklist")
+    if not _has_mobile_readability_review_surface(latest_package=latest_package, bible=bible, plan=plan):
+        warnings.append("missing_mobile_readability_review")
+    if not _has_least_destructive_repair_scope_surface(latest_package=latest_package, bible=bible, plan=plan):
+        warnings.append("missing_smallest_repair_scope")
+
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_post_draft_review_checklist_surface(
+    *,
+    latest_package: dict[str, Any],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (latest_package, bible, plan) if isinstance(carrier, dict)]
+    review_keys = (
+        "post_draft_review",
+        "chapter_review",
+        "review_checklist",
+        "acceptance_checklist",
+        "quality_gate",
+        "quality_scores",
+    )
+    if any(_has_any_package_value(carrier, review_keys) for carrier in carriers):
+        return True
+
+    required_dimensions = (
+        "outline_fidelity",
+        "continuity",
+        "pov_control",
+        "character_voice",
+        "scene_conflict",
+        "pacing",
+        "reader_pull",
+        "hook_payoff",
+        "prose_naturalness",
+    )
+    return sum(1 for key in required_dimensions if _has_any_package_value(latest_package, (key,))) >= 3
+
+
+def _has_mobile_readability_review_surface(
+    *,
+    latest_package: dict[str, Any],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (latest_package, bible, plan) if isinstance(carrier, dict)]
+    return any(
+        _has_any_package_value(
+            carrier,
+            (
+                "mobile_readability_review",
+                "mobile_readability",
+                "paragraph_mobile_review",
+                "readability_review",
+                "mobile_layout_notes",
+            ),
+        )
+        for carrier in carriers
+    )
+
+
+def _has_least_destructive_repair_scope_surface(
+    *,
+    latest_package: dict[str, Any],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (latest_package, bible, plan) if isinstance(carrier, dict)]
+    return any(
+        _has_any_package_value(
+            carrier,
+            (
+                "repair_scope",
+                "patch_scope",
+                "least_destructive_repair",
+                "revision_scope",
+                "smallest_failing_artifact",
+                "fix_scope",
+            ),
+        )
+        for carrier in carriers
+    )
+
+
 def _has_opening_hook_type_surface(
     *,
     latest_package: Optional[dict[str, Any]],
@@ -3505,6 +3644,7 @@ def _append_universal_novel_workflow_contract_section(
         "revision_order_natural_prose_gate",
         "reader_pull_fresh_reader_gate",
         "progress_report_continuity_writeback_gate",
+        "post_draft_review_checklist_gate",
     }
     if not pattern_names.intersection(relevant_patterns):
         return
@@ -3527,6 +3667,8 @@ def _append_universal_novel_workflow_contract_section(
         lines.append("- reader_pull_test: a fresh reader must identify POV, want, obstacle, stakes, changed exit state, and the next pull")
     if "progress_report_continuity_writeback_gate" in pattern_names:
         lines.append("- progress_writeback: after an accepted chapter, record summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
+    if "post_draft_review_checklist_gate" in pattern_names:
+        lines.append("- post_draft_review: accept chapters only after structure, continuity, POV, voice, conflict, pacing, reader-pull, hook/payoff, naturalness, and mobile-readability review")
 
 
 def _append_universal_project_memory_gate_section(
@@ -3933,6 +4075,66 @@ def _append_universal_hook_naturalness_gate_section(
 
     if audit["warnings"] and mode != "same-type":
         lines.append(f"- hook_naturalness_warnings: {', '.join(audit['warnings'])}")
+
+
+def _append_universal_post_draft_review_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render post-draft checklist and smallest-repair gates from universal intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "post_draft_review_checklist_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("post_draft_review_checklist_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _universal_post_draft_review_audit(
+        bible=bible,
+        plan=plan,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Universal post-draft review gate:")
+    lines.append(
+        "- checklist_dimensions: review outline fidelity, continuity, POV control, "
+        "character voice, scene conflict, pacing, reader-pull, hook/payoff, prose "
+        "naturalness, and mobile readability before accepting a chapter"
+    )
+    lines.append(
+        "- mobile_readability: check paragraph length, turn placement, dialogue spacing, "
+        "chapter title/header clarity, and whether the first screen carries reader pull"
+    )
+    lines.append(
+        "- least_destructive_repair: if a dimension fails, repair the smallest failing "
+        "artifact: paragraph, scene, ledger field, chapter contract, or review note"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source review notes, chapter fixes, and readability "
+            "patches define review axes only; target findings must be produced from "
+            "target-owned drafts"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: post-draft review must evaluate the latest accepted "
+            "target chapter and cannot import source review notes as canon"
+        )
+    lines.append(
+        "- runtime_boundary: this is a local review contract; no provider call, external "
+        "editor, source manuscript import, or detector service is authorized by static intake"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- post_draft_review_warnings: {', '.join(audit['warnings'])}")
 
 
 def _append_novelforge_version_safe_scene_fact_pipeline_gate_section(
@@ -4430,6 +4632,7 @@ def _append_universal_same_type_creation_scaffold_section(
         "chapter_contract_scene_beat_gate",
         "reader_promise_micro_payoff_gate",
         "progress_report_continuity_writeback_gate",
+        "post_draft_review_checklist_gate",
     }
     if not pattern_names.intersection(relevant_patterns):
         return
@@ -6954,6 +7157,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "revision_order_natural_prose_gate_hints": "revision_order_natural_prose_gate",
         "reader_pull_fresh_reader_gate_hints": "reader_pull_fresh_reader_gate",
         "progress_report_continuity_writeback_gate_hints": "progress_report_continuity_writeback_gate",
+        "post_draft_review_checklist_gate_hints": "post_draft_review_checklist_gate",
         "genre_promise_contract_matrix_gate_hints": "genre_promise_contract_matrix_gate",
         "subgenre_specific_ledger_gate_hints": "subgenre_specific_ledger_gate",
         "versioned_scene_fact_review_pipeline_gate_hints": "versioned_scene_fact_review_pipeline_gate",

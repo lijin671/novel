@@ -5138,3 +5138,110 @@ def test_distilled_novel_toolbox_platform_compliance_gate_renders_context_and_au
     assert "verify_platform_policy_current" in audit["acceptance_steps"]
     assert "verify_compliance_review_packet" in audit["acceptance_steps"]
     assert "verify_no_detection_evasion_or_prompt_body_import" in audit["acceptance_steps"]
+
+
+def test_universal_post_draft_review_gate_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "post_draft_review_checklist_gate", "candidate_count": 1},
+        ],
+        "post_draft_review_checklist_gate_hints": [
+            "Review outline fidelity, continuity, POV control, character voice, scene conflict, pacing, reader-pull, hook/payoff, prose naturalness, and mobile readability before accepting a chapter.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Post Draft Review Desk",
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 15,
+                    "summary": "Lin escaped the archive but left the public trust debt unresolved.",
+                }
+            ],
+        },
+        plan={"summary": "Review the accepted chapter before drafting the next one."},
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Post Draft Review Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only the review checklist order.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source review notes, chapter fixes, or mobile-readability patches.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 15,
+                    "summary": "Lin escaped the archive.",
+                }
+            ],
+        },
+        plan={"summary": "Review before next draft."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Universal post-draft review gate:" in block
+        assert "checklist_dimensions" in block
+        assert "outline fidelity, continuity, POV control" in block
+        assert "mobile_readability" in block
+        assert "least_destructive_repair" in block
+        assert "Review outline fidelity" in block
+    assert "continuation_boundary" in continuation
+    assert "post_draft_review_warnings" in continuation
+    assert "same_type_boundary" in inspired
+    assert "source review notes" in inspired
+
+    assert "post_draft_review_checklist" in audit["control_axes"]
+    assert "mobile_readability_review" in audit["control_axes"]
+    assert "least_destructive_repair_scope" in audit["control_axes"]
+    assert "verify_post_draft_review_checklist" in audit["acceptance_steps"]
+    assert "verify_mobile_readability_before_acceptance" in audit["acceptance_steps"]
+    assert "verify_smallest_failing_artifact_repair" in audit["acceptance_steps"]
+    assert "post_draft_review_warnings" in audit["warnings"]
+    assert "missing_post_draft_review_checklist" in audit["post_draft_review_warnings"]
+    assert "missing_mobile_readability_review" in audit["post_draft_review_warnings"]
+    assert "missing_smallest_repair_scope" in audit["post_draft_review_warnings"]
+
+
+def test_universal_post_draft_review_gate_passes_with_review_surfaces():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 16,
+                    "summary": "Lin paid one trust debt and opened a larger public threat.",
+                    "post_draft_review": {
+                        "outline_fidelity": "pass",
+                        "continuity": "pass",
+                        "pov_control": "pass",
+                        "character_voice": "pass",
+                        "scene_conflict": "pass",
+                        "pacing": "pass",
+                        "reader_pull": "pass",
+                        "hook_payoff": "pass",
+                        "prose_naturalness": "pass",
+                    },
+                    "mobile_readability_review": {"status": "pass"},
+                    "repair_scope": "No rewrite needed; only keep one dialogue trim candidate.",
+                }
+            ],
+        },
+        plan={"summary": "Continue from the accepted review packet."},
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "post_draft_review_checklist_gate"},
+            ],
+        },
+    )
+
+    assert audit["post_draft_review_warnings"] == []
