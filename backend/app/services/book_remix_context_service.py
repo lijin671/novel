@@ -258,6 +258,14 @@ def build_remix_continuation_control_audit(
             "voice_specific_dialogue_review",
         ])
         acceptance_steps.append("verify_story_engine_scene_pressure")
+    if "universal_character_world_rule_coherence_gate" in pattern_names:
+        control_axes.extend([
+            "character_design_test_coherence",
+            "ally_opposition_independent_motives",
+            "world_rule_cost_matrix",
+            "research_uncertainty_custody",
+        ])
+        acceptance_steps.append("verify_character_world_rule_coherence")
     if "story_skills_deterministic_continuity_contract_gate" in pattern_names:
         control_axes.extend([
             "deterministic_character_lifecycle_contract",
@@ -948,6 +956,16 @@ def build_remix_continuation_control_audit(
         if "universal_story_engine_scene_pressure_gate" in pattern_names
         else {"warnings": []}
     )
+    character_world_rule_coherence_audit = (
+        _universal_character_world_rule_coherence_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "universal_character_world_rule_coherence_gate" in pattern_names
+        else {"warnings": []}
+    )
     story_skills_continuity_contract_audit = (
         _story_skills_deterministic_continuity_contract_audit(
             bible=bible,
@@ -1033,6 +1051,8 @@ def build_remix_continuation_control_audit(
         warnings.append("web_similarity_runtime_boundary_warnings")
     if story_engine_scene_pressure_audit["warnings"]:
         warnings.append("story_engine_scene_pressure_warnings")
+    if character_world_rule_coherence_audit["warnings"]:
+        warnings.append("character_world_rule_coherence_warnings")
     if story_skills_continuity_contract_audit["warnings"]:
         warnings.append("story_skills_continuity_contract_warnings")
     if better_writing_voice_preflight_audit["warnings"]:
@@ -1098,6 +1118,7 @@ def build_remix_continuation_control_audit(
         "naturalization_boundary_warnings": naturalization_boundary_audit["warnings"],
         "web_similarity_runtime_boundary_warnings": web_similarity_runtime_boundary_audit["warnings"],
         "story_engine_scene_pressure_warnings": story_engine_scene_pressure_audit["warnings"],
+        "character_world_rule_coherence_warnings": character_world_rule_coherence_audit["warnings"],
         "story_skills_continuity_contract_warnings": story_skills_continuity_contract_audit["warnings"],
         "better_writing_voice_preflight_warnings": better_writing_voice_preflight_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
@@ -1267,6 +1288,13 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_universal_story_engine_scene_pressure_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_universal_character_world_rule_coherence_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1808,6 +1836,7 @@ def build_remix_context_preview_audit(
         "naturalization_boundary_warnings": production_control_audit["naturalization_boundary_warnings"],
         "web_similarity_runtime_boundary_warnings": production_control_audit["web_similarity_runtime_boundary_warnings"],
         "story_engine_scene_pressure_warnings": production_control_audit["story_engine_scene_pressure_warnings"],
+        "character_world_rule_coherence_warnings": production_control_audit["character_world_rule_coherence_warnings"],
         "story_skills_continuity_contract_warnings": production_control_audit["story_skills_continuity_contract_warnings"],
         "better_writing_voice_preflight_warnings": production_control_audit["better_writing_voice_preflight_warnings"],
         **continuity_audit,
@@ -2023,6 +2052,13 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_universal_story_engine_scene_pressure_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_universal_character_world_rule_coherence_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -4110,6 +4146,135 @@ def _has_voice_specific_dialogue_surface(*, bible: dict[str, Any], plan: Optiona
     carriers.extend(_as_dict_list(bible.get("character_cards")))
     carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
     return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _universal_character_world_rule_coherence_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit Universal Novel Writing character-design and world-rule coherence."""
+    warnings: list[str] = []
+    if "universal_character_world_rule_coherence_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_character_design_test_surface(bible=bible, plan=plan):
+        warnings.append("missing_character_design_tests")
+    if not _has_ally_or_opposition_motive_surface(bible=bible, plan=plan):
+        warnings.append("missing_ally_or_opposition_motive_surface")
+    if not _has_world_rule_cost_matrix_surface(bible=bible, plan=plan):
+        warnings.append("missing_world_rule_cost_matrix")
+    if not _has_research_uncertainty_surface(bible=bible, plan=plan):
+        warnings.append("missing_research_uncertainty_custody")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_character_design_test_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    explicit_keys = (
+        "character_design_tests",
+        "character_test_results",
+        "character_coherence_tests",
+        "surprising_but_inevitable_choice",
+        "moral_line_pressure_test",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    if any(_has_any_package_value(carrier, explicit_keys) for carrier in carriers):
+        return True
+
+    want_keys = ("external_want", "want", "goal", "current_goal", "desire", "objective")
+    pressure_keys = ("moral_line", "fear", "wound", "lie", "flaw", "pressure", "secret")
+    voice_keys = ("voice_fingerprint", "dialogue_voice", "things_they_avoid_saying", "subtext")
+    for card in _as_dict_list(bible.get("character_cards")):
+        if (
+            _has_any_package_value(card, want_keys)
+            and _has_any_package_value(card, pressure_keys)
+            and _has_any_package_value(card, voice_keys)
+        ):
+            return True
+    return False
+
+
+def _has_ally_or_opposition_motive_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    explicit_keys = (
+        "ally_independent_wants",
+        "ally_goals",
+        "opposition_motive",
+        "antagonist_motive",
+        "adaptive_opposition_tactics",
+        "opposition_strategy",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    carriers.extend(_as_dict_list(bible.get("conflicts")))
+    carriers.extend(_as_dict_list(bible.get("story_arcs")))
+    if plan:
+        carriers.extend(_as_dict_list(plan.get("beats")))
+        carriers.extend(_as_dict_list(plan.get("guardrails")))
+    if any(_has_any_package_value(carrier, explicit_keys) for carrier in carriers):
+        return True
+
+    ally_goal = False
+    opposition_motive = False
+    for card in _as_dict_list(bible.get("character_cards")):
+        role = _first_text(card, ("role", "function", "relationship_to_protagonist")).lower()
+        if any(marker in role for marker in ("ally", "friend", "support", "love", "mentor", "同伴", "盟友")):
+            ally_goal = ally_goal or _has_any_package_value(card, ("want", "goal", "desire", "objective", "current_goal"))
+        if any(marker in role for marker in ("antagonist", "opposition", "enemy", "rival", "villain", "反派", "对手")):
+            opposition_motive = opposition_motive or _has_any_package_value(
+                card,
+                ("motive", "belief", "justified", "strategy", "plan", "adaptive_tactics", "want", "goal"),
+            )
+    return ally_goal and opposition_motive
+
+
+def _has_world_rule_cost_matrix_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    matrix_keys = (
+        "world_rule_cost_matrix",
+        "rules_and_costs",
+        "world_rules_costs",
+        "magic_rule_costs",
+        "power_cost_matrix",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    if any(_has_any_package_value(carrier, matrix_keys) for carrier in carriers):
+        return True
+
+    rule_containers: list[Any] = [
+        bible.get("world_rules"),
+        bible.get("rules"),
+        bible.get("magic_rules"),
+        bible.get("technology_rules"),
+        bible.get("hard_constraints"),
+    ]
+    if plan:
+        rule_containers.extend([plan.get("guardrails"), plan.get("world_rules")])
+    rules = [item for container in rule_containers for item in _as_dict_list(container)]
+    cost_keys = ("cost", "limit", "limits", "price", "constraint", "tradeoff")
+    use_keys = ("story_use", "use", "function", "risk_if_broken", "if_broken", "who_knows", "known_by")
+    return any(_has_any_package_value(rule, cost_keys) and _has_any_package_value(rule, use_keys) for rule in rules)
+
+
+def _has_research_uncertainty_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    explicit_keys = (
+        "research_notes",
+        "verified_sources",
+        "uncertain_facts",
+        "assumptions",
+        "needs_web_verification",
+        "known_from_local_corpus",
+        "source_or_uncertainty",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    if any(_has_any_package_value(carrier, explicit_keys) for carrier in carriers):
+        return True
+
+    note_containers: list[Any] = [bible.get("research"), bible.get("research_notes")]
+    if plan:
+        note_containers.append(plan.get("research_notes"))
+    notes = [item for container in note_containers for item in _as_dict_list(container)]
+    evidence_keys = ("source", "citation", "uncertainty", "assumption", "verified", "needs_verification")
+    use_keys = ("story_use", "how_it_appears", "natural_story_use", "scene_use", "status")
+    return any(_has_any_package_value(note, evidence_keys) and _has_any_package_value(note, use_keys) for note in notes)
 
 
 def _story_skills_deterministic_continuity_contract_audit(
@@ -7743,6 +7908,65 @@ def _append_story_skills_deterministic_continuity_contract_gate_section(
         lines.append(f"- story_skills_continuity_contract_warnings: {', '.join(audit['warnings'])}")
 
 
+def _append_universal_character_world_rule_coherence_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render Universal Novel Writing character/world-rule coherence gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "universal_character_world_rule_coherence_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("universal_character_world_rule_coherence_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _universal_character_world_rule_coherence_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Universal character/world-rule coherence gate:")
+    lines.append(
+        "- character_design_tests: major choices should feel surprising but inevitable; "
+        "characters need their own desire, pressure, moral line, and recognizable voice"
+    )
+    lines.append(
+        "- ally_opposition_motives: allies should want something beyond praising the protagonist, "
+        "and opposition should have coherent motive or adaptive tactics"
+    )
+    lines.append(
+        "- world_rule_cost_matrix: powers, institutions, taboos, technology, or social rules "
+        "should record who knows, cost/limit, story use, and risk if broken"
+    )
+    lines.append(
+        "- research_uncertainty_custody: facts need source or uncertainty plus natural story use; "
+        "unverified facts stay assumptions until reviewed"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source character tests and world-rule matrices are process shapes only; "
+            "rebuild moral lines, motives, rule costs, and research assumptions for the target story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: character/world changes must extend accepted target bible, "
+            "world rules, plan guardrails, and research notes instead of inventing silent constraints"
+        )
+    if hints:
+        lines.append(f"- character_world_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- character_world_rule_coherence_warnings: {', '.join(audit['warnings'])}")
+
+
 def _append_better_writing_voice_specificity_preflight_gate_section(
     *,
     lines: list[str],
@@ -10890,6 +11114,19 @@ def build_remix_inspired_independence_audit(
             "source_character_wound_cost_import",
             "source_dialogue_cadence_clone",
         ])
+    if "universal_character_world_rule_coherence_gate" in pattern_names:
+        transfer_axes.append("character_world_rule_coherence_shape")
+        required_difference_axes.extend([
+            "target_character_design_test_namespace",
+            "target_ally_opposition_motive_namespace",
+            "target_world_rule_cost_matrix",
+            "target_research_uncertainty_registry",
+        ])
+        copy_risk_checks.extend([
+            "source_character_test_clone",
+            "source_world_rule_cost_clone",
+            "source_research_claim_import",
+        ])
     if "story_skills_deterministic_continuity_contract_gate" in pattern_names:
         transfer_axes.append("deterministic_continuity_contract_shape")
         required_difference_axes.extend([
@@ -11264,6 +11501,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",
         "scene_goal_obstacle_cost_exit_gate_hints": "scene_goal_obstacle_cost_exit_gate",
         "universal_story_engine_scene_pressure_gate_hints": "universal_story_engine_scene_pressure_gate",
+        "universal_character_world_rule_coherence_gate_hints": "universal_character_world_rule_coherence_gate",
         "story_skills_deterministic_continuity_contract_gate_hints": "story_skills_deterministic_continuity_contract_gate",
         "better_writing_voice_specificity_preflight_gate_hints": "better_writing_voice_specificity_preflight_gate",
         "revision_finding_patch_strategy_gate_hints": "revision_finding_patch_strategy_gate",

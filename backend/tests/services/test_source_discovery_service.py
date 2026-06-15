@@ -20463,7 +20463,10 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     "explicit confirmation."
                     " Core rules say story promise first, conflict drives every scene, "
                     "want/need/wound/cost, show when it matters, tell when it saves pace, "
-                    "and character-specific dialogue with subtext."
+                    "and character-specific dialogue with subtext. Character Design Tests "
+                    "check surprising choices, independent ally wants, and antagonist motive. "
+                    "Worldbuilding Rules And Costs track who knows, cost/limit, story use, "
+                    "risk if broken, and research notes with source or uncertainty."
                 ),
                 "root_files": [
                     "SKILL.md",
@@ -20498,6 +20501,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "premise_structure_hook_payoff_gate",
         "scene_goal_obstacle_cost_exit_gate",
         "universal_story_engine_scene_pressure_gate",
+        "universal_character_world_rule_coherence_gate",
         "revision_finding_patch_strategy_gate",
         "opening_ending_hook_integrity_gate",
         "anti_ai_naturalness_texture_gate",
@@ -20520,6 +20524,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "genre_promise_contract_matrix_report" in pattern_pack["whole_book_analysis_targets"]
     assert "subgenre_specific_ledger_report" in pattern_pack["whole_book_analysis_targets"]
     assert "story_engine_scene_pressure_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "character_world_rule_coherence_report" in pattern_pack["whole_book_analysis_targets"]
     assert "five_question_intake_story_promise_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_export_clean_manuscript_report" in pattern_pack["whole_book_analysis_targets"]
     assert "minimal_rollback_repair_scope_report" in pattern_pack["whole_book_analysis_targets"]
@@ -20528,6 +20533,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "universal_mode_contract_remap" in pattern_pack["inspired_mapping_targets"]
     assert "universal_portable_tool_policy_remap" in pattern_pack["inspired_mapping_targets"]
     assert "story_engine_scene_pressure_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "character_world_rule_coherence_remap" in pattern_pack["inspired_mapping_targets"]
     assert "genre_promise_contract_matrix_remap" in pattern_pack["inspired_mapping_targets"]
     assert "subgenre_specific_ledger_remap" in pattern_pack["inspired_mapping_targets"]
     assert "five_question_intake_story_promise_remap" in pattern_pack["inspired_mapping_targets"]
@@ -20546,6 +20552,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("premise" in hint.lower() for hint in pattern_pack["premise_structure_hook_payoff_gate_hints"])
     assert any("goal, obstacle" in hint.lower() for hint in pattern_pack["scene_goal_obstacle_cost_exit_gate_hints"])
     assert any("want" in hint.lower() and "wound" in hint.lower() for hint in pattern_pack["universal_story_engine_scene_pressure_gate_hints"])
+    assert any("world-rule cost matrix" in hint.lower() for hint in pattern_pack["universal_character_world_rule_coherence_gate_hints"])
     assert any("severity" in hint.lower() for hint in pattern_pack["revision_finding_patch_strategy_gate_hints"])
     assert any("opening hook" in hint.lower() for hint in pattern_pack["opening_ending_hook_integrity_gate_hints"])
     assert any("concrete action" in hint.lower() for hint in pattern_pack["anti_ai_naturalness_texture_gate_hints"])
@@ -20569,6 +20576,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "premise_structure_hook_payoff_gate_hints" in digest
     assert "scene_goal_obstacle_cost_exit_gate_hints" in digest
     assert "universal_story_engine_scene_pressure_gate_hints" in digest
+    assert "universal_character_world_rule_coherence_gate_hints" in digest
     assert "revision_finding_patch_strategy_gate_hints" in digest
     assert "opening_ending_hook_integrity_gate_hints" in digest
     assert "anti_ai_naturalness_texture_gate_hints" in digest

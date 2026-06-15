@@ -6694,6 +6694,122 @@ def test_universal_story_engine_scene_pressure_gate_projects_core_story_controls
     assert "source_story_engine_clone" in independence["copy_risk_checks"]
 
 
+def test_universal_character_world_rule_coherence_gate_projects_preview_controls():
+    pattern_pack = {
+        "universal_character_world_rule_coherence_gate_hints": [
+            "Character design tests, world-rule cost matrix, and research uncertainty custody must be target-owned."
+        ],
+    }
+    bible = {
+        "character_cards": [
+            {
+                "name": "Inspector Lin",
+                "role": "protagonist",
+                "want": "protect the archive",
+                "moral_line": "will not frame a witness",
+                "voice_fingerprint": "short guarded answers",
+            },
+            {
+                "name": "Mei",
+                "role": "ally",
+                "goal": "clear her brother's name",
+            },
+            {
+                "name": "Councilor Shen",
+                "role": "antagonist",
+                "motive": "hide the archive sale",
+                "adaptive_tactics": "uses procedural delay",
+            },
+        ],
+        "world_rules": [
+            {
+                "rule": "Archive seals can be opened only before two witnesses.",
+                "who_knows": "archive staff",
+                "cost": "public record is created",
+                "story_use": "forces confrontations into visible spaces",
+                "risk_if_broken": "testimony is void",
+            }
+        ],
+        "research_notes": [
+            {
+                "fact": "municipal archive access requires identity log",
+                "source": "local corpus note",
+                "story_use": "creates pressure around forged visitor records",
+            }
+        ],
+    }
+    plan = {
+        "beats": [{"opposition": "Councilor Shen", "motive": "delay the hearing"}],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Character World Desk",
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Character World Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer character/world coherence only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source moral tests, rule costs, or research claims.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    preview_audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nUniversal character/world-rule coherence gate",
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer character/world coherence only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source moral tests, rule costs, or research claims.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Universal character/world-rule coherence gate:" in block
+        assert "character_design_tests" in block
+        assert "ally_opposition_motives" in block
+        assert "world_rule_cost_matrix" in block
+        assert "research_uncertainty_custody" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "character_design_test_coherence" in missing_audit["control_axes"]
+    assert "world_rule_cost_matrix" in missing_audit["control_axes"]
+    assert "verify_character_world_rule_coherence" in missing_audit["acceptance_steps"]
+    assert "character_world_rule_coherence_warnings" in missing_audit["warnings"]
+    assert "missing_character_design_tests" in missing_audit["character_world_rule_coherence_warnings"]
+    assert "missing_ally_or_opposition_motive_surface" in missing_audit["character_world_rule_coherence_warnings"]
+    assert "missing_world_rule_cost_matrix" in missing_audit["character_world_rule_coherence_warnings"]
+    assert "missing_research_uncertainty_custody" in missing_audit["character_world_rule_coherence_warnings"]
+    assert satisfied_audit["character_world_rule_coherence_warnings"] == []
+    assert "character_world_rule_coherence_warnings" in preview_audit["production_warnings"]
+    assert "character_world_rule_coherence_warnings" in preview_audit
+
+    assert "character_world_rule_coherence_shape" in independence["transfer_axes"]
+    assert "target_world_rule_cost_matrix" in independence["required_difference_axes"]
+    assert "source_world_rule_cost_clone" in independence["copy_risk_checks"]
+
+
 def test_story_skills_deterministic_continuity_contract_gate_projects_preview_controls():
     pattern_pack = {
         "story_skills_deterministic_continuity_contract_gate_hints": [

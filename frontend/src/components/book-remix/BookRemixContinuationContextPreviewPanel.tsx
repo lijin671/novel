@@ -56,6 +56,7 @@ const TEXT = {
   naturalizationBoundary: "Naturalization boundary gate:",
   webSimilarityRuntimeBoundary: "Web similarity runtime boundary gate:",
   storyEngineScenePressure: "Story engine scene-pressure gate:",
+  characterWorldRuleCoherence: "Character / world-rule coherence gate:",
   storySkillsContinuityContract: "Story Skills deterministic continuity contract gate:",
   betterWritingVoicePreflight: "Better Writing voice specificity preflight gate:",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
@@ -478,6 +479,17 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Text type="secondary">{TEXT.storyEngineScenePressure}</Text>
               <Space wrap>
                 {value.story_engine_scene_pressure_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.character_world_rule_coherence_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.characterWorldRuleCoherence}</Text>
+              <Space wrap>
+                {value.character_world_rule_coherence_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>

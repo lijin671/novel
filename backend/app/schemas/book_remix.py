@@ -164,6 +164,7 @@ class BookRemixContinuationContextPreviewResponse(BaseModel):
     naturalization_boundary_warnings: list[str] = Field(default_factory=list)
     web_similarity_runtime_boundary_warnings: list[str] = Field(default_factory=list)
     story_engine_scene_pressure_warnings: list[str] = Field(default_factory=list)
+    character_world_rule_coherence_warnings: list[str] = Field(default_factory=list)
     story_skills_continuity_contract_warnings: list[str] = Field(default_factory=list)
     better_writing_voice_preflight_warnings: list[str] = Field(default_factory=list)
     continuity_questions: list[str] = Field(default_factory=list)

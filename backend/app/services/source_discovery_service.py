@@ -1724,6 +1724,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("premise_structure_hook_payoff_gate", ("workable premise", "premise stress-test", "stress-test the premise", "three-act structure", "serial/webnovel volume arc", "hook and payoff matrix", "ending direction")),
     ("scene_goal_obstacle_cost_exit_gate", ("goal -> obstacle", "outcome/cost", "reaction -> dilemma", "decision -> new goal", "goal, obstacle, tactic, turn, cost", "changed exit state")),
     ("universal_story_engine_scene_pressure_gate", ("story promise first", "conflict drives every scene", "want, need, wound, cost", "want need wound cost", "show when it matters", "tell when it saves pace", "character-specific dialogue", "dialogue subtext")),
+    ("universal_character_world_rule_coherence_gate", ("character design tests", "surprising choice", "ally also want something", "antagonist believe they are justified", "worldbuilding rules and costs", "who knows", "cost/limit", "story use", "risk if broken", "research notes", "source or uncertainty")),
     ("story_skills_deterministic_continuity_contract_gate", ("story skills", "continuity engine", "yaml frontmatter", "schema-version", "dead characters walking", "died-in", "mentions field", "payoffs before setup", "promises/payoffs", "questions", "story continuity", "story doctor")),
     ("better_writing_voice_specificity_preflight_gate", ("better-writing", "better writing", "voice sample", "style source of truth", "context dials", "directness", "warmth", "personality", "density", "evidence", "polish", "specificity without invention", "pre-flight", "preflight", "voice fit", "significance inflation", "vague attribution", "throat-clearing", "formulaic conclusions", "cluster of tells")),
     ("revision_finding_patch_strategy_gate", ("review report findings", "critical/high/medium/low", "critical high medium low", "severity", "patch strategy", "least destructive patch", "findings by severity")),
@@ -5074,6 +5075,7 @@ class NovelSourceDiscoveryService:
             "premise_structure_hook_payoff_gate_hints": self._build_premise_structure_hook_payoff_gate_hints(available_patterns),
             "scene_goal_obstacle_cost_exit_gate_hints": self._build_scene_goal_obstacle_cost_exit_gate_hints(available_patterns),
             "universal_story_engine_scene_pressure_gate_hints": self._build_universal_story_engine_scene_pressure_gate_hints(available_patterns),
+            "universal_character_world_rule_coherence_gate_hints": self._build_universal_character_world_rule_coherence_gate_hints(available_patterns),
             "story_skills_deterministic_continuity_contract_gate_hints": self._build_story_skills_deterministic_continuity_contract_gate_hints(available_patterns),
             "better_writing_voice_specificity_preflight_gate_hints": self._build_better_writing_voice_specificity_preflight_gate_hints(available_patterns),
             "revision_finding_patch_strategy_gate_hints": self._build_revision_finding_patch_strategy_gate_hints(available_patterns),
@@ -6654,6 +6656,8 @@ class NovelSourceDiscoveryService:
             targets.append("scene_goal_obstacle_cost_exit_policy")
         if "universal_story_engine_scene_pressure_gate" in patterns:
             targets.append("universal_story_engine_scene_pressure_policy")
+        if "universal_character_world_rule_coherence_gate" in patterns:
+            targets.append("universal_character_world_rule_coherence_policy")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             targets.append("story_skills_deterministic_continuity_contract_policy")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -8426,6 +8430,8 @@ class NovelSourceDiscoveryService:
             targets.append("scene_goal_obstacle_cost_exit_report")
         if "universal_story_engine_scene_pressure_gate" in patterns:
             targets.append("story_engine_scene_pressure_report")
+        if "universal_character_world_rule_coherence_gate" in patterns:
+            targets.append("character_world_rule_coherence_report")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             targets.append("story_skills_deterministic_continuity_contract_report")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -12147,6 +12153,15 @@ class NovelSourceDiscoveryService:
             "Story engine acceptance requires visible want, internal need/wound/flaw, and cost or limit for the POV/protagonist before prose is accepted.",
             "Every chapter or scene needs active opposition, stakes, a choice or tactic that changes state, and an explicit cost or irreversible consequence.",
             "Apply show/tell by pressure: dramatize turning points, conflict, emotions, and choices; summarize low-value logistics, and keep dialogue voice-specific with subtext.",
+        ]
+
+    def _build_universal_character_world_rule_coherence_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "universal_character_world_rule_coherence_gate" not in patterns:
+            return []
+        return [
+            "Run character design tests before chapter acceptance: major choices should feel surprising but inevitable, allies need independent wants, and opposition needs coherent motive or adaptive tactics.",
+            "Keep a world-rule cost matrix with who knows, cost/limit, story use, and risk if broken so powers, institutions, taboos, or technology constrain scenes instead of acting as exposition.",
+            "Treat research notes as evidence with source or uncertainty plus natural story use; unresolved facts stay assumptions and cannot become silent canon.",
         ]
 
     def _build_story_skills_deterministic_continuity_contract_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -16868,6 +16883,8 @@ class NovelSourceDiscoveryService:
             targets.append("scene_goal_obstacle_cost_exit_remap")
         if "universal_story_engine_scene_pressure_gate" in patterns:
             targets.append("story_engine_scene_pressure_remap")
+        if "universal_character_world_rule_coherence_gate" in patterns:
+            targets.append("character_world_rule_coherence_remap")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             targets.append("story_skills_deterministic_continuity_contract_remap")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -18401,6 +18418,8 @@ class NovelSourceDiscoveryService:
             hints.append("Use mode contracts as visible output-shape constraints, then fill them with transformed characters, conflicts, and setting rather than source specifics.")
         if "universal_story_engine_scene_pressure_gate" in patterns:
             hints.append("Prompt story-engine pressure from target-owned want/need/wound/cost, active opposition, choice consequence, show/tell policy, and dialogue subtext before drafting.")
+        if "universal_character_world_rule_coherence_gate" in patterns:
+            hints.append("Prompt character/world coherence from target-owned character design tests, world-rule cost matrix, research uncertainty notes, and rule-pressure constraints before drafting.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Prompt continuation with deterministic continuity fields: character lifecycle, present-cast versus mentions, promise/question setup-payoff order, and durable state references before prose reuse.")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -19966,6 +19985,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform each scene reward and hook by changing the goal, obstacle, information gain, emotional payoff, and exit question.")
         if "universal_story_engine_scene_pressure_gate" in patterns:
             hints.append("Transform story-engine pressure by rebuilding desire, wound, cost, opposition, choice, consequence, and dialogue voice for the new project.")
+        if "universal_character_world_rule_coherence_gate" in patterns:
+            hints.append("Transform character/world coherence by rebuilding moral lines, ally wants, opposition motives, rule costs, who-knows scope, and research assumptions for the target story.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Transform continuity contracts by rebuilding cast ids, lifecycle state, promise/question ledgers, object state, and knowledge state for the target story instead of copying source registries.")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -20185,6 +20206,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject imitation drafts that move read-only reference prose, source chapter order, style-manual source notes, or workbench tutorial wording into accepted MuMuAINovel canon.")
         if "universal_story_engine_scene_pressure_gate" in patterns:
             hints.append("Reject drafts that clone source desire, wound, opposition, cost pattern, scene choice, dialogue cadence, or show/tell rhythm under renamed entities.")
+        if "universal_character_world_rule_coherence_gate" in patterns:
+            hints.append("Reject drafts that copy source moral tests, ally/antagonist motive shapes, world-rule costs, research-note claims, or who-knows matrices into target canon.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Reject drafts that reuse upstream Story Skills sample ids, frontmatter examples, CLI findings, promise names, question names, or broken-demo continuity cases as accepted canon.")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -21306,6 +21329,7 @@ class NovelSourceDiscoveryService:
                 "premise_structure_hook_payoff_gate",
                 "scene_goal_obstacle_cost_exit_gate",
                 "universal_story_engine_scene_pressure_gate",
+                "universal_character_world_rule_coherence_gate",
                 "story_skills_deterministic_continuity_contract_gate",
                 "revision_finding_patch_strategy_gate",
                 "opening_ending_hook_integrity_gate",
