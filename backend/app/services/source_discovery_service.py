@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import html
 import base64
+import hashlib
 import json
 import re
 import urllib.parse
@@ -1219,6 +1220,10 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/DankerMu/novel-writer-plugin",
     "https://github.com/DankerMu/novel-writer-cli",
     "https://github.com/jmorenobl/bookwright",
+)
+
+DEFAULT_LOCAL_REFERENCE_PATHS = (
+    "D:/project/universal-novel-writing",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -4713,6 +4718,18 @@ def _parse_datetime(value: Any) -> datetime | None:
     return parsed.astimezone(timezone.utc)
 
 
+def _sha256_text(value: str) -> str:
+    return hashlib.sha256(value.encode("utf-8", errors="ignore")).hexdigest()
+
+
+def _path_latest_mtime_iso(path: Path) -> str:
+    try:
+        latest = max((item.stat().st_mtime for item in path.rglob("*") if item.is_file()), default=path.stat().st_mtime)
+    except Exception:
+        return ""
+    return datetime.fromtimestamp(latest, timezone.utc).astimezone().isoformat(timespec="seconds")
+
+
 def parse_linux_do_rss_items(rss_text: str, *, source_url: str) -> list[dict[str, Any]]:
     """解析 Linux.do RSS，返回只含公开摘要的候选元数据。"""
     root = ET.fromstring(rss_text)
@@ -4745,6 +4762,7 @@ class NovelSourceDiscoveryService:
         *,
         github_queries: Iterable[str] = DEFAULT_GITHUB_QUERIES,
         github_repository_urls: Iterable[str] = DEFAULT_GITHUB_REPOSITORY_URLS,
+        local_reference_paths: Iterable[str] = (),
         linux_do_rss_urls: Iterable[str] = DEFAULT_LINUX_DO_RSS_URLS,
         github_token: str | None = None,
         per_github_query: int = 10,
@@ -4761,7 +4779,24 @@ class NovelSourceDiscoveryService:
 
         github_repositories: list[dict[str, Any]] = []
         forum_items: list[dict[str, Any]] = []
+        local_references: list[dict[str, Any]] = []
         fetch_errors: list[dict[str, str]] = []
+
+        for reference_path in local_reference_paths:
+            try:
+                local_references.append(self._local_reference_metadata_from_path(reference_path))
+            except FileNotFoundError:
+                fetch_errors.append({
+                    "source": "local-reference",
+                    "path": str(reference_path),
+                    "error": "local_reference_path_not_found",
+                })
+            except Exception as exc:  # pragma: no cover - local filesystem boundary
+                fetch_errors.append({
+                    "source": "local-reference",
+                    "path": str(reference_path),
+                    "error": str(exc),
+                })
 
         async with httpx.AsyncClient(timeout=timeout_seconds, headers={"User-Agent": "MuMuAINovel-source-discovery"}) as client:
             for query in github_queries:
@@ -4819,6 +4854,7 @@ class NovelSourceDiscoveryService:
         ledger = self.build_ledger_from_metadata(
             github_repositories=github_repositories,
             forum_items=forum_items,
+            local_references=local_references,
             generated_at=_now_iso(),
         )
         ledger["fetch_errors"] = fetch_errors
@@ -5847,6 +5883,7 @@ class NovelSourceDiscoveryService:
         repo_root: Path,
         github_queries: Iterable[str] = DEFAULT_GITHUB_QUERIES,
         github_repository_urls: Iterable[str] = DEFAULT_GITHUB_REPOSITORY_URLS,
+        local_reference_paths: Iterable[str] = DEFAULT_LOCAL_REFERENCE_PATHS,
         linux_do_rss_urls: Iterable[str] = DEFAULT_LINUX_DO_RSS_URLS,
         github_token: str | None = None,
         per_github_query: int = 10,
@@ -5880,6 +5917,7 @@ class NovelSourceDiscoveryService:
         ledger = await self.discover_public_sources(
             github_queries=github_queries,
             github_repository_urls=github_repository_urls,
+            local_reference_paths=local_reference_paths,
             linux_do_rss_urls=linux_do_rss_urls,
             github_token=github_token,
             per_github_query=per_github_query,
@@ -21973,6 +22011,56 @@ class NovelSourceDiscoveryService:
             return {}
         scripts = package_payload.get("scripts") if isinstance(package_payload, dict) else None
         return scripts if isinstance(scripts, dict) else {}
+
+    def _local_reference_metadata_from_path(self, reference_path: Any) -> dict[str, Any]:
+        path = Path(_text(reference_path))
+        if not path.exists() or not path.is_dir():
+            raise FileNotFoundError(str(reference_path))
+
+        root_files = [
+            child.name
+            for child in sorted(path.iterdir(), key=lambda item: item.name.lower())
+            if child.is_file()
+        ]
+        selected_files = [
+            path / "SKILL.md",
+            path / "README.md",
+            path / "README.zh-CN.md",
+        ]
+        references_dir = path / "references"
+        if references_dir.exists() and references_dir.is_dir():
+            selected_files.extend(
+                sorted(
+                    (file for file in references_dir.glob("*.md") if file.is_file()),
+                    key=lambda item: item.name.lower(),
+                )
+            )
+
+        summary_parts: list[str] = []
+        file_hashes: dict[str, str] = {}
+        for selected in selected_files:
+            if not selected.exists() or not selected.is_file():
+                continue
+            try:
+                text = selected.read_text(encoding="utf-8", errors="ignore")
+            except Exception:
+                continue
+            relative = selected.relative_to(path).as_posix()
+            file_hashes[relative] = _sha256_text(text)
+            compact = " ".join(text.split())
+            if compact:
+                summary_parts.append(f"{relative}: {compact[:1200]}")
+
+        return {
+            "title": f"local/{path.name}",
+            "path": str(path),
+            "url": str(path),
+            "summary": "\n".join(summary_parts)[:8000],
+            "root_files": root_files,
+            "file_hashes": file_hashes,
+            "license": "unknown",
+            "updated_at": _path_latest_mtime_iso(path),
+        }
 
     def _candidate_from_local_reference(self, reference: dict[str, Any]) -> dict[str, Any]:
         title = _text(reference.get("title") or reference.get("name") or reference.get("path"))

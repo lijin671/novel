@@ -22,6 +22,10 @@ const DEFAULT_GITHUB_REPOSITORY_SEEDS = [
   'https://github.com/google-deepmind/narrativeqa',
 ];
 
+const DEFAULT_LOCAL_REFERENCE_PATHS = [
+  'D:/project/universal-novel-writing',
+];
+
 const ADDITIONAL_HINT_GROUP_LIMIT = 24;
 const WORKFLOW_PATTERN_EVIDENCE_LIMIT = 12;
 const WORKFLOW_PATTERN_SOURCE_LIMIT = 3;
@@ -515,6 +519,8 @@ export default function BookRemixSourceDiscoveryPanel() {
   const [refreshing, setRefreshing] = useState(false);
   const [repositorySeeds, setRepositorySeeds] = useState(DEFAULT_GITHUB_REPOSITORY_SEEDS.join('\n'));
   const [repositorySeedsEdited, setRepositorySeedsEdited] = useState(false);
+  const [localReferencePaths, setLocalReferencePaths] = useState(DEFAULT_LOCAL_REFERENCE_PATHS.join('\n'));
+  const [localReferencePathsEdited, setLocalReferencePathsEdited] = useState(false);
   const [githubQueries, setGithubQueries] = useState('');
   const [githubQueriesEdited, setGithubQueriesEdited] = useState(false);
   const [linuxDoRssUrls, setLinuxDoRssUrls] = useState('');
@@ -531,6 +537,9 @@ export default function BookRemixSourceDiscoveryPanel() {
       if (!repositorySeedsEdited && result.default_github_repository_urls?.length) {
         setRepositorySeeds(result.default_github_repository_urls.join('\n'));
       }
+      if (!localReferencePathsEdited && result.default_local_reference_paths?.length) {
+        setLocalReferencePaths(result.default_local_reference_paths.join('\n'));
+      }
       if (!linuxDoRssUrlsEdited && result.default_linux_do_rss_urls?.length) {
         setLinuxDoRssUrls(result.default_linux_do_rss_urls.join('\n'));
       }
@@ -546,6 +555,9 @@ export default function BookRemixSourceDiscoveryPanel() {
         write_to_docs: true,
         github_queries: githubQueriesEdited || githubQueries.trim() ? parseLineItems(githubQueries) : undefined,
         github_repository_urls: parseSeedUrls(repositorySeeds),
+        local_reference_paths: localReferencePathsEdited || localReferencePaths.trim()
+          ? parseLineItems(localReferencePaths)
+          : undefined,
         linux_do_rss_urls: linuxDoRssUrlsEdited || linuxDoRssUrls.trim() ? parseSeedUrls(linuxDoRssUrls) : undefined,
       });
       await loadLatest();
@@ -561,6 +573,9 @@ export default function BookRemixSourceDiscoveryPanel() {
       const result = await sourceDiscoveryApi.refresh({
         github_queries: githubQueriesEdited || githubQueries.trim() ? parseLineItems(githubQueries) : undefined,
         github_repository_urls: parseSeedUrls(repositorySeeds),
+        local_reference_paths: localReferencePathsEdited || localReferencePaths.trim()
+          ? parseLineItems(localReferencePaths)
+          : undefined,
         linux_do_rss_urls: linuxDoRssUrlsEdited || linuxDoRssUrls.trim() ? parseSeedUrls(linuxDoRssUrls) : undefined,
       });
       await loadLatest();
@@ -576,6 +591,7 @@ export default function BookRemixSourceDiscoveryPanel() {
 
   useEffect(() => {
     void loadLatest();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const patternPack = value?.pattern_pack;
@@ -647,6 +663,26 @@ export default function BookRemixSourceDiscoveryPanel() {
               />
               <Text type="secondary">
                 {`后端默认 seed：${value?.default_github_repository_urls?.length ?? DEFAULT_GITHUB_REPOSITORY_SEEDS.length} 个；手动编辑后本次页面会保留你的输入。`}
+              </Text>
+            </Space>
+          </Card>
+
+          <Card size="small" title="本地静态参考">
+            <Space direction="vertical" size={8} style={{ width: '100%' }}>
+              <Text type="secondary">
+                {'每行一个本地参考项目路径。只静态读取 Markdown / SKILL.md / references，不安装、不执行、不读取凭据。'}
+              </Text>
+              <TextArea
+                rows={3}
+                value={localReferencePaths}
+                onChange={(event) => {
+                  setLocalReferencePathsEdited(true);
+                  setLocalReferencePaths(event.target.value);
+                }}
+                placeholder="D:/project/universal-novel-writing"
+              />
+              <Text type="secondary">
+                {`后端默认本地参考：${value?.default_local_reference_paths?.length ?? DEFAULT_LOCAL_REFERENCE_PATHS.length} 个；手动编辑后本次页面会保留你的输入。`}
               </Text>
             </Space>
           </Card>

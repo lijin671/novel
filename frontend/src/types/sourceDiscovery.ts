@@ -1,6 +1,7 @@
 export interface SourceDiscoveryRunRequest {
   github_queries?: string[] | null;
   github_repository_urls?: string[] | null;
+  local_reference_paths?: string[] | null;
   linux_do_rss_urls?: string[] | null;
   per_github_query?: number;
   per_rss_feed?: number;
@@ -594,5 +595,6 @@ export interface SourceDiscoveryLatestArtifactResponse {
   refresh_policy: SourceDiscoveryRefreshPolicy;
   default_github_queries?: string[];
   default_github_repository_urls?: string[];
+  default_local_reference_paths?: string[];
   default_linux_do_rss_urls?: string[];
 }

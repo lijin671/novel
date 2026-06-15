@@ -24,6 +24,10 @@ class SourceDiscoveryRunRequest(BaseModel):
         default=None,
         description="Explicit GitHub repository URLs to fetch by metadata API, such as https://github.com/voocel/ainovel-cli.",
     )
+    local_reference_paths: Optional[list[str]] = Field(
+        default=None,
+        description="Local static reference directories to summarize without executing code, such as D:/project/universal-novel-writing.",
+    )
     per_github_query: int = Field(default=10, ge=1, le=50)
     per_rss_feed: int = Field(default=20, ge=1, le=50)
     write_to_docs: bool = Field(
@@ -98,4 +102,5 @@ class SourceDiscoveryLatestArtifactResponse(BaseModel):
     refresh_policy: dict = Field(default_factory=dict)
     default_github_queries: list[str] = Field(default_factory=list)
     default_github_repository_urls: list[str] = Field(default_factory=list)
+    default_local_reference_paths: list[str] = Field(default_factory=list)
     default_linux_do_rss_urls: list[str] = Field(default_factory=list)

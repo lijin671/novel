@@ -1205,3 +1205,19 @@ def test_continuation_context_preview_panel_surfaces_universal_gate_warning_buck
         "Deterministic volume spec gate",
     ):
         assert label in panel_text
+
+
+def test_source_discovery_panel_supports_local_reference_paths():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "sourceDiscovery.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    assert "local_reference_paths" in types_text
+    assert "default_local_reference_paths" in types_text
+    assert "localReferencePaths" in panel_text
+    assert "D:/project/universal-novel-writing" in panel_text
+    assert "local_reference_paths" in panel_text
+    assert "本地静态参考" in panel_text

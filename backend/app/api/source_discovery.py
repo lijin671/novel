@@ -17,6 +17,7 @@ from app.schemas.source_discovery import (
 from app.services.source_discovery_service import (
     DEFAULT_GITHUB_QUERIES,
     DEFAULT_GITHUB_REPOSITORY_URLS,
+    DEFAULT_LOCAL_REFERENCE_PATHS,
     DEFAULT_LINUX_DO_RSS_URLS,
     source_discovery_service,
 )
@@ -52,6 +53,11 @@ async def run_source_discovery_ledger(
             DEFAULT_GITHUB_REPOSITORY_URLS
             if payload.github_repository_urls is None
             else payload.github_repository_urls
+        ),
+        local_reference_paths=(
+            DEFAULT_LOCAL_REFERENCE_PATHS
+            if payload.local_reference_paths is None
+            else payload.local_reference_paths
         ),
         linux_do_rss_urls=payload.linux_do_rss_urls or DEFAULT_LINUX_DO_RSS_URLS,
         github_token=os.environ.get("GITHUB_TOKEN"),
@@ -105,6 +111,11 @@ async def refresh_source_discovery_artifacts(
             if payload.github_repository_urls is None
             else payload.github_repository_urls
         ),
+        local_reference_paths=(
+            DEFAULT_LOCAL_REFERENCE_PATHS
+            if payload.local_reference_paths is None
+            else payload.local_reference_paths
+        ),
         linux_do_rss_urls=payload.linux_do_rss_urls or DEFAULT_LINUX_DO_RSS_URLS,
         github_token=os.environ.get("GITHUB_TOKEN"),
         per_github_query=payload.per_github_query,
@@ -134,5 +145,6 @@ async def get_latest_source_discovery_artifacts(request: Request):
         ),
         "default_github_queries": list(DEFAULT_GITHUB_QUERIES),
         "default_github_repository_urls": list(DEFAULT_GITHUB_REPOSITORY_URLS),
+        "default_local_reference_paths": list(DEFAULT_LOCAL_REFERENCE_PATHS),
         "default_linux_do_rss_urls": list(DEFAULT_LINUX_DO_RSS_URLS),
     }

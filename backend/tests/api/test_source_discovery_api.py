@@ -242,6 +242,21 @@ async def test_run_source_discovery_allows_empty_repository_url_override(api_con
 
 
 @pytest.mark.asyncio
+async def test_run_source_discovery_passes_local_reference_paths(api_context):
+    client: AsyncClient = api_context["client"]
+
+    response = await client.post(
+        "/api/source-discovery/ledger/run",
+        json={"local_reference_paths": ["D:/project/universal-novel-writing"]},
+    )
+
+    assert response.status_code == 200
+    assert api_context["service"].calls[0]["local_reference_paths"] == [
+        "D:/project/universal-novel-writing"
+    ]
+
+
+@pytest.mark.asyncio
 async def test_run_source_discovery_requires_login():
     app = FastAPI()
     app.include_router(router, prefix="/api")
@@ -274,6 +289,7 @@ async def test_get_latest_source_discovery_artifacts_returns_pattern_pack_and_le
     assert "https://github.com/voocel/ainovel-cli" in payload["default_github_repository_urls"]
     assert "https://github.com/arupmaity1/book-writer-mcp" in payload["default_github_repository_urls"]
     assert "https://linux.do/latest.rss" in payload["default_linux_do_rss_urls"]
+    assert "default_local_reference_paths" in payload
 
 
 @pytest.mark.asyncio
@@ -285,6 +301,7 @@ async def test_refresh_source_discovery_updates_missing_or_stale_artifacts(api_c
         json={
             "github_queries": ["ai novel writing stars:>50"],
             "github_repository_urls": ["https://github.com/voocel/ainovel-cli"],
+            "local_reference_paths": ["D:/project/universal-novel-writing"],
             "linux_do_rss_urls": ["https://linux.do/tag/444-tag/444.rss"],
             "force": True,
         },
@@ -301,6 +318,7 @@ async def test_refresh_source_discovery_updates_missing_or_stale_artifacts(api_c
     call = api_context["service"].calls[-1]["refresh_pattern_pack_if_needed"]
     assert call["github_queries"] == ["ai novel writing stars:>50"]
     assert call["github_repository_urls"] == ["https://github.com/voocel/ainovel-cli"]
+    assert call["local_reference_paths"] == ["D:/project/universal-novel-writing"]
     assert call["linux_do_rss_urls"] == ["https://linux.do/tag/444-tag/444.rss"]
     assert call["force"] is True
 

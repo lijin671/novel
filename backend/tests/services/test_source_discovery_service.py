@@ -4,6 +4,8 @@ import json
 from datetime import datetime
 from pathlib import Path
 
+import pytest
+
 from app.services.source_discovery_service import (
     DEFAULT_GITHUB_QUERIES,
     DEFAULT_GITHUB_REPOSITORY_URLS,
@@ -20626,6 +20628,48 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "minimal_rollback_repair_scope_gate_hints" in digest
     assert "progressive_context_loading_gate_hints" in digest
     assert "author_intent_confirmation_gate_hints" in digest
+
+
+@pytest.mark.asyncio
+async def test_discover_public_sources_static_reads_local_reference_path(tmp_path):
+    reference_root = tmp_path / "universal-novel-writing"
+    references = reference_root / "references"
+    references.mkdir(parents=True)
+    (reference_root / "SKILL.md").write_text(
+        "\n".join(
+            [
+                "# Universal Novel Writing",
+                "Operating modes: quick-start, full-project, continue-chapter, revise, analyze, export.",
+                "Use a chapter contract with reader promise, opening hook, main obstacle, payoff, and forbidden contradictions.",
+                "Plan 3-7 scenes with goal, obstacle, turn, cost, and exit state.",
+                "Run a fresh reader test: POV, want, block, stakes, changed by end, and pull onward.",
+                "Repair the smallest failing artifact instead of restarting the whole project.",
+            ]
+        ),
+        encoding="utf-8",
+    )
+    (references / "chapter-workflow.md").write_text(
+        "Chapter Contract, Scene Beat Sheet, progress report write-back.",
+        encoding="utf-8",
+    )
+
+    service = NovelSourceDiscoveryService()
+    result = await service.discover_public_sources(
+        github_queries=[],
+        github_repository_urls=[],
+        linux_do_rss_urls=[],
+        local_reference_paths=[str(reference_root)],
+    )
+
+    assert result["candidate_count"] == 1
+    candidate = result["candidates"][0]
+    assert candidate["source"] == "local-reference"
+    assert candidate["url"] == str(reference_root)
+    assert candidate["posture_hint"] == "local-static-review"
+    assert "local:static-only" in candidate["trust_review"]["flags"]
+    assert "chapter_contract_scene_beat_gate" in candidate["absorbed_patterns"]
+    assert "reader_pull_fresh_reader_gate" in candidate["absorbed_patterns"]
+    assert result["fetch_errors"] == []
 
 
 def test_static_novelist_test_workstation_source_adds_phase_quality_gates():
