@@ -6537,6 +6537,163 @@ def test_quality_safety_boundary_gates_project_human_ai_and_web_similarity_contr
     assert "live_web_scrape_without_contract" in independence["copy_risk_checks"]
 
 
+def test_universal_story_engine_scene_pressure_gate_projects_core_story_controls():
+    pattern_pack = {
+        "universal_story_engine_scene_pressure_gate_hints": [
+            "Story engine needs visible want/need/wound/cost, active opposition, choice cost, show/tell pressure, and character-specific dialogue."
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Story Engine Desk",
+        bible={
+            "character_cards": [
+                {
+                    "name": "Inspector Lin",
+                    "external_want": "protect the archive",
+                    "internal_need": "trust an ally",
+                    "wound": "failed public testimony",
+                    "cost": "public trust",
+                    "voice_fingerprint": "short guarded answers",
+                }
+            ],
+            "conflicts": [
+                {
+                    "opposition": "Archive council",
+                    "stakes": "Lin loses authority over the seal case",
+                }
+            ],
+            "style_signature": {
+                "show_tell_policy": "Dramatize turning points; summarize low-value logistics.",
+                "dialogue_subtext": "Characters avoid the direct accusation.",
+            },
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 6,
+                    "summary": "Lin won the hearing but lost the witness's trust.",
+                    "cost": "witness withdraws",
+                    "exit_state": "case moves into public scrutiny",
+                    "dialogue_subtext": "Lin avoids naming the council threat.",
+                }
+            ],
+        },
+        plan={
+            "scene_beats": [
+                {
+                    "goal": "force a confession",
+                    "obstacle": "council witness stonewalls",
+                    "choice": "trade a private clue for testimony",
+                    "cost": "public trust weakens",
+                    "exit_state": "case becomes visible",
+                }
+            ],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Story Engine Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer story-engine discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source desire, wound, opposition, cost, dialogue, or scene choice.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible={
+            "character_cards": [
+                {
+                    "name": "Inspector Lin",
+                    "external_want": "protect the archive",
+                    "internal_need": "trust an ally",
+                    "wound": "failed testimony",
+                    "cost": "public trust",
+                    "voice_fingerprint": "short guarded answers",
+                }
+            ],
+            "conflicts": [{"opposition": "Archive council", "stakes": "case authority"}],
+            "style_signature": {
+                "show_tell_policy": "Dramatize turning points; summarize transitions.",
+                "dialogue_subtext": "answers dodge the accusation",
+            },
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 6,
+                    "cost": "witness withdraws",
+                    "exit_state": "case becomes public",
+                    "dialogue_subtext": "Lin does not name the council",
+                }
+            ],
+        },
+        plan={
+            "scene_beats": [
+                {
+                    "goal": "force a confession",
+                    "obstacle": "witness stonewalls",
+                    "choice": "trade a clue",
+                    "cost": "public trust weakens",
+                    "exit_state": "case becomes public",
+                }
+            ],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    preview_audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nUniversal story engine scene-pressure gate",
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer story-engine discipline only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source desire, wound, opposition, cost, dialogue, or scene choice.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Universal story engine scene-pressure gate:" in block
+        assert "want_need_wound_cost" in block
+        assert "active_opposition_stakes" in block
+        assert "choice_cost_irreversible_change" in block
+        assert "show_tell_pressure_boundary" in block
+        assert "voice_specific_dialogue" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "story_engine_want_need_wound_cost" in missing_audit["control_axes"]
+    assert "active_opposition_stakes_cost" in missing_audit["control_axes"]
+    assert "choice_cost_irreversible_change" in missing_audit["control_axes"]
+    assert "show_tell_pressure_boundary" in missing_audit["control_axes"]
+    assert "voice_specific_dialogue_review" in missing_audit["control_axes"]
+    assert "verify_story_engine_scene_pressure" in missing_audit["acceptance_steps"]
+    assert "story_engine_scene_pressure_warnings" in missing_audit["warnings"]
+    assert "missing_story_engine_character_spine" in missing_audit["story_engine_scene_pressure_warnings"]
+    assert "missing_active_opposition_or_stakes" in missing_audit["story_engine_scene_pressure_warnings"]
+    assert "missing_choice_cost_or_irreversible_change" in missing_audit["story_engine_scene_pressure_warnings"]
+    assert "missing_show_tell_pressure_boundary" in missing_audit["story_engine_scene_pressure_warnings"]
+    assert "missing_voice_specific_dialogue_surface" in missing_audit["story_engine_scene_pressure_warnings"]
+    assert "story_engine_scene_pressure_warnings" not in satisfied_audit["warnings"]
+    assert satisfied_audit["story_engine_scene_pressure_warnings"] == []
+    assert "story_engine_scene_pressure_warnings" in preview_audit["production_warnings"]
+    assert "story_engine_scene_pressure_warnings" in preview_audit
+
+    assert "story_engine_scene_pressure_shape" in independence["transfer_axes"]
+    assert "target_desire_wound_cost_namespace" in independence["required_difference_axes"]
+    assert "source_story_engine_clone" in independence["copy_risk_checks"]
+
+
 def test_six_layer_iron_law_gate_projects_consistency_brake_and_failure_block():
     pattern_pack = {
         "six_layer_iron_law_chapter_gate_hints": [

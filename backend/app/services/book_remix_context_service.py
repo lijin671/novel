@@ -249,6 +249,15 @@ def build_remix_continuation_control_audit(
     if "scene_goal_obstacle_cost_exit_gate" in pattern_names:
         control_axes.append("scene_goal_obstacle_cost_exit_state")
         acceptance_steps.append("verify_scene_goal_obstacle_cost_exit")
+    if "universal_story_engine_scene_pressure_gate" in pattern_names:
+        control_axes.extend([
+            "story_engine_want_need_wound_cost",
+            "active_opposition_stakes_cost",
+            "choice_cost_irreversible_change",
+            "show_tell_pressure_boundary",
+            "voice_specific_dialogue_review",
+        ])
+        acceptance_steps.append("verify_story_engine_scene_pressure")
     if "revision_finding_patch_strategy_gate" in pattern_names:
         control_axes.extend([
             "revision_finding_severity_triage",
@@ -912,6 +921,16 @@ def build_remix_continuation_control_audit(
         if "web_similarity_scrape_boundary_gate" in pattern_names
         else {"warnings": []}
     )
+    story_engine_scene_pressure_audit = (
+        _universal_story_engine_scene_pressure_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "universal_story_engine_scene_pressure_gate" in pattern_names
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -975,6 +994,8 @@ def build_remix_continuation_control_audit(
         warnings.append("naturalization_boundary_warnings")
     if web_similarity_runtime_boundary_audit["warnings"]:
         warnings.append("web_similarity_runtime_boundary_warnings")
+    if story_engine_scene_pressure_audit["warnings"]:
+        warnings.append("story_engine_scene_pressure_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -1035,6 +1056,7 @@ def build_remix_continuation_control_audit(
         "ai_tell_pattern_warnings": ai_tell_pattern_audit["warnings"],
         "naturalization_boundary_warnings": naturalization_boundary_audit["warnings"],
         "web_similarity_runtime_boundary_warnings": web_similarity_runtime_boundary_audit["warnings"],
+        "story_engine_scene_pressure_warnings": story_engine_scene_pressure_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -1195,6 +1217,13 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_quality_safety_boundary_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_universal_story_engine_scene_pressure_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1721,6 +1750,7 @@ def build_remix_context_preview_audit(
         "ai_tell_pattern_warnings": production_control_audit["ai_tell_pattern_warnings"],
         "naturalization_boundary_warnings": production_control_audit["naturalization_boundary_warnings"],
         "web_similarity_runtime_boundary_warnings": production_control_audit["web_similarity_runtime_boundary_warnings"],
+        "story_engine_scene_pressure_warnings": production_control_audit["story_engine_scene_pressure_warnings"],
         **continuity_audit,
     }
 
@@ -1927,6 +1957,13 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_quality_safety_boundary_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_universal_story_engine_scene_pressure_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -3893,6 +3930,113 @@ def _web_similarity_runtime_boundary_audit(
     if not _has_web_similarity_runtime_boundary_surface(bible=bible, plan=plan):
         warnings.append("missing_web_similarity_runtime_boundary")
     return {"warnings": warnings[:max_items]}
+
+
+def _universal_story_engine_scene_pressure_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit universal story-engine pressure before accepting chapter flow."""
+    warnings: list[str] = []
+    if "universal_story_engine_scene_pressure_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_story_engine_character_spine_surface(bible=bible):
+        warnings.append("missing_story_engine_character_spine")
+    if not _has_active_opposition_stakes_surface(bible=bible, plan=plan):
+        warnings.append("missing_active_opposition_or_stakes")
+    if not _has_choice_cost_irreversible_change_surface(bible=bible, plan=plan):
+        warnings.append("missing_choice_cost_or_irreversible_change")
+    if not _has_show_tell_pressure_boundary_surface(bible=bible, plan=plan):
+        warnings.append("missing_show_tell_pressure_boundary")
+    if not _has_voice_specific_dialogue_surface(bible=bible, plan=plan):
+        warnings.append("missing_voice_specific_dialogue_surface")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_story_engine_character_spine_surface(*, bible: dict[str, Any]) -> bool:
+    want_keys = ("external_want", "want", "goal", "current_goal", "desire", "objective")
+    need_keys = ("internal_need", "need", "wound", "lie", "flaw", "fear")
+    cost_keys = ("cost", "limit", "limits", "stakes", "pressure", "price", "risk")
+    for card in _as_dict_list(bible.get("character_cards")):
+        if (
+            _has_any_package_value(card, want_keys)
+            and _has_any_package_value(card, need_keys)
+            and _has_any_package_value(card, cost_keys)
+        ):
+            return True
+    return False
+
+
+def _has_active_opposition_stakes_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    opposition_keys = ("opposition", "antagonist", "obstacle", "conflict", "blocked_by", "pressure")
+    stakes_keys = ("stakes", "cost", "consequence", "risk", "danger", "why_it_matters", "failure_result")
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    carriers.extend(_as_dict_list(bible.get("conflicts")))
+    carriers.extend(_as_dict_list(bible.get("story_arcs")))
+    carriers.extend(_as_dict_list(plan.get("beats")) if plan else [])
+    for carrier in carriers:
+        if _has_any_package_value(carrier, opposition_keys) and _has_any_package_value(carrier, stakes_keys):
+            return True
+    return False
+
+
+def _has_choice_cost_irreversible_change_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    choice_keys = ("choice", "decision", "tactic", "turn", "dilemma", "action")
+    cost_keys = ("cost", "consequence", "changed_exit_state", "exit_state", "irreversible_change", "outcome")
+    carriers: list[dict[str, Any]] = []
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    if isinstance(plan, dict):
+        carriers.extend(_as_dict_list(plan.get("scene_beats")))
+        carriers.extend(_as_dict_list(plan.get("scene_plan")))
+        carriers.extend(_as_dict_list(plan.get("scenes")))
+        carriers.extend(_as_dict_list(plan.get("beats")))
+    for carrier in carriers:
+        if _has_any_package_value(carrier, choice_keys) and _has_any_package_value(carrier, cost_keys):
+            return True
+        if _has_any_package_value(carrier, ("exit_state", "changed_exit_state", "irreversible_change")) and _has_any_package_value(
+            carrier,
+            ("cost", "consequence", "risk", "pressure"),
+        ):
+            return True
+    return False
+
+
+def _has_show_tell_pressure_boundary_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "show_tell_policy",
+        "scene_vs_summary_policy",
+        "dramatize_turning_points",
+        "summary_boundary",
+        "show_when_it_matters",
+        "tell_when_it_saves_pace",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    style_signature = bible.get("style_signature")
+    if isinstance(style_signature, dict):
+        carriers.append(style_signature)
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_voice_specific_dialogue_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "voice_fingerprint",
+        "dialogue_voice",
+        "dialogue_subtext",
+        "character_specific_diction",
+        "things_they_avoid_saying",
+        "subtext",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    style_signature = bible.get("style_signature")
+    if isinstance(style_signature, dict):
+        carriers.append(style_signature)
+    carriers.extend(_as_dict_list(bible.get("character_cards")))
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
 
 
 def _has_human_review_packet_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
@@ -7166,6 +7310,69 @@ def _append_quality_safety_boundary_gate_section(
             lines.append(f"- web_similarity_runtime_boundary_warnings: {', '.join(audit['warnings'])}")
 
 
+def _append_universal_story_engine_scene_pressure_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render universal story-engine, pressure, and dialogue-voice gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "universal_story_engine_scene_pressure_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("universal_story_engine_scene_pressure_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _universal_story_engine_scene_pressure_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Universal story engine scene-pressure gate:")
+    lines.append(
+        "- want_need_wound_cost: protagonist or POV carrier needs visible external want, "
+        "internal need/wound/flaw, and cost or limit before draft acceptance"
+    )
+    lines.append(
+        "- active_opposition_stakes: every chapter or scene must name an active obstacle/opposition "
+        "and what gets worse if the character fails"
+    )
+    lines.append(
+        "- choice_cost_irreversible_change: scene beats should turn on a choice, tactic, or dilemma "
+        "that changes plot, knowledge, relationship, risk, moral pressure, emotion, or world-rule understanding"
+    )
+    lines.append(
+        "- show_tell_pressure_boundary: dramatize turning points, conflict, emotions, and choices; "
+        "summarize low-value transitions or repeated logistics"
+    )
+    lines.append(
+        "- voice_specific_dialogue: dialogue should carry character-specific diction, avoidance, "
+        "goal pressure, and subtext instead of polished synopsis"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source desire, wound, opposition, cost, scene choice, and dialogue "
+            "cadence are craft axes only; rebuild all concrete story-engine content for the target project"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: story-engine pressure must extend accepted canon, current state, "
+            "and unresolved debts rather than inventing parallel motivation or off-ledger costs"
+        )
+    if hints:
+        lines.append(f"- story_engine_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- story_engine_scene_pressure_warnings: {', '.join(audit['warnings'])}")
+
+
 def _append_universal_hook_naturalness_gate_section(
     *,
     lines: list[str],
@@ -10236,6 +10443,19 @@ def build_remix_inspired_independence_audit(
             "exit_state_route",
         ])
         copy_risk_checks.append("source_scene_beat_clone")
+    if "universal_story_engine_scene_pressure_gate" in pattern_names:
+        transfer_axes.append("story_engine_scene_pressure_shape")
+        required_difference_axes.extend([
+            "target_desire_wound_cost_namespace",
+            "target_opposition_stakes_namespace",
+            "target_choice_consequence_route",
+            "target_dialogue_voice_surface",
+        ])
+        copy_risk_checks.extend([
+            "source_story_engine_clone",
+            "source_character_wound_cost_import",
+            "source_dialogue_cadence_clone",
+        ])
     if "revision_finding_patch_strategy_gate" in pattern_names:
         transfer_axes.append("revision_triage_discipline")
         required_difference_axes.append("patch_scope_ids")
@@ -10583,6 +10803,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",
         "scene_goal_obstacle_cost_exit_gate_hints": "scene_goal_obstacle_cost_exit_gate",
+        "universal_story_engine_scene_pressure_gate_hints": "universal_story_engine_scene_pressure_gate",
         "revision_finding_patch_strategy_gate_hints": "revision_finding_patch_strategy_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():

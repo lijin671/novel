@@ -55,6 +55,7 @@ const TEXT = {
   aiTellPattern: "AI-tell pattern review gate:",
   naturalizationBoundary: "Naturalization boundary gate:",
   webSimilarityRuntimeBoundary: "Web similarity runtime boundary gate:",
+  storyEngineScenePressure: "Story engine scene-pressure gate:",
   continuityQuestions: "\u8fde\u7eed\u6027\u95ee\u9898\uff1a",
   promisePayoffDebts: "\u627f\u8bfa/\u56de\u6536\u503a\uff1a",
   sceneStateSnapshot: "\u573a\u666f\u72b6\u6001\u5feb\u7167\uff1a",
@@ -464,6 +465,17 @@ export default function BookRemixContinuationContextPreviewPanel({
               <Text type="secondary">{TEXT.webSimilarityRuntimeBoundary}</Text>
               <Space wrap>
                 {value.web_similarity_runtime_boundary_warnings.map(warning => (
+                  <Tag key={warning} color="orange">{warning}</Tag>
+                ))}
+              </Space>
+            </Space>
+          ) : null}
+
+          {value.story_engine_scene_pressure_warnings?.length ? (
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text type="secondary">{TEXT.storyEngineScenePressure}</Text>
+              <Space wrap>
+                {value.story_engine_scene_pressure_warnings.map(warning => (
                   <Tag key={warning} color="orange">{warning}</Tag>
                 ))}
               </Space>

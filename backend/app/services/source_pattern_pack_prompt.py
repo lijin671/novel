@@ -771,6 +771,7 @@ def render_source_pattern_pack_digest(
         "progress_report_continuity_writeback_gate_hints",
         "premise_structure_hook_payoff_gate_hints",
         "scene_goal_obstacle_cost_exit_gate_hints",
+        "universal_story_engine_scene_pressure_gate_hints",
         "revision_finding_patch_strategy_gate_hints",
         "opening_ending_hook_integrity_gate_hints",
         "anti_ai_naturalness_texture_gate_hints",

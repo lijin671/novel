@@ -332,6 +332,7 @@ export interface SourceDiscoveryPatternPack {
   progress_report_continuity_writeback_gate_hints?: string[];
   premise_structure_hook_payoff_gate_hints?: string[];
   scene_goal_obstacle_cost_exit_gate_hints?: string[];
+  universal_story_engine_scene_pressure_gate_hints?: string[];
   revision_finding_patch_strategy_gate_hints?: string[];
   opening_ending_hook_integrity_gate_hints?: string[];
   anti_ai_naturalness_texture_gate_hints?: string[];

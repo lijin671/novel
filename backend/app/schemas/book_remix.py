@@ -163,6 +163,7 @@ class BookRemixContinuationContextPreviewResponse(BaseModel):
     ai_tell_pattern_warnings: list[str] = Field(default_factory=list)
     naturalization_boundary_warnings: list[str] = Field(default_factory=list)
     web_similarity_runtime_boundary_warnings: list[str] = Field(default_factory=list)
+    story_engine_scene_pressure_warnings: list[str] = Field(default_factory=list)
     continuity_questions: list[str] = Field(default_factory=list)
     promise_payoff_debts: list[dict[str, str]] = Field(default_factory=list)
     scene_state_snapshot: list[dict[str, str]] = Field(default_factory=list)
