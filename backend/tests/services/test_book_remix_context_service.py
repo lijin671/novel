@@ -399,6 +399,97 @@ def test_build_remix_continuation_context_block_projects_universal_next_chapter_
     assert "missing_scene_beat_sheet" in block
 
 
+def test_universal_next_chapter_scaffold_projects_structured_scene_beat_sheet():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "chapter_contract_scene_beat_gate"},
+            {"name": "scene_goal_obstacle_cost_exit_gate"},
+        ],
+    }
+    plan = {
+        "summary": "Keep the witness scene onstage until the cost is visible.",
+        "scene_beats": [
+            {
+                "scene": "Atrium confrontation",
+                "pov": "Lin",
+                "location": "Archive atrium",
+                "time": "same night",
+                "goal": "keep the witness from leaving",
+                "obstacle": "the rival turns the crowd against Lin",
+                "tactic": "force a public timeline comparison",
+                "turn": "the witness admits the seal was already broken",
+                "cost": "Lin loses crowd trust",
+                "exit_state": "public danger escalates",
+            },
+            {
+                "scene": "Back stairwell",
+                "pov": "Lin",
+                "location_time": "archive stairwell, minutes later",
+                "goal": "hide the witness before the council arrives",
+                "obstacle": "the witness refuses to move",
+                "turn": "the bell starts ringing again",
+            },
+        ],
+        "guardrails": [{"rule": "Do not resolve the witness hook off-screen"}],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Scene Beat Sheet Desk",
+        bible={
+            "style_signature": {"pov": "close third"},
+            "character_cards": [{"name": "Lin", "goal": "protect the archive witness"}],
+            "hard_constraints": [{"rule": "Keep the broken seal public"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 18,
+                    "summary": "The witness froze before naming the saboteur.",
+                    "character_state_changes": [{"character_name": "Lin", "state_after": "cornered"}],
+                    "new_hooks": [{"hook": "The witness refuses to name the saboteur"}],
+                }
+            ],
+        },
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "style_signature": {"pov": "close third"},
+            "character_cards": [{"name": "Lin", "goal": "protect the archive witness"}],
+            "timeline": [{"event": "The witness stalled in public", "chapter_number": 18}],
+            "hard_constraints": [{"rule": "Keep the broken seal public"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 18,
+                    "summary": "The witness froze before naming the saboteur.",
+                    "character_state_changes": [{"character_name": "Lin", "state_after": "cornered"}],
+                    "new_hooks": [{"hook": "The witness refuses to name the saboteur"}],
+                }
+            ],
+        },
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "scene_beat_sheet_status: structured" in block
+    assert "scene_beat_1: scene=Atrium confrontation" in block
+    assert "goal=keep the witness from leaving" in block
+    assert "obstacle=the rival turns the crowd against Lin" in block
+    assert "tactic=force a public timeline comparison" in block
+    assert "turn=the witness admits the seal was already broken" in block
+    assert "cost=Lin loses crowd trust" in block
+    assert "exit_state=public danger escalates" in block
+    assert "scene_beat_2: scene=Back stairwell" in block
+    assert "location_time=archive stairwell, minutes later" in block
+    assert "scene_beat_field_warnings" in block
+    assert "scene_beat_2_missing_tactic" in block
+    assert "scene_beat_2_missing_cost" in block
+    assert "scene_beat_2_missing_exit_state" in block
+    assert "missing_scene_beat_sheet" not in audit["chapter_contract_warnings"]
+    assert "scene_beat_2_missing_tactic" in audit["chapter_contract_warnings"]
+
+
 def test_universal_continuation_handoff_preserves_mid_scene_state_and_hook_decision():
     pattern_pack = {
         "workflow_patterns": [

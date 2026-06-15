@@ -67,6 +67,29 @@ FC12A7DD8CDF7188E53AABA29B4C6C14B8A7CC100D11B9F7BE7DE000AA8FCA4B  references/sto
   - Adds `Universal continuation handoff gate` so continuation drafting reads the latest accepted chapter boundary before drafting. If the prior chapter ended mid-scene, the next context now preserves exact location, physical/emotional state, hook handling, and skip-ahead/time-jump boundary; Chinese and English mid-scene markers are both recognized.
   - Deepens the `Universal same-type creation scaffold` with a target-owned story-promise packet, independent hook/payoff ledger, and minimum-difference gate for cast, organizations, world rules, conflict object, event order, reveal route, and payoff owner.
 
+## 2026-06-15 deep fusion addendum
+
+The local source was re-read statically from `D:\project\universal-novel-writing`
+without install, clone, provider call, MCP/browser/desktop runtime, or prompt body
+transplant. Hashes remained unchanged from the original intake snapshot above.
+
+Additional reusable pattern fused into MuMuAINovel:
+
+- The `chapter-workflow.md` scene beat sheet is now projected as a concrete
+  next-chapter planning surface, not only as a generic "3-7 scenes" rule.
+- `book_remix_context_service.py` renders accepted `scene_beats`, `scene_plan`,
+  `scenes`, or `beat_sheet` rows into `Universal next chapter scaffold` with:
+  scene, POV, location/time, goal, obstacle, tactic, turn, cost, and exit state.
+- The continuation control audit now treats an existing scene beat sheet as
+  structured, while still warning on incomplete beat fields such as missing
+  tactic, cost, or exit state.
+- This improves continuation handoff quality because the next chapter prompt can
+  preserve exact scene-level pressure instead of collapsing it into a single
+  pending beat.
+- Same-type implications remain boundary-only: source scene beat shape is a
+  craft axis; target stories must rebuild scene goals, obstacles, tactics, costs,
+  exit routes, characters, organizations, and payoff owners independently.
+
 ## Verification targets
 
 ```powershell
@@ -76,4 +99,5 @@ python -m pytest backend/tests/services/test_book_remix_context_service.py::test
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_projects_universal_next_chapter_scaffold backend/tests/services/test_book_remix_context_service.py::test_build_remix_inspired_context_block_renders_universal_same_type_scaffold -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_control_audit_flags_universal_progress_report_gaps backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_progress_report_gap_gate -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_preserves_mid_scene_state_and_hook_decision backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_warns_when_mid_scene_resume_state_is_missing backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_accepts_chinese_mid_scene_and_skip_boundary_terms -q
+python -m pytest backend/tests/services/test_book_remix_context_service.py::test_universal_next_chapter_scaffold_projects_structured_scene_beat_sheet -q
 ```

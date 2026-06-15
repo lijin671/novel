@@ -3411,6 +3411,8 @@ def _universal_chapter_contract_audit(
             warnings.append("missing_forbidden_contradiction")
         if not _has_structured_scene_beat_sheet(plan):
             warnings.append("missing_scene_beat_sheet")
+        else:
+            warnings.extend(_scene_beat_field_warnings(plan=plan, max_items=max_items))
         if not _first_contract_pov(bible=bible, plan=plan, latest_package=latest_package):
             warnings.append("missing_pov_anchor")
         if not _first_starting_status(latest_package=latest_package):
@@ -6147,6 +6149,99 @@ def _has_structured_scene_beat_sheet(plan: Optional[dict[str, Any]]) -> bool:
     return structured_count >= 2
 
 
+def _scene_beat_contract_rows(*, plan: Optional[dict[str, Any]], max_items: int) -> list[dict[str, str]]:
+    rows: list[dict[str, str]] = []
+    for index, beat in enumerate(_scene_beat_items(plan)[:max_items], start=1):
+        rows.append(
+            {
+                "index": str(index),
+                "scene": _truncate(_scene_beat_direct_text(beat, ("scene", "scene_id", "name", "title", "beat", "summary")), 120),
+                "pov": _truncate(_scene_beat_direct_text(beat, ("pov", "point_of_view", "viewpoint", "narrator")), 120),
+                "location_time": _truncate(_scene_beat_location_time(beat), 160),
+                "goal": _truncate(_scene_beat_direct_text(beat, ("goal", "objective", "want", "current_goal")), 160),
+                "obstacle": _truncate(_scene_beat_direct_text(beat, ("obstacle", "opposition", "blocker", "friction")), 160),
+                "tactic": _truncate(_scene_beat_direct_text(beat, ("tactic", "strategy", "move", "choice", "action")), 160),
+                "turn": _truncate(_scene_beat_direct_text(beat, ("turn", "reversal", "discovery", "outcome", "change")), 160),
+                "cost": _truncate(_scene_beat_direct_text(beat, ("cost", "stakes", "loss", "price", "consequence")), 160),
+                "exit_state": _truncate(_scene_beat_direct_text(beat, ("exit_state", "state_after", "changed_exit_state", "new_state")), 160),
+            }
+        )
+    return rows
+
+
+def _scene_beat_field_warnings(*, plan: Optional[dict[str, Any]], max_items: int) -> list[str]:
+    warnings: list[str] = []
+    for row in _scene_beat_contract_rows(plan=plan, max_items=max_items):
+        for field in ("pov", "location_time", "goal", "obstacle", "tactic", "turn", "cost", "exit_state"):
+            if not row.get(field):
+                warnings.append(f"scene_beat_{row['index']}_missing_{field}")
+    return warnings[:max_items]
+
+
+def _scene_beat_items(plan: Optional[dict[str, Any]]) -> list[dict[str, Any]]:
+    if not plan:
+        return []
+
+    items: list[dict[str, Any]] = []
+    for key in ("scene_beats", "scene_plan", "scenes", "beat_sheet"):
+        value = plan.get(key)
+        if isinstance(value, list):
+            items.extend(item for item in value if isinstance(item, dict))
+        elif isinstance(value, dict):
+            nested_items: list[dict[str, Any]] = []
+            for nested_key in ("scene_beats", "scene_plan", "scenes", "beats", "items"):
+                nested_items.extend(_as_dict_list(value.get(nested_key)))
+            if nested_items:
+                items.extend(nested_items)
+            else:
+                items.append(value)
+
+    if items:
+        return items
+
+    scene_markers = (
+        "scene",
+        "scene_id",
+        "location",
+        "location_time",
+        "obstacle",
+        "turn",
+        "cost",
+        "exit_state",
+        "goal",
+        "tactic",
+    )
+    return [
+        beat
+        for beat in _as_dict_list(plan.get("beats"))
+        if any(_has_any_package_value(beat, (marker,)) for marker in scene_markers)
+    ]
+
+
+def _scene_beat_location_time(beat: dict[str, Any]) -> str:
+    direct = _scene_beat_direct_text(
+        beat,
+        ("location_time", "location/time", "where_when", "time_location", "place_time"),
+    )
+    if direct:
+        return direct
+    location = _scene_beat_direct_text(beat, ("location", "place", "setting"))
+    time = _scene_beat_direct_text(beat, ("time", "when", "timestamp"))
+    if location and time:
+        return f"{location} / {time}"
+    return location or time
+
+
+def _scene_beat_direct_text(beat: dict[str, Any], keys: tuple[str, ...]) -> str:
+    for key in keys:
+        value = beat.get(key)
+        if isinstance(value, str) and value.strip():
+            return value.strip()
+        if isinstance(value, (int, float)) and not isinstance(value, bool):
+            return str(value)
+    return ""
+
+
 def _story_foundry_production_handoff_audit(
     *,
     bible: dict[str, Any],
@@ -8631,6 +8726,29 @@ def _append_universal_next_chapter_scaffold_section(
     lines.append(f"- reader_promise: {contract['reader_promise']}")
     lines.append(f"- opening_hook: {contract['opening_hook']}")
     lines.append("- scene_plan: 3-7 scene beats; each beat needs goal, obstacle, turn, cost, and changed exit state")
+    scene_beat_rows = _scene_beat_contract_rows(plan=plan, max_items=5)
+    if scene_beat_rows:
+        lines.append("- scene_beat_sheet_status: structured")
+        for row in scene_beat_rows:
+            row_parts = [
+                f"{field}={row[field]}"
+                for field in (
+                    "scene",
+                    "pov",
+                    "location_time",
+                    "goal",
+                    "obstacle",
+                    "tactic",
+                    "turn",
+                    "cost",
+                    "exit_state",
+                )
+                if row.get(field)
+            ]
+            lines.append(f"- scene_beat_{row['index']}: {_truncate('; '.join(row_parts), 360)}")
+        scene_beat_warnings = _scene_beat_field_warnings(plan=plan, max_items=5)
+        if scene_beat_warnings:
+            lines.append(f"- scene_beat_field_warnings: {', '.join(scene_beat_warnings)}")
     if contract["main_goal"]:
         lines.append(f"- main_goal: {contract['main_goal']}")
     if contract["main_obstacle"]:
