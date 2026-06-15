@@ -6694,6 +6694,121 @@ def test_universal_story_engine_scene_pressure_gate_projects_core_story_controls
     assert "source_story_engine_clone" in independence["copy_risk_checks"]
 
 
+def test_story_skills_deterministic_continuity_contract_gate_projects_preview_controls():
+    pattern_pack = {
+        "story_skills_deterministic_continuity_contract_gate_hints": [
+            "Track character lifecycle, present cast versus mentions, promise/question ordering, and durable state references."
+        ],
+    }
+    bible = {
+        "character_cards": [
+            {
+                "name": "Witness Vale",
+                "status": "deceased",
+                "died_in": "chapter-04",
+            }
+        ],
+        "foreshadows": [
+            {
+                "hook": "sealed letter",
+                "status": "planted",
+                "planted_in": "chapter-02",
+                "payoff": "chapter-08",
+            }
+        ],
+        "chapter_change_packages": [
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 5,
+                "summary": "The team studies Vale's recording without putting Vale in the room.",
+                "characters": ["Inspector Lin"],
+                "mentions": ["Witness Vale"],
+                "state_changes": [{"character": "Inspector Lin", "knowledge": "Vale recorded the clue"}],
+            }
+        ],
+    }
+    plan = {
+        "scene_beats": [
+            {
+                "scene_id": "chapter-06-scene-01",
+                "pov": "Inspector Lin",
+                "location": "archive room",
+                "characters": ["Inspector Lin"],
+                "mentions": ["Witness Vale"],
+                "state_changes": ["Lin learns the letter was planted before the fire"],
+            }
+        ]
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Deterministic Archive",
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Deterministic Archive",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer deterministic continuity contracts only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source frontmatter ids, CLI findings, promise names, question names.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    preview_audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nStory Skills deterministic continuity contract gate",
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer deterministic continuity contracts only.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source frontmatter ids, CLI findings, promise names, question names.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Story Skills deterministic continuity contract gate:" in block
+        assert "character_lifecycle" in block
+        assert "promise_question_order" in block
+        assert "scene_cast_mentions" in block
+        assert "durable_state_references" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "deterministic_character_lifecycle_contract" in missing_audit["control_axes"]
+    assert "promise_question_ordering_contract" in missing_audit["control_axes"]
+    assert "scene_cast_mentions_contract" in missing_audit["control_axes"]
+    assert "durable_state_reference_contract" in missing_audit["control_axes"]
+    assert "verify_story_skills_continuity_contract" in missing_audit["acceptance_steps"]
+    assert "story_skills_continuity_contract_warnings" in missing_audit["warnings"]
+    assert "missing_character_lifecycle_contract" in missing_audit["story_skills_continuity_contract_warnings"]
+    assert "missing_promise_question_ordering_contract" in missing_audit["story_skills_continuity_contract_warnings"]
+    assert "missing_scene_cast_mentions_contract" in missing_audit["story_skills_continuity_contract_warnings"]
+    assert "missing_durable_state_reference_contract" in missing_audit["story_skills_continuity_contract_warnings"]
+    assert satisfied_audit["story_skills_continuity_contract_warnings"] == []
+    assert "story_skills_continuity_contract_warnings" in preview_audit["production_warnings"]
+
+    assert "deterministic_continuity_contract_shape" in independence["transfer_axes"]
+    assert "target_character_lifecycle_namespace" in independence["required_difference_axes"]
+    assert "source_frontmatter_schema_example_clone" in independence["copy_risk_checks"]
+
+
 def test_six_layer_iron_law_gate_projects_consistency_brake_and_failure_block():
     pattern_pack = {
         "six_layer_iron_law_chapter_gate_hints": [

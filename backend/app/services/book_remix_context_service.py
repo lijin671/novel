@@ -258,6 +258,14 @@ def build_remix_continuation_control_audit(
             "voice_specific_dialogue_review",
         ])
         acceptance_steps.append("verify_story_engine_scene_pressure")
+    if "story_skills_deterministic_continuity_contract_gate" in pattern_names:
+        control_axes.extend([
+            "deterministic_character_lifecycle_contract",
+            "promise_question_ordering_contract",
+            "scene_cast_mentions_contract",
+            "durable_state_reference_contract",
+        ])
+        acceptance_steps.append("verify_story_skills_continuity_contract")
     if "revision_finding_patch_strategy_gate" in pattern_names:
         control_axes.extend([
             "revision_finding_severity_triage",
@@ -931,6 +939,16 @@ def build_remix_continuation_control_audit(
         if "universal_story_engine_scene_pressure_gate" in pattern_names
         else {"warnings": []}
     )
+    story_skills_continuity_contract_audit = (
+        _story_skills_deterministic_continuity_contract_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "story_skills_deterministic_continuity_contract_gate" in pattern_names
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -996,6 +1014,8 @@ def build_remix_continuation_control_audit(
         warnings.append("web_similarity_runtime_boundary_warnings")
     if story_engine_scene_pressure_audit["warnings"]:
         warnings.append("story_engine_scene_pressure_warnings")
+    if story_skills_continuity_contract_audit["warnings"]:
+        warnings.append("story_skills_continuity_contract_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -1057,6 +1077,7 @@ def build_remix_continuation_control_audit(
         "naturalization_boundary_warnings": naturalization_boundary_audit["warnings"],
         "web_similarity_runtime_boundary_warnings": web_similarity_runtime_boundary_audit["warnings"],
         "story_engine_scene_pressure_warnings": story_engine_scene_pressure_audit["warnings"],
+        "story_skills_continuity_contract_warnings": story_skills_continuity_contract_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -1224,6 +1245,13 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_universal_story_engine_scene_pressure_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_story_skills_deterministic_continuity_contract_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1751,6 +1779,7 @@ def build_remix_context_preview_audit(
         "naturalization_boundary_warnings": production_control_audit["naturalization_boundary_warnings"],
         "web_similarity_runtime_boundary_warnings": production_control_audit["web_similarity_runtime_boundary_warnings"],
         "story_engine_scene_pressure_warnings": production_control_audit["story_engine_scene_pressure_warnings"],
+        "story_skills_continuity_contract_warnings": production_control_audit["story_skills_continuity_contract_warnings"],
         **continuity_audit,
     }
 
@@ -1964,6 +1993,13 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_universal_story_engine_scene_pressure_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_story_skills_deterministic_continuity_contract_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -4036,6 +4072,117 @@ def _has_voice_specific_dialogue_surface(*, bible: dict[str, Any], plan: Optiona
         carriers.append(style_signature)
     carriers.extend(_as_dict_list(bible.get("character_cards")))
     carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _story_skills_deterministic_continuity_contract_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit Story Skills-style deterministic continuity contracts."""
+    warnings: list[str] = []
+    if "story_skills_deterministic_continuity_contract_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_character_lifecycle_contract_surface(bible=bible, plan=plan):
+        warnings.append("missing_character_lifecycle_contract")
+    if not _has_promise_question_ordering_surface(bible=bible, plan=plan):
+        warnings.append("missing_promise_question_ordering_contract")
+    if not _has_scene_cast_mentions_surface(bible=bible, plan=plan):
+        warnings.append("missing_scene_cast_mentions_contract")
+    if not _has_durable_state_reference_surface(bible=bible, plan=plan):
+        warnings.append("missing_durable_state_reference_contract")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_character_lifecycle_contract_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "status",
+        "lifecycle_status",
+        "alive_status",
+        "died_in",
+        "died-in",
+        "death_chapter",
+        "posthumous_mentions",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    carriers.extend(_as_dict_list(bible.get("character_cards")))
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_promise_question_ordering_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "planted",
+        "planted_in",
+        "introduced",
+        "introduced_in",
+        "payoff",
+        "paid_off",
+        "resolved",
+        "resolved_in",
+        "maximum_delay",
+        "promise_order",
+        "question_order",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    carriers.extend(_as_dict_list(bible.get("foreshadows")))
+    carriers.extend(_as_dict_list(bible.get("promise_payoff_debts")))
+    carriers.extend(_as_dict_list(bible.get("continuity_questions")))
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_scene_cast_mentions_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "scene_id",
+        "scene",
+        "scene_number",
+        "pov",
+        "location",
+        "characters",
+        "cast",
+        "present_characters",
+        "mentions",
+        "referenced_characters",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    carriers.extend(_as_dict_list(bible.get("scene_state_snapshot")))
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    if isinstance(plan, dict):
+        carriers.extend(_as_dict_list(plan.get("scenes")))
+        carriers.extend(_as_dict_list(plan.get("scene_beats")))
+        carriers.extend(_as_dict_list(plan.get("scene_plan")))
+    return any(
+        _has_any_package_value(carrier, ("characters", "cast", "present_characters"))
+        and _has_any_package_value(carrier, ("mentions", "referenced_characters", "pov", "location", "scene_id", "scene"))
+        for carrier in carriers
+    ) or any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_durable_state_reference_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "character_state",
+        "character-state",
+        "object_state",
+        "object-state",
+        "knowledge_state",
+        "knowledge-state",
+        "state_changes",
+        "state-changes",
+        "learned_in",
+        "learned-in",
+        "object_ownership",
+        "artifact_status",
+    )
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    carriers.extend(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    carriers.extend(_as_dict_list(bible.get("timeline")))
+    if isinstance(plan, dict):
+        carriers.extend(_as_dict_list(plan.get("scenes")))
+        carriers.extend(_as_dict_list(plan.get("scene_beats")))
     return any(_has_any_package_value(carrier, keys) for carrier in carriers)
 
 
@@ -7373,6 +7520,65 @@ def _append_universal_story_engine_scene_pressure_gate_section(
         lines.append(f"- story_engine_scene_pressure_warnings: {', '.join(audit['warnings'])}")
 
 
+def _append_story_skills_deterministic_continuity_contract_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render Story Skills-style deterministic continuity contracts."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "story_skills_deterministic_continuity_contract_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("story_skills_deterministic_continuity_contract_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _story_skills_deterministic_continuity_contract_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Story Skills deterministic continuity contract gate:")
+    lines.append(
+        "- character_lifecycle: track status/lifecycle and death chapter; later appearances "
+        "must be present-scene cast only when canon allows, otherwise demote to mentions/memory/recording"
+    )
+    lines.append(
+        "- promise_question_order: promises, foreshadows, and open questions need planted/introduced "
+        "and payoff/resolved ordering before a continuation chapter can reuse them"
+    )
+    lines.append(
+        "- scene_cast_mentions: each accepted scene should separate POV, location, present characters, "
+        "mentions, and arcs advanced so flashbacks or references do not become false live appearances"
+    )
+    lines.append(
+        "- durable_state_references: character state, object ownership/status, and knowledge state must "
+        "reference accepted chapters or plan beats before they are promoted into canon"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source frontmatter schema, demo entity ids, CLI finding text, and "
+            "sample promise/question names are not transferable canon; rebuild the contract for the target story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: deterministic continuity findings block acceptance until the bible, "
+            "plan, scene state, and promise/question ledgers agree"
+        )
+    if hints:
+        lines.append(f"- story_skills_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- story_skills_continuity_contract_warnings: {', '.join(audit['warnings'])}")
+
+
 def _append_universal_hook_naturalness_gate_section(
     *,
     lines: list[str],
@@ -10456,6 +10662,19 @@ def build_remix_inspired_independence_audit(
             "source_character_wound_cost_import",
             "source_dialogue_cadence_clone",
         ])
+    if "story_skills_deterministic_continuity_contract_gate" in pattern_names:
+        transfer_axes.append("deterministic_continuity_contract_shape")
+        required_difference_axes.extend([
+            "target_character_lifecycle_namespace",
+            "target_promise_question_ledger_namespace",
+            "target_scene_cast_mentions_namespace",
+            "target_object_knowledge_state_namespace",
+        ])
+        copy_risk_checks.extend([
+            "source_frontmatter_schema_example_clone",
+            "source_continuity_finding_text_clone",
+            "source_promise_question_id_clone",
+        ])
     if "revision_finding_patch_strategy_gate" in pattern_names:
         transfer_axes.append("revision_triage_discipline")
         required_difference_axes.append("patch_scope_ids")
@@ -10804,6 +11023,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",
         "scene_goal_obstacle_cost_exit_gate_hints": "scene_goal_obstacle_cost_exit_gate",
         "universal_story_engine_scene_pressure_gate_hints": "universal_story_engine_scene_pressure_gate",
+        "story_skills_deterministic_continuity_contract_gate_hints": "story_skills_deterministic_continuity_contract_gate",
         "revision_finding_patch_strategy_gate_hints": "revision_finding_patch_strategy_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():

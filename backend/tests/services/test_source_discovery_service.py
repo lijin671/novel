@@ -16936,7 +16936,8 @@ def test_state_contract_living_document_frontmatter_sources_are_static_absorbed(
                 "html_url": "https://github.com/danjdewhurst/story-skills",
                 "description": (
                     "Agent Skills for markdown fiction projects. Story bible, YAML frontmatter, scene state, promises/payoffs, "
-                    "continuity engine, dead characters walking checks, unfired Chekhov guns, stale story state, mentions field and deterministic findings."
+                    "continuity engine, schema-version, died-in chapter, dead characters walking checks, payoffs before setup, "
+                    "questions introduced and resolved in order, unfired Chekhov guns, stale story state, mentions field and deterministic findings."
                 ),
                 "stargazers_count": 11,
                 "forks_count": 2,
@@ -16954,28 +16955,35 @@ def test_state_contract_living_document_frontmatter_sources_are_static_absorbed(
     assert "story_state_output_contract_gate" in candidates["mrigankad/Novel-OS"]["absorbed_patterns"]
     assert "living_document_plan_log_verify_gate" in candidates["third-order-labs/longform-plugin"]["absorbed_patterns"]
     assert "markdown_frontmatter_continuity_engine_gate" in candidates["danjdewhurst/story-skills"]["absorbed_patterns"]
+    assert "story_skills_deterministic_continuity_contract_gate" in candidates["danjdewhurst/story-skills"]["absorbed_patterns"]
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
     assert "story_state_output_contract_policy" in pattern_pack["bible_enrichment_targets"]
     assert "living_document_plan_log_verify_policy" in pattern_pack["bible_enrichment_targets"]
     assert "markdown_frontmatter_continuity_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "story_skills_deterministic_continuity_contract_policy" in pattern_pack["bible_enrichment_targets"]
     assert "story_state_output_contract_report" in pattern_pack["whole_book_analysis_targets"]
     assert "plan_draft_log_verify_report" in pattern_pack["whole_book_analysis_targets"]
     assert "frontmatter_continuity_engine_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "story_skills_deterministic_continuity_contract_report" in pattern_pack["whole_book_analysis_targets"]
     assert "story_state_output_contract_remap" in pattern_pack["inspired_mapping_targets"]
     assert "living_document_plan_log_verify_remap" in pattern_pack["inspired_mapping_targets"]
     assert "markdown_frontmatter_continuity_engine_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "story_skills_deterministic_continuity_contract_remap" in pattern_pack["inspired_mapping_targets"]
     assert any("state-update blocks" in hint.lower() for hint in pattern_pack["story_state_output_contract_gate_hints"])
     assert any("Plan -> Draft -> Log -> Verify -> Repeat" in hint for hint in pattern_pack["living_document_plan_log_verify_gate_hints"])
     assert any("YAML frontmatter" in hint for hint in pattern_pack["markdown_frontmatter_continuity_engine_gate_hints"])
+    assert any("lifecycle" in hint.lower() for hint in pattern_pack["story_skills_deterministic_continuity_contract_gate_hints"])
     assert any("StoryState" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
     assert any("scene logs" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
     assert any("YAML frontmatter" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("sample ids" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "story_state_output_contract_gate_hints" in digest
     assert "living_document_plan_log_verify_gate_hints" in digest
     assert "markdown_frontmatter_continuity_engine_gate_hints" in digest
+    assert "story_skills_deterministic_continuity_contract_gate_hints" in digest
 
 
 
