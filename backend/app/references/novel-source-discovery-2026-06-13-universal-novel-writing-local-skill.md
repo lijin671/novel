@@ -64,6 +64,8 @@ FC12A7DD8CDF7188E53AABA29B4C6C14B8A7CC100D11B9F7BE7DE000AA8FCA4B  references/sto
   - Adds a `Universal same-type creation scaffold` for inspired prompts so同类型仿写 rebuilds reader promise, protagonist want/need, opposition, chapter contract, hook/payoff ledger, and project-local continuity instead of carrying source canon into the new work.
   - Adds `chapter_progress_report_completeness` to continuation control audit when `progress_report_continuity_writeback_gate` is active. It reports missing accepted-chapter write-back fields before canon reuse.
   - Adds `Universal progress report completeness gate` to continuation context so drafts cannot silently skip summary, new facts, character changes, hook deltas, continuity updates, next focus, measurable length, or risk review.
+  - Adds `Universal continuation handoff gate` so continuation drafting reads the latest accepted chapter boundary before drafting. If the prior chapter ended mid-scene, the next context now preserves exact location, physical/emotional state, hook handling, and skip-ahead/time-jump boundary; Chinese and English mid-scene markers are both recognized.
+  - Deepens the `Universal same-type creation scaffold` with a target-owned story-promise packet, independent hook/payoff ledger, and minimum-difference gate for cast, organizations, world rules, conflict object, event order, reveal route, and payoff owner.
 
 ## Verification targets
 
@@ -73,4 +75,5 @@ python -m pytest backend/tests/frontend/test_source_discovery_panel_copy.py::tes
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_novel_workflow_contract -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_projects_universal_next_chapter_scaffold backend/tests/services/test_book_remix_context_service.py::test_build_remix_inspired_context_block_renders_universal_same_type_scaffold -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_control_audit_flags_universal_progress_report_gaps backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_progress_report_gap_gate -q
+python -m pytest backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_preserves_mid_scene_state_and_hook_decision backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_warns_when_mid_scene_resume_state_is_missing backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_accepts_chinese_mid_scene_and_skip_boundary_terms -q
 ```

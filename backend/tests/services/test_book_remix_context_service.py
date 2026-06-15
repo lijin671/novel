@@ -399,6 +399,150 @@ def test_build_remix_continuation_context_block_projects_universal_next_chapter_
     assert "missing_scene_beat_sheet" in block
 
 
+def test_universal_continuation_handoff_preserves_mid_scene_state_and_hook_decision():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "chapter_contract_scene_beat_gate"},
+            {"name": "progress_report_continuity_writeback_gate"},
+        ],
+    }
+    bible = {
+        "chapter_change_packages": [
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 12,
+                "summary": "Lin is still inside the archive stairwell when the lights fail.",
+                "ended_mid_scene": True,
+                "location_after": "Archive stairwell",
+                "physical_state_after": "one hand on the seal door, shoulder bleeding",
+                "emotional_state_after": "angry but controlled",
+                "ending_hook_job": "force a decision",
+                "new_hooks": [{"hook": "The emergency bell rings before the door opens"}],
+            }
+        ],
+    }
+    plan = {
+        "summary": "Resume inside the stairwell without a time jump.",
+        "continuation_handoff": {
+            "hook_handling": "complicate the emergency bell before payoff",
+            "skip_ahead_allowed": False,
+        },
+        "beats": [{"beat": "Pick up from the bell ringing", "status": "pending"}],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Mid Scene Continuation Desk",
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    preview = build_remix_context_preview_audit(
+        context=block,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "Universal continuation handoff gate:" in block
+    assert "prior_chapter_boundary: Ch12 ended_mid_scene" in block
+    assert "exact_resume_state: location=Archive stairwell" in block
+    assert "physical=one hand on the seal door, shoulder bleeding" in block
+    assert "emotion=angry but controlled" in block
+    assert "hook_handling: complicate the emergency bell before payoff" in block
+    assert "skip_ahead_boundary: do not skip ahead from a mid-scene ending" in block
+    assert "continuation_handoff_warnings" not in audit["warnings"]
+    assert audit["continuation_handoff_warnings"] == []
+    assert "exact_mid_scene_resume_state" in audit["control_axes"]
+    assert "verify_continuation_handoff_state" in audit["acceptance_steps"]
+    assert preview["continuation_handoff_warnings"] == []
+
+
+def test_universal_continuation_handoff_warns_when_mid_scene_resume_state_is_missing():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "chapter_contract_scene_beat_gate"},
+            {"name": "progress_report_continuity_writeback_gate"},
+        ],
+    }
+    bible = {
+        "chapter_change_packages": [
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 13,
+                "summary": "The witness froze mid-answer.",
+                "ended_mid_scene": True,
+            }
+        ],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Missing Handoff Desk",
+        bible=bible,
+        plan={"summary": "Continue the witness scene."},
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan={"summary": "Continue the witness scene."},
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "Universal continuation handoff gate:" in block
+    assert "prior_chapter_boundary: Ch13 ended_mid_scene" in block
+    assert "continuation_handoff_warnings" in audit["warnings"]
+    assert "missing_exact_resume_state" in audit["continuation_handoff_warnings"]
+    assert "missing_hook_handling_decision" in audit["continuation_handoff_warnings"]
+    assert "missing_skip_ahead_boundary" in audit["continuation_handoff_warnings"]
+    assert "continuation_handoff_warnings: missing_exact_resume_state" in block
+
+
+def test_universal_continuation_handoff_accepts_chinese_mid_scene_and_skip_boundary_terms():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "chapter_contract_scene_beat_gate"},
+            {"name": "progress_report_continuity_writeback_gate"},
+        ],
+    }
+    bible = {
+        "chapter_change_packages": [
+            {
+                "source": "chapter_analysis",
+                "chapter_number": 14,
+                "summary": "审讯被铃声打断。",
+                "ending_state": "场景中断，人物对峙未完",
+                "location_after": "地下审讯室",
+                "emotional_state_after": "压着怒意",
+                "ending_hook_job": "下一章先处理铃声带来的选择",
+            }
+        ],
+    }
+    plan = {
+        "summary": "不跳过审讯室现场。",
+        "guardrails": [{"rule": "上一章场景未结束，不允许时间跳跃"}],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Chinese Mid Scene Desk",
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "prior_chapter_boundary: Ch14 ended_mid_scene" in block
+    assert "exact_resume_state: location=地下审讯室" in block
+    assert "missing_skip_ahead_boundary" not in audit["continuation_handoff_warnings"]
+
+
 def test_build_remix_continuation_control_audit_flags_universal_progress_report_gaps():
     audit = build_remix_continuation_control_audit(
         bible={
@@ -571,6 +715,9 @@ def test_build_remix_inspired_context_block_renders_universal_same_type_scaffold
     assert "Universal novel workflow contract:" in block
     assert "same_type_creation_scaffold" in block
     assert "rebuild reader promise" in block
+    assert "target_story_promise_packet" in block
+    assert "independent_hook_payoff_ledger" in block
+    assert "minimum_difference_gate" in block
     assert "project-local continuity" in block
 
 

@@ -203,6 +203,24 @@ def build_remix_continuation_control_audit(
     if "progress_report_continuity_writeback_gate" in pattern_names:
         control_axes.append("chapter_progress_report_completeness")
         acceptance_steps.append("verify_progress_report_fields")
+    continuation_handoff_audit = _universal_continuation_handoff_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+    if pattern_names.intersection(
+        {
+            "chapter_contract_scene_beat_gate",
+            "progress_report_continuity_writeback_gate",
+        }
+    ):
+        control_axes.extend([
+            "exact_mid_scene_resume_state",
+            "open_hook_payoff_handling_decision",
+            "skip_ahead_boundary",
+        ])
+        acceptance_steps.append("verify_continuation_handoff_state")
     if include_time_trace_progress:
         control_axes.append("narrative_time_age_progress_writeback")
         acceptance_steps.append("verify_narrative_time_age_writeback")
@@ -993,6 +1011,8 @@ def build_remix_continuation_control_audit(
         warnings.append("chapter_sequence_gaps")
     if "progress_report_continuity_writeback_gate" in pattern_names and progress_report_gaps:
         warnings.append("chapter_progress_report_missing_fields")
+    if continuation_handoff_audit["warnings"]:
+        warnings.append("continuation_handoff_warnings")
     if genre_tracker_warnings:
         warnings.append("webnovel_genre_tracker_warnings")
     if entity_arc_timeline_risks:
@@ -1086,6 +1106,7 @@ def build_remix_continuation_control_audit(
         "has_style_signature": isinstance(style_signature, dict) and bool(style_signature),
         "chapter_progress_report_gap_count": len(progress_report_gaps),
         "chapter_progress_report_gaps": progress_report_gaps,
+        "continuation_handoff_warnings": continuation_handoff_audit["warnings"],
         "genre_tracker_warnings": genre_tracker_warnings,
         "entity_arc_timeline_risks": entity_arc_timeline_risks,
         "source_analysis_coverage_percent": disassembly_checkpoint_audit["source_analysis_coverage_percent"],
@@ -1351,6 +1372,12 @@ def build_remix_continuation_context_block(
         source_pattern_pack=source_pattern_pack,
     )
     _append_universal_next_chapter_scaffold_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+    )
+    _append_universal_continuation_handoff_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1804,6 +1831,7 @@ def build_remix_context_preview_audit(
         "production_warnings": production_control_audit["warnings"],
         "chapter_progress_report_gap_count": production_control_audit["chapter_progress_report_gap_count"],
         "chapter_progress_report_gaps": production_control_audit["chapter_progress_report_gaps"],
+        "continuation_handoff_warnings": production_control_audit["continuation_handoff_warnings"],
         "genre_tracker_warnings": production_control_audit["genre_tracker_warnings"],
         "entity_arc_timeline_risks": production_control_audit["entity_arc_timeline_risks"],
         "source_analysis_coverage_percent": production_control_audit["source_analysis_coverage_percent"],
@@ -3426,6 +3454,150 @@ def _genre_promise_contract_matrix_audit(
     if not _has_genre_promise_matrix_surface(bible=bible, plan=plan):
         warnings.append("missing_genre_promise_matrix")
     return {"warnings": warnings[:max_items]}
+
+
+def _universal_continuation_handoff_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit exact continuation handoff state for prior chapter boundaries."""
+    if not pattern_names.intersection(
+        {
+            "chapter_contract_scene_beat_gate",
+            "progress_report_continuity_writeback_gate",
+        }
+    ):
+        return {"warnings": []}
+
+    warnings: list[str] = []
+    latest_package = _latest_continuation_package(bible)
+    if not latest_package:
+        return {"warnings": warnings}
+
+    if _package_ended_mid_scene(latest_package) and not _has_exact_resume_state(latest_package):
+        warnings.append("missing_exact_resume_state")
+    if not _hook_handling_decision(bible=bible, plan=plan, latest_package=latest_package):
+        warnings.append("missing_hook_handling_decision")
+    if _package_ended_mid_scene(latest_package) and not _has_skip_ahead_boundary(plan=plan):
+        warnings.append("missing_skip_ahead_boundary")
+    return {"warnings": warnings[:max_items]}
+
+
+def _latest_continuation_package(bible: dict[str, Any]) -> Optional[dict[str, Any]]:
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    return packages[-1] if packages else None
+
+
+def _package_ended_mid_scene(package: Optional[dict[str, Any]]) -> bool:
+    if not isinstance(package, dict):
+        return False
+    if package.get("ended_mid_scene") is True or package.get("mid_scene") is True:
+        return True
+    status = _string_value(
+        package.get("ending_state")
+        or package.get("scene_status")
+        or package.get("chapter_boundary")
+    ).lower()
+    mid_scene_markers = (
+        "mid-scene",
+        "mid scene",
+        "scene unfinished",
+        "scene interrupted",
+        "unfinished scene",
+        "incomplete scene",
+        "半截",
+        "中断",
+        "未完",
+        "场景未结束",
+        "场景中断",
+    )
+    return any(marker in status for marker in mid_scene_markers)
+
+
+def _has_exact_resume_state(package: dict[str, Any]) -> bool:
+    location = _direct_first_text(
+        package,
+        ("location_after", "current_location", "physical_location", "location"),
+    )
+    physical = _direct_first_text(
+        package,
+        ("physical_state_after", "body_state_after", "physical_state", "status_after"),
+    )
+    emotion = _direct_first_text(
+        package,
+        ("emotional_state_after", "emotion_after", "starting_emotion", "state_after"),
+    )
+    return bool(location and (physical or emotion))
+
+
+def _hook_handling_decision(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    latest_package: Optional[dict[str, Any]],
+) -> str:
+    if plan:
+        handoff = plan.get("continuation_handoff")
+        if isinstance(handoff, dict):
+            text = _direct_first_text(
+                handoff,
+                ("hook_handling", "hook_decision", "payoff_decision", "defer_reason"),
+            )
+            if text:
+                return text
+        text = _direct_first_text(
+            plan,
+            ("hook_handling", "hook_decision", "payoff_decision", "defer_reason"),
+        )
+        if text:
+            return text
+    if latest_package:
+        text = _direct_first_text(
+            latest_package,
+            ("hook_handling", "hook_decision", "ending_hook_job", "payoff_decision"),
+        )
+        if text:
+            return text
+    for hook in _status_items(_as_dict_list(bible.get("foreshadows")), done=False, max_items=1):
+        text = _direct_first_text(hook, ("payoff_plan", "planned_payoff", "hook_decision", "status"))
+        if text:
+            return text
+    return ""
+
+
+def _has_skip_ahead_boundary(*, plan: Optional[dict[str, Any]]) -> bool:
+    if not isinstance(plan, dict):
+        return False
+    handoff = plan.get("continuation_handoff")
+    if isinstance(handoff, dict) and isinstance(handoff.get("skip_ahead_allowed"), bool):
+        return True
+    if isinstance(plan.get("skip_ahead_allowed"), bool):
+        return True
+    for item in _as_dict_list(plan.get("guardrails")):
+        text = _first_text(item, ("rule", "constraint", "content", "name")).lower()
+        if any(
+            marker in text
+            for marker in (
+                "skip",
+                "time jump",
+                "time-skip",
+                "scene break",
+                "mid-scene",
+                "mid scene",
+                "跳过",
+                "跳跃",
+                "时间跳",
+                "时间线跳",
+                "转场",
+                "场景中断",
+                "场景未结束",
+            )
+        ):
+            return True
+    return False
 
 
 def _has_genre_promise_matrix_surface(
@@ -8488,6 +8660,81 @@ def _append_universal_next_chapter_scaffold_section(
         lines.append(f"- chapter_contract_warnings: {', '.join(audit['warnings'])}")
 
 
+def _append_universal_continuation_handoff_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+) -> None:
+    """Render exact handoff rules from prior accepted chapter to next chapter."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if not pattern_names.intersection(
+        {
+            "chapter_contract_scene_beat_gate",
+            "progress_report_continuity_writeback_gate",
+        }
+    ):
+        return
+
+    latest_package = _latest_continuation_package(bible)
+    if not latest_package:
+        return
+
+    chapter_ref = _chapter_reference(latest_package) or "latest chapter"
+    ended_mid_scene = _package_ended_mid_scene(latest_package)
+    location = _direct_first_text(
+        latest_package,
+        ("location_after", "current_location", "physical_location", "location"),
+    )
+    physical = _direct_first_text(
+        latest_package,
+        ("physical_state_after", "body_state_after", "physical_state", "status_after"),
+    )
+    emotion = _direct_first_text(
+        latest_package,
+        ("emotional_state_after", "emotion_after", "starting_emotion", "state_after"),
+    )
+    hook_decision = _hook_handling_decision(
+        bible=bible,
+        plan=plan,
+        latest_package=latest_package,
+    )
+    audit = _universal_continuation_handoff_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Universal continuation handoff gate:")
+    boundary = "ended_mid_scene" if ended_mid_scene else "closed_or_time_jump_allowed_by_plan"
+    lines.append(f"- prior_chapter_boundary: {chapter_ref} {boundary}")
+    if location or physical or emotion:
+        state_parts = []
+        if location:
+            state_parts.append(f"location={location}")
+        if physical:
+            state_parts.append(f"physical={physical}")
+        if emotion:
+            state_parts.append(f"emotion={emotion}")
+        lines.append(f"- exact_resume_state: {_truncate('; '.join(state_parts), 300)}")
+    if hook_decision:
+        lines.append(f"- hook_handling: {_truncate(hook_decision, 260)}")
+    if ended_mid_scene:
+        lines.append(
+            "- skip_ahead_boundary: do not skip ahead from a mid-scene ending "
+            "unless the plan explicitly authorizes the time jump"
+        )
+    lines.append(
+        "- payoff_choice: next chapter must pay off, complicate, or deliberately "
+        "defer the prior open hook with a stronger on-page reason"
+    )
+    if audit["warnings"]:
+        lines.append(f"- continuation_handoff_warnings: {', '.join(audit['warnings'])}")
+
+
 def _append_universal_progress_report_completeness_gate_section(
     *,
     lines: list[str],
@@ -8698,8 +8945,20 @@ def _append_universal_same_type_creation_scaffold_section(
         "before drafting independent prose"
     )
     lines.append(
+        "- target_story_promise_packet: define a new logline, reader promise, protagonist "
+        "want/need/wound, opposition, stakes, ending direction, and emotional aftertaste"
+    )
+    lines.append(
+        "- independent_hook_payoff_ledger: create target-owned thread ids with seeded-in "
+        "point, reader expectation, planned payoff, maximum delay, and status"
+    )
+    lines.append(
         "- source_boundary: transfer workflow shape and craft pressure only; do not reuse "
         "source event order, proper nouns, set pieces, or distinctive phrasing"
+    )
+    lines.append(
+        "- minimum_difference_gate: target cast, organizations, world rules, conflict object, "
+        "event order, reveal route, and payoff owner must differ from the source"
     )
     lines.append(
         "- target_writeback: record transformed outline decisions, new hooks/payoffs, "
