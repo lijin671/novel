@@ -151,6 +151,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "constraint_harness_review_worktree_gate_hints",
             "state_current_reviewer_loop_gate_hints",
             "versioned_scene_fact_review_pipeline_gate_hints",
+            "scheduled_agent_style_qa_workflow_gate_hints",
             "file_based_showrunner_canon_approval_gate_hints",
             "nova_local_version_memory_role_gate_hints",
             "forge_agent_mcp_eval_contract_gate_hints",
@@ -921,6 +922,19 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "minimal_rollback_repair_scope_gate_hints?: string[]" in types_text
     assert "progressive_context_loading_gate_hints?: string[]" in types_text
     assert "author_intent_confirmation_gate_hints?: string[]" in types_text
+
+
+def test_source_discovery_panel_surfaces_scheduled_agent_style_qa_gate():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "sourceDiscovery.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    assert "Scheduled agent style/QA workflow gates" in panel_text
+    assert "scheduled_agent_style_qa_workflow_gate_hints" in panel_text
+    assert "scheduled_agent_style_qa_workflow_gate_hints?: string[]" in types_text
 
 
 def test_source_discovery_panel_surfaces_speckit_fiction_scene_task_gates():

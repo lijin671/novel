@@ -20785,6 +20785,66 @@ def test_static_saga_novel_studio_source_adds_tui_adversarial_publish_gates():
     assert "saga_tui_adversarial_publish_gate_hints" in digest
 
 
+def test_static_novelagent_studio_source_adds_scheduler_style_template_qa_gate():
+    assert "https://github.com/h4444433333/novelagent-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any(
+        "author style template" in query.lower() and "chapter qa" in query.lower()
+        for query in DEFAULT_GITHUB_QUERIES
+    )
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "h4444433333/novelagent-studio",
+                "html_url": "https://github.com/h4444433333/novelagent-studio",
+                "description": (
+                    "NovelForge AI public open-source edition. Multi-agent long-form fiction "
+                    "production system with planning, chapter generation, scheduling workflows, "
+                    "status tracking, retry or roll back work, author style template library, "
+                    "recommendation flow, style guidance, chapter QA checks, graph views, "
+                    "progress tracking, open-source-safe repository boundaries, DashScope API key, "
+                    "txtai and sentence-transformers optional style indexing."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "multi-agent", "style-guidance", "chapter-qa"],
+                "updated_at": "2026-06-12T08:41:09Z",
+                "pushed_at": "2026-06-10T09:02:32Z",
+                "root_files": ["README.md", "README_CN.md", "LICENSE", "requirements.txt", ".env.example", "src", "frontend", "scripts", "data"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-15T00:00:00Z",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "h4444433333/novelagent-studio"
+    assert candidate["posture"] == "pattern-only"
+    assert candidate["license"] == "MIT"
+    assert "license:missing" not in candidate["trust_review"]["flags"]
+    assert "provider_key_surface" in candidate["risk_flags"]
+    assert "scheduled_agent_style_qa_workflow_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "scheduled_agent_style_qa_workflow_gate_hints" in pattern_pack
+    assert "author_style_template_library" in pattern_pack["bible_enrichment_targets"]
+    assert "style_guidance_boundary" in pattern_pack["bible_enrichment_targets"]
+    assert "scheduler_retry_rollback_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "chapter_qa_graph_progress_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "scheduler_style_qa_workflow_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("style template" in hint.lower() for hint in pattern_pack["scheduled_agent_style_qa_workflow_gate_hints"])
+    assert any("scheduler" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("rollback" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("style template" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("chapter QA" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("DashScope" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "scheduled_agent_style_qa_workflow_gate_hints" in digest
+
+
 def test_mdnovel_section_plotgrid_time_source_is_static_absorbed():
     assert "https://github.com/peter88213/mdnovel" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("mdnovel" in query and "narrative time" in query for query in DEFAULT_GITHUB_QUERIES)

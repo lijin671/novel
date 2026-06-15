@@ -510,6 +510,7 @@ def render_source_pattern_pack_digest(
         "source_novel_dna_fusion_boundary_gate_hints",
         "originality_guard_project_creation_gate_hints",
         "precision_edit_candidate_version_gate_hints",
+        "scheduled_agent_style_qa_workflow_gate_hints",
         "ide_workspace_local_git_version_gate_hints",
         "agent_context_provenance_budget_gate_hints",
         "interactive_branch_rehearsal_gate_hints",

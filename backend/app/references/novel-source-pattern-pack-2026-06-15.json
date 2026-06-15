@@ -1,0 +1,3040 @@
+{
+  "abstract_style_learning_skill_gate_hints": [],
+  "accepted_chapter_memory_hints": [],
+  "adaptive_quality_self_healing_autonomy_gate_hints": [],
+  "agent_architecture_catalog_workflow_gate_hints": [],
+  "agent_cache_concurrency_recovery_gate_hints": [],
+  "agent_context_provenance_budget_gate_hints": [],
+  "agent_role_profile_workflow_gate_hints": [],
+  "agent_style_rulebook_soft_enforcement_gate_hints": [],
+  "agent_writing_phase_polish_gate_hints": [],
+  "agentic_backstory_verification_rag_gate_hints": [],
+  "agentic_book_planner_pipeline_hints": [],
+  "agentic_editorial_pipeline_gate_hints": [],
+  "agentic_story_world_simulation_hints": [],
+  "agents_room_multistep_story_collaboration_gate_hints": [],
+  "agentwrite_plan_write_pipeline_hints": [],
+  "ai_book_generator_agent_mode_local_key_export_gate_hints": [],
+  "ai_flavor_template_shell_cleanup_gate_hints": [
+    "AI-flavor cleanup is a narrow final prose pass: remove template shells, signposts, paragraph isomorphism, and fake engagement while preserving meaning and voice.",
+    "Naturalization should produce explicit before/after edit spans and never weaken continuity, facts, tone, or scene intent.",
+    "Upstream skill bodies, prompt text, tests, scripts, agents, and install flows remain reference-only."
+  ],
+  "ai_ism_detect_edit_convergence_gate_hints": [],
+  "ai_novel_mindmap_prompt_library_gate_hints": [],
+  "ai_prose_fingerprint_cluster_gate_hints": [],
+  "ai_tell_pattern_review_gate_hints": [],
+  "alternate_timeline_branching_hints": [],
+  "anti_ai_naturalness_texture_gate_hints": [],
+  "anti_ai_tone_polish_hints": [
+    "Polish for natural prose after continuity passes: replace explanation with action, sensory detail, subtext, and specific dialogue.",
+    "Flag over-neat summaries, template transitions, generic wisdom, symmetrical paragraphs, and emotion labels as AI-tone risks.",
+    "Anti-AI-tone edits must not paraphrase distinctive source passages or erase necessary canon facts."
+  ],
+  "anti_copy_style_rag_gate_hints": [],
+  "anti_hallucination_plan_check_hints": [],
+  "anti_hallucination_strand_weave_review_gate_hints": [],
+  "anti_repetition_prompt_rules_hints": [],
+  "anti_slop_audit_hints": [
+    "Audit drafts for word-level AI tells, over-neat explanation, repeated sentence frames, generic wisdom dialogue, and scene-free summary.",
+    "Treat anti-slop findings as concrete rewrite tasks, not as a single global quality score.",
+    "Run anti-pattern checks before publication or batch merge so low-level prose drift does not accumulate across chapters."
+  ],
+  "anti_slop_rulepack_triage_gate_hints": [
+    "Run AI-prose rulepack triage separately from copy-risk review: banned vocabulary, inflated copulas, vague attribution, marketing cadence, and repeated structure become revision tasks.",
+    "Each prose-lint finding needs accept/ignore/rewrite status so cleanup does not flatten character voice or genre texture.",
+    "For same-type creation, anti-slop cleanup must increase local specificity without paraphrasing source sentences or restoring source cadence."
+  ],
+  "anti_statistical_center_chapter_type_gate_hints": [],
+  "append_only_canon_pov_promise_gate_hints": [],
+  "append_only_generation_review_log_hints": [],
+  "arboris_story_direction_workspace_gate_hints": [],
+  "arc_state_foreshadowing_persistence_gate_hints": [],
+  "atelier_phase_pipeline_gate_hints": [],
+  "atomic_fact_precision_gate_hints": [],
+  "attribution_derivative_work_gate_hints": [
+    "Before same-type creation, decide whether the source is inspiration, quotation, adaptation, translation, or derivative-risk material.",
+    "Attribution requirements and derivative-use boundaries must be satisfied outside prose generation; do not bury them inside style prompts."
+  ],
+  "author_ai_project_contract_review_gate_hints": [],
+  "author_candidate_canon_confirmation_gate_hints": [],
+  "author_control_boundary_hints": [],
+  "author_control_context_assembly_gate_hints": [],
+  "author_intent_confirmation_gate_hints": [],
+  "author_keeps_pen_diagnostic_codex_gate_hints": [],
+  "author_note_layer_hints": [],
+  "authorship_attribution_similarity_gate_hints": [],
+  "auto_validation_rewrite_hints": [],
+  "automatic_director_checkpoint_chain_hints": [],
+  "backup_restore_checkpoint_hints": [],
+  "batch_continuation_progress_queue_gate_hints": [],
+  "beat_strand_framework_hints": [],
+  "beta_reader_archetype_panel_hints": [],
+  "beta_reader_summary_context_gate_hints": [],
+  "better_writing_voice_specificity_preflight_gate_hints": [
+    "Treat the target voice sample or accepted style signature as the source of truth; do not flatten a strong voice into a generic house style.",
+    "Before polish, set context dials for genre, audience, tone, directness, warmth, personality, density, evidence, and polish, then check specificity without inventing facts.",
+    "Review AI tells as clusters, preserve defensible quirks, and score Directness, Specificity, Rhythm, Voice fit, and Density before public or accepted prose is promoted."
+  ],
+  "bible_enrichment_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "style_signature",
+    "hard_constraints",
+    "universal_mode_contract_policy",
+    "better_writing_voice_specificity_preflight_policy",
+    "story_bible_relationship_analytics_policy",
+    "appears_in_link_review_policy",
+    "character_continuity_dimension_policy",
+    "stable_vs_flexible_visual_anchor_policy",
+    "json_schema_outputs",
+    "schema_validation_rules",
+    "draft_bench_scene_history_policy",
+    "ai_flavor_shell_cleanup_policy",
+    "prose_naturalization_style_preservation_policy",
+    "inline_revision_policy",
+    "author_acceptance_diff_rules",
+    "prose_metric_baseline_policy",
+    "pov_dialogue_narrative_metric_schema",
+    "staged_scene_beat_transaction_policy",
+    "beat_card_preview_retry_apply_policy",
+    "uploaded_style_learning_rights_policy",
+    "api_style_clone_boundary_policy",
+    "screenplay_structure_coverage_policy",
+    "adaptation_structure_map_schema",
+    "attribution_derivative_policy",
+    "licensed_source_usage_boundary",
+    "chapter_summary_alignment_policy",
+    "book_level_summary_drift_rules",
+    "anti_slop_rulepack",
+    "prose_rule_triage_policy",
+    "human_ai_decision_authority_policy",
+    "author_final_say_review_log",
+    "anti_ai_tone_rules",
+    "snowflake_premise_chain",
+    "chinese_entity_alias_ledger",
+    "character_location_org_name_rules",
+    "sentiment_arc_baseline",
+    "character_emotion_trajectory",
+    "cross_context_coreference_ledger",
+    "mention_cluster_boundary_rules",
+    "character_interaction_network",
+    "relationship_polarity_timeline",
+    "tei_scene_speaker_network_policy",
+    "dramatic_corpus_scene_cast_schema",
+    "temporal_signed_relationship_balance_policy",
+    "relationship_polarity_balance_thresholds",
+    "graph_vector_retrieval_policy",
+    "local_global_hybrid_query_modes",
+    "conflicts",
+    "story_arcs",
+    "writer_critic_quality_cycle_policy",
+    "revision_collapse_prevention_policy",
+    "multi_agent_rag_consistency_policy",
+    "role_split_consistency_guard_policy",
+    "local_continuation_context_assembly_policy",
+    "token_budget_export_policy",
+    "p4_p5_foreshadow_outline_policy",
+    "relationship_line_cross_validation_policy",
+    "kdp_metadata_export_validation_policy",
+    "chapter_preservation_merge_policy",
+    "trace_replay_revision_workspace_policy",
+    "tiered_memory_open_thread_policy",
+    "quantified_style_confidence_policy",
+    "style_feature_axis_verification_policy",
+    "sdd_seven_step_skill_contract_policy",
+    "cross_platform_command_boundary_policy",
+    "langgraph_world_outline_review_memory_policy",
+    "critic_rewrite_memory_feedback_policy",
+    "director_orchestrator_trace_policy",
+    "qa_canonize_cost_boundary_policy",
+    "multi_phase_sensory_continuation_policy",
+    "sensory_cooldown_foreshadow_policy",
+    "person_place_timeline_policy",
+    "markdown_export_boundary_policy"
+  ],
+  "big_five_character_psychology_gate_hints": [],
+  "book_build_export_delivery_gate_hints": [],
+  "book_memory_bank_context_lattice_hints": [],
+  "book_mining_genesis_automation_gate_hints": [],
+  "book_view_import_export_manifest_gate_hints": [],
+  "book_writer_memory_arc_revision_gate_hints": [],
+  "bookend_closure_infill_gate_hints": [],
+  "bookrun_audit_trail_gate_hints": [],
+  "boring_opening_quality_gates_hints": [],
+  "branching_choice_graph_hints": [],
+  "browser_local_story_bible_privacy_gate_hints": [],
+  "canon_drift_continuity_qa_gate_hints": [],
+  "canon_evidence_suggestion_review_gate_hints": [],
+  "canon_graph_hybrid_validation_gate_hints": [],
+  "canon_object_ledger_bookstate_diff_gate_hints": [],
+  "canonical_packet_source_promotion_gate_hints": [],
+  "canonkit_local_canon_drift_context_pack_gate_hints": [],
+  "capture_distillation_production_gate_hints": [],
+  "card_workbench_hints": [],
+  "causal_dramatica_agent_pipeline_hints": [],
+  "causal_why_explanation_gate_hints": [],
+  "chapter_change_package_hints": [
+    "Each chapter should emit a change package that includes timeline_delta, character_state_changes, foreshadow_changes, plan_progress, and emotional_arc.",
+    "The chapter change package is the bridge between generation, analysis, bible sync, and the next continuation pass.",
+    "Write the chapter change package as part of the state write-back path, not as an optional afterthought."
+  ],
+  "chapter_contract_scene_beat_gate_hints": [],
+  "chapter_control_card_writeback_gate_hints": [],
+  "chapter_description_continuity_bridge_gate_hints": [],
+  "chapter_end_hook_retention_ladder_gate_hints": [],
+  "chapter_memory_ingestion_context_budget_gate_hints": [],
+  "chapter_packet_promise_debt_audit_gate_hints": [],
+  "chapter_progressive_disassembly_checkpoint_gate_hints": [],
+  "chapter_split_deconstruction_export_gate_hints": [],
+  "chapter_state_archive_ladder_hints": [],
+  "chapter_summary_alignment_gate_hints": [
+    "Maintain paragraph, chapter, arc, and book-level summaries as separate granularities; chapter acceptance requires local summary and book-level direction to agree.",
+    "Check summaries for causal and temporal dependency loss: who caused the change, when it happened, what state changed, and what future obligation remains.",
+    "When续写 changes a plot line, update derived summaries only after the chapter commit; stale summaries cannot feed the next prompt."
+  ],
+  "chapter_summary_anchor_gate_hints": [],
+  "chapter_timeline_frontmatter_export_gate_hints": [],
+  "chapter_translation_style_context_gate_hints": [],
+  "character_continuity_dimension_schema_gate_hints": [
+    "Character continuity schemas should separate identity, visual anchor, personality, relationship map, and episode memory so each drift type can be reviewed independently.",
+    "Stable visual anchors include face, silhouette, clothing baseline, palette, and signature props; flexible elements include expression, pose, lighting, and scene-specific wardrobe.",
+    "Every storyboard, generated scene, or续写 episode should cite the character continuity row it used and record any intentional change."
+  ],
+  "character_depth_interview_hints": [],
+  "character_dialogue_persona_memory_hints": [],
+  "character_interaction_network_gate_hints": [
+    "Extract character interaction networks with evidence for co-occurrence, dialogue, sentiment/polarity, faction, and time window.",
+    "Review centrality, bridge characters, alliance/conflict polarity, and relationship timing before accepting relationship canon.",
+    "For same-type creation, alter graph topology and relationship timing so renamed characters do not preserve the source network."
+  ],
+  "character_knowledge_timeline_gate_hints": [],
+  "character_quote_attribution_map_hints": [],
+  "chinese_error_correction_review_gate_hints": [],
+  "chinese_ner_alias_consistency_gate_hints": [
+    "Map Chinese names, aliases, locations, organizations, and titles into a review ledger before accepting chapter state updates.",
+    "Flag entity merges/splits when a character alias, sect name, place name, or translated label changes across chapters.",
+    "For same-type creation, source entity clusters are transformation evidence only and cannot become new-story canon names."
+  ],
+  "chinese_segmentation_keyword_gate_hints": [],
+  "chinese_skill_workstation_phase_quality_gate_hints": [],
+  "chinese_text_normalization_gate_hints": [],
+  "choice_stats_consequence_gate_hints": [],
+  "cjk_bm25_context_retrieval_gate_hints": [],
+  "codex_story_skill_project_scaffold_gate_hints": [],
+  "codex_webnovel_plugin_parity_gate_hints": [],
+  "collapse_prevention_hints": [],
+  "community_graph_source_deconstruction_hints": [],
+  "comp_title_market_positioning_hints": [],
+  "confirmed_action_audit_recovery_gate_hints": [],
+  "consequence_ledger_last_actions_context_gate_hints": [],
+  "constraint_harness_review_worktree_gate_hints": [],
+  "constraint_specificity_creativity_benchmark_hints": [],
+  "content_ref_externalization_hints": [],
+  "context_faithfulness_eval_gate_hints": [],
+  "context_pack_preview_hints": [],
+  "context_reference_hints": [],
+  "context_scrubber_beat_anchor_gate_hints": [],
+  "continuation_prompt_hints": [
+    "续写前先读取圣经草稿中的世界观、时间线、人物卡、组织关系、冲突与伏笔。",
+    "下一章必须承接原书尾章的状态变化，不重置人物关系、情感线和因果线。",
+    "把情感线当作连续状态处理：记录本章前后关系压力、误会、信任和欲望变化。",
+    "每章生成后输出本章变化包，供下一章读取。",
+    "生成前带入反 AI 味规则，生成后先清理机械感、同构段落和空泛正确对白，再进入人工式评审。",
+    "把续写前置分析和章节变化包拆成固定 schema 字段，缺字段时先补齐状态再生成正文。",
+    "After continuity approval, run a narrow prose pass that removes AI-like template shells while preserving facts, tone, voice, and scene intent.",
+    "最终润色要去 AI 味：减少解释腔、模板句、空泛总结，让动作、对白和细节承担信息。",
+    "Draft from one staged beat card at a time: include beat intent, length target, preview status, retry count, and apply/accept decision before prose promotion.",
+    "Before style learning from uploaded TXT, verify rights/consent, source scope, provider upload boundary, and abstracted style-feature target.",
+    "从一句话前提扩展到段落摘要、完整梗概和章节目标，防止续写偏离核心承诺。",
+    "Use inline human-machine edits for localized continuation repair; preserve accepted chapter context and rerun review on only the changed spans.",
+    "For character continuity, include identity, visual anchor, personality, relationship map, and episode memory dimensions before scene or storyboard generation.",
+    "Use write/review/revise/verify/gate cycles with bounded iteration counts; accept only revisions that improve named dimensions without collapsing story structure."
+  ],
+  "continuation_state_hints": [
+    "Persist a state snapshot at each chapter ending: world, timeline, characters, organizations, emotion, and hooks must be readable by the next chapter.",
+    "Read recent chapter_change_packages before choosing the next continuation start, conflict, and causal bridge.",
+    "Treat emotional arc as inherited state, not as one-off plot decoration.",
+    "Persist each agent role output, retrieval source class, metadata filter, timeline assertion, graph assertion, and emotion-state check as reviewable consistency evidence.",
+    "Persist continuation context assembly inputs, style-lock scope, recent-chapter window, token estimate, self-review result, foreshadow status, and export format separately.",
+    "Persist P4/P5 outline operations, relationship-stage deltas, setup/advance/reveal state, three-chapter no-P4 risk, and closure owner per chapter.",
+    "Persist KDP metadata, keyword validation, description length checks, chapter file preservation status, merge manifest, and export boundary as publication metadata.",
+    "Persist L1/L2/L3 memory ids, open-thread status, chapter workbench direction, trace replay id, consistency finding, metric deltas, and export boundary per revision.",
+    "Persist style sample scope, feature axes, vocabulary/syntax/emotion metrics, confidence formula inputs, validation result, and rights boundary before using a style profile.",
+    "Persist SDD phase, command dialect, constitution/spec/clarification/plan/task/write/analyze artifact ids, plugin boundary, and cross-platform command mapping before handoff.",
+    "Persist world id, outline id, graph node, chapter range, critique log id, rewrite result, memory-store id, and vector-index refs before accepting graph-generated chapters.",
+    "Persist director instruction id, blueprint id, writer output id, QA verdict, canonize commit id, worker role/model/cost trace, and impact-analysis status before accepting serial chapters.",
+    "Persist compression summary, analysis findings, outline beats, breakdown id, sensory routing hints, cooldown memory, foreshadow ledger delta, and manual/full-auto/range mode before drafting.",
+    "Persist person/place/timeline/notes deltas and export scope separately so delivery artifacts cannot silently rewrite canon state.",
+    "Validate state snapshots against a schema before the next generation pass; missing required fields block drafting.",
+    "Persist story bible relationships, appears in scene links, progress analytics, goal status, and deadline pacing as review metadata rather than hidden prompt state.",
+    "Persist character continuity dimensions: identity, visual anchors, personality, relationship map, episode memory, and reviewer-approved flexible visual elements.",
+    "Persist localized revision spans with author decision, reason, and downstream state impact instead of flattening them into an untraceable new chapter.",
+    "Persist beat-card transaction state: intent, length target, preview draft id, retry count, apply decision, inserted span id, and completed marker.",
+    "Persist uploaded-style source rights, TXT scope, style-feature abstraction, provider/API boundary, generated-chapter custody, and clone-risk review.",
+    "Persist attribution and derivative-work review as source-boundary metadata; it must not mutate characters, plot, or style as canon facts.",
+    "Store writer draft, critic findings, applied revision ids, verification scores, failure reasons, and final gate decision separately from accepted manuscript state."
+  ],
+  "continuity_bridge_window_hints": [],
+  "continuity_passport_drift_repair_gate_hints": [],
+  "contradiction_detection_hints": [],
+  "contradiction_taxonomy_checker_hints": [],
+  "copilot_webnovel_research_runner_gate_hints": [],
+  "copyedit_diagnostic_triage_queue_hints": [],
+  "corpus_leakage_dedup_review_gate_hints": [],
+  "counterfactual_story_graph_rag_gate_hints": [],
+  "cover_kdp_metadata_boundary_hints": [],
+  "craft_companion_dual_entry_arbitration_gate_hints": [],
+  "craft_role_pipeline_hints": [],
+  "craft_scene_concrete_finding_revision_gate_hints": [],
+  "creative_scaffold_prompt_sequence_gate_hints": [],
+  "creative_writing_multiaxis_provider_gate_hints": [],
+  "critic_verifier_loop_hints": [],
+  "critique_revision_series_memory_gate_hints": [],
+  "cross_chapter_redundancy_audit_hints": [],
+  "cross_context_coreference_gate_hints": [
+    "Maintain cross-chapter and cross-document mention clusters for people, places, events, and abstract concepts before context reuse.",
+    "Flag ambiguous or drifting clusters instead of writing them back into canon, especially across imported source and generated chapters.",
+    "For same-type creation, regenerate aliases and cluster boundaries around the transformed cast and event set."
+  ],
+  "custom_entity_label_inventory_hints": [],
+  "dashboard_task_quality_resume_gate_hints": [],
+  "deeplore_lore_retrieval_gap_graph_gate_hints": [],
+  "delivery_manuscript_assembly_hints": [],
+  "desktop_agent_planning_reflection_gate_hints": [],
+  "desktop_langgraph_memory_observability_gate_hints": [],
+  "desktop_review_rag_retry_gate_hints": [],
+  "desktop_translation_batch_replacement_boundary_gate_hints": [],
+  "dialogoi_filetype_rag_novel_project_gate_hints": [],
+  "diff_span_copy_review_hints": [],
+  "director_orchestrator_trace_canonize_gate_hints": [
+    "Route serial fiction work through a visible director-orchestrator chain: user direction, blueprint, draft, QA, canonize, memory update, and impact-analysis queue.",
+    "Record worker role, model lane, token/cost trace, orchestration step, QA verdict, and canonize delta so chapter acceptance is based on traceable work rather than chat confidence.",
+    "Novel-Studio Docker/PostgreSQL/pnpm/Drizzle/API/Web runtime, provider keys, LLM calls, database state, generated chapters, and local project data remain excluded from static intake."
+  ],
+  "director_stage_checkpoint_gate_hints": [],
+  "distributed_fact_chain_recall_gate_hints": [],
+  "divergence_guidance_hints": [],
+  "document_gamebook_branching_adapter_gate_hints": [],
+  "document_partition_chapter_detection_gate_hints": [],
+  "dracor_tei_scene_speaker_network_gate_hints": [
+    "For source deconstruction, model each dramatic scene with TEI-style speaker, cast, act/scene id, entrance/exit, and relationship-network evidence.",
+    "Before continuation, verify speaker presence, dialogue ownership, scene transition, and cast-list coverage against the chapter or scene state.",
+    "For same-type creation, preserve only abstract scene/speaker function; rebuild cast membership, scene graph, and speaker order for the new work."
+  ],
+  "draft_candidate_promotion_gate_hints": [],
+  "draft_stage_revision_ladder_hints": [],
+  "drama_shot_list_camera_pattern_gate_hints": [],
+  "dual_engine_reader_sandbox_rag_gate_hints": [],
+  "dual_level_graph_vector_retrieval_hints": [
+    "Select continuation context with dual-level retrieval: vector similarity for related passages and graph traversal for canon-critical entities.",
+    "Choose query mode explicitly: local for character/state facts, global for theme or arc summaries, hybrid for chapter planning, naive only for fallback.",
+    "Log which retrieval mode supplied each context item so weak graph or vector coverage can be repaired."
+  ],
+  "dual_model_summary_continuation_session_gate_hints": [],
+  "dual_track_epub_manifest_pipeline_gate_hints": [],
+  "dynamic_architecture_extension_gate_hints": [],
+  "ebook_accessibility_audit_gate_hints": [],
+  "editor_context_prose_analysis_gate_hints": [],
+  "editor_notes_feedback_loop_hints": [],
+  "editorial_finding_resolution_rewrite_gate_hints": [],
+  "editorial_memory_card_graph_agent_gate_hints": [],
+  "editorial_persona_voice_workshop_gate_hints": [],
+  "element_swap_deconstruction_rewrite_pipeline_gate_hints": [],
+  "embedding_similarity_independence_gate_hints": [],
+  "entity_memory_slotfill_grounding_hints": [],
+  "entity_mention_arc_timeline_gate_hints": [],
+  "entity_schema_custom_fields_hints": [],
+  "entity_to_visual_asset_pipeline_hints": [],
+  "episode_range_rewrite_scope_hints": [],
+  "epub_structure_validation_gate_hints": [],
+  "event_outline_history_compression_hints": [],
+  "event_to_sentence_realization_trace_hints": [],
+  "executor_agnostic_instruction_checkpoint_gate_hints": [],
+  "expert_chain_alignment_creativity_gate_hints": [],
+  "export_format_fidelity_audit_hints": [],
+  "external_agent_api_free_cataloging_gate_hints": [],
+  "fact_snapshot_delta_gate_hints": [],
+  "fanqie_checkpoint_compliance_audit_gate_hints": [],
+  "fanqie_publish_dryrun_boundary_gate_hints": [],
+  "fast_structure_content_model_split_gate_hints": [],
+  "fiction_skill_agent_workbench_gate_hints": [],
+  "file_backed_promise_ledger_audit_gate_hints": [],
+  "file_based_showrunner_canon_approval_gate_hints": [],
+  "filesystem_memory_agent_loop_gate_hints": [],
+  "final_prompt_preview_span_revision_gate_hints": [],
+  "five_question_intake_story_promise_gate_hints": [],
+  "forensic_style_clone_audit_risk_gate_hints": [],
+  "foreshadowing_debt_budget_hints": [],
+  "forfiction_theia_story_extension_skill_gate_hints": [],
+  "forge_agent_mcp_eval_contract_gate_hints": [],
+  "four_agent_chapter_quality_loop_gate_hints": [],
+  "fresh_context_chapter_iteration_gate_hints": [],
+  "front_back_matter_metadata_gate_hints": [],
+  "frontmatter_story_schema_hints": [],
+  "function_word_syntax_style_gate_hints": [],
+  "fuzzy_phrase_similarity_gate_hints": [],
+  "gemini_writer_context_recovery_gate_hints": [],
+  "generated_at": "2026-06-15T10:03:09+08:00",
+  "genre_gene_capsule_market_boundary_gate_hints": [],
+  "genre_inspiration_budget_library_gate_hints": [],
+  "genre_parameterized_worldbuilding_hints": [],
+  "genre_promise_contract_matrix_gate_hints": [],
+  "genre_tag_taxonomy_router_gate_hints": [],
+  "goink_tool_state_autoreview_gate_hints": [],
+  "governed_full_reading_continuation_gate_hints": [],
+  "gradual_reveal_control_hints": [],
+  "grammar_spelling_copyedit_gate_hints": [],
+  "graph_branching_atomicity_hints": [],
+  "graph_healing_hints": [],
+  "grimodex_codex_attribution_scene_chat_gate_hints": [],
+  "group_collaboration_conflict_vote_memory_gate_hints": [],
+  "harnessnovel_deconstruct_imitate_gate_hints": [],
+  "hierarchical_cowriting_story_scaffold_hints": [],
+  "hierarchical_narrative_memory_os_gate_hints": [],
+  "hierarchical_orchestrator_generation_gate_hints": [],
+  "hierarchical_semantic_snapshot_workspace_gate_hints": [],
+  "hierarchical_story_tree_evaluation_agent_gate_hints": [],
+  "homogeneity_prompt_variation_gate_hints": [],
+  "host_instruction_context_boundary_gate_hints": [],
+  "hosted_ai_sidebar_product_boundary_gate_hints": [],
+  "human_ai_decision_authority_gate_hints": [
+    "Treat AI as an amplifier: planning, drafting, review, and iteration can propose options, but the author owns voice, final selection, and canon promotion.",
+    "Record human edits and author decision events separately from generated text so later continuation can tell author canon from AI candidate output.",
+    "Run consistency and AI-taste checks before acceptance; fixes should preserve author intent instead of making prose more generic or more source-like."
+  ],
+  "human_coauthor_edit_boundary_hints": [],
+  "human_edit_memory_quality_warn_gate_hints": [],
+  "human_oversight_quality_signal_gate_hints": [],
+  "human_story_metric_panel_hints": [],
+  "human_synopsis_gate_hints": [],
+  "humanization_stylometry_levers_hints": [],
+  "hybrid_rubric_pairwise_elo_judge_hints": [],
+  "ide_workspace_local_git_version_gate_hints": [],
+  "ideation_worksheet_foundation_gate_hints": [],
+  "import_provenance_checksum_gate_hints": [],
+  "imported_manuscript_migration_outline_gate_hints": [],
+  "impromptu_thread_pool_chapter_gate_hints": [],
+  "inkfoundry_state_db_redteam_voice_sandbox_gate_hints": [],
+  "inkos_truthfile_api_fanfic_imitation_gate_hints": [],
+  "inline_author_edit_markup_versioning_hints": [],
+  "inline_human_machine_coauthoring_gate_hints": [
+    "Treat generated prose as a starting point: author edits, localized polishing, and precise modifications must stay visible as reviewable spans.",
+    "Inline revision should record before/after text, edit intent, affected canon fields, and whether the author accepted or rejected the change.",
+    "Do not regenerate a whole chapter when only one paragraph, hook, or dialogue beat needs repair; localize the edit and rerun copy-risk review on the changed span."
+  ],
+  "inspectable_memory_workspace_gate_hints": [],
+  "inspectable_run_workspace_hints": [],
+  "inspired_copy_risk_hints": [
+    "Reject copied source names, proper nouns, scene order, set-piece sequence, and distinctive event wording.",
+    "Similarity should live in genre feel and narrative mechanics, not in source facts, labels, or paragraph-level phrasing.",
+    "Reject same-type drafts that preserve source vault folder names, scene-card order, branch labels, compile presets, or frontmatter relationship labels as story content.",
+    "Reject consistency reports that import upstream agent prompts, service configs, vector-store data, or graph/timeline examples instead of target-story evidence.",
+    "Reject continuation outputs that hide context assembly, style-lock range, token budget, self-review, or export artifacts as accepted story facts.",
+    "Reject outlines that copy P4/P5 prompt bodies, source chapter order, or unowned foreshadow chains without target payoff evidence.",
+    "Reject publication metadata that reuses source title phrasing, KDP descriptions, keywords, cover prompts, or generated chapter examples.",
+    "Reject outputs that import Morpheus runtime logs, graph data, generated exports, service configs, or trace text as target canon.",
+    "Reject prose that copies Better Writing examples, upstream skill wording, reference phrase lists, voice samples, or AI-tell catalog text into target manuscript or canon state.",
+    "Reject drafts that clone a protected author's measurable style fingerprint, imported sample corpus, NLP report wording, plugin prompts, or style-profile examples.",
+    "Reject drafts that copy novel-writer-cn slash-command bodies, initialized project templates, plugin examples, workflow docs, or command dialect labels as prose.",
+    "Reject outputs that copy novel_agent code, CLI examples, KIMI configuration, .env guidance, generated worlds/outlines/chapters, critique logs, vector data, or legacy artifacts.",
+    "Reject drafts that copy Novel-Studio runtime scripts, Docker/Drizzle setup text, provider key examples, orchestration logs, database rows, generated chapters, or project templates.",
+    "Reject drafts that copy Novel_Continuation_Studio sensory templates, AGENTS text, UI labels, package script examples, generated chapters, or foreshadow ledger examples.",
+    "Reject outputs that copy Novelist demo persons, places, timeline files, notes, Docker/client labels, or generated ePub/HTML examples as canon.",
+    "Review each generated chapter for source-copy risk before accepting it.",
+    "Run copy-risk checks on structured fields as well as prose, because copied names and set-pieces often enter through planning cards.",
+    "Reject inline edits that hide source-like replacement spans inside accepted prose without author decision and copied-span review.",
+    "Reject beat-card drafts when preview/retry/apply history is missing or when the source beat sequence is accepted as a new-story scene route.",
+    "Reject style-learning flows that upload copyrighted TXT files, clone named authors, call providers without custody rules, or hide source-scope consent.",
+    "Reject continuity packets that preserve source faces, silhouettes, palettes, props, archetype labels, relationship maps, or episode-memory events under renamed characters.",
+    "Do not use anti-slop cleanup as a license to paraphrase distinctive source passages.",
+    "Reject same-type drafts that rely on attribution as a substitute for independent plot, character, setting, and phrasing.",
+    "Reject transformed entity ledgers that keep source aliases, sect/place names, title systems, or relationship labels as canon.",
+    "Reject anti-slop rewrites that smooth text into generic prose or paraphrase distinctive source sentences.",
+    "Reject emotion arcs that mirror source turning-point sequence, valence curve, or character-trigger mapping too closely.",
+    "Reject coreference ledgers that allow source aliases, events, or abstract concepts to resolve into transformed canon.",
+    "Reject relationship networks that preserve source central characters, alliance/conflict polarity, or interaction timing under new names.",
+    "Reject same-type drafts that preserve source cast-list order, speaker-scene coverage, or dramatic scene graph under renamed roles.",
+    "Reject same-type drafts that preserve source relationship balance, positive/negative polarity timing, or bridge-character load under new names.",
+    "Reject transformed summaries that keep source chapter/book summary order, causal phrasing, or temporal dependency chain.",
+    "Reject context packs where source vector hits or graph neighborhoods are indistinguishable from accepted transformed canon.",
+    "Reject drafts promoted without visible author decision, especially when AI polish hides copied source structure behind smoother wording.",
+    "Reject AI-flavor cleanup that only smooths copied spans; run source-overlap review before accepting naturalized prose.",
+    "Reject revisions that copy source critique language, verifier JSON, accepted fixes, published clean text, or model-specific prompt scaffolding."
+  ],
+  "inspired_mapping_targets": [
+    "character_remap",
+    "organization_remap",
+    "world_rule_remap",
+    "plot_thread_remap",
+    "universal_mode_contract_remap",
+    "better_writing_voice_specificity_preflight_remap",
+    "obsidian_scene_compile_remap",
+    "ai_flavor_shell_cleanup_remap",
+    "schema_field_remap",
+    "anti_slop_rules",
+    "style_signature",
+    "emotional_arc",
+    "character_continuity_schema_remap",
+    "stable_flexible_anchor_remap",
+    "scene_beat_card_remap",
+    "preview_retry_apply_remap",
+    "uploaded_style_consent_remap",
+    "style_feature_abstraction_remap",
+    "anti_ai_tone_rules",
+    "premise_chain_remap",
+    "human_ai_authority_remap",
+    "chinese_entity_alias_remap",
+    "anti_slop_rulepack_remap",
+    "sentiment_arc_emotion_remap",
+    "cross_context_coreference_remap",
+    "character_network_relationship_remap",
+    "tei_scene_speaker_remap",
+    "relationship_balance_remap",
+    "inline_revision_span_remap",
+    "pov_dialogue_metric_remap",
+    "screenplay_adaptation_structure_remap",
+    "graph_vector_retrieval_remap",
+    "writer_critic_quality_cycle_remap",
+    "multi_agent_consistency_remap",
+    "continuation_workstation_context_remap",
+    "p4_p5_foreshadow_relationship_remap",
+    "publication_metadata_export_remap",
+    "trace_memory_revision_remap",
+    "quantified_style_feature_remap",
+    "style_confidence_boundary_remap",
+    "sdd_seven_step_workflow_remap",
+    "cross_platform_command_contract_remap",
+    "world_outline_graph_state_remap",
+    "critic_rewrite_feedback_remap",
+    "director_orchestrator_chain_remap",
+    "qa_canonize_trace_remap",
+    "sensory_cooldown_ledger_remap",
+    "phase_breakdown_drafting_remap",
+    "person_place_timeline_remap"
+  ],
+  "inspired_prompt_hints": [
+    "Use the source only as style, rhythm, POV, pacing, scene-density, and emotional-temperature guidance.",
+    "Generate an independent new story with new names, organizations, event chain, core conflict, and world rules.",
+    "For same-type prompts, state scene-card/version/compile scope, selected Obsidian-style context flow, and required distance from the source manuscript before drafting.",
+    "Prompt AI-flavor cleanup as a constrained edit pass with preserved facts, preserved tone, and explicit removed template-shell categories.",
+    "Prompt multi-agent consistency as independent target-story reviewer roles with cited retrieval metadata, then merge only approved findings into the new outline or continuation plan.",
+    "Prompt continuation with a visible context assembly manifest, token estimate, style-lock range, self-review result, and export boundary before accepting prose.",
+    "Prompt P4/P5 outline work as transformed foreshadow and relationship operations with payoff owners, not as copied chapter-by-chapter source structures.",
+    "Prompt KDP/export data as metadata validation and merge manifests; keep it outside canon and avoid source title/tagline reuse.",
+    "Prompt revisions with a visible memory tier, open-thread status, trace replay id, metric delta, and export boundary; do not run Morpheus services.",
+    "Prompt style guidance from quantified axes and confidence notes, not from protected samples; low-confidence axes become review questions instead of prose constraints.",
+    "Prompt each task with its SDD phase and exit criteria: constitution, specify, clarify, plan, tasks, write, or analyze; command dialects stay metadata.",
+    "Prompt from approved graph state, critique findings, and rewrite verdicts; raw graph node outputs, provider settings, and vector-store internals stay outside prose context.",
+    "Prompt each chapter from the approved director direction, blueprint, worker role boundary, QA verdict, and canonize delta; cost/trace metadata stays evidence, not prose.",
+    "Prompt sensory details as late-bound target hints with cooldown and manual override markers; source sensory templates or UI wording stay outside drafting context.",
+    "Prompt continuation with current person, place, timeline, and notes snapshots as separate state inputs before prose drafting.",
+    "Carry the style signature into drafting and review, but do not preserve source facts as canon.",
+    "Draft from a fresh outline/beat sheet; do not reuse the source chapter order as the new chapter order.",
+    "Prompt prose polish with a target-owned voice sample or style signature, selected context dials, specificity-without-invention policy, clustered AI-tell review, and preflight scores.",
+    "Ask for localized revision candidates with span ids and author decision points instead of whole-chapter regeneration when only one beat fails.",
+    "For same-type prompts, turn source beat-card workflow into a new beat transaction contract with transformed intent, length, preview, retry, and apply rules.",
+    "For same-type character continuity, rebuild identity, visual anchor, personality, relationship map, and episode memory dimensions with new names, roles, and evidence.",
+    "Use schema constraints to force completeness and independence, especially for renamed entities and transformed conflicts.",
+    "Anti-slop review should remove generic AI prose without pushing the text back toward copied source phrasing.",
+    "Anti-AI-tone polish should make the new prose more specific, not closer to source phrasing.",
+    "Create a new premise chain before outlining; do not reuse the source promise or summary structure as canon.",
+    "Transform Chinese entity clusters by replacing names, aliases, sects, places, and relationship labels before context reuse.",
+    "Run anti-slop rulepack triage as local prose cleanup after independence checks so specificity rises without copying source cadence.",
+    "Use emotion arcs as pressure-shape evidence only; rebuild turning points, valence shifts, and character triggers for the new story.",
+    "Rebuild mention clusters around the transformed cast so source entities and events cannot leak across context packs.",
+    "Transform character networks by changing centrality, alliance, conflict polarity, and relationship timing before prose expansion.",
+    "Prompt from scene/speaker functions only; rebuild cast lists, speaker order, and act/scene coverage before prose expansion.",
+    "Prompt from relationship-balance pressure only; change positive/negative/neutral edge timing and bridge-character roles.",
+    "Create transformed inline revision spans with new-story text and author decision points; do not reuse source edit spans as draft material.",
+    "Retrieve source-like craft references and transformed canon through separate graph/vector contexts so they cannot merge.",
+    "Prompt outputs should present author decision points and alternatives rather than claiming the AI can finalize the story voice alone.",
+    "For same-type writing, use critic cycles to improve the transformed draft against local criteria, not to imitate the source story's fixes."
+  ],
+  "inspired_transformation_hints": [
+    "Rename source characters and reframe their identity, role, desire, and relationship pressure before drafting.",
+    "Replace source organizations, abilities, locations, and plot triggers with transformed equivalents.",
+    "Transform Obsidian manuscript-workspace mechanics into target scene ids, statuses, branches, flow windows, and compile checks without preserving source scene order.",
+    "Transform multi-agent/RAG architecture into target reviewer roles, retrieval labels, timeline checks, and graph assertions while excluding upstream service topology.",
+    "Transform workstation context assembly into target continuation manifests, token budgets, foreshadow states, and export metadata without running desktop/server code.",
+    "Transform P4/P5 markers into target foreshadow lifecycle and relationship-line state transitions with fresh setup/payoff content.",
+    "Transform publication metadata into target-market fields and validation reports while preserving original chapter files and avoiding source marketing language.",
+    "Transform Morpheus-style trace and tiered memory into target revision evidence, context packets, and graph findings under the new story namespace.",
+    "Transform style learning into permission-safe feature vectors, confidence scores, and validation findings; replace author-like imitation with abstract target voice controls.",
+    "Transform SDD command workflows into MuMuAINovel phase artifacts and exit gates; do not copy slash-command files, install paths, or prompt bodies.",
+    "Transform LangGraph orchestration into MuMuAINovel graph-stage cards, critique/rewrite feedback traces, and memory refs without importing provider code or vector data.",
+    "Transform Novel-Studio orchestration into target-owned direction cards, blueprint approvals, QA/canonize traces, and role-cost ledgers without importing runtime state.",
+    "Transform sensory continuation into target-owned sensory anchors, cooldown ledgers, foreshadow deltas, and manual override records rather than borrowed template language.",
+    "Transform person/place/timeline workspaces into target entity ledgers and export manifests instead of copying upstream file names or story state.",
+    "Transform the world rules first, then derive new plot constraints from the transformed world.",
+    "Transform AI-flavor cleanup into a project-local prose lint pass; never use naturalization to mask source-copy overlap.",
+    "Preserve the emotional function of a relationship beat while changing who causes it and why.",
+    "Check transformed fields against required schema slots so no source-only proper noun or event label survives.",
+    "Transform beat intent, length target, motive, obstacle, preview criteria, and apply condition before using a scene beat card for same-type drafting.",
+    "Transform from the top of the premise chain downward so lower-level scenes inherit a new core promise.",
+    "Transform prose lint findings into revision tasks that preserve character voice and reject generic AI phrasing.",
+    "Transform entity aliases and title systems before any same-type draft becomes canon.",
+    "Transform emotion trajectories by changing who feels the shift, why it turns, and which scene pays it off.",
+    "Transform coreference ledgers so old source aliases and event mentions never resolve to new-story entities.",
+    "Transform relationship graphs by changing interaction frequency, polarity, faction membership, and bridge characters.",
+    "Transform TEI-style scene/speaker maps by changing cast membership, scene coverage, dialogue ownership, and dramatic entrances.",
+    "Transform relationship-balance maps by changing polarity windows, alliance triangles, centrality, and bridge-character pressure.",
+    "Transform inline coauthor edits into new localized spans, then require author acceptance and copy-risk checks before merging.",
+    "Transform retrieval plans by using vector matches for craft texture and graph traversal for new-story canon only.",
+    "Transform adaptation-risk material by separating allowed reference, required attribution, and blocked derivative similarity before drafting.",
+    "Transform AI suggestions through an author decision log so accepted canon reflects human choice rather than automatic draft promotion.",
+    "Transform voice and specificity review into target-story calibration: keep target voice quirks, rebuild examples, and use placeholders or questions when facts are missing.",
+    "Transform writer/critic loops into new-story review cycles with different criteria, critique wording, revision ids, and gate thresholds."
+  ],
+  "instance_specific_writing_criteria_gate_hints": [],
+  "intent_tool_quality_style_checkpoint_gate_hints": [],
+  "interactive_branch_rehearsal_gate_hints": [],
+  "interactive_reader_writer_loop_gate_hints": [],
+  "interrupted_resume_flow_hints": [],
+  "jingwei_layered_canon_plugin_gate_hints": [],
+  "judge_bias_mitigation_check_hints": [],
+  "judgemark_literary_criteria_calibration_gate_hints": [],
+  "kdp_metadata_chapter_export_gate_hints": [
+    "Keep topic, target audience, outline, chapter order, KDP description, 7 keywords, and validation results as publication metadata rather than story canon.",
+    "Merging/export should preserve original chapter files and record a manifest for title, subtitle, author, table of contents, HTML/PDF target, and prohibited-content checks.",
+    "setup/generate/merge scripts, Playwright/PDF generation, cover prompts, KDP publishing operations, generated chapters, and upstream references remain static-only."
+  ],
+  "keyphrase_motif_extraction_hints": [],
+  "kindle_agent_pipeline_compile_gate_hints": [],
+  "kindling_local_outline_reference_import_gate_hints": [],
+  "knowledge_document_writeback_trace_gate_hints": [],
+  "l0_l3_memory_skeleton_volume_gate_hints": [],
+  "langgraph_story_state_machine_hints": [],
+  "langgraph_world_outline_review_memory_gate_hints": [
+    "Represent long-form generation as explicit graph stages: world setting, summary/vector initialization, outline, critique, chapter drafting, critique, rewrite, and memory update.",
+    "Keep graph state inspectable with world ids, outline ids, chapter ranges, critique logs, rewrite verdicts, memory refs, and vector-index refs before a chapter can advance.",
+    "novel_agent requirements, virtualenvs, KIMI calls, FAISS/sentence-transformer downloads, local data folders, generated artifacts, .env files, and legacy scripts remain excluded from static intake."
+  ],
+  "language_localization_style_profile_gate_hints": [],
+  "layered_memory_model_hints": [],
+  "layered_parallel_audit_state_machine_gate_hints": [],
+  "layered_story_bible_artifact_contract_gate_hints": [],
+  "layered_style_profile_fusion_eval_gate_hints": [],
+  "lexical_diversity_voice_audit_hints": [],
+  "linked_chapter_workspace_state_gate_hints": [],
+  "literary_event_entity_annotation_gate_hints": [],
+  "living_codex_editorial_workbench_gate_hints": [],
+  "living_document_plan_log_verify_gate_hints": [],
+  "llm_style_dimension_matrix_gate_hints": [],
+  "local_author_data_boundary_gate_hints": [],
+  "local_block_manuscript_workspace_gate_hints": [],
+  "local_continuation_memory_export_gate_hints": [],
+  "local_continuation_workstation_context_export_gate_hints": [
+    "Assemble continuation context from hierarchy, recent accepted chapters, style-lock scope, chapter outline, character snapshots, foreshadow states, world rules, and early-snippet anchors.",
+    "Token estimates, self-review, timeline dedupe, export format, and foreshadow active/resolved/abandoned status should be visible acceptance gates, not hidden generation side effects.",
+    "Desktop installers, start scripts, servers, local databases, provider calls, generated manuscripts, TXT/DOCX/EPUB exports, and runtime state are deferred."
+  ],
+  "local_copilot_layered_memory_workspace_gate_hints": [],
+  "local_desktop_manuscript_revision_bible_gate_hints": [],
+  "local_first_provider_boundary_authoring_gate_hints": [],
+  "local_first_workspace_hints": [],
+  "local_flow_story_graph_workspace_gate_hints": [],
+  "local_node_graph_lore_fix_loop_gate_hints": [],
+  "local_rag_writing_ide_gate_hints": [],
+  "local_reader_experience_editor_hints": [],
+  "local_snapshot_backup_export_gate_hints": [],
+  "local_sqlite_author_ownership_gate_hints": [],
+  "local_storage_story_bible_snapshot_gate_hints": [],
+  "long_consistency_reverse_rag_retry_gate_hints": [],
+  "long_context_benchmark_task_suite_gate_hints": [],
+  "long_context_reward_dimension_gate_hints": [],
+  "long_context_role_boundary_state_validation_gate_hints": [],
+  "long_output_length_quality_ruler_hints": [],
+  "long_term_author_preference_memory_hints": [],
+  "longgu_engineering_harness_gate_hints": [],
+  "longrun_commit_projection_health_gate_hints": [],
+  "lora_style_adapter_memory_bank_gate_hints": [],
+  "lore_forge_knowledge_engineering_gate_hints": [],
+  "lorebook_context_hints": [],
+  "loreweave_graph_glossary_translation_gate_hints": [],
+  "lumintree_simulation_tree_category_gate_hints": [],
+  "manuscript_binder_scene_snapshot_gate_hints": [],
+  "manuscript_card_board_extraction_gate_hints": [],
+  "manuscript_export_formats_hints": [],
+  "manuscript_health_ai_prep_gate_hints": [],
+  "manuscript_pr_editorial_workflow_gate_hints": [],
+  "map_reduce_factual_anchor_adaptation_gate_hints": [],
+  "margin_guided_long_context_revision_gate_hints": [],
+  "markdown_frontmatter_continuity_engine_gate_hints": [],
+  "markdown_ink_export_validation_gate_hints": [],
+  "markdown_skill_story_project_contract_gate_hints": [],
+  "material_grounded_query_refinement_hints": [],
+  "mcp_novel_memory_gateway_tool_gate_hints": [],
+  "mcp_scene_index_revision_boundary_hints": [],
+  "mega_chapter_genre_layered_memory_gate_hints": [],
+  "memoir_story_spine_consensus_grounding_gate_hints": [],
+  "memory_augmented_delta_verification_gate_hints": [],
+  "memory_aware_chapter_workspace_hints": [],
+  "memory_snapshot_versioning_hints": [],
+  "microkernel_skill_plugin_isolation_gate_hints": [],
+  "mindmap_visual_planning_hints": [],
+  "minhash_lsh_near_duplicate_gate_hints": [],
+  "minimal_rollback_repair_scope_gate_hints": [],
+  "mock_first_multi_agent_continuation_gate_hints": [],
+  "mode_contract_generation_gate_hints": [],
+  "morpheus_trace_memory_revision_gate_hints": [
+    "Treat long-form generation as project setup, batch draft, chapter workbench revision, memory/graph review, trace replay, and export readiness instead of one-shot drafting.",
+    "Use L1/L2/L3 memory, open threads, context packs, dashboard metrics, and consistency findings as visible evidence before accepting chapter rewrites.",
+    "Morpheus backend/frontend, LanceDB, providers, services, generated exports, and runtime trace data remain deferred and non-imported."
+  ],
+  "multi_agent_outline_continuity_review_gate_hints": [],
+  "multi_agent_reject_retry_review_gate_hints": [],
+  "multi_agent_vector_memory_timeline_gate_hints": [],
+  "multi_book_autopilot_studio_gate_hints": [],
+  "multi_level_review_trend_hints": [],
+  "multi_phase_sensory_continuation_gate_hints": [
+    "Gate continuation through Compression, Analysis, Outline, Breakdown, and Drafting so scene-level prose never skips context compression or consistency findings.",
+    "Maintain sensory anchors as late-bound, chapter-aware hints with cooldown memory, explicit manual override, and foreshadow ledger updates after acceptance.",
+    "Novel_Continuation_Studio npm/package scripts, AGENTS instructions, provider keys, generated chapters, UI state, local corpora, and runtime exports remain excluded from static intake."
+  ],
+  "multi_thread_knowledge_timeline_gate_hints": [],
+  "multi_work_style_imitation_mode_gate_hints": [],
+  "multidimensional_quality_rubric_hints": [],
+  "nai_multi_agent_rag_consistency_gate_hints": [
+    "Split continuation review into role outputs for worldbuilding, character dialogue, plot control, and consistency arbitration; each role cites target-story evidence ids.",
+    "Hybrid retrieval should record vector/BM25/metadata source classes, then validate findings against rule, graph, timeline, and emotion-state consistency layers.",
+    "FastAPI/LangGraph/LlamaIndex/Qdrant/PostgreSQL/Redis/Neo4j/Next.js/Docker runtimes, providers, and upstream data stores remain deferred and non-imported."
+  ],
+  "narrative_arc_template_control_hints": [],
+  "narrative_canon_version_branch_graph_gate_hints": [],
+  "narrative_event_evolution_graph_gate_hints": [],
+  "narrative_qa_comprehension_gate_hints": [],
+  "narrative_strand_mapping_hints": [],
+  "narrative_time_age_trace_gate_hints": [],
+  "naturalization_detector_disclaimer_gate_hints": [],
+  "nebula_codex_character_knowledge_version_gate_hints": [],
+  "needle_haystack_context_recall_gate_hints": [],
+  "node_dialogue_state_machine_hints": [],
+  "nova_local_version_memory_role_gate_hints": [],
+  "novel_audit_11_dimension_rewrite_gate_hints": [],
+  "novel_control_chapter_card_writeback_gate_hints": [],
+  "novel_core_knowledge_pack_rag_gate_hints": [],
+  "novel_rewriter_copyright_cost_gate_hints": [],
+  "novel_rule_auditor_learning_loop_gate_hints": [],
+  "novel_studio_accepted_chapter_memory_gate_hints": [],
+  "novel_to_multimodal_pipeline_hints": [],
+  "novel_to_screenplay_structure_coverage_gate_hints": [
+    "Before adaptation or续写, map chapters to acts, scenes, action, dialogue, transitions, structure beats, and unresolved questions with stable evidence IDs.",
+    "Coverage and quality reports should block export when chapter coverage, scene objective, conflict, turn, or continuity evidence is missing.",
+    "Fountain/YAML/Markdown exports are downstream artifacts; generating them cannot bypass source-boundary, copyright, or same-type transformation review."
+  ],
+  "novelengine_weighted_rag_consistency_gate_hints": [],
+  "novelforge_version_safe_human_review_gate_hints": [],
+  "novelwriter_live_manuscript_analytics_gate_hints": [],
+  "nrd_task_tree_pipeline_hints": [],
+  "obsidian_draft_bench_scene_history_compile_gate_hints": [
+    "Keep per-scene draft history as first-class evidence: draft id, frontmatter status, queue state, compile preset, and export target must be visible before acceptance.",
+    "Compile preview should compare scene order, skipped/archive status, and output-format readiness before Markdown/ODT/PDF/DOCX delivery is trusted.",
+    "Draft Bench plugin runtime, package scripts, Pandoc/export tools, vault drafts, and generated files remain excluded from static intake."
+  ],
+  "obsidian_galley_scene_compile_gate_hints": [],
+  "obsidian_novelsmith_scene_version_graph_gate_hints": [],
+  "obsidian_storyteller_world_timeline_gate_hints": [],
+  "obsidian_textflow_context_flow_guard_gate_hints": [],
+  "ocr_scanned_page_import_gate_hints": [],
+  "offline_chapter_revision_export_gate_hints": [],
+  "offline_inspiration_bank_style_gate_hints": [],
+  "open_storyline_media_style_transfer_boundary_gate_hints": [],
+  "openai_compatible_book_api_portability_gate_hints": [],
+  "opening_ending_hook_integrity_gate_hints": [],
+  "originality_guard_project_creation_gate_hints": [],
+  "originality_report_multimetric_gate_hints": [],
+  "outline_checkpoint_milestone_gate_hints": [],
+  "outline_validator_change_declaration_gate_hints": [],
+  "outliner_index_cards_hints": [],
+  "p4_p5_foreshadow_relationship_outline_gate_hints": [
+    "For each volume/chapter outline, mark P4 foreshadow operations and P5 relationship-line moves as setup, advance, reveal, fracture, trust, or closure changes.",
+    "Flag three consecutive chapters without P4 movement, unresolved setup without owner, or relationship changes that lack scene evidence or later payoff target.",
+    "Skill prompt bodies, generated fine outlines, local output folders, and upstream runtime execution remain excluded from static intake."
+  ],
+  "pacing_arc_polish_pass_gate_hints": [],
+  "packet_first_style_overlay_context_gate_hints": [],
+  "pairwise_story_comparison_ranking_hints": [],
+  "parallel_agent_chapter_pipeline_hints": [],
+  "parallel_critic_tribunal_issue_gate_hints": [],
+  "paraphrase_independence_review_gate_hints": [],
+  "passage_link_navigation_map_hints": [],
+  "patch_replay_manuscript_state_gate_hints": [],
+  "pdf_layout_text_extraction_gate_hints": [],
+  "pending_fact_canon_promotion_graph_gate_hints": [],
+  "phase1_style_manual_reference_boundary_gate_hints": [],
+  "phase_acceptance_epub_delivery_gate_hints": [],
+  "placeholder_alias_consistency_map_hints": [],
+  "plain_text_project_storage_hints": [],
+  "plan_draft_log_verify_loop_gate_hints": [],
+  "plan_reflect_character_chapter_pipeline_hints": [],
+  "planner_writer_evaluator_editor_saga_gate_hints": [],
+  "platform_genre_style_stamp_gate_hints": [],
+  "platform_kb_retention_strategy_gate_hints": [],
+  "platform_publish_automation_boundary_gate_hints": [],
+  "platform_ranking_research_boundary_gate_hints": [],
+  "platform_voice_meme_emotion_gate_hints": [],
+  "plot_dependency_graph_hints": [],
+  "plot_storyline_improvement_epub_chain_gate_hints": [],
+  "plotgrid_scene_matrix_hints": [],
+  "plotline_thread_tracking_hints": [],
+  "portable_canon_skill_runtime_gate_hints": [],
+  "portable_story_project_structure_gate_hints": [],
+  "possibility_graph_dependency_replay_gate_hints": [],
+  "pov_character_thread_filter_gate_hints": [],
+  "pov_information_asymmetry_schedule_gate_hints": [],
+  "precision_edit_candidate_version_gate_hints": [],
+  "preference_memory_hints": [],
+  "premature_ending_guard_hints": [],
+  "premise_structure_hook_payoff_gate_hints": [],
+  "preview_toc_packaging_hints": [],
+  "privacy_preserving_local_index_gate_hints": [],
+  "private_person_place_timeline_output_gate_hints": [
+    "Keep persons, places, timeline, notes, and story text as separate exportable state surfaces so continuation edits do not blur facts with prose.",
+    "Before HTML/ePub/DOCX delivery, verify export artifacts reference the current person/place/timeline snapshots.",
+    "rgwch/novelist client/server runtime, Docker assets, tests, local manuscripts, and generated exports remain excluded from static intake."
+  ],
+  "progress_report_continuity_writeback_gate_hints": [],
+  "progressive_context_loading_gate_hints": [],
+  "progressive_disclosure_skill_protocol_gate_hints": [],
+  "progressive_spoiler_context_window_gate_hints": [],
+  "project_isolated_story_bible_query_gate_hints": [],
+  "project_skill_agent_loop_gate_hints": [],
+  "projection_sync_observability_hints": [],
+  "prompt_evolution_fitness_governance_gate_hints": [],
+  "prompt_library_hints": [],
+  "prompt_only_decay_ceiling_gate_hints": [],
+  "prompt_preset_variable_library_gate_hints": [],
+  "prompt_recipe_experiment_grid_hints": [],
+  "prompt_regression_eval_suite_hints": [],
+  "proper_noun_leakage_review_hints": [],
+  "proposal_accept_ledger_quality_gate_hints": [],
+  "prose_diff_accept_reject_version_gate_hints": [],
+  "prose_health_live_dashboard_gate_hints": [],
+  "prose_lint_style_rule_gate_hints": [],
+  "prose_metric_pov_dialogue_gate_hints": [
+    "Record POV, dialogue, narrative, sentence, paragraph, and readability metrics as review evidence before source-book continuation or same-type drafting.",
+    "Use prose metrics as ranges and outlier signals, not as a target to copy from the source work.",
+    "For same-type creation, remap dialogue/narrative ratio and POV distance into a new baseline after entity and plot transformation."
+  ],
+  "prose_preflight_voice_calibration_hints": [],
+  "provider_budget_smoke_gate_hints": [],
+  "public_domain_corpus_boundary_hints": [],
+  "public_showrunner_template_release_gate_hints": [],
+  "publication_pipeline_hints": [],
+  "q15_story_quality_benchmark_gate_hints": [],
+  "qmai_hybrid_context_memory_acceptance_gate_hints": [],
+  "quality_score_loop_hints": [],
+  "quantified_style_learning_confidence_gate_hints": [
+    "Convert style learning into measurable axes: vocabulary, syntax, punctuation, narration, emotion tendency, sample sufficiency, feature consistency, uniqueness, and completeness.",
+    "Require a confidence report and rights boundary before style imitation; low confidence should route to abstract style guidance, not author-like prose replication.",
+    "novel-writer-style-cn npm packages, slash-command installs, plugins, prompt bodies, author corpora, generated works, and provider/model calls remain excluded from static intake."
+  ],
+  "query_focused_long_summary_gate_hints": [],
+  "query_lint_contract_hints": [],
+  "radial_subplot_timeline_xray_gate_hints": [],
+  "rag_synopsis_spine_hints": [],
+  "rag_technique_catalog_context_retrieval_gate_hints": [],
+  "raw_story_assimilation_workflow_gate_hints": [],
+  "readability_pacing_metric_gate_hints": [],
+  "reader_promise_micro_payoff_gate_hints": [],
+  "reader_pull_fresh_reader_gate_hints": [],
+  "reader_rating_signal_model_hints": [],
+  "reader_retention_review_gate_hints": [],
+  "reader_reward_channel_gate_hints": [],
+  "recurrent_plan_memory_generation_gate_hints": [],
+  "recursive_adaptive_planning_hints": [],
+  "recursive_reprompt_revision_loop_hints": [],
+  "recursive_scene_reflection_long_context_gate_hints": [],
+  "reference_claim_verification_gate_hints": [],
+  "relationship_graph_global_replace_gate_hints": [],
+  "reliquery_reconstructive_recall_vault_gate_hints": [],
+  "renovel_tri_model_aligned_rewrite_gate_hints": [],
+  "reranker_guided_candidate_selection_hints": [],
+  "research_citation_boundary_gate_hints": [],
+  "research_taxonomy_story_map_hints": [],
+  "retrieval_guided_span_rewrite_hints": [],
+  "retrieval_trace_observability_gate_hints": [],
+  "review_queue_staging_hints": [],
+  "review_spoiler_sentiment_corpus_hints": [],
+  "revision_finding_patch_strategy_gate_hints": [],
+  "revision_order_natural_prose_gate_hints": [],
+  "rights_first_adaptation_pipeline_gate_hints": [],
+  "rights_safe_source_to_memory_pipeline_gate_hints": [],
+  "risuai_lorebook_prompt_order_regex_gate_hints": [],
+  "robot_writers_room_human_card_flow_gate_hints": [],
+  "role_asset_quality_review_gate_hints": [],
+  "roleplay_branchable_save_world_gate_hints": [],
+  "rolling_chapter_direction_context_priority_gate_hints": [],
+  "rolling_summary_context_trim_hints": [],
+  "runtime_artifact_trace_hints": [],
+  "safety_constraints": [
+    "只使用公开元数据、公开摘要和自研模式总结；不克隆、不安装、不执行外部项目。",
+    "不导入外部代码、README 长段落、脚本、Docker、MCP 服务、浏览器扩展或 native binary。",
+    "发现结果默认是 pattern-only；运行时试用必须另写本地安全合同。",
+    "只采集公开元数据和公开摘要；不克隆、不安装、不执行外部项目。",
+    "GitHub 与论坛候选默认按 pattern-only 沉淀，后续吸收必须单独做许可证、安装面和安全边界复核。",
+    "Linux.do 仅使用公开 RSS/页面可访问摘要；不绕过登录、403、429、WAF 或 CAPTCHA。"
+  ],
+  "saga_tui_adversarial_publish_gate_hints": [],
+  "sampling_parameter_quality_sweep_hints": [],
+  "sandbox_godmode_branch_simulation_gate_hints": [],
+  "scene_asset_pipeline_hints": [],
+  "scene_blueprint_reader_reward_gate_hints": [],
+  "scene_card_hard_soft_field_gate_hints": [],
+  "scene_deconstruction_theory_report_gate_hints": [],
+  "scene_goal_obstacle_cost_exit_gate_hints": [],
+  "scene_level_generation_hints": [],
+  "scene_outline_approval_status_gate_hints": [],
+  "scene_promise_mob_review_gate_hints": [],
+  "scene_state_prompt_injection_gate_hints": [],
+  "scene_status_dashboard_hints": [],
+  "scene_type_directing_hints": [],
+  "schema_guided_graph_extraction_hints": [],
+  "schema_review_revision_recovery_gate_hints": [],
+  "schema_validated_state_delta_hints": [],
+  "screenplay_ast_yaml_adaptation_gate_hints": [],
+  "screenplay_realtime_writers_room_media_boundary_gate_hints": [],
+  "script_to_video_workflow_handoff_gate_hints": [],
+  "scriptwhisper_scriptyaml_adaptation_gate_hints": [],
+  "scrivener_mcp_direct_project_edit_boundary_gate_hints": [],
+  "scrivener_mcp_project_analysis_boundary_gate_hints": [],
+  "sdd_seven_step_cross_platform_skill_gate_hints": [
+    "Map novel work into an SDD-style phase ladder: constitution, specification, clarification, plan, tasks, write, and analyze, with artifacts and exit criteria for each phase.",
+    "Keep command dialects platform-neutral; Codex/Claude/Gemini/Cursor slash commands become workflow labels, not imported prompt files or installed global tools.",
+    "novel-writer-cn npm installs, initialized projects, plugins, generated command files, prompt bodies, user projects, and tool/provider runtimes remain excluded from static intake."
+  ],
+  "section_metadata_traceability_gate_hints": [],
+  "seed_to_bible_foundation_loop_gate_hints": [],
+  "selective_streaming_regeneration_gate_hints": [],
+  "self_consistency_hallucination_gate_hints": [],
+  "self_review_gate_hints": [
+    "Do not stop the rewrite loop until continuity conflicts, timeline drift, and style drift are all below threshold.",
+    "Every revision must explain which canon risk was fixed and which story state was preserved.",
+    "The loop may repeat many times, but it must still stop when the checks stop finding new problems."
+  ],
+  "self_review_policy_hints": [
+    "用户层允许不限次数自评优化；工程层必须使用可验证停止条件和安全上限。",
+    "停止条件至少覆盖总分、读者追读分、高危问题数量和最大有效轮次。",
+    "每轮自评都要输出可执行返工说明，并优先修复设定冲突、人物跑偏和承接断裂。"
+  ],
+  "semantic_chunk_boundary_map_hints": [],
+  "semantic_context_consistency_gate_hints": [],
+  "semantic_duplicate_cluster_gate_hints": [],
+  "semantic_long_context_search_hints": [],
+  "semantic_stylometric_overlap_gate_hints": [],
+  "sentiment_arc_emotion_trajectory_gate_hints": [
+    "Track global sentiment arcs and character-specific emotion trajectories with chapter/scene anchors and turning-point reasons.",
+    "Use sentiment and emotion curves as review signals, not automatic quality scores, because model/lexicon disagreement needs triage.",
+    "For same-type creation, rebuild triggers and payoffs so the new book does not clone the source emotional curve."
+  ],
+  "serial_platform_minimum_audit_gate_hints": [],
+  "serial_reader_reward_contract_gate_hints": [],
+  "setting_runtime_document_architecture_gate_hints": [],
+  "setup_payoff_tracking_hints": [],
+  "seven_law_platform_closed_loop_gate_hints": [],
+  "short_drama_character_memory_forbidden_change_gate_hints": [],
+  "short_drama_production_stage_gate_hints": [],
+  "short_drama_story_bible_template_gate_hints": [],
+  "short_drama_worldbuilding_layer_gate_hints": [],
+  "sidecar_memory_profile_boundary_hints": [],
+  "simhash_hamming_similarity_gate_hints": [],
+  "simulated_event_log_narrative_layer_gate_hints": [],
+  "simulation_causal_ledger_verification_gate_hints": [],
+  "six_agent_memory_debate_consistency_gate_hints": [],
+  "six_dimension_continuation_audit_retry_gate_hints": [],
+  "six_layer_iron_law_chapter_gate_hints": [],
+  "skill_orchestrated_chinese_novel_workflow_hints": [],
+  "slash_command_context_tier_state_gate_hints": [],
+  "slima_book_mcp_beta_reader_file_gate_hints": [],
+  "snowflake_premise_expansion_hints": [
+    "Preserve a premise chain: one-sentence promise -> paragraph summary -> full summary -> chapter goals.",
+    "Review new outlines against the premise chain so expanded detail does not contradict the core story promise.",
+    "For same-type creation, transform the premise chain before generating scenes; do not expand the source premise under new names."
+  ],
+  "source_candidate_count": 12,
+  "source_entity_redaction_gate_hints": [],
+  "source_format_import_manifest_hints": [],
+  "source_license_detection_gate_hints": [],
+  "source_novel_dna_fusion_boundary_gate_hints": [],
+  "source_study_method_bank_isolation_gate_hints": [],
+  "source_text_fingerprint_gate_hints": [],
+  "source_titles": [
+    "L-Earthling/litnet-balance",
+    "「开源」AI 小说创作桌面应用",
+    "dracor-org/dracor-api",
+    "dracor-org/dracor-frontend",
+    "hzjken/character-network",
+    "dracor-org/dracor-schema",
+    "anastasia-zhukova/XCoref",
+    "jon-chun/sentimentarcs_notebooks",
+    "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+    "SapienzaNLP/xcore",
+    "地图里的我们——基于AI的情侣旅行记忆平台",
+    "GPT 菲区 pro 20x 今日被封"
+  ],
+  "sourcebook_author_workbench_hints": [],
+  "spdx_reuse_compliance_gate_hints": [],
+  "spec_driven_fiction_scene_tasks_hints": [],
+  "spec_driven_state_record_publish_gate_hints": [],
+  "spire_roleplay_character_privacy_fiction_surface_gate_hints": [],
+  "staged_outline_chunk_window_gate_hints": [],
+  "staged_scene_beat_card_transaction_gate_hints": [
+    "Inline scene beat cards are transactional generation units: each card needs beat intent, length target, context window, preview output, retry count, and apply/accept status.",
+    "A staged draft stays non-canon until Apply records which prose span was inserted beneath the beat card and marks the card completed.",
+    "Length controls such as 200/400/600 words should constrain draft scope, not force padding or premature summary endings."
+  ],
+  "standards_file_workflow_os_gate_hints": [],
+  "state_current_reviewer_loop_gate_hints": [],
+  "statistical_style_benchmark_rewrite_gate_hints": [],
+  "stepwise_local_book_generation_file_gate_hints": [],
+  "story_bible_constitution_source_gate_hints": [],
+  "story_bible_context_packet_branch_gate_hints": [],
+  "story_bible_qa_pov_lore_rule_gate_hints": [],
+  "story_bible_relationship_analytics_gate_hints": [
+    "Story bible entries should track characters, locations, factions, items, lore, custom attributes, relationships, and appears in scene links with evidence refs.",
+    "Automatic appears in links are review candidates until validated against accepted scenes; they should not silently add canon relationships.",
+    "Writing analytics can surface goal drift, streaks, heatmap gaps, projected finish date, and deadline pacing, but numeric pressure must not override continuity gates."
+  ],
+  "story_commonsense_consistency_gate_hints": [],
+  "story_contract_commit_chain_hints": [],
+  "story_daemon_evolution_loop_hints": [],
+  "story_design_dependency_impact_gate_hints": [],
+  "story_factory_thousand_chapter_cache_gate_hints": [],
+  "story_import_pattern_revision_gate_hints": [],
+  "story_knowledge_layer_sot_adaptation_gate_hints": [],
+  "story_os_governed_studio_pipeline_gate_hints": [],
+  "story_question_answer_validation_gate_hints": [],
+  "story_skills_deterministic_continuity_contract_gate_hints": [],
+  "story_state_output_contract_gate_hints": [],
+  "story_structure_rag_planning_hints": [],
+  "story_theory_beat_evaluation_hints": [],
+  "story_weaver_kg_bible_rag_gate_hints": [],
+  "storyboard_shot_list_prompt_gate_hints": [],
+  "storyboard_shot_pack_reuse_gate_hints": [],
+  "storyforge_wiki_ingest_lint_graph_gate_hints": [],
+  "strand_beat_quorum_canon_gate_hints": [],
+  "strict_requirement_planning_generation_gate_hints": [],
+  "structured_generation_hints": [
+    "Use schema-bound outputs for bible extraction, chapter intent, change packages, review findings, and retry decisions.",
+    "Treat schema validation failure as a drafting blocker; repair missing or inconsistent fields before continuing."
+  ],
+  "style_axis_diversity_fingerprint_hints": [],
+  "style_distillation_rights_boundary_gate_hints": [],
+  "style_dna_breakpoint_hierarchy_gate_hints": [],
+  "style_dna_reference_library_gate_hints": [],
+  "style_fidelity_hints": [
+    "Preserve the original voice, cadence, and narrative temperature; style preservation is a hard constraint, not a loose suggestion.",
+    "Keep the source book's flavor by matching sentence rhythm, POV behavior, scene density, and emotional pressure.",
+    "Use the style signature as a guardrail that constrains the rewrite, not as a generic inspiration note.",
+    "Measure fidelity from structured style fields before accepting a chapter draft."
+  ],
+  "style_guide_layering_hints": [],
+  "style_overfit_regression_gate_hints": [],
+  "style_signature_hints": [
+    "抽取叙事视角、句长、段落节奏、对白密度、情绪温度和爽点释放方式。",
+    "续写要保留原书味道，但只吸收写法模式，不复制外部项目代码或长文本。",
+    "把风格签名作为硬约束写入续写提示词，而不是只写成泛化风格建议。",
+    "把风格签名拆成可校验字段：句长、对白率、段落密度、视角习惯、情绪温度和场景切换速度。"
+  ],
+  "style_vocab_world_card_extraction_gate_hints": [],
+  "stylevec_style_signal_overfit_boundary_gate_hints": [],
+  "stylometric_author_fingerprint_gate_hints": [],
+  "stylometry_feature_extraction_baseline_gate_hints": [],
+  "subgenre_specific_ledger_gate_hints": [],
+  "substrate_spark_canon_promotion_gate_hints": [],
+  "suggestion_card_nonoverwrite_revision_gate_hints": [],
+  "summary_buffer_selective_rag_memory_gate_hints": [],
+  "supernovel_architecture_blueprint_state_search_gate_hints": [],
+  "synopsis_cross_reference_hints": [],
+  "system_world_fate_simulation_gate_hints": [],
+  "taleforge_memory_continuity_research_gate_hints": [],
+  "temporal_canon_context_graph_hints": [],
+  "temporal_signed_relationship_balance_gate_hints": [
+    "Track positive, negative, and neutral relationship edges by chapter window so alliance/conflict drift is visible before drafting.",
+    "Review structural-balance changes, centrality shifts, bridge-character load, and polarity reversals before accepting relationship canon.",
+    "For same-type creation, change relationship balance, polarity timing, and bridge roles so the transformed cast does not keep the source social graph."
+  ],
+  "three_path_graph_diff_recall_gate_hints": [],
+  "tiered_memory_fact_retirement_gate_hints": [],
+  "tinystyler_meaning_preserving_style_transfer_gate_hints": [],
+  "toc_aware_source_deconstruction_hints": [],
+  "toc_navigation_consistency_gate_hints": [],
+  "top_down_story_planning_hints": [],
+  "topic_drift_map_hints": [],
+  "trace_replay_revision_workspace_gate_hints": [],
+  "translation_glossary_context_qa_gate_hints": [],
+  "trend_deconstruction_pipeline_hints": [],
+  "tri_modal_workflow_validation_gate_hints": [],
+  "tri_reviewer_context_rebuild_gate_hints": [],
+  "trope_density_novelty_budget_hints": [],
+  "trope_graph_expectation_map_hints": [],
+  "trope_inventory_similarity_gate_hints": [],
+  "trope_source_boundary_review_hints": [],
+  "truth_file_dual_audit_agent_pipeline_gate_hints": [],
+  "truth_file_phase_dashboard_gate_hints": [],
+  "truth_file_rag_pyramid_audit_gate_hints": [],
+  "truth_file_write_next_state_update_gate_hints": [],
+  "truth_system_chapter_settlement_gate_hints": [],
+  "tutorial_case_library_curation_gate_hints": [],
+  "two_pass_context_glossary_pipeline_hints": [],
+  "universal_character_world_rule_coherence_gate_hints": [],
+  "universal_export_clean_manuscript_gate_hints": [],
+  "universal_novel_mode_contract_gate_hints": [
+    "Select an explicit novel mode before work starts: quick-start, full-project, continue-chapter, revise, analyze, or export.",
+    "Mode choice controls the required artifact contract; do not let a continuation request silently become a full-project rewrite or export task.",
+    "If the mode is ambiguous, choose the smallest useful mode and record assumptions before any chapter or analysis output is accepted."
+  ],
+  "universal_portable_tool_policy_gate_hints": [],
+  "universal_story_engine_scene_pressure_gate_hints": [],
+  "unorthodox_pipeline_stage_retry_gate_hints": [],
+  "uploaded_style_learning_api_boundary_gate_hints": [
+    "Uploaded TXT style-learning flows require rights/consent, source scope, encoding notes, provider/API custody, and a no-style-clone boundary before analysis.",
+    "Style learning should extract abstract features and chapter-planning constraints, not retain or regenerate protected author passages or named-source signatures.",
+    "DeepSeek/OpenAI-style provider calls remain deferred until manuscript upload, API key handling, retention, and generated-output custody are explicitly approved."
+  ],
+  "user_modifier_project_blueprint_gate_hints": [],
+  "vector_story_frame_coordinate_gate_hints": [],
+  "verbalized_sampling_diversity_wiki_gate_hints": [],
+  "versioned_scene_fact_review_pipeline_gate_hints": [],
+  "versioned_workspace_chapter_index_gate_hints": [],
+  "vertical_drama_script_format_gate_hints": [],
+  "vertical_hook_cliffhanger_template_gate_hints": [],
+  "vibe_noveling_skill_agent_save_cat_gate_hints": [],
+  "visual_anchor_prompt_handoff_gate_hints": [],
+  "visual_story_bible_continuity_gate_hints": [],
+  "voice_fingerprint_hints": [],
+  "voice_table_polish_axis_hints": [],
+  "voiceprint_private_baseline_drift_gate_hints": [],
+  "volume_antipattern_dependency_graph_gate_hints": [],
+  "volume_rolling_spec_quality_gate_hints": [],
+  "web_similarity_scrape_boundary_gate_hints": [],
+  "webnovel_genre_tracker_gate_hints": [],
+  "webnovel_kb_mcp_runtime_boundary_gate_hints": [],
+  "webnovel_quality_review_rewrite_memory_gate_hints": [],
+  "webnovel_skill_suite_release_boundary_gate_hints": [],
+  "webnovel_state_machine_knowledge_graph_gate_hints": [],
+  "whole_book_analysis_targets": [
+    "world_rules",
+    "timeline",
+    "character_cards",
+    "organizations",
+    "conflicts",
+    "story_arcs",
+    "foreshadows",
+    "style_signature",
+    "chapter_change_packages",
+    "universal_mode_contract_report",
+    "better_writing_voice_specificity_preflight_report",
+    "obsidian_scene_compile_report",
+    "story_bible_relationship_analytics_report",
+    "appears_in_link_consistency_findings",
+    "character_continuity_dimension_report",
+    "stable_flexible_visual_anchor_findings",
+    "schema_bound_outputs",
+    "required_fields",
+    "validation_failures",
+    "anti_slop_findings",
+    "anti_pattern_findings",
+    "ai_flavor_shell_cleanup_report",
+    "prose_naturalization_trace",
+    "template_repetition_audit",
+    "pov_dialogue_narrative_metric_report",
+    "readability_pov_baseline_findings",
+    "metric_outlier_review_notes",
+    "staged_scene_beat_transaction_report",
+    "beat_card_preview_retry_apply_report",
+    "uploaded_style_learning_consent_report",
+    "provider_api_upload_boundary_findings",
+    "chapter_style_feature_manifest",
+    "novel_to_screenplay_structure_map_report",
+    "screenplay_coverage_quality_gate_findings",
+    "fountain_export_hold_notes",
+    "human_ai_decision_authority_report",
+    "author_edit_selection_trace",
+    "ai_taste_detection_findings",
+    "anti_ai_tone_findings",
+    "naturalness_rewrite_actions",
+    "snowflake_premise_chain",
+    "one_sentence_premise",
+    "paragraph_summary",
+    "full_summary",
+    "chinese_entity_alias_report",
+    "character_location_org_consistency",
+    "alias_conflict_findings",
+    "anti_slop_rulepack_triage_report",
+    "banned_vocabulary_exception_ledger",
+    "ai_prose_tell_findings",
+    "sentiment_arc_emotion_report",
+    "character_emotion_trajectory_report",
+    "emotion_turning_point_findings",
+    "cross_context_coreference_report",
+    "mention_cluster_conflicts",
+    "entity_event_identity_gaps",
+    "character_interaction_network_report",
+    "relationship_polarity_drift",
+    "centrality_role_shift_findings",
+    "dracor_scene_speaker_network_report",
+    "tei_cast_scene_coverage",
+    "speaker_scene_network_consistency",
+    "temporal_relationship_balance_report",
+    "signed_relationship_polarity_drift",
+    "bridge_character_balance_findings",
+    "chapter_summary_alignment_report",
+    "book_chapter_summary_consistency",
+    "causal_temporal_summary_gap_findings",
+    "attribution_derivative_review",
+    "allowed_use_boundary_findings",
+    "licensed_source_exclusion_notes",
+    "graph_vector_retrieval_report",
+    "local_global_hybrid_context_selection",
+    "retrieval_mode_failure_notes",
+    "inline_revision_spans",
+    "author_edit_acceptance_log",
+    "localized_diff_review",
+    "emotional_arc",
+    "emotion_curve",
+    "writer_critic_revision_cycle_report",
+    "quality_threshold_gate_findings",
+    "story_collapse_prevention_findings",
+    "multi_agent_consistency_report",
+    "rag_metadata_timeline_findings",
+    "role_split_consistency_guard_trace",
+    "continuation_context_assembly_report",
+    "token_estimation_export_trace",
+    "foreshadow_status_snapshot_findings",
+    "p4_p5_foreshadow_recovery_report",
+    "relationship_line_closure_findings",
+    "chapter_p4_operation_risk_trace",
+    "kdp_metadata_validation_report",
+    "chapter_preservation_merge_trace",
+    "publication_export_boundary_findings",
+    "trace_replay_revision_workspace_report",
+    "tiered_memory_open_thread_findings",
+    "chapter_workbench_metric_trace",
+    "style_confidence_feature_report",
+    "style_axis_validation_findings",
+    "sdd_skill_workflow_contract_report",
+    "seven_step_command_boundary_findings",
+    "graph_stage_state_transition_report",
+    "critic_rewrite_feedback_trace",
+    "orchestration_trace_canonize_report",
+    "worker_cost_role_boundary_report",
+    "sensory_foreshadow_cooldown_report",
+    "phase_breakdown_drafting_trace",
+    "person_place_timeline_output_report",
+    "notes_export_scope_report"
+  ],
+  "wiki_canon_graph_lint_gate_hints": [],
+  "wikiplots_plot_corpus_boundary_gate_hints": [],
+  "woke_novel_template_resume_cli_gate_hints": [],
+  "work_corpus_reindex_autopilot_gate_hints": [],
+  "work_dna_method_transfer_eval_gate_hints": [],
+  "workflow_manuscript_compilation_hints": [],
+  "workflow_patterns": [
+    {
+      "candidate_count": 1,
+      "name": "chapter_generation",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 简介 这是一个多Agent实现的全自动AI生成小说的cli工具 主打就是一个ai全自动, 无需人为干预 废话不多说, 直接看效果 项目地址 github.com GitHub -",
+          "title": "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2267839"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2267839",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "worldbuilding",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "timeline",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 《我们走过的地图》是一款为情侣设计的旅行回忆微信小程序。作品以地图为核心载体，将旅行足迹、照片、时间线、行程规划与 AI 能力相结合，记录两个人共同走过的城市、留下的故事以及未来",
+          "title": "地图里的我们——基于AI的情侣旅行记忆平台",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2364560"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 20,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "支付采用 N26 德国实体银行卡，之前有过正常付费记录，5 月 19 日新开还差 4 天到期，通过 sub2api 部署在英国 layer vps 上（5 位车友合租蹬），平时也用英国节点访问网页+codex，目前已经申诉，等待消息中 时间线： 2026.05.19 开通 pro 20x订阅 2026.06.15 收到被封邮件，申请解封客诉，等待解封中 47 个帖子 - 25 位参与者 阅读完整话题",
+          "title": "GPT 菲区 pro 20x 今日被封",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2402509"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2364560",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "writer_critic_verify_quality_cycle_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 123,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref: Cross-document Coreference Resolution in the Wild Static intake note: XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "uploaded_style_learning_api_boundary_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 简介 这是一个多Agent实现的全自动AI生成小说的cli工具 主打就是一个ai全自动, 无需人为干预 废话不多说, 直接看效果 项目地址 github.com GitHub -",
+          "title": "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2267839"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2267839",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 5,
+      "name": "character_cards",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 207,
+          "source": "github",
+          "stars": 12,
+          "summary": "eXistdb application for dracor.org Static intake note: DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Com",
+          "title": "dracor-org/dracor-api",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-api"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 167,
+          "source": "github",
+          "stars": 62,
+          "summary": "A project on using network graph, NLP techniques (entity recognition, sentiment analysis) to analyse the relationships among characters in a novel. The project takes novel Harry Potter as an example and outputs reasonable results. Static intake note: Character-network analyzes re",
+          "title": "hzjken/character-network",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hzjken/character-network"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "staged_scene_beat_card_transaction_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        }
+      ],
+      "top_source_url": "https://github.com/dracor-org/dracor-frontend",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "chapter_summary_alignment_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "quantified_style_learning_confidence_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "director_orchestrator_trace_canonize_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 简介 这是一个多Agent实现的全自动AI生成小说的cli工具 主打就是一个ai全自动, 无需人为干预 废话不多说, 直接看效果 项目地址 github.com GitHub -",
+          "title": "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2267839"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2267839",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "novel_to_screenplay_structure_coverage_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 《我们走过的地图》是一款为情侣设计的旅行回忆微信小程序。作品以地图为核心载体，将旅行足迹、照片、时间线、行程规划与 AI 能力相结合，记录两个人共同走过的城市、留下的故事以及未来",
+          "title": "地图里的我们——基于AI的情侣旅行记忆平台",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2364560"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2364560",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "multi_phase_sensory_continuation_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 167,
+          "source": "github",
+          "stars": 62,
+          "summary": "A project on using network graph, NLP techniques (entity recognition, sentiment analysis) to analyse the relationships among characters in a novel. The project takes novel Harry Potter as an example and outputs reasonable results. Static intake note: Character-network analyzes re",
+          "title": "hzjken/character-network",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hzjken/character-network"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 119,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs: a large ensemble of dozens of sentiment analysis models to analyze emotion in text over time Static intake note: SentimentArcs notebooks compare many sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks a",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "langgraph_world_outline_review_memory_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "obsidian_draft_bench_scene_history_compile_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        }
+      ],
+      "top_source_url": "https://github.com/dracor-org/dracor-frontend",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "sdd_seven_step_cross_platform_skill_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 119,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs: a large ensemble of dozens of sentiment analysis models to analyze emotion in text over time Static intake note: SentimentArcs notebooks compare many sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks a",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
+        }
+      ],
+      "top_source_url": "https://github.com/jon-chun/sentimentarcs_notebooks",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "human_ai_decision_authority_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 简介 这是一个多Agent实现的全自动AI生成小说的cli工具 主打就是一个ai全自动, 无需人为干预 废话不多说, 直接看效果 项目地址 github.com GitHub -",
+          "title": "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2267839"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2267839",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "ai_flavor_template_shell_cleanup_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "attribution_derivative_work_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "CC-BY-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 9,
+          "summary": "Schema and guidelines for dracor.org TEI files Static intake note: DraCor Schema is a CC-BY-4.0 TEI customization with ODD, Relax NG schema, Schematron rules, and encoding guidelines for dramatic corpora. Absorb scene, speaker, cast-list, and schema-validation vocabulary only; bu",
+          "title": "dracor-org/dracor-schema",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-schema"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "temporal_signed_relationship_balance_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "inline_human_machine_coauthoring_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 简介 这是一个多Agent实现的全自动AI生成小说的cli工具 主打就是一个ai全自动, 无需人为干预 废话不多说, 直接看效果 项目地址 github.com GitHub -",
+          "title": "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2267839"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 《我们走过的地图》是一款为情侣设计的旅行回忆微信小程序。作品以地图为核心载体，将旅行足迹、照片、时间线、行程规划与 AI 能力相结合，记录两个人共同走过的城市、留下的故事以及未来",
+          "title": "地图里的我们——基于AI的情侣旅行记忆平台",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2364560"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "character_continuity_dimension_schema_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 123,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref: Cross-document Coreference Resolution in the Wild Static intake note: XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        }
+      ],
+      "top_source_url": "https://github.com/anastasia-zhukova/XCoref",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "prose_metric_pov_dialogue_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 119,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs: a large ensemble of dozens of sentiment analysis models to analyze emotion in text over time Static intake note: SentimentArcs notebooks compare many sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks a",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
+        }
+      ],
+      "top_source_url": "https://github.com/jon-chun/sentimentarcs_notebooks",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 5,
+      "name": "private_person_place_timeline_output_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 207,
+          "source": "github",
+          "stars": 12,
+          "summary": "eXistdb application for dracor.org Static intake note: DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Com",
+          "title": "dracor-org/dracor-api",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-api"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        },
+        {
+          "license": "CC-BY-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 9,
+          "summary": "Schema and guidelines for dracor.org TEI files Static intake note: DraCor Schema is a CC-BY-4.0 TEI customization with ODD, Relax NG schema, Schematron rules, and encoding guidelines for dramatic corpora. Absorb scene, speaker, cast-list, and schema-validation vocabulary only; bu",
+          "title": "dracor-org/dracor-schema",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-schema"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 119,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs: a large ensemble of dozens of sentiment analysis models to analyze emotion in text over time Static intake note: SentimentArcs notebooks compare many sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks a",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "dracor_tei_scene_speaker_network_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 207,
+          "source": "github",
+          "stars": 12,
+          "summary": "eXistdb application for dracor.org Static intake note: DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Com",
+          "title": "dracor-org/dracor-api",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-api"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        },
+        {
+          "license": "CC-BY-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 9,
+          "summary": "Schema and guidelines for dracor.org TEI files Static intake note: DraCor Schema is a CC-BY-4.0 TEI customization with ODD, Relax NG schema, Schematron rules, and encoding guidelines for dramatic corpora. Absorb scene, speaker, cast-list, and schema-validation vocabulary only; bu",
+          "title": "dracor-org/dracor-schema",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-schema"
+        }
+      ],
+      "top_source_url": "https://github.com/dracor-org/dracor-api",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "dual_level_graph_vector_retrieval",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        }
+      ],
+      "top_source_url": "https://github.com/dracor-org/dracor-frontend",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "story_bible_relationship_analytics_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 167,
+          "source": "github",
+          "stars": 62,
+          "summary": "A project on using network graph, NLP techniques (entity recognition, sentiment analysis) to analyse the relationships among characters in a novel. The project takes novel Harry Potter as an example and outputs reasonable results. Static intake note: Character-network analyzes re",
+          "title": "hzjken/character-network",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hzjken/character-network"
+        }
+      ],
+      "top_source_url": "https://github.com/hzjken/character-network",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 2,
+      "name": "cross_context_coreference_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 123,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref: Cross-document Coreference Resolution in the Wild Static intake note: XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 75,
+          "source": "github",
+          "stars": 11,
+          "summary": "xCoRe is an all-in-one cross-context coreference model for short, long, and multiple contexts. Absorb cross-context mention-cluster stability gates only; model weights and runtime are not downloaded.",
+          "title": "SapienzaNLP/xcore",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/SapienzaNLP/xcore"
+        }
+      ],
+      "top_source_url": "https://github.com/anastasia-zhukova/XCoref",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 4,
+      "name": "character_interaction_network_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 207,
+          "source": "github",
+          "stars": 12,
+          "summary": "eXistdb application for dracor.org Static intake note: DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Com",
+          "title": "dracor-org/dracor-api",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-api"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 167,
+          "source": "github",
+          "stars": 62,
+          "summary": "A project on using network graph, NLP techniques (entity recognition, sentiment analysis) to analyse the relationships among characters in a novel. The project takes novel Harry Potter as an example and outputs reasonable results. Static intake note: Character-network analyzes re",
+          "title": "hzjken/character-network",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hzjken/character-network"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "anti_slop_rulepack_triage_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "chinese_ner_alias_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 167,
+          "source": "github",
+          "stars": 62,
+          "summary": "A project on using network graph, NLP techniques (entity recognition, sentiment analysis) to analyse the relationships among characters in a novel. The project takes novel Harry Potter as an example and outputs reasonable results. Static intake note: Character-network analyzes re",
+          "title": "hzjken/character-network",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hzjken/character-network"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 123,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref: Cross-document Coreference Resolution in the Wild Static intake note: XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 75,
+          "source": "github",
+          "stars": 11,
+          "summary": "xCoRe is an all-in-one cross-context coreference model for short, long, and multiple contexts. Absorb cross-context mention-cluster stability gates only; model weights and runtime are not downloaded.",
+          "title": "SapienzaNLP/xcore",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/SapienzaNLP/xcore"
+        }
+      ],
+      "top_source_url": "https://github.com/hzjken/character-network",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "sentiment_arc_emotion_trajectory_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 119,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs: a large ensemble of dozens of sentiment analysis models to analyze emotion in text over time Static intake note: SentimentArcs notebooks compare many sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks a",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
+        }
+      ],
+      "top_source_url": "https://github.com/jon-chun/sentimentarcs_notebooks",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 4,
+      "name": "emotion_arc",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 119,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs: a large ensemble of dozens of sentiment analysis models to analyze emotion in text over time Static intake note: SentimentArcs notebooks compare many sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks a",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 68,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 《我们走过的地图》是一款为情侣设计的旅行回忆微信小程序。作品以地图为核心载体，将旅行足迹、照片、时间线、行程规划与 AI 能力相结合，记录两个人共同走过的城市、留下的故事以及未来",
+          "title": "地图里的我们——基于AI的情侣旅行记忆平台",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2364560"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "style_signature",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "snowflake_premise_expansion",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 112,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 简介 这是一个多Agent实现的全自动AI生成小说的cli工具 主打就是一个ai全自动, 无需人为干预 废话不多说, 直接看效果 项目地址 github.com GitHub -",
+          "title": "【AI小说】多余的token用不完怎么办? 当然是拿来写小说了",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2267839"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2267839",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 3,
+      "name": "self_review",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 123,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref: Cross-document Coreference Resolution in the Wild Static intake note: XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "structured_generation_schema",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "CC-BY-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 9,
+          "summary": "Schema and guidelines for dracor.org TEI files Static intake note: DraCor Schema is a CC-BY-4.0 TEI customization with ODD, Relax NG schema, Schematron rules, and encoding guidelines for dramatic corpora. Absorb scene, speaker, cast-list, and schema-validation vocabulary only; bu",
+          "title": "dracor-org/dracor-schema",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-schema"
+        }
+      ],
+      "top_source_url": "https://github.com/dracor-org/dracor-schema",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "anti_ai_tone_polish",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "anti_slop_audit",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        }
+      ],
+      "top_source_url": "https://linux.do/t/topic/2241282",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 5,
+      "name": "nai_multi_agent_rag_consistency_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 207,
+          "source": "github",
+          "stars": 12,
+          "summary": "eXistdb application for dracor.org Static intake note: DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Com",
+          "title": "dracor-org/dracor-api",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-api"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 167,
+          "source": "github",
+          "stars": 62,
+          "summary": "A project on using network graph, NLP techniques (entity recognition, sentiment analysis) to analyse the relationships among characters in a novel. The project takes novel Harry Potter as an example and outputs reasonable results. Static intake note: Character-network analyzes re",
+          "title": "hzjken/character-network",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hzjken/character-network"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "morpheus_trace_memory_revision_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 256,
+          "source": "github",
+          "stars": 0,
+          "summary": "Dataset, pipeline, and analysis code for \"Temporal Dynamics of Social Balance in Fictional Character Networks\" (MSc Thesis, Saarland University, 2026). 873 temporal signed character networks across 8 literary genres and 6 historical epochs. Static intake note: LitNet Balance is a",
+          "title": "L-Earthling/litnet-balance",
+          "trust_flags": [],
+          "url": "https://github.com/L-Earthling/litnet-balance"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 208,
+          "source": "linux.do",
+          "stars": null,
+          "summary": "本帖使用社区开源推广，符合推广要求。我申明并遵循社区要求的以下内容： 我的帖子已经打上 开源推广 标签： 是 我的开源项目完整开源，无未开源部分： 是 我的开源项目已链接认可 LINUX DO 社区： 是 我帖子内的项目介绍，AI生成、润色内容部分已截图发出： 是 以上选择我承诺是永久有效的，接受社区和佬友监督： 是 以下为项目介绍正文内容，AI生成、润色内容已使用截图方式发出 项目地址： GitHub - uu201/character-arc: 弧光 · AI 小说创作桌面应用，集项目设定、角色关系、剧情大纲、章节写作与多模型 AI 协作于一体 · ",
+          "title": "「开源」AI 小说创作桌面应用",
+          "trust_flags": [],
+          "url": "https://linux.do/t/topic/2241282"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 123,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref: Cross-document Coreference Resolution in the Wild Static intake note: XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        }
+      ],
+      "top_source_url": "https://github.com/L-Earthling/litnet-balance",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 4,
+      "name": "local_continuation_workstation_context_export_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface",
+        "windows_script"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 207,
+          "source": "github",
+          "stars": 12,
+          "summary": "eXistdb application for dracor.org Static intake note: DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Com",
+          "title": "dracor-org/dracor-api",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-api"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 167,
+          "source": "github",
+          "stars": 62,
+          "summary": "A project on using network graph, NLP techniques (entity recognition, sentiment analysis) to analyse the relationships among characters in a novel. The project takes novel Harry Potter as an example and outputs reasonable results. Static intake note: Character-network analyzes re",
+          "title": "hzjken/character-network",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/hzjken/character-network"
+        },
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 123,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref: Cross-document Coreference Resolution in the Wild Static intake note: XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 75,
+          "source": "github",
+          "stars": 11,
+          "summary": "xCoRe is an all-in-one cross-context coreference model for short, long, and multiple contexts. Absorb cross-context mention-cluster stability gates only; model weights and runtime are not downloaded.",
+          "title": "SapienzaNLP/xcore",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/SapienzaNLP/xcore"
+        }
+      ],
+      "top_source_url": "https://github.com/dracor-org/dracor-api",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 3,
+      "name": "kdp_metadata_chapter_export_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 207,
+          "source": "github",
+          "stars": 12,
+          "summary": "eXistdb application for dracor.org Static intake note: DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Com",
+          "title": "dracor-org/dracor-api",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-api"
+        },
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 171,
+          "source": "github",
+          "stars": 4,
+          "summary": "Frontend for the DraCor API Static intake note: DraCor Frontend is a MIT Vite/React web app for browsing DraCor corpora and character-network visualizations. Absorb inspectable corpus/network UI report patterns only; pnpm scripts, local API runtime, web app, package dependencies,",
+          "title": "dracor-org/dracor-frontend",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-frontend"
+        },
+        {
+          "license": "CC-BY-4.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 147,
+          "source": "github",
+          "stars": 9,
+          "summary": "Schema and guidelines for dracor.org TEI files Static intake note: DraCor Schema is a CC-BY-4.0 TEI customization with ODD, Relax NG schema, Schematron rules, and encoding guidelines for dramatic corpora. Absorb scene, speaker, cast-list, and schema-validation vocabulary only; bu",
+          "title": "dracor-org/dracor-schema",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-schema"
+        }
+      ],
+      "top_source_url": "https://github.com/dracor-org/dracor-api",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 1,
+      "name": "better_writing_voice_specificity_preflight_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "docker",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "docker",
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 207,
+          "source": "github",
+          "stars": 12,
+          "summary": "eXistdb application for dracor.org Static intake note: DraCor API is a MIT dramatic-corpus API for TEI drama texts, characters, speakers, scenes, and network metrics. Static HEAD/README/LICENSE markers describe eXist DB, metrics/triplestore services, API documentation, Docker Com",
+          "title": "dracor-org/dracor-api",
+          "trust_flags": [],
+          "url": "https://github.com/dracor-org/dracor-api"
+        }
+      ],
+      "top_source_url": "https://github.com/dracor-org/dracor-api",
+      "trust_flags": []
+    },
+    {
+      "candidate_count": 2,
+      "name": "p4_p5_foreshadow_relationship_outline_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [
+        "windows_script",
+        "shell_script",
+        "shell_hook_surface"
+      ],
+      "sources": [
+        {
+          "license": "Apache-2.0",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "windows_script"
+          ],
+          "score": 123,
+          "source": "github",
+          "stars": 3,
+          "summary": "XCoref: Cross-document Coreference Resolution in the Wild Static intake note: XCoref resolves cross-document entity, event, and abstract-concept coreference through staged sieves. Absorb cross-document entity/event identity review patterns only; pipeline runtime is not executed.",
+          "title": "anastasia-zhukova/XCoref",
+          "trust_flags": [],
+          "url": "https://github.com/anastasia-zhukova/XCoref"
+        },
+        {
+          "license": "unknown",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [
+            "shell_script",
+            "shell_hook_surface"
+          ],
+          "score": 75,
+          "source": "github",
+          "stars": 11,
+          "summary": "xCoRe is an all-in-one cross-context coreference model for short, long, and multiple contexts. Absorb cross-context mention-cluster stability gates only; model weights and runtime are not downloaded.",
+          "title": "SapienzaNLP/xcore",
+          "trust_flags": [
+            "license:missing"
+          ],
+          "url": "https://github.com/SapienzaNLP/xcore"
+        }
+      ],
+      "top_source_url": "https://github.com/anastasia-zhukova/XCoref",
+      "trust_flags": [
+        "license:missing"
+      ]
+    },
+    {
+      "candidate_count": 1,
+      "name": "universal_novel_mode_contract_gate",
+      "posture_hint": "metadata-triage",
+      "risk_flags": [],
+      "sources": [
+        {
+          "license": "MIT",
+          "posture": "pattern-only",
+          "posture_hint": "metadata-triage",
+          "risk_flags": [],
+          "score": 119,
+          "source": "github",
+          "stars": 43,
+          "summary": "SentimentArcs: a large ensemble of dozens of sentiment analysis models to analyze emotion in text over time Static intake note: SentimentArcs notebooks compare many sentiment models to analyze emotion in text over time. Absorb ensemble emotion-arc audit patterns only; notebooks a",
+          "title": "jon-chun/sentimentarcs_notebooks",
+          "trust_flags": [],
+          "url": "https://github.com/jon-chun/sentimentarcs_notebooks"
+        }
+      ],
+      "top_source_url": "https://github.com/jon-chun/sentimentarcs_notebooks",
+      "trust_flags": []
+    }
+  ],
+  "world_state_tracking_hints": [],
+  "worldpkg_export_hints": [],
+  "writer_critic_verify_quality_cycle_gate_hints": [
+    "Use a bounded writer/critic loop: WRITE, REVIEW, REVISE, VERIFY, then GATE by explicit quality thresholds.",
+    "Critique must be multi-dimensional and specific: plot, character, setting, dialogue, mechanics, continuity, and story-collapse risk.",
+    "Store failed cycles and verifier scores so repeated revisions cannot drift away from the chapter brief or source-independent canon."
+  ],
+  "writer_git_exploration_review_gate_hints": [],
+  "writer_studio_binder_voice_rag_gate_hints": [],
+  "writeros_role_validator_boundary_gate_hints": [],
+  "writers_room_stop_authority_gate_hints": [],
+  "writing_session_goal_tracking_hints": [],
+  "xiaoshuo_local_canon_skill_studio_gate_hints": []
+}

@@ -216,6 +216,7 @@ export interface SourceDiscoveryPatternPack {
   constraint_harness_review_worktree_gate_hints?: string[];
   state_current_reviewer_loop_gate_hints?: string[];
   versioned_scene_fact_review_pipeline_gate_hints?: string[];
+  scheduled_agent_style_qa_workflow_gate_hints?: string[];
   long_term_author_preference_memory_hints?: string[];
   community_graph_source_deconstruction_hints?: string[];
   dual_level_graph_vector_retrieval_hints?: string[];
