@@ -266,6 +266,15 @@ def build_remix_continuation_control_audit(
             "durable_state_reference_contract",
         ])
         acceptance_steps.append("verify_story_skills_continuity_contract")
+    if "better_writing_voice_specificity_preflight_gate" in pattern_names:
+        control_axes.extend([
+            "voice_sample_source_of_truth",
+            "context_dial_selection",
+            "specificity_without_invention",
+            "clustered_ai_tell_review",
+            "preflight_voice_specificity_score",
+        ])
+        acceptance_steps.append("verify_better_writing_voice_specificity_preflight")
     if "revision_finding_patch_strategy_gate" in pattern_names:
         control_axes.extend([
             "revision_finding_severity_triage",
@@ -949,6 +958,16 @@ def build_remix_continuation_control_audit(
         if "story_skills_deterministic_continuity_contract_gate" in pattern_names
         else {"warnings": []}
     )
+    better_writing_voice_preflight_audit = (
+        _better_writing_voice_specificity_preflight_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "better_writing_voice_specificity_preflight_gate" in pattern_names
+        else {"warnings": []}
+    )
     warnings: list[str] = []
     if not chapter_packages:
         warnings.append("missing_chapter_change_packages")
@@ -1016,6 +1035,8 @@ def build_remix_continuation_control_audit(
         warnings.append("story_engine_scene_pressure_warnings")
     if story_skills_continuity_contract_audit["warnings"]:
         warnings.append("story_skills_continuity_contract_warnings")
+    if better_writing_voice_preflight_audit["warnings"]:
+        warnings.append("better_writing_voice_preflight_warnings")
     if not character_cards:
         warnings.append("missing_character_cards")
     if not timeline_anchor_count:
@@ -1078,6 +1099,7 @@ def build_remix_continuation_control_audit(
         "web_similarity_runtime_boundary_warnings": web_similarity_runtime_boundary_audit["warnings"],
         "story_engine_scene_pressure_warnings": story_engine_scene_pressure_audit["warnings"],
         "story_skills_continuity_contract_warnings": story_skills_continuity_contract_audit["warnings"],
+        "better_writing_voice_preflight_warnings": better_writing_voice_preflight_audit["warnings"],
         "control_axes": _dedupe_ordered(control_axes),
         "acceptance_steps": _dedupe_ordered(acceptance_steps),
         "warnings": warnings,
@@ -1252,6 +1274,13 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_story_skills_deterministic_continuity_contract_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_better_writing_voice_specificity_preflight_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -1780,6 +1809,7 @@ def build_remix_context_preview_audit(
         "web_similarity_runtime_boundary_warnings": production_control_audit["web_similarity_runtime_boundary_warnings"],
         "story_engine_scene_pressure_warnings": production_control_audit["story_engine_scene_pressure_warnings"],
         "story_skills_continuity_contract_warnings": production_control_audit["story_skills_continuity_contract_warnings"],
+        "better_writing_voice_preflight_warnings": production_control_audit["better_writing_voice_preflight_warnings"],
         **continuity_audit,
     }
 
@@ -2000,6 +2030,13 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_story_skills_deterministic_continuity_contract_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_better_writing_voice_specificity_preflight_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -4184,6 +4221,133 @@ def _has_durable_state_reference_surface(*, bible: dict[str, Any], plan: Optiona
         carriers.extend(_as_dict_list(plan.get("scenes")))
         carriers.extend(_as_dict_list(plan.get("scene_beats")))
     return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _better_writing_voice_specificity_preflight_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit Better Writing-style voice and specificity preflight surfaces."""
+    warnings: list[str] = []
+    if "better_writing_voice_specificity_preflight_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_voice_sample_or_style_source_surface(bible=bible, plan=plan):
+        warnings.append("missing_voice_sample_or_style_source")
+    if not _has_context_dial_selection_surface(bible=bible, plan=plan):
+        warnings.append("missing_context_dial_selection")
+    if not _has_specificity_without_invention_policy_surface(bible=bible, plan=plan):
+        warnings.append("missing_specificity_without_invention_policy")
+    if not _has_clustered_ai_tell_review_surface(bible=bible, plan=plan):
+        warnings.append("missing_clustered_ai_tell_review")
+    if not _has_preflight_voice_specificity_score_surface(bible=bible, plan=plan):
+        warnings.append("missing_preflight_score_surface")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_voice_sample_or_style_source_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "voice_sample",
+        "voice_samples",
+        "voice_source",
+        "style_source",
+        "style_source_of_truth",
+        "style_reference",
+        "voice_reference",
+        "voice_fingerprint",
+        "style_signature",
+        "accepted_style_signature",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("style_signature", "voice_profile", "voice_calibration", "style_profile"),
+    )
+
+
+def _has_context_dial_selection_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    dial_keys = (
+        "context_dials",
+        "voice_dials",
+        "style_dials",
+        "genre_audience_tone_dials",
+        "directness",
+        "warmth",
+        "personality",
+        "density",
+        "evidence",
+        "polish",
+        "tone",
+        "audience",
+        "genre",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=dial_keys,
+        nested_carrier_keys=("style_signature", "voice_profile", "voice_calibration", "context_dials", "voice_dials"),
+    )
+
+
+def _has_specificity_without_invention_policy_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "specificity_without_invention",
+        "fact_preservation_policy",
+        "no_invented_facts",
+        "no_fabricated_specifics",
+        "placeholder_for_missing_facts",
+        "missing_fact_question_policy",
+        "evidence_policy",
+        "quote_preservation_policy",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("style_signature", "voice_preflight", "quality_preflight", "specificity_policy"),
+    )
+
+
+def _has_clustered_ai_tell_review_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "clustered_ai_tell_review",
+        "ai_tell_cluster_review",
+        "ai_tell_patterns",
+        "anti_slop_cluster_review",
+        "false_positive_policy",
+        "defensible_quirks",
+        "slop_structure_review",
+        "formulaic_structure_review",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("style_signature", "voice_preflight", "quality_preflight", "anti_slop_review"),
+    )
+
+
+def _has_preflight_voice_specificity_score_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    keys = (
+        "preflight_score",
+        "voice_specificity_score",
+        "directness_score",
+        "specificity_score",
+        "rhythm_score",
+        "voice_fit_score",
+        "density_score",
+        "preflight_scores",
+        "minimum_public_facing_score",
+    )
+    return _has_any_surface_or_nested_value(
+        bible=bible,
+        plan=plan,
+        keys=keys,
+        nested_carrier_keys=("style_signature", "voice_preflight", "quality_preflight", "preflight_scores"),
+    )
 
 
 def _has_human_review_packet_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
@@ -7579,6 +7743,70 @@ def _append_story_skills_deterministic_continuity_contract_gate_section(
         lines.append(f"- story_skills_continuity_contract_warnings: {', '.join(audit['warnings'])}")
 
 
+def _append_better_writing_voice_specificity_preflight_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render Better Writing-inspired voice and specificity preflight gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "better_writing_voice_specificity_preflight_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("better_writing_voice_specificity_preflight_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _better_writing_voice_specificity_preflight_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Better Writing voice specificity preflight gate:")
+    lines.append(
+        "- voice_sample_source_of_truth: target-owned voice sample, accepted style signature, "
+        "or explicit style source controls polish; do not flatten a strong voice into a generic house style"
+    )
+    lines.append(
+        "- context_dial_selection: choose genre, audience, tone, directness, warmth, personality, "
+        "density, evidence, and polish before rewriting or accepting prose"
+    )
+    lines.append(
+        "- specificity_without_invention: concrete actors, numbers, causes, quotes, names, dates, "
+        "and constraints must come from canon or be framed as placeholders/questions"
+    )
+    lines.append(
+        "- clustered_ai_tell_review: treat significance inflation, vague attribution, promotional padding, "
+        "formulaic conclusions, throat-clearing, binary contrast, false agency, and manufactured drama as cluster signals"
+    )
+    lines.append(
+        "- preflight_score_gate: score Directness, Specificity, Rhythm, Voice fit, and Density; "
+        "repair before public/accepted output if total is below 38/50 or any public-facing dimension is below 7"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source voice samples, quirks, examples, phrase lists, and AI-tell catalog text "
+            "are not transferable; calibrate a target-owned voice and new examples"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: polish only accepted target canon and plan facts; missing specifics become "
+            "questions or placeholders, never invented continuity"
+        )
+    if hints:
+        lines.append(f"- better_writing_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- better_writing_voice_preflight_warnings: {', '.join(audit['warnings'])}")
+
+
+
 def _append_universal_hook_naturalness_gate_section(
     *,
     lines: list[str],
@@ -10675,6 +10903,19 @@ def build_remix_inspired_independence_audit(
             "source_continuity_finding_text_clone",
             "source_promise_question_id_clone",
         ])
+    if "better_writing_voice_specificity_preflight_gate" in pattern_names:
+        transfer_axes.append("voice_specificity_preflight_shape")
+        required_difference_axes.extend([
+            "target_voice_sample_namespace",
+            "target_context_dial_selection",
+            "target_specificity_evidence_namespace",
+            "target_ai_tell_cluster_review",
+        ])
+        copy_risk_checks.extend([
+            "source_voice_sample_clone",
+            "upstream_ai_tell_catalog_text_clone",
+            "invented_specificity_to_match_source",
+        ])
     if "revision_finding_patch_strategy_gate" in pattern_names:
         transfer_axes.append("revision_triage_discipline")
         required_difference_axes.append("patch_scope_ids")
@@ -11024,6 +11265,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "scene_goal_obstacle_cost_exit_gate_hints": "scene_goal_obstacle_cost_exit_gate",
         "universal_story_engine_scene_pressure_gate_hints": "universal_story_engine_scene_pressure_gate",
         "story_skills_deterministic_continuity_contract_gate_hints": "story_skills_deterministic_continuity_contract_gate",
+        "better_writing_voice_specificity_preflight_gate_hints": "better_writing_voice_specificity_preflight_gate",
         "revision_finding_patch_strategy_gate_hints": "revision_finding_patch_strategy_gate",
     }
     for hint_key, pattern_name in hint_to_name.items():

@@ -6809,6 +6809,125 @@ def test_story_skills_deterministic_continuity_contract_gate_projects_preview_co
     assert "source_frontmatter_schema_example_clone" in independence["copy_risk_checks"]
 
 
+def test_better_writing_voice_specificity_preflight_gate_projects_preview_controls():
+    pattern_pack = {
+        "better_writing_voice_specificity_preflight_gate_hints": [
+            "Use target voice sample, context dials, specificity without invention, clustered AI-tell review, and preflight scores."
+        ],
+    }
+    bible = {
+        "style_signature": {
+            "voice_sample": "Accepted chapter voice: clipped, wary, image-led.",
+            "context_dials": {
+                "genre": "archive mystery",
+                "audience": "serial readers",
+                "tone": "restrained",
+                "directness": "plain",
+                "warmth": "low",
+                "personality": "dry",
+                "density": "compressed",
+                "evidence": "canon-bound",
+                "polish": "publication-ready",
+            },
+            "specificity_without_invention": "Use only accepted canon; missing facts become questions.",
+            "clustered_ai_tell_review": ["vague attribution", "manufactured drama"],
+            "preflight_scores": {
+                "directness_score": 8,
+                "specificity_score": 8,
+                "rhythm_score": 8,
+                "voice_fit_score": 9,
+                "density_score": 8,
+            },
+        },
+        "chapter_change_packages": [
+            {
+                "chapter_number": 7,
+                "fact_preservation_policy": "preserve names, dates, numbers, quotes and constraints",
+                "anti_slop_cluster_review": ["formulaic conclusion"],
+            }
+        ],
+    }
+    plan = {
+        "voice_preflight": {
+            "quote_preservation_policy": "do not rewrite fixed quotes",
+            "minimum_public_facing_score": 7,
+        }
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Voice Preflight Desk",
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Voice Preflight Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer only voice calibration and preflight shape.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source voice samples, quirks, phrase lists, or AI-tell examples.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    missing_audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    satisfied_audit = build_remix_continuation_control_audit(
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+    preview_audit = build_remix_context_preview_audit(
+        context="Remix Continuation Canon\nBetter Writing voice specificity preflight gate",
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+    independence = build_remix_inspired_independence_audit(
+        style_content=(
+            "same-type creation source voice\n"
+            "- Transfer only voice calibration and preflight shape.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source voice samples, quirks, phrase lists, or AI-tell examples.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Better Writing voice specificity preflight gate:" in block
+        assert "voice_sample_source_of_truth" in block
+        assert "context_dial_selection" in block
+        assert "specificity_without_invention" in block
+        assert "clustered_ai_tell_review" in block
+        assert "preflight_score_gate" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "voice_sample_source_of_truth" in missing_audit["control_axes"]
+    assert "context_dial_selection" in missing_audit["control_axes"]
+    assert "specificity_without_invention" in missing_audit["control_axes"]
+    assert "clustered_ai_tell_review" in missing_audit["control_axes"]
+    assert "preflight_voice_specificity_score" in missing_audit["control_axes"]
+    assert "verify_better_writing_voice_specificity_preflight" in missing_audit["acceptance_steps"]
+    assert "better_writing_voice_preflight_warnings" in missing_audit["warnings"]
+    assert "missing_voice_sample_or_style_source" in missing_audit["better_writing_voice_preflight_warnings"]
+    assert "missing_context_dial_selection" in missing_audit["better_writing_voice_preflight_warnings"]
+    assert "missing_specificity_without_invention_policy" in missing_audit["better_writing_voice_preflight_warnings"]
+    assert "missing_clustered_ai_tell_review" in missing_audit["better_writing_voice_preflight_warnings"]
+    assert "missing_preflight_score_surface" in missing_audit["better_writing_voice_preflight_warnings"]
+    assert satisfied_audit["better_writing_voice_preflight_warnings"] == []
+    assert "better_writing_voice_preflight_warnings" in preview_audit["production_warnings"]
+
+    assert "voice_specificity_preflight_shape" in independence["transfer_axes"]
+    assert "target_voice_sample_namespace" in independence["required_difference_axes"]
+    assert "source_voice_sample_clone" in independence["copy_risk_checks"]
+
+
+
+
 def test_six_layer_iron_law_gate_projects_consistency_brake_and_failure_block():
     pattern_pack = {
         "six_layer_iron_law_chapter_gate_hints": [

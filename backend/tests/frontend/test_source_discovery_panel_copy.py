@@ -882,6 +882,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "scene_goal_obstacle_cost_exit_gate_hints" in panel_text
     assert "universal_story_engine_scene_pressure_gate_hints" in panel_text
     assert "story_skills_deterministic_continuity_contract_gate_hints" in panel_text
+    assert "better_writing_voice_specificity_preflight_gate_hints" in panel_text
+    assert "Better Writing voice specificity preflight gates" in panel_text
     assert "revision_finding_patch_strategy_gate_hints" in panel_text
     assert "opening_ending_hook_integrity_gate_hints" in panel_text
     assert "anti_ai_naturalness_texture_gate_hints" in panel_text
@@ -905,6 +907,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "scene_goal_obstacle_cost_exit_gate_hints?: string[]" in types_text
     assert "universal_story_engine_scene_pressure_gate_hints?: string[]" in types_text
     assert "story_skills_deterministic_continuity_contract_gate_hints?: string[]" in types_text
+    assert "better_writing_voice_specificity_preflight_gate_hints?: string[]" in types_text
     assert "revision_finding_patch_strategy_gate_hints?: string[]" in types_text
     assert "opening_ending_hook_integrity_gate_hints?: string[]" in types_text
     assert "anti_ai_naturalness_texture_gate_hints?: string[]" in types_text
@@ -1140,6 +1143,20 @@ def test_continuation_context_preview_panel_surfaces_story_skills_continuity_war
     assert "story_skills_continuity_contract_warnings: string[]" in types_text
     assert "story_skills_continuity_contract_warnings" in panel_text
     assert "Story Skills deterministic continuity contract gate" in panel_text
+
+
+def test_continuation_context_preview_panel_surfaces_better_writing_warning_bucket():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixContinuationContextPreviewPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "bookRemixBible.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    assert "better_writing_voice_preflight_warnings: string[]" in types_text
+    assert "better_writing_voice_preflight_warnings" in panel_text
+    assert "Better Writing voice specificity preflight gate" in panel_text
+
 
 
 def test_continuation_context_preview_panel_surfaces_universal_gate_warning_buckets():

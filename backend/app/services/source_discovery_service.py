@@ -1725,6 +1725,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("scene_goal_obstacle_cost_exit_gate", ("goal -> obstacle", "outcome/cost", "reaction -> dilemma", "decision -> new goal", "goal, obstacle, tactic, turn, cost", "changed exit state")),
     ("universal_story_engine_scene_pressure_gate", ("story promise first", "conflict drives every scene", "want, need, wound, cost", "want need wound cost", "show when it matters", "tell when it saves pace", "character-specific dialogue", "dialogue subtext")),
     ("story_skills_deterministic_continuity_contract_gate", ("story skills", "continuity engine", "yaml frontmatter", "schema-version", "dead characters walking", "died-in", "mentions field", "payoffs before setup", "promises/payoffs", "questions", "story continuity", "story doctor")),
+    ("better_writing_voice_specificity_preflight_gate", ("better-writing", "better writing", "voice sample", "style source of truth", "context dials", "directness", "warmth", "personality", "density", "evidence", "polish", "specificity without invention", "pre-flight", "preflight", "voice fit", "significance inflation", "vague attribution", "throat-clearing", "formulaic conclusions", "cluster of tells")),
     ("revision_finding_patch_strategy_gate", ("review report findings", "critical/high/medium/low", "critical high medium low", "severity", "patch strategy", "least destructive patch", "findings by severity")),
     ("opening_ending_hook_integrity_gate", ("opening hooks", "ending hooks", "opening hook type", "ending hook job", "fake cliffhanger", "resolved instantly without consequence", "generic weather", "mirror description")),
     ("anti_ai_naturalness_texture_gate", ("anti-ai naturalness pass", "anti-ai naturalness", "generic emotion labels", "balanced essay paragraphs", "polished summaries", "concrete action, uneven rhythm", "character-specific diction")),
@@ -2207,8 +2208,9 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Pattern-only adaptation for reusable storyboard shot-pack gates; templates, product links, generated media, and asset runtimes are not executed."
     ),
     "forjd/better-writing": (
-        "Agent skill for human prose quality. Public README describes removing generic AI tells, slop structures, voice calibration from writing samples, "
-        "factual guardrails so specificity does not become invention, and final pre-flight checks before delivery."
+        "Better Writing is an MIT agent skill for human prose quality. Public README and references describe voice samples as the style source of truth, "
+        "genre/audience/tone dials for directness, warmth, personality, density, evidence, and polish, specificity without invention, clustered AI-tell review, "
+        "anti-slop structures, and a Directness/Specificity/Rhythm/Voice fit/Density pre-flight score. Pattern-only adaptation keeps upstream examples and skill text out of MuMuAINovel."
     ),
     "edwardathomson/novelwriter": (
         "Python LLM novel-writing application. Public README describes genre-specific worldbuilding, dynamic factions and locations, agentic multi-agent orchestration, "
@@ -5073,6 +5075,7 @@ class NovelSourceDiscoveryService:
             "scene_goal_obstacle_cost_exit_gate_hints": self._build_scene_goal_obstacle_cost_exit_gate_hints(available_patterns),
             "universal_story_engine_scene_pressure_gate_hints": self._build_universal_story_engine_scene_pressure_gate_hints(available_patterns),
             "story_skills_deterministic_continuity_contract_gate_hints": self._build_story_skills_deterministic_continuity_contract_gate_hints(available_patterns),
+            "better_writing_voice_specificity_preflight_gate_hints": self._build_better_writing_voice_specificity_preflight_gate_hints(available_patterns),
             "revision_finding_patch_strategy_gate_hints": self._build_revision_finding_patch_strategy_gate_hints(available_patterns),
             "opening_ending_hook_integrity_gate_hints": self._build_opening_ending_hook_integrity_gate_hints(available_patterns),
             "anti_ai_naturalness_texture_gate_hints": self._build_anti_ai_naturalness_texture_gate_hints(available_patterns),
@@ -6653,6 +6656,8 @@ class NovelSourceDiscoveryService:
             targets.append("universal_story_engine_scene_pressure_policy")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             targets.append("story_skills_deterministic_continuity_contract_policy")
+        if "better_writing_voice_specificity_preflight_gate" in patterns:
+            targets.append("better_writing_voice_specificity_preflight_policy")
         if "revision_finding_patch_strategy_gate" in patterns:
             targets.append("revision_finding_patch_strategy_policy")
         if "opening_ending_hook_integrity_gate" in patterns:
@@ -8423,6 +8428,8 @@ class NovelSourceDiscoveryService:
             targets.append("story_engine_scene_pressure_report")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             targets.append("story_skills_deterministic_continuity_contract_report")
+        if "better_writing_voice_specificity_preflight_gate" in patterns:
+            targets.append("better_writing_voice_specificity_preflight_report")
         if "revision_finding_patch_strategy_gate" in patterns:
             targets.append("revision_finding_patch_strategy_report")
         if "opening_ending_hook_integrity_gate" in patterns:
@@ -12149,6 +12156,15 @@ class NovelSourceDiscoveryService:
             "Treat story continuity as a deterministic contract: track character lifecycle/status, died-in chapter, and the difference between present cast and mentions.",
             "Track promises/payoffs and open questions with planted, introduced, payoff, resolved, and maximum-delay ordering so a payoff cannot precede its setup.",
             "Require durable scene/chapter state records for POV, location, participants, arcs advanced, state changes, object state, and knowledge state before accepting continuation reuse.",
+        ]
+
+    def _build_better_writing_voice_specificity_preflight_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "better_writing_voice_specificity_preflight_gate" not in patterns:
+            return []
+        return [
+            "Treat the target voice sample or accepted style signature as the source of truth; do not flatten a strong voice into a generic house style.",
+            "Before polish, set context dials for genre, audience, tone, directness, warmth, personality, density, evidence, and polish, then check specificity without inventing facts.",
+            "Review AI tells as clusters, preserve defensible quirks, and score Directness, Specificity, Rhythm, Voice fit, and Density before public or accepted prose is promoted.",
         ]
 
     def _build_revision_finding_patch_strategy_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -16854,6 +16870,8 @@ class NovelSourceDiscoveryService:
             targets.append("story_engine_scene_pressure_remap")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             targets.append("story_skills_deterministic_continuity_contract_remap")
+        if "better_writing_voice_specificity_preflight_gate" in patterns:
+            targets.append("better_writing_voice_specificity_preflight_remap")
         if "revision_finding_patch_strategy_gate" in patterns:
             targets.append("revision_finding_patch_strategy_remap")
         if "opening_ending_hook_integrity_gate" in patterns:
@@ -18385,6 +18403,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt story-engine pressure from target-owned want/need/wound/cost, active opposition, choice consequence, show/tell policy, and dialogue subtext before drafting.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Prompt continuation with deterministic continuity fields: character lifecycle, present-cast versus mentions, promise/question setup-payoff order, and durable state references before prose reuse.")
+        if "better_writing_voice_specificity_preflight_gate" in patterns:
+            hints.append("Prompt prose polish with a target-owned voice sample or style signature, selected context dials, specificity-without-invention policy, clustered AI-tell review, and preflight scores.")
         if "source_study_method_bank_isolation_gate" in patterns:
             hints.append("Load source-study insights as method ids and craft pressure only; do not load raw study chunks or source facts into the generation prompt.")
         if "inline_human_machine_coauthoring_gate" in patterns:
@@ -19948,6 +19968,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform story-engine pressure by rebuilding desire, wound, cost, opposition, choice, consequence, and dialogue voice for the new project.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Transform continuity contracts by rebuilding cast ids, lifecycle state, promise/question ledgers, object state, and knowledge state for the target story instead of copying source registries.")
+        if "better_writing_voice_specificity_preflight_gate" in patterns:
+            hints.append("Transform voice and specificity review into target-story calibration: keep target voice quirks, rebuild examples, and use placeholders or questions when facts are missing.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Transform review results into new-story rewrite tasks; accepted summaries and continuity memory must describe the transformed chapter only.")
         if "scene_card_hard_soft_field_gate" in patterns:
@@ -20165,6 +20187,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that clone source desire, wound, opposition, cost pattern, scene choice, dialogue cadence, or show/tell rhythm under renamed entities.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Reject drafts that reuse upstream Story Skills sample ids, frontmatter examples, CLI findings, promise names, question names, or broken-demo continuity cases as accepted canon.")
+        if "better_writing_voice_specificity_preflight_gate" in patterns:
+            hints.append("Reject prose that copies Better Writing examples, upstream skill wording, reference phrase lists, voice samples, or AI-tell catalog text into target manuscript or canon state.")
         if "six_layer_iron_law_chapter_gate" in patterns:
             hints.append("Reject chapters that bypass a failed gate, copy novel-base slash commands, include meta-analysis markers in prose, or resolve the main conflict before the target outline allows it.")
         if "element_swap_deconstruction_rewrite_pipeline_gate" in patterns:

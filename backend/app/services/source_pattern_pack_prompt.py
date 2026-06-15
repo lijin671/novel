@@ -773,6 +773,7 @@ def render_source_pattern_pack_digest(
         "scene_goal_obstacle_cost_exit_gate_hints",
         "universal_story_engine_scene_pressure_gate_hints",
         "story_skills_deterministic_continuity_contract_gate_hints",
+        "better_writing_voice_specificity_preflight_gate_hints",
         "revision_finding_patch_strategy_gate_hints",
         "opening_ending_hook_integrity_gate_hints",
         "anti_ai_naturalness_texture_gate_hints",

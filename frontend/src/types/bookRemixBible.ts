@@ -115,6 +115,7 @@ export interface BookRemixContinuationContextPreview {
   web_similarity_runtime_boundary_warnings: string[];
   story_engine_scene_pressure_warnings: string[];
   story_skills_continuity_contract_warnings: string[];
+  better_writing_voice_preflight_warnings: string[];
   progress_report_continuity_writeback_gate_hints?: string[];
   continuity_questions: string[];
   promise_payoff_debts: Array<Record<string, string>>;

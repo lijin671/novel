@@ -16987,6 +16987,56 @@ def test_state_contract_living_document_frontmatter_sources_are_static_absorbed(
 
 
 
+def test_better_writing_voice_specificity_preflight_source_is_static_absorbed():
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "forjd/better-writing",
+                "html_url": "https://github.com/forjd/better-writing",
+                "description": (
+                    "Better Writing skill uses a voice sample as style source of truth, context dials for "
+                    "directness, warmth, personality, density, evidence and polish, specificity without invention, "
+                    "clustered AI tells, significance inflation, vague attribution, throat-clearing, formulaic conclusions, "
+                    "and preflight score checks for Directness, Specificity, Rhythm, Voice fit, and Density."
+                ),
+                "stargazers_count": 14,
+                "forks_count": 1,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["writing", "voice", "anti-slop"],
+                "updated_at": "2026-06-15T05:10:00Z",
+                "root_files": ["README.md", "LICENSE", "SKILL.md", "references"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-06-15T16:20:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["source"] == "github"
+    assert candidate["title"] == "forjd/better-writing"
+    assert candidate["license"] == "MIT"
+    assert "better_writing_voice_specificity_preflight_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "better_writing_voice_specificity_preflight_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "better_writing_voice_specificity_preflight_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "better_writing_voice_specificity_preflight_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any(
+        "source of truth" in hint.lower()
+        for hint in pattern_pack["better_writing_voice_specificity_preflight_gate_hints"]
+    )
+    assert any("context dials" in hint.lower() for hint in pattern_pack["better_writing_voice_specificity_preflight_gate_hints"])
+    assert any("preflight" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("placeholders" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("better writing examples" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "better_writing_voice_specificity_preflight_gate_hints" in digest
+
+
+
+
 def test_design_dependency_writer_critic_quality_sources_are_static_absorbed():
     assert "https://github.com/osushi-cr/sdcoh" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/davealaw/FictionRefine" in DEFAULT_GITHUB_REPOSITORY_URLS
