@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
 from types import SimpleNamespace
-from typing import Optional
+from typing import Any, Optional
 
 from fastapi import HTTPException
 from sqlalchemy import delete, func, select
@@ -31,6 +31,7 @@ from app.schemas.book_remix import (
     BookRemixBibleUpdateRequest,
     BookRemixChapterPreview,
     BookRemixCreateProjectRequest,
+    BookRemixDeconstructionPack,
     BookRemixInspiredSeedProfile,
     BookRemixPreviewResponse,
     BookRemixSeedMapping,
@@ -1082,6 +1083,13 @@ class BookRemixService:
             if task.remix_mode == "inspired"
             else None
         )
+        deconstruction_pack = self._build_deconstruction_pack(
+            remix_mode=task.remix_mode,
+            source_filename=task.filename,
+            chapters=normalized_chapters,
+            total_words=total_words,
+            inspired_seed_profile=inspired_seed_profile,
+        )
 
         return BookRemixPreviewResponse(
             task_id=task.task_id,
@@ -1092,7 +1100,368 @@ class BookRemixService:
             chapters=preview_chapters,
             warnings=warnings,
             inspired_seed_profile=inspired_seed_profile,
+            deconstruction_pack=deconstruction_pack,
         )
+
+    def _build_deconstruction_pack(
+        self,
+        *,
+        remix_mode: RemixMode,
+        source_filename: str,
+        chapters: list[BookImportChapter],
+        total_words: int,
+        inspired_seed_profile: Optional[BookRemixInspiredSeedProfile],
+    ) -> BookRemixDeconstructionPack:
+        """Build a deterministic review packet before continuation or same-type drafting."""
+
+        valid_chapters = [chapter for chapter in chapters if (chapter.content or "").strip()]
+        first_chapter = valid_chapters[0] if valid_chapters else None
+        last_chapter = valid_chapters[-1] if valid_chapters else None
+        average_words = int(total_words / max(1, len(valid_chapters))) if valid_chapters else 0
+        dialogue_density = round(self._estimate_dialogue_ratio(valid_chapters), 4) if valid_chapters else 0.0
+        sampled_chapters = self._select_deconstruction_evidence_chapters(valid_chapters)
+        chapter_summaries = [
+            {
+                "chapter": f"Ch{chapter.chapter_number}",
+                "title": chapter.title,
+                "summary": self._safe_summary(chapter),
+            }
+            for chapter in sampled_chapters
+        ]
+
+        last_summary = self._safe_summary(last_chapter) if last_chapter else ""
+        first_summary = self._safe_summary(first_chapter) if first_chapter else ""
+        chapter_mode = "continue-chapter" if remix_mode == "continuation" else "full-project"
+        opening_hook = (
+            f"Continue from Ch{last_chapter.chapter_number}: {last_summary[:120]}"
+            if last_chapter
+            else "Build from accepted source scope after review"
+        )
+        reader_promise = self._infer_reader_promise_from_chapters(valid_chapters)
+        source_names = self._collect_inspired_source_names(inspired_seed_profile)
+        scene_beat_sheet = self._build_deconstruction_scene_beat_sheet(
+            remix_mode=remix_mode,
+            last_summary=last_summary,
+            reader_promise=reader_promise,
+        )
+        reader_pull_checklist = [
+            "Who is the POV character?",
+            "What do they want now?",
+            "What blocks them?",
+            "Why does it matter?",
+            "What changed by the end?",
+            "What pulls the reader onward?",
+        ]
+        hook_payoff_matrix = self._build_deconstruction_hook_payoff_matrix(
+            chapters=valid_chapters,
+            opening_hook=opening_hook,
+        )
+        progress_report_contract = {
+            "required_fields": [
+                "chapter",
+                "summary",
+                "new_facts",
+                "character_changes",
+                "relationship_changes",
+                "organization_changes",
+                "hooks_paid_off",
+                "new_hooks",
+                "continuity_updates",
+                "next_chapter_focus",
+                "risks",
+            ],
+            "promotion_rule": "No generated chapter is accepted until manuscript text and progress report agree.",
+            "writeback_order": [
+                "chapter_text",
+                "chapter_progress_report",
+                "continuity_ledger",
+                "bible_or_plan_delta",
+                "next_chapter_contract",
+            ],
+        }
+
+        same_type_boundaries = {
+            "mode": remix_mode,
+            "required_difference_axes": (
+                [
+                    "fresh_characters",
+                    "fresh_organizations",
+                    "fresh_world_rules",
+                    "fresh_event_order",
+                    "fresh_core_conflict",
+                ]
+                if remix_mode == "inspired"
+                else ["not_applicable_for_continuation"]
+            ),
+            "must_replace_elements": source_names,
+            "transferable_patterns": [
+                "reader promise / genre pleasure",
+                "chapter-level conflict density",
+                "scene goal-obstacle-cost rhythm",
+                "dialogue-to-narration balance",
+                "hook/payoff pacing",
+            ],
+            "high_risk_similarity": [
+                item.source_name
+                for item in (inspired_seed_profile.plot_threads if inspired_seed_profile else [])
+                if item.source_name
+            ],
+            "copy_risk_checks": [
+                "protected_expression",
+                "proper_name_reuse",
+                "scene_order_clone",
+                "dialogue_paraphrase",
+                "source_entity_graph_clone",
+            ],
+        }
+
+        confidence_score = 0
+        if len(valid_chapters) >= 3:
+            confidence_score += 1
+        if total_words >= 3000:
+            confidence_score += 1
+        if chapter_summaries:
+            confidence_score += 1
+        if remix_mode == "inspired" and source_names:
+            confidence_score += 1
+        confidence_level = "high" if confidence_score >= 3 else "medium" if confidence_score >= 2 else "low"
+
+        return BookRemixDeconstructionPack(
+            source_scope={
+                "source_filename": source_filename,
+                "mode": remix_mode,
+                "chapter_count": len(valid_chapters),
+                "total_words": total_words,
+                "average_chapter_words": average_words,
+                "first_chapter": (
+                    {"number": first_chapter.chapter_number, "title": first_chapter.title}
+                    if first_chapter
+                    else None
+                ),
+                "last_chapter": (
+                    {"number": last_chapter.chapter_number, "title": last_chapter.title, "summary": last_summary}
+                    if last_chapter
+                    else None
+                ),
+            },
+            story_promise={
+                "inferred_reader_promise": reader_promise,
+                "opening_situation": first_summary,
+                "current_pressure": last_summary,
+                "micro_payoff_policy": "Each generated chapter must change plot, relationship, knowledge, status, risk, or emotional position.",
+            },
+            style_fingerprint={
+                "narrative_perspective": "use project suggestion unless author overrides",
+                "average_chapter_words": average_words,
+                "dialogue_density": dialogue_density,
+                "pacing_note": self._build_language_note(avg_words=average_words, dialogue_ratio=dialogue_density),
+                "prose_constraints": [
+                    "preserve concrete action and sensory detail at turning points",
+                    "avoid generic emotion labels and summary-like AI texture",
+                    "vary sentence rhythm without copying source phrases",
+                ],
+            },
+            continuity_ledger={
+                "required_ledgers": [
+                    "timeline",
+                    "character_state",
+                    "relationship_state",
+                    "organization_state",
+                    "world_rules",
+                    "foreshadowing_and_payoff",
+                    "unresolved_questions",
+                ],
+                "progress_writeback": [
+                    "chapter_log",
+                    "new_facts",
+                    "character_changes",
+                    "hooks_paid_off",
+                    "new_hooks",
+                    "next_chapter_focus",
+                    "risks",
+                ],
+                "authoritative_source": "accepted imported chapters plus reviewed bible and continuation plan",
+            },
+            chapter_contract={
+                "mode": chapter_mode,
+                "chapter_job": "continue accepted causal pressure" if remix_mode == "continuation" else "create an independent same-type premise before drafting",
+                "opening_hook": opening_hook,
+                "main_goal": "derive from last accepted chapter pressure" if remix_mode == "continuation" else "prove a fresh premise without source-entity reuse",
+                "main_obstacle": "active opposition or consequence must block the goal",
+                "turning_point": "one decision, reveal, cost, or status shift changes the chapter direction",
+                "required_reveal_or_payoff": "pay off or complicate at least one accepted hook",
+                "ending_hook": "end on consequence, choice, danger, or reframed fact; no fake cliffhanger",
+                "scene_plan": "3-7 scenes; each scene needs goal, obstacle, turn, cost, and exit state",
+                "reader_pull": "first 20% must show pressure, question, desire, or consequence",
+                "forbidden_shortcuts": [
+                    "off-screen payoff",
+                    "state reset",
+                    "unearned relationship jump",
+                    "new rule without cost",
+                    "chapter ending with fake cliffhanger only",
+                ],
+            },
+            scene_beat_sheet=scene_beat_sheet,
+            reader_pull_checklist=reader_pull_checklist,
+            hook_payoff_matrix=hook_payoff_matrix,
+            progress_report_contract=progress_report_contract,
+            same_type_boundaries=same_type_boundaries,
+            revision_gates=[
+                {
+                    "name": "developmental",
+                    "checks": ["visible goal", "active opposition", "escalating stakes", "earned payoff"],
+                },
+                {
+                    "name": "character_continuity",
+                    "checks": ["want/need/wound", "voice fingerprint", "relationship movement", "no OOC convenience"],
+                },
+                {
+                    "name": "continuity",
+                    "checks": ["timeline", "names", "facts", "world rules", "who knows what", "open hooks"],
+                },
+                {
+                    "name": "anti_ai_naturalness",
+                    "checks": ["concrete action", "subtext", "uneven rhythm", "specific sensory detail", "mobile-readable paragraphs"],
+                },
+            ],
+            evidence_chapters=chapter_summaries,
+            confidence={
+                "level": confidence_level,
+                "score": confidence_score,
+                "limits": [
+                    "deterministic preview only; human review still owns canon acceptance",
+                    "style fingerprint is statistical and craft-level, not permission to copy expression",
+                ],
+            },
+        )
+
+    def _build_deconstruction_scene_beat_sheet(
+        self,
+        *,
+        remix_mode: RemixMode,
+        last_summary: str,
+        reader_promise: list[str],
+    ) -> list[dict[str, Any]]:
+        opening_goal = (
+            "resume the last accepted causal pressure"
+            if remix_mode == "continuation"
+            else "establish the independent protagonist and fresh promise"
+        )
+        opening_obstacle = (
+            last_summary[:120] or "missing prior-pressure summary; reviewer must fill before drafting"
+            if remix_mode == "continuation"
+            else "source resemblance risk; prove new names, rules, conflict, and event order"
+        )
+        return [
+            {
+                "scene": 1,
+                "function": "opening_hook",
+                "goal": opening_goal,
+                "obstacle": opening_obstacle,
+                "turn": "pressure becomes concrete in action or dialogue",
+                "cost": "the POV loses comfort, time, leverage, or certainty",
+                "exit_state": "reader can name the immediate question and stakes",
+            },
+            {
+                "scene": 2,
+                "function": "escalation",
+                "goal": "pursue the chapter objective through a tactic",
+                "obstacle": "opposition adapts instead of waiting",
+                "turn": "new information changes the tactic",
+                "cost": "relationship, status, resource, safety, or emotional position shifts",
+                "exit_state": "the board is different from the opening",
+            },
+            {
+                "scene": 3,
+                "function": "payoff_and_next_hook",
+                "goal": "pay off, twist, or deliberately defer one promise",
+                "obstacle": ", ".join(reader_promise[:2]) if reader_promise else "reader promise must stay visible",
+                "turn": "choice, reveal, consequence, or reframed fact",
+                "cost": "a future obligation or unresolved risk remains",
+                "exit_state": "next chapter contract has a clear start point",
+            },
+        ]
+
+    def _build_deconstruction_hook_payoff_matrix(
+        self,
+        *,
+        chapters: list[BookImportChapter],
+        opening_hook: str,
+        max_items: int = 6,
+    ) -> dict[str, Any]:
+        recent = chapters[-max_items:] if chapters else []
+        seeded_threads = [
+            {
+                "thread": f"Ch{chapter.chapter_number}: {chapter.title}",
+                "seeded_in": f"Ch{chapter.chapter_number}",
+                "reader_expectation": self._safe_summary(chapter),
+                "planned_payoff": "answer, complicate, or escalate before the thread goes stale",
+                "status": "open",
+            }
+            for chapter in recent
+            if self._safe_summary(chapter)
+        ]
+        return {
+            "opening_thread": opening_hook,
+            "seeded_threads": seeded_threads,
+            "delay_rule": "Every carried hook needs answer, partial answer, escalation, or explicit deferral reason.",
+            "same_type_rule": "For inspired mode, transfer hook function only; replace names, scene order, evidence, and payoff mechanism.",
+        }
+
+    def _select_deconstruction_evidence_chapters(
+        self,
+        chapters: list[BookImportChapter],
+        *,
+        max_items: int = 8,
+    ) -> list[BookImportChapter]:
+        if len(chapters) <= max_items:
+            return chapters
+
+        indexes = {0, len(chapters) - 1, len(chapters) // 2}
+        step = max(1, len(chapters) // max_items)
+        indexes.update(range(0, len(chapters), step))
+        return [chapters[index] for index in sorted(indexes)[:max_items]]
+
+    def _infer_reader_promise_from_chapters(self, chapters: list[BookImportChapter]) -> list[str]:
+        text = self._collect_seed_sample_text(chapters).lower()
+        promise_markers: list[tuple[str, tuple[str, ...]]] = [
+            ("mystery / unresolved question", ("谜", "秘密", "真相", "线索", "question", "secret")),
+            ("romance / relationship pressure", ("喜欢", "恋", "心动", "误会", "relationship", "love")),
+            ("progression / public proof", ("升级", "突破", "证明", "出道", "晋升", "progression")),
+            ("survival / danger", ("危险", "追杀", "逃", "威胁", "survival", "danger")),
+            ("organization / faction conflict", ("公司", "公会", "组织", "学院", "团队", "faction")),
+        ]
+        matches = [
+            label
+            for label, markers in promise_markers
+            if any(marker.lower() in text for marker in markers)
+        ]
+        return matches[:4] or ["reader-pull through conflict, consequence, and hook/payoff"]
+
+    def _collect_inspired_source_names(
+        self,
+        inspired_seed_profile: Optional[BookRemixInspiredSeedProfile],
+        *,
+        max_items: int = 24,
+    ) -> list[str]:
+        if not inspired_seed_profile:
+            return []
+
+        names: list[str] = []
+        for mappings in (
+            inspired_seed_profile.characters,
+            inspired_seed_profile.organizations,
+            inspired_seed_profile.abilities,
+            inspired_seed_profile.world_elements,
+            inspired_seed_profile.plot_threads,
+        ):
+            for item in mappings:
+                source_name = (item.source_name or "").strip()
+                if source_name and source_name not in names:
+                    names.append(source_name)
+                if len(names) >= max_items:
+                    return names
+        return names
 
     def _build_inspired_seed_profile(
         self,
@@ -2361,6 +2730,16 @@ class BookRemixService:
             *(story_lines or ["- 以原书最近正文推进为唯一准绳。"]),
         ]
 
+        prompt_lines.extend(
+            self._build_deconstruction_prompt_lines(
+                remix_mode="continuation",
+                source_filename=source_filename,
+                chapters=valid_chapters,
+                total_words=sum(self._chapter_word_count(chapter) for chapter in valid_chapters),
+                inspired_seed_profile=None,
+            )
+        )
+
         if excerpt_lines:
             prompt_lines.extend([
                 "",
@@ -2466,6 +2845,16 @@ class BookRemixService:
             *(story_lines or ["- 以导入章节展示出的类型节奏、情绪温度和叙事密度为参照。"]),
         ]
 
+        prompt_lines.extend(
+            self._build_deconstruction_prompt_lines(
+                remix_mode="inspired",
+                source_filename=source_filename,
+                chapters=valid_chapters,
+                total_words=sum(self._chapter_word_count(chapter) for chapter in valid_chapters),
+                inspired_seed_profile=self._build_inspired_seed_profile(valid_chapters),
+            )
+        )
+
         if excerpt_lines:
             prompt_lines.extend([
                 "",
@@ -2505,6 +2894,63 @@ class BookRemixService:
             "description": "基于导入源书样本自动提炼的同类型创作风格锚点",
             "prompt_content": "\n".join(prompt_lines).strip()[:6000],
         }
+
+    def _build_deconstruction_prompt_lines(
+        self,
+        *,
+        remix_mode: RemixMode,
+        source_filename: str,
+        chapters: list[BookImportChapter],
+        total_words: int,
+        inspired_seed_profile: Optional[BookRemixInspiredSeedProfile],
+    ) -> list[str]:
+        pack = self._build_deconstruction_pack(
+            remix_mode=remix_mode,
+            source_filename=source_filename,
+            chapters=chapters,
+            total_words=total_words,
+            inspired_seed_profile=inspired_seed_profile,
+        )
+        source_scope = pack.source_scope
+        story_promise = pack.story_promise
+        chapter_contract = pack.chapter_contract
+        progress_report_contract = pack.progress_report_contract
+        same_type_boundaries = pack.same_type_boundaries
+
+        lines = [
+            "",
+            "【可审查拆书包 / deconstruction_pack】",
+            f"- source_scope.chapter_count: {source_scope.get('chapter_count')}",
+            f"- source_scope.average_chapter_words: {source_scope.get('average_chapter_words')}",
+            f"- story_promise.reader_pull: {', '.join(story_promise.get('inferred_reader_promise') or [])}",
+            f"- chapter_contract.mode: {chapter_contract.get('mode')}",
+            f"- chapter_contract.opening_hook: {chapter_contract.get('opening_hook')}",
+            f"- chapter_contract.reader_pull: {chapter_contract.get('reader_pull')}",
+            f"- chapter_contract.main_goal: {chapter_contract.get('main_goal')}",
+            f"- chapter_contract.main_obstacle: {chapter_contract.get('main_obstacle')}",
+            f"- chapter_contract.turning_point: {chapter_contract.get('turning_point')}",
+            "- scene_beat_sheet: every scene must declare goal, obstacle, turn, cost, and changed exit_state",
+            "- reader_pull_checklist: POV, current want, obstacle, stakes, changed exit state, next pull",
+            "- continuity_writeback: timeline, character_state, relationship_state, organization_state, world_rules, foreshadowing_and_payoff, unresolved_questions",
+            "- hook_payoff_matrix: each carried hook needs answer, partial answer, escalation, or explicit deferral reason",
+            "- progress_report_contract.required_fields: "
+            + ", ".join(progress_report_contract.get("required_fields") or []),
+            "- revision_gates: developmental, character_continuity, continuity, anti_ai_naturalness",
+        ]
+
+        if remix_mode == "inspired":
+            lines.extend(
+                [
+                    "- same_type_boundaries.required_difference_axes: "
+                    + ", ".join(same_type_boundaries.get("required_difference_axes") or []),
+                    "- same_type_boundaries.must_replace_elements: "
+                    + ", ".join(same_type_boundaries.get("must_replace_elements") or []),
+                    "- same_type_boundaries.copy_risk_checks: "
+                    + ", ".join(same_type_boundaries.get("copy_risk_checks") or []),
+                ]
+            )
+
+        return lines
 
     def _chapter_word_count(self, chapter: BookImportChapter) -> int:
         return len(re.sub(r"\s+", "", chapter.content or ""))

@@ -46,6 +46,24 @@ class BookRemixInspiredSeedProfile(BaseModel):
     plot_threads: list[BookRemixSeedMapping] = Field(default_factory=list)
 
 
+class BookRemixDeconstructionPack(BaseModel):
+    """Deterministic, reviewable source-book deconstruction packet."""
+
+    source_scope: dict[str, Any] = Field(default_factory=dict)
+    story_promise: dict[str, Any] = Field(default_factory=dict)
+    style_fingerprint: dict[str, Any] = Field(default_factory=dict)
+    continuity_ledger: dict[str, Any] = Field(default_factory=dict)
+    chapter_contract: dict[str, Any] = Field(default_factory=dict)
+    scene_beat_sheet: list[dict[str, Any]] = Field(default_factory=list)
+    reader_pull_checklist: list[str] = Field(default_factory=list)
+    hook_payoff_matrix: dict[str, Any] = Field(default_factory=dict)
+    progress_report_contract: dict[str, Any] = Field(default_factory=dict)
+    same_type_boundaries: dict[str, Any] = Field(default_factory=dict)
+    revision_gates: list[dict[str, Any]] = Field(default_factory=list)
+    evidence_chapters: list[dict[str, Any]] = Field(default_factory=list)
+    confidence: dict[str, Any] = Field(default_factory=dict)
+
+
 class BookRemixTaskCreateResponse(BaseModel):
     """创建任务响应。"""
 
@@ -80,6 +98,10 @@ class BookRemixPreviewResponse(BaseModel):
     inspired_seed_profile: Optional[BookRemixInspiredSeedProfile] = Field(
         default=None,
         description="同类创作模式的启发式变体映射草案",
+    )
+    deconstruction_pack: Optional[BookRemixDeconstructionPack] = Field(
+        default=None,
+        description="创建工作台前可审查的确定性拆书包",
     )
 
 

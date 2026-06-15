@@ -53,6 +53,22 @@ export interface BookRemixInspiredSeedProfile {
   plot_threads: BookRemixSeedMapping[];
 }
 
+export interface BookRemixDeconstructionPack {
+  source_scope: Record<string, unknown>;
+  story_promise: Record<string, unknown>;
+  style_fingerprint: Record<string, unknown>;
+  continuity_ledger: Record<string, unknown>;
+  chapter_contract: Record<string, unknown>;
+  scene_beat_sheet: Array<Record<string, unknown>>;
+  reader_pull_checklist: string[];
+  hook_payoff_matrix: Record<string, unknown>;
+  progress_report_contract: Record<string, unknown>;
+  same_type_boundaries: Record<string, unknown>;
+  revision_gates: Array<Record<string, unknown>>;
+  evidence_chapters: Array<Record<string, unknown>>;
+  confidence: Record<string, unknown>;
+}
+
 export interface BookRemixPreview {
   task_id: string;
   remix_mode: BookRemixMode;
@@ -62,6 +78,7 @@ export interface BookRemixPreview {
   chapters: BookRemixChapterPreview[];
   warnings: BookRemixWarning[];
   inspired_seed_profile?: BookRemixInspiredSeedProfile | null;
+  deconstruction_pack?: BookRemixDeconstructionPack | null;
 }
 
 export interface BookRemixCreateProjectPayload {

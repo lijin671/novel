@@ -575,6 +575,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("planner" OR "writer" OR "reviewer" OR "polisher") ("ten-dimension" OR "quality thresholds" OR "chapter quality loop") ("novel" OR "Claude Code") in:name,description,readme',
     '("WorldBuilder" OR "PlotArchitect" OR "QualityJudge") ("chapter-contracts" OR "storylines.json" OR "8 dimension" OR "8 维度") ("novel" OR "webnovel") in:name,description,readme',
     '("executor-agnostic" OR "instruction packet" OR ".checkpoint.json" OR "staging") ("novel" OR "fiction" OR "chapter") in:name,description,readme',
+    '("bookwright" OR "GOLEM" OR "factual_anchor") ("story bible" OR "plain text" OR "RDF") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1217,6 +1218,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/mariamjensen42-glitch/inkos",
     "https://github.com/DankerMu/novel-writer-plugin",
     "https://github.com/DankerMu/novel-writer-cli",
+    "https://github.com/jmorenobl/bookwright",
 )
 DEFAULT_LINUX_DO_RSS_URLS = (
     "https://linux.do/tag/444-tag/444.rss",
@@ -1935,6 +1937,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("cjk_bm25_context_retrieval_gate", ("bm25 lexical retrieval", "bm25-style lexical retrieval", "cjk bigram tokenizer", "memory cards", "minisearch", "lexical retrieval over chapters", "story-bible sections")),
     ("dynamic_architecture_extension_gate", ("architecture_extension", "plannedtotalchapters", "chaptersperrun", "highest chapter covered", "volume pacing board", "pacing guardrails", "needs planning")),
     ("scene_state_prompt_injection_gate", ("scene context tracking", "scene state tracker", "character position log", "recent events summary", "context injection", "author's note", "time, date, location", "temperature and weather", "history log", "auto-update llm scene", "connection profile", "narrative consistency")),
+    ("bookwright_plaintext_golem_validation_gate", ("bookwright", "GOLEM", "golem knowledge graph", "bible/graph.ttl", "Turtle (RDF)", "plain text is the source of truth", "bookwright graph build", "bookwright validate", "factual_anchor", "Source / Finding / Anchor", "bookwright status", "next_actions")),
 )
 RISK_FILE_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("postinstall", ("postinstall",)),
@@ -4647,6 +4650,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "InkOS API is an AGPL-3.0 single-binary Go HTTP API for a novel-writing pipeline. Static HEAD/README/go markers describe inkos.json, books folders, story markdown, memory.db, play.db, REST/SSE endpoints for books, chapters, truth files, project config, LLM services, cover, genres, sessions, agent sessions, daemon, logs, fanfic, spinoff, imitation, radar, doctor diagnostics, OpenAI-compatible provider config, .inkos/secrets.json mode 0600, file-locked JSON writes, and SQLite. "
         "Pattern-only adaptation for truth-file/API fanfic-imitation gates; AGPL code, Go server binary, provider keys, secrets files, project roots, daemon/log endpoints, fanfic/spinoff/imitation generation, and test project content are not imported or executed."
     ),
+    "jmorenobl/bookwright": (
+        "Bookwright is an Apache-2.0 spec-driven narrative authoring CLI. Static HEAD/README/LICENSE/pyproject markers describe plain text as the source of truth, story bible and constitution documents, GOLEM knowledge graph output as Turtle/RDF, continuity validation for time, character presence, focalization and settings, Source/Finding/Anchor provenance, factual_anchor verification, author focus, status --json, and next_actions. "
+        "Pattern-only adaptation for plain-text story-bible, graph-validation, and provenance gates; package installation, CLI execution, RDF parsing runtime, generated project artifacts, upstream skills, local manuscripts, and provider/model calls are not imported or executed."
+    ),
 }
 
 STATIC_REPOSITORY_POSTURE_OVERRIDES: dict[str, tuple[str, str]] = {
@@ -5078,6 +5085,7 @@ class NovelSourceDiscoveryService:
             "universal_character_world_rule_coherence_gate_hints": self._build_universal_character_world_rule_coherence_gate_hints(available_patterns),
             "story_skills_deterministic_continuity_contract_gate_hints": self._build_story_skills_deterministic_continuity_contract_gate_hints(available_patterns),
             "better_writing_voice_specificity_preflight_gate_hints": self._build_better_writing_voice_specificity_preflight_gate_hints(available_patterns),
+            "bookwright_plaintext_golem_validation_gate_hints": self._build_bookwright_plaintext_golem_validation_gate_hints(available_patterns),
             "revision_finding_patch_strategy_gate_hints": self._build_revision_finding_patch_strategy_gate_hints(available_patterns),
             "opening_ending_hook_integrity_gate_hints": self._build_opening_ending_hook_integrity_gate_hints(available_patterns),
             "anti_ai_naturalness_texture_gate_hints": self._build_anti_ai_naturalness_texture_gate_hints(available_patterns),
@@ -6425,6 +6433,7 @@ class NovelSourceDiscoveryService:
             "planner_writer_evaluator_editor_saga_gate": 72,
             "story_weaver_kg_bible_rag_gate": 72,
             "taleforge_memory_continuity_research_gate": 71,
+            "bookwright_plaintext_golem_validation_gate": 73,
             "ai_flavor_template_shell_cleanup_gate": 67,
             "packet_first_style_overlay_context_gate": 72,
             "lora_style_adapter_memory_bank_gate": 70,
@@ -6946,6 +6955,8 @@ class NovelSourceDiscoveryService:
         if "taleforge_memory_continuity_research_gate" in patterns:
             targets.append("taleforge_memory_continuity_policy")
             targets.append("research_assistant_boundary_policy")
+        if "bookwright_plaintext_golem_validation_gate" in patterns:
+            targets.extend(["plain_text_story_source_of_truth_policy", "golem_graph_continuity_policy", "factual_anchor_provenance_policy"])
         if "local_first_novel_workspace" in patterns:
             targets.append("workspace_scope")
             targets.append("project_local_state")
@@ -8668,6 +8679,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["story_weaver_kg_bible_report", "rag_citation_continuity_report", "universe_rule_timeline_findings"])
         if "taleforge_memory_continuity_research_gate" in patterns:
             targets.extend(["living_story_bible_memory_report", "continuity_guardian_research_report", "timeline_reasoning_memory_trace"])
+        if "bookwright_plaintext_golem_validation_gate" in patterns:
+            targets.extend(["golem_graph_validation_report", "factual_anchor_provenance_report", "derived_status_next_action_report"])
         if "author_note_layer" in patterns:
             targets.extend(["author_note_layer", "style_directive_layer", "insertion_frequency"])
         if "world_state_tracking" in patterns:
@@ -15675,6 +15688,13 @@ class NovelSourceDiscoveryService:
             "Frontend/backend runtime, npm scripts, memory stores, dashboards, provider integrations, and generated project data remain deferred.",
         ]
 
+    def _build_bookwright_plaintext_golem_validation_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "bookwright_plaintext_golem_validation_gate" not in patterns:
+            return []
+        return [
+            "Keep MuMuAINovel bible, constitution, graph facts, research anchors, derived status, and next actions as reviewable text artifacts; GOLEM/RDF validation findings propose repairs and never run upstream CLI or import project files."
+        ]
+
     def _build_packet_first_style_overlay_context_gate_hints(self, patterns: set[str]) -> list[str]:
         if "packet_first_style_overlay_context_gate" not in patterns:
             return []
@@ -17057,6 +17077,8 @@ class NovelSourceDiscoveryService:
             targets.append("kg_bible_rag_context_remap")
         if "taleforge_memory_continuity_research_gate" in patterns:
             targets.append("memory_continuity_research_remap")
+        if "bookwright_plaintext_golem_validation_gate" in patterns:
+            targets.extend(["plain_text_truth_source_remap", "golem_graph_fact_remap", "factual_anchor_provenance_remap"])
         if "card_workbench" in patterns:
             targets.append("card_schema_remap")
         if "manuscript_card_board_extraction_gate" in patterns:
@@ -18244,6 +18266,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt continuity review to cite Story Bible, graph edge, vector/RAG hit, event timeline, or universe rule for every finding.")
         if "taleforge_memory_continuity_research_gate" in patterns:
             hints.append("Prompt research assistant output as provenance-tagged realism notes; continuity guardian findings need conflict location and living-bible update proposal.")
+        if "bookwright_plaintext_golem_validation_gate" in patterns:
+            hints.append("Prompt continuation with accepted text source-of-truth, GOLEM-style graph validation findings, factual anchors, and derived next-action status; upstream CLI commands stay outside drafting context.")
         if "agents_room_multistep_story_collaboration_gate" in patterns:
             hints.append("Prompt specialized duties as target-story subtasks only; source prompts and human-written stories remain excluded examples, not drafting context.")
         if "judgemark_literary_criteria_calibration_gate" in patterns:
@@ -19409,6 +19433,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform knowledge-graph, bible, RAG, timeline, and universe-rule schemas into target-story fields with fresh ids and evidence refs.")
         if "taleforge_memory_continuity_research_gate" in patterns:
             hints.append("Transform research, continuity, and memory lanes into separate target-story ledgers; research notes cannot become canon without author review.")
+        if "bookwright_plaintext_golem_validation_gate" in patterns:
+            hints.append("Transform Bookwright plain-text, GOLEM/RDF, Source/Finding/Anchor, and next-action concepts into target-owned story-bible fields and evidence ids.")
         if "emotion_arc" in patterns:
             hints.append("Preserve the emotional function of a relationship beat while changing who causes it and why.")
         if "card_workbench" in patterns:
@@ -21046,6 +21072,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject RAG-grounded drafts when citations point to source examples instead of target-story bible, graph, timeline, or accepted chapters.")
         if "taleforge_memory_continuity_research_gate" in patterns:
             hints.append("Reject research-memory updates that import source lore, unsupported world facts, or continuity fixes without provenance and author-visible promotion.")
+        if "bookwright_plaintext_golem_validation_gate" in patterns:
+            hints.append("Reject drafts that copy Bookwright README text, command syntax, RDF/Turtle examples, GOLEM class names, upstream skill bodies, or local project artifacts as story canon.")
         if "webnovel_quality_review_rewrite_memory_gate" in patterns:
             hints.append("Reject same-type outputs when the review loop rewards source resemblance, updates memory from weak drafts, or hides copied hooks behind rewrite polish.")
         if "scene_card_hard_soft_field_gate" in patterns:
@@ -21349,6 +21377,7 @@ class NovelSourceDiscoveryService:
                 "local_desktop_manuscript_revision_bible_gate",
                 "canonkit_local_canon_drift_context_pack_gate",
                 "storyforge_wiki_ingest_lint_graph_gate",
+                "bookwright_plaintext_golem_validation_gate",
                 "agents_room_multistep_story_collaboration_gate",
                 "judgemark_literary_criteria_calibration_gate",
                 "seven_law_platform_closed_loop_gate",

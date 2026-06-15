@@ -789,6 +789,7 @@ def render_source_pattern_pack_digest(
         "suggestion_card_nonoverwrite_revision_gate_hints",
         "book_view_import_export_manifest_gate_hints",
         "story_bible_constitution_source_gate_hints",
+        "bookwright_plaintext_golem_validation_gate_hints",
         "scene_outline_approval_status_gate_hints",
         "pov_information_asymmetry_schedule_gate_hints",
         "pacing_arc_polish_pass_gate_hints",

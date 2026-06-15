@@ -1037,6 +1037,195 @@ export default function BookRemix({ initialContinuationProjectId = null }: BookR
     </Card>
   );
 
+  const renderDeconstructionList = (items: unknown, emptyText = '暂无') => {
+    if (!Array.isArray(items) || items.length === 0) {
+      return <Text type="secondary">{emptyText}</Text>;
+    }
+    return (
+      <ul style={{ margin: 0, paddingLeft: 18 }}>
+        {items.slice(0, 8).map((item, index) => (
+          <li key={`${JSON.stringify(item)}-${index}`}>
+            {typeof item === 'string' ? item : JSON.stringify(item)}
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  const renderDeconstructionPack = (pack: NonNullable<BookRemixPreview['deconstruction_pack']>) => {
+    const sourceScope = pack.source_scope as {
+      chapter_count?: number;
+      average_chapter_words?: number;
+      last_chapter?: { title?: string; summary?: string };
+    };
+    const styleFingerprint = pack.style_fingerprint as {
+      average_chapter_words?: number;
+      dialogue_density?: number;
+      prose_constraints?: string[];
+    };
+    const chapterContract = pack.chapter_contract as {
+      mode?: string;
+      opening_hook?: string;
+      main_goal?: string;
+      main_obstacle?: string;
+      turning_point?: string;
+      required_reveal_or_payoff?: string;
+      ending_hook?: string;
+      scene_plan?: string;
+      reader_pull?: string;
+    };
+    const hookPayoffMatrix = pack.hook_payoff_matrix as {
+      opening_thread?: string;
+      seeded_threads?: Array<Record<string, unknown>>;
+      delay_rule?: string;
+      same_type_rule?: string;
+    };
+    const progressReportContract = pack.progress_report_contract as {
+      required_fields?: string[];
+      promotion_rule?: string;
+      writeback_order?: string[];
+    };
+    const sameTypeBoundaries = pack.same_type_boundaries as {
+      required_difference_axes?: string[];
+      must_replace_elements?: string[];
+      high_risk_similarity?: string[];
+      copy_risk_checks?: string[];
+    };
+    const confidence = pack.confidence as { level?: string; score?: number; limits?: string[] };
+
+    return (
+      <Card size="small" title="可审查拆书包">
+        <Space direction="vertical" size={12} style={{ width: '100%' }}>
+          <Alert
+            type="info"
+            showIcon
+            message="deconstruction_pack"
+            description="创建工作台前先展示来源范围、风格指纹、续写章节契约、同类型边界和修订门禁，避免只靠黑盒摘要进入生成。"
+          />
+          <Row gutter={[12, 12]}>
+            <Col xs={24} md={8}>
+              <Card size="small" title="来源范围">
+                <Space direction="vertical" size={4}>
+                  <Text>章节数：{sourceScope.chapter_count ?? '-'}</Text>
+                  <Text>均章字数：{sourceScope.average_chapter_words ?? '-'}</Text>
+                  <Text>末章：{sourceScope.last_chapter?.title ?? '-'}</Text>
+                </Space>
+              </Card>
+            </Col>
+            <Col xs={24} md={8}>
+              <Card size="small" title="风格指纹">
+                <Space direction="vertical" size={4}>
+                  <Text>均章字数：{styleFingerprint.average_chapter_words ?? '-'}</Text>
+                  <Text>对白密度：{styleFingerprint.dialogue_density ?? '-'}</Text>
+                  {renderDeconstructionList(styleFingerprint.prose_constraints)}
+                </Space>
+              </Card>
+            </Col>
+            <Col xs={24} md={8}>
+              <Card size="small" title="置信度">
+                <Space direction="vertical" size={4}>
+                  <Text>等级：{confidence.level ?? '-'}</Text>
+                  <Text>分数：{confidence.score ?? '-'}</Text>
+                  {renderDeconstructionList(confidence.limits)}
+                </Space>
+              </Card>
+            </Col>
+          </Row>
+
+          <Card size="small" title="chapter_contract">
+            <Space direction="vertical" size={4} style={{ width: '100%' }}>
+              <Text>mode：{chapterContract.mode ?? '-'}</Text>
+              <Text>opening_hook：{chapterContract.opening_hook ?? '-'}</Text>
+              <Text>reader_pull：{chapterContract.reader_pull ?? '-'}</Text>
+              <Text>main_goal：{chapterContract.main_goal ?? '-'}</Text>
+              <Text>main_obstacle：{chapterContract.main_obstacle ?? '-'}</Text>
+              <Text>turning_point：{chapterContract.turning_point ?? '-'}</Text>
+              <Text>required_reveal_or_payoff：{chapterContract.required_reveal_or_payoff ?? '-'}</Text>
+              <Text>ending_hook：{chapterContract.ending_hook ?? '-'}</Text>
+              <Text>scene_plan：{chapterContract.scene_plan ?? '-'}</Text>
+            </Space>
+          </Card>
+
+          <Card size="small" title="scene_beat_sheet / reader_pull_checklist">
+            <Row gutter={[12, 12]}>
+              <Col xs={24} md={14}>
+                <List
+                  size="small"
+                  dataSource={pack.scene_beat_sheet}
+                  renderItem={(scene) => (
+                    <List.Item>
+                      <Space direction="vertical" size={4}>
+                        <Text strong>{String(scene.function ?? scene.scene ?? 'scene')}</Text>
+                        <Text>goal：{String(scene.goal ?? '-')}</Text>
+                        <Text>obstacle：{String(scene.obstacle ?? '-')}</Text>
+                        <Text>exit_state：{String(scene.exit_state ?? '-')}</Text>
+                      </Space>
+                    </List.Item>
+                  )}
+                />
+              </Col>
+              <Col xs={24} md={10}>
+                {renderDeconstructionList(pack.reader_pull_checklist)}
+              </Col>
+            </Row>
+          </Card>
+
+          <Card size="small" title="hook_payoff_matrix / progress_report_contract">
+            <Row gutter={[12, 12]}>
+              <Col xs={24} md={12}>
+                <Space direction="vertical" size={4}>
+                  <Text>opening_thread：{hookPayoffMatrix.opening_thread ?? '-'}</Text>
+                  <Text>delay_rule：{hookPayoffMatrix.delay_rule ?? '-'}</Text>
+                  <Text>same_type_rule：{hookPayoffMatrix.same_type_rule ?? '-'}</Text>
+                  {renderDeconstructionList(hookPayoffMatrix.seeded_threads)}
+                </Space>
+              </Col>
+              <Col xs={24} md={12}>
+                <Space direction="vertical" size={4}>
+                  <Text>promotion_rule：{progressReportContract.promotion_rule ?? '-'}</Text>
+                  <Text strong>required_fields</Text>
+                  {renderDeconstructionList(progressReportContract.required_fields)}
+                  <Text strong>writeback_order</Text>
+                  {renderDeconstructionList(progressReportContract.writeback_order)}
+                </Space>
+              </Col>
+            </Row>
+          </Card>
+
+          <Card size="small" title="same_type_boundaries">
+            <Row gutter={[12, 12]}>
+              <Col xs={24} md={12}>
+                <Text strong>必须替换 / 差异轴</Text>
+                {renderDeconstructionList(sameTypeBoundaries.required_difference_axes)}
+                {renderDeconstructionList(sameTypeBoundaries.must_replace_elements)}
+              </Col>
+              <Col xs={24} md={12}>
+                <Text strong>高风险相似 / 复制风险</Text>
+                {renderDeconstructionList(sameTypeBoundaries.high_risk_similarity)}
+                {renderDeconstructionList(sameTypeBoundaries.copy_risk_checks)}
+              </Col>
+            </Row>
+          </Card>
+
+          <Card size="small" title="revision_gates">
+            <List
+              size="small"
+              dataSource={pack.revision_gates}
+              renderItem={(gate) => (
+                <List.Item>
+                  <Space direction="vertical" size={4}>
+                    <Text strong>{String(gate.name ?? 'gate')}</Text>
+                    {renderDeconstructionList(gate.checks)}
+                  </Space>
+                </List.Item>
+              )}
+            />
+          </Card>
+        </Space>
+      </Card>
+    );
+  };
+
   const startTask = async () => {
     if (!file) {
       message.warning('请先选择 TXT 文件');
@@ -1646,6 +1835,8 @@ export default function BookRemix({ initialContinuationProjectId = null }: BookR
                     </Space>
                   </Card>
                 )}
+
+                {preview.deconstruction_pack && renderDeconstructionPack(preview.deconstruction_pack)}
 
                 {preview.remix_mode === 'inspired' && (
                   <Card size="small" title="同类创作起步包">

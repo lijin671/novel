@@ -13,6 +13,45 @@ from app.services.source_discovery_service import (
 from app.services.source_pattern_pack_prompt import render_source_pattern_pack_digest
 
 
+def test_bookwright_plaintext_golem_source_maps_to_validation_gate():
+    service = NovelSourceDiscoveryService()
+
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "jmorenobl/bookwright",
+                "html_url": "https://github.com/jmorenobl/bookwright",
+                "description": (
+                    "Bookwright is a spec-driven narrative authoring CLI where plain text is the "
+                    "source of truth, story bible files produce a GOLEM knowledge graph in "
+                    "Turtle RDF, validate checks factual_anchor provenance and next_actions."
+                ),
+                "stargazers_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "story-bible", "knowledge-graph"],
+                "updated_at": "2026-06-15T00:00:00Z",
+                "root_files": ["README.md", "pyproject.toml", "LICENSE"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-06-15T09:30:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "jmorenobl/bookwright"
+    assert "bookwright_plaintext_golem_validation_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "plain_text_story_source_of_truth_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "golem_graph_validation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "plain_text_truth_source_remap" in pattern_pack["inspired_mapping_targets"]
+    assert pattern_pack["bookwright_plaintext_golem_validation_gate_hints"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack)
+    assert "bookwright_plaintext_golem_validation_gate_hints" in digest
+    assert "GOLEM" in digest
+
+
 def test_build_ledger_classifies_novel_project_and_records_runtime_risks():
     service = NovelSourceDiscoveryService()
 
