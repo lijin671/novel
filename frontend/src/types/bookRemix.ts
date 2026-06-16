@@ -65,6 +65,7 @@ export interface BookRemixDeconstructionPack {
   progress_report_contract: Record<string, unknown>;
   same_type_boundaries: Record<string, unknown>;
   revision_gates: Array<Record<string, unknown>>;
+  revision_strategy: Record<string, unknown>;
   evidence_chapters: Array<Record<string, unknown>>;
   confidence: Record<string, unknown>;
 }

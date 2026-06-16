@@ -1085,6 +1085,12 @@ export default function BookRemix({ initialContinuationProjectId = null }: BookR
       promotion_rule?: string;
       writeback_order?: string[];
     };
+    const revisionStrategy = pack.revision_strategy as {
+      ordered_passes?: string[];
+      patch_policy?: string[];
+      anti_ai_naturalness_fixes?: string[];
+      severity_scale?: Record<string, string>;
+    };
     const sameTypeBoundaries = pack.same_type_boundaries as {
       required_difference_axes?: string[];
       must_replace_elements?: string[];
@@ -1188,6 +1194,23 @@ export default function BookRemix({ initialContinuationProjectId = null }: BookR
                   <Text strong>writeback_order</Text>
                   {renderDeconstructionList(progressReportContract.writeback_order)}
                 </Space>
+              </Col>
+            </Row>
+          </Card>
+
+          <Card size="small" title="revision_strategy">
+            <Row gutter={[12, 12]}>
+              <Col xs={24} md={8}>
+                <Text strong>ordered_passes</Text>
+                {renderDeconstructionList(revisionStrategy.ordered_passes)}
+              </Col>
+              <Col xs={24} md={8}>
+                <Text strong>patch_policy</Text>
+                {renderDeconstructionList(revisionStrategy.patch_policy)}
+              </Col>
+              <Col xs={24} md={8}>
+                <Text strong>anti_ai_naturalness_fixes</Text>
+                {renderDeconstructionList(revisionStrategy.anti_ai_naturalness_fixes)}
               </Col>
             </Row>
           </Card>

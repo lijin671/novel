@@ -60,6 +60,7 @@ class BookRemixDeconstructionPack(BaseModel):
     progress_report_contract: dict[str, Any] = Field(default_factory=dict)
     same_type_boundaries: dict[str, Any] = Field(default_factory=dict)
     revision_gates: list[dict[str, Any]] = Field(default_factory=list)
+    revision_strategy: dict[str, Any] = Field(default_factory=dict)
     evidence_chapters: list[dict[str, Any]] = Field(default_factory=list)
     confidence: dict[str, Any] = Field(default_factory=dict)
 

@@ -1179,6 +1179,7 @@ class BookRemixService:
                 "next_chapter_contract",
             ],
         }
+        revision_strategy = self._build_deconstruction_revision_strategy()
 
         same_type_boundaries = {
             "mode": remix_mode,
@@ -1324,6 +1325,7 @@ class BookRemixService:
                     "checks": ["concrete action", "subtext", "uneven rhythm", "specific sensory detail", "mobile-readable paragraphs"],
                 },
             ],
+            revision_strategy=revision_strategy,
             evidence_chapters=chapter_summaries,
             confidence={
                 "level": confidence_level,
@@ -1334,6 +1336,40 @@ class BookRemixService:
                 ],
             },
         )
+
+    def _build_deconstruction_revision_strategy(self) -> dict[str, Any]:
+        """Build revision order and patch policy from the local universal writing reference."""
+        return {
+            "ordered_passes": [
+                "developmental",
+                "character",
+                "continuity",
+                "scene",
+                "line",
+                "proof_format",
+            ],
+            "severity_scale": {
+                "critical": "breaks canon, core story logic, or continuation viability",
+                "high": "damages stakes, character trust, reader understanding, or major payoff",
+                "medium": "weakens pacing, scene clarity, prose force, or emotional impact",
+                "low": "local wording, formatting, repetition, or proof-level issue",
+            },
+            "patch_policy": [
+                "fix structure before line polish",
+                "smallest_failing_artifact",
+                "patch the smallest_failing_artifact first: ledger field, contract field, scene, paragraph, or sentence",
+                "do not overwrite accepted manuscript text unless the user explicitly chooses rewrite mode",
+                "after repair, rerun the affected continuity, reader-pull, hook/payoff, and naturalness gate",
+            ],
+            "anti_ai_naturalness_fixes": [
+                "concrete_action",
+                "sensory_pressure",
+                "character_specific_diction",
+                "subtext_or_avoidance",
+                "uneven_human_rhythm",
+                "mobile_readable_paragraph_breaks",
+            ],
+        }
 
     def _build_deconstruction_scene_beat_sheet(
         self,
@@ -2916,6 +2952,7 @@ class BookRemixService:
         chapter_contract = pack.chapter_contract
         progress_report_contract = pack.progress_report_contract
         same_type_boundaries = pack.same_type_boundaries
+        revision_strategy = pack.revision_strategy
 
         lines = [
             "",
@@ -2935,6 +2972,10 @@ class BookRemixService:
             "- hook_payoff_matrix: each carried hook needs answer, partial answer, escalation, or explicit deferral reason",
             "- progress_report_contract.required_fields: "
             + ", ".join(progress_report_contract.get("required_fields") or []),
+            "- revision_strategy.ordered_passes: "
+            + ", ".join(revision_strategy.get("ordered_passes") or []),
+            "- revision_strategy.patch_policy: "
+            + "; ".join(revision_strategy.get("patch_policy") or []),
             "- revision_gates: developmental, character_continuity, continuity, anti_ai_naturalness",
         ]
 

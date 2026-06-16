@@ -85,6 +85,10 @@ def test_build_remix_continuation_context_block_renders_universal_novel_workflow
     assert "reader_micro_payoff" in block
     assert "revision_order" in block
     assert "progress_writeback" in block
+    assert "Universal revision strategy control:" in block
+    assert "ordered_passes: developmental -> character -> continuity -> scene -> line -> proof_format" in block
+    assert "smallest failing artifact" in block
+    assert "continuation_boundary" in block
 
 
 def test_universal_project_memory_gate_renders_startup_status_and_boundaries():
@@ -1565,9 +1569,16 @@ def test_build_remix_context_preview_audit_projects_universal_chapter_contract_g
     assert "chapter_contract_completeness" in audit["production_control_axes"]
     assert "reader_promise_micro_payoff_contract" in audit["production_control_axes"]
     assert "revision_order_natural_prose_review" in audit["production_control_axes"]
+    assert "revision_strategy_ordered_passes" in audit["production_control_axes"]
+    assert "revision_severity_triage" in audit["production_control_axes"]
+    assert "smallest_failing_artifact_patch_policy" in audit["production_control_axes"]
+    assert "anti_ai_naturalness_repair_axis" in audit["production_control_axes"]
     assert "verify_chapter_contract_scene_beats" in audit["production_acceptance_steps"]
     assert "verify_reader_micro_payoff" in audit["production_acceptance_steps"]
     assert "verify_revision_order_before_line_polish" in audit["production_acceptance_steps"]
+    assert "verify_revision_strategy_order" in audit["production_acceptance_steps"]
+    assert "verify_revision_severity_before_patch" in audit["production_acceptance_steps"]
+    assert "verify_revision_patch_scope_is_minimal" in audit["production_acceptance_steps"]
     assert audit["mode_contract_axes"]["mode"] == "continue-chapter"
     assert "chapter_contract_warnings" in audit["production_warnings"]
     assert "missing_scene_beat_sheet" in audit["chapter_contract_warnings"]

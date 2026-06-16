@@ -328,6 +328,26 @@ def build_remix_continuation_control_audit(
             "verify_mobile_readability_before_acceptance",
             "verify_smallest_failing_artifact_repair",
         ])
+    if pattern_names.intersection(
+        {
+            "revision_order_natural_prose_gate",
+            "revision_finding_patch_strategy_gate",
+            "post_draft_review_checklist_gate",
+            "minimal_rollback_repair_scope_gate",
+            "anti_ai_naturalness_texture_gate",
+        }
+    ):
+        control_axes.extend([
+            "revision_strategy_ordered_passes",
+            "revision_severity_triage",
+            "smallest_failing_artifact_patch_policy",
+            "anti_ai_naturalness_repair_axis",
+        ])
+        acceptance_steps.extend([
+            "verify_revision_strategy_order",
+            "verify_revision_severity_before_patch",
+            "verify_revision_patch_scope_is_minimal",
+        ])
     if "canonkit_local_canon_drift_context_pack_gate" in pattern_names:
         control_axes.extend([
             "local_first_canon_drift_check",
@@ -1191,6 +1211,11 @@ def build_remix_continuation_context_block(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
     )
+    _append_universal_revision_strategy_control_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
     _append_universal_project_memory_gate_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
@@ -1961,6 +1986,11 @@ def build_remix_inspired_context_block(
     _append_universal_novel_workflow_contract_section(
         lines=lines,
         source_pattern_pack=source_pattern_pack,
+    )
+    _append_universal_revision_strategy_control_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
     )
     _append_universal_project_memory_gate_section(
         lines=lines,
@@ -6869,6 +6899,75 @@ def _append_universal_novel_workflow_contract_section(
         lines.append("- progress_writeback: after an accepted chapter, record summary, new facts, character changes, hooks paid off, new hooks, continuity updates, next focus, and risks")
     if "post_draft_review_checklist_gate" in pattern_names:
         lines.append("- post_draft_review: accept chapters only after structure, continuity, POV, voice, conflict, pacing, reader-pull, hook/payoff, naturalness, and mobile-readability review")
+
+
+def _append_universal_revision_strategy_control_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render ordered revision strategy as a first-class continuation control."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    relevant_patterns = {
+        "revision_order_natural_prose_gate",
+        "revision_finding_patch_strategy_gate",
+        "post_draft_review_checklist_gate",
+        "minimal_rollback_repair_scope_gate",
+        "anti_ai_naturalness_texture_gate",
+    }
+    if not pattern_names.intersection(relevant_patterns):
+        return
+
+    hints: list[str] = []
+    if isinstance(source_pattern_pack, dict):
+        for hint_key in (
+            "revision_order_natural_prose_gate_hints",
+            "revision_finding_patch_strategy_gate_hints",
+            "post_draft_review_checklist_gate_hints",
+            "minimal_rollback_repair_scope_gate_hints",
+            "anti_ai_naturalness_texture_gate_hints",
+        ):
+            hints.extend(_as_note_list(source_pattern_pack.get(hint_key)))
+
+    lines.append("")
+    lines.append("Universal revision strategy control:")
+    lines.append(
+        "- ordered_passes: developmental -> character -> continuity -> scene -> "
+        "line -> proof_format"
+    )
+    lines.append(
+        "- severity_triage: critical breaks canon or continuation viability; high "
+        "damages stakes, character trust, reader understanding, or major payoff; "
+        "medium weakens pacing, clarity, prose force, or emotional impact; low "
+        "stays local"
+    )
+    lines.append(
+        "- patch_policy: repair the smallest failing artifact first: ledger field, "
+        "chapter contract field, scene, paragraph, or sentence"
+    )
+    lines.append(
+        "- naturalness_repair: use concrete action, sensory pressure, "
+        "character-specific diction, subtext or avoidance, uneven rhythm, and "
+        "mobile-readable paragraphing"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: transfer only the revision order and patch "
+            "discipline; source findings, prose, names, events, and canon stay out"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: apply repairs only to target-owned accepted "
+            "bible, plan, chapter packages, and latest draft review surfaces"
+        )
+    lines.append(
+        "- runtime_boundary: static intake authorizes prompt/control projection only; "
+        "no external editor, detector, provider call, source manuscript import, or "
+        "automatic rewrite is implied"
+    )
+    if hints:
+        lines.append(f"- source_hint: {_truncate(hints[0], 260)}")
 
 
 def _append_universal_project_memory_gate_section(

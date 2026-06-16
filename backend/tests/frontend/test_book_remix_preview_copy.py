@@ -14,6 +14,9 @@ def test_book_remix_preview_surfaces_deconstruction_pack():
     assert "可审查拆书包" in page_text
     assert "same_type_boundaries" in page_text
     assert "revision_gates" in page_text
+    assert "revision_strategy" in page_text
+    assert "ordered_passes" in page_text
+    assert "patch_policy" in page_text
     assert "reader_pull" in page_text
     assert "scene_beat_sheet" in page_text
     assert "reader_pull_checklist" in page_text
@@ -25,3 +28,4 @@ def test_book_remix_preview_surfaces_deconstruction_pack():
     assert "reader_pull_checklist: string[]" in type_text
     assert "hook_payoff_matrix: Record<string, unknown>" in type_text
     assert "progress_report_contract: Record<string, unknown>" in type_text
+    assert "revision_strategy: Record<string, unknown>" in type_text

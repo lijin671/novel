@@ -66,6 +66,17 @@ def test_deconstruction_pack_for_continuation_surfaces_universal_contract():
     assert "relationship_changes" in pack["progress_report_contract"]["required_fields"]
     assert pack["progress_report_contract"]["promotion_rule"].startswith("No generated chapter")
     assert "anti_ai_naturalness" in {gate["name"] for gate in pack["revision_gates"]}
+    assert pack["revision_strategy"]["ordered_passes"] == [
+        "developmental",
+        "character",
+        "continuity",
+        "scene",
+        "line",
+        "proof_format",
+    ]
+    assert "smallest_failing_artifact" in pack["revision_strategy"]["patch_policy"]
+    assert "critical" in pack["revision_strategy"]["severity_scale"]
+    assert "character_specific_diction" in pack["revision_strategy"]["anti_ai_naturalness_fixes"]
     assert pack["confidence"]["level"] in {"medium", "high"}
 
 
@@ -143,6 +154,8 @@ def test_continuation_style_payload_includes_deconstruction_contract():
     assert "scene_beat_sheet" in prompt
     assert "hook_payoff_matrix" in prompt
     assert "progress_report_contract.required_fields" in prompt
+    assert "revision_strategy.ordered_passes" in prompt
+    assert "revision_strategy.patch_policy" in prompt
     assert "continuity_writeback" in prompt
     assert "anti_ai_naturalness" in prompt
 
