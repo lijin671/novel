@@ -1150,7 +1150,7 @@ class BookRemixService:
             "What blocks them?",
             "Why does it matter?",
             "What changed by the end?",
-            "What pulls the reader onward?",
+            "What question or desire pulls me onward?",
         ]
         hook_payoff_matrix = self._build_deconstruction_hook_payoff_matrix(
             chapters=valid_chapters,

@@ -90,6 +90,31 @@ Additional reusable pattern fused into MuMuAINovel:
   craft axis; target stories must rebuild scene goals, obstacles, tactics, costs,
   exit routes, characters, organizations, and payoff owners independently.
 
+## 2026-06-17 reader-pull prewrite fusion addendum
+
+The local source was re-read statically from `D:\project\universal-novel-writing`
+without install, clone, provider call, MCP/browser/desktop runtime, or prompt body
+transplant. The relevant source surface is the `revision-checklists.md`
+fresh-reader test: a reader should be able to answer POV, current want,
+obstacle, why it matters, what changed, and what question or desire pulls
+onward.
+
+Additional reusable pattern fused into MuMuAINovel:
+
+- `book_remix_context_service.py` now projects the fresh-reader test into the
+  `Universal next chapter scaffold` as `reader_pull_prewrite_checklist`.
+- Continuation prompts can carry concrete answers for POV, want, obstacle,
+  stakes, changed exit state, and next pull before drafting, instead of waiting
+  until post-draft review to discover reader-pull gaps.
+- `Universal reader-pull fresh-reader gate` now uses the exact six-question
+  review wording and states the no-story-bible-context expectation.
+- Same-type creation now gets a `same_type_reader_pull_matrix`: target POV,
+  want, obstacle, stakes, changed exit state, and next pull must be rebuilt as
+  target-owned material. Source reader pull may define question shape only, not
+  answer content.
+- `book_remix_service.py` deconstruction packs now use the same final reader
+  question: `What question or desire pulls me onward?`.
+
 ## Verification targets
 
 ```powershell
@@ -100,4 +125,5 @@ python -m pytest backend/tests/services/test_book_remix_context_service.py::test
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_control_audit_flags_universal_progress_report_gaps backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_progress_report_gap_gate -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_preserves_mid_scene_state_and_hook_decision backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_warns_when_mid_scene_resume_state_is_missing backend/tests/services/test_book_remix_context_service.py::test_universal_continuation_handoff_accepts_chinese_mid_scene_and_skip_boundary_terms -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_universal_next_chapter_scaffold_projects_structured_scene_beat_sheet -q
+python -m pytest backend/tests/services/test_book_remix_context_service.py::test_universal_next_chapter_scaffold_projects_reader_pull_prewrite_checklist backend/tests/services/test_book_remix_context_service.py::test_build_remix_inspired_context_block_renders_same_type_reader_pull_matrix backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_reader_pull_gate backend/tests/services/test_book_remix_service.py::test_deconstruction_pack_for_continuation_surfaces_universal_contract -q
 ```

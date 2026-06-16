@@ -490,6 +490,64 @@ def test_universal_next_chapter_scaffold_projects_structured_scene_beat_sheet():
     assert "scene_beat_2_missing_tactic" in audit["chapter_contract_warnings"]
 
 
+def test_universal_next_chapter_scaffold_projects_reader_pull_prewrite_checklist():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "chapter_contract_scene_beat_gate"},
+            {"name": "reader_promise_micro_payoff_gate"},
+            {"name": "reader_pull_fresh_reader_gate"},
+        ],
+    }
+    plan = {
+        "summary": "Make the witness choose between safety and naming the saboteur.",
+        "beats": [
+            {
+                "beat": "Force the witness to speak before the council arrives",
+                "status": "pending",
+                "escalation": "the council blocks every exit",
+            }
+        ],
+        "priority_hooks": [{"hook": "The witness knows who broke the seal"}],
+        "guardrails": [{"rule": "Do not let the saboteur reveal happen off-screen"}],
+    }
+
+    block = build_remix_continuation_context_block(
+        project_title="Reader Pull Desk",
+        bible={
+            "style_signature": {
+                "pov": "close third",
+                "reader_promise": "public mystery pressure with costly testimony",
+            },
+            "character_cards": [{"name": "Lin", "goal": "protect the archive witness"}],
+            "conflicts": [{"conflict": "Council pressure isolates Lin from the witness"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 21,
+                    "summary": "The witness stopped before naming the saboteur.",
+                    "pov": "Lin",
+                    "current_want": "keep the witness alive long enough to testify",
+                    "obstacle": "the council turns the room into a public trap",
+                    "stakes": "if the witness stays silent, Lin becomes the scapegoat",
+                    "exit_state": "Lin wins a moment but loses crowd trust",
+                    "new_hooks": [{"hook": "The witness knows who broke the seal"}],
+                    "character_state_changes": [{"character_name": "Lin", "state_after": "cornered but active"}],
+                }
+            ],
+        },
+        plan=plan,
+        source_pattern_pack=pattern_pack,
+    )
+
+    assert "reader_pull_prewrite_checklist" in block
+    assert "POV=Lin" in block
+    assert "want=keep the witness alive long enough to testify" in block
+    assert "obstacle=Council pressure isolates Lin from the witness" in block
+    assert "stakes=if the witness stays silent, Lin becomes the scapegoat" in block
+    assert "changed_exit_state=Lin wins a moment but loses crowd trust" in block
+    assert "next_pull=The witness knows who broke the seal" in block
+
+
 def test_universal_continuation_handoff_preserves_mid_scene_state_and_hook_decision():
     pattern_pack = {
         "workflow_patterns": [
@@ -810,6 +868,34 @@ def test_build_remix_inspired_context_block_renders_universal_same_type_scaffold
     assert "independent_hook_payoff_ledger" in block
     assert "minimum_difference_gate" in block
     assert "project-local continuity" in block
+
+
+def test_build_remix_inspired_context_block_renders_same_type_reader_pull_matrix():
+    block = build_remix_inspired_context_block(
+        project_title="Universal Inspired Reader Pull Desk",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Source keeps reader pull by making the witness cost public.\n"
+            "forbidden source elements\n"
+            "- Do not reuse source witness, archive seal, council, or reveal route.\n"
+        ),
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "universal_novel_mode_contract_gate"},
+                {"name": "chapter_contract_scene_beat_gate"},
+                {"name": "reader_pull_fresh_reader_gate"},
+            ],
+        },
+    )
+
+    assert "same_type_reader_pull_matrix" in block
+    assert "target_pov" in block
+    assert "target_want" in block
+    assert "target_obstacle" in block
+    assert "target_stakes" in block
+    assert "target_changed_exit_state" in block
+    assert "target_next_pull" in block
+    assert "source reader pull can only define the question shape" in block
 
 
 def test_build_remix_context_blocks_render_truth_file_write_next_state_gate():
@@ -1554,7 +1640,13 @@ def test_build_remix_continuation_context_block_renders_universal_reader_pull_ga
 
     assert "Universal reader-pull fresh-reader gate" in block
     assert "reader_pull_questions" in block
-    assert "POV, want, obstacle, stakes" in block
+    assert "Who is the POV character?" in block
+    assert "What do they want now?" in block
+    assert "What blocks them?" in block
+    assert "Why does it matter?" in block
+    assert "What changed by the end?" in block
+    assert "What question or desire pulls me onward?" in block
+    assert "without story-bible context" in block
     assert "A fresh reader must answer POV" in block
     assert "reader_pull_warnings" in block
     assert "missing_pov_anchor" in block

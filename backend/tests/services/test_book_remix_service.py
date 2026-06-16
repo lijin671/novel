@@ -52,7 +52,14 @@ def test_deconstruction_pack_for_continuation_surfaces_universal_contract():
     assert pack["chapter_contract"]["opening_hook"].startswith("Continue from Ch3")
     assert pack["chapter_contract"]["main_goal"]
     assert "goal" in pack["scene_beat_sheet"][0]
-    assert "What blocks them?" in pack["reader_pull_checklist"]
+    assert pack["reader_pull_checklist"] == [
+        "Who is the POV character?",
+        "What do they want now?",
+        "What blocks them?",
+        "Why does it matter?",
+        "What changed by the end?",
+        "What question or desire pulls me onward?",
+    ]
     assert pack["hook_payoff_matrix"]["seeded_threads"]
     assert "timeline" in pack["continuity_ledger"]["required_ledgers"]
     assert "chapter_log" in pack["continuity_ledger"]["progress_writeback"]

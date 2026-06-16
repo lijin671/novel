@@ -6128,6 +6128,99 @@ def _empty_reader_pull_fresh_reader_audit() -> dict[str, Any]:
     return {"warnings": []}
 
 
+def _reader_pull_prewrite_rows(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> list[str]:
+    """Project the latest reader-pull answers into the next-chapter contract."""
+    packages = _sort_by_chapter_asc(_chapter_analysis_packages(bible.get("chapter_change_packages")))
+    latest_package = packages[-1] if packages else None
+    rows = {
+        "POV": _reader_pull_pov(bible=bible, plan=plan, latest_package=latest_package),
+        "want": _reader_pull_want(bible=bible, latest_package=latest_package),
+        "obstacle": _reader_pull_obstacle(bible=bible, plan=plan, latest_package=latest_package),
+        "stakes": _reader_pull_stakes(latest_package=latest_package),
+        "changed_exit_state": _reader_pull_changed_exit_state(latest_package=latest_package),
+        "next_pull": _first_new_hook(bible=bible, plan=plan),
+    }
+    return [f"{label}={_truncate(value, 140)}" for label, value in rows.items() if value]
+
+
+def _reader_pull_pov(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    latest_package: Optional[dict[str, Any]],
+) -> str:
+    return _first_contract_pov(bible=bible, plan=plan, latest_package=latest_package)
+
+
+def _reader_pull_want(*, bible: dict[str, Any], latest_package: Optional[dict[str, Any]]) -> str:
+    if latest_package:
+        direct = _direct_first_text(
+            latest_package,
+            ("current_want", "want", "desire", "goal", "main_goal", "character_goal", "objective"),
+        )
+        if direct:
+            return direct
+        for item in _as_dict_list(latest_package.get("character_state_changes")):
+            text = _direct_first_text(item, ("current_goal", "goal", "want", "desire"))
+            if text:
+                name = _string_value(item.get("character_name") or item.get("name"))
+                return f"{name}: {text}" if name else text
+    return _first_character_goal(bible=bible)
+
+
+def _reader_pull_obstacle(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    latest_package: Optional[dict[str, Any]],
+) -> str:
+    conflict = _first_conflict_text(bible=bible)
+    if conflict:
+        return conflict
+    if latest_package:
+        direct = _direct_first_text(
+            latest_package,
+            ("obstacle", "main_obstacle", "conflict", "block", "blocked_by", "friction", "opposition"),
+        )
+        if direct:
+            return direct
+        for item in _as_dict_list(latest_package.get("character_state_changes")):
+            text = _direct_first_text(item, ("obstacle", "block", "conflict", "opposition"))
+            if text:
+                return text
+    return _first_plan_guardrail(plan=plan) or _first_hard_constraint(bible=bible)
+
+
+def _reader_pull_stakes(*, latest_package: Optional[dict[str, Any]]) -> str:
+    if not latest_package:
+        return ""
+    return _direct_first_text(
+        latest_package,
+        ("stakes", "why_it_matters", "consequence", "cost", "risk", "risks", "danger", "pressure"),
+    )
+
+
+def _reader_pull_changed_exit_state(*, latest_package: Optional[dict[str, Any]]) -> str:
+    if not latest_package:
+        return ""
+    direct = _direct_first_text(
+        latest_package,
+        (
+            "changed_exit_state",
+            "exit_state",
+            "state_after",
+            "outcome",
+            "ending_state",
+            "board_state_change",
+            "micro_payoff",
+            "payoff",
+        ),
+    )
+    if direct:
+        return direct
+    return _first_character_change(latest_package=latest_package)
+
+
 def _chapter_package_character_state_has(package: dict[str, Any], keys: tuple[str, ...]) -> bool:
     return any(
         _has_any_package_value(item, keys)
@@ -8749,6 +8842,10 @@ def _append_universal_next_chapter_scaffold_section(
         scene_beat_warnings = _scene_beat_field_warnings(plan=plan, max_items=5)
         if scene_beat_warnings:
             lines.append(f"- scene_beat_field_warnings: {', '.join(scene_beat_warnings)}")
+    if "reader_pull_fresh_reader_gate" in pattern_names:
+        reader_pull_rows = _reader_pull_prewrite_rows(bible=bible, plan=plan)
+        if reader_pull_rows:
+            lines.append(f"- reader_pull_prewrite_checklist: {'; '.join(reader_pull_rows)}")
     if contract["main_goal"]:
         lines.append(f"- main_goal: {contract['main_goal']}")
     if contract["main_obstacle"]:
@@ -8923,8 +9020,10 @@ def _append_universal_reader_pull_fresh_reader_gate_section(
     lines.append("")
     lines.append("Universal reader-pull fresh-reader gate:")
     lines.append(
-        "- reader_pull_questions: after each accepted chapter, a fresh reader must answer "
-        "POV, want, obstacle, stakes, what changed, and what pulls onward"
+        "- reader_pull_questions: without story-bible context, a fresh reader must answer: "
+        "Who is the POV character?; What do they want now?; What blocks them?; "
+        "Why does it matter?; What changed by the end?; "
+        "What question or desire pulls me onward?"
     )
     lines.append(
         "- acceptance_boundary: fluent prose is not enough if the chapter does not change "
@@ -9078,6 +9177,13 @@ def _append_universal_same_type_creation_scaffold_section(
         "- minimum_difference_gate: target cast, organizations, world rules, conflict object, "
         "event order, reveal route, and payoff owner must differ from the source"
     )
+    if "reader_pull_fresh_reader_gate" in pattern_names:
+        lines.append(
+            "- same_type_reader_pull_matrix: define target_pov, target_want, "
+            "target_obstacle, target_stakes, target_changed_exit_state, and "
+            "target_next_pull before drafting; source reader pull can only define "
+            "the question shape, never the answer content"
+        )
     lines.append(
         "- target_writeback: record transformed outline decisions, new hooks/payoffs, "
         "continuity updates, and copy-risk findings as target-owned artifacts"
