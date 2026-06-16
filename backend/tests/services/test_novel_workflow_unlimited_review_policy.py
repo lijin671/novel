@@ -324,6 +324,46 @@ async def test_reader_panel_prompt_projects_universal_reader_pull_schema():
     assert "pull_forward" in prompt
 
 
+@pytest.mark.asyncio
+async def test_reader_panel_prompt_projects_novelwriter_live_diagnostics_schema():
+    ai_service = StubAIService()
+    service = NovelWorkflowService(ai_service)  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-live-diagnostics-prompt",
+        project_id="project-live-diagnostics-prompt",
+        chapter_number=9,
+        title="Live Diagnostics",
+        content="The archive bell rings while Lin sees two old alliances fracture.",
+        summary="A diagnostic prompt sample.",
+        word_count=91,
+        status="completed",
+    )
+    source_pattern_pack = {
+        "workflow_patterns": [
+            {"name": "novelwriter_live_manuscript_analytics_gate", "candidate_count": 1},
+        ],
+        "novelwriter_live_manuscript_analytics_gate_hints": [
+            "Surface Event Line, open plot lines, Connection Web, Story Pulse, and inline suggestions as advisory diagnostics."
+        ],
+    }
+
+    await service._run_reader_panel(
+        chapter=chapter,
+        analysis=None,
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    prompt = ai_service.prompts[0]
+    assert "novelwriter_live_manuscript_analytics_gate" in prompt
+    assert "live_diagnostics" in prompt
+    assert "Event Line" in prompt
+    assert "open plot lines" in prompt
+    assert "Connection Web" in prompt
+    assert "Story Pulse" in prompt
+    assert "inline_suggestions" in prompt
+    assert "advisory diagnostics" in prompt
+
+
 def test_aggregate_feedback_revises_when_required_reader_pull_answers_are_missing():
     service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
     reviewers = service._normalize_reviewers([
@@ -373,6 +413,56 @@ def test_aggregate_feedback_revises_when_required_reader_pull_answers_are_missin
     assert "reader_pull_missing" in aggregate["top_issues"]
 
 
+def test_aggregate_feedback_revises_when_required_live_diagnostics_are_missing():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    reviewers = service._normalize_reviewers([
+        {
+            "role": "editor",
+            "overall_score": 9.0,
+            "pacing_score": 9.0,
+            "engagement_score": 9.0,
+            "coherence_score": 9.0,
+            "style_fidelity_score": 9.0,
+            "verdict": "pass",
+            "strengths": [],
+            "issues": [],
+            "style_drift_issues": [],
+            "must_fix": [],
+        }
+    ])
+    readers = service._normalize_readers([
+        {
+            "persona": "fresh reader",
+            "immersion_score": 9.0,
+            "continue_score": 9.0,
+            "favorite_points": [],
+            "drop_risks": [],
+            "expectations": [],
+            "live_diagnostics": {},
+        }
+    ])
+
+    aggregate = service._aggregate_feedback(
+        analysis=None,
+        reviewers=reviewers,
+        readers=readers,
+        min_score=7.8,
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "novelwriter_live_manuscript_analytics_gate"}],
+        },
+    )
+
+    assert aggregate["decision"] == "revise"
+    assert aggregate["live_diagnostics"]["required"] is True
+    assert aggregate["live_diagnostics"]["blocking"] is True
+    assert aggregate["live_diagnostics"]["advisory_only"] is True
+    assert aggregate["live_diagnostics"]["missing_count"] > 0
+    assert "event_line|open_plot_lines|story_pulse" in {
+        item["field"] for item in aggregate["live_diagnostics"]["missing"]
+    }
+    assert "live_diagnostics_missing" in aggregate["top_issues"]
+
+
 def test_build_revision_brief_includes_reader_pull_repair_requirements():
     service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
     chapter = Chapter(
@@ -410,6 +500,46 @@ def test_build_revision_brief_includes_reader_pull_repair_requirements():
     assert "POV" in brief
     assert "stakes" in brief
     assert "pull-forward" in brief
+
+
+def test_build_revision_brief_includes_live_diagnostics_repair_requirements():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-live-diagnostics-repair",
+        project_id="project-live-diagnostics-repair",
+        chapter_number=10,
+        title="Missing Diagnostics",
+        content="A fluent chapter with no visible event line or story pulse.",
+        word_count=69,
+        status="completed",
+    )
+    aggregate = {
+        "high_risk_issues": [],
+        "top_issues": ["live_diagnostics_missing"],
+        "reader_risks": [],
+        "style_drift_issues": [],
+        "live_diagnostics": {
+            "required": True,
+            "blocking": True,
+            "missing_count": 1,
+            "missing": [
+                {"persona": "fresh reader", "field": "event_line|open_plot_lines|story_pulse"},
+            ],
+        },
+    }
+
+    brief = service._build_revision_brief(
+        chapter=chapter,
+        analysis=None,
+        aggregate=aggregate,
+    )
+
+    assert "Live-diagnostics repair" in brief
+    assert "Event Line" in brief
+    assert "open plot lines" in brief
+    assert "Story Pulse" in brief
+    assert "advisory diagnostics" in brief
+    assert "accepted canon" in brief
 
 
 @pytest.mark.asyncio

@@ -89,3 +89,30 @@ Do not run or install upstream runtimes during static intake:
   or generated prose into target canon
 
 The absorbed value is the custody model, not upstream code or runtime behavior.
+
+## 2026-06-17 Workflow Enforcement Addendum
+
+Static recheck:
+
+- `git ls-remote https://github.com/akarshkashyap4-ui/NovelWriter.git HEAD`
+  still resolves to `e5e1fb27c1c24b5c7bbbbbeb80650fb39ccd69c3`.
+- The public README still exposes the markers used for this projection:
+  Novel Agent, Event Line, open plot lines, Connection Web, Story Pulse,
+  Echo Chamber, inline suggestions, mood, and remarks.
+
+MuMuAINovel now projects the live diagnostics pattern into chapter workflow
+review:
+
+- `novel_workflow_service.py` asks reader personas for `live_diagnostics`
+  when the source pattern pack activates
+  `novelwriter_live_manuscript_analytics_gate`.
+- The persisted reader payload keeps separate advisory layers:
+  `event_line`, `open_plot_lines`, `connection_web`, `story_pulse`, and
+  `inline_suggestions`.
+- `_aggregate_feedback` adds a `live_diagnostics` audit packet. When the gate
+  is active, at least one anchor layer among `event_line`, `open_plot_lines`,
+  or `story_pulse` must be readable from chapter text, otherwise the workflow
+  returns `revise` with `live_diagnostics_missing`.
+- `_build_revision_brief` adds `Live-diagnostics repair` instructions while
+  preserving the existing boundary: diagnostics and inline suggestions remain
+  advisory and do not become accepted canon without explicit author acceptance.

@@ -39,6 +39,24 @@ READER_PULL_FIELDS = (
     "changed_state",
     "pull_forward",
 )
+LIVE_DIAGNOSTIC_FIELDS = (
+    "event_line",
+    "open_plot_lines",
+    "connection_web",
+    "story_pulse",
+    "inline_suggestions",
+)
+LIVE_DIAGNOSTIC_ANCHOR_FIELDS = (
+    "event_line",
+    "open_plot_lines",
+    "story_pulse",
+)
+STORY_PULSE_FIELDS = (
+    "pacing",
+    "tension",
+    "atmosphere",
+    "depth",
+)
 
 
 class NovelWorkflowService:
@@ -418,6 +436,22 @@ Public source pattern constraints:
         "stakes": "为什么这件事重要",
         "changed_state": "本章结尾发生了什么状态变化",
         "pull_forward": "什么问题或欲望会拉动读者继续看"
+      }},
+      "live_diagnostics": {{
+        "event_line": "本章可见事件线：起点 -> 转折 -> 结尾状态",
+        "open_plot_lines": ["仍未解决、但被本章推进或加压的情节线"],
+        "connection_web": [
+          {{"source": "人物/线索/地点", "target": "人物/线索/地点", "relation": "本章可见关系变化"}}
+        ],
+        "story_pulse": {{
+          "pacing": "节奏诊断",
+          "tension": "张力诊断",
+          "atmosphere": "氛围诊断",
+          "depth": "人物/主题深度诊断"
+        }},
+        "inline_suggestions": [
+          {{"scope": "章节/场景/段落", "finding": "诊断发现", "suggestion": "修复建议", "status": "advisory"}}
+        ]
       }}
     }}
   ],
@@ -444,6 +478,12 @@ Reader-pull fresh-reader gate:
 2. 新读者必须能回答：pov_character, current_want, obstacle, stakes, changed_state, pull_forward。
 3. 只根据正文可见内容判断，不要依赖隐藏大纲、作者注或假设设定。
 4. 如果某个字段不清楚，对该字段返回空字符串，不要猜测。
+
+Live manuscript diagnostics gate:
+1. When novelwriter_live_manuscript_analytics_gate appears in Public source pattern constraints, every persona must return live_diagnostics.
+2. live_diagnostics must keep Event Line, open plot lines, Connection Web, Story Pulse, and inline suggestions as advisory diagnostics, not accepted canon.
+3. At minimum, make event_line, open_plot_lines, or story_pulse visible from chapter text. If a layer is unclear, return an empty string/object/list rather than guessing.
+4. inline_suggestions status must stay advisory unless the author explicitly accepts it later.
 
 章节信息：
 - 章节序号：{chapter.chapter_number}
@@ -551,6 +591,10 @@ Public source pattern constraints:
             readers,
             source_pattern_pack=source_pattern_pack,
         )
+        live_diagnostics = self._live_diagnostics_gate_audit(
+            readers,
+            source_pattern_pack=source_pattern_pack,
+        )
         revise_votes = sum(1 for item in reviewers if str(item.get("verdict", "")).strip().lower() == "revise")
 
         should_revise = (
@@ -561,6 +605,7 @@ Public source pattern constraints:
             or has_low_style_fidelity
             or reader_score < max(6.8, min_score - 0.4)
             or reader_pull["blocking"]
+            or live_diagnostics["blocking"]
         )
 
         decision = "revise" if should_revise else "pass"
@@ -576,6 +621,7 @@ Public source pattern constraints:
                 *[issue["title"] for issue in high_risk_issues],
                 *[issue["title"] for issue in style_drift_issues],
                 *(["reader_pull_missing"] if reader_pull["blocking"] else []),
+                *(["live_diagnostics_missing"] if live_diagnostics["blocking"] else []),
                 *reader_risks,
             ],
             limit=8,
@@ -601,6 +647,7 @@ Public source pattern constraints:
             "style_drift_issues": style_drift_issues[:6],
             "reader_risks": reader_risks[:6],
             "reader_pull": reader_pull,
+            "live_diagnostics": live_diagnostics,
             "highlights": highlights,
             "top_issues": top_issues,
         }
@@ -661,6 +708,25 @@ Public source pattern constraints:
                 lines.append(
                     "- Missing reader-pull fields: "
                     + ", ".join(self._unique_texts(missing_fields, limit=8))
+                )
+
+        live_diagnostics = aggregate.get("live_diagnostics") or {}
+        if live_diagnostics.get("blocking"):
+            lines.extend([
+                "",
+                "Live-diagnostics repair:",
+                "- Make the chapter's Event Line, open plot lines, and Story Pulse readable from the text.",
+                "- Keep Connection Web and inline suggestions as advisory diagnostics; do not turn them into accepted canon without author acceptance.",
+            ])
+            missing_layers = [
+                str(item.get("field", "")).strip()
+                for item in live_diagnostics.get("missing", []) or []
+                if isinstance(item, dict) and str(item.get("field", "")).strip()
+            ]
+            if missing_layers:
+                lines.append(
+                    "- Missing live-diagnostics layers: "
+                    + ", ".join(self._unique_texts(missing_layers, limit=8))
                 )
 
         if analysis and analysis.suggestions:
@@ -1077,6 +1143,9 @@ Public source pattern constraints:
                     "reader_pull_answers": self._normalize_reader_pull_answers(
                         item.get("reader_pull_answers") or item.get("reader_pull") or {}
                     ),
+                    "live_diagnostics": self._normalize_live_diagnostics(
+                        item.get("live_diagnostics") or item.get("live_manuscript_diagnostics") or {}
+                    ),
                 }
             )
 
@@ -1091,6 +1160,7 @@ Public source pattern constraints:
                     "drop_risks": [],
                     "expectations": [],
                     "reader_pull_answers": {},
+                    "live_diagnostics": {},
                 }
             )
         return normalized
@@ -1217,6 +1287,74 @@ Public source pattern constraints:
             "fields": list(READER_PULL_FIELDS),
         }
 
+    def _live_diagnostics_gate_audit(
+        self,
+        readers: Sequence[Dict[str, Any]],
+        *,
+        source_pattern_pack: Optional[dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """检查 NovelWriter 式现场诊断层是否可从正文读出。"""
+        required = self._source_pattern_pack_has(
+            source_pattern_pack,
+            "novelwriter_live_manuscript_analytics_gate",
+        )
+        missing: List[Dict[str, str]] = []
+        if not required:
+            return {
+                "required": False,
+                "blocking": False,
+                "missing_count": 0,
+                "missing": [],
+                "fields": list(LIVE_DIAGNOSTIC_FIELDS),
+                "anchor_fields": list(LIVE_DIAGNOSTIC_ANCHOR_FIELDS),
+                "advisory_only": True,
+            }
+
+        if not readers:
+            readers = [{"persona": "fresh reader", "live_diagnostics": {}}]
+
+        for reader in readers:
+            diagnostics = reader.get("live_diagnostics") or {}
+            if not isinstance(diagnostics, dict):
+                diagnostics = {}
+            persona = str(reader.get("persona") or "fresh reader").strip() or "fresh reader"
+            has_anchor = any(
+                self._has_live_diagnostic_value(diagnostics.get(field))
+                for field in LIVE_DIAGNOSTIC_ANCHOR_FIELDS
+            )
+            if not has_anchor:
+                missing.append(
+                    {
+                        "persona": persona,
+                        "field": "event_line|open_plot_lines|story_pulse",
+                    }
+                )
+
+            inline_suggestions = diagnostics.get("inline_suggestions") or []
+            if isinstance(inline_suggestions, list):
+                for suggestion in inline_suggestions:
+                    if not isinstance(suggestion, dict):
+                        continue
+                    status = str(suggestion.get("status") or "advisory").strip().lower()
+                    if status and status != "advisory":
+                        missing.append(
+                            {
+                                "persona": persona,
+                                "field": "inline_suggestions.status",
+                            }
+                        )
+                        break
+
+        return {
+            "required": True,
+            "blocking": bool(missing),
+            "missing_count": len(missing),
+            "missing": missing[:24],
+            "fields": list(LIVE_DIAGNOSTIC_FIELDS),
+            "anchor_fields": list(LIVE_DIAGNOSTIC_ANCHOR_FIELDS),
+            "advisory_only": True,
+        }
+
     def _normalize_reader_pull_answers(self, value: Any) -> Dict[str, str]:
         """规范化模型返回的追读力答案。"""
         if not isinstance(value, dict):
@@ -1229,6 +1367,98 @@ Public source pattern constraints:
             else:
                 normalized[field] = ""
         return normalized
+
+    def _normalize_live_diagnostics(self, value: Any) -> Dict[str, Any]:
+        """规范化模型返回的现场诊断层，保留建议态边界。"""
+        if not isinstance(value, dict):
+            return {}
+
+        story_pulse = value.get("story_pulse") or {}
+        normalized_story_pulse: Dict[str, str] = {}
+        if isinstance(story_pulse, dict):
+            for field in STORY_PULSE_FIELDS:
+                text = str(story_pulse.get(field) or "").strip()
+                normalized_story_pulse[field] = self._shorten(text, 160) if text else ""
+
+        return {
+            "event_line": self._shorten(str(value.get("event_line") or "").strip(), 240),
+            "open_plot_lines": self._unique_texts(
+                value.get("open_plot_lines") or value.get("open_plot_line_ids") or [],
+                limit=6,
+            ),
+            "connection_web": self._normalize_connection_web(value.get("connection_web") or []),
+            "story_pulse": normalized_story_pulse,
+            "inline_suggestions": self._normalize_inline_suggestions(
+                value.get("inline_suggestions") or []
+            ),
+        }
+
+    def _normalize_connection_web(self, value: Any) -> List[Dict[str, str]]:
+        """规范化人物、线索、地点之间的可见关系诊断。"""
+        if not isinstance(value, list):
+            return []
+        edges: List[Dict[str, str]] = []
+        seen = set()
+        for item in value:
+            if isinstance(item, dict):
+                source = self._shorten(str(item.get("source") or item.get("from") or "").strip(), 80)
+                target = self._shorten(str(item.get("target") or item.get("to") or "").strip(), 80)
+                relation = self._shorten(str(item.get("relation") or item.get("label") or "").strip(), 120)
+            else:
+                source = ""
+                target = ""
+                relation = self._shorten(str(item).strip(), 160)
+            if not (source or target or relation):
+                continue
+            key = (source, target, relation)
+            if key in seen:
+                continue
+            seen.add(key)
+            edges.append({"source": source, "target": target, "relation": relation})
+            if len(edges) >= 6:
+                break
+        return edges
+
+    def _normalize_inline_suggestions(self, value: Any) -> List[Dict[str, str]]:
+        """规范化段内建议，并强制保持 advisory 状态。"""
+        if not isinstance(value, list):
+            return []
+        suggestions: List[Dict[str, str]] = []
+        seen = set()
+        for item in value:
+            if isinstance(item, dict):
+                scope = self._shorten(str(item.get("scope") or "").strip(), 80)
+                finding = self._shorten(str(item.get("finding") or item.get("detail") or "").strip(), 160)
+                suggestion = self._shorten(str(item.get("suggestion") or item.get("advice") or "").strip(), 160)
+            else:
+                scope = ""
+                finding = self._shorten(str(item).strip(), 160)
+                suggestion = ""
+            if not (scope or finding or suggestion):
+                continue
+            key = (scope, finding, suggestion)
+            if key in seen:
+                continue
+            seen.add(key)
+            suggestions.append(
+                {
+                    "scope": scope,
+                    "finding": finding,
+                    "suggestion": suggestion,
+                    "status": "advisory",
+                }
+            )
+            if len(suggestions) >= 6:
+                break
+        return suggestions
+
+    def _has_live_diagnostic_value(self, value: Any) -> bool:
+        """判断诊断层是否包含可用内容。"""
+        if isinstance(value, dict):
+            return any(self._has_live_diagnostic_value(item) for item in value.values())
+        if isinstance(value, list):
+            return any(self._has_live_diagnostic_value(item) for item in value)
+        return bool(str(value or "").strip())
 
     def _source_pattern_pack_has(
         self,
