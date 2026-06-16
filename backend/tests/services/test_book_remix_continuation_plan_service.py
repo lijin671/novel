@@ -150,6 +150,124 @@ async def test_build_plan_payload_backfills_when_ai_returns_summary_only():
 
 
 @pytest.mark.asyncio
+async def test_build_plan_payload_backfills_universal_scene_contract_fields():
+    stub_ai_service = StubAIService(
+        {
+            "summary": "Keep the public archive fallout onstage.",
+            "stage_goals": [],
+            "beats": [],
+            "priority_hooks": [],
+            "guardrails": [],
+        }
+    )
+    service = BookRemixContinuationPlanService(ai_service=stub_ai_service)  # type: ignore[arg-type]
+
+    bible = {
+        "generation_status": "confirmed",
+        "style_signature": {
+            "pov": "close third",
+            "reader_promise": "public mystery pressure with earned testimony",
+            "word_count_target": "10000 Chinese characters",
+        },
+        "character_cards": [
+            {
+                "name": "Lin",
+                "external_want": "protect the archive witness",
+                "internal_need": "trust allies under pressure",
+                "cost": "public reputation can collapse",
+                "voice_fingerprint": "short guarded answers",
+            }
+        ],
+        "timeline": [
+            {
+                "chapter_number": 12,
+                "event": "The archive seal failed in public",
+                "consequence": "the crowd now doubts Lin",
+            }
+        ],
+        "conflicts": [
+            {
+                "conflict": "Council pressure isolates Lin from the witness",
+                "stakes": "if the witness stays silent, Lin becomes the scapegoat",
+            }
+        ],
+        "foreshadows": [{"hook": "The witness knows who broke the seal", "status": "open"}],
+        "hard_constraints": [{"rule": "Do not resolve the witness hook off-screen"}],
+    }
+
+    plan = await service.build_plan_payload(
+        project_title="Universal Scene Contract Desk",
+        bible=bible,
+        user_direction="Continue with reader-pull and state writeback intact",
+    )
+
+    first_beat = plan["beats"][0]
+    assert first_beat["status"] == "pending"
+    assert first_beat["pov"] == "close third"
+    assert first_beat["opening_hook_type"] == "prior-choice consequence"
+    assert first_beat["reader_promise"] == "public mystery pressure with earned testimony"
+    assert first_beat["goal"] == "protect the archive witness"
+    assert first_beat["obstacle"] == "Council pressure isolates Lin from the witness"
+    assert first_beat["stakes"] == "if the witness stays silent, Lin becomes the scapegoat"
+    assert first_beat["tactic"] == "force the unresolved hook to create an on-page choice"
+    assert first_beat["turn"] == "the next decision changes public trust, relationship state, or story knowledge"
+    assert first_beat["cost"] == "public reputation can collapse"
+    assert first_beat["exit_state"] == "canon state changes and must be written back after acceptance"
+    assert first_beat["ending_hook_job"] == "pay off or complicate a carried hook with visible consequence"
+    assert first_beat["micro_payoff"] == "change plot, knowledge, relationship, risk, or emotional position"
+    assert first_beat["word_count_target"] == "10000 Chinese characters"
+    assert first_beat["required_payoff"] == "The witness knows who broke the seal"
+    assert first_beat["continuity_fact"] == "The archive seal failed in public"
+    assert first_beat["progress_report_delta_required"] == [
+        "summary",
+        "new_facts",
+        "character_changes",
+        "hook_deltas",
+        "continuity_updates",
+        "next_chapter_focus",
+        "risks",
+    ]
+
+
+@pytest.mark.asyncio
+async def test_build_plan_payload_prompt_requests_universal_chapter_contract_shape():
+    stub_ai_service = StubAIService(
+        {
+            "summary": "Continue from the latest state.",
+            "stage_goals": [{"goal": "Keep the latest consequence active"}],
+            "beats": [{"beat": "Open on the cost of the previous choice"}],
+            "priority_hooks": [{"hook": "The witness knows the culprit"}],
+            "guardrails": [{"rule": "No off-screen payoff"}],
+        }
+    )
+    service = BookRemixContinuationPlanService(ai_service=stub_ai_service)  # type: ignore[arg-type]
+
+    await service.build_plan_payload(
+        project_title="Prompt Contract Desk",
+        bible={
+            "generation_status": "confirmed",
+            "style_signature": {"reader_promise": "mystery pressure"},
+            "timeline": [{"event": "The seal failed in public"}],
+            "character_cards": [{"name": "Lin", "goal": "protect the witness"}],
+        },
+        source_pattern_pack={
+            "chapter_contract_scene_beat_gate_hints": ["Chapter contract needs opening hook, obstacle, cost, and exit state."],
+            "reader_pull_fresh_reader_gate_hints": ["Fresh reader must identify POV, want, obstacle, stakes, changed exit state, next pull."],
+            "progress_report_continuity_writeback_gate_hints": ["Accepted chapters must write back summary, facts, hooks, and risks."],
+        },
+    )
+
+    prompt = stub_ai_service.calls[0]["prompt"]
+    assert "Universal beat contract requirements" in prompt
+    assert "opening_hook_type" in prompt
+    assert "reader_promise" in prompt
+    assert "goal / obstacle / tactic / turn / cost / exit_state" in prompt
+    assert "ending_hook_job" in prompt
+    assert "micro_payoff" in prompt
+    assert "progress_report_delta_required" in prompt
+
+
+@pytest.mark.asyncio
 async def test_build_plan_payload_injects_source_pattern_pack_into_plan_prompt():
     stub_ai_service = StubAIService(
         {

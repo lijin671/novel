@@ -96,6 +96,16 @@ class BookRemixContinuationPlanService:
             "- beats: concrete story beats with sequence hints.\n"
             "- priority_hooks: unresolved hooks that must be paid off soon.\n"
             "- guardrails: strict continuity rules to avoid canon breaks.\n"
+            "Universal beat contract requirements:\n"
+            "- Every beat should include status='pending', pov, opening_hook_type, reader_promise,\n"
+            "  goal / obstacle / tactic / turn / cost / exit_state, stakes, ending_hook_job,\n"
+            "  micro_payoff, word_count_target, and progress_report_delta_required when evidence exists.\n"
+            "- Opening hooks must come from prior consequence, pressure, a concrete question,\n"
+            "  contradiction, danger, or meaningful sensory image; reject generic weather/waking/lore openings.\n"
+            "- Ending hooks must reveal danger, force a decision, show cost, reframe a fact,\n"
+            "  or pay one thread while opening another; reject fake cliffhangers.\n"
+            "- progress_report_delta_required should cover summary, new_facts,\n"
+            "  character_changes, hook_deltas, continuity_updates, next_chapter_focus, and risks.\n"
             f"- Project title: {project_title}\n"
             f"- User direction: {direction}\n\n"
             "Public source pattern pack (pattern-only; absorb workflow guidance, do not import external code):\n"
@@ -237,26 +247,135 @@ class BookRemixContinuationPlanService:
         timeline = self._as_dict_list(bible.get("timeline"))
         foreshadows = self._as_dict_list(bible.get("foreshadows"))
         story_arcs = self._as_dict_list(bible.get("story_arcs"))
+        conflicts = self._as_dict_list(bible.get("conflicts"))
+        style_signature = self._as_dict(bible.get("style_signature"))
+        character_cards = self._as_dict_list(bible.get("character_cards"))
+        protagonist = character_cards[0] if character_cards else {}
+        latest_anchor = timeline[-1] if timeline else {}
+        first_hook = foreshadows[0] if foreshadows else {}
+        first_conflict = conflicts[0] if conflicts else {}
+
+        pov = self._first_text_from_sources((style_signature, protagonist), ("pov", "point_of_view", "narrative_perspective"))
+        reader_promise = self._first_text_from_sources(
+            (style_signature, bible),
+            ("reader_promise", "genre_promise", "emotional_target"),
+        )
+        goal = self._first_text_from_sources(
+            (protagonist,),
+            ("external_want", "current_goal", "goal", "want", "desire", "objective"),
+        )
+        obstacle = self._first_text_from_sources(
+            (first_conflict,),
+            ("conflict", "obstacle", "opposition", "pressure", "blocked_by"),
+        )
+        stakes = self._first_text_from_sources(
+            (first_conflict, protagonist, latest_anchor),
+            ("stakes", "consequence", "risk", "cost", "failure_result", "why_it_matters"),
+        )
+        cost = self._first_text_from_sources(
+            (protagonist, first_conflict, latest_anchor),
+            ("cost", "price", "risk", "consequence", "stakes"),
+        )
+        hook_text = self._item_to_text(first_hook, preferred_keys=("hook", "title", "content", "summary")) if first_hook else ""
+        word_count_target = self._first_text_from_sources(
+            (style_signature, bible),
+            ("word_count_target", "chapter_word_count_target", "target_chapter_length"),
+        )
+        continuity_fact = self._item_to_text(
+            latest_anchor,
+            preferred_keys=("event", "milestone", "summary", "impact", "consequence"),
+        ) if latest_anchor else ""
+
+        base_contract = self._build_universal_fallback_beat_contract(
+            pov=pov,
+            reader_promise=reader_promise,
+            goal=goal,
+            obstacle=obstacle,
+            stakes=stakes,
+            cost=cost,
+            hook_text=hook_text,
+            continuity_fact=continuity_fact,
+            word_count_target=word_count_target,
+        )
 
         if timeline:
             anchor = self._item_to_text(timeline[-1], preferred_keys=("event", "milestone", "summary", "impact"))
             if anchor:
-                beats.append({"beat": f"Open by acknowledging the latest continuity anchor: {anchor}"})
+                beats.append({
+                    **base_contract,
+                    "beat": f"Open by acknowledging the latest continuity anchor: {anchor}",
+                    "opening_hook_type": "prior-choice consequence",
+                    "continuity_fact": continuity_fact or anchor,
+                })
 
         for hook in foreshadows[:3]:
             hook_text = self._item_to_text(hook, preferred_keys=("hook", "title", "content", "summary"))
             if hook_text:
-                beats.append({"beat": f"Give an on-page reaction or consequence for unresolved hook: {hook_text}"})
+                beats.append({
+                    **base_contract,
+                    "beat": f"Give an on-page reaction or consequence for unresolved hook: {hook_text}",
+                    "required_payoff": hook_text,
+                    "ending_hook_job": "pay off or complicate a carried hook with visible consequence",
+                })
 
         for arc in story_arcs[:2]:
             arc_name = self._item_to_text(arc, preferred_keys=("name", "title", "arc", "summary"))
             if arc_name:
-                beats.append({"beat": f"Move the current arc one step forward: {arc_name}"})
+                beats.append({
+                    **base_contract,
+                    "beat": f"Move the current arc one step forward: {arc_name}",
+                    "turn": "the active arc changes through an on-page choice or reveal",
+                })
 
         if len(beats) < 3 and timeline:
-            beats.append({"beat": "Keep the next scene grounded in the same time, place, and relationship state as the source ending"})
+            beats.append({
+                **base_contract,
+                "beat": "Keep the next scene grounded in the same time, place, and relationship state as the source ending",
+            })
 
         return self._dedupe_dict_items(beats, primary_key="beat", max_items=8)
+
+    def _build_universal_fallback_beat_contract(
+        self,
+        *,
+        pov: str,
+        reader_promise: str,
+        goal: str,
+        obstacle: str,
+        stakes: str,
+        cost: str,
+        hook_text: str,
+        continuity_fact: str,
+        word_count_target: str,
+    ) -> dict[str, Any]:
+        """Build a chapter-contract scaffold for fallback beats without provider help."""
+        return {
+            "status": "pending",
+            "pov": pov,
+            "opening_hook_type": "prior-choice consequence",
+            "reader_promise": reader_promise,
+            "goal": goal,
+            "obstacle": obstacle,
+            "stakes": stakes,
+            "tactic": "force the unresolved hook to create an on-page choice",
+            "turn": "the next decision changes public trust, relationship state, or story knowledge",
+            "cost": cost,
+            "exit_state": "canon state changes and must be written back after acceptance",
+            "ending_hook_job": "pay off or complicate a carried hook with visible consequence",
+            "micro_payoff": "change plot, knowledge, relationship, risk, or emotional position",
+            "required_payoff": hook_text,
+            "continuity_fact": continuity_fact,
+            "word_count_target": word_count_target,
+            "progress_report_delta_required": [
+                "summary",
+                "new_facts",
+                "character_changes",
+                "hook_deltas",
+                "continuity_updates",
+                "next_chapter_focus",
+                "risks",
+            ],
+        }
 
     def _build_fallback_priority_hooks(self, *, bible: dict[str, Any]) -> list[dict[str, Any]]:
         hooks: list[dict[str, Any]] = []
@@ -322,7 +441,7 @@ class BookRemixContinuationPlanService:
             text = str(item.get(primary_key) or "").strip()
             if not text or text in seen:
                 continue
-            deduped.append({primary_key: text})
+            deduped.append({**item, primary_key: text})
             seen.add(text)
             if len(deduped) >= max_items:
                 break
@@ -335,6 +454,20 @@ class BookRemixContinuationPlanService:
                 return value.strip()
         compact = json.dumps(item, ensure_ascii=False, sort_keys=True)
         return compact[:220]
+
+    def _first_text_from_sources(
+        self,
+        sources: tuple[dict[str, Any], ...],
+        keys: tuple[str, ...],
+    ) -> str:
+        for source in sources:
+            for key in keys:
+                value = source.get(key)
+                if isinstance(value, str) and value.strip():
+                    return value.strip()
+                if isinstance(value, (int, float)) and not isinstance(value, bool):
+                    return str(value)
+        return ""
 
     def _empty_payload(self) -> dict[str, Any]:
         return {
