@@ -284,6 +284,135 @@ async def test_review_panel_prompt_requires_style_fidelity_schema_and_checks():
 
 
 @pytest.mark.asyncio
+async def test_reader_panel_prompt_projects_universal_reader_pull_schema():
+    ai_service = StubAIService()
+    service = NovelWorkflowService(ai_service)  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-reader-pull-prompt",
+        project_id="project-reader-pull-prompt",
+        chapter_number=7,
+        title="Reader Pull",
+        content="The witness refuses to name the saboteur, but the bell starts ringing.",
+        summary="The witness scene reaches a decision point.",
+        word_count=88,
+        status="completed",
+    )
+    source_pattern_pack = {
+        "workflow_patterns": [
+            {"name": "reader_pull_fresh_reader_gate", "candidate_count": 1},
+        ],
+        "reader_pull_fresh_reader_gate_hints": [
+            "A fresh reader must be able to answer POV, want, obstacle, stakes, changed state, and pull-forward question."
+        ],
+    }
+
+    await service._run_reader_panel(
+        chapter=chapter,
+        analysis=None,
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    prompt = ai_service.prompts[0]
+    assert "Public source pattern constraints" in prompt
+    assert "reader_pull_fresh_reader_gate" in prompt
+    assert "reader_pull_answers" in prompt
+    assert "pov_character" in prompt
+    assert "current_want" in prompt
+    assert "obstacle" in prompt
+    assert "stakes" in prompt
+    assert "changed_state" in prompt
+    assert "pull_forward" in prompt
+
+
+def test_aggregate_feedback_revises_when_required_reader_pull_answers_are_missing():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    reviewers = service._normalize_reviewers([
+        {
+            "role": "editor",
+            "overall_score": 9.0,
+            "pacing_score": 9.0,
+            "engagement_score": 9.0,
+            "coherence_score": 9.0,
+            "style_fidelity_score": 9.0,
+            "verdict": "pass",
+            "strengths": [],
+            "issues": [],
+            "style_drift_issues": [],
+            "must_fix": [],
+        }
+    ])
+    readers = service._normalize_readers([
+        {
+            "persona": "fresh reader",
+            "immersion_score": 9.0,
+            "continue_score": 9.0,
+            "favorite_points": [],
+            "drop_risks": [],
+            "expectations": [],
+            "reader_pull_answers": {
+                "pov_character": "Lin",
+                "current_want": "",
+            },
+        }
+    ])
+
+    aggregate = service._aggregate_feedback(
+        analysis=None,
+        reviewers=reviewers,
+        readers=readers,
+        min_score=7.8,
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "reader_pull_fresh_reader_gate"}],
+        },
+    )
+
+    assert aggregate["decision"] == "revise"
+    assert aggregate["reader_pull"]["required"] is True
+    assert aggregate["reader_pull"]["blocking"] is True
+    assert aggregate["reader_pull"]["missing_count"] > 0
+    assert "reader_pull_missing" in aggregate["top_issues"]
+
+
+def test_build_revision_brief_includes_reader_pull_repair_requirements():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-reader-pull-repair",
+        project_id="project-reader-pull-repair",
+        chapter_number=8,
+        title="Missing Pull",
+        content="A fluent chapter that does not clarify why the reader should continue.",
+        word_count=76,
+        status="completed",
+    )
+    aggregate = {
+        "high_risk_issues": [],
+        "top_issues": ["reader_pull_missing"],
+        "reader_risks": [],
+        "style_drift_issues": [],
+        "reader_pull": {
+            "required": True,
+            "blocking": True,
+            "missing_count": 2,
+            "missing": [
+                {"persona": "fresh reader", "field": "stakes"},
+                {"persona": "fresh reader", "field": "pull_forward"},
+            ],
+        },
+    }
+
+    brief = service._build_revision_brief(
+        chapter=chapter,
+        analysis=None,
+        aggregate=aggregate,
+    )
+
+    assert "Reader-pull repair" in brief
+    assert "POV" in brief
+    assert "stakes" in brief
+    assert "pull-forward" in brief
+
+
+@pytest.mark.asyncio
 async def test_mark_existing_analysis_stale_after_auto_regeneration_updates_result_and_record():
     service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
     chapter = Chapter(

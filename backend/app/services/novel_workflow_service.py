@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import datetime
+import inspect
 import json
 import re
 from statistics import mean
@@ -30,6 +31,14 @@ from app.services.source_pattern_pack_prompt import render_source_pattern_pack_d
 
 logger = get_logger(__name__)
 PROJECT_ROOT = Path(__file__).resolve().parents[3]
+READER_PULL_FIELDS = (
+    "pov_character",
+    "current_want",
+    "obstacle",
+    "stakes",
+    "changed_state",
+    "pull_forward",
+)
 
 
 class NovelWorkflowService:
@@ -139,12 +148,17 @@ class NovelWorkflowService:
                 latest_analysis,
                 source_pattern_pack=resolved_source_pattern_pack,
             )
-            readers = await self._run_reader_panel(chapter, latest_analysis)
+            readers = await self._call_reader_panel(
+                chapter,
+                latest_analysis,
+                source_pattern_pack=resolved_source_pattern_pack,
+            )
             aggregate = self._aggregate_feedback(
                 analysis=latest_analysis,
                 reviewers=reviewers,
                 readers=readers,
                 min_score=effective_min_score,
+                source_pattern_pack=resolved_source_pattern_pack,
             )
             revision_brief = self._build_revision_brief(
                 chapter=chapter,
@@ -376,8 +390,13 @@ Public source pattern constraints:
         self,
         chapter: Chapter,
         analysis: Optional[PlotAnalysis],
+        source_pattern_pack: Optional[dict[str, Any]] = None,
     ) -> List[Dict[str, Any]]:
-        """运行读者模拟面板"""
+        """运行读者模拟面板。"""
+        source_pattern_digest = render_source_pattern_pack_digest(
+            source_pattern_pack,
+            empty_message="(no public source pattern pack; reader review only local project canon and chapter content.)",
+        )
         prompt = f"""
 你要模拟 3 位不同取向的网文读者，阅读同一章并给出反馈。
 请严格返回 JSON 对象，不要输出 Markdown，不要解释。
@@ -391,7 +410,15 @@ Public source pattern constraints:
       "continue_score": 9.1,
       "favorite_points": ["最多3条"],
       "drop_risks": ["最多3条可能弃读点"],
-      "expectations": ["最多3条后续期待"]
+      "expectations": ["最多3条后续期待"],
+      "reader_pull_answers": {{
+        "pov_character": "本章可读出的视角人物",
+        "current_want": "视角人物当前想要什么",
+        "obstacle": "阻碍是什么",
+        "stakes": "为什么这件事重要",
+        "changed_state": "本章结尾发生了什么状态变化",
+        "pull_forward": "什么问题或欲望会拉动读者继续看"
+      }}
     }}
   ],
   "summary": {{
@@ -412,6 +439,12 @@ Public source pattern constraints:
 3. drop_risks 必须具体，能直接反映读者流失风险。
 4. expectations 要体现他们下一章最想看到什么。
 
+Reader-pull fresh-reader gate:
+1. 每个 persona 都必须返回 reader_pull_answers。
+2. 新读者必须能回答：pov_character, current_want, obstacle, stakes, changed_state, pull_forward。
+3. 只根据正文可见内容判断，不要依赖隐藏大纲、作者注或假设设定。
+4. 如果某个字段不清楚，对该字段返回空字符串，不要猜测。
+
 章节信息：
 - 章节序号：{chapter.chapter_number}
 - 章节标题：{chapter.title}
@@ -419,6 +452,9 @@ Public source pattern constraints:
 
 现有分析快照：
 {self._build_analysis_snapshot(analysis)}
+
+Public source pattern constraints:
+{source_pattern_digest}
 
 章节正文：
 {self._truncate_text(chapter.content)}
@@ -433,12 +469,34 @@ Public source pattern constraints:
         personas = result.get("personas") if isinstance(result, dict) else None
         return self._normalize_readers(personas)
 
+    async def _call_reader_panel(
+        self,
+        chapter: Chapter,
+        analysis: Optional[PlotAnalysis],
+        *,
+        source_pattern_pack: Optional[dict[str, Any]] = None,
+    ) -> List[Dict[str, Any]]:
+        """调用读者面板，同时兼容旧的两参数测试替身。"""
+        panel = self._run_reader_panel
+        try:
+            parameters = inspect.signature(panel).parameters
+        except (TypeError, ValueError):
+            parameters = {}
+        if "source_pattern_pack" in parameters:
+            return await panel(
+                chapter,
+                analysis,
+                source_pattern_pack=source_pattern_pack,
+            )
+        return await panel(chapter, analysis)
+
     def _aggregate_feedback(
         self,
         analysis: Optional[PlotAnalysis],
         reviewers: Sequence[Dict[str, Any]],
         readers: Sequence[Dict[str, Any]],
         min_score: float,
+        source_pattern_pack: Optional[dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """聚合分析、多评审和读者模拟结果"""
         analysis_scores = []
@@ -489,6 +547,10 @@ Public source pattern constraints:
             for issue in style_drift_issues
         )
         reader_risks = self._collect_reader_risks(readers)
+        reader_pull = self._reader_pull_gate_audit(
+            readers,
+            source_pattern_pack=source_pattern_pack,
+        )
         revise_votes = sum(1 for item in reviewers if str(item.get("verdict", "")).strip().lower() == "revise")
 
         should_revise = (
@@ -498,6 +560,7 @@ Public source pattern constraints:
             or blocking_style_drift
             or has_low_style_fidelity
             or reader_score < max(6.8, min_score - 0.4)
+            or reader_pull["blocking"]
         )
 
         decision = "revise" if should_revise else "pass"
@@ -512,6 +575,7 @@ Public source pattern constraints:
             [
                 *[issue["title"] for issue in high_risk_issues],
                 *[issue["title"] for issue in style_drift_issues],
+                *(["reader_pull_missing"] if reader_pull["blocking"] else []),
                 *reader_risks,
             ],
             limit=8,
@@ -536,6 +600,7 @@ Public source pattern constraints:
             },
             "style_drift_issues": style_drift_issues[:6],
             "reader_risks": reader_risks[:6],
+            "reader_pull": reader_pull,
             "highlights": highlights,
             "top_issues": top_issues,
         }
@@ -579,6 +644,24 @@ Public source pattern constraints:
             for issue in style_drift_issues[:5]:
                 advice = issue.get("advice") or issue.get("detail") or issue.get("title")
                 lines.append(f"- {issue.get('title', 'style drift')}: {advice}")
+
+        reader_pull = aggregate.get("reader_pull") or {}
+        if reader_pull.get("blocking"):
+            lines.extend([
+                "",
+                "Reader-pull repair:",
+                "- Make POV, current want, obstacle, stakes, changed exit state, and pull-forward question/desire visible in the chapter text.",
+            ])
+            missing_fields = [
+                str(item.get("field", "")).strip()
+                for item in reader_pull.get("missing", []) or []
+                if isinstance(item, dict) and str(item.get("field", "")).strip()
+            ]
+            if missing_fields:
+                lines.append(
+                    "- Missing reader-pull fields: "
+                    + ", ".join(self._unique_texts(missing_fields, limit=8))
+                )
 
         if analysis and analysis.suggestions:
             lines.extend([
@@ -991,6 +1074,9 @@ Public source pattern constraints:
                     "favorite_points": self._unique_texts(item.get("favorite_points") or [], limit=3),
                     "drop_risks": self._unique_texts(item.get("drop_risks") or [], limit=3),
                     "expectations": self._unique_texts(item.get("expectations") or [], limit=3),
+                    "reader_pull_answers": self._normalize_reader_pull_answers(
+                        item.get("reader_pull_answers") or item.get("reader_pull") or {}
+                    ),
                 }
             )
 
@@ -1004,6 +1090,7 @@ Public source pattern constraints:
                     "favorite_points": [],
                     "drop_risks": [],
                     "expectations": [],
+                    "reader_pull_answers": {},
                 }
             )
         return normalized
@@ -1088,6 +1175,86 @@ Public source pattern constraints:
             [risk for reader in readers for risk in reader.get("drop_risks", []) or []],
             limit=8,
         )
+
+    def _reader_pull_gate_audit(
+        self,
+        readers: Sequence[Dict[str, Any]],
+        *,
+        source_pattern_pack: Optional[dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """检查新读者是否能回答追读力六问。"""
+        required = self._source_pattern_pack_has(
+            source_pattern_pack,
+            "reader_pull_fresh_reader_gate",
+        )
+        missing: List[Dict[str, str]] = []
+        if not required:
+            return {
+                "required": False,
+                "blocking": False,
+                "missing_count": 0,
+                "missing": [],
+                "fields": list(READER_PULL_FIELDS),
+            }
+
+        if not readers:
+            readers = [{"persona": "fresh reader", "reader_pull_answers": {}}]
+
+        for reader in readers:
+            answers = reader.get("reader_pull_answers") or {}
+            if not isinstance(answers, dict):
+                answers = {}
+            persona = str(reader.get("persona") or "fresh reader").strip() or "fresh reader"
+            for field in READER_PULL_FIELDS:
+                if not str(answers.get(field) or "").strip():
+                    missing.append({"persona": persona, "field": field})
+
+        return {
+            "required": True,
+            "blocking": bool(missing),
+            "missing_count": len(missing),
+            "missing": missing[:24],
+            "fields": list(READER_PULL_FIELDS),
+        }
+
+    def _normalize_reader_pull_answers(self, value: Any) -> Dict[str, str]:
+        """规范化模型返回的追读力答案。"""
+        if not isinstance(value, dict):
+            return {}
+        normalized: Dict[str, str] = {}
+        for field in READER_PULL_FIELDS:
+            text = str(value.get(field) or "").strip()
+            if text:
+                normalized[field] = self._shorten(text, 160)
+            else:
+                normalized[field] = ""
+        return normalized
+
+    def _source_pattern_pack_has(
+        self,
+        source_pattern_pack: Optional[dict[str, Any]],
+        pattern_name: str,
+    ) -> bool:
+        """判断来源模式包是否启用了指定工作流模式。"""
+        if not source_pattern_pack:
+            return False
+
+        workflow_patterns = source_pattern_pack.get("workflow_patterns") or []
+        if isinstance(workflow_patterns, list):
+            for item in workflow_patterns:
+                if isinstance(item, dict) and str(item.get("name") or "").strip() == pattern_name:
+                    return True
+                if str(item).strip() == pattern_name:
+                    return True
+
+        for key in ("absorbed_patterns", "patterns", "pattern_names"):
+            values = source_pattern_pack.get(key) or []
+            if isinstance(values, list) and pattern_name in {str(item).strip() for item in values}:
+                return True
+
+        hints_key = f"{pattern_name}_hints"
+        hints = source_pattern_pack.get(hints_key)
+        return bool(hints)
 
     def _infer_focus_areas(self, revision_brief: str) -> List[str]:
         """从返工说明中推断重点优化方向"""

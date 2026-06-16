@@ -127,3 +127,31 @@ python -m pytest backend/tests/services/test_book_remix_context_service.py::test
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_universal_next_chapter_scaffold_projects_structured_scene_beat_sheet -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py::test_universal_next_chapter_scaffold_projects_reader_pull_prewrite_checklist backend/tests/services/test_book_remix_context_service.py::test_build_remix_inspired_context_block_renders_same_type_reader_pull_matrix backend/tests/services/test_book_remix_context_service.py::test_build_remix_continuation_context_block_renders_universal_reader_pull_gate backend/tests/services/test_book_remix_service.py::test_deconstruction_pack_for_continuation_surfaces_universal_contract -q
 ```
+
+
+## 2026-06-17 workflow reader-pull enforcement addendum
+
+The local source was re-read statically from `D:\project\universal-novel-writing`
+without install, clone, provider call, MCP/browser/desktop runtime, or prompt body
+transplant.
+
+Additional reusable pattern fused into MuMuAINovel:
+
+- `novel_workflow_service.py` now carries the fresh-reader six-question test
+  into the live chapter workflow reader panel through `reader_pull_answers`.
+- When `reader_pull_fresh_reader_gate` is active in the public source pattern
+  pack, `_aggregate_feedback` treats missing POV, current want, obstacle,
+  stakes, changed exit state, or pull-forward answers as a blocking revision
+  reason even if numeric scores pass.
+- `_build_revision_brief` now emits a targeted `Reader-pull repair` section so
+  auto-regeneration repairs the visible on-page reader promise instead of only
+  raising generic pacing or engagement advice.
+- Existing tests that monkeypatch the reader panel with the older two-argument
+  shape remain supported by a compatibility wrapper.
+
+Verification targets added:
+
+```powershell
+python -m pytest backend/tests/services/test_novel_workflow_unlimited_review_policy.py -q
+python -m pytest backend/tests/services/test_book_remix_context_service.py backend/tests/services/test_book_remix_service.py backend/tests/services/test_novel_workflow_unlimited_review_policy.py -q
+```
