@@ -799,17 +799,40 @@ class BookRemixContinuationStateService:
         analysis_result: dict[str, Any],
         changed_sections: list[str],
     ) -> dict[str, Any]:
+        timeline_delta = self._build_timeline_delta(analysis_result=analysis_result)
+        character_changes = self._build_character_state_changes(analysis_result=analysis_result)
+        foreshadow_changes = self._build_foreshadow_changes(analysis_result=analysis_result)
+        plan_progress = self._build_plan_progress(plan=plan, chapter_id=chapter_id, chapter_number=chapter_number)
+        progress_report = self._build_analysis_chapter_progress_report(
+            chapter_number=chapter_number,
+            chapter_title=chapter_title,
+            summary=self._truncate(self._string_or_empty(analysis_result.get("summary")), 360),
+            timeline_delta=timeline_delta,
+            character_changes=character_changes,
+            foreshadow_changes=foreshadow_changes,
+            plan_progress=plan_progress,
+            analysis_result=analysis_result,
+        )
         package = {
             "type": "chapter_change_package",
             "source": "chapter_analysis",
             "chapter_id": chapter_id,
             "chapter_number": chapter_number,
             "chapter_title": chapter_title,
-            "summary": self._truncate(self._string_or_empty(analysis_result.get("summary")), 360),
-            "timeline_delta": self._build_timeline_delta(analysis_result=analysis_result),
-            "character_state_changes": self._build_character_state_changes(analysis_result=analysis_result),
-            "foreshadow_changes": self._build_foreshadow_changes(analysis_result=analysis_result),
-            "plan_progress": self._build_plan_progress(plan=plan, chapter_id=chapter_id, chapter_number=chapter_number),
+            "summary": progress_report["summary"],
+            "timeline_delta": timeline_delta,
+            "character_state_changes": character_changes,
+            "foreshadow_changes": foreshadow_changes,
+            "plan_progress": plan_progress,
+            "chapter_progress_report": progress_report,
+            "new_facts": progress_report["new_facts"],
+            "character_changes": progress_report["character_changes"],
+            "hooks_paid_off": progress_report["hooks_paid_off"],
+            "new_hooks": progress_report["new_hooks"],
+            "continuity_updates": progress_report["continuity_updates"],
+            "next_chapter_likely_focus": progress_report["next_chapter_likely_focus"],
+            "word_count": progress_report["word_count"],
+            "risks": progress_report["risks"],
             "changed_sections": changed_sections,
         }
         emotional_arc = self._build_emotional_arc(analysis_result=analysis_result)
@@ -833,25 +856,49 @@ class BookRemixContinuationStateService:
         changed_sections: list[str],
     ) -> dict[str, Any]:
         summary = self._chapter_content_summary(chapter_content)
+        timeline_delta = [{"event": self._truncate(summary, 240)}] if summary else []
+        character_changes = self._build_generated_character_state_changes(
+            bible=bible,
+            chapter_id=chapter_id,
+            chapter_number=chapter_number,
+        )
+        plan_progress = self._build_plan_progress(
+            plan=plan,
+            chapter_id=chapter_id,
+            chapter_number=chapter_number,
+        )
+        progress_report = self._build_generated_chapter_progress_report(
+            chapter_number=chapter_number,
+            chapter_title=chapter_title,
+            summary=self._truncate(summary, 360),
+            timeline_delta=timeline_delta,
+            character_changes=character_changes,
+            plan_progress=plan_progress,
+            chapter_content=chapter_content,
+            chapter_outline=chapter_outline,
+            previous_chapter_summary=previous_chapter_summary,
+            continuation_point=continuation_point,
+        )
         package = {
             "type": "chapter_change_package",
             "source": "chapter_generation",
             "chapter_id": chapter_id,
             "chapter_number": chapter_number,
             "chapter_title": chapter_title,
-            "summary": self._truncate(summary, 360),
-            "timeline_delta": [{"event": self._truncate(summary, 240)}] if summary else [],
-            "character_state_changes": self._build_generated_character_state_changes(
-                bible=bible,
-                chapter_id=chapter_id,
-                chapter_number=chapter_number,
-            ),
+            "summary": progress_report["summary"],
+            "timeline_delta": timeline_delta,
+            "character_state_changes": character_changes,
             "foreshadow_changes": [],
-            "plan_progress": self._build_plan_progress(
-                plan=plan,
-                chapter_id=chapter_id,
-                chapter_number=chapter_number,
-            ),
+            "plan_progress": plan_progress,
+            "chapter_progress_report": progress_report,
+            "new_facts": progress_report["new_facts"],
+            "character_changes": progress_report["character_changes"],
+            "hooks_paid_off": progress_report["hooks_paid_off"],
+            "new_hooks": progress_report["new_hooks"],
+            "continuity_updates": progress_report["continuity_updates"],
+            "next_chapter_likely_focus": progress_report["next_chapter_likely_focus"],
+            "word_count": progress_report["word_count"],
+            "risks": progress_report["risks"],
             "generation_inputs": {
                 key: value
                 for key, value in {
@@ -866,6 +913,185 @@ class BookRemixContinuationStateService:
         if guardrail_check:
             package["guardrail_check"] = guardrail_check
         return package
+
+    def _build_analysis_chapter_progress_report(
+        self,
+        *,
+        chapter_number: int,
+        chapter_title: str,
+        summary: str,
+        timeline_delta: list[dict[str, Any]],
+        character_changes: list[dict[str, Any]],
+        foreshadow_changes: list[dict[str, Any]],
+        plan_progress: list[dict[str, Any]],
+        analysis_result: dict[str, Any],
+    ) -> dict[str, Any]:
+        hooks_paid_off, new_hooks = self._split_hook_deltas(foreshadow_changes)
+        continuity_updates = self._explicit_dict_list(
+            analysis_result,
+            keys=("continuity_updates", "continuity_delta", "ledger_updates"),
+        )
+        if not continuity_updates:
+            continuity_updates = self._build_default_continuity_updates(
+                timeline_delta=timeline_delta,
+                character_changes=character_changes,
+                foreshadow_changes=foreshadow_changes,
+                plan_progress=plan_progress,
+            )
+        return {
+            "chapter": self._chapter_label(chapter_number=chapter_number, chapter_title=chapter_title),
+            "summary": summary,
+            "new_facts": timeline_delta,
+            "character_changes": character_changes,
+            "hooks_paid_off": hooks_paid_off,
+            "new_hooks": new_hooks,
+            "continuity_updates": continuity_updates,
+            "next_chapter_likely_focus": self._next_focus_from_analysis(
+                analysis_result=analysis_result,
+                plan_progress=plan_progress,
+            ),
+            "word_count": self._analysis_word_count(analysis_result),
+            "risks": self._risk_notes(
+                analysis_result,
+                default=["review_required: chapter analysis did not report explicit risks"],
+            ),
+        }
+
+    def _build_generated_chapter_progress_report(
+        self,
+        *,
+        chapter_number: int,
+        chapter_title: str,
+        summary: str,
+        timeline_delta: list[dict[str, Any]],
+        character_changes: list[dict[str, Any]],
+        plan_progress: list[dict[str, Any]],
+        chapter_content: str,
+        chapter_outline: str,
+        previous_chapter_summary: str,
+        continuation_point: str,
+    ) -> dict[str, Any]:
+        continuity_updates = self._build_default_continuity_updates(
+            timeline_delta=timeline_delta,
+            character_changes=character_changes,
+            foreshadow_changes=[],
+            plan_progress=plan_progress,
+        )
+        if chapter_outline:
+            continuity_updates.append({
+                "field": "chapter_outline",
+                "value": self._truncate(chapter_outline, 240),
+            })
+        if previous_chapter_summary:
+            continuity_updates.append({
+                "field": "previous_chapter_summary",
+                "value": self._truncate(previous_chapter_summary, 240),
+            })
+        return {
+            "chapter": self._chapter_label(chapter_number=chapter_number, chapter_title=chapter_title),
+            "summary": summary,
+            "new_facts": timeline_delta,
+            "character_changes": character_changes,
+            "hooks_paid_off": [],
+            "new_hooks": [],
+            "continuity_updates": continuity_updates,
+            "next_chapter_likely_focus": (
+                self._truncate(continuation_point, 240)
+                or self._next_focus_from_plan_progress(plan_progress)
+                or "Run structured chapter analysis before reusing this generated state as canon."
+            ),
+            "word_count": self._compact_word_count(chapter_content),
+            "risks": ["analysis_pending: generated chapter awaits structured analysis sync"],
+        }
+
+    def _chapter_label(self, *, chapter_number: int, chapter_title: str) -> str:
+        title = self._string_or_empty(chapter_title)
+        return f"Ch{chapter_number}: {title}" if title else f"Ch{chapter_number}"
+
+    def _split_hook_deltas(
+        self,
+        foreshadow_changes: list[dict[str, Any]],
+    ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+        paid: list[dict[str, Any]] = []
+        opened: list[dict[str, Any]] = []
+        for change in foreshadow_changes:
+            target = paid if str(change.get("status") or "") == "resolved" else opened
+            target.append(change)
+        return paid, opened
+
+    def _build_default_continuity_updates(
+        self,
+        *,
+        timeline_delta: list[dict[str, Any]],
+        character_changes: list[dict[str, Any]],
+        foreshadow_changes: list[dict[str, Any]],
+        plan_progress: list[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        updates: list[dict[str, Any]] = []
+        for field, values in (
+            ("timeline_delta", timeline_delta),
+            ("character_state_changes", character_changes),
+            ("foreshadow_changes", foreshadow_changes),
+            ("plan_progress", plan_progress),
+        ):
+            if values:
+                updates.append({"field": field, "value": values[:5]})
+        return updates
+
+    def _explicit_dict_list(self, source: dict[str, Any], *, keys: tuple[str, ...]) -> list[dict[str, Any]]:
+        for key in keys:
+            values = self._dict_list(source.get(key))
+            if values:
+                return values[:8]
+        return []
+
+    def _next_focus_from_analysis(
+        self,
+        *,
+        analysis_result: dict[str, Any],
+        plan_progress: list[dict[str, Any]],
+    ) -> str:
+        for key in ("next_chapter_likely_focus", "next_chapter_focus", "next_focus", "next_likely_focus"):
+            value = self._string_or_empty(analysis_result.get(key))
+            if value:
+                return self._truncate(value, 240)
+        return self._next_focus_from_plan_progress(plan_progress) or "Continue from the latest accepted chapter change package."
+
+    def _next_focus_from_plan_progress(self, plan_progress: list[dict[str, Any]]) -> str:
+        for item in plan_progress:
+            beat = self._extract_text(item, keys=("beat", "summary", "content", "name"))
+            if beat:
+                return self._truncate(beat, 240)
+        return ""
+
+    def _analysis_word_count(self, analysis_result: dict[str, Any]) -> int:
+        for key in ("word_count", "char_count", "character_count", "length"):
+            value = analysis_result.get(key)
+            if value is not None:
+                return max(0, self._safe_int(value, default=0))
+        return self._compact_word_count(self._string_or_empty(analysis_result.get("summary")))
+
+    def _risk_notes(self, source: dict[str, Any], *, default: list[str]) -> list[str]:
+        for key in ("risks", "risk_notes", "audit_risks"):
+            value = source.get(key)
+            if isinstance(value, list):
+                notes = [
+                    self._truncate(str(item).strip(), 240)
+                    for item in value
+                    if str(item).strip()
+                ]
+                if notes:
+                    return notes[:8]
+            text = self._string_or_empty(value)
+            if text:
+                return [self._truncate(text, 240)]
+        return default
+
+    def _compact_word_count(self, text: str) -> int:
+        normalized = self._string_or_empty(text)
+        if not normalized:
+            return 0
+        return len(re.findall(r"[\u4e00-\u9fff]|[A-Za-z0-9]+", normalized))
 
     def _serialize_guardrail_check(self, guardrail_meta: Optional[dict[str, Any]]) -> Optional[dict[str, Any]]:
         if not isinstance(guardrail_meta, dict):

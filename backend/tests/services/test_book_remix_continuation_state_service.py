@@ -468,6 +468,101 @@ async def test_commit_generated_chapter_creates_immediate_package_before_analysi
 
 
 @pytest.mark.asyncio
+async def test_commit_generated_chapter_persists_chapter_progress_report(create_schema, db_session):
+    project, bible, _plan = await _create_confirmed_project_state(create_schema, db_session)
+
+    await BookRemixContinuationStateService().commit_generated_chapter(
+        db=db_session,
+        project_id=project.id,
+        chapter_id="chapter-19",
+        chapter_number=19,
+        chapter_title="Ledger Returns",
+        chapter_content=(
+            "Inspector Lin recovered the ledger, faced the old rival, "
+            "and chose to question the archive witness next."
+        ),
+        chapter_outline="Recover ledger and push the archive witness thread forward.",
+        previous_chapter_summary="Inspector Lin lost the first lead.",
+        continuation_point="Lin looked toward the archive.",
+    )
+
+    await db_session.refresh(bible)
+
+    package = bible.chapter_change_packages[0]
+    report = package["chapter_progress_report"]
+
+    assert report["chapter"] == "Ch19: Ledger Returns"
+    assert report["summary"] == package["summary"]
+    assert report["new_facts"] == package["timeline_delta"]
+    assert report["character_changes"] == package["character_state_changes"]
+    assert report["hooks_paid_off"] == []
+    assert report["new_hooks"] == []
+    assert report["continuity_updates"]
+    assert report["next_chapter_likely_focus"] == "Lin looked toward the archive."
+    assert report["word_count"] > 0
+    assert report["risks"] == ["analysis_pending: generated chapter awaits structured analysis sync"]
+
+
+@pytest.mark.asyncio
+async def test_sync_chapter_analysis_persists_chapter_progress_report(create_schema, db_session):
+    project, bible, _plan = await _create_confirmed_project_state(create_schema, db_session)
+
+    await BookRemixContinuationStateService().sync_chapter_analysis(
+        db=db_session,
+        project_id=project.id,
+        chapter_id="chapter-19",
+        chapter_number=19,
+        chapter_title="Ledger Returns",
+        analysis_result={
+            "summary": "Inspector Lin verified the ledger and exposed the archive witness clue.",
+            "plot_points": [
+                {
+                    "content": "Archive witness clue exposed",
+                    "importance": 0.9,
+                    "impact": "The next chapter can pressure the witness.",
+                },
+            ],
+            "foreshadows": [
+                {"content": "Old rival returns", "type": "resolved", "strength": 8},
+                {"content": "Archive witness hesitates", "type": "open", "strength": 5},
+            ],
+            "character_states": [
+                {
+                    "character_name": "Inspector Lin",
+                    "state_before": "uncertain",
+                    "state_after": "suspicious",
+                    "key_event": "Verified ledger",
+                }
+            ],
+            "continuity_updates": [
+                {"field": "ledger_status", "value": "verified"}
+            ],
+            "next_chapter_likely_focus": "Force the archive witness to choose a side.",
+            "word_count": 2400,
+            "risks": ["witness thread can flatten if resolved off-screen"],
+        },
+    )
+
+    await db_session.refresh(bible)
+
+    package = bible.chapter_change_packages[0]
+    report = package["chapter_progress_report"]
+
+    assert report == {
+        "chapter": "Ch19: Ledger Returns",
+        "summary": "Inspector Lin verified the ledger and exposed the archive witness clue.",
+        "new_facts": package["timeline_delta"],
+        "character_changes": package["character_state_changes"],
+        "hooks_paid_off": [{"hook": "Old rival returns", "status": "resolved", "strength": 8}],
+        "new_hooks": [{"hook": "Archive witness hesitates", "status": "open", "strength": 5}],
+        "continuity_updates": [{"field": "ledger_status", "value": "verified"}],
+        "next_chapter_likely_focus": "Force the archive witness to choose a side.",
+        "word_count": 2400,
+        "risks": ["witness thread can flatten if resolved off-screen"],
+    }
+
+
+@pytest.mark.asyncio
 async def test_sync_chapter_analysis_replaces_generated_package_for_same_chapter(create_schema, db_session):
     project, bible, plan = await _create_confirmed_project_state(create_schema, db_session)
     service = BookRemixContinuationStateService()

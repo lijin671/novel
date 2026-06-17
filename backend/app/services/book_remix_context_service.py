@@ -3145,14 +3145,18 @@ def _chapter_progress_report_gaps(
 
     gaps: list[dict[str, Any]] = []
     for package in packages:
+        progress_report = package.get("chapter_progress_report")
+        progress_report = progress_report if isinstance(progress_report, dict) else {}
         missing_fields = [
             label
             for label, keys in required_fields
             if not _has_any_package_value(package, keys)
+            and not _has_any_progress_report_value(progress_report, keys)
         ]
         if missing_fields:
             chapter = (
-                _chapter_reference(package)
+                _string_value(progress_report.get("chapter"))
+                or _chapter_reference(package)
                 or _string_value(package.get("chapter_id"))
                 or "unknown"
             )
@@ -12324,6 +12328,50 @@ def _has_any_package_value(package: dict[str, Any], keys: tuple[str, ...]) -> bo
             return True
         if isinstance(value, (int, float)) and not isinstance(value, bool):
             return True
+    return False
+
+
+def _has_any_progress_report_value(report: dict[str, Any], keys: tuple[str, ...]) -> bool:
+    """Check nested Universal Novel Writing progress report fields.
+
+    The persisted report uses user-facing names such as `character_changes`,
+    while older change packages may still expose service names such as
+    `character_state_changes`.  Keeping both aliases here lets the audit accept
+    either shape without weakening the gate.
+    """
+    if not report:
+        return False
+    alias_map = {
+        "character_state_changes": "character_changes",
+        "foreshadow_changes": ("hooks_paid_off", "new_hooks"),
+        "promise_payoff_changes": ("hooks_paid_off", "new_hooks"),
+        "hook_deltas": ("hooks_paid_off", "new_hooks"),
+        "next_chapter_focus": "next_chapter_likely_focus",
+        "next_focus": "next_chapter_likely_focus",
+        "next_likely_focus": "next_chapter_likely_focus",
+        "fact_deltas": "new_facts",
+        "timeline_delta": "new_facts",
+        "facts": "new_facts",
+        "continuity_delta": "continuity_updates",
+        "ledger_updates": "continuity_updates",
+        "risk_notes": "risks",
+        "audit_risks": "risks",
+    }
+    expanded_keys: list[str] = []
+    allow_empty_lists = False
+    for key in keys:
+        expanded_keys.append(key)
+        alias = alias_map.get(key)
+        if isinstance(alias, str):
+            expanded_keys.append(alias)
+        elif isinstance(alias, tuple):
+            expanded_keys.extend(alias)
+            if key in {"hook_deltas", "foreshadow_changes", "promise_payoff_changes"}:
+                allow_empty_lists = True
+    if _has_any_package_value(report, tuple(expanded_keys)):
+        return True
+    if allow_empty_lists:
+        return any(isinstance(report.get(key), list) for key in expanded_keys)
     return False
 
 

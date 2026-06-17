@@ -741,6 +741,44 @@ def test_build_remix_continuation_control_audit_flags_universal_progress_report_
     assert "chapter_progress_report_missing_fields" in audit["warnings"]
 
 
+def test_universal_progress_report_gate_accepts_nested_report_contract():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "character_cards": [{"name": "Lin", "goal": "protect the archive"}],
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_generation",
+                    "chapter_number": 9,
+                    "chapter_progress_report": {
+                        "chapter": "Ch9: Ledger Returns",
+                        "summary": "Lin kept the broken archive seal from the crowd.",
+                        "new_facts": [{"event": "The seal failed in public"}],
+                        "character_changes": [
+                            {"character_name": "Lin", "state_after": "isolated"}
+                        ],
+                        "hooks_paid_off": [],
+                        "new_hooks": [],
+                        "continuity_updates": [
+                            {"field": "archive_status", "value": "unstable"}
+                        ],
+                        "next_chapter_likely_focus": "Make the failure public.",
+                        "word_count": 2400,
+                        "risks": ["analysis pending"],
+                    },
+                }
+            ],
+        },
+        plan={"beats": [{"beat": "Expose the failure", "status": "pending"}]},
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "progress_report_continuity_writeback_gate"}],
+        },
+    )
+
+    assert audit["chapter_progress_report_gap_count"] == 0
+    assert audit["chapter_progress_report_gaps"] == []
+    assert "chapter_progress_report_missing_fields" not in audit["warnings"]
+
+
 def test_build_remix_continuation_context_block_renders_universal_progress_report_gap_gate():
     block = build_remix_continuation_context_block(
         project_title="Progress Report Desk",
