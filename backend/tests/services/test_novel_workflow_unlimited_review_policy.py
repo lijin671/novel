@@ -364,6 +364,50 @@ async def test_reader_panel_prompt_projects_novelwriter_live_diagnostics_schema(
     assert "advisory diagnostics" in prompt
 
 
+@pytest.mark.asyncio
+async def test_reader_panel_prompt_projects_hook_payoff_schema():
+    ai_service = StubAIService()
+    service = NovelWorkflowService(ai_service)  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-hook-payoff-prompt",
+        project_id="project-hook-payoff-prompt",
+        chapter_number=12,
+        title="Hook Payoff",
+        content="The witness speaks, but the bell interrupts before the council can close the case.",
+        summary="A hook and payoff prompt sample.",
+        word_count=94,
+        status="completed",
+    )
+    source_pattern_pack = {
+        "workflow_patterns": [
+            {"name": "premise_structure_hook_payoff_gate", "candidate_count": 1},
+            {"name": "opening_ending_hook_integrity_gate", "candidate_count": 1},
+        ],
+        "premise_structure_hook_payoff_gate_hints": [
+            "Maintain a hook/payoff matrix with reader promise, planned payoff, and current status."
+        ],
+        "opening_ending_hook_integrity_gate_hints": [
+            "Opening hook and ending hook job must be visible on the page."
+        ],
+    }
+
+    await service._run_reader_panel(
+        chapter=chapter,
+        analysis=None,
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    prompt = ai_service.prompts[0]
+    assert "hook_payoff_answers" in prompt
+    assert "opening_hook_type" in prompt
+    assert "reader_promise" in prompt
+    assert "ending_hook_job" in prompt
+    assert "micro_payoff" in prompt
+    assert "required_payoff" in prompt
+    assert "Hook/payoff integrity gate" in prompt
+    assert "fake cliffhanger" in prompt
+
+
 def test_aggregate_feedback_revises_when_required_reader_pull_answers_are_missing():
     service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
     reviewers = service._normalize_reviewers([
@@ -463,6 +507,69 @@ def test_aggregate_feedback_revises_when_required_live_diagnostics_are_missing()
     assert "live_diagnostics_missing" in aggregate["top_issues"]
 
 
+def test_aggregate_feedback_revises_when_required_hook_payoff_answers_are_missing():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    reviewers = service._normalize_reviewers([
+        {
+            "role": "editor",
+            "overall_score": 9.0,
+            "pacing_score": 9.0,
+            "engagement_score": 9.0,
+            "coherence_score": 9.0,
+            "style_fidelity_score": 9.0,
+            "verdict": "pass",
+            "strengths": [],
+            "issues": [],
+            "style_drift_issues": [],
+            "must_fix": [],
+        }
+    ])
+    readers = service._normalize_readers([
+        {
+            "persona": "fresh reader",
+            "immersion_score": 9.0,
+            "continue_score": 9.0,
+            "favorite_points": [],
+            "drop_risks": [],
+            "expectations": [],
+            "reader_pull_answers": {
+                "pov_character": "Lin",
+                "current_want": "keep the witness alive",
+                "obstacle": "the council isolates the witness",
+                "stakes": "the archive case collapses if the witness breaks",
+                "changed_state": "the public hearing turns hostile",
+                "pull_forward": "who broke the archive seal?",
+            },
+            "hook_payoff_answers": {
+                "opening_hook_type": "prior-choice consequence",
+                "reader_promise": "public mystery pressure",
+            },
+        }
+    ])
+
+    aggregate = service._aggregate_feedback(
+        analysis=None,
+        reviewers=reviewers,
+        readers=readers,
+        min_score=7.8,
+        source_pattern_pack={
+            "workflow_patterns": [
+                {"name": "premise_structure_hook_payoff_gate"},
+                {"name": "opening_ending_hook_integrity_gate"},
+            ],
+        },
+    )
+
+    assert aggregate["decision"] == "revise"
+    assert aggregate["hook_payoff"]["required"] is True
+    assert aggregate["hook_payoff"]["blocking"] is True
+    assert aggregate["hook_payoff"]["missing_count"] > 0
+    assert {"ending_hook_job", "micro_payoff", "required_payoff"} <= {
+        item["field"] for item in aggregate["hook_payoff"]["missing"]
+    }
+    assert "hook_payoff_missing" in aggregate["top_issues"]
+
+
 def test_build_revision_brief_includes_reader_pull_repair_requirements():
     service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
     chapter = Chapter(
@@ -540,6 +647,48 @@ def test_build_revision_brief_includes_live_diagnostics_repair_requirements():
     assert "Story Pulse" in brief
     assert "advisory diagnostics" in brief
     assert "accepted canon" in brief
+
+
+def test_build_revision_brief_includes_hook_payoff_repair_requirements():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-hook-payoff-repair",
+        project_id="project-hook-payoff-repair",
+        chapter_number=11,
+        title="Missing Payoff",
+        content="A fluent chapter with no earned ending hook or payoff.",
+        word_count=81,
+        status="completed",
+    )
+    aggregate = {
+        "high_risk_issues": [],
+        "top_issues": ["hook_payoff_missing"],
+        "reader_risks": [],
+        "style_drift_issues": [],
+        "hook_payoff": {
+            "required": True,
+            "blocking": True,
+            "missing_count": 3,
+            "missing": [
+                {"persona": "fresh reader", "field": "ending_hook_job"},
+                {"persona": "fresh reader", "field": "micro_payoff"},
+                {"persona": "fresh reader", "field": "required_payoff"},
+            ],
+        },
+    }
+
+    brief = service._build_revision_brief(
+        chapter=chapter,
+        analysis=None,
+        aggregate=aggregate,
+    )
+
+    assert "Hook/payoff repair" in brief
+    assert "opening hook" in brief
+    assert "reader promise" in brief
+    assert "ending hook job" in brief
+    assert "micro payoff" in brief
+    assert "required payoff" in brief
 
 
 @pytest.mark.asyncio

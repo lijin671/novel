@@ -51,6 +51,13 @@ LIVE_DIAGNOSTIC_ANCHOR_FIELDS = (
     "open_plot_lines",
     "story_pulse",
 )
+HOOK_PAYOFF_FIELDS = (
+    "opening_hook_type",
+    "reader_promise",
+    "ending_hook_job",
+    "micro_payoff",
+    "required_payoff",
+)
 STORY_PULSE_FIELDS = (
     "pacing",
     "tension",
@@ -450,8 +457,15 @@ Public source pattern constraints:
           "depth": "人物/主题深度诊断"
         }},
         "inline_suggestions": [
-          {{"scope": "章节/场景/段落", "finding": "诊断发现", "suggestion": "修复建议", "status": "advisory"}}
+          {{"scope": "chapter/scene/paragraph", "finding": "diagnostic finding", "suggestion": "repair suggestion", "status": "advisory"}}
         ]
+      }},
+      "hook_payoff_answers": {{
+        "opening_hook_type": "visible opening hook type from the page",
+        "reader_promise": "reader promise or genre expectation served by this chapter",
+        "ending_hook_job": "what the ending hook does: danger, reframing, decision, cost, or payoff",
+        "micro_payoff": "chapter-level payoff or pressure turn delivered on page",
+        "required_payoff": "carried hook, promise, or debt this chapter handles"
       }}
     }}
   ],
@@ -484,6 +498,12 @@ Live manuscript diagnostics gate:
 2. live_diagnostics must keep Event Line, open plot lines, Connection Web, Story Pulse, and inline suggestions as advisory diagnostics, not accepted canon.
 3. At minimum, make event_line, open_plot_lines, or story_pulse visible from chapter text. If a layer is unclear, return an empty string/object/list rather than guessing.
 4. inline_suggestions status must stay advisory unless the author explicitly accepts it later.
+
+Hook/payoff integrity gate:
+1. When premise_structure_hook_payoff_gate, opening_ending_hook_integrity_gate, or reader_promise_micro_payoff_gate appears in Public source pattern constraints, every persona must return hook_payoff_answers.
+2. hook_payoff_answers must identify opening_hook_type, reader_promise, ending_hook_job, micro_payoff, and required_payoff from the visible chapter text.
+3. If a hook/payoff field is not visible on the page, return an empty string rather than guessing from outline or author intent.
+4. A fake cliffhanger that has no cost, decision, reveal, or payoff should leave ending_hook_job or micro_payoff empty.
 
 章节信息：
 - 章节序号：{chapter.chapter_number}
@@ -595,6 +615,10 @@ Public source pattern constraints:
             readers,
             source_pattern_pack=source_pattern_pack,
         )
+        hook_payoff = self._hook_payoff_gate_audit(
+            readers,
+            source_pattern_pack=source_pattern_pack,
+        )
         revise_votes = sum(1 for item in reviewers if str(item.get("verdict", "")).strip().lower() == "revise")
 
         should_revise = (
@@ -606,6 +630,7 @@ Public source pattern constraints:
             or reader_score < max(6.8, min_score - 0.4)
             or reader_pull["blocking"]
             or live_diagnostics["blocking"]
+            or hook_payoff["blocking"]
         )
 
         decision = "revise" if should_revise else "pass"
@@ -622,6 +647,7 @@ Public source pattern constraints:
                 *[issue["title"] for issue in style_drift_issues],
                 *(["reader_pull_missing"] if reader_pull["blocking"] else []),
                 *(["live_diagnostics_missing"] if live_diagnostics["blocking"] else []),
+                *(["hook_payoff_missing"] if hook_payoff["blocking"] else []),
                 *reader_risks,
             ],
             limit=8,
@@ -648,6 +674,7 @@ Public source pattern constraints:
             "reader_risks": reader_risks[:6],
             "reader_pull": reader_pull,
             "live_diagnostics": live_diagnostics,
+            "hook_payoff": hook_payoff,
             "highlights": highlights,
             "top_issues": top_issues,
         }
@@ -727,6 +754,26 @@ Public source pattern constraints:
                 lines.append(
                     "- Missing live-diagnostics layers: "
                     + ", ".join(self._unique_texts(missing_layers, limit=8))
+                )
+
+        hook_payoff = aggregate.get("hook_payoff") or {}
+        if hook_payoff.get("blocking"):
+            lines.extend([
+                "",
+                "Hook/payoff repair:",
+                "- Make opening hook, reader promise, ending hook job, micro payoff, and required payoff visible from the chapter text.",
+                "- Pay off, complicate, or explicitly defer carried hooks with a visible cost, decision, reveal, or changed board state.",
+                "- Do not rely on a fake cliffhanger; the ending hook must do one clear job and the chapter must deliver at least one earned payoff or pressure turn.",
+            ])
+            missing_hook_fields = [
+                str(item.get("field", "")).strip()
+                for item in hook_payoff.get("missing", []) or []
+                if isinstance(item, dict) and str(item.get("field", "")).strip()
+            ]
+            if missing_hook_fields:
+                lines.append(
+                    "- Missing hook/payoff fields: "
+                    + ", ".join(self._unique_texts(missing_hook_fields, limit=8))
                 )
 
         if analysis and analysis.suggestions:
@@ -1146,6 +1193,9 @@ Public source pattern constraints:
                     "live_diagnostics": self._normalize_live_diagnostics(
                         item.get("live_diagnostics") or item.get("live_manuscript_diagnostics") or {}
                     ),
+                    "hook_payoff_answers": self._normalize_hook_payoff_answers(
+                        item.get("hook_payoff_answers") or item.get("hook_payoff") or {}
+                    ),
                 }
             )
 
@@ -1161,6 +1211,7 @@ Public source pattern constraints:
                     "expectations": [],
                     "reader_pull_answers": {},
                     "live_diagnostics": {},
+                    "hook_payoff_answers": {},
                 }
             )
         return normalized
@@ -1355,6 +1406,51 @@ Public source pattern constraints:
             "advisory_only": True,
         }
 
+    def _hook_payoff_gate_audit(
+        self,
+        readers: Sequence[Dict[str, Any]],
+        *,
+        source_pattern_pack: Optional[dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """检查钩子、承诺、回报字段是否能从正文读出。"""
+        required = any(
+            self._source_pattern_pack_has(source_pattern_pack, pattern_name)
+            for pattern_name in (
+                "premise_structure_hook_payoff_gate",
+                "opening_ending_hook_integrity_gate",
+                "reader_promise_micro_payoff_gate",
+            )
+        )
+        missing: List[Dict[str, str]] = []
+        if not required:
+            return {
+                "required": False,
+                "blocking": False,
+                "missing_count": 0,
+                "missing": [],
+                "fields": list(HOOK_PAYOFF_FIELDS),
+            }
+
+        if not readers:
+            readers = [{"persona": "fresh reader", "hook_payoff_answers": {}}]
+
+        for reader in readers:
+            answers = reader.get("hook_payoff_answers") or {}
+            if not isinstance(answers, dict):
+                answers = {}
+            persona = str(reader.get("persona") or "fresh reader").strip() or "fresh reader"
+            for field in HOOK_PAYOFF_FIELDS:
+                if not str(answers.get(field) or "").strip():
+                    missing.append({"persona": persona, "field": field})
+
+        return {
+            "required": True,
+            "blocking": bool(missing),
+            "missing_count": len(missing),
+            "missing": missing[:24],
+            "fields": list(HOOK_PAYOFF_FIELDS),
+        }
+
     def _normalize_reader_pull_answers(self, value: Any) -> Dict[str, str]:
         """规范化模型返回的追读力答案。"""
         if not isinstance(value, dict):
@@ -1366,6 +1462,16 @@ Public source pattern constraints:
                 normalized[field] = self._shorten(text, 160)
             else:
                 normalized[field] = ""
+        return normalized
+
+    def _normalize_hook_payoff_answers(self, value: Any) -> Dict[str, str]:
+        """规范化读者侧钩子 / 回报可见性答案。"""
+        if not isinstance(value, dict):
+            return {}
+        normalized: Dict[str, str] = {}
+        for field in HOOK_PAYOFF_FIELDS:
+            text = str(value.get(field) or "").strip()
+            normalized[field] = self._shorten(text, 180) if text else ""
         return normalized
 
     def _normalize_live_diagnostics(self, value: Any) -> Dict[str, Any]:
