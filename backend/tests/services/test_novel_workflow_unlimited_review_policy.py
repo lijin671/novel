@@ -408,6 +408,52 @@ async def test_reader_panel_prompt_projects_hook_payoff_schema():
     assert "fake cliffhanger" in prompt
 
 
+@pytest.mark.asyncio
+async def test_reader_panel_prompt_projects_chapter_contract_scene_beat_schema():
+    ai_service = StubAIService()
+    service = NovelWorkflowService(ai_service)  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-contract-scene-beat-prompt",
+        project_id="project-contract-scene-beat-prompt",
+        chapter_number=16,
+        title="Scene Contract",
+        content=(
+            "Lin enters the archive hearing with one goal, but each witness turns "
+            "the public proof into a higher-cost choice."
+        ),
+        summary="A chapter contract and scene beat prompt sample.",
+        word_count=121,
+        status="completed",
+    )
+    source_pattern_pack = {
+        "workflow_patterns": [
+            {"name": "chapter_contract_scene_beat_gate", "candidate_count": 1},
+        ],
+        "chapter_contract_scene_beat_gate_hints": [
+            "Before drafting, define chapter goal, opening hook, main obstacle, turning point, emotional shift, payoff, ending hook, and 3-7 scene beats with exit states."
+        ],
+    }
+
+    await service._run_reader_panel(
+        chapter=chapter,
+        analysis=None,
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    prompt = ai_service.prompts[0]
+    assert "chapter_contract_answers" in prompt
+    assert "scene_beats" in prompt
+    assert "chapter_goal" in prompt
+    assert "main_obstacle" in prompt
+    assert "turning_point" in prompt
+    assert "emotional_shift" in prompt
+    assert "revealed_information" in prompt
+    assert "continuity_changes" in prompt
+    assert "exit_state" in prompt
+    assert "Chapter contract and scene-beat gate" in prompt
+    assert "3-7 visible scene beats" in prompt
+
+
 def test_aggregate_feedback_revises_when_required_reader_pull_answers_are_missing():
     service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
     reviewers = service._normalize_reviewers([
@@ -570,6 +616,73 @@ def test_aggregate_feedback_revises_when_required_hook_payoff_answers_are_missin
     assert "hook_payoff_missing" in aggregate["top_issues"]
 
 
+def test_aggregate_feedback_revises_when_required_chapter_contract_scene_beats_are_missing():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    reviewers = service._normalize_reviewers([
+        {
+            "role": "editor",
+            "overall_score": 9.0,
+            "pacing_score": 9.0,
+            "engagement_score": 9.0,
+            "coherence_score": 9.0,
+            "style_fidelity_score": 9.0,
+            "verdict": "pass",
+            "strengths": [],
+            "issues": [],
+            "style_drift_issues": [],
+            "must_fix": [],
+        }
+    ])
+    readers = service._normalize_readers([
+        {
+            "persona": "fresh reader",
+            "immersion_score": 9.0,
+            "continue_score": 9.0,
+            "favorite_points": [],
+            "drop_risks": [],
+            "expectations": [],
+            "chapter_contract_answers": {
+                "chapter_goal": "force the witness to speak",
+                "opening_hook": "the witness arrives under guard",
+                "main_obstacle": "the council controls the hearing",
+            },
+            "scene_beats": [
+                {
+                    "goal": "open the sealed file",
+                    "obstacle": "the clerk refuses",
+                    "outcome": "Lin gains partial access",
+                    "exit_state": "the room turns hostile",
+                }
+            ],
+        }
+    ])
+
+    aggregate = service._aggregate_feedback(
+        analysis=None,
+        reviewers=reviewers,
+        readers=readers,
+        min_score=7.8,
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "chapter_contract_scene_beat_gate"}],
+        },
+    )
+
+    assert aggregate["decision"] == "revise"
+    assert aggregate["chapter_contract"]["required"] is True
+    assert aggregate["chapter_contract"]["blocking"] is True
+    assert aggregate["chapter_contract"]["missing_count"] > 0
+    assert {
+        "turning_point",
+        "emotional_shift",
+        "revealed_information",
+        "payoff",
+        "ending_hook",
+        "continuity_changes",
+        "scene_beats[3-7]",
+    } <= {item["field"] for item in aggregate["chapter_contract"]["missing"]}
+    assert "chapter_contract_scene_beat_missing" in aggregate["top_issues"]
+
+
 def test_build_revision_brief_includes_reader_pull_repair_requirements():
     service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
     chapter = Chapter(
@@ -689,6 +802,48 @@ def test_build_revision_brief_includes_hook_payoff_repair_requirements():
     assert "ending hook job" in brief
     assert "micro payoff" in brief
     assert "required payoff" in brief
+
+
+def test_build_revision_brief_includes_chapter_contract_scene_beat_repair_requirements():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-contract-scene-beat-repair",
+        project_id="project-contract-scene-beat-repair",
+        chapter_number=17,
+        title="Missing Scene Contract",
+        content="A fluent chapter whose scenes do not expose goals, costs, or exit states.",
+        word_count=93,
+        status="completed",
+    )
+    aggregate = {
+        "high_risk_issues": [],
+        "top_issues": ["chapter_contract_scene_beat_missing"],
+        "reader_risks": [],
+        "style_drift_issues": [],
+        "chapter_contract": {
+            "required": True,
+            "blocking": True,
+            "missing_count": 3,
+            "missing": [
+                {"persona": "fresh reader", "field": "turning_point"},
+                {"persona": "fresh reader", "field": "scene_beats[3-7]"},
+                {"persona": "fresh reader", "field": "scene_beats[1].exit_state"},
+            ],
+        },
+    }
+
+    brief = service._build_revision_brief(
+        chapter=chapter,
+        analysis=None,
+        aggregate=aggregate,
+    )
+
+    assert "Chapter contract / scene-beat repair" in brief
+    assert "chapter goal" in brief
+    assert "main obstacle" in brief
+    assert "turning point" in brief
+    assert "3-7 visible scene beats" in brief
+    assert "exit state" in brief
 
 
 @pytest.mark.asyncio

@@ -58,6 +58,25 @@ HOOK_PAYOFF_FIELDS = (
     "micro_payoff",
     "required_payoff",
 )
+CHAPTER_CONTRACT_FIELDS = (
+    "chapter_goal",
+    "opening_hook",
+    "main_obstacle",
+    "turning_point",
+    "emotional_shift",
+    "revealed_information",
+    "payoff",
+    "ending_hook",
+    "continuity_changes",
+)
+SCENE_BEAT_FIELDS = (
+    "goal",
+    "obstacle",
+    "outcome",
+    "cost",
+    "new_information",
+    "exit_state",
+)
 STORY_PULSE_FIELDS = (
     "pacing",
     "tension",
@@ -466,7 +485,28 @@ Public source pattern constraints:
         "ending_hook_job": "what the ending hook does: danger, reframing, decision, cost, or payoff",
         "micro_payoff": "chapter-level payoff or pressure turn delivered on page",
         "required_payoff": "carried hook, promise, or debt this chapter handles"
-      }}
+      }},
+      "chapter_contract_answers": {{
+        "chapter_goal": "what this chapter tries to accomplish on page",
+        "opening_hook": "visible page-opening hook or pressure",
+        "main_obstacle": "main blocker against the current goal",
+        "turning_point": "scene/chapter turn that changes the situation",
+        "emotional_shift": "visible emotional movement by the end",
+        "revealed_information": "new information or changed knowledge",
+        "payoff": "earned chapter payoff, answer, win, loss, or pressure turn",
+        "ending_hook": "ending question, threat, choice, or consequence",
+        "continuity_changes": "facts, relationship, status, location, or danger changed for next chapter"
+      }},
+      "scene_beats": [
+        {{
+          "goal": "scene POV goal",
+          "obstacle": "scene obstacle",
+          "outcome": "scene result",
+          "cost": "cost or complication",
+          "new_information": "new clue/state/reveal",
+          "exit_state": "changed state leaving this scene"
+        }}
+      ]
     }}
   ],
   "summary": {{
@@ -504,6 +544,12 @@ Hook/payoff integrity gate:
 2. hook_payoff_answers must identify opening_hook_type, reader_promise, ending_hook_job, micro_payoff, and required_payoff from the visible chapter text.
 3. If a hook/payoff field is not visible on the page, return an empty string rather than guessing from outline or author intent.
 4. A fake cliffhanger that has no cost, decision, reveal, or payoff should leave ending_hook_job or micro_payoff empty.
+
+Chapter contract and scene-beat gate:
+1. When chapter_contract_scene_beat_gate appears in Public source pattern constraints, every persona must return chapter_contract_answers and scene_beats.
+2. chapter_contract_answers must identify chapter_goal, opening_hook, main_obstacle, turning_point, emotional_shift, revealed_information, payoff, ending_hook, and continuity_changes from the visible chapter text.
+3. scene_beats should contain 3-7 visible scene beats when the chapter has enough scene movement; each beat should expose goal, obstacle, outcome, cost, new_information, and exit_state.
+4. If a field is not visible on the page, return an empty string rather than guessing from outline or author intent.
 
 章节信息：
 - 章节序号：{chapter.chapter_number}
@@ -619,6 +665,10 @@ Public source pattern constraints:
             readers,
             source_pattern_pack=source_pattern_pack,
         )
+        chapter_contract = self._chapter_contract_gate_audit(
+            readers,
+            source_pattern_pack=source_pattern_pack,
+        )
         revise_votes = sum(1 for item in reviewers if str(item.get("verdict", "")).strip().lower() == "revise")
 
         should_revise = (
@@ -631,6 +681,7 @@ Public source pattern constraints:
             or reader_pull["blocking"]
             or live_diagnostics["blocking"]
             or hook_payoff["blocking"]
+            or chapter_contract["blocking"]
         )
 
         decision = "revise" if should_revise else "pass"
@@ -648,6 +699,7 @@ Public source pattern constraints:
                 *(["reader_pull_missing"] if reader_pull["blocking"] else []),
                 *(["live_diagnostics_missing"] if live_diagnostics["blocking"] else []),
                 *(["hook_payoff_missing"] if hook_payoff["blocking"] else []),
+                *(["chapter_contract_scene_beat_missing"] if chapter_contract["blocking"] else []),
                 *reader_risks,
             ],
             limit=8,
@@ -675,6 +727,7 @@ Public source pattern constraints:
             "reader_pull": reader_pull,
             "live_diagnostics": live_diagnostics,
             "hook_payoff": hook_payoff,
+            "chapter_contract": chapter_contract,
             "highlights": highlights,
             "top_issues": top_issues,
         }
@@ -774,6 +827,26 @@ Public source pattern constraints:
                 lines.append(
                     "- Missing hook/payoff fields: "
                     + ", ".join(self._unique_texts(missing_hook_fields, limit=8))
+                )
+
+        chapter_contract = aggregate.get("chapter_contract") or {}
+        if chapter_contract.get("blocking"):
+            lines.extend([
+                "",
+                "Chapter contract / scene-beat repair:",
+                "- Make chapter goal, opening hook, main obstacle, turning point, emotional shift, revealed information, payoff, ending hook, and continuity changes visible from the chapter text.",
+                "- Break the chapter into 3-7 visible scene beats; each beat needs a goal, obstacle, outcome, cost/new information, and exit state.",
+                "- Every scene should leave the board changed; do not keep scenes as activity without consequence.",
+            ])
+            missing_contract_fields = [
+                str(item.get("field", "")).strip()
+                for item in chapter_contract.get("missing", []) or []
+                if isinstance(item, dict) and str(item.get("field", "")).strip()
+            ]
+            if missing_contract_fields:
+                lines.append(
+                    "- Missing chapter contract / scene-beat fields: "
+                    + ", ".join(self._unique_texts(missing_contract_fields, limit=10))
                 )
 
         if analysis and analysis.suggestions:
@@ -1196,6 +1269,17 @@ Public source pattern constraints:
                     "hook_payoff_answers": self._normalize_hook_payoff_answers(
                         item.get("hook_payoff_answers") or item.get("hook_payoff") or {}
                     ),
+                    "chapter_contract_answers": self._normalize_chapter_contract_answers(
+                        item.get("chapter_contract_answers")
+                        or item.get("chapter_contract")
+                        or {}
+                    ),
+                    "scene_beats": self._normalize_scene_beats(
+                        item.get("scene_beats")
+                        or item.get("scene_beat_sheet")
+                        or item.get("beats")
+                        or []
+                    ),
                 }
             )
 
@@ -1212,6 +1296,8 @@ Public source pattern constraints:
                     "reader_pull_answers": {},
                     "live_diagnostics": {},
                     "hook_payoff_answers": {},
+                    "chapter_contract_answers": {},
+                    "scene_beats": [],
                 }
             )
         return normalized
@@ -1451,6 +1537,71 @@ Public source pattern constraints:
             "fields": list(HOOK_PAYOFF_FIELDS),
         }
 
+    def _chapter_contract_gate_audit(
+        self,
+        readers: Sequence[Dict[str, Any]],
+        *,
+        source_pattern_pack: Optional[dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """妫€鏌ョ珷鑺傚悎绾﹀拰鍦烘櫙 beat 鏄惁鍙粠姝ｆ枃璇诲嚭銆?"""
+        required = self._source_pattern_pack_has(
+            source_pattern_pack,
+            "chapter_contract_scene_beat_gate",
+        )
+        missing: List[Dict[str, str]] = []
+        if not required:
+            return {
+                "required": False,
+                "blocking": False,
+                "missing_count": 0,
+                "missing": [],
+                "fields": list(CHAPTER_CONTRACT_FIELDS),
+                "scene_beat_fields": list(SCENE_BEAT_FIELDS),
+                "scene_beat_range": [3, 7],
+            }
+
+        if not readers:
+            readers = [{"persona": "fresh reader", "chapter_contract_answers": {}, "scene_beats": []}]
+
+        for reader in readers:
+            persona = str(reader.get("persona") or "fresh reader").strip() or "fresh reader"
+            answers = reader.get("chapter_contract_answers") or {}
+            if not isinstance(answers, dict):
+                answers = {}
+            for field in CHAPTER_CONTRACT_FIELDS:
+                if not str(answers.get(field) or "").strip():
+                    missing.append({"persona": persona, "field": field})
+
+            scene_beats = reader.get("scene_beats") or []
+            if not isinstance(scene_beats, list):
+                scene_beats = []
+            if len(scene_beats) < 3 or len(scene_beats) > 7:
+                missing.append({"persona": persona, "field": "scene_beats[3-7]"})
+
+            for index, beat in enumerate(scene_beats[:7], 1):
+                if not isinstance(beat, dict):
+                    missing.append({"persona": persona, "field": f"scene_beats[{index}]"})
+                    continue
+                has_cost_or_information = bool(
+                    str(beat.get("cost") or "").strip()
+                    or str(beat.get("new_information") or "").strip()
+                )
+                for field in ("goal", "obstacle", "outcome", "exit_state"):
+                    if not str(beat.get(field) or "").strip():
+                        missing.append({"persona": persona, "field": f"scene_beats[{index}].{field}"})
+                if not has_cost_or_information:
+                    missing.append({"persona": persona, "field": f"scene_beats[{index}].cost|new_information"})
+
+        return {
+            "required": True,
+            "blocking": bool(missing),
+            "missing_count": len(missing),
+            "missing": missing[:36],
+            "fields": list(CHAPTER_CONTRACT_FIELDS),
+            "scene_beat_fields": list(SCENE_BEAT_FIELDS),
+            "scene_beat_range": [3, 7],
+        }
+
     def _normalize_reader_pull_answers(self, value: Any) -> Dict[str, str]:
         """规范化模型返回的追读力答案。"""
         if not isinstance(value, dict):
@@ -1473,6 +1624,40 @@ Public source pattern constraints:
             text = str(value.get(field) or "").strip()
             normalized[field] = self._shorten(text, 180) if text else ""
         return normalized
+
+    def _normalize_chapter_contract_answers(self, value: Any) -> Dict[str, str]:
+        """规范化读者侧可见的章节合约答案。"""
+        if not isinstance(value, dict):
+            return {}
+        normalized: Dict[str, str] = {}
+        for field in CHAPTER_CONTRACT_FIELDS:
+            text = str(value.get(field) or "").strip()
+            normalized[field] = self._shorten(text, 180) if text else ""
+        return normalized
+
+    def _normalize_scene_beats(self, value: Any) -> List[Dict[str, str]]:
+        """规范化可见场景 beat，不接受隐藏大纲意图。"""
+        if not isinstance(value, list):
+            return []
+        beats: List[Dict[str, str]] = []
+        for item in value[:7]:
+            if isinstance(item, dict):
+                normalized_item = {
+                    field: self._shorten(str(item.get(field) or "").strip(), 180)
+                    for field in SCENE_BEAT_FIELDS
+                }
+            else:
+                normalized_item = {
+                    "goal": "",
+                    "obstacle": "",
+                    "outcome": self._shorten(str(item).strip(), 180),
+                    "cost": "",
+                    "new_information": "",
+                    "exit_state": "",
+                }
+            if any(normalized_item.values()):
+                beats.append(normalized_item)
+        return beats
 
     def _normalize_live_diagnostics(self, value: Any) -> Dict[str, Any]:
         """规范化模型返回的现场诊断层，保留建议态边界。"""
