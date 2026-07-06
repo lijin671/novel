@@ -155,3 +155,32 @@ Verification targets added:
 python -m pytest backend/tests/services/test_novel_workflow_unlimited_review_policy.py -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py backend/tests/services/test_book_remix_service.py backend/tests/services/test_novel_workflow_unlimited_review_policy.py -q
 ```
+
+## 2026-07-06 workflow post-draft review enforcement addendum
+
+The local source was re-read statically from `D:\project\universal-novel-writing`
+without install, clone, provider call, MCP/browser/desktop runtime, prompt body
+transplant, or source prose import.
+
+Additional reusable pattern fused into MuMuAINovel:
+
+- `novel_workflow_service.py` now carries the portable post-draft acceptance
+  packet into the live reader panel through `post_draft_review_packet`,
+  `mobile_readability_review`, and `least_destructive_repair_scope`.
+- When `post_draft_review_checklist_gate` is active in the public source
+  pattern pack, `_aggregate_feedback` treats missing post-draft review evidence
+  as a blocking revision reason even if numeric reviewer/reader scores pass.
+- `_build_revision_brief` now emits a targeted `Post-draft review repair`
+  section so auto-regeneration repairs the missing acceptance evidence instead
+  of only optimizing generic pacing, reader-pull, or style issues.
+- The gate follows the universal revision order: prove structure, continuity,
+  POV, voice, conflict, pacing, reader-pull, hook/payoff, prose naturalness,
+  and mobile readability from visible page evidence; repair the smallest
+  failing artifact first.
+
+Verification targets added:
+
+```powershell
+python -m pytest backend/tests/services/test_novel_workflow_unlimited_review_policy.py -q
+python -m pytest backend/tests/services/test_book_remix_context_service.py backend/tests/services/test_book_remix_service.py backend/tests/services/test_novel_workflow_unlimited_review_policy.py -q
+```

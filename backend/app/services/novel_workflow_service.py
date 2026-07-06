@@ -83,6 +83,17 @@ STORY_PULSE_FIELDS = (
     "atmosphere",
     "depth",
 )
+POST_DRAFT_REVIEW_FIELDS = (
+    "structure",
+    "continuity",
+    "pov",
+    "character_voice",
+    "scene_conflict",
+    "pacing",
+    "reader_pull",
+    "hook_payoff",
+    "prose_naturalness",
+)
 
 
 class NovelWorkflowService:
@@ -506,7 +517,20 @@ Public source pattern constraints:
           "new_information": "new clue/state/reveal",
           "exit_state": "changed state leaving this scene"
         }}
-      ]
+      ],
+      "post_draft_review_packet": {{
+        "structure": "developmental structure review from visible page evidence",
+        "continuity": "timeline/fact/rule/name continuity review",
+        "pov": "POV control review",
+        "character_voice": "character voice and motivation review",
+        "scene_conflict": "scene goal/obstacle/turn review",
+        "pacing": "pacing and reader momentum review",
+        "reader_pull": "whether a fresh reader can keep reading from the page",
+        "hook_payoff": "opening/ending hook and payoff movement review",
+        "prose_naturalness": "anti-AI naturalness and concrete texture review"
+      }},
+      "mobile_readability_review": "paragraph length, turn placement, dialogue spacing, and mobile reading friction",
+      "least_destructive_repair_scope": "smallest failing artifact to repair first: paragraph, scene, ledger field, chapter contract, or review note"
     }}
   ],
   "summary": {{
@@ -550,6 +574,12 @@ Chapter contract and scene-beat gate:
 2. chapter_contract_answers must identify chapter_goal, opening_hook, main_obstacle, turning_point, emotional_shift, revealed_information, payoff, ending_hook, and continuity_changes from the visible chapter text.
 3. scene_beats should contain 3-7 visible scene beats when the chapter has enough scene movement; each beat should expose goal, obstacle, outcome, cost, new_information, and exit_state.
 4. If a field is not visible on the page, return an empty string rather than guessing from outline or author intent.
+
+Post-draft review acceptance gate:
+1. When post_draft_review_checklist_gate appears in Public source pattern constraints, every persona must return post_draft_review_packet, mobile_readability_review, and least_destructive_repair_scope.
+2. post_draft_review_packet must review structure, continuity, POV, character_voice, scene_conflict, pacing, reader_pull, hook_payoff, and prose_naturalness from visible page evidence.
+3. mobile_readability_review must name mobile readability evidence: paragraph, turn-placement, dialogue-spacing, or mobile-friction evidence.
+4. least_destructive_repair_scope must name the smallest failing artifact to repair first: paragraph, scene, ledger field, chapter contract, or review note.
 
 章节信息：
 - 章节序号：{chapter.chapter_number}
@@ -669,6 +699,10 @@ Public source pattern constraints:
             readers,
             source_pattern_pack=source_pattern_pack,
         )
+        post_draft_review = self._post_draft_review_gate_audit(
+            readers,
+            source_pattern_pack=source_pattern_pack,
+        )
         revise_votes = sum(1 for item in reviewers if str(item.get("verdict", "")).strip().lower() == "revise")
 
         should_revise = (
@@ -682,6 +716,7 @@ Public source pattern constraints:
             or live_diagnostics["blocking"]
             or hook_payoff["blocking"]
             or chapter_contract["blocking"]
+            or post_draft_review["blocking"]
         )
 
         decision = "revise" if should_revise else "pass"
@@ -700,6 +735,7 @@ Public source pattern constraints:
                 *(["live_diagnostics_missing"] if live_diagnostics["blocking"] else []),
                 *(["hook_payoff_missing"] if hook_payoff["blocking"] else []),
                 *(["chapter_contract_scene_beat_missing"] if chapter_contract["blocking"] else []),
+                *(["post_draft_review_missing"] if post_draft_review["blocking"] else []),
                 *reader_risks,
             ],
             limit=8,
@@ -728,6 +764,7 @@ Public source pattern constraints:
             "live_diagnostics": live_diagnostics,
             "hook_payoff": hook_payoff,
             "chapter_contract": chapter_contract,
+            "post_draft_review": post_draft_review,
             "highlights": highlights,
             "top_issues": top_issues,
         }
@@ -847,6 +884,26 @@ Public source pattern constraints:
                 lines.append(
                     "- Missing chapter contract / scene-beat fields: "
                     + ", ".join(self._unique_texts(missing_contract_fields, limit=10))
+                )
+
+        post_draft_review = aggregate.get("post_draft_review") or {}
+        if post_draft_review.get("blocking"):
+            lines.extend([
+                "",
+                "Post-draft review repair:",
+                "- Before accepting the chapter, prove structure, continuity, POV, voice, conflict, pacing, reader-pull, hook/payoff, and prose naturalness from visible page evidence.",
+                "- Add mobile readability evidence: paragraph length, turn placement, dialogue spacing, and mobile reading friction.",
+                "- Repair the least destructive repair scope first: paragraph, scene, ledger field, chapter contract, or review note.",
+            ])
+            missing_review_fields = [
+                str(item.get("field", "")).strip()
+                for item in post_draft_review.get("missing", []) or []
+                if isinstance(item, dict) and str(item.get("field", "")).strip()
+            ]
+            if missing_review_fields:
+                lines.append(
+                    "- Missing post-draft review fields: "
+                    + ", ".join(self._unique_texts(missing_review_fields, limit=10))
                 )
 
         if analysis and analysis.suggestions:
@@ -1280,6 +1337,27 @@ Public source pattern constraints:
                         or item.get("beats")
                         or []
                     ),
+                    "post_draft_review_packet": self._normalize_post_draft_review_packet(
+                        item.get("post_draft_review_packet")
+                        or item.get("post_draft_review")
+                        or {}
+                    ),
+                    "mobile_readability_review": self._shorten(
+                        str(
+                            item.get("mobile_readability_review")
+                            or item.get("mobile_readability")
+                            or ""
+                        ).strip(),
+                        220,
+                    ),
+                    "least_destructive_repair_scope": self._shorten(
+                        str(
+                            item.get("least_destructive_repair_scope")
+                            or item.get("repair_scope")
+                            or ""
+                        ).strip(),
+                        180,
+                    ),
                 }
             )
 
@@ -1298,6 +1376,9 @@ Public source pattern constraints:
                     "hook_payoff_answers": {},
                     "chapter_contract_answers": {},
                     "scene_beats": [],
+                    "post_draft_review_packet": {},
+                    "mobile_readability_review": "",
+                    "least_destructive_repair_scope": "",
                 }
             )
         return normalized
@@ -1602,6 +1683,69 @@ Public source pattern constraints:
             "scene_beat_range": [3, 7],
         }
 
+    def _post_draft_review_gate_audit(
+        self,
+        readers: Sequence[Dict[str, Any]],
+        *,
+        source_pattern_pack: Optional[dict[str, Any]] = None,
+    ) -> Dict[str, Any]:
+        """检查章节验收前是否具备 post-draft review 证据。"""
+        required = self._source_pattern_pack_has(
+            source_pattern_pack,
+            "post_draft_review_checklist_gate",
+        )
+        missing: List[Dict[str, str]] = []
+        required_surfaces = [
+            "post_draft_review_packet",
+            "mobile_readability_review",
+            "least_destructive_repair_scope",
+        ]
+        if not required:
+            return {
+                "required": False,
+                "blocking": False,
+                "missing_count": 0,
+                "missing": [],
+                "fields": list(POST_DRAFT_REVIEW_FIELDS),
+                "required_surfaces": required_surfaces,
+            }
+
+        if not readers:
+            readers = [{
+                "persona": "fresh reader",
+                "post_draft_review_packet": {},
+                "mobile_readability_review": "",
+                "least_destructive_repair_scope": "",
+            }]
+
+        for reader in readers:
+            persona = str(reader.get("persona") or "fresh reader").strip() or "fresh reader"
+            packet = reader.get("post_draft_review_packet") or {}
+            if not isinstance(packet, dict):
+                packet = {}
+
+            if not any(str(packet.get(field) or "").strip() for field in POST_DRAFT_REVIEW_FIELDS):
+                missing.append({"persona": persona, "field": "post_draft_review_packet"})
+            else:
+                for field in POST_DRAFT_REVIEW_FIELDS:
+                    if not str(packet.get(field) or "").strip():
+                        missing.append({"persona": persona, "field": f"post_draft_review_packet.{field}"})
+
+            if not str(reader.get("mobile_readability_review") or "").strip():
+                missing.append({"persona": persona, "field": "mobile_readability_review"})
+
+            if not str(reader.get("least_destructive_repair_scope") or "").strip():
+                missing.append({"persona": persona, "field": "least_destructive_repair_scope"})
+
+        return {
+            "required": True,
+            "blocking": bool(missing),
+            "missing_count": len(missing),
+            "missing": missing[:36],
+            "fields": list(POST_DRAFT_REVIEW_FIELDS),
+            "required_surfaces": required_surfaces,
+        }
+
     def _normalize_reader_pull_answers(self, value: Any) -> Dict[str, str]:
         """规范化模型返回的追读力答案。"""
         if not isinstance(value, dict):
@@ -1633,6 +1777,16 @@ Public source pattern constraints:
         for field in CHAPTER_CONTRACT_FIELDS:
             text = str(value.get(field) or "").strip()
             normalized[field] = self._shorten(text, 180) if text else ""
+        return normalized
+
+    def _normalize_post_draft_review_packet(self, value: Any) -> Dict[str, str]:
+        """规范化验收前 review packet，不把隐藏意图当作证据。"""
+        if not isinstance(value, dict):
+            return {}
+        normalized: Dict[str, str] = {}
+        for field in POST_DRAFT_REVIEW_FIELDS:
+            text = str(value.get(field) or "").strip()
+            normalized[field] = self._shorten(text, 220) if text else ""
         return normalized
 
     def _normalize_scene_beats(self, value: Any) -> List[Dict[str, str]]:

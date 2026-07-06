@@ -325,6 +325,45 @@ async def test_reader_panel_prompt_projects_universal_reader_pull_schema():
 
 
 @pytest.mark.asyncio
+async def test_reader_panel_prompt_projects_universal_post_draft_review_schema():
+    ai_service = StubAIService()
+    service = NovelWorkflowService(ai_service)  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-post-draft-review-prompt",
+        project_id="project-post-draft-review-prompt",
+        chapter_number=8,
+        title="Post Draft Review",
+        content="The hearing scene is fluent, but the acceptance packet still needs review evidence.",
+        summary="A post-draft review prompt sample.",
+        word_count=96,
+        status="completed",
+    )
+    source_pattern_pack = {
+        "workflow_patterns": [
+            {"name": "post_draft_review_checklist_gate", "candidate_count": 1},
+        ],
+        "post_draft_review_checklist_gate_hints": [
+            "Accept chapters only after structure, continuity, POV, voice, conflict, pacing, reader-pull, hook/payoff, naturalness, and mobile readability review."
+        ],
+    }
+
+    await service._run_reader_panel(
+        chapter=chapter,
+        analysis=None,
+        source_pattern_pack=source_pattern_pack,
+    )
+
+    prompt = ai_service.prompts[0]
+    assert "post_draft_review_checklist_gate" in prompt
+    assert "post_draft_review_packet" in prompt
+    assert "mobile_readability_review" in prompt
+    assert "least_destructive_repair_scope" in prompt
+    assert "structure" in prompt
+    assert "naturalness" in prompt
+    assert "mobile readability" in prompt
+
+
+@pytest.mark.asyncio
 async def test_reader_panel_prompt_projects_novelwriter_live_diagnostics_schema():
     ai_service = StubAIService()
     service = NovelWorkflowService(ai_service)  # type: ignore[arg-type]
@@ -683,6 +722,55 @@ def test_aggregate_feedback_revises_when_required_chapter_contract_scene_beats_a
     assert "chapter_contract_scene_beat_missing" in aggregate["top_issues"]
 
 
+def test_aggregate_feedback_revises_when_required_post_draft_review_evidence_is_missing():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    reviewers = service._normalize_reviewers([
+        {
+            "role": "editor",
+            "overall_score": 9.0,
+            "pacing_score": 9.0,
+            "engagement_score": 9.0,
+            "coherence_score": 9.0,
+            "style_fidelity_score": 9.0,
+            "verdict": "pass",
+            "strengths": [],
+            "issues": [],
+            "style_drift_issues": [],
+            "must_fix": [],
+        }
+    ])
+    readers = service._normalize_readers([
+        {
+            "persona": "fresh reader",
+            "immersion_score": 9.0,
+            "continue_score": 9.0,
+            "favorite_points": [],
+            "drop_risks": [],
+            "expectations": [],
+        }
+    ])
+
+    aggregate = service._aggregate_feedback(
+        analysis=None,
+        reviewers=reviewers,
+        readers=readers,
+        min_score=7.8,
+        source_pattern_pack={
+            "workflow_patterns": [{"name": "post_draft_review_checklist_gate"}],
+        },
+    )
+
+    assert aggregate["decision"] == "revise"
+    assert aggregate["post_draft_review"]["required"] is True
+    assert aggregate["post_draft_review"]["blocking"] is True
+    assert {
+        "post_draft_review_packet",
+        "mobile_readability_review",
+        "least_destructive_repair_scope",
+    } <= {item["field"] for item in aggregate["post_draft_review"]["missing"]}
+    assert "post_draft_review_missing" in aggregate["top_issues"]
+
+
 def test_build_revision_brief_includes_reader_pull_repair_requirements():
     service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
     chapter = Chapter(
@@ -720,6 +808,45 @@ def test_build_revision_brief_includes_reader_pull_repair_requirements():
     assert "POV" in brief
     assert "stakes" in brief
     assert "pull-forward" in brief
+
+
+def test_build_revision_brief_includes_post_draft_review_repair_requirements():
+    service = NovelWorkflowService(StubAIService())  # type: ignore[arg-type]
+    chapter = Chapter(
+        id="chapter-post-draft-review-repair",
+        project_id="project-post-draft-review-repair",
+        chapter_number=12,
+        title="Missing Review Packet",
+        content="A fluent chapter that has not proven it passed the acceptance review.",
+        word_count=84,
+        status="completed",
+    )
+    aggregate = {
+        "high_risk_issues": [],
+        "top_issues": ["post_draft_review_missing"],
+        "reader_risks": [],
+        "style_drift_issues": [],
+        "post_draft_review": {
+            "required": True,
+            "blocking": True,
+            "missing_count": 2,
+            "missing": [
+                {"persona": "fresh reader", "field": "mobile_readability_review"},
+                {"persona": "fresh reader", "field": "least_destructive_repair_scope"},
+            ],
+        },
+    }
+
+    brief = service._build_revision_brief(
+        chapter=chapter,
+        analysis=None,
+        aggregate=aggregate,
+    )
+
+    assert "Post-draft review repair" in brief
+    assert "structure, continuity, POV, voice, conflict, pacing" in brief
+    assert "mobile readability" in brief
+    assert "least destructive repair" in brief
 
 
 def test_build_revision_brief_includes_live_diagnostics_repair_requirements():
