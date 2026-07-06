@@ -539,3 +539,101 @@ Verification targets added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_open_novel_fanqie_source_adds_benchmark_author_gate -q
 ```
+
+## 2026-07-06 Neupen static parallel-memory reader gate addendum
+
+Source reviewed statically: `https://github.com/FantasyLu/neupen`
+
+Observed metadata on 2026-07-06:
+
+- Public `git ls-remote` HEAD for `refs/heads/main`:
+  `afd48066f5f483c5b0418f64466bc41f33d5f08e`
+- GitHub Search metadata: stars/forks `0` / `0`, latest observed pushed
+  timestamp `2026-07-06T09:41:28Z`, license `MIT`, language signal from
+  repository description only because the direct repository API returned `403`.
+- Direct GitHub repository API returned `403`; this was treated as a rate-limit
+  or access boundary. No token, proxy, retry storm, or bypass was used.
+- Raw samples:
+  - `README.md` status `200`, bytes `64163`, sha256
+    `6b77cef18aea0ebd66e78fed8291745fe80efd9eba0c2c8088ad1f904b1df15d`
+  - `LICENSE` status `200`, bytes `1066`, sha256
+    `f23a21bb92b92add9fa61c5303847d024732c8652067a4b3a9b9a3cb0721d6df`
+  - `.env.example` status `200`, bytes `1747`, sha256
+    `5247d273409b8c71bb61887adef019b77545c0a141244ee1eb64252367c51063`
+  - `package.json` and `pnpm-lock.yaml` raw probes returned `404`; no package
+    manager was run.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, Docker/Streamlit/macOS app launch, package install, script
+  execution, provider/model call, embedding/vector write, uploaded style sample
+  import, generated chapter import, collaboration-account use, cookie/token
+  read, or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Continuation context can now be audited as three explicit layers: L1 permanent
+  canon, L2 recent chapter summaries, and L3 selected semantic fragments. Each
+  injected item needs a source id, relevance reason, and token cap.
+- Review is modeled as four independent dimensions: plot alignment,
+  character/world guard, continuity tracking, and AI-style refinement. Any
+  rejected dimension requires a full rerun of all dimensions before acceptance,
+  avoiding stale partial-pass evidence.
+- Foreshadowing now gets deadline state vocabulary: active, due-soon, overdue,
+  collected, or abandoned, so chapter planning must either use, defer with
+  reason, or resolve the item.
+- Reader simulation is acceptance evidence only when personas, scoring
+  dimensions, highlighted strengths, and concrete revision suggestions are tied
+  to the accepted target chapter.
+- Style transfer remains a structured style profile; uploaded reference prose is
+  not reused as prompt context once the profile exists.
+- Same-type creation remaps memory layers, review dimensions, foreshadow
+  deadlines, style-profile axes, and reader personas into target-owned records;
+  source SQLite rows, LanceDB fragments, uploaded style text, reader-score
+  examples, provider settings, collaboration comments, and generated chapters
+  stay outside target canon.
+
+Verification target added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_neupen_source_adds_parallel_memory_reader_gate -q
+```
+
+## 2026-07-06 local universal writing reread and Neupen fusion addendum
+
+The local source `D:\project\universal-novel-writing` was re-read statically
+after the Neupen pass. The six reviewed files still match the original SHA-256
+snapshot recorded above. No install, clone, package execution, script run,
+provider/model call, browser/MCP/desktop runtime, prompt-body transplant,
+manuscript import, cookie/token read, or credential read occurred.
+
+Additional fusion result:
+
+- Neupen's L1/L2/L3 memory packet is treated as a context-assembly layer, while
+  `universal-novel-writing` remains the authoring contract for mode, chapter
+  job, reader promise, scene beats, revision order, and progress write-back.
+- Parallel review dimensions now complement the universal post-draft acceptance
+  order: plot alignment maps to developmental/structure evidence, character
+  guard maps to want/need/wound/world-rule evidence, continuity tracking maps to
+  ledger/write-back evidence, and style refinement maps to anti-AI naturalness
+  without copying source prose.
+- Reader simulation remains a reviewer lens only. It must answer the universal
+  fresh-reader questions from the target page before it can support acceptance.
+- Foreshadowing deadlines inherit the universal hook/payoff ledger discipline:
+  every due-soon or overdue thread must be paid off, escalated, deferred with
+  reason, or explicitly abandoned before the chapter is treated as accepted.
+- Same-type creation now has a clearer precedence rule: source projects may
+  supply method shape, but target-owned reader promise, protagonist pressure,
+  world rules, scene goals, payoff route, memory ids, review ids, and reader
+  scorecards must be rebuilt before drafting.
+- The prompt digest now renders a wider inspired-mapping target window so older
+  universal remap gates are not hidden when newer Neupen remap targets are
+  appended to the same pattern pack.
+
+Verification targets added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_neupen_source_adds_parallel_memory_reader_gate -q
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py -q
+```

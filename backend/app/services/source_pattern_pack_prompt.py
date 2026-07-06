@@ -628,6 +628,7 @@ def render_source_pattern_pack_digest(
         "show_me_story_foreshadow_memory_gate_hints",
         "ai_novel_diagnosis_retention_triage_gate_hints",
         "fanqie_benchmark_deconstruct_author_gate_hints",
+        "neupen_parallel_memory_reader_gate_hints",
         "narrative_canon_version_branch_graph_gate_hints",
         "planner_writer_evaluator_editor_saga_gate_hints",
         "story_weaver_kg_bible_rag_gate_hints",
@@ -904,7 +905,7 @@ def render_source_pattern_pack_digest(
     if include_inspired_guidance:
         inspired_mapping_targets = _as_note_list(source_pattern_pack.get("inspired_mapping_targets"))
         if inspired_mapping_targets:
-            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:40]))
+            lines.append("- inspired_mapping_targets: " + ", ".join(inspired_mapping_targets[:60]))
 
         inspired_prompt_hints = _as_note_list(source_pattern_pack.get("inspired_prompt_hints"))
         if inspired_prompt_hints:

@@ -94,6 +94,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("show-me-the-story" OR "narrative memory" OR "fact-check") ("full-book outline" OR "chapter review" OR "active foreshadowing") in:name,description,readme',
     '("AI Novel Diagnosis Desk" OR "novel diagnosis" OR "reader drop-off") ("rewrite prompt" OR "rediagnosis" OR "text evidence") in:name,description,readme',
     '("open-novel-fanqie" OR "番茄扫榜" OR "拆一本爆款") ("换壳" OR "细纲" OR "活文档") in:name,description,readme',
+    '("Neupen" OR "8-Agent" OR "三层记忆") ("parallel review" OR "伏笔甘特图" OR "读者模拟") in:name,description,readme',
     '("rolling summary" OR "character state tracking" OR "context trimming") ("long-form" OR "novel") in:name,description,readme',
     '("head-to-head story" OR "pairwise margins" OR "evaluator agreement") ("creative writing" OR "fiction") in:name,description,readme',
     '("q1" OR "q15" OR "ranked weaknesses" OR "overall score") ("story evaluation" OR "creative writing") in:name,description,readme',
@@ -1067,6 +1068,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/Nigh/show-me-the-story",
     "https://github.com/myyimu/ai-novel-diagnosis",
     "https://github.com/mosonlab/open-novel-fanqie",
+    "https://github.com/FantasyLu/neupen",
     "https://github.com/proportionable-plaguespot199/novel-workflow",
     "https://github.com/silbaram/novel-writer",
     "https://github.com/forsonny/Claude-Code-Novel-Writer",
@@ -1305,6 +1307,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("show_me_story_foreshadow_memory_gate", ("show-me-the-story", "show me the story", "two-stage creation", "full-book outline", "chapter-by-chapter writing", "chapter review", "active foreshadowing", "narrative memory", "fact-check", "targeted paragraph revision", "setting coordination", "whole-book optimization", "全书大纲", "逐章写作", "自动事实核查", "叙事记忆", "伏笔系统", "活跃伏笔", "自然段", "设定协调", "全书优化")),
     ("ai_novel_diagnosis_retention_triage_gate", ("ai-novel-diagnosis", "AI Novel Diagnosis Desk", "novel diagnosis", "reader drop-off", "first chapter triage", "text evidence", "reader reaction", "revision priority", "rewrite prompt", "rediagnosis", "quickScore", "gate decision", "issue -> severity", "reader impact", "fix action", "do-not-copy list", "book disassembly guide", "relationship storyline")),
     ("fanqie_benchmark_deconstruct_author_gate", ("open-novel-fanqie", "番茄扫榜", "拆一本爆款", "刚要起飞", "10–30 万字", "前 3 章", "长程档", "换壳切入", "作者拍板", "AI 只填爽点", "细纲信息密度", "场景脚本", "净 2100–2300", "每 10 章", "活文档", "事件摘要", "设定卡", "硬伤审稿")),
+    ("neupen_parallel_memory_reader_gate", ("neupen", "8-agent", "八个专职 agent", "三层记忆", "L1 全局设定", "L2 近期时序", "L3 碎片语义", "SQLite", "LanceDB", "伏笔甘特图", "动态警告", "四审核并行", "plot_aligner", "character_guard", "continuity_tracker", "style_refiner", "reader simulation", "读者模拟", "多角色读者", "最多 5 轮", "全量重审")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "prompt pipeline", "prompt pipelines", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "scorecard", "scoring", "scores", "tiered scoring", "weighted scoring", "threshold", "thresholds", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "评分", "出稿门槛", "门槛", "读者面板", "平台期检测")),
@@ -3874,6 +3877,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "open-novel-fanqie is an MIT TypeScript/Claude-skill webnovel pipeline. Public README/SOP/root markers describe a Tomato webnovel workflow that deconstructs a just-rising benchmark book, swaps the shell, asks the author to approve the premise and event choices, builds blueprint/character/setting artifacts, turns chapter outlines into dense scene scripts, drafts 2100-2300-character chapters, runs independent hard-flaw review, and updates living documents every chapter and every 10 chapters. "
         "Pattern-only adaptation for benchmark deconstruction, author stop-gates, scene-script density, and rolling live-document continuity; clone, bun/Claude setup, shell scripts, novelcatch.com browsing, upstream skill prompt bodies, benchmark manuscripts, demo story text, provider/model calls, and generated prose are not imported or executed."
     ),
+    "fantasylu/neupen": (
+        "Neupen is an MIT AI-driven long-form novel system. Public README markers describe an eight-agent workflow, three-layer memory with global SQLite canon, recent chapter summaries, LanceDB semantic fragments, foreshadowing Gantt/deadline warnings, platform style adaptation, style transfer, reader simulation, collaboration roles, and a chapter pipeline with write -> polish -> four parallel review gates -> save/sync. "
+        "Pattern-only adaptation for parallel review loops, layer-specific memory context assembly, foreshadow-deadline scheduling, reader-simulation acceptance evidence, and explicit sync prompts; Docker, Streamlit runtime, macOS app builds, provider/API keys, embeddings/vector writes, uploaded style references, generated chapters, collaboration accounts, and scripts are not imported or executed."
+    ),
     "proportionable-plaguespot199/novel-workflow": (
         "novel-workflow is a no-license-observed online-novel writing toolchain for Claude Code. Public README markers describe 12 slash commands covering init/style/setting/outline/write/review/sync, multi-model role split between Claude/Codex/Gemini, hot/warm/cold context levels, Markdown plus JSON state management, four story templates, offline file-only core workflows, downloadable ZIP packages, Node/npm setup, build commands, and /novel:* command surfaces. "
         "Pattern-only adaptation for command-phase routing, context-temperature tiers, state sync, and Markdown/JSON recovery; downloadable ZIPs, Node/npm install/build, Claude Code command registration, package files, templates, and upstream command text are not imported or executed."
@@ -5043,6 +5050,7 @@ class NovelSourceDiscoveryService:
             "show_me_story_foreshadow_memory_gate_hints": self._build_show_me_story_foreshadow_memory_gate_hints(available_patterns),
             "ai_novel_diagnosis_retention_triage_gate_hints": self._build_ai_novel_diagnosis_retention_triage_gate_hints(available_patterns),
             "fanqie_benchmark_deconstruct_author_gate_hints": self._build_fanqie_benchmark_deconstruct_author_gate_hints(available_patterns),
+            "neupen_parallel_memory_reader_gate_hints": self._build_neupen_parallel_memory_reader_gate_hints(available_patterns),
             "scene_asset_pipeline_hints": self._build_scene_asset_pipeline_hints(available_patterns),
             "quality_score_loop_hints": self._build_quality_score_loop_hints(available_patterns),
             "voice_fingerprint_hints": self._build_voice_fingerprint_hints(available_patterns),
@@ -6821,6 +6829,7 @@ class NovelSourceDiscoveryService:
             "show_me_story_foreshadow_memory_gate": 72,
             "ai_novel_diagnosis_retention_triage_gate": 71,
             "fanqie_benchmark_deconstruct_author_gate": 72,
+            "neupen_parallel_memory_reader_gate": 73,
             "narrative_canon_version_branch_graph_gate": 73,
             "planner_writer_evaluator_editor_saga_gate": 72,
             "story_weaver_kg_bible_rag_gate": 72,
@@ -7353,6 +7362,11 @@ class NovelSourceDiscoveryService:
             targets.append("author_decision_stop_gate_policy")
             targets.append("scene_script_density_policy")
             targets.append("ten_chapter_living_document_policy")
+        if "neupen_parallel_memory_reader_gate" in patterns:
+            targets.append("three_layer_memory_context_policy")
+            targets.append("parallel_review_full_rerun_policy")
+            targets.append("foreshadow_deadline_warning_policy")
+            targets.append("reader_simulation_acceptance_policy")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_canon_branch_merge_policy")
             targets.append("paradox_conflict_resolution_policy")
@@ -9100,6 +9114,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["retention_issue_evidence_report", "rewrite_prompt_effectiveness_report", "rediagnosis_delta_report", "book_disassembly_learning_asset_audit"])
         if "fanqie_benchmark_deconstruct_author_gate" in patterns:
             targets.extend(["benchmark_deconstruction_abstraction_report", "author_decision_stop_gate_audit", "scene_script_density_report", "ten_chapter_living_document_report"])
+        if "neupen_parallel_memory_reader_gate" in patterns:
+            targets.extend(["three_layer_memory_context_audit", "parallel_review_full_rerun_report", "foreshadow_deadline_schedule_report", "reader_simulation_acceptance_report"])
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.extend(["narrative_canon_branch_report", "timeline_merge_conflict_report", "paradox_resolution_decision_log"])
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10300,6 +10316,9 @@ class NovelSourceDiscoveryService:
         if "fanqie_benchmark_deconstruct_author_gate" in patterns:
             hints.append("For continuation, assemble context from target tone/style cards, character cards, latest event summary, dense scene script, and previous tail; benchmark prose or upstream skill prompts stay out of draft context.")
             hints.append("Treat every author-pick point as a stop gate: premise, shell swap, event selection, scene-script lock, and hard-flaw fixes require visible acceptance before drafting continues.")
+        if "neupen_parallel_memory_reader_gate" in patterns:
+            hints.append("For continuation, assemble L1 global canon, L2 recent summaries, L3 selected semantic fragments, active foreshadow deadlines, and current outline as separate context sections with source ids and token caps.")
+            hints.append("After drafting, run independent plot, character/world, continuity, and AI-style reviews; any rejected dimension triggers a full rerun of all dimensions before acceptance.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Treat what-if and same-type branches as explicit timeline branches with merge/conflict/paradox review before any branch becomes accepted canon.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10817,6 +10836,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist chapter ingestion results, context-package priority order, token budget trim, hybrid retrieval classes, character knowledge deltas, graph edges, and human confirmation status.")
         if "fanqie_benchmark_deconstruct_author_gate" in patterns:
             hints.append("Persist benchmark-deconstruction id, shell-swap decision, author-selected event ids, scene-script lock status, chapter word-band check, hard-flaw review result, and live-document update cadence.")
+        if "neupen_parallel_memory_reader_gate" in patterns:
+            hints.append("Persist L1/L2/L3 context ids, foreshadow deadline status, review-dimension verdicts, rerun count, reader-simulation scores, sync decisions, and accepted memory deltas for every chapter.")
         if "renovel_tri_model_aligned_rewrite_gate" in patterns:
             hints.append("Persist original/rewrite paragraph alignment, writer instruction, reviewer OOC/logic verdict, style-matrix settings, event extraction, and batch rewrite checkpoint separately.")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
@@ -16167,6 +16188,18 @@ class NovelSourceDiscoveryService:
             "Clone, bun/Claude setup, shell scripts, novelcatch.com browsing, upstream skill prompts, benchmark manuscripts, demo prose, provider/model calls, and generated chapters remain excluded from static intake.",
         ]
 
+    def _build_neupen_parallel_memory_reader_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "neupen_parallel_memory_reader_gate" not in patterns:
+            return []
+        return [
+            "Split long-form context into L1 permanent canon, L2 recent chapter summaries, and L3 semantic fragments; each injected item needs a source id, relevance reason, and token cap.",
+            "Run review as four independent dimensions: plot alignment, character/world guard, continuity tracking, and AI-style refinement; a reject in any dimension triggers a full rerun, not a partial stale pass.",
+            "Foreshadowing needs deadline metadata with active, due-soon, overdue, collected, or abandoned status before chapter planning can ignore or resolve it.",
+            "Reader simulation is acceptance evidence only when personas, scoring dimensions, highlighted strengths, and concrete revision suggestions are tied to the accepted target chapter.",
+            "Style transfer should store a structured style profile and exclude uploaded reference prose from prompt reuse once the profile exists.",
+            "Docker, Streamlit runtime, macOS app builds, provider/API keys, embeddings/vector writes, uploaded style references, generated chapters, collaboration accounts, and scripts remain deferred static-review surfaces.",
+        ]
+
     def _build_narrative_canon_version_branch_graph_gate_hints(self, patterns: set[str]) -> list[str]:
         if "narrative_canon_version_branch_graph_gate" not in patterns:
             return []
@@ -17599,6 +17632,11 @@ class NovelSourceDiscoveryService:
             targets.append("author_pick_stop_gate_remap")
             targets.append("scene_script_density_remap")
             targets.append("living_document_cadence_remap")
+        if "neupen_parallel_memory_reader_gate" in patterns:
+            targets.append("layered_memory_context_remap")
+            targets.append("parallel_review_dimension_remap")
+            targets.append("foreshadow_deadline_remap")
+            targets.append("reader_persona_score_remap")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_branch_canon_graph_remap")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -18802,6 +18840,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt same-type creation to build a target-owned retention diagnosis rubric: issue, evidence slot, reader impact, priority, rewrite action, and rediagnosis checkpoint.")
         if "fanqie_benchmark_deconstruct_author_gate" in patterns:
             hints.append("Prompt same-type creation with target-owned benchmark lessons: abstract hook engine, new shell, author-picked event bank, dense scene scripts, and live-document cadence; never include source chapters or upstream skill bodies.")
+        if "neupen_parallel_memory_reader_gate" in patterns:
+            hints.append("Prompt same-type creation with target-owned L1/L2/L3 memory slots, foreshadow deadlines, four review dimensions, and reader-persona scorecards; source memory rows and style samples remain excluded.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Prompt alternate branches with branch id, divergence event, merge policy, and paradox-resolution criteria before generating same-type or what-if prose.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -19983,6 +20023,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform diagnosis categories, reader-impact signals, rewrite prompts, and method cards into target-specific criteria with new evidence ids and no source example text.")
         if "fanqie_benchmark_deconstruct_author_gate" in patterns:
             hints.append("Transform benchmark structure by changing protagonist pressure, shell, event bank, scene goals, payoff route, chapter hooks, and living-document facts before any same-type drafting.")
+        if "neupen_parallel_memory_reader_gate" in patterns:
+            hints.append("Transform memory layers, review dimensions, foreshadow deadlines, style profile axes, and reader personas into target-owned acceptance records before drafting.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Transform source timeline branch ideas into a new branch graph with new entities, events, conflict policies, and canon promotion rules.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -21638,6 +21680,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts or method cards that copy source diagnostic report wording, example chapters, rewrite prompts, mind-map labels, relationship-storyline content, or do-not-copy lists as target material.")
         if "fanqie_benchmark_deconstruct_author_gate" in patterns:
             hints.append("Reject same-type outputs that reuse benchmark chapter order, proper nouns, shell candidates, event lists, demo text, upstream skill prompt wording, or novelcatch ranking snapshots as target canon.")
+        if "neupen_parallel_memory_reader_gate" in patterns:
+            hints.append("Reject same-type drafts that carry over source SQLite rows, LanceDB fragments, uploaded style text, reader-score examples, collaboration comments, provider settings, or generated chapters as target canon.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Reject same-type branches that merge source timeline events, paradox labels, or branch names into target canon under renamed characters.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -22108,6 +22152,7 @@ class NovelSourceDiscoveryService:
                 "show_me_story_foreshadow_memory_gate",
                 "ai_novel_diagnosis_retention_triage_gate",
                 "fanqie_benchmark_deconstruct_author_gate",
+                "neupen_parallel_memory_reader_gate",
                 "narrative_canon_version_branch_graph_gate",
                 "planner_writer_evaluator_editor_saga_gate",
                 "story_weaver_kg_bible_rag_gate",

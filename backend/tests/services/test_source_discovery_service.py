@@ -17094,6 +17094,85 @@ def test_static_open_novel_fanqie_source_adds_benchmark_author_gate():
 
 
 
+def test_static_neupen_source_adds_parallel_memory_reader_gate():
+    assert "https://github.com/FantasyLu/neupen" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Neupen" in query and "三层记忆" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "FantasyLu/neupen",
+                "html_url": "https://github.com/FantasyLu/neupen",
+                "description": (
+                    "Neupen is an AI-driven long-form novel writing engine with 8-Agent "
+                    "collaborative workflow, 3-layer memory system, conflict detection, "
+                    "plot foreshadowing scheduling, human-like polish, multi-role reader "
+                    "simulation, and real-time collaboration."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "ai-writing", "longform", "multi-agent"],
+                "updated_at": "2026-07-06T09:41:33Z",
+                "pushed_at": "2026-07-06T09:41:28Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    "requirements.txt",
+                    ".env.example",
+                    "Dockerfile",
+                    "docker-compose.yml",
+                    "scripts",
+                    "core",
+                    "ui",
+                ],
+                "readme_excerpt": (
+                    "八大 Agent include Outline, Character, Writer, Review, Polish, Reader, "
+                    "Idea and Canvas agents. Three-layer memory uses L1 global SQLite canon, "
+                    "L2 recent chapter summaries, and L3 LanceDB semantic fragments. "
+                    "A chapter run writes, polishes, then executes four parallel review gates: "
+                    "plot_aligner, character_guard, continuity_tracker and style_refiner; "
+                    "any REJECT merges feedback and reruns all four gates for up to 5 rounds. "
+                    "Foreshadowing Gantt deadlines warn due-soon or overdue items, and reader "
+                    "simulation scores爽文读者, 文学爱好者 and 轻小说读者."
+                ),
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-06T22:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["FantasyLu/neupen"]
+    assert "neupen_parallel_memory_reader_gate" in candidate["absorbed_patterns"]
+    assert "docker" in candidate["risk_flags"]
+    assert "provider_key_surface" in candidate["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "three_layer_memory_context_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "parallel_review_full_rerun_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "foreshadow_deadline_warning_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "reader_simulation_acceptance_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "three_layer_memory_context_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "parallel_review_full_rerun_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "foreshadow_deadline_schedule_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "reader_simulation_acceptance_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "layered_memory_context_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "parallel_review_dimension_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "foreshadow_deadline_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reader_persona_score_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("l1 permanent canon" in hint.lower() for hint in pattern_pack["neupen_parallel_memory_reader_gate_hints"])
+    assert any("L1 global canon" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("review-dimension verdicts" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("reader-persona scorecards" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("sqlite rows" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "neupen_parallel_memory_reader_gate_hints" in digest
+
+
+
 def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/aszecsei/writr" in DEFAULT_GITHUB_REPOSITORY_URLS
