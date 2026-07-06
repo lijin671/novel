@@ -10411,10 +10411,12 @@ def test_static_prose_pov_phase_snapshot_sources_map_to_source_study_gates():
 
 def test_static_book_writing_graph_rights_vscode_sources_map_to_workspace_gates():
     assert "https://github.com/lhfer/codex-novel-to-comic-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert "https://github.com/Anshler/graphify-novel" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/yosrikhiari/Versatile" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/okeylanders/prose-minion-vscode" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/wwessex/Writer1" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert any("rights gate" in query.lower() and "visual bible" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+    assert any("graphify" in query.lower() and "story bible" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("indexeddb" in query.lower() and "story network" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
     assert any("vscode" in query.lower() and "prose analysis" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
 
@@ -10452,6 +10454,23 @@ def test_static_book_writing_graph_rights_vscode_sources_map_to_workspace_gates(
                 "root_files": ["README.md", "package.json", "src"],
             },
             {
+                "full_name": "Anshler/graphify-novel",
+                "html_url": "https://github.com/Anshler/graphify-novel",
+                "description": (
+                    "Knowledge-graph AI writing assistant that scaffolds a story bible from a premise, "
+                    "sweeps chapters in batches, reviews draft chapters for contradictions, keeps bible "
+                    "state files for characters, threads, world and timeline, builds graphify-out graph.json "
+                    "from chapters plus bible, excludes draft/ and static/ files, tracks unresolved setups, "
+                    "open threads, structural hubs and shortest paths, and treats review findings as proposals only."
+                ),
+                "stargazers_count": 47,
+                "forks_count": 14,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "story-bible", "knowledge-graph", "writing-assistant"],
+                "updated_at": "2026-04-16T11:20:29Z",
+                "root_files": ["README.md", "README.vi.md", "SKILL.md", "LICENSE"],
+            },
+            {
                 "full_name": "okeylanders/prose-minion-vscode",
                 "html_url": "https://github.com/okeylanders/prose-minion-vscode",
                 "description": (
@@ -10487,6 +10506,7 @@ def test_static_book_writing_graph_rights_vscode_sources_map_to_workspace_gates(
     candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
     assert "rights_first_adaptation_pipeline_gate" in candidates["lhfer/codex-novel-to-comic-studio"]["absorbed_patterns"]
     assert "local_flow_story_graph_workspace_gate" in candidates["yosrikhiari/Versatile"]["absorbed_patterns"]
+    assert "graphify_bible_graph_dual_layer_gate" in candidates["Anshler/graphify-novel"]["absorbed_patterns"]
     assert "editor_context_prose_analysis_gate" in candidates["okeylanders/prose-minion-vscode"]["absorbed_patterns"]
     assert "offline_chapter_revision_export_gate" in candidates["wwessex/Writer1"]["absorbed_patterns"]
 
@@ -10494,24 +10514,30 @@ def test_static_book_writing_graph_rights_vscode_sources_map_to_workspace_gates(
 
     assert "rights_clearance_adaptation_policy" in pattern_pack["bible_enrichment_targets"]
     assert "flow_session_story_graph_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "bible_graph_dual_layer_policy" in pattern_pack["bible_enrichment_targets"]
     assert "editor_context_analysis_scope_policy" in pattern_pack["bible_enrichment_targets"]
     assert "offline_chapter_document_boundary" in pattern_pack["bible_enrichment_targets"]
     assert "rights_source_adaptation_gate_report" in pattern_pack["whole_book_analysis_targets"]
     assert "local_flow_story_graph_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "bible_graph_dual_layer_report" in pattern_pack["whole_book_analysis_targets"]
     assert "editor_context_prose_analysis_report" in pattern_pack["whole_book_analysis_targets"]
     assert "offline_revision_export_manifest" in pattern_pack["whole_book_analysis_targets"]
     assert "rights_first_adaptation_pipeline_gate_hints" in pattern_pack
     assert "local_flow_story_graph_workspace_gate_hints" in pattern_pack
+    assert "graphify_bible_graph_dual_layer_gate_hints" in pattern_pack
     assert "editor_context_prose_analysis_gate_hints" in pattern_pack
     assert "offline_chapter_revision_export_gate_hints" in pattern_pack
     assert "rights_adaptation_boundary_remap" in pattern_pack["inspired_mapping_targets"]
     assert "local_flow_story_graph_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "bible_graph_dual_layer_remap" in pattern_pack["inspired_mapping_targets"]
     assert "editor_context_analysis_remap" in pattern_pack["inspired_mapping_targets"]
     assert "offline_chapter_export_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("bible/" in hint and "graphify-out" in hint for hint in pattern_pack["graphify_bible_graph_dual_layer_gate_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "rights_first_adaptation_pipeline_gate_hints" in digest
     assert "local_flow_story_graph_workspace_gate_hints" in digest
+    assert "graphify_bible_graph_dual_layer_gate_hints" in digest
     assert "editor_context_prose_analysis_gate_hints" in digest
     assert "offline_chapter_revision_export_gate_hints" in digest
 

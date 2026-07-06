@@ -269,3 +269,41 @@ Verification targets added:
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_local_universal_novel_writing_skill_is_static_absorbed backend/tests/services/test_source_discovery_service.py::test_load_latest_pattern_pack_preserves_universal_baseline_beyond_three_files -q
 python -X utf8 -m pytest backend/tests/frontend/test_source_discovery_panel_copy.py::test_source_discovery_panel_surfaces_pattern_pack_merge_metadata -q
 ```
+
+## 2026-07-06 graphify-novel static graph/bible addendum
+
+Source reviewed statically: `https://github.com/Anshler/graphify-novel`
+
+Observed metadata on 2026-07-06:
+
+- HEAD: `124c9abc473508e081a625e4d2a24b24071581a2`
+- Default branch: `master`
+- License: `MIT`
+- Stars/forks: `47` / `14`
+- Root markers: `README.md`, `README.vi.md`, `SKILL.md`, `LICENSE`
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, package-manager install, `npx skills add`, `pip install graphifyy`,
+  graphify runtime, MCP/browser/desktop runtime, provider call, graph export import,
+  prompt-body transplant, user manuscript import, cookie/token read, or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- `bible/` is modeled as structured source-of-truth state.
+- `graphify-out/` is modeled as a derived relationship graph, not canon.
+- `draft/` and `static/` stay excluded from canon graph extraction by default.
+- Review findings stay proposals until accepted with chapter/source evidence,
+  intent, changed bible slice, thread status delta, and graph rebuild evidence.
+- Whole-book review can now ask for `bible_graph_dual_layer_report`,
+  `thread_status_graph_consistency_findings`, and `draft_static_exclusion_audit`.
+- Same-type creation remaps bible state, graph topology, thread statuses,
+  relationship paths, structural hubs, and unresolved setups instead of copying
+  source nodes, slugs, paths, or prose.
+
+Verification targets added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_book_writing_graph_rights_vscode_sources_map_to_workspace_gates -q
+```

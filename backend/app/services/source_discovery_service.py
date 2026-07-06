@@ -70,6 +70,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("perplexity" OR "burstiness" OR "stylometry") ("humanize" OR "AI text") in:name,description,readme',
     '("story generation taxonomy" OR "LLM story generation" OR "story generation survey") ("novel" OR "script") in:name,description,readme',
     '("story bible" OR "plot threads" OR "continuity checker") ("writer" OR "editor" OR "chapter outlines") in:name,description,readme',
+    '("graphify" OR "knowledge graph") ("story bible" OR "chapter consistency" OR "novel writing") in:name,description,readme',
     '("narrative arc" OR "author style" OR "scenario blueprint") ("story mode" OR "fiction") in:name,description,readme',
     '("prompt recipes" OR "sampling grid" OR "append-only log") ("writing" OR "story") in:name,description,readme',
     '("hero journey" OR "Freytag" OR "Wikiquote" OR "story structure RAG") ("novel" OR "fiction") in:name,description,readme',
@@ -977,6 +978,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/d-wwei/great-writer",
     "https://github.com/vulogov/blackInkhaven",
     "https://github.com/lhfer/codex-novel-to-comic-studio",
+    "https://github.com/Anshler/graphify-novel",
     "https://github.com/yosrikhiari/Versatile",
     "https://github.com/okeylanders/prose-minion-vscode",
     "https://github.com/DoktorDaveJoos/manuscript",
@@ -1487,6 +1489,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("portable_canon_skill_runtime_gate", ("canon governance", "canon layer", "portable skill runtime", "story/*.md", "markdown frontmatter", "sqlite state", "canon-sync", "artifact index", "project config", "skill runtime")),
     ("staged_outline_chunk_window_gate", ("sliding-window memory", "focused plot context", "adjacent parts", "cjk-aware counter", "start chapter", "end chapter", "chapter range refinement", "batch start", "resume interrupted generation", "plot token usage")),
     ("wiki_canon_graph_lint_gate", ("story bible wiki", "worldbuilding wiki", "canon lint", "wiki-query", "wiki-graph", "relationship graph", "continuity warnings", "timeline contradictions", "unresolved setup/payoff", "lore clusters")),
+    ("graphify_bible_graph_dual_layer_gate", ("graphify-novel", "graphify out", "graphify-out", "bible/", "structured state files", "source of truth", "relationship layer", "knowledge graph extracted", "open threads", "unresolved setups", "structural hubs", "shortest connection", "review findings are proposals", "draft/ excluded", "static/ excluded")),
     ("plan_draft_log_verify_loop_gate", ("plan \u2192 draft \u2192 log \u2192 verify", "plan -> draft -> log -> verify", "plan draft log verify", "living documents", "thread tracking", "foreshadowing checklists", "scene logs", "wrap", "documents are current")),
     ("mcp_scene_index_revision_boundary", ("metadata-first analysis", "sqlite-canonical", "scene files", "safe scene revision", "ai-assisted prose editing with confirmation", "git history", "review bundles", "scrivener direct extraction", "targeted scene reading", "sync dir")),
     ("verbalized_sampling_diversity_wiki_gate", ("verbalized sampling", "mode collapse", "distribution of responses", "probability score", "writer's wiki", "auto-files", "automatic character and setting detection", "diverse outlines", "brainstorm", "critic")),
@@ -3551,6 +3554,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Versatile is a browser-based fiction writing assistant with no license file observed in this static pass. Public README markers describe local IndexedDB autosave, flow sessions, focus mode, Ollama-backed Spark/Polish tools, story generator, story bible, timeline, scene cards, and a visual story network graph. "
         "Pattern-only adaptation for local flow/workspace and story-graph gates; npm/runtime, browser app, Ollama, and local storage are not launched or read."
     ),
+    "anshler/graphify-novel": (
+        "graphify-novel is a MIT graph-backed novel writing assistant. Public README/SKILL markers describe bible/ as structured source-of-truth state, graphify-out/ as a derived relationship graph, chapter/bible graph extraction, draft/ and static/ exclusion, review findings as proposals, status reports for open threads and unresolved setups, and query/path operations for structural hubs and cross-chapter relationships. "
+        "Pattern-only adaptation for bible-vs-derived-graph gates and thread-topology review; npx skill install, graphify runtime, package managers, graph exports, and upstream prompt bodies are not imported or executed."
+    ),
     "okeylanders/prose-minion-vscode": (
         "Prose Minion VS Code is a Commons-Clause-licensed creative-writing extension. Public README markers describe professional prose metrics, AI writing assistance, contextual analysis, manuscript/chapter/source analysis, story bible, and model-audit surfaces. "
         "Pattern-only adaptation for editor-context prose-analysis scopes; extension runtime, VS Code APIs, provider lists, and upstream rule bodies are not imported or executed."
@@ -5059,6 +5066,7 @@ class NovelSourceDiscoveryService:
             "hierarchical_semantic_snapshot_workspace_gate_hints": self._build_hierarchical_semantic_snapshot_workspace_gate_hints(available_patterns),
             "rights_first_adaptation_pipeline_gate_hints": self._build_rights_first_adaptation_pipeline_gate_hints(available_patterns),
             "local_flow_story_graph_workspace_gate_hints": self._build_local_flow_story_graph_workspace_gate_hints(available_patterns),
+            "graphify_bible_graph_dual_layer_gate_hints": self._build_graphify_bible_graph_dual_layer_gate_hints(available_patterns),
             "editor_context_prose_analysis_gate_hints": self._build_editor_context_prose_analysis_gate_hints(available_patterns),
             "living_codex_editorial_workbench_gate_hints": self._build_living_codex_editorial_workbench_gate_hints(available_patterns),
             "agent_role_profile_workflow_gate_hints": self._build_agent_role_profile_workflow_gate_hints(available_patterns),
@@ -6668,6 +6676,7 @@ class NovelSourceDiscoveryService:
             "hierarchical_semantic_snapshot_workspace_gate": 66,
             "rights_first_adaptation_pipeline_gate": 68,
             "local_flow_story_graph_workspace_gate": 66,
+            "graphify_bible_graph_dual_layer_gate": 68,
             "editor_context_prose_analysis_gate": 67,
             "living_codex_editorial_workbench_gate": 69,
             "agent_role_profile_workflow_gate": 68,
@@ -7456,6 +7465,9 @@ class NovelSourceDiscoveryService:
         if "local_flow_story_graph_workspace_gate" in patterns:
             targets.append("flow_session_story_graph_policy")
             targets.append("local_story_workspace_boundary")
+        if "graphify_bible_graph_dual_layer_gate" in patterns:
+            targets.append("bible_graph_dual_layer_policy")
+            targets.append("derived_graph_noncanon_policy")
         if "editor_context_prose_analysis_gate" in patterns:
             targets.append("editor_context_analysis_scope_policy")
             targets.append("chapter_source_analysis_boundary")
@@ -9092,6 +9104,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["rights_source_adaptation_gate_report", "narrative_visual_bible_boundary_findings", "adaptation_qc_export_hold_notes"])
         if "local_flow_story_graph_workspace_gate" in patterns:
             targets.extend(["local_flow_story_graph_report", "flow_session_goal_trace", "story_network_timeline_findings"])
+        if "graphify_bible_graph_dual_layer_gate" in patterns:
+            targets.extend([
+                "bible_graph_dual_layer_report",
+                "thread_status_graph_consistency_findings",
+                "draft_static_exclusion_audit",
+            ])
         if "editor_context_prose_analysis_gate" in patterns:
             targets.extend(["editor_context_prose_analysis_report", "chapter_context_scope_findings", "source_analysis_redaction_notes"])
         if "living_codex_editorial_workbench_gate" in patterns:
@@ -11884,6 +11902,15 @@ class NovelSourceDiscoveryService:
             "Track local writing sprints with goal, word-count delta, idle/nudge notes, and accepted chapter id before they influence continuation planning.",
             "Story graph, timeline, scene cards, and story bible entries should share stable IDs so拆书 findings, author edits, and generated drafts do not fork silently.",
             "Local browser or IndexedDB-style workspaces must keep source-analysis notes, accepted canon, and style-only material in separate namespaces.",
+        ]
+
+    def _build_graphify_bible_graph_dual_layer_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "graphify_bible_graph_dual_layer_gate" not in patterns:
+            return []
+        return [
+            "Keep bible/ as structured source-of-truth state and graphify-out/ as a derived relationship layer; bible answers current facts, graph answers cross-chapter connection questions.",
+            "Review findings from graph/bible checks stay proposals until accepted; updates need source chapter id, intent, changed bible slice, thread status delta, and graph rebuild evidence.",
+            "Exclude draft/ and static/ material from canon graphs by default; for same-type creation, rebuild thread topology and relationship paths from transformed canon rather than copying source graph nodes or prose.",
         ]
 
     def _build_editor_context_prose_analysis_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -18265,6 +18292,9 @@ class NovelSourceDiscoveryService:
             targets.append("rights_adaptation_boundary_remap")
         if "local_flow_story_graph_workspace_gate" in patterns:
             targets.append("local_flow_story_graph_remap")
+        if "graphify_bible_graph_dual_layer_gate" in patterns:
+            targets.append("bible_graph_dual_layer_remap")
+            targets.append("thread_status_graph_topology_remap")
         if "editor_context_prose_analysis_gate" in patterns:
             targets.append("editor_context_analysis_remap")
         if "living_codex_editorial_workbench_gate" in patterns:
@@ -19258,6 +19288,8 @@ class NovelSourceDiscoveryService:
             hints.append("Plan the transformed outline in stage/chapter chunks and keep only current plus adjacent context detailed during drafting.")
         if "wiki_canon_graph_lint_gate" in patterns:
             hints.append("Build a new story-bible wiki and relationship graph from transformed facts before using wiki queries in drafting.")
+        if "graphify_bible_graph_dual_layer_gate" in patterns:
+            hints.append("For same-type creation, build a fresh bible/ truth layer and graphify-out relationship layer from transformed canon; source graph nodes and paths stay analysis-only.")
         if "plan_draft_log_verify_loop_gate" in patterns:
             hints.append("Apply Plan -> Draft -> Log -> Verify to transformed chapters, not to replay the source chapter workflow.")
         if "mcp_scene_index_revision_boundary" in patterns:
@@ -20045,6 +20077,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform staged outlines by changing setup chunks, adjacent-window policy, chapter-range revision scope, and resume checkpoints.")
         if "wiki_canon_graph_lint_gate" in patterns:
             hints.append("Transform wiki/graph material by rebuilding pages, graph nodes, lint rules, and continuity queries around new facts.")
+        if "graphify_bible_graph_dual_layer_gate" in patterns:
+            hints.append("Transform bible/ and graphify-out topology by changing canon ids, event refs, thread statuses, relationship paths, and unresolved setup ledgers before drafting.")
         if "plan_draft_log_verify_loop_gate" in patterns:
             hints.append("Transform the chapter loop by creating new plan logs, scene logs, thread updates, glossary deltas, and verify criteria.")
         if "mcp_scene_index_revision_boundary" in patterns:
@@ -21174,6 +21208,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject staged outlines whose setup/chunk sequence, adjacent-window summaries, or range-refinement targets match the source route.")
         if "wiki_canon_graph_lint_gate" in patterns:
             hints.append("Reject wiki pages or relationship graphs that keep source node names, edge labels, timeline warnings, or setup/payoff ids.")
+        if "graphify_bible_graph_dual_layer_gate" in patterns:
+            hints.append("Reject outputs that treat graphify-out as canon, ingest draft/static material, or preserve source thread slugs, shortest paths, structural hubs, or unresolved setup ids.")
         if "plan_draft_log_verify_loop_gate" in patterns:
             hints.append("Reject chapter logs that reproduce source scene order, glossary entries, thread labels, or foreshadowing checklist cadence.")
         if "mcp_scene_index_revision_boundary" in patterns:
@@ -21606,6 +21642,7 @@ class NovelSourceDiscoveryService:
                 "portable_canon_skill_runtime_gate",
                 "staged_outline_chunk_window_gate",
                 "wiki_canon_graph_lint_gate",
+                "graphify_bible_graph_dual_layer_gate",
                 "plan_draft_log_verify_loop_gate",
                 "mcp_scene_index_revision_boundary",
                 "verbalized_sampling_diversity_wiki_gate",
