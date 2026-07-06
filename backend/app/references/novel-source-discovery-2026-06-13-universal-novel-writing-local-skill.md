@@ -184,3 +184,27 @@ Verification targets added:
 python -m pytest backend/tests/services/test_novel_workflow_unlimited_review_policy.py -q
 python -m pytest backend/tests/services/test_book_remix_context_service.py backend/tests/services/test_book_remix_service.py backend/tests/services/test_novel_workflow_unlimited_review_policy.py -q
 ```
+
+## 2026-07-06 pattern-pack baseline preservation addendum
+
+The 2026-07-06 source-pattern refresh is a narrow metadata/static-intake
+snapshot. It should update freshness without dropping durable gates already
+absorbed from earlier universal-novel-writing passes.
+
+Additional reusable pattern fused into MuMuAINovel:
+
+- `source_discovery_service.py` now merges the latest pattern pack with recent
+  prior packs when loading prompt guidance.
+- Latest values still win for timestamps, current source titles, and duplicate
+  workflow gates.
+- Older unique workflow gates and hint lists remain available, so a narrower
+  refresh cannot silently remove continuation, hook-integrity, revision, or
+  same-type safety rules.
+- This preserves deep拆书续写 / 同类型仿写 guidance even when a later discovery
+  run contains only metadata-level evidence.
+
+Verification target added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_load_latest_pattern_pack_preserves_previous_baseline_when_refresh_is_narrower -q
+```

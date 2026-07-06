@@ -5787,6 +5787,136 @@ class NovelSourceDiscoveryService:
         )
         return target
 
+    def _load_recent_pattern_pack_payloads(
+        self,
+        candidates: list[Path],
+        *,
+        max_files: int = 3,
+    ) -> list[dict[str, Any]]:
+        payloads: list[dict[str, Any]] = []
+        for candidate in candidates[-max_files:]:
+            try:
+                payload = json.loads(candidate.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            if isinstance(payload, dict):
+                payloads.append(payload)
+        return payloads
+
+    def _merge_pattern_pack_lists(self, values: Iterable[Any]) -> list[Any]:
+        """Merge latest-first list values without losing older unique items."""
+        merged: list[Any] = []
+        seen: set[str] = set()
+        for value in values:
+            if not isinstance(value, list):
+                continue
+            for item in value:
+                if isinstance(item, dict):
+                    name = _text(item.get("name"))
+                    key = f"name:{name}" if name else json.dumps(item, ensure_ascii=False, sort_keys=True)
+                    normalized_item = dict(item)
+                else:
+                    key = _text(item) or json.dumps(item, ensure_ascii=False, sort_keys=True)
+                    normalized_item = item
+                if key in seen:
+                    continue
+                seen.add(key)
+                merged.append(normalized_item)
+        return merged
+
+    def _merge_workflow_pattern_lists(self, values: Iterable[Any]) -> list[dict[str, Any]]:
+        """Merge latest-first workflow patterns by name and preserve old-only gates."""
+        merged_by_name: dict[str, dict[str, Any]] = {}
+        for value in values:
+            for item in self._as_dict_list(value):
+                name = _text(item.get("name"))
+                if not name:
+                    continue
+                if name not in merged_by_name:
+                    merged_by_name[name] = dict(item)
+                    continue
+
+                current = merged_by_name[name]
+                for list_key in ("sources", "risk_flags", "trust_flags"):
+                    merged_values = self._merge_pattern_pack_lists(
+                        [current.get(list_key), item.get(list_key)]
+                    )
+                    if merged_values:
+                        current[list_key] = merged_values
+                try:
+                    current_count = int(current.get("candidate_count") or 0)
+                except (TypeError, ValueError):
+                    current_count = 0
+                try:
+                    item_count = int(item.get("candidate_count") or 0)
+                except (TypeError, ValueError):
+                    item_count = 0
+                if item_count > current_count:
+                    current["candidate_count"] = item_count
+                elif not current.get("candidate_count") and current.get("sources"):
+                    current["candidate_count"] = len(_as_list(current.get("sources")))
+                for scalar_key in ("top_source_url", "posture_hint"):
+                    if not _text(current.get(scalar_key)) and _text(item.get(scalar_key)):
+                        current[scalar_key] = item.get(scalar_key)
+
+        workflow_patterns = list(merged_by_name.values())
+        workflow_patterns.sort(
+            key=lambda item: (
+                -self._pattern_priority(_text(item.get("name"))),
+                -max(
+                    (
+                        int(source.get("score") or 0)
+                        for source in self._as_dict_list(item.get("sources"))
+                    ),
+                    default=0,
+                ),
+                -int(item.get("candidate_count") or 0),
+                _text(item.get("name")),
+            )
+        )
+        return workflow_patterns
+
+    def _merge_recent_pattern_pack_payloads(
+        self,
+        payloads: list[dict[str, Any]],
+    ) -> dict[str, Any]:
+        """Merge recent packs so a narrow refresh does not drop durable gates.
+
+        Pattern packs are source-intake snapshots. A later local or metadata-only
+        refresh can legitimately be narrower than the previous cumulative pack.
+        Prompt generation should prefer the latest values, but preserve older
+        unique workflow gates and hints until a future refresh explicitly
+        replaces them with newer values.
+        """
+        if not payloads:
+            return {}
+        if len(payloads) == 1:
+            return payloads[0]
+
+        latest_first = list(reversed(payloads))
+        keys: list[str] = []
+        for payload in latest_first:
+            for key in payload:
+                if key not in keys:
+                    keys.append(key)
+
+        merged: dict[str, Any] = {}
+        for key in keys:
+            values = [payload.get(key) for payload in latest_first if key in payload]
+            if key == "workflow_patterns":
+                merged[key] = self._merge_workflow_pattern_lists(values)
+                continue
+            if any(isinstance(value, list) for value in values):
+                merged[key] = self._merge_pattern_pack_lists(values)
+                continue
+            for value in values:
+                if value not in (None, ""):
+                    merged[key] = value
+                    break
+            if key not in merged and values:
+                merged[key] = values[0]
+        return merged
+
     def load_latest_pattern_pack(self, *, repo_root: Path) -> dict[str, Any]:
         reference_dir = repo_root / "backend" / "app" / "references"
         if not reference_dir.exists():
@@ -5796,11 +5926,8 @@ class NovelSourceDiscoveryService:
         if not candidates:
             return {}
 
-        try:
-            payload = json.loads(candidates[-1].read_text(encoding="utf-8"))
-        except Exception:
-            return {}
-        return payload if isinstance(payload, dict) else {}
+        payloads = self._load_recent_pattern_pack_payloads(candidates)
+        return self._merge_recent_pattern_pack_payloads(payloads)
 
     def load_latest_pattern_pack_artifact(self, *, repo_root: Path) -> dict[str, Any]:
         """Return the latest persisted pattern pack with UI-friendly metadata."""
@@ -5828,6 +5955,8 @@ class NovelSourceDiscoveryService:
             return empty
         if not isinstance(payload, dict):
             return empty
+        payloads = self._load_recent_pattern_pack_payloads(candidates)
+        payload = self._merge_recent_pattern_pack_payloads(payloads)
 
         workflow_patterns = self._as_dict_list(payload.get("workflow_patterns"))
         source_titles = self._dedupe_texts(_as_list(payload.get("source_titles")))

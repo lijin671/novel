@@ -1793,6 +1793,83 @@ def test_load_latest_pattern_pack_artifact_returns_payload_and_metadata(tmp_path
     assert artifact["pattern_pack"]["workflow_patterns"][0]["name"] == "continuation"
 
 
+def test_load_latest_pattern_pack_preserves_previous_baseline_when_refresh_is_narrower(tmp_path: Path):
+    reference_dir = tmp_path / "backend" / "app" / "references"
+    reference_dir.mkdir(parents=True)
+    (reference_dir / "novel-source-pattern-pack-2026-06-16.json").write_text(
+        json.dumps(
+            {
+                "generated_at": "2026-06-16T09:00:00+08:00",
+                "source_candidate_count": 8,
+                "source_titles": ["baseline/universal"],
+                "workflow_patterns": [
+                    {
+                        "name": "opening_ending_hook_integrity_gate",
+                        "candidate_count": 1,
+                        "sources": [{"title": "baseline/universal"}],
+                    }
+                ],
+                "opening_ending_hook_integrity_gate_hints": [
+                    "Preserve opening and ending hook integrity."
+                ],
+                "continuation_prompt_hints": ["baseline continuation hint"],
+                "bible_enrichment_targets": ["opening_ending_hook_integrity_policy"],
+            }
+        ),
+        encoding="utf-8",
+    )
+    latest_path = reference_dir / "novel-source-pattern-pack-2026-07-06.json"
+    latest_path.write_text(
+        json.dumps(
+            {
+                "generated_at": "2026-07-06T16:38:56+08:00",
+                "source_candidate_count": 2,
+                "source_titles": ["refresh/universal"],
+                "workflow_patterns": [
+                    {
+                        "name": "chapter_contract_scene_beat_gate",
+                        "candidate_count": 1,
+                        "sources": [{"title": "refresh/universal"}],
+                    }
+                ],
+                "chapter_contract_scene_beat_gate_hints": [
+                    "Keep a chapter contract and scene beat sheet."
+                ],
+                "continuation_prompt_hints": ["latest continuation hint"],
+                "bible_enrichment_targets": ["chapter_contract_scene_beat_policy"],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    service = NovelSourceDiscoveryService()
+    loaded = service.load_latest_pattern_pack(repo_root=tmp_path)
+    artifact = service.load_latest_pattern_pack_artifact(repo_root=tmp_path)
+    loaded_names = {
+        pattern["name"]
+        for pattern in loaded["workflow_patterns"]
+        if isinstance(pattern, dict)
+    }
+
+    assert loaded["generated_at"] == "2026-07-06T16:38:56+08:00"
+    assert artifact["path"] == str(latest_path)
+    assert "chapter_contract_scene_beat_gate" in loaded_names
+    assert "opening_ending_hook_integrity_gate" in loaded_names
+    assert loaded["chapter_contract_scene_beat_gate_hints"] == [
+        "Keep a chapter contract and scene beat sheet."
+    ]
+    assert loaded["opening_ending_hook_integrity_gate_hints"] == [
+        "Preserve opening and ending hook integrity."
+    ]
+    assert loaded["continuation_prompt_hints"] == [
+        "latest continuation hint",
+        "baseline continuation hint",
+    ]
+    assert "chapter_contract_scene_beat_policy" in loaded["bible_enrichment_targets"]
+    assert "opening_ending_hook_integrity_policy" in loaded["bible_enrichment_targets"]
+    assert artifact["workflow_pattern_count"] == 2
+
+
 def test_load_latest_pattern_pack_artifact_reports_missing_reference_dir(tmp_path: Path):
     artifact = NovelSourceDiscoveryService().load_latest_pattern_pack_artifact(repo_root=tmp_path)
 

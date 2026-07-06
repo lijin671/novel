@@ -94,6 +94,10 @@ temp/
 tmp/
 scripts/ops/tmp_*.sql
 
+# Local source-intake archives
+/prompt.zip
+/14_现代言情.7z
+
 # Coverage
 .coverage
 htmlcov/
