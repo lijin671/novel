@@ -17173,6 +17173,95 @@ def test_static_neupen_source_adds_parallel_memory_reader_gate():
 
 
 
+def test_static_scriveno_source_adds_voice_context_status_gate():
+    assert "https://github.com/hannsxpeter/scriveno" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Scriveno" in query and "Voice DNA" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "hannsxpeter/scriveno",
+                "html_url": "https://github.com/hannsxpeter/scriveno",
+                "description": (
+                    "Spec-driven creative writing, publishing, and translation pipeline for AI "
+                    "coding agents. From blank page to published book."
+                ),
+                "stargazers_count": 9,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": [
+                    "ai",
+                    "claude-code",
+                    "codex",
+                    "creative-writing",
+                    "kdp",
+                    "novel",
+                    "publishing",
+                    "translation",
+                    "writing",
+                ],
+                "updated_at": "2026-06-27T02:22:32Z",
+                "pushed_at": "2026-06-27T02:22:29Z",
+                "root_files": [
+                    "README.md",
+                    "LICENSE",
+                    "AGENTS.md",
+                    "CLAUDE.md",
+                    "package.json",
+                    "package-lock.json",
+                    "commands",
+                    "agents",
+                    "docs",
+                    "lib",
+                    "scripts",
+                    "templates",
+                ],
+                "readme_excerpt": (
+                    "Scriveno is spec-driven writing for AI coding agents. Voice DNA saves a "
+                    "STYLE-GUIDE.md with 15+ dimensions and the drafter loads it first. "
+                    "WRITING-RULES.md and pitfall packs scaffold weaker models below writer voice. "
+                    "RECORD.md stores established content, open threads, reader promises, payoffs, "
+                    "continuity facts, movement and next-unit obligations. Creative Context labels "
+                    "CHOICE, HUNCH, QUESTION and WATCHPOINT; domain grilling sharpens fuzzy terms. "
+                    "The status --project engine is read-only and separates Candidate agents, "
+                    "Candidate local helpers and Manual gates; --apply-safe reports skipped write gates."
+                ),
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-06T23:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["hannsxpeter/scriveno"]
+    assert "scriveno_voice_context_status_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "voice_dna_sovereignty_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "record_thread_obligation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "creative_context_note_label_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "read_only_next_route_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "voice_dna_alignment_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "record_thread_obligation_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "creative_context_watchpoint_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "read_only_status_route_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "voice_dna_profile_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "record_thread_obligation_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "creative_context_label_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "automation_status_gate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("STYLE-GUIDE.md" in hint for hint in pattern_pack["scriveno_voice_context_status_gate_hints"])
+    assert any("STYLE-GUIDE" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("WATCHPOINT" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("voice DNA profile" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("work-type vocabulary" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("proof-demo text" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "scriveno_voice_context_status_gate_hints" in digest
+
+
+
 def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/aszecsei/writr" in DEFAULT_GITHUB_REPOSITORY_URLS

@@ -95,6 +95,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("AI Novel Diagnosis Desk" OR "novel diagnosis" OR "reader drop-off") ("rewrite prompt" OR "rediagnosis" OR "text evidence") in:name,description,readme',
     '("open-novel-fanqie" OR "番茄扫榜" OR "拆一本爆款") ("换壳" OR "细纲" OR "活文档") in:name,description,readme',
     '("Neupen" OR "8-Agent" OR "三层记忆") ("parallel review" OR "伏笔甘特图" OR "读者模拟") in:name,description,readme',
+    '("Scriveno" OR "Voice DNA" OR "STYLE-GUIDE.md") ("RECORD.md" OR "Creative Context" OR "status --project") in:name,description,readme',
     '("rolling summary" OR "character state tracking" OR "context trimming") ("long-form" OR "novel") in:name,description,readme',
     '("head-to-head story" OR "pairwise margins" OR "evaluator agreement") ("creative writing" OR "fiction") in:name,description,readme',
     '("q1" OR "q15" OR "ranked weaknesses" OR "overall score") ("story evaluation" OR "creative writing") in:name,description,readme',
@@ -1069,6 +1070,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/myyimu/ai-novel-diagnosis",
     "https://github.com/mosonlab/open-novel-fanqie",
     "https://github.com/FantasyLu/neupen",
+    "https://github.com/hannsxpeter/scriveno",
     "https://github.com/proportionable-plaguespot199/novel-workflow",
     "https://github.com/silbaram/novel-writer",
     "https://github.com/forsonny/Claude-Code-Novel-Writer",
@@ -1308,6 +1310,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("ai_novel_diagnosis_retention_triage_gate", ("ai-novel-diagnosis", "AI Novel Diagnosis Desk", "novel diagnosis", "reader drop-off", "first chapter triage", "text evidence", "reader reaction", "revision priority", "rewrite prompt", "rediagnosis", "quickScore", "gate decision", "issue -> severity", "reader impact", "fix action", "do-not-copy list", "book disassembly guide", "relationship storyline")),
     ("fanqie_benchmark_deconstruct_author_gate", ("open-novel-fanqie", "番茄扫榜", "拆一本爆款", "刚要起飞", "10–30 万字", "前 3 章", "长程档", "换壳切入", "作者拍板", "AI 只填爽点", "细纲信息密度", "场景脚本", "净 2100–2300", "每 10 章", "活文档", "事件摘要", "设定卡", "硬伤审稿")),
     ("neupen_parallel_memory_reader_gate", ("neupen", "8-agent", "八个专职 agent", "三层记忆", "L1 全局设定", "L2 近期时序", "L3 碎片语义", "SQLite", "LanceDB", "伏笔甘特图", "动态警告", "四审核并行", "plot_aligner", "character_guard", "continuity_tracker", "style_refiner", "reader simulation", "读者模拟", "多角色读者", "最多 5 轮", "全量重审")),
+    ("scriveno_voice_context_status_gate", ("scriveno", "Voice DNA", "STYLE-GUIDE.md", "WRITING-RULES.md", "pitfall pack", "fresh context per atomic unit", "RECORD.md", "Creative Context", "CHOICE", "HUNCH", "QUESTION", "WATCHPOINT", "domain grilling", "status --project", "--apply-safe", "Candidate agents", "Candidate local helpers", "Manual gates", "tradition-native vocabulary", ".manuscript/PROGRESS.md")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "prompt pipeline", "prompt pipelines", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "scorecard", "scoring", "scores", "tiered scoring", "weighted scoring", "threshold", "thresholds", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "评分", "出稿门槛", "门槛", "读者面板", "平台期检测")),
@@ -3881,6 +3884,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Neupen is an MIT AI-driven long-form novel system. Public README markers describe an eight-agent workflow, three-layer memory with global SQLite canon, recent chapter summaries, LanceDB semantic fragments, foreshadowing Gantt/deadline warnings, platform style adaptation, style transfer, reader simulation, collaboration roles, and a chapter pipeline with write -> polish -> four parallel review gates -> save/sync. "
         "Pattern-only adaptation for parallel review loops, layer-specific memory context assembly, foreshadow-deadline scheduling, reader-simulation acceptance evidence, and explicit sync prompts; Docker, Streamlit runtime, macOS app builds, provider/API keys, embeddings/vector writes, uploaded style references, generated chapters, collaboration accounts, and scripts are not imported or executed."
     ),
+    "hannsxpeter/scriveno": (
+        "Scriveno is an MIT spec-driven writing, publishing, and translation pipeline for AI coding agents. Public README/docs markers describe Voice DNA in STYLE-GUIDE.md, fresh context per atomic unit, RECORD.md as established-content store, Creative Context labels CHOICE/HUNCH/QUESTION/WATCHPOINT, writer-native domain grilling, per-unit progress ledgers, read-only status routing, safe-apply reporting, candidate-agent/local-helper/manual-gate separation, and multi-work-type vocabulary adaptation. "
+        "Pattern-only adaptation for voice-sovereign context assembly, record-thread obligations, craft-note labels, read-only next-route audits, and manual-gated publishing/export/merge actions; npx/npm installs, package scripts, runtime smoke commands, agent prompts, generated demos, proof bundles, publishing packages, local manuscript files, model/provider calls, and upstream command bodies are not imported or executed."
+    ),
     "proportionable-plaguespot199/novel-workflow": (
         "novel-workflow is a no-license-observed online-novel writing toolchain for Claude Code. Public README markers describe 12 slash commands covering init/style/setting/outline/write/review/sync, multi-model role split between Claude/Codex/Gemini, hot/warm/cold context levels, Markdown plus JSON state management, four story templates, offline file-only core workflows, downloadable ZIP packages, Node/npm setup, build commands, and /novel:* command surfaces. "
         "Pattern-only adaptation for command-phase routing, context-temperature tiers, state sync, and Markdown/JSON recovery; downloadable ZIPs, Node/npm install/build, Claude Code command registration, package files, templates, and upstream command text are not imported or executed."
@@ -5051,6 +5058,7 @@ class NovelSourceDiscoveryService:
             "ai_novel_diagnosis_retention_triage_gate_hints": self._build_ai_novel_diagnosis_retention_triage_gate_hints(available_patterns),
             "fanqie_benchmark_deconstruct_author_gate_hints": self._build_fanqie_benchmark_deconstruct_author_gate_hints(available_patterns),
             "neupen_parallel_memory_reader_gate_hints": self._build_neupen_parallel_memory_reader_gate_hints(available_patterns),
+            "scriveno_voice_context_status_gate_hints": self._build_scriveno_voice_context_status_gate_hints(available_patterns),
             "scene_asset_pipeline_hints": self._build_scene_asset_pipeline_hints(available_patterns),
             "quality_score_loop_hints": self._build_quality_score_loop_hints(available_patterns),
             "voice_fingerprint_hints": self._build_voice_fingerprint_hints(available_patterns),
@@ -6830,6 +6838,7 @@ class NovelSourceDiscoveryService:
             "ai_novel_diagnosis_retention_triage_gate": 71,
             "fanqie_benchmark_deconstruct_author_gate": 72,
             "neupen_parallel_memory_reader_gate": 73,
+            "scriveno_voice_context_status_gate": 73,
             "narrative_canon_version_branch_graph_gate": 73,
             "planner_writer_evaluator_editor_saga_gate": 72,
             "story_weaver_kg_bible_rag_gate": 72,
@@ -7367,6 +7376,11 @@ class NovelSourceDiscoveryService:
             targets.append("parallel_review_full_rerun_policy")
             targets.append("foreshadow_deadline_warning_policy")
             targets.append("reader_simulation_acceptance_policy")
+        if "scriveno_voice_context_status_gate" in patterns:
+            targets.append("voice_dna_sovereignty_policy")
+            targets.append("record_thread_obligation_policy")
+            targets.append("creative_context_note_label_policy")
+            targets.append("read_only_next_route_policy")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_canon_branch_merge_policy")
             targets.append("paradox_conflict_resolution_policy")
@@ -9116,6 +9130,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["benchmark_deconstruction_abstraction_report", "author_decision_stop_gate_audit", "scene_script_density_report", "ten_chapter_living_document_report"])
         if "neupen_parallel_memory_reader_gate" in patterns:
             targets.extend(["three_layer_memory_context_audit", "parallel_review_full_rerun_report", "foreshadow_deadline_schedule_report", "reader_simulation_acceptance_report"])
+        if "scriveno_voice_context_status_gate" in patterns:
+            targets.extend(["voice_dna_alignment_report", "record_thread_obligation_report", "creative_context_watchpoint_report", "read_only_status_route_report"])
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.extend(["narrative_canon_branch_report", "timeline_merge_conflict_report", "paradox_resolution_decision_log"])
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10319,6 +10335,9 @@ class NovelSourceDiscoveryService:
         if "neupen_parallel_memory_reader_gate" in patterns:
             hints.append("For continuation, assemble L1 global canon, L2 recent summaries, L3 selected semantic fragments, active foreshadow deadlines, and current outline as separate context sections with source ids and token caps.")
             hints.append("After drafting, run independent plot, character/world, continuity, and AI-style reviews; any rejected dimension triggers a full rerun of all dimensions before acceptance.")
+        if "scriveno_voice_context_status_gate" in patterns:
+            hints.append("For continuation, load the target STYLE-GUIDE voice profile before outline, cast, or record context; weaker-rule layers may scaffold but cannot override accepted author voice.")
+            hints.append("Route each unit through target RECORD obligations and Creative Context labels: CHOICE constrains, HUNCH tests, QUESTION blocks only when marked, and WATCHPOINT must be checked after review.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Treat what-if and same-type branches as explicit timeline branches with merge/conflict/paradox review before any branch becomes accepted canon.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10838,6 +10857,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist benchmark-deconstruction id, shell-swap decision, author-selected event ids, scene-script lock status, chapter word-band check, hard-flaw review result, and live-document update cadence.")
         if "neupen_parallel_memory_reader_gate" in patterns:
             hints.append("Persist L1/L2/L3 context ids, foreshadow deadline status, review-dimension verdicts, rerun count, reader-simulation scores, sync decisions, and accepted memory deltas for every chapter.")
+        if "scriveno_voice_context_status_gate" in patterns:
+            hints.append("Persist STYLE-GUIDE version, RECORD thread ids, per-unit CHOICE/HUNCH/QUESTION/WATCHPOINT notes, status-route recommendation, skipped manual gates, and accepted record updates.")
         if "renovel_tri_model_aligned_rewrite_gate" in patterns:
             hints.append("Persist original/rewrite paragraph alignment, writer instruction, reviewer OOC/logic verdict, style-matrix settings, event extraction, and batch rewrite checkpoint separately.")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
@@ -16200,6 +16221,18 @@ class NovelSourceDiscoveryService:
             "Docker, Streamlit runtime, macOS app builds, provider/API keys, embeddings/vector writes, uploaded style references, generated chapters, collaboration accounts, and scripts remain deferred static-review surfaces.",
         ]
 
+    def _build_scriveno_voice_context_status_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "scriveno_voice_context_status_gate" not in patterns:
+            return []
+        return [
+            "Treat STYLE-GUIDE.md as the sovereign voice layer for drafting, voice checks, translation, and polish; generic writing rules and pitfall packs may only scaffold below it.",
+            "Use RECORD.md as the established-content store for open threads, promises, payoffs, continuity facts, movement, and next-unit obligations before accepting continuation context.",
+            "Creative Context notes need explicit CHOICE, HUNCH, QUESTION, or WATCHPOINT labels; blocking questions stop drafting, while watchpoints travel into post-draft review.",
+            "A next-step/status engine must be read-only by default and separate candidate agents, candidate local helpers, and manual gates before any action mutates manuscript state.",
+            "For same-type creation, remap voice dimensions, record obligations, craft-note labels, route status, and vocabulary to the target project instead of copying source command bodies or proof demos.",
+            "npx/npm installs, package scripts, runtime smoke checks, agent prompts, proof bundles, generated demos, publishing packages, local manuscripts, model/provider calls, and upstream command bodies remain excluded from static intake.",
+        ]
+
     def _build_narrative_canon_version_branch_graph_gate_hints(self, patterns: set[str]) -> list[str]:
         if "narrative_canon_version_branch_graph_gate" not in patterns:
             return []
@@ -17637,6 +17670,11 @@ class NovelSourceDiscoveryService:
             targets.append("parallel_review_dimension_remap")
             targets.append("foreshadow_deadline_remap")
             targets.append("reader_persona_score_remap")
+        if "scriveno_voice_context_status_gate" in patterns:
+            targets.append("voice_dna_profile_remap")
+            targets.append("record_thread_obligation_remap")
+            targets.append("creative_context_label_remap")
+            targets.append("automation_status_gate_remap")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_branch_canon_graph_remap")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -18842,6 +18880,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt same-type creation with target-owned benchmark lessons: abstract hook engine, new shell, author-picked event bank, dense scene scripts, and live-document cadence; never include source chapters or upstream skill bodies.")
         if "neupen_parallel_memory_reader_gate" in patterns:
             hints.append("Prompt same-type creation with target-owned L1/L2/L3 memory slots, foreshadow deadlines, four review dimensions, and reader-persona scorecards; source memory rows and style samples remain excluded.")
+        if "scriveno_voice_context_status_gate" in patterns:
+            hints.append("Prompt same-type creation with a target-owned voice DNA profile, RECORD obligations, CHOICE/HUNCH/QUESTION/WATCHPOINT notes, and read-only next-route audit before any prose draft.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Prompt alternate branches with branch id, divergence event, merge policy, and paradox-resolution criteria before generating same-type or what-if prose.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -20025,6 +20065,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform benchmark structure by changing protagonist pressure, shell, event bank, scene goals, payoff route, chapter hooks, and living-document facts before any same-type drafting.")
         if "neupen_parallel_memory_reader_gate" in patterns:
             hints.append("Transform memory layers, review dimensions, foreshadow deadlines, style profile axes, and reader personas into target-owned acceptance records before drafting.")
+        if "scriveno_voice_context_status_gate" in patterns:
+            hints.append("Transform voice dimensions, record threads, craft-note labels, route recommendations, and work-type vocabulary into target-owned files before same-type drafting.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Transform source timeline branch ideas into a new branch graph with new entities, events, conflict policies, and canon promotion rules.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -21682,6 +21724,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject same-type outputs that reuse benchmark chapter order, proper nouns, shell candidates, event lists, demo text, upstream skill prompt wording, or novelcatch ranking snapshots as target canon.")
         if "neupen_parallel_memory_reader_gate" in patterns:
             hints.append("Reject same-type drafts that carry over source SQLite rows, LanceDB fragments, uploaded style text, reader-score examples, collaboration comments, provider settings, or generated chapters as target canon.")
+        if "scriveno_voice_context_status_gate" in patterns:
+            hints.append("Reject drafts or method cards that reuse Scriveno command bodies, proof-demo text, agent prompts, STYLE-GUIDE examples, route labels, publishing package metadata, or local manuscript paths as target canon.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Reject same-type branches that merge source timeline events, paradox labels, or branch names into target canon under renamed characters.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -22153,6 +22197,7 @@ class NovelSourceDiscoveryService:
                 "ai_novel_diagnosis_retention_triage_gate",
                 "fanqie_benchmark_deconstruct_author_gate",
                 "neupen_parallel_memory_reader_gate",
+                "scriveno_voice_context_status_gate",
                 "narrative_canon_version_branch_graph_gate",
                 "planner_writer_evaluator_editor_saga_gate",
                 "story_weaver_kg_bible_rag_gate",

@@ -637,3 +637,71 @@ Verification targets added:
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_neupen_source_adds_parallel_memory_reader_gate -q
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py -q
 ```
+
+## 2026-07-06 Scriveno static voice/context/status gate addendum
+
+Source reviewed statically: `https://github.com/hannsxpeter/scriveno`
+
+Observed metadata on 2026-07-06:
+
+- Public `git ls-remote --symref HEAD` default branch: `main`
+- Public `git ls-remote` HEAD:
+  `a4469d886a02e1c3109156385b0d0affe3b492af`
+- GitHub repository API metadata: stars/forks `9` / `2`, pushed timestamp
+  `2026-06-27T02:22:29Z`, license `MIT`, language `JavaScript`, topics include
+  `creative-writing`, `novel`, `publishing`, `translation`, `codex`, and
+  `claude-code`.
+- Top-level API markers include `README.md`, `LICENSE`, `AGENTS.md`,
+  `CLAUDE.md`, `package.json`, `package-lock.json`, `commands`, `agents`,
+  `docs`, `lib`, `scripts`, and `templates`.
+- Static samples saved only under `tmp/source-intake-scriveno-20260706`:
+  - `README.md` bytes `20711`, sha256
+    `a0221d849e3646437241ce8b49377c343415ea1e2e9c104f3e70a5baa371f13e`
+  - `LICENSE` bytes `1078`, sha256
+    `2ceb75aad90a37a31466327d411a995400174219bc21c2a920d6a1510431e097`
+  - `docs/creative-context.md` bytes `12545`, sha256
+    `324945b415b59057d5545018c29a0896577d00351ebb098e60207593ea8a8783`
+  - `docs/voice-dna.md` bytes `22250`, sha256
+    `bbfdb349f72cfd6ed51c1d5081d5c52696666dfacd2182837e565549a5e44024`
+  - `docs/auto-invoke-policy.md` bytes `10147`, sha256
+    `c4ea2d80d607185fc33da95d82ecf1558979971413edc559f8d70bf519b606ac`
+- Direct `raw.githubusercontent.com` returned `429` for some probes; this was
+  treated as a no-bypass rate boundary. The review used GitHub API raw content
+  for the bounded files above and did not use tokens, proxies, clones, or retry
+  storms.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, npm/npx install, package script execution, runtime smoke command,
+  agent prompt import, provider/model call, proof-demo import, generated prose
+  import, publishing package generation, local manuscript read, cookie/token
+  read, or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Voice DNA becomes a target-owned voice sovereignty gate: `STYLE-GUIDE.md`
+  loads before outline, cast, record, translation, polish, or weaker-rule
+  scaffolds. `WRITING-RULES.md` and pitfall packs may support but cannot
+  override accepted author voice.
+- `RECORD.md` is absorbed as an established-content store for open threads,
+  reader promises, payoffs, continuity facts, movement, and next-unit
+  obligations. Continuation context should cite these obligations before
+  accepting a draft.
+- Creative Context labels are mapped to project-native craft notes:
+  `CHOICE` constrains, `HUNCH` tests, `QUESTION` blocks only when marked
+  blocking, and `WATCHPOINT` travels into post-draft review.
+- A next/status route is read-only by default and must separate candidate agents,
+  candidate local helpers, and manual gates before any action mutates manuscript
+  state.
+- Same-type creation remaps voice dimensions, record-thread obligations,
+  craft-note labels, route status, and work-type vocabulary into target-owned
+  files. Source command bodies, proof demos, agent prompts, route labels,
+  publishing metadata, local manuscript paths, and style-guide examples stay
+  outside target canon.
+
+Verification target added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_scriveno_source_adds_voice_context_status_gate -q
+```
