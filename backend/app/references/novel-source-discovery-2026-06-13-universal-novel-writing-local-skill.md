@@ -705,3 +705,63 @@ Verification target added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_scriveno_source_adds_voice_context_status_gate -q
 ```
+
+
+## 2026-07-06 AI-novel-predict static memory/simulation/branch addendum
+
+Source reviewed statically: `https://github.com/we1005/AI-novel-predict`
+
+Observed metadata on 2026-07-06:
+
+- Public `git ls-remote --symref HEAD` default branch: `main`
+- Public `git ls-remote` HEAD:
+  `002210566ce7160b324e9edbf6da2676fe7e4789`
+- Raw README status `200`, bytes `32669`, sha256
+  `43f2674b2293292c2f90c1dbfe7015b1d83aa60c278c8847d049debd2063d7cb`
+- Static README markers include structured memory before context, 21 LLM
+  agents, L1 SQLite, L2 FTS5 trigram, Graph Projection, 6-agent
+  incremental extraction, Writer plus style/plot/consistency reviewers plus
+  Editor arbitration with <=3 rewrites, role simulation, Mystery Agent,
+  chapter write-back into memory, git-backed baseline plus increments,
+  deterministic materialize rebuild, chapter rollback, branch-as-derived-book
+  isolation, `book_scope`, MoXi cross-book analysis, style genome, and
+  `voice_only` style transfer.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, checkout, backend/frontend launch, package install, Docker run,
+  database service, provider/model call, demo chapter import, prompt-body
+  transplant, generated prose import, API key read, book database read, cookie
+  read, token read, or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Structured memory is promoted as a pre-context gate: continuation context must
+  cite target-owned canon, search/recent summaries, graph facts, and per-chapter
+  increments before drafting.
+- Role simulation is constrained by character knowledge scope: desire, fear,
+  voice, `secrets_known`, `secrets_hidden`, and accepted facts visible to that
+  character.
+- Draft acceptance now models Writer, style/plot/consistency reviewers, and
+  Editor arbitration with bounded rewrite count and explicit memory write-back.
+- Git-backed manuscript source and rebuildable memory cache stay separate;
+  baseline plus increments should be replayable through a materialize-style
+  audit before rollback or branch promotion.
+- Branch exploration is isolated as a derived book or namespace. Drafts,
+  extracted facts, foreshadowing, and callbacks cannot bleed across
+  `book_scope`.
+- Same-type imitation may transfer abstract style axes and genre mechanics in a
+  `voice_only` mode, but source plot arcs, characters, demo chapters, prompt
+  bodies, memory rows, branch names, and generated prose remain outside target
+  canon.
+- `D:\project\universal-novel-writing` remains the authoring contract above
+  this memory/simulation layer: mode, chapter job, reader promise, scene beat,
+  revision order, fresh-reader pull, and progress write-back decide whether the
+  generated unit can be accepted.
+
+Verification target added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_ai_novel_predict_source_adds_memory_simulation_branch_gate -q
+```

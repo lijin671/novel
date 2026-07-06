@@ -17261,6 +17261,71 @@ def test_static_scriveno_source_adds_voice_context_status_gate():
     assert "scriveno_voice_context_status_gate_hints" in digest
 
 
+def test_static_ai_novel_predict_source_adds_memory_simulation_branch_gate():
+    assert "https://github.com/we1005/AI-novel-predict" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("AI-novel-predict" in query and "structured memory" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "we1005/AI-novel-predict",
+                "html_url": "https://github.com/we1005/AI-novel-predict",
+                "description": (
+                    "MoBi multi-agent long-form webnovel continuation workflow with "
+                    "structured memory, role simulation, branch isolation, and MoXi "
+                    "cross-book analysis for same-type rewriting."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "NOASSERTION"},
+                "topics": ["novel", "webnovel", "multi-agent", "structured-memory"],
+                "updated_at": "2026-07-06T22:00:00Z",
+                "pushed_at": "2026-07-06T22:00:00Z",
+                "root_files": [
+                    "README.md",
+                    "backend",
+                    "frontend",
+                    "novel-analysis-imitate",
+                    "docker-compose.yml",
+                    ".env.example",
+                ],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-06T23:50:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["we1005/AI-novel-predict"]
+    assert candidate["posture"] == "pattern-only"
+    assert "ai_novel_predict_memory_simulation_branch_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "structured_memory_first_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "role_knowledge_simulation_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "tri_review_editor_arbitration_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "branch_isolated_memory_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "structured_memory_replay_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "role_simulation_knowledge_scope_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "tri_review_editor_arbitration_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "branch_isolated_memory_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "structured_memory_replay_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "role_knowledge_scope_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "tri_review_editor_arbitration_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "branch_book_scope_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("structured memory" in hint.lower() for hint in pattern_pack["ai_novel_predict_memory_simulation_branch_gate_hints"])
+    assert any("universal chapter contract" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("materialize replay hash" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("book_scope" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("voice_only" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("source memory rows" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "ai_novel_predict_memory_simulation_branch_gate_hints" in digest
+
+
+
 
 def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
