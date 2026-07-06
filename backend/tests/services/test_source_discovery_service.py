@@ -16974,6 +16974,60 @@ def test_static_show_me_story_source_adds_foreshadow_memory_gates():
 
 
 
+def test_static_ai_novel_diagnosis_source_adds_retention_triage_gates():
+    assert "https://github.com/myyimu/ai-novel-diagnosis" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("novel diagnosis" in query and "rediagnosis" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "myyimu/ai-novel-diagnosis",
+                "html_url": "https://github.com/myyimu/ai-novel-diagnosis",
+                "description": (
+                    "AI网文诊断台 is a local AI novel diagnosis desk for reader drop-off. "
+                    "It diagnoses why nobody follows after the first chapter with 正文证据, "
+                    "读者反应, 修改优先级, rewrite prompt, 复诊, quickScore, gate 判断, "
+                    "AI 拆书, 拆书导览, 关系故事线, and 不要照搬 boundaries."
+                ),
+                "stargazers_count": 12,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel-diagnosis", "webnovel", "ai-writing", "book-analysis"],
+                "updated_at": "2026-07-06T10:02:56Z",
+                "root_files": ["README.md", "LICENSE", "package.json", "pnpm-lock.yaml", "scripts", "docs"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-06T20:15:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "ai_novel_diagnosis_retention_triage_gate" in candidates["myyimu/ai-novel-diagnosis"]["absorbed_patterns"]
+    assert "docker" in candidates["myyimu/ai-novel-diagnosis"]["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "first_chapter_retention_triage_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "evidence_bound_issue_gate_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "rewrite_prompt_rediagnosis_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "source_disassembly_no_copy_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "retention_issue_evidence_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "rewrite_prompt_effectiveness_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "rediagnosis_delta_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "book_disassembly_learning_asset_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "retention_issue_schema_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reader_impact_priority_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "rewrite_prompt_checkpoint_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "disassembly_learning_asset_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("diagnose before rewriting" in hint.lower() for hint in pattern_pack["ai_novel_diagnosis_retention_triage_gate_hints"])
+    assert any("largest reader drop-off point" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("source diagnostic report wording" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "ai_novel_diagnosis_retention_triage_gate_hints" in digest
+
+
+
 def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/aszecsei/writr" in DEFAULT_GITHUB_REPOSITORY_URLS

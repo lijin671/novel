@@ -400,3 +400,76 @@ Verification targets added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_show_me_story_source_adds_foreshadow_memory_gates -q
 ```
+
+
+## 2026-07-06 ai-novel-diagnosis retention triage addendum
+
+Source reviewed statically: `https://github.com/myyimu/ai-novel-diagnosis`
+
+Observed metadata on 2026-07-06:
+
+- HEAD: `03c9d1f3b5db0594909b58e49fc4208e85fd9856`
+- Default branch: `master`
+- License: `MIT` in raw `LICENSE`; public API returned `NOASSERTION`
+- Stars/forks via public GitHub API: `12` / `0`
+- Latest observed pushed timestamp: `2026-07-06T10:02:56Z`
+- Language: `TypeScript`
+- Root markers via contents API: `.env.example`, `AGENTS.md`, `CLAUDE.md`,
+  `README.md`, `LICENSE`, `apps`, `docs`, `fixtures`, `one.manifest.json`,
+  `package.json`, `pnpm-lock.yaml`, `scripts`, `services`, `skills`
+- Raw samples:
+  - `README.md` status `200`, bytes `21731`, sha256
+    `823ef416f8743da2ccb445d4ce60b75b04c34cb69ac7feb914f6835447f0c420`
+  - `LICENSE` status `200`, bytes `1215`, sha256
+    `e9f11577bf9e7fced52025175e2e063211d5e899eb0b4bd657f77a890c94d4bc`
+  - `package.json` status `200`, bytes `3033`, sha256
+    `63a69d380e3c2af9271d8ebe3de2e9704130fc9efa6ee2fe4e4501e45ea59bda`
+  - `pnpm-lock.yaml` status `200`, bytes `392003`, sha256
+    `6f0e68ea2d578bff2fc82bc59ff9fc2c1c0f39ad56d29d9de02e3f13dca3be71`
+  - `docs/product-positioning-ai-draft-diagnosis.md` status `200`, bytes
+    `14168`, sha256
+    `a13dbba85cb3d6341db649b69875274499ef047d23d581d6e54c3db3798f52b1`
+  - `docs/diagnosis-workflow-implementation-plan.md` status `200`, bytes
+    `16141`, sha256
+    `94cea1405b754c6df74c5a1623dc5a0a57caaffaa4c80c7ba85352ce4f156333`
+  - `docs/product-review-roadmap.md` status `200`, bytes `15567`, sha256
+    `a90c0e6150512fbb566d8cea6cdfa7ac8166e9dcfd9accdde272bc63084a0bae`
+  - `docs/book-disassembly-comprehension-review.md` status `200`, bytes
+    `18216`, sha256
+    `78ba90a012f728812f81936840adcf2af172cd97c82508781afa2930797a8aab`
+  - directory raw probes for `src`, `docs`, and `fixtures/novel-diagnosis`
+    returned `404` because raw URLs address files, not directories; one `docs`
+    raw probe returned `429` and was treated as no-bypass/no-token.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, checkout, pnpm/One CLI install, script execution, Docker/DB service,
+  API/Web runtime, provider/model call, uploaded manuscript/example chapter
+  import, prompt-body transplant, generated report import, cookie/token read, or
+  credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Diagnose before rewrite: every weak opening or continuation issue carries
+  problem, text evidence, reader reaction, revision priority, rewrite prompt,
+  and rediagnosis checkpoint as one traceable chain.
+- Gate decisions are revision-priority suggestions such as continue, modify,
+  restructure, or scrap; they are not platform traffic predictions.
+- Rewrite prompts are generated from concrete evidence and remain candidate edit
+  instructions until rediagnosis proves the tracked issue changed.
+- Repeated verified issues can become methodology cards; one-off model opinions
+  cannot silently become durable writing rules.
+- Mature-sample disassembly extracts reusable structure, character function,
+  relationship evolution, world/timeline organization, and a do-not-copy list;
+  source content stays outside target canon.
+- Same-type creation remaps diagnosis categories, reader-impact signals, rewrite
+  prompts, and method cards into target-owned evidence ids, rejecting source
+  reports, example chapters, prompt text, mind-map labels, or relationship
+  storyline content as target material.
+
+Verification targets added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_ai_novel_diagnosis_source_adds_retention_triage_gates -q
+```
