@@ -17028,6 +17028,72 @@ def test_static_ai_novel_diagnosis_source_adds_retention_triage_gates():
 
 
 
+def test_static_open_novel_fanqie_source_adds_benchmark_author_gate():
+    assert "https://github.com/mosonlab/open-novel-fanqie" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("open-novel-fanqie" in query and "活文档" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "mosonlab/open-novel-fanqie",
+                "html_url": "https://github.com/mosonlab/open-novel-fanqie",
+                "description": (
+                    "AI 网文长篇创作流水线：番茄扫榜，拆一本爆款，换壳切入，"
+                    "作者拍板，AI 只填爽点，章纲到细纲，场景脚本，逐章正文，"
+                    "独立会话审硬伤，活文档滚动更新。"
+                ),
+                "stargazers_count": 11,
+                "forks_count": 2,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "ai-writing", "claude-skills", "fanqie"],
+                "updated_at": "2026-07-06T00:27:12Z",
+                "pushed_at": "2026-06-12T13:10:19Z",
+                "root_files": ["README.md", "SOP.md", "LICENSE", ".claude/skills", "scripts", "对标", "书", ".env.example"],
+                "readme_excerpt": (
+                    "Use 前 3 章 and optional 长程档 <=60 章 to extract reusable structure, "
+                    "choose a just-rising 10–30 万字 benchmark, keep author stop gates, "
+                    "select about 70% of AI event material, lock dense scene scripts, "
+                    "draft 2100-2300 characters, run every-10-chapter hard-flaw review, "
+                    "update 04_事件摘要 and 03_设定卡, and do not copy the benchmark plot. "
+                    "The repository contains .claude/skills and scripts/新书骨架.sh."
+                ),
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-06T21:05:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["mosonlab/open-novel-fanqie"]
+    assert "fanqie_benchmark_deconstruct_author_gate" in candidate["absorbed_patterns"]
+    assert "skill_install_surface" in candidate["risk_flags"]
+    assert "shell_hook_surface" in candidate["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "fanqie_benchmark_deconstruction_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "author_decision_stop_gate_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "scene_script_density_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "ten_chapter_living_document_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "benchmark_deconstruction_abstraction_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "author_decision_stop_gate_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "scene_script_density_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "ten_chapter_living_document_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "benchmark_structure_emotion_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "author_pick_stop_gate_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "scene_script_density_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "living_document_cadence_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("benchmark deconstruction" in hint.lower() for hint in pattern_pack["fanqie_benchmark_deconstruct_author_gate_hints"])
+    assert any("author-pick point" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("benchmark-deconstruction id" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("upstream skill bodies" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("chapter order" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "fanqie_benchmark_deconstruct_author_gate_hints" in digest
+
+
+
 def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/aszecsei/writr" in DEFAULT_GITHUB_REPOSITORY_URLS

@@ -473,3 +473,69 @@ Verification targets added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_ai_novel_diagnosis_source_adds_retention_triage_gates -q
 ```
+
+## 2026-07-06 open-novel-fanqie static benchmark-author gate addendum
+
+Source reviewed statically: `https://github.com/mosonlab/open-novel-fanqie`
+
+Observed metadata on 2026-07-06:
+
+- HEAD/default branch observed through public GitHub API: `main`
+- Latest observed pushed timestamp: `2026-06-12T13:10:19Z`
+- Public API stars/forks: `11` / `2`
+- License: `MIT`
+- Language: `TypeScript`
+- Root markers: `.claude`, `.env.example`, `LICENSE`, `README.md`, `SOP.md`, `assets`, `demo`, `scripts`, `书`, `对标`
+- Static samples:
+  - `README.md` bytes `7115`, sha256
+    `95f9d13c778f7d77531604abcbb4c708b82772be3e80fa384117e39411ed2a59`
+  - `SOP.md` bytes `11556`, sha256
+    `6a7312e15e2f4d0b3800431f5d8c69229a37ecc4d3f754443b376ed3a08959ad`
+  - `对标/说明.md` bytes `1170`, sha256
+    `52f1d378446e805cbcc8694d0eba319966ade32e9f6bd068cdfafd42fa1d39b6`
+  - `.claude/skills/open-novel-fanqie/SKILL.md` bytes `8903`, sha256
+    `3850624d5024d5d75a1fcf831885d4e499cbe8e6dbdc6cb2c7a2067487fc10ed`
+  - `.claude/skills/p1-拆书/SKILL.md` bytes `14336`, sha256
+    `a944329f577a674e779f7550f5bd2446c9b7033225be42313fc45d1cf5b96ff2`
+  - `.claude/skills/p1b-换壳切入/SKILL.md` bytes `7902`, sha256
+    `41e8d0be6584ab54b4afc8741bfc8d268075738c46b6a15948815104c70171e9`
+  - `.claude/skills/p6-审稿/SKILL.md` bytes `6715`, sha256
+    `7dad32b22ac8dc21c88b58ad8ffed36be9c383337b3b4c1e40d597907d51adb7`
+  - `.claude/skills/p8-活文档/SKILL.md` bytes `17151`, sha256
+    `03e1a73ea5765efe572d978408f60d3aaf867939d88d11279f96f3517483cd10`
+  - raw `LICENSE` returned `429`; public API license was used without token,
+    proxy, retry storm, or bypass.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, bun/Claude setup, package install, shell script execution,
+  novelcatch.com browsing, provider/model call, benchmark manuscript import,
+  demo story import, upstream skill prompt-body transplant, cookie/token read,
+  or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Benchmark deconstruction is now treated as abstract structure only: first-three
+  chapter hook engine, optional ≤60-chapter long-run evidence, emotional rhythm,
+  and loop formulas may guide process but cannot bring over names, settings,
+  event order, or prose.
+- Same-type creation now carries explicit author stop-gates for shell-swap
+  choice, premise direction, event-bank selection, scene-script lock, and
+  hard-flaw repair before drafting continues.
+- Chapter generation now gets a scene-script density gate: visible action,
+  dialogue hook, emotion rhythm, conflict, payoff, and exit pull must exist
+  before prose drafting.
+- Continuation context now favors target-owned tone/style cards, character cards,
+  ≤300-word event summary, dense scene script, and previous tail; benchmark
+  manuscripts, demo chapters, ranking snapshots, and upstream skill bodies stay
+  out of draft context.
+- Rolling live-document cadence is surfaced as state: every chapter updates the
+  event summary, and every 10 chapters require independent hard-flaw review plus
+  setting-card refresh before the next continuation block.
+
+Verification targets added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_open_novel_fanqie_source_adds_benchmark_author_gate -q
+```

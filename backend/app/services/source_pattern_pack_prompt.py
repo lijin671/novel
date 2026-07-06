@@ -627,6 +627,7 @@ def render_source_pattern_pack_digest(
         "hierarchical_narrative_memory_os_gate_hints",
         "show_me_story_foreshadow_memory_gate_hints",
         "ai_novel_diagnosis_retention_triage_gate_hints",
+        "fanqie_benchmark_deconstruct_author_gate_hints",
         "narrative_canon_version_branch_graph_gate_hints",
         "planner_writer_evaluator_editor_saga_gate_hints",
         "story_weaver_kg_bible_rag_gate_hints",
