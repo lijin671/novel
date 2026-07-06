@@ -4994,6 +4994,7 @@ class NovelSourceDiscoveryService:
             "source_candidate_count": len(candidates),
             "source_titles": [_text(candidate.get("title")) for candidate in candidates],
             "workflow_patterns": workflow_patterns,
+            "local_reference_coverage": self._build_local_reference_coverage(candidates),
             "whole_book_analysis_targets": self._build_whole_book_analysis_targets(available_patterns),
             "bible_enrichment_targets": self._build_bible_enrichment_targets(available_patterns),
             "continuation_prompt_hints": self._build_continuation_prompt_hints(available_patterns),
@@ -5823,6 +5824,119 @@ class NovelSourceDiscoveryService:
                 keys.add(key)
         return keys
 
+    def _normalize_local_reference_coverage_item(self, item: dict[str, Any]) -> dict[str, Any]:
+        workflow_patterns = self._dedupe_texts(_as_list(item.get("workflow_patterns")))
+        risk_flags = self._dedupe_texts(_as_list(item.get("risk_flags")))
+        trust_flags = self._dedupe_texts(_as_list(item.get("trust_flags")))
+        return {
+            "title": _text(item.get("title")),
+            "url": _text(item.get("url") or item.get("path")),
+            "path": _text(item.get("path") or item.get("url")),
+            "posture_hint": _text(item.get("posture_hint")) or "local-static-review",
+            "workflow_pattern_count": int(item.get("workflow_pattern_count") or len(workflow_patterns)),
+            "workflow_patterns": workflow_patterns,
+            "file_count": int(item.get("file_count") or 0),
+            "file_hash_count": int(item.get("file_hash_count") or 0),
+            "updated_at": _text(item.get("updated_at")) or None,
+            "risk_flags": risk_flags,
+            "trust_flags": trust_flags,
+        }
+
+    def _build_local_reference_coverage(
+        self,
+        candidates: Iterable[dict[str, Any]],
+    ) -> list[dict[str, Any]]:
+        coverage: list[dict[str, Any]] = []
+        for candidate in candidates:
+            if _text(candidate.get("source")) != "local-reference":
+                continue
+            root_files = self._dedupe_texts(_as_list(candidate.get("root_files")))
+            file_hashes = candidate.get("file_hashes")
+            workflow_patterns = self._dedupe_texts(_as_list(candidate.get("absorbed_patterns")))
+            coverage.append(
+                self._normalize_local_reference_coverage_item(
+                    {
+                        "title": _text(candidate.get("title")),
+                        "url": _text(candidate.get("url")),
+                        "path": _text(candidate.get("path") or candidate.get("url")),
+                        "posture_hint": _text(candidate.get("posture_hint")) or "local-static-review",
+                        "workflow_pattern_count": len(workflow_patterns),
+                        "workflow_patterns": workflow_patterns,
+                        "file_count": len(root_files),
+                        "file_hash_count": len(file_hashes) if isinstance(file_hashes, dict) else 0,
+                        "updated_at": _text(candidate.get("updated_at")) or None,
+                        "risk_flags": self._dedupe_texts(_as_list(candidate.get("risk_flags"))),
+                        "trust_flags": self._dedupe_texts(
+                            _as_list(
+                                candidate.get("trust_review", {}).get("flags")
+                                if isinstance(candidate.get("trust_review"), dict)
+                                else []
+                            )
+                        ),
+                    }
+                )
+            )
+        coverage.sort(
+            key=lambda item: (
+                -int(item.get("workflow_pattern_count") or 0),
+                _text(item.get("title")),
+            )
+        )
+        return coverage
+
+    def _local_reference_coverage_from_pattern_pack_payload(
+        self,
+        payload: dict[str, Any],
+    ) -> list[dict[str, Any]]:
+        explicit = [
+            self._normalize_local_reference_coverage_item(item)
+            for item in self._as_dict_list(payload.get("local_reference_coverage"))
+            if _text(item.get("title") or item.get("url") or item.get("path"))
+        ]
+        if explicit:
+            return explicit
+
+        by_key: dict[str, dict[str, Any]] = {}
+        for pattern in self._as_dict_list(payload.get("workflow_patterns")):
+            pattern_name = _text(pattern.get("name"))
+            if not pattern_name:
+                continue
+            for source in self._as_dict_list(pattern.get("sources")):
+                title = _text(source.get("title"))
+                url = _text(source.get("url"))
+                source_kind = _text(source.get("source"))
+                if (
+                    source_kind != "local-reference"
+                    and not title.startswith("local/")
+                    and not re.match(r"^[A-Za-z]:[\\/]", url)
+                ):
+                    continue
+                key = title if title.startswith("local/") else (url or title)
+                entry = by_key.setdefault(
+                    key,
+                    {
+                        "title": title,
+                        "url": url,
+                        "path": url,
+                        "posture_hint": _text(source.get("posture_hint")) or "local-static-review",
+                        "workflow_patterns": [],
+                        "risk_flags": [],
+                        "trust_flags": [],
+                    },
+                )
+                entry["workflow_patterns"].append(pattern_name)
+                entry["risk_flags"].extend(_as_list(source.get("risk_flags")))
+                entry["trust_flags"].extend(_as_list(source.get("trust_flags")))
+
+        coverage = [self._normalize_local_reference_coverage_item(item) for item in by_key.values()]
+        coverage.sort(
+            key=lambda item: (
+                -int(item.get("workflow_pattern_count") or 0),
+                _text(item.get("title")),
+            )
+        )
+        return coverage
+
     def _merge_pattern_pack_lists(self, values: Iterable[Any]) -> list[Any]:
         """Merge latest-first list values without losing older unique items."""
         merged: list[Any] = []
@@ -5935,6 +6049,10 @@ class NovelSourceDiscoveryService:
                     break
             if key not in merged and values:
                 merged[key] = values[0]
+        if not self._as_dict_list(merged.get("local_reference_coverage")):
+            coverage = self._local_reference_coverage_from_pattern_pack_payload(merged)
+            if coverage:
+                merged["local_reference_coverage"] = coverage
         return merged
 
     def load_latest_pattern_pack(self, *, repo_root: Path) -> dict[str, Any]:
@@ -5947,7 +6065,12 @@ class NovelSourceDiscoveryService:
             return {}
 
         payloads = self._load_recent_pattern_pack_payloads(candidates)
-        return self._merge_recent_pattern_pack_payloads(payloads)
+        payload = self._merge_recent_pattern_pack_payloads(payloads)
+        if not self._as_dict_list(payload.get("local_reference_coverage")):
+            coverage = self._local_reference_coverage_from_pattern_pack_payload(payload)
+            if coverage:
+                payload["local_reference_coverage"] = coverage
+        return payload
 
     def load_latest_pattern_pack_artifact(self, *, repo_root: Path) -> dict[str, Any]:
         """Return the latest persisted pattern pack with UI-friendly metadata."""
@@ -5963,6 +6086,8 @@ class NovelSourceDiscoveryService:
             "preserved_workflow_pattern_names": [],
             "preserved_hint_key_count": 0,
             "preserved_hint_keys": [],
+            "local_reference_coverage_count": 0,
+            "local_reference_coverage": [],
             "source_titles": [],
             "pattern_pack": {},
         }
@@ -5992,6 +6117,9 @@ class NovelSourceDiscoveryService:
         merged_hint_keys = self._nonempty_hint_keys_from_pack_payload(payload)
         preserved_workflow_pattern_names = sorted(merged_pattern_names - latest_pattern_names)
         preserved_hint_keys = sorted(merged_hint_keys - latest_hint_keys)
+        local_reference_coverage = self._local_reference_coverage_from_pattern_pack_payload(payload)
+        if local_reference_coverage and not self._as_dict_list(payload.get("local_reference_coverage")):
+            payload["local_reference_coverage"] = local_reference_coverage
         recent_candidates = candidates[-self.RECENT_PATTERN_PACK_BASELINE_WINDOW :]
         return {
             "found": True,
@@ -6005,6 +6133,8 @@ class NovelSourceDiscoveryService:
             "preserved_workflow_pattern_names": preserved_workflow_pattern_names[:40],
             "preserved_hint_key_count": len(preserved_hint_keys),
             "preserved_hint_keys": preserved_hint_keys[:40],
+            "local_reference_coverage_count": len(local_reference_coverage),
+            "local_reference_coverage": local_reference_coverage[:12],
             "source_titles": source_titles,
             "pattern_pack": payload,
         }
@@ -22286,8 +22416,11 @@ class NovelSourceDiscoveryService:
         return {
             "source": "local-reference",
             "url": url,
+            "path": _text(reference.get("path")) or url,
             "title": title,
             "summary": summary,
+            "root_files": root_files,
+            "file_hashes": file_hashes,
             "stars": None,
             "license": _text(reference.get("license")) or "unknown",
             "family": self._classify_family(haystack),

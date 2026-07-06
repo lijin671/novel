@@ -607,6 +607,9 @@ export default function BookRemixSourceDiscoveryPanel() {
     pattern_pack_fresh: '\u6a21\u5f0f\u5305\u65b0\u9c9c',
     pattern_pack_invalid_timestamp: '\u751f\u6210\u65f6\u95f4\u5f02\u5e38',
   };
+  const localReferenceCoverage = patternPack?.local_reference_coverage?.length
+    ? patternPack.local_reference_coverage
+    : (patternPackPayload?.local_reference_coverage || []);
   const trustReviewPatterns = (patternPackPayload?.workflow_patterns || [])
     .filter((pattern) => pattern.posture_hint === 'defer-trust-review' || Boolean(pattern.trust_flags?.length));
   const additionalHintBlocks = collectAdditionalHintBlocks(patternPackPayload);
@@ -739,6 +742,8 @@ export default function BookRemixSourceDiscoveryPanel() {
             <Tag color="gold">{patternPack?.preserved_workflow_pattern_count ?? 0}</Tag>
             <Text type="secondary">{'保留提示：'}</Text>
             <Tag color="lime">{patternPack?.preserved_hint_key_count ?? 0}</Tag>
+            <Text type="secondary">{'???????'}</Text>
+            <Tag color="volcano">{patternPack?.local_reference_coverage_count ?? localReferenceCoverage.length}</Tag>
             <Text type="secondary">{'Ledger \u65e5\u671f\uff1a'}</Text>
             <Tag color={ledger?.date_slug ? 'purple' : 'default'}>{ledger?.date_slug || '\u6682\u65e0'}</Tag>
             <Text type="secondary">{'\u6765\u6e90\u65b0\u9c9c\u5ea6\uff1a'}</Text>
@@ -760,6 +765,35 @@ export default function BookRemixSourceDiscoveryPanel() {
           ) : (
             <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="\u6682\u65e0\u6765\u6e90\u6807\u9898" />
           )}
+
+          {localReferenceCoverage.length ? (
+            <Card size="small" title="????????">
+              <Text type="secondary">
+                {'?????????? pattern-only ????????????????????'}
+              </Text>
+              <List
+                size="small"
+                dataSource={localReferenceCoverage.slice(0, 4)}
+                renderItem={(item) => (
+                  <List.Item>
+                    <Space direction="vertical" size={2}>
+                      <Space wrap>
+                        <Text strong>{item.title || item.url || 'local-reference'}</Text>
+                        <Tag color="volcano">{item.workflow_pattern_count ?? item.workflow_patterns?.length ?? 0}</Tag>
+                        <Tag color="blue">{item.posture_hint || 'local-static-review'}</Tag>
+                        {item.file_count ? <Tag color="cyan">{`${item.file_count} files`}</Tag> : null}
+                      </Space>
+                      {item.workflow_patterns?.length ? (
+                        <Text type="secondary">
+                          {item.workflow_patterns.slice(0, 8).join(' / ')}
+                        </Text>
+                      ) : null}
+                    </Space>
+                  </List.Item>
+                )}
+              />
+            </Card>
+          ) : null}
 
           {trustReviewPatterns.length ? (
             <Card size="small" title="\u6765\u6e90\u53ef\u4fe1\u5ea6\u590d\u6838">

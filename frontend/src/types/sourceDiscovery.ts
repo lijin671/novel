@@ -39,6 +39,20 @@ export interface SourceDiscoveryWorkflowPattern {
   sources: SourceDiscoverySourceSummary[];
 }
 
+export interface SourceDiscoveryLocalReferenceCoverage {
+  title: string;
+  url?: string;
+  path?: string;
+  posture_hint?: string;
+  workflow_pattern_count: number;
+  workflow_patterns?: string[];
+  file_count?: number;
+  file_hash_count?: number;
+  updated_at?: string | null;
+  risk_flags?: string[];
+  trust_flags?: string[];
+}
+
 export interface SourceDiscoverySourceSummary {
   title: string;
   url: string;
@@ -58,6 +72,7 @@ export interface SourceDiscoveryPatternPack {
   source_candidate_count?: number;
   source_titles?: string[];
   workflow_patterns?: SourceDiscoveryWorkflowPattern[];
+  local_reference_coverage?: SourceDiscoveryLocalReferenceCoverage[];
   whole_book_analysis_targets?: string[];
   bible_enrichment_targets?: string[];
   continuation_prompt_hints?: string[];
@@ -558,6 +573,8 @@ export interface SourceDiscoveryPatternPackArtifact {
   preserved_workflow_pattern_names?: string[];
   preserved_hint_key_count: number;
   preserved_hint_keys?: string[];
+  local_reference_coverage_count: number;
+  local_reference_coverage?: SourceDiscoveryLocalReferenceCoverage[];
   source_titles: string[];
   pattern_pack: SourceDiscoveryPatternPack;
 }

@@ -237,3 +237,35 @@ Verification targets added:
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_load_latest_pattern_pack_preserves_universal_baseline_beyond_three_files -q
 python -X utf8 -m pytest backend/tests/frontend/test_source_discovery_panel_copy.py::test_source_discovery_panel_surfaces_pattern_pack_merge_metadata -q
 ```
+
+## 2026-07-06 local-reference coverage trace addendum
+
+The local source was re-read statically from `D:\project\universal-novel-writing`
+without install, clone, provider call, MCP/browser/desktop runtime, prompt body
+transplant, or source prose import.
+
+Additional reusable pattern fused into MuMuAINovel:
+
+- Pattern packs now expose `local_reference_coverage` so a narrow refresh can
+  still show which local static references contributed durable workflow gates.
+- `source_discovery_service.py` records title, path/url, posture hint, file
+  counts, hash counts, matched workflow gates, risk flags, and trust flags for
+  local references.
+- Old pattern packs without explicit coverage are backfilled from merged
+  `workflow_patterns[*].sources`, so the current source-discovery panel can
+  display `local/universal-novel-writing` coverage without rewriting historical
+  JSON snapshots.
+- `source_pattern_pack_prompt.py` renders a compact
+  `local_reference_coverage` digest before the broader hint list, making
+  universal mode contracts, chapter contracts, progressive loading, reader
+  promise, and same-type boundary gates traceable in prompts.
+- The source-discovery panel adds a "本地参考融合覆盖" card and count. This is
+  visibility only; it does not install, execute, import runtime code, or treat
+  external prompts/prose as project canon.
+
+Verification targets added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_local_universal_novel_writing_skill_is_static_absorbed backend/tests/services/test_source_discovery_service.py::test_load_latest_pattern_pack_preserves_universal_baseline_beyond_three_files -q
+python -X utf8 -m pytest backend/tests/frontend/test_source_discovery_panel_copy.py::test_source_discovery_panel_surfaces_pattern_pack_merge_metadata -q
+```

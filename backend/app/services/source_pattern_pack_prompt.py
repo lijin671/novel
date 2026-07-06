@@ -34,6 +34,25 @@ def render_source_pattern_pack_digest(
             source_text = f"; top_source: {top_source_url}" if top_source_url else ""
             lines.append(f"  - {name} (candidates: {count}{source_text}{posture_text}{risk_text}{trust_text})")
 
+    local_reference_coverage = _local_reference_coverage(source_pattern_pack)
+    if local_reference_coverage:
+        lines.append("- local_reference_coverage:")
+        for item in local_reference_coverage[:4]:
+            title = str(item.get("title") or item.get("url") or "").strip()
+            if not title:
+                continue
+            posture_hint = str(item.get("posture_hint") or "local-static-review").strip()
+            workflow_patterns = _as_note_list(item.get("workflow_patterns"))
+            pattern_count = item.get("workflow_pattern_count") or len(workflow_patterns)
+            file_count = item.get("file_count") or 0
+            pattern_text = ", ".join(workflow_patterns[:6])
+            file_text = f"; files: {file_count}" if file_count else ""
+            pattern_detail = f"; patterns: {pattern_text}" if pattern_text else ""
+            lines.append(
+                f"  - {title} (static-only; posture_hint: {posture_hint}; "
+                f"pattern_count: {pattern_count}{file_text}{pattern_detail})"
+            )
+
     bible_targets = _as_note_list(source_pattern_pack.get("bible_enrichment_targets"))
     if bible_targets:
         lines.append("- bible_enrichment_targets: " + ", ".join(bible_targets[:12]))
@@ -936,6 +955,56 @@ def _as_dict_list(value: Any) -> list[dict[str, Any]]:
     return [item for item in value if isinstance(item, dict)]
 
 
+def _local_reference_coverage(source_pattern_pack: dict[str, Any]) -> list[dict[str, Any]]:
+    explicit = _as_dict_list(source_pattern_pack.get("local_reference_coverage"))
+    if explicit:
+        return explicit
+
+    by_key: dict[str, dict[str, Any]] = {}
+    for pattern in _as_dict_list(source_pattern_pack.get("workflow_patterns")):
+        pattern_name = str(pattern.get("name") or "").strip()
+        if not pattern_name:
+            continue
+        for source in _as_dict_list(pattern.get("sources")):
+            title = str(source.get("title") or "").strip()
+            url = str(source.get("url") or "").strip()
+            source_kind = str(source.get("source") or "").strip()
+            if source_kind != "local-reference" and not title.startswith("local/"):
+                continue
+            key = title if title.startswith("local/") else (url or title)
+            item = by_key.setdefault(
+                key,
+                {
+                    "title": title,
+                    "url": url,
+                    "posture_hint": str(source.get("posture_hint") or "local-static-review").strip(),
+                    "workflow_patterns": [],
+                    "risk_flags": [],
+                    "trust_flags": [],
+                },
+            )
+            item["workflow_patterns"].append(pattern_name)
+            item["risk_flags"].extend(_as_note_list(source.get("risk_flags")))
+            item["trust_flags"].extend(_as_note_list(source.get("trust_flags")))
+
+    coverage: list[dict[str, Any]] = []
+    for item in by_key.values():
+        workflow_patterns = _dedupe_notes(_as_note_list(item.get("workflow_patterns")))
+        risk_flags = _dedupe_notes(_as_note_list(item.get("risk_flags")))
+        trust_flags = _dedupe_notes(_as_note_list(item.get("trust_flags")))
+        coverage.append(
+            {
+                **item,
+                "workflow_patterns": workflow_patterns[:40],
+                "workflow_pattern_count": len(workflow_patterns),
+                "risk_flags": risk_flags,
+                "trust_flags": trust_flags,
+            }
+        )
+    coverage.sort(key=lambda item: (-int(item.get("workflow_pattern_count") or 0), str(item.get("title") or "")))
+    return coverage
+
+
 def _as_note_list(value: Any) -> list[str]:
     if not isinstance(value, list):
         return []
@@ -945,3 +1014,14 @@ def _as_note_list(value: Any) -> list[str]:
         if text:
             notes.append(text)
     return notes
+
+
+def _dedupe_notes(values: list[str]) -> list[str]:
+    seen: set[str] = set()
+    result: list[str] = []
+    for value in values:
+        if value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+    return result

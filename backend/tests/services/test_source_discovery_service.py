@@ -1954,10 +1954,14 @@ def test_load_latest_pattern_pack_preserves_universal_baseline_beyond_three_file
     assert artifact["merged_pattern_pack_count"] == 4
     assert artifact["preserved_workflow_pattern_count"] >= 2
     assert artifact["preserved_hint_key_count"] >= 2
+    assert artifact["local_reference_coverage_count"] == 1
+    assert artifact["local_reference_coverage"][0]["title"] == "local/universal-novel-writing"
+    assert "scene_goal_obstacle_cost_exit_gate" in artifact["local_reference_coverage"][0]["workflow_patterns"]
     assert "scene_goal_obstacle_cost_exit_gate" in loaded_names
     assert "subgenre_specific_ledger_gate" in loaded_names
     assert "scene_goal_obstacle_cost_exit_gate_hints" in digest
     assert "subgenre_specific_ledger_gate_hints" in digest
+    assert "local_reference_coverage" in digest
 
 
 def test_load_latest_pattern_pack_artifact_reports_missing_reference_dir(tmp_path: Path):
@@ -1975,6 +1979,8 @@ def test_load_latest_pattern_pack_artifact_reports_missing_reference_dir(tmp_pat
         "preserved_workflow_pattern_names": [],
         "preserved_hint_key_count": 0,
         "preserved_hint_keys": [],
+        "local_reference_coverage_count": 0,
+        "local_reference_coverage": [],
         "source_titles": [],
         "pattern_pack": {},
     }
@@ -20729,6 +20735,14 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     }.issubset(candidate["absorbed_patterns"])
 
     pattern_pack = service.build_pattern_pack_from_ledger(result)
+    coverage = pattern_pack["local_reference_coverage"][0]
+    assert coverage["title"] == "local/universal-novel-writing"
+    assert coverage["url"] == "local://universal-novel-writing"
+    assert coverage["posture_hint"] == "local-static-review"
+    assert coverage["file_count"] == 6
+    assert coverage["workflow_pattern_count"] >= 20
+    assert "chapter_contract_scene_beat_gate" in coverage["workflow_patterns"]
+    assert "progressive_context_loading_gate" in coverage["workflow_patterns"]
     assert "universal_mode_contract_policy" in pattern_pack["bible_enrichment_targets"]
     assert "universal_portable_tool_policy" in pattern_pack["bible_enrichment_targets"]
     assert "portable_story_project_structure_policy" in pattern_pack["bible_enrichment_targets"]
@@ -20801,6 +20815,8 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "minimal_rollback_repair_scope_gate_hints" in digest
     assert "progressive_context_loading_gate_hints" in digest
     assert "author_intent_confirmation_gate_hints" in digest
+    assert "local_reference_coverage" in digest
+    assert "local/universal-novel-writing" in digest
 
 
 @pytest.mark.asyncio

@@ -1249,6 +1249,7 @@ def test_source_discovery_panel_surfaces_pattern_pack_merge_metadata():
         "merged_pattern_pack_count",
         "preserved_workflow_pattern_count",
         "preserved_hint_key_count",
+        "local_reference_coverage_count",
     ):
         assert f"{field}: number" in types_text
         assert field in panel_text
@@ -1256,3 +1257,7 @@ def test_source_discovery_panel_surfaces_pattern_pack_merge_metadata():
     assert "合并基线" in panel_text
     assert "保留旧门控" in panel_text
     assert "保留提示" in panel_text
+
+    assert "local_reference_coverage" in types_text
+    assert "localReferenceCoverage" in panel_text
+    assert "????????" in panel_text
