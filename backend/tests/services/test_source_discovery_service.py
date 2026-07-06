@@ -16922,6 +16922,58 @@ def test_narrative_memory_canon_graph_sources_are_static_absorbed():
 
 
 
+def test_static_show_me_story_source_adds_foreshadow_memory_gates():
+    assert "https://github.com/Nigh/show-me-the-story" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("narrative memory" in query and "fact-check" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Nigh/show-me-the-story",
+                "html_url": "https://github.com/Nigh/show-me-the-story",
+                "description": (
+                    "show-me-the-story uses two-stage creation with full-book outline approval, "
+                    "chapter-by-chapter writing, automatic chapter summaries, fact-check, "
+                    "active foreshadowing lifecycle, narrative memory extraction, targeted paragraph "
+                    "revision, setting coordination, and whole-book optimization."
+                ),
+                "stargazers_count": 300,
+                "forks_count": 12,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["novel", "writing", "foreshadowing", "memory"],
+                "updated_at": "2026-07-06T11:20:00Z",
+                "root_files": ["README.md", "LICENSE", "go.mod", "prompts.go"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-06T11:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    assert "show_me_story_foreshadow_memory_gate" in candidates["Nigh/show-me-the-story"]["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "foreshadowing_lifecycle_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "narrative_memory_refresh_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "paragraph_revision_scope_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "setting_coordination_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "foreshadowing_lifecycle_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "narrative_memory_injection_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "setting_coordination_revision_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "paragraph_targeted_revision_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "foreshadowing_lifecycle_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "narrative_memory_detail_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "paragraph_revision_scope_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "setting_coordination_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("two-stage gate" in hint.lower() for hint in pattern_pack["show_me_story_foreshadow_memory_gate_hints"])
+    assert any("source foreshadowing ids" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "show_me_story_foreshadow_memory_gate_hints" in digest
+
+
+
 def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/aszecsei/writr" in DEFAULT_GITHUB_REPOSITORY_URLS

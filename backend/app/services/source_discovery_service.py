@@ -91,6 +91,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("11" OR "eleven") ("novel audit" OR "AI trace" OR "cross-chapter") in:name,description,readme',
     '("style lock" OR "context assembly" OR "foreshadow") ("novel continuation" OR "long novel") in:name,description,readme',
     '("P4" OR "P5" OR "foreshadow") ("relationship line" OR "chapter outline" OR "novel outline") in:name,description,readme',
+    '("show-me-the-story" OR "narrative memory" OR "fact-check") ("full-book outline" OR "chapter review" OR "active foreshadowing") in:name,description,readme',
     '("rolling summary" OR "character state tracking" OR "context trimming") ("long-form" OR "novel") in:name,description,readme',
     '("head-to-head story" OR "pairwise margins" OR "evaluator agreement") ("creative writing" OR "fiction") in:name,description,readme',
     '("q1" OR "q15" OR "ranked weaknesses" OR "overall score") ("story evaluation" OR "creative writing") in:name,description,readme',
@@ -1061,6 +1062,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/TSOFTP-afk/lshu-novel-generator",
     "https://github.com/tyxben/AI_novel",
     "https://github.com/ToussaintKnight/AutoStory",
+    "https://github.com/Nigh/show-me-the-story",
     "https://github.com/proportionable-plaguespot199/novel-workflow",
     "https://github.com/silbaram/novel-writer",
     "https://github.com/forsonny/Claude-Code-Novel-Writer",
@@ -1296,6 +1298,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("structured_generation_schema", ("schema", "json schema", "schema-first", "structured generation", "结构化", "结构化生成", "动态输出模型", "输出模型")),
     ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "vector retrieval", "vector storage", "retrieved automatically", "retrieval", "retrieve relevant", "rag", "injection viewer", "上下文注入", "上下文引用", "知识图谱", "引用")),
     ("novelos_war_room_future_scene_gate", ("novelos", "war room", "story bible", "story map", "future scene", "writing studio", "current chapter", "world state", "ai character agent", "tag matched", "localstorage", "memory/", "task linked", "chapter task", "future scene library", "story operating system")),
+    ("show_me_story_foreshadow_memory_gate", ("show-me-the-story", "show me the story", "two-stage creation", "full-book outline", "chapter-by-chapter writing", "chapter review", "active foreshadowing", "narrative memory", "fact-check", "targeted paragraph revision", "setting coordination", "whole-book optimization", "全书大纲", "逐章写作", "自动事实核查", "叙事记忆", "伏笔系统", "活跃伏笔", "自然段", "设定协调", "全书优化")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "prompt pipeline", "prompt pipelines", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "scorecard", "scoring", "scores", "tiered scoring", "weighted scoring", "threshold", "thresholds", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "评分", "出稿门槛", "门槛", "读者面板", "平台期检测")),
@@ -3853,6 +3856,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "AutoStory is a no-license-observed narrative simulation design note that combines a MiroFish social-simulation backbone, AutoStory parameters, and nuwa-style distillation. Public README markers describe simulation_requirement injection through ontology/profile/config/OASIS/report stages, actions.jsonl social dialogue output, a historian layer that infers structured physical event logs from social fragments and five-dimensional parameters, and a narrative layer that turns event logs into chapters through plan/draft/review/finalize plus style distillation. "
         "Pattern-only adaptation for simulation-to-event-log custody, historian-layer inference, and event-log-to-narrative separation; MiroFish runtime, prompt bodies, source novel text, actions files, provider calls, style templates, and generated prose are not imported or executed."
     ),
+    "nigh/show-me-the-story": (
+        "show-me-the-story is an MIT Go novel-writing assistant. Public README/raw markers describe two-stage creation with full-book outline approval before chapter-by-chapter writing, post-chapter summaries, fact checking, foreshadowing lifecycle management, narrative memory extraction, selected-paragraph revision preference, setting coordination after key changes, and whole-book optimization through diagnosis, work orders, chapter revision, and diff comparison. "
+        "Pattern-only adaptation for foreshadowing lifecycle ledgers, accepted-chapter narrative memory refresh, paragraph-scoped revision, and setting-change stale-outline coordination; Go binaries/builds, provider/model calls, browser/local storage, generated story text, prompt bodies, and upstream runtime are not executed or imported."
+    ),
     "proportionable-plaguespot199/novel-workflow": (
         "novel-workflow is a no-license-observed online-novel writing toolchain for Claude Code. Public README markers describe 12 slash commands covering init/style/setting/outline/write/review/sync, multi-model role split between Claude/Codex/Gemini, hot/warm/cold context levels, Markdown plus JSON state management, four story templates, offline file-only core workflows, downloadable ZIP packages, Node/npm setup, build commands, and /novel:* command surfaces. "
         "Pattern-only adaptation for command-phase routing, context-temperature tiers, state sync, and Markdown/JSON recovery; downloadable ZIPs, Node/npm install/build, Claude Code command registration, package files, templates, and upstream command text are not imported or executed."
@@ -5019,6 +5026,7 @@ class NovelSourceDiscoveryService:
             "card_workbench_hints": self._build_card_workbench_hints(available_patterns),
             "context_reference_hints": self._build_context_reference_hints(available_patterns),
             "novelos_war_room_future_scene_gate_hints": self._build_novelos_war_room_future_scene_gate_hints(available_patterns),
+            "show_me_story_foreshadow_memory_gate_hints": self._build_show_me_story_foreshadow_memory_gate_hints(available_patterns),
             "scene_asset_pipeline_hints": self._build_scene_asset_pipeline_hints(available_patterns),
             "quality_score_loop_hints": self._build_quality_score_loop_hints(available_patterns),
             "voice_fingerprint_hints": self._build_voice_fingerprint_hints(available_patterns),
@@ -6794,6 +6802,7 @@ class NovelSourceDiscoveryService:
             "tutorial_case_library_curation_gate": 66,
             "anti_hallucination_strand_weave_review_gate": 73,
             "hierarchical_narrative_memory_os_gate": 74,
+            "show_me_story_foreshadow_memory_gate": 72,
             "narrative_canon_version_branch_graph_gate": 73,
             "planner_writer_evaluator_editor_saga_gate": 72,
             "story_weaver_kg_bible_rag_gate": 72,
@@ -7311,6 +7320,11 @@ class NovelSourceDiscoveryService:
         if "hierarchical_narrative_memory_os_gate" in patterns:
             targets.append("hierarchical_narrative_memory_policy")
             targets.append("world_simulation_constraint_policy")
+        if "show_me_story_foreshadow_memory_gate" in patterns:
+            targets.append("foreshadowing_lifecycle_policy")
+            targets.append("narrative_memory_refresh_policy")
+            targets.append("paragraph_revision_scope_policy")
+            targets.append("setting_coordination_policy")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_canon_branch_merge_policy")
             targets.append("paradox_conflict_resolution_policy")
@@ -9052,6 +9066,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["ai_flavor_shell_cleanup_report", "prose_naturalization_trace", "template_repetition_audit"])
         if "hierarchical_narrative_memory_os_gate" in patterns:
             targets.extend(["hierarchical_memory_stack_report", "canon_vector_state_alignment_report", "world_simulation_constraint_findings"])
+        if "show_me_story_foreshadow_memory_gate" in patterns:
+            targets.extend(["foreshadowing_lifecycle_report", "narrative_memory_injection_audit", "setting_coordination_revision_findings", "paragraph_targeted_revision_report"])
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.extend(["narrative_canon_branch_report", "timeline_merge_conflict_report", "paradox_resolution_decision_log"])
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10243,6 +10259,9 @@ class NovelSourceDiscoveryService:
             hints.append("After continuity approval, run a narrow prose pass that removes AI-like template shells while preserving facts, tone, voice, and scene intent.")
         if "hierarchical_narrative_memory_os_gate" in patterns:
             hints.append("Before continuation, align Story Bible, append-only canon facts, vector memory, structured state, constraint graph, and world-simulation consequences; drafts cannot update one layer alone.")
+        if "show_me_story_foreshadow_memory_gate" in patterns:
+            hints.append("For continuation, require outline approval, chapter draft, post-chapter summary, fact-check, and accept/revise status before the chapter can refresh memory or unlock later beats.")
+            hints.append("Inject only active foreshadowing items and accepted narrative-memory details relevant to the current chapter task; stale setting deltas must rewrite unwritten outlines before drafting.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Treat what-if and same-type branches as explicit timeline branches with merge/conflict/paradox review before any branch becomes accepted canon.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -16072,6 +16091,18 @@ class NovelSourceDiscoveryService:
             "pnpm/turbo workspace, agents, vector stores, generated stories, provider calls, and runtime storage remain deferred static-review surfaces.",
         ]
 
+    def _build_show_me_story_foreshadow_memory_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "show_me_story_foreshadow_memory_gate" not in patterns:
+            return []
+        return [
+            "Use a two-stage gate: full-book outline approval -> chapter draft -> post-chapter summary -> fact-check -> accept/revise before memory writeback.",
+            "Track foreshadowing as a lifecycle ledger with seed, advance, payoff, active window, overdue counter, and accepted evidence for each item.",
+            "After a chapter is accepted, extract narrative memory details that were not in the outline; after revision, discard stale memory and re-extract from the accepted version.",
+            "Selected-text revision should prefer a paragraph patch; whole-chapter fallback must record why paragraph scope was insufficient.",
+            "When key settings change, emit a compatible setting delta and mark unwritten chapter outlines stale until coordinated and regenerated.",
+            "Provider/model calls, Go builds, browser/local storage, generated story text, and prompt bodies stay outside static pattern intake.",
+        ]
+
     def _build_narrative_canon_version_branch_graph_gate_hints(self, patterns: set[str]) -> list[str]:
         if "narrative_canon_version_branch_graph_gate" not in patterns:
             return []
@@ -17489,6 +17520,11 @@ class NovelSourceDiscoveryService:
             targets.append("ai_flavor_shell_cleanup_remap")
         if "hierarchical_narrative_memory_os_gate" in patterns:
             targets.append("hierarchical_memory_stack_remap")
+        if "show_me_story_foreshadow_memory_gate" in patterns:
+            targets.append("foreshadowing_lifecycle_remap")
+            targets.append("narrative_memory_detail_remap")
+            targets.append("paragraph_revision_scope_remap")
+            targets.append("setting_coordination_remap")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_branch_canon_graph_remap")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -18686,6 +18722,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt AI-flavor cleanup as a constrained edit pass with preserved facts, preserved tone, and explicit removed template-shell categories.")
         if "hierarchical_narrative_memory_os_gate" in patterns:
             hints.append("Prompt with target-story memory layers: bible, canon facts, vector recall, structured state, constraint graph, and world-simulation consequences; source layer names may guide format only.")
+        if "show_me_story_foreshadow_memory_gate" in patterns:
+            hints.append("Prompt same-type creation with a fresh foreshadowing lifecycle ledger, accepted-memory extraction policy, paragraph-scoped revision rule, and setting-coordination gate for the target story.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Prompt alternate branches with branch id, divergence event, merge policy, and paradox-resolution criteria before generating same-type or what-if prose.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -19861,6 +19899,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform AI-flavor cleanup into a project-local prose lint pass; never use naturalization to mask source-copy overlap.")
         if "hierarchical_narrative_memory_os_gate" in patterns:
             hints.append("Transform source memory hierarchy into target-specific bible/canon/vector/state/constraint/world layers before using it for continuation.")
+        if "show_me_story_foreshadow_memory_gate" in patterns:
+            hints.append("Transform foreshadowing ids, active windows, narrative-memory details, paragraph revision scopes, and setting deltas into target-owned records before drafting.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Transform source timeline branch ideas into a new branch graph with new entities, events, conflict policies, and canon promotion rules.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -21510,6 +21550,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject AI-flavor cleanup that only smooths copied spans; run source-overlap review before accepting naturalized prose.")
         if "hierarchical_narrative_memory_os_gate" in patterns:
             hints.append("Reject continuation packets where vector memory, canon facts, structured state, constraint graph, or world simulation disagree without a visible resolution.")
+        if "show_me_story_foreshadow_memory_gate" in patterns:
+            hints.append("Reject same-type outputs that carry over source foreshadowing ids, source memory entries, source chapter summaries, source paragraph text, or source diff examples into target canon.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Reject same-type branches that merge source timeline events, paradox labels, or branch names into target canon under renamed characters.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -21977,6 +22019,7 @@ class NovelSourceDiscoveryService:
                 "file_backed_promise_ledger_audit_gate",
                 "critique_revision_series_memory_gate",
                 "hierarchical_narrative_memory_os_gate",
+                "show_me_story_foreshadow_memory_gate",
                 "narrative_canon_version_branch_graph_gate",
                 "planner_writer_evaluator_editor_saga_gate",
                 "story_weaver_kg_bible_rag_gate",

@@ -349,3 +349,54 @@ Verification targets added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_novelos_war_room_future_scene_source_maps_to_task_context_gates -q
 ```
+
+
+## 2026-07-06 show-me-the-story foreshadowing / narrative-memory addendum
+
+Source reviewed statically: `https://github.com/Nigh/show-me-the-story`
+
+Observed metadata on 2026-07-06:
+
+- HEAD: `01e32723d53a0f179393cd154fd8546243333372`
+- Default branch: `main`
+- License: `MIT`
+- Stars/forks via public GitHub API: `300` / `27`
+- Latest observed pushed timestamp: `2026-07-06T12:07:01Z`
+- Raw samples:
+  - `README.md` status `200`, bytes `21087`, sha256
+    `7e30de4e860a9c5d46dddb2b0016d6b88230fe7fd44cda160362d793a4afbe54`
+  - `go.mod` status `200`, bytes `33`, sha256
+    `7c1a838dda241c6d0cf6c0e6ecb06e2e85b411068fedc8adc72d0d4aa4a1e1ca`
+  - `prompts.go` status `200`, bytes `28976`, sha256
+    `ea24447d560bd0375641c82379a88c64752b13c7cddb2d263a1045fff1d486bf`
+  - `LICENSE` and `prompts_en.go` raw probes returned `429`; no token, proxy,
+    retry storm, or bypass was used.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, Go build, binary execution, package install, browser/local-storage
+  access, provider/model call, prompt-body transplant, generated story import,
+  cookie/token read, or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Two-stage creation gate: full-book outline approval, chapter draft, summary,
+  fact-check, then accept/revise.
+- Foreshadowing is now represented as a lifecycle ledger with seed, advance,
+  payoff, active window, overdue counter, and accepted evidence.
+- Narrative memory refresh happens only after an accepted chapter; revision
+  invalidates stale extracted memory and triggers re-extraction.
+- Selected-text revision prefers paragraph-scoped patching; whole-chapter
+  fallback must record why the narrower patch was insufficient.
+- Key setting changes generate compatible setting deltas and mark unwritten
+  chapter outlines stale until coordination completes.
+- Same-type creation remaps foreshadowing ids, memory details, paragraph scopes,
+  and setting deltas before drafting, and rejects source memory, summaries,
+  paragraph text, or diff examples as target canon.
+
+Verification targets added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_show_me_story_source_adds_foreshadow_memory_gates -q
+```
