@@ -307,3 +307,45 @@ Verification targets added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_book_writing_graph_rights_vscode_sources_map_to_workspace_gates -q
 ```
+
+## 2026-07-06 NovelOS static war-room/future-scene addendum
+
+Source reviewed statically: `https://github.com/Colinsss-Qin/NovelOS`
+
+Observed metadata on 2026-07-06:
+
+- HEAD: `4eb3439ef61a69dbae320bff611a707feac90db0`
+- Default branch: `mian`
+- License: no license file observed
+- Stars/forks: `0` / `0`
+- Root markers: `.mcp.json`, `CLAUDE.md`, `PRD_v0.2.txt.md`,
+  `project_rules.md`, `package.json`, `prisma`, `src`
+- Static hashes sampled: `PRD_v0.2.txt.md`
+  `e4c2a191ccd0f7b37a04f60bed21d092b686c1df2d9d5e7a5e901d5f9a4feb53`;
+  `project_rules.md`
+  `e33e7c3f2991ff06591a150ffbacee3884e3530109bb8e49b762447f4fb0c564`
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, npm install/setup, Prisma command, MCP/server launch, Node/SQLite
+  runtime, provider call, CLAUDE instruction import, local memory/cache read,
+  script execution, cookie/token read, or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Keep War Room, Story Bible, Story Map, Future Scene, and Writing Studio as
+  separate planning surfaces.
+- Generated chapters should link to current chapter task, recent accepted
+  chapters, world/character state, and tag-matched Future Scene candidates.
+- Future Scene items are candidate beats, not canon, until accepted with task id,
+  affected canon slice, and chapter placement evidence.
+- Same-type creation rebuilds stage boards, task links, future-scene tags,
+  world-state keys, and chapter placement for the transformed book instead of
+  copying source boards, localStorage keys, memory summaries, or scene entries.
+
+Verification targets added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_novelos_war_room_future_scene_source_maps_to_task_context_gates -q
+```

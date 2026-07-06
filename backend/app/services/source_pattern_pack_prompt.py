@@ -118,6 +118,12 @@ def render_source_pattern_pack_digest(
         for hint in context_reference_hints[:6]:
             lines.append(f"  - {hint}")
 
+    novelos_war_room_future_scene_gate_hints = _as_note_list(source_pattern_pack.get("novelos_war_room_future_scene_gate_hints"))
+    if novelos_war_room_future_scene_gate_hints:
+        lines.append("- novelos_war_room_future_scene_gate_hints:")
+        for hint in novelos_war_room_future_scene_gate_hints[:6]:
+            lines.append(f"  - {hint}")
+
     scene_asset_pipeline_hints = _as_note_list(source_pattern_pack.get("scene_asset_pipeline_hints"))
     if scene_asset_pipeline_hints:
         lines.append("- scene_asset_pipeline_hints:")

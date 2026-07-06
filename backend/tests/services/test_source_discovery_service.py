@@ -10542,6 +10542,63 @@ def test_static_book_writing_graph_rights_vscode_sources_map_to_workspace_gates(
     assert "offline_chapter_revision_export_gate_hints" in digest
 
 
+def test_static_novelos_war_room_future_scene_source_maps_to_task_context_gates():
+    assert "https://github.com/Colinsss-Qin/NovelOS" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("war room" in query.lower() and "future scene" in query.lower() for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Colinsss-Qin/NovelOS",
+                "html_url": "https://github.com/Colinsss-Qin/NovelOS",
+                "description": (
+                    "AI-powered novel writing OS with War Room, Story Bible, Story Map, Future Scene, "
+                    "Writing Studio, current chapter task linkage, recent chapter context, world state, "
+                    "character state, AI character agents, tag matched context injection, localStorage "
+                    "project keys, SQLite data and memory cache."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["novel", "story-bible", "writing-studio", "story-map"],
+                "updated_at": "2026-07-05T15:37:09Z",
+                "root_files": [
+                    ".mcp.json",
+                    "CLAUDE.md",
+                    "PRD_v0.2.txt.md",
+                    "project_rules.md",
+                    "package.json",
+                    "prisma",
+                    "src",
+                ],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-06T20:10:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["Colinsss-Qin/NovelOS"]
+    assert "novelos_war_room_future_scene_gate" in candidate["absorbed_patterns"]
+    assert candidate["posture"] == "pattern-only"
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+
+    assert "war_room_task_stage_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "future_scene_reservoir_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "war_room_project_progress_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "future_scene_task_link_findings" in pattern_pack["whole_book_analysis_targets"]
+    assert "tag_matched_context_injection_audit" in pattern_pack["whole_book_analysis_targets"]
+    assert "war_room_stage_board_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "future_scene_reservoir_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("Future Scene" in hint and "not canon" in hint for hint in pattern_pack["novelos_war_room_future_scene_gate_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "novelos_war_room_future_scene_gate_hints" in digest
+    assert "War Room" in digest
+
+
 def test_static_ai_book_writer_product_prompt_sources_map_to_continuation_gates():
     assert "https://github.com/adamwlarson/ai-book-writer" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/302ai/302_novel_writing" in DEFAULT_GITHUB_REPOSITORY_URLS

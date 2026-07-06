@@ -26,6 +26,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("ai novel" OR "novel writing" OR "fiction writing") in:name,description,readme',
     '("novel cli" OR "fiction generator" OR "story generation") in:name,description,readme',
     '("story bible" OR "worldbuilding" OR "chapter generation") in:name,description,readme',
+    '("War Room" OR "Future Scene" OR "Story Map") ("Story Bible" OR "Writing Studio" OR "novel OS") in:name,description,readme',
     '("writing assistant" OR "style analysis" OR "same type creation") in:name,description,readme',
     '("world info" OR "lorebook" OR "author note" OR "memory book") ("novel" OR "fiction" OR "story") in:name,description,readme',
     '("snapshot" OR "branch" OR "rollback") ("memory" OR "context") ("agent" OR "story") in:name,description,readme',
@@ -599,6 +600,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/envy-ai/ai_rpg",
     "https://github.com/matrixorigin/Memoria",
     "https://github.com/mrigankad/Novel-OS",
+    "https://github.com/Colinsss-Qin/NovelOS",
     "https://github.com/aikohanasaki/SillyTavern-MemoryBooks",
     "https://github.com/bal-spec/sillytavern-character-memory",
     "https://github.com/MangoLion/plotbunni",
@@ -1293,6 +1295,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("card_workbench", ("card", "cards", "card-based", "card workbench", "卡片", "卡片式", "卡片创作")),
     ("structured_generation_schema", ("schema", "json schema", "schema-first", "structured generation", "结构化", "结构化生成", "动态输出模型", "输出模型")),
     ("context_reference", ("context injection", "context reference", "context-aware", "@dsl", "knowledge graph", "vector retrieval", "vector storage", "retrieved automatically", "retrieval", "retrieve relevant", "rag", "injection viewer", "上下文注入", "上下文引用", "知识图谱", "引用")),
+    ("novelos_war_room_future_scene_gate", ("novelos", "war room", "story bible", "story map", "future scene", "writing studio", "current chapter", "world state", "ai character agent", "tag matched", "localstorage", "memory/", "task linked", "chapter task", "future scene library", "story operating system")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "prompt pipeline", "prompt pipelines", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "scorecard", "scoring", "scores", "tiered scoring", "weighted scoring", "threshold", "thresholds", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "评分", "出稿门槛", "门槛", "读者面板", "平台期检测")),
@@ -2675,6 +2678,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "workflow timeline and run details, project memory, quality diagnosis, node events, artifacts, LLM latency/tokens, Run Doctor recovery, "
         "reusable LLM profiles, LLM profile routing, and agent-level LLM routing. "
         "Pattern-only adaptation is an agent-role profile workflow gate; Electron/FastAPI/LangGraph runtimes, npm/pip installs, scripts, provider credentials, safeStorage/API-key access, and model calls are not executed."
+    ),
+    "colinsss-qin/novelos": (
+        "NovelOS is a no-license-observed Node/SQLite native-front-end novel operating-system prototype. Public PRD/project markers describe War Room, Story Bible, Story Map, Future Scene, Writing Studio, current-chapter task linkage, recent-chapter context, world/character state, tag-matched setting injection, localStorage project keys, SQLite data, memory cache, and AI character-agent surfaces. "
+        "Pattern-only adaptation for stage-board, future-scene reservoir, and task-linked context gates; npm setup, Prisma commands, MCP config, SQLite/runtime data, CLAUDE instructions, scripts, providers, and local memory folders are not imported or executed."
     ),
     "geobond13/fiction-forge": (
         "Fiction Forge is a MIT prose pattern scanner, MCP context-server toolkit, publisher, and parallel-agent editorial workflow for AI-assisted novels. "
@@ -5011,6 +5018,7 @@ class NovelSourceDiscoveryService:
             "structured_generation_hints": self._build_structured_generation_hints(available_patterns),
             "card_workbench_hints": self._build_card_workbench_hints(available_patterns),
             "context_reference_hints": self._build_context_reference_hints(available_patterns),
+            "novelos_war_room_future_scene_gate_hints": self._build_novelos_war_room_future_scene_gate_hints(available_patterns),
             "scene_asset_pipeline_hints": self._build_scene_asset_pipeline_hints(available_patterns),
             "quality_score_loop_hints": self._build_quality_score_loop_hints(available_patterns),
             "voice_fingerprint_hints": self._build_voice_fingerprint_hints(available_patterns),
@@ -6392,6 +6400,7 @@ class NovelSourceDiscoveryService:
             "structured_generation_schema": 48,
             "card_workbench": 46,
             "context_reference": 44,
+            "novelos_war_room_future_scene_gate": 63,
             "workflow_agent_pipeline": 42,
             "scene_asset_pipeline": 40,
             "quality_score_loop": 38,
@@ -7133,6 +7142,9 @@ class NovelSourceDiscoveryService:
         if "context_reference" in patterns:
             targets.append("context_reference_index")
             targets.append("knowledge_graph_links")
+        if "novelos_war_room_future_scene_gate" in patterns:
+            targets.append("war_room_task_stage_policy")
+            targets.append("future_scene_reservoir_policy")
         if "lorebook_context" in patterns:
             targets.append("lorebook_entries")
             targets.append("activation_keywords")
@@ -8944,6 +8956,12 @@ class NovelSourceDiscoveryService:
             targets.extend(["schema_bound_outputs", "required_fields", "validation_failures"])
         if "context_reference" in patterns:
             targets.extend(["context_references", "knowledge_graph_edges", "retrieval_scope"])
+        if "novelos_war_room_future_scene_gate" in patterns:
+            targets.extend([
+                "war_room_project_progress_report",
+                "future_scene_task_link_findings",
+                "tag_matched_context_injection_audit",
+            ])
         if "counterfactual_story_graph_rag_gate" in patterns:
             targets.extend(["counterfactual_divergence_points", "narrative_vs_realtime_event_edges", "verified_graph_retrieval_context"])
         if "character_knowledge_timeline_gate" in patterns:
@@ -11391,6 +11409,15 @@ class NovelSourceDiscoveryService:
         if "context_reference" in patterns:
             hints.append("Cards should expose compact references that prompts can include without loading the whole project history.")
         return hints
+
+    def _build_novelos_war_room_future_scene_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "novelos_war_room_future_scene_gate" not in patterns:
+            return []
+        return [
+            "Keep War Room, Story Bible, Story Map, Future Scene, and Writing Studio as separate planning surfaces so progress, canon, topology, candidate scenes, and draft text do not overwrite each other.",
+            "A generated chapter should link to the current chapter task, recent accepted chapters, world/character state, and tag-matched future-scene candidates before drafting starts.",
+            "Future Scene items are a reservoir of candidate beats, not canon; promote them only after acceptance with source task id, affected canon slice, and chapter placement evidence.",
+        ]
 
     def _build_context_reference_hints(self, patterns: set[str]) -> list[str]:
         if "context_reference" not in patterns:
@@ -17480,6 +17507,9 @@ class NovelSourceDiscoveryService:
             targets.append("schema_field_remap")
         if "context_reference" in patterns:
             targets.append("context_reference_remap")
+        if "novelos_war_room_future_scene_gate" in patterns:
+            targets.append("war_room_stage_board_remap")
+            targets.append("future_scene_reservoir_remap")
         if "scene_asset_pipeline" in patterns:
             targets.append("scene_asset_remap")
         if "scene_level_generation" in patterns:
@@ -19074,6 +19104,8 @@ class NovelSourceDiscoveryService:
             hints.append("Use schema constraints to force completeness and independence, especially for renamed entities and transformed conflicts.")
         if "context_reference" in patterns:
             hints.append("Keep source-pattern references separate from new-story canon references so inspiration never becomes factual canon.")
+        if "novelos_war_room_future_scene_gate" in patterns:
+            hints.append("For same-type creation, rebuild the War Room board and Future Scene reservoir around transformed tasks, tags, world state, and chapter goals before drafting.")
         if "scene_asset_pipeline" in patterns:
             hints.append("Transform scene assets at the level of function and pressure, not at the level of source event sequence.")
         if "quality_score_loop" in patterns:
@@ -19376,6 +19408,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform publishing workflows into local safety state: draft revision, backup, dry-run, upload checkpoint, and manual publish decision for the new book only.")
         if "lore_forge_knowledge_engineering_gate" in patterns:
             hints.append("Transform knowledge-engineering scaffolds into a fresh Story Bible, memory graph, route graph, and agent handoff plan; source modules are structure examples only.")
+        if "novelos_war_room_future_scene_gate" in patterns:
+            hints.append("Transform operating-system boards by changing stage labels, task links, future-scene tags, world-state keys, and chapter placement before generation.")
         if "layered_style_profile_fusion_eval_gate" in patterns:
             hints.append("Transform style profiles by choosing new layer weights, new scene rhythm targets, and new anti-AI rules while rejecting source sample phrasing.")
         if "truth_file_rag_pyramid_audit_gate" in patterns:
@@ -20722,6 +20756,8 @@ class NovelSourceDiscoveryService:
             hints.append("Run copy-risk checks on structured fields as well as prose, because copied names and set-pieces often enter through planning cards.")
         if "context_reference" in patterns:
             hints.append("Reject drafts whose cited context reference points to source material as if it were new-story canon.")
+        if "novelos_war_room_future_scene_gate" in patterns:
+            hints.append("Reject drafts that copy source War Room task names, Future Scene entries, Story Map topology, localStorage keys, or memory-cache summaries as transformed canon.")
         if "manuscript_card_board_extraction_gate" in patterns:
             hints.append("Reject digital corkboard reuse when source cards, folder names, duplicate-card merges, or AI-extracted scene labels become new-story canon without transformation.")
         if "chapter_timeline_frontmatter_export_gate" in patterns:
@@ -21723,6 +21759,7 @@ class NovelSourceDiscoveryService:
                 "agent_style_rulebook_soft_enforcement_gate",
                 "private_person_place_timeline_output_gate",
                 "story_os_governed_studio_pipeline_gate",
+                "novelos_war_room_future_scene_gate",
                 "standards_file_workflow_os_gate",
                 "hierarchical_cowriting_story_scaffold",
                 "human_coauthor_edit_boundary",
