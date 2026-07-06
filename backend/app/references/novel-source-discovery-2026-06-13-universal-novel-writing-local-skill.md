@@ -208,3 +208,32 @@ Verification target added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_load_latest_pattern_pack_preserves_previous_baseline_when_refresh_is_narrower -q
 ```
+
+## 2026-07-06 deep baseline merge metadata addendum
+
+The local source was re-read statically from `D:\project\universal-novel-writing`
+without install, clone, provider call, MCP/browser/desktop runtime, prompt body
+transplant, or source prose import.
+
+Additional reusable pattern fused into MuMuAINovel:
+
+- Pattern-pack loading now keeps a six-file baseline window instead of the
+  latest three files, so earlier `local/universal-novel-writing` gates such as
+  scene goal/obstacle/cost/exit, subgenre ledgers, and progress writeback are
+  still active after later narrow metadata refreshes.
+- `load_latest_pattern_pack_artifact()` now reports
+  `merged_pattern_pack_count`, `preserved_workflow_pattern_count`, and
+  `preserved_hint_key_count`, with compact preserved-name/key previews.
+- The source-discovery panel surfaces the same merge metadata, making it visible
+  when a current refresh is using older durable baseline gates.
+- This is still pattern-only: source workflow contracts may shape拆书续写 and
+  同类型仿写 gates, but external files, prompt bodies, manuscript prose,
+  scripts, installers, providers, browser/MCP runtimes, and credentials remain
+  excluded.
+
+Verification targets added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_load_latest_pattern_pack_preserves_universal_baseline_beyond_three_files -q
+python -X utf8 -m pytest backend/tests/frontend/test_source_discovery_panel_copy.py::test_source_discovery_panel_surfaces_pattern_pack_merge_metadata -q
+```

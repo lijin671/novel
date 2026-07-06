@@ -1235,3 +1235,24 @@ def test_source_discovery_panel_supports_local_reference_paths():
     assert "D:/project/universal-novel-writing" in panel_text
     assert "local_reference_paths" in panel_text
     assert "本地静态参考" in panel_text
+
+
+def test_source_discovery_panel_surfaces_pattern_pack_merge_metadata():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    types = repo_root / "frontend" / "src" / "types" / "sourceDiscovery.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types.read_text(encoding="utf-8")
+
+    for field in (
+        "merged_pattern_pack_count",
+        "preserved_workflow_pattern_count",
+        "preserved_hint_key_count",
+    ):
+        assert f"{field}: number" in types_text
+        assert field in panel_text
+
+    assert "合并基线" in panel_text
+    assert "保留旧门控" in panel_text
+    assert "保留提示" in panel_text

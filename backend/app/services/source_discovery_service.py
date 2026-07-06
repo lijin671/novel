@@ -4766,6 +4766,8 @@ def parse_linux_do_rss_items(rss_text: str, *, source_url: str) -> list[dict[str
 class NovelSourceDiscoveryService:
     """小说自动化公开源发现、分类与 Markdown ledger 沉淀。"""
 
+    RECENT_PATTERN_PACK_BASELINE_WINDOW = 6
+
     async def discover_public_sources(
         self,
         *,
@@ -5791,7 +5793,7 @@ class NovelSourceDiscoveryService:
         self,
         candidates: list[Path],
         *,
-        max_files: int = 3,
+        max_files: int = RECENT_PATTERN_PACK_BASELINE_WINDOW,
     ) -> list[dict[str, Any]]:
         payloads: list[dict[str, Any]] = []
         for candidate in candidates[-max_files:]:
@@ -5802,6 +5804,24 @@ class NovelSourceDiscoveryService:
             if isinstance(payload, dict):
                 payloads.append(payload)
         return payloads
+
+    def _pattern_names_from_pack_payload(self, payload: dict[str, Any]) -> set[str]:
+        names: set[str] = set()
+        for key in ("workflow_patterns", "patterns"):
+            for item in self._as_dict_list(payload.get(key)):
+                name = _text(item.get("name"))
+                if name:
+                    names.add(name)
+        return names
+
+    def _nonempty_hint_keys_from_pack_payload(self, payload: dict[str, Any]) -> set[str]:
+        keys: set[str] = set()
+        for key, value in payload.items():
+            if not key.endswith("_hints") or not isinstance(value, list):
+                continue
+            if any(_text(item) for item in value):
+                keys.add(key)
+        return keys
 
     def _merge_pattern_pack_lists(self, values: Iterable[Any]) -> list[Any]:
         """Merge latest-first list values without losing older unique items."""
@@ -5937,6 +5957,12 @@ class NovelSourceDiscoveryService:
             "generated_at": None,
             "source_candidate_count": 0,
             "workflow_pattern_count": 0,
+            "merged_pattern_pack_count": 0,
+            "merged_pattern_pack_paths": [],
+            "preserved_workflow_pattern_count": 0,
+            "preserved_workflow_pattern_names": [],
+            "preserved_hint_key_count": 0,
+            "preserved_hint_keys": [],
             "source_titles": [],
             "pattern_pack": {},
         }
@@ -5960,12 +5986,25 @@ class NovelSourceDiscoveryService:
 
         workflow_patterns = self._as_dict_list(payload.get("workflow_patterns"))
         source_titles = self._dedupe_texts(_as_list(payload.get("source_titles")))
+        latest_pattern_names = self._pattern_names_from_pack_payload(payloads[-1]) if payloads else set()
+        merged_pattern_names = self._pattern_names_from_pack_payload(payload)
+        latest_hint_keys = self._nonempty_hint_keys_from_pack_payload(payloads[-1]) if payloads else set()
+        merged_hint_keys = self._nonempty_hint_keys_from_pack_payload(payload)
+        preserved_workflow_pattern_names = sorted(merged_pattern_names - latest_pattern_names)
+        preserved_hint_keys = sorted(merged_hint_keys - latest_hint_keys)
+        recent_candidates = candidates[-self.RECENT_PATTERN_PACK_BASELINE_WINDOW :]
         return {
             "found": True,
             "path": str(latest),
             "generated_at": _text(payload.get("generated_at")) or None,
             "source_candidate_count": int(payload.get("source_candidate_count") or 0),
             "workflow_pattern_count": len(workflow_patterns),
+            "merged_pattern_pack_count": len(payloads),
+            "merged_pattern_pack_paths": [str(candidate) for candidate in recent_candidates],
+            "preserved_workflow_pattern_count": len(preserved_workflow_pattern_names),
+            "preserved_workflow_pattern_names": preserved_workflow_pattern_names[:40],
+            "preserved_hint_key_count": len(preserved_hint_keys),
+            "preserved_hint_keys": preserved_hint_keys[:40],
             "source_titles": source_titles,
             "pattern_pack": payload,
         }

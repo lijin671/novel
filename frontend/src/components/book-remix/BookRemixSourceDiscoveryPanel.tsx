@@ -733,6 +733,12 @@ export default function BookRemixSourceDiscoveryPanel() {
             <Tag color="blue">{patternPack?.source_candidate_count ?? 0}</Tag>
             <Text type="secondary">{'\u5de5\u4f5c\u6d41\u6a21\u5f0f\uff1a'}</Text>
             <Tag color="geekblue">{patternPack?.workflow_pattern_count ?? 0}</Tag>
+            <Text type="secondary">{'合并基线：'}</Text>
+            <Tag color="cyan">{patternPack?.merged_pattern_pack_count ?? 0}</Tag>
+            <Text type="secondary">{'保留旧门控：'}</Text>
+            <Tag color="gold">{patternPack?.preserved_workflow_pattern_count ?? 0}</Tag>
+            <Text type="secondary">{'保留提示：'}</Text>
+            <Tag color="lime">{patternPack?.preserved_hint_key_count ?? 0}</Tag>
             <Text type="secondary">{'Ledger \u65e5\u671f\uff1a'}</Text>
             <Tag color={ledger?.date_slug ? 'purple' : 'default'}>{ledger?.date_slug || '\u6682\u65e0'}</Tag>
             <Text type="secondary">{'\u6765\u6e90\u65b0\u9c9c\u5ea6\uff1a'}</Text>

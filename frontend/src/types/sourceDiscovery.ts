@@ -552,6 +552,12 @@ export interface SourceDiscoveryPatternPackArtifact {
   generated_at?: string | null;
   source_candidate_count: number;
   workflow_pattern_count: number;
+  merged_pattern_pack_count: number;
+  merged_pattern_pack_paths?: string[];
+  preserved_workflow_pattern_count: number;
+  preserved_workflow_pattern_names?: string[];
+  preserved_hint_key_count: number;
+  preserved_hint_keys?: string[];
   source_titles: string[];
   pattern_pack: SourceDiscoveryPatternPack;
 }

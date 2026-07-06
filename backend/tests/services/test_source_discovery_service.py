@@ -1870,6 +1870,96 @@ def test_load_latest_pattern_pack_preserves_previous_baseline_when_refresh_is_na
     assert artifact["workflow_pattern_count"] == 2
 
 
+def test_load_latest_pattern_pack_preserves_universal_baseline_beyond_three_files(
+    tmp_path: Path,
+):
+    reference_dir = tmp_path / "backend" / "app" / "references"
+    reference_dir.mkdir(parents=True)
+    (reference_dir / "novel-source-pattern-pack-2026-06-13.json").write_text(
+        json.dumps(
+            {
+                "generated_at": "2026-06-13T10:00:00+08:00",
+                "source_titles": ["local/universal-novel-writing"],
+                "workflow_patterns": [
+                    {
+                        "name": "scene_goal_obstacle_cost_exit_gate",
+                        "candidate_count": 1,
+                        "sources": [{"title": "local/universal-novel-writing"}],
+                    },
+                    {
+                        "name": "subgenre_specific_ledger_gate",
+                        "candidate_count": 1,
+                        "sources": [{"title": "local/universal-novel-writing"}],
+                    },
+                ],
+                "scene_goal_obstacle_cost_exit_gate_hints": [
+                    "Each scene needs POV, goal, obstacle, tactic, turn, cost, and changed exit state."
+                ],
+                "subgenre_specific_ledger_gate_hints": [
+                    "Choose active ledgers such as romance trust, mystery clue, realm-resource-cost, deadline/asymmetry, magic-rule-cost, or motif ledgers."
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    for date_slug in ("2026-06-15", "2026-06-16"):
+        (reference_dir / f"novel-source-pattern-pack-{date_slug}.json").write_text(
+            json.dumps(
+                {
+                    "generated_at": f"{date_slug}T09:00:00+08:00",
+                    "source_titles": [f"narrow/{date_slug}"],
+                    "workflow_patterns": [
+                        {
+                            "name": "metadata_refresh_gate",
+                            "candidate_count": 1,
+                            "sources": [{"title": f"narrow/{date_slug}"}],
+                        }
+                    ],
+                }
+            ),
+            encoding="utf-8",
+        )
+    latest_path = reference_dir / "novel-source-pattern-pack-2026-07-06.json"
+    latest_path.write_text(
+        json.dumps(
+            {
+                "generated_at": "2026-07-06T16:38:56+08:00",
+                "source_titles": ["refresh/universal"],
+                "workflow_patterns": [
+                    {
+                        "name": "universal_novel_mode_contract_gate",
+                        "candidate_count": 1,
+                        "sources": [{"title": "refresh/universal"}],
+                    }
+                ],
+                "universal_novel_mode_contract_gate_hints": [
+                    "Select a novel mode before work starts."
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    service = NovelSourceDiscoveryService()
+    loaded = service.load_latest_pattern_pack(repo_root=tmp_path)
+    artifact = service.load_latest_pattern_pack_artifact(repo_root=tmp_path)
+    digest = render_source_pattern_pack_digest(loaded)
+    loaded_names = {
+        pattern["name"]
+        for pattern in loaded["workflow_patterns"]
+        if isinstance(pattern, dict)
+    }
+
+    assert artifact["path"] == str(latest_path)
+    assert artifact["merged_pattern_pack_count"] == 4
+    assert artifact["preserved_workflow_pattern_count"] >= 2
+    assert artifact["preserved_hint_key_count"] >= 2
+    assert "scene_goal_obstacle_cost_exit_gate" in loaded_names
+    assert "subgenre_specific_ledger_gate" in loaded_names
+    assert "scene_goal_obstacle_cost_exit_gate_hints" in digest
+    assert "subgenre_specific_ledger_gate_hints" in digest
+
+
 def test_load_latest_pattern_pack_artifact_reports_missing_reference_dir(tmp_path: Path):
     artifact = NovelSourceDiscoveryService().load_latest_pattern_pack_artifact(repo_root=tmp_path)
 
@@ -1879,6 +1969,12 @@ def test_load_latest_pattern_pack_artifact_reports_missing_reference_dir(tmp_pat
         "generated_at": None,
         "source_candidate_count": 0,
         "workflow_pattern_count": 0,
+        "merged_pattern_pack_count": 0,
+        "merged_pattern_pack_paths": [],
+        "preserved_workflow_pattern_count": 0,
+        "preserved_workflow_pattern_names": [],
+        "preserved_hint_key_count": 0,
+        "preserved_hint_keys": [],
         "source_titles": [],
         "pattern_pack": {},
     }
