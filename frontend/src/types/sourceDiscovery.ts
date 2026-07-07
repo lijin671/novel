@@ -365,6 +365,7 @@ export interface SourceDiscoveryPatternPack {
   universal_export_clean_manuscript_gate_hints?: string[];
   minimal_rollback_repair_scope_gate_hints?: string[];
   progressive_context_loading_gate_hints?: string[];
+  startup_status_context_recovery_gate_hints?: string[];
   author_intent_confirmation_gate_hints?: string[];
   local_first_provider_boundary_authoring_gate_hints?: string[];
   suggestion_card_nonoverwrite_revision_gate_hints?: string[];

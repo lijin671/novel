@@ -1784,6 +1784,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("universal_export_clean_manuscript_gate", ("export mode", "clean manuscript", "structured export plan", "accepted chapters only", "package, compile, summarize, or prepare for publishing", "export plan")),
     ("minimal_rollback_repair_scope_gate", ("minimal rollback", "smallest failing artifact", "repair the smallest failing artifact", "instead of restarting the whole project", "least destructive patch", "repair only the failed")),
     ("progressive_context_loading_gate", ("progressive loading", "load only the reference needed", "minimum needed files", "previous 1-2 relevant chapters", "last 1-2 relevant chapters", "compact context summary")),
+    ("startup_status_context_recovery_gate", ("startup procedure", "loaded project", "current progress", "last chapter", "open threads", "next likely action", "core files are missing", "lightweight version from available context", "startup status")),
     ("author_intent_confirmation_gate", ("preserve authorial intent", "authorial intent", "do not hijack", "content limits", "long-sequence", "long sequence", "explicit confirmation")),
     ("book_writer_memory_arc_revision_gate", ("book writer", "book memory bank", "character arc matrix", "thematic tracker", "motif tracker", "pacing blueprint", "scene tension map", "specialized revision passes", "dialogue pass", "sensory pass", "prose polish", "continuity check", "update memory bank")),
     ("kindle_agent_pipeline_compile_gate", ("kindle book agency", "8 specialized agents", "niche researcher", "ghostwriter", "developmental editor", "chapter expansion", "proofreader", "formatter", "kindle compiler", "parallel agents", "docx", "style anchors", "edit log")),
@@ -5243,6 +5244,7 @@ class NovelSourceDiscoveryService:
             "universal_export_clean_manuscript_gate_hints": self._build_universal_export_clean_manuscript_gate_hints(available_patterns),
             "minimal_rollback_repair_scope_gate_hints": self._build_minimal_rollback_repair_scope_gate_hints(available_patterns),
             "progressive_context_loading_gate_hints": self._build_progressive_context_loading_gate_hints(available_patterns),
+            "startup_status_context_recovery_gate_hints": self._build_startup_status_context_recovery_gate_hints(available_patterns),
             "author_intent_confirmation_gate_hints": self._build_author_intent_confirmation_gate_hints(available_patterns),
             "local_first_provider_boundary_authoring_gate_hints": self._build_local_first_provider_boundary_authoring_gate_hints(available_patterns),
             "suggestion_card_nonoverwrite_revision_gate_hints": self._build_suggestion_card_nonoverwrite_revision_gate_hints(available_patterns),
@@ -7067,6 +7069,7 @@ class NovelSourceDiscoveryService:
             "subgenre_specific_ledger_gate": 66,
             "post_draft_review_checklist_gate": 66,
             "progressive_context_loading_gate": 66,
+            "startup_status_context_recovery_gate": 66,
             "author_intent_confirmation_gate": 66,
             "author_ai_project_contract_review_gate": 67,
             "manuscript_pr_editorial_workflow_gate": 66,
@@ -7154,6 +7157,8 @@ class NovelSourceDiscoveryService:
             targets.append("minimal_rollback_repair_scope_policy")
         if "progressive_context_loading_gate" in patterns:
             targets.append("progressive_context_loading_policy")
+        if "startup_status_context_recovery_gate" in patterns:
+            targets.append("startup_status_context_recovery_policy")
         if "author_intent_confirmation_gate" in patterns:
             targets.append("author_intent_confirmation_policy")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
@@ -8994,6 +8999,8 @@ class NovelSourceDiscoveryService:
             targets.append("minimal_rollback_repair_scope_report")
         if "progressive_context_loading_gate" in patterns:
             targets.append("progressive_context_loading_report")
+        if "startup_status_context_recovery_gate" in patterns:
+            targets.append("startup_status_context_recovery_report")
         if "author_intent_confirmation_gate" in patterns:
             targets.append("author_intent_confirmation_report")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
@@ -12932,6 +12939,15 @@ class NovelSourceDiscoveryService:
             "Load only the minimum needed files for the selected mode: story bible, outline, characters, continuity, progress, and previous 1-2 relevant chapters.",
             "Declare the selected context references before drafting so source text, reference docs, and old chapters are not silently over-injected.",
             "If files are missing, reconstruct a compact context summary with known premise, current chapter, character states, open hooks, constraints, and assumptions.",
+        ]
+
+    def _build_startup_status_context_recovery_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "startup_status_context_recovery_gate" not in patterns:
+            return []
+        return [
+            "Before continuation or revision, emit a startup status packet with loaded project path/title, current progress, last chapter summary, top open threads, and next likely action.",
+            "When core files are missing, create a lightweight context scaffold from available evidence instead of blocking or inventing hidden canon.",
+            "For same-type work, rebuild the startup packet around the target project; source project status, open threads, and next action cannot become target canon.",
         ]
 
     def _build_author_intent_confirmation_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -17705,6 +17721,8 @@ class NovelSourceDiscoveryService:
             targets.append("minimal_rollback_repair_scope_remap")
         if "progressive_context_loading_gate" in patterns:
             targets.append("progressive_context_loading_remap")
+        if "startup_status_context_recovery_gate" in patterns:
+            targets.append("startup_status_context_recovery_remap")
         if "author_intent_confirmation_gate" in patterns:
             targets.append("author_intent_confirmation_remap")
         if "chinese_skill_workstation_phase_quality_gate" in patterns:
@@ -19302,6 +19320,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt post-draft review as an acceptance artifact: outline fidelity, continuity, POV, voice, scene conflict, pacing, reader-pull, hook/payoff, naturalness, and mobile readability must be target-owned findings.")
         if "universal_character_world_rule_coherence_gate" in patterns:
             hints.append("Prompt character/world coherence from target-owned character design tests, world-rule cost matrix, research uncertainty notes, and rule-pressure constraints before drafting.")
+        if "startup_status_context_recovery_gate" in patterns:
+            hints.append("Prompt continuation with a target startup status packet: loaded project, current progress, last chapter, open threads, next likely action, and lightweight scaffold gaps.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Prompt continuation with deterministic continuity fields: character lifecycle, present-cast versus mentions, promise/question setup-payoff order, and durable state references before prose reuse.")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -20909,6 +20929,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform post-draft review into a target-story acceptance matrix; source checklist examples and findings cannot become target canon or prose.")
         if "universal_character_world_rule_coherence_gate" in patterns:
             hints.append("Transform character/world coherence by rebuilding moral lines, ally wants, opposition motives, rule costs, who-knows scope, and research assumptions for the target story.")
+        if "startup_status_context_recovery_gate" in patterns:
+            hints.append("Transform startup status by rebuilding loaded-project identity, current progress, last-chapter summary, open threads, and next action from target-owned state.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Transform continuity contracts by rebuilding cast ids, lifecycle state, promise/question ledgers, object state, and knowledge state for the target story instead of copying source registries.")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -21134,6 +21156,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that copy source review labels, example findings, checklist wording, or repair notes into target manuscript or accepted canon.")
         if "universal_character_world_rule_coherence_gate" in patterns:
             hints.append("Reject drafts that copy source moral tests, ally/antagonist motive shapes, world-rule costs, research-note claims, or who-knows matrices into target canon.")
+        if "startup_status_context_recovery_gate" in patterns:
+            hints.append("Reject continuation packets that reuse source project paths, last-chapter summaries, open threads, or next-action labels as target story state.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
             hints.append("Reject drafts that reuse upstream Story Skills sample ids, frontmatter examples, CLI findings, promise names, question names, or broken-demo continuity cases as accepted canon.")
         if "better_writing_voice_specificity_preflight_gate" in patterns:
@@ -22296,6 +22320,7 @@ class NovelSourceDiscoveryService:
                 "genre_promise_contract_matrix_gate",
                 "subgenre_specific_ledger_gate",
                 "progressive_context_loading_gate",
+                "startup_status_context_recovery_gate",
                 "author_intent_confirmation_gate",
                 "mode_contract_generation_gate",
                 "source_study_method_bank_isolation_gate",

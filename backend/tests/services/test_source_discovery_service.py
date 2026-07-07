@@ -21341,6 +21341,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     " Progressive Loading loads only the reference needed for the "
                     "current task, plus the minimum story-bible/outline/characters/"
                     "continuity/progress files and previous 1-2 relevant chapters. "
+                    "Startup Procedure reports Loaded project, Current progress, "
+                    "Last chapter, Open threads, Next likely action, and creates a "
+                    "lightweight version from available context when core files are missing. "
                     "Preserve authorial intent: do not hijack the premise, genre, "
                     "voice, content limits, or long-sequence direction without "
                     "explicit confirmation."
@@ -21396,6 +21399,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "universal_export_clean_manuscript_gate",
         "minimal_rollback_repair_scope_gate",
         "progressive_context_loading_gate",
+        "startup_status_context_recovery_gate",
         "author_intent_confirmation_gate",
     }.issubset(candidate["absorbed_patterns"])
 
@@ -21412,6 +21416,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "universal_portable_tool_policy" in pattern_pack["bible_enrichment_targets"]
     assert "portable_story_project_structure_policy" in pattern_pack["bible_enrichment_targets"]
     assert "universal_scene_surface_craft_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "startup_status_context_recovery_policy" in pattern_pack["bible_enrichment_targets"]
     assert "chapter_contract_scene_beat_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_portable_tool_policy_report" in pattern_pack["whole_book_analysis_targets"]
     assert "progress_report_writeback_report" in pattern_pack["whole_book_analysis_targets"]
@@ -21425,6 +21430,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "universal_export_clean_manuscript_report" in pattern_pack["whole_book_analysis_targets"]
     assert "minimal_rollback_repair_scope_report" in pattern_pack["whole_book_analysis_targets"]
     assert "progressive_context_loading_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "startup_status_context_recovery_report" in pattern_pack["whole_book_analysis_targets"]
     assert "author_intent_confirmation_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_mode_contract_remap" in pattern_pack["inspired_mapping_targets"]
     assert "universal_portable_tool_policy_remap" in pattern_pack["inspired_mapping_targets"]
@@ -21438,6 +21444,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "universal_export_clean_manuscript_remap" in pattern_pack["inspired_mapping_targets"]
     assert "minimal_rollback_repair_scope_remap" in pattern_pack["inspired_mapping_targets"]
     assert "progressive_context_loading_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "startup_status_context_recovery_remap" in pattern_pack["inspired_mapping_targets"]
     assert "author_intent_confirmation_remap" in pattern_pack["inspired_mapping_targets"]
     assert any("mode" in hint.lower() for hint in pattern_pack["universal_novel_mode_contract_gate_hints"])
     assert any("unavailable" in hint.lower() and "assumptions" in hint.lower() for hint in pattern_pack["universal_portable_tool_policy_gate_hints"])
@@ -21462,6 +21469,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("accepted chapter" in hint.lower() for hint in pattern_pack["universal_export_clean_manuscript_gate_hints"])
     assert any("smallest failing artifact" in hint.lower() for hint in pattern_pack["minimal_rollback_repair_scope_gate_hints"])
     assert any("minimum needed files" in hint.lower() for hint in pattern_pack["progressive_context_loading_gate_hints"])
+    assert any("startup status" in hint.lower() and "last chapter" in hint.lower() for hint in pattern_pack["startup_status_context_recovery_gate_hints"])
     assert any("authorial intent" in hint.lower() for hint in pattern_pack["author_intent_confirmation_gate_hints"])
 
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
@@ -21488,6 +21496,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "universal_export_clean_manuscript_gate_hints" in digest
     assert "minimal_rollback_repair_scope_gate_hints" in digest
     assert "progressive_context_loading_gate_hints" in digest
+    assert "startup_status_context_recovery_gate_hints" in digest
     assert "author_intent_confirmation_gate_hints" in digest
     assert "local_reference_coverage" in digest
     assert "local/universal-novel-writing" in digest

@@ -402,6 +402,9 @@ def build_remix_continuation_control_audit(
     if "progressive_context_loading_gate" in pattern_names:
         control_axes.append("progressive_reference_scope_selection")
         acceptance_steps.append("verify_progressive_context_scope")
+    if "startup_status_context_recovery_gate" in pattern_names:
+        control_axes.append("startup_status_context_recovery_packet")
+        acceptance_steps.append("verify_startup_status_context_recovery")
     if "author_intent_confirmation_gate" in pattern_names:
         control_axes.extend([
             "author_intent_preservation_boundary",
@@ -863,6 +866,7 @@ def build_remix_continuation_control_audit(
         if pattern_names.intersection(
             {
                 "progressive_context_loading_gate",
+                "startup_status_context_recovery_gate",
                 "author_intent_confirmation_gate",
             }
         )
@@ -3869,6 +3873,9 @@ def _universal_context_scope_authority_audit(
     if "progressive_context_loading_gate" in pattern_names:
         if not _has_progressive_context_scope_surface(bible=bible, plan=plan):
             warnings.append("missing_progressive_context_scope")
+    if "startup_status_context_recovery_gate" in pattern_names:
+        if not _has_startup_status_context_recovery_surface(bible=bible, plan=plan):
+            warnings.append("missing_startup_status_context_recovery")
     if "author_intent_confirmation_gate" in pattern_names:
         if not _has_author_intent_surface(bible=bible, plan=plan):
             warnings.append("missing_author_intent_boundary")
@@ -3895,6 +3902,28 @@ def _has_progressive_context_scope_surface(
         "context_selection_policy",
         "minimum_context_files",
         "compact_context_summary",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_startup_status_context_recovery_surface(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "startup_status",
+        "startup_status_packet",
+        "context_recovery_status",
+        "loaded_project",
+        "current_progress",
+        "last_chapter",
+        "last_chapter_summary",
+        "open_threads",
+        "top_open_threads",
+        "next_likely_action",
+        "lightweight_context_scaffold",
     )
     return any(_has_any_package_value(carrier, keys) for carrier in carriers)
 
@@ -7077,12 +7106,18 @@ def _append_universal_context_scope_authority_gate_section(
     """Render progressive-loading and author-intent gates from universal writing intake."""
     pattern_names = _source_pattern_names(source_pattern_pack)
     has_scope_gate = "progressive_context_loading_gate" in pattern_names
+    has_startup_gate = "startup_status_context_recovery_gate" in pattern_names
     has_author_gate = "author_intent_confirmation_gate" in pattern_names
-    if not has_scope_gate and not has_author_gate:
+    if not has_scope_gate and not has_startup_gate and not has_author_gate:
         return
 
     scope_hints = (
         _as_note_list(source_pattern_pack.get("progressive_context_loading_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    startup_hints = (
+        _as_note_list(source_pattern_pack.get("startup_status_context_recovery_gate_hints"))
         if isinstance(source_pattern_pack, dict)
         else []
     )
@@ -7109,6 +7144,12 @@ def _append_universal_context_scope_authority_gate_section(
         lines.append(
             "- context_scope_packet: record selected_context_refs, chapter window, excluded "
             "source/prose bodies, assumptions, and compact fallback summary before drafting"
+        )
+    if has_startup_gate:
+        lines.append(
+            "- startup_status_context_recovery_gate: before continuation or revision, report "
+            "loaded_project, current_progress, last_chapter, top_open_threads, "
+            "next_likely_action, and any lightweight scaffold gaps"
         )
     if has_author_gate:
         lines.append(
@@ -7137,6 +7178,8 @@ def _append_universal_context_scope_authority_gate_section(
     )
     if scope_hints:
         lines.append(f"- scope_source_hint: {_truncate(scope_hints[0], 260)}")
+    if startup_hints:
+        lines.append(f"- startup_source_hint: {_truncate(startup_hints[0], 260)}")
     if author_hints:
         lines.append(f"- author_source_hint: {_truncate(author_hints[0], 260)}")
     if audit["warnings"] and mode != "same-type":
@@ -12146,6 +12189,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "universal_export_clean_manuscript_gate_hints": "universal_export_clean_manuscript_gate",
         "minimal_rollback_repair_scope_gate_hints": "minimal_rollback_repair_scope_gate",
         "progressive_context_loading_gate_hints": "progressive_context_loading_gate",
+        "startup_status_context_recovery_gate_hints": "startup_status_context_recovery_gate",
         "author_intent_confirmation_gate_hints": "author_intent_confirmation_gate",
         "local_first_provider_boundary_authoring_gate_hints": "local_first_provider_boundary_authoring_gate",
         "suggestion_card_nonoverwrite_revision_gate_hints": "suggestion_card_nonoverwrite_revision_gate",

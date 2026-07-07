@@ -823,6 +823,7 @@ def render_source_pattern_pack_digest(
         "universal_export_clean_manuscript_gate_hints",
         "minimal_rollback_repair_scope_gate_hints",
         "progressive_context_loading_gate_hints",
+        "startup_status_context_recovery_gate_hints",
         "author_intent_confirmation_gate_hints",
         "local_first_provider_boundary_authoring_gate_hints",
         "suggestion_card_nonoverwrite_revision_gate_hints",
