@@ -765,3 +765,65 @@ Verification target added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_ai_novel_predict_source_adds_memory_simulation_branch_gate -q
 ```
+
+
+## 2026-07-06 webnovel-writing-system static file-SOP/waterline addendum
+
+Source reviewed statically: `https://github.com/FeiYun-Novel/webnovel-writing-system`
+
+Observed metadata on 2026-07-06:
+
+- Public `git ls-remote --symref HEAD` default branch: `main`
+- Public `git ls-remote` HEAD:
+  `6a28e555678fc0b723a435d398b0f24157f10ece`
+- GitHub Search metadata showed license `MIT`; direct repository API returned
+  `403` and was treated as no-bypass/no-token.
+- Raw README status `200`, bytes `9381`, sha256
+  `2a9f5c73330bd83d61f0f4e1d91efbe94bf9cba16dcc4ab6fb62458ccf4d2371`
+- Raw probes for `LICENSE`, `SKILL.md`, `workflow.md`, and
+  `webnovel-writing/SKILL.md` returned `429`; no token, proxy, browser, or
+  retry storm was used.
+- Static README markers include cross-session state as Markdown files,
+  per-chapter SOP, phase checklists, reusable technique-library routing before
+  drafting, context waterline green/yellow/red archive policy, multi-subagent
+  parallel self-check, reader-perspective review without setting files,
+  main-agent mechanical checks, numeric `style_gate.py` rules, style sample
+  cards, cool-point threshold questions, and compact chapter summaries.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, checkout, template copy, `CLAUDE.md`/`AGENTS.md` instruction import,
+  script execution, package install, provider/model call, upstream workflow text
+  import, technique body import, generated prose import, local manuscript read,
+  cookie read, token read, or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Cross-session continuity is now represented as file-state cold start: current
+  status, next step, file map, boundaries, chapter progress, character state,
+  foreshadowing, event ledger, and unresolved questions must be readable without
+  chat memory.
+- Every chapter carries visible SOP phase checkpoints. Planning, drafting,
+  self-check, sealing, and write-back cannot collapse into one fluent but
+  unverified generation step.
+- Writing craft is pulled forward: before prose, the target project should build
+  a chapter technique list from target-owned technique cards or placeholders.
+- Context waterline is now a state gate. Green continues; yellow schedules
+  summarization/archive; red archives before more drafting to protect future
+  prompt quality and cost.
+- Parallel review becomes input-isolated: reader perspective sees only chapter
+  text and previous tail, while continuity/style/mechanical checks receive only
+  their needed target files.
+- Numeric style gates and style sample cards are acceptance evidence only.
+  Upstream script code, thresholds, templates, samples, checklist wording, and
+  skill instructions remain outside target canon.
+- `D:\project\universal-novel-writing` stays the higher authoring contract;
+  this addendum strengthens cross-session operation, SOP visibility, waterline
+  maintenance, and review isolation around that contract.
+
+Verification target added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_webnovel_writing_system_source_adds_file_sop_waterline_gate -q
+```

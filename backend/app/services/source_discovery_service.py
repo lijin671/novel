@@ -586,6 +586,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("author style template" OR "chapter QA checks" OR "scheduling workflows") ("multi-agent" OR "long-form fiction" OR "novel") in:name,description,readme',
     '("bookwright" OR "GOLEM" OR "factual_anchor") ("story bible" OR "plain text" OR "RDF") in:name,description,readme',
     '("AI-novel-predict" OR "MoBi" OR "MoXi") ("structured memory" OR "role simulation" OR "branch isolation") ("novel" OR "webnovel") in:name,description,readme',
+    '("Webnovel Writing System" OR "state as files" OR "context waterline") ("per-chapter SOP" OR "multi-subagent self-check" OR "technique library") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1073,6 +1074,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/FantasyLu/neupen",
     "https://github.com/hannsxpeter/scriveno",
     "https://github.com/we1005/AI-novel-predict",
+    "https://github.com/FeiYun-Novel/webnovel-writing-system",
     "https://github.com/proportionable-plaguespot199/novel-workflow",
     "https://github.com/silbaram/novel-writer",
     "https://github.com/forsonny/Claude-Code-Novel-Writer",
@@ -1314,6 +1316,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("neupen_parallel_memory_reader_gate", ("neupen", "8-agent", "八个专职 agent", "三层记忆", "L1 全局设定", "L2 近期时序", "L3 碎片语义", "SQLite", "LanceDB", "伏笔甘特图", "动态警告", "四审核并行", "plot_aligner", "character_guard", "continuity_tracker", "style_refiner", "reader simulation", "读者模拟", "多角色读者", "最多 5 轮", "全量重审")),
     ("scriveno_voice_context_status_gate", ("scriveno", "Voice DNA", "STYLE-GUIDE.md", "WRITING-RULES.md", "pitfall pack", "fresh context per atomic unit", "RECORD.md", "Creative Context", "CHOICE", "HUNCH", "QUESTION", "WATCHPOINT", "domain grilling", "status --project", "--apply-safe", "Candidate agents", "Candidate local helpers", "Manual gates", "tradition-native vocabulary", ".manuscript/PROGRESS.md")),
     ("ai_novel_predict_memory_simulation_branch_gate", ("AI-novel-predict", "MoBi", "MoXi", "structured memory", "21 LLM agent", "L1 SQLite", "L2 FTS5 trigram", "L4 Graph Projection", "6-Agent incremental extraction", "Writer + 3 Reviewer + Editor", "<=3 rewrites", "role simulation", "5-8 characters", "3-5 rounds", "secrets_known", "secrets_hidden", "Mystery Agent", "write-back memory", "materialize", "baseline", "increments", "branch as derived book", "book_scope", "voice_only", "style genome")),
+    ("webnovel_file_sop_context_waterline_gate", ("webnovel-writing-system", "Webnovel Writing System", "cross-session state as files", "state as files", "Markdown files", "per-chapter SOP", "phase 0", "phase 4", "phase checklist", "context waterline", "green/yellow/red", "archive policy", "prewrite technique", "chapter technique list", "multi-subagent parallel self-check", "reader perspective group", "no setting files", "style_gate.py", "numeric style checks", "style sample card", "cool-point threshold questions", "four-field chapter summary")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "prompt pipeline", "prompt pipelines", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "scorecard", "scoring", "scores", "tiered scoring", "weighted scoring", "threshold", "thresholds", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "评分", "出稿门槛", "门槛", "读者面板", "平台期检测")),
@@ -3895,6 +3898,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "AI-novel-predict / MoBi is a multi-agent long-form webnovel continuation workflow. Static README markers describe structured memory before context, 21 LLM agents, L1 SQLite, L2 FTS5 trigram, graph projection, six-agent incremental extraction, Writer -> style/plot/consistency reviewers -> Editor arbitration with <=3 rewrites, character simulation constrained by secrets_known/secrets_hidden, cross-batch Mystery Agent, chapter write-back into memory, git-backed baseline plus per-chapter increments, deterministic materialize() rebuilds, chapter rollback, branch-as-derived-book isolation, book_scope separation, and MoXi cross-book analysis/imitation with voice-only style transfer. "
         "Pattern-only adaptation for structured-memory-first continuation, role-knowledge-bounded simulation, tri-review editor arbitration, replayable memory materialization, branch-isolated story exploration, and voice-only same-type style abstraction; clone, backend/frontend launch, package install, provider/model calls, demo chapters, prompt bodies, generated prose, API keys, book databases, source memory rows, style samples, and upstream fiction text are not imported or executed."
     ),
+    "feiyun-novel/webnovel-writing-system": (
+        "webnovel-writing-system is an MIT-search-metadata Chinese webnovel workflow system. Static README markers describe cross-session state as Markdown files, every-chapter SOP, phase checklists, reusable technique-library routing before drafting, context waterline green/yellow/red archive policy, multi-subagent parallel self-check, reader-perspective review without setting files, mechanical checks handled by the main agent, numeric style_gate.py rules, style sample cards, cool-point threshold questions, and short four-field chapter summaries. "
+        "Pattern-only adaptation for file-state cold starts, per-chapter SOP gates, context-waterline archiving, prewrite technique cards, isolated reader self-checks, numeric style gates, and compact summary write-back; clone, copying project templates, CLAUDE/AGENTS instruction import, scripts/style_gate.py execution, upstream skill/workflow text, technique bodies, style samples, generated chapters, local manuscript paths, provider/model calls, and agent runtime execution are not imported or executed."
+    ),
     "proportionable-plaguespot199/novel-workflow": (
         "novel-workflow is a no-license-observed online-novel writing toolchain for Claude Code. Public README markers describe 12 slash commands covering init/style/setting/outline/write/review/sync, multi-model role split between Claude/Codex/Gemini, hot/warm/cold context levels, Markdown plus JSON state management, four story templates, offline file-only core workflows, downloadable ZIP packages, Node/npm setup, build commands, and /novel:* command surfaces. "
         "Pattern-only adaptation for command-phase routing, context-temperature tiers, state sync, and Markdown/JSON recovery; downloadable ZIPs, Node/npm install/build, Claude Code command registration, package files, templates, and upstream command text are not imported or executed."
@@ -5067,6 +5074,7 @@ class NovelSourceDiscoveryService:
             "neupen_parallel_memory_reader_gate_hints": self._build_neupen_parallel_memory_reader_gate_hints(available_patterns),
             "scriveno_voice_context_status_gate_hints": self._build_scriveno_voice_context_status_gate_hints(available_patterns),
             "ai_novel_predict_memory_simulation_branch_gate_hints": self._build_ai_novel_predict_memory_simulation_branch_gate_hints(available_patterns),
+            "webnovel_file_sop_context_waterline_gate_hints": self._build_webnovel_file_sop_context_waterline_gate_hints(available_patterns),
             "scene_asset_pipeline_hints": self._build_scene_asset_pipeline_hints(available_patterns),
             "quality_score_loop_hints": self._build_quality_score_loop_hints(available_patterns),
             "voice_fingerprint_hints": self._build_voice_fingerprint_hints(available_patterns),
@@ -6848,6 +6856,7 @@ class NovelSourceDiscoveryService:
             "neupen_parallel_memory_reader_gate": 73,
             "scriveno_voice_context_status_gate": 73,
             "ai_novel_predict_memory_simulation_branch_gate": 74,
+            "webnovel_file_sop_context_waterline_gate": 73,
             "narrative_canon_version_branch_graph_gate": 73,
             "planner_writer_evaluator_editor_saga_gate": 72,
             "story_weaver_kg_bible_rag_gate": 72,
@@ -7395,6 +7404,11 @@ class NovelSourceDiscoveryService:
             targets.append("role_knowledge_simulation_policy")
             targets.append("tri_review_editor_arbitration_policy")
             targets.append("branch_isolated_memory_policy")
+        if "webnovel_file_sop_context_waterline_gate" in patterns:
+            targets.append("file_state_cold_start_policy")
+            targets.append("per_chapter_sop_phase_policy")
+            targets.append("context_waterline_archive_policy")
+            targets.append("prewrite_technique_selfcheck_policy")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_canon_branch_merge_policy")
             targets.append("paradox_conflict_resolution_policy")
@@ -9148,6 +9162,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["voice_dna_alignment_report", "record_thread_obligation_report", "creative_context_watchpoint_report", "read_only_status_route_report"])
         if "ai_novel_predict_memory_simulation_branch_gate" in patterns:
             targets.extend(["structured_memory_replay_report", "role_simulation_knowledge_scope_report", "tri_review_editor_arbitration_report", "branch_isolated_memory_report"])
+        if "webnovel_file_sop_context_waterline_gate" in patterns:
+            targets.extend(["file_state_cold_start_report", "sop_phase_checklist_report", "context_waterline_archive_report", "isolated_reader_selfcheck_report", "style_gate_metric_report"])
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.extend(["narrative_canon_branch_report", "timeline_merge_conflict_report", "paradox_resolution_decision_log"])
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10357,6 +10373,9 @@ class NovelSourceDiscoveryService:
         if "ai_novel_predict_memory_simulation_branch_gate" in patterns:
             hints.append("Before continuation, convert previous chapters into target-owned structured memory slices, then select only chapter-relevant L1/L2/search/graph facts under the universal chapter contract.")
             hints.append("Use role simulation only through what each character knows, fears, wants, and hides; Writer, style/plot/consistency reviewers, and Editor arbitration cannot accept a draft until memory write-back and <=3 rewrite status are recorded.")
+        if "webnovel_file_sop_context_waterline_gate" in patterns:
+            hints.append("For each chapter, cold-start from target Markdown state files, follow phase 0-5 SOP checkpoints, and produce a compact chapter technique list before prose drafting.")
+            hints.append("Before sealing a chapter, run isolated reader-perspective self-check without setting files, numeric style-gate review, and context waterline status so summary/write-back stays short enough for future sessions.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Treat what-if and same-type branches as explicit timeline branches with merge/conflict/paradox review before any branch becomes accepted canon.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10880,6 +10899,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist STYLE-GUIDE version, RECORD thread ids, per-unit CHOICE/HUNCH/QUESTION/WATCHPOINT notes, status-route recommendation, skipped manual gates, and accepted record updates.")
         if "ai_novel_predict_memory_simulation_branch_gate" in patterns:
             hints.append("Persist baseline/increment memory ids, materialize replay hash, book_scope or branch namespace, role knowledge scope, tri-review verdicts, Editor decision, rewrite count, and post-accept memory deltas.")
+        if "webnovel_file_sop_context_waterline_gate" in patterns:
+            hints.append("Persist cold-start file set, SOP phase checklist status, technique-card ids, reader/self-check findings, style-gate metric receipt, context waterline color, archive decision, and four-field chapter summary.")
         if "renovel_tri_model_aligned_rewrite_gate" in patterns:
             hints.append("Persist original/rewrite paragraph alignment, writer instruction, reviewer OOC/logic verdict, style-matrix settings, event extraction, and batch rewrite checkpoint separately.")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
@@ -16266,6 +16287,18 @@ class NovelSourceDiscoveryService:
             "For same-type imitation, voice_only may transfer abstract style axes and genre mechanics, but source plot, characters, demo chapters, prompt bodies, memory rows, and generated prose stay excluded.",
         ]
 
+    def _build_webnovel_file_sop_context_waterline_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "webnovel_file_sop_context_waterline_gate" not in patterns:
+            return []
+        return [
+            "Treat cross-session continuity as file state: current status, next step, file map, boundaries, chapter progress, character state, foreshadowing, events, and unresolved questions must be readable without chat memory.",
+            "Run each chapter through a visible SOP phase checklist; planning, drafting, self-check, sealing, and write-back cannot collapse into one fluent but unverified generation step.",
+            "Before drafting, create a chapter technique list from the target-owned technique library or placeholder card; do not wait until polish to add craft decisions.",
+            "Use context waterline colors for cumulative Markdown state: green continues, yellow summarizes/archives soon, red archives before more drafting so future prompts stay compact.",
+            "Parallel self-check should isolate reviewer inputs: reader perspective sees only the chapter and previous tail, while continuity/style/mechanical checks receive only their needed target files.",
+            "Numeric style gates and style sample cards are local acceptance evidence only; upstream scripts, thresholds, templates, sample prose, and skill instructions are not imported as target canon.",
+        ]
+
     def _build_narrative_canon_version_branch_graph_gate_hints(self, patterns: set[str]) -> list[str]:
         if "narrative_canon_version_branch_graph_gate" not in patterns:
             return []
@@ -17713,6 +17746,11 @@ class NovelSourceDiscoveryService:
             targets.append("role_knowledge_scope_remap")
             targets.append("tri_review_editor_arbitration_remap")
             targets.append("branch_book_scope_remap")
+        if "webnovel_file_sop_context_waterline_gate" in patterns:
+            targets.append("file_state_cold_start_remap")
+            targets.append("chapter_sop_phase_remap")
+            targets.append("context_waterline_archive_remap")
+            targets.append("isolated_reader_selfcheck_remap")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_branch_canon_graph_remap")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -18922,6 +18960,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt same-type creation with a target-owned voice DNA profile, RECORD obligations, CHOICE/HUNCH/QUESTION/WATCHPOINT notes, and read-only next-route audit before any prose draft.")
         if "ai_novel_predict_memory_simulation_branch_gate" in patterns:
             hints.append("Prompt same-type creation with target-owned structured memory, role-knowledge scopes, bounded Writer/reviewer/Editor passes, replayable increments, and branch-isolated book_scope before any prose draft.")
+        if "webnovel_file_sop_context_waterline_gate" in patterns:
+            hints.append("Prompt same-type creation with target-owned Markdown state files, per-chapter SOP phase checklist, technique-card routing, context waterline, and isolated reader self-check before prose is accepted.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Prompt alternate branches with branch id, divergence event, merge policy, and paradox-resolution criteria before generating same-type or what-if prose.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -20109,6 +20149,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform voice dimensions, record threads, craft-note labels, route recommendations, and work-type vocabulary into target-owned files before same-type drafting.")
         if "ai_novel_predict_memory_simulation_branch_gate" in patterns:
             hints.append("Transform memory layers, role profiles, reviewer roles, Editor arbitration, branch namespaces, and voice_only style axes into target-owned records before same-type drafting.")
+        if "webnovel_file_sop_context_waterline_gate" in patterns:
+            hints.append("Transform SOP phases, file-state fields, technique-card categories, reader-review lanes, style metrics, and waterline thresholds into target-owned controls before drafting.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Transform source timeline branch ideas into a new branch graph with new entities, events, conflict policies, and canon promotion rules.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -21770,6 +21812,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts or method cards that reuse Scriveno command bodies, proof-demo text, agent prompts, STYLE-GUIDE examples, route labels, publishing package metadata, or local manuscript paths as target canon.")
         if "ai_novel_predict_memory_simulation_branch_gate" in patterns:
             hints.append("Reject same-type outputs that reuse AI-novel-predict demo chapters, source plot arcs, source characters, source memory rows, source DB/cache artifacts, prompt bodies, role simulations, branch names, or generated prose as target canon.")
+        if "webnovel_file_sop_context_waterline_gate" in patterns:
+            hints.append("Reject outputs that copy upstream CLAUDE/AGENTS instructions, checklist wording, workflow text, technique bodies, style samples, script code, template slots, or generated chapter examples as target material.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Reject same-type branches that merge source timeline events, paradox labels, or branch names into target canon under renamed characters.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -22243,6 +22287,7 @@ class NovelSourceDiscoveryService:
                 "neupen_parallel_memory_reader_gate",
                 "scriveno_voice_context_status_gate",
                 "ai_novel_predict_memory_simulation_branch_gate",
+                "webnovel_file_sop_context_waterline_gate",
                 "narrative_canon_version_branch_graph_gate",
                 "planner_writer_evaluator_editor_saga_gate",
                 "story_weaver_kg_bible_rag_gate",

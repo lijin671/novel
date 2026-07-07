@@ -17326,6 +17326,65 @@ def test_static_ai_novel_predict_source_adds_memory_simulation_branch_gate():
 
 
 
+def test_static_webnovel_writing_system_source_adds_file_sop_waterline_gate():
+    assert "https://github.com/FeiYun-Novel/webnovel-writing-system" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Webnovel Writing System" in query and "context waterline" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "FeiYun-Novel/webnovel-writing-system",
+                "html_url": "https://github.com/FeiYun-Novel/webnovel-writing-system",
+                "description": (
+                    "A cross-session AI webnovel writing engineering system: state as files, "
+                    "per-chapter SOP, phase checklist, technique library, context waterline, "
+                    "multi-subagent parallel self-check and reader perspective group."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["webnovel", "writing", "claude-code", "workflow"],
+                "updated_at": "2026-07-03T14:31:36Z",
+                "pushed_at": "2026-07-03T14:31:36Z",
+                "root_files": ["README.md", "QUICKSTART.md", "CLAUDE.md", "AGENTS.md", "00_AI_WIKI", "story_system", "templates"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-06T23:58:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["FeiYun-Novel/webnovel-writing-system"]
+    assert candidate["posture"] == "pattern-only"
+    assert "webnovel_file_sop_context_waterline_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "file_state_cold_start_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "per_chapter_sop_phase_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "context_waterline_archive_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "prewrite_technique_selfcheck_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "file_state_cold_start_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "sop_phase_checklist_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "context_waterline_archive_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "isolated_reader_selfcheck_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "style_gate_metric_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "file_state_cold_start_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "chapter_sop_phase_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "context_waterline_archive_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "isolated_reader_selfcheck_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("cross-session" in hint.lower() for hint in pattern_pack["webnovel_file_sop_context_waterline_gate_hints"])
+    assert any("phase 0-5" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("waterline color" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("Markdown state files" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("SOP phases" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("checklist wording" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "webnovel_file_sop_context_waterline_gate_hints" in digest
+
+
+
 
 def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
