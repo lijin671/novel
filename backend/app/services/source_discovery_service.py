@@ -588,6 +588,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("AI-novel-predict" OR "MoBi" OR "MoXi") ("structured memory" OR "role simulation" OR "branch isolation") ("novel" OR "webnovel") in:name,description,readme',
     '("Webnovel Writing System" OR "state as files" OR "context waterline") ("per-chapter SOP" OR "multi-subagent self-check" OR "technique library") in:name,description,readme',
     '("my_novel" OR "ask-yiyi" OR "author keeps pen") ("handoff" OR "draft layer" OR "chapter-versioned settings") in:name,description,readme',
+    '("fair-play mystery" OR "mystery-audit" OR "mystery-readers") ("clue ledger" OR "reader verification" OR "mystery novel") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1242,6 +1243,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/DankerMu/novel-writer-plugin",
     "https://github.com/DankerMu/novel-writer-cli",
     "https://github.com/jmorenobl/bookwright",
+    "https://github.com/ushironoko/novel-harness-skills",
 )
 
 DEFAULT_LOCAL_REFERENCE_PATHS = (
@@ -1320,6 +1322,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("ai_novel_predict_memory_simulation_branch_gate", ("AI-novel-predict", "MoBi", "MoXi", "structured memory", "21 LLM agent", "L1 SQLite", "L2 FTS5 trigram", "L4 Graph Projection", "6-Agent incremental extraction", "Writer + 3 Reviewer + Editor", "<=3 rewrites", "role simulation", "5-8 characters", "3-5 rounds", "secrets_known", "secrets_hidden", "Mystery Agent", "write-back memory", "materialize", "baseline", "increments", "branch as derived book", "book_scope", "voice_only", "style genome")),
     ("webnovel_file_sop_context_waterline_gate", ("webnovel-writing-system", "Webnovel Writing System", "cross-session state as files", "state as files", "Markdown files", "per-chapter SOP", "phase 0", "phase 4", "phase checklist", "context waterline", "green/yellow/red", "archive policy", "prewrite technique", "chapter technique list", "multi-subagent parallel self-check", "reader perspective group", "no setting files", "style_gate.py", "numeric style checks", "style sample card", "cool-point threshold questions", "four-field chapter summary")),
     ("my_novel_brief_handoff_timeline_gate", ("my_novel", "Stebaze", "ask-yiyi", "AI 不写正文", "author keeps pen", "writing brief", "修改报告", "plan -> handoff -> generate -> review -> publish", "4-Skill", "single session control", "三层稿件", "原稿", "草稿", "正式稿", "published locked", "chapter-versioned settings", "设定时间线", "forward conflict scan", "断点续传", "artifact state", "workflow_position", "chapter handoff", "8 fields", "brief ready", "Fix loop", "最多 2 轮", "adaptation workflow", "原作画像", "author voice profile", "single-scene mode")),
+    ("mystery_fair_play_audit_reader_verification_gate", ("novel-harness-skills", "fair-play mystery", "mystery-world", "mystery-case", "mystery-audit", "mystery-readers", "fairplay", "clue ledger", "lie ledger", "reasoning chain", "D1-D10", "Knox", "12 parallel readers", "guess culprit", "repair loop", "trick_complexity", "world.json", "case.json", "audit/summary.json", "readers/aggregate.json")),
     ("workflow_agent_pipeline", ("workflow agent", "workflow studio", "workflow system", "workflow engine", "prompt pipeline", "prompt pipelines", "state machine", "persistent workflow", "progress recovery", "multi-agent", "editorial pipeline", "agent handoff", "工作流", "工作流系统", "中断恢复", "触发器")),
     ("scene_asset_pipeline", ("idea to production", "filmmaking", "film production", "screenplay", "storyboard", "shot", "shot list", "scene asset", "scene plan", "镜头", "分镜", "场景资产")),
     ("quality_score_loop", ("modify-evaluate-keep", "keep/discard", "foundation_score", "quality score", "chapter quality", "score >", "scorecard", "scoring", "scores", "tiered scoring", "weighted scoring", "threshold", "thresholds", "plateau detection", "reader panel", "llm judge", "dual-persona review", "质量评分", "评分", "出稿门槛", "门槛", "读者面板", "平台期检测")),
@@ -3909,6 +3912,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "my_novel is an Apache-2.0 Chinese Claude Code long-form novel framework. Static README/spec markers describe an author-keeps-pen stance, brief/report-first authoring, ask-yiyi session entry and state router, outline-before-chapter loop, plan -> handoff -> generate -> review -> publish workflow, artifact-based resume, chapter handoff fields, draft/formal manuscript layers, append-only draft deltas, chapter-versioned settings, forward conflict scans, hard/soft blockers, bounded fix loops, adaptation profile extraction, and single-scene mode. "
         "Pattern-only adaptation for artifact state machines, explicit handoff contracts, author-owned brief-first drafting, draft/publish layer separation, setting timeline conflict scans, and adaptation-profile boundaries; clone, Claude skill installation, CLAUDE instruction import, upstream skill names as target commands, prompt/workflow bodies, guide/template text, scripts, generated chapters, local novel data, author profiles, provider/model calls, and runtime execution are not imported or executed."
     ),
+    "ushironoko/novel-harness-skills": (
+        "novel-harness-skills is a no-license-observed fair-play mystery harness. Static README markers describe world -> characters -> case/trick -> writing -> parallel audit -> reader verification phases, world.json, characters.json, case.json, audit/summary.json, readers/aggregate.json, clue and lie ledgers, reasoning chains, D1-D10 audits for contradiction, motive, Knox/fair-play, unnecessary murder, cheap trick, trick logic, suspense and cross-model checks, a bounded repair loop, and 12 parallel readers guessing the culprit before explanation. "
+        "Pattern-only adaptation for mystery clue ledgers, fair-play clue-before-solution audits, pre-reveal reader verification, and bounded mystery repair; clone, skill installation, workflow scripts, Claude/ultracode runtime, prompt bodies, generated mystery text, reader persona wording, trick examples, and provider/model calls are not imported or executed."
+    ),
     "proportionable-plaguespot199/novel-workflow": (
         "novel-workflow is a no-license-observed online-novel writing toolchain for Claude Code. Public README markers describe 12 slash commands covering init/style/setting/outline/write/review/sync, multi-model role split between Claude/Codex/Gemini, hot/warm/cold context levels, Markdown plus JSON state management, four story templates, offline file-only core workflows, downloadable ZIP packages, Node/npm setup, build commands, and /novel:* command surfaces. "
         "Pattern-only adaptation for command-phase routing, context-temperature tiers, state sync, and Markdown/JSON recovery; downloadable ZIPs, Node/npm install/build, Claude Code command registration, package files, templates, and upstream command text are not imported or executed."
@@ -5083,6 +5090,7 @@ class NovelSourceDiscoveryService:
             "ai_novel_predict_memory_simulation_branch_gate_hints": self._build_ai_novel_predict_memory_simulation_branch_gate_hints(available_patterns),
             "webnovel_file_sop_context_waterline_gate_hints": self._build_webnovel_file_sop_context_waterline_gate_hints(available_patterns),
             "my_novel_brief_handoff_timeline_gate_hints": self._build_my_novel_brief_handoff_timeline_gate_hints(available_patterns),
+            "mystery_fair_play_audit_reader_verification_gate_hints": self._build_mystery_fair_play_audit_reader_verification_gate_hints(available_patterns),
             "scene_asset_pipeline_hints": self._build_scene_asset_pipeline_hints(available_patterns),
             "quality_score_loop_hints": self._build_quality_score_loop_hints(available_patterns),
             "voice_fingerprint_hints": self._build_voice_fingerprint_hints(available_patterns),
@@ -6866,6 +6874,7 @@ class NovelSourceDiscoveryService:
             "ai_novel_predict_memory_simulation_branch_gate": 74,
             "webnovel_file_sop_context_waterline_gate": 73,
             "my_novel_brief_handoff_timeline_gate": 73,
+            "mystery_fair_play_audit_reader_verification_gate": 73,
             "narrative_canon_version_branch_graph_gate": 73,
             "planner_writer_evaluator_editor_saga_gate": 72,
             "story_weaver_kg_bible_rag_gate": 72,
@@ -7424,6 +7433,11 @@ class NovelSourceDiscoveryService:
             targets.append("draft_publish_layer_policy")
             targets.append("setting_timeline_conflict_policy")
             targets.append("adaptation_profile_boundary_policy")
+        if "mystery_fair_play_audit_reader_verification_gate" in patterns:
+            targets.append("fair_play_clue_ledger_policy")
+            targets.append("mystery_reasoning_chain_policy")
+            targets.append("reader_guess_verification_policy")
+            targets.append("bounded_mystery_repair_policy")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_canon_branch_merge_policy")
             targets.append("paradox_conflict_resolution_policy")
@@ -9181,6 +9195,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["file_state_cold_start_report", "sop_phase_checklist_report", "context_waterline_archive_report", "isolated_reader_selfcheck_report", "style_gate_metric_report"])
         if "my_novel_brief_handoff_timeline_gate" in patterns:
             targets.extend(["artifact_state_machine_report", "handoff_contract_report", "draft_publish_layer_report", "setting_timeline_conflict_report", "adaptation_profile_boundary_report"])
+        if "mystery_fair_play_audit_reader_verification_gate" in patterns:
+            targets.extend(["fair_play_clue_ledger_report", "mystery_reasoning_chain_report", "reader_guess_verification_report", "mystery_audit_dimension_report"])
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.extend(["narrative_canon_branch_report", "timeline_merge_conflict_report", "paradox_resolution_decision_log"])
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10396,6 +10412,9 @@ class NovelSourceDiscoveryService:
         if "my_novel_brief_handoff_timeline_gate" in patterns:
             hints.append("For continuation, route every chapter through target-owned plan, handoff, brief/generate, review, and optional publish states; missing handoff or brief evidence should block the next stage instead of being repaired from chat memory.")
             hints.append("Treat AI prose as an explicit mode, not the default authority: require an author-owned brief, revision report, and bounded fix-loop record before a generated or rewritten chapter can be accepted.")
+        if "mystery_fair_play_audit_reader_verification_gate" in patterns:
+            hints.append("For mystery continuation, maintain clue, lie, suspect, motive/means/opportunity, and reasoning-chain ledgers so the solution remains surprising but retrospectively fair.")
+            hints.append("Before revealing a culprit or trick, run fair-play and reader-guess verification: clues must precede deduction, false interpretations must still teach something, and repair loops stay bounded.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Treat what-if and same-type branches as explicit timeline branches with merge/conflict/paradox review before any branch becomes accepted canon.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -10923,6 +10942,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist cold-start file set, SOP phase checklist status, technique-card ids, reader/self-check findings, style-gate metric receipt, context waterline color, archive decision, and four-field chapter summary.")
         if "my_novel_brief_handoff_timeline_gate" in patterns:
             hints.append("Persist artifact stage, workflow_position, handoff field completeness, brief/report ids, fix-loop count, draft/formal layer status, setting introduction chapter, forward-conflict scan result, and adaptation profile boundary.")
+        if "mystery_fair_play_audit_reader_verification_gate" in patterns:
+            hints.append("Persist mystery clue ledger status, lie ledger, reasoning-chain proof, D1-D10 audit verdicts, pre-reveal reader guesses, repair-loop count, and fair-play residual risks before sealing the chapter.")
         if "renovel_tri_model_aligned_rewrite_gate" in patterns:
             hints.append("Persist original/rewrite paragraph alignment, writer instruction, reviewer OOC/logic verdict, style-matrix settings, event extraction, and batch rewrite checkpoint separately.")
         if "ai_novel_mindmap_prompt_library_gate" in patterns:
@@ -16332,6 +16353,17 @@ class NovelSourceDiscoveryService:
             "For adaptation and same-type work, extract only an abstract source profile and target author brief; source prose, source skill bodies, and upstream command names stay outside canon.",
         ]
 
+    def _build_mystery_fair_play_audit_reader_verification_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "mystery_fair_play_audit_reader_verification_gate" not in patterns:
+            return []
+        return [
+            "Model mystery writing as world, cast, case/trick, prose, audit, and reader-verification artifacts; every clue, lie, suspect, motive, and reasoning step needs target-owned ids.",
+            "Fair-play acceptance requires clue-before-solution evidence, explicit false-interpretation handling, Knox/fair-play review, and a reasoning chain that readers can inspect after the reveal.",
+            "Run mystery audits as dimensions: contradiction, motive, fair-play, unnecessary violence, cheap/easy trick risk, trick logic, suspense, and cross-review disagreement become repair tasks instead of hidden taste notes.",
+            "Use pre-reveal reader verification: fresh readers should guess or misguess from on-page evidence before explanation, and difficulty findings feed a bounded repair loop.",
+            "For same-type mystery, transfer only puzzle architecture and audit dimensions; rebuild culprit, victim, motive, clue order, red herrings, setting, and impossible-trick mechanics from the target brief.",
+        ]
+
     def _build_narrative_canon_version_branch_graph_gate_hints(self, patterns: set[str]) -> list[str]:
         if "narrative_canon_version_branch_graph_gate" not in patterns:
             return []
@@ -17790,6 +17822,11 @@ class NovelSourceDiscoveryService:
             targets.append("draft_publish_layer_remap")
             targets.append("setting_timeline_conflict_remap")
             targets.append("adaptation_profile_boundary_remap")
+        if "mystery_fair_play_audit_reader_verification_gate" in patterns:
+            targets.append("fair_play_clue_structure_remap")
+            targets.append("mystery_reasoning_chain_remap")
+            targets.append("reader_guess_verification_remap")
+            targets.append("red_herring_payoff_remap")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             targets.append("narrative_branch_canon_graph_remap")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -19003,6 +19040,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt same-type creation with target-owned Markdown state files, per-chapter SOP phase checklist, technique-card routing, context waterline, and isolated reader self-check before prose is accepted.")
         if "my_novel_brief_handoff_timeline_gate" in patterns:
             hints.append("Prompt same-type creation with a target-owned artifact state machine, author brief, handoff fields, draft/publish layer status, and setting-timeline conflict policy before prose is accepted.")
+        if "mystery_fair_play_audit_reader_verification_gate" in patterns:
+            hints.append("Prompt same-type mystery with a fresh fair-play puzzle contract: new culprit/victim/motive/setting/trick, clue-before-solution ledger, reader-guess checkpoint, and bounded repair loop.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Prompt alternate branches with branch id, divergence event, merge policy, and paradox-resolution criteria before generating same-type or what-if prose.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -20194,6 +20233,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform SOP phases, file-state fields, technique-card categories, reader-review lanes, style metrics, and waterline thresholds into target-owned controls before drafting.")
         if "my_novel_brief_handoff_timeline_gate" in patterns:
             hints.append("Transform source stage names into target stage ids, target handoff fields, draft/formal layer rules, setting-introduction chapter fields, and adaptation-profile boundaries before drafting.")
+        if "mystery_fair_play_audit_reader_verification_gate" in patterns:
+            hints.append("Transform mystery harness phases into target-owned clue ledgers, lie ledgers, suspect logic, reader-guess evidence, and repair receipts; source trick mechanics and clue order stay out of canon.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Transform source timeline branch ideas into a new branch graph with new entities, events, conflict policies, and canon promotion rules.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -21859,6 +21900,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject outputs that copy upstream CLAUDE/AGENTS instructions, checklist wording, workflow text, technique bodies, style samples, script code, template slots, or generated chapter examples as target material.")
         if "my_novel_brief_handoff_timeline_gate" in patterns:
             hints.append("Reject same-type outputs that reuse my_novel CLAUDE rules, skill bodies, command names, guide/template text, local path conventions, source author profiles, adaptation analyses, or generated chapter files as target canon.")
+        if "mystery_fair_play_audit_reader_verification_gate" in patterns:
+            hints.append("Reject mystery drafts that copy source trick, clue order, culprit/victim roles, reveal explanation structure, audit prompt wording, reader persona wording, skill bodies, workflows, or generated mystery text.")
         if "narrative_canon_version_branch_graph_gate" in patterns:
             hints.append("Reject same-type branches that merge source timeline events, paradox labels, or branch names into target canon under renamed characters.")
         if "planner_writer_evaluator_editor_saga_gate" in patterns:
@@ -22334,6 +22377,7 @@ class NovelSourceDiscoveryService:
                 "ai_novel_predict_memory_simulation_branch_gate",
                 "webnovel_file_sop_context_waterline_gate",
                 "my_novel_brief_handoff_timeline_gate",
+                "mystery_fair_play_audit_reader_verification_gate",
                 "narrative_canon_version_branch_graph_gate",
                 "planner_writer_evaluator_editor_saga_gate",
                 "story_weaver_kg_bible_rag_gate",

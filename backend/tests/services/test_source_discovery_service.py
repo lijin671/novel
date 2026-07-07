@@ -21825,3 +21825,70 @@ def test_dankermu_deterministic_volume_spec_orchestration_sources_are_static_abs
     digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
     assert "volume_rolling_spec_quality_gate_hints" in digest
     assert "executor_agnostic_instruction_checkpoint_gate_hints" in digest
+
+
+def test_static_novel_harness_skills_source_adds_mystery_fair_play_gate():
+    assert "https://github.com/ushironoko/novel-harness-skills" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("fair-play mystery" in query and "mystery-readers" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "ushironoko/novel-harness-skills",
+                "html_url": "https://github.com/ushironoko/novel-harness-skills",
+                "description": (
+                    "Fair-play mystery novel harness with mystery-world, mystery-characters, "
+                    "mystery-case, mystery-audit and mystery-readers phases. It records "
+                    "world.json, characters.json, case.json, audit/summary.json and "
+                    "readers/aggregate.json; uses clue ledger, lie ledger, reasoning chain, "
+                    "D1-D10 audit dimensions, Knox fair-play checks, bounded repair loop, "
+                    "trick_complexity and 12 parallel readers to guess culprit before explanation."
+                ),
+                "stargazers_count": 1,
+                "forks_count": 0,
+                "license": None,
+                "topics": ["mystery", "novel", "fair-play", "claude-code"],
+                "updated_at": "2026-07-01T08:09:02Z",
+                "pushed_at": "2026-07-01T08:09:02Z",
+                "root_files": ["README.md", "skills", "workflows"],
+                "readme_excerpt": (
+                    "World -> characters -> case/trick -> writing -> parallel audit -> "
+                    "reader verification. Audits cover contradiction, motive, Knox, "
+                    "fair-play clue ledger, unnecessary murder, cheap trick, trick logic, "
+                    "suspense and cross-model disagreement."
+                ),
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-07T12:00:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "ushironoko/novel-harness-skills"
+    assert candidate["posture"] == "pattern-only"
+    assert "license:missing" in candidate["trust_review"]["flags"]
+    assert "mystery_fair_play_audit_reader_verification_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "fair_play_clue_ledger_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "mystery_reasoning_chain_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "reader_guess_verification_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "bounded_mystery_repair_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "fair_play_clue_ledger_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "mystery_reasoning_chain_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "reader_guess_verification_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "mystery_audit_dimension_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "fair_play_clue_structure_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "mystery_reasoning_chain_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "reader_guess_verification_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "red_herring_payoff_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("clue-before-solution" in hint for hint in pattern_pack["mystery_fair_play_audit_reader_verification_gate_hints"])
+    assert any("reader-guess" in hint for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("source trick" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("reader persona" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+    assert any("fair-play" in hint for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("D1-D10" in hint for hint in pattern_pack["continuation_state_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "mystery_fair_play_audit_reader_verification_gate_hints" in digest

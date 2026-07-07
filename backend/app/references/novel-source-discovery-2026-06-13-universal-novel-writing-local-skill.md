@@ -893,3 +893,59 @@ Verification target added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_my_novel_source_adds_brief_handoff_timeline_gate -q
 ```
+
+## 2026-07-07 local universal reread and fair-play mystery reader gate addendum
+
+The local source `D:\project\universal-novel-writing` was re-read statically.
+The six reviewed files still match the original SHA-256 snapshot recorded above.
+No install, clone, package execution, script run, provider/model call,
+browser/MCP/desktop runtime, prompt-body transplant, manuscript import,
+cookie/token read, or credential read occurred.
+
+Additional static reference reviewed: `https://github.com/ushironoko/novel-harness-skills`
+
+Observed metadata on 2026-07-07:
+
+- Public `git ls-remote --symref HEAD` default branch: `main`
+- Public `git ls-remote` HEAD:
+  `a550cb79655fde95739369dc196b52f8befead6a`
+- GitHub repository API returned `403`; treated as no-bypass/no-token.
+- Raw README status `200`, bytes `5731`, sha256
+  `cc74cfbaa867dcd315c70e3ced6a9a65b533f459777644b7cac2e2cebd7c9728`.
+- Raw `LICENSE` and `LICENSE.md` probes returned `404`; license remains
+  no-license-observed for static intake.
+- Static README markers include fair-play mystery phases, world/cast/case
+  artifacts, clue and lie ledgers, reasoning chains, D1-D10 audit dimensions,
+  bounded repair loops, and pre-reveal parallel reader culprit guesses.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, checkout, skill installation, workflow/script execution, prompt-body
+  import, skill-body copy, reader-persona wording import, trick example import,
+  generated mystery text import, provider/model call, cookie read, token read, or
+  credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- `D:\project\universal-novel-writing` remains the higher authoring contract:
+  genre promise, chapter contract, clue/suspect ledgers, reader-pull test,
+  revision order, and minimal rollback decide acceptance.
+- `mystery_fair_play_audit_reader_verification_gate` adds mystery-specific
+  evidence: fair-play clue-before-solution review, lie ledger, suspect
+  motive/means/opportunity, reasoning-chain proof, and pre-reveal reader-guess
+  verification.
+- Whole-book analysis now has dedicated fair-play clue ledger, reasoning-chain,
+  reader-guess, and audit-dimension reports.
+- Same-type mystery remaps puzzle architecture only. Target projects must rebuild
+  culprit, victim, motive, clue order, red herrings, setting, impossible-trick
+  mechanics, reveal route, and payoff owner from the target brief.
+- Copy-risk blocks source trick mechanics, clue order, culprit/victim roles,
+  explanation structure, audit prompt wording, reader persona wording, skill
+  bodies, workflow scripts, and generated mystery text.
+
+Verification target added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_novel_harness_skills_source_adds_mystery_fair_play_gate -q
+```
