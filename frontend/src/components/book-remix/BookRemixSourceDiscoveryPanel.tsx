@@ -285,6 +285,7 @@ const PINNED_HINT_KEYS = new Set([
   'prose_lint_style_rule_gate_hints',
   'grammar_spelling_copyedit_gate_hints',
   'copyedit_diagnostic_triage_queue_hints',
+  'eventide_feedback_first_lorebook_queue_gate_hints',
   'reader_reward_channel_gate_hints',
   'tri_modal_workflow_validation_gate_hints',
   'scene_promise_mob_review_gate_hints',
@@ -354,6 +355,7 @@ const PINNED_HINT_KEYS = new Set([
   'reader_promise_micro_payoff_gate_hints',
   'revision_order_natural_prose_gate_hints',
   'reader_pull_fresh_reader_gate_hints',
+  'post_draft_review_checklist_gate_hints',
   'progress_report_continuity_writeback_gate_hints',
   'premise_structure_hook_payoff_gate_hints',
   'scene_goal_obstacle_cost_exit_gate_hints',
@@ -838,6 +840,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Reader promise / micro-payoff gates', patternPackPayload?.reader_promise_micro_payoff_gate_hints],
               ['Revision order / natural prose gates', patternPackPayload?.revision_order_natural_prose_gate_hints],
               ['Fresh-reader pull gates', patternPackPayload?.reader_pull_fresh_reader_gate_hints],
+              ['Post-draft review checklist gates', patternPackPayload?.post_draft_review_checklist_gate_hints],
               ['Progress report / continuity write-back gates', patternPackPayload?.progress_report_continuity_writeback_gate_hints],
               ['Premise / hook-payoff structure gates', patternPackPayload?.premise_structure_hook_payoff_gate_hints],
               ['Scene goal / cost / exit-state gates', patternPackPayload?.scene_goal_obstacle_cost_exit_gate_hints],
@@ -1222,6 +1225,7 @@ export default function BookRemixSourceDiscoveryPanel() {
               ['Prose lint style rule gates', patternPackPayload?.prose_lint_style_rule_gate_hints],
               ['Grammar spelling copyedit gates', patternPackPayload?.grammar_spelling_copyedit_gate_hints],
               ['Copyedit diagnostic triage queue gates', patternPackPayload?.copyedit_diagnostic_triage_queue_hints],
+              ['Eventide feedback-first lorebook queue gates', patternPackPayload?.eventide_feedback_first_lorebook_queue_gate_hints],
             ])}
             {renderHintGroup('Reader reward / tri-modal audit gates', [
               ['Reader reward channel gates', patternPackPayload?.reader_reward_channel_gate_hints],

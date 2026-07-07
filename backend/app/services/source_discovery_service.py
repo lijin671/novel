@@ -589,6 +589,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("Webnovel Writing System" OR "state as files" OR "context waterline") ("per-chapter SOP" OR "multi-subagent self-check" OR "technique library") in:name,description,readme',
     '("my_novel" OR "ask-yiyi" OR "author keeps pen") ("handoff" OR "draft layer" OR "chapter-versioned settings") in:name,description,readme',
     '("fair-play mystery" OR "mystery-audit" OR "mystery-readers") ("clue ledger" OR "reader verification" OR "mystery novel") in:name,description,readme',
+    '("Eventide Quill" OR "feedback-first" OR "async feedback queue") ("lorebook" OR "prose linter" OR "Obsidian") in:name,description,readme',
 )
 DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/voocel/ainovel-cli",
@@ -1088,6 +1089,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/wpowen/bestseller",
     "https://github.com/joshuaaleister-lab/webnovel-studio",
     "https://github.com/pori/hohoff",
+    "https://github.com/EventideMiles/eventide-quill",
     "https://github.com/ximencuisu/ximen-aimazi",
     "https://github.com/Malekyo4520/worldbuilder",
     "https://github.com/irvinghu07/fiction-orchestra",
@@ -1468,6 +1470,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("prose_lint_style_rule_gate", ("prose lint", "prose linter", "style linter", "natural language linter", "text linter", "vale", "textlint", "proselint", "write-good", "write good", "weasel words", "passive voice", "cliches", "style guide rules", "house style", "lint prose", "\u6587\u7a3f\u6821\u5bf9", "\u98ce\u683c\u89c4\u5219", "\u6563\u6587\u68c0\u67e5")),
     ("grammar_spelling_copyedit_gate", ("grammar checker", "spelling and grammar", "spell checker", "spellcheck", "spelling", "languagetool", "harper", "proofreading", "copyedit", "copyediting", "grammar engine", "offline grammar", "\u8bed\u6cd5\u68c0\u67e5", "\u62fc\u5199\u68c0\u67e5", "\u6821\u5bf9")),
     ("copyedit_diagnostic_triage_queue", ("lint diagnostics", "style diagnostics", "copyedit suggestions", "diagnostics", "suggestions", "rule violations", "ignore rules", "suppression", "accepted ignored", "triage", "diagnostic queue", "revision queue", "\u6821\u5bf9\u961f\u5217", "\u8bca\u65ad\u961f\u5217", "\u91c7\u7eb3\u5ffd\u7565")),
+    ("eventide_feedback_first_lorebook_queue_gate", ("eventide quill", "feedback-first", "prose linter", "novelist edition", "async feedback queue", "manuscript context engine", "lorebook coach", "coverage-gap detection", "persona-driven editorial feedback", "line-referenced findings", "local-model first", "co-writer collaboration")),
     ("lexical_diversity_voice_audit", ("lexical richness", "lexical diversity", "mtld", "hd-d", "hdd", "type-token", "type token ratio", "vocabulary diversity")),
     ("stylometric_author_fingerprint_gate", ("stylometry", "computational stylistics", "stylometric analyses", "stylometric analysis", "style fingerprint", "stylometric profile", "author fingerprint", "author-style transfer", "stylometric transfer", "authorship attribution", "burrows delta", "burrow's delta", "pydelta", "distance metrics", "style model")),
     ("function_word_syntax_style_gate", ("function words", "most frequent words", "mfw", "sentence length", "word length", "punctuation frequency", "pos tags", "syntactic features", "readability scores", "vocabulary richness", "style metrics", "stylometric features", "character n-grams")),
@@ -1763,6 +1766,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("reader_promise_micro_payoff_gate", ("reader promise", "micro-payoff", "micro payoff", "reader reward", "chinese webnovel", "chapter-level micro-payoffs", "chapter-level payoff")),
     ("revision_order_natural_prose_gate", ("revision order", "developmental", "character continuity scene line proof", "anti-ai natural prose", "natural prose", "generic emotional labels", "line edit")),
     ("reader_pull_fresh_reader_gate", ("reader pull", "fresh-reader", "fresh reader", "who is the pov", "what do they want", "what blocks them", "why does it matter", "what changed by the end", "pulls me onward")),
+    ("post_draft_review_checklist_gate", ("review after drafting", "post-draft review", "outline fidelity", "POV control", "character voice", "scene conflict", "reader-pull", "hook/payoff", "prose naturalness", "mobile readability")),
     ("progress_report_continuity_writeback_gate", ("chapter progress report", "writeback", "write-back", "new facts", "character changes", "hooks paid off", "continuity updates", "next chapter likely focus")),
     ("premise_structure_hook_payoff_gate", ("workable premise", "premise stress-test", "stress-test the premise", "three-act structure", "serial/webnovel volume arc", "hook and payoff matrix", "ending direction")),
     ("scene_goal_obstacle_cost_exit_gate", ("goal -> obstacle", "outcome/cost", "reaction -> dilemma", "decision -> new goal", "goal, obstacle, tactic, turn, cost", "changed exit state")),
@@ -3957,6 +3961,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "Hohoff is a no-license-observed Electron manuscript editor for the revision stage of long-form fiction. Public README markers describe Markdown/CodeMirror manuscript editing, outline navigation, full-text search, drag-and-drop ordering, diagnostic AI revision tools that are not generative, inline annotations for passive voice, consistency, style, show-vs-tell and critique, hover suggestions, apply or dismiss with undo, Story Bible.md, story-bible and whole-story context toggles, generation of a starting Story Bible from an existing manuscript, versioned snapshots under .hohoff/.revisions, order/session metadata, Anthropic API key and local config. "
         "Pattern-only adaptation for diagnostic-not-generative revision queues, inline annotation accept/dismiss gates, context-toggle provenance, and per-save revision snapshots; Electron app, package install/build, Anthropic calls, local manuscript folders, config files, screenshots, and upstream CLAUDE/skill instructions are not executed or imported."
     ),
+    "eventidemiles/eventide-quill": (
+        "Eventide Quill is an MIT Obsidian novelist assistant. Static README/package markers describe feedback-first editing, deterministic Prose Linter Novelist Edition, AI-prose tell clusters, manuscript context extraction, voice profile metrics, persona-driven review, line-referenced findings, async feedback queue, co-writer collaboration, lorebook entries, coverage-gap detection, local-model-first providers and optional OpenAI-compatible endpoints. "
+        "Pattern-only adaptation for deterministic-first review queues, lorebook coverage gaps, local-provider boundaries, and reviewable edit proposals; Obsidian plugin install, npm scripts, vault tools, network research, providers, images, subagents, and manuscript vaults are not launched or imported."
+    ),
     "ximencuisu/ximen-aimazi": (
         "ximen-aimazi is a MIT Chinese novel creation assistant. Public README markers describe a ten-step / Phase 1-12 creation flow, style F contrast learning by pasting AI original plus human-edited text to extract 12 mandatory rules across 10 dimensions, anti-AI-taste controls with genre-specific rhetoric levels, banned-word frequency budgets, six gates for banned terms, formulaic sentence removal, psychological externalization, rhythm breaking, dialogue de-formalization and ending de-sublimation, a three-pass polish method, seven-dimension scoring with thresholds for daily, climax, volume-ending and continuation chapters, discussion/fast modes, and DP1-1 to DP12-3 interaction decision points. "
         "Pattern-only adaptation for contrast-learned house style rules, genre-aware anti-AI gates, weighted webnovel scoring, and mandatory author decision checkpoints; upstream prompt bodies, sample text, skill/runtime files, generated chapters, installers, and provider calls are not imported or executed."
@@ -5216,6 +5224,7 @@ class NovelSourceDiscoveryService:
             "reader_promise_micro_payoff_gate_hints": self._build_reader_promise_micro_payoff_gate_hints(available_patterns),
             "revision_order_natural_prose_gate_hints": self._build_revision_order_natural_prose_gate_hints(available_patterns),
             "reader_pull_fresh_reader_gate_hints": self._build_reader_pull_fresh_reader_gate_hints(available_patterns),
+            "post_draft_review_checklist_gate_hints": self._build_post_draft_review_checklist_gate_hints(available_patterns),
             "progress_report_continuity_writeback_gate_hints": self._build_progress_report_continuity_writeback_gate_hints(available_patterns),
             "premise_structure_hook_payoff_gate_hints": self._build_premise_structure_hook_payoff_gate_hints(available_patterns),
             "scene_goal_obstacle_cost_exit_gate_hints": self._build_scene_goal_obstacle_cost_exit_gate_hints(available_patterns),
@@ -5382,6 +5391,7 @@ class NovelSourceDiscoveryService:
             "prose_lint_style_rule_gate_hints": self._build_prose_lint_style_rule_gate_hints(available_patterns),
             "grammar_spelling_copyedit_gate_hints": self._build_grammar_spelling_copyedit_gate_hints(available_patterns),
             "copyedit_diagnostic_triage_queue_hints": self._build_copyedit_diagnostic_triage_queue_hints(available_patterns),
+            "eventide_feedback_first_lorebook_queue_gate_hints": self._build_eventide_feedback_first_lorebook_queue_gate_hints(available_patterns),
             "lexical_diversity_voice_audit_hints": self._build_lexical_diversity_voice_audit_hints(available_patterns),
             "stylometric_author_fingerprint_gate_hints": self._build_stylometric_author_fingerprint_gate_hints(available_patterns),
             "function_word_syntax_style_gate_hints": self._build_function_word_syntax_style_gate_hints(available_patterns),
@@ -6617,6 +6627,7 @@ class NovelSourceDiscoveryService:
             "prose_lint_style_rule_gate": 61,
             "grammar_spelling_copyedit_gate": 60,
             "copyedit_diagnostic_triage_queue": 59,
+            "eventide_feedback_first_lorebook_queue_gate": 66,
             "lexical_diversity_voice_audit": 59,
             "stylometric_author_fingerprint_gate": 66,
             "function_word_syntax_style_gate": 64,
@@ -7054,6 +7065,7 @@ class NovelSourceDiscoveryService:
             "anti_ai_naturalness_texture_gate": 66,
             "genre_promise_contract_matrix_gate": 66,
             "subgenre_specific_ledger_gate": 66,
+            "post_draft_review_checklist_gate": 66,
             "progressive_context_loading_gate": 66,
             "author_intent_confirmation_gate": 66,
             "author_ai_project_contract_review_gate": 67,
@@ -7106,6 +7118,8 @@ class NovelSourceDiscoveryService:
             targets.append("revision_order_natural_prose_policy")
         if "reader_pull_fresh_reader_gate" in patterns:
             targets.append("reader_pull_fresh_reader_policy")
+        if "post_draft_review_checklist_gate" in patterns:
+            targets.append("post_draft_review_checklist_policy")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_report_continuity_writeback_policy")
         if "premise_structure_hook_payoff_gate" in patterns:
@@ -8300,6 +8314,10 @@ class NovelSourceDiscoveryService:
         if "copyedit_diagnostic_triage_queue" in patterns:
             targets.append("copyedit_diagnostic_queue")
             targets.append("accepted_ignored_diagnostic_ledger")
+        if "eventide_feedback_first_lorebook_queue_gate" in patterns:
+            targets.append("feedback_first_review_queue_policy")
+            targets.append("lorebook_coverage_gap_policy")
+            targets.append("local_model_first_provider_boundary")
         if "lexical_diversity_voice_audit" in patterns:
             targets.append("lexical_diversity_voice_baseline")
             targets.append("vocabulary_drift_rules")
@@ -8940,6 +8958,8 @@ class NovelSourceDiscoveryService:
             targets.append("revision_order_natural_prose_report")
         if "reader_pull_fresh_reader_gate" in patterns:
             targets.append("reader_pull_fresh_reader_report")
+        if "post_draft_review_checklist_gate" in patterns:
+            targets.append("post_draft_review_checklist_report")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_report_writeback_report")
         if "premise_structure_hook_payoff_gate" in patterns:
@@ -9604,6 +9624,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["grammar_spelling_report", "copyedit_blocker_findings", "dialogue_exception_findings"])
         if "copyedit_diagnostic_triage_queue" in patterns:
             targets.extend(["copyedit_diagnostic_triage_report", "accepted_ignored_lint_ledger", "revision_task_queue"])
+        if "eventide_feedback_first_lorebook_queue_gate" in patterns:
+            targets.extend(["feedback_first_editorial_report", "lorebook_coverage_gap_report", "async_review_queue_status"])
         if "lexical_diversity_voice_audit" in patterns:
             targets.extend(["lexical_diversity_voice_report", "mtld_hdd_voice_baseline", "repeated_vocabulary_findings"])
         if "stylometric_author_fingerprint_gate" in patterns:
@@ -10856,6 +10878,8 @@ class NovelSourceDiscoveryService:
             hints.append("Before continuation, assemble only the relevant append-only canon ledger slices: facts known_by current POV actors, active promises with due dates, progression monotonicity, rules, and timeline deltas.")
         if "author_keeps_pen_diagnostic_codex_gate" in patterns:
             hints.append("For revision-oriented continuation, keep the author in control: produce diagnosis, structure notes, memory-card evidence, and side-by-side fix candidates before any prose replacement.")
+        if "eventide_feedback_first_lorebook_queue_gate" in patterns:
+            hints.append("Before accepting continuation prose, run a feedback-first queue: deterministic prose/lore checks, line-referenced findings, lorebook coverage gaps, and accepted/ignored review decisions come before rewrite or canon writeback.")
         if "spec_driven_state_record_publish_gate" in patterns:
             hints.append("Before drafting, update STATE/OUTLINE/RECORD-style context: current workflow position, structural target, established facts, open threads, promises, payoffs, and continuity constraints.")
         if "desktop_langgraph_memory_observability_gate" in patterns:
@@ -11517,6 +11541,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist facts, promises, progression, rules, and timeline as append-only ledgers; write-after validation must block POV knowledge leaks, missed promises, ability overreach, numeric drift, and resurrection conflicts.")
         if "author_keeps_pen_diagnostic_codex_gate" in patterns:
             hints.append("Store extractive cards for chapters, arcs, characters, threads, voice samples, and diagnostic findings separately from proposed edits; accepted author choices update memory.")
+        if "eventide_feedback_first_lorebook_queue_gate" in patterns:
+            hints.append("Persist feedback queue state separately from canon: deterministic check ids, persona-review findings, lorebook gap ids, proposed edit ids, and accepted/ignored decisions.")
         if "spec_driven_state_record_publish_gate" in patterns:
             hints.append("Keep STATE, OUTLINE, and RECORD as separate state surfaces so workflow progress, structure, and established canon/promises/payoffs do not overwrite each other.")
         if "desktop_langgraph_memory_observability_gate" in patterns:
@@ -12743,6 +12769,15 @@ class NovelSourceDiscoveryService:
             "Run a fresh reader pull test after each accepted chapter: POV, current want, obstacle, stakes, changed exit state, and pull onward must be answerable from the page.",
             "Reader pull is a story-state gate, not praise: convert confusion, weak stakes, or no changed state into concrete revision tasks before acceptance.",
             "For same-type creation, source resemblance must not count as pull; the target chapter needs its own pressure, reward, and next question.",
+        ]
+
+    def _build_post_draft_review_checklist_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "post_draft_review_checklist_gate" not in patterns:
+            return []
+        return [
+            "After drafting, run the full chapter review checklist: outline fidelity, continuity, POV control, character voice, scene conflict, pacing, reader-pull, hook/payoff, prose naturalness, and mobile readability.",
+            "Any failed review dimension becomes a specific repair task before the chapter, continuation, or same-type draft can be accepted.",
+            "Keep the review checklist target-owned; source review labels, example findings, and manuscript excerpts are method signals only, not reusable story material.",
         ]
 
     def _build_progress_report_continuity_writeback_gate_hints(self, patterns: set[str]) -> list[str]:
@@ -14062,6 +14097,16 @@ class NovelSourceDiscoveryService:
             "Convert lint and grammar diagnostics into a triage queue with accept, ignore, rewrite, and needs-author-review states.",
             "Persist ignored diagnostics with reasons so repeated warnings do not hide new copyedit defects across chapters.",
             "Batch diagnostics by chapter and rule id before final manuscript assembly or same-type draft acceptance.",
+        ]
+
+    def _build_eventide_feedback_first_lorebook_queue_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "eventide_feedback_first_lorebook_queue_gate" not in patterns:
+            return []
+        return [
+            "Run deterministic prose/lore checks before AI rewrite: AI-prose tells, repeated starts, telling-vs-showing, dialogue tags, voice drift, and continuity gaps become findings first.",
+            "Keep manuscript context extraction, voice metrics, persona review, and lorebook coverage gaps as line-referenced review notes with queue status.",
+            "For continuation, proposals may edit or extend only after the feedback queue records accepted/ignored findings and the local/provider boundary is explicit.",
+            "For same-type creation, reuse the feedback-first workflow only; rebuild lore entries, review personas, style constraints, and coverage gaps around the transformed story.",
         ]
 
     def _build_lexical_diversity_voice_audit_hints(self, patterns: set[str]) -> list[str]:
@@ -17624,6 +17669,8 @@ class NovelSourceDiscoveryService:
             targets.append("revision_natural_prose_remap")
         if "reader_pull_fresh_reader_gate" in patterns:
             targets.append("reader_pull_fresh_reader_remap")
+        if "post_draft_review_checklist_gate" in patterns:
+            targets.append("post_draft_review_checklist_remap")
         if "progress_report_continuity_writeback_gate" in patterns:
             targets.append("progress_writeback_continuity_remap")
         if "premise_structure_hook_payoff_gate" in patterns:
@@ -18386,6 +18433,10 @@ class NovelSourceDiscoveryService:
             targets.append("grammar_copyedit_exception_remap")
         if "copyedit_diagnostic_triage_queue" in patterns:
             targets.append("copyedit_triage_policy_remap")
+        if "eventide_feedback_first_lorebook_queue_gate" in patterns:
+            targets.append("feedback_queue_status_remap")
+            targets.append("lorebook_coverage_gap_remap")
+            targets.append("review_persona_boundary_remap")
         if "lexical_diversity_voice_audit" in patterns:
             targets.append("lexical_diversity_remap")
         if "stylometric_author_fingerprint_gate" in patterns:
@@ -19247,6 +19298,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt story-engine pressure from target-owned want/need/wound/cost, active opposition, choice consequence, show/tell policy, and dialogue subtext before drafting.")
         if "universal_scene_surface_craft_gate" in patterns:
             hints.append("Prompt scene-surface craft before prose: POV filter, show/tell allocation, dialogue tactic/subtext, and description job must be target-owned and visible.")
+        if "post_draft_review_checklist_gate" in patterns:
+            hints.append("Prompt post-draft review as an acceptance artifact: outline fidelity, continuity, POV, voice, scene conflict, pacing, reader-pull, hook/payoff, naturalness, and mobile readability must be target-owned findings.")
         if "universal_character_world_rule_coherence_gate" in patterns:
             hints.append("Prompt character/world coherence from target-owned character design tests, world-rule cost matrix, research uncertainty notes, and rule-pressure constraints before drafting.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
@@ -19665,6 +19718,8 @@ class NovelSourceDiscoveryService:
             hints.append("Regenerate narrative time, duration, date/weekday, character ages, and unused/export status for the transformed section map before drafting.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Clean AI-prose fingerprints through local revision while preserving transformed-story identity and avoiding source-like cadence.")
+        if "eventide_feedback_first_lorebook_queue_gate" in patterns:
+            hints.append("For same-type prompts, request feedback-first review artifacts before prose acceptance: deterministic checks, lorebook gap notes, persona findings, and proposal status must be target-owned.")
         if "author_candidate_canon_confirmation_gate" in patterns:
             hints.append("Keep AI suggestions and source-derived ideas as candidates until the transformed story records preview, confirmation, apply status, and rollback path.")
         if "progressive_spoiler_context_window_gate" in patterns:
@@ -20464,6 +20519,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform narrative-time and character-age traces by recalculating dates, durations, weekdays, section status, and export inclusion for the new story.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Transform prose-fingerprint findings into local revision targets instead of copying source sentence rhythm.")
+        if "eventide_feedback_first_lorebook_queue_gate" in patterns:
+            hints.append("Transform Eventide-style feedback queues into new-story review passes; source line references, lore entries, review personas, and edit proposals cannot be reused.")
         if "ai_ism_detect_edit_convergence_gate" in patterns:
             hints.append("Transform AI-ism findings into bounded local edits with a voice-profile convergence log; never rewrite by paraphrasing source passages.")
         if "markdown_skill_story_project_contract_gate" in patterns:
@@ -20848,6 +20905,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform story-engine pressure by rebuilding desire, wound, cost, opposition, choice, consequence, and dialogue voice for the new project.")
         if "universal_scene_surface_craft_gate" in patterns:
             hints.append("Transform scene-surface craft by rebuilding POV filters, sensory jobs, dialogue tactics, and show/tell allocation around the target scene instead of copying source surface moves.")
+        if "post_draft_review_checklist_gate" in patterns:
+            hints.append("Transform post-draft review into a target-story acceptance matrix; source checklist examples and findings cannot become target canon or prose.")
         if "universal_character_world_rule_coherence_gate" in patterns:
             hints.append("Transform character/world coherence by rebuilding moral lines, ally wants, opposition motives, rule costs, who-knows scope, and research assumptions for the target story.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
@@ -21071,6 +21130,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that clone source desire, wound, opposition, cost pattern, scene choice, dialogue cadence, or show/tell rhythm under renamed entities.")
         if "universal_scene_surface_craft_gate" in patterns:
             hints.append("Reject drafts that reuse source POV observation order, dialogue subtext route, sensory image pattern, description job, or show/tell rhythm as target prose.")
+        if "post_draft_review_checklist_gate" in patterns:
+            hints.append("Reject drafts that copy source review labels, example findings, checklist wording, or repair notes into target manuscript or accepted canon.")
         if "universal_character_world_rule_coherence_gate" in patterns:
             hints.append("Reject drafts that copy source moral tests, ally/antagonist motive shapes, world-rule costs, research-note claims, or who-knows matrices into target canon.")
         if "story_skills_deterministic_continuity_contract_gate" in patterns:
@@ -21601,6 +21662,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts whose section dates, duration ladder, character-age reveals, unused/draft flags, or export boundary mirror the source project.")
         if "ai_prose_fingerprint_cluster_gate" in patterns:
             hints.append("Reject fingerprint cleanup that merely paraphrases source passages or preserves a source-like chapter cadence under smoother prose.")
+        if "eventide_feedback_first_lorebook_queue_gate" in patterns:
+            hints.append("Reject drafts that copy Eventide README wording, review-persona labels, lorebook entries, source line references, proposed edit text, or async queue artifacts as story material.")
         if "author_candidate_canon_confirmation_gate" in patterns:
             hints.append("Reject drafts that treat unconfirmed source candidates, AI suggestions, or preview-only material as transformed canon.")
         if "progressive_spoiler_context_window_gate" in patterns:
@@ -22219,6 +22282,7 @@ class NovelSourceDiscoveryService:
                 "reader_promise_micro_payoff_gate",
                 "revision_order_natural_prose_gate",
                 "reader_pull_fresh_reader_gate",
+                "post_draft_review_checklist_gate",
                 "progress_report_continuity_writeback_gate",
                 "premise_structure_hook_payoff_gate",
                 "scene_goal_obstacle_cost_exit_gate",
@@ -22574,6 +22638,7 @@ class NovelSourceDiscoveryService:
                 "prose_lint_style_rule_gate",
                 "grammar_spelling_copyedit_gate",
                 "copyedit_diagnostic_triage_queue",
+                "eventide_feedback_first_lorebook_queue_gate",
             }
         ) and (
             "style_signature" in patterns

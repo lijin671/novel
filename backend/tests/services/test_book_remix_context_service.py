@@ -197,6 +197,31 @@ def test_universal_project_memory_gate_extends_control_audit_and_warnings():
     assert "missing_world_rule_cost_custody" in audit["portable_project_memory_warnings"]
 
 
+def test_eventide_feedback_queue_gate_extends_continuation_control_audit():
+    audit = build_remix_continuation_control_audit(
+        bible={
+            "chapter_change_packages": [
+                {
+                    "source": "chapter_analysis",
+                    "chapter_number": 3,
+                    "summary": "Lin accepted a risky clue.",
+                }
+            ],
+        },
+        plan={"summary": "Continue after feedback queue review."},
+        source_pattern_pack={
+            "eventide_feedback_first_lorebook_queue_gate_hints": [
+                "Run deterministic prose/lore checks before AI rewrite."
+            ],
+        },
+    )
+
+    assert "feedback_first_editorial_queue" in audit["control_axes"]
+    assert "line_referenced_lorebook_gap_review" in audit["control_axes"]
+    assert "local_provider_boundary" in audit["control_axes"]
+    assert "verify_feedback_queue_before_rewrite" in audit["acceptance_steps"]
+
+
 def test_universal_progressive_loading_and_author_intent_gates_render_context_and_audit():
     pattern_pack = {
         "workflow_patterns": [

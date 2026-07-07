@@ -203,6 +203,13 @@ def build_remix_continuation_control_audit(
     if "progress_report_continuity_writeback_gate" in pattern_names:
         control_axes.append("chapter_progress_report_completeness")
         acceptance_steps.append("verify_progress_report_fields")
+    if "eventide_feedback_first_lorebook_queue_gate" in pattern_names:
+        control_axes.extend([
+            "feedback_first_editorial_queue",
+            "line_referenced_lorebook_gap_review",
+            "local_provider_boundary",
+        ])
+        acceptance_steps.append("verify_feedback_queue_before_rewrite")
     continuation_handoff_audit = _universal_continuation_handoff_audit(
         bible=bible,
         plan=plan,
@@ -12053,6 +12060,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "prose_lint_style_rule_gate_hints": "prose_lint_style_rule_gate",
         "grammar_spelling_copyedit_gate_hints": "grammar_spelling_copyedit_gate",
         "copyedit_diagnostic_triage_queue_hints": "copyedit_diagnostic_triage_queue",
+        "eventide_feedback_first_lorebook_queue_gate_hints": "eventide_feedback_first_lorebook_queue_gate",
         "lexical_diversity_voice_audit_hints": "lexical_diversity_voice_audit",
         "keyphrase_motif_extraction_hints": "keyphrase_motif_extraction",
         "chinese_segmentation_keyword_gate_hints": "chinese_segmentation_keyword_gate",

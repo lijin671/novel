@@ -277,6 +277,7 @@ export interface SourceDiscoveryPatternPack {
   prose_lint_style_rule_gate_hints?: string[];
   grammar_spelling_copyedit_gate_hints?: string[];
   copyedit_diagnostic_triage_queue_hints?: string[];
+  eventide_feedback_first_lorebook_queue_gate_hints?: string[];
   reader_reward_channel_gate_hints?: string[];
   tri_modal_workflow_validation_gate_hints?: string[];
   scene_promise_mob_review_gate_hints?: string[];
@@ -346,6 +347,7 @@ export interface SourceDiscoveryPatternPack {
   reader_promise_micro_payoff_gate_hints?: string[];
   revision_order_natural_prose_gate_hints?: string[];
   reader_pull_fresh_reader_gate_hints?: string[];
+  post_draft_review_checklist_gate_hints?: string[];
   progress_report_continuity_writeback_gate_hints?: string[];
   premise_structure_hook_payoff_gate_hints?: string[];
   scene_goal_obstacle_cost_exit_gate_hints?: string[];

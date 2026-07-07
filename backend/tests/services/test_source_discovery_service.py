@@ -6185,6 +6185,57 @@ def test_prose_copyedit_pattern_pack_exposes_lint_grammar_and_triage_guidance():
     assert "copyedit_diagnostic_triage_queue_hints" in digest
 
 
+def test_eventide_quill_feedback_first_lorebook_queue_source_is_static_absorbed():
+    assert "https://github.com/EventideMiles/eventide-quill" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Eventide Quill" in query or "async feedback queue" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "EventideMiles/eventide-quill",
+                "html_url": "https://github.com/EventideMiles/eventide-quill",
+                "description": (
+                    "Eventide Quill is an Obsidian novelist assistant with feedback-first editing, "
+                    "deterministic Prose Linter Novelist Edition, AI-prose tell clusters, voice drift "
+                    "cluster detection, lint diagnostics, suggestions, accepted ignored triage, "
+                    "Manuscript Context Engine, voice profile metrics, persona-driven editorial feedback, "
+                    "line-referenced findings, Async Feedback Queue, Lorebook Coach, coverage-gap detection, "
+                    "local-model first Ollama LM Studio and OpenAI API access with API key provider boundary, "
+                    "plus co-writer collaboration."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "MIT"},
+                "topics": ["obsidian", "novel-writing", "lorebook", "prose-linter"],
+                "updated_at": "2026-07-06T00:00:00Z",
+                "root_files": ["README.md", "package.json", "manifest.json", "src"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-07T12:00:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "EventideMiles/eventide-quill"
+    assert candidate["license"] == "MIT"
+    assert "eventide_feedback_first_lorebook_queue_gate" in candidate["absorbed_patterns"]
+    assert "prose_lint_style_rule_gate" in candidate["absorbed_patterns"]
+    assert "copyedit_diagnostic_triage_queue" in candidate["absorbed_patterns"]
+    assert "ai_prose_fingerprint_cluster_gate" in candidate["absorbed_patterns"]
+    assert "provider_key_surface" in candidate["risk_flags"]
+    assert "browser_extension" in candidate["risk_flags"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert pattern_pack["eventide_feedback_first_lorebook_queue_gate_hints"]
+    assert "feedback_first_review_queue_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "lorebook_coverage_gap_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "feedback_queue_status_remap" in pattern_pack["inspired_mapping_targets"]
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "eventide_feedback_first_lorebook_queue_gate_hints" in digest
+
+
 def test_default_discovery_sources_include_prose_copyedit_projects():
     assert "https://github.com/vale-cli/vale" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/textlint/textlint" in DEFAULT_GITHUB_REPOSITORY_URLS
@@ -21261,7 +21312,9 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
                     "exit state; Chinese webnovel micro-payoff reader reward; revision order "
                     "developmental character continuity scene line proof; anti-AI natural prose; "
                     "reader pull fresh-reader test with POV, want, block, stakes, changed by end, "
-                    "and pull onward; chapter progress report writeback with new facts, hooks, "
+                    "and pull onward; review after drafting checks outline fidelity, POV control, "
+                    "character voice, scene conflict, hook/payoff, prose naturalness, and mobile readability; "
+                    "chapter progress report writeback with new facts, hooks, "
                     "character changes, risks. Workable premise stress-test, three-act or "
                     "serial/webnovel volume arc, hook and payoff matrix; scene structure "
                     "goal -> obstacle -> conflict -> outcome/cost and reaction -> dilemma "
@@ -21327,6 +21380,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
         "reader_promise_micro_payoff_gate",
         "revision_order_natural_prose_gate",
         "reader_pull_fresh_reader_gate",
+        "post_draft_review_checklist_gate",
         "progress_report_continuity_writeback_gate",
         "premise_structure_hook_payoff_gate",
         "scene_goal_obstacle_cost_exit_gate",
@@ -21361,6 +21415,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "chapter_contract_scene_beat_report" in pattern_pack["whole_book_analysis_targets"]
     assert "universal_portable_tool_policy_report" in pattern_pack["whole_book_analysis_targets"]
     assert "progress_report_writeback_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "post_draft_review_checklist_report" in pattern_pack["whole_book_analysis_targets"]
     assert "genre_promise_contract_matrix_report" in pattern_pack["whole_book_analysis_targets"]
     assert "subgenre_specific_ledger_report" in pattern_pack["whole_book_analysis_targets"]
     assert "story_engine_scene_pressure_report" in pattern_pack["whole_book_analysis_targets"]
@@ -21378,6 +21433,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "character_world_rule_coherence_remap" in pattern_pack["inspired_mapping_targets"]
     assert "genre_promise_contract_matrix_remap" in pattern_pack["inspired_mapping_targets"]
     assert "subgenre_specific_ledger_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "post_draft_review_checklist_remap" in pattern_pack["inspired_mapping_targets"]
     assert "five_question_intake_story_promise_remap" in pattern_pack["inspired_mapping_targets"]
     assert "universal_export_clean_manuscript_remap" in pattern_pack["inspired_mapping_targets"]
     assert "minimal_rollback_repair_scope_remap" in pattern_pack["inspired_mapping_targets"]
@@ -21390,6 +21446,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert any("micro-payoff" in hint.lower() for hint in pattern_pack["reader_promise_micro_payoff_gate_hints"])
     assert any("revision order" in hint.lower() for hint in pattern_pack["revision_order_natural_prose_gate_hints"])
     assert any("fresh reader" in hint.lower() for hint in pattern_pack["reader_pull_fresh_reader_gate_hints"])
+    assert any("mobile readability" in hint.lower() for hint in pattern_pack["post_draft_review_checklist_gate_hints"])
     assert any("write-back" in hint.lower() for hint in pattern_pack["progress_report_continuity_writeback_gate_hints"])
     assert any("premise" in hint.lower() for hint in pattern_pack["premise_structure_hook_payoff_gate_hints"])
     assert any("goal, obstacle" in hint.lower() for hint in pattern_pack["scene_goal_obstacle_cost_exit_gate_hints"])
@@ -21415,6 +21472,7 @@ def test_local_universal_novel_writing_skill_is_static_absorbed():
     assert "reader_promise_micro_payoff_gate_hints" in digest
     assert "revision_order_natural_prose_gate_hints" in digest
     assert "reader_pull_fresh_reader_gate_hints" in digest
+    assert "post_draft_review_checklist_gate_hints" in digest
     assert "progress_report_continuity_writeback_gate_hints" in digest
     assert "premise_structure_hook_payoff_gate_hints" in digest
     assert "scene_goal_obstacle_cost_exit_gate_hints" in digest

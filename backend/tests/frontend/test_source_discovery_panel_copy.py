@@ -249,6 +249,7 @@ def test_source_discovery_panel_surfaces_inspired_pattern_pack_fields():
             "prose_lint_style_rule_gate_hints",
             "grammar_spelling_copyedit_gate_hints",
             "copyedit_diagnostic_triage_queue_hints",
+            "eventide_feedback_first_lorebook_queue_gate_hints",
             "reader_reward_channel_gate_hints",
             "tri_modal_workflow_validation_gate_hints",
             "scene_promise_mob_review_gate_hints",
@@ -858,6 +859,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "Reader promise / micro-payoff gates" in panel_text
     assert "Revision order / natural prose gates" in panel_text
     assert "Fresh-reader pull gates" in panel_text
+    assert "Post-draft review checklist gates" in panel_text
     assert "Progress report / continuity write-back gates" in panel_text
     assert "Premise / hook-payoff structure gates" in panel_text
     assert "Scene goal / cost / exit-state gates" in panel_text
@@ -880,6 +882,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "reader_promise_micro_payoff_gate_hints" in panel_text
     assert "revision_order_natural_prose_gate_hints" in panel_text
     assert "reader_pull_fresh_reader_gate_hints" in panel_text
+    assert "post_draft_review_checklist_gate_hints" in panel_text
     assert "progress_report_continuity_writeback_gate_hints" in panel_text
     assert "premise_structure_hook_payoff_gate_hints" in panel_text
     assert "scene_goal_obstacle_cost_exit_gate_hints" in panel_text
@@ -908,6 +911,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "reader_promise_micro_payoff_gate_hints?: string[]" in types_text
     assert "revision_order_natural_prose_gate_hints?: string[]" in types_text
     assert "reader_pull_fresh_reader_gate_hints?: string[]" in types_text
+    assert "post_draft_review_checklist_gate_hints?: string[]" in types_text
     assert "premise_structure_hook_payoff_gate_hints?: string[]" in types_text
     assert "scene_goal_obstacle_cost_exit_gate_hints?: string[]" in types_text
     assert "universal_story_engine_scene_pressure_gate_hints?: string[]" in types_text
@@ -925,6 +929,19 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "minimal_rollback_repair_scope_gate_hints?: string[]" in types_text
     assert "progressive_context_loading_gate_hints?: string[]" in types_text
     assert "author_intent_confirmation_gate_hints?: string[]" in types_text
+
+
+def test_source_discovery_panel_surfaces_eventide_feedback_queue_gate():
+    repo_root = Path(__file__).resolve().parents[3]
+    panel = repo_root / "frontend" / "src" / "components" / "book-remix" / "BookRemixSourceDiscoveryPanel.tsx"
+    types_file = repo_root / "frontend" / "src" / "types" / "sourceDiscovery.ts"
+
+    panel_text = panel.read_text(encoding="utf-8")
+    types_text = types_file.read_text(encoding="utf-8")
+
+    assert "Eventide feedback-first lorebook queue gates" in panel_text
+    assert "eventide_feedback_first_lorebook_queue_gate_hints" in panel_text
+    assert "eventide_feedback_first_lorebook_queue_gate_hints?: string[]" in types_text
 
 
 def test_source_discovery_panel_surfaces_scheduled_agent_style_qa_gate():
