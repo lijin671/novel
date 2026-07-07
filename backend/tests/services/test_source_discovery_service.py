@@ -17386,6 +17386,69 @@ def test_static_webnovel_writing_system_source_adds_file_sop_waterline_gate():
 
 
 
+def test_static_my_novel_source_adds_brief_handoff_timeline_gate():
+    assert "https://github.com/Stebaze/my_novel" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("my_novel" in query and "chapter-versioned settings" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Stebaze/my_novel",
+                "html_url": "https://github.com/Stebaze/my_novel",
+                "description": (
+                    "AI-assisted long-form novel framework where the author keeps the pen. "
+                    "It uses ask-yiyi state routing, outline before chapter, plan to handoff "
+                    "to generate to review to publish, artifact resume, draft/formal layers, "
+                    "chapter-versioned settings, forward conflict scans, bounded Fix loops, "
+                    "adaptation workflow and source profile extraction."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "writing", "claude-code", "skills"],
+                "updated_at": "2026-07-01T10:58:23Z",
+                "pushed_at": "2026-07-01T10:58:23Z",
+                "root_files": ["README.md", "CLAUDE.md", "CONTEXT.md", "LICENSE", "framework", "profiles", "reference", "用户使用指南.md"],
+            }
+        ],
+        forum_items=[],
+        generated_at="2026-07-07T09:20:00+08:00",
+    )
+
+    candidates = {candidate["title"]: candidate for candidate in result["candidates"]}
+    candidate = candidates["Stebaze/my_novel"]
+    assert candidate["posture"] == "pattern-only"
+    assert "my_novel_brief_handoff_timeline_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "artifact_state_machine_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "handoff_contract_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "draft_publish_layer_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "setting_timeline_conflict_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "adaptation_profile_boundary_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "artifact_state_machine_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "handoff_contract_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "draft_publish_layer_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "setting_timeline_conflict_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "adaptation_profile_boundary_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "artifact_state_machine_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "brief_first_author_control_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "draft_publish_layer_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "setting_timeline_conflict_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "adaptation_profile_boundary_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("artifact state machine" in hint.lower() for hint in pattern_pack["my_novel_brief_handoff_timeline_gate_hints"])
+    assert any("missing handoff" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("workflow_position" in hint for hint in pattern_pack["continuation_state_hints"])
+    assert any("artifact state machine" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("target handoff fields" in hint for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("command names" in hint for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "my_novel_brief_handoff_timeline_gate_hints" in digest
+
+
+
 def test_longform_local_skill_workbench_sources_are_static_absorbed():
     assert "https://github.com/oaidea/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/aszecsei/writr" in DEFAULT_GITHUB_REPOSITORY_URLS

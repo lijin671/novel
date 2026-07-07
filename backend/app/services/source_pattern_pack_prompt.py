@@ -632,6 +632,7 @@ def render_source_pattern_pack_digest(
         "scriveno_voice_context_status_gate_hints",
         "ai_novel_predict_memory_simulation_branch_gate_hints",
         "webnovel_file_sop_context_waterline_gate_hints",
+        "my_novel_brief_handoff_timeline_gate_hints",
         "narrative_canon_version_branch_graph_gate_hints",
         "planner_writer_evaluator_editor_saga_gate_hints",
         "story_weaver_kg_bible_rag_gate_hints",

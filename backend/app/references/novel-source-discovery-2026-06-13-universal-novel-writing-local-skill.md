@@ -827,3 +827,69 @@ Verification target added:
 ```powershell
 python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_webnovel_writing_system_source_adds_file_sop_waterline_gate -q
 ```
+
+
+## 2026-07-07 my_novel static brief-handoff/timeline addendum
+
+Source reviewed statically: `https://github.com/Stebaze/my_novel`
+
+Observed metadata on 2026-07-07:
+
+- Public `git ls-remote --symref HEAD` default branch: `main`
+- Public `git ls-remote` HEAD:
+  `0318e43d37a6b5822103d763e9e8c9183c32f9b5`
+- GitHub repository API returned license `Apache-2.0`, stars `0`, pushed
+  `2026-07-01T10:58:23Z`.
+- Raw README status `200`, bytes `8452`, sha256
+  `381a46027be8d4044d81fa98450c0ae381e96dc31ee074b5ee60e9d6306bf2f4`.
+- Raw `CLAUDE.md` status `200`, bytes `18062`, sha256
+  `0fcdd6c91e453674e54292f772e54fdb4ae83da667d75958d4bf644976884e26`.
+- Raw `用户使用指南.md` status `200`, bytes `17240`, sha256
+  `a6902f2f28435bd83f4b6e916e4e26c60653cc66c65bf8ec583ae6d8de783b85`.
+- Raw `framework/_specs/interaction-spec.md` status `200`, bytes `12827`,
+  sha256 `55c20dbaba63108262e0cf552d9f736114052ed875152209ab32a0bcc53b14bc`.
+- Raw `framework/_specs/skill-template.md` status `200`, bytes `4421`,
+  sha256 `58ee9fc3ad4b79e90276dfdec432b5ee7e9c6d9c64548e9410cf7aefbee692f3`.
+- Static markers include author-keeps-pen stance, brief/report-first authoring,
+  session entry and state routing, outline-before-chapter, plan -> handoff ->
+  generate -> review -> publish, artifact-based resume, eight-field handoff,
+  draft/formal layer separation, append-only draft deltas, chapter-versioned
+  settings, forward conflict scans, hard/soft blockers, bounded fix loops,
+  adaptation source-profile extraction, and single-scene mode.
+
+Posture:
+
+- Pattern-only static intake.
+- No clone, checkout, Claude skill installation, package/script execution,
+  upstream instruction import, prompt/workflow body import, guide/template text
+  import, generated chapter import, local novel data read, author-profile import,
+  provider/model call, cookie read, token read, or credential read.
+
+Reusable patterns fused into MuMuAINovel:
+
+- Chapter production now has a stronger artifact state-machine gate. Outline,
+  direction, handoff, brief, chapter, review, fix log, and publish state are
+  separate receipts instead of one hidden fluent process.
+- Handoff is promoted as an explicit session boundary. The next stage must read
+  target-owned paths/status fields instead of reconstructing state from chat
+  memory or imported command wording.
+- Brief-first author control is preserved even when AI-prose mode exists. A run
+  should record whether it is brief-only or generated-prose, plus the author
+  brief, revision report, and bounded fix-loop status.
+- Draft, review, and published manuscript layers remain separate. Free revision
+  cannot silently mutate accepted canon or platform-published state.
+- Settings now gain chapter-introduction and forward-conflict vocabulary: when a
+  fact, power, relationship, or world rule changes after later chapters exist,
+  later chapters need an explicit conflict scan.
+- Adaptation and同类型仿写 only reuse abstract profiles and target briefs; source
+  prose, source skill bodies, upstream command names, local path conventions,
+  author profiles, and generated chapter files stay outside target canon.
+- `D:\project\universal-novel-writing` remains the higher authoring contract;
+  this addendum strengthens durable handoff, artifact receipts, layer separation,
+  timeline conflict review, and adaptation boundaries under that contract.
+
+Verification target added:
+
+```powershell
+python -X utf8 -m pytest backend/tests/services/test_source_discovery_service.py::test_static_my_novel_source_adds_brief_handoff_timeline_gate -q
+```
