@@ -350,6 +350,7 @@ export interface SourceDiscoveryPatternPack {
   premise_structure_hook_payoff_gate_hints?: string[];
   scene_goal_obstacle_cost_exit_gate_hints?: string[];
   universal_story_engine_scene_pressure_gate_hints?: string[];
+  universal_scene_surface_craft_gate_hints?: string[];
   universal_character_world_rule_coherence_gate_hints?: string[];
   story_skills_deterministic_continuity_contract_gate_hints?: string[];
   better_writing_voice_specificity_preflight_gate_hints?: string[];

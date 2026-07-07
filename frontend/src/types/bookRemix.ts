@@ -59,6 +59,7 @@ export interface BookRemixDeconstructionPack {
   style_fingerprint: Record<string, unknown>;
   continuity_ledger: Record<string, unknown>;
   chapter_contract: Record<string, unknown>;
+  craft_surface_contract: Record<string, unknown>;
   scene_beat_sheet: Array<Record<string, unknown>>;
   reader_pull_checklist: string[];
   hook_payoff_matrix: Record<string, unknown>;

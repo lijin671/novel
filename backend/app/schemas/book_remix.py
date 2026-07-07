@@ -54,6 +54,7 @@ class BookRemixDeconstructionPack(BaseModel):
     style_fingerprint: dict[str, Any] = Field(default_factory=dict)
     continuity_ledger: dict[str, Any] = Field(default_factory=dict)
     chapter_contract: dict[str, Any] = Field(default_factory=dict)
+    craft_surface_contract: dict[str, Any] = Field(default_factory=dict)
     scene_beat_sheet: list[dict[str, Any]] = Field(default_factory=list)
     reader_pull_checklist: list[str] = Field(default_factory=list)
     hook_payoff_matrix: dict[str, Any] = Field(default_factory=dict)

@@ -861,6 +861,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "Progress report / continuity write-back gates" in panel_text
     assert "Premise / hook-payoff structure gates" in panel_text
     assert "Scene goal / cost / exit-state gates" in panel_text
+    assert "Scene-surface craft gates" in panel_text
     assert "Character / world-rule coherence gates" in panel_text
     assert "Story Skills deterministic continuity gates" in panel_text
     assert "Revision finding / patch strategy gates" in panel_text
@@ -883,6 +884,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "premise_structure_hook_payoff_gate_hints" in panel_text
     assert "scene_goal_obstacle_cost_exit_gate_hints" in panel_text
     assert "universal_story_engine_scene_pressure_gate_hints" in panel_text
+    assert "universal_scene_surface_craft_gate_hints" in panel_text
     assert "universal_character_world_rule_coherence_gate_hints" in panel_text
     assert "story_skills_deterministic_continuity_contract_gate_hints" in panel_text
     assert "better_writing_voice_specificity_preflight_gate_hints" in panel_text
@@ -909,6 +911,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "premise_structure_hook_payoff_gate_hints?: string[]" in types_text
     assert "scene_goal_obstacle_cost_exit_gate_hints?: string[]" in types_text
     assert "universal_story_engine_scene_pressure_gate_hints?: string[]" in types_text
+    assert "universal_scene_surface_craft_gate_hints?: string[]" in types_text
     assert "universal_character_world_rule_coherence_gate_hints?: string[]" in types_text
     assert "story_skills_deterministic_continuity_contract_gate_hints?: string[]" in types_text
     assert "better_writing_voice_specificity_preflight_gate_hints?: string[]" in types_text

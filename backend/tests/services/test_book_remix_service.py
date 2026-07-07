@@ -51,6 +51,10 @@ def test_deconstruction_pack_for_continuation_surfaces_universal_contract():
     assert pack["chapter_contract"]["mode"] == "continue-chapter"
     assert pack["chapter_contract"]["opening_hook"].startswith("Continue from Ch3")
     assert pack["chapter_contract"]["main_goal"]
+    assert "pov_filter" in pack["craft_surface_contract"]
+    assert "dialogue_subtext" in pack["craft_surface_contract"]
+    assert "description_jobs" in pack["craft_surface_contract"]
+    assert "dramatize" in pack["craft_surface_contract"]["show_tell_allocation"]
     assert "goal" in pack["scene_beat_sheet"][0]
     assert pack["reader_pull_checklist"] == [
         "Who is the POV character?",
@@ -156,6 +160,8 @@ def test_continuation_style_payload_includes_deconstruction_contract():
     assert "progress_report_contract.required_fields" in prompt
     assert "revision_strategy.ordered_passes" in prompt
     assert "revision_strategy.patch_policy" in prompt
+    assert "craft_surface_contract.pov_filter" in prompt
+    assert "craft_surface_contract.dialogue_subtext" in prompt
     assert "continuity_writeback" in prompt
     assert "anti_ai_naturalness" in prompt
 

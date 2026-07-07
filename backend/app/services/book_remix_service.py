@@ -1180,6 +1180,9 @@ class BookRemixService:
             ],
         }
         revision_strategy = self._build_deconstruction_revision_strategy()
+        craft_surface_contract = self._build_deconstruction_craft_surface_contract(
+            remix_mode=remix_mode,
+        )
 
         same_type_boundaries = {
             "mode": remix_mode,
@@ -1302,6 +1305,7 @@ class BookRemixService:
                     "chapter ending with fake cliffhanger only",
                 ],
             },
+            craft_surface_contract=craft_surface_contract,
             scene_beat_sheet=scene_beat_sheet,
             reader_pull_checklist=reader_pull_checklist,
             hook_payoff_matrix=hook_payoff_matrix,
@@ -1369,6 +1373,39 @@ class BookRemixService:
                 "uneven_human_rhythm",
                 "mobile_readable_paragraph_breaks",
             ],
+        }
+
+    def _build_deconstruction_craft_surface_contract(self, *, remix_mode: RemixMode) -> dict[str, Any]:
+        """Build scene-surface craft checks from the local universal writing reference."""
+        same_type_rule = (
+            "Transfer only surface-craft functions; rebuild POV filter, dialogue tactic, sensory job, "
+            "and show/tell allocation for the target story."
+            if remix_mode == "inspired"
+            else "Use accepted target canon, POV state, and current scene pressure as the only source "
+            "for surface-craft choices."
+        )
+        return {
+            "pov_filter": [
+                "observations pass through desire, fear, expertise, and bias",
+                "no fact enters narration if the POV cannot know or plausibly infer it",
+            ],
+            "show_tell_allocation": {
+                "dramatize": ["turning_points", "conflict", "emotions", "choices"],
+                "summarize": ["low_value_transitions", "repeated_logistics", "already_understood_context"],
+            },
+            "dialogue_subtext": [
+                "each exchange pursues a goal, hides pain, tests loyalty, or changes status",
+                "avoid as-you-know exposition and polished synopsis dialogue",
+            ],
+            "description_jobs": [
+                "mood",
+                "threat",
+                "character_pressure",
+                "class_or_history",
+                "world_rule",
+                "foreshadowing",
+            ],
+            "same_type_rule": same_type_rule,
         }
 
     def _build_deconstruction_scene_beat_sheet(
@@ -2950,9 +2987,13 @@ class BookRemixService:
         source_scope = pack.source_scope
         story_promise = pack.story_promise
         chapter_contract = pack.chapter_contract
+        craft_surface_contract = pack.craft_surface_contract
         progress_report_contract = pack.progress_report_contract
         same_type_boundaries = pack.same_type_boundaries
         revision_strategy = pack.revision_strategy
+        show_tell = craft_surface_contract.get("show_tell_allocation") if isinstance(craft_surface_contract, dict) else {}
+        show_tell_dramatize = ", ".join(show_tell.get("dramatize") or []) if isinstance(show_tell, dict) else ""
+        description_jobs = ", ".join(craft_surface_contract.get("description_jobs") or [])
 
         lines = [
             "",
@@ -2966,6 +3007,12 @@ class BookRemixService:
             f"- chapter_contract.main_goal: {chapter_contract.get('main_goal')}",
             f"- chapter_contract.main_obstacle: {chapter_contract.get('main_obstacle')}",
             f"- chapter_contract.turning_point: {chapter_contract.get('turning_point')}",
+            "- craft_surface_contract.pov_filter: "
+            + "; ".join(craft_surface_contract.get("pov_filter") or []),
+            f"- craft_surface_contract.show_tell_dramatize: {show_tell_dramatize}",
+            "- craft_surface_contract.dialogue_subtext: "
+            + "; ".join(craft_surface_contract.get("dialogue_subtext") or []),
+            f"- craft_surface_contract.description_jobs: {description_jobs}",
             "- scene_beat_sheet: every scene must declare goal, obstacle, turn, cost, and changed exit_state",
             "- reader_pull_checklist: POV, current want, obstacle, stakes, changed exit state, next pull",
             "- continuity_writeback: timeline, character_state, relationship_state, organization_state, world_rules, foreshadowing_and_payoff, unresolved_questions",

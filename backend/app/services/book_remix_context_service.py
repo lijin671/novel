@@ -276,6 +276,14 @@ def build_remix_continuation_control_audit(
             "voice_specific_dialogue_review",
         ])
         acceptance_steps.append("verify_story_engine_scene_pressure")
+    if "universal_scene_surface_craft_gate" in pattern_names:
+        control_axes.extend([
+            "pov_filter_observation_boundary",
+            "scene_surface_show_tell_allocation",
+            "dialogue_tactic_subtext_review",
+            "description_multifunction_sensory_job",
+        ])
+        acceptance_steps.append("verify_scene_surface_craft_contract")
     if "universal_character_world_rule_coherence_gate" in pattern_names:
         control_axes.extend([
             "character_design_test_coherence",
@@ -1340,6 +1348,11 @@ def build_remix_continuation_context_block(
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
     )
+    _append_universal_scene_surface_craft_gate_section(
+        lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
     _append_universal_character_world_rule_coherence_gate_section(
         lines=lines,
         bible=bible,
@@ -2113,6 +2126,11 @@ def build_remix_inspired_context_block(
         lines=lines,
         bible={},
         plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_universal_scene_surface_craft_gate_section(
+        lines=lines,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
     )
@@ -8312,6 +8330,55 @@ def _append_universal_story_engine_scene_pressure_gate_section(
         lines.append(f"- story_engine_scene_pressure_warnings: {', '.join(audit['warnings'])}")
 
 
+def _append_universal_scene_surface_craft_gate_section(
+    *,
+    lines: list[str],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render Universal Novel Writing scene-surface craft gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "universal_scene_surface_craft_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("universal_scene_surface_craft_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+
+    lines.append("")
+    lines.append("Universal scene-surface craft gate:")
+    lines.append(
+        "- pov_filter: observations, omissions, metaphors, and noticed details must pass "
+        "through the POV character's desire, fear, expertise, and bias"
+    )
+    lines.append(
+        "- show_tell_allocation: dramatize turning points, conflict, emotions, and choices; "
+        "summarize repeated logistics or low-value transitions"
+    )
+    lines.append(
+        "- dialogue_tactic_subtext: dialogue should pursue a goal, conceal or test truth, "
+        "avoid as-you-know exposition, and keep character-specific rhythm"
+    )
+    lines.append(
+        "- description_job: sensory detail should reveal mood, threat, class/history, rule, "
+        "foreshadowing, or character pressure instead of inventory"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: source POV filters, sensory images, dialogue subtext routes, "
+            "and show/tell rhythms are craft shapes only; rebuild all surface choices for the target scene"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: surface craft must extend the current accepted POV state, "
+            "scene pressure, and target voice; missing facts become questions, not invented sensory proof"
+        )
+    if hints:
+        lines.append(f"- scene_surface_source_hint: {_truncate(hints[0], 260)}")
+
+
 def _append_story_skills_deterministic_continuity_contract_gate_section(
     *,
     lines: list[str],
@@ -11700,6 +11767,19 @@ def build_remix_inspired_independence_audit(
             "source_character_wound_cost_import",
             "source_dialogue_cadence_clone",
         ])
+    if "universal_scene_surface_craft_gate" in pattern_names:
+        transfer_axes.append("scene_surface_craft_shape")
+        required_difference_axes.extend([
+            "target_pov_filter",
+            "target_dialogue_tactic_subtext",
+            "target_description_sensory_job",
+            "target_show_tell_allocation",
+        ])
+        copy_risk_checks.extend([
+            "source_pov_observation_order_clone",
+            "source_dialogue_subtext_route_clone",
+            "source_sensory_image_pattern_clone",
+        ])
     if "universal_character_world_rule_coherence_gate" in pattern_names:
         transfer_axes.append("character_world_rule_coherence_shape")
         required_difference_axes.extend([
@@ -12087,6 +12167,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",
         "scene_goal_obstacle_cost_exit_gate_hints": "scene_goal_obstacle_cost_exit_gate",
         "universal_story_engine_scene_pressure_gate_hints": "universal_story_engine_scene_pressure_gate",
+        "universal_scene_surface_craft_gate_hints": "universal_scene_surface_craft_gate",
         "universal_character_world_rule_coherence_gate_hints": "universal_character_world_rule_coherence_gate",
         "story_skills_deterministic_continuity_contract_gate_hints": "story_skills_deterministic_continuity_contract_gate",
         "better_writing_voice_specificity_preflight_gate_hints": "better_writing_voice_specificity_preflight_gate",

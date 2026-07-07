@@ -1074,6 +1074,13 @@ export default function BookRemix({ initialContinuationProjectId = null }: BookR
       scene_plan?: string;
       reader_pull?: string;
     };
+    const craftSurfaceContract = pack.craft_surface_contract as {
+      pov_filter?: string[];
+      show_tell_allocation?: { dramatize?: string[]; summarize?: string[] };
+      dialogue_subtext?: string[];
+      description_jobs?: string[];
+      same_type_rule?: string;
+    };
     const hookPayoffMatrix = pack.hook_payoff_matrix as {
       opening_thread?: string;
       seeded_threads?: Array<Record<string, unknown>>;
@@ -1150,6 +1157,23 @@ export default function BookRemix({ initialContinuationProjectId = null }: BookR
               <Text>ending_hook：{chapterContract.ending_hook ?? '-'}</Text>
               <Text>scene_plan：{chapterContract.scene_plan ?? '-'}</Text>
             </Space>
+          </Card>
+
+          <Card size="small" title="craft_surface_contract">
+            <Row gutter={[12, 12]}>
+              <Col xs={24} md={12}>
+                <Text strong>pov_filter / dialogue_subtext</Text>
+                {renderDeconstructionList(craftSurfaceContract.pov_filter)}
+                {renderDeconstructionList(craftSurfaceContract.dialogue_subtext)}
+              </Col>
+              <Col xs={24} md={12}>
+                <Text strong>show_tell / description_jobs</Text>
+                {renderDeconstructionList(craftSurfaceContract.show_tell_allocation?.dramatize)}
+                {renderDeconstructionList(craftSurfaceContract.show_tell_allocation?.summarize)}
+                {renderDeconstructionList(craftSurfaceContract.description_jobs)}
+                <Text type="secondary">{craftSurfaceContract.same_type_rule ?? '-'}</Text>
+              </Col>
+            </Row>
           </Card>
 
           <Card size="small" title="scene_beat_sheet / reader_pull_checklist">
