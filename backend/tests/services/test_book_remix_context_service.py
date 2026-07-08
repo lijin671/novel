@@ -380,6 +380,77 @@ def test_dynamic_world_tick_info_horizon_gate_renders_context_and_audit():
     assert "missing_accept_only_rag_writeback_policy" in audit["dynamic_world_tick_info_horizon_warnings"]
 
 
+def test_editorial_firewall_contract_diagnosis_gate_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "editorial_firewall_contract_diagnosis_gate", "candidate_count": 1},
+        ],
+        "editorial_firewall_contract_diagnosis_gate_hints": [
+            "Infer reader contract, compare author intent, lock severity, and keep a no-replacement-prose firewall.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="Firewall Desk",
+        bible={
+            "reader_contract_diagnosis": {"promise": "fair-play mystery with emotional payoff"},
+            "declared_author_intent": {"promise": "warm suspense"},
+            "author_intent_mismatch": [{"finding": "romance promise under-signaled"}],
+            "editorial_firewall": {"policy": "diagnosis only; no replacement prose"},
+            "severity_locked_findings": [{"severity": "Must-Fix", "anchor": "ch012 midpoint"}],
+            "series_state": {
+                "character_state_channels": ["lead trust"],
+                "world_rule_channels": ["evidence law"],
+                "unresolved_threads": ["missing witness"],
+                "hope_calibration": "rising after chapter 12",
+                "intentional_discontinuities": [],
+            },
+        },
+        plan={
+            "summary": "Continue from the diagnosis after chapter 12.",
+            "reverse_outline": [{"chapter": 12, "function": "false victory"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired Firewall",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only developmental-editor contract diagnosis.\n"
+            "forbidden source elements\n"
+            "- Do not copy sample editorial letters or replacement prose.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Editorial firewall / contract diagnosis gate:" in block
+        assert "editorial_firewall_contract_diagnosis_gate" in block
+        assert "reader contract" in block
+        assert "editorial_firewall" in block
+        assert "severity_lock" in block
+        assert "series_state" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "reader_contract_author_intent_diagnosis" in audit["control_axes"]
+    assert "editorial_firewall_no_rewrite_boundary" in audit["control_axes"]
+    assert "severity_locked_anchored_findings" in audit["control_axes"]
+    assert "series_state_continuity_channels" in audit["control_axes"]
+    assert "verify_reader_contract_author_intent_comparison" in audit["acceptance_steps"]
+    assert "verify_editorial_firewall_no_replacement_prose" in audit["acceptance_steps"]
+    assert "verify_series_state_continuity_channels" in audit["acceptance_steps"]
+    assert "editorial_firewall_contract_diagnosis_warnings" in audit["warnings"]
+    assert "missing_reader_contract_diagnosis" in audit["editorial_firewall_contract_diagnosis_warnings"]
+    assert "missing_editorial_firewall_no_rewrite_policy" in audit["editorial_firewall_contract_diagnosis_warnings"]
+    assert "missing_series_state_continuity_channels" in audit["editorial_firewall_contract_diagnosis_warnings"]
+
+
 def test_gc_writer_writeflow_workspace_and_review_gates_render_context_and_audit():
     pattern_pack = {
         "workflow_patterns": [

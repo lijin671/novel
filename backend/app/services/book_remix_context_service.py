@@ -417,6 +417,18 @@ def build_remix_continuation_control_audit(
             "verify_visibility_chapter_path_before_reveal",
             "verify_accept_only_rag_writeback",
         ])
+    if "editorial_firewall_contract_diagnosis_gate" in pattern_names:
+        control_axes.extend([
+            "reader_contract_author_intent_diagnosis",
+            "editorial_firewall_no_rewrite_boundary",
+            "severity_locked_anchored_findings",
+            "series_state_continuity_channels",
+        ])
+        acceptance_steps.extend([
+            "verify_reader_contract_author_intent_comparison",
+            "verify_editorial_firewall_no_replacement_prose",
+            "verify_series_state_continuity_channels",
+        ])
     if "author_intent_confirmation_gate" in pattern_names:
         control_axes.extend([
             "author_intent_preservation_boundary",
@@ -894,6 +906,16 @@ def build_remix_continuation_control_audit(
         if "dynamic_world_tick_info_horizon_gate" in pattern_names
         else {"warnings": []}
     )
+    editorial_firewall_contract_diagnosis_audit = (
+        _editorial_firewall_contract_diagnosis_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "editorial_firewall_contract_diagnosis_gate" in pattern_names
+        else {"warnings": []}
+    )
     local_first_authoring_audit = (
         _local_first_authoring_revision_audit(
             bible=bible,
@@ -1108,6 +1130,8 @@ def build_remix_continuation_control_audit(
         warnings.append("context_scope_authority_warnings")
     if dynamic_world_tick_info_horizon_audit["warnings"]:
         warnings.append("dynamic_world_tick_info_horizon_warnings")
+    if editorial_firewall_contract_diagnosis_audit["warnings"]:
+        warnings.append("editorial_firewall_contract_diagnosis_warnings")
     if local_first_authoring_audit["warnings"]:
         warnings.append("local_first_authoring_warnings")
     if deterministic_volume_spec_audit["warnings"]:
@@ -1190,6 +1214,7 @@ def build_remix_continuation_control_audit(
         "intake_export_rollback_warnings": intake_export_rollback_audit["warnings"],
         "context_scope_authority_warnings": context_scope_authority_audit["warnings"],
         "dynamic_world_tick_info_horizon_warnings": dynamic_world_tick_info_horizon_audit["warnings"],
+        "editorial_firewall_contract_diagnosis_warnings": editorial_firewall_contract_diagnosis_audit["warnings"],
         "local_first_authoring_warnings": local_first_authoring_audit["warnings"],
         "deterministic_volume_spec_warnings": deterministic_volume_spec_audit["warnings"],
         "raw_story_assimilation_warnings": raw_story_assimilation_audit["warnings"],
@@ -1440,6 +1465,13 @@ def build_remix_continuation_context_block(
         mode="continuation",
     )
     _append_dynamic_world_tick_info_horizon_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_editorial_firewall_contract_diagnosis_gate_section(
         lines=lines,
         bible=bible,
         plan=plan,
@@ -2228,6 +2260,13 @@ def build_remix_inspired_context_block(
         mode="same-type",
     )
     _append_dynamic_world_tick_info_horizon_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_editorial_firewall_contract_diagnosis_gate_section(
         lines=lines,
         bible={},
         plan=None,
@@ -3971,6 +4010,95 @@ def _has_accept_only_rag_writeback_surface(*, bible: dict[str, Any], plan: Optio
         "rag_writeback_policy",
         "deliver_writeback_policy",
         "accepted_chapter_memory_writeback",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _editorial_firewall_contract_diagnosis_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit diagnosis-first editorial review, no-rewrite firewall, and series-state surfaces."""
+    warnings: list[str] = []
+    if "editorial_firewall_contract_diagnosis_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_reader_contract_diagnosis_surface(bible=bible, plan=plan):
+        warnings.append("missing_reader_contract_diagnosis")
+    if not _has_author_intent_mismatch_surface(bible=bible, plan=plan):
+        warnings.append("missing_author_intent_mismatch_signal")
+    if not _has_editorial_firewall_surface(bible=bible, plan=plan):
+        warnings.append("missing_editorial_firewall_no_rewrite_policy")
+    if not _has_severity_locked_findings_surface(bible=bible, plan=plan):
+        warnings.append("missing_severity_locked_anchored_findings")
+    if not _has_series_state_continuity_surface(bible=bible, plan=plan):
+        warnings.append("missing_series_state_continuity_channels")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_reader_contract_diagnosis_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "reader_contract_diagnosis",
+        "inferred_reader_contract",
+        "reader_promise_contract",
+        "genre_contract",
+        "controlling_idea",
+        "reverse_outline",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_author_intent_mismatch_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "author_intent_mismatch",
+        "author_intent_comparison",
+        "declared_author_intent",
+        "intended_reader_promise",
+        "intent_contract_gap",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_editorial_firewall_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "editorial_firewall",
+        "no_rewrite_firewall",
+        "diagnosis_only_policy",
+        "class_of_solution_only",
+        "no_replacement_prose",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_severity_locked_findings_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "severity_locked_findings",
+        "severity_tiers",
+        "must_should_could_findings",
+        "deficit_lock",
+        "anchored_findings",
+        "editorial_letter_findings",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_series_state_continuity_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "series_state",
+        "Series_State.md",
+        "series_continuity",
+        "character_state_channels",
+        "world_rule_channels",
+        "unresolved_threads",
+        "hope_calibration",
+        "intentional_discontinuities",
     )
     return any(_has_any_package_value(carrier, keys) for carrier in carriers)
 
@@ -9144,6 +9272,73 @@ def _append_dynamic_world_tick_info_horizon_gate_section(
         lines.append(f"- dynamic_world_tick_info_horizon_warnings: {', '.join(audit['warnings'])}")
 
 
+def _append_editorial_firewall_contract_diagnosis_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render diagnosis-first developmental editor and series-continuity gates."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "editorial_firewall_contract_diagnosis_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("editorial_firewall_contract_diagnosis_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _editorial_firewall_contract_diagnosis_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Editorial firewall / contract diagnosis gate:")
+    lines.append(
+        "- editorial_firewall_contract_diagnosis_gate: infer the target reader contract from accepted "
+        "manuscript evidence, then compare it with declared author intent before drafting or revising"
+    )
+    lines.append(
+        "- diagnostic_scope: use reverse outline, reader-experience, reveal-economy, character-architecture, "
+        "and pacing findings as evidence anchors, not as replacement prose"
+    )
+    lines.append(
+        "- editorial_firewall: findings may name problem classes and missing structural elements; they may "
+        "not script events, dialogue, source-like paragraphs, or an author's specific fix"
+    )
+    lines.append(
+        "- severity_lock: assign Must-Fix, Should-Fix, or Could-Fix before charity reframing; each finding "
+        "needs an anchor and a class-of-solution"
+    )
+    lines.append(
+        "- series_state: for multi-volume continuation, update character state, world rules, unresolved "
+        "threads, hope calibration, and intentional discontinuities before chapter acceptance"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: transfer only the developmental-edit discipline; rebuild contract, "
+            "severity rubric, beta-reader questions, and series-state channels for the target story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: diagnosis may redirect revision priorities, but accepted prose and "
+            "canon still change only through target-owned chapter/revision gates"
+        )
+    lines.append(
+        "- runtime_boundary: this gate authorizes no plugin install, marketplace zip, sample-manuscript "
+        "import, rendered HTML copy, prompt-body transplant, research mode, or provider call"
+    )
+    if hints:
+        lines.append(f"- editorial_firewall_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- editorial_firewall_contract_diagnosis_warnings: {', '.join(audit['warnings'])}")
+
+
 def _append_mode_contract_generation_audit_section(
     *,
     lines: list[str],
@@ -12392,6 +12587,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "novel_studio_graph_memory_continuity_gate_hints": "novel_studio_graph_memory_continuity_gate",
         "novel_studio_accepted_chapter_writeback_gate_hints": "novel_studio_accepted_chapter_writeback_gate",
         "dynamic_world_tick_info_horizon_gate_hints": "dynamic_world_tick_info_horizon_gate",
+        "editorial_firewall_contract_diagnosis_gate_hints": "editorial_firewall_contract_diagnosis_gate",
         "seed_to_bible_foundation_loop_gate_hints": "seed_to_bible_foundation_loop_gate",
         "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",

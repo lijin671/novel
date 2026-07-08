@@ -18503,6 +18503,63 @@ def test_xiaoyangy_novel_studio_dynamic_world_tick_sources_are_static_absorbed()
     assert "dynamic_world_tick_info_horizon_gate_hints" in digest
 
 
+def test_apodictic_editorial_firewall_contract_sources_are_static_absorbed():
+    assert "https://github.com/anotherpanacea-eng/apodictic" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("Series Continuity" in query and "editorial letter" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "anotherpanacea-eng/apodictic",
+                "html_url": "https://github.com/anotherpanacea-eng/apodictic",
+                "description": (
+                    "APODICTIC developmental editor for fiction with reader contract inference, "
+                    "author intent mismatch diagnostics, the Firewall that never rewrites prose, "
+                    "editorial letter anchored findings, severity tiers with Deficit Lock, reverse outline, "
+                    "reader experience mapping, reveal economy, Series Continuity, rolling Series_State.md, "
+                    "hope calibration, and intentional discontinuities."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "CC-BY-NC-SA-4.0"},
+                "topics": ["fiction", "developmental-editing", "novel"],
+                "updated_at": "2026-07-08T10:40:00Z",
+                "root_files": ["README.md", "LICENSE", "plugins", "codex"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-07-08T10:45:00+00:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "anotherpanacea-eng/apodictic"
+    assert "editorial_firewall_contract_diagnosis_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "reader_contract_diagnosis_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "author_intent_mismatch_signal_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "editorial_firewall_no_rewrite_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "severity_locked_finding_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "series_state_continuity_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "reader_contract_mismatch_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "severity_locked_editorial_letter" in pattern_pack["whole_book_analysis_targets"]
+    assert "series_continuity_state_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "reader_contract_diagnosis_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "series_continuity_state_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("reader contract" in hint.lower() for hint in pattern_pack["editorial_firewall_contract_diagnosis_gate_hints"])
+    assert any("firewall" in hint.lower() and "replacement prose" in hint.lower() for hint in pattern_pack["editorial_firewall_contract_diagnosis_gate_hints"])
+    assert any("series continuity" in hint.lower() for hint in pattern_pack["editorial_firewall_contract_diagnosis_gate_hints"])
+    assert any("editorial contract" in hint.lower() for hint in pattern_pack["continuation_prompt_hints"])
+    assert any("severity-locked" in hint.lower() for hint in pattern_pack["continuation_state_hints"])
+    assert any("diagnosis-first" in hint.lower() for hint in pattern_pack["inspired_prompt_hints"])
+    assert any("developmental-editor" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("rewrite the author's prose" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "editorial_firewall_contract_diagnosis_gate_hints" in digest
+
+
 def test_chinese_deconstruct_rewrite_rule_audit_sources_are_static_absorbed():
     assert "https://github.com/XTmingyue/harnessNovel" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/jiejiu344/novel-rule-auditor-skill" in DEFAULT_GITHUB_REPOSITORY_URLS

@@ -673,6 +673,7 @@ def render_source_pattern_pack_digest(
         "executor_agnostic_instruction_checkpoint_gate_hints",
         "novel_studio_accepted_chapter_memory_gate_hints",
         "dynamic_world_tick_info_horizon_gate_hints",
+        "editorial_firewall_contract_diagnosis_gate_hints",
         "novelforge_version_safe_human_review_gate_hints",
         "unorthodox_pipeline_stage_retry_gate_hints",
         "writeros_role_validator_boundary_gate_hints",

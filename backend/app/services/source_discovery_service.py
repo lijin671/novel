@@ -584,6 +584,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("WorldBuilder" OR "PlotArchitect" OR "QualityJudge") ("chapter-contracts" OR "storylines.json" OR "8 dimension" OR "8 维度") ("novel" OR "webnovel") in:name,description,readme',
     '("executor-agnostic" OR "instruction packet" OR ".checkpoint.json" OR "staging") ("novel" OR "fiction" OR "chapter") in:name,description,readme',
     '("zero-init" OR "save_world_tick" OR "info_graph" OR "offscreen_agenda") ("novel" OR "fiction" OR "long-form") in:name,description,readme',
+    '("Series Continuity" OR "rolling Series_State" OR "developmental editor" OR "editorial letter") ("fiction" OR "novel" OR "manuscript") in:name,description,readme',
     '("author style template" OR "chapter QA checks" OR "scheduling workflows") ("multi-agent" OR "long-form fiction" OR "novel") in:name,description,readme',
     '("bookwright" OR "GOLEM" OR "factual_anchor") ("story bible" OR "plain text" OR "RDF") in:name,description,readme',
     '("AI-novel-predict" OR "MoBi" OR "MoXi") ("structured memory" OR "role simulation" OR "branch isolation") ("novel" OR "webnovel") in:name,description,readme',
@@ -600,6 +601,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/YuppyChen/novelist-test",
     "https://github.com/richardelder2/saga-novel-studio",
     "https://github.com/Xiaoyangy/novel-studio",
+    "https://github.com/anotherpanacea-eng/apodictic",
     "https://github.com/Ddhjx-code/writeAgent",
     "https://github.com/KazKozDev/NovelGenerator",
     "https://github.com/raestrada/storycraftr",
@@ -1750,6 +1752,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("executor_agnostic_instruction_checkpoint_gate", ("novel-writer-cli", "executor-agnostic", "deterministic novel orchestration", "确定性小说编排 cli", "不调用任何 llm api", "instruction packet", ".checkpoint.json", "staging/**", "validate", "advance", "commit", "写入事务", "可审计", "可回放", "checkpoint")),
     ("novel_studio_accepted_chapter_memory_gate", ("novel studio ai", "accepted chapter", "context pack", "story bible", "style bible", "five-chapter arc pack", "character states", "graph facts", "memory chunks", "drafts do not update canon", "sqlite", "continuity checks")),
     ("dynamic_world_tick_info_horizon_gate", ("zero-init", "--zero-init", "offscreen_agenda", "story_calendar", "info_graph", "physics_axioms", "save_world_tick", "visibility_chapter", "visibility_path", "faction progress clocks", "faction progress clock", "accept/deliver", "retrieval_trace.jsonl")),
+    ("editorial_firewall_contract_diagnosis_gate", ("apodictic", "developmental editor", "editorial letter", "never rewrites", "never drafts your prose", "the firewall", "fiction contract", "reader contract", "reader promise", "controlling idea", "reverse outline", "reader experience mapping", "reveal economy", "severity tiers", "deficit lock", "anchored findings", "series continuity", "Series_State.md", "hope calibration", "intentional discontinuities")),
     ("novelforge_version_safe_human_review_gate", ("novelforge ai", "version-safe", "scene cards", "scene versions", "human review queue", "continuity state", "story state ledger", "fact approval", "review reports", "revision plans", "never overwrite", "reference assets")),
     ("unorthodox_pipeline_stage_retry_gate", ("unorthodox writer", "pipeline stage gates", "rolling synopsis", "previous-tail continuity", "bible digest", "quality gate", "self-review", "external review", "retry only the failed stage", "canon drift", "ai artifact scan")),
     ("writeros_role_validator_boundary_gate", ("writeros", "proprietary", "source available", "not open source", "architect", "profiler", "psychologist", "navigator", "mechanic", "canon layer", "drift", "obsidian", "500,000+ word manuscripts")),
@@ -4442,6 +4445,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "novel-studio is an Apache-2.0 long-form novel engine. Static HEAD/README/LICENSE markers describe --zero-init as a chapter-one readiness gate, offscreen_agenda for supporting-character goals, story_calendar, info_graph, physics_axioms, save_world_tick at arc/volume boundaries, visibility_chapter/visibility_path for off-screen reveals, faction progress clocks, accept/deliver-only RAG writeback, and retrieval_trace.jsonl observability. "
         "Pattern-only adaptation for dynamic world tick and information-horizon gates; Go runtime, provider calls, generated chapters, local RAG indexes, retrieval traces, scripts, prompts, and project data are not executed or imported."
     ),
+    "anotherpanacea-eng/apodictic": (
+        "APODICTIC is a CC-BY-NC-SA-4.0 developmental-editor framework. Static HEAD/README/LICENSE markers describe a fiction contract inferred from manuscript text, author-intent mismatch as diagnostic signal, a Firewall that diagnoses and names classes of solution without rewriting prose, anchored editorial-letter findings, severity tiers with Deficit Lock, reverse-outline/reader-experience/reveal-economy passes, beta-reader instruments, and Series Continuity with rolling Series_State.md across character state, world rules, unresolved threads, hope calibration, and intentional discontinuities. "
+        "Pattern-only adaptation for editorial firewall, contract-diagnosis, and series-continuity gates; plugin installs, marketplace zips, scripts, sample manuscripts, rendered HTML examples, prompt bodies, research modes, provider calls, and generated marked-up manuscripts are not executed or imported."
+    ),
     "giyojisan-glitch/novel-studio": (
         "NOVEL-Studio is an MIT architecture experiment for structurally complete fiction generation. Static README markers describe a layered state machine from skeleton to chapter outlines to paragraph writing to polish, frozen layer approvals before downstream work, parallel chapter generation after the skeleton is stable, multi-head audit gates for logic/pace/character/style, retry_hint feedback, and final whole-book review against the premise. "
         "Pattern-only adaptation for layered parallel audit gates; Claude Code session runtime, file-dumped prompts, human-in-the-loop provider workflow, generated demos, scripts, package setup, and style-transfer examples are not executed or imported."
@@ -5714,6 +5721,7 @@ class NovelSourceDiscoveryService:
             "executor_agnostic_instruction_checkpoint_gate_hints": self._build_executor_agnostic_instruction_checkpoint_gate_hints(available_patterns),
             "novel_studio_accepted_chapter_memory_gate_hints": self._build_novel_studio_accepted_chapter_memory_gate_hints(available_patterns),
             "dynamic_world_tick_info_horizon_gate_hints": self._build_dynamic_world_tick_info_horizon_gate_hints(available_patterns),
+            "editorial_firewall_contract_diagnosis_gate_hints": self._build_editorial_firewall_contract_diagnosis_gate_hints(available_patterns),
             "novelforge_version_safe_human_review_gate_hints": self._build_novelforge_version_safe_human_review_gate_hints(available_patterns),
             "unorthodox_pipeline_stage_retry_gate_hints": self._build_unorthodox_pipeline_stage_retry_gate_hints(available_patterns),
             "writeros_role_validator_boundary_gate_hints": self._build_writeros_role_validator_boundary_gate_hints(available_patterns),
@@ -7079,6 +7087,7 @@ class NovelSourceDiscoveryService:
             "progressive_context_loading_gate": 66,
             "startup_status_context_recovery_gate": 66,
             "dynamic_world_tick_info_horizon_gate": 67,
+            "editorial_firewall_contract_diagnosis_gate": 67,
             "author_intent_confirmation_gate": 66,
             "author_ai_project_contract_review_gate": 67,
             "manuscript_pr_editorial_workflow_gate": 66,
@@ -8720,6 +8729,12 @@ class NovelSourceDiscoveryService:
             targets.append("information_horizon_visibility_policy")
             targets.append("faction_progress_clock_policy")
             targets.append("accept_only_rag_writeback_policy")
+        if "editorial_firewall_contract_diagnosis_gate" in patterns:
+            targets.append("reader_contract_diagnosis_policy")
+            targets.append("author_intent_mismatch_signal_policy")
+            targets.append("editorial_firewall_no_rewrite_policy")
+            targets.append("severity_locked_finding_policy")
+            targets.append("series_state_continuity_policy")
         if "novelforge_version_safe_human_review_gate" in patterns:
             targets.append("version_safe_scene_candidate_policy")
             targets.append("human_review_queue_canon_policy")
@@ -10186,6 +10201,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["accepted_chapter_memory_report", "context_pack_preview_trace", "graph_fact_continuity_findings"])
         if "dynamic_world_tick_info_horizon_gate" in patterns:
             targets.extend(["dynamic_world_tick_report", "info_horizon_visibility_report", "offscreen_agenda_drift_report"])
+        if "editorial_firewall_contract_diagnosis_gate" in patterns:
+            targets.extend(["reader_contract_mismatch_report", "severity_locked_editorial_letter", "series_continuity_state_report"])
         if "novelforge_version_safe_human_review_gate" in patterns:
             targets.extend(["version_safe_scene_candidate_report", "human_review_queue_trace", "story_state_ledger_findings"])
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -10357,6 +10374,8 @@ class NovelSourceDiscoveryService:
             hints.append("Use plot corpora only to learn abstract plot-shape categories; never place source plot sentences, titles, or EOS-separated rows into drafting context.")
         if "reliquery_reconstructive_recall_vault_gate" in patterns:
             hints.append("Prompt continuation via reconstructive recall: ask targeted questions against accepted relics, retrieve only relevant vault passages, then cite retrieved relic ids.")
+        if "editorial_firewall_contract_diagnosis_gate" in patterns:
+            hints.append("Before continuation, run an editorial contract check: infer reader promise and controlling idea from accepted chapters, compare author intent, lock Must/Should/Could findings, then draft only after the no-rewrite firewall is satisfied.")
         if "anti_slop_audit" in patterns:
             hints.append("生成前带入反 AI 味规则，生成后先清理机械感、同构段落和空泛正确对白，再进入人工式评审。")
         if "structured_generation_schema" in patterns:
@@ -10949,6 +10968,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist draft, continuity check, style revision, chapter acceptance, extracted summaries, graph facts, timeline events, and memory chunks as separate state transitions.")
         if "dynamic_world_tick_info_horizon_gate" in patterns:
             hints.append("Persist zero-init readiness, story calendar, physics axioms, offscreen agendas, information horizon, faction clocks, world tick events, visibility paths, and accept-only RAG writeback decisions separately.")
+        if "editorial_firewall_contract_diagnosis_gate" in patterns:
+            hints.append("Persist inferred reader contract, author-intent mismatch, reverse-outline evidence, severity-locked findings, class-of-solution guidance, anchored comments, and rolling series-state updates separately from any prose rewrite.")
         if "novelforge_version_safe_human_review_gate" in patterns:
             hints.append("Persist every AI candidate as a new version with review status; accepted prose, proposed facts, and continuity-state updates need separate approval traces.")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -16808,6 +16829,15 @@ class NovelSourceDiscoveryService:
             "Facts enter local RAG only after accepted chapter deliver/writeback; drafts, prompt traces, retrieval_trace.jsonl bodies, and upstream runtime state remain excluded.",
         ]
 
+    def _build_editorial_firewall_contract_diagnosis_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "editorial_firewall_contract_diagnosis_gate" not in patterns:
+            return []
+        return [
+            "Before continuation or same-type drafting, infer the target reader contract from accepted manuscript evidence, compare it with declared author intent, and treat mismatch as a diagnostic signal instead of rewriting prose.",
+            "Keep a visible editorial firewall: findings may name structural problem classes, missing or mis-weighted elements, and revision priorities, but must not draft events, dialogue, or source-like replacement prose.",
+            "For multi-volume work, maintain rolling series continuity across character state, world rules, unresolved threads, hope calibration, and intentional discontinuities before accepting new chapters.",
+        ]
+
     def _build_novelforge_version_safe_human_review_gate_hints(self, patterns: set[str]) -> list[str]:
         if "novelforge_version_safe_human_review_gate" not in patterns:
             return []
@@ -18880,6 +18910,9 @@ class NovelSourceDiscoveryService:
         if "dynamic_world_tick_info_horizon_gate" in patterns:
             targets.append("world_tick_remap")
             targets.append("information_horizon_remap")
+        if "editorial_firewall_contract_diagnosis_gate" in patterns:
+            targets.append("reader_contract_diagnosis_remap")
+            targets.append("series_continuity_state_remap")
         if "novelforge_version_safe_human_review_gate" in patterns:
             targets.append("version_safe_review_remap")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -19191,6 +19224,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt drafting from a visible Context Pack with Story Bible, Style Bible, recent accepted summaries, character states, graph facts, and excluded draft-only material.")
         if "dynamic_world_tick_info_horizon_gate" in patterns:
             hints.append("Prompt world-tick planning from target story calendar, physics axioms, offscreen agendas, information horizon, and accept-only writeback fields; no upstream runtime traces or prompt bodies enter context.")
+        if "editorial_firewall_contract_diagnosis_gate" in patterns:
+            hints.append("Prompt editorial review as diagnosis-first output: infer reader contract, compare author intent, cite target evidence anchors, lock finding severity, and name classes of solution without writing replacement prose.")
         if "novelforge_version_safe_human_review_gate" in patterns:
             hints.append("Prompt every generated or revised scene as a candidate version with proposed facts and continuity warnings, never as an overwrite of accepted prose.")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -20132,6 +20167,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform accepted-chapter memory into target schema fields for summaries, character states, graph triples, timeline events, and retrieval chunks; draft-only state stays excluded.")
         if "dynamic_world_tick_info_horizon_gate" in patterns:
             hints.append("Transform world tick and information-horizon mechanics into new-story calendars, offscreen agendas, faction clocks, visibility paths, and accept-only RAG policy without copying source event timing.")
+        if "editorial_firewall_contract_diagnosis_gate" in patterns:
+            hints.append("Transform developmental-editor mechanics into target-owned contract reports, severity ledgers, anchored finding ids, beta-reader questions, and series-state channels; do not copy APODICTIC sample letters or command vocabulary.")
         if "novelforge_version_safe_human_review_gate" in patterns:
             hints.append("Transform version-safe review into target candidate records with diff basis, approval status, fact proposal ids, and reviewer action rather than copying source UI/workflow labels.")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -21113,6 +21150,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject drafts that treat unaccepted draft text, browser session keys, generated screenshots, or source project SQLite rows as target canon.")
         if "dynamic_world_tick_info_horizon_gate" in patterns:
             hints.append("Reject drafts that copy source event calendars, faction clocks, visibility paths, retrieval traces, or draft-only RAG state into target canon.")
+        if "editorial_firewall_contract_diagnosis_gate" in patterns:
+            hints.append("Reject review or same-type outputs that rewrite the author's prose, script replacement scenes, copy APODICTIC sample letters/HTML, or import source series-state labels as canon.")
         if "novelforge_version_safe_human_review_gate" in patterns:
             hints.append("Reject same-type outputs that overwrite accepted prose/canon, merge fact proposals without approval, or copy NovelForge screen/report labels into the story state.")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -22380,6 +22419,7 @@ class NovelSourceDiscoveryService:
                 "wikiplots_plot_corpus_boundary_gate",
                 "reliquery_reconstructive_recall_vault_gate",
                 "novel_studio_accepted_chapter_memory_gate",
+                "editorial_firewall_contract_diagnosis_gate",
                 "novelforge_version_safe_human_review_gate",
                 "unorthodox_pipeline_stage_retry_gate",
                 "writeros_role_validator_boundary_gate",
