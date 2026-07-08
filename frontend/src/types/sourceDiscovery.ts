@@ -393,6 +393,7 @@ export interface SourceDiscoveryPatternPack {
   volume_rolling_spec_quality_gate_hints?: string[];
   executor_agnostic_instruction_checkpoint_gate_hints?: string[];
   novel_studio_accepted_chapter_memory_gate_hints?: string[];
+  dynamic_world_tick_info_horizon_gate_hints?: string[];
   novelforge_version_safe_human_review_gate_hints?: string[];
   unorthodox_pipeline_stage_retry_gate_hints?: string[];
   writeros_role_validator_boundary_gate_hints?: string[];

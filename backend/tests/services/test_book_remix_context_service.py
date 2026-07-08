@@ -313,6 +313,73 @@ def test_universal_progressive_loading_and_author_intent_gates_render_context_an
     assert "missing_long_sequence_confirmation_policy" in audit["context_scope_authority_warnings"]
 
 
+def test_dynamic_world_tick_info_horizon_gate_renders_context_and_audit():
+    pattern_pack = {
+        "workflow_patterns": [
+            {"name": "dynamic_world_tick_info_horizon_gate", "candidate_count": 1},
+        ],
+        "dynamic_world_tick_info_horizon_gate_hints": [
+            "Run zero-init readiness before chapter one; world tick events need visibility_chapter/path and accepted-only RAG writeback.",
+        ],
+    }
+
+    continuation = build_remix_continuation_context_block(
+        project_title="World Tick Desk",
+        bible={
+            "zero_init_world_readiness": {"status": "ready"},
+            "story_calendar": {"start": "Year 1"},
+            "physics_axioms": {"info_propagation": "messenger or rumor"},
+            "offscreen_agenda": [{"character": "Archivist", "goal": "seal evidence"}],
+            "info_graph": [{"who": "reader", "knows": "sealed evidence exists"}],
+            "faction_progress_clocks": [{"faction": "Guild", "progress": 3}],
+            "accept_only_rag_writeback": {"policy": "accepted chapters only"},
+        },
+        plan={
+            "summary": "Continue after the arc boundary.",
+            "world_tick_plan": {"boundary": "arc", "next_tick": "after chapter 12"},
+            "visibility_plan": [{"event": "sealed evidence rumor", "visibility_chapter": 13, "visibility_path": "rumor"}],
+        },
+        source_pattern_pack=pattern_pack,
+    )
+    inspired = build_remix_inspired_context_block(
+        project_title="Inspired World Tick",
+        style_content=(
+            "same-type creation source voice\n"
+            "- Learn only the dynamic-world and information-horizon workflow.\n"
+            "forbidden source elements\n"
+            "- Do not copy source event calendars, faction clocks, or RAG traces.\n"
+        ),
+        source_pattern_pack=pattern_pack,
+    )
+    audit = build_remix_continuation_control_audit(
+        bible={},
+        plan={},
+        source_pattern_pack=pattern_pack,
+    )
+
+    for block in (continuation, inspired):
+        assert "Dynamic world tick / information horizon gate:" in block
+        assert "dynamic_world_tick_info_horizon_gate" in block
+        assert "zero_init_world_readiness" in block
+        assert "visibility_chapter" in block
+        assert "accept_only_rag_writeback" in block
+        assert "zero-init readiness" in block
+    assert "continuation_boundary" in continuation
+    assert "same_type_boundary" in inspired
+
+    assert "zero_init_world_readiness" in audit["control_axes"]
+    assert "offscreen_agenda_visibility_horizon" in audit["control_axes"]
+    assert "faction_progress_clock_tick" in audit["control_axes"]
+    assert "accept_only_rag_fact_writeback" in audit["control_axes"]
+    assert "verify_zero_init_world_readiness_before_chapter_one" in audit["acceptance_steps"]
+    assert "verify_visibility_chapter_path_before_reveal" in audit["acceptance_steps"]
+    assert "verify_accept_only_rag_writeback" in audit["acceptance_steps"]
+    assert "dynamic_world_tick_info_horizon_warnings" in audit["warnings"]
+    assert "missing_zero_init_world_readiness" in audit["dynamic_world_tick_info_horizon_warnings"]
+    assert "missing_information_horizon_visibility_policy" in audit["dynamic_world_tick_info_horizon_warnings"]
+    assert "missing_accept_only_rag_writeback_policy" in audit["dynamic_world_tick_info_horizon_warnings"]
+
+
 def test_gc_writer_writeflow_workspace_and_review_gates_render_context_and_audit():
     pattern_pack = {
         "workflow_patterns": [

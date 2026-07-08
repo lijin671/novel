@@ -904,6 +904,8 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "progressive_context_loading_gate_hints" in panel_text
     assert "startup_status_context_recovery_gate_hints" in panel_text
     assert "author_intent_confirmation_gate_hints" in panel_text
+    assert "dynamic_world_tick_info_horizon_gate_hints" in panel_text
+    assert "Dynamic world tick / information horizon gates" in panel_text
     assert "universal_portable_tool_policy_gate_hints" in panel_text
 
     assert "universal_novel_mode_contract_gate_hints?: string[]" in types_text
@@ -932,6 +934,7 @@ def test_source_discovery_panel_surfaces_universal_novel_writing_gates():
     assert "progressive_context_loading_gate_hints?: string[]" in types_text
     assert "startup_status_context_recovery_gate_hints?: string[]" in types_text
     assert "author_intent_confirmation_gate_hints?: string[]" in types_text
+    assert "dynamic_world_tick_info_horizon_gate_hints?: string[]" in types_text
 
 
 def test_source_discovery_panel_surfaces_eventide_feedback_queue_gate():

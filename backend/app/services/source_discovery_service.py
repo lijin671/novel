@@ -583,6 +583,7 @@ DEFAULT_GITHUB_QUERIES = (
     '("planner" OR "writer" OR "reviewer" OR "polisher") ("ten-dimension" OR "quality thresholds" OR "chapter quality loop") ("novel" OR "Claude Code") in:name,description,readme',
     '("WorldBuilder" OR "PlotArchitect" OR "QualityJudge") ("chapter-contracts" OR "storylines.json" OR "8 dimension" OR "8 维度") ("novel" OR "webnovel") in:name,description,readme',
     '("executor-agnostic" OR "instruction packet" OR ".checkpoint.json" OR "staging") ("novel" OR "fiction" OR "chapter") in:name,description,readme',
+    '("zero-init" OR "save_world_tick" OR "info_graph" OR "offscreen_agenda") ("novel" OR "fiction" OR "long-form") in:name,description,readme',
     '("author style template" OR "chapter QA checks" OR "scheduling workflows") ("multi-agent" OR "long-form fiction" OR "novel") in:name,description,readme',
     '("bookwright" OR "GOLEM" OR "factual_anchor") ("story bible" OR "plain text" OR "RDF") in:name,description,readme',
     '("AI-novel-predict" OR "MoBi" OR "MoXi") ("structured memory" OR "role simulation" OR "branch isolation") ("novel" OR "webnovel") in:name,description,readme',
@@ -598,6 +599,7 @@ DEFAULT_GITHUB_REPOSITORY_URLS = (
     "https://github.com/leenbj/novel-creator-skill",
     "https://github.com/YuppyChen/novelist-test",
     "https://github.com/richardelder2/saga-novel-studio",
+    "https://github.com/Xiaoyangy/novel-studio",
     "https://github.com/Ddhjx-code/writeAgent",
     "https://github.com/KazKozDev/NovelGenerator",
     "https://github.com/raestrada/storycraftr",
@@ -1747,6 +1749,7 @@ PATTERN_KEYWORDS: tuple[tuple[str, tuple[str, ...]], ...] = (
     ("volume_rolling_spec_quality_gate", ("novel-writer-plugin", "worldbuilder", "plotarchitect", "chapterwriter", "summarizer", "qualityjudge", "5 agent", "5 个 ai agent", "卷制滚动工作流", "卷规划", "每5章滑窗", "每10章深度盘点", "卷末自动核查", "spec-driven 四层规范", "l1 世界规则", "l2 角色契约", "l3 章节契约", "chapter-contracts", "storylines.json", "8 维度加权评分", "五档门控")),
     ("executor_agnostic_instruction_checkpoint_gate", ("novel-writer-cli", "executor-agnostic", "deterministic novel orchestration", "确定性小说编排 cli", "不调用任何 llm api", "instruction packet", ".checkpoint.json", "staging/**", "validate", "advance", "commit", "写入事务", "可审计", "可回放", "checkpoint")),
     ("novel_studio_accepted_chapter_memory_gate", ("novel studio ai", "accepted chapter", "context pack", "story bible", "style bible", "five-chapter arc pack", "character states", "graph facts", "memory chunks", "drafts do not update canon", "sqlite", "continuity checks")),
+    ("dynamic_world_tick_info_horizon_gate", ("zero-init", "--zero-init", "offscreen_agenda", "story_calendar", "info_graph", "physics_axioms", "save_world_tick", "visibility_chapter", "visibility_path", "faction progress clocks", "faction progress clock", "accept/deliver", "retrieval_trace.jsonl")),
     ("novelforge_version_safe_human_review_gate", ("novelforge ai", "version-safe", "scene cards", "scene versions", "human review queue", "continuity state", "story state ledger", "fact approval", "review reports", "revision plans", "never overwrite", "reference assets")),
     ("unorthodox_pipeline_stage_retry_gate", ("unorthodox writer", "pipeline stage gates", "rolling synopsis", "previous-tail continuity", "bible digest", "quality gate", "self-review", "external review", "retry only the failed stage", "canon drift", "ai artifact scan")),
     ("writeros_role_validator_boundary_gate", ("writeros", "proprietary", "source available", "not open source", "architect", "profiler", "psychologist", "navigator", "mechanic", "canon layer", "drift", "obsidian", "500,000+ word manuscripts")),
@@ -4435,6 +4438,10 @@ STATIC_REPOSITORY_PATTERN_OVERRIDES: dict[str, str] = {
         "write_ai_agent is an MIT Claude Code Plugin for long-form novel generation with knowledge graphs as external memory. Static README markers describe a chapter feedback loop of write chapter -> extract narrative diff -> update graph -> query graph -> write next chapter, NetworkX story graph nodes for chapters/characters/locations/events/foreshadowing/values/concepts/mirrors, edges for appears_in/located_in/plants/hints/resolves/causes/mirrors, and three-path context recall across structured lookup, graph traversal, and semantic search. "
         "Pattern-only adaptation for graph-diff and context-recall gates; Claude Code plugin runtime, scripts, ChromaDB/NetworkX execution, generated YAML diffs, semantic indexes, provider calls, and upstream prompt bodies are not executed or imported."
     ),
+    "xiaoyangy/novel-studio": (
+        "novel-studio is an Apache-2.0 long-form novel engine. Static HEAD/README/LICENSE markers describe --zero-init as a chapter-one readiness gate, offscreen_agenda for supporting-character goals, story_calendar, info_graph, physics_axioms, save_world_tick at arc/volume boundaries, visibility_chapter/visibility_path for off-screen reveals, faction progress clocks, accept/deliver-only RAG writeback, and retrieval_trace.jsonl observability. "
+        "Pattern-only adaptation for dynamic world tick and information-horizon gates; Go runtime, provider calls, generated chapters, local RAG indexes, retrieval traces, scripts, prompts, and project data are not executed or imported."
+    ),
     "giyojisan-glitch/novel-studio": (
         "NOVEL-Studio is an MIT architecture experiment for structurally complete fiction generation. Static README markers describe a layered state machine from skeleton to chapter outlines to paragraph writing to polish, frozen layer approvals before downstream work, parallel chapter generation after the skeleton is stable, multi-head audit gates for logic/pace/character/style, retry_hint feedback, and final whole-book review against the premise. "
         "Pattern-only adaptation for layered parallel audit gates; Claude Code session runtime, file-dumped prompts, human-in-the-loop provider workflow, generated demos, scripts, package setup, and style-transfer examples are not executed or imported."
@@ -5706,6 +5713,7 @@ class NovelSourceDiscoveryService:
             "volume_rolling_spec_quality_gate_hints": self._build_volume_rolling_spec_quality_gate_hints(available_patterns),
             "executor_agnostic_instruction_checkpoint_gate_hints": self._build_executor_agnostic_instruction_checkpoint_gate_hints(available_patterns),
             "novel_studio_accepted_chapter_memory_gate_hints": self._build_novel_studio_accepted_chapter_memory_gate_hints(available_patterns),
+            "dynamic_world_tick_info_horizon_gate_hints": self._build_dynamic_world_tick_info_horizon_gate_hints(available_patterns),
             "novelforge_version_safe_human_review_gate_hints": self._build_novelforge_version_safe_human_review_gate_hints(available_patterns),
             "unorthodox_pipeline_stage_retry_gate_hints": self._build_unorthodox_pipeline_stage_retry_gate_hints(available_patterns),
             "writeros_role_validator_boundary_gate_hints": self._build_writeros_role_validator_boundary_gate_hints(available_patterns),
@@ -7070,6 +7078,7 @@ class NovelSourceDiscoveryService:
             "post_draft_review_checklist_gate": 66,
             "progressive_context_loading_gate": 66,
             "startup_status_context_recovery_gate": 66,
+            "dynamic_world_tick_info_horizon_gate": 67,
             "author_intent_confirmation_gate": 66,
             "author_ai_project_contract_review_gate": 67,
             "manuscript_pr_editorial_workflow_gate": 66,
@@ -8705,6 +8714,12 @@ class NovelSourceDiscoveryService:
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             targets.append("accepted_chapter_memory_writeback_policy")
             targets.append("context_pack_canon_separation_policy")
+        if "dynamic_world_tick_info_horizon_gate" in patterns:
+            targets.append("zero_init_world_readiness_policy")
+            targets.append("offscreen_agenda_policy")
+            targets.append("information_horizon_visibility_policy")
+            targets.append("faction_progress_clock_policy")
+            targets.append("accept_only_rag_writeback_policy")
         if "novelforge_version_safe_human_review_gate" in patterns:
             targets.append("version_safe_scene_candidate_policy")
             targets.append("human_review_queue_canon_policy")
@@ -10169,6 +10184,8 @@ class NovelSourceDiscoveryService:
             targets.extend(["reconstructive_recall_query_report", "relic_vault_index_review", "memory_graph_writeback_findings"])
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             targets.extend(["accepted_chapter_memory_report", "context_pack_preview_trace", "graph_fact_continuity_findings"])
+        if "dynamic_world_tick_info_horizon_gate" in patterns:
+            targets.extend(["dynamic_world_tick_report", "info_horizon_visibility_report", "offscreen_agenda_drift_report"])
         if "novelforge_version_safe_human_review_gate" in patterns:
             targets.extend(["version_safe_scene_candidate_report", "human_review_queue_trace", "story_state_ledger_findings"])
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -10930,6 +10947,8 @@ class NovelSourceDiscoveryService:
             hints.append("Persist relic files, index status, relationship-map changes, forget decisions, and memory writeback approvals as separate reviewable layers.")
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             hints.append("Persist draft, continuity check, style revision, chapter acceptance, extracted summaries, graph facts, timeline events, and memory chunks as separate state transitions.")
+        if "dynamic_world_tick_info_horizon_gate" in patterns:
+            hints.append("Persist zero-init readiness, story calendar, physics axioms, offscreen agendas, information horizon, faction clocks, world tick events, visibility paths, and accept-only RAG writeback decisions separately.")
         if "novelforge_version_safe_human_review_gate" in patterns:
             hints.append("Persist every AI candidate as a new version with review status; accepted prose, proposed facts, and continuity-state updates need separate approval traces.")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -16780,6 +16799,15 @@ class NovelSourceDiscoveryService:
             "Local SQLite data, browser sessionStorage keys, provider calls, screenshots, Next.js runtime, and generated chapter text remain runtime-deferred and non-imported.",
         ]
 
+    def _build_dynamic_world_tick_info_horizon_gate_hints(self, patterns: set[str]) -> list[str]:
+        if "dynamic_world_tick_info_horizon_gate" not in patterns:
+            return []
+        return [
+            "Run zero-init world readiness before chapter one: story calendar, physics axioms, offscreen agendas, information horizon, faction progress clocks, and first-chapter simulation must be present before drafting.",
+            "At arc or volume boundaries, run a world tick: advance offscreen_agenda, faction clocks, social rumor state, and every reveal with visibility_chapter plus visibility_path.",
+            "Facts enter local RAG only after accepted chapter deliver/writeback; drafts, prompt traces, retrieval_trace.jsonl bodies, and upstream runtime state remain excluded.",
+        ]
+
     def _build_novelforge_version_safe_human_review_gate_hints(self, patterns: set[str]) -> list[str]:
         if "novelforge_version_safe_human_review_gate" not in patterns:
             return []
@@ -18849,6 +18877,9 @@ class NovelSourceDiscoveryService:
             targets.append("relic_vault_recall_remap")
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             targets.append("accepted_chapter_memory_remap")
+        if "dynamic_world_tick_info_horizon_gate" in patterns:
+            targets.append("world_tick_remap")
+            targets.append("information_horizon_remap")
         if "novelforge_version_safe_human_review_gate" in patterns:
             targets.append("version_safe_review_remap")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -19158,6 +19189,8 @@ class NovelSourceDiscoveryService:
             hints.append("Prompt memory retrieval as questions over target relics and relationships; retrieved snippets must be cited and may not silently become new canon.")
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             hints.append("Prompt drafting from a visible Context Pack with Story Bible, Style Bible, recent accepted summaries, character states, graph facts, and excluded draft-only material.")
+        if "dynamic_world_tick_info_horizon_gate" in patterns:
+            hints.append("Prompt world-tick planning from target story calendar, physics axioms, offscreen agendas, information horizon, and accept-only writeback fields; no upstream runtime traces or prompt bodies enter context.")
         if "novelforge_version_safe_human_review_gate" in patterns:
             hints.append("Prompt every generated or revised scene as a candidate version with proposed facts and continuity warnings, never as an overwrite of accepted prose.")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -20097,6 +20130,8 @@ class NovelSourceDiscoveryService:
             hints.append("Transform instruction/checkpoint/staging orchestration into target recovery cursors, staged artifact manifests, validate/advance decisions, and transactional commit records.")
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             hints.append("Transform accepted-chapter memory into target schema fields for summaries, character states, graph triples, timeline events, and retrieval chunks; draft-only state stays excluded.")
+        if "dynamic_world_tick_info_horizon_gate" in patterns:
+            hints.append("Transform world tick and information-horizon mechanics into new-story calendars, offscreen agendas, faction clocks, visibility paths, and accept-only RAG policy without copying source event timing.")
         if "novelforge_version_safe_human_review_gate" in patterns:
             hints.append("Transform version-safe review into target candidate records with diff basis, approval status, fact proposal ids, and reviewer action rather than copying source UI/workflow labels.")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:
@@ -21076,6 +21111,8 @@ class NovelSourceDiscoveryService:
             hints.append("Reject retrieval outputs that mix raw vault snippets, deleted relics, or unapproved relationship-map changes into target canon.")
         if "novel_studio_accepted_chapter_memory_gate" in patterns:
             hints.append("Reject drafts that treat unaccepted draft text, browser session keys, generated screenshots, or source project SQLite rows as target canon.")
+        if "dynamic_world_tick_info_horizon_gate" in patterns:
+            hints.append("Reject drafts that copy source event calendars, faction clocks, visibility paths, retrieval traces, or draft-only RAG state into target canon.")
         if "novelforge_version_safe_human_review_gate" in patterns:
             hints.append("Reject same-type outputs that overwrite accepted prose/canon, merge fact proposals without approval, or copy NovelForge screen/report labels into the story state.")
         if "unorthodox_pipeline_stage_retry_gate" in patterns:

@@ -18450,6 +18450,59 @@ def test_local_first_version_safe_and_stage_gate_sources_are_static_absorbed():
     assert "writeros_role_validator_boundary_gate_hints" in digest
 
 
+def test_xiaoyangy_novel_studio_dynamic_world_tick_sources_are_static_absorbed():
+    assert "https://github.com/Xiaoyangy/novel-studio" in DEFAULT_GITHUB_REPOSITORY_URLS
+    assert any("zero-init" in query and "info_graph" in query for query in DEFAULT_GITHUB_QUERIES)
+
+    service = NovelSourceDiscoveryService()
+    result = service.build_ledger_from_metadata(
+        github_repositories=[
+            {
+                "full_name": "Xiaoyangy/novel-studio",
+                "html_url": "https://github.com/Xiaoyangy/novel-studio",
+                "description": (
+                    "novel-studio is an Apache-2.0 long-form novel engine with --zero-init readiness, "
+                    "offscreen_agenda, story_calendar, info_graph, physics_axioms, save_world_tick, "
+                    "visibility_chapter, visibility_path, faction progress clocks, accept/deliver writeback, "
+                    "and retrieval_trace.jsonl for local RAG observability."
+                ),
+                "stargazers_count": 0,
+                "forks_count": 0,
+                "license": {"spdx_id": "Apache-2.0"},
+                "topics": ["novel", "world-simulation", "rag"],
+                "updated_at": "2026-07-08T00:20:00Z",
+                "root_files": ["README.md", "LICENSE", "cmd", "internal"],
+            },
+        ],
+        forum_items=[],
+        generated_at="2026-07-08T00:25:00+08:00",
+    )
+
+    candidate = result["candidates"][0]
+    assert candidate["title"] == "Xiaoyangy/novel-studio"
+    assert "dynamic_world_tick_info_horizon_gate" in candidate["absorbed_patterns"]
+
+    pattern_pack = service.build_pattern_pack_from_ledger(result)
+    assert "zero_init_world_readiness_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "offscreen_agenda_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "information_horizon_visibility_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "faction_progress_clock_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "accept_only_rag_writeback_policy" in pattern_pack["bible_enrichment_targets"]
+    assert "dynamic_world_tick_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "info_horizon_visibility_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "offscreen_agenda_drift_report" in pattern_pack["whole_book_analysis_targets"]
+    assert "world_tick_remap" in pattern_pack["inspired_mapping_targets"]
+    assert "information_horizon_remap" in pattern_pack["inspired_mapping_targets"]
+    assert any("zero-init" in hint.lower() for hint in pattern_pack["dynamic_world_tick_info_horizon_gate_hints"])
+    assert any("visibility_chapter" in hint for hint in pattern_pack["dynamic_world_tick_info_horizon_gate_hints"])
+    assert any("accepted" in hint.lower() and "rag" in hint.lower() for hint in pattern_pack["dynamic_world_tick_info_horizon_gate_hints"])
+    assert any("world tick" in hint.lower() for hint in pattern_pack["inspired_transformation_hints"])
+    assert any("draft" in hint.lower() and "rag" in hint.lower() for hint in pattern_pack["inspired_copy_risk_hints"])
+
+    digest = render_source_pattern_pack_digest(pattern_pack, include_inspired_guidance=True)
+    assert "dynamic_world_tick_info_horizon_gate_hints" in digest
+
+
 def test_chinese_deconstruct_rewrite_rule_audit_sources_are_static_absorbed():
     assert "https://github.com/XTmingyue/harnessNovel" in DEFAULT_GITHUB_REPOSITORY_URLS
     assert "https://github.com/jiejiu344/novel-rule-auditor-skill" in DEFAULT_GITHUB_REPOSITORY_URLS

@@ -405,6 +405,18 @@ def build_remix_continuation_control_audit(
     if "startup_status_context_recovery_gate" in pattern_names:
         control_axes.append("startup_status_context_recovery_packet")
         acceptance_steps.append("verify_startup_status_context_recovery")
+    if "dynamic_world_tick_info_horizon_gate" in pattern_names:
+        control_axes.extend([
+            "zero_init_world_readiness",
+            "offscreen_agenda_visibility_horizon",
+            "faction_progress_clock_tick",
+            "accept_only_rag_fact_writeback",
+        ])
+        acceptance_steps.extend([
+            "verify_zero_init_world_readiness_before_chapter_one",
+            "verify_visibility_chapter_path_before_reveal",
+            "verify_accept_only_rag_writeback",
+        ])
     if "author_intent_confirmation_gate" in pattern_names:
         control_axes.extend([
             "author_intent_preservation_boundary",
@@ -872,6 +884,16 @@ def build_remix_continuation_control_audit(
         )
         else {"warnings": []}
     )
+    dynamic_world_tick_info_horizon_audit = (
+        _dynamic_world_tick_info_horizon_audit(
+            bible=bible,
+            plan=plan,
+            pattern_names=pattern_names,
+            max_items=12,
+        )
+        if "dynamic_world_tick_info_horizon_gate" in pattern_names
+        else {"warnings": []}
+    )
     local_first_authoring_audit = (
         _local_first_authoring_revision_audit(
             bible=bible,
@@ -1084,6 +1106,8 @@ def build_remix_continuation_control_audit(
         warnings.append("intake_export_rollback_warnings")
     if context_scope_authority_audit["warnings"]:
         warnings.append("context_scope_authority_warnings")
+    if dynamic_world_tick_info_horizon_audit["warnings"]:
+        warnings.append("dynamic_world_tick_info_horizon_warnings")
     if local_first_authoring_audit["warnings"]:
         warnings.append("local_first_authoring_warnings")
     if deterministic_volume_spec_audit["warnings"]:
@@ -1165,6 +1189,7 @@ def build_remix_continuation_control_audit(
         "subgenre_ledger_warnings": subgenre_ledger_audit["warnings"],
         "intake_export_rollback_warnings": intake_export_rollback_audit["warnings"],
         "context_scope_authority_warnings": context_scope_authority_audit["warnings"],
+        "dynamic_world_tick_info_horizon_warnings": dynamic_world_tick_info_horizon_audit["warnings"],
         "local_first_authoring_warnings": local_first_authoring_audit["warnings"],
         "deterministic_volume_spec_warnings": deterministic_volume_spec_audit["warnings"],
         "raw_story_assimilation_warnings": raw_story_assimilation_audit["warnings"],
@@ -1411,6 +1436,13 @@ def build_remix_continuation_context_block(
     )
     _append_novel_studio_graph_memory_continuity_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="continuation",
+    )
+    _append_dynamic_world_tick_info_horizon_gate_section(
+        lines=lines,
+        bible=bible,
+        plan=plan,
         source_pattern_pack=source_pattern_pack,
         mode="continuation",
     )
@@ -2192,6 +2224,13 @@ def build_remix_inspired_context_block(
     )
     _append_novel_studio_graph_memory_continuity_gate_section(
         lines=lines,
+        source_pattern_pack=source_pattern_pack,
+        mode="same-type",
+    )
+    _append_dynamic_world_tick_info_horizon_gate_section(
+        lines=lines,
+        bible={},
+        plan=None,
         source_pattern_pack=source_pattern_pack,
         mode="same-type",
     )
@@ -3859,6 +3898,81 @@ def _has_clean_export_manifest_surface(
         if _has_any_package_value(package, manifest_keys):
             return True
     return False
+
+
+def _dynamic_world_tick_info_horizon_audit(
+    *,
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    pattern_names: set[str],
+    max_items: int,
+) -> dict[str, Any]:
+    """Audit dynamic world tick, information horizon, and accept-only RAG writeback surfaces."""
+    warnings: list[str] = []
+    if "dynamic_world_tick_info_horizon_gate" not in pattern_names:
+        return {"warnings": warnings}
+    if not _has_zero_init_world_readiness_surface(bible=bible, plan=plan):
+        warnings.append("missing_zero_init_world_readiness")
+    if not _has_offscreen_agenda_surface(bible=bible, plan=plan):
+        warnings.append("missing_offscreen_agenda")
+    if not _has_information_horizon_visibility_surface(bible=bible, plan=plan):
+        warnings.append("missing_information_horizon_visibility_policy")
+    if not _has_faction_progress_clock_surface(bible=bible, plan=plan):
+        warnings.append("missing_faction_progress_clock")
+    if not _has_accept_only_rag_writeback_surface(bible=bible, plan=plan):
+        warnings.append("missing_accept_only_rag_writeback_policy")
+    return {"warnings": warnings[:max_items]}
+
+
+def _has_zero_init_world_readiness_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "zero_init_world_readiness",
+        "zero_init_readiness",
+        "world_readiness",
+        "story_calendar",
+        "physics_axioms",
+        "first_chapter_simulation",
+        "tick_zero",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_offscreen_agenda_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = ("offscreen_agenda", "supporting_agendas", "background_state_machine", "offscreen_events")
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_information_horizon_visibility_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "info_graph",
+        "information_horizon",
+        "visibility_plan",
+        "visibility_chapter",
+        "visibility_path",
+        "known_by",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_faction_progress_clock_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = ("faction_progress_clocks", "faction_clocks", "progress_clocks", "world_tick_plan")
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
+
+
+def _has_accept_only_rag_writeback_surface(*, bible: dict[str, Any], plan: Optional[dict[str, Any]]) -> bool:
+    carriers = [carrier for carrier in (bible, plan) if isinstance(carrier, dict)]
+    keys = (
+        "accept_only_rag_writeback",
+        "accepted_only_rag_policy",
+        "rag_writeback_policy",
+        "deliver_writeback_policy",
+        "accepted_chapter_memory_writeback",
+    )
+    return any(_has_any_package_value(carrier, keys) for carrier in carriers)
 
 
 def _universal_context_scope_authority_audit(
@@ -8967,6 +9081,69 @@ def _append_novel_studio_graph_memory_continuity_gate_section(
         lines.append(f"- accepted_writeback_source_hint: {_truncate(writeback_hints[0], 260)}")
 
 
+def _append_dynamic_world_tick_info_horizon_gate_section(
+    *,
+    lines: list[str],
+    bible: dict[str, Any],
+    plan: Optional[dict[str, Any]],
+    source_pattern_pack: Optional[dict[str, Any]],
+    mode: str,
+) -> None:
+    """Render dynamic world simulation and information-horizon gates from Novel Studio intake."""
+    pattern_names = _source_pattern_names(source_pattern_pack)
+    if "dynamic_world_tick_info_horizon_gate" not in pattern_names:
+        return
+
+    hints = (
+        _as_note_list(source_pattern_pack.get("dynamic_world_tick_info_horizon_gate_hints"))
+        if isinstance(source_pattern_pack, dict)
+        else []
+    )
+    audit = _dynamic_world_tick_info_horizon_audit(
+        bible=bible,
+        plan=plan,
+        pattern_names=pattern_names,
+        max_items=12,
+    )
+
+    lines.append("")
+    lines.append("Dynamic world tick / information horizon gate:")
+    lines.append(
+        "- dynamic_world_tick_info_horizon_gate: do zero_init_world_readiness before chapter one, "
+        "then advance world_tick state at arc or volume boundaries"
+    )
+    lines.append(
+        "- offscreen_agenda: supporting characters and factions keep goal->steps schedules; "
+        "they do not wait for the protagonist to observe them"
+    )
+    lines.append(
+        "- information_horizon: every offscreen event needs physics_axioms, info_graph ownership, "
+        "visibility_chapter, and visibility_path before reveal"
+    )
+    lines.append(
+        "- accept_only_rag_writeback: only accepted chapter deliver/writeback facts enter retrieval; "
+        "draft text, retrieval traces, prompts, and upstream runtime state stay excluded"
+    )
+    if mode == "same-type":
+        lines.append(
+            "- same_type_boundary: transfer only the dynamic-world discipline; rebuild calendar, "
+            "faction clocks, visibility paths, event timing, rumors, and RAG policy for the target story"
+        )
+    else:
+        lines.append(
+            "- continuation_boundary: world ticks must extend accepted target canon and may remap "
+            "future pressure, but cannot rewrite already accepted ledgers"
+        )
+    lines.append(
+        "- runtime_boundary: this gate authorizes no Go runtime, provider call, local RAG index, "
+        "retrieval_trace import, prompt-body transplant, or source project execution"
+    )
+    if hints:
+        lines.append(f"- dynamic_world_source_hint: {_truncate(hints[0], 260)}")
+    if audit["warnings"] and mode != "same-type":
+        lines.append(f"- dynamic_world_tick_info_horizon_warnings: {', '.join(audit['warnings'])}")
+
+
 def _append_mode_contract_generation_audit_section(
     *,
     lines: list[str],
@@ -12214,6 +12391,7 @@ def _source_pattern_names(source_pattern_pack: Optional[dict[str, Any]]) -> set[
         "distilled_novel_toolbox_human_polish_boundary_gate_hints": "distilled_novel_toolbox_human_polish_boundary_gate",
         "novel_studio_graph_memory_continuity_gate_hints": "novel_studio_graph_memory_continuity_gate",
         "novel_studio_accepted_chapter_writeback_gate_hints": "novel_studio_accepted_chapter_writeback_gate",
+        "dynamic_world_tick_info_horizon_gate_hints": "dynamic_world_tick_info_horizon_gate",
         "seed_to_bible_foundation_loop_gate_hints": "seed_to_bible_foundation_loop_gate",
         "layered_story_bible_artifact_contract_gate_hints": "layered_story_bible_artifact_contract_gate",
         "premise_structure_hook_payoff_gate_hints": "premise_structure_hook_payoff_gate",
